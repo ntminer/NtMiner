@@ -1,0 +1,161 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.Enviroment"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+        xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
+        DataContext="{x:Static vm:EnviromentViewModel.Current}"
+        Background="White"
+        mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Width" Value="80"></Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="380"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <WrapPanel Margin="4 0">
+                <Label>计算机名</Label>
+                <TextBlock Text="{Binding MachineName}"></TextBlock>
+            </WrapPanel>
+            <WrapPanel Margin="4 0">
+                <Label>操作系统</Label>
+                <TextBlock Text="{Binding OS.WindowsEdition}"></TextBlock>
+                <TextBlock Text="{Binding OS.Is64BitOperatingSystem}" Margin="4 0 0 0"></TextBlock>
+                <TextBlock Text="{Binding OS.CurrentBuild}" Margin="4 0 0 0"></TextBlock>
+                <TextBlock Text="{Binding OS.CSDVersion}" Margin="4 0 0 0"></TextBlock>
+            </WrapPanel>
+            <WrapPanel Margin="4 0">
+                <Label>物理内存</Label>
+                <TextBlock Text="{Binding Ram.TotalPhysicalMemory}"></TextBlock>
+                <Label Margin="20 0 0 0">虚拟内存</Label>
+                <TextBlock Text="{Binding DrivesVm.DriveSet.TotalVirtualMemoryGbText}"></TextBlock>
+                <controls:KbButton 
+                    Margin="8 0 0 0"
+                    Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
+                    Width="50"
+                    CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+                            Width="12"
+                            Height="12"
+                            Data="{StaticResource Icon_VirtualMemory}"
+                            Fill="{StaticResource IconFillColor}"
+                            Stretch="Fill" />
+                        <TextBlock
+                            Padding="2 0"
+                            VerticalAlignment="Center"
+                            Text="修改" />
+                    </WrapPanel>
+                </controls:KbButton>
+            </WrapPanel>
+            <GroupBox Header="CPU">
+                <StackPanel>
+                    <WrapPanel>
+                        <Label>CPU厂商</Label>
+                        <TextBlock Text="{Binding Processor.VendorIdentifier}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <Label>CPU名称</Label>
+                        <TextBlock Text="{Binding Processor.Name}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <Label>CPU核心数</Label>
+                        <TextBlock Text="{Binding Processor.NumberOfLogicalCores}"></TextBlock>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="BIOS">
+                <StackPanel>
+                    <WrapPanel>
+                        <Label>主板型号</Label>
+                        <TextBlock Text="{Binding Bios.MotherboardModel}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <Label>制造商</Label>
+                        <TextBlock Text="{Binding Bios.MotherboardManufacturer}" ToolTip="{Binding Bios.MotherboardManufacturer}" Width="100"></TextBlock>
+                        <Label>制造日期</Label>
+                        <TextBlock Text="{Binding Bios.BiosReleaseDate}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <Label>BIOS厂商</Label>
+                        <TextBlock Text="{Binding Bios.BiosVendor}" ToolTip="{Binding Bios.BiosVendor}" Width="100"></TextBlock>
+                        <Label>BIOS版本</Label>
+                        <TextBlock Text="{Binding Bios.BiosVersion}" ToolTip="{Binding Bios.BiosVersion}"></TextBlock>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ItemsControl
+                ItemsSource="{Binding GpuSetProperties}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Background="Transparent">
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <Label Content="{Binding Name}"></Label>
+                            <TextBlock Text="{Binding Value}" VerticalAlignment="Center" Width="140"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Grid Grid.Row="1">
+                <DataGrid ItemsSource="{Binding GpuVms}" Background="Transparent" BorderBrush="{StaticResource LineColor}">
+                    <DataGrid.Resources>
+                        <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="序号" Binding="{Binding IndexText}">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="显卡" Binding="{Binding Name}">
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="温度">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TemperatureText}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="风扇">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FanSpeedText}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="功耗">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerUsageWText}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock Visibility="{Binding GpuVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

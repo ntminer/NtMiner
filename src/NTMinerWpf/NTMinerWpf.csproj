@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DD8E010E-D5E9-47CF-9CB4-8DC6E13D483D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NTMiner</RootNamespace>
+    <AssemblyName>NTMinerWpf</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net40\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MahApps.Metro.1.6.5\lib\net40\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ColorMapper.cs" />
+    <Compile Include="Controls\KbButton.cs" />
+    <Compile Include="Controls\KbCheckBox.cs" />
+    <Compile Include="Controls\KbLinkButton.cs" />
+    <Compile Include="Controls\KbRadioButton.cs" />
+    <Compile Include="Controls\KbSystemButton.cs" />
+    <Compile Include="Controls\KbSystemCloseButton.cs" />
+    <Compile Include="Controls\KbSystemMaxButton.cs" />
+    <Compile Include="Controls\KbSystemMinButton.cs" />
+    <Compile Include="Controls\KbTabItem.cs" />
+    <Compile Include="Controls\KbTextBox.cs" />
+    <Compile Include="Converters\BooleanInvertConverter.cs" />
+    <Compile Include="Converters\BoolToHiddenConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityInvertConverter.cs" />
+    <Compile Include="Converters\ByteToGbConverter.cs" />
+    <Compile Include="Converters\ByteToMbConverter.cs" />
+    <Compile Include="Converters\ConsoleColorToMediaColorConverter.cs" />
+    <Compile Include="Converters\NoRecordConverter.cs" />
+    <Compile Include="Converters\NotNullOrEmptyBooleanConverter.cs" />
+    <Compile Include="Converters\NotNullOrEmptyVisibilityConverter.cs" />
+    <Compile Include="Converters\NotNullOrEmptyVisibilityInvertConverter.cs" />
+    <Compile Include="Converters\PercentToLengthConverter.cs" />
+    <Compile Include="Converters\StringLenConverter.cs" />
+    <Compile Include="Converters\VisibilityInvertConverter.cs" />
+    <Compile Include="DelegateCommand.cs" />
+    <Compile Include="DelegateCommand`1.cs" />
+    <Compile Include="Execute.cs" />
+    <Compile Include="Notifications\ContentLocation.cs" />
+    <Compile Include="Notifications\Controls\NotificationMessage.cs" />
+    <Compile Include="Notifications\Controls\NotificationMessageButton.cs" />
+    <Compile Include="Notifications\Controls\NotificationMessageContainer.cs" />
+    <Compile Include="Notifications\INotificationAnimation.cs" />
+    <Compile Include="Notifications\INotificationMessage.cs" />
+    <Compile Include="Notifications\INotificationMessageButton.cs" />
+    <Compile Include="Notifications\INotificationMessageFactory.cs" />
+    <Compile Include="Notifications\INotificationMessageManager.cs" />
+    <Compile Include="Notifications\NotificationMessageBuilder.cs" />
+    <Compile Include="Notifications\NotificationMessageBuilderLinq.cs" />
+    <Compile Include="Notifications\NotificationMessageFactory.cs" />
+    <Compile Include="Notifications\NotificationMessageManager.cs" />
+    <Compile Include="Notifications\NotificationMessageManagerEventArgs.cs" />
+    <Compile Include="Notifications\NotificationMessageManagerEventHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeSpanExtensions.cs" />
+    <Compile Include="TopWindow.cs" />
+    <Compile Include="Vms\ViewModelBase.cs" />
+    <Compile Include="Views\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Notifications\Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\KbButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\KbCheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\KbDataGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\KbIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\KbImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\KbRadioButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\KbSkin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\KbTabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\KbTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\TabControlStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoginWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Styles\Images\logo128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Styles\Images\logo32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Styles\Images\logo48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Styles\Images\cc128.png" />
+    <Resource Include="Styles\Images\cc32.png" />
+    <Resource Include="Styles\Images\cc64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
+      <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
+      <Name>NTMinerlib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

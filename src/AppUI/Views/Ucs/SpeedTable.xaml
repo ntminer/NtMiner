@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.SpeedTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+             xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+             xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+             xmlns:vm="clr-namespace:NTMiner.Vms"
+             mc:Ignorable="d" 
+             FontFamily="SimSun" Background="White"
+             TextOptions.TextFormattingMode="Display" 
+             DataContext="{x:Static vm:GpuSpeedViewModels.Current}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <DataGrid ItemsSource="{Binding GpuSpeedVms}" Background="Transparent" ColumnHeaderHeight="32"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
+            <DataGrid.Resources>
+                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="序号" Binding="{Binding GpuVm.IndexText}">
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="显卡">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" ToolTip="{Binding GpuVm.Name}" Text="{Binding GpuVm.Name}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="84" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
+                            <TextBlock Text="{Binding Data.MinerProfile.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MainCoinSpeed.SpeedText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn 
+                    Width="84" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"
+                    Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
+                            <TextBlock Text="{Binding Data.MinerProfile.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding DualCoinSpeed.SpeedText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="温度">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="风扇">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel>
+                            <TextBlock Text="总功耗" FontSize="13"></TextBlock>
+                            <TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Visibility="{Binding GpuSpeedVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
+    </Grid>
+</UserControl>

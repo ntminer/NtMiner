@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.CoinKernelEdit"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+	<UserControl.Resources>
+		<Style TargetType="Label">
+			<Setter Property="Width" Value="72"></Setter>
+			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+		</Style>
+	</UserControl.Resources>
+	<StackPanel Margin="10">
+		<WrapPanel Margin="0 2">
+			<Label>应用币种:</Label>
+			<TextBlock Width="80" VerticalAlignment="Center" Text="{Binding CoinCode}">
+			</TextBlock>
+
+			<Label>内核:</Label>
+			<TextBlock VerticalAlignment="Center"
+					   Text="{Binding Kernel.Code, Mode=OneWay}">
+			</TextBlock>
+			<Label>版本:</Label>
+			<TextBlock VerticalAlignment="Center"
+					   Text="{Binding Kernel.Version, Mode=OneWay}">
+			</TextBlock>
+		</WrapPanel>
+
+        <WrapPanel Margin="0 2">
+            <Label>支持显卡:</Label>
+            <WrapPanel Width="180" VerticalAlignment="Center">
+                <ComboBox 
+					Width="130" ItemsSource="{Binding SupportedGpuEnumItems}"
+					IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
+					DisplayMemberPath="Description" Height="26"
+					SelectedItem="{Binding SupportedGpuEnumItem}">
+                </ComboBox>
+                <Path
+                    Margin="4 0 0 0"
+					Width="18"
+					Height="14"
+                    ToolTip="支持N卡"
+                    Visibility="{Binding IsNvidiaIconVisible}"
+					Data="{StaticResource Icon_Nvidia}"
+					Fill="Green"
+					Stretch="Fill" />
+                <Path
+                    Margin="4 0 0 0"
+					Width="16"
+					Height="14"
+                    ToolTip="支持A卡"
+                    Visibility="{Binding IsAMDIconVisible}"
+					Data="{StaticResource Icon_AMD}"
+					Fill="Red"
+					Stretch="Fill" />
+            </WrapPanel>
+            <WrapPanel Visibility="{Binding Kernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Label>双挖币种:</Label>
+                <ComboBox 
+                    BorderThickness="0"
+					Width="166" ItemsSource="{Binding GroupVms.SelectionOptions}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding SelectedDualCoinGroup}">
+                </ComboBox>
+            </WrapPanel>
+        </WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<controls:KbLinkButton 
+				VerticalAlignment="Top"
+				Width="72"
+				KbDisplayLine="False"
+				KbSystemButtonHoverBackground="Transparent" 
+				Background="Transparent"
+				Margin="0" 
+				Command="{Binding Kernel.Edit}">
+				<WrapPanel>
+					<Path 
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Kernel}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<Label
+						Padding="0 4"
+						Width="50"
+						VerticalAlignment="Center"
+						Content="内核参数:"
+						Foreground="Black" />
+				</WrapPanel>
+			</controls:KbLinkButton>
+			<TextBox IsReadOnly="True" BorderThickness="0" 
+					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
+					 Text="{Binding Kernel.Args, Mode=OneWay}">
+			</TextBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<Label>币种级参数:</Label>
+			<TextBox 
+				VerticalContentAlignment="Center"
+				Width="420" Background="Transparent"
+				IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+				Text="{Binding Args, Mode=TwoWay}">
+			</TextBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<Label>说明:</Label>
+			<TextBox 
+				Width="420" Background="Transparent"
+				IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+				AcceptsReturn="True" TextWrapping="Wrap" 
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Description, Mode=TwoWay}" Height="60">                
+			</TextBox>
+		</WrapPanel>
+	</StackPanel>
+</UserControl>

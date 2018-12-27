@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.LogColor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
+        DataContext="{x:Static vm:LogColorViewModel.Current}"
+        mc:Ignorable="d" Height="220" Width="320">
+    <UserControl.Resources>
+        <DataTemplate x:Key="ConsoleColorDataTemplate">
+            <WrapPanel Width="200" Height="15" Background="{Binding MediaColor}">
+            </WrapPanel>
+        </DataTemplate>
+        <Style TargetType="Label">
+            <Setter Property="Width" Value="50"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Margin="10">
+        <WrapPanel Margin="0 2">
+            <Label>算力:</Label>
+            <ComboBox 
+                Background="Black"
+                ItemsSource="{Binding ConsoleColorItems}"
+                ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
+                SelectedItem="{Binding CurrentSpeedColor}">
+            </ComboBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 2">
+            <Label>成功:</Label>
+            <ComboBox 
+                ItemsSource="{Binding ConsoleColorItems}"
+                ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
+                SelectedItem="{Binding CurrentSuccessColor}">
+            </ComboBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 2">
+            <Label>温扇功:</Label>
+            <ComboBox 
+                ItemsSource="{Binding ConsoleColorItems}"
+                ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
+                SelectedItem="{Binding CurrentTFPColor}">
+            </ComboBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 2">
+            <Label>失败:</Label>
+            <ComboBox 
+                ItemsSource="{Binding ConsoleColorItems}"
+                ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
+                SelectedItem="{Binding CurrentFailColor}">
+            </ComboBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 2">
+            <Label>错误:</Label>
+            <ComboBox 
+                ItemsSource="{Binding ConsoleColorItems}"
+                ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
+                SelectedItem="{Binding CurrentErrorColor}">
+            </ComboBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 2">
+            <Label>信息:</Label>
+            <ComboBox 
+                ItemsSource="{Binding ConsoleColorItems}"
+                ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
+                SelectedItem="{Binding CurrentInfoColor}">
+            </ComboBox>
+        </WrapPanel>
+    </StackPanel>
+</UserControl>

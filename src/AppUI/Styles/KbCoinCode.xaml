@@ -1,0 +1,14 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:NTMiner.Vms">
+    <DataTemplate x:Key="CoinCodeDataTemplate">
+        <WrapPanel>
+            <TextBlock 
+                Text="{Binding Code}" 
+                VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="-" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding Algo}" VerticalAlignment="Center"></TextBlock>
+        </WrapPanel>
+    </DataTemplate>
+</ResourceDictionary>

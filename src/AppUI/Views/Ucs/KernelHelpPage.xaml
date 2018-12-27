@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.KernelHelpPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
+        mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="500">
+    <Grid>
+        <TextBox 
+            Text="{Binding HelpText, Mode=OneWay}"
+            BorderThickness="0" AcceptsReturn="True" 
+            TextWrapping="Wrap" IsReadOnly="True" 
+            Background="White" FontSize="14" 
+            Padding="4" VerticalScrollBarVisibility="Auto">
+        </TextBox>
+    </Grid>
+</UserControl>

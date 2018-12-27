@@ -1,0 +1,189 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace NTMiner.Core.Kernels.Impl {
+    internal class KernelOutputFilterSet : IKernelOutputFilterSet {
+        private readonly Dictionary<Guid, KernelOutputFilterData> _dicById = new Dictionary<Guid, KernelOutputFilterData>();
+        private readonly Dictionary<Guid, List<KernelOutputFilterData>> _dicByKernelId = new Dictionary<Guid, List<KernelOutputFilterData>>();
+        private readonly INTMinerRoot _root;
+
+        public KernelOutputFilterSet(INTMinerRoot root) {
+            _root = root;
+            Global.Access<AddKernelOutputFilterCommand>(
+                Guid.Parse("43c09cc6-456c-4e55-95b1-63b5937c5b11"),
+                "添加内核输出过滤器",
+                LogEnum.Log,
+                action: (message) => {
+                    InitOnece();
+                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                        throw new ArgumentNullException();
+                    }
+                    if (string.IsNullOrEmpty(message.Input.RegexPattern)) {
+                        throw new ValidationException("KernelOutputFilter RegexPattern can't be null or empty");
+                    }
+                    if (_dicById.ContainsKey(message.Input.GetId())) {
+                        return;
+                    }
+                    KernelOutputFilterData entity = new KernelOutputFilterData().Update(message.Input);
+                    _dicById.Add(entity.Id, entity);
+                    if (!_dicByKernelId.ContainsKey(entity.KernelId)) {
+                        _dicByKernelId.Add(entity.KernelId, new List<KernelOutputFilterData>());
+                    }
+                    _dicByKernelId[entity.KernelId].Add(entity);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
+                    repository.Add(entity);
+
+                    Global.Happened(new KernelOutputFilterAddedEvent(entity));
+                });
+            Global.Access<UpdateKernelOutputFilterCommand>(
+                Guid.Parse("b449bd25-98d8-4a60-9c75-36a6983c6176"),
+                "更新内核输出过滤器",
+                LogEnum.Log,
+                action: (message) => {
+                    InitOnece();
+                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                        throw new ArgumentNullException();
+                    }
+                    if (string.IsNullOrEmpty(message.Input.RegexPattern)) {
+                        throw new ValidationException("KernelOutputFilter RegexPattern can't be null or empty");
+                    }
+                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                        return;
+                    }
+                    KernelOutputFilterData entity = _dicById[message.Input.GetId()];
+                    entity.Update(message.Input);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
+                    repository.Update(entity);
+
+                    Global.Happened(new KernelOutputFilterUpdatedEvent(entity));
+                });
+            Global.Access<RemoveKernelOutputFilterCommand>(
+                Guid.Parse("11a3a185-3d2e-463e-bd92-94a0db909d32"),
+                "移除内核输出过滤器",
+                LogEnum.Log,
+                action: (message) => {
+                    InitOnece();
+                    if (message == null || message.EntityId == Guid.Empty) {
+                        throw new ArgumentNullException();
+                    }
+                    if (!_dicById.ContainsKey(message.EntityId)) {
+                        return;
+                    }
+                    KernelOutputFilterData entity = _dicById[message.EntityId];
+                    _dicById.Remove(entity.Id);
+                    _dicByKernelId[entity.KernelId].Remove(entity);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
+                    repository.Remove(entity.Id);
+
+                    Global.Happened(new KernelOutputFilterRemovedEvent(entity));
+                });
+            BootLog.Log(this.GetType().FullName + "接入总线");
+        }
+
+        private bool _isInited = false;
+        private object _locker = new object();
+
+        private void InitOnece() {
+            if (_isInited) {
+                return;
+            }
+            Init();
+        }
+
+        private void Init() {
+            lock (_locker) {
+                if (!_isInited) {
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
+                    foreach (var item in repository.GetAll()) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
+                        }
+                        if (!_dicByKernelId.ContainsKey(item.KernelId)) {
+                            _dicByKernelId.Add(item.KernelId, new List<KernelOutputFilterData>());
+                        }
+                        if (_dicByKernelId[item.KernelId].All(a => a.GetId() != item.GetId())) {
+                            _dicByKernelId[item.KernelId].Add(item);
+                        }
+                    }
+                    _isInited = true;
+                }
+            }
+        }
+
+        public bool Contains(Guid kernelOutputFilterId) {
+            InitOnece();
+            return _dicById.ContainsKey(kernelOutputFilterId);
+        }
+
+        public IEnumerable<IKernelOutputFilter> GetKernelOutputFilters(Guid kernelId) {
+            InitOnece();
+            if (_dicByKernelId.ContainsKey(kernelId)) {
+                return _dicByKernelId[kernelId];
+            }
+            return new List<IKernelOutputFilter>();
+        }
+
+        public bool TryGetKernelOutputFilter(Guid kernelOutputFilterId, out IKernelOutputFilter kernelOutputFilter) {
+            InitOnece();
+            KernelOutputFilterData f;
+            var r = _dicById.TryGetValue(kernelOutputFilterId, out f);
+            kernelOutputFilter = f;
+            return r;
+        }
+
+        public IEnumerator<IKernelOutputFilter> GetEnumerator() {
+            InitOnece();
+            return _dicById.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            InitOnece();
+            return _dicById.Values.GetEnumerator();
+        }
+
+        private readonly Dictionary<IKernelOutputFilter, Regex> _regexDic = new Dictionary<IKernelOutputFilter, Regex>();
+        private Regex GetRegex(IKernelOutputFilter kernelOutputFilter) {
+            if (string.IsNullOrEmpty(kernelOutputFilter.RegexPattern)) {
+                return null;
+            }
+            Regex regex;
+            if (!_regexDic.ContainsKey(kernelOutputFilter)) {
+                regex = new Regex(kernelOutputFilter.RegexPattern);
+                _regexDic.Add(kernelOutputFilter, regex);
+            }
+            else {
+                regex = _regexDic[kernelOutputFilter];
+            }
+            return regex;
+        }
+
+        public void Filter(Guid kernelId, ref string input) {
+            try {
+                InitOnece();
+                if (string.IsNullOrEmpty(input)) {
+                    return;
+                }
+                if (!_dicByKernelId.ContainsKey(kernelId)) {
+                    return;
+                }
+                foreach (var kernelOutputFilter in _dicByKernelId[kernelId]) {
+                    Regex regex = GetRegex(kernelOutputFilter);
+                    if (regex == null) {
+                        continue;
+                    }
+                    Match match = regex.Match(input);
+                    if (match.Success) {
+                        input = string.Empty;
+                        break;
+                    }
+                }
+            }
+            catch (Exception e) {
+                Global.Logger.Error(e.Message, e);
+            }
+        }
+    }
+}

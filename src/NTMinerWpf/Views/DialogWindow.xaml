@@ -1,0 +1,110 @@
+﻿<metro:MetroWindow x:Class="NTMiner.Views.DialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:controls="clr-namespace:NTMiner.Controls"
+        UseNoneWindowStyle="True"
+        WindowTransitionsEnabled="False"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        SizeToContent="Height"
+        FontSize="20"
+        BorderBrush="{StaticResource IconFillColor}"
+        WindowStartupLocation="CenterOwner"
+        MouseDown="Window_MouseDown"
+        Background="White"
+        mc:Ignorable="d" Width="400" MinHeight="200">
+    <Grid> 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Background="{StaticResource MainColor}" Height="30">
+            <WrapPanel DockPanel.Dock="Left">
+                <Path 
+                    x:Name="PathIcon"
+                    Margin="4 4 0 0"
+                    Width="16"
+                    Height="16"
+                    Visibility="{Binding IsIconVisible}"
+                    Fill="{StaticResource IconFillColor}"
+                    Stretch="Fill"/>
+                <TextBlock
+                    x:Name="TxtTitle"
+                    Margin="4 4 0 0"
+                    FontSize="16" />
+            </WrapPanel>
+        </DockPanel>
+        <StackPanel Grid.Row="1" Margin="10 20 10 10" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <TextBlock x:Name="TxtMessage" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+        </StackPanel>
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
+            <controls:KbButton Padding="4" Width="80" Margin="10 0"
+                x:Name="BtnOk"
+                Click="KbOkButton_Click"
+                FontSize="12"
+                Background="{StaticResource IconFillColor}"
+                VerticalAlignment="Center"
+                CornerRadius="2">
+                <WrapPanel>
+                    <Path
+                        Width="14"
+                        Height="14"
+                        Data="{StaticResource Icon_Ok}"
+                        Fill="White"
+                        Stretch="Fill" />
+                    <Label
+                        FontSize="14"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        Content="好的" />
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton Padding="4" Width="80" Margin="10 0"
+                x:Name="BtnYes"
+                Click="KbYesButton_Click"
+                FontSize="12"
+                Background="{StaticResource IconFillColor}"
+                VerticalAlignment="Center"
+                CornerRadius="2">
+                <WrapPanel>
+                    <Path
+                        Width="14"
+                        Height="14"
+                        Data="{StaticResource Icon_Ok}"
+                        Fill="White"
+                        Stretch="Fill" />
+                    <Label
+                        FontSize="14"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        Content="是" />
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton Padding="4" Width="80" Margin="10 0"
+                x:Name="BtnNo"
+                Click="KbNoButton_Click"
+                FontSize="12"
+                Background="Red"
+                VerticalAlignment="Center"
+                CornerRadius="2">
+                <WrapPanel>
+                    <Path
+                        Width="14"
+                        Height="14"
+                        Data="{StaticResource Icon_Close}"
+                        Fill="White"
+                        Stretch="Fill" />
+                    <Label
+                        FontSize="14"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        Content="否" />
+                </WrapPanel>
+            </controls:KbButton>
+        </WrapPanel>
+    </Grid>
+</metro:MetroWindow>
