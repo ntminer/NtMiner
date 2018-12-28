@@ -40,25 +40,31 @@ namespace NTMiner {
                 {"pool", pool },
                 {"worker", this.MinerProfile.MinerName }
             };// 这里不要考虑{logfile}，{logfile}往后推迟
-            if (coinKernel.DualCoinGroupId != Guid.Empty && coinKernelProfile.IsDualCoinEnabled) {
-                ICoin dualCoin;
-                if (this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                    ICoinProfile dualCoinProfile = this.CoinProfileSet.GetCoinProfile(dualCoin.GetId());
-                    IPool dualCoinPool;
-                    if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
-                        string dualWallet = dualCoinProfile.DualCoinWallet;
-                        string dualPool = dualCoinPool.Server;
-                        argsDic.Add("dualCoin", dualCoin.Code);
-                        argsDic.Add("dualAlgo", dualCoin.Algo);
-                        argsDic.Add("dualWeight", ((int)Math.Round(coinKernelProfile.DualCoinWeight)).ToString());
-                        argsDic.Add("dualWallet", dualWallet);
-                        argsDic.Add("dualPool", dualPool);
+            if (coinKernelProfile.IsDualCoinEnabled) {
+                Guid dualCoinGroupId = coinKernel.DualCoinGroupId;
+                if (dualCoinGroupId == Guid.Empty) {
+                    dualCoinGroupId = kernel.DualCoinGroupId;
+                }
+                if (dualCoinGroupId != Guid.Empty) {
+                    ICoin dualCoin;
+                    if (this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
+                        ICoinProfile dualCoinProfile = this.CoinProfileSet.GetCoinProfile(dualCoin.GetId());
+                        IPool dualCoinPool;
+                        if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
+                            string dualWallet = dualCoinProfile.DualCoinWallet;
+                            string dualPool = dualCoinPool.Server;
+                            argsDic.Add("dualCoin", dualCoin.Code);
+                            argsDic.Add("dualAlgo", dualCoin.Algo);
+                            argsDic.Add("dualWeight", ((int)Math.Round(coinKernelProfile.DualCoinWeight)).ToString());
+                            argsDic.Add("dualWallet", dualWallet);
+                            argsDic.Add("dualPool", dualPool);
 
-                        kernelArgs = kernel.DualFullArgs;
-                        AssembleArgs(argsDic, ref kernelArgs, isDual: true);
-                        AssembleArgs(argsDic, ref customArgs, isDual: true);
+                            kernelArgs = kernel.DualFullArgs;
+                            AssembleArgs(argsDic, ref kernelArgs, isDual: true);
+                            AssembleArgs(argsDic, ref customArgs, isDual: true);
 
-                        return $"{kernelArgs} {coinKernelArgs} {customArgs}";
+                            return $"{kernelArgs} {coinKernelArgs} {customArgs}";
+                        }
                     }
                 }
             }
