@@ -41,9 +41,10 @@ namespace NTMiner.Views.Ucs {
                             kernel.DualGpuSpeedPattern = sourceVm.DualGpuSpeedPattern;
                         }
                         else if (tag == "output") {
-                            foreach (var item in NTMinerRoot.Current.KernelOutputTranslaterSet.GetKernelOutputTranslaters(sourceVm.Id)) {
+                            var source = NTMinerRoot.Current.KernelOutputTranslaterSet.GetKernelOutputTranslaters(sourceVm.Id);
+                            foreach (var item in source) {
                                 var list = NTMinerRoot.Current.KernelOutputTranslaterSet.GetKernelOutputTranslaters(kernel.Id);
-                                var exist = list.FirstOrDefault(a => a.RegexPattern == item.RegexPattern);
+                                var exist = list.FirstOrDefault(a => a.RegexPattern == item.RegexPattern && a.IsPre == item.IsPre);
                                 if (exist != null) {
                                     Global.Execute(new UpdateKernelOutputTranslaterCommand(new KernelOutputTranslaterViewModel(item) {
                                         Id = exist.GetId(),
