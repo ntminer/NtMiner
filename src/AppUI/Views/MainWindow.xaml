@@ -261,10 +261,12 @@
                             </MenuItem>
                             <MenuItem Header="关于" Command="{x:Static vm:AppStatic.ShowAbout}">
                                 <MenuItem.Icon>
-                                    <Image
-                                        Source="/NTMinerWpf;component/Styles/Images/logo32.png"
+                                    <Path
                                         Width="16"
-                                        Height="16" />
+                                        Height="16"
+                                        Data="{StaticResource Icon_About}"
+                                        Fill="{StaticResource IconFillColor}"
+                                        Stretch="Fill" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem Header="退出" Command="{x:Static vm:AppStatic.AppExit}">
