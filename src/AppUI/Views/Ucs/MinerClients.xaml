@@ -483,17 +483,17 @@
                                             FontSize="12" 
                                             Text="{Binding ClientDataVm.DualCoinPool, Mode=OneWay}"></TextBox>
                                     </WrapPanel>
-                                    <WrapPanel>
-                                        <Label Style="{StaticResource Label}">显卡：</Label>
-                                        <TextBox 
-                                            BorderThickness="0"
-                                            Background="Transparent"
-                                            IsReadOnly="True"
-                                            FontSize="12" 
-                                            ToolTip="{Binding ClientDataVm.GpuInfo}"
-                                            Text="{Binding ClientDataVm.GpuInfo, Mode=OneWay}"></TextBox>
-                                    </WrapPanel>
                                 </StackPanel>
+                                <WrapPanel>
+                                    <Label Style="{StaticResource Label}">显卡：</Label>
+                                    <TextBox 
+                                        BorderThickness="0"
+                                        Background="Transparent"
+                                        IsReadOnly="True"
+                                        FontSize="12" 
+                                        ToolTip="{Binding ClientDataVm.GpuInfo}"
+                                        Text="{Binding ClientDataVm.GpuInfo, Mode=OneWay}"></TextBox>
+                                </WrapPanel>
                                 <WrapPanel>
                                     <WrapPanel Margin="2 0 0 2">
                                         <controls:KbButton 

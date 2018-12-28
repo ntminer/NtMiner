@@ -60,6 +60,7 @@ namespace NTMiner {
                 LogEnum.Console,
                 action: message => {
                     Task.Factory.StartNew(() => {
+                        Login(root);
                         ReportSpeed(root);
                     });
                 });
@@ -83,7 +84,7 @@ namespace NTMiner {
                     MessageId = Guid.NewGuid(),
                     ClientId = ClientId.Id,
                     Timestamp = DateTime.Now,
-                    Version = NTMinerRoot.CurrentVersion.ToString(3),
+                    Version = NTMinerRoot.CurrentVersion.ToString(4),
                     PublicKey = ClientId.PublicKey,
                     MinerName = root.MinerProfile.MinerName,
                     GpuInfo = gpuInfo
