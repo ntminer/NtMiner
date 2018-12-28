@@ -43,12 +43,6 @@ namespace NTMiner {
             }
         }
 
-        public static string MinerClientHost {
-            get {
-                return "localhost";
-            }
-        }
-
         public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
             return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);
         }

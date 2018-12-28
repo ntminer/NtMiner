@@ -30,9 +30,7 @@ namespace NTMiner {
         }
 
         private IMinerClientService CreateService(string host) {
-            return ChannelFactory.CreateChannel<IMinerClientService>(
-                    ChannelFactory.BasicHttpBinding,
-                    host, 3336);
+            return ChannelFactory.CreateChannel<IMinerClientService>(host, Global.ClientPort);
         }
 
         public void StartMine(string host, string pubKey, Guid workId, Action<bool> callback) {

@@ -12,10 +12,7 @@ namespace NTMiner {
             }
 
             private ITimeService CreateService() {
-                return ChannelFactory.CreateChannel<ITimeService>(
-                        ChannelFactory.BasicHttpBinding,
-                        Server.MinerServerHost,
-                        Server.MinerServerPort);
+                return ChannelFactory.CreateChannel<ITimeService>(Server.MinerServerHost, Server.MinerServerPort);
             }
 
             public void GetTime(Action<DateTime> callback) {
@@ -37,10 +34,7 @@ namespace NTMiner {
             }
 
             public string GetServerPubKey(string host) {
-                using (var service = ChannelFactory.CreateChannel<ITimeService>(
-                        ChannelFactory.BasicHttpBinding,
-                        host,
-                        Server.MinerServerPort)) {
+                using (var service = ChannelFactory.CreateChannel<ITimeService>(host, Server.MinerServerPort)) {
                     return service.GetServerPubKey();
                 }
             }

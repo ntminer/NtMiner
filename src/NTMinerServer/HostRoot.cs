@@ -129,7 +129,7 @@ namespace NTMiner {
         public DateTime StartedOn { get; private set; } = DateTime.Now;
 
         public void Start() {
-            string baseUrl = $"http://localhost:{Global.ClientPort}/";
+            string baseUrl = $"http://{Global.Localhost}:{Global.ClientPort}/";
 
             ServiceHost timeServiceHost = new ServiceHost(typeof(TimeServiceImpl));
             timeServiceHost.AddServiceEndpoint(typeof(ITimeService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(ITimeService)));

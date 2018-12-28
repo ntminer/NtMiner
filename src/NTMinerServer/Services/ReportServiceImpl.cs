@@ -147,7 +147,7 @@ namespace NTMiner.Services {
             RemoteEndpointMessageProperty endpoint = properties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
             string minerIp = endpoint.Address;
             if (minerIp == "::1") {
-                minerIp = "localhost";
+                minerIp = Global.Localhost;
             }
             return minerIp;
         }

@@ -9,7 +9,7 @@ namespace NTMiner.Daemon {
         public static void RunNTMinerDaemon() {
             Process[] processes = Process.GetProcessesByName("NTMinerDaemon");
             if (processes.Length != 0) {
-                NTMinerClientDaemon.Instance.GetDaemonVersion("localhost", Global.ClientPort, thatVersion => {
+                NTMinerClientDaemon.Instance.GetDaemonVersion(Global.Localhost, Global.ClientPort, thatVersion => {
                     try {
                         string thisVersion = ThisNTMinerDaemonFileVersion;
                         if (thatVersion != thisVersion) {

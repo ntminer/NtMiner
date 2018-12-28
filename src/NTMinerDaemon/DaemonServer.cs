@@ -8,7 +8,7 @@ namespace NTMiner {
         private static List<ServiceHost> _serviceHosts = null;
         public static void Start() {
             try {
-                string baseUrl = $"http://localhost:3336/Daemon/";
+                string baseUrl = $"http://{Global.Localhost}:{Global.ClientPort}/Daemon/";
                 ServiceHost minerServerServiceHost = new ServiceHost(typeof(NTMinerDaemonService));
                 minerServerServiceHost.AddServiceEndpoint(typeof(INTMinerDaemonService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(INTMinerDaemonService)));
                 _serviceHosts = new List<ServiceHost>

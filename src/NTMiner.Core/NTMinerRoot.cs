@@ -101,7 +101,7 @@ namespace NTMiner {
         #region Start
         public void Start() {
             BootLog.Log("开始启动Wcf服务");
-            string baseUrl = $"http://{MinerClientHost}:{Global.ClientPort}/";
+            string baseUrl = $"http://{Global.Localhost}:{Global.ClientPort}/";
             ServiceHost minerClientServiceHost = new ServiceHost(typeof(Core.Impl.MinerClientService));
             minerClientServiceHost.AddServiceEndpoint(typeof(IMinerClientService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IMinerClientService)));
             _serviceHosts = new List<ServiceHost>

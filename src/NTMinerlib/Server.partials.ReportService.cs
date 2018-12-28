@@ -12,10 +12,7 @@ namespace NTMiner {
             private ReportServiceFace() { }
 
             private IReportService CreateService() {
-                return ChannelFactory.CreateChannel<IReportService>(
-                        ChannelFactory.BasicHttpBinding,
-                        Server.MinerServerHost,
-                        Server.MinerServerPort);
+                return ChannelFactory.CreateChannel<IReportService>(Server.MinerServerHost, Server.MinerServerPort);
             }
 
             public void Login(LoginData message) {

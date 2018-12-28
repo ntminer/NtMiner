@@ -153,7 +153,7 @@ namespace NTMiner {
                     }
                     var context = NTMinerRoot.Current.CurrentMineContext;
                     try {
-                        using (var client = CreateService("localhost", Global.ClientPort)) {
+                        using (var client = CreateService(Global.Localhost, Global.ClientPort)) {
                             client.StartMine(
                                 context.Id, context.MinerName,
                                 context.MainCoin.Code,
@@ -184,7 +184,7 @@ namespace NTMiner {
                         callback?.Invoke(false);
                         return;
                     }
-                    using (var client = CreateService("localhost", Global.ClientPort)) {
+                    using (var client = CreateService(Global.Localhost, Global.ClientPort)) {
                         client.StopMine();
                     }
                     callback?.Invoke(true);

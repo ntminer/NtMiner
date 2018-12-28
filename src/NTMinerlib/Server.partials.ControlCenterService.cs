@@ -14,10 +14,7 @@ namespace NTMiner {
             }
 
             private IControlCenterService CreateService() {
-                return ChannelFactory.CreateChannel<IControlCenterService>(
-                        ChannelFactory.BasicHttpBinding,
-                        MinerServerHost,
-                        MinerServerPort);
+                return ChannelFactory.CreateChannel<IControlCenterService>(MinerServerHost, MinerServerPort);
             }
 
             public void Login(string loginName, string password, Action<ResponseBase> callback) {

@@ -13,10 +13,7 @@ namespace NTMiner {
             private FileUrlServiceFace() { }
 
             private IFileUrlService CreateService() {
-                return ChannelFactory.CreateChannel<IFileUrlService>(
-                        ChannelFactory.BasicHttpBinding,
-                        Server.MinerServerHost,
-                        Server.MinerServerPort);
+                return ChannelFactory.CreateChannel<IFileUrlService>(Server.MinerServerHost, Server.MinerServerPort);
             }
 
             #region GetNTMinerUrl

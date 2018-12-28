@@ -103,7 +103,7 @@ namespace NTMiner {
                 sw.Close();
             }
             catch (Exception ex) {
-                NTMinerClientDaemon.Instance.RestartNTMiner(NTMinerRoot.MinerClientHost, 3336, CommandLineArgs.WorkId, null);
+                NTMinerClientDaemon.Instance.RestartNTMiner(Global.Localhost, Global.ClientPort, CommandLineArgs.WorkId, null);
                 Global.Logger.Error(ex.Message, ex);
             }
             TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {

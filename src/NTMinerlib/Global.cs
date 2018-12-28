@@ -11,6 +11,7 @@ namespace NTMiner {
         public const int DesyncSeconds = 180;
         public static bool IsPublishHandlerIdAddedEvent = false;
 
+        public const string Localhost = "localhost";
         public static int ClientPort {
             get {
                 return 3336;

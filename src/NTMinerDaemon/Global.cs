@@ -6,6 +6,13 @@ namespace NTMiner {
     public static class Global {
         public static readonly ILoggingService Logger = new Log4NetLoggingService();
 
+        public const string Localhost = "localhost";
+        public static int ClientPort {
+            get {
+                return 3336;
+            }
+        }
+
         private static string _sha1 = null;
         public static string Sha1 {
             get {
