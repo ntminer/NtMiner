@@ -15,14 +15,14 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 IsAutoStart = false,
                 IsAutoRestartKernel = true,
                 IsNoShareRestartKernel = false,
-                IsPeriodicRestartComputer = false,
-                IsPeriodicRestartKernel = false,
                 NoShareRestartKernelMinutes = 30,
-                PeriodicRestartComputerHours = 24,
+                IsPeriodicRestartKernel = false,
                 PeriodicRestartKernelHours = 12,
+                IsPeriodicRestartComputer = false,
+                PeriodicRestartComputerHours = 24,
                 IsAutoThisPCName = true,
                 ServerHost = Server.MINER_SERVER_HOST,
-                ServerPort = 3336,
+                ServerPort = Server.MinerServerPort,
                 CreatedOn = DateTime.Now,
                 ModifiedOn = Global.UnixBaseTime
             };
