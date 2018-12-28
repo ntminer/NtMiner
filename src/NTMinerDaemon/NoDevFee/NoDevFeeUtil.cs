@@ -179,7 +179,7 @@ namespace NTMiner.NoDevFee {
                     Stream stream = assembly.GetManifestResourceStream(type, name);
                     byte[] data = new byte[stream.Length];
                     stream.Read(data, 0, data.Length);
-                    if (File.Exists(fileFullName) && CryptoUtil.Sha1(data) == CryptoUtil.Sha1(File.ReadAllBytes(fileFullName))) {
+                    if (File.Exists(fileFullName) && HashUtil.Sha1(data) == HashUtil.Sha1(File.ReadAllBytes(fileFullName))) {
                         continue;
                     }
                     File.WriteAllBytes(fileFullName, data);

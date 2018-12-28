@@ -17,7 +17,7 @@ namespace NTMiner {
         public static string Sha1 {
             get {
                 if (_sha1 == null) {
-                    _sha1 = CryptoUtil.Sha1(File.ReadAllBytes(ClientId.AppFileFullName));
+                    _sha1 = HashUtil.Sha1(File.ReadAllBytes(ClientId.AppFileFullName));
                 }
                 return _sha1;
             }
