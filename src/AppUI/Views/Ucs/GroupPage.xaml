@@ -135,7 +135,7 @@
                 <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <WrapPanel VerticalAlignment="Center">
+            <WrapPanel VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
                 <Label Width="40">币种</Label>
                 <ComboBox 
                         x:Name="CbCoins"
