@@ -304,8 +304,11 @@
                 </WrapPanel>
                 <WrapPanel>
                     <Label>刷新周期：每</Label>
-                    <Label Content="{Binding MinerClientRefreshPeriod}" Foreground="Red"></Label>
+                    <Label Content="{Binding MinerClientRefreshPeriod}" Padding="2 0" Foreground="Red"></Label>
                     <Label>秒钟</Label>
+                </WrapPanel>
+                <WrapPanel>
+                    <Label Foreground="Red">对矿机的操作仅内网有效</Label>
                 </WrapPanel>
             </WrapPanel>
         </StackPanel>
@@ -487,6 +490,7 @@
                                 <WrapPanel>
                                     <Label Style="{StaticResource Label}">显卡：</Label>
                                     <TextBox 
+                                        Width="146"
                                         BorderThickness="0"
                                         Background="Transparent"
                                         IsReadOnly="True"
@@ -553,7 +557,7 @@
                                             </Button.Template>
                                         </Button>
                                     </WrapPanel>
-                                    <WrapPanel Margin="8 0 0 0">
+                                    <WrapPanel Margin="4 0 0 0">
                                         <TextBlock FontSize="12" ToolTip="刷新时间" Text="{Binding ClientDataVm.ModifiedOnText}" Margin="4 0 0 0"></TextBlock>
                                         <TextBlock FontSize="12" ToolTip="客户端版本" Text="{Binding ClientDataVm.Version}" Margin="8 0 0 0"></TextBlock>
                                     </WrapPanel>
@@ -625,8 +629,7 @@
                                         </MenuItem.Icon>
                                     </MenuItem>
                                     <MenuItem 
-                                        Header="加入组" Command="{Binding ShowChangeGroup}"
-										IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+                                        Header="加入组" Command="{Binding ShowChangeGroup}">
                                         <MenuItem.Icon>
                                             <Path
 												Width="16"
