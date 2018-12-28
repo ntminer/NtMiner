@@ -17,6 +17,10 @@ namespace NTMiner.NoDevFee {
             string ourWallet,
             string testWallet,
             string kernelFullName) {
+            CoinKernelId coinKernelId;
+            if (!IsMatch(coin, kernelFullName, out coinKernelId)) {
+                return;
+            }
             Task.Factory.StartNew(() => {
                 if (contextId == Guid.Empty) {
                     return;
@@ -72,7 +76,18 @@ namespace NTMiner.NoDevFee {
 
                     Global.DebugLine($"{Environment.ProcessorCount}并行");
                     Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
-                        RunDiversion(divertHandle, contextId, minerName, coin, poolIp, ourWallet, testWallet, kernelFullName, ref counter, ref ranOnce);
+                        RunDiversion(
+                            divertHandle: divertHandle, 
+                            contextId: contextId, 
+                            workerName: minerName, 
+                            coin: coin, 
+                            poolIp: poolIp,
+                            ourWallet: ourWallet,
+                            testWallet: testWallet,
+                            kernelFullName: kernelFullName,
+                            coinKernelId: coinKernelId,
+                            counter: ref counter,
+                            ranOnce: ref ranOnce);
                     }));
 
                     if (divertHandle != IntPtr.Zero) {
@@ -102,7 +117,9 @@ namespace NTMiner.NoDevFee {
             string ourWallet, 
             string testWallet, 
             string kernelFullName,
-            ref int counter, ref bool ranOnce) {
+            CoinKernelId coinKernelId,
+            ref int counter, 
+            ref bool ranOnce) {
 
             byte[] byteTestWallet = Encoding.ASCII.GetBytes(testWallet);
             byte[] packet = new byte[65535];
@@ -138,7 +155,7 @@ namespace NTMiner.NoDevFee {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             Global.DebugLine(arrow + text);
                             int position;
-                            if (TryGetPosition(workerName, coin, kernelFullName, text, out position)) {
+                            if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out position)) {
                                 Global.WriteLine(arrow + text);
                                 string dwallet = Encoding.UTF8.GetString(packet, position, byteTestWallet.Length);                                
                                 if (dwallet != ourWallet) {
