@@ -600,7 +600,14 @@ namespace NTMiner.Vms {
                 if (DualCoinGroupId != value.Id) {
                     DualCoinGroupId = value.Id;
                     OnPropertyChanged(nameof(DualCoinGroup));
+                    OnPropertyChanged(nameof(IsDualCoinGroupEmpty));
                 }
+            }
+        }
+
+        public bool IsDualCoinGroupEmpty {
+            get {
+                return DualCoinGroup == GroupViewModel.PleaseSelect;
             }
         }
 

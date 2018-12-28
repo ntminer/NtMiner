@@ -139,10 +139,15 @@
                             <Label>双挖币种:</Label>
                             <ComboBox 
                                 BorderThickness="0"
+				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
 						        Width="180" ItemsSource="{Binding GroupVms.SelectionOptions}"
                                 DisplayMemberPath="Name"
                                 SelectedItem="{Binding DualCoinGroup}">
                             </ComboBox>
+                            <TextBlock 
+                                Margin="2 0 0 0"
+                                Visibility="{Binding IsDualCoinGroupEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+                                VerticalAlignment="Center" Foreground="Red">“无”表示由下级决定</TextBlock>
                         </WrapPanel>
                     </WrapPanel>
 
