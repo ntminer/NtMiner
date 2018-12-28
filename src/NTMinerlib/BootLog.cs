@@ -5,12 +5,17 @@ using System.IO;
 namespace NTMiner {
     public static class BootLog {
         private static List<string> lines = new List<string>();
-        public static string LogDir;
+        private static string _logDir;
+        public static string LogDir {
+            get { return _logDir; }
+        }
+
+        public static void SetLogDir(string fullPath) {
+            _logDir = fullPath;
+        }
 
         static BootLog() {
-            if (string.IsNullOrEmpty(LogDir)) {
-                LogDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-            }
+            _logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         }
 
         public static void Log(string s) {

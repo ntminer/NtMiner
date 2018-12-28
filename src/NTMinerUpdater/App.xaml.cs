@@ -17,7 +17,7 @@ namespace NTMiner {
         private Mutex mutexApp;
 
         public App() {
-            BootLog.LogDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+            BootLog.SetLogDir(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs"));
             BootLog.Log("App.ctor start");
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 var exception = e.ExceptionObject as Exception;
