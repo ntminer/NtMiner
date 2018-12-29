@@ -103,7 +103,7 @@ namespace NTMiner.Vms {
 
         public double PowerUsageW {
             get {
-                return this.PowerUsage / 1000.0;
+                return this.PowerUsage;
             }
         }
 
@@ -113,7 +113,7 @@ namespace NTMiner.Vms {
                     return "0W";
                 }
                 if (this.Index == NTMinerRoot.Current.GpuAllId) {
-                    return $"{(GpuViewModels.Current.Sum(a => a.PowerUsage) / 1000.0).ToString("f0")}W";
+                    return $"{(GpuViewModels.Current.Sum(a => a.PowerUsage)).ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
             }
