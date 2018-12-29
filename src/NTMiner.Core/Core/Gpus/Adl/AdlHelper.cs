@@ -51,28 +51,6 @@ namespace NTMiner.Core.Gpus.Adl {
             return ret == 0;
         }
 
-        public string GetDriverVersion() {
-            ADLVersionsInfo versioninfo = default(ADLVersionsInfo);
-            try {
-                if (AdlNativeMethods.ADL2_Graphics_Versions_Get(hHandle, ref versioninfo) == 0) {
-                    return versioninfo.strDriverVer;
-                }
-                if (AdlNativeMethods.ADL_Graphics_Versions_Get(ref versioninfo) == 0) {
-                    return versioninfo.strDriverVer;
-                }
-            }
-            catch {
-                try {
-                    if (AdlNativeMethods.ADL_Graphics_Versions_Get(ref versioninfo) == 0) {
-                        return versioninfo.strDriverVer;
-                    }
-                }
-                catch {
-                }
-            }
-            return "0.0";
-        }
-
         public int GpuCount {
             get {
                 return _adlAdapterInfos.Count;

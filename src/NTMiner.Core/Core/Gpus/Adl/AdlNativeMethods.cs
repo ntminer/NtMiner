@@ -58,10 +58,6 @@ namespace NTMiner.Core.Gpus.Adl {
 
     internal delegate int ADL2_Overdrive6_CurrentPower_Get(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
 
-    internal delegate int ADL_Graphics_Versions_Get(ref ADLVersionsInfo outVersionInfo);
-
-    internal delegate int ADL2_Graphics_Versions_Get(IntPtr hHandle, ref ADLVersionsInfo outVersionInfo);
-
     internal delegate int ADL_Adapter_ID_Get(int iAdapterIndex, ref int lpAdapterID);
 
     internal delegate int ADL_Main_Control_Refresh();
@@ -131,12 +127,6 @@ namespace NTMiner.Core.Gpus.Adl {
 
             [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
             internal static extern int ADL2_Overdrive6_CurrentPower_Get(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Graphics_Versions_Get(ref ADLVersionsInfo outVersionInfo);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL2_Graphics_Versions_Get(IntPtr hHandle, ref ADLVersionsInfo outVersionInfo);
 
             [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
             public static extern int ADL_Adapter_ID_Get(int iAdapterIndex, ref int lpAdapterID);
@@ -459,39 +449,6 @@ namespace NTMiner.Core.Gpus.Adl {
 
         private static ADL2_Overdrive6_CurrentPower_Get ADL2_Overdrive6_CurrentPower_Get_ = null;
         private static bool ADL2_Overdrive6_CurrentPower_Get_Check = false;
-
-
-        internal static ADL_Graphics_Versions_Get ADL_Graphics_Versions_Get {
-            get {
-                if (!ADL_Graphics_Versions_Get_Check && null == ADL_Graphics_Versions_Get_) {
-                    ADL_Graphics_Versions_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Graphics_Versions_Get")) {
-                        ADL_Graphics_Versions_Get_ = ADLImport.ADL_Graphics_Versions_Get;
-                    }
-                }
-
-                return ADL_Graphics_Versions_Get_;
-            }
-        }
-
-        private static ADL_Graphics_Versions_Get ADL_Graphics_Versions_Get_ = null;
-        private static bool ADL_Graphics_Versions_Get_Check = false;
-
-        internal static ADL2_Graphics_Versions_Get ADL2_Graphics_Versions_Get {
-            get {
-                if (!ADL2_Graphics_Versions_Get_Check && null == ADL2_Graphics_Versions_Get_) {
-                    ADL2_Graphics_Versions_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL2_Graphics_Versions_Get")) {
-                        ADL2_Graphics_Versions_Get_ = ADLImport.ADL2_Graphics_Versions_Get;
-                    }
-                }
-
-                return ADL2_Graphics_Versions_Get_;
-            }
-        }
-
-        private static ADL2_Graphics_Versions_Get ADL2_Graphics_Versions_Get_ = null;
-        private static bool ADL2_Graphics_Versions_Get_Check = false;
 
         internal static ADL_Adapter_ID_Get ADL_Adapter_ID_Get {
             get {
