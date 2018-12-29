@@ -16,6 +16,13 @@
         MouseDown="Window_MouseDown"
         Background="White"
         mc:Ignorable="d" Width="400" MinHeight="200">
+    <metro:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DialogWindowLang.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </metro:MetroWindow.Resources>
     <Grid> 
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -60,7 +67,7 @@
                         FontSize="14"
                         Foreground="White"
                         VerticalAlignment="Center"
-                        Content="好的" />
+                        Content="{DynamicResource OK}" />
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton Padding="4" Width="80" Margin="10 0"
@@ -81,7 +88,7 @@
                         FontSize="14"
                         Foreground="White"
                         VerticalAlignment="Center"
-                        Content="是" />
+                        Content="{DynamicResource Yes}" />
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton Padding="4" Width="80" Margin="10 0"
@@ -102,7 +109,7 @@
                         FontSize="14"
                         Foreground="White"
                         VerticalAlignment="Center"
-                        Content="否" />
+                        Content="{DynamicResource No}" />
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>
