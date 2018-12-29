@@ -6,7 +6,8 @@ namespace NTMiner.Views {
     public partial class LoginWindow : MetroWindow {
         public LoginWindow() {
             InitializeComponent();
-            this.TbHost.Text = $"{Server.MinerServerHost}:{Server.MinerServerPort.ToString()}";
+            this.Resources["HostValue"] = $"{Server.MinerServerHost}:{Server.MinerServerPort.ToString()}";
+
             this.TxtPassword.Focus();
         }
 
@@ -21,7 +22,7 @@ namespace NTMiner.Views {
             Server.ControlCenterService.Login(TxtLoginName.Text, passwordSha1, response => {
                 Execute.OnUIThread(() => {
                     if (response == null) {
-                        TbMessage.Text = "服务器忙";
+                        this.Resources["Message"] = "服务器忙";
                         TbMessage.Visibility = Visibility.Visible;
                         TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                             Execute.OnUIThread(() => {
@@ -37,7 +38,7 @@ namespace NTMiner.Views {
                         this.Close();
                     }
                     else {
-                        TbMessage.Text = response.Description;
+                        this.Resources["Message"] = response.Description;
                         TbMessage.Visibility = Visibility.Visible;
                         TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                             Execute.OnUIThread(() => {
