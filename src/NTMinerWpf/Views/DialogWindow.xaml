@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:controls="clr-namespace:NTMiner.Controls"
         UseNoneWindowStyle="True"
@@ -18,9 +19,23 @@
         mc:Ignorable="d" Width="400" MinHeight="200">
     <metro:MetroWindow.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="DialogWindowLang.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
+            <PathGeometry x:Key="Icon" Figures="{x:Null}">
+            </PathGeometry>
+            <sys:String x:Key="Title">
+                Title
+            </sys:String>
+            <sys:String x:Key="Message">
+                Message
+            </sys:String>
+            <sys:String x:Key="OK">
+                OK
+            </sys:String>
+            <sys:String x:Key="Yes">
+                Yes
+            </sys:String>
+            <sys:String x:Key="No">
+                No
+            </sys:String>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
     <Grid> 
@@ -32,12 +47,12 @@
         <DockPanel Background="{StaticResource MainColor}" Height="30">
             <WrapPanel DockPanel.Dock="Left">
                 <Path 
-                    x:Name="PathIcon"
                     Margin="4 4 0 0"
                     Width="16"
                     Height="16"
                     Visibility="{Binding IsIconVisible}"
                     Fill="{StaticResource IconFillColor}"
+                    Data="{DynamicResource Icon}"
                     Stretch="Fill"/>
                 <TextBlock
                     Text="{DynamicResource Title}"
