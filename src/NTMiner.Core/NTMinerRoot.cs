@@ -649,7 +649,7 @@ namespace NTMiner {
                             Global.Logger.Error(ex);
                         }
                     }
-                    if (_gpuSet == null || (_gpuSet.Count == 0 && _gpuSet != EmptyGpuSet.Instance)) {
+                    if (_gpuSet == null) {
                         _gpuSet = EmptyGpuSet.Instance;
                     }
                 }

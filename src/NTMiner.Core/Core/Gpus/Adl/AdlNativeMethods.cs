@@ -463,7 +463,7 @@ namespace NTMiner.Core.Gpus.Adl {
 
         internal static ADL_Graphics_Versions_Get ADL_Graphics_Versions_Get {
             get {
-                if (!ADL_Graphics_Versions_Get_Check && null == ADL_Graphics_Versions_Get) {
+                if (!ADL_Graphics_Versions_Get_Check && null == ADL_Graphics_Versions_Get_) {
                     ADL_Graphics_Versions_Get_Check = true;
                     if (ADLCheckLibrary.IsFunctionValid("ADL_Graphics_Versions_Get")) {
                         ADL_Graphics_Versions_Get_ = ADLImport.ADL_Graphics_Versions_Get;
