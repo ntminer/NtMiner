@@ -40,13 +40,13 @@
                     Fill="{StaticResource IconFillColor}"
                     Stretch="Fill"/>
                 <TextBlock
-                    x:Name="TxtTitle"
+                    Text="{DynamicResource Title}"
                     Margin="4 4 0 0"
                     FontSize="16" />
             </WrapPanel>
         </DockPanel>
         <StackPanel Grid.Row="1" Margin="10 20 10 10" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <TextBlock x:Name="TxtMessage" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            <TextBlock Text="{DynamicResource Message}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
             <controls:KbButton Padding="4" Width="80" Margin="10 0"

@@ -35,18 +35,15 @@ namespace NTMiner.Views {
             Action onYes, 
             Action onNo) {
             InitializeComponent();
+            this.Resources["Title"] = title;
+            this.Resources["Message"] = message;
+
             var owner = TopWindow.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
             }
             if (!string.IsNullOrEmpty(icon)) {
                 PathIcon.Data= (Geometry)Application.Current.Resources[icon];
-            }
-            if (!string.IsNullOrEmpty(title)) {
-                TxtTitle.Text = title;
-            }
-            if (!string.IsNullOrEmpty(message)) {
-                TxtMessage.Text = message;
             }
             _onYes = onYes;
             _onNo = onNo;

@@ -1,6 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="Title">
+        Title
+    </sys:String>
+    <sys:String x:Key="Message">
+        Message
+    </sys:String>
     <sys:String x:Key="OK">
         OK
     </sys:String>
