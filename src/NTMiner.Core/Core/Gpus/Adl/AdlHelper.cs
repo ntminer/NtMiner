@@ -15,7 +15,7 @@ namespace NTMiner.Core.Gpus.Adl {
                 AdlNativeMethods.ADL2_Main_Control_Create(AdlNativeMethods.ADL_Main_Memory_Alloc, 1, ref hHandle);
                 ret += AdlNativeMethods.ADL2_Main_Control_Refresh(hHandle);
                 int iNumberAdapters = 0;
-                iNumberAdapters = AdlNativeMethods.ADL_Adapter_NumberOfAdapters_Get(ref iNumberAdapters);
+                AdlNativeMethods.ADL_Adapter_NumberOfAdapters_Get(ref iNumberAdapters);
                 ADLAdapterInfo[] adapterInfo = new ADLAdapterInfo[iNumberAdapters];
 
                 int elementSize = Marshal.SizeOf(typeof(ADLAdapterInfo));
@@ -49,28 +49,6 @@ namespace NTMiner.Core.Gpus.Adl {
             }
 
             return ret == 0;
-        }
-
-        public string GetDriverVersion() {
-            ADLVersionsInfo versioninfo = default(ADLVersionsInfo);
-            try {
-                if (AdlNativeMethods.ADL2_Graphics_Versions_Get(hHandle, ref versioninfo) == 0) {
-                    return versioninfo.strDriverVer;
-                }
-                if (AdlNativeMethods.ADL_Graphics_Versions_Get(ref versioninfo) == 0) {
-                    return versioninfo.strDriverVer;
-                }
-            }
-            catch {
-                try {
-                    if (AdlNativeMethods.ADL_Graphics_Versions_Get(ref versioninfo) == 0) {
-                        return versioninfo.strDriverVer;
-                    }
-                }
-                catch {
-                }
-            }
-            return "0.0";
         }
 
         public int GpuCount {

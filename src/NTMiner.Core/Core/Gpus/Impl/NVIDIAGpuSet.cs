@@ -72,6 +72,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 var nvmlDevice = _nvmlDevices[i];
                 uint power = 0;
                 NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
+                power = (uint)(power / 1000.0);
                 uint temp = 0;
                 NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
                 uint speed = 0;

@@ -70,27 +70,7 @@
 			<DataGrid.Resources>
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>编码</TextBlock>
-							<TextBlock Margin="4 0 0 0" Text="{Binding Data.QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel>
-								<WrapPanel>
-                                    <TextBlock Text="{Binding FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-								</WrapPanel>
-								<WrapPanel>
-									<TextBlock Text="{Binding SupportedCoins}" ToolTip="支持币种"></TextBlock>
-								</WrapPanel>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+            <DataGrid.Columns>
                 <DataGridTemplateColumn 
                     Width="50" CanUserResize="False" CanUserReorder="False" 
                     CanUserSort="False" IsReadOnly="True" Header="支持显卡">
@@ -121,10 +101,40 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>编码</TextBlock>
+							<TextBlock Margin="4 0 0 0" Text="{Binding Data.QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<WrapPanel>
+                                    <TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
+								</WrapPanel>
+								<WrapPanel>
+									<TextBlock Text="{Binding SupportedCoins}" ToolTip="支持币种"></TextBlock>
+								</WrapPanel>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="版本">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="v"></TextBlock>
+                                <TextBlock Text="{Binding Version}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn MinWidth="160" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="发布时间" Binding="{Binding PublishOnText}">
+                </DataGridTextColumn>
                 <DataGridTextColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="尺寸" Binding="{Binding SizeMbText}">
 				</DataGridTextColumn>
-				<DataGridTextColumn MinWidth="140" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="发布时间" Binding="{Binding PublishOnText}">
-                </DataGridTextColumn>
                 <DataGridTextColumn 
                     Width="40" CanUserResize="False" CanUserReorder="False" 
                     Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
