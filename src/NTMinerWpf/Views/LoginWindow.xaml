@@ -22,16 +22,16 @@
     <metro:MetroWindow.Resources>
         <ResourceDictionary>
             <sys:String x:Key="Title">
-                Login
+                login
             </sys:String>
             <sys:String x:Key="HostLbl">
-                Host：
+                server：
             </sys:String>
             <sys:String x:Key="LoginNameLbl">
-                LoginName：
+                login name：
             </sys:String>
             <sys:String x:Key="PasswordLbl">
-                Password：
+                password：
             </sys:String>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
@@ -50,8 +50,10 @@
             <TextBlock Text="{DynamicResource Title}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
             <WrapPanel DockPanel.Dock="Right"
                        HorizontalAlignment="Right">
-                <ComboBox ItemsSource="{Binding LanguagesVm.LanguageVms}"
-                          DisplayMemberPath="Name" SelectedItem="{Binding SelectedLanguage}">                    
+                <ComboBox 
+                    ItemsSource="{Binding LanguagesVm.LanguageVms}"
+                    DisplayMemberPath="Name" SelectedItem="{Binding SelectedLanguage}"
+                    SelectionChanged="CbLanguage_SelectionChanged">                    
                 </ComboBox>
                 <controls:KbSystemCloseButton
                     Height="30"

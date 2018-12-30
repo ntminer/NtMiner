@@ -56,5 +56,26 @@ namespace NTMiner.Views {
                 });
             });
         }
+
+        private void CbLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+            LanguageViewModel selectedItem = (LanguageViewModel)e.AddedItems[0];
+            ClientId.Language = selectedItem.Code;
+            if (e.RemovedItems.Count != 0) {
+                UILanguageInit(refresh: true);
+            }
+            else {
+                UILanguageInit();
+            }
+        }
+
+        private void UILanguageInit(bool refresh = false) {
+            if (ClientId.Language != ClientId.DefaultLanguage || refresh) {
+                //if (resourceDic != null) {
+                //    foreach (var key in resourceDic.Keys) {
+                //        this.Resources[key] = resourceDic[key];
+                //    }
+                //}
+            }
+        }
     }
 }

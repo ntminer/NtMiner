@@ -12,6 +12,23 @@ namespace NTMiner {
         public const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
         public static Guid Id { get; private set; }
 
+        public static readonly string DefaultLanguage = "en";
+        public static string Language {
+            get {
+                object languageValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language");
+                if (languageValue == null) {
+                    return DefaultLanguage;
+                }
+                return (string)languageValue;
+            }
+            set {
+                if (string.IsNullOrEmpty(value)) {
+                    value = DefaultLanguage;
+                }
+                Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language", value);
+            }
+        }
+
         static ClientId() {
             object publicKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PublicKey");
             object privateKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PrivateKey");
