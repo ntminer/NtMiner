@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
 using System;
+using System.IO;
 using System.Windows;
 
 namespace NTMiner.Views {
@@ -70,11 +71,7 @@ namespace NTMiner.Views {
 
         private void UILanguageInit(bool refresh = false) {
             if (ClientId.Language != ClientId.DefaultLanguage || refresh) {
-                //if (resourceDic != null) {
-                //    foreach (var key in resourceDic.Keys) {
-                //        this.Resources[key] = resourceDic[key];
-                //    }
-                //}
+                
             }
         }
     }
