@@ -60,5 +60,9 @@ namespace NTMiner.Vms {
                 }
             }
         }
+
+        public override int GetHashCode() {
+            return this.Id.GetHashCode();
+        }
     }
 }

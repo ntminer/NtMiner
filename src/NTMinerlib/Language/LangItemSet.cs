@@ -102,5 +102,13 @@ namespace NTMiner.Language {
             }
             return dic[viewId];
         }
+
+        public Dictionary<string, List<ILangItem>> GetLangItems(ILang lang) {
+            InitOnece();
+            if (!_dicByLangAndView.ContainsKey(lang)) {
+                return new Dictionary<string, List<ILangItem>>();
+            }
+            return _dicByLangAndView[lang];
+        }
     }
 }

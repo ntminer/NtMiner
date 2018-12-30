@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using NTMiner.Language;
 using NTMiner.Vms;
 using System;
 using System.Windows;
