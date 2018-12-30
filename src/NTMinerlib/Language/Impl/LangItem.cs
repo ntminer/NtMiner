@@ -8,7 +8,7 @@ namespace NTMiner.Language.Impl {
 
         public Guid Id { get; set; }
 
-        public string LangCode { get; set; }
+        public Guid LangId { get; set; }
 
         public string ViewId { get; set; }
 

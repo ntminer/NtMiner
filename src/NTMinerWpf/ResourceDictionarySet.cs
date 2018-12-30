@@ -20,7 +20,7 @@ namespace NTMiner {
             if (!_dicByViewId.ContainsKey(viewId)) {
                 _dicByViewId.Add(viewId, resourceDictionary);
             }
-            IList<ILangItem> langItems = LangItemSet.Instance.GetLangItems(ClientId.Language, viewId);
+            IList<ILangItem> langItems = LangItemSet.Instance.GetLangItems(Global.CurrentLang, viewId);
             foreach (var item in langItems) {
                 resourceDictionary[item.Key] = item.Value;
             }

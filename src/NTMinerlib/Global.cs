@@ -1,9 +1,13 @@
-﻿using NTMiner.Bus;
+﻿using Microsoft.Win32;
+using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
+using NTMiner.Language;
 using NTMiner.Logging;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Timers;
 
 namespace NTMiner {
@@ -18,6 +22,33 @@ namespace NTMiner {
             }
         }
 
+        private static ILang _currentLang = null;
+        public static ILang CurrentLang {
+            get {
+                if (_currentLang == null) {
+                    object languageValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language");
+                    if (languageValue == null) {
+                        _currentLang = LangSet.Instance.First();
+                    }
+                    else {
+                        _currentLang = LangSet.Instance.GetLangByCode((string)languageValue);
+                        if (_currentLang == null) {
+                            _currentLang = LangSet.Instance.First();
+                        }
+                    }
+                }
+                return _currentLang;
+            }
+            set {
+                if (_currentLang != value) {
+                    _currentLang = value;
+                    Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language", value.Code);
+                }
+            }
+        }
+
+        public static string GlobalDirFullName { get; private set; }
+
         public static ILoggingService Logger { get; private set; }
 
         public static IObjectSerializer JsonSerializer { get; private set; }
@@ -29,6 +60,10 @@ namespace NTMiner {
         public static Action<string, ConsoleColor, bool> WriteLineMethod; // message, color, isDebug
 
         static Global() {
+            GlobalDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+            if (!Directory.Exists(GlobalDirFullName)) {
+                Directory.CreateDirectory(GlobalDirFullName);
+            }
             Logger = new Log4NetLoggingService();
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
