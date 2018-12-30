@@ -49,7 +49,7 @@
             <WrapPanel DockPanel.Dock="Right"
                        HorizontalAlignment="Right">
                 <ComboBox 
-                    ItemsSource="{Binding LangSet}"
+                    ItemsSource="{Binding LangVms.LangVms}"
                     DisplayMemberPath="Name" SelectedItem="{Binding SelectedLanguage}"
                     SelectionChanged="CbLanguage_SelectionChanged">                    
                 </ComboBox>

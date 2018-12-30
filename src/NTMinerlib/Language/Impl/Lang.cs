@@ -11,5 +11,9 @@ namespace NTMiner.Language.Impl {
         public string Name { get; set; }
 
         public string Code { get; set; }
+
+        public override int GetHashCode() {
+            return this.Id.GetHashCode();
+        }
     }
 }

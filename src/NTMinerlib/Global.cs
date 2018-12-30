@@ -40,8 +40,8 @@ namespace NTMiner {
                 return _currentLang;
             }
             set {
-                if (_currentLang != value) {
-                    _currentLang = value;
+                if (_currentLang != value && value != null) {
+                    _currentLang = LangSet.Instance.GetLangByCode(value.Code);
                     Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language", value.Code);
                 }
             }
