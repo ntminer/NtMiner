@@ -99,6 +99,8 @@
     <Compile Include="ResourceDictionarySet.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="TopWindow.cs" />
+    <Compile Include="Vms\LangViewModel.cs" />
+    <Compile Include="Vms\LangViewModels.cs" />
     <Compile Include="Vms\LoginWindowViewModel.cs" />
     <Compile Include="Vms\ViewModelBase.cs" />
     <Compile Include="Views\DialogWindow.xaml.cs">
