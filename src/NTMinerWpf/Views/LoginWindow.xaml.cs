@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using NTMiner.Language;
 using NTMiner.Vms;
 using System;
 using System.Windows;
@@ -13,6 +14,7 @@ namespace NTMiner.Views {
 
         public LoginWindow() {
             InitializeComponent();
+            UILanguageInit();
 
             this.TxtPassword.Focus();
         }
@@ -55,6 +57,18 @@ namespace NTMiner.Views {
                     }
                 });
             });
+        }
+
+        private void CbLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+            ILang selectedItem = (ILang)e.AddedItems[0];
+            if (selectedItem != Global.CurrentLang) {
+                Global.CurrentLang = selectedItem;
+                UILanguageInit();
+            }
+        }
+
+        private void UILanguageInit() {
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(LoginWindow), this.Resources);
         }
     }
 }

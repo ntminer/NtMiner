@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using NTMiner.Language;
+using System.Linq;
+using System.Windows;
 
 namespace NTMiner.Vms {
     public class LoginWindowViewModel : ViewModelBase {
@@ -6,10 +8,24 @@ namespace NTMiner.Vms {
         private string _loginName;
         private string _message;
         private Visibility _messageVisible = Visibility.Collapsed;
+        private ILang _selectedLanguage;
 
         public LoginWindowViewModel() {
+            this._selectedLanguage = LangSet.Instance.First();
             this._hostAndPort = $"{Server.MinerServerHost}:{Server.MinerServerPort.ToString()}";
             this._loginName = "admin";
+        }
+
+        public LangSet LangSet {
+            get { return LangSet.Instance; }
+        }
+
+        public ILang SelectedLanguage {
+            get => _selectedLanguage;
+            set {
+                _selectedLanguage = value;
+                OnPropertyChanged(nameof(SelectedLanguage));
+            }
         }
 
         public string HostAndPort {

@@ -1,32 +1,26 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace NTMiner {
     public static class SpecialPath {
         static SpecialPath() {
-            ShareDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-            if (!Directory.Exists(ShareDirFullName)) {
-                Directory.CreateDirectory(ShareDirFullName);
-            }
-            string daemonDirFullName = Path.Combine(ShareDirFullName, "Daemon");
+            string daemonDirFullName = Path.Combine(Global.GlobalDirFullName, "Daemon");
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
             DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
-            TempDirFullName = Path.Combine(ShareDirFullName, "Temp");
+            TempDirFullName = Path.Combine(Global.GlobalDirFullName, "Temp");
             if (!Directory.Exists(TempDirFullName)) {
                 Directory.CreateDirectory(TempDirFullName);
             }
-            ServerDbFileFullName = Path.Combine(ShareDirFullName, "server.litedb");
-            NTMinerJsonFileFullName = Path.Combine(ShareDirFullName, "ntminer.json");
-            ServerJsonFileFullName = Path.Combine(ShareDirFullName, "server.json");
-            LocalDbFileFullName = Path.Combine(ShareDirFullName, "local.litedb");
+            ServerDbFileFullName = Path.Combine(Global.GlobalDirFullName, "server.litedb");
+            NTMinerJsonFileFullName = Path.Combine(Global.GlobalDirFullName, "ntminer.json");
+            ServerJsonFileFullName = Path.Combine(Global.GlobalDirFullName, "server.json");
+            LocalDbFileFullName = Path.Combine(Global.GlobalDirFullName, "local.litedb");
         }
 
         public static string LocalDbFileFullName { get; private set; }
-        public static string ShareDirFullName { get; private set; }
 
         public static string ServerDbFileFullName { get; private set; }
 
@@ -43,7 +37,7 @@ namespace NTMiner {
         private static bool _isFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {
-                string dirFullName = Path.Combine(ShareDirFullName, "Packages");
+                string dirFullName = Path.Combine(Global.GlobalDirFullName, "Packages");
                 if (_isFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -102,7 +96,7 @@ namespace NTMiner {
         private static bool _isFirstCallPicturesDirFullName = true;
         public static string PicturesDirFullName {
             get {
-                string dirFullName = Path.Combine(ShareDirFullName, "Pictures");
+                string dirFullName = Path.Combine(Global.GlobalDirFullName, "Pictures");
                 if (_isFirstCallPicturesDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
