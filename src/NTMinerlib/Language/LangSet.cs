@@ -19,11 +19,32 @@ namespace NTMiner.Language {
 
         private LangSet() { }
 
+        private bool _isInited = false;
+        private object _locker = new object();
+
+        private void InitOnece() {
+            if (_isInited) {
+                return;
+            }
+            Init();
+        }
+
+        private void Init() {
+            lock (_locker) {
+                if (!_isInited) {
+                    
+                    _isInited = true;
+                }
+            }
+        }
+
         public IEnumerator<ILang> GetEnumerator() {
+            InitOnece();
             return _langs.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
+            InitOnece();
             return _langs.GetEnumerator();
         }
     }
