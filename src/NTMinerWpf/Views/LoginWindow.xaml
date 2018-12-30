@@ -6,6 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:controls="clr-namespace:NTMiner.Controls"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
         mc:Ignorable="d"
         UseNoneWindowStyle="True"
         ResizeMode="NoResize"
@@ -15,6 +16,9 @@
         WindowStartupLocation="CenterScreen"
         MouseDown="MetroWindow_MouseDown"
         Title="NTMinerFileEdit" Height="220" Width="430">
+    <metro:MetroWindow.DataContext>
+        <vm:LoginWindowViewModel></vm:LoginWindowViewModel>
+    </metro:MetroWindow.DataContext>
     <metro:MetroWindow.Resources>
         <ResourceDictionary>
             <sys:String x:Key="Title">
@@ -23,17 +27,11 @@
             <sys:String x:Key="HostLbl">
                 Host：
             </sys:String>
-            <sys:String x:Key="HostValue">
-                HostValue
-            </sys:String>
             <sys:String x:Key="LoginNameLbl">
                 LoginName：
             </sys:String>
             <sys:String x:Key="PasswordLbl">
                 Password：
-            </sys:String>
-            <sys:String x:Key="Message">
-                Message
             </sys:String>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
@@ -69,10 +67,10 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Margin="0 2" Content="{DynamicResource HostLbl}" HorizontalContentAlignment="Right"></Label>
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="0 2" Text="{DynamicResource HostValue}" BorderThickness="0" IsReadOnly="True" Background="White" VerticalContentAlignment="Center"></TextBox>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="0 2" Text="{Binding HostAndPort}" BorderThickness="0" IsReadOnly="True" Background="White" VerticalContentAlignment="Center"></TextBox>
 
             <Label Grid.Row="1" Grid.Column="0" Margin="0 2" Content="{DynamicResource LoginNameLbl}" HorizontalContentAlignment="Right"></Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="0 2" x:Name="TxtLoginName" Text="admin" Background="White" VerticalContentAlignment="Center"></TextBox>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="0 2" Text="{Binding LoginName}" Background="White" VerticalContentAlignment="Center"></TextBox>
 
             <Label Grid.Row="2" Grid.Column="0" Margin="0 2" Content="{DynamicResource PasswordLbl}" HorizontalContentAlignment="Right"></Label>
             <PasswordBox Grid.Row="2" Grid.Column="1" Margin="0 2" x:Name="TxtPassword" Background="White" VerticalContentAlignment="Center"></PasswordBox>
@@ -98,7 +96,7 @@
                             Content="{DynamicResource Title}" />
                     </WrapPanel>
                 </controls:KbButton>
-                <TextBlock x:Name="TbMessage" Text="{DynamicResource Message}" Visibility="Collapsed" FontSize="14" Foreground="Red" Margin="8 0 0 0" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Text="{Binding Message}" Visibility="{Binding MessageVisible}" FontSize="14" Foreground="Red" Margin="8 0 0 0" VerticalAlignment="Center"></TextBlock>
             </WrapPanel>
         </Grid>
         <Path

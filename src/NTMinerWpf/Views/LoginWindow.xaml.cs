@@ -1,12 +1,18 @@
 ﻿using MahApps.Metro.Controls;
+using NTMiner.Vms;
 using System;
 using System.Windows;
 
 namespace NTMiner.Views {
     public partial class LoginWindow : MetroWindow {
+        public LoginWindowViewModel Vm {
+            get {
+                return (LoginWindowViewModel)this.DataContext;
+            }
+        }
+
         public LoginWindow() {
             InitializeComponent();
-            this.Resources["HostValue"] = $"{Server.MinerServerHost}:{Server.MinerServerPort.ToString()}";
 
             this.TxtPassword.Focus();
         }
@@ -19,30 +25,30 @@ namespace NTMiner.Views {
 
         private void KbButtonLogin_Click(object sender, RoutedEventArgs e) {
             string passwordSha1 = HashUtil.Sha1(TxtPassword.Password);
-            Server.ControlCenterService.Login(TxtLoginName.Text, passwordSha1, response => {
+            Server.ControlCenterService.Login(Vm.LoginName, passwordSha1, response => {
                 Execute.OnUIThread(() => {
                     if (response == null) {
-                        this.Resources["Message"] = "服务器忙";
-                        TbMessage.Visibility = Visibility.Visible;
+                        Vm.Message = "服务器忙";
+                        Vm.MessageVisible = Visibility.Visible;
                         TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                             Execute.OnUIThread(() => {
-                                TbMessage.Visibility = Visibility.Collapsed;
+                                Vm.MessageVisible = Visibility.Collapsed;
                             });
                         });
                         return;
                     }
                     if (response.IsSuccess()) {
-                        Server.LoginName = TxtLoginName.Text;
+                        Server.LoginName = Vm.LoginName;
                         Server.Password = passwordSha1;
                         this.DialogResult = true;
                         this.Close();
                     }
                     else {
-                        this.Resources["Message"] = response.Description;
-                        TbMessage.Visibility = Visibility.Visible;
+                        Vm.Message = response.Description;
+                        Vm.MessageVisible = Visibility.Visible;
                         TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                             Execute.OnUIThread(() => {
-                                TbMessage.Visibility = Visibility.Collapsed;
+                                Vm.MessageVisible = Visibility.Collapsed;
                             });
                         });
                         return;

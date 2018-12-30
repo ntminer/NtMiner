@@ -98,6 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="TopWindow.cs" />
+    <Compile Include="Vms\LanguagesViewModel.cs" />
+    <Compile Include="Vms\LanguageViewModel.cs" />
+    <Compile Include="Vms\LoginWindowViewModel.cs" />
     <Compile Include="Vms\ViewModelBase.cs" />
     <Compile Include="Views\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
