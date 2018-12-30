@@ -6,10 +6,24 @@ namespace NTMiner.Vms {
         private string _loginName;
         private string _message;
         private Visibility _messageVisible = Visibility.Collapsed;
+        private LanguageViewModel _selectedLanguage;
 
         public LoginWindowViewModel() {
+            this._selectedLanguage = LanguageViewModel.English;
             this._hostAndPort = $"{Server.MinerServerHost}:{Server.MinerServerPort.ToString()}";
             this._loginName = "admin";
+        }
+
+        public LanguagesViewModel LanguagesVm {
+            get { return LanguagesViewModel.Current; }
+        }
+
+        public LanguageViewModel SelectedLanguage {
+            get => _selectedLanguage;
+            set {
+                _selectedLanguage = value;
+                OnPropertyChanged(nameof(SelectedLanguage));
+            }
         }
 
         public string HostAndPort {

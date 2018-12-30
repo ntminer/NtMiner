@@ -50,6 +50,9 @@
             <TextBlock Text="{DynamicResource Title}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
             <WrapPanel DockPanel.Dock="Right"
                        HorizontalAlignment="Right">
+                <ComboBox ItemsSource="{Binding LanguagesVm.LanguageVms}"
+                          DisplayMemberPath="Name" SelectedItem="{Binding SelectedLanguage}">                    
+                </ComboBox>
                 <controls:KbSystemCloseButton
                     Height="30"
                     KbSystemButtonForeground="#385263" />
