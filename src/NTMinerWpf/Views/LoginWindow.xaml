@@ -21,16 +21,16 @@
     </metro:MetroWindow.DataContext>
     <metro:MetroWindow.Resources>
         <sys:String x:Key="Title">
-            login
+            Title
         </sys:String>
-        <sys:String x:Key="HostLbl">
-            server：
+        <sys:String x:Key="LblHost">
+            HostLbl：
         </sys:String>
-        <sys:String x:Key="LoginNameLbl">
-            login name：
+        <sys:String x:Key="LblLoginName">
+            LoginNameLbl：
         </sys:String>
-        <sys:String x:Key="PasswordLbl">
-            password：
+        <sys:String x:Key="LblPassword">
+            PasswordLbl：
         </sys:String>
     </metro:MetroWindow.Resources>
     <Grid>
@@ -69,13 +69,13 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Margin="0 2" Content="{DynamicResource HostLbl}" HorizontalContentAlignment="Right"></Label>
+            <Label Grid.Row="0" Grid.Column="0" Margin="0 2" Content="{DynamicResource LblHost}" HorizontalContentAlignment="Right"></Label>
             <TextBox Grid.Row="0" Grid.Column="1" Margin="0 2" Text="{Binding HostAndPort}" BorderThickness="0" IsReadOnly="True" Background="White" VerticalContentAlignment="Center"></TextBox>
 
-            <Label Grid.Row="1" Grid.Column="0" Margin="0 2" Content="{DynamicResource LoginNameLbl}" HorizontalContentAlignment="Right"></Label>
+            <Label Grid.Row="1" Grid.Column="0" Margin="0 2" Content="{DynamicResource LblLoginName}" HorizontalContentAlignment="Right"></Label>
             <TextBox Grid.Row="1" Grid.Column="1" Margin="0 2" Text="{Binding LoginName}" Background="White" VerticalContentAlignment="Center"></TextBox>
 
-            <Label Grid.Row="2" Grid.Column="0" Margin="0 2" Content="{DynamicResource PasswordLbl}" HorizontalContentAlignment="Right"></Label>
+            <Label Grid.Row="2" Grid.Column="0" Margin="0 2" Content="{DynamicResource LblPassword}" HorizontalContentAlignment="Right"></Label>
             <PasswordBox Grid.Row="2" Grid.Column="1" Margin="0 2" x:Name="TxtPassword" Background="White" VerticalContentAlignment="Center"></PasswordBox>
 
             <WrapPanel Grid.Row="3" Grid.Column="2" Margin="0 8 0 0">

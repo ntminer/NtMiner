@@ -19,19 +19,19 @@ namespace NTMiner.Language {
                             new LangItem {
                                 LangCode = "cn-zh",
                                 ViewId = "LoginWindow",
-                                Key = "HostLbl",
+                                Key = "LblHost",
                                 Value = "服务器："
                             },
                             new LangItem {
                                 LangCode = "cn-zh",
                                 ViewId = "LoginWindow",
-                                Key = "LoginNameLbl",
+                                Key = "LblLoginName",
                                 Value = "登录名："
                             },
                             new LangItem {
                                 LangCode = "cn-zh",
                                 ViewId = "LoginWindow",
-                                Key = "PasswordLbl",
+                                Key = "LblPassword",
                                 Value = "密码："
                             }
                         }
@@ -51,19 +51,19 @@ namespace NTMiner.Language {
                             new LangItem {
                                 LangCode = "en",
                                 ViewId = "LoginWindow",
-                                Key = "HostLbl",
+                                Key = "LblHost",
                                 Value = "server："
                             },
                             new LangItem {
                                 LangCode = "en",
                                 ViewId = "LoginWindow",
-                                Key = "LoginNameLbl",
+                                Key = "LblLoginName",
                                 Value = "login name："
                             },
                             new LangItem {
                                 LangCode = "en",
                                 ViewId = "LoginWindow",
-                                Key = "PasswordLbl",
+                                Key = "LblPassword",
                                 Value = "password："
                             }
                         }
