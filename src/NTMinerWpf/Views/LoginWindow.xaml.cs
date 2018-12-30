@@ -1,7 +1,7 @@
 ﻿using MahApps.Metro.Controls;
+using NTMiner.Language;
 using NTMiner.Vms;
 using System;
-using System.IO;
 using System.Windows;
 
 namespace NTMiner.Views {
@@ -59,20 +59,15 @@ namespace NTMiner.Views {
         }
 
         private void CbLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
-            LanguageViewModel selectedItem = (LanguageViewModel)e.AddedItems[0];
-            ClientId.Language = selectedItem.Code;
-            if (e.RemovedItems.Count != 0) {
-                UILanguageInit(refresh: true);
-            }
-            else {
+            ILang selectedItem = (ILang)e.AddedItems[0];
+            if (selectedItem.Code != ClientId.Language) {
+                ClientId.Language = selectedItem.Code;
                 UILanguageInit();
             }
         }
 
-        private void UILanguageInit(bool refresh = false) {
-            if (ClientId.Language != ClientId.DefaultLanguage || refresh) {
-                
-            }
+        private void UILanguageInit() {
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(LoginWindow), this.Resources);
         }
     }
 }

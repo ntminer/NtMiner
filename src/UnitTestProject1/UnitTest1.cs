@@ -6,6 +6,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace UnitTestProject1 {
     [TestClass]
@@ -69,6 +70,12 @@ namespace UnitTestProject1 {
         public void Sha1Test() {
             Assert.AreEqual(string.Empty, NTMiner.HashUtil.Sha1(string.Empty));
             Assert.AreEqual(string.Empty, NTMiner.HashUtil.Sha1((string)null));
+        }
+
+        [TestMethod]
+        public void ResourceDictionaryTest() {
+            ResourceDictionary dic = new ResourceDictionary();
+            dic["aaa"] = "aaa";
         }
 
         [TestMethod]

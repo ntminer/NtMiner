@@ -20,20 +20,18 @@
         <vm:LoginWindowViewModel></vm:LoginWindowViewModel>
     </metro:MetroWindow.DataContext>
     <metro:MetroWindow.Resources>
-        <ResourceDictionary>
-            <sys:String x:Key="Title">
-                login
-            </sys:String>
-            <sys:String x:Key="HostLbl">
-                server：
-            </sys:String>
-            <sys:String x:Key="LoginNameLbl">
-                login name：
-            </sys:String>
-            <sys:String x:Key="PasswordLbl">
-                password：
-            </sys:String>
-        </ResourceDictionary>
+        <sys:String x:Key="Title">
+            login
+        </sys:String>
+        <sys:String x:Key="HostLbl">
+            server：
+        </sys:String>
+        <sys:String x:Key="LoginNameLbl">
+            login name：
+        </sys:String>
+        <sys:String x:Key="PasswordLbl">
+            password：
+        </sys:String>
     </metro:MetroWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -51,7 +49,7 @@
             <WrapPanel DockPanel.Dock="Right"
                        HorizontalAlignment="Right">
                 <ComboBox 
-                    ItemsSource="{Binding LanguagesVm.LanguageVms}"
+                    ItemsSource="{Binding LangSet}"
                     DisplayMemberPath="Name" SelectedItem="{Binding SelectedLanguage}"
                     SelectionChanged="CbLanguage_SelectionChanged">                    
                 </ComboBox>
