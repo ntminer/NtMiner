@@ -61,6 +61,7 @@
     <Compile Include="Language\ILangItem.cs" />
     <Compile Include="Language\Impl\Lang.cs" />
     <Compile Include="Language\Impl\LangItem.cs" />
+    <Compile Include="Language\Impl\LangJson.cs" />
     <Compile Include="Language\Impl\ReadOnlyLanguageRepository`1.cs" />
     <Compile Include="Language\LangItemSet.cs" />
     <Compile Include="Language\LangSet.cs" />
