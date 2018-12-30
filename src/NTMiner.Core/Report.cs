@@ -96,6 +96,8 @@ namespace NTMiner {
         }
 
         private static readonly Dictionary<Guid, CoinShareData> _coinShareDic = new Dictionary<Guid, CoinShareData>();
+        private static ICoin _lastSpeedMainCoin;
+        private static ICoin _lastSpeedDualCoin;
         private static void ReportSpeed(INTMinerRoot root) {
             try {
                 SpeedData data = new SpeedData {
@@ -117,6 +119,7 @@ namespace NTMiner {
                     MainCoinPool = string.Empty,
                     MainCoinWallet = string.Empty
                 };
+                #region 当前选中的币种是什么
                 ICoin mainCoin;
                 if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out mainCoin)) {
                     data.MainCoinCode = mainCoin.Code;
@@ -154,31 +157,39 @@ namespace NTMiner {
                         }
                     }
                 }
-                // 如果正在挖矿则报告算力，否则默认报告0算力
+                #endregion
+
                 if (root.IsMining) {
-                    CoinShareData preCoinShare;
-                    Guid coinId = root.CurrentMineContext.MainCoin.GetId();
-                    IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
-                    IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(root.GpuAllId);
-                    data.MainCoinSpeed = (int)totalSpeed.MainCoinSpeed.Value;
-                    ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
-                    if (!_coinShareDic.TryGetValue(coinId, out preCoinShare)) {
-                        preCoinShare = new CoinShareData() {
-                            TotalShareCount = share.TotalShareCount
-                        };
-                        _coinShareDic.Add(coinId, preCoinShare);
-                        data.MainCoinShareDelta = share.TotalShareCount;
-                    }
-                    else {
-                        data.MainCoinShareDelta = share.TotalShareCount - preCoinShare.TotalShareCount;
+                    // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
+                    if (_lastSpeedMainCoin == null || _lastSpeedMainCoin == root.CurrentMineContext.MainCoin) {
+                        _lastSpeedMainCoin = root.CurrentMineContext.MainCoin;
+                        CoinShareData preCoinShare;
+                        Guid coinId = root.CurrentMineContext.MainCoin.GetId();
+                        IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
+                        IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(root.GpuAllId);
+                        data.MainCoinSpeed = (int)totalSpeed.MainCoinSpeed.Value;
+                        ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
+                        if (!_coinShareDic.TryGetValue(coinId, out preCoinShare)) {
+                            preCoinShare = new CoinShareData() {
+                                TotalShareCount = share.TotalShareCount
+                            };
+                            _coinShareDic.Add(coinId, preCoinShare);
+                            data.MainCoinShareDelta = share.TotalShareCount;
+                        }
+                        else {
+                            data.MainCoinShareDelta = share.TotalShareCount - preCoinShare.TotalShareCount;
+                        }
                     }
                     if (root.CurrentMineContext is IDualMineContext dualMineContext) {
-                        if (root.IsMining) {
-                            coinId = dualMineContext.DualCoin.GetId();
-                            gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
-                            totalSpeed = gpuSpeeds.CurrentSpeed(root.GpuAllId);
+                        // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
+                        if (_lastSpeedDualCoin == null || _lastSpeedDualCoin == dualMineContext.DualCoin) {
+                            _lastSpeedDualCoin = dualMineContext.DualCoin;
+                            CoinShareData preCoinShare;
+                            Guid coinId = dualMineContext.DualCoin.GetId();
+                            IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
+                            IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(root.GpuAllId);
                             data.DualCoinSpeed = (int)totalSpeed.DualCoinSpeed.Value;
-                            share = root.CoinShareSet.GetOrCreate(coinId);
+                            ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
                             if (!_coinShareDic.TryGetValue(coinId, out preCoinShare)) {
                                 preCoinShare = new CoinShareData() {
                                     TotalShareCount = share.TotalShareCount
