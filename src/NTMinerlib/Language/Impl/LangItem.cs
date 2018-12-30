@@ -1,5 +1,13 @@
-﻿namespace NTMiner.Language.Impl {
+﻿using System;
+
+namespace NTMiner.Language.Impl {
     public class LangItem : ILangItem {
+        public Guid GetId() {
+            return this.Id;
+        }
+
+        public Guid Id { get; set; }
+
         public string LangCode { get; set; }
 
         public string ViewId { get; set; }
