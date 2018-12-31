@@ -64,7 +64,7 @@ namespace NTMiner.NoDevFee {
                     Task.Factory.StartNew(() => {
                         Global.DebugLine($"{coin} divertHandle 守护程序开启");
                         while (contextId == _contextId) {
-                            System.Threading.Thread.Sleep(1);
+                            System.Threading.Thread.Sleep(1000);
                         }
                         if (divertHandle != IntPtr.Zero) {
                             lock (locker) {
