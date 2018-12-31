@@ -6,5 +6,6 @@ namespace NTMiner.Language {
         string ViewId { get; }
         string Key { get; }
         string Value { get; }
+        int SortNumber { get; }
     }
 }

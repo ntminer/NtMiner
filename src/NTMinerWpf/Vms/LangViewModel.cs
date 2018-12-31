@@ -1,20 +1,82 @@
 ﻿using NTMiner.Language;
+using NTMiner.Views;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LangViewModel : ViewModelBase, ILang {
         private Guid _id;
         private string _code;
         private string _name;
+        private int _sortNumber;
+        private string _selectedView;
+
+        public ICommand Remove { get; private set; }
+        public ICommand Edit { get; private set; }
+        public ICommand AddLangItem { get; private set; }
+        public ICommand SortUp { get; private set; }
+        public ICommand SortDown { get; private set; }
 
         public LangViewModel(Guid id) {
             _id = id;
+            this.AddLangItem = new DelegateCommand(() => {
+                new LangItemViewModel(Guid.NewGuid()) {
+                    LangId = id,
+                    SortNumber = LangItemSet.Instance.GetLangItems(this).Count + 1
+                }.Edit.Execute(null);
+            });
+            this.Edit = new DelegateCommand(() => {
+                LangEdit.ShowWindow(this);
+            });
+            this.Remove = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
+                DialogWindow.ShowDialog(message: $"您确定删除{this.Code}系统字典吗？", title: "确认", onYes: () => {
+                    Global.Execute(new RemoveLangCommand(this.Id));
+                }, icon: "Icon_Confirm");
+            });
+            this.SortUp = new DelegateCommand(() => {
+                LangViewModel upOne = LangViewModels.Current.LangVms.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                if (upOne != null) {
+                    int sortNumber = upOne.SortNumber;
+                    upOne.SortNumber = this.SortNumber;
+                    Global.Execute(new UpdateLangCommand(upOne));
+                    this.SortNumber = sortNumber;
+                    Global.Execute(new UpdateLangCommand(this));
+                    LangViewModels.Current.OnPropertyChanged(nameof(LangViewModels.LangVms));
+                }
+            });
+            this.SortDown = new DelegateCommand(() => {
+                LangViewModel nextOne = LangViewModels.Current.LangVms.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                if (nextOne != null) {
+                    int sortNumber = nextOne.SortNumber;
+                    nextOne.SortNumber = this.SortNumber;
+                    Global.Execute(new UpdateLangCommand(nextOne));
+                    this.SortNumber = sortNumber;
+                    Global.Execute(new UpdateLangCommand(this));
+                    LangViewModels.Current.OnPropertyChanged(nameof(LangViewModels.LangVms));
+                }
+            });
         }
 
         public LangViewModel(ILang data) : this(data.GetId()) {
             _code = data.Code;
             _name = data.Name;
+            _sortNumber = data.SortNumber;
+        }
+
+        public string SelectedView {
+            get => _selectedView;
+            set => _selectedView = value;
+        }
+
+        public List<LangItemViewModel> LangViewItems {
+            get {
+                return LangItemViewModels.Current.GetLangItemVms(this, this.SelectedView);
+            }
         }
 
         public Guid GetId() {
@@ -58,6 +120,14 @@ namespace NTMiner.Vms {
                         throw new ValidationException("名称重复");
                     }
                 }
+            }
+        }
+
+        public int SortNumber {
+            get { return _sortNumber; }
+            set {
+                _sortNumber = value;
+                OnPropertyChanged(nameof(SortNumber));
             }
         }
 

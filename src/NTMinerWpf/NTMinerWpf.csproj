@@ -99,6 +99,12 @@
     <Compile Include="ResourceDictionarySet.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
     <Compile Include="TopWindow.cs" />
+    <Compile Include="Views\LangEdit.xaml.cs">
+      <DependentUpon>LangEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LangItemEdit.xaml.cs">
+      <DependentUpon>LangItemEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vms\LangItemViewModel.cs" />
     <Compile Include="Vms\LangItemViewModels.cs" />
     <Compile Include="Vms\LangViewModel.cs" />
@@ -165,6 +171,14 @@
     <Page Include="Views\DialogWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LangEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LangItemEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
