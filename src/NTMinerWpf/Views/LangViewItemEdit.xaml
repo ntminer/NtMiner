@@ -26,7 +26,7 @@
             </Image>
             <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
             <TextBlock Text=" - " DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
-            <TextBlock Text="{Binding SelectedLanguage.Name}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding LangVm.Name}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
             <WrapPanel DockPanel.Dock="Right"
                        HorizontalAlignment="Right">
                 <controls:KbSystemCloseButton
@@ -52,7 +52,7 @@
 
             <WrapPanel Margin="0 2">
                 <Label>Value:</Label>
-                <TextBox Width="300" VerticalContentAlignment="Center" Text="{Binding Value, ValidatesOnExceptions=True}">
+                <TextBox Width="300" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
                 </TextBox>
             </WrapPanel>
         </StackPanel>

@@ -33,6 +33,8 @@ namespace NTMiner.Language {
                         _langs.Add(entity);
                         var repository = Repository.CreateLanguageRepository<Lang>();
                         repository.Add(entity);
+
+                        Global.Happened(new LangAddedEvent(entity));
                     }
                 });
             Global.Access<UpdateLangCommand>(
@@ -45,6 +47,8 @@ namespace NTMiner.Language {
                         entity.Update(message.Input);
                         var repository = Repository.CreateLanguageRepository<Lang>();
                         repository.Update(entity);
+
+                        Global.Happened(new LangUpdatedEvent(entity));
                     }
                 });
             Global.Access<RemoveLangCommand>(
@@ -66,6 +70,8 @@ namespace NTMiner.Language {
                         _langs.Remove(entity);
                         var repository = Repository.CreateLanguageRepository<Lang>();
                         repository.Remove(entity.GetId());
+
+                        Global.Happened(new LangRemovedEvent(entity));
                     }
                 });
         }

@@ -34,6 +34,8 @@ namespace NTMiner.Language {
                         _dicById.Add(message.Input.GetId(), entity);
                         var repository = Repository.CreateLanguageRepository<LangViewItem>();
                         repository.Add(entity);
+
+                        Global.Happened(new LangViewItemAddedEvent(entity));
                     }
                 });
             Global.Access<UpdateLangViewItemCommand>(
@@ -46,6 +48,8 @@ namespace NTMiner.Language {
                         entity.Update(message.Input);
                         var repository = Repository.CreateLanguageRepository<LangViewItem>();
                         repository.Update(entity);
+
+                        Global.Happened(new LangViewItemUpdatedEvent(entity));
                     }
                 });
             Global.Access<RemoveLangViewItemCommand>(
@@ -73,6 +77,8 @@ namespace NTMiner.Language {
                         }
                         var repository = Repository.CreateLanguageRepository<LangViewItem>();
                         repository.Remove(entity.Id);
+
+                        Global.Happened(new LangViewItemRemovedEvent(entity));
                     }
                 });
         }
@@ -100,6 +106,7 @@ namespace NTMiner.Language {
                                 dic.Add(item.ViewId, new List<ILangViewItem>());
                             }
                             dic[item.ViewId].Add(item);
+                            _dicById.Add(item.Id, item);
                         }
                     }
                     _isInited = true;

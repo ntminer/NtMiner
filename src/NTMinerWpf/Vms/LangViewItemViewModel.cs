@@ -18,7 +18,6 @@ namespace NTMiner.Vms {
             _id = id;
             this.Edit = new DelegateCommand(() => {
                 LangViewItemEdit.ShowWindow(this);
-                TopWindow.GetTopWindow()?.Close();
             });
             this.Save = new DelegateCommand(() => {
                 if (LangViewItemViewModels.Current.Contains(this.Id)) {
@@ -27,6 +26,7 @@ namespace NTMiner.Vms {
                 else {
                     Global.Execute(new AddLangViewItemCommand(this));
                 }
+                TopWindow.GetTopWindow()?.Close();
             });
         }
 
@@ -37,13 +37,13 @@ namespace NTMiner.Vms {
             _value = data.Value;
         }
 
-        private LangViewModel _lang;
+        private LangViewModel _langVm;
         public LangViewModel LangVm {
             get {
-                if (_lang == null) {
-                    LangViewModels.Current.TryGetLangVm(this.LangId, out _lang);
+                if (_langVm == null) {
+                    LangViewModels.Current.TryGetLangVm(this.LangId, out _langVm);
                 }
-                return _lang;
+                return _langVm;
             }
         }
 
