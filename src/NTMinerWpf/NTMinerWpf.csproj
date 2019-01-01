@@ -105,11 +105,15 @@
     <Compile Include="Views\LangViewItemEdit.xaml.cs">
       <DependentUpon>LangViewItemEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ViewLang.xaml.cs">
+      <DependentUpon>ViewLang.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vms\LangViewItemViewModel.cs" />
     <Compile Include="Vms\LangViewItemViewModels.cs" />
     <Compile Include="Vms\LangViewModel.cs" />
     <Compile Include="Vms\LangViewModels.cs" />
     <Compile Include="Vms\LoginWindowViewModel.cs" />
+    <Compile Include="Vms\ViewLangViewModel.cs" />
     <Compile Include="Vms\ViewModelBase.cs" />
     <Compile Include="Views\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
@@ -179,6 +183,10 @@
     <Page Include="Views\LangViewItemEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewLang.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
