@@ -46,6 +46,15 @@
             <sys:String x:Key="TabItemHeaderProperty">
                 TabItemHeaderProperty
             </sys:String>
+            <sys:String x:Key="TabItemHeaderLog">
+                TabItemHeaderLog
+            </sys:String>
+            <sys:String x:Key="TabItemHeaderSpeed">
+                TabItemHeaderSpeed
+            </sys:String>
+            <sys:String x:Key="TabItemHeaderOption">
+                TabItemHeaderOption
+            </sys:String>
         </ResourceDictionary>
 	</metro:MetroWindow.Resources>
 	<Grid>
@@ -430,35 +439,36 @@
                         Background="#F5F5F5"
 						Padding="0" BorderThickness="0" 
 						BorderBrush="{StaticResource LineColor}">
-						<controls:KbTabItem Width="40">
+						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-									<TextBlock>日志</TextBlock>
+                                    <TextBlock Padding="8 0" Text="{DynamicResource TabItemHeaderLog}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
                             <uc:Console BorderBrush="{StaticResource LineColor}" BorderThickness="0">
 							</uc:Console>
 						</controls:KbTabItem>
 
-						<controls:KbTabItem Width="40">
+						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-									<TextBlock>算力</TextBlock>
+                                    <TextBlock Padding="8 0" Text="{DynamicResource TabItemHeaderSpeed}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
                             <uc:SpeedTable BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
 							</uc:SpeedTable>
 						</controls:KbTabItem>
-						<controls:KbTabItem Width="55">
+						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-									<Path 
+                                    <Path 
+                                        Margin="8 0 0 0"
 										Width="14"
 										Height="14"
 										Stretch="Fill"
 										Fill="{StaticResource IconFillColor}"
 										Data="{StaticResource Icon_MinerProfile}"></Path>
-									<TextBlock Margin="4 0 0 0">选项</TextBlock>
+                                    <TextBlock Padding="4 0 8 0" Text="{DynamicResource TabItemHeaderOption}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
                             <uc:MinerProfileOption BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
