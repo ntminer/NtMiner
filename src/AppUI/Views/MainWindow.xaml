@@ -3,6 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:notification="clr-namespace:NTMiner.Notifications.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
@@ -21,8 +22,8 @@
 		DataContext="{x:Static vm:MainWindowViewModel.Current}"
 		TextOptions.TextFormattingMode="Display">
 	<metro:MetroWindow.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/TabControlStyle.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 			<Style x:Key="IconButtonBg" TargetType="Border">
@@ -35,8 +36,17 @@
 						<Setter Property="Background" Value="#CCE1ED"></Setter>
 					</Trigger>
 				</Style.Triggers>
-			</Style>
-		</ResourceDictionary>
+            </Style>
+            <sys:String x:Key="NTMinerTitleToopTip">
+                NTMinerTitleToopTip
+            </sys:String>
+            <sys:String x:Key="TabItemHeaderStart">
+                TabItemHeaderStart
+            </sys:String>
+            <sys:String x:Key="TabItemHeaderProperty">
+                TabItemHeaderProperty
+            </sys:String>
+        </ResourceDictionary>
 	</metro:MetroWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -50,7 +60,7 @@
 			<WrapPanel Canvas.Left="4" Canvas.Top="3">
                 <Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png"></Image>
 				<controls:KbLinkButton
-					ToolTip="点击打开官网"
+					ToolTip="{DynamicResource NTMinerTitleToopTip}"
 					Command="{x:Static vm:AppStatic.OpenOfficialSite}"
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent"
@@ -91,6 +101,21 @@
 			<WrapPanel Canvas.Right="0" HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" 
 					VerticalAlignment="Top">
+                    <controls:KbButton
+                        ToolTip="翻译本页"
+                        Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                        CommandParameter="MainWindow"
+                        Padding="8 0"
+                        Background="{StaticResource MainColor}">
+                        <WrapPanel>
+                            <Path
+                            Width="12"
+                            Height="12"
+                            Data="{StaticResource Icon_Translate}"
+                            Fill="#385263"
+                            Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                     <Menu Background="Transparent" VerticalAlignment="Center">
                         <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
                             <MenuItem.Icon>
@@ -310,7 +335,7 @@
 		<TabControl 
 			Name="tab" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0"
 			Margin="0" Style="{DynamicResource TabControlStyle}">
-			<TabItem Margin="3 0 0 0" Header="开始" Height="47" Width="57" Style="{DynamicResource TabItemStyle}" 
+            <TabItem Margin="3 0 8 0" Header="{DynamicResource TabItemHeaderStart}" Height="47" Style="{DynamicResource TabItemStyle}" 
 					 TextOptions.TextFormattingMode="Display">
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -446,7 +471,7 @@
 					</uc:StateBar>
 				</Grid>
 			</TabItem>
-			<TabItem Header="属性" Width="57" Style="{DynamicResource TabItemStyle}">
+            <TabItem Header="{DynamicResource TabItemHeaderProperty}" Style="{DynamicResource TabItemStyle}">
 				<Border BorderThickness="0" BorderBrush="{StaticResource LineColor}" Padding="14 0">
 					<uc:Enviroment />
 				</Border>

@@ -37,8 +37,11 @@ namespace NTMiner {
                 _dicByViewId.Add(viewId, resourceDictionary);
             }
             IList<ILangViewItem> langItems = LangViewItemSet.Instance.GetLangItems(Global.CurrentLang.GetId(), viewId);
+            Type stringType = typeof(string);
             foreach (var item in langItems) {
-                resourceDictionary[item.Key] = item.Value;
+                if (resourceDictionary.Contains(item.Key) && resourceDictionary[item.Key].GetType() == stringType) {
+                    resourceDictionary[item.Key] = item.Value;
+                }
             }
         }
     }

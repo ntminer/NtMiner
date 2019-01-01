@@ -27,6 +27,10 @@ namespace NTMiner.Vms {
             }
         });
 
+        public static ICommand ShowLangViewItems { get; private set; } = new DelegateCommand<string>((viewId) => {
+            ViewLang.ShowWindow(new ViewLangViewModel(viewId));
+        });
+
         public static ICommand JoinQQGroup { get; private set; } = new DelegateCommand(() => {
             Process.Start("https://jq.qq.com/?_wv=1027&k=5ZPsuCk");
         });

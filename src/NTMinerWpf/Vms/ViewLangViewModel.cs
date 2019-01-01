@@ -38,8 +38,12 @@ namespace NTMiner.Vms {
                 if (ResourceDictionarySet.Instance.TryGetResourceDic(this.ViewId, out resourceDic)) {
                     List<LangViewItemViewModel> results = new List<LangViewItemViewModel>();
                     List<LangViewItemViewModel> list = LangViewItemViewModels.Current.GetLangItemVms(SelectedLanguage, ViewId);
+                    Type stringType = typeof(string);
                     foreach (string key in resourceDic.Keys.Cast<string>()) {
                         var exist = list.FirstOrDefault(a => a.Key == key);
+                        if (resourceDic[key].GetType() != stringType) {
+                            continue;
+                        }
                         if (exist != null) {
                             results.Add(exist);
                         }

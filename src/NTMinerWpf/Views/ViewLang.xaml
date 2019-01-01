@@ -15,7 +15,7 @@
         BorderBrush="{StaticResource IconFillColor}"
         WindowStartupLocation="CenterScreen"
         MouseDown="MetroWindow_MouseDown"
-        Title="NTMinerFileEdit" Height="320" Width="480">
+        Title="NTMinerFileEdit" Height="320" Width="580">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -41,7 +41,7 @@
                   BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
                   MouseDoubleClick="LangViewItemDataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="键" Binding="{Binding Key}">
+                <DataGridTextColumn Width="200" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="键" Binding="{Binding Key}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
                 </DataGridTextColumn>
