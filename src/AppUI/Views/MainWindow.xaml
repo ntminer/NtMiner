@@ -55,6 +55,12 @@
             <sys:String x:Key="TabItemHeaderOption">
                 TabItemHeaderOption
             </sys:String>
+            <sys:String x:Key="BtnStartMine">
+                BtnStartMine
+            </sys:String>
+            <sys:String x:Key="BtnStopMine">
+                BtnStopMine
+            </sys:String>
         </ResourceDictionary>
 	</metro:MetroWindow.Resources>
 	<Grid>
@@ -382,7 +388,7 @@
 								    VerticalAlignment="Center"
 								    Foreground="White"
 								    FontSize="16"
-								    Content="开始挖矿" />
+								    Content="{DynamicResource BtnStartMine}" />
                             </WrapPanel>
                         </controls:KbButton>
                         <Button                        
@@ -411,7 +417,7 @@
 											    VerticalAlignment="Center"
 											    Foreground="White"
 											    FontSize="16"
-											    Content="正在挖矿" />
+											    Content="{DynamicResource BtnStopMine}" />
                                         </WrapPanel>
                                     </Border>
                                     <ControlTemplate.Triggers>
