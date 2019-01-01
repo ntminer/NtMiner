@@ -18,6 +18,7 @@ namespace NTMiner.Vms {
             _id = id;
             this.Edit = new DelegateCommand(() => {
                 LangViewItemEdit.ShowWindow(this);
+                TopWindow.GetTopWindow()?.Close();
             });
             this.Save = new DelegateCommand(() => {
                 if (LangViewItemViewModels.Current.Contains(this.Id)) {

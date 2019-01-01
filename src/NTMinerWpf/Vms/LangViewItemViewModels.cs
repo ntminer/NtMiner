@@ -16,16 +16,25 @@ namespace NTMiner.Vms {
                 "添加了语言项后刷新VM内存",
                 LogEnum.None,
                 action: message => {
+                    if (_dicById.ContainsKey(message.Source.GetId())) {
+                        return;
+                    }
                     LangViewModel langVm;
-                    if (!LangViewModels.Current.TryGetLangVm(message.Source.LangId, out langVm)) {
+                    if (LangViewModels.Current.TryGetLangVm(message.Source.LangId, out langVm)) {
+                        Dictionary<string, List<LangViewItemViewModel>> dic = null;
                         if (!_dicByLangAndView.ContainsKey(langVm)) {
-                            var dic = new Dictionary<string, List<LangViewItemViewModel>>();
+                            dic = new Dictionary<string, List<LangViewItemViewModel>>();
                             _dicByLangAndView.Add(langVm, dic);
-                            if (!dic.ContainsKey(message.Source.ViewId)) {
-                                dic.Add(message.Source.ViewId, new List<LangViewItemViewModel>());
-                            }
-                            dic[message.Source.ViewId].Add(new LangViewItemViewModel(message.Source));
                         }
+                        else {
+                            dic = _dicByLangAndView[langVm];
+                        }
+                        if (!dic.ContainsKey(message.Source.ViewId)) {
+                            dic.Add(message.Source.ViewId, new List<LangViewItemViewModel>());
+                        }
+                        var entity = new LangViewItemViewModel(message.Source);
+                        dic[message.Source.ViewId].Add(entity);
+                        _dicById.Add(entity.Id, entity);
                     }
                 });
             Global.Access<LangViewItemUpdatedEvent>(
@@ -65,7 +74,11 @@ namespace NTMiner.Vms {
                 _dicByLangAndView.Add(lang, dic);
                 foreach (var item in LangViewItemSet.Instance.GetLangItems(lang.Id)) {
                     if (!dic.ContainsKey(item.Key)) {
-                        dic.Add(item.Key, item.Value.Select(a => new LangViewItemViewModel(a)).ToList());
+                        List<LangViewItemViewModel> list = item.Value.Select(a => new LangViewItemViewModel(a)).ToList();
+                        dic.Add(item.Key, list);
+                        foreach (var langViewItemVm in list) {
+                            _dicById.Add(langViewItemVm.Id, langViewItemVm);
+                        }
                     }
                 }
             }
