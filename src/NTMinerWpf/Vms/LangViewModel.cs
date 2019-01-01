@@ -14,18 +14,11 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
-        public ICommand AddLangItem { get; private set; }
         public ICommand SortUp { get; private set; }
         public ICommand SortDown { get; private set; }
 
         public LangViewModel(Guid id) {
             _id = id;
-            this.AddLangItem = new DelegateCommand(() => {
-                new LangViewItemViewModel(Guid.NewGuid()) {
-                    LangId = id,
-                    SortNumber = LangViewItemSet.Instance.GetLangItems(this.Id).Count + 1
-                }.Edit.Execute(null);
-            });
             this.Edit = new DelegateCommand(() => {
                 LangEdit.ShowWindow(this);
             });

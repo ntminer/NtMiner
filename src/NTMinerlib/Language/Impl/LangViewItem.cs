@@ -15,7 +15,5 @@ namespace NTMiner.Language.Impl {
         public string Key { get; set; }
 
         public string Value { get; set; }
-
-        public int SortNumber { get; set; }
     }
 }
