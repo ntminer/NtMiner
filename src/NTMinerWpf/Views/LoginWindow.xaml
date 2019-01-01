@@ -51,8 +51,22 @@
                 <ComboBox 
                     ItemsSource="{Binding LangVms.LangVms}"
                     DisplayMemberPath="Name" SelectedItem="{Binding SelectedLanguage}"
-                    SelectionChanged="CbLanguage_SelectionChanged">                    
+                    SelectionChanged="CbLanguage_SelectionChanged">
                 </ComboBox>
+                <controls:KbButton
+                    ToolTip="翻译本页"
+                    Command="{Binding ShowLangViewItems}"
+                    Padding="4 0"
+                    Background="{StaticResource MainColor}">
+                    <WrapPanel>
+                        <Path
+                            Width="12"
+                            Height="12"
+                            Data="{StaticResource Icon_Translate}"
+                            Fill="#385263"
+                            Stretch="Fill" />
+                    </WrapPanel>
+                </controls:KbButton>
                 <controls:KbSystemCloseButton
                     Height="30"
                     KbSystemButtonForeground="#385263" />

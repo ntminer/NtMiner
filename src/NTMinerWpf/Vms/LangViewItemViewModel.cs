@@ -39,9 +39,6 @@ namespace NTMiner.Vms {
                     Global.Execute(new UpdateLangViewItemCommand(upOne));
                     this.SortNumber = sortNumber;
                     Global.Execute(new UpdateLangViewItemCommand(this));
-                    if (this.LangVm != null) {
-                        this.LangVm.OnPropertyChanged(nameof(LangVm.LangViewItems));
-                    }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
@@ -52,9 +49,6 @@ namespace NTMiner.Vms {
                     Global.Execute(new UpdateLangViewItemCommand(nextOne));
                     this.SortNumber = sortNumber;
                     Global.Execute(new UpdateLangViewItemCommand(this));
-                    if (this.LangVm != null) {
-                        LangVm.OnPropertyChanged(nameof(LangVm.LangViewItems));
-                    }
                 }
             });
         }

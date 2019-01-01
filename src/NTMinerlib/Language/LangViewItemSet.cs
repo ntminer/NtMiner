@@ -8,7 +8,7 @@ namespace NTMiner.Language {
     public class LangViewItemSet {
         public static readonly LangViewItemSet Instance = new LangViewItemSet();
 
-        private readonly Dictionary<ILang, Dictionary<string, List<ILangViewItem>>> _dicByLangAndView = new Dictionary<ILang, Dictionary<string, List<ILangViewItem>>>();
+        private readonly Dictionary<Guid, Dictionary<string, List<ILangViewItem>>> _dicByLangAndView = new Dictionary<Guid, Dictionary<string, List<ILangViewItem>>>();
         private readonly Dictionary<Guid, LangViewItem> _dicById = new Dictionary<Guid, LangViewItem>();
 
         private LangViewItemSet() {
@@ -22,10 +22,10 @@ namespace NTMiner.Language {
                     }
                     ILang lang;
                     if (LangSet.Instance.TryGetLang(message.Input.LangId, out lang)) {
-                        if (!_dicByLangAndView.ContainsKey(lang)) {
-                            _dicByLangAndView.Add(lang, new Dictionary<string, List<ILangViewItem>>());
+                        if (!_dicByLangAndView.ContainsKey(message.Input.LangId)) {
+                            _dicByLangAndView.Add(message.Input.LangId, new Dictionary<string, List<ILangViewItem>>());
                         }
-                        var dic = _dicByLangAndView[lang];
+                        var dic = _dicByLangAndView[message.Input.LangId];
                         if (!dic.ContainsKey(message.Input.ViewId)) {
                             dic.Add(message.Input.ViewId, new List<ILangViewItem>());
                         }
@@ -58,8 +58,8 @@ namespace NTMiner.Language {
                         _dicById.Remove(message.EntityId);
                         ILang lang;
                         if (LangSet.Instance.TryGetLang(entity.LangId, out lang)) {
-                            if (_dicByLangAndView.ContainsKey(lang)) {
-                                var dic = _dicByLangAndView[lang];
+                            if (_dicByLangAndView.ContainsKey(entity.LangId)) {
+                                var dic = _dicByLangAndView[entity.LangId];
                                 if (dic.ContainsKey(entity.ViewId) && dic[entity.ViewId].Contains(entity)) {
                                     dic[entity.ViewId].Remove(entity);
                                     if (dic[entity.ViewId].Count == 0) {
@@ -67,7 +67,7 @@ namespace NTMiner.Language {
                                     }
                                 }
                                 if (_dicByLangAndView.Count == 0) {
-                                    _dicByLangAndView.Remove(lang);
+                                    _dicByLangAndView.Remove(entity.LangId);
                                 }
                             }
                         }
@@ -143,7 +143,7 @@ namespace NTMiner.Language {
                     };
                     foreach (var lang in LangSet.Instance) {
                         var dic = new Dictionary<string, List<ILangViewItem>>();
-                        _dicByLangAndView.Add(lang, dic);
+                        _dicByLangAndView.Add(lang.GetId(), dic);
                         foreach (var item in langItems.Where(a => a.LangId == lang.GetId())) {
                             if (!dic.ContainsKey(item.ViewId)) {
                                 dic.Add(item.ViewId, new List<ILangViewItem>());
@@ -156,24 +156,24 @@ namespace NTMiner.Language {
             }
         }
 
-        public List<ILangViewItem> GetLangItems(ILang lang, string viewId) {
+        public List<ILangViewItem> GetLangItems(Guid langId, string viewId) {
             InitOnece();
-            if (!_dicByLangAndView.ContainsKey(lang)) {
+            if (!_dicByLangAndView.ContainsKey(langId)) {
                 return new List<ILangViewItem>();
             }
-            var dic = _dicByLangAndView[lang];
+            var dic = _dicByLangAndView[langId];
             if (!dic.ContainsKey(viewId)) {
                 return new List<ILangViewItem>();
             }
             return dic[viewId].Cast<ILangViewItem>().ToList();
         }
 
-        public Dictionary<string, List<ILangViewItem>> GetLangItems(ILang lang) {
+        public Dictionary<string, List<ILangViewItem>> GetLangItems(Guid langId) {
             InitOnece();
-            if (!_dicByLangAndView.ContainsKey(lang)) {
+            if (!_dicByLangAndView.ContainsKey(langId)) {
                 return new Dictionary<string, List<ILangViewItem>>();
             }
-            return _dicByLangAndView[lang];
+            return _dicByLangAndView[langId];
         }
     }
 }

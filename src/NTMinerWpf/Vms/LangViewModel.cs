@@ -1,7 +1,6 @@
 ﻿using NTMiner.Language;
 using NTMiner.Views;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
@@ -24,7 +23,7 @@ namespace NTMiner.Vms {
             this.AddLangItem = new DelegateCommand(() => {
                 new LangViewItemViewModel(Guid.NewGuid()) {
                     LangId = id,
-                    SortNumber = LangViewItemSet.Instance.GetLangItems(this).Count + 1
+                    SortNumber = LangViewItemSet.Instance.GetLangItems(this.Id).Count + 1
                 }.Edit.Execute(null);
             });
             this.Edit = new DelegateCommand(() => {
@@ -71,12 +70,6 @@ namespace NTMiner.Vms {
         public string SelectedView {
             get => _selectedView;
             set => _selectedView = value;
-        }
-
-        public List<LangViewItemViewModel> LangViewItems {
-            get {
-                return LangViewItemViewModels.Current.GetLangItemVms(this, this.SelectedView);
-            }
         }
 
         public Guid GetId() {
@@ -129,10 +122,6 @@ namespace NTMiner.Vms {
                 _sortNumber = value;
                 OnPropertyChanged(nameof(SortNumber));
             }
-        }
-
-        public override int GetHashCode() {
-            return this.Id.GetHashCode();
         }
     }
 }

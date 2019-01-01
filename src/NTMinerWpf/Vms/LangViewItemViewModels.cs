@@ -63,7 +63,7 @@ namespace NTMiner.Vms {
             foreach (var lang in LangViewModels.Current.LangVms) {
                 var dic = new Dictionary<string, List<LangViewItemViewModel>>();
                 _dicByLangAndView.Add(lang, dic);
-                foreach (var item in LangViewItemSet.Instance.GetLangItems(lang)) {
+                foreach (var item in LangViewItemSet.Instance.GetLangItems(lang.Id)) {
                     if (!dic.ContainsKey(item.Key)) {
                         dic.Add(item.Key, item.Value.Select(a => new LangViewItemViewModel(a)).ToList());
                     }

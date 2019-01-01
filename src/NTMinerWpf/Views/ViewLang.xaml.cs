@@ -5,8 +5,11 @@ using System.Windows.Controls;
 namespace NTMiner.Views {
     public partial class ViewLang : MetroWindow {
         public static void ShowWindow(ViewLangViewModel vm) {
-            ViewLang window = new ViewLang(vm);
-            window.ShowDialog();
+            ViewLang window = new ViewLang(vm) {
+                Owner = TopWindow.GetTopWindow()
+            };
+            window.Show();
+            window.Activate();
         }
 
         public ViewLangViewModel Vm {

@@ -15,7 +15,7 @@
         BorderBrush="{StaticResource IconFillColor}"
         WindowStartupLocation="CenterScreen"
         MouseDown="MetroWindow_MouseDown"
-        Title="NTMinerFileEdit" Height="220" Width="430">
+        Title="NTMinerFileEdit" Height="320" Width="430">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -24,7 +24,7 @@
         <DockPanel Grid.Row="0" Background="{StaticResource MainColor}">
             <Image Width="14" Height="14" Margin="4 0 0 0" Source="/NTMinerWpf;component/Styles/Images/logo32.png">
             </Image>
-            <TextBlock Text="View Lang" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
             <WrapPanel DockPanel.Dock="Right"
                        HorizontalAlignment="Right">
                 <ComboBox 
