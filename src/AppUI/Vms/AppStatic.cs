@@ -117,6 +117,9 @@ namespace NTMiner.Vms {
         public static ICommand ShowShareDir { get; private set; } = new DelegateCommand(() => {
             Process.Start(Global.GlobalDirFullName);
         });
+        public static ICommand OpenLangLiteDb { get; private set; } = new DelegateCommand(() => {
+            OpenLiteDb(SpecialPath.LangDbFileFullName);
+        });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(SpecialPath.LocalDbFileFullName);
         });

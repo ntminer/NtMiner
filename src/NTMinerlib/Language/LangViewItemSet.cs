@@ -92,55 +92,6 @@ namespace NTMiner.Language {
                 if (!_isInited) {
                     IRepository<LangViewItem> repository = Repository.CreateLanguageRepository<LangViewItem>();
                     IList<LangViewItem> langItems = repository.GetAll();
-                    langItems = new List<LangViewItem> {
-                        new LangViewItem {
-                                LangId = new Guid("9DD5F05A-003E-4A9D-91CA-38548D960BD4"),
-                                ViewId = "LoginWindow",
-                                Key = "Title",
-                                Value = "登录"
-                            },
-                            new LangViewItem {
-                                LangId = new Guid("9DD5F05A-003E-4A9D-91CA-38548D960BD4"),
-                                ViewId = "LoginWindow",
-                                Key = "LblHost",
-                                Value = "服务器："
-                            },
-                            new LangViewItem {
-                                LangId = new Guid("9DD5F05A-003E-4A9D-91CA-38548D960BD4"),
-                                ViewId = "LoginWindow",
-                                Key = "LblLoginName",
-                                Value = "登录名："
-                            },
-                            new LangViewItem {
-                                LangId = new Guid("9DD5F05A-003E-4A9D-91CA-38548D960BD4"),
-                                ViewId = "LoginWindow",
-                                Key = "LblPassword",
-                                Value = "密码："
-                            },new LangViewItem {
-                                LangId = new Guid("584398F7-5BDD-41B3-94C6-50A14F23DB71"),
-                                ViewId = "LoginWindow",
-                                Key = "Title",
-                                Value = "login"
-                            },
-                            new LangViewItem {
-                                LangId = new Guid("584398F7-5BDD-41B3-94C6-50A14F23DB71"),
-                                ViewId = "LoginWindow",
-                                Key = "LblHost",
-                                Value = "server："
-                            },
-                            new LangViewItem {
-                                LangId = new Guid("584398F7-5BDD-41B3-94C6-50A14F23DB71"),
-                                ViewId = "LoginWindow",
-                                Key = "LblLoginName",
-                                Value = "login name："
-                            },
-                            new LangViewItem {
-                                LangId = new Guid("584398F7-5BDD-41B3-94C6-50A14F23DB71"),
-                                ViewId = "LoginWindow",
-                                Key = "LblPassword",
-                                Value = "password："
-                            }
-                    };
                     foreach (var lang in LangSet.Instance) {
                         var dic = new Dictionary<string, List<ILangViewItem>>();
                         _dicByLangAndView.Add(lang.GetId(), dic);

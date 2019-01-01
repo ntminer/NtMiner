@@ -14,11 +14,14 @@ namespace NTMiner {
             if (!Directory.Exists(TempDirFullName)) {
                 Directory.CreateDirectory(TempDirFullName);
             }
+            LangDbFileFullName = Path.Combine(Global.GlobalDirFullName, "lang.litedb");
             ServerDbFileFullName = Path.Combine(Global.GlobalDirFullName, "server.litedb");
             NTMinerJsonFileFullName = Path.Combine(Global.GlobalDirFullName, "ntminer.json");
             ServerJsonFileFullName = Path.Combine(Global.GlobalDirFullName, "server.json");
             LocalDbFileFullName = Path.Combine(Global.GlobalDirFullName, "local.litedb");
         }
+
+        public static string LangDbFileFullName { get; private set; }
 
         public static string LocalDbFileFullName { get; private set; }
 

@@ -12,11 +12,20 @@ namespace NTMiner.Vms {
         private string _value;
 
         public ICommand Edit { get; private set; }
+        public ICommand Save { get; private set; }
 
         public LangViewItemViewModel(Guid id) {
             _id = id;
             this.Edit = new DelegateCommand(() => {
                 LangViewItemEdit.ShowWindow(this);
+            });
+            this.Save = new DelegateCommand(() => {
+                if (LangViewItemViewModels.Current.Contains(this.Id)) {
+                    Global.Execute(new UpdateLangViewItemCommand(this));
+                }
+                else {
+                    Global.Execute(new AddLangViewItemCommand(this));
+                }
             });
         }
 

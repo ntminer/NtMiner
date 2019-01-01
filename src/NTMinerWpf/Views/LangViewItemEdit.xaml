@@ -14,11 +14,12 @@
             BorderBrush="{StaticResource IconFillColor}"
             WindowStartupLocation="CenterScreen"
             MouseDown="MetroWindow_MouseDown"
-            Height="200" Width="400">
+            Height="210" Width="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{StaticResource MainColor}">
             <Image Width="14" Height="14" Margin="4 0 0 0" Source="/NTMinerWpf;component/Styles/Images/logo32.png">
@@ -53,5 +54,27 @@
                 </TextBox>
             </WrapPanel>
         </StackPanel>
+        <controls:KbButton
+            Grid.Row="2"
+            IsDefault="True"
+            Command="{Binding Save}"
+            Margin="0 2 22 10"
+            HorizontalAlignment="Right"
+            Background="{StaticResource IconFillColor}"
+            Foreground="White"
+            CornerRadius="2">
+            <WrapPanel>
+                <Path
+                    Width="12"
+                    Height="12"
+                    Data="{StaticResource Icon_Ok}"
+                    Fill="White"
+                    Stretch="Fill" />
+                <Label
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Content="Save" />
+            </WrapPanel>
+        </controls:KbButton>
     </Grid>
 </metro:MetroWindow>

@@ -46,7 +46,7 @@
                 <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    Width="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True" Header="编辑">
+                    Width="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <controls:KbButton 

@@ -54,6 +54,7 @@ namespace NTMiner.Vms {
                             Global.Execute(new AddLangViewItemCommand(vm));
                         }
                     }
+                    results.Reverse();
                     return results;
                 }
                 return new List<LangViewItemViewModel>();
