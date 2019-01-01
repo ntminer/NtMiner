@@ -41,39 +41,39 @@ namespace NTMiner.Language {
     #endregion
 
     #region LangItem Messages
-    [MessageType(messageType: typeof(AddLangItemCommand), description: "添加语言项")]
-    public class AddLangItemCommand : AddEntityCommand<ILangViewItem> {
-        public AddLangItemCommand(ILangViewItem input) : base(input) {
+    [MessageType(messageType: typeof(AddLangViewItemCommand), description: "添加语言项")]
+    public class AddLangViewItemCommand : AddEntityCommand<ILangViewItem> {
+        public AddLangViewItemCommand(ILangViewItem input) : base(input) {
         }
     }
 
-    [MessageType(messageType: typeof(UpdateLangItemCommand), description: "更新语言项")]
-    public class UpdateLangItemCommand : UpdateEntityCommand<ILangViewItem> {
-        public UpdateLangItemCommand(ILangViewItem input) : base(input) {
+    [MessageType(messageType: typeof(UpdateLangViewItemCommand), description: "更新语言项")]
+    public class UpdateLangViewItemCommand : UpdateEntityCommand<ILangViewItem> {
+        public UpdateLangViewItemCommand(ILangViewItem input) : base(input) {
         }
     }
 
-    [MessageType(messageType: typeof(RemoveLangItemCommand), description: "移除语言项")]
-    public class RemoveLangItemCommand : RemoveEntityCommand {
-        public RemoveLangItemCommand(Guid entityId) : base(entityId) {
+    [MessageType(messageType: typeof(RemoveLangViewItemCommand), description: "移除语言项")]
+    public class RemoveLangViewItemCommand : RemoveEntityCommand {
+        public RemoveLangViewItemCommand(Guid entityId) : base(entityId) {
         }
     }
 
-    [MessageType(messageType: typeof(LangItemAddedEvent), description: "添加了语言项后")]
-    public class LangItemAddedEvent : DomainEvent<ILangViewItem> {
-        public LangItemAddedEvent(ILangViewItem source) : base(source) {
+    [MessageType(messageType: typeof(LangViewItemAddedEvent), description: "添加了语言项后")]
+    public class LangViewItemAddedEvent : DomainEvent<ILangViewItem> {
+        public LangViewItemAddedEvent(ILangViewItem source) : base(source) {
         }
     }
 
-    [MessageType(messageType: typeof(LangItemUpdatedEvent), description: "更新了语言项后")]
-    public class LangItemUpdatedEvent : DomainEvent<ILangViewItem> {
-        public LangItemUpdatedEvent(ILangViewItem source) : base(source) {
+    [MessageType(messageType: typeof(LangViewItemUpdatedEvent), description: "更新了语言项后")]
+    public class LangViewItemUpdatedEvent : DomainEvent<ILangViewItem> {
+        public LangViewItemUpdatedEvent(ILangViewItem source) : base(source) {
         }
     }
 
-    [MessageType(messageType: typeof(LangItemRemovedEvent), description: "删除了语言项后")]
-    public class LangItemRemovedEvent : DomainEvent<ILangViewItem> {
-        public LangItemRemovedEvent(ILangViewItem source) : base(source) {
+    [MessageType(messageType: typeof(LangViewItemRemovedEvent), description: "删除了语言项后")]
+    public class LangViewItemRemovedEvent : DomainEvent<ILangViewItem> {
+        public LangViewItemRemovedEvent(ILangViewItem source) : base(source) {
         }
     }
     #endregion

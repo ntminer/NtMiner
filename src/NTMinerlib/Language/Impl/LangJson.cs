@@ -6,7 +6,7 @@ namespace NTMiner.Language.Impl {
     public class LangJson {
         public LangJson() {
             this.Langs = new List<Lang>();
-            this.LangItems = new List<LangViewItem>();
+            this.LangViewItems = new List<LangViewItem>();
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {
@@ -23,7 +23,7 @@ namespace NTMiner.Language.Impl {
                 case nameof(Lang):
                     return (IList<T>)this.Langs;
                 case nameof(LangViewItem):
-                    return (IList<T>)this.LangItems;
+                    return (IList<T>)this.LangViewItems;
                 default:
                     return new List<T>();
             }
@@ -32,6 +32,6 @@ namespace NTMiner.Language.Impl {
         public ulong TimeStamp { get; set; }
 
         public List<Lang> Langs { get; set; }
-        public List<LangViewItem> LangItems { get; set; }
+        public List<LangViewItem> LangViewItems { get; set; }
     }
 }

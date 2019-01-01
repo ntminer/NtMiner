@@ -61,7 +61,7 @@ namespace NTMiner.Language {
                             }
                         }
                         foreach (var id in toRemoveLangItemIds) {
-                            Global.Execute(new RemoveLangItemCommand(id));
+                            Global.Execute(new RemoveLangViewItemCommand(id));
                         }
                         _langs.Remove(entity);
                         var repository = Repository.CreateLanguageRepository<Lang>();
