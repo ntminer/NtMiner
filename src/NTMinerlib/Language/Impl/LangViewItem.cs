@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Language.Impl {
-    public class LangItem : ILangItem {
+    public class LangViewItem : ILangViewItem {
         public Guid GetId() {
             return this.Id;
         }

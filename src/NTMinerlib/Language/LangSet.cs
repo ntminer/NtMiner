@@ -55,7 +55,7 @@ namespace NTMiner.Language {
                     var entity = _langs.FirstOrDefault(a => a.GetId() == message.EntityId);
                     if (entity != null) {
                         var toRemoveLangItemIds = new List<Guid>();
-                        foreach (var g in LangItemSet.Instance.GetLangItems(entity)) {
+                        foreach (var g in LangViewItemSet.Instance.GetLangItems(entity)) {
                             foreach (var langItem in g.Value) {
                                 toRemoveLangItemIds.Add(langItem.GetId());
                             }

@@ -22,9 +22,9 @@ namespace NTMiner.Vms {
         public LangViewModel(Guid id) {
             _id = id;
             this.AddLangItem = new DelegateCommand(() => {
-                new LangItemViewModel(Guid.NewGuid()) {
+                new LangViewItemViewModel(Guid.NewGuid()) {
                     LangId = id,
-                    SortNumber = LangItemSet.Instance.GetLangItems(this).Count + 1
+                    SortNumber = LangViewItemSet.Instance.GetLangItems(this).Count + 1
                 }.Edit.Execute(null);
             });
             this.Edit = new DelegateCommand(() => {
@@ -73,9 +73,9 @@ namespace NTMiner.Vms {
             set => _selectedView = value;
         }
 
-        public List<LangItemViewModel> LangViewItems {
+        public List<LangViewItemViewModel> LangViewItems {
             get {
-                return LangItemViewModels.Current.GetLangItemVms(this, this.SelectedView);
+                return LangViewItemViewModels.Current.GetLangItemVms(this, this.SelectedView);
             }
         }
 

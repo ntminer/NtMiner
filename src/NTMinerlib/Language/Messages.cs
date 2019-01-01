@@ -42,14 +42,14 @@ namespace NTMiner.Language {
 
     #region LangItem Messages
     [MessageType(messageType: typeof(AddLangItemCommand), description: "添加语言项")]
-    public class AddLangItemCommand : AddEntityCommand<ILangItem> {
-        public AddLangItemCommand(ILangItem input) : base(input) {
+    public class AddLangItemCommand : AddEntityCommand<ILangViewItem> {
+        public AddLangItemCommand(ILangViewItem input) : base(input) {
         }
     }
 
     [MessageType(messageType: typeof(UpdateLangItemCommand), description: "更新语言项")]
-    public class UpdateLangItemCommand : UpdateEntityCommand<ILangItem> {
-        public UpdateLangItemCommand(ILangItem input) : base(input) {
+    public class UpdateLangItemCommand : UpdateEntityCommand<ILangViewItem> {
+        public UpdateLangItemCommand(ILangViewItem input) : base(input) {
         }
     }
 
@@ -60,20 +60,20 @@ namespace NTMiner.Language {
     }
 
     [MessageType(messageType: typeof(LangItemAddedEvent), description: "添加了语言项后")]
-    public class LangItemAddedEvent : DomainEvent<ILangItem> {
-        public LangItemAddedEvent(ILangItem source) : base(source) {
+    public class LangItemAddedEvent : DomainEvent<ILangViewItem> {
+        public LangItemAddedEvent(ILangViewItem source) : base(source) {
         }
     }
 
     [MessageType(messageType: typeof(LangItemUpdatedEvent), description: "更新了语言项后")]
-    public class LangItemUpdatedEvent : DomainEvent<ILangItem> {
-        public LangItemUpdatedEvent(ILangItem source) : base(source) {
+    public class LangItemUpdatedEvent : DomainEvent<ILangViewItem> {
+        public LangItemUpdatedEvent(ILangViewItem source) : base(source) {
         }
     }
 
     [MessageType(messageType: typeof(LangItemRemovedEvent), description: "删除了语言项后")]
-    public class LangItemRemovedEvent : DomainEvent<ILangItem> {
-        public LangItemRemovedEvent(ILangItem source) : base(source) {
+    public class LangItemRemovedEvent : DomainEvent<ILangViewItem> {
+        public LangItemRemovedEvent(ILangViewItem source) : base(source) {
         }
     }
     #endregion

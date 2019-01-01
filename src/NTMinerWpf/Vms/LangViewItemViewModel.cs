@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class LangItemViewModel : ViewModelBase, ILangItem {
+    public class LangViewItemViewModel : ViewModelBase, ILangViewItem {
         private Guid _id;
         private Guid _langId;
         private string _viewId;
@@ -18,10 +18,10 @@ namespace NTMiner.Vms {
         public ICommand SortUp { get; private set; }
         public ICommand SortDown { get; private set; }
 
-        public LangItemViewModel(Guid id) {
+        public LangViewItemViewModel(Guid id) {
             _id = id;
             this.Edit = new DelegateCommand(() => {
-                LangItemEdit.ShowWindow(this);
+                LangViewItemEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
-                LangItemViewModel upOne = LangItemViewModels.Current.GetLangItemVms(this.LangVm, this.ViewId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                LangViewItemViewModel upOne = LangViewItemViewModels.Current.GetLangItemVms(this.LangVm, this.ViewId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -45,7 +45,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                LangItemViewModel nextOne = LangItemViewModels.Current.GetLangItemVms(this.LangVm, this.ViewId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                LangViewItemViewModel nextOne = LangViewItemViewModels.Current.GetLangItemVms(this.LangVm, this.ViewId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
             });
         }
 
-        public LangItemViewModel(ILangItem data) : this(data.GetId()) {
+        public LangViewItemViewModel(ILangViewItem data) : this(data.GetId()) {
             _langId = data.LangId;
             _viewId = data.ViewId;
             _key = data.Key;

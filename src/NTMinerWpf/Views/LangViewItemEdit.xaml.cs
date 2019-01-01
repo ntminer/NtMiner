@@ -14,12 +14,12 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace NTMiner.Views {
-    public partial class LangItemEdit : UserControl {
-        public static void ShowWindow(LangItemViewModel vm) {
+    public partial class LangViewItemEdit : UserControl {
+        public static void ShowWindow(LangViewItemViewModel vm) {
 
         }
 
-        public LangItemEdit() {
+        public LangViewItemEdit() {
             InitializeComponent();
         }
     }
