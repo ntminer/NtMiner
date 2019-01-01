@@ -15,7 +15,7 @@
         BorderBrush="{StaticResource IconFillColor}"
         WindowStartupLocation="CenterScreen"
         MouseDown="MetroWindow_MouseDown"
-        Title="NTMinerFileEdit" Height="320" Width="430">
+        Title="NTMinerFileEdit" Height="320" Width="480">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -45,8 +45,28 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
-                </DataGridTextColumn>
+                <DataGridTemplateColumn 
+                    Width="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True" Header="编辑">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <controls:KbButton 
+                                    Command="{Binding Edit}" 
+                                    Background="Transparent" 
+                                    BorderThickness="0"
+                                    Margin="2 0"
+                                    CornerRadius="2" ToolTip="编辑">
+                                <WrapPanel>
+                                    <Path
+                                        Width="18"
+                                        Height="18"
+                                        Data="{StaticResource Icon_Edit}"
+                                        Fill="{StaticResource IconFillColor}"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

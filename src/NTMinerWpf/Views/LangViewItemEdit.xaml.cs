@@ -1,26 +1,23 @@
-﻿using NTMiner.Vms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using MahApps.Metro.Controls;
+using NTMiner.Vms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NTMiner.Views {
-    public partial class LangViewItemEdit : UserControl {
+    public partial class LangViewItemEdit : MetroWindow {
         public static void ShowWindow(LangViewItemViewModel vm) {
-
+            LangViewItemEdit window = new LangViewItemEdit(vm);
+            window.ShowDialog();
         }
 
-        public LangViewItemEdit() {
+        private LangViewItemEdit(LangViewItemViewModel vm) {
+            this.DataContext = vm;
             InitializeComponent();
+        }
+
+        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
         }
     }
 }
