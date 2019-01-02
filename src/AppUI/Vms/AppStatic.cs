@@ -202,6 +202,30 @@ namespace NTMiner.Vms {
             }
         }
 
-        public static bool IsMinerClient { get; set; }
+        private static bool _isMinerClient;
+        public static bool IsMinerClient {
+            get {
+                return _isMinerClient;
+            }
+            set {
+                _isMinerClient = value;
+                if (value) {
+                    IsMinerClientVisible = Visibility.Visible;
+                    IsMinerClientNotVisible = Visibility.Collapsed;
+                }
+                else {
+                    IsMinerClientVisible = Visibility.Collapsed;
+                    IsMinerClientNotVisible = Visibility.Visible;
+                }
+            }
+        }
+
+        public static Visibility IsMinerClientVisible {
+            get; private set;
+        }
+
+        public static Visibility IsMinerClientNotVisible {
+            get; private set;
+        }
     }
 }

@@ -119,6 +119,9 @@
     <Compile Include="Views\ControlCenterWindow.xaml.cs">
       <DependentUpon>ControlCenterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NotificationSample.xaml.cs">
       <DependentUpon>NotificationSample.xaml</DependentUpon>
     </Compile>
@@ -365,6 +368,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ControlCenterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
