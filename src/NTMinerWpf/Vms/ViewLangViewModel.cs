@@ -6,14 +6,8 @@ using System.Windows;
 
 namespace NTMiner.Vms {
     public class ViewLangViewModel : ViewModelBase {
-        private LangViewModel _selectedLangVm;
-
         public ViewLangViewModel(string viewId) {
             this.ViewId = viewId;
-            _selectedLangVm = LangViewModels.Current.LangVms.FirstOrDefault(a => a.Id == Global.CurrentLang.GetId());
-            if (_selectedLangVm == null) {
-                _selectedLangVm = LangViewModels.Current.LangVms.First();
-            }
         }
 
         public string ViewId { get; private set; }
@@ -24,20 +18,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        public LangViewModel SelectedLanguage {
-            get => _selectedLangVm;
-            set {
-                _selectedLangVm = value;
-                OnPropertyChanged(nameof(SelectedLanguage));
-            }
-        }
-
         public List<LangViewItemViewModel> LangViewItemVms {
             get {
                 ResourceDictionary resourceDic;
                 if (ResourceDictionarySet.Instance.TryGetResourceDic(this.ViewId, out resourceDic)) {
                     List<LangViewItemViewModel> results = new List<LangViewItemViewModel>();
-                    List<LangViewItemViewModel> list = LangViewItemViewModels.Current.GetLangItemVms(SelectedLanguage, ViewId);
+                    List<LangViewItemViewModel> list = LangViewItemViewModels.Current.GetLangItemVms(LangVms.CurrentLangVm, ViewId);
                     Type stringType = typeof(string);
                     foreach (string key in resourceDic.Keys.Cast<string>()) {
                         var exist = list.FirstOrDefault(a => a.Key == key);
@@ -51,7 +37,7 @@ namespace NTMiner.Vms {
                             var vm = new LangViewItemViewModel(Guid.NewGuid()) {
                                 Key = key,
                                 Value = key,
-                                LangId = SelectedLanguage.Id,
+                                LangId = LangVms.CurrentLangVm.Id,
                                 ViewId = this.ViewId
                             };
                             results.Add(vm);

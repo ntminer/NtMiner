@@ -22,27 +22,28 @@ namespace NTMiner {
             }
         }
 
-        private static ILang _currentLang = null;
-        public static ILang CurrentLang {
+        private static ILang _lang = null;
+        public static ILang Lang {
             get {
-                if (_currentLang == null) {
+                if (_lang == null) {
                     object languageValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language");
                     if (languageValue == null) {
-                        _currentLang = LangSet.Instance.First();
+                        _lang = LangSet.Instance.First();
                     }
                     else {
-                        _currentLang = LangSet.Instance.GetLangByCode((string)languageValue);
-                        if (_currentLang == null) {
-                            _currentLang = LangSet.Instance.First();
+                        _lang = LangSet.Instance.GetLangByCode((string)languageValue);
+                        if (_lang == null) {
+                            _lang = LangSet.Instance.First();
                         }
                     }
                 }
-                return _currentLang;
+                return _lang;
             }
             set {
-                if (_currentLang != value && value != null) {
-                    _currentLang = LangSet.Instance.GetLangByCode(value.Code);
+                if (_lang != value && value != null) {
+                    _lang = LangSet.Instance.GetLangByCode(value.Code);
                     Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language", value.Code);
+                    Happened(new GlobalLangChangedEvent(value));
                 }
             }
         }

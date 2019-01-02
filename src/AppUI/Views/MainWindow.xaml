@@ -122,6 +122,10 @@
 			<WrapPanel Canvas.Right="0" HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" 
 					VerticalAlignment="Top">
+                    <ComboBox 
+                        ItemsSource="{Binding LangVms.LangVms}"
+                        DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
+                    </ComboBox>
                     <controls:KbButton
                         Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
                         ToolTip="翻译本页"

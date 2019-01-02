@@ -43,6 +43,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public LangViewModels LangVms {
+            get {
+                return LangViewModels.Current;
+            }
+        }
+
         public MinerProfileViewModel MinerProfile {
             get {
                 return MinerProfileViewModel.Current;

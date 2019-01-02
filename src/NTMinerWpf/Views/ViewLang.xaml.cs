@@ -29,8 +29,8 @@ namespace NTMiner.Views {
 
         private void CbLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
             LangViewModel selectedItem = (LangViewModel)e.AddedItems[0];
-            if (selectedItem != Global.CurrentLang) {
-                Global.CurrentLang = selectedItem;
+            if (selectedItem != Global.Lang) {
+                Global.Lang = selectedItem;
             }
             Vm.OnPropertyChanged(nameof(Vm.LangViewItemVms));
         }

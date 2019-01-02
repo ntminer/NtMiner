@@ -42,6 +42,22 @@ namespace NTMiner.Vms {
             foreach (var lang in LangSet.Instance) {
                 _langVms.Add(new LangViewModel(lang));
             }
+            _currentLangVm = _langVms.FirstOrDefault(a => a.Id == Global.Lang.GetId());
+            if (_currentLangVm == null) {
+                _currentLangVm = _langVms.First();
+            }
+        }
+
+        private LangViewModel _currentLangVm;
+        public LangViewModel CurrentLangVm {
+            get => _currentLangVm;
+            set {
+                if (_currentLangVm != value) {
+                    _currentLangVm = value;
+                    OnPropertyChanged(nameof(CurrentLangVm));
+                    Global.Lang = value;
+                }
+            }
         }
 
         public List<LangViewModel> LangVms {

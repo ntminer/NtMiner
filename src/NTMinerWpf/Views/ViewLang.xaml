@@ -29,8 +29,8 @@
                        HorizontalAlignment="Right">
                 <ComboBox 
                     ItemsSource="{Binding LangVms.LangVms}"
-                    DisplayMemberPath="Name" SelectedItem="{Binding SelectedLanguage}"
-                    SelectionChanged="CbLanguage_SelectionChanged">                    
+                    DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}"
+                    SelectionChanged="CbLanguage_SelectionChanged">
                 </ComboBox>
                 <controls:KbSystemCloseButton
                     Height="30"

@@ -50,7 +50,7 @@
                        HorizontalAlignment="Right">
                 <ComboBox 
                     ItemsSource="{Binding LangVms.LangVms}"
-                    DisplayMemberPath="Name" SelectedItem="{Binding SelectedLanguage}"
+                    DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}"
                     SelectionChanged="CbLanguage_SelectionChanged">
                 </ComboBox>
                 <controls:KbButton

@@ -17,9 +17,18 @@ namespace NTMiner {
                 action: message => {
                     ResourceDictionary resourceDictionary;
                     if (TryGetResourceDic(message.Source.ViewId, out resourceDictionary)) {
-                        if (resourceDictionary.Contains(message.Source.Key) && Global.CurrentLang.GetId() == message.Source.LangId) {
+                        if (resourceDictionary.Contains(message.Source.Key) && Global.Lang.GetId() == message.Source.LangId) {
                             resourceDictionary[message.Source.Key] = message.Source.Value;
                         }
+                    }
+                });
+            Global.Access<GlobalLangChangedEvent>(
+                Guid.Parse("732B9E09-1F97-4A1D-80E4-094DFD2CCC9D"),
+                "切换语言后刷新视图语言资源",
+                LogEnum.None,
+                action: message => {
+                    foreach (var kv in _dicByViewId) {
+                        FillResourceDic(kv.Key, kv.Value);
                     }
                 });
         }
@@ -36,7 +45,7 @@ namespace NTMiner {
             if (!_dicByViewId.ContainsKey(viewId)) {
                 _dicByViewId.Add(viewId, resourceDictionary);
             }
-            IList<ILangViewItem> langItems = LangViewItemSet.Instance.GetLangItems(Global.CurrentLang.GetId(), viewId);
+            IList<ILangViewItem> langItems = LangViewItemSet.Instance.GetLangItems(Global.Lang.GetId(), viewId);
             Type stringType = typeof(string);
             foreach (var item in langItems) {
                 if (resourceDictionary.Contains(item.Key) && resourceDictionary[item.Key].GetType() == stringType) {

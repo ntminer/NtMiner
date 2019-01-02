@@ -2,6 +2,12 @@
 using System;
 
 namespace NTMiner.Language {
+    [MessageType(messageType: typeof(GlobalLangChangedEvent), description: "切换语言后")]
+    public class GlobalLangChangedEvent : DomainEvent<ILang> {
+        public GlobalLangChangedEvent(ILang source) : base(source) {
+        }
+    }
+
     #region Lang Messages
     [MessageType(messageType: typeof(AddLangCommand), description: "添加语言")]
     public class AddLangCommand : AddEntityCommand<ILang> {
