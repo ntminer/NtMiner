@@ -22,8 +22,13 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Background="{StaticResource MainColor}">
-            <Image Width="14" Height="14" Margin="4 0 0 0" Source="/NTMinerWpf;component/Styles/Images/logo32.png">
-            </Image>
+            <Path
+                Margin="4 0 0 0"
+                Width="14"
+                Height="14"
+                Data="{StaticResource Icon_Translate}"
+                Fill="Red"
+                Stretch="Fill" />
             <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
             <TextBlock Text=" - " DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
             <TextBlock Text="{Binding LangVm.Name}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>

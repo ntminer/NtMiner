@@ -367,7 +367,7 @@
 					 TextOptions.TextFormattingMode="Display">
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="394"></ColumnDefinition>
+						<ColumnDefinition Width="400"></ColumnDefinition>
 						<ColumnDefinition Width="*"></ColumnDefinition>
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
