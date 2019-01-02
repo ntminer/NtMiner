@@ -55,17 +55,19 @@
 					</WrapPanel>
                     <WrapPanel Margin="0 2">
                         <controls:KbButton
+                            BorderThickness="0"
                             Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
                             ToolTip="翻译本页"
+                            Background="Transparent"
                             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                             CommandParameter="MinerProfileIndex"
                             Width="40">
                             <WrapPanel>
                                 <Path
-                                    Width="12"
-                                    Height="12"
+                                    Width="14"
+                                    Height="14"
                                     Data="{StaticResource Icon_Translate}"
-                                    Fill="#385263"
+                                    Fill="Red"
                                     Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>

@@ -40,20 +40,20 @@
             <sys:String x:Key="NTMinerTitleToopTip">
                 NTMinerTitleToopTip
             </sys:String>
-            <sys:String x:Key="TabItemHeaderStart">
-                TabItemHeaderStart
+            <sys:String x:Key="TbihStart">
+                TbihStart
             </sys:String>
-            <sys:String x:Key="TabItemHeaderProperty">
-                TabItemHeaderProperty
+            <sys:String x:Key="TbihProperty">
+                TbihProperty
             </sys:String>
-            <sys:String x:Key="TabItemHeaderLog">
-                TabItemHeaderLog
+            <sys:String x:Key="TbihLog">
+                TbihLog
             </sys:String>
-            <sys:String x:Key="TabItemHeaderSpeed">
-                TabItemHeaderSpeed
+            <sys:String x:Key="TbihSpeed">
+                TbihSpeed
             </sys:String>
-            <sys:String x:Key="TabItemHeaderOption">
-                TabItemHeaderOption
+            <sys:String x:Key="TbihOption">
+                TbihOption
             </sys:String>
             <sys:String x:Key="BtnStartMine">
                 BtnStartMine
@@ -131,10 +131,10 @@
                         Background="{StaticResource MainColor}">
                         <WrapPanel>
                             <Path
-                                Width="12"
-                                Height="12"
+                                Width="14"
+                                Height="14"
                                 Data="{StaticResource Icon_Translate}"
-                                Fill="#385263"
+                                Fill="Red"
                                 Stretch="Fill" />
                         </WrapPanel>
                     </controls:KbButton>
@@ -357,7 +357,7 @@
 		<TabControl 
 			Name="tab" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0"
 			Margin="0" Style="{DynamicResource TabControlStyle}">
-            <TabItem Margin="3 0 8 0" Header="{DynamicResource TabItemHeaderStart}" Height="47" Style="{DynamicResource TabItemStyle}" 
+            <TabItem Margin="3 0 8 0" Header="{DynamicResource TbihStart}" Height="47" Style="{DynamicResource TabItemStyle}" 
 					 TextOptions.TextFormattingMode="Display">
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -455,7 +455,7 @@
 						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-                                    <TextBlock Padding="8 0" Text="{DynamicResource TabItemHeaderLog}"></TextBlock>
+                                    <TextBlock Padding="8 0" Text="{DynamicResource TbihLog}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
                             <uc:Console BorderBrush="{StaticResource LineColor}" BorderThickness="0">
@@ -465,7 +465,7 @@
 						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-                                    <TextBlock Padding="8 0" Text="{DynamicResource TabItemHeaderSpeed}"></TextBlock>
+                                    <TextBlock Padding="8 0" Text="{DynamicResource TbihSpeed}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
                             <uc:SpeedTable BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
@@ -481,7 +481,7 @@
 										Stretch="Fill"
 										Fill="{StaticResource IconFillColor}"
 										Data="{StaticResource Icon_MinerProfile}"></Path>
-                                    <TextBlock Padding="4 0 8 0" Text="{DynamicResource TabItemHeaderOption}"></TextBlock>
+                                    <TextBlock Padding="4 0 8 0" Text="{DynamicResource TbihOption}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
                             <uc:MinerProfileOption BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
@@ -494,7 +494,7 @@
 					</uc:StateBar>
 				</Grid>
 			</TabItem>
-            <TabItem Header="{DynamicResource TabItemHeaderProperty}" Style="{DynamicResource TabItemStyle}">
+            <TabItem Header="{DynamicResource TbihProperty}" Style="{DynamicResource TabItemStyle}">
 				<Border BorderThickness="0" BorderBrush="{StaticResource LineColor}" Padding="14 0">
 					<uc:Enviroment />
 				</Border>
