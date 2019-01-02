@@ -22,6 +22,9 @@ namespace NTMiner.Core.Profiles {
                 if (result == null) {
                     result = MinerProfileData.CreateDefaultData();
                 }
+                else if (result.IsAutoThisPCName) {
+                    result.MinerName = GetThisPcName();
+                }
                 return result;
             }
         }
@@ -59,6 +62,12 @@ namespace NTMiner.Core.Profiles {
                     Global.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
+        }
+
+        public string GetThisPcName() {
+            string value = Environment.MachineName.ToLower();
+            value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
+            return value;
         }
 
         public bool IsAutoThisPCName {

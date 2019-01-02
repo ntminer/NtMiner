@@ -123,6 +123,8 @@
 				<WrapPanel Margin="0" HorizontalAlignment="Right" 
 					VerticalAlignment="Top">
                     <ComboBox 
+                        Height="26"
+                        Background="{StaticResource MainColor}"
                         ItemsSource="{Binding LangVms.LangVms}"
                         DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
                     </ComboBox>

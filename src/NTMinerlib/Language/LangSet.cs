@@ -18,7 +18,7 @@ namespace NTMiner.Language {
             new Lang {
                 Id = new Guid("9DD5F05A-003E-4A9D-91CA-38548D960BD4"),
                 Code = "cn-zh",
-                Name = "中文简体"
+                Name = "简体中文"
             }
         };
 
