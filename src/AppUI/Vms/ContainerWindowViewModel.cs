@@ -31,12 +31,6 @@ namespace NTMiner.Vms {
             });
         }
 
-        public string NTMinerTitle {
-            get {
-                return NTMinerRoot.Title;
-            }
-        }
-
         public Version CurrentVersion {
             get {
                 return NTMinerRoot.CurrentVersion;

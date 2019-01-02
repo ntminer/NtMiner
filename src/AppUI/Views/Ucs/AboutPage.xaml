@@ -23,7 +23,7 @@
         </StackPanel>
         <StackPanel Grid.Row="1">
             <WrapPanel HorizontalAlignment="Center">
-                <TextBlock FontSize="22" FontWeight="Bold" Text="{Binding NTMinerTitle}"></TextBlock>
+                <TextBlock FontSize="22" FontWeight="Bold" Text="NTMiner"></TextBlock>
                 <TextBlock FontSize="22" FontWeight="Bold" Margin="6 0 0 0" Text="{Binding CurrentVersion}"></TextBlock>
             </WrapPanel>
             <controls:KbLinkButton

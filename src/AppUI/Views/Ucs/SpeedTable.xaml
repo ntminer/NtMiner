@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
              xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
              xmlns:local="clr-namespace:NTMiner.Views.Ucs"
@@ -12,6 +13,23 @@
              TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:GpuSpeedViewModels.Current}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:String x:Key="DghGpuIndex">
+            DghGpuIndex
+        </sys:String>
+        <sys:String x:Key="DghGpuName">
+            DghGpuName
+        </sys:String>
+        <sys:String x:Key="DghGpuTemperature">
+            DghGpuTemperature
+        </sys:String>
+        <sys:String x:Key="DghGpuFan">
+            DghGpuFan
+        </sys:String>
+        <sys:String x:Key="DghGpuTotalPower">
+            DghGpuTotalPower
+        </sys:String>
+    </UserControl.Resources>
     <Grid>
         <DataGrid ItemsSource="{Binding GpuSpeedVms}" Background="Transparent" ColumnHeaderHeight="32"
                   MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
@@ -19,9 +37,42 @@
                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="序号" Binding="{Binding GpuVm.IndexText}">
-                </DataGridTextColumn>
-                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="显卡">
+                <DataGridTemplateColumn Width="Auto" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource DghGpuIndex}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding GpuVm.IndexText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="{DynamicResource DghGpuName}"></TextBlock>
+                                <controls:KbButton
+                                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                                    ToolTip="翻译本页"
+                                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                                    CommandParameter="SpeedTable"
+                                    Padding="8 0"
+                                    Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+                                            Width="14"
+                                            Height="14"
+                                            Data="{StaticResource Icon_Translate}"
+                                            Fill="Red"
+                                            Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" ToolTip="{Binding GpuVm.Name}" Text="{Binding GpuVm.Name}"></TextBlock>
@@ -56,14 +107,24 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="温度">
+                <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource DghGpuTemperature}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="风扇">
+                <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource DghGpuFan}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
@@ -71,12 +132,14 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <StackPanel>
-                            <TextBlock Text="总功耗" FontSize="13"></TextBlock>
-                            <TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
-                        </StackPanel>
-                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource DghGpuTotalPower}" FontSize="13"></TextBlock>
+                                <TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>

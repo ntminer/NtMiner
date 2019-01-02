@@ -19,6 +19,7 @@ namespace NTMiner.Views.Ucs {
 
         public SpeedTable() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(SpeedTable), this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

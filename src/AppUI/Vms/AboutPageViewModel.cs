@@ -37,12 +37,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string NTMinerTitle {
-            get {
-                return NTMinerRoot.Title;
-            }
-        }
-
         public int ThisYear {
             get {
                 return DateTime.Now.Year;

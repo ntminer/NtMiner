@@ -23,12 +23,6 @@ namespace NTMiner.Vms {
             });
         }
 
-        public string NTMinerTitle {
-            get {
-                return NTMinerRoot.Title;
-            }
-        }
-
         public bool JustClientWorker {
             get {
                 return CommandLineArgs.JustClientWorker;

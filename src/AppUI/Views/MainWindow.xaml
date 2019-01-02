@@ -37,6 +37,9 @@
 					</Trigger>
 				</Style.Triggers>
             </Style>
+            <sys:String x:Key="NTMinerTitle">
+                NTMinerTitle
+            </sys:String>
             <sys:String x:Key="NTMinerTitleToopTip">
                 NTMinerTitleToopTip
             </sys:String>
@@ -57,6 +60,9 @@
             </sys:String>
             <sys:String x:Key="BtnStartMine">
                 BtnStartMine
+            </sys:String>
+            <sys:String x:Key="BtnMining">
+                BtnMining
             </sys:String>
             <sys:String x:Key="BtnStopMine">
                 BtnStopMine
@@ -93,7 +99,7 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							FontSize="16"
-							Text="{Binding NTMinerTitle}" />
+							Text="{DynamicResource NTMinerTitle}" />
 					</WrapPanel>
 				</controls:KbLinkButton>
 				<controls:KbButton 
@@ -430,7 +436,7 @@
 											    VerticalAlignment="Center"
 											    Foreground="White"
 											    FontSize="16"
-											    Content="{DynamicResource BtnStopMine}" />
+											    Content="{DynamicResource BtnMining}" />
                                         </WrapPanel>
                                     </Border>
                                     <ControlTemplate.Triggers>
