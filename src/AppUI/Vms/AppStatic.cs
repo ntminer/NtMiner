@@ -201,5 +201,7 @@ namespace NTMiner.Vms {
                 return Visibility.Collapsed;
             }
         }
+
+        public static bool IsMinerClient { get; set; }
     }
 }
