@@ -61,6 +61,12 @@
             <sys:String x:Key="BtnStopMine">
                 BtnStopMine
             </sys:String>
+            <sys:String x:Key="ChkIsAutoBoot">
+                ChkIsAutoBoot
+            </sys:String>
+            <sys:String x:Key="ChkIsAutoStart">
+                ChkIsAutoStart
+            </sys:String>
         </ResourceDictionary>
 	</metro:MetroWindow.Resources>
 	<Grid>
@@ -117,6 +123,7 @@
 				<WrapPanel Margin="0" HorizontalAlignment="Right" 
 					VerticalAlignment="Top">
                     <controls:KbButton
+                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
                         ToolTip="翻译本页"
                         Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                         CommandParameter="MainWindow"
@@ -124,11 +131,11 @@
                         Background="{StaticResource MainColor}">
                         <WrapPanel>
                             <Path
-                            Width="12"
-                            Height="12"
-                            Data="{StaticResource Icon_Translate}"
-                            Fill="#385263"
-                            Stretch="Fill" />
+                                Width="12"
+                                Height="12"
+                                Data="{StaticResource Icon_Translate}"
+                                Fill="#385263"
+                                Stretch="Fill" />
                         </WrapPanel>
                     </controls:KbButton>
                     <Menu Background="Transparent" VerticalAlignment="Center">
@@ -423,7 +430,7 @@
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter TargetName="Content" Property="Background" Value="Red"></Setter>
-                                            <Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
+                                            <Setter TargetName="Text" Property="Content" Value="{DynamicResource BtnStopMine}"></Setter>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -432,11 +439,11 @@
                     </WrapPanel>
                     <WrapPanel Grid.Column="0" Grid.Row="0" Margin="10 0 8 2" VerticalAlignment="Bottom">
                         <controls:KbCheckBox 
-						    Content="开机自动启动"
+						    Content="{DynamicResource ChkIsAutoBoot}"
 						    IconColor="{StaticResource IconFillColor}"
 						    IsChecked="{Binding MinerProfile.IsAutoBoot}" />
                         <controls:KbCheckBox Margin="10 0 0 0"
-						    Content="启动10秒后自动挖矿"
+						    Content="{DynamicResource ChkIsAutoStart}"
 						    IconColor="{StaticResource IconFillColor}"
 						    IsChecked="{Binding MinerProfile.IsAutoStart}" />
                     </WrapPanel>

@@ -13,6 +13,7 @@ namespace NTMiner.Views.Ucs {
 
         public MinerProfileIndex() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(MinerProfileIndex), this.Resources);
         }
 
         private INotificationMessage _walletNm;
