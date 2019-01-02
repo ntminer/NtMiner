@@ -88,6 +88,10 @@ namespace NTMiner.Vms {
             return _dicById.ContainsKey(langViewItemId);
         }
 
+        public bool TryGetLangViewItemVm(Guid langViewItemId, out LangViewItemViewModel vm) {
+            return _dicById.TryGetValue(langViewItemId, out vm);
+        }
+
         public List<LangViewItemViewModel> GetLangItemVms(LangViewModel lang, string viewId) {
             if (!_dicByLangAndView.ContainsKey(lang)) {
                 return new List<LangViewItemViewModel>();

@@ -40,8 +40,9 @@ namespace NTMiner.Vms {
                                 LangId = LangVms.CurrentLangVm.Id,
                                 ViewId = this.ViewId
                             };
-                            results.Add(vm);
                             Global.Execute(new AddLangViewItemCommand(vm));
+                            LangViewItemViewModels.Current.TryGetLangViewItemVm(vm.Id, out vm);
+                            results.Add(vm);
                         }
                     }
                     results.Reverse();
