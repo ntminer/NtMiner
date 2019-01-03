@@ -26,12 +26,36 @@
             <sys:String x:Key="MihSpeedChart">
                 MihSpeedChart
             </sys:String>
+            <sys:String x:Key="MihOnlineUpdate">
+                MihOnlineUpdate
+            </sys:String>
+            <sys:String x:Key="MihHelp">
+                MihHelp
+            </sys:String>
+            <sys:String x:Key="MihAbout">
+                MihAbout
+            </sys:String>
+            <sys:String x:Key="MihExit">
+                MihExit
+            </sys:String>
+            <sys:String x:Key="MihMiner">
+                MihMiner
+            </sys:String>
+            <sys:String x:Key="MihMinerGroup">
+                MihMinerGroup
+            </sys:String>
+            <sys:String x:Key="MihMineWork">
+                MihMineWork
+            </sys:String>
+            <sys:String x:Key="MihCalcConfig">
+                MihCalcConfig
+            </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
     <WrapPanel>
         <controls:KbButton
             Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            ToolTip="翻译主菜单"
+            ToolTip="MainMenu translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="MainMenu"
             Padding="8 0"
@@ -55,7 +79,7 @@
 					    Fill="#385263"
 					    Stretch="Fill" />
                 </MenuItem.Icon>
-                <MenuItem Header="ShareDir" Command="{x:Static vm:AppStatic.ShowShareDir}">
+                <MenuItem Header="global dir" Command="{x:Static vm:AppStatic.ShowGlobalDir}">
                     <MenuItem.Icon>
                         <Path
 						    Width="14"
@@ -65,7 +89,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="LangDb" Command="{x:Static vm:AppStatic.OpenLangLiteDb}">
+                <MenuItem Header="lang db" Command="{x:Static vm:AppStatic.OpenLangLiteDb}">
                     <MenuItem.Icon>
                         <Path
 						    Width="14"
@@ -75,7 +99,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="ServerDb" Command="{x:Static vm:AppStatic.OpenServerLiteDb}">
+                <MenuItem Header="server db" Command="{x:Static vm:AppStatic.OpenServerLiteDb}">
                     <MenuItem.Icon>
                         <Path
 						    Width="14"
@@ -85,7 +109,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="导出ServerJson" Command="{x:Static vm:AppStatic.ExportServerJson}">
+                <MenuItem Header="serverJson export" Command="{x:Static vm:AppStatic.ExportServerJson}">
                     <MenuItem.Icon>
                         <Path
 						    Width="14"
@@ -95,7 +119,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="本地数据库" Command="{x:Static vm:AppStatic.OpenLocalLiteDb}">
+                <MenuItem Header="local db" Command="{x:Static vm:AppStatic.OpenLocalLiteDb}">
                     <MenuItem.Icon>
                         <Path
 						    Width="14"
@@ -105,7 +129,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="通知样例" Command="{x:Static vm:AppStatic.ShowNotificationSample}">
+                <MenuItem Header="notification sample" Command="{x:Static vm:AppStatic.ShowNotificationSample}">
                     <MenuItem.Icon>
                         <Path
 						    Width="14"
@@ -115,7 +139,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="字典" Command="{x:Static vm:AppStatic.ShowSysDic}">
+                <MenuItem Header="sys dic" Command="{x:Static vm:AppStatic.ShowSysDic}">
                     <MenuItem.Icon>
                         <Path
 						    Width="14"
@@ -125,7 +149,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="事件" Command="{x:Static vm:AppStatic.ViewEvent}">
+                <MenuItem Header="event" Command="{x:Static vm:AppStatic.ViewEvent}">
                     <MenuItem.Icon>
                         <Path
 						    Width="14"
@@ -155,9 +179,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem 
-                    Header="{DynamicResource MihCoin}" 
-                    Command="{x:Static vm:AppStatic.ShowCoins}">
+                <MenuItem Header="{DynamicResource MihCoin}" Command="{x:Static vm:AppStatic.ShowCoins}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -167,9 +189,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem 
-                    Header="{DynamicResource MihCoinGroup}" 
-                    Command="{x:Static vm:AppStatic.ShowGroups}">
+                <MenuItem Header="{DynamicResource MihCoinGroup}" Command="{x:Static vm:AppStatic.ShowGroups}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -179,9 +199,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem 
-                    Header="{DynamicResource MihKernel}" 
-                    Command="{x:Static vm:AppStatic.ShowKernels}">
+                <MenuItem Header="{DynamicResource MihKernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -201,7 +219,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="在线更新" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+                <MenuItem Header="{DynamicResource MihOnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
                     <MenuItem.Icon>
                         <Path
                             Width="14"
@@ -211,7 +229,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="帮助" Command="{x:Static vm:AppStatic.ShowHelp}">
+                <MenuItem Header="{DynamicResource MihHelp}" Command="{x:Static vm:AppStatic.ShowHelp}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -221,7 +239,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="关于" Command="{x:Static vm:AppStatic.ShowAbout}">
+                <MenuItem Header="{DynamicResource MihAbout}" Command="{x:Static vm:AppStatic.ShowAbout}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -231,7 +249,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="退出" Command="{x:Static vm:AppStatic.AppExit}">
+                <MenuItem Header="{DynamicResource MihExit}" Command="{x:Static vm:AppStatic.AppExit}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -251,9 +269,7 @@
 					    Fill="{StaticResource IconFillColor}"
 					    Stretch="Fill" />
                 </MenuItem.Icon>
-                <MenuItem 
-                    Header="矿工" 
-                    Command="{x:Static vm:AppStatic.ShowMinerClients}">
+                <MenuItem Header="{DynamicResource MihMiner}" Command="{x:Static vm:AppStatic.ShowMinerClients}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -263,9 +279,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem 
-                    Header="组队" 
-                    Command="{x:Static vm:AppStatic.ManageMinerGroup}">
+                <MenuItem Header="{DynamicResource MihMinerGroup}" Command="{x:Static vm:AppStatic.ManageMinerGroup}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -275,9 +289,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem 
-                    Header="作业" 
-                    Command="{x:Static vm:AppStatic.ManageMineWork}">
+                <MenuItem Header="{DynamicResource MihMineWork}" Command="{x:Static vm:AppStatic.ManageMineWork}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -287,9 +299,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem 
-                    Header="币种" 
-                    Command="{x:Static vm:AppStatic.ShowCoins}">
+                <MenuItem Header="{DynamicResource MihCoin}" Command="{x:Static vm:AppStatic.ShowCoins}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -299,9 +309,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem 
-                    Header="内核" 
-                    Command="{x:Static vm:AppStatic.ShowKernels}">
+                <MenuItem Header="{DynamicResource MihKernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -311,7 +319,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="计算器设置" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
+                <MenuItem Header="{DynamicResource MihCalcConfig}" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
                     <MenuItem.Icon>
                         <Path
 						    Width="16"
@@ -321,7 +329,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="在线更新" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+                <MenuItem Header="{DynamicResource MihOnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
                     <MenuItem.Icon>
                         <Path
                             Width="14"
@@ -331,7 +339,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="帮助" Command="{x:Static vm:AppStatic.ShowHelp}">
+                <MenuItem Header="{DynamicResource MihHelp}" Command="{x:Static vm:AppStatic.ShowHelp}">
                     <MenuItem.Icon>
                         <Path
 						    Width="16"
@@ -341,7 +349,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="关于" Command="{x:Static vm:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
+                <MenuItem Header="{DynamicResource MihAbout}" Command="{x:Static vm:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -351,7 +359,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="退出" Command="{x:Static vm:AppStatic.AppExit}">
+                <MenuItem Header="{DynamicResource MihExit}" Command="{x:Static vm:AppStatic.AppExit}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"

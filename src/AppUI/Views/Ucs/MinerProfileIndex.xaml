@@ -88,7 +88,7 @@
                         <controls:KbButton
                             BorderThickness="0"
                             Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                            ToolTip="翻译本页"
+                            ToolTip="MinerProfileIndex translate"
                             Background="Transparent"
                             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                             CommandParameter="MinerProfileIndex"

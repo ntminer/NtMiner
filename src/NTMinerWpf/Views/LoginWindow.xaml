@@ -54,7 +54,7 @@
                     SelectionChanged="CbLanguage_SelectionChanged">
                 </ComboBox>
                 <controls:KbButton
-                    ToolTip="翻译本页"
+                    ToolTip="LoginWindow translate"
                     Command="{Binding ShowLangViewItems}"
                     Padding="4 0"
                     Background="{StaticResource MainColor}">

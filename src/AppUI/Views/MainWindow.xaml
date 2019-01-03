@@ -136,7 +136,7 @@
                     </ComboBox>
                     <controls:KbButton
                         Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                        ToolTip="翻译本页"
+                        ToolTip="MainWindow translate"
                         Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                         CommandParameter="MainWindow"
                         Padding="8 0"
