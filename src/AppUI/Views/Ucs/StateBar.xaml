@@ -221,7 +221,6 @@
                 </WrapPanel>
                 <StackPanel HorizontalAlignment="Right">
                     <WrapPanel>
-                        <TextBlock Width="50" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.Code}" FontWeight="Bold"></TextBlock>
                         <controls:KbLinkButton
                             Margin="4 2 8 2"
                             Foreground="#0072C1"
@@ -238,13 +237,7 @@
                                 Command="{x:Static vm:AppStatic.ShowCalc}"
                                 CommandParameter="{Binding MinerProfile.CoinVm}">
                             </Button>
-                            <Path 
-					            Margin="1 -1 0 0"
-					            Width="14"
-					            Height="14"
-					            Data="{StaticResource Icon_Coin}"
-					            Fill="Black"
-					            Stretch="Fill" />
+                            <TextBlock Text="{Binding MinerProfile.CoinVm.Code}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
                             <Label Padding="1" Content="/" />
                             <Label Padding="0" Content="{DynamicResource LblDay}" Margin="0" />
                         </WrapPanel>
@@ -262,7 +255,6 @@
                     </WrapPanel>
                     <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
                         <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Width="50" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" FontWeight="Bold"></TextBlock>
                             <controls:KbLinkButton
                                 Margin="4 2 8 2"
                                 Foreground="#0072C1"
@@ -279,13 +271,7 @@
                                     Command="{x:Static vm:AppStatic.ShowCalc}"
                                     CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
                                 </Button>
-                                <Path 
-					                Margin="1 -1 0 0"
-					                Width="14"
-					                Height="14"
-					                Data="{StaticResource Icon_Coin}"
-					                Fill="Black"
-					                Stretch="Fill" />
+                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
                                 <Label Padding="1" Content="/" />
                                 <Label Padding="0" Content="{DynamicResource LblDay}" Margin="0" />
                             </WrapPanel>
