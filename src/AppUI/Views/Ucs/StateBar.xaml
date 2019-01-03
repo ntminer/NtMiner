@@ -27,7 +27,6 @@
 								Data="{StaticResource Icon_QQ}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
-                            <TextBlock VerticalAlignment="Center" Text="群：" />
 						</WrapPanel>
 					</controls:KbLinkButton>
 					<TextBox VerticalAlignment="Center" IsReadOnly="True" 
@@ -76,7 +75,6 @@
 						Text=")" />
                 </WrapPanel>
                 <WrapPanel Margin="0 2">
-                    <TextBlock VerticalAlignment="Center" Text="官网：" />
                     <controls:KbLinkButton
 						Foreground="#0072C1"
 						Command="{x:Static vm:AppStatic.OpenOfficialSite}"
@@ -170,9 +168,89 @@
                         </WrapPanel>
                     </WrapPanel>
                 </WrapPanel>
-				<uc:CoinSpeedBar HorizontalAlignment="Right">
-				</uc:CoinSpeedBar>
-			</StackPanel>
+                <StackPanel HorizontalAlignment="Right">
+                    <WrapPanel>
+                        <TextBlock Width="50" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.Code}" FontWeight="Bold"></TextBlock>
+                        <controls:KbLinkButton
+                            Margin="4 2 8 2"
+                            Foreground="#0072C1"
+                            ToolTip="点击查看矿池收益"
+                            Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
+                            CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
+                            Content="矿池收益"
+                            KbDisplayLine="False"
+                            KbSystemButtonHoverBackground="Transparent"
+                            Background="Transparent" />
+                        <WrapPanel Width="170" Margin="0 2" ToolTip="根据当前算力计算所得">
+                            <Label Padding="0" Content="理论收益/天：" Margin="0" HorizontalContentAlignment="Right" />
+                            <Button Background="Transparent" BorderThickness="0" 
+                                Content="{Binding MinerProfile.GpuSpeedVms.IncomeMainCoinPerDayText}"
+                                Command="{x:Static vm:AppStatic.ShowCalc}"
+                                CommandParameter="{Binding MinerProfile.CoinVm}">
+                            </Button>
+                            <Path 
+					            Margin="2 -2 0 0"
+					            Width="14"
+					            Height="14"
+					            Data="{StaticResource Icon_Coin}"
+					            Fill="{StaticResource IconFillColor}"
+					            Stretch="Fill" />
+                        </WrapPanel>
+                        <WrapPanel Width="140" Margin="0 2">
+                            <Label Padding="0" Content="拒绝率：" Margin="0" HorizontalContentAlignment="Right" />
+                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectCount}" ToolTip="拒绝次数" />
+                            <TextBlock Text="/"  />
+                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="提交次数" />
+                            <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" ToolTip="拒绝率" />
+                        </WrapPanel>
+                        <WrapPanel Width="130" Margin="0 2">
+                            <Label Padding="0" Content="总算力：" Margin="0" HorizontalContentAlignment="Right" />
+                            <TextBlock Text="{Binding MinerProfile.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
+                        </WrapPanel>
+                    </WrapPanel>
+                    <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Width="50" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" FontWeight="Bold"></TextBlock>
+                            <controls:KbLinkButton
+                                Margin="4 2 8 2"
+                                Foreground="#0072C1"
+                                ToolTip="点击查看矿池收益"
+                                Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
+                                CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
+                                Content="矿池收益"
+                                KbDisplayLine="False"
+                                KbSystemButtonHoverBackground="Transparent"
+                                Background="Transparent" />
+                            <WrapPanel Width="170" Margin="0 2" ToolTip="根据当前算力计算所得">
+                                <Label Padding="0" Content="理论收益/天：" Margin="0" HorizontalContentAlignment="Right" />
+                                <Button Background="Transparent" BorderThickness="0" 
+                                    Content="{Binding MinerProfile.GpuSpeedVms.IncomeDualCoinPerDayText}"
+                                    Command="{x:Static vm:AppStatic.ShowCalc}"
+                                    CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
+                                </Button>
+                                <Path 
+					                Margin="2 -2 0 0"
+					                Width="14"
+					                Height="14"
+					                Data="{StaticResource Icon_Coin}"
+					                Fill="{StaticResource IconFillColor}"
+					                Stretch="Fill" />
+                            </WrapPanel>
+                            <WrapPanel Width="140" Margin="0 2">
+                                <Label Padding="0" Content="拒绝率：" Margin="0" HorizontalContentAlignment="Right" />
+                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectCount}" ToolTip="拒绝次数" />
+                                <TextBlock Text="/"  />
+                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="提交次数" />
+                                <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" ToolTip="拒绝率" />
+                            </WrapPanel>
+                            <WrapPanel Width="130" Margin="0 2">
+                                <Label Padding="0" Content="总算力：" Margin="0" HorizontalContentAlignment="Right" />
+                                <TextBlock Text="{Binding MinerProfile.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
+                            </WrapPanel>
+                        </WrapPanel>
+                    </WrapPanel>
+                </StackPanel>
+            </StackPanel>
 		</DockPanel>
 	</Border>
 </UserControl>
