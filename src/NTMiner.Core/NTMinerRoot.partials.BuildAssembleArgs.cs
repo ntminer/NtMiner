@@ -63,7 +63,7 @@ namespace NTMiner {
                             AssembleArgs(argsDic, ref kernelArgs, isDual: true);
                             AssembleArgs(argsDic, ref customArgs, isDual: true);
 
-                            return $"{kernelArgs} {coinKernelArgs} {customArgs}";
+                            return $"{kernelArgs} {customArgs}";
                         }
                     }
                 }
