@@ -3,11 +3,46 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 DataContext="{x:Static vm:StateBarViewModel.Current}"
 			 mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <sys:String x:Key="BtnCheckUpdate">
+                BtnCheckUpdate
+            </sys:String>
+            <sys:String x:Key="BtnServerConfig">
+                BtnServerConfig
+            </sys:String>
+            <sys:String x:Key="TbUnMining">
+                TbUnMining
+            </sys:String>
+            <sys:String x:Key="TbMining">
+                TbMining
+            </sys:String>
+            <sys:String x:Key="LblPoolIncome">
+                LblPoolIncome
+            </sys:String>
+            <sys:String x:Key="LblIncome">
+                LblIncome
+            </sys:String>
+            <sys:String x:Key="LblReject">
+                LblReject
+            </sys:String>
+            <sys:String x:Key="LblRejectCount">
+                LblRejectCount
+            </sys:String>
+            <sys:String x:Key="LblSubmitCount">
+                LblSubmitCount
+            </sys:String>
+            <sys:String x:Key="LblTotalSpeed">
+                LblTotalSpeed
+            </sys:String>
+        </ResourceDictionary>
+    </UserControl.Resources>
 	<Border BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
 		<DockPanel>
 			<StackPanel DockPanel.Dock="Left" Margin="4 0 0 0">
@@ -47,6 +82,22 @@
 						    Fill="{StaticResource IconFillColor}"
 						    Stretch="Fill" />
                     </controls:KbButton>
+                    <controls:KbButton
+                            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                            ToolTip="StateBar translate"
+                            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                            CommandParameter="StateBar"
+                            Margin="8 0"
+                            Background="Transparent">
+                        <WrapPanel>
+                            <Path
+                                Width="14"
+                                Height="14"
+                                Data="{StaticResource Icon_Translate}"
+                                Fill="Red"
+                                Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </WrapPanel>
                 <WrapPanel Margin="0 2">
                     <TextBlock
@@ -85,7 +136,7 @@
                     <controls:KbButton 
 						Margin="4 0 0 0"
 						Cursor="Hand"
-						ToolTip="检查更新"
+						ToolTip="{DynamicResource BtnCheckUpdate}"
 						Background="Transparent" 
 						BorderThickness="0"
 						Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
@@ -99,7 +150,7 @@
                     <controls:KbButton
                         Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 						Margin="4 0 0 0"
-                        ToolTip="服务器"
+                        ToolTip="{DynamicResource BtnServerConfig}"
 						Command="{Binding ConfigMinerServerHost}"
 						Background="Transparent">
                         <Path 
@@ -113,13 +164,9 @@
             </StackPanel>
 			<StackPanel DockPanel.Dock="Right">
 				<WrapPanel HorizontalAlignment="Right">
-                    <WrapPanel Visibility="{Binding MinerProfile.JustClientWorker, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Text="中控：" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
-						<TextBlock Text="{Binding MinerProfile.ControlCenterStatusText}" Width="70" VerticalAlignment="Center"></TextBlock>
-					</WrapPanel>
 					<WrapPanel>
-                        <TextBlock Text="未挖矿：" Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
-                        <TextBlock Text="挖矿中：" Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{DynamicResource TbUnMining}" Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{DynamicResource TbMining}" Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
                         <TextBlock 
 							Width="103"
 							Text="{Binding MinerProfile.MineTimeSpanText}"
@@ -175,15 +222,14 @@
                         <controls:KbLinkButton
                             Margin="4 2 8 2"
                             Foreground="#0072C1"
-                            ToolTip="点击查看矿池收益"
                             Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
                             CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
-                            Content="矿池收益"
+                            Content="{DynamicResource LblPoolIncome}"
                             KbDisplayLine="False"
                             KbSystemButtonHoverBackground="Transparent"
                             Background="Transparent" />
-                        <WrapPanel Width="170" Margin="0 2" ToolTip="根据当前算力计算所得">
-                            <Label Padding="0" Content="理论收益/天：" Margin="0" HorizontalContentAlignment="Right" />
+                        <WrapPanel Width="170" Margin="0 2">
+                            <Label Padding="0" Content="{DynamicResource LblIncome}" Margin="0" HorizontalContentAlignment="Right" />
                             <Button Background="Transparent" BorderThickness="0" 
                                 Content="{Binding MinerProfile.GpuSpeedVms.IncomeMainCoinPerDayText}"
                                 Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -198,14 +244,14 @@
 					            Stretch="Fill" />
                         </WrapPanel>
                         <WrapPanel Width="140" Margin="0 2">
-                            <Label Padding="0" Content="拒绝率：" Margin="0" HorizontalContentAlignment="Right" />
-                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectCount}" ToolTip="拒绝次数" />
+                            <Label Padding="0" Content="{DynamicResource LblReject}" Margin="0" HorizontalContentAlignment="Right" />
+                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
                             <TextBlock Text="/"  />
-                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="提交次数" />
-                            <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" ToolTip="拒绝率" />
+                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitCount}" />
+                            <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
                         </WrapPanel>
                         <WrapPanel Width="130" Margin="0 2">
-                            <Label Padding="0" Content="总算力：" Margin="0" HorizontalContentAlignment="Right" />
+                            <Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Margin="0" HorizontalContentAlignment="Right" />
                             <TextBlock Text="{Binding MinerProfile.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
                         </WrapPanel>
                     </WrapPanel>
@@ -215,15 +261,14 @@
                             <controls:KbLinkButton
                                 Margin="4 2 8 2"
                                 Foreground="#0072C1"
-                                ToolTip="点击查看矿池收益"
                                 Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
                                 CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
-                                Content="矿池收益"
+                                Content="{DynamicResource LblPoolIncome}"
                                 KbDisplayLine="False"
                                 KbSystemButtonHoverBackground="Transparent"
                                 Background="Transparent" />
-                            <WrapPanel Width="170" Margin="0 2" ToolTip="根据当前算力计算所得">
-                                <Label Padding="0" Content="理论收益/天：" Margin="0" HorizontalContentAlignment="Right" />
+                            <WrapPanel Width="170" Margin="0 2">
+                                <Label Padding="0" Content="{DynamicResource LblIncome}" Margin="0" HorizontalContentAlignment="Right" />
                                 <Button Background="Transparent" BorderThickness="0" 
                                     Content="{Binding MinerProfile.GpuSpeedVms.IncomeDualCoinPerDayText}"
                                     Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -238,14 +283,14 @@
 					                Stretch="Fill" />
                             </WrapPanel>
                             <WrapPanel Width="140" Margin="0 2">
-                                <Label Padding="0" Content="拒绝率：" Margin="0" HorizontalContentAlignment="Right" />
-                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectCount}" ToolTip="拒绝次数" />
+                                <Label Padding="0" Content="{DynamicResource LblReject}" Margin="0" HorizontalContentAlignment="Right" />
+                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
                                 <TextBlock Text="/"  />
-                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="提交次数" />
-                                <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" ToolTip="拒绝率" />
+                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitCount}" />
+                                <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
                             </WrapPanel>
                             <WrapPanel Width="130" Margin="0 2">
-                                <Label Padding="0" Content="总算力：" Margin="0" HorizontalContentAlignment="Right" />
+                                <Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Margin="0" HorizontalContentAlignment="Right" />
                                 <TextBlock Text="{Binding MinerProfile.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
                             </WrapPanel>
                         </WrapPanel>

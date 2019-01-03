@@ -11,7 +11,7 @@ namespace NTMiner.Views.Ucs {
 
         public StateBar() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(MainMenu), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(StateBar), this.Resources);
         }
     }
 }
