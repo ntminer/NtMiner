@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NTMiner.Data.Impl {
     public class CalcConfigSet : ICalcConfigSet {
-        private readonly Dictionary<string, CalcConfigData> _dicByCode = new Dictionary<string, CalcConfigData>(StringComparer.OrdinalIgnoreCase);
+        private Dictionary<string, CalcConfigData> _dicByCode = new Dictionary<string, CalcConfigData>(StringComparer.OrdinalIgnoreCase);
 
         private readonly IHostRoot _root;
         public CalcConfigSet(IHostRoot root) {
@@ -48,24 +48,21 @@ namespace NTMiner.Data.Impl {
                 return;
             }
             lock (_locker) {
-                string[] toRemoves = _dicByCode.Where(a => data.All(b => string.Equals(a.Key, b.CoinCode, StringComparison.OrdinalIgnoreCase))).Select(a => a.Key).ToArray();
-                foreach (var key in toRemoves) {
-                    _dicByCode.Remove(key);
-                }
+                var dic = new Dictionary<string, CalcConfigData>(StringComparer.OrdinalIgnoreCase);
                 foreach (var item in data) {
-                    if (_dicByCode.ContainsKey(item.CoinCode)) {
-                        _dicByCode[item.CoinCode].Update(item);
+                    if (dic.ContainsKey(item.CoinCode)) {
+                        dic[item.CoinCode].Update(item);
                     }
                     else {
-                        item.CreatedOn = DateTime.Now;
-                        _dicByCode.Add(item.CoinCode, item);
+                        dic.Add(item.CoinCode, item);
                     }
                 }
                 using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                     var col = db.GetCollection<CalcConfigData>();
-                    col.Delete(Query.In(nameof(CalcConfigData.CoinCode), toRemoves.Select(a => new BsonValue(a)).ToArray()));
-                    col.Upsert(_dicByCode.Values);
+                    col.Delete(Query.All());
+                    col.Insert(dic.Values);
                 }
+                _dicByCode = dic;
             }
         }
     }
