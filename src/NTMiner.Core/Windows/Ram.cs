@@ -19,7 +19,7 @@ namespace NTMiner.Windows {
                 if (GlobalMemoryStatusEx(mEx)) {
                     const double m = 1024 * 1024;
                     const double g = (double)(m * 1024);
-                    return Math.Round(mEx.ullTotalPhys / g, 0).ToString() + $" GB ({Math.Round(mEx.ullTotalPhys / m, 0).ToString()} MB)";
+                    return Math.Round(mEx.ullTotalPhys / g, 0).ToString() + $" GB";
                 }
 
                 return "";

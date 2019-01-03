@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
@@ -12,39 +13,95 @@
         mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
     <UserControl.Resources>
         <Style TargetType="Label">
-            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="Width" Value="130"></Setter>
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
         </Style>
+        <sys:String x:Key="LblMachineName">
+            LblMachineName
+        </sys:String>
+        <sys:String x:Key="LblOS">
+            LblOS
+        </sys:String>
+        <sys:String x:Key="LblPhysicalMemory">
+            LblPhysicalMemory
+        </sys:String>
+        <sys:String x:Key="LblVirtualMemory">
+            LblVirtualMemory
+        </sys:String>
+        <sys:String x:Key="LblModify">
+            LblModify
+        </sys:String>
+        <sys:String x:Key="LblProcessorVendor">
+            LblProcessorVendor
+        </sys:String>
+        <sys:String x:Key="LblProcessorName">
+            LblProcessorName
+        </sys:String>
+        <sys:String x:Key="LblNumberOfLogicalCores">
+            LblNumberOfLogicalCores
+        </sys:String>
+        <sys:String x:Key="LblBiosMotherboardModel">
+            LblBiosMotherboardModel
+        </sys:String>
+        <sys:String x:Key="LblBiosMotherboardManufacturer">
+            LblBiosMotherboardManufacturer
+        </sys:String>
+        <sys:String x:Key="LblBiosReleaseDate">
+            LblBiosReleaseDate
+        </sys:String>
+        <sys:String x:Key="LblBiosVendor">
+            LblBiosVendor
+        </sys:String>
+        <sys:String x:Key="LblBiosVersion">
+            LblBiosVersion
+        </sys:String>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="380"></ColumnDefinition>
+            <ColumnDefinition Width="420"></ColumnDefinition>
             <ColumnDefinition Width="10"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <WrapPanel Margin="4 0">
-                <Label>计算机名</Label>
+                <Label Content="{DynamicResource LblMachineName}" ToolTip="{DynamicResource LblMachineName}"></Label>
                 <TextBlock Text="{Binding MachineName}"></TextBlock>
+                <controls:KbButton
+                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    ToolTip="MainWindow translate"
+                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                    CommandParameter="Enviroment"
+                    Padding="8 0"
+                    Background="Transparent">
+                    <WrapPanel>
+                        <Path
+                            Width="14"
+                            Height="14"
+                            Data="{StaticResource Icon_Translate}"
+                            Fill="Red"
+                            Stretch="Fill" />
+                    </WrapPanel>
+                </controls:KbButton>
             </WrapPanel>
             <WrapPanel Margin="4 0">
-                <Label>操作系统</Label>
+                <Label Content="{DynamicResource LblOS}" ToolTip="{DynamicResource LblOS}"></Label>
                 <TextBlock Text="{Binding OS.WindowsEdition}"></TextBlock>
                 <TextBlock Text="{Binding OS.Is64BitOperatingSystem}" Margin="4 0 0 0"></TextBlock>
                 <TextBlock Text="{Binding OS.CurrentBuild}" Margin="4 0 0 0"></TextBlock>
                 <TextBlock Text="{Binding OS.CSDVersion}" Margin="4 0 0 0"></TextBlock>
             </WrapPanel>
             <WrapPanel Margin="4 0">
-                <Label>物理内存</Label>
+                <Label Content="{DynamicResource LblPhysicalMemory}" ToolTip="{DynamicResource LblPhysicalMemory}"></Label>
                 <TextBlock Text="{Binding Ram.TotalPhysicalMemory}"></TextBlock>
-                <Label Margin="20 0 0 0">虚拟内存</Label>
+            </WrapPanel>
+            <WrapPanel Margin="4 0">
+                <Label Content="{DynamicResource LblVirtualMemory}" ToolTip="{DynamicResource LblVirtualMemory}"></Label>
                 <TextBlock Text="{Binding DrivesVm.DriveSet.TotalVirtualMemoryGbText}"></TextBlock>
                 <controls:KbButton 
                     Margin="8 0 0 0"
                     Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
-                    Width="50"
                     CornerRadius="2">
                     <WrapPanel>
                         <Path
@@ -56,22 +113,22 @@
                         <TextBlock
                             Padding="2 0"
                             VerticalAlignment="Center"
-                            Text="修改" />
+                            Text="{DynamicResource LblModify}" />
                     </WrapPanel>
                 </controls:KbButton>
             </WrapPanel>
             <GroupBox Header="CPU">
                 <StackPanel>
                     <WrapPanel>
-                        <Label>CPU厂商</Label>
+                        <Label Content="{DynamicResource LblProcessorVendor}" ToolTip="{DynamicResource LblProcessorVendor}"></Label>
                         <TextBlock Text="{Binding Processor.VendorIdentifier}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label>CPU名称</Label>
+                        <Label Content="{DynamicResource LblProcessorName}" ToolTip="{DynamicResource LblProcessorName}"></Label>
                         <TextBlock Text="{Binding Processor.Name}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label>CPU核心数</Label>
+                        <Label Content="{DynamicResource LblNumberOfLogicalCores}" ToolTip="{DynamicResource LblNumberOfLogicalCores}"></Label>
                         <TextBlock Text="{Binding Processor.NumberOfLogicalCores}"></TextBlock>
                     </WrapPanel>
                 </StackPanel>
@@ -80,19 +137,23 @@
             <GroupBox Header="BIOS">
                 <StackPanel>
                     <WrapPanel>
-                        <Label>主板型号</Label>
+                        <Label Content="{DynamicResource LblBiosMotherboardModel}" ToolTip="{DynamicResource LblBiosMotherboardModel}"></Label>
                         <TextBlock Text="{Binding Bios.MotherboardModel}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label>制造商</Label>
-                        <TextBlock Text="{Binding Bios.MotherboardManufacturer}" ToolTip="{Binding Bios.MotherboardManufacturer}" Width="100"></TextBlock>
-                        <Label>制造日期</Label>
+                        <Label Content="{DynamicResource LblBiosMotherboardManufacturer}" ToolTip="{DynamicResource LblBiosMotherboardManufacturer}"></Label>
+                        <TextBlock Text="{Binding Bios.MotherboardManufacturer}" ToolTip="{Binding Bios.MotherboardManufacturer}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <Label Content="{DynamicResource LblBiosReleaseDate}" ToolTip="{DynamicResource LblBiosReleaseDate}"></Label>
                         <TextBlock Text="{Binding Bios.BiosReleaseDate}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label>BIOS厂商</Label>
-                        <TextBlock Text="{Binding Bios.BiosVendor}" ToolTip="{Binding Bios.BiosVendor}" Width="100"></TextBlock>
-                        <Label>BIOS版本</Label>
+                        <Label Content="{DynamicResource LblBiosVendor}" ToolTip="{DynamicResource LblBiosVendor}"></Label>
+                        <TextBlock Text="{Binding Bios.BiosVendor}" ToolTip="{Binding Bios.BiosVendor}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <Label Content="{DynamicResource LblBiosVersion}" ToolTip="{DynamicResource LblBiosVersion}"></Label>
                         <TextBlock Text="{Binding Bios.BiosVersion}" ToolTip="{Binding Bios.BiosVersion}"></TextBlock>
                     </WrapPanel>
                 </StackPanel>
@@ -101,8 +162,8 @@
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
             </Grid.RowDefinitions>
             <ItemsControl
                 ItemsSource="{Binding GpuSetProperties}">
@@ -116,7 +177,7 @@
                     <DataTemplate>
                         <WrapPanel>
                             <Label Content="{Binding Name}"></Label>
-                            <TextBlock Text="{Binding Value}" VerticalAlignment="Center" Width="140"></TextBlock>
+                            <TextBlock Text="{Binding Value}" VerticalAlignment="Center" Width="90"></TextBlock>
                         </WrapPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -156,6 +217,48 @@
                 </DataGrid>
                 <TextBlock Visibility="{Binding GpuVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
             </Grid>
+            <WrapPanel Grid.Row="2" VerticalAlignment="Top">
+                <Path
+                    Margin="0 0 2 0"
+			        Width="18"
+			        Height="16"
+                    ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
+			        Data="{Binding GpuStatusBarVm.Icon}"
+			        Fill="{Binding GpuStatusBarVm.IconFill}"
+			        Stretch="Fill">
+                </Path>
+                <TextBlock Text="{Binding GpuStatusBarVm.GpuCountText}" Width="80"></TextBlock>
+                <Path
+                    Margin="0 0 2 0"
+			        Width="8"
+			        Height="16"
+			        Data="{StaticResource Icon_Temperature}"
+			        Fill="{Binding MinerProfile.GpuStateColor}"
+			        Stretch="Fill" />
+                <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.TemperatureText}" Width="82" Padding="0" HorizontalAlignment="Left" />
+                <Path
+                    Margin="0 0 2 0"
+			        Width="16"
+			        Height="16"
+			        Data="{StaticResource Icon_Fan}"
+			        Fill="{Binding MinerProfile.GpuStateColor}"
+			        Stretch="Fill">
+                    <Path.RenderTransform>
+                        <RotateTransform Angle="{Binding MinerProfile.LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
+                    </Path.RenderTransform>
+                </Path>
+                <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.FanSpeedText}" Width="78" Padding="0" HorizontalAlignment="Left" />
+                <WrapPanel Width="70">
+                    <Path
+                        Margin="0 0 2 0"
+			            Width="12"
+			            Height="16"
+			            Data="{StaticResource Icon_Power}"
+			            Fill="{Binding MinerProfile.GpuStateColor}"
+			            Stretch="Fill" />
+                    <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
+                </WrapPanel>
+            </WrapPanel>
         </Grid>
     </Grid>
 </UserControl>

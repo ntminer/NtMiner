@@ -19,6 +19,7 @@ namespace NTMiner.Views.Ucs {
 
         public Enviroment() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(Enviroment), this.Resources);
         }
     }
 }
