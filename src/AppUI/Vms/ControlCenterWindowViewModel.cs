@@ -22,5 +22,11 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(Title));
             }
         }
+
+        public LangViewModels LangVms {
+            get {
+                return LangViewModels.Current;
+            }
+        }
     }
 }

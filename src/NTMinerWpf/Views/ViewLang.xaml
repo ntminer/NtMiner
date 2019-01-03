@@ -15,7 +15,7 @@
         BorderBrush="{StaticResource IconFillColor}"
         WindowStartupLocation="CenterScreen"
         MouseDown="MetroWindow_MouseDown"
-        Title="NTMinerFileEdit" Height="320" Width="580">
+        Title="NTMinerFileEdit" Height="460" Width="580">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>

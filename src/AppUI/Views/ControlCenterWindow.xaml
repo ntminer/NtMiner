@@ -48,6 +48,12 @@
             <WrapPanel Grid.Column="2">
                 <WrapPanel Margin="0"
 					VerticalAlignment="Top">
+                    <ComboBox 
+                        Height="26"
+                        Background="{StaticResource MainColor}"
+                        ItemsSource="{Binding LangVms.LangVms}"
+                        DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
+                    </ComboBox>
                     <local:MainMenu>
                     </local:MainMenu>
 					<controls:KbSystemMinButton
