@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Coin",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = 860,
+                Width = 960,
                 Height = 520
             }, ucFactory: (window) => new CoinPage());
         }

@@ -11,7 +11,7 @@
              FontFamily="SimSun"
              TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:CoinPageViewModel.Current}"
-             d:DesignHeight="520" d:DesignWidth="860">
+             d:DesignHeight="520" d:DesignWidth="960">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

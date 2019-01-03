@@ -33,7 +33,6 @@ namespace NTMiner.Vms {
                     if (mineContext != null) {
                         this.MineTimeSpan = DateTime.Now - mineContext.CreatedOn;
                     }
-                    OnPropertyChanged(nameof(MineStatusText));
                 });
             Global.Access<MinerProfilePropertyChangedEvent>(
                 Guid.Parse("00F1C9F7-ADC8-438D-8B7E-942F6EE5F9A4"),
@@ -147,15 +146,6 @@ namespace NTMiner.Vms {
                 else {
                     return $"{this.MineTimeSpan.Hours}:{this.MineTimeSpan.Minutes}:{this.MineTimeSpan.Seconds}";
                 }
-            }
-        }
-
-        public string MineStatusText {
-            get {
-                if (!NTMinerRoot.Current.IsMining) {
-                    return "未挖矿：";
-                }
-                return "挖矿中：";
             }
         }
 

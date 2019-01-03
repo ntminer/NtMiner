@@ -118,8 +118,9 @@
 						<TextBlock Text="{Binding MinerProfile.ControlCenterStatusText}" Width="70" VerticalAlignment="Center"></TextBlock>
 					</WrapPanel>
 					<WrapPanel>
-						<TextBlock Text="{Binding MinerProfile.MineStatusText}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
-						<TextBlock 
+                        <TextBlock Text="未挖矿：" Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="挖矿中：" Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock 
 							Width="103"
 							Text="{Binding MinerProfile.MineTimeSpanText}"
 							Background="Transparent"
