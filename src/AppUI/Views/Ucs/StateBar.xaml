@@ -29,14 +29,17 @@
             <sys:String x:Key="LblIncome">
                 LblIncome
             </sys:String>
+            <sys:String x:Key="LblDay">
+                LblDay
+            </sys:String>
             <sys:String x:Key="LblReject">
                 LblReject
             </sys:String>
             <sys:String x:Key="LblRejectCount">
                 LblRejectCount
             </sys:String>
-            <sys:String x:Key="LblSubmitCount">
-                LblSubmitCount
+            <sys:String x:Key="LblRequestCount">
+                LblRequestCount
             </sys:String>
             <sys:String x:Key="LblTotalSpeed">
                 LblTotalSpeed
@@ -228,26 +231,28 @@
                             KbDisplayLine="False"
                             KbSystemButtonHoverBackground="Transparent"
                             Background="Transparent" />
-                        <WrapPanel Width="170" Margin="0 2">
-                            <Label Padding="0" Content="{DynamicResource LblIncome}" Margin="0" HorizontalContentAlignment="Right" />
+                        <WrapPanel Width="184" Margin="0 2">
+                            <Label Padding="0 0 2 0" Content="{DynamicResource LblIncome}" Margin="0" HorizontalContentAlignment="Right" />
                             <Button Background="Transparent" BorderThickness="0" 
                                 Content="{Binding MinerProfile.GpuSpeedVms.IncomeMainCoinPerDayText}"
                                 Command="{x:Static vm:AppStatic.ShowCalc}"
                                 CommandParameter="{Binding MinerProfile.CoinVm}">
                             </Button>
                             <Path 
-					            Margin="2 -2 0 0"
+					            Margin="1 -1 0 0"
 					            Width="14"
 					            Height="14"
 					            Data="{StaticResource Icon_Coin}"
-					            Fill="{StaticResource IconFillColor}"
+					            Fill="Black"
 					            Stretch="Fill" />
+                            <Label Padding="1" Content="/" />
+                            <Label Padding="0" Content="{DynamicResource LblDay}" Margin="0" />
                         </WrapPanel>
                         <WrapPanel Width="140" Margin="0 2">
                             <Label Padding="0" Content="{DynamicResource LblReject}" Margin="0" HorizontalContentAlignment="Right" />
                             <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
                             <TextBlock Text="/"  />
-                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitCount}" />
+                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
                             <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
                         </WrapPanel>
                         <WrapPanel Width="130" Margin="0 2">
@@ -267,26 +272,28 @@
                                 KbDisplayLine="False"
                                 KbSystemButtonHoverBackground="Transparent"
                                 Background="Transparent" />
-                            <WrapPanel Width="170" Margin="0 2">
-                                <Label Padding="0" Content="{DynamicResource LblIncome}" Margin="0" HorizontalContentAlignment="Right" />
+                            <WrapPanel Width="184" Margin="0 2">
+                                <Label Padding="0 0 2 0" Content="{DynamicResource LblIncome}" Margin="0" HorizontalContentAlignment="Right" />
                                 <Button Background="Transparent" BorderThickness="0" 
                                     Content="{Binding MinerProfile.GpuSpeedVms.IncomeDualCoinPerDayText}"
                                     Command="{x:Static vm:AppStatic.ShowCalc}"
                                     CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
                                 </Button>
                                 <Path 
-					                Margin="2 -2 0 0"
+					                Margin="1 -1 0 0"
 					                Width="14"
 					                Height="14"
 					                Data="{StaticResource Icon_Coin}"
-					                Fill="{StaticResource IconFillColor}"
+					                Fill="Black"
 					                Stretch="Fill" />
+                                <Label Padding="1" Content="/" />
+                                <Label Padding="0" Content="{DynamicResource LblDay}" Margin="0" />
                             </WrapPanel>
                             <WrapPanel Width="140" Margin="0 2">
                                 <Label Padding="0" Content="{DynamicResource LblReject}" Margin="0" HorizontalContentAlignment="Right" />
                                 <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
                                 <TextBlock Text="/"  />
-                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitCount}" />
+                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
                                 <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
                             </WrapPanel>
                             <WrapPanel Width="130" Margin="0 2">
