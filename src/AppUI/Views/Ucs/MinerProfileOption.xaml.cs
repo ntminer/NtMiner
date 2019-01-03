@@ -21,6 +21,7 @@ namespace NTMiner.Views.Ucs {
 
         public MinerProfileOption() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(MinerProfileOption), this.Resources);
         }
     }
 }

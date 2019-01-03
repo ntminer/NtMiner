@@ -3,21 +3,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
         DataContext="{x:Static vm:MinerProfileViewModel.Current}"
         mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <sys:String x:Key="LblServerHost">
+                LblServerHost
+            </sys:String>
+            <sys:String x:Key="LblServerPort">
+                LblServerPort
+            </sys:String>
+            <sys:String x:Key="LblIsAutoRestartKernel">
+                LblIsAutoRestartKernel
+            </sys:String>
+            <sys:String x:Key="TbMinute">
+                TbMinute
+            </sys:String>
+            <sys:String x:Key="TbHour">
+                TbHour
+            </sys:String>
+            <sys:String x:Key="GHSysSetting">
+                GHSysSetting
+            </sys:String>
+            <sys:String x:Key="LblNoShareRestartKernel">
+                LblNoShareRestartKernel
+            </sys:String>
+            <sys:String x:Key="LblPeriodicRestartKernel">
+                LblPeriodicRestartKernel
+            </sys:String>
+            <sys:String x:Key="LblPeriodicRestartComputer">
+                LblPeriodicRestartComputer
+            </sys:String>
+            <sys:String x:Key="LblIsShowInTaskbar">
+                LblIsShowInTaskbar
+            </sys:String>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <StackPanel Margin="4 0">
         <StackPanel IsEnabled="{Binding IsWorkEditOrFreeClient}">
             <GroupBox Header="中控服务器" Visibility="{Binding IsFreeClient, Converter={StaticResource BoolToVisibilityInvertConverter}}">
                 <StackPanel>
                     <WrapPanel Margin="0 2">
-                        <Label>服务器地址</Label>
+                        <Label Content="{DynamicResource LblServerHost}"></Label>
                         <TextBox Margin="4 0" Width="170" Text="{Binding ServerHost}" VerticalContentAlignment="Center" Background="White">
                         </TextBox>
-                        <Label>端口</Label>
+                        <Label Content="{DynamicResource LblServerPort}"></Label>
                         <TextBlock Margin="4 0" Width="40" Text="{Binding ServerPort}" VerticalAlignment="Center" Background="White">
                         </TextBlock>
                     </WrapPanel>
@@ -28,125 +63,62 @@
                     <controls:KbCheckBox
                             IconColor="{StaticResource IconFillColor}"
                             IsChecked="{Binding IsAutoRestartKernel}" />
-                    <TextBlock>如果挖矿内核意外退出，尝试重启3次</TextBlock>
+                    <TextBlock Text="{DynamicResource LblIsAutoRestartKernel}"></TextBlock>
+                    <controls:KbButton
+                        Margin="50 0 0 0"
+                        BorderThickness="0"
+                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        ToolTip="MinerProfileOption translate"
+                        Background="Transparent"
+                        Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                        CommandParameter="MinerProfileOption">
+                        <WrapPanel>
+                            <Path
+                                Width="14"
+                                Height="14"
+                                Data="{StaticResource Icon_Translate}"
+                                Fill="Red"
+                                Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </WrapPanel>
                 <WrapPanel Margin="0 2">
                     <controls:KbCheckBox
                             IconColor="{StaticResource IconFillColor}"
                             IsChecked="{Binding IsNoShareRestartKernel}">
                     </controls:KbCheckBox>
-                    <TextBlock VerticalAlignment="Center">如果</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LblNoShareRestartKernel}"></TextBlock>
                     <TextBox Width="46" Margin="2 0" Background="White" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
-                    <TextBlock VerticalAlignment="Center">分钟收益没有增加重启内核</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource TbMinute}"></TextBlock>
                 </WrapPanel>
                 <WrapPanel Margin="0 2">
                     <controls:KbCheckBox
                         IconColor="{StaticResource IconFillColor}"
                         IsChecked="{Binding IsPeriodicRestartKernel}">
                     </controls:KbCheckBox>
-                    <TextBlock VerticalAlignment="Center">每运行</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LblPeriodicRestartKernel}"></TextBlock>
                     <TextBox Width="46" Margin="2 0" Background="White" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
-                    <TextBlock VerticalAlignment="Center">小时重启内核</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource TbHour}"></TextBlock>
                 </WrapPanel>
                 <WrapPanel Margin="0 2">
                     <controls:KbCheckBox
                         IconColor="{StaticResource IconFillColor}"
                         IsChecked="{Binding IsPeriodicRestartComputer}">
                     </controls:KbCheckBox>
-                    <TextBlock VerticalAlignment="Center">每运行</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LblPeriodicRestartComputer}"></TextBlock>
                     <TextBox Width="46" Margin="2 0" Background="White" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
-                    <TextBlock VerticalAlignment="Center">小时重启电脑</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource TbHour}"></TextBlock>
                 </WrapPanel>
-                <!--<WrapPanel Margin="0 2">
-                    <controls:KbCheckBox 
-                            IsChecked="True"
-                            Content="卡温超过"
-                            IconColor="{StaticResource IconFillColor}"/>
-                    <ComboBox Margin="4 0">
-                        <ComboBoxItem>70</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True">75</ComboBoxItem>
-                        <ComboBoxItem>80</ComboBoxItem>
-                        <ComboBoxItem>85</ComboBoxItem>
-                        <ComboBoxItem>90</ComboBoxItem>
-                    </ComboBox>
-                    <TextBlock VerticalAlignment="Center">℃警告</TextBlock>
-                    <controls:KbCheckBox 
-                            Margin="20 0 0 0"
-                            IsChecked="True"
-                            Content="卡温超过"
-                            IconColor="{StaticResource IconFillColor}"/>
-                    <ComboBox Margin="4 0">
-                        <ComboBoxItem>80</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True">85</ComboBoxItem>
-                        <ComboBoxItem>90</ComboBoxItem>
-                    </ComboBox>
-                    <TextBlock VerticalAlignment="Center">℃异常// TODO:</TextBlock>
-                </WrapPanel>
-                <WrapPanel Margin="0 2">
-                    <controls:KbCheckBox 
-                            IsChecked="True"
-                            Content="卡温低于"
-                            IconColor="{StaticResource IconFillColor}"/>
-                    <ComboBox Margin="4 0">
-                        <ComboBoxItem>70</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True">40</ComboBoxItem>
-                        <ComboBoxItem>45</ComboBoxItem>
-                        <ComboBoxItem>50</ComboBoxItem>
-                        <ComboBoxItem>55</ComboBoxItem>
-                    </ComboBox>
-                    <TextBlock VerticalAlignment="Center">℃警告</TextBlock>
-                    <controls:KbCheckBox 
-                            Margin="20 0 0 0"
-                            IsChecked="True"
-                            Content="卡温低于"
-                            IconColor="{StaticResource IconFillColor}"/>
-                    <ComboBox Margin="4 0">
-                        <ComboBoxItem>35</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True">40</ComboBoxItem>
-                        <ComboBoxItem>45</ComboBoxItem>
-                    </ComboBox>
-                    <TextBlock VerticalAlignment="Center">℃异常// TODO:</TextBlock>
-                </WrapPanel>
-                <WrapPanel Margin="0 2">
-                    <controls:KbCheckBox 
-                            IsChecked="True"
-                            Content="算力下降"
-                            IconColor="{StaticResource IconFillColor}"/>
-                    <ComboBox Margin="4 0">
-                        <ComboBoxItem>10</ComboBoxItem>
-                        <ComboBoxItem>15</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True">20</ComboBoxItem>
-                    </ComboBox>
-                    <TextBlock VerticalAlignment="Center">%警告</TextBlock>
-                    <controls:KbCheckBox 
-                            Margin="20 0 0 0"
-                            IsChecked="True"
-                            Content="算力下降"
-                            IconColor="{StaticResource IconFillColor}"/>
-                    <ComboBox Margin="4 0">
-                        <ComboBoxItem>20</ComboBoxItem>
-                        <ComboBoxItem>25</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True">30</ComboBoxItem>
-                    </ComboBox>
-                    <TextBlock VerticalAlignment="Center">%异常// TODO:</TextBlock>
-                </WrapPanel>-->
             </StackPanel>
         </StackPanel>
-        <GroupBox Margin="6 2" Header="系统设置">
+        <GroupBox Margin="6 2" Header="{DynamicResource GHSysSetting}">
             <StackPanel>
-                <WrapPanel Margin="0 2">
-                    <controls:KbCheckBox 
-                            IsChecked="{Binding IsLocalizationEnabled}"
-                            IconColor="{StaticResource IconFillColor}">
-                    </controls:KbCheckBox>
-                    <TextBlock VerticalAlignment="Center">启用本地化（翻译挖矿内核的输出文字）</TextBlock>
-                </WrapPanel>
                 <WrapPanel Margin="0 2">
                     <controls:KbCheckBox 
                             IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BooleanInvertConverter}}"
                             IconColor="{StaticResource IconFillColor}">
                     </controls:KbCheckBox>
-                    <TextBlock VerticalAlignment="Center">最小化时隐藏任务栏图标</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{DynamicResource LblIsShowInTaskbar}"></TextBlock>
                 </WrapPanel>
             </StackPanel>
         </GroupBox>

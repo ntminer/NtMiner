@@ -91,15 +91,6 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        public bool IsLocalizationEnabled {
-            get => _data.IsLocalizationEnabled;
-            private set {
-                if (_data.IsLocalizationEnabled != value) {
-                    _data.IsLocalizationEnabled = value;
-                }
-            }
-        }
-
         public bool IsAutoBoot {
             get => _data.IsAutoBoot;
             private set {

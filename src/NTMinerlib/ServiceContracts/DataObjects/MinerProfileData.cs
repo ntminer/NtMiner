@@ -9,7 +9,6 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
                 MinerName = Environment.MachineName,
                 IsShowInTaskbar = true,
-                IsLocalizationEnabled = true,
                 CoinId = Guid.Empty,
                 IsAutoBoot = false,
                 IsAutoStart = false,
@@ -41,9 +40,6 @@ namespace NTMiner.ServiceContracts.DataObjects {
         public bool IsAutoThisPCName { get; set; }
         [DataMember]
         public bool IsShowInTaskbar { get; set; }
-        [DataMember]
-        public bool IsLocalizationEnabled { get; set; }
-
         [DataMember]
         public bool IsAutoBoot { get; set; }
         [DataMember]

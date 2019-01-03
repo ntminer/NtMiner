@@ -60,9 +60,6 @@ namespace NTMiner.Vms {
         public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(() => {
             SysDicPage.ShowWindow();
         });
-        public static ICommand ShowMinerProfile { get; private set; } = new DelegateCommand(() => {
-            MinerProfileOption.ShowWindow();
-        });
         public static ICommand ShowGroups { get; private set; } = new DelegateCommand(() => {
             GroupPage.ShowWindow();
         });

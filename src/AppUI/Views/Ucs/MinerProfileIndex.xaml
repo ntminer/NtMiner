@@ -85,23 +85,28 @@
 						</TextBox>
 					</WrapPanel>
                     <WrapPanel Margin="0 2">
-                        <controls:KbButton
-                            BorderThickness="0"
-                            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                            ToolTip="MinerProfileIndex translate"
-                            Background="Transparent"
-                            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                            CommandParameter="MinerProfileIndex"
-                            Width="50">
-                            <WrapPanel>
-                                <Path
-                                    Width="14"
-                                    Height="14"
-                                    Data="{StaticResource Icon_Translate}"
-                                    Fill="Red"
-                                    Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
+                        <Label
+                            Style="{StaticResource Lbl}"
+                            HorizontalContentAlignment="Right"
+							Padding="0 0 4 0" 
+							VerticalContentAlignment="Center">
+                            <controls:KbButton
+                                BorderThickness="0"
+                                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                                ToolTip="MinerProfileIndex translate"
+                                Background="Transparent"
+                                Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                                CommandParameter="MinerProfileIndex">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="14"
+                                        Data="{StaticResource Icon_Translate}"
+                                        Fill="Red"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </Label>
                         <controls:KbCheckBox 
                             Padding="0" 
                             x:Name="ChkbAutoThisPCName" 

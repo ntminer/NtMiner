@@ -84,28 +84,6 @@ namespace NTMiner {
             BootLog.SyncToDisk();
         }
 
-        public static Window GetTopWindow() {
-            var hwnd = GetForegroundWindow();
-            if (hwnd == null)
-                return null;
-
-            return GetWindowFromHwnd(hwnd);
-        }
-
-        private static Window GetWindowFromHwnd(IntPtr hwnd) {
-            HwndSource hds = HwndSource.FromHwnd(hwnd);
-            if (hds == null) {
-                return Current.MainWindow;
-            }
-            if (hds.RootVisual is Window) {
-                return (Window)hds.RootVisual;
-            }
-            return Current.MainWindow;
-        }
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-
         [DllImport("User32.dll")]
         private static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
 

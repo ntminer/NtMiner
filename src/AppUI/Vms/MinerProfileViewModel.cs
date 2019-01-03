@@ -254,16 +254,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsLocalizationEnabled {
-            get { return NTMinerRoot.Current.MinerProfile.IsLocalizationEnabled; }
-            set {
-                if (NTMinerRoot.Current.MinerProfile.IsLocalizationEnabled != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsLocalizationEnabled), value);
-                    OnPropertyChanged(nameof(IsLocalizationEnabled));
-                }
-            }
-        }
-
         public CoinViewModels CoinVms {
             get {
                 return CoinViewModels.Current;

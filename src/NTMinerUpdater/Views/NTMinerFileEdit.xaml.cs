@@ -16,7 +16,7 @@ namespace NTMiner.Views {
             InitializeComponent();
             this.TbTitle.Text = title;
             this.PathIcon.Data = (Geometry)Application.Current.Resources[iconName];
-            this.Owner = App.GetTopWindow();
+            this.Owner = TopWindow.GetTopWindow();
         }
 
         private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {

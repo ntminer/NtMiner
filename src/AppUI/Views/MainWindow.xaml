@@ -101,8 +101,24 @@
 							FontSize="16"
 							Text="{DynamicResource NTMinerTitle}" />
 					</WrapPanel>
-				</controls:KbLinkButton>
-				<controls:KbButton 
+                </controls:KbLinkButton>
+                <controls:KbButton
+                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    ToolTip="MainWindow translate"
+                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                    CommandParameter="MainWindow"
+                    Padding="8 0"
+                    Background="{StaticResource MainColor}">
+                    <WrapPanel>
+                        <Path
+                            Width="14"
+                            Height="14"
+                            Data="{StaticResource Icon_Translate}"
+                            Fill="Red"
+                            Stretch="Fill" />
+                    </WrapPanel>
+                </controls:KbButton>
+                <controls:KbButton 
 					Margin="4 0 0 0" Height="20" BorderThickness="0" 
 					Content="点击以管理员身份运行"
 					Foreground="White"
@@ -134,22 +150,6 @@
                         ItemsSource="{Binding LangVms.LangVms}"
                         DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
                     </ComboBox>
-                    <controls:KbButton
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                        ToolTip="MainWindow translate"
-                        Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                        CommandParameter="MainWindow"
-                        Padding="8 0"
-                        Background="{StaticResource MainColor}">
-                        <WrapPanel>
-                            <Path
-                                Width="14"
-                                Height="14"
-                                Data="{StaticResource Icon_Translate}"
-                                Fill="Red"
-                                Stretch="Fill" />
-                        </WrapPanel>
-                    </controls:KbButton>
                     <local:MainMenu>
                     </local:MainMenu>
                     <controls:KbSystemMinButton
