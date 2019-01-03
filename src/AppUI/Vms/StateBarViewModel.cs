@@ -37,5 +37,11 @@ namespace NTMiner.Vms {
                 return MinerProfileViewModel.Current;
             }
         }
+
+        public GpuStatusBarViewModel GpuStatusBarVm {
+            get {
+                return GpuStatusBarViewModel.Current;
+            }
+        }
     }
 }

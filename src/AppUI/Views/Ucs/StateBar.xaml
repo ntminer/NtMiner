@@ -126,10 +126,50 @@
 							Text="{Binding MinerProfile.MineTimeSpanText}"
 							Background="Transparent"
 							VerticalAlignment="Center"></TextBlock>
-					</WrapPanel>
-					<uc:GpuStatusBar>
-					</uc:GpuStatusBar>
-				</WrapPanel>
+                    </WrapPanel>
+                    <WrapPanel VerticalAlignment="Center">
+                        <Path
+                            Margin="0 0 2 0"
+			                Width="18"
+			                Height="16"
+                            ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
+			                Data="{Binding GpuStatusBarVm.Icon}"
+			                Fill="{Binding GpuStatusBarVm.IconFill}"
+			                Stretch="Fill">
+                        </Path>
+                        <TextBlock Text="{Binding GpuStatusBarVm.GpuCountText}" Width="80"></TextBlock>
+                        <Path
+                            Margin="0 0 2 0"
+			                Width="8"
+			                Height="16"
+			                Data="{StaticResource Icon_Temperature}"
+			                Fill="{Binding MinerProfile.GpuStateColor}"
+			                Stretch="Fill" />
+                        <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.TemperatureText}" Width="82" Padding="0" HorizontalAlignment="Left" />
+                        <Path
+                            Margin="0 0 2 0"
+			                Width="16"
+			                Height="16"
+			                Data="{StaticResource Icon_Fan}"
+			                Fill="{Binding MinerProfile.GpuStateColor}"
+			                Stretch="Fill">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="{Binding MinerProfile.LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
+                            </Path.RenderTransform>
+                        </Path>
+                        <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.FanSpeedText}" Width="78" Padding="0" HorizontalAlignment="Left" />
+                        <WrapPanel Width="70">
+                            <Path
+                                Margin="0 0 2 0"
+			                    Width="12"
+			                    Height="16"
+			                    Data="{StaticResource Icon_Power}"
+			                    Fill="{Binding MinerProfile.GpuStateColor}"
+			                    Stretch="Fill" />
+                            <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
+                        </WrapPanel>
+                    </WrapPanel>
+                </WrapPanel>
 				<uc:CoinSpeedBar HorizontalAlignment="Right">
 				</uc:CoinSpeedBar>
 			</StackPanel>

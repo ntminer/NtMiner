@@ -9,12 +9,6 @@ namespace NTMiner.Vms {
             this.GpuAllVm = GpuViewModels.Current.FirstOrDefault(a => a.Index == NTMinerRoot.Current.GpuAllId);
         }
 
-        public MinerProfileViewModel MinerProfile {
-            get {
-                return MinerProfileViewModel.Current;
-            }
-        }
-
         public GpuViewModel GpuAllVm {
             get; set;
         }
@@ -71,7 +65,7 @@ namespace NTMiner.Vms {
 
         public string GpuCountText {
             get {
-                return $"({NTMinerRoot.Current.GpuSet.Count}张)";
+                return $"({NTMinerRoot.Current.GpuSet.Count} GPU)";
             }
         }
     }
