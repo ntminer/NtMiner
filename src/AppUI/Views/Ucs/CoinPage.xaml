@@ -37,6 +37,15 @@
             <sys:String x:Key="Sort">
                 Sort
             </sys:String>
+            <sys:String x:Key="Pool">
+                Pool
+            </sys:String>
+            <sys:String x:Key="Wallet">
+                Wallet
+            </sys:String>
+            <sys:String x:Key="Kernel">
+                Kernel
+            </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -249,7 +258,7 @@
                                 Stretch="Fill"
                                 Fill="{StaticResource IconFillColor}"
                                 Data="{StaticResource Icon_Pool}"></Path>
-                            <TextBlock Margin="4 0 0 0">矿池</TextBlock>
+                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource Pool}"></TextBlock>
                         </WrapPanel>
                     </controls:KbTabItem.Header>
                     <Grid>
@@ -384,7 +393,7 @@
                                 Stretch="Fill"
                                 Fill="{StaticResource IconFillColor}"
                                 Data="{StaticResource Icon_Wallet}"></Path>
-                            <TextBlock Margin="4 0 0 0">钱包</TextBlock>
+                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource Wallet}"></TextBlock>
                         </WrapPanel>
                     </controls:KbTabItem.Header>
                     <Grid>
@@ -494,7 +503,7 @@
                                 Stretch="Fill"
                                 Fill="{StaticResource IconFillColor}"
                                 Data="{StaticResource Icon_Kernel}"></Path>
-                            <TextBlock Margin="4 0 0 0">内核</TextBlock>
+                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource Kernel}"></TextBlock>
                         </WrapPanel>
                     </controls:KbTabItem.Header>
                     <Grid>
