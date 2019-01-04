@@ -66,6 +66,22 @@
                             Fill="{StaticResource IconFillColor}"
                             Stretch="Fill" />
                     </controls:KbButton>
+                    <controls:KbButton
+                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        ToolTip="CoinPage translate"
+                        Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                        CommandParameter="CoinPage"
+                        Padding="8 0"
+                        Background="Transparent">
+                        <WrapPanel>
+                            <Path
+                                Width="14"
+                                Height="14"
+                                Data="{StaticResource Icon_Translate}"
+                                Fill="Red"
+                                Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </WrapPanel>
             </WrapPanel>
             <DataGrid Grid.Row="1" Margin="0" ItemsSource="{Binding List}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"

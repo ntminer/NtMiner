@@ -23,6 +23,15 @@ namespace NTMiner.Views {
                 ContainerWindow window = GetWindow(vm);
                 window?.Close();
             });
+            Global.Access<Language.GlobalLangChangedEvent>(
+                Guid.Parse("9EE73F13-F1E1-4B20-86F2-A06B69ED4D45"),
+                "全局语言变更时调整窗口的标题",
+                LogEnum.None,
+                action: message => {
+                    foreach (var item in Windows) {
+                        item.OnPropertyChanged(nameof(item.Title));
+                    }
+                });
         }
 
         public static ContainerWindow GetWindow(ContainerWindowViewModel vm) {
@@ -43,16 +52,30 @@ namespace NTMiner.Views {
             if (ucFactory == null) {
                 throw new ArgumentNullException(nameof(ucFactory));
             }
-            ContainerWindow window = new ContainerWindow(vm, ucFactory, fixedSize) {
-                WindowStartupLocation = WindowStartupLocation.CenterScreen
-            };
-            if (!vm.IsDialogWindow) {
+            ContainerWindow window;
+            Type ucType = typeof(TUc);
+            if (_windowDicByType.ContainsKey(ucType)) {
+                window = _windowDicByType[ucType];
+            }
+            else {
+                window = new ContainerWindow(vm, ucFactory, fixedSize) {
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Owner = null
+                };
                 _windowDic.Add(vm, window);
                 Windows.Add(vm);
                 window.Closed += (object sender, EventArgs e) => {
                     _windowDic.Remove(vm);
                     Windows.Remove(vm);
                 };
+                _windowDicByType.Add(ucType, window);
+                if (_windowLeftDic.ContainsKey(ucType)) {
+                    _windowDicByType[ucType].Left = _windowLeftDic[ucType];
+                    _windowDicByType[ucType].Top = _windowTopDic[ucType];
+                }
+                else {
+                    _windowDicByType[ucType].WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                }
             }
             window.ShowWindow(beforeShow);
             return window;

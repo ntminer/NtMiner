@@ -21,6 +21,7 @@ namespace NTMiner.Views.Ucs {
 
         public CoinPage() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(CoinPage), this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
