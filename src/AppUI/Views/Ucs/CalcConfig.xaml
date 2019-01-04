@@ -10,13 +10,22 @@
     xmlns:local="clr-namespace:NTMiner.Views.Ucs"
     xmlns:vm="clr-namespace:NTMiner.Vms"
 	FontSize="12"
-    mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="500">
+    mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="560">
     <UserControl.DataContext>
         <vm:CalcConfigViewModels></vm:CalcConfigViewModels>
     </UserControl.DataContext>
     <UserControl.Resources>
         <sys:String x:Key="WindowTitle">
-            收益计算器设置
+            WindowTitle
+        </sys:String>
+        <sys:String x:Key="LblSpeed">
+            LblSpeed
+        </sys:String>
+        <sys:String x:Key="LblIncome">
+            LblIncome
+        </sys:String>
+        <sys:String x:Key="TbDay">
+            TbDay
         </sys:String>
     </UserControl.Resources>
     <Grid>
@@ -24,8 +33,8 @@
             Background="White"
 			VerticalScrollBarVisibility="Auto">
             <ItemsControl 
+                HorizontalAlignment="Center"
                 x:Name="ItemsControl"
-                Margin="10 0"
 				Background="White"
 				ItemsSource="{Binding CalcConfigVms}"
 				BorderThickness="0"
@@ -54,7 +63,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel Margin="0 4">
-                            <Label>算力</Label>
+                            <Label Content="{DynamicResource LblSpeed}"></Label>
                             <TextBox Text="{Binding Speed, ValidatesOnExceptions=True}">
                             </TextBox>
                             <ComboBox 
@@ -72,12 +81,13 @@
                                 Data="{StaticResource Icon_ArrowRight}"
                                 Fill="{StaticResource IconFillColor}"
                                 Stretch="Fill"/>
-                            <Label>收益</Label>
+                            <Label Content="{DynamicResource LblIncome}"></Label>
                             <TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}"></TextBox>
                             <Label>
                                 <WrapPanel>
                                     <TextBlock Text="{Binding CoinCode}"></TextBlock>
-                                    <TextBlock Text="/天"></TextBlock>
+                                    <TextBlock Text="/"></TextBlock>
+                                    <TextBlock Text="{DynamicResource TbDay}"></TextBlock>
                                 </WrapPanel>
                             </Label>
                         </WrapPanel>
@@ -85,5 +95,23 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        <controls:KbButton
+            Margin="2 0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            ToolTip="CalcConfig translate"
+            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+            CommandParameter="CalcConfig"
+            Background="Transparent">
+            <WrapPanel>
+                <Path
+                    Width="14"
+                    Height="14"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="Red"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
     </Grid>
 </UserControl>

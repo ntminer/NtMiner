@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Calc",
-                Width = 500,
+                Width = 560,
                 Height = 450,
                 CloseVisible = System.Windows.Visibility.Visible,
                 SaveVisible = System.Windows.Visibility.Visible,
