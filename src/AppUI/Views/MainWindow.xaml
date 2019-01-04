@@ -310,7 +310,7 @@
 			</TabItem>
             <TabItem Header="{DynamicResource TbihProperty}" Style="{DynamicResource TabItemStyle}">
 				<Border BorderThickness="0" BorderBrush="{StaticResource LineColor}" Padding="14 0">
-					<uc:Enviroment />
+					<uc:Property />
 				</Border>
 			</TabItem>
 		</TabControl>

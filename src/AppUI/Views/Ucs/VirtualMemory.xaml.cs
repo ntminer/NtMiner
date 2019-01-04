@@ -11,9 +11,9 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => new VirtualMemory(), fixedSize: true);
         }
 
-        private EnviromentViewModel Vm {
+        private PropertyViewModel Vm {
             get {
-                return (EnviromentViewModel)this.DataContext;
+                return (PropertyViewModel)this.DataContext;
             }
         }
 

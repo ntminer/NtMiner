@@ -207,8 +207,8 @@
     <Compile Include="Views\Ucs\KernelEdit.xaml.cs">
       <DependentUpon>KernelEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\Enviroment.xaml.cs">
-      <DependentUpon>Enviroment.xaml</DependentUpon>
+    <Compile Include="Views\Ucs\Property.xaml.cs">
+      <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\EventPage.xaml.cs">
       <DependentUpon>EventPage.xaml</DependentUpon>
@@ -318,7 +318,7 @@
     <Compile Include="Vms\CoinKernelViewModels.cs" />
     <Compile Include="Vms\CoinViewModels.cs" />
     <Compile Include="Vms\Drives\Drive.cs" />
-    <Compile Include="Vms\EnviromentViewModel.cs" />
+    <Compile Include="Vms\PropertyViewModel.cs" />
     <Compile Include="Vms\EventPageViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
@@ -500,7 +500,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Enviroment.xaml">
+    <Page Include="Views\Ucs\Property.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

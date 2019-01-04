@@ -52,8 +52,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 NvmlNativeMethods.nvmlSystemGetDriverVersion(out driverVersion);
                 string nvmlVersion;
                 NvmlNativeMethods.nvmlSystemGetNVMLVersion(out nvmlVersion);
-                this.Properties.Add(new GpuSetProperty("DriverVersion", "驱动版本", driverVersion));
-                this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML版本", nvmlVersion));
+                this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
+                this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML version", nvmlVersion));
 
             }
             Global.Access<Per5SecondEvent>(Guid.Parse("7C379223-D494-4213-9659-A086FFDE36DF"), "周期刷新显卡状态", LogEnum.None, action: message => {

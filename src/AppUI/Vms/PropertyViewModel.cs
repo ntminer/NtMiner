@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
-    public class EnviromentViewModel : ViewModelBase {
-        public static readonly EnviromentViewModel Current = new EnviromentViewModel();
+    public class PropertyViewModel : ViewModelBase {
+        public static readonly PropertyViewModel Current = new PropertyViewModel();
 
-        private EnviromentViewModel() {
+        private PropertyViewModel() {
 
         }
 
