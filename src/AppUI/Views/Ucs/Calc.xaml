@@ -19,6 +19,18 @@
             <sys:String x:Key="WindowTitle">
                 收益计算器
             </sys:String>
+            <sys:String x:Key="LblCoin">
+                LblCoin
+            </sys:String>
+            <sys:String x:Key="LblSpeed">
+                LblSpeed
+            </sys:String>
+            <sys:String x:Key="LblIncome">
+                LblIncome
+            </sys:String>
+            <sys:String x:Key="TbDay">
+                TbDay
+            </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -29,8 +41,25 @@
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        <controls:KbButton
+            Margin="2 0"
+            HorizontalAlignment="Right"
+            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            ToolTip="Calc translate"
+            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+            CommandParameter="Calc"
+            Background="Transparent">
+            <WrapPanel>
+                <Path
+                    Width="14"
+                    Height="14"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="Red"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label>币种</Label>
+            <Label Content="{DynamicResource LblCoin}"></Label>
             <ComboBox 
                 BorderThickness="0"
 			    Width="150" ItemsSource="{Binding CoinVms.AllCoins}" 
@@ -38,8 +67,8 @@
 			    SelectedItem="{Binding SelectedCoinVm}">
             </ComboBox>
         </WrapPanel>
-        <WrapPanel Grid.Row="1" VerticalAlignment="Center" Margin="30 0 0 0">
-            <Label Content="算力"></Label>
+        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Label Content="{DynamicResource LblSpeed}"></Label>
             <TextBox Width="100" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
             <ComboBox 
                 Height="30"
@@ -56,12 +85,13 @@
                 Data="{StaticResource Icon_ArrowRight}"
                 Fill="{StaticResource IconFillColor}"
                 Stretch="Fill"/>
-            <Label>收益</Label>
-            <TextBox Width="100" IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
+            <Label Content="{DynamicResource LblIncome}"></Label>
+            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
             <Label>
                 <WrapPanel>
                     <TextBlock Text="{Binding SelectedCoinVm.Code}"></TextBlock>
-                    <TextBlock Text="/天"></TextBlock>
+                    <TextBlock Text="/"></TextBlock>
+                    <TextBlock Text="{DynamicResource TbDay}"></TextBlock>
                 </WrapPanel>
             </Label>
         </WrapPanel>
