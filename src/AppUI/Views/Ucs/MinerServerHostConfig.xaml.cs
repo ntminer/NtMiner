@@ -35,6 +35,7 @@ namespace NTMiner.Views.Ucs {
 
         public MinerServerHostConfig() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(MinerServerHostConfig), this.Resources);
         }
     }
 }

@@ -38,6 +38,7 @@ namespace NTMiner.Views.Ucs {
         public KernelEdit(KernelViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(KernelEdit), this.Resources);
         }
 
         private void KernelOutputFilterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

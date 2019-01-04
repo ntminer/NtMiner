@@ -26,6 +26,7 @@ namespace NTMiner.Views.Ucs {
         public MinerClientRestart(MinerClientRestartViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(MinerClientRestart), this.Resources);
         }
     }
 }

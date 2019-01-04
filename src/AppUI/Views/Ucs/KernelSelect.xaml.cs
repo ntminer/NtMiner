@@ -39,6 +39,7 @@ namespace NTMiner.Views.Ucs {
 
         public KernelSelect() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(KernelSelect), this.Resources);
         }
     }
 }

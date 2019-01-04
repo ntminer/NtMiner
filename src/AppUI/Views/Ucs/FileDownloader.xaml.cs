@@ -27,6 +27,7 @@ namespace NTMiner.Views.Ucs {
         public FileDownloader(FileDownloaderViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(FileDownloader), this.Resources);
         }
     }
 }

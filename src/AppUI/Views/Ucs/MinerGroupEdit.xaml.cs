@@ -35,6 +35,7 @@ namespace NTMiner.Views.Ucs {
         public MinerGroupEdit(MinerGroupViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(MinerGroupEdit), this.Resources);
         }
     }
 }

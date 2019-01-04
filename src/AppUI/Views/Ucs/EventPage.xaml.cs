@@ -20,6 +20,7 @@ namespace NTMiner.Views.Ucs {
 
         public EventPage() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(EventPage), this.Resources);
         }
     }
 }

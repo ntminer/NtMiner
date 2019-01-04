@@ -34,6 +34,7 @@ namespace NTMiner.Views.Ucs {
 
         public KernelPage() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(KernelPage), this.Resources);
             if (_left != 0) {
                 this.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
                 this.Left = _left;

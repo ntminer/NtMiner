@@ -30,6 +30,7 @@ namespace NTMiner.Views.Ucs {
         public Action CloseWindow;
         public RestartWindows() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(RestartWindows), this.Resources);
             System.Timers.Timer t = new System.Timers.Timer(1000);
             t.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
                 if (_isCanceled) {

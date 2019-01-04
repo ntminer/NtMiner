@@ -33,6 +33,7 @@ namespace NTMiner.Views.Ucs {
         public CoinKernelEdit(CoinKernelViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(CoinKernelEdit), this.Resources);
         }
     }
 }

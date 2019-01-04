@@ -36,6 +36,7 @@ namespace NTMiner.Views.Ucs {
         public PoolEdit(PoolViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(PoolEdit), this.Resources);
         }
     }
 }

@@ -37,6 +37,7 @@ namespace NTMiner.Views.Ucs {
 
         private CalcConfig() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(CalcConfig), this.Resources);
         }
     }
 }

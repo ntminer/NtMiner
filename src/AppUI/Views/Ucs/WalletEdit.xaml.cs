@@ -39,6 +39,7 @@ namespace NTMiner.Views.Ucs {
         public WalletEdit(WalletViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(WalletEdit), this.Resources);
         }
     }
 }

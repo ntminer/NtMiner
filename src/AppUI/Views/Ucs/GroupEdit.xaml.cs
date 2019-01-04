@@ -36,6 +36,7 @@ namespace NTMiner.Views.Ucs {
         public GroupEdit(GroupViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(GroupEdit), this.Resources);
         }
     }
 }

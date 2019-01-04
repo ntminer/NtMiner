@@ -24,6 +24,7 @@ namespace NTMiner.Views.Ucs {
 
         private Calc(CoinViewModel coin) {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(nameof(Calc), this.Resources);
             Vm.SelectedCoinVm = coin;
         }
     }
