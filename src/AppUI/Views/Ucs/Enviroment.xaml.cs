@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class Enviroment : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "电脑概览",
                 IconName = "Icon_Enviroment",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => new Enviroment(), fixedSize: true);

@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class SpeedTable : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "显卡",
                 IconName = "Icon_Gpu",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => new SpeedTable(), fixedSize: true);

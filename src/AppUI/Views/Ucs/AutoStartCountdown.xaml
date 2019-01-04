@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms"
         FontSize="20" Background="White"
@@ -11,6 +12,11 @@
     <UserControl.DataContext>
         <local:AutoStartCountdownViewModel></local:AutoStartCountdownViewModel>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <sys:String x:Key="WindowTitle">
+            自动挖矿倒计时
+        </sys:String>
+    </UserControl.Resources>
     <StackPanel VerticalAlignment="Center">
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock VerticalAlignment="Center">提示：系统将在</TextBlock>

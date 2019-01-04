@@ -3,9 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms"
         mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="500">
+    <UserControl.Resources>
+        <sys:String x:Key="WindowTitle">
+            内核帮助
+        </sys:String>
+    </UserControl.Resources>
     <Grid>
         <TextBox 
             Text="{Binding HelpText, Mode=OneWay}"

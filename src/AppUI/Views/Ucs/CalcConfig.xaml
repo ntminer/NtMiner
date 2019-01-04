@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:local="clr-namespace:NTMiner.Views.Ucs"
     xmlns:vm="clr-namespace:NTMiner.Vms"
 	FontSize="12"
@@ -13,6 +14,11 @@
     <UserControl.DataContext>
         <vm:CalcConfigViewModels></vm:CalcConfigViewModels>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <sys:String x:Key="WindowTitle">
+            收益计算器设置
+        </sys:String>
+    </UserControl.Resources>
     <Grid>
         <ScrollViewer 
             Background="White"

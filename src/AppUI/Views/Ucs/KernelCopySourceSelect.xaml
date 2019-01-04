@@ -4,11 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms"
 		d:DataContext="{d:DesignData Source=Design/KernelCopySourceSelectViewModel.xaml}"
         mc:Ignorable="d" Height="320" Width="620">
+    <UserControl.Resources>
+        <sys:String x:Key="WindowTitle">
+            选择内核
+        </sys:String>
+    </UserControl.Resources>
     <Grid>
         <DataGrid 
             Margin="0" 

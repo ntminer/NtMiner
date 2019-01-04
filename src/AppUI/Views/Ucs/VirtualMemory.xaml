@@ -3,11 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
         DataContext="{x:Static vm:DrivesViewModel.Current}"
         mc:Ignorable="d" Height="220" Width="520">
+    <UserControl.Resources>
+        <sys:String x:Key="WindowTitle">
+            虚拟内存
+        </sys:String>
+    </UserControl.Resources>
     <StackPanel>
         <WrapPanel HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center">共设置了</TextBlock>

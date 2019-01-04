@@ -7,7 +7,6 @@ namespace NTMiner.Views.Ucs {
     public partial class CalcConfig : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "收益计算器设置",
                 IconName = "Icon_Calc",
                 Width = 500,
                 Height = 450,

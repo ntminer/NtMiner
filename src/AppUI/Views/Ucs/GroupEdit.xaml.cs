@@ -5,20 +5,7 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class GroupEdit : UserControl {
         public static void ShowEditWindow(GroupViewModel source) {
-            string title;
-            if (!DevMode.IsDevMode) {
-                title = "组详情";
-            }
-            else {
-                if (NTMinerRoot.Current.GroupSet.Contains(source.Id)) {
-                    title = "编辑组";
-                }
-                else {
-                    title = "添加组";
-                }
-            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
                 IsDialogWindow = true,
                 SaveVisible = System.Windows.Visibility.Visible,
                 CloseVisible = System.Windows.Visibility.Visible,

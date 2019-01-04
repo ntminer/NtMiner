@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerClientRestart : UserControl {
         public static void ShowWindow(MinerClientViewModel minerClientVm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "重启客户端",
                 IconName = "Icon_Restart",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

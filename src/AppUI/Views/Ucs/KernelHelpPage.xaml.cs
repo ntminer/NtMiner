@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class KernelHelpPage : UserControl {
         public static void ShowWindow(string title, string helpText) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
                 IconName = "Icon_Help",
                 Width = 700,
                 Height = 500,

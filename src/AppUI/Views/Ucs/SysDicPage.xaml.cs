@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class SysDicPage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "字典",
                 IconName = "Icon_SysDic",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,

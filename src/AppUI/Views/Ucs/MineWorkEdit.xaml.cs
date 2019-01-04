@@ -5,20 +5,7 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class MineWorkEdit : UserControl {
         public static void ShowEditWindow(MineWorkViewModel source) {
-            string title;
-            if (!DevMode.IsDevMode) {
-                title = "作业详情";
-            }
-            else {
-                if (NTMinerRoot.Current.MineWorkSet.Contains(source.Id)) {
-                    title = "编辑作业";
-                }
-                else {
-                    title = "添加作业";
-                }
-            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
                 IsDialogWindow = true,
                 SaveVisible = System.Windows.Visibility.Visible,
                 CloseVisible = System.Windows.Visibility.Visible,

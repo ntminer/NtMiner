@@ -6,7 +6,6 @@ namespace NTMiner.Views.Ucs {
     public partial class RestartWindows : UserControl {
         public static void ShowDialog() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "Windows系统重启倒计时",
                 Width = 400,
                 Height = 200,
                 IsDialogWindow = true,

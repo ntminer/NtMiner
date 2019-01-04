@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerGroupPage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "矿工组",
                 IconName = "Icon_MinerGroup",
                 Width = 600,
                 Height = 400,

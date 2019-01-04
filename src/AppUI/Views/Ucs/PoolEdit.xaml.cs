@@ -5,19 +5,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class PoolEdit : UserControl {
         public static void ShowEditWindow(PoolViewModel source) {
-            string title;
-            string iconName;
-            if (NTMinerRoot.Current.PoolSet.Contains(source.Id)) {
-                title = "编辑矿池";
-                iconName = "Icon_Edit";
-            }
-            else {
-                title = "添加矿池";
-                iconName = "Icon_Add";
-            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
-                IconName = iconName,
+                IconName = "Icon_Pool",
                 IsDialogWindow = true,
                 SaveVisible = source.IsReadOnly ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible,
                 CloseVisible = System.Windows.Visibility.Visible,

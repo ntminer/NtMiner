@@ -5,23 +5,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class WalletEdit : UserControl {
         public static void ShowEditWindow(WalletViewModel source) {
-            string title;
-            string iconName;
-            if (NTMinerRoot.Current.WalletSet.Contains(source.Id)) {
-                title = "编辑钱包";
-                iconName = "Icon_Edit";
-            }
-            else if (NTMinerRoot.Current.CoinSet.Contains(source.Id)) {
-                title = "测试地址";
-                iconName = "Icon_Wallet";
-            }
-            else {
-                title = "添加钱包";
-                iconName = "Icon_Add";
-            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
-                IconName = iconName,
+                IconName = "Icon_Wallet",
                 IsDialogWindow = true,
                 SaveVisible = source.IsTestWallet ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible,
                 CloseVisible = System.Windows.Visibility.Visible,

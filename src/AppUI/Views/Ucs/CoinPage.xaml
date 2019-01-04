@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
              xmlns:local="clr-namespace:NTMiner.Views.Ucs"
              xmlns:vm="clr-namespace:NTMiner.Vms"
@@ -18,6 +19,9 @@
                 <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbCoinCode.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <sys:String x:Key="WindowTitle">
+                币种
+            </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>

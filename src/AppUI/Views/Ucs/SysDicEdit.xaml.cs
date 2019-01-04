@@ -5,20 +5,7 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class SysDicEdit : UserControl {
         public static void ShowEditWindow(SysDicViewModel source) {
-            string title;
-            if (!DevMode.IsDevMode) {
-                title = "字典详情";
-            }
-            else {
-                if (NTMinerRoot.Current.SysDicSet.ContainsKey(source.Id)) {
-                    title = "编辑字典";
-                }
-                else {
-                    title = "添加字典";
-                }
-            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
                 IsDialogWindow = true,
                 SaveVisible = System.Windows.Visibility.Visible,
                 CloseVisible = System.Windows.Visibility.Visible,

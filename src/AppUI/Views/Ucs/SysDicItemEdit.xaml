@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
     <UserControl.Resources>
@@ -10,6 +11,9 @@
             <Setter Property="Width" Value="60"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
         </Style>
+        <sys:String x:Key="WindowTitle">
+            字典项
+        </sys:String>
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">

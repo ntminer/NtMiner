@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class MineWorkPage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "作业",
                 IconName = "Icon_MineWork",
                 Width = 600,
                 Height = 400,

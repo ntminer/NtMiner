@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms"
@@ -11,6 +12,11 @@
     <UserControl.DataContext>
         <local:RestartWindowsViewModel></local:RestartWindowsViewModel>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <sys:String x:Key="WindowTitle">
+            Windows系统重启倒计时
+        </sys:String>
+    </UserControl.Resources>
     <StackPanel VerticalAlignment="Center">
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock VerticalAlignment="Center">警告：系统将在</TextBlock>

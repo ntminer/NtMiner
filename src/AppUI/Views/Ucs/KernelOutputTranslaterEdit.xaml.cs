@@ -5,21 +5,8 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class KernelOutputTranslaterEdit : UserControl {
         public static void ShowEditWindow(KernelOutputTranslaterViewModel source) {
-            string title;
-            if (!DevMode.IsDevMode) {
-                title = "翻译器详情";
-            }
-            else {
-                if (NTMinerRoot.Current.KernelOutputTranslaterSet.Contains(source.Id)) {
-                    title = "编辑翻译器";
-                }
-                else {
-                    title = "添加翻译器";
-                }
-            }
             int sortNumber = source.SortNumber;
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
                 IsDialogWindow = true,
                 SaveVisible = System.Windows.Visibility.Visible,
                 CloseVisible = System.Windows.Visibility.Visible,

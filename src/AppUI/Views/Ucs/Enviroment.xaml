@@ -18,6 +18,9 @@
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
         </Style>
+        <sys:String x:Key="WindowTitle">
+            电脑概览
+        </sys:String>
         <sys:String x:Key="LblMachineName">
             LblMachineName
         </sys:String>

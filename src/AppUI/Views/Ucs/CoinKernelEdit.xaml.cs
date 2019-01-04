@@ -5,20 +5,7 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class CoinKernelEdit : UserControl {
         public static void ShowEditWindow(CoinKernelViewModel source) {
-            string title;
-            if (!DevMode.IsDevMode) {
-                title = "内核详情";
-            }
-            else {
-                if (NTMinerRoot.Current.CoinKernelSet.Contains(source.Id)) {
-                    title = "编辑内核";
-                }
-                else {
-                    title = "添加内核";
-                }
-            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",
                 SaveVisible = DevMode.IsDevMode ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed,

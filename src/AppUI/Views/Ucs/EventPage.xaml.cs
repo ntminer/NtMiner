@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class EventPage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "事件",
                 IconName = "Icon_Event",
                 CloseVisible = System.Windows.Visibility.Visible,
                 Width = 1000,

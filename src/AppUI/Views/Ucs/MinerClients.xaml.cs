@@ -9,7 +9,6 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerClients : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "矿工",
                 IconName = "Icon_Miner",
                 Width = 900,
                 Height = 760,

@@ -6,7 +6,6 @@ namespace NTMiner.Views.Ucs {
     public partial class AutoStartCountdown : UserControl {
         public static void ShowDialog() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "自动挖矿倒计时",
                 Width = 400,
                 Height = 200,
                 IsDialogWindow = true,

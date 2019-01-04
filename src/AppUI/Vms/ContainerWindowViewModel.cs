@@ -8,7 +8,6 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class ContainerWindowViewModel : ViewModelBase {
-        private string _title = string.Empty;
         private Visibility _minVisible = Visibility.Visible;
         private Visibility _maxVisible = Visibility.Visible;
         private Visibility _saveVisible = Visibility.Collapsed;
@@ -18,7 +17,6 @@ namespace NTMiner.Vms {
         private double _height = 0;
         private Geometry _icon;
         private bool _isDialogWindow;
-        private bool _isSingleton = true;
 
         public Func<UserControl, bool> OnOk;
         public Action<UserControl> OnClose;
@@ -31,6 +29,8 @@ namespace NTMiner.Vms {
             });
         }
 
+        public ResourceDictionary UcResourceDic { get; set; }
+
         public Version CurrentVersion {
             get {
                 return NTMinerRoot.CurrentVersion;
@@ -40,16 +40,6 @@ namespace NTMiner.Vms {
         public string VersionTag {
             get {
                 return NTMinerRoot.VersionTag;
-            }
-        }
-
-        public bool IsSingleton {
-            get {
-                return _isSingleton;
-            }
-            set {
-                _isSingleton = value;
-                OnPropertyChanged(nameof(IsSingleton));
             }
         }
 
@@ -107,10 +97,11 @@ namespace NTMiner.Vms {
         }
 
         public string Title {
-            get => _title;
-            set {
-                _title = value;
-                OnPropertyChanged(nameof(Title));
+            get {
+                if (this.UcResourceDic == null || !this.UcResourceDic.Contains("WindowTitle")) {
+                    return string.Empty;
+                }
+                return (string)this.UcResourceDic["WindowTitle"];
             }
         }
 

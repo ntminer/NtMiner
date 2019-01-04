@@ -9,7 +9,6 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow(KernelViewModel kernel, string tag) {
             KernelCopySourceSelect uc = null;
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "选择内核",
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible

@@ -6,20 +6,7 @@ using System.Windows.Input;
 namespace NTMiner.Views.Ucs {
     public partial class KernelEdit : UserControl {
         public static void ShowEditWindow(KernelViewModel source) {
-            string title;
-            if (!DevMode.IsDevMode) {
-                title = "内核详情";
-            }
-            else {
-                if (NTMinerRoot.Current.KernelSet.Contains(source.Id)) {
-                    title = "编辑内核";
-                }
-                else {
-                    title = "添加内核";
-                }
-            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
                 Width = 660,

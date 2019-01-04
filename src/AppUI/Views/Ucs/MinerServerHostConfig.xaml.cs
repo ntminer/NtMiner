@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerServerHostConfig : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "从该服务器检查更新",
                 IconName = "Icon_Server",
                 CloseVisible = System.Windows.Visibility.Visible,
                 SaveVisible = System.Windows.Visibility.Visible,

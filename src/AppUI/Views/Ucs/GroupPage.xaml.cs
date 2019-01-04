@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class GroupPage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "组",
                 IconName = "Icon_Group",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,

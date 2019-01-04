@@ -5,20 +5,7 @@ using System.Windows.Controls;
 namespace NTMiner.Views.Ucs {
     public partial class CoinEdit : UserControl {
         public static void ShowEditWindow(CoinViewModel source) {
-            string title;
-            if (!DevMode.IsDevMode) {
-                title = "币种详情";
-            }
-            else {
-                if (NTMinerRoot.Current.CoinSet.Contains(source.Id)) {
-                    title = "编辑币种";
-                }
-                else {
-                    title = "添加币种";
-                }
-            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = title,
                 IsDialogWindow = true,
                 SaveVisible = DevMode.IsDevMode? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed,
                 CloseVisible = System.Windows.Visibility.Visible,
