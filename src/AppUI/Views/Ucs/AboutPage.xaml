@@ -12,7 +12,13 @@
         mc:Ignorable="d" Height="320" Width="520">
     <UserControl.Resources>
         <sys:String x:Key="WindowTitle">
-            关于
+            WindowTitle
+        </sys:String>
+        <sys:String x:Key="AboutContent">
+            AboutContent
+        </sys:String>
+        <sys:String x:Key="Copyright">
+            Copyright
         </sys:String>
     </UserControl.Resources>
     <Grid>
@@ -43,7 +49,7 @@
             <TextBox 
                 Background="Transparent"
                 HorizontalAlignment="Center"
-                Text="{Binding AboutText, Mode=OneWay}"
+                Text="{DynamicResource AboutContent}"
                 BorderThickness="0" AcceptsReturn="True" 
                 TextWrapping="Wrap" IsReadOnly="True" 
                 FontSize="14" 
@@ -52,11 +58,11 @@
         </StackPanel>
         <StackPanel Grid.Row="2" HorizontalAlignment="Center">
             <WrapPanel HorizontalAlignment="Center">
-                <Label>开源矿工</Label>
+                <Label>NTMiner</Label>
                 <Label>|</Label>
-                <Label>版权所有</Label>
+                <Label Content="{DynamicResource Copyright}"></Label>
                 <Label>|</Label>
-                <Label>开源协议</Label>
+                <Label Content="LGPL"></Label>
             </WrapPanel>
             <WrapPanel>
                 <TextBlock>Copyright</TextBlock>

@@ -4,10 +4,16 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:MinerProfileViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="408" d:DesignWidth="408">
+    <UserControl.Resources>
+        <sys:String x:Key="AnnouncementContent">
+            AnnouncementContent
+        </sys:String>
+    </UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -16,8 +22,7 @@
 		</Grid.RowDefinitions>
 		<Grid>
 			<TextBox 
-				DataContext="{x:Static vm:AboutPageViewModel.Current}"
-				Background="Black" Text="{Binding AboutText, Mode=OneWay}"
+				Background="Black" Text="{DynamicResource AnnouncementContent}"
 				BorderThickness="0" AcceptsReturn="True" 
 				TextWrapping="Wrap" IsReadOnly="True" 
 				Padding="4" Foreground="White">
@@ -27,7 +32,23 @@
 				Margin="0 0 18 0"
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
-				<controls:KbCheckBox 
+                <controls:KbButton
+                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    ToolTip="Console translate"
+                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                    CommandParameter="Console"
+                    Padding="8 0"
+                    Background="Transparent">
+                    <WrapPanel>
+                        <Path
+                            Width="14"
+                            Height="14"
+                            Data="{StaticResource Icon_Translate}"
+                            Fill="Red"
+                            Stretch="Fill" />
+                    </WrapPanel>
+                </controls:KbButton>
+                <controls:KbCheckBox 
 					x:Name="ChkbIsConsoleAutoScrollToEnd"
 					ToolTip="滚屏"
 					IconColor="{StaticResource IconFillColor}"
