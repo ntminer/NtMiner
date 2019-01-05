@@ -15,18 +15,39 @@
             <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
         </Style>
         <sys:String x:Key="WindowTitle">
-            币种
+            WindowTitle
+        </sys:String>
+        <sys:String x:Key="Code">
+            Code
+        </sys:String>
+        <sys:String x:Key="Algo">
+            Algo
+        </sys:String>
+        <sys:String x:Key="EnName">
+            EnName
+        </sys:String>
+        <sys:String x:Key="CnName">
+            CnName
+        </sys:String>
+        <sys:String x:Key="WalletRegexPattern">
+            WalletRegexPattern
+        </sys:String>
+        <sys:String x:Key="TestWallet">
+            TestWallet
+        </sys:String>
+        <sys:String x:Key="JustAsDualCoin">
+            JustAsDualCoin
         </sys:String>
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
-            <Label>编码:</Label>
+            <Label Content="{DynamicResource Code}"></Label>
             <TextBox 
                 IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
                 Width="150"
                 VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
             </TextBox>
-            <Label>算法:</Label>
+            <Label Content="{DynamicResource Algo}"></Label>
             <TextBox 
                 IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
                 Width="160"
@@ -35,13 +56,13 @@
         </WrapPanel>
 
         <WrapPanel Margin="0 2">
-            <Label>英文名:</Label>
+            <Label Content="{DynamicResource EnName}"></Label>
             <TextBox 
                 IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
                 Width="150"
                 VerticalContentAlignment="Center" Text="{Binding EnName}">
             </TextBox>
-            <Label>中文名:</Label>
+            <Label Content="{DynamicResource CnName}"></Label>
             <TextBox 
                 IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
                 Width="160"
@@ -50,7 +71,7 @@
         </WrapPanel>
 
         <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-            <Label>钱包格式:</Label>
+            <Label Content="{DynamicResource WalletRegexPattern}"></Label>
             <TextBox 
                 Width="380"
                 IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
@@ -59,7 +80,7 @@
         </WrapPanel>
 
         <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-            <Label>测试地址:</Label>
+            <Label Content="{DynamicResource TestWallet}"></Label>
             <TextBox 
                 x:Name="TbTestWallet" 
                 Width="380" 
@@ -72,11 +93,28 @@
         </WrapPanel>
 
         <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-            <Label>双挖:</Label>
+            <Label></Label>
             <CheckBox
-                Content="仅作为双挖币"
+                Content="{DynamicResource JustAsDualCoin}"
                 VerticalContentAlignment="Center" IsChecked="{Binding JustAsDualCoin}">
             </CheckBox>
+            <controls:KbButton
+                Margin="2 0"
+                HorizontalAlignment="Right"
+                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                ToolTip="CoinEdit translate"
+                Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                CommandParameter="CoinEdit"
+                Background="Transparent">
+                <WrapPanel>
+                    <Path
+                        Width="14"
+                        Height="14"
+                        Data="{StaticResource Icon_Translate}"
+                        Fill="Red"
+                        Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
         </WrapPanel>
     </StackPanel>
 </UserControl>
