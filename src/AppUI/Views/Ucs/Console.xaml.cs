@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
     public partial class Console : UserControl {
         public Console() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(Console), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Global.WriteLineMethod = WriteLine;
             if (DevMode.IsDevMode) {
                 this.DebugRow.Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star);

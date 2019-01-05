@@ -27,7 +27,7 @@ namespace NTMiner.Views {
                 }
             };
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(MainWindow), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             if (!Windows.Role.IsAdministrator) {
                 Vm.Manager
                     .CreateMessage()

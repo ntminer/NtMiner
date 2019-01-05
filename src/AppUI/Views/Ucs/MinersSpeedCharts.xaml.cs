@@ -20,7 +20,7 @@ namespace NTMiner.Views.Ucs {
         public MinersSpeedCharts(Window window) {
             _window = window;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(MinersSpeedCharts), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
 
             if (NTMinerRoot.IsInDesignMode) {
                 return;

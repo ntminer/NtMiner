@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -10,19 +9,8 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
                 Width = 660,
-                Height = 502,
-                SaveVisible = DevMode.IsDevMode ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed,
-                CloseVisible = System.Windows.Visibility.Visible,
-                OnOk = (uc) => {
-                    var vm = ((KernelEdit)uc).Vm;
-                    if (NTMinerRoot.Current.KernelSet.Contains(source.Id)) {
-                        Global.Execute(new UpdateKernelCommand(vm));
-                    }
-                    else {
-                        Global.Execute(new AddKernelCommand(vm));
-                    }
-                    return true;
-                }
+                Height = 520,
+                CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 KernelViewModel vm = new KernelViewModel(source);
                 return new KernelEdit(vm);
@@ -38,7 +26,7 @@ namespace NTMiner.Views.Ucs {
         public KernelEdit(KernelViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(KernelEdit), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void KernelOutputFilterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

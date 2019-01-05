@@ -19,7 +19,7 @@ namespace NTMiner.Views.Ucs {
 
         public VirtualMemory() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(VirtualMemory), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

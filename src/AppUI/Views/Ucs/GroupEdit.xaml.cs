@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -7,22 +6,12 @@ namespace NTMiner.Views.Ucs {
         public static void ShowEditWindow(GroupViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
-                SaveVisible = System.Windows.Visibility.Visible,
                 CloseVisible = System.Windows.Visibility.Visible,
-                IconName = "Icon_Group",
-                OnOk = (uc) => {
-                    var vm = ((GroupEdit)uc).Vm;
-                    if (NTMinerRoot.Current.GroupSet.Contains(source.Id)) {
-                        Global.Execute(new UpdateGroupCommand(vm));
-                    }
-                    else {
-                        Global.Execute(new AddGroupCommand(vm));
-                    }
-                    return true;
-                }
+                IconName = "Icon_Group"
             }, ucFactory: (window) =>
             {
                 GroupViewModel vm = new GroupViewModel(source.Id).Update(source);
+                vm.CloseWindow = () => window.Close();
                 return new GroupEdit(vm);
             }, fixedSize: true);
         }
@@ -36,7 +25,7 @@ namespace NTMiner.Views.Ucs {
         public GroupEdit(GroupViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(GroupEdit), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

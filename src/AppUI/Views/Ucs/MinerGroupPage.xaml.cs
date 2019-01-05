@@ -20,7 +20,7 @@ namespace NTMiner.Views.Ucs {
 
         public MinerGroupPage() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(MinerGroupPage), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

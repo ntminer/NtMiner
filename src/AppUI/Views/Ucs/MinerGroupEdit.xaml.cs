@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -7,22 +6,12 @@ namespace NTMiner.Views.Ucs {
         public static void ShowEditWindow(MinerGroupViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
-                SaveVisible = System.Windows.Visibility.Visible,
                 CloseVisible = System.Windows.Visibility.Visible,
-                IconName = "Icon_MinerGroup",
-                OnOk = (uc) => {
-                    MinerGroupViewModel vm = ((MinerGroupEdit)uc).Vm;
-                    if (NTMinerRoot.Current.MinerGroupSet.Contains(source.Id)) {
-                        Global.Execute(new UpdateMinerGroupCommand(vm));
-                    }
-                    else {
-                        Global.Execute(new AddMinerGroupCommand(vm));
-                    }
-                    return true;
-                }
+                IconName = "Icon_MinerGroup"
             }, ucFactory: (window) =>
             {
                 MinerGroupViewModel vm = new MinerGroupViewModel(source.Id).Update(source);
+                vm.CloseWindow = () => window.Close();
                 return new MinerGroupEdit(vm);
             }, fixedSize: true);
         }
@@ -35,7 +24,7 @@ namespace NTMiner.Views.Ucs {
         public MinerGroupEdit(MinerGroupViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(MinerGroupEdit), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

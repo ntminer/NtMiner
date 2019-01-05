@@ -8,8 +8,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Calc",
                 Width = 500,
                 Height = 250,
-                CloseVisible = System.Windows.Visibility.Visible,
-                SaveVisible = System.Windows.Visibility.Collapsed
+                CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new Calc(coin);
                 return uc;
@@ -24,7 +23,7 @@ namespace NTMiner.Views.Ucs {
 
         private Calc(CoinViewModel coin) {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(Calc), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Vm.SelectedCoinVm = coin;
         }
     }

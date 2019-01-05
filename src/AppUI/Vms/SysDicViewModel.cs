@@ -5,6 +5,7 @@ using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -19,6 +20,18 @@ namespace NTMiner.Vms {
         public ICommand AddSysDicItem { get; private set; }
         public ICommand SortUp { get; private set; }
         public ICommand SortDown { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
+        public Visibility SaveVisible {
+            get {
+                if (DevMode.IsDevMode) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
 
         public Guid GetId() {
             return this.Id;
@@ -33,6 +46,15 @@ namespace NTMiner.Vms {
 
         public SysDicViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.SysDicSet.ContainsKey(this.Id)) {
+                    Global.Execute(new UpdateSysDicCommand(this));
+                }
+                else {
+                    Global.Execute(new AddSysDicCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.AddSysDicItem = new DelegateCommand(() => {
                 new SysDicItemViewModel(Guid.NewGuid()) {
                     DicId = id,

@@ -1,6 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
-using NTMiner.Vms;
-using System.Linq;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -10,16 +8,11 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Calc",
                 Width = 560,
                 Height = 450,
-                CloseVisible = System.Windows.Visibility.Visible,
-                SaveVisible = System.Windows.Visibility.Visible,
-                OnOk = (uc) => {
-                    CalcConfigViewModels vm = (CalcConfigViewModels)uc.DataContext;
-                    NTMinerRoot.Current.CalcConfigSet.SaveCalcConfigs(vm.CalcConfigVms.Select(a => new CalcConfigData(a)).ToList());
-                    TopWindow.GetTopWindow()?.Close();
-                    return true;
-                }
+                CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new CalcConfig();
+                CalcConfigViewModels vm = (CalcConfigViewModels)uc.DataContext;
+                vm.CloseWindow = () => window.Close();
                 uc.ItemsControl.MouseDown += (object sender, System.Windows.Input.MouseButtonEventArgs e)=> {
                     if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
                         window.DragMove();
@@ -37,7 +30,7 @@ namespace NTMiner.Views.Ucs {
 
         private CalcConfig() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(CalcConfig), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

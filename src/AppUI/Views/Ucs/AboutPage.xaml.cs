@@ -19,7 +19,7 @@ namespace NTMiner.Views.Ucs {
 
         public AboutPage(string appType) {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(AboutPage), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             if (appType == "ControlCenter") {
                 Vm.ImageSource = "/NTMinerWpf;component/Styles/Images/cc128.png";
             }

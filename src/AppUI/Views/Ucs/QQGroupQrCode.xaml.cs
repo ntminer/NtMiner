@@ -15,7 +15,7 @@ namespace NTMiner.Views.Ucs {
 
         public QQGroupQrCode() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(QQGroupQrCode), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

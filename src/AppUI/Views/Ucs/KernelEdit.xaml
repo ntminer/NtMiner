@@ -35,7 +35,7 @@
             </controls:KbTabItem.Header>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="540"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
@@ -166,9 +166,9 @@
                         </TextBox>
                     </WrapPanel>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                <StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left">
                     <WrapPanel>
-                        <Label Width="40">编码:</Label>
+                        <Label Width="40">排序:</Label>
                         <TextBox Width="40" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
                         </TextBox>
                     </WrapPanel>
@@ -193,13 +193,39 @@
                         </WrapPanel>
                     </controls:KbLinkButton>
                     <TextBox 
-                        Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True" 
+                        Width="100" Margin="10 6 0 0" BorderThickness="0" IsReadOnly="True" 
                         AcceptsReturn="True" TextWrapping="Wrap">mainCoin、mainAlgo、wallet、pool、worker</TextBox>
                     <TextBox 
+                        Margin="10 0 0 0"
                         Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
                         Width="100" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" 
                         TextWrapping="Wrap">dualCoin、dualAlgo、dualWeight、dualWallet、dualPool</TextBox>
                 </StackPanel>
+
+                <controls:KbButton
+                    VerticalAlignment="Bottom"
+                    Command="{Binding Save}" 
+                    Visibility="{Binding SaveVisible}"
+                    Margin="0 10 0 0"
+                    Width="70" 
+                    Height="30"
+                    Background="{StaticResource IconFillColor}"
+                    Foreground="White"
+                    CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+                            Width="12"
+                            Height="12"
+                            Data="{StaticResource Icon_Ok}"
+                            Fill="White"
+                            Stretch="Fill" />
+                        <TextBlock
+                            Padding="4"
+                            VerticalAlignment="Center"
+                            Foreground="White"
+                            Text="确定" />
+                    </WrapPanel>
+                </controls:KbButton>
             </Grid>
         </controls:KbTabItem>
         
@@ -212,7 +238,7 @@
             </controls:KbTabItem.Header>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="540"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
@@ -220,42 +246,42 @@
                     <WrapPanel Margin="0 2">
                         <Label>总算力正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding TotalSpeedPattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>总份额正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding TotalSharePattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>接受份额正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding AcceptSharePattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>拒绝份额正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding RejectSharePattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>拒绝率正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding RejectPercentPattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>GPU算力正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding GpuSpeedPattern}">
                         </TextBox>
                     </WrapPanel>
@@ -264,50 +290,50 @@
                     <WrapPanel Margin="0 2">
                         <Label>总算力正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding DualTotalSpeedPattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>总份额正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding DualTotalSharePattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>接受份额正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding DualAcceptSharePattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>拒绝份额正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding DualRejectSharePattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>拒绝率正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding DualRejectPercentPattern}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
                         <Label>GPU算力正则:</Label>
                         <TextBox 
-							Width="432"
+							Width="450"
 							VerticalContentAlignment="Center" Text="{Binding DualGpuSpeedPattern}">
                         </TextBox>
                     </WrapPanel>
                 </StackPanel>
                 <TextBox 
                     Grid.Column="1"
-                    Margin="4 20 0 0"
-                    Width="140"
+                    Margin="10 20 0 0"
+                    Width="110"
                     HorizontalAlignment="Left"
                     BorderThickness="0"
                     AcceptsReturn="True" 
@@ -317,6 +343,30 @@
                     Background="Transparent">
                     totalSpeed、totalSpeedUnit、totalShare、acceptShare、rejectShare、rejectPercent、gpu、gpuSpeed、gpuSpeedUnit
                 </TextBox>
+                <controls:KbButton
+                    VerticalAlignment="Bottom"
+                    Command="{Binding Save}" 
+                    Visibility="{Binding SaveVisible}"
+                    Margin="0 10 0 0"
+                    Width="70" 
+                    Height="30"
+                    Background="{StaticResource IconFillColor}"
+                    Foreground="White"
+                    CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+                            Width="12"
+                            Height="12"
+                            Data="{StaticResource Icon_Ok}"
+                            Fill="White"
+                            Stretch="Fill" />
+                        <TextBlock
+                            Padding="4"
+                            VerticalAlignment="Center"
+                            Foreground="White"
+                            Text="确定" />
+                    </WrapPanel>
+                </controls:KbButton>
             </Grid>
         </controls:KbTabItem>
         <!--end算力提取-->

@@ -10,7 +10,6 @@ namespace NTMiner.Vms {
     public class ContainerWindowViewModel : ViewModelBase {
         private Visibility _minVisible = Visibility.Visible;
         private Visibility _maxVisible = Visibility.Visible;
-        private Visibility _saveVisible = Visibility.Collapsed;
         private Visibility _closeVisible = Visibility.Visible;
         private Visibility _footerVisible = Visibility.Visible;
         private double _width = 0;
@@ -131,14 +130,6 @@ namespace NTMiner.Vms {
             set {
                 _maxVisible = value;
                 OnPropertyChanged(nameof(MaxVisible));
-            }
-        }
-
-        public Visibility SaveVisible {
-            get { return _saveVisible; }
-            set {
-                _saveVisible = value;
-                OnPropertyChanged(nameof(SaveVisible));
             }
         }
 

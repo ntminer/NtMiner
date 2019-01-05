@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
 
         public Property() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(Property), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

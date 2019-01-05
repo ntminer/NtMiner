@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
 
         public LogColor() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(LogColor), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

@@ -4,6 +4,7 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -18,6 +19,18 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
+        public Visibility SaveVisible {
+            get {
+                if (DevMode.IsDevMode) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
 
         public MinerGroupViewModel() {
             if (!NTMinerRoot.IsInDesignMode) {
@@ -27,6 +40,15 @@ namespace NTMiner.Vms {
 
         public MinerGroupViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.MinerGroupSet.Contains(this.Id)) {
+                    Global.Execute(new UpdateMinerGroupCommand(this));
+                }
+                else {
+                    Global.Execute(new AddMinerGroupCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 MinerGroupEdit.ShowEditWindow(this);
             });

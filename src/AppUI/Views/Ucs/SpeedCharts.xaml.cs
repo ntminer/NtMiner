@@ -43,7 +43,7 @@ namespace NTMiner.Views.Ucs {
         private readonly Dictionary<SpeedChartViewModel, CartesianChart> _chartDic = new Dictionary<SpeedChartViewModel, CartesianChart>();
         public SpeedCharts() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(SpeedCharts), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
 
             if (NTMinerRoot.IsInDesignMode) {
                 return;

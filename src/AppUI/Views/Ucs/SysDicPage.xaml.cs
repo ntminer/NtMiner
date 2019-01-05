@@ -21,7 +21,7 @@ namespace NTMiner.Views.Ucs {
 
         public SysDicPage() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(SysDicPage), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

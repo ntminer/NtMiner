@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -8,18 +7,11 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",
-                SaveVisible = DevMode.IsDevMode ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed,
-                CloseVisible = System.Windows.Visibility.Visible,
-                OnOk = (uc) => {
-                    var vm = ((CoinKernelEdit)uc).Vm;
-                    if (NTMinerRoot.Current.CoinKernelSet.Contains(source.Id)) {
-                        Global.Execute(new UpdateCoinKernelCommand(vm));
-                    }
-                    return true;
-                }
+                CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
             {
                 CoinKernelViewModel vm = new CoinKernelViewModel(source);
+                vm.CloseWindow = () => window.Close();
                 return new CoinKernelEdit(vm);
             }, fixedSize: true);
         }
@@ -33,7 +25,7 @@ namespace NTMiner.Views.Ucs {
         public CoinKernelEdit(CoinKernelViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(CoinKernelEdit), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

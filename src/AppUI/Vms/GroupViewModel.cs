@@ -4,6 +4,7 @@ using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -22,6 +23,18 @@ namespace NTMiner.Vms {
         public ICommand SortUp { get; private set; }
         public ICommand SortDown { get; private set; }
         public ICommand AddCoinGroup { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
+        public Visibility SaveVisible {
+            get {
+                if (DevMode.IsDevMode) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
 
         public GroupViewModel(IGroup data) : this(data.GetId()) {
             _name = data.Name;
@@ -30,6 +43,15 @@ namespace NTMiner.Vms {
 
         public GroupViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.GroupSet.Contains(this.Id)) {
+                    Global.Execute(new UpdateGroupCommand(this));
+                }
+                else {
+                    Global.Execute(new AddGroupCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 GroupEdit.ShowEditWindow(this);
             });

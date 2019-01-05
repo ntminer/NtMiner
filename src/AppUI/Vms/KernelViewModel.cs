@@ -103,6 +103,18 @@ namespace NTMiner.Vms {
         public ICommand ClearTranslaterKeyword { get; private set; }
         public ICommand SelectCopySourceKernel { get; private set; }
         public ICommand AddCoinKernel { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
+        public Visibility SaveVisible {
+            get {
+                if (DevMode.IsDevMode) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
         #endregion
 
         #region ctor
@@ -145,6 +157,15 @@ namespace NTMiner.Vms {
 
         public KernelViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.KernelSet.Contains(this.Id)) {
+                    Global.Execute(new UpdateKernelCommand(this));
+                }
+                else {
+                    Global.Execute(new AddKernelCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 if (this == Empty) {
                     return;

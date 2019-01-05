@@ -45,5 +45,28 @@
                 SelectedItem="{Binding SelectedColor}">
             </ComboBox>
         </WrapPanel>
+        <controls:KbButton
+            Command="{Binding Save}" 
+            Visibility="{Binding SaveVisible}"
+            Margin="0 10 0 0"
+            Width="70" 
+            Height="30"
+            Background="{StaticResource IconFillColor}"
+            Foreground="White"
+            CornerRadius="2">
+            <WrapPanel>
+                <Path
+                    Width="12"
+                    Height="12"
+                    Data="{StaticResource Icon_Ok}"
+                    Fill="White"
+                    Stretch="Fill" />
+                <TextBlock
+                    Padding="4"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Text="确定" />
+            </WrapPanel>
+        </controls:KbButton>
     </StackPanel>
 </UserControl>

@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -7,22 +6,12 @@ namespace NTMiner.Views.Ucs {
         public static void ShowEditWindow(MineWorkViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
-                SaveVisible = System.Windows.Visibility.Visible,
                 CloseVisible = System.Windows.Visibility.Visible,
-                IconName = "Icon_MineWork",
-                OnOk = (uc) => {
-                    MineWorkViewModel vm = ((MineWorkEdit)uc).Vm;
-                    if (NTMinerRoot.Current.MineWorkSet.Contains(source.Id)) {
-                        Global.Execute(new UpdateMineWorkCommand(vm));
-                    }
-                    else {
-                        Global.Execute(new AddMineWorkCommand(vm));
-                    }
-                    return true;
-                }
+                IconName = "Icon_MineWork"
             }, ucFactory: (window) =>
             {
                 MineWorkViewModel vm = new MineWorkViewModel(source.Id).Update(source);
+                vm.CloseWindow = () => window.Close();
                 return new MineWorkEdit(vm);
             }, fixedSize: true);
         }
@@ -35,7 +24,7 @@ namespace NTMiner.Views.Ucs {
         public MineWorkEdit(MineWorkViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(MineWorkEdit), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

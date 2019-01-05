@@ -67,7 +67,7 @@ namespace NTMiner.Views {
         }
 
         private void UILanguageInit() {
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(LoginWindow), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

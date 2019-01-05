@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace NTMiner {
     public class ResourceDictionarySet {
@@ -41,7 +42,7 @@ namespace NTMiner {
             return _dicByViewId.TryGetValue(viewId, out resourceDictionary);
         }
 
-        public void FillResourceDic(string viewId, ResourceDictionary resourceDictionary) {
+        private void FillResourceDic(string viewId, ResourceDictionary resourceDictionary) {
             if (!_dicByViewId.ContainsKey(viewId)) {
                 _dicByViewId.Add(viewId, resourceDictionary);
             }
@@ -52,6 +53,14 @@ namespace NTMiner {
                     resourceDictionary[item.Key] = item.Value;
                 }
             }
+        }
+
+        public void FillResourceDic(Control view, ResourceDictionary resourceDictionary) {
+            string viewId = view.GetType().Name;
+            if (_dicByViewId.ContainsKey(viewId)) {
+                view.Resources = _dicByViewId[viewId];
+            }
+            FillResourceDic(viewId, resourceDictionary);
         }
     }
 }

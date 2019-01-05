@@ -21,7 +21,7 @@ namespace NTMiner.Views.Ucs {
 
         public GroupPage() {
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(GroupPage), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

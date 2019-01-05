@@ -88,7 +88,7 @@ namespace NTMiner.Views.Ucs {
         public KernelCopySourceSelect(KernelCopySourceSelectViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(nameof(KernelCopySourceSelect), this.Resources);
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

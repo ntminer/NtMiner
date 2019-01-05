@@ -72,7 +72,7 @@
 
             </DockPanel>
         </Border>
-        <Grid Grid.Row="2" Background="White" Height="40" Visibility="{Binding FooterVisible}">
+        <Grid Grid.Row="2" Background="White" Visibility="{Binding FooterVisible}">
             <WrapPanel VerticalAlignment="Bottom">
                 <TextBlock
                     Margin="0" Padding="4 0 0 0"
@@ -103,29 +103,6 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Text=")" />
-            </WrapPanel>
-            <WrapPanel HorizontalAlignment="Right">
-                <controls:KbButton
-                    Command="{x:Static ApplicationCommands.Save}" 
-                    Visibility="{Binding SaveVisible}"
-                    Width="70" 
-                    Background="{StaticResource IconFillColor}"
-                    Foreground="White"
-                    Margin="0 4 10 4"
-                    CornerRadius="2">
-                    <WrapPanel>
-                        <Path
-                            Width="12"
-                            Height="12"
-                            Data="{StaticResource Icon_Ok}"
-                            Fill="White"
-                            Stretch="Fill" />
-                        <Label
-                            VerticalAlignment="Center"
-                            Foreground="White"
-                            Content="确定" />
-                    </WrapPanel>
-                </controls:KbButton>
             </WrapPanel>
         </Grid>
     </Grid>

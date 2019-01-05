@@ -4,6 +4,7 @@ using NTMiner.Views.Ucs;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -33,6 +34,18 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
 
         public ICommand ViewPoolIncome { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
+        public Visibility SaveVisible {
+            get {
+                if (DevMode.IsDevMode) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
 
         public PoolViewModel(IPool data) : this(data.GetId()) {
             _dataLevel = data.DataLevel;
@@ -47,6 +60,15 @@ namespace NTMiner.Vms {
 
         public PoolViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.PoolSet.Contains(this.Id)) {
+                    Global.Execute(new UpdatePoolCommand(this));
+                }
+                else {
+                    Global.Execute(new AddPoolCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 PoolEdit.ShowEditWindow(this);
             });
