@@ -22,6 +22,9 @@
             <sys:String x:Key="WindowTitle">
                 WindowTitle
             </sys:String>
+            <sys:String x:Key="TbNoRecord">
+                TbNoRecord
+            </sys:String>
             <sys:String x:Key="Search">
                 Search
             </sys:String>
@@ -45,6 +48,21 @@
             </sys:String>
             <sys:String x:Key="Kernel">
                 Kernel
+            </sys:String>
+            <sys:String x:Key="PoolServer">
+                PoolServer
+            </sys:String>
+            <sys:String x:Key="PoolUrl">
+                PoolUrl
+            </sys:String>
+            <sys:String x:Key="SupportedGpu">
+                SupportedGpu
+            </sys:String>
+            <sys:String x:Key="DualCoinGroup">
+                DualCoinGroup
+            </sys:String>
+            <sys:String x:Key="Args">
+                Args
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -241,7 +259,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding List, Converter={StaticResource NoRecordConverter}}" Foreground="Red">没有记录</TextBlock>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding List, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
         </Grid>
 
         <Grid Grid.Column="2">
@@ -262,6 +280,10 @@
                         </WrapPanel>
                     </controls:KbTabItem.Header>
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="631*"/>
+                        </Grid.ColumnDefinitions>
                         <DataGrid ItemsSource="{Binding CurrentCoin.Pools}" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
                             MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36" Grid.ColumnSpan="2">
                             <DataGrid.Resources>
@@ -271,7 +293,7 @@
                                 <DataGridTemplateColumn Width="140" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                                     <DataGridTemplateColumn.Header>
                                         <WrapPanel>
-                                            <TextBlock>矿池</TextBlock>
+                                            <TextBlock Text="{DynamicResource Pool}"></TextBlock>
                                             <TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentCoin.Pools.Count, Source={StaticResource proxy}}"></TextBlock>
                                         </WrapPanel>
                                     </DataGridTemplateColumn.Header>
@@ -284,21 +306,32 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="矿池地址">
+                                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource PoolServer}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding Server}" FontWeight="Bold" ToolTip="矿池地址"></TextBlock>
-                                                <TextBlock Text="{Binding Url}" ToolTip="收益查看地址"></TextBlock>
+                                                <TextBlock Text="{Binding Server}" FontWeight="Bold" ToolTip="{DynamicResource PoolServer}"></TextBlock>
+                                                <TextBlock Text="{Binding Url}" ToolTip="{DynamicResource PoolUrl}"></TextBlock>
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn 
+                                <DataGridTemplateColumn 
                                     Width="40" CanUserResize="False" CanUserReorder="False" 
                                     Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                                    CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
-                                </DataGridTextColumn>
+                                    CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource Sort}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SortNumber}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
                                     <DataGridTemplateColumn.Header>
                                         <controls:KbButton 
@@ -380,7 +413,7 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <TextBlock Visibility="{Binding CurrentCoin.Pools, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+                        <TextBlock Visibility="{Binding CurrentCoin.Pools, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}" Grid.Column="1" Margin="233.333,240,338,240"></TextBlock>
                     </Grid>
                 </controls:KbTabItem>
 
@@ -408,16 +441,24 @@
                                 <DataGridTemplateColumn Width="*" CellTemplate="{StaticResource WalletAddressDataTemplate}" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                                     <DataGridTemplateColumn.Header>
                                         <WrapPanel>
-                                            <TextBlock>钱包</TextBlock>
+                                            <TextBlock Text="{DynamicResource Wallet}"></TextBlock>
                                             <TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentCoin.Wallets.Count, Source={StaticResource proxy}}"></TextBlock>
                                         </WrapPanel>
                                     </DataGridTemplateColumn.Header>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn 
+                                <DataGridTemplateColumn 
                                     Width="40" CanUserResize="False" CanUserReorder="False" 
                                     Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                                    CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
-                                </DataGridTextColumn>
+                                    CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource Sort}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SortNumber}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTemplateColumn MinWidth="80" CanUserResize="False" IsReadOnly="True">
                                     <DataGridTemplateColumn.Header>
                                         <controls:KbButton 
@@ -489,7 +530,7 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <TextBlock Visibility="{Binding CurrentCoin.Wallets, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+                        <TextBlock Visibility="{Binding CurrentCoin.Wallets, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
                     </Grid>
                 </controls:KbTabItem>
 
@@ -516,12 +557,15 @@
                                 <DataGridTextColumn MinWidth="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
                                     <DataGridTextColumn.Header>
                                         <WrapPanel>
-                                            <TextBlock>内核</TextBlock>
+                                            <TextBlock Text="{DynamicResource Kernel}"></TextBlock>
                                             <TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentCoin.CoinKernels.Count, Source={StaticResource proxy}}"></TextBlock>
                                         </WrapPanel>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTemplateColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="支持显卡">
+                                <DataGridTemplateColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource SupportedGpu}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <WrapPanel>
@@ -529,7 +573,7 @@
                                                     Margin="4 0 0 0"
 				                                    Width="18"
 				                                    Height="14"
-                                                    ToolTip="支持N卡"
+                                                    ToolTip="NVIDIA"
                                                     Visibility="{Binding IsNvidiaIconVisible}"
 				                                    Data="{StaticResource Icon_Nvidia}"
 				                                    Fill="Green"
@@ -538,7 +582,7 @@
                                                     Margin="4 0 0 0"
 				                                    Width="16"
 				                                    Height="14"
-                                                    ToolTip="支持A卡"
+                                                    ToolTip="AMD"
                                                     Visibility="{Binding IsAMDIconVisible}"
 				                                    Data="{StaticResource Icon_AMD}"
 				                                    Fill="Red"
@@ -547,20 +591,39 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="160" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="双挖币组">
+                                <DataGridTemplateColumn Width="160" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource DualCoinGroup}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding DualCoinGroup.Name}"></TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn 
+                                <DataGridTemplateColumn 
                                     Width="40" CanUserResize="False" CanUserReorder="False" 
                                     Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                                    CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="币种级参数" Binding="{Binding Args}">
-                                </DataGridTextColumn>
+                                    CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource Sort}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SortNumber}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource Args}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Args}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTemplateColumn 
                                     MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
                                     Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
@@ -639,7 +702,7 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <TextBlock Visibility="{Binding CurrentCoin.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+                        <TextBlock Visibility="{Binding CurrentCoin.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
                     </Grid>
                 </controls:KbTabItem>
             </TabControl>
