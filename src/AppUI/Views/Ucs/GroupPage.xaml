@@ -17,7 +17,19 @@
                 <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbCoinCode.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <sys:String x:Key="WindowTitle">
-                组
+                WindowTitle
+            </sys:String>
+            <sys:String x:Key="Name">
+                Name
+            </sys:String>
+            <sys:String x:Key="Sort">
+                Sort
+            </sys:String>
+            <sys:String x:Key="Coin">
+                Coin
+            </sys:String>
+            <sys:String x:Key="Add">
+                Add
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -31,6 +43,23 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        <controls:KbButton
+            HorizontalAlignment="Left"
+            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            ToolTip="GroupPage translate"
+            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+            CommandParameter="GroupPage"
+            Padding="8 0"
+            Background="Transparent">
+            <WrapPanel>
+                <Path
+                    Width="14"
+                    Height="14"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="Red"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
         <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding GroupVms.List}"
                   SelectedItem="{Binding CurrentGroup}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
                   MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -46,7 +75,7 @@
                             Command="{Binding Data.GroupVms.Add, Source={StaticResource proxy}}" 
                             Background="Transparent" BorderThickness="0"
                             Margin="10 0"
-                            CornerRadius="2" ToolTip="添加">
+                            CornerRadius="2" ToolTip="{DynamicResource Add}">
                             <WrapPanel>
                                 <Path
                                     Width="18"
@@ -124,13 +153,29 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="200" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
-                </DataGridTextColumn>
-                <DataGridTextColumn 
+                <DataGridTemplateColumn Width="200" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource Name}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn 
                         Width="40" CanUserResize="False" CanUserReorder="False" 
                         Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                        CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
-                </DataGridTextColumn>
+                        CanUserSort="False" IsReadOnly="True" >
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource Sort}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SortNumber}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
@@ -140,7 +185,7 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <WrapPanel VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-                <Label Width="40">币种</Label>
+                <Label Width="40" Content="{DynamicResource Coin}"></Label>
                 <ComboBox 
                         x:Name="CbCoins"
                         BorderThickness="0"
@@ -158,7 +203,7 @@
                         Background="Transparent" BorderThickness="0"
                         Margin="2 0"
                         CornerRadius="2" 
-                        Content="添加">
+                        Content="{DynamicResource Add}">
                 </controls:KbButton>
             </WrapPanel>
             <DataGrid 
@@ -169,18 +214,29 @@
                     <vm:BindingProxy x:Key="proxy" Data="{Binding CurrentGroup}" />
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="币种">
+                    <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource Coin}"></TextBlock>
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding CoinVm.Code}"></TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn 
+                    <DataGridTemplateColumn 
                         Width="40" CanUserResize="False" CanUserReorder="False" 
                         Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                        CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
-                    </DataGridTextColumn>
+                        CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource Sort}"></TextBlock>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SortNumber}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTemplateColumn 
                         MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
                         Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
