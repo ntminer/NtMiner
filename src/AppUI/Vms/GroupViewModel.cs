@@ -76,6 +76,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.AddCoinGroup = new DelegateCommand<CoinViewModel>((coinVm) => {
+                if (coinVm == null) {
+                    return;
+                }
                 var coinGroupVms = CoinGroupViewModels.Current.GetCoinGroupsByGroupId(this.Id);
                 int sortNumber = coinGroupVms.Count == 0 ? 1 : coinGroupVms.Count + 1;
                 CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(Guid.NewGuid()) {
