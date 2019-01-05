@@ -106,15 +106,6 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
-
-        public Visibility SaveVisible {
-            get {
-                if (DevMode.IsDevMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
         #endregion
 
         #region ctor

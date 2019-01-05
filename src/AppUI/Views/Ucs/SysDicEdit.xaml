@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
     <UserControl.Resources>
         <Style TargetType="Label">
@@ -40,7 +41,7 @@
         <controls:KbButton
             Command="{Binding Save}" 
             VerticalAlignment="Bottom"
-            Visibility="{Binding SaveVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
             Margin="0 10 0 0"
             Width="70" 
             Height="30"

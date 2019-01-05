@@ -4,7 +4,6 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -29,12 +28,6 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
-
-        public Visibility SaveVisible {
-            get {
-                return Visibility.Visible;
-            }
-        }
 
         public KernelOutputTranslaterViewModel() {
             if (!DevMode.IsDevMode) {

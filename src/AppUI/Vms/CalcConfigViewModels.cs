@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -11,12 +10,6 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
-
-        public Visibility SaveVisible {
-            get {
-                return Visibility.Visible;
-            }
-        }
 
         public CalcConfigViewModels() {
             this.Save = new DelegateCommand(() => {

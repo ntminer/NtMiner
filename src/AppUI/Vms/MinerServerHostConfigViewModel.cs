@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -7,12 +6,6 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
-
-        public Visibility SaveVisible {
-            get {
-                return Visibility.Visible;
-            }
-        }
 
         public MinerServerHostConfigViewModel() {
             this.Save = new DelegateCommand(() => {

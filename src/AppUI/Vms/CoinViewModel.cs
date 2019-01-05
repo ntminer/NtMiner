@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -57,15 +56,6 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
-
-        public Visibility SaveVisible {
-            get {
-                if (DevMode.IsDevMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
 
         public CoinViewModel() {
             if (!NTMinerRoot.IsInDesignMode) {

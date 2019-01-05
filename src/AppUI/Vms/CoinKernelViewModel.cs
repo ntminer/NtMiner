@@ -32,15 +32,6 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
-        public Visibility SaveVisible {
-            get {
-                if (DevMode.IsDevMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
         public CoinKernelViewModel(ICoinKernel data) : this(data.GetId()) {
             _coinId = data.CoinId;
             _kernelId = data.KernelId;
