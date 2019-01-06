@@ -28,6 +28,9 @@
             <sys:String x:Key="SpeedPick">
                 SpeedPick
             </sys:String>
+            <sys:String x:Key="Translate">
+                Translate
+            </sys:String>
             <sys:String x:Key="Code">
                 Code
             </sys:String>
@@ -126,6 +129,30 @@
             </sys:String>
             <sys:String x:Key="CoinKernelArgs">
                 CoinKernelArgs
+            </sys:String>
+            <sys:String x:Key="Search">
+                Search
+            </sys:String>
+            <sys:String x:Key="SearchTip">
+                SearchTip
+            </sys:String>
+            <sys:String x:Key="RegexPattern">
+                RegexPattern
+            </sys:String>
+            <sys:String x:Key="Replacement">
+                Replacement
+            </sys:String>
+            <sys:String x:Key="Color">
+                Color
+            </sys:String>
+            <sys:String x:Key="IsPre">
+                IsPre
+            </sys:String>
+            <sys:String x:Key="Filter">
+                Filter
+            </sys:String>
+            <sys:String x:Key="TbNoRecord">
+                TbNoRecord
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -345,7 +372,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock Margin="90 0 0 0" HorizontalAlignment="Left" Text="{DynamicResource MainCoin}"></TextBlock>
+                        <TextBlock Margin="110 0 0 0" HorizontalAlignment="Left" Text="{DynamicResource MainCoin}"></TextBlock>
                         <WrapPanel Margin="0 2">
                             <Label Content="{DynamicResource TotalSpeedPattern}" ToolTip="{DynamicResource TotalSpeedPattern}"></Label>
                             <TextBox 
@@ -389,7 +416,7 @@
                             </TextBox>
                         </WrapPanel>
 
-                        <TextBlock Margin="90 0 0 0" Text="{DynamicResource DualCoin}"></TextBlock>
+                        <TextBlock Margin="110 0 0 0" Text="{DynamicResource DualCoin}"></TextBlock>
                         <WrapPanel Margin="0 2">
                             <Label Content="{DynamicResource DualTotalSpeedPattern}" ToolTip="{DynamicResource DualTotalSpeedPattern}"></Label>
                             <TextBox 
@@ -617,7 +644,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock Grid.Row="1" Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+                    <TextBlock Grid.Row="1" Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
                 </Grid>
             </controls:KbTabItem>
             <!--end支持币种-->
@@ -625,26 +652,28 @@
             <!--start翻译-->
             <controls:KbTabItem Visibility="{Binding IsTransFilterVisible}">
                 <controls:KbTabItem.Header>
-                    <TextBlock Padding="8 0">翻译</TextBlock>
+                    <TextBlock Padding="8 0" Text="{DynamicResource Translate}"></TextBlock>
                 </controls:KbTabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <WrapPanel Grid.ColumnSpan="2" Margin="0,0,0,65">
+                    <WrapPanel Grid.ColumnSpan="2">
                         <Path
 						    Width="12"
 						    Height="12"
 						    Fill="{StaticResource IconFillColor}"
 						    Stretch="Fill"
 						    Data="{StaticResource Icon_Serach}"></Path>
-                        <Label Padding="2 6" Width=" 30" HorizontalContentAlignment="Right">搜索</Label>
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource Search}" Margin="0 0 2 0"></TextBlock>
                         <controls:KbTextBox 
-						    x:Name="TbTranslaterKeyword" Width="134" Height="20"
+						    x:Name="TbTranslaterKeyword" 
+                            Width="134" 
+                            Height="20"
 						    Text="{Binding TranslaterKeyword, UpdateSourceTrigger=PropertyChanged}" 
 						    VerticalContentAlignment="Center"
-						    Hint="请输入关键字"
+						    Hint="{DynamicResource SearchTip}"
 						    BorderBrush="{StaticResource LineColor}"
 						    BorderThickness="1"
 						    Background="White"
@@ -676,7 +705,7 @@
 								    Data="{StaticResource Icon_Kernel}"
 								    Fill="{StaticResource IconFillColor}"
 								    Stretch="Fill" />
-                                <TextBlock Text="复制于"></TextBlock>
+                                <TextBlock Text="{DynamicResource CopyFrom}"></TextBlock>
                             </WrapPanel>
                         </controls:KbLinkButton>
                     </WrapPanel>
@@ -685,12 +714,9 @@
 					    BorderThickness="1 0 0 0"
 					    MouseDoubleClick="KernelOutputTranslaterDataGrid_MouseDoubleClick" Grid.ColumnSpan="2" Margin="0,27,0,0" Grid.RowSpan="2">
                         <DataGrid.Resources>
-                            <!--  行样式触发  -->
-                            <!--  背景色改变必须先设置cellStyle 因为cellStyle会覆盖rowStyle样式  -->
                             <Style TargetType="DataGridRow">
                                 <Setter Property="Foreground" Value="White" />
                                 <Style.Triggers>
-                                    <!--  隔行换色  -->
                                     <Trigger Property="AlternationIndex" Value="0">
                                         <Setter Property="Background" Value="Black" />
                                     </Trigger>
@@ -708,7 +734,6 @@
                                 </Style.Triggers>
                             </Style>
 
-                            <!--  单元格样式触发  -->
                             <Style TargetType="DataGridCell">
                                 <Setter Property="VerticalAlignment" Value="Stretch" />
                                 <Setter Property="Foreground" Value="White" />
@@ -738,33 +763,45 @@
                             <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
                                 <DataGridTextColumn.Header>
                                     <WrapPanel>
-                                        <TextBlock>正则</TextBlock>
+                                        <TextBlock Text="{DynamicResource RegexPattern}"></TextBlock>
                                         <TextBlock Margin="4 0 0 0" Text="{Binding Data.KernelVmSingleInstance.KernelOutputTranslaters.Count, Source={StaticResource proxy}}"></TextBlock>
                                     </WrapPanel>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
-                            <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Header="替换为" IsReadOnly="True">
+                            <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Replacement}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Replacement}" Foreground="{Binding ColorBrush}"></TextBlock>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Header="颜色" IsReadOnly="True">
+                            <DataGridTemplateColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource Color}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding ColorDescription}" Foreground="{Binding ColorBrush}"></TextBlock>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Header="前译" IsReadOnly="True">
+                            <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="{DynamicResource IsPre}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding IsPreText}"></TextBlock>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Width="36" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Binding="{Binding SortNumber}" Header="排序" IsReadOnly="True">
+                            <DataGridTextColumn Width="36" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Binding="{Binding SortNumber}" IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="{DynamicResource Sort}"></TextBlock>
+                                </DataGridTextColumn.Header>
                             </DataGridTextColumn>
                             <DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
                                 <DataGridTemplateColumn.Header>
@@ -846,7 +883,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding KernelVmSingleInstance.KernelOutputTranslaters, Converter={StaticResource NoRecordConverter}}" Grid.Column="1" Margin="225,117,532,228">没有记录</TextBlock>
+                    <TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding KernelVmSingleInstance.KernelOutputTranslaters, Converter={StaticResource NoRecordConverter}}" Grid.Column="1" Text="{DynamicResource TbNoRecord}"></TextBlock>
                 </Grid>
             </controls:KbTabItem>
             <!--end翻译-->
@@ -854,7 +891,7 @@
             <!--start过滤-->
             <controls:KbTabItem Visibility="{Binding IsTransFilterVisible}">
                 <controls:KbTabItem.Header>
-                    <TextBlock Padding="8 0">过滤</TextBlock>
+                    <TextBlock Padding="8 0" Text="{DynamicResource Filter}"></TextBlock>
                 </controls:KbTabItem.Header>
                 <Grid>
                     <DataGrid 
@@ -867,7 +904,7 @@
                             <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
                                 <DataGridTextColumn.Header>
                                     <WrapPanel>
-                                        <TextBlock>正则</TextBlock>
+                                        <TextBlock Text="{DynamicResource RegexPattern}"></TextBlock>
                                         <TextBlock Margin="4 0 0 0" Text="{Binding Data.KernelVmSingleInstance.KernelOutputFilters.Count, Source={StaticResource proxy}}"></TextBlock>
                                     </WrapPanel>
                                 </DataGridTextColumn.Header>
@@ -930,7 +967,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding KernelVmSingleInstance.KernelOutputFilters, Converter={StaticResource NoRecordConverter}}" Grid.Column="1">没有记录</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding KernelVmSingleInstance.KernelOutputFilters, Converter={StaticResource NoRecordConverter}}" Grid.Column="1" Text="{DynamicResource TbNoRecord}"></TextBlock>
                 </Grid>
             </controls:KbTabItem>
             <!--end过滤-->
