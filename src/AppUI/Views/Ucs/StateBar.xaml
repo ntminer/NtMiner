@@ -23,14 +23,14 @@
             <sys:String x:Key="TbMining">
                 TbMining
             </sys:String>
-            <sys:String x:Key="LblPoolIncome">
-                LblPoolIncome
+            <sys:String x:Key="PoolIncome">
+                PoolIncome
             </sys:String>
-            <sys:String x:Key="LblIncome">
-                LblIncome
+            <sys:String x:Key="Income">
+                Income
             </sys:String>
-            <sys:String x:Key="LblDay">
-                LblDay
+            <sys:String x:Key="Day">
+                Day
             </sys:String>
             <sys:String x:Key="LblReject">
                 LblReject
@@ -226,12 +226,12 @@
                             Foreground="#0072C1"
                             Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
                             CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
-                            Content="{DynamicResource LblPoolIncome}"
+                            Content="{DynamicResource PoolIncome}"
                             KbDisplayLine="False"
                             KbSystemButtonHoverBackground="Transparent"
                             Background="Transparent" />
                         <WrapPanel Width="184" Margin="0 2">
-                            <Label Padding="0 0 2 0" Content="{DynamicResource LblIncome}" Margin="0" HorizontalContentAlignment="Right" />
+                            <Label Padding="0 0 2 0" Content="{DynamicResource Income}" Margin="0" HorizontalContentAlignment="Right" />
                             <Button Background="Transparent" BorderThickness="0" 
                                 Content="{Binding MinerProfile.GpuSpeedVms.IncomeMainCoinPerDayText}"
                                 Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -239,7 +239,7 @@
                             </Button>
                             <TextBlock Text="{Binding MinerProfile.CoinVm.Code}" Padding="2 0 0 0" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
                             <Label Padding="1" Content="/" />
-                            <Label Padding="0" Content="{DynamicResource LblDay}" Margin="0" />
+                            <Label Padding="0" Content="{DynamicResource Day}" Margin="0" />
                         </WrapPanel>
                         <WrapPanel Width="140" Margin="0 2">
                             <Label Padding="0" Content="{DynamicResource LblReject}" Margin="0" HorizontalContentAlignment="Right" />
@@ -260,12 +260,12 @@
                                 Foreground="#0072C1"
                                 Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
                                 CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
-                                Content="{DynamicResource LblPoolIncome}"
+                                Content="{DynamicResource PoolIncome}"
                                 KbDisplayLine="False"
                                 KbSystemButtonHoverBackground="Transparent"
                                 Background="Transparent" />
                             <WrapPanel Width="184" Margin="0 2">
-                                <Label Padding="0 0 2 0" Content="{DynamicResource LblIncome}" Margin="0" HorizontalContentAlignment="Right" />
+                                <Label Padding="0 0 2 0" Content="{DynamicResource Income}" Margin="0" HorizontalContentAlignment="Right" />
                                 <Button Background="Transparent" BorderThickness="0" 
                                     Content="{Binding MinerProfile.GpuSpeedVms.IncomeDualCoinPerDayText}"
                                     Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -273,7 +273,7 @@
                                 </Button>
                                 <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" Padding="2 0 0 0" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
                                 <Label Padding="1" Content="/" />
-                                <Label Padding="0" Content="{DynamicResource LblDay}" Margin="0" />
+                                <Label Padding="0" Content="{DynamicResource Day}" Margin="0" />
                             </WrapPanel>
                             <WrapPanel Width="140" Margin="0 2">
                                 <Label Padding="0" Content="{DynamicResource LblReject}" Margin="0" HorizontalContentAlignment="Right" />
