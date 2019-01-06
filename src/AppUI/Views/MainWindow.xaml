@@ -190,7 +190,7 @@
                             IsEnabled="{Binding MinerProfile.IsNotReadOnly}">
 						<uc:MinerProfileIndex />
                     </Border>
-                    <WrapPanel Grid.Column="0" Grid.Row="0" Margin="0 8 22 0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <WrapPanel Grid.Column="0" Grid.Row="0" Margin="0 8 10 0" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <controls:KbButton 
 						    Width="142"
 						    Height="40"
