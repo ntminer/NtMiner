@@ -31,6 +31,9 @@
             <sys:String x:Key="Add">
                 Add
             </sys:String>
+            <sys:String x:Key="TbNoRecord">
+                TbNoRecord
+            </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
             <Grid>
@@ -178,7 +181,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
         <Grid Grid.Column="2" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"></RowDefinition>
@@ -294,7 +297,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentGroup.CoinGroupVms, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+            <TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentGroup.CoinGroupVms, Converter={StaticResource NoRecordConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
         </Grid>
     </Grid>
 </UserControl>

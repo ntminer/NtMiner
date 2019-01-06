@@ -6,6 +6,7 @@
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:KernelPageViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="800">
@@ -57,8 +58,32 @@
 						<Setter Property="Background" Value="White" />
 					</Trigger>
 				</Style.Triggers>
-			</Style>
-		</ResourceDictionary>
+            </Style>
+            <sys:String x:Key="WindowTitle">
+                WindowTitle
+            </sys:String>
+            <sys:String x:Key="TbNoRecord">
+                TbNoRecord
+            </sys:String>
+            <sys:String x:Key="Code">
+                Code
+            </sys:String>
+            <sys:String x:Key="SupportedGpus">
+                SupportedGpus
+            </sys:String>
+            <sys:String x:Key="SupportedCoins">
+                SupportedCoins
+            </sys:String>
+            <sys:String x:Key="Size">
+                Size
+            </sys:String>
+            <sys:String x:Key="PublishOn">
+                PublishOn
+            </sys:String>
+            <sys:String x:Key="UnPublished">
+                UnPublished
+            </sys:String>
+        </ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
 		<DataGrid 
@@ -73,7 +98,10 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
                     Width="50" CanUserResize="False" CanUserReorder="False" 
-                    CanUserSort="False" IsReadOnly="True" Header="支持显卡">
+                    CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource SupportedGpus}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -82,7 +110,7 @@
                                         Margin="4 0 0 0"
 				                        Width="18"
 				                        Height="14"
-                                        ToolTip="支持N卡"
+                                        ToolTip="NVIDIA"
                                         Visibility="{Binding IsNvidiaIconVisible}"
 				                        Data="{StaticResource Icon_Nvidia}"
 				                        Fill="Green"
@@ -91,7 +119,7 @@
                                         Margin="4 0 0 0"
 				                        Width="16"
 				                        Height="14"
-                                        ToolTip="支持A卡"
+                                        ToolTip="AMD"
                                         Visibility="{Binding IsAMDIconVisible}"
 				                        Data="{StaticResource Icon_AMD}"
 				                        Fill="Red"
@@ -104,7 +132,7 @@
                 <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
-							<TextBlock>编码</TextBlock>
+                            <TextBlock Text="{DynamicResource Code}"></TextBlock>
 							<TextBlock Margin="4 0 0 0" Text="{Binding Data.QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
 						</WrapPanel>
 					</DataGridTemplateColumn.Header>
@@ -115,7 +143,7 @@
                                     <TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
 								</WrapPanel>
 								<WrapPanel>
-									<TextBlock Text="{Binding SupportedCoins}" ToolTip="支持币种"></TextBlock>
+									<TextBlock Text="{Binding SupportedCoins}" ToolTip="{DynamicResource SupportedCoins}"></TextBlock>
 								</WrapPanel>
 							</StackPanel>
 						</DataTemplate>
@@ -131,8 +159,22 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn MinWidth="160" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="发布时间" Binding="{Binding PublishOnText}">
-                </DataGridTextColumn>
+                <DataGridTemplateColumn MinWidth="160" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource PublishOn}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <WrapPanel Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock Text="{DynamicResource PublishOn}"></TextBlock>
+                                    <TextBlock Text="{Binding PublishOnText}"></TextBlock>
+                                </WrapPanel>
+                                <TextBlock Text="{DynamicResource UnPublished}" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="尺寸" Binding="{Binding SizeMbText}">
 				</DataGridTextColumn>
                 <DataGridTextColumn 

@@ -518,15 +518,22 @@ namespace NTMiner.Vms {
                 _publishOn = value;
                 OnPropertyChanged(nameof(PublishOn));
                 OnPropertyChanged(nameof(PublishOnText));
+                OnPropertyChanged(nameof(IsPublished));
+            }
+        }
+
+        public bool IsPublished {
+            get {
+                if (this.PublishState == PublishStatus.Published) {
+                    return true;
+                }
+                return false;
             }
         }
 
         public string PublishOnText {
             get {
-                if (this.PublishState == PublishStatus.UnPublished) {
-                    return "未发布";
-                }
-                return Global.UnixBaseTime.AddSeconds(this.PublishOn).ToString("yyyy-MM-dd HH:mm") + "发布";
+                return Global.UnixBaseTime.AddSeconds(this.PublishOn).ToString("yyyy-MM-dd HH:mm");
             }
         }
 
