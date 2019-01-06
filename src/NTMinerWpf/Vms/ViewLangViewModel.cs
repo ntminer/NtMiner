@@ -25,7 +25,11 @@ namespace NTMiner.Vms {
                     List<LangViewItemViewModel> results = new List<LangViewItemViewModel>();
                     List<LangViewItemViewModel> list = LangViewItemViewModels.Current.GetLangItemVms(LangVms.CurrentLangVm, ViewId);
                     Type stringType = typeof(string);
-                    foreach (string key in resourceDic.Keys.OfType<string>()) {
+                    foreach (object item in resourceDic.Keys) {
+                        if (!(item is string)) {
+                            continue;
+                        }
+                        string key = (string)item;
                         var exist = list.FirstOrDefault(a => a.Key == key);
                         if (resourceDic[key].GetType() != stringType) {
                             continue;
@@ -45,7 +49,6 @@ namespace NTMiner.Vms {
                             results.Add(vm);
                         }
                     }
-                    results.Reverse();
                     return results;
                 }
                 return new List<LangViewItemViewModel>();
