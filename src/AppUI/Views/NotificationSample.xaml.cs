@@ -17,7 +17,10 @@ namespace NTMiner.Views {
                 Width = 800,
                 Height = 500,
                 CloseVisible = Visibility.Visible
-            }, ucFactory: (window) => new NotificationSample(), fixedSize: false);
+            }, ucFactory: (window) => {
+                var uc = new NotificationSample();
+                return uc;
+            }, fixedSize: false);
         }
 
         public NotificationSampleViewModel Vm {

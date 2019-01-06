@@ -13,9 +13,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Logo"
             }, ucFactory: (window) => {
                 AutoStartCountdown uc = new AutoStartCountdown();
-                uc.CloseWindow = () => {
-                    window.Close();
-                };
+                uc.CloseWindow = () => window.Close();
                 return uc;
             }, fixedSize: true);
         }

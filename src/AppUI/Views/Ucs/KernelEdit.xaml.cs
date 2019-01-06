@@ -13,6 +13,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 KernelViewModel vm = new KernelViewModel(source);
+                vm.CloseWindow = () => window.Close();
                 return new KernelEdit(vm);
             }, fixedSize: false);
         }
