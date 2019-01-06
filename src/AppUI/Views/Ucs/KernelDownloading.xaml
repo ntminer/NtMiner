@@ -5,6 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
@@ -12,6 +13,17 @@
         BorderThickness="0 0 1 0"
 	    DataContext="{x:Static vm:KernelPageViewModel.Current}"
 		mc:Ignorable="d" Height="520" Width="294">
+    <UserControl.Resources>
+        <sys:String x:Key="Downloading">
+            Downloading
+        </sys:String>
+        <sys:String x:Key="TbNoRecord">
+            TbNoRecord
+        </sys:String>
+        <sys:String x:Key="CancelDownload">
+            CancelDownload
+        </sys:String>
+    </UserControl.Resources>
     <UserControl.Effect>
         <DropShadowEffect Color="LightGray" BlurRadius="16" ShadowDepth="0" Opacity="1" />
     </UserControl.Effect>
@@ -25,7 +37,24 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">正在下载</TextBlock>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource Downloading}"></TextBlock>
+            <controls:KbButton
+                HorizontalAlignment="Right"
+                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                ToolTip="KernelDownloading translate"
+                Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                CommandParameter="KernelDownloading"
+                Padding="8 0"
+                Background="Transparent">
+                <WrapPanel>
+                    <Path
+                        Width="14"
+                        Height="14"
+                        Data="{StaticResource Icon_Translate}"
+                        Fill="Red"
+                        Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
             <controls:KbSystemButton
                 Grid.Column="1"
                 Click="BtnHide_Click"
@@ -64,7 +93,7 @@
                                             Margin="4 0 0 0"
 				                            Width="18"
 				                            Height="14"
-                                            ToolTip="支持N卡"
+                                            ToolTip="NVIDIA"
                                             Visibility="{Binding IsNvidiaIconVisible}"
 				                            Data="{StaticResource Icon_Nvidia}"
 				                            Fill="Green"
@@ -73,7 +102,7 @@
                                             Margin="4 0 0 0"
 				                            Width="16"
 				                            Height="14"
-                                            ToolTip="支持A卡"
+                                            ToolTip="AMD"
                                             Visibility="{Binding IsAMDIconVisible}"
 				                            Data="{StaticResource Icon_AMD}"
 				                            Fill="Red"
@@ -89,7 +118,7 @@
                                     Text="{Binding KernelProfileVm.DownloadMessage}"></TextBlock>
                                 <controls:KbButton 
                                     Command="{Binding KernelProfileVm.CancelDownload}"
-                                    ToolTip="取消下载"
+                                    ToolTip="{DynamicResource CancelDownload}"
 						            Background="Transparent" BorderThickness="0">
                                     <Path
 							            Width="14"
@@ -104,6 +133,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <TextBlock Grid.Row="1" Visibility="{Binding DownloadingVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
+        <TextBlock Grid.Row="1" Visibility="{Binding DownloadingVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
     </Grid>
 </UserControl>

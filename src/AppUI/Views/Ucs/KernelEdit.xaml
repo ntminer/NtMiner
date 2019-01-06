@@ -20,17 +20,50 @@
                 <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
             </Style>
             <sys:String x:Key="WindowTitle">
-                内核
+                WindowTitle
+            </sys:String>
+            <sys:String x:Key="Kernel">
+                Kernel
+            </sys:String>
+            <sys:String x:Key="SpeedPick">
+                SpeedPick
+            </sys:String>
+            <sys:String x:Key="Code">
+                Code
+            </sys:String>
+            <sys:String x:Key="Version">
+                Version
+            </sys:String>
+            <sys:String x:Key="Package">
+                Package
+            </sys:String>
+            <sys:String x:Key="Sort">
+                Sort
+            </sys:String>
+            <sys:String x:Key="Browser">
+                Browser
+            </sys:String>
+            <sys:String x:Key="PackageHistory">
+                PackageHistory
+            </sys:String>
+            <sys:String x:Key="PackageHistoryTip">
+                PackageHistoryTip
+            </sys:String>
+            <sys:String x:Key="Notice">
+                Notice
+            </sys:String>
+            <sys:String x:Key="Help">
+                Help
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
     <TabControl 
 		Padding="0" BorderThickness="0" 
 		BorderBrush="{StaticResource LineColor}">
-        <controls:KbTabItem Width="40">
+        <controls:KbTabItem>
             <controls:KbTabItem.Header>
                 <WrapPanel>
-                    <TextBlock>内核</TextBlock>
+                    <TextBlock Text="{DynamicResource Kernel}"></TextBlock>
                 </WrapPanel>
             </controls:KbTabItem.Header>
             <Grid>
@@ -40,13 +73,13 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <WrapPanel Margin="0 2">
-                        <Label>编码:</Label>
+                        <Label Content="{DynamicResource Code}"></Label>
                         <TextBox 
 						    Width="180"
 						    IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 						    VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
                         </TextBox>
-                        <Label>版本:</Label>
+                        <Label Content="{DynamicResource Version}"></Label>
                         <TextBox 
 						    Width="180"
 						    IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
@@ -55,7 +88,7 @@
                     </WrapPanel>
 
                     <WrapPanel Margin="0 2">
-                        <Label>内核包:</Label>
+                        <Label Content="{DynamicResource Package}"></Label>
                         <Grid Width="450">
                             <WrapPanel VerticalAlignment="Center">
                                 <TextBox IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" Text="{Binding Package, Mode=OneWay}">
@@ -66,7 +99,7 @@
 						            IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
 						            VerticalAlignment="Center"
 						            Command="{Binding BrowsePackage}"
-						            Content="浏览">
+						            Content="{DynamicResource Browser}">
                                 </Button>
                                 <TextBlock Margin="20 0 0 0" VerticalAlignment="Center" Text="{Binding SizeMbText}">
                                 </TextBlock>
@@ -75,16 +108,16 @@
                     </WrapPanel>
 
                     <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-                        <Label>历史包:</Label>
+                        <Label Content="{DynamicResource PackageHistory}"></Label>
                         <TextBox 
-                            ToolTip="英文分号分割，系统根据历史包名识别是未安装还是可更新。"
+                            ToolTip="{DynamicResource PackageHistoryTip}"
 						    Width="450" Background="Transparent" Padding="0 4"
 						    Text="{Binding PackageHistory, Mode=TwoWay}">
                         </TextBox>
                     </WrapPanel>
 
                     <WrapPanel Margin="0 2">
-                        <Label>内核公告:</Label>
+                        <Label Content="{DynamicResource Notice}"></Label>
                         <TextBox 
 						    Width="450" Background="Transparent" Padding="0 4"
 						    IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
@@ -94,7 +127,7 @@
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
-                        <Label>帮助:</Label>
+                        <Label Content="{DynamicResource Help}"></Label>
                         <TextBox 
 						    Width="180"
 						    IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
@@ -168,10 +201,27 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left">
                     <WrapPanel>
-                        <Label Width="40">排序:</Label>
+                        <Label Width="40" Content="{DynamicResource Sort}"></Label>
                         <TextBox Width="40" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
                         </TextBox>
                     </WrapPanel>
+                    <controls:KbButton
+                        Margin="8 4 0 0"
+                        HorizontalAlignment="Left"
+                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        ToolTip="KernelEdit translate"
+                        Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                        CommandParameter="KernelEdit"
+                        Background="Transparent">
+                        <WrapPanel>
+                            <Path
+                                Width="14"
+                                Height="14"
+                                Data="{StaticResource Icon_Translate}"
+                                Fill="Red"
+                                Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                     <controls:KbLinkButton
                         Margin="10 124 0 0"
                         VerticalAlignment="Top"
@@ -230,10 +280,10 @@
         </controls:KbTabItem>
         
         <!--start算力提取-->
-        <controls:KbTabItem Width="60" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+        <controls:KbTabItem Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
             <controls:KbTabItem.Header>
                 <WrapPanel>
-                    <TextBlock>算力提取</TextBlock>
+                    <TextBlock Text="{DynamicResource SpeedPick}"></TextBlock>
                 </WrapPanel>
             </controls:KbTabItem.Header>
             <Grid>
@@ -372,7 +422,7 @@
         <!--end算力提取-->
 
         <!--start支持币种-->
-        <controls:KbTabItem Width="60" Visibility="{Binding IsTransFilterVisible}">
+        <controls:KbTabItem Visibility="{Binding IsTransFilterVisible}">
             <controls:KbTabItem.Header>
                 <TextBlock>支持币种</TextBlock>
             </controls:KbTabItem.Header>
@@ -503,7 +553,7 @@
         <!--end支持币种-->
 
         <!--start翻译-->
-        <controls:KbTabItem Width="55" Visibility="{Binding IsTransFilterVisible}">
+        <controls:KbTabItem Visibility="{Binding IsTransFilterVisible}">
             <controls:KbTabItem.Header>
                 <TextBlock>翻译</TextBlock>
             </controls:KbTabItem.Header>
@@ -732,7 +782,7 @@
         <!--end翻译-->
 
         <!--start过滤-->
-        <controls:KbTabItem Width="55" Visibility="{Binding IsTransFilterVisible}">
+        <controls:KbTabItem Visibility="{Binding IsTransFilterVisible}">
             <controls:KbTabItem.Header>
                 <TextBlock>过滤</TextBlock>
             </controls:KbTabItem.Header>
