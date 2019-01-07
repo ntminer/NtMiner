@@ -83,6 +83,7 @@ namespace NTMiner {
         }
 
         private void OnNTMinerRootInited() {
+            OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Access();
             NTMinerRoot.KernelDownloader = new KernelDownloader();
             Execute.OnUIThread(() => {
                 BootLog.Log("new MainWindow");

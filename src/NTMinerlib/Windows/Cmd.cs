@@ -3,12 +3,21 @@ using System.Diagnostics;
 
 namespace NTMiner.Windows {
     public static class Cmd {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filePullName"></param>
-        /// <param name="args"></param>
-        /// <param name="isCloseWindow">命令执行后是否关闭控制台窗口，默认关闭</param>
+        public static void Run(string filePullName, string args) {
+            try {
+                using (Process proc = new Process()) {
+                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.FileName = "cmd.exe";
+                    proc.StartInfo.Arguments = $"{filePullName}\" {args}";
+                    proc.Start();
+                }
+            }
+            catch (Exception e) {
+                Global.Logger.Error(e.Message, e);
+            }
+        }
+
         public static void RunClose(string filePullName, string args) {
             try {
                 using (Process proc = new Process()) {
