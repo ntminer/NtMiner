@@ -45,7 +45,7 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
 
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;

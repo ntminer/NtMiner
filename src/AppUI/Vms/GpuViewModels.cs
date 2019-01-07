@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
 
         private readonly GpuViewModel _totalGpuVm;
         private GpuViewModels() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             foreach (var gpu in NTMinerRoot.Current.GpuSet) {

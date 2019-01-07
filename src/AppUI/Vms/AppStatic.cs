@@ -168,7 +168,7 @@ namespace NTMiner.Vms {
 
         public static bool IsDevMode {
             get {
-                if (NTMinerRoot.IsInDesignMode) {
+                if (Design.IsInDesignMode) {
                     return true;
                 }
                 return DevMode.IsDevMode;

@@ -3,7 +3,7 @@
         private KernelViewModel _selectedKernelVm;
 
         public KernelCopySourceSelectViewModel() {
-            if (!NTMinerRoot.IsInDesignMode) {
+            if (!Design.IsInDesignMode) {
                 throw new System.InvalidProgramException();
             }
         }

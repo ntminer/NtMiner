@@ -3,7 +3,7 @@
         public static readonly MinerProfileIndexViewModel Current = new MinerProfileIndexViewModel();
 
         private MinerProfileIndexViewModel() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
         }

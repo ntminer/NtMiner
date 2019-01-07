@@ -111,7 +111,7 @@ namespace NTMiner.Vms {
         #region ctor
         // 供设计视图使用
         public KernelViewModel() {
-            if (!NTMinerRoot.IsInDesignMode) {
+            if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

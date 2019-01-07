@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public MinerGroupViewModel() {
-            if (!NTMinerRoot.IsInDesignMode) {
+            if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

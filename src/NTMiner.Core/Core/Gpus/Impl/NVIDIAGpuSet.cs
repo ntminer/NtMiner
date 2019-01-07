@@ -25,7 +25,7 @@ namespace NTMiner.Core.Gpus.Impl {
         public NVIDIAGpuSet(INTMinerRoot root) {
             _root = root;
             this.Properties = new List<GpuSetProperty>();
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             string nvsmiDir = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles), "NVIDIA Corporation", "NVSMI");

@@ -2,10 +2,8 @@
 using NTMiner.Core.Kernels;
 using NTMiner.Repositories;
 using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
 
 namespace NTMiner {
     public partial class NTMinerRoot {
@@ -26,7 +24,6 @@ namespace NTMiner {
 
         private static readonly NTMinerRoot _current = new NTMinerRoot();
         public static readonly INTMinerRoot Current = _current;
-        public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
         public static Action Inited;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;

@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
         public ICommand Add { get; private set; }
 
         private MinerGroupViewModels() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             foreach (var item in NTMinerRoot.Current.MinerGroupSet) {

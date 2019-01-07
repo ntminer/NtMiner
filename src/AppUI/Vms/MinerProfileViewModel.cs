@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
         public ICommand CustomTheme { get; private set; }
 
         private MinerProfileViewModel() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             this.CustomTheme = new DelegateCommand(() => {
