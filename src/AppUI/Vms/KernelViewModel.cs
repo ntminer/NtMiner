@@ -254,11 +254,15 @@ namespace NTMiner.Vms {
                 string asFileFullName = Path.Combine(this.GetKernelDirFullName(), helpArg);
                 // 如果当前内核不处在挖矿中则可以解压缩，否则不能解压缩因为内核文件处在使用中无法覆盖
                 if (!NTMinerRoot.Current.IsMining || NTMinerRoot.Current.CurrentMineContext.Kernel.GetId() != this.GetId()) {
+                    if (!this.IsPackageFileExist()) {
+                        DialogWindow.ShowDialog(icon: "Icon_Info", title: "提示", message: "内核未安装");
+                        return;
+                    }
                     this.ExtractPackage();
                 }
                 string helpText;
                 if (File.Exists(asFileFullName)) {
-                    helpText = File.ReadAllText(asFileFullName, Encoding.UTF8);
+                    helpText = File.ReadAllText(asFileFullName);
                     KernelHelpPage.ShowWindow("内核帮助 - " + this.FullName, helpText);
                 }
                 else {
@@ -362,7 +366,7 @@ namespace NTMiner.Vms {
                     if (item.SupportedGpu == Core.Gpus.SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == Core.Gpus.GpuType.NVIDIA) {
+                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.NVIDIA) {
                         return Visibility.Visible;
                     }
                 }
@@ -376,7 +380,7 @@ namespace NTMiner.Vms {
                     if (item.SupportedGpu == Core.Gpus.SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == Core.Gpus.GpuType.AMD) {
+                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.AMD) {
                         return Visibility.Visible;
                     }
                 }

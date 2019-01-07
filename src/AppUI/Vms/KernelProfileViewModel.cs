@@ -4,8 +4,8 @@ using NTMiner.Views;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class KernelProfileViewModel : ViewModelBase, IKernelProfile {
@@ -64,10 +64,10 @@ namespace NTMiner.Vms {
 
         public void Refresh() {
             OnPropertyChanged(nameof(InstallStatus));
-            OnPropertyChanged(nameof(BtnInstallBackground));
             OnPropertyChanged(nameof(InstallStatusDescription));
-            OnPropertyChanged(nameof(BtnInstallText));
-            OnPropertyChanged(nameof(IsBtnInstallEnabled));
+            OnPropertyChanged(nameof(BtnInstallVisible));
+            OnPropertyChanged(nameof(BtnUpdateVisible));
+            OnPropertyChanged(nameof(BtnInstalledVisible));
         }
 
         public Guid KernelId {
@@ -84,45 +84,30 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsBtnInstallEnabled {
-            get {
-                if (InstallStatus == InstallStatus.CanUpdate || InstallStatus == InstallStatus.Uninstalled) {
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        public string BtnInstallText {
+        public Visibility BtnInstallVisible {
             get {
                 if (InstallStatus == InstallStatus.Uninstalled) {
-                    return "一键安装";
+                    return Visibility.Visible;
                 }
-                else if (InstallStatus == InstallStatus.CanUpdate) {
-                    return "一键升级";
-                }
-                else if (InstallStatus == InstallStatus.Installed) {
-                    return "已安装";
-                }
-                return InstallStatus.GetDescription();
+                return Visibility.Collapsed;
             }
         }
 
-        private static readonly SolidColorBrush InstallColor = new SolidColorBrush(Color.FromRgb(0x05, 0xc4, 0x00));
-        private static readonly SolidColorBrush UpdateColor = new SolidColorBrush(Color.FromRgb(0xed, 0xac, 0x3a));
-        private static readonly SolidColorBrush GrayColor = new SolidColorBrush(Colors.Gray);
-        public SolidColorBrush BtnInstallBackground {
+        public Visibility BtnUpdateVisible {
             get {
                 if (InstallStatus == InstallStatus.CanUpdate) {
-                    return UpdateColor;
+                    return Visibility.Visible;
                 }
-                else if (InstallStatus == InstallStatus.Uninstalled) {
-                    return InstallColor;
+                return Visibility.Collapsed;
+            }
+        }
+
+        public Visibility BtnInstalledVisible {
+            get {
+                if (InstallStatus == InstallStatus.Installed) {
+                    return Visibility.Visible;
                 }
-                else if (InstallStatus == InstallStatus.Installed) {
-                    return GrayColor;
-                }
-                return GrayColor;
+                return Visibility.Collapsed;
             }
         }
 

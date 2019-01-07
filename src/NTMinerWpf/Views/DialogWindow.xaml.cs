@@ -36,7 +36,9 @@ namespace NTMiner.Views {
             InitializeComponent();
             this.Resources["Title"] = title;
             this.Resources["Message"] = message;
-            this.Resources["Icon"] = Application.Current.Resources[icon];
+            if (!string.IsNullOrEmpty(icon) && Application.Current.Resources.Contains(icon)) {
+                this.Resources["Icon"] = Application.Current.Resources[icon];
+            }
 
             var owner = TopWindow.GetTopWindow();
             if (this != owner) {
