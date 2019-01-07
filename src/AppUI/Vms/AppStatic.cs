@@ -177,7 +177,7 @@ namespace NTMiner.Vms {
         });
 
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
-            Process.Start("http://ntminer.com/");
+            Process.Start("https://github.com/ntminer/ntminer");
         });
 
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(() => {
