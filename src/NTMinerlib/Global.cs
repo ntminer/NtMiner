@@ -50,7 +50,12 @@ namespace NTMiner {
 
         public static string GlobalDirFullName { get; private set; }
 
-        public static ILoggingService Logger { get; private set; }
+        private static ILoggingService _logger = null;
+        public static ILoggingService Logger {
+            get {
+                return _logger ?? new Log4NetLoggingService();
+            }
+        }
 
         public static IObjectSerializer JsonSerializer { get; private set; }
 
@@ -65,7 +70,6 @@ namespace NTMiner {
             if (!Directory.Exists(GlobalDirFullName)) {
                 Directory.CreateDirectory(GlobalDirFullName);
             }
-            Logger = new Log4NetLoggingService();
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);
