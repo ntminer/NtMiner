@@ -149,10 +149,6 @@ namespace NTMiner.Vms {
         private static NamedPipeClientStream _pipeClient;
         private static void CloseNTMinerMainWindow() {
             try {
-                Process[] ntMinerProcesses = Process.GetProcessesByName("NTMiner");
-                if (ntMinerProcesses.Length == 0) {
-                    return;
-                }
                 _pipeClient = new NamedPipeClientStream(".", "ntminerclient", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
                 _pipeClient.Connect(200);
                 StreamWriter sw = new StreamWriter(_pipeClient);
