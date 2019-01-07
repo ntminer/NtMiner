@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NTMiner.Daemon {
@@ -20,7 +21,12 @@ namespace NTMiner.Daemon {
                             catch (Exception e) {
                                 Global.Logger.Error(e.Message, e);
                             }
+                            DateTime t1 = DateTime.Now;
                             processes = Process.GetProcessesByName("NTMinerDaemon");
+                            while (processes.Length != 0 && t1.AddSeconds(10) > DateTime.Now) {
+                                Thread.Sleep(200);
+                                processes = Process.GetProcessesByName("NTMinerDaemon");
+                            }
                             if (processes.Length == 0) {
                                 ExtractRunNTMinerDaemon();
                             }
