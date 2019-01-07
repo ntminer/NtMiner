@@ -256,8 +256,10 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     Match match = regex.Match(input);
                     if (match.Success) {
-                        if (!string.IsNullOrEmpty(consoleTranslater.Replacement)) {
-                            input = regex.Replace(input, consoleTranslater.Replacement);
+                        if (Global.Lang.Code == "cn-zh") {
+                            if (!string.IsNullOrEmpty(consoleTranslater.Replacement)) {
+                                input = regex.Replace(input, consoleTranslater.Replacement);
+                            }
                         }
                         if (!string.IsNullOrEmpty(consoleTranslater.Color)) {
                             color = GetColor(consoleTranslater);
