@@ -7,7 +7,7 @@ using System.Reflection;
 namespace NTMiner.OhGodAnETHlargementPill {
     public class OhGodAnETHlargementPillUtil {
         private static string processName = "OhGodAnETHlargementPill-r2";
-        private static string tempDir = Path.GetDirectoryName(SpecialPath.TempDirFullName);
+        private static string tempDir = SpecialPath.TempDirFullName;
         private static string fileFullName = Path.Combine(tempDir, processName + ".exe");
         public static void Access() {
             Global.Access<MineStartedEvent>(
@@ -19,7 +19,17 @@ namespace NTMiner.OhGodAnETHlargementPill {
                         ExtractResource();
                         Process[] processes = Process.GetProcessesByName(processName);
                         if (processes == null || processes.Length == 0) {
-                            Windows.Cmd.Run(fileFullName, string.Empty);
+                            try {
+                                using (Process proc = new Process()) {
+                                    proc.StartInfo.CreateNoWindow = true;
+                                    proc.StartInfo.UseShellExecute = false;
+                                    proc.StartInfo.FileName = fileFullName;
+                                    proc.Start();
+                                }
+                            }
+                            catch (Exception e) {
+                                Global.Logger.Error(e.Message, e);
+                            }
                             Global.WriteLine("启动1080 TI小药丸成功", ConsoleColor.Green);
                         }
                     }
@@ -41,7 +51,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                             catch (Exception e) {
                                 Global.Logger.Error(e.Message, e);
                             }
-                            Global.DebugLine("成功停止小药丸");
+                            Global.WriteLine("成功停止小药丸", ConsoleColor.Green);
                         }
                     }
                     else {

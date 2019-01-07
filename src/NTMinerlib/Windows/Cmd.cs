@@ -3,21 +3,6 @@ using System.Diagnostics;
 
 namespace NTMiner.Windows {
     public static class Cmd {
-        public static void Run(string filePullName, string args) {
-            try {
-                using (Process proc = new Process()) {
-                    proc.StartInfo.CreateNoWindow = true;
-                    proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"{filePullName}\" {args}";
-                    proc.Start();
-                }
-            }
-            catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
-            }
-        }
-
         public static void RunClose(string filePullName, string args) {
             try {
                 using (Process proc = new Process()) {
