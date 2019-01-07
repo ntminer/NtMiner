@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Miner",
-                Width = 900,
+                Width = 1300,
                 Height = 760,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => new MinerClients(window), fixedSize: false);
