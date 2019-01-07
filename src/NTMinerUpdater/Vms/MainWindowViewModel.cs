@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
             this.ShowHistory = new DelegateCommand(() => {
                 if (IsHistoryVisible == Visibility.Visible) {
                     IsHistoryVisible = Visibility.Collapsed;
-                    if (ServerLatestVm != null) {
+                    if (ServerLatestVm != null && ServerLatestVm.VersionData > LocalNTMinerVersion) {
                         this.IsBtnInstallVisible = Visibility.Visible;
                     }
                     else {
