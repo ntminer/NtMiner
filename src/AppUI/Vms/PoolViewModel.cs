@@ -37,6 +37,12 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public PoolViewModel() {
+            if (!NTMinerRoot.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public PoolViewModel(IPool data) : this(data.GetId()) {
             _dataLevel = data.DataLevel;
             _name = data.Name;

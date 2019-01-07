@@ -133,6 +133,9 @@ namespace NTMiner.Vms {
             set {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
+                if (string.IsNullOrEmpty(value)) {
+                    throw new ValidationException("名称不能为空");
+                }
             }
         }
 
