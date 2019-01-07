@@ -33,6 +33,7 @@
             </TextBox>
         </WrapPanel>
         <controls:KbButton
+            IsDefault="True"
             Command="{Binding Save}" 
             Margin="0 10 0 0"
             Width="70" 

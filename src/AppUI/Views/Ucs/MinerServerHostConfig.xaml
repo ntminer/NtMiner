@@ -25,6 +25,7 @@
             <TextBlock Width="40" Text="{Binding MinerServerPort}" VerticalAlignment="Center" ToolTip="端口号固定"></TextBlock>
         </WrapPanel>
         <controls:KbButton
+            IsDefault="True"
             Command="{Binding Save}" 
             Margin="0 10 0 0"
             Width="70" 

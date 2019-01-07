@@ -52,6 +52,7 @@
             <TextBlock VerticalAlignment="Center" Foreground="Red">钱包地址保存后不可修改</TextBlock>
         </WrapPanel>
         <controls:KbButton
+            IsDefault="True"
             Command="{Binding Save}" 
             Visibility="{Binding SaveVisible}"
             Margin="0 10 0 0"

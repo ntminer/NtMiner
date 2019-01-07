@@ -39,6 +39,7 @@
             </TextBox>
         </WrapPanel>
         <controls:KbButton
+            IsDefault="True"
             Command="{Binding Save}" 
             VerticalAlignment="Bottom"
             Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
