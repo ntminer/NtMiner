@@ -1,6 +1,27 @@
-﻿namespace NTMiner.Vms {
+﻿using System;
+using System.Windows.Input;
+
+namespace NTMiner.Vms {
     public class MinerServerHostConfigViewModel : ViewModelBase {
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
         public MinerServerHostConfigViewModel() {
+            this.Save = new DelegateCommand(() => {
+                try {
+                    if (string.IsNullOrEmpty(this.MinerServerHost)) {
+                        this.MinerServerHost = Server.MINER_SERVER_HOST;
+                    }
+                    string serverPubKey = Server.TimeService.GetServerPubKey(this.MinerServerHost);
+                    Server.MinerServerPubKey = serverPubKey;
+                    Server.MinerServerHost = this.MinerServerHost;
+                    CloseWindow?.Invoke();
+                }
+                catch (Exception e) {
+                    Global.Logger.Error(e.Message, e);
+                }
+            });
             _minerServerHost = Server.MinerServerHost;
         }
 

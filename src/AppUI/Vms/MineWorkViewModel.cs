@@ -23,6 +23,9 @@ namespace NTMiner.Vms {
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
         public ICommand Config { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
 
         public MineWorkViewModel(IMineWork mineWork) : this(mineWork.GetId()) {
             _name = mineWork.Name;
@@ -31,6 +34,15 @@ namespace NTMiner.Vms {
 
         public MineWorkViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.MineWorkSet.Contains(this.Id)) {
+                    Global.Execute(new UpdateMineWorkCommand(this));
+                }
+                else {
+                    Global.Execute(new AddMineWorkCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 MineWorkEdit.ShowEditWindow(new MineWorkViewModel(this));
             });

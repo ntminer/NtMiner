@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Impl;
+using NTMiner.Language.Impl;
 using NTMiner.Notifications;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -25,6 +26,27 @@ namespace NTMiner.Vms {
             catch (Exception e) {
                 Global.Logger.Error(e.Message, e);
             }
+        });
+
+        public static ICommand ExportLangJson { get; private set; } = new DelegateCommand(() => {
+            try {
+                LangJson.Export();
+                MainWindowViewModel.Current.Manager.CreateMessage()
+                    .Accent("#1751C3")
+                    .Background("#333")
+                    .HasBadge("Info")
+                    .HasMessage("导出成功")
+                    .Dismiss()
+                    .WithDelay(TimeSpan.FromSeconds(2))
+                    .Queue();
+            }
+            catch (Exception e) {
+                Global.Logger.Error(e.Message, e);
+            }
+        });
+
+        public static ICommand ShowLangViewItems { get; private set; } = new DelegateCommand<string>((viewId) => {
+            ViewLang.ShowWindow(new ViewLangViewModel(viewId));
         });
 
         public static ICommand JoinQQGroup { get; private set; } = new DelegateCommand(() => {
@@ -56,9 +78,6 @@ namespace NTMiner.Vms {
         public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(() => {
             SysDicPage.ShowWindow();
         });
-        public static ICommand ShowMinerProfile { get; private set; } = new DelegateCommand(() => {
-            MinerProfileOption.ShowWindow();
-        });
         public static ICommand ShowGroups { get; private set; } = new DelegateCommand(() => {
             GroupPage.ShowWindow();
         });
@@ -75,7 +94,7 @@ namespace NTMiner.Vms {
             SpeedCharts.ShowWindow();
         });
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
-            string updaterDirFullName = Path.Combine(SpecialPath.ShareDirFullName, "Updater");
+            string updaterDirFullName = Path.Combine(Global.GlobalDirFullName, "Updater");
             if (!Directory.Exists(updaterDirFullName)) {
                 Directory.CreateDirectory(updaterDirFullName);
             }
@@ -114,8 +133,11 @@ namespace NTMiner.Vms {
         public static ICommand ShowCalcConfig { get; private set; } = new DelegateCommand(() => {
             CalcConfig.ShowWindow();
         });
-        public static ICommand ShowShareDir { get; private set; } = new DelegateCommand(() => {
-            Process.Start(SpecialPath.ShareDirFullName);
+        public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
+            Process.Start(Global.GlobalDirFullName);
+        });
+        public static ICommand OpenLangLiteDb { get; private set; } = new DelegateCommand(() => {
+            OpenLiteDb(SpecialPath.LangDbFileFullName);
         });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(SpecialPath.LocalDbFileFullName);
@@ -125,7 +147,7 @@ namespace NTMiner.Vms {
         });
 
         private static void OpenLiteDb(string dbFileFullName) {
-            string liteDbExplorerDir = Path.Combine(SpecialPath.ShareDirFullName, "LiteDBExplorerPortable");
+            string liteDbExplorerDir = Path.Combine(Global.GlobalDirFullName, "LiteDBExplorerPortable");
             string liteDbExplorerFileFullName = Path.Combine(liteDbExplorerDir, "LiteDbExplorer.exe");
             if (!Directory.Exists(liteDbExplorerDir)) {
                 Directory.CreateDirectory(liteDbExplorerDir);
@@ -164,7 +186,7 @@ namespace NTMiner.Vms {
 
         public static bool IsDevMode {
             get {
-                if (NTMinerRoot.IsInDesignMode) {
+                if (Design.IsInDesignMode) {
                     return true;
                 }
                 return DevMode.IsDevMode;
@@ -193,6 +215,32 @@ namespace NTMiner.Vms {
                 }
                 return Visibility.Collapsed;
             }
+        }
+
+        private static bool _isMinerClient;
+        public static bool IsMinerClient {
+            get {
+                return _isMinerClient;
+            }
+            set {
+                _isMinerClient = value;
+                if (value) {
+                    IsMinerClientVisible = Visibility.Visible;
+                    IsMinerClientNotVisible = Visibility.Collapsed;
+                }
+                else {
+                    IsMinerClientVisible = Visibility.Collapsed;
+                    IsMinerClientNotVisible = Visibility.Visible;
+                }
+            }
+        }
+
+        public static Visibility IsMinerClientVisible {
+            get; private set;
+        }
+
+        public static Visibility IsMinerClientNotVisible {
+            get; private set;
         }
     }
 }

@@ -33,6 +33,15 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
 
         public ICommand ViewPoolIncome { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
+        public PoolViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
 
         public PoolViewModel(IPool data) : this(data.GetId()) {
             _dataLevel = data.DataLevel;
@@ -47,6 +56,15 @@ namespace NTMiner.Vms {
 
         public PoolViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.PoolSet.Contains(this.Id)) {
+                    Global.Execute(new UpdatePoolCommand(this));
+                }
+                else {
+                    Global.Execute(new AddPoolCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 PoolEdit.ShowEditWindow(this);
             });

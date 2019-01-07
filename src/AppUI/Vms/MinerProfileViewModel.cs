@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
         public ICommand CustomTheme { get; private set; }
 
         private MinerProfileViewModel() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             this.CustomTheme = new DelegateCommand(() => {
@@ -33,7 +33,6 @@ namespace NTMiner.Vms {
                     if (mineContext != null) {
                         this.MineTimeSpan = DateTime.Now - mineContext.CreatedOn;
                     }
-                    OnPropertyChanged(nameof(MineStatusText));
                 });
             Global.Access<MinerProfilePropertyChangedEvent>(
                 Guid.Parse("00F1C9F7-ADC8-438D-8B7E-942F6EE5F9A4"),
@@ -150,15 +149,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string MineStatusText {
-            get {
-                if (!NTMinerRoot.Current.IsMining) {
-                    return "未挖矿：";
-                }
-                return "挖矿中：";
-            }
-        }
-
         public string ControlCenterStatusText {
             get {
                 return "已连接";
@@ -260,16 +250,6 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Current.MinerProfile.IsShowInTaskbar != value) {
                     NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsShowInTaskbar), value);
                     OnPropertyChanged(nameof(IsShowInTaskbar));
-                }
-            }
-        }
-
-        public bool IsLocalizationEnabled {
-            get { return NTMinerRoot.Current.MinerProfile.IsLocalizationEnabled; }
-            set {
-                if (NTMinerRoot.Current.MinerProfile.IsLocalizationEnabled != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsLocalizationEnabled), value);
-                    OnPropertyChanged(nameof(IsLocalizationEnabled));
                 }
             }
         }

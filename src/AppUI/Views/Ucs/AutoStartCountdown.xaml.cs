@@ -6,7 +6,6 @@ namespace NTMiner.Views.Ucs {
     public partial class AutoStartCountdown : UserControl {
         public static void ShowDialog() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "自动挖矿倒计时",
                 Width = 400,
                 Height = 200,
                 IsDialogWindow = true,
@@ -14,9 +13,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Logo"
             }, ucFactory: (window) => {
                 AutoStartCountdown uc = new AutoStartCountdown();
-                uc.CloseWindow = () => {
-                    window.Close();
-                };
+                uc.CloseWindow = () => window.Close();
                 return uc;
             }, fixedSize: true);
         }
@@ -30,6 +27,7 @@ namespace NTMiner.Views.Ucs {
         public Action CloseWindow;
         public AutoStartCountdown() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             System.Timers.Timer t = new System.Timers.Timer(1000);
             t.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
                 if (NTMinerRoot.IsAutoStartCanceled) {

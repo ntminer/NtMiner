@@ -1,10 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.ServiceContracts.DataObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class CalcConfigViewModels : ViewModelBase {
         private List<CalcConfigViewModel> _calcConfigVms;
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
 
         public CalcConfigViewModels() {
+            this.Save = new DelegateCommand(() => {
+                NTMinerRoot.Current.CalcConfigSet.SaveCalcConfigs(this.CalcConfigVms.Select(a => new CalcConfigData(a)).ToList());
+                CloseWindow?.Invoke();
+            });
             _calcConfigVms = new List<CalcConfigViewModel>();
             foreach (var item in NTMinerRoot.Current.CalcConfigSet) {
                 _calcConfigVms.Add(new CalcConfigViewModel(item));

@@ -2,7 +2,6 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Views {
     public partial class DialogWindow : MetroWindow {
@@ -35,18 +34,15 @@ namespace NTMiner.Views {
             Action onYes, 
             Action onNo) {
             InitializeComponent();
+            this.Resources["Title"] = title;
+            this.Resources["Message"] = message;
+            if (!string.IsNullOrEmpty(icon) && Application.Current.Resources.Contains(icon)) {
+                this.Resources["Icon"] = Application.Current.Resources[icon];
+            }
+
             var owner = TopWindow.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
-            }
-            if (!string.IsNullOrEmpty(icon)) {
-                PathIcon.Data= (Geometry)Application.Current.Resources[icon];
-            }
-            if (!string.IsNullOrEmpty(title)) {
-                TxtTitle.Text = title;
-            }
-            if (!string.IsNullOrEmpty(message)) {
-                TxtMessage.Text = message;
             }
             _onYes = onYes;
             _onNo = onNo;

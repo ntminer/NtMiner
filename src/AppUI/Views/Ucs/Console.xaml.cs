@@ -1,12 +1,20 @@
-﻿using System;
+﻿using NTMiner.Vms;
+using System;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class Console : UserControl {
+        private MinerProfileViewModel Vm {
+            get {
+                return (MinerProfileViewModel)this.DataContext;
+            }
+        }
+
         public Console() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Global.WriteLineMethod = WriteLine;
             if (DevMode.IsDevMode) {
                 this.DebugRow.Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star);

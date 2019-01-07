@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class GroupPage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "组",
                 IconName = "Icon_Group",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
@@ -22,6 +21,7 @@ namespace NTMiner.Views.Ucs {
 
         public GroupPage() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

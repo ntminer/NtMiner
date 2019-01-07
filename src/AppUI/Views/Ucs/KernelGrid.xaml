@@ -6,17 +6,15 @@
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:KernelPageViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="800">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<!--  行样式触发  -->
-			<!--  背景色改变必须先设置cellStyle 因为cellStyle会覆盖rowStyle样式  -->
 			<Style TargetType="DataGridRow">
 				<Setter Property="Foreground" Value="#FF666666" />
 				<Style.Triggers>
-					<!--  隔行换色  -->
 					<Trigger Property="AlternationIndex" Value="0">
 						<Setter Property="Background" Value="#F5F4F5" />
 					</Trigger>
@@ -34,7 +32,6 @@
 				</Style.Triggers>
 			</Style>
 
-			<!--  单元格样式触发  -->
 			<Style TargetType="DataGridCell">
 				<Setter Property="VerticalAlignment" Value="Stretch" />
 				<Setter Property="Foreground" Value="#FF5A5A5A" />
@@ -45,9 +42,9 @@
 							<Grid>
 								<TextBlock />
 								<ContentPresenter
-							Margin="5,0,0,0"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center" />
+							        Margin="5,0,0,0"
+							        HorizontalAlignment="Left"
+							        VerticalAlignment="Center" />
 							</Grid>
 						</ControlTemplate>
 					</Setter.Value>
@@ -57,8 +54,56 @@
 						<Setter Property="Background" Value="White" />
 					</Trigger>
 				</Style.Triggers>
-			</Style>
-		</ResourceDictionary>
+            </Style>
+            <sys:String x:Key="WindowTitle">
+                WindowTitle
+            </sys:String>
+            <sys:String x:Key="TbNoRecord">
+                TbNoRecord
+            </sys:String>
+            <sys:String x:Key="Code">
+                Code
+            </sys:String>
+            <sys:String x:Key="SupportedGpus">
+                SupportedGpus
+            </sys:String>
+            <sys:String x:Key="SupportedCoins">
+                SupportedCoins
+            </sys:String>
+            <sys:String x:Key="Size">
+                Size
+            </sys:String>
+            <sys:String x:Key="PublishOn">
+                PublishOn
+            </sys:String>
+            <sys:String x:Key="UnPublished">
+                UnPublished
+            </sys:String>
+            <sys:String x:Key="Version">
+                Version
+            </sys:String>
+            <sys:String x:Key="Sort">
+                Sort
+            </sys:String>
+            <sys:String x:Key="Install">
+                Install
+            </sys:String>
+            <sys:String x:Key="UnInstall">
+                UnInstall
+            </sys:String>
+            <sys:String x:Key="Installed">
+                Installed
+            </sys:String>
+            <sys:String x:Key="Publish">
+                Publish
+            </sys:String>
+            <sys:String x:Key="CancelPublish">
+                CancelPublish
+            </sys:String>
+            <sys:String x:Key="Upgrade">
+                Upgrade
+            </sys:String>
+        </ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
 		<DataGrid 
@@ -73,7 +118,10 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
                     Width="50" CanUserResize="False" CanUserReorder="False" 
-                    CanUserSort="False" IsReadOnly="True" Header="支持显卡">
+                    CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource SupportedGpus}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -82,7 +130,7 @@
                                         Margin="4 0 0 0"
 				                        Width="18"
 				                        Height="14"
-                                        ToolTip="支持N卡"
+                                        ToolTip="NVIDIA"
                                         Visibility="{Binding IsNvidiaIconVisible}"
 				                        Data="{StaticResource Icon_Nvidia}"
 				                        Fill="Green"
@@ -91,7 +139,7 @@
                                         Margin="4 0 0 0"
 				                        Width="16"
 				                        Height="14"
-                                        ToolTip="支持A卡"
+                                        ToolTip="AMD"
                                         Visibility="{Binding IsAMDIconVisible}"
 				                        Data="{StaticResource Icon_AMD}"
 				                        Fill="Red"
@@ -104,7 +152,7 @@
                 <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
-							<TextBlock>编码</TextBlock>
+                            <TextBlock Text="{DynamicResource Code}"></TextBlock>
 							<TextBlock Margin="4 0 0 0" Text="{Binding Data.QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
 						</WrapPanel>
 					</DataGridTemplateColumn.Header>
@@ -115,13 +163,16 @@
                                     <TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
 								</WrapPanel>
 								<WrapPanel>
-									<TextBlock Text="{Binding SupportedCoins}" ToolTip="支持币种"></TextBlock>
+									<TextBlock Text="{Binding SupportedCoins}" ToolTip="{DynamicResource SupportedCoins}"></TextBlock>
 								</WrapPanel>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="版本">
+                <DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource Version}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -131,16 +182,39 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn MinWidth="160" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="发布时间" Binding="{Binding PublishOnText}">
-                </DataGridTextColumn>
-                <DataGridTextColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="尺寸" Binding="{Binding SizeMbText}">
+                <DataGridTemplateColumn MinWidth="160" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource PublishOn}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <WrapPanel Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock Text="{DynamicResource PublishOn}"></TextBlock>
+                                    <TextBlock Text="{Binding PublishOnText}"></TextBlock>
+                                </WrapPanel>
+                                <TextBlock Text="{DynamicResource UnPublished}" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding SizeMbText}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{DynamicResource Size}"></TextBlock>
+                    </DataGridTextColumn.Header>
 				</DataGridTextColumn>
                 <DataGridTextColumn 
                     Width="40" CanUserResize="False" CanUserReorder="False" 
                     Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                    CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
+                    CanUserSort="False" IsReadOnly="True" Binding="{Binding SortNumber}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{DynamicResource Sort}"></TextBlock>
+                    </DataGridTextColumn.Header>
                 </DataGridTextColumn>
-                <DataGridTemplateColumn Width="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="安装">
+                <DataGridTemplateColumn Width="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource Install}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Grid>
@@ -151,25 +225,33 @@
 									<WrapPanel
 										Visibility="{Binding Data.IsBtnUnInstallVisible, Source={StaticResource proxy}, Converter={StaticResource VisibilityInvertConverter}}">
                                         <WrapPanel Visibility="{Binding KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-											<WrapPanel
-												Visibility="{Binding KernelProfileVm.IsBtnInstallEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-												<controls:KbButton 
-													Height="26"
-													Width="78"
-													Padding="8 4"
-													Command="{Binding KernelProfileVm.Install}"
-													Content="{Binding KernelProfileVm.BtnInstallText}"
-													Foreground="White"
-													Background="{Binding KernelProfileVm.BtnInstallBackground}">
-												</controls:KbButton>
-											</WrapPanel>
-											<TextBlock 
-												TextAlignment="Center"
-												Visibility="{Binding KernelProfileVm.IsBtnInstallEnabled, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+                                            <controls:KbButton 
+                                                Visibility="{Binding KernelProfileVm.BtnInstallVisible}"
 												Height="26"
 												Width="78"
 												Padding="8 4"
-												Text="已安装"></TextBlock>
+												Command="{Binding KernelProfileVm.Install}"
+												Content="{DynamicResource Install}"
+												Foreground="White"
+												Background="#05c400">
+                                            </controls:KbButton>
+                                            <controls:KbButton 
+                                                Visibility="{Binding KernelProfileVm.BtnUpdateVisible}"
+												Height="26"
+												Width="78"
+												Padding="8 4"
+												Command="{Binding KernelProfileVm.Install}"
+												Content="{DynamicResource Upgrade}"
+												Foreground="White"
+												Background="#edac3a">
+                                            </controls:KbButton>
+                                            <TextBlock 
+                                                Visibility="{Binding KernelProfileVm.BtnInstalledVisible}"
+												TextAlignment="Center"
+												Height="26"
+												Width="78"
+												Padding="8 4"
+												Text="{DynamicResource Installed}"></TextBlock>
 										</WrapPanel>
 									</WrapPanel>
 									<TextBlock
@@ -185,7 +267,7 @@
 										Height="26"
 										Width="78"
 										Padding="8 4"
-										Content="一键卸载"
+										Content="{DynamicResource UnInstall}"
 										Foreground="Black">
 									</controls:KbButton>
 								</WrapPanel>
@@ -195,13 +277,13 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"
-					Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" Header="管理">
+					Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel>
                                 <WrapPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center">
                                     <controls:KbButton 
-									    ToolTip="发布"
+									    ToolTip="{DynamicResource Publish}"
 									    Command="{Binding Publish}" 
 									    Background="Transparent" BorderThickness="0"
 									    Visibility="{Binding IsBtnPublishVisible}"
@@ -217,7 +299,7 @@
                                         </WrapPanel>
                                     </controls:KbButton>
                                     <controls:KbButton 
-									    ToolTip="取消发布"
+									    ToolTip="{DynamicResource CancelPublish}"
 									    Command="{Binding UnPublish}" 
 									    Background="Transparent" BorderThickness="0"
 									    Visibility="{Binding IsBtnPublishVisible, Converter={StaticResource VisibilityInvertConverter}}"
@@ -294,6 +376,24 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Visibility="{Binding QueryResults, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
+        <TextBlock Visibility="{Binding QueryResults, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
+        <controls:KbButton
+            Margin="0 4 20 0"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            ToolTip="KernelGrid translate"
+            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+            CommandParameter="KernelGrid"
+            Background="Transparent">
+            <WrapPanel>
+                <Path
+                    Width="14"
+                    Height="14"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="Red"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
 	</Grid>
 </UserControl>

@@ -23,12 +23,6 @@ namespace NTMiner.Vms {
             });
         }
 
-        public string NTMinerTitle {
-            get {
-                return NTMinerRoot.Title;
-            }
-        }
-
         public bool JustClientWorker {
             get {
                 return CommandLineArgs.JustClientWorker;
@@ -40,6 +34,12 @@ namespace NTMiner.Vms {
             set {
                 _isBtnRunAsAdministratorVisible = value;
                 OnPropertyChanged(nameof(IsBtnRunAsAdministratorVisible));
+            }
+        }
+
+        public LangViewModels LangVms {
+            get {
+                return LangViewModels.Current;
             }
         }
 

@@ -3,7 +3,7 @@
 namespace NTMiner.Vms {
     public class SysDicPageViewModel : ViewModelBase {
         public SysDicPageViewModel() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             this._currentSysDic = SysDicVms.List.FirstOrDefault();

@@ -44,6 +44,7 @@ namespace NTMiner {
                     AppHelper.RunAsAdministrator();
                     return;
                 }
+                Vms.AppStatic.IsMinerClient = true;
                 BootLog.Log("new SplashWindow");
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
@@ -82,6 +83,7 @@ namespace NTMiner {
         }
 
         private void OnNTMinerRootInited() {
+            OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Access();
             NTMinerRoot.KernelDownloader = new KernelDownloader();
             Execute.OnUIThread(() => {
                 BootLog.Log("new MainWindow");

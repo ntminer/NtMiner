@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class QQGroupQrCode : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "QQ群二维码",
                 IconImage = "Icon_QQ",
                 Width = 280,
                 Height = 320,
@@ -16,6 +15,7 @@ namespace NTMiner.Views.Ucs {
 
         public QQGroupQrCode() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

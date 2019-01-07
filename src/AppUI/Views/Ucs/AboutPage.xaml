@@ -4,11 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms"
         DataContext="{x:Static vm:AboutPageViewModel.Current}"
         mc:Ignorable="d" Height="320" Width="520">
+    <UserControl.Resources>
+        <sys:String x:Key="WindowTitle">
+            WindowTitle
+        </sys:String>
+        <sys:String x:Key="AboutContent">
+            AboutContent
+        </sys:String>
+        <sys:String x:Key="Copyright">
+            Copyright
+        </sys:String>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -23,7 +35,7 @@
         </StackPanel>
         <StackPanel Grid.Row="1">
             <WrapPanel HorizontalAlignment="Center">
-                <TextBlock FontSize="22" FontWeight="Bold" Text="{Binding NTMinerTitle}"></TextBlock>
+                <TextBlock FontSize="22" FontWeight="Bold" Text="NTMiner"></TextBlock>
                 <TextBlock FontSize="22" FontWeight="Bold" Margin="6 0 0 0" Text="{Binding CurrentVersion}"></TextBlock>
             </WrapPanel>
             <controls:KbLinkButton
@@ -37,7 +49,7 @@
             <TextBox 
                 Background="Transparent"
                 HorizontalAlignment="Center"
-                Text="{Binding AboutText, Mode=OneWay}"
+                Text="{DynamicResource AboutContent}"
                 BorderThickness="0" AcceptsReturn="True" 
                 TextWrapping="Wrap" IsReadOnly="True" 
                 FontSize="14" 
@@ -46,11 +58,11 @@
         </StackPanel>
         <StackPanel Grid.Row="2" HorizontalAlignment="Center">
             <WrapPanel HorizontalAlignment="Center">
-                <Label>开源矿工</Label>
+                <Label>NTMiner</Label>
                 <Label>|</Label>
-                <Label>版权所有</Label>
+                <Label Content="{DynamicResource Copyright}"></Label>
                 <Label>|</Label>
-                <Label>开源协议</Label>
+                <Label Content="LGPL"></Label>
             </WrapPanel>
             <WrapPanel>
                 <TextBlock>Copyright</TextBlock>
@@ -59,5 +71,23 @@
                 <TextBlock>NTMiner.com. All Rights Reserved.</TextBlock>
             </WrapPanel>
         </StackPanel>
+        <controls:KbButton
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            ToolTip="AboutPage translate"
+            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+            CommandParameter="AboutPage"
+            Padding="8 0"
+            Background="Transparent">
+            <WrapPanel>
+                <Path
+                    Width="14"
+                    Height="14"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="Red"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
     </Grid>
 </UserControl>

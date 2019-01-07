@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
         private double _incomeDualCoinPerDay;
 
         private GpuSpeedViewModels() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             this.GpuAllVm = GpuViewModels.Current.FirstOrDefault(a => a.Index == NTMinerRoot.Current.GpuAllId);

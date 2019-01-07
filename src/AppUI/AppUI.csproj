@@ -119,6 +119,9 @@
     <Compile Include="Views\ControlCenterWindow.xaml.cs">
       <DependentUpon>ControlCenterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NotificationSample.xaml.cs">
       <DependentUpon>NotificationSample.xaml</DependentUpon>
     </Compile>
@@ -189,9 +192,6 @@
     <Compile Include="Views\Ucs\Console.xaml.cs">
       <DependentUpon>Console.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\GpuStatusBar.xaml.cs">
-      <DependentUpon>GpuStatusBar.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Ucs\AutoStartCountdown.xaml.cs">
       <DependentUpon>AutoStartCountdown.xaml</DependentUpon>
     </Compile>
@@ -207,8 +207,8 @@
     <Compile Include="Views\Ucs\KernelEdit.xaml.cs">
       <DependentUpon>KernelEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\Enviroment.xaml.cs">
-      <DependentUpon>Enviroment.xaml</DependentUpon>
+    <Compile Include="Views\Ucs\Property.xaml.cs">
+      <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\EventPage.xaml.cs">
       <DependentUpon>EventPage.xaml</DependentUpon>
@@ -224,9 +224,6 @@
     </Compile>
     <Compile Include="Views\Ucs\SpeedCharts.xaml.cs">
       <DependentUpon>SpeedCharts.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Ucs\CoinSpeedBar.xaml.cs">
-      <DependentUpon>CoinSpeedBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\SysDicItemEdit.xaml.cs">
       <DependentUpon>SysDicItemEdit.xaml</DependentUpon>
@@ -319,10 +316,9 @@
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\CoinKernelProfileViewModel.cs" />
     <Compile Include="Vms\CoinKernelViewModels.cs" />
-    <Compile Include="Vms\CoinSpeedBarViewModel.cs" />
     <Compile Include="Vms\CoinViewModels.cs" />
     <Compile Include="Vms\Drives\Drive.cs" />
-    <Compile Include="Vms\EnviromentViewModel.cs" />
+    <Compile Include="Vms\PropertyViewModel.cs" />
     <Compile Include="Vms\EventPageViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
@@ -368,6 +364,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\NotificationSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -377,6 +377,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Ucs\Calc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\Design\PoolViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -480,10 +484,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\GpuStatusBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Ucs\AutoStartCountdown.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -504,7 +504,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Enviroment.xaml">
+    <Page Include="Views\Ucs\Property.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -525,10 +525,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\SpeedCharts.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\CoinSpeedBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

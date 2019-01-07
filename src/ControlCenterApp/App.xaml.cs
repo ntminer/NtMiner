@@ -42,6 +42,7 @@ namespace NTMiner {
                     AppHelper.RunAsAdministrator();
                     return;
                 }
+                Vms.AppStatic.IsMinerClient = false;
                 BootLog.Log("new SplashWindow");
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();

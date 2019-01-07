@@ -25,6 +25,9 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand SortUp { get; private set; }
         public ICommand SortDown { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
 
         public KernelOutputTranslaterViewModel() {
             if (!DevMode.IsDevMode) {
@@ -44,6 +47,21 @@ namespace NTMiner.Vms {
 
         public KernelOutputTranslaterViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                int sortNumber = this.SortNumber;
+                if (NTMinerRoot.Current.KernelOutputTranslaterSet.Contains(this.Id)) {
+                    Global.Execute(new UpdateKernelOutputTranslaterCommand(this));
+                }
+                else {
+                    Global.Execute(new AddKernelOutputTranslaterCommand(this));
+                }
+                if (sortNumber != this.SortNumber) {
+                    if (KernelViewModels.Current.TryGetKernelVm(this.KernelId, out KernelViewModel kernelVm)) {
+                        kernelVm.OnPropertyChanged(nameof(kernelVm.KernelOutputTranslaters));
+                    }
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 KernelOutputTranslaterEdit.ShowEditWindow(this);
             });

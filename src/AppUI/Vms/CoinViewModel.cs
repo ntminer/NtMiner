@@ -53,9 +53,12 @@ namespace NTMiner.Vms {
         public ICommand AddWallet { get; private set; }
         public ICommand AddCoinKernel { get; private set; }
         public ICommand ViewCoinInfo { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
 
         public CoinViewModel() {
-            if (!NTMinerRoot.IsInDesignMode) {
+            if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -73,6 +76,15 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.CoinSet.Contains(this.Id)) {
+                    Global.Execute(new UpdateCoinCommand(this));
+                }
+                else {
+                    Global.Execute(new AddCoinCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.ViewCoinInfo = new DelegateCommand(() => {
                 Process.Start("https://www.feixiaohao.com/currencies/" + this.EnName + "/");
             });
@@ -323,7 +335,7 @@ namespace NTMiner.Vms {
 
         public List<WalletViewModel> Wallets {
             get {
-                if (NTMinerRoot.IsInDesignMode) {
+                if (Design.IsInDesignMode) {
                     return new List<WalletViewModel>();
                 }
                 return GetWallets().ToList();

@@ -6,7 +6,6 @@ namespace NTMiner.Views.Ucs {
     public partial class RestartWindows : UserControl {
         public static void ShowDialog() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "Windows系统重启倒计时",
                 Width = 400,
                 Height = 200,
                 IsDialogWindow = true,
@@ -31,6 +30,7 @@ namespace NTMiner.Views.Ucs {
         public Action CloseWindow;
         public RestartWindows() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             System.Timers.Timer t = new System.Timers.Timer(1000);
             t.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
                 if (_isCanceled) {

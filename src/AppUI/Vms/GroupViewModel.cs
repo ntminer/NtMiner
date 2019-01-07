@@ -22,6 +22,9 @@ namespace NTMiner.Vms {
         public ICommand SortUp { get; private set; }
         public ICommand SortDown { get; private set; }
         public ICommand AddCoinGroup { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
 
         public GroupViewModel(IGroup data) : this(data.GetId()) {
             _name = data.Name;
@@ -30,6 +33,15 @@ namespace NTMiner.Vms {
 
         public GroupViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.GroupSet.Contains(this.Id)) {
+                    Global.Execute(new UpdateGroupCommand(this));
+                }
+                else {
+                    Global.Execute(new AddGroupCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 GroupEdit.ShowEditWindow(this);
             });
@@ -64,6 +76,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.AddCoinGroup = new DelegateCommand<CoinViewModel>((coinVm) => {
+                if (coinVm == null) {
+                    return;
+                }
                 var coinGroupVms = CoinGroupViewModels.Current.GetCoinGroupsByGroupId(this.Id);
                 int sortNumber = coinGroupVms.Count == 0 ? 1 : coinGroupVms.Count + 1;
                 CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(Guid.NewGuid()) {
@@ -118,6 +133,9 @@ namespace NTMiner.Vms {
             set {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
+                if (string.IsNullOrEmpty(value)) {
+                    throw new ValidationException("名称不能为空");
+                }
             }
         }
 

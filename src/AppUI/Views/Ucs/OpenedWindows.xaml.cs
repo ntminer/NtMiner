@@ -11,6 +11,7 @@ namespace NTMiner.Views.Ucs {
 
         public OpenedWindows() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

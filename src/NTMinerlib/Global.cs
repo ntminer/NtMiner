@@ -1,9 +1,13 @@
-﻿using NTMiner.Bus;
+﻿using Microsoft.Win32;
+using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
+using NTMiner.Language;
 using NTMiner.Logging;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Timers;
 
 namespace NTMiner {
@@ -18,7 +22,40 @@ namespace NTMiner {
             }
         }
 
-        public static ILoggingService Logger { get; private set; }
+        private static ILang _lang = null;
+        public static ILang Lang {
+            get {
+                if (_lang == null) {
+                    object languageValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language");
+                    if (languageValue == null) {
+                        _lang = LangSet.Instance.First();
+                    }
+                    else {
+                        _lang = LangSet.Instance.GetLangByCode((string)languageValue);
+                        if (_lang == null) {
+                            _lang = LangSet.Instance.First();
+                        }
+                    }
+                }
+                return _lang;
+            }
+            set {
+                if (_lang != value && value != null) {
+                    _lang = LangSet.Instance.GetLangByCode(value.Code);
+                    Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language", value.Code);
+                    Happened(new GlobalLangChangedEvent(value));
+                }
+            }
+        }
+
+        public static string GlobalDirFullName { get; private set; }
+
+        private static ILoggingService _logger = null;
+        public static ILoggingService Logger {
+            get {
+                return _logger ?? new Log4NetLoggingService();
+            }
+        }
 
         public static IObjectSerializer JsonSerializer { get; private set; }
 
@@ -29,7 +66,10 @@ namespace NTMiner {
         public static Action<string, ConsoleColor, bool> WriteLineMethod; // message, color, isDebug
 
         static Global() {
-            Logger = new Log4NetLoggingService();
+            GlobalDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+            if (!Directory.Exists(GlobalDirFullName)) {
+                Directory.CreateDirectory(GlobalDirFullName);
+            }
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);

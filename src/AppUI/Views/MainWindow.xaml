@@ -3,6 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:notification="clr-namespace:NTMiner.Notifications.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
@@ -21,8 +22,8 @@
 		DataContext="{x:Static vm:MainWindowViewModel.Current}"
 		TextOptions.TextFormattingMode="Display">
 	<metro:MetroWindow.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/TabControlStyle.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 			<Style x:Key="IconButtonBg" TargetType="Border">
@@ -35,8 +36,44 @@
 						<Setter Property="Background" Value="#CCE1ED"></Setter>
 					</Trigger>
 				</Style.Triggers>
-			</Style>
-		</ResourceDictionary>
+            </Style>
+            <sys:String x:Key="NTMinerTitle">
+                NTMinerTitle
+            </sys:String>
+            <sys:String x:Key="NTMinerTitleToopTip">
+                NTMinerTitleToopTip
+            </sys:String>
+            <sys:String x:Key="HStart">
+                HStart
+            </sys:String>
+            <sys:String x:Key="HProperty">
+                HProperty
+            </sys:String>
+            <sys:String x:Key="HLog">
+                HLog
+            </sys:String>
+            <sys:String x:Key="HSpeed">
+                HSpeed
+            </sys:String>
+            <sys:String x:Key="HOption">
+                HOption
+            </sys:String>
+            <sys:String x:Key="BtnStartMine">
+                BtnStartMine
+            </sys:String>
+            <sys:String x:Key="BtnMining">
+                BtnMining
+            </sys:String>
+            <sys:String x:Key="BtnStopMine">
+                BtnStopMine
+            </sys:String>
+            <sys:String x:Key="ChkIsAutoBoot">
+                ChkIsAutoBoot
+            </sys:String>
+            <sys:String x:Key="ChkIsAutoStart">
+                ChkIsAutoStart
+            </sys:String>
+        </ResourceDictionary>
 	</metro:MetroWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -50,7 +87,7 @@
 			<WrapPanel Canvas.Left="4" Canvas.Top="3">
                 <Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png"></Image>
 				<controls:KbLinkButton
-					ToolTip="点击打开官网"
+					ToolTip="{DynamicResource NTMinerTitleToopTip}"
 					Command="{x:Static vm:AppStatic.OpenOfficialSite}"
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent"
@@ -62,10 +99,26 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							FontSize="16"
-							Text="{Binding NTMinerTitle}" />
+							Text="{DynamicResource NTMinerTitle}" />
 					</WrapPanel>
-				</controls:KbLinkButton>
-				<controls:KbButton 
+                </controls:KbLinkButton>
+                <controls:KbButton
+                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    ToolTip="MainWindow translate"
+                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                    CommandParameter="MainWindow"
+                    Padding="8 0"
+                    Background="{StaticResource MainColor}">
+                    <WrapPanel>
+                        <Path
+                            Width="14"
+                            Height="14"
+                            Data="{StaticResource Icon_Translate}"
+                            Fill="Red"
+                            Stretch="Fill" />
+                    </WrapPanel>
+                </controls:KbButton>
+                <controls:KbButton 
 					Margin="4 0 0 0" Height="20" BorderThickness="0" 
 					Content="点击以管理员身份运行"
 					Foreground="White"
@@ -91,196 +144,14 @@
 			<WrapPanel Canvas.Right="0" HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" 
 					VerticalAlignment="Top">
-                    <Menu Background="Transparent" VerticalAlignment="Center">
-                        <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-                            <MenuItem.Icon>
-                                <Path
-									Width="14"
-									Height="14"
-									Data="{StaticResource Icon_Developer}"
-									Fill="#385263"
-									Stretch="Fill" />
-                            </MenuItem.Icon>
-                            <MenuItem Header="ShareDir" Command="{x:Static vm:AppStatic.ShowShareDir}">
-                                <MenuItem.Icon>
-                                    <Path
-									    Width="14"
-									    Height="14"
-									    Data="{StaticResource Icon_Dir}"
-									    Fill="{StaticResource IconFillColor}"
-									    Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="ServerDb" Command="{x:Static vm:AppStatic.OpenServerLiteDb}">
-                                <MenuItem.Icon>
-                                    <Path
-									    Width="14"
-									    Height="14"
-									    Data="{StaticResource Icon_Db}"
-									    Fill="{StaticResource IconFillColor}"
-									    Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="导出ServerJson" Command="{x:Static vm:AppStatic.ExportServerJson}">
-                                <MenuItem.Icon>
-                                    <Path
-									    Width="14"
-									    Height="14"
-									    Data="{StaticResource Icon_Json}"
-									    Fill="{StaticResource IconFillColor}"
-									    Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="本地数据库" Command="{x:Static vm:AppStatic.OpenLocalLiteDb}">
-                                <MenuItem.Icon>
-                                    <Path
-									    Width="14"
-									    Height="14"
-									    Data="{StaticResource Icon_Db}"
-									    Fill="{StaticResource IconFillColor}"
-									    Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="通知样例" Command="{x:Static vm:AppStatic.ShowNotificationSample}">
-                                <MenuItem.Icon>
-                                    <Path
-									    Width="14"
-									    Height="14"
-									    Data="{StaticResource Icon_Info}"
-									    Fill="{StaticResource IconFillColor}"
-									    Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="字典" Command="{x:Static vm:AppStatic.ShowSysDic}">
-                                <MenuItem.Icon>
-                                    <Path
-									    Width="14"
-									    Height="14"
-									    Data="{StaticResource Icon_SysDic}"
-									    Fill="{StaticResource IconFillColor}"
-									    Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="事件" Command="{x:Static vm:AppStatic.ViewEvent}">
-                                <MenuItem.Icon>
-                                    <Path
-									    Width="14"
-									    Height="14"
-									    Data="{StaticResource Icon_Event}"
-									    Fill="{StaticResource IconFillColor}"
-									    Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                        <MenuItem Width="26" Height="30">
-                            <MenuItem.Icon>
-                                <Path
-									Width="14"
-									Height="8"
-									Data="{StaticResource Icon_Menu}"
-									Fill="#385263"
-									Stretch="Fill" />
-                            </MenuItem.Icon>
-                            <MenuItem Header="选项" Command="{x:Static vm:AppStatic.ShowMinerProfile}">
-                                <MenuItem.Icon>
-                                    <Path
-                                        Width="16"
-                                        Height="16"
-                                        Data="{StaticResource Icon_MinerProfile}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem 
-                                Visibility="{Binding JustClientWorker, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-                                Header="币种" 
-                                Command="{x:Static vm:AppStatic.ShowCoins}">
-                                <MenuItem.Icon>
-                                    <Path
-                                        Width="16"
-                                        Height="16"
-                                        Data="{StaticResource Icon_Coin}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem 
-                                Visibility="{Binding JustClientWorker, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-                                Header="组" 
-                                Command="{x:Static vm:AppStatic.ShowGroups}">
-                                <MenuItem.Icon>
-                                    <Path
-                                        Width="16"
-                                        Height="16"
-                                        Data="{StaticResource Icon_Group}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem 
-                                Header="内核" 
-                                Command="{x:Static vm:AppStatic.ShowKernels}">
-                                <MenuItem.Icon>
-                                    <Path
-                                        Width="16"
-                                        Height="16"
-                                        Data="{StaticResource Icon_Kernel}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="算力图" Command="{x:Static vm:AppStatic.ShowSpeedChart}">
-                                <MenuItem.Icon>
-                                    <Path
-                                        Width="16"
-                                        Height="16"
-                                        Data="{StaticResource Icon_Speed}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="在线更新" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
-                                <MenuItem.Icon>
-                                    <Path
-                                        Width="14"
-                                        Height="16"
-                                        Data="{StaticResource Icon_Update}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="帮助" Command="{x:Static vm:AppStatic.ShowHelp}">
-                                <MenuItem.Icon>
-                                    <Path
-                                        Width="16"
-                                        Height="16"
-                                        Data="{StaticResource Icon_Help}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="关于" Command="{x:Static vm:AppStatic.ShowAbout}">
-                                <MenuItem.Icon>
-                                    <Path
-                                        Width="16"
-                                        Height="16"
-                                        Data="{StaticResource Icon_About}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="退出" Command="{x:Static vm:AppStatic.AppExit}">
-                                <MenuItem.Icon>
-                                    <Path
-                                        Width="16"
-                                        Height="16"
-                                        Data="{StaticResource Icon_Exit}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                    </Menu>
+                    <ComboBox 
+                        Height="26"
+                        Background="{StaticResource MainColor}"
+                        ItemsSource="{Binding LangVms.LangVms}"
+                        DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
+                    </ComboBox>
+                    <local:MainMenu>
+                    </local:MainMenu>
                     <controls:KbSystemMinButton
                         Height="30"
 						KbSystemButtonSize="40"
@@ -300,11 +171,11 @@
 		<TabControl 
 			Name="tab" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0"
 			Margin="0" Style="{DynamicResource TabControlStyle}">
-			<TabItem Margin="3 0 0 0" Header="开始" Height="47" Width="57" Style="{DynamicResource TabItemStyle}" 
+            <TabItem Margin="3 0 8 0" Header="{DynamicResource HStart}" Height="47" Style="{DynamicResource TabItemStyle}" 
 					 TextOptions.TextFormattingMode="Display">
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="394"></ColumnDefinition>
+						<ColumnDefinition Width="400"></ColumnDefinition>
 						<ColumnDefinition Width="*"></ColumnDefinition>
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
@@ -319,7 +190,7 @@
                             IsEnabled="{Binding MinerProfile.IsNotReadOnly}">
 						<uc:MinerProfileIndex />
                     </Border>
-                    <WrapPanel Grid.Column="0" Grid.Row="0" Margin="0 8 22 0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <WrapPanel Grid.Column="0" Grid.Row="0" Margin="0 8 10 0" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <controls:KbButton 
 						    Width="142"
 						    Height="40"
@@ -338,7 +209,7 @@
 								    VerticalAlignment="Center"
 								    Foreground="White"
 								    FontSize="16"
-								    Content="开始挖矿" />
+								    Content="{DynamicResource BtnStartMine}" />
                             </WrapPanel>
                         </controls:KbButton>
                         <Button                        
@@ -367,13 +238,13 @@
 											    VerticalAlignment="Center"
 											    Foreground="White"
 											    FontSize="16"
-											    Content="正在挖矿" />
+											    Content="{DynamicResource BtnMining}" />
                                         </WrapPanel>
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter TargetName="Content" Property="Background" Value="Red"></Setter>
-                                            <Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
+                                            <Setter TargetName="Text" Property="Content" Value="{DynamicResource BtnStopMine}"></Setter>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -382,11 +253,11 @@
                     </WrapPanel>
                     <WrapPanel Grid.Column="0" Grid.Row="0" Margin="10 0 8 2" VerticalAlignment="Bottom">
                         <controls:KbCheckBox 
-						    Content="开机自动启动"
+						    Content="{DynamicResource ChkIsAutoBoot}"
 						    IconColor="{StaticResource IconFillColor}"
 						    IsChecked="{Binding MinerProfile.IsAutoBoot}" />
                         <controls:KbCheckBox Margin="10 0 0 0"
-						    Content="启动10秒后自动挖矿"
+						    Content="{DynamicResource ChkIsAutoStart}"
 						    IconColor="{StaticResource IconFillColor}"
 						    IsChecked="{Binding MinerProfile.IsAutoStart}" />
                     </WrapPanel>
@@ -395,35 +266,36 @@
                         Background="#F5F5F5"
 						Padding="0" BorderThickness="0" 
 						BorderBrush="{StaticResource LineColor}">
-						<controls:KbTabItem Width="40">
+						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-									<TextBlock>日志</TextBlock>
+                                    <TextBlock Padding="8 0" Text="{DynamicResource HLog}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
                             <uc:Console BorderBrush="{StaticResource LineColor}" BorderThickness="0">
 							</uc:Console>
 						</controls:KbTabItem>
 
-						<controls:KbTabItem Width="40">
+						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-									<TextBlock>算力</TextBlock>
+                                    <TextBlock Padding="8 0" Text="{DynamicResource HSpeed}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
                             <uc:SpeedTable BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
 							</uc:SpeedTable>
 						</controls:KbTabItem>
-						<controls:KbTabItem Width="55">
+						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-									<Path 
+                                    <Path 
+                                        Margin="8 0 0 0"
 										Width="14"
 										Height="14"
 										Stretch="Fill"
 										Fill="{StaticResource IconFillColor}"
 										Data="{StaticResource Icon_MinerProfile}"></Path>
-									<TextBlock Margin="4 0 0 0">选项</TextBlock>
+                                    <TextBlock Padding="4 0 8 0" Text="{DynamicResource HOption}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
                             <uc:MinerProfileOption BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
@@ -436,9 +308,9 @@
 					</uc:StateBar>
 				</Grid>
 			</TabItem>
-			<TabItem Header="属性" Width="57" Style="{DynamicResource TabItemStyle}">
+            <TabItem Header="{DynamicResource HProperty}" Style="{DynamicResource TabItemStyle}">
 				<Border BorderThickness="0" BorderBrush="{StaticResource LineColor}" Padding="14 0">
-					<uc:Enviroment />
+					<uc:Property />
 				</Border>
 			</TabItem>
 		</TabControl>

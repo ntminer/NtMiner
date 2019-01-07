@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerProfileOption : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "选项",
                 IconName = "Icon_MinerProfile",
                 Width = 450,
                 Height = 360,
@@ -21,6 +20,7 @@ namespace NTMiner.Views.Ucs {
 
         public MinerProfileOption() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

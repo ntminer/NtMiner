@@ -13,7 +13,7 @@ namespace NTMiner.Views {
             _targetNotifyIcon = new NotifyIcon {
                 Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new Uri(iconUrl)).Stream),
                 Visible = true,
-                Text = NTMinerRoot.Title,
+                Text = "NTMiner",
                 ContextMenu = new ContextMenu()
             };
             _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
@@ -29,7 +29,7 @@ namespace NTMiner.Views {
                 if (t.AddSeconds(2) < DateTime.Now) {
                     t = DateTime.Now;
                     // TODO:显示基本信息
-                    _targetNotifyIcon.Text = NTMinerRoot.Title;
+                    _targetNotifyIcon.Text = "NTMiner";
                 }
             };
         }

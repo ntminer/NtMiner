@@ -28,6 +28,9 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand SortUp { get; private set; }
         public ICommand SortDown { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
 
         public CoinKernelViewModel(ICoinKernel data) : this(data.GetId()) {
             _coinId = data.CoinId;
@@ -41,6 +44,12 @@ namespace NTMiner.Vms {
 
         public CoinKernelViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.CoinKernelSet.Contains(this.Id)) {
+                    Global.Execute(new UpdateCoinKernelCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 CoinKernelEdit.ShowEditWindow(this);
             });

@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class SpeedTable : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "显卡",
                 IconName = "Icon_Gpu",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => new SpeedTable(), fixedSize: true);
@@ -19,6 +18,7 @@ namespace NTMiner.Views.Ucs {
 
         public SpeedTable() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

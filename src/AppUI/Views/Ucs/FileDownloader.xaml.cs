@@ -7,7 +7,6 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow(string downloadFileUrl, string fileTitle, Action<ContainerWindow, bool, string, string> downloadComplete) {
             Execute.OnUIThread(() => {
                 ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                    Title = "文件下载 - " + fileTitle,
                     IconName = "Icon_Download",
                     CloseVisible = System.Windows.Visibility.Visible,
                 }, ucFactory: (window) => {
@@ -28,6 +27,7 @@ namespace NTMiner.Views.Ucs {
         public FileDownloader(FileDownloaderViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

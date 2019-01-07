@@ -23,7 +23,7 @@ namespace NTMiner.Core.Gpus.Impl {
         public AMDGpuSet(INTMinerRoot root) {
             _root = root;
             this.Properties = new List<GpuSetProperty>();
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             adlHelper.Init();

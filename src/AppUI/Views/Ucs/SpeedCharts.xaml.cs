@@ -15,7 +15,6 @@ namespace NTMiner.Views.Ucs {
     public partial class SpeedCharts : UserControl {
         public static void ShowWindow(GpuSpeedViewModel gpuSpeedVm = null) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel() {
-                Title = "算力图表",
                 IconName = "Icon_Speed",
                 Width = 860,
                 Height = 520,
@@ -44,8 +43,9 @@ namespace NTMiner.Views.Ucs {
         private readonly Dictionary<SpeedChartViewModel, CartesianChart> _chartDic = new Dictionary<SpeedChartViewModel, CartesianChart>();
         public SpeedCharts() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
 
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;

@@ -9,7 +9,6 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerClients : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "矿工",
                 IconName = "Icon_Miner",
                 Width = 900,
                 Height = 760,
@@ -27,6 +26,7 @@ namespace NTMiner.Views.Ucs {
         private MinerClients(ContainerWindow window) {
             _window = window;
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Vm.QueryMinerClients();
             DelegateHandler<Per10SecondEvent> refreshMinerClients = Global.Access<Per10SecondEvent>(
                 Guid.Parse("D0B01F1E-764A-4B83-B115-F7FC496CEB0A"),

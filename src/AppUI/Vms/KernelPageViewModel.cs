@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
             this.ClearKeyword = new DelegateCommand(() => {
                 Keyword = string.Empty;
             });
-            if (!NTMinerRoot.IsInDesignMode) {
+            if (!Design.IsInDesignMode) {
                 KernelViewModels.Current.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
                     if (e.PropertyName == nameof(KernelViewModels.AllKernels)) {
                         OnPropertyChanged(nameof(QueryResults));

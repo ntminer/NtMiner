@@ -9,7 +9,6 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow(CoinViewModel coin) {
             KernelSelect uc = null;
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "选择内核",
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible
@@ -40,6 +39,7 @@ namespace NTMiner.Views.Ucs {
 
         public KernelSelect() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

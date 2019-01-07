@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class MineWorkPage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "作业",
                 IconName = "Icon_MineWork",
                 Width = 600,
                 Height = 400,
@@ -21,6 +20,7 @@ namespace NTMiner.Views.Ucs {
 
         public MineWorkPage() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {

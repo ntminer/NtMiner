@@ -6,20 +6,36 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:local="clr-namespace:NTMiner.Views.Ucs"
     xmlns:vm="clr-namespace:NTMiner.Vms"
 	FontSize="12"
-    mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="500">
+    mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="560">
     <UserControl.DataContext>
         <vm:CalcConfigViewModels></vm:CalcConfigViewModels>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <sys:String x:Key="WindowTitle">
+            WindowTitle
+        </sys:String>
+        <sys:String x:Key="LblSpeed">
+            LblSpeed
+        </sys:String>
+        <sys:String x:Key="LblIncome">
+            LblIncome
+        </sys:String>
+        <sys:String x:Key="TbDay">
+            TbDay
+        </sys:String>
+    </UserControl.Resources>
     <Grid>
         <ScrollViewer 
+            Padding="0 0 0 30"
             Background="White"
 			VerticalScrollBarVisibility="Auto">
             <ItemsControl 
+                HorizontalAlignment="Center"
                 x:Name="ItemsControl"
-                Margin="10 0"
 				Background="White"
 				ItemsSource="{Binding CalcConfigVms}"
 				BorderThickness="0"
@@ -48,7 +64,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel Margin="0 4">
-                            <Label>算力</Label>
+                            <Label Content="{DynamicResource LblSpeed}"></Label>
                             <TextBox Text="{Binding Speed, ValidatesOnExceptions=True}">
                             </TextBox>
                             <ComboBox 
@@ -66,12 +82,13 @@
                                 Data="{StaticResource Icon_ArrowRight}"
                                 Fill="{StaticResource IconFillColor}"
                                 Stretch="Fill"/>
-                            <Label>收益</Label>
+                            <Label Content="{DynamicResource LblIncome}"></Label>
                             <TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}"></TextBox>
                             <Label>
                                 <WrapPanel>
                                     <TextBlock Text="{Binding CoinCode}"></TextBlock>
-                                    <TextBlock Text="/天"></TextBlock>
+                                    <TextBlock Text="/"></TextBlock>
+                                    <TextBlock Text="{DynamicResource TbDay}"></TextBlock>
                                 </WrapPanel>
                             </Label>
                         </WrapPanel>
@@ -79,5 +96,47 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        <controls:KbButton
+            Margin="2 0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            ToolTip="CalcConfig translate"
+            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+            CommandParameter="CalcConfig"
+            Background="Transparent">
+            <WrapPanel>
+                <Path
+                    Width="14"
+                    Height="14"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="Red"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
+        <controls:KbButton
+            IsDefault="True"
+            Command="{Binding Save}" 
+            VerticalAlignment="Bottom"
+            Margin="0 10 0 0"
+            Width="70" 
+            Height="30"
+            Background="{StaticResource IconFillColor}"
+            Foreground="White"
+            CornerRadius="2">
+            <WrapPanel>
+                <Path
+                    Width="12"
+                    Height="12"
+                    Data="{StaticResource Icon_Ok}"
+                    Fill="White"
+                    Stretch="Fill" />
+                <TextBlock
+                    Padding="4"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Text="确定" />
+            </WrapPanel>
+        </controls:KbButton>
     </Grid>
 </UserControl>

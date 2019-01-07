@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:vm="clr-namespace:NTMiner.Vms"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
@@ -11,6 +12,9 @@
             <Setter Property="Width" Value="70"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
         </Style>
+        <sys:String x:Key="WindowTitle">
+            钱包
+        </sys:String>
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
@@ -47,5 +51,29 @@
             <Label Foreground="Red">注意:</Label>
             <TextBlock VerticalAlignment="Center" Foreground="Red">钱包地址保存后不可修改</TextBlock>
         </WrapPanel>
+        <controls:KbButton
+            IsDefault="True"
+            Command="{Binding Save}" 
+            Visibility="{Binding SaveVisible}"
+            Margin="0 10 0 0"
+            Width="70" 
+            Height="30"
+            Background="{StaticResource IconFillColor}"
+            Foreground="White"
+            CornerRadius="2">
+            <WrapPanel>
+                <Path
+                    Width="12"
+                    Height="12"
+                    Data="{StaticResource Icon_Ok}"
+                    Fill="White"
+                    Stretch="Fill" />
+                <TextBlock
+                    Padding="4"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Text="确定" />
+            </WrapPanel>
+        </controls:KbButton>
     </StackPanel>
 </UserControl>

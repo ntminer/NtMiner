@@ -5,7 +5,7 @@ namespace NTMiner.Vms {
         public static readonly GroupPageViewModel Current = new GroupPageViewModel();
 
         public GroupPageViewModel() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             this._currentGroup = GroupVms.List.FirstOrDefault();

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
-    public class EnviromentViewModel : ViewModelBase {
-        public static readonly EnviromentViewModel Current = new EnviromentViewModel();
+    public class PropertyViewModel : ViewModelBase {
+        public static readonly PropertyViewModel Current = new PropertyViewModel();
 
-        private EnviromentViewModel() {
+        private PropertyViewModel() {
 
         }
 
@@ -44,6 +44,17 @@ namespace NTMiner.Vms {
         public DrivesViewModel DrivesVm {
             get {
                 return DrivesViewModel.Current;
+            }
+        }
+        public GpuStatusBarViewModel GpuStatusBarVm {
+            get {
+                return GpuStatusBarViewModel.Current;
+            }
+        }
+
+        public MinerProfileViewModel MinerProfile {
+            get {
+                return MinerProfileViewModel.Current;
             }
         }
 

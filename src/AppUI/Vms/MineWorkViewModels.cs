@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
         public ICommand Add { get; private set; }
 
         private MineWorkViewModels() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             foreach (var item in NTMinerRoot.Current.MineWorkSet) {

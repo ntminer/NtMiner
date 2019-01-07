@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:controls="clr-namespace:NTMiner.Controls"
         UseNoneWindowStyle="True"
@@ -16,6 +17,27 @@
         MouseDown="Window_MouseDown"
         Background="White"
         mc:Ignorable="d" Width="400" MinHeight="200">
+    <metro:MetroWindow.Resources>
+        <ResourceDictionary>
+            <PathGeometry x:Key="Icon" Figures="{x:Null}">
+            </PathGeometry>
+            <sys:String x:Key="Title">
+                Title
+            </sys:String>
+            <sys:String x:Key="Message">
+                Message
+            </sys:String>
+            <sys:String x:Key="OK">
+                OK
+            </sys:String>
+            <sys:String x:Key="Yes">
+                Yes
+            </sys:String>
+            <sys:String x:Key="No">
+                No
+            </sys:String>
+        </ResourceDictionary>
+    </metro:MetroWindow.Resources>
     <Grid> 
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
@@ -25,21 +47,21 @@
         <DockPanel Background="{StaticResource MainColor}" Height="30">
             <WrapPanel DockPanel.Dock="Left">
                 <Path 
-                    x:Name="PathIcon"
                     Margin="4 4 0 0"
                     Width="16"
                     Height="16"
                     Visibility="{Binding IsIconVisible}"
                     Fill="{StaticResource IconFillColor}"
+                    Data="{DynamicResource Icon}"
                     Stretch="Fill"/>
                 <TextBlock
-                    x:Name="TxtTitle"
+                    Text="{DynamicResource Title}"
                     Margin="4 4 0 0"
                     FontSize="16" />
             </WrapPanel>
         </DockPanel>
         <StackPanel Grid.Row="1" Margin="10 20 10 10" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <TextBlock x:Name="TxtMessage" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            <TextBlock Text="{DynamicResource Message}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
             <controls:KbButton Padding="4" Width="80" Margin="10 0"
@@ -60,7 +82,7 @@
                         FontSize="14"
                         Foreground="White"
                         VerticalAlignment="Center"
-                        Content="好的" />
+                        Content="{DynamicResource OK}" />
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton Padding="4" Width="80" Margin="10 0"
@@ -81,7 +103,7 @@
                         FontSize="14"
                         Foreground="White"
                         VerticalAlignment="Center"
-                        Content="是" />
+                        Content="{DynamicResource Yes}" />
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton Padding="4" Width="80" Margin="10 0"
@@ -102,7 +124,7 @@
                         FontSize="14"
                         Foreground="White"
                         VerticalAlignment="Center"
-                        Content="否" />
+                        Content="{DynamicResource No}" />
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>

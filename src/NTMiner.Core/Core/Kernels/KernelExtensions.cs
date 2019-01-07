@@ -60,6 +60,10 @@ namespace NTMiner.Core.Kernels {
             return Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
         }
 
+        public static bool IsPackageFileExist(this IKernel kernel) {
+            return File.Exists(GetPackageFileFullName(kernel));
+        }
+
         public static string GetDownloadFileFullName(this IKernel kernel) {
             return Path.Combine(SpecialPath.DownloadDirFullName, kernel.Package);
         }

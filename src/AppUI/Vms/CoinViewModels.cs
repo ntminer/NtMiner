@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, CoinViewModel> _dicById = new Dictionary<Guid, CoinViewModel>();
 
         private CoinViewModels() {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
             Global.Access<CoinAddedEvent>(

@@ -28,7 +28,7 @@ namespace NTMiner {
         }
 
         public static void Init(INTMinerRoot root) {
-            if (NTMinerRoot.IsInDesignMode) {
+            if (Design.IsInDesignMode) {
                 return;
             }
 

@@ -5,7 +5,6 @@ namespace NTMiner.Views.Ucs {
     public partial class AboutPage : UserControl {
         public static void ShowWindow(string appType) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "关于",
                 IconName = "Icon_About",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed
@@ -20,6 +19,7 @@ namespace NTMiner.Views.Ucs {
 
         public AboutPage(string appType) {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             if (appType == "ControlCenter") {
                 Vm.ImageSource = "/NTMinerWpf;component/Styles/Images/cc128.png";
             }

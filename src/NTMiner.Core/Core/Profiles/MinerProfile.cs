@@ -22,6 +22,9 @@ namespace NTMiner.Core.Profiles {
                 if (result == null) {
                     result = MinerProfileData.CreateDefaultData();
                 }
+                else if (result.IsAutoThisPCName) {
+                    result.MinerName = GetThisPcName();
+                }
                 return result;
             }
         }
@@ -61,6 +64,12 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public string GetThisPcName() {
+            string value = Environment.MachineName.ToLower();
+            value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
+            return value;
+        }
+
         public bool IsAutoThisPCName {
             get { return _data.IsAutoThisPCName; }
             private set {
@@ -78,15 +87,6 @@ namespace NTMiner.Core.Profiles {
             private set {
                 if (_data.IsShowInTaskbar != value) {
                     _data.IsShowInTaskbar = value;
-                }
-            }
-        }
-
-        public bool IsLocalizationEnabled {
-            get => _data.IsLocalizationEnabled;
-            private set {
-                if (_data.IsLocalizationEnabled != value) {
-                    _data.IsLocalizationEnabled = value;
                 }
             }
         }

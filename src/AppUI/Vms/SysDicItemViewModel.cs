@@ -4,6 +4,7 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -25,6 +26,9 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand SortUp { get; private set; }
         public ICommand SortDown { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
 
         public Guid GetId() {
             return this.Id;
@@ -40,6 +44,15 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel(Guid id) {
             _id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.SysDicItemSet.ContainsKey(this.Id)) {
+                    Global.Execute(new UpdateSysDicItemCommand(this));
+                }
+                else {
+                    Global.Execute(new AddSysDicItemCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
             this.Edit = new DelegateCommand(() => {
                 SysDicItemEdit.ShowEditWindow(this);
             });
