@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NTMiner.Notifications;
+using NTMiner.Vms;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -33,7 +35,15 @@ namespace NTMiner.OhGodAnETHlargementPill {
                             catch (Exception e) {
                                 Global.Logger.Error(e.Message, e);
                             }
-                            Global.WriteLine("启动1080 TI小药丸成功", ConsoleColor.Green);
+                            Global.WriteLine("1080 TI小药丸启动成功", ConsoleColor.Green);
+                            MainWindowViewModel.Current.Manager.CreateMessage()
+                                 .Accent("#1751C3")
+                                 .Background("#333")
+                                 .HasBadge("Info")
+                                 .HasMessage("1080 TI小药丸启动成功")
+                                 .Dismiss()
+                                 .WithDelay(TimeSpan.FromSeconds(2))
+                                 .Queue();
                         }
                     }
                     else {
