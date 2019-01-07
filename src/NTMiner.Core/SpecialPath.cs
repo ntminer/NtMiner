@@ -16,6 +16,7 @@ namespace NTMiner {
             }
             LangDbFileFullName = Path.Combine(Global.GlobalDirFullName, "lang.litedb");
             ServerDbFileFullName = Path.Combine(Global.GlobalDirFullName, "server.litedb");
+            LangJsonFileFullName = Path.Combine(Global.GlobalDirFullName, "lang.json");
             NTMinerJsonFileFullName = Path.Combine(Global.GlobalDirFullName, "ntminer.json");
             ServerJsonFileFullName = Path.Combine(Global.GlobalDirFullName, "server.json");
             LocalDbFileFullName = Path.Combine(Global.GlobalDirFullName, "local.litedb");
@@ -26,6 +27,8 @@ namespace NTMiner {
         public static string LocalDbFileFullName { get; private set; }
 
         public static string ServerDbFileFullName { get; private set; }
+
+        public static string LangJsonFileFullName { get; private set; }
 
         public static string NTMinerJsonFileFullName { get; private set; }
 
