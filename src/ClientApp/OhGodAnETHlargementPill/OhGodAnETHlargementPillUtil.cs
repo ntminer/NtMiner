@@ -16,6 +16,9 @@ namespace NTMiner.OhGodAnETHlargementPill {
                 LogEnum.Console,
                 action: message => {
                     if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080 Ti", StringComparison.OrdinalIgnoreCase) != -1)) {
+                        if (!string.Equals(message.MineContext.MainCoin.Algo, "ethash", StringComparison.OrdinalIgnoreCase)) {
+                            return;
+                        }
                         ExtractResource();
                         Process[] processes = Process.GetProcessesByName(processName);
                         if (processes == null || processes.Length == 0) {
