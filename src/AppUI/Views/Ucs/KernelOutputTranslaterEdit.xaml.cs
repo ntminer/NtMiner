@@ -12,6 +12,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 KernelOutputTranslaterViewModel vm = new KernelOutputTranslaterViewModel(source.Id).Update(source);
+                vm.CloseWindow = () => window.Close();
                 return new KernelOutputTranslaterEdit(vm);
             }, fixedSize: true);
         }

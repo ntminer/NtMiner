@@ -83,6 +83,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool TryGetCoinKernelVm(Guid id, out CoinKernelViewModel vm) {
+            return _dicById.TryGetValue(id, out vm);
+        }
+
         public List<CoinKernelViewModel> AllCoinKernels {
             get {
                 return _dicById.Values.ToList();

@@ -21,7 +21,13 @@ namespace NTMiner.Vms {
         }
 
         public bool IsDualCoinEnabled {
-            get => _inner.IsDualCoinEnabled;
+            get {
+                CoinKernelViewModel coinKernelVm;
+                if (CoinKernelViewModels.Current.TryGetCoinKernelVm(this.CoinKernelId, out coinKernelVm) && !coinKernelVm.IsSupportDualMine) {
+                    return false;
+                }
+                return _inner.IsDualCoinEnabled;
+            }
             set {
                 if (_inner.IsDualCoinEnabled != value) {
                     NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsDualCoinEnabled), value);
