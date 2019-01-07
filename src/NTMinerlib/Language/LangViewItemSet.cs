@@ -1,11 +1,12 @@
 ﻿using NTMiner.Language.Impl;
 using NTMiner.Repositories;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Language {
-    public class LangViewItemSet {
+    public class LangViewItemSet : IEnumerable<LangViewItem> {
         public static readonly LangViewItemSet Instance = new LangViewItemSet();
 
         private readonly Dictionary<Guid, Dictionary<string, List<ILangViewItem>>> _dicByLangAndView = new Dictionary<Guid, Dictionary<string, List<ILangViewItem>>>();
@@ -101,11 +102,13 @@ namespace NTMiner.Language {
                     foreach (var lang in LangSet.Instance) {
                         var dic = new Dictionary<string, List<ILangViewItem>>();
                         _dicByLangAndView.Add(lang.GetId(), dic);
-                        foreach (var item in langItems.Where(a => a.LangId == lang.GetId())) {
-                            if (!dic.ContainsKey(item.ViewId)) {
-                                dic.Add(item.ViewId, new List<ILangViewItem>());
+                    }
+                    foreach (var kv in _dicByLangAndView) {
+                        foreach (var item in langItems.Where(a => a.LangId == kv.Key)) {
+                            if (!kv.Value.ContainsKey(item.ViewId)) {
+                                kv.Value.Add(item.ViewId, new List<ILangViewItem>());
                             }
-                            dic[item.ViewId].Add(item);
+                            kv.Value[item.ViewId].Add(item);
                             _dicById.Add(item.Id, item);
                         }
                     }
@@ -132,6 +135,16 @@ namespace NTMiner.Language {
                 return new Dictionary<string, List<ILangViewItem>>();
             }
             return _dicByLangAndView[langId];
+        }
+
+        public IEnumerator<LangViewItem> GetEnumerator() {
+            InitOnece();
+            return _dicById.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            InitOnece();
+            return _dicById.Values.GetEnumerator();
         }
     }
 }

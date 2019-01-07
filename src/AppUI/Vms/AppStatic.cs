@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Impl;
+using NTMiner.Language.Impl;
 using NTMiner.Notifications;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -13,6 +14,23 @@ namespace NTMiner.Vms {
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 ServerJson.Export();
+                MainWindowViewModel.Current.Manager.CreateMessage()
+                    .Accent("#1751C3")
+                    .Background("#333")
+                    .HasBadge("Info")
+                    .HasMessage("导出成功")
+                    .Dismiss()
+                    .WithDelay(TimeSpan.FromSeconds(2))
+                    .Queue();
+            }
+            catch (Exception e) {
+                Global.Logger.Error(e.Message, e);
+            }
+        });
+
+        public static ICommand ExportLangJson { get; private set; } = new DelegateCommand(() => {
+            try {
+                LangJson.Export();
                 MainWindowViewModel.Current.Manager.CreateMessage()
                     .Accent("#1751C3")
                     .Background("#333")

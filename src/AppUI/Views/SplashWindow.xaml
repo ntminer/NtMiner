@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
+		MouseDown="MetroWindow_MouseDown"
         Title="ntminer.com" Height="260" Width="520">
     <Grid Background="{StaticResource IconFillColor}">
         <Grid.RowDefinitions>

@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace NTMiner.Language.Impl {
     public class LangJson {
+        public static void Export() {
+            LangJson data = new LangJson() {
+                Langs = LangSet.Instance.Cast<Lang>().ToList(),
+                LangViewItems = LangViewItemSet.Instance.Cast<LangViewItem>().ToList()
+            };
+            string json = Global.JsonSerializer.Serialize(data);
+            File.WriteAllText(Path.Combine(Global.GlobalDirFullName, "lang.json"), json);
+        }
+
         public LangJson() {
             this.Langs = new List<Lang>();
             this.LangViewItems = new List<LangViewItem>();

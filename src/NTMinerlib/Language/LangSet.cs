@@ -9,18 +9,7 @@ namespace NTMiner.Language {
     public class LangSet : IEnumerable<ILang> {
         public static readonly LangSet Instance = new LangSet();
 
-        private readonly List<Lang> _langs = new List<Lang>() {
-            new Lang {
-                Id = new Guid("584398F7-5BDD-41B3-94C6-50A14F23DB71"),
-                Code = "en",
-                Name = "english"
-            },
-            new Lang {
-                Id = new Guid("9DD5F05A-003E-4A9D-91CA-38548D960BD4"),
-                Code = "cn-zh",
-                Name = "简体中文"
-            }
-        };
+        private readonly List<Lang> _langs = new List<Lang>();
 
         private LangSet() {
             Global.Access<AddLangCommand>(
