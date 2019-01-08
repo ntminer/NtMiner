@@ -9,10 +9,10 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		Title="开源矿工"
-		Height="520"
 		Width="860"
-		MinHeight="520"
+        MinHeight="520"
 		MinWidth="800"
+        SizeToContent="Height"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
         Background="{StaticResource MainColor}"
@@ -79,8 +79,8 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"/>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="0"/>
+			<RowDefinition Height="*" MinHeight="444" />
+            <RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<!--上标题栏-->
 		<Canvas>
@@ -353,5 +353,14 @@
         <notification:NotificationMessageContainer 
 			Grid.Row="1" Grid.RowSpan="2" MaxWidth="500" HorizontalAlignment="Center" 
 			Manager="{Binding Manager}" />
+
+        <Grid Grid.Row="3" Background="Black" Height="300" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+            <TextBox
+                Foreground="White"
+                TextWrapping="Wrap"
+				VerticalScrollBarVisibility="Auto"
+				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}" IsReadOnly="True" BorderThickness="0">
+            </TextBox>
+        </Grid>
 	</Grid>
 </metro:MetroWindow>

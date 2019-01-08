@@ -478,15 +478,6 @@
                             </TextBox.ToolTip>
                         </TextBox>
 					</WrapPanel>
-
-                    <TextBox
-                        Margin="4 0 0 0"
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                        Background="Transparent"
-                        TextWrapping="Wrap"
-				        VerticalScrollBarVisibility="Auto"
-				        Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}" IsReadOnly="True" BorderThickness="0">
-                    </TextBox>
                 </StackPanel>
 			</StackPanel>
         </StackPanel>
