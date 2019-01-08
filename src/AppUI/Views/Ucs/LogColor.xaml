@@ -26,52 +26,52 @@
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
             <Label>算力:</Label>
-            <ComboBox 
+            <controls:KbComboBox 
                 Background="Black"
                 ItemsSource="{Binding ConsoleColorItems}"
                 ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
                 SelectedItem="{Binding CurrentSpeedColor}">
-            </ComboBox>
+            </controls:KbComboBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <Label>成功:</Label>
-            <ComboBox 
+            <controls:KbComboBox 
                 ItemsSource="{Binding ConsoleColorItems}"
                 ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
                 SelectedItem="{Binding CurrentSuccessColor}">
-            </ComboBox>
+            </controls:KbComboBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <Label>温扇功:</Label>
-            <ComboBox 
+            <controls:KbComboBox 
                 ItemsSource="{Binding ConsoleColorItems}"
                 ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
                 SelectedItem="{Binding CurrentTFPColor}">
-            </ComboBox>
+            </controls:KbComboBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <Label>失败:</Label>
-            <ComboBox 
+            <controls:KbComboBox 
                 ItemsSource="{Binding ConsoleColorItems}"
                 ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
                 SelectedItem="{Binding CurrentFailColor}">
-            </ComboBox>
+            </controls:KbComboBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <Label>错误:</Label>
-            <ComboBox 
+            <controls:KbComboBox 
                 ItemsSource="{Binding ConsoleColorItems}"
                 ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
                 SelectedItem="{Binding CurrentErrorColor}">
-            </ComboBox>
+            </controls:KbComboBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <Label>信息:</Label>
-            <ComboBox 
+            <controls:KbComboBox 
                 ItemsSource="{Binding ConsoleColorItems}"
                 ItemTemplate="{StaticResource ConsoleColorDataTemplate}"
                 SelectedItem="{Binding CurrentInfoColor}">
-            </ComboBox>
+            </controls:KbComboBox>
         </WrapPanel>
     </StackPanel>
 </UserControl>

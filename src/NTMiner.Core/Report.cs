@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class Report {
@@ -37,11 +36,9 @@ namespace NTMiner {
                 "登录服务器并报告一次0算力",
                 LogEnum.None,
                 action: message => {
-                    Task.Factory.StartNew(() => {
-                        Login(root);
-                        // 报告0算力从而告知服务器该客户端当前在线的币种
-                        ReportSpeed(root);
-                    });
+                    Login(root);
+                    // 报告0算力从而告知服务器该客户端当前在线的币种
+                    ReportSpeed(root);
                 });
 
             Global.Access<Per2MinuteEvent>(
@@ -49,9 +46,7 @@ namespace NTMiner {
                 "每两分钟上报一次",
                 LogEnum.None,
                 action: message => {
-                    Task.Factory.StartNew(() => {
-                        ReportSpeed(root);
-                    });
+                    ReportSpeed(root);
                 });
 
             Global.Access<MineStartedEvent>(
@@ -59,10 +54,8 @@ namespace NTMiner {
                 "开始挖矿后报告状态",
                 LogEnum.Console,
                 action: message => {
-                    Task.Factory.StartNew(() => {
-                        Login(root);
-                        ReportSpeed(root);
-                    });
+                    Login(root);
+                    ReportSpeed(root);
                 });
 
             Global.Access<MineStopedEvent>(
@@ -70,9 +63,7 @@ namespace NTMiner {
                 "停止挖矿后报告状态",
                 LogEnum.Console,
                 action: message => {
-                    Task.Factory.StartNew(() => {
-                        ReportState(root);
-                    });
+                    ReportState(root);
                 });
             BootLog.Log(typeof(Report).FullName + "接入总线");
         }

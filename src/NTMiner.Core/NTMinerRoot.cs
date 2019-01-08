@@ -24,52 +24,64 @@ namespace NTMiner {
         #region cotr
         private NTMinerRoot() {
             Task.Factory.StartNew(() => {
-                object locker = new object();
-                bool isServerJsonDownloaded = false;
-                bool isLangJsonDownloaded = false;
-                Global.Access<HasBoot5SecondEvent>(
-                    Guid.Parse("5746e92f-8c79-4f91-a54d-90aa83d2bd1e"),
-                    "检查server.json是否下载成功",
-                    LogEnum.Log,
-                    action: (message) => {
-                        lock (locker) {
-                            if (!isServerJsonDownloaded || !isLangJsonDownloaded) {
-                                Init();
-                            }
-                            else {
-                                Global.Logger.Info("下载成功了");
-                            }
-                        }
-                    });
-                using (WebClient webClient = new WebClient()) {
-                    string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/server.json";
-                    Global.DebugLine("下载：" + jsonUrl);
-                    webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                        if (!e.Cancelled && e.Error == null) {
-                            lock (locker) {
-                                isServerJsonDownloaded = true;
-                                if (isLangJsonDownloaded) {
-                                    Init();
-                                }
-                            }
-                        }
-                    };
-                    webClient.DownloadFileAsync(new Uri(jsonUrl), SpecialPath.NTMinerJsonFileFullName);
+                if (CommandLineArgs.IsSkipDownloadJson) {
+                    Init();
+                    Global.Access<HasBoot5SecondEvent>(
+                        Guid.Parse("546CCF96-D87E-4436-B236-0A9416DFE28D"),
+                        "Debug打印",
+                        LogEnum.Log,
+                        action: (message) => {
+                            Global.DebugLine("已跳过从服务器下载Json", ConsoleColor.Red);
+                        });
                 }
-                using (WebClient webClient = new WebClient()) {
-                    string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/lang.json";
-                    Global.DebugLine("下载：" + jsonUrl);
-                    webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                        if (!e.Cancelled && e.Error == null) {
+                else {
+                    object locker = new object();
+                    bool isServerJsonDownloaded = false;
+                    bool isLangJsonDownloaded = false;
+                    Global.Access<HasBoot5SecondEvent>(
+                        Guid.Parse("5746e92f-8c79-4f91-a54d-90aa83d2bd1e"),
+                        "检查server.json是否下载成功",
+                        LogEnum.Log,
+                        action: (message) => {
                             lock (locker) {
-                                isLangJsonDownloaded = true;
-                                if (isServerJsonDownloaded) {
+                                if (!isServerJsonDownloaded || !isLangJsonDownloaded) {
                                     Init();
                                 }
+                                else {
+                                    Global.Logger.Info("下载成功了");
+                                }
                             }
-                        }
-                    };
-                    webClient.DownloadFileAsync(new Uri(jsonUrl), SpecialPath.LangJsonFileFullName);
+                        });
+                    using (WebClient webClient = new WebClient()) {
+                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/server.json";
+                        Global.DebugLine("下载：" + jsonUrl);
+                        webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
+                            if (!e.Cancelled && e.Error == null) {
+                                lock (locker) {
+                                    isServerJsonDownloaded = true;
+                                    if (isLangJsonDownloaded) {
+                                        Init();
+                                    }
+                                }
+                            }
+                        };
+                        webClient.DownloadFileAsync(new Uri(jsonUrl), SpecialPath.NTMinerJsonFileFullName);
+                    }
+                    using (WebClient webClient = new WebClient()) {
+                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/lang.json";
+                        Global.DebugLine("下载：" + jsonUrl);
+                        webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
+                            if (!e.Cancelled && e.Error == null) {
+                                lock (locker) {
+                                    isLangJsonDownloaded = true;
+                                    if (isServerJsonDownloaded) {
+                                        Init();
+                                    }
+                                }
+                            }
+                        };
+                        webClient.DownloadFileAsync(new Uri(jsonUrl), SpecialPath.LangJsonFileFullName);
+                    }
                 }
             });
         }

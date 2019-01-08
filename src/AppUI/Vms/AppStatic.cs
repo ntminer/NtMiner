@@ -82,7 +82,14 @@ namespace NTMiner.Vms {
             GroupPage.ShowWindow();
         });
         public static ICommand ShowCoins { get; private set; } = new DelegateCommand(() => {
-            CoinPage.ShowWindow();
+            CoinPage.ShowWindow(null);
+        });
+        public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
+            CoinPage.ShowWindow(coinVm);
+        });
+        public static ICommand ManageWallet { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
+            CoinPageViewModel.Current.IsWalletTabSelected = true;
+            CoinPage.ShowWindow(coinVm);
         });
         public static ICommand ShowKernels { get; private set; } = new DelegateCommand(() => {
             KernelPage.ShowWindow(Guid.Empty);

@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Coin"
             }, ucFactory: (window) =>
             {
-                KernelOutputFilterViewModel vm = new KernelOutputFilterViewModel(source.Id).Update(source);
+                KernelOutputFilterViewModel vm = new KernelOutputFilterViewModel(source);
                 vm.CloseWindow = () => window.Close();
                 return new KernelOutputFilterEdit(vm);
             }, fixedSize: true);

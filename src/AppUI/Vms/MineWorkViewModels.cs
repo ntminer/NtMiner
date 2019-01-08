@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
                 LogEnum.Console,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
-                        _dicById.Add(message.Source.GetId(), new MineWorkViewModel(message.Source.GetId()).Update(message.Source));
+                        _dicById.Add(message.Source.GetId(), new MineWorkViewModel(message.Source));
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MineWorkVmItems));
                         OnPropertyChanged(nameof(MineWorkItems));

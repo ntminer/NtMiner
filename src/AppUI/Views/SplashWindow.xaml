@@ -18,7 +18,8 @@
                    FontSize="60" Foreground="White">
             NTMiner.com
         </TextBlock>
-        <WrapPanel Grid.Row="1" Background="{StaticResource MainColor}">            
+        <TextBlock x:Name="TbVersion" VerticalAlignment="Top" FontSize="14" Foreground="White"></TextBlock>
+        <WrapPanel Grid.Row="1" Background="{StaticResource MainColor}">
         </WrapPanel>
     </Grid>
 </Window>

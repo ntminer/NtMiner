@@ -64,6 +64,15 @@
             <sys:String x:Key="IsSupportDualMine">
                 IsSupportDualMine
             </sys:String>
+            <sys:String x:Key="IsAutoDualWeight">
+                IsAutoDualWeight
+            </sys:String>
+            <sys:String x:Key="DualWeightMin">
+                DualWeightMin
+            </sys:String>
+            <sys:String x:Key="DualWeightMax">
+                DualWeightMax
+            </sys:String>
             <sys:String x:Key="DualCoinGroup">
                 DualCoinGroup
             </sys:String>
@@ -273,14 +282,35 @@
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Label></Label>
+                            <controls:KbCheckBox 
+				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
+				                Content="{DynamicResource IsAutoDualWeight}"
+				                IconColor="{StaticResource IconFillColor}"
+				                IsChecked="{Binding IsAutoDualWeight}" />
+                            <TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMin}" VerticalAlignment="Center"></TextBlock>
+                            <TextBox 
+						        Width="50"
+						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						        VerticalContentAlignment="Center" Text="{Binding DualWeightMin}">
+                            </TextBox>
+                            <TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMax}" VerticalAlignment="Center"></TextBlock>
+                            <TextBox 
+						        Width="50"
+						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						        VerticalContentAlignment="Center" Text="{Binding DualWeightMax}">
+                            </TextBox>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Label Content="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></Label>
-                            <ComboBox 
+                            <controls:KbComboBox 
                                 BorderThickness="0"
 				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
 						        Width="160" ItemsSource="{Binding GroupVms.SelectionOptions}"
                                 DisplayMemberPath="Name"
                                 SelectedItem="{Binding DualCoinGroup}">
-                            </ComboBox>
+                            </controls:KbComboBox>
                             <TextBlock 
                                 Margin="2 0 0 0"
                                 Visibility="{Binding IsDualCoinGroupEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -294,7 +324,7 @@
 				                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 				                AcceptsReturn="True" TextWrapping="Wrap" 
 				                VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-				                Text="{Binding DualFullArgs, Mode=TwoWay}" Height="60">
+				                Text="{Binding DualFullArgs, Mode=TwoWay}" Height="80">
                             </TextBox>
                         </WrapPanel>
                     </StackPanel>
@@ -513,18 +543,18 @@
                     </Grid.RowDefinitions>
                     <WrapPanel>
                         <Label Width="40" Content="{DynamicResource Coin}"></Label>
-                        <ComboBox 
+                        <controls:KbComboBox 
                             x:Name="CbCoins"
                             BorderThickness="0"
 						    Width="132" ItemsSource="{Binding KernelVmSingleInstance.CoinVms}" 
 						    ItemTemplate="{StaticResource CoinCodeDataTemplate}">
-                            <ComboBox.ItemContainerStyle>
+                            <controls:KbComboBox.ItemContainerStyle>
                                 <Style TargetType="ComboBoxItem">
                                     <Setter Property="Height" Value="30"></Setter>
                                     <Setter  Property="IsEnabled" Value="{Binding IsSupported}" />
                                 </Style>
-                            </ComboBox.ItemContainerStyle>
-                        </ComboBox>
+                            </controls:KbComboBox.ItemContainerStyle>
+                        </controls:KbComboBox>
                         <controls:KbButton 
                             Command="{Binding KernelVmSingleInstance.AddCoinKernel}" 
                             CommandParameter="{Binding ElementName=CbCoins, Path=SelectedItem}"

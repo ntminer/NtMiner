@@ -14,6 +14,7 @@ namespace NTMiner {
         public static readonly bool IsFreeClient;
         public static readonly bool IsWorkEdit;
         public static readonly bool IsAutoStart;
+        public static readonly bool IsSkipDownloadJson;
 
         private static readonly List<string> _commandLineArgs = Environment.GetCommandLineArgs().Skip(1).ToList();
         public static List<string> Args {
@@ -23,6 +24,7 @@ namespace NTMiner {
         }
 
         static CommandLineArgs() {
+            IsSkipDownloadJson = _commandLineArgs.Contains("--skipDownloadJson", StringComparer.OrdinalIgnoreCase);
             IsControlCenter = _commandLineArgs.Contains("--ControlCenter", StringComparer.OrdinalIgnoreCase);
             IsAutoStart = _commandLineArgs.Contains("--AutoStart", StringComparer.OrdinalIgnoreCase);
             int index = 0;

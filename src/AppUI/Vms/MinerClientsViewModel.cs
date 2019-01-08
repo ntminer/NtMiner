@@ -58,8 +58,7 @@ namespace NTMiner.Vms {
                 QueryMinerClients();
             });
             this.ManageCoin = new DelegateCommand<CoinViewModel>((coinVm) => {
-                CoinPageViewModel.Current.CurrentCoin = coinVm;
-                CoinPage.ShowWindow();
+                CoinPage.ShowWindow(coinVm);
             });
             this.ManagePool = new DelegateCommand<CoinViewModel>((coinVm) => {
                 this.ManageCoin.Execute(coinVm);

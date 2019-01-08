@@ -23,6 +23,15 @@ namespace NTMiner.Vms {
             });
         }
 
+        public int Height {
+            get {
+                if (DevMode.IsDevMode) {
+                    return 820;
+                }
+                return 520;
+            }
+        }
+
         public bool JustClientWorker {
             get {
                 return CommandLineArgs.JustClientWorker;

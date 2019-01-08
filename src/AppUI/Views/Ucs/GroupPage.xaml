@@ -189,17 +189,17 @@
             </Grid.RowDefinitions>
             <WrapPanel VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
                 <Label Width="40" Content="{DynamicResource Coin}"></Label>
-                <ComboBox 
+                <controls:KbComboBox 
                         x:Name="CbCoins"
                         BorderThickness="0"
 						Width="132" ItemsSource="{Binding CurrentGroup.CoinVms}" 
 						ItemTemplate="{StaticResource CoinCodeDataTemplate}">
-                    <ComboBox.ItemContainerStyle>
+                    <controls:KbComboBox.ItemContainerStyle>
                         <Style TargetType="ComboBoxItem">
                             <Setter Property="Height" Value="30"></Setter>
                         </Style>
-                    </ComboBox.ItemContainerStyle>
-                </ComboBox>
+                    </controls:KbComboBox.ItemContainerStyle>
+                </controls:KbComboBox>
                 <controls:KbButton 
                         Command="{Binding CurrentGroup.AddCoinGroup}" 
                         CommandParameter="{Binding ElementName=CbCoins, Path=SelectedItem}"

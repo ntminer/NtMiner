@@ -21,6 +21,7 @@ namespace NTMiner.Vms {
                     _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
                     OnPropertyChanged(nameof(AllCoins));
+                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     OnPropertyChanged(nameof(MainCoins));
                     OnPropertyChanged(nameof(PleaseSelect));
                     OnPropertyChanged(nameof(DualPleaseSelect));
@@ -33,6 +34,7 @@ namespace NTMiner.Vms {
                     _dicById.Remove(message.Source.GetId());
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
                     OnPropertyChanged(nameof(AllCoins));
+                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     OnPropertyChanged(nameof(MainCoins));
                     OnPropertyChanged(nameof(PleaseSelect));
                     OnPropertyChanged(nameof(DualPleaseSelect));

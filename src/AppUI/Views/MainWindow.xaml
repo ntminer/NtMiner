@@ -9,9 +9,9 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		Title="开源矿工"
-		Height="520"
 		Width="860"
-		MinHeight="520"
+        Height="{Binding Height}"
+        MinHeight="520"
 		MinWidth="800"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
@@ -79,8 +79,8 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"/>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="0"/>
+			<RowDefinition Height="*" MinHeight="444" />
+            <RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<!--上标题栏-->
 		<Canvas>
@@ -144,12 +144,12 @@
 			<WrapPanel Canvas.Right="0" HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" 
 					VerticalAlignment="Top">
-                    <ComboBox 
+                    <controls:KbComboBox 
                         Height="26"
                         Background="{StaticResource MainColor}"
                         ItemsSource="{Binding LangVms.LangVms}"
                         DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
-                    </ComboBox>
+                    </controls:KbComboBox>
                     <local:MainMenu>
                     </local:MainMenu>
                     <controls:KbSystemMinButton
@@ -353,5 +353,39 @@
         <notification:NotificationMessageContainer 
 			Grid.Row="1" Grid.RowSpan="2" MaxWidth="500" HorizontalAlignment="Center" 
 			Manager="{Binding Manager}" />
+
+        <Grid Grid.Row="3" Background="Black" Height="300" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBox
+                Foreground="White"
+                TextWrapping="Wrap"
+				VerticalScrollBarVisibility="Auto"
+				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}" IsReadOnly="True" BorderThickness="0">
+            </TextBox>
+            <RichTextBox 
+                Grid.Row="1"
+                Background="Transparent"
+				VerticalScrollBarVisibility="Auto"
+				x:Name="RichTextBoxDebug" BorderThickness="0" 
+				IsReadOnly="True" FontSize="12" FontFamily="宋体"
+				Padding="0 0 0 4" Foreground="White">
+                <FlowDocument>
+                    <Paragraph x:Name="ConsoleParagraphDebug" LineHeight="14">
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <controls:KbCheckBox 
+                Grid.Row="1"
+				Margin="0 0 18 0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+				x:Name="ChkbIsConsoleAutoScrollToEnd"
+				ToolTip="滚屏"
+				IconColor="{StaticResource IconFillColor}"
+				IsChecked="True" />
+        </Grid>
 	</Grid>
 </metro:MetroWindow>

@@ -15,6 +15,9 @@ namespace NTMiner.Core.Kernels {
         PublishStatus PublishState { get; }
         string Args { get; }
         bool IsSupportDualMine { get; }
+        double DualWeightMin { get; }
+        double DualWeightMax { get; }
+        bool IsAutoDualWeight { get; }
         string DualFullArgs { get; }
         string HelpArg { get; set; }
         string Notice { get; }

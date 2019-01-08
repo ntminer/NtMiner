@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace NTMiner.Core.Gpus.Impl {
     internal class NVIDIAGpuSet : IGpuSet {
@@ -56,9 +57,15 @@ namespace NTMiner.Core.Gpus.Impl {
                 this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML version", nvmlVersion));
 
             }
-            Global.Access<Per5SecondEvent>(Guid.Parse("7C379223-D494-4213-9659-A086FFDE36DF"), "周期刷新显卡状态", LogEnum.None, action: message => {
-                LoadGpuState();
-            });
+            Global.Access<Per5SecondEvent>(
+                Guid.Parse("7C379223-D494-4213-9659-A086FFDE36DF"),
+                "周期刷新显卡状态",
+                LogEnum.None,
+                action: message => {
+                    Task.Factory.StartNew(() => {
+                        LoadGpuState();
+                    });
+                });
         }
 
         ~NVIDIAGpuSet() {

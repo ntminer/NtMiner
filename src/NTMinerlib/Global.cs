@@ -63,7 +63,8 @@ namespace NTMiner {
         public static ICmdBus CommandBus { get; private set; }
         public static IEventBus EventBus { get; private set; }
         
-        public static Action<string, ConsoleColor, bool> WriteLineMethod; // message, color, isDebug
+        public static Action<string, ConsoleColor> WriteLineMethod;
+        public static Action<string, ConsoleColor> DebugLineMethod;
 
         static Global() {
             GlobalDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
@@ -74,7 +75,7 @@ namespace NTMiner {
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);
             EventBus = new DirectEventBus(MessageDispatcher);
-            WriteLineMethod = (line, color, isDebug) => {
+            WriteLineMethod = (line, color) => {
                 ConsoleColor oldColor = Console.ForegroundColor;
                 Console.ForegroundColor = color;
                 Console.WriteLine(line);
@@ -229,15 +230,15 @@ namespace NTMiner {
         }
 
         public static void WriteLine() {
-            WriteLineMethod?.Invoke(string.Empty, ConsoleColor.White, false);
+            WriteLineMethod?.Invoke(string.Empty, ConsoleColor.White);
         }
 
         public static void WriteLine(string text) {
-            WriteLineMethod?.Invoke(text, ConsoleColor.White, false);
+            WriteLineMethod?.Invoke(text, ConsoleColor.White);
         }
 
         public static void WriteLine(string text, ConsoleColor foreground) {
-            WriteLineMethod?.Invoke(text, foreground, false);
+            WriteLineMethod?.Invoke(text, foreground);
         }
         public static void WriteLine(object obj, ConsoleColor consoleColor = ConsoleColor.White) {
             if (obj == null) {
@@ -251,7 +252,7 @@ namespace NTMiner {
                 return;
             }
             text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}    {text}";
-            WriteLineMethod?.Invoke(text, ConsoleColor.White, true);
+            DebugLineMethod?.Invoke(text, ConsoleColor.White);
         }
 
         public static void DebugLine(string text, ConsoleColor foreground) {
@@ -259,7 +260,7 @@ namespace NTMiner {
                 return;
             }
             text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}    {text}";
-            WriteLineMethod?.Invoke(text, foreground, true);
+            DebugLineMethod?.Invoke(text, foreground);
         }
     }
 }

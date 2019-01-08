@@ -1,8 +1,11 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Notifications;
 using NTMiner.Vms;
+using System;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Views {
     public partial class MainWindow : MetroWindow, IMainWindow {
@@ -27,6 +30,7 @@ namespace NTMiner.Views {
                 }
             };
             InitializeComponent();
+            Global.DebugLineMethod = DebugLine;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             if (!Windows.Role.IsAdministrator) {
                 Vm.Manager
@@ -61,6 +65,33 @@ namespace NTMiner.Views {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
             }
+        }
+
+        private void InnerWrite(string text, ConsoleColor foreground) {
+            Run run = new Run(text) {
+                Foreground = new SolidColorBrush(foreground.ToMediaColor())
+            };
+            this.ConsoleParagraphDebug.Inlines.Add(run);
+
+            InlineCollection list = this.ConsoleParagraphDebug.Inlines;
+            if (list.Count > 1000) {
+                int delLines = list.Count - 1000;
+                while (delLines-- > 0) {
+                    list.Remove(list.FirstInline);
+                }
+            }
+            if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
+                this.RichTextBoxDebug.ScrollToEnd();
+            }
+        }
+
+        public void DebugLine(string text, ConsoleColor foreground) {
+            Dispatcher.Invoke((Action)(() => {
+                if (this.ConsoleParagraphDebug.Inlines.Count > 0) {
+                    text = "\n" + text;
+                }
+                InnerWrite(text, foreground);
+            }));
         }
     }
 }

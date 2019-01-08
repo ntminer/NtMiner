@@ -17,7 +17,6 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition x:Name="DebugRow"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid>
@@ -68,29 +67,16 @@
 				</controls:KbButton>
 			</WrapPanel>
 		</Grid>
-        <Grid Grid.Row="1">
-            <RichTextBox Background="#1E1E1E"
-				VerticalScrollBarVisibility="Auto"
-				x:Name="RichTextBoxDebug" BorderThickness="0" 
-				IsReadOnly="True" FontSize="12" FontFamily="宋体"
-				Padding="0 0 0 4" Foreground="White">
-                <FlowDocument>
-                    <Paragraph x:Name="ConsoleParagraphDebug" LineHeight="14">
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-        </Grid>
-		<Grid Grid.Row="2" >
-			<RichTextBox 
-				VerticalScrollBarVisibility="Auto"
-				x:Name="RichTextBox" BorderThickness="0" 
-				IsReadOnly="True" FontSize="12" FontFamily="宋体"
-				Padding="0 0 0 4" Background="Black" Foreground="White">
-				<FlowDocument>
-					<Paragraph x:Name="ConsoleParagraph" LineHeight="14">
-					</Paragraph>
-				</FlowDocument>
-			</RichTextBox>
-		</Grid>
-	</Grid>
+        <RichTextBox 
+            Grid.Row="1"
+			VerticalScrollBarVisibility="Auto"
+			x:Name="RichTextBox" BorderThickness="0" 
+			IsReadOnly="True" FontSize="12" FontFamily="宋体"
+			Padding="0 0 0 4" Background="Black" Foreground="White">
+            <FlowDocument>
+                <Paragraph x:Name="ConsoleParagraph" LineHeight="14">
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
 </UserControl>

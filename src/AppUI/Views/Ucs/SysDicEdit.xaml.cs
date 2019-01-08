@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_SysDic"
             }, ucFactory: (window) => {
-                SysDicViewModel vm = new SysDicViewModel(source.Id).Update(source);
+                SysDicViewModel vm = new SysDicViewModel(source);
                 vm.CloseWindow = () => window.Close();
                 return new SysDicEdit(vm);
             }, fixedSize: true);

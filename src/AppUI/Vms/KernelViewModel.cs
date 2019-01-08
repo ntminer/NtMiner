@@ -18,6 +18,10 @@ namespace NTMiner.Vms {
             _kernelProfileVm = KernelProfileViewModel.Empty,
             _args = string.Empty,
             _isSupportDualMine = false,
+            _dualCoinGroup = GroupViewModel.PleaseSelect,
+            _dualWeightMax = 0,
+            _dualWeightMin = 0,
+            _isAutoDualWeight = false,
             _dualFullArgs = string.Empty,
             _helpArg = string.Empty,
             _code = string.Empty,
@@ -79,6 +83,11 @@ namespace NTMiner.Vms {
         private string _translaterKeyword;
         private Guid _dualCoinGroupId;
 
+        private GroupViewModel _dualCoinGroup;
+        private double _dualWeightMin;
+        private double _dualWeightMax;
+        private bool _isAutoDualWeight;
+
         public Guid GetId() {
             return this.Id;
         }
@@ -119,6 +128,9 @@ namespace NTMiner.Vms {
         public KernelViewModel(IKernel data) : this(data.GetId()) {
             _args = data.Args;
             _isSupportDualMine = data.IsSupportDualMine;
+            _dualWeightMin = data.DualWeightMin;
+            _dualWeightMax = data.DualWeightMax;
+            _isAutoDualWeight = data.IsAutoDualWeight;
             _dualFullArgs = data.DualFullArgs;
             _helpArg = data.HelpArg;
             _code = data.Code;
@@ -605,7 +617,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private GroupViewModel _dualCoinGroup;
         public GroupViewModel DualCoinGroup {
             get {
                 if (this.DualCoinGroupId == Guid.Empty) {
@@ -647,6 +658,30 @@ namespace NTMiner.Vms {
             set {
                 _isSupportDualMine = value;
                 OnPropertyChanged(nameof(IsSupportDualMine));
+            }
+        }
+
+        public double DualWeightMin {
+            get => _dualWeightMin;
+            set {
+                _dualWeightMin = value;
+                OnPropertyChanged(nameof(DualWeightMin));
+            }
+        }
+
+        public double DualWeightMax {
+            get => _dualWeightMax;
+            set {
+                _dualWeightMax = value;
+                OnPropertyChanged(nameof(DualWeightMax));
+            }
+        }
+
+        public bool IsAutoDualWeight {
+            get => _isAutoDualWeight;
+            set {
+                _isAutoDualWeight = value;
+                OnPropertyChanged(nameof(IsAutoDualWeight));
             }
         }
 
