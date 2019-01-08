@@ -321,13 +321,13 @@
                     </WrapPanel>
                     <Border 
 						Background="White"
-						Width="304" 
-                        Height="14" 
-                        Margin="60 -18 0 0" 
+						Width="308" 
+                        Height="18" 
+                        Margin="60 -20 0 0" 
                         Padding="3 0 0 0" 
                         VerticalAlignment="Center"
 						Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock FontSize="14">*************************************</TextBlock>
+                        <TextBlock FontSize="18">*************************************</TextBlock>
                     </Border>
                 </WrapPanel>
 
@@ -654,13 +654,13 @@
 							</WrapPanel>
 							<Border 
 								Background="White"
-								Width="304" 
-                                Height="14" 
-                                Margin="60 -18 0 0" 
+								Width="308" 
+                                Height="18" 
+                                Margin="60 -20 0 0" 
                                 Padding="3 0 0 0" 
                                 VerticalAlignment="Center"
 								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock FontSize="14">*************************************</TextBlock>
+                                <TextBlock FontSize="18">*************************************</TextBlock>
 							</Border>
 						</WrapPanel>
 					</StackPanel>
