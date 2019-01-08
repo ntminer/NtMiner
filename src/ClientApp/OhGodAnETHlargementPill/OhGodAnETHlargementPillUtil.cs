@@ -17,7 +17,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                 "开始挖矿后启动1080ti小药丸",
                 LogEnum.Console,
                 action: message => {
-                    if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080 Ti", StringComparison.OrdinalIgnoreCase) != -1)) {
+                    if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
                         if (!string.Equals(message.MineContext.MainCoin.Algo, "ethash", StringComparison.OrdinalIgnoreCase)) {
                             return;
                         }
@@ -35,19 +35,19 @@ namespace NTMiner.OhGodAnETHlargementPill {
                             catch (Exception e) {
                                 Global.Logger.Error(e.Message, e);
                             }
-                            Global.WriteLine("1080 TI小药丸启动成功", ConsoleColor.Green);
+                            Global.WriteLine("小药丸启动成功", ConsoleColor.Green);
                             MainWindowViewModel.Current.Manager.CreateMessage()
                                  .Accent("#1751C3")
                                  .Background("#333")
                                  .HasBadge("Info")
-                                 .HasMessage("1080 TI小药丸启动成功")
+                                 .HasMessage("小药丸启动成功")
                                  .Dismiss()
                                  .WithDelay(TimeSpan.FromSeconds(2))
                                  .Queue();
                         }
                     }
                     else {
-                        Global.DebugLine("没有发现1080ti卡，不适用小药丸");
+                        Global.DebugLine("没有发现1080卡，不适用小药丸");
                     }
                 });
             Global.Access<MineStartedEvent>(
@@ -55,7 +55,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                 "停止挖矿后停止1080ti小药丸",
                 LogEnum.Console,
                 action: message => {
-                    if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080 Ti", StringComparison.OrdinalIgnoreCase) != -1)) {
+                    if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
                         Process[] processes = Process.GetProcessesByName(processName);
                         if (processes != null && processes.Length != 0) {
                             try {
@@ -68,7 +68,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                         }
                     }
                     else {
-                        Global.DebugLine("没有发现1080ti卡，不适用小药丸");
+                        Global.DebugLine("没有发现1080卡，不适用小药丸");
                     }
                 });
         }

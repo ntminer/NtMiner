@@ -403,7 +403,7 @@
                                 Data="{StaticResource Icon_Edit}"
                                 Fill="{StaticResource IconFillColor}"
                                 Stretch="Fill" />
-                            <TextBlock Text="{DynamicResource LblKernel}" Foreground="{StaticResource IconFillColor}"></TextBlock>
+                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource LblKernel}" Foreground="{StaticResource IconFillColor}"></TextBlock>
                         </WrapPanel>
                     </controls:KbButton>
                 </WrapPanel>

@@ -30,6 +30,9 @@ namespace NTMiner.Views.Ucs {
                             kernel.RejectPercentPattern = sourceVm.RejectPercentPattern;
                             kernel.GpuSpeedPattern = sourceVm.GpuSpeedPattern;
                             kernel.IsSupportDualMine = sourceVm.IsSupportDualMine;
+                            kernel.IsAutoDualWeight = sourceVm.IsAutoDualWeight;
+                            kernel.DualWeightMax = sourceVm.DualWeightMax;
+                            kernel.DualWeightMin = sourceVm.DualWeightMin;
                             kernel.DualFullArgs = sourceVm.DualFullArgs;
 
                             kernel.DualTotalSpeedPattern = sourceVm.DualTotalSpeedPattern;

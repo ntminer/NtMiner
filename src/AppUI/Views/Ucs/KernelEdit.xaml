@@ -64,6 +64,15 @@
             <sys:String x:Key="IsSupportDualMine">
                 IsSupportDualMine
             </sys:String>
+            <sys:String x:Key="IsAutoDualWeight">
+                IsAutoDualWeight
+            </sys:String>
+            <sys:String x:Key="DualWeightMin">
+                DualWeightMin
+            </sys:String>
+            <sys:String x:Key="DualWeightMax">
+                DualWeightMax
+            </sys:String>
             <sys:String x:Key="DualCoinGroup">
                 DualCoinGroup
             </sys:String>
@@ -273,6 +282,27 @@
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Label></Label>
+                            <controls:KbCheckBox 
+				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
+				                Content="{DynamicResource IsAutoDualWeight}"
+				                IconColor="{StaticResource IconFillColor}"
+				                IsChecked="{Binding IsAutoDualWeight}" />
+                            <TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMin}" VerticalAlignment="Center"></TextBlock>
+                            <TextBox 
+						        Width="50"
+						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						        VerticalContentAlignment="Center" Text="{Binding DualWeightMin}">
+                            </TextBox>
+                            <TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMax}" VerticalAlignment="Center"></TextBlock>
+                            <TextBox 
+						        Width="50"
+						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						        VerticalContentAlignment="Center" Text="{Binding DualWeightMax}">
+                            </TextBox>
+                        </WrapPanel>
+
+                        <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Label Content="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></Label>
                             <controls:KbComboBox 
                                 BorderThickness="0"
@@ -294,7 +324,7 @@
 				                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 				                AcceptsReturn="True" TextWrapping="Wrap" 
 				                VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-				                Text="{Binding DualFullArgs, Mode=TwoWay}" Height="60">
+				                Text="{Binding DualFullArgs, Mode=TwoWay}" Height="80">
                             </TextBox>
                         </WrapPanel>
                     </StackPanel>
