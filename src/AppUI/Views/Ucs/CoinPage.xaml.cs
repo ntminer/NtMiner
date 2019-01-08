@@ -3,14 +3,21 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class CoinPage : UserControl {
-        public static void ShowWindow() {
+        public static void ShowWindow(CoinViewModel currentCoin) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Coin",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
                 Width = 960,
                 Height = 520
-            }, ucFactory: (window) => new CoinPage());
+            }, 
+            ucFactory: (window) => new CoinPage(),
+            beforeShow: uc => {
+                if (currentCoin != null) {
+                    CoinPageViewModel vm = (CoinPageViewModel)uc.DataContext;
+                    vm.CurrentCoin = currentCoin;
+                }
+            });
         }
 
         private CoinPageViewModel Vm {

@@ -181,6 +181,8 @@
                                     Height="24"
                                     Padding="4 0"
                                     Background="{StaticResource IconFillColor}"
+                                    Command="{x:Static vm:AppStatic.ManagePools}"
+                                    CommandParameter="{Binding MinerProfile.CoinVm}"
                                     CornerRadius="2">
                                     <WrapPanel>
                                         <Path
@@ -242,6 +244,8 @@
                                     Height="24"
                                     Padding="4 0"
                                     Background="{StaticResource IconFillColor}"
+                                    Command="{x:Static vm:AppStatic.ManageWallet}"
+                                    CommandParameter="{Binding MinerProfile.CoinVm}"
                                     CornerRadius="2">
                                     <WrapPanel>
                                         <Path
@@ -270,7 +274,7 @@
 								Width="16"
 								Height="8"
 								Data="{StaticResource Icon_CloseEye}"
-								Fill="#385263"
+								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
                         </controls:KbButton>
                         <controls:KbButton 
@@ -284,10 +288,11 @@
 								Width="16"
 								Height="12"
 								Data="{StaticResource Icon_OpenEye}"
-								Fill="#385263"
+								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
                         </controls:KbButton>
                         <controls:KbButton 
+                            Margin="4 0 0 0"
 							Padding="2"
 							Visibility="{Binding ElementName=CbMainWallet, Path=SelectedItem, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 							ToolTip="{DynamicResource CopyWalletAddress}"
@@ -298,7 +303,7 @@
 								Width="14"
 								Height="14"
 								Data="{StaticResource Icon_Copy}"
-								Fill="#385263"
+								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
                         </controls:KbButton>
                     </WrapPanel>
@@ -493,6 +498,8 @@
                                                 Height="24"
                                                 Padding="4 0"
                                                 Background="{StaticResource IconFillColor}"
+                                                Command="{x:Static vm:AppStatic.ManagePools}"
+                                                CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}"
                                                 CornerRadius="2">
                                                 <WrapPanel>
                                                     <Path
@@ -554,6 +561,8 @@
                                                     Height="24"
                                                     Padding="4 0"
                                                     Background="{StaticResource IconFillColor}"
+                                                    Command="{x:Static vm:AppStatic.ManageWallet}"
+                                                    CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}"
                                                     CornerRadius="2">
                                                     <WrapPanel>
                                                         <Path
@@ -584,7 +593,7 @@
 										Width="16"
 										Height="8"
 										Data="{StaticResource Icon_CloseEye}"
-										Fill="#385263"
+										Fill="{StaticResource IconFillColor}"
 										Stretch="Fill" />
 								</controls:KbButton>
 								<controls:KbButton 
@@ -598,10 +607,11 @@
 										Width="16"
 										Height="12"
 										Data="{StaticResource Icon_OpenEye}"
-										Fill="#385263"
+										Fill="{StaticResource IconFillColor}"
 										Stretch="Fill" />
 								</controls:KbButton>
-								<controls:KbButton
+                                <controls:KbButton
+                                    Margin="4 0 0 0"
 									Padding="2" 
 									Visibility="{Binding ElementName=CbDualCoinWallet, Path=SelectedItem, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 									ToolTip="{DynamicResource CopyWalletAddress}"
@@ -612,7 +622,7 @@
 										Width="14"
 										Height="14"
 										Data="{StaticResource Icon_Copy}"
-										Fill="#385263"
+										Fill="{StaticResource IconFillColor}"
 										Stretch="Fill" />
 								</controls:KbButton>
 							</WrapPanel>
