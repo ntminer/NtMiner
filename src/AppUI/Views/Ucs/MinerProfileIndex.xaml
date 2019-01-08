@@ -283,8 +283,27 @@
 								</StackPanel>
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
-					</ComboBox>
-				</WrapPanel>
+                    </ComboBox>
+                    <controls:KbButton
+                        BorderThickness="0"
+                        Margin="4 0 0 0"
+                        Height="20"
+                        Padding="4 0"
+                        Background="Transparent"
+                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Command="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Edit}"
+                        CornerRadius="2">
+                        <WrapPanel>
+                            <Path
+                                Width="14"
+                                Height="14"
+                                Data="{StaticResource Icon_Edit}"
+                                Fill="{StaticResource IconFillColor}"
+                                Stretch="Fill" />
+                            <TextBlock Text="内核" Foreground="{StaticResource IconFillColor}"></TextBlock>
+                        </WrapPanel>
+                    </controls:KbButton>
+                </WrapPanel>
 
                 <WrapPanel 
 					Margin="0 3 0 0"
