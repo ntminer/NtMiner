@@ -9,15 +9,19 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/KernelViewModel.xaml}"
         Background="White"
-		d:DesignWidth="660" d:DesignHeight="480">
+		d:DesignWidth="660" d:DesignHeight="560">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbCoinCode.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="Label">
-                <Setter Property="Width" Value="110"></Setter>
-                <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+            <Style x:Key="LblTb" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12"></Setter>
+                <Setter Property="Padding" Value="0 0 2 0"></Setter>
+                <Setter Property="Width" Value="90"></Setter>
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="TextAlignment" Value="Right"></Setter>
+                <Setter Property="TextWrapping" Value="Wrap"></Setter>
             </Style>
             <sys:String x:Key="WindowTitle">
                 WindowTitle
@@ -180,22 +184,23 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource Code}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Code}"></TextBlock>
                             <TextBox 
-						        Width="160"
+                                Height="26"
+						        Width="180"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 						        VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
                             </TextBox>
-                            <Label Content="{DynamicResource Version}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Version}"></TextBlock>
                             <TextBox 
-						        Width="160"
+						        Width="180"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 						        VerticalContentAlignment="Center" Text="{Binding Version, ValidatesOnExceptions=True}">
                             </TextBox>
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource Package}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Package}"></TextBlock>
                             <Grid Width="430">
                                 <WrapPanel VerticalAlignment="Center">
                                     <TextBox IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" Text="{Binding Package, Mode=OneWay}">
@@ -215,18 +220,18 @@
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-                            <Label Content="{DynamicResource PackageHistory}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource PackageHistory}"></TextBlock>
                             <TextBox 
                                 ToolTip="{DynamicResource PackageHistoryTip}"
-						        Width="430" Background="Transparent" Padding="0 4"
+						        Width="450" Background="Transparent" Padding="0 4"
 						        Text="{Binding PackageHistory, Mode=TwoWay}">
                             </TextBox>
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource Notice}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Notice}"></TextBlock>
                             <TextBox 
-						        Width="430" Background="Transparent" Padding="0 4"
+						        Width="450" Background="Transparent" Padding="0 4"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 						        AcceptsReturn="True" TextWrapping="Wrap" 
 						        VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
@@ -234,9 +239,10 @@
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource Help}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Help}"></TextBlock>
                             <TextBox 
-						        Width="160"
+                                Height="26"
+						        Width="200"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 						        VerticalContentAlignment="Center" Text="{Binding HelpArg}">
                             </TextBox>
@@ -262,9 +268,9 @@
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource Args}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Args}"></TextBlock>
                             <TextBox 
-						        Width="430" Background="Transparent" Padding="0 4"
+						        Width="450" Background="Transparent" Padding="0 4"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 						        AcceptsReturn="True" TextWrapping="Wrap" 
 						        VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
@@ -273,7 +279,7 @@
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2">
-                            <Label></Label>
+                            <TextBlock Style="{StaticResource LblTb}"></TextBlock>
                             <controls:KbCheckBox 
 				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
 				                Content="{DynamicResource IsSupportDualMine}"
@@ -282,7 +288,7 @@
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Label></Label>
+                            <TextBlock Style="{StaticResource LblTb}"></TextBlock>
                             <controls:KbCheckBox 
 				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
 				                Content="{DynamicResource IsAutoDualWeight}"
@@ -290,12 +296,14 @@
 				                IsChecked="{Binding IsAutoDualWeight}" />
                             <TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMin}" VerticalAlignment="Center"></TextBlock>
                             <TextBox 
+                                Height="26"
 						        Width="50"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 						        VerticalContentAlignment="Center" Text="{Binding DualWeightMin}">
                             </TextBox>
                             <TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMax}" VerticalAlignment="Center"></TextBlock>
                             <TextBox 
+                                Height="26"
 						        Width="50"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 						        VerticalContentAlignment="Center" Text="{Binding DualWeightMax}">
@@ -303,11 +311,11 @@
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Label Content="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></TextBlock>
                             <controls:KbComboBox 
                                 BorderThickness="0"
 				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
-						        Width="160" ItemsSource="{Binding GroupVms.SelectionOptions}"
+						        Width="200" ItemsSource="{Binding GroupVms.SelectionOptions}"
                                 DisplayMemberPath="Name"
                                 SelectedItem="{Binding DualCoinGroup}">
                             </controls:KbComboBox>
@@ -318,9 +326,9 @@
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Label Content="{DynamicResource DualFullArgs}" ToolTip="{DynamicResource DualFullArgs}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource DualFullArgs}" ToolTip="{DynamicResource DualFullArgs}"></TextBlock>
                             <TextBox 
-				                Width="430" Background="Transparent"
+				                Width="450" Background="Transparent"
 				                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 				                AcceptsReturn="True" TextWrapping="Wrap" 
 				                VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
@@ -330,7 +338,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left">
                         <WrapPanel>
-                            <Label Width="40" Content="{DynamicResource Sort}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Width="40" Text="{DynamicResource Sort}"></TextBlock>
                             <TextBox Width="40" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
                             </TextBox>
                         </WrapPanel>
@@ -402,90 +410,102 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock Margin="110 0 0 0" HorizontalAlignment="Left" Text="{DynamicResource MainCoin}"></TextBlock>
+                        <TextBlock Margin="90 0 0 0" HorizontalAlignment="Left" Text="{DynamicResource MainCoin}"></TextBlock>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource TotalSpeedPattern}" ToolTip="{DynamicResource TotalSpeedPattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource TotalSpeedPattern}" ToolTip="{DynamicResource TotalSpeedPattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding TotalSpeedPattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource TotalSharePattern}" ToolTip="{DynamicResource TotalSharePattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource TotalSharePattern}" ToolTip="{DynamicResource TotalSharePattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding TotalSharePattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource AcceptSharePattern}" ToolTip="{DynamicResource AcceptSharePattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource AcceptSharePattern}" ToolTip="{DynamicResource AcceptSharePattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding AcceptSharePattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource RejectSharePattern}" ToolTip="{DynamicResource RejectSharePattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource RejectSharePattern}" ToolTip="{DynamicResource RejectSharePattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding RejectSharePattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource RejectPercentPattern}" ToolTip="{DynamicResource RejectPercentPattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource RejectPercentPattern}" ToolTip="{DynamicResource RejectPercentPattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding RejectPercentPattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource GpuSpeedPattern}" ToolTip="{DynamicResource GpuSpeedPattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource GpuSpeedPattern}" ToolTip="{DynamicResource GpuSpeedPattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding GpuSpeedPattern}">
                             </TextBox>
                         </WrapPanel>
 
-                        <TextBlock Margin="110 0 0 0" Text="{DynamicResource DualCoin}"></TextBlock>
+                        <TextBlock Margin="90 0 0 0" Text="{DynamicResource DualCoin}"></TextBlock>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource DualTotalSpeedPattern}" ToolTip="{DynamicResource DualTotalSpeedPattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualTotalSpeedPattern}" ToolTip="{DynamicResource DualTotalSpeedPattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding DualTotalSpeedPattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource DualTotalSharePattern}" ToolTip="{DynamicResource DualTotalSharePattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualTotalSharePattern}" ToolTip="{DynamicResource DualTotalSharePattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding DualTotalSharePattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource DualAcceptSharePattern}" ToolTip="{DynamicResource DualAcceptSharePattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualAcceptSharePattern}" ToolTip="{DynamicResource DualAcceptSharePattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding DualAcceptSharePattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource DualRejectSharePattern}" ToolTip="{DynamicResource DualRejectSharePattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualRejectSharePattern}" ToolTip="{DynamicResource DualRejectSharePattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding DualRejectSharePattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource DualRejectPercentPattern}" ToolTip="{DynamicResource DualRejectPercentPattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualRejectPercentPattern}" ToolTip="{DynamicResource DualRejectPercentPattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding DualRejectPercentPattern}">
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <Label Content="{DynamicResource DualGpuSpeedPattern}" ToolTip="{DynamicResource DualGpuSpeedPattern}"></Label>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualGpuSpeedPattern}" ToolTip="{DynamicResource DualGpuSpeedPattern}"></TextBlock>
                             <TextBox 
-							    Width="430"
+                                Height="26"
+							    Width="450"
 							    VerticalContentAlignment="Center" Text="{Binding DualGpuSpeedPattern}">
                             </TextBox>
                         </WrapPanel>

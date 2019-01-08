@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
                 Width = 660,
-                Height = 520,
+                Height = 620,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 KernelViewModel vm = new KernelViewModel(source);
