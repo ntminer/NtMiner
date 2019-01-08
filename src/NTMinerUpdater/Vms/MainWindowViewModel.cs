@@ -18,7 +18,6 @@ namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         public static readonly MainWindowViewModel Current = new MainWindowViewModel();
 
-        private Visibility _isBtnInstallVisible = Visibility.Collapsed;
         private double _downloadPercent;
         private bool _isDownloading = false;
         private NTMinerFileViewModel _selectedNTMinerFile;
@@ -102,18 +101,9 @@ namespace NTMiner.Vms {
             this.ShowHistory = new DelegateCommand(() => {
                 if (IsHistoryVisible == Visibility.Visible) {
                     IsHistoryVisible = Visibility.Collapsed;
-                    if (ServerLatestVm != null && ServerLatestVm.VersionData > LocalNTMinerVersion) {
-                        this.IsBtnInstallVisible = Visibility.Visible;
-                    }
-                    else {
-                        this.IsBtnInstallVisible = Visibility.Collapsed;
-                    }
                 }
                 else {
                     IsHistoryVisible = Visibility.Visible;
-                    if (this.NTMinerFiles.Count != 0) {
-                        this.IsBtnInstallVisible = Visibility.Visible;
-                    }
                 }
             });
             this.AddNTMinerFile = new DelegateCommand(() => {
@@ -126,22 +116,20 @@ namespace NTMiner.Vms {
             Server.FileUrlService.GetNTMinerFiles(ntMinerFiles => {
                 this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
-                    IsBtnInstallVisible = Visibility.Collapsed;
                     LocalIsLatest = true;
                 }
                 else {
                     ServerLatestVm = this.NTMinerFiles.OrderByDescending(a => a.VersionData).FirstOrDefault();
                     if (ServerLatestVm.VersionData > LocalNTMinerVersion) {
-                        IsBtnInstallVisible = Visibility.Visible;
                         Global.Logger.Info("发现新版本" + ServerLatestVm.Version);
                         this.SelectedNTMinerFile = ServerLatestVm;
                         LocalIsLatest = false;
                     }
                     else {
-                        IsBtnInstallVisible = Visibility.Collapsed;
                         LocalIsLatest = true;
                     }
                 }
+                OnPropertyChanged(nameof(IsBtnInstallVisible));
                 IsReady = true;
             });
         }
@@ -185,6 +173,7 @@ namespace NTMiner.Vms {
                 _isHistoryVisible = value;
                 OnPropertyChanged(nameof(IsHistoryVisible));
                 OnPropertyChanged(nameof(BtnShowHistoryText));
+                OnPropertyChanged(nameof(IsBtnInstallVisible));
             }
         }
 
@@ -198,10 +187,16 @@ namespace NTMiner.Vms {
         }
 
         public Visibility IsBtnInstallVisible {
-            get => _isBtnInstallVisible;
-            set {
-                _isBtnInstallVisible = value;
-                OnPropertyChanged(nameof(IsBtnInstallVisible));
+            get {
+                if (IsHistoryVisible == Visibility.Collapsed && LocalIsLatest) {
+                    return Visibility.Collapsed;
+                }
+                if (SelectedNTMinerFile != null) {
+                    return Visibility.Visible;
+                }
+                else {
+                    return Visibility.Collapsed;
+                }
             }
         }
 
@@ -295,6 +290,7 @@ namespace NTMiner.Vms {
             set {
                 _selectedNTMinerFile = value;
                 OnPropertyChanged(nameof(SelectedNTMinerFile));
+                OnPropertyChanged(nameof(IsBtnInstallVisible));
             }
         }
 
