@@ -406,15 +406,12 @@
                         Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
                         Command="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Edit}"
                         CornerRadius="2">
-                        <WrapPanel>
-                            <Path
-                                Width="14"
-                                Height="14"
-                                Data="{StaticResource Icon_Edit}"
-                                Fill="{StaticResource IconFillColor}"
-                                Stretch="Fill" />
-                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource Kernel}" Foreground="{StaticResource IconFillColor}"></TextBlock>
-                        </WrapPanel>
+                        <Path
+                            Width="14"
+                            Height="14"
+                            Data="{StaticResource Icon_Edit}"
+                            Fill="{StaticResource IconFillColor}"
+                            Stretch="Fill" />
                     </controls:KbButton>
                     <WrapPanel 
 					    Margin="4 0 0 0"
