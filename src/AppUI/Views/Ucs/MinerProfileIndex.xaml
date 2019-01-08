@@ -55,6 +55,9 @@
             <sys:String x:Key="DualCoinWeight">
                 DualCoinWeight
             </sys:String>
+            <sys:String x:Key="DualWeightWarning">
+                DualWeightWarning
+            </sys:String>
             <sys:String x:Key="IsAutoDualWeight">
                 IsAutoDualWeight
             </sys:String>
@@ -447,6 +450,7 @@
                                     Maximum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.DualWeightMax}" 
                                     Width="100"
 							        IsSnapToTickEnabled="True"
+                                    ToolTip="{DynamicResource DualWeightWarning}"
 							        Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
                                     IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"></Slider>
                                 <TextBlock Text="{Binding ElementName=dualCoinWeightSlider, Path=Value}"></TextBlock>
@@ -456,6 +460,7 @@
                                 Margin="4 0 0 0"
 						        Content="{DynamicResource IsAutoDualWeight}"
 						        IconColor="{StaticResource IconFillColor}"
+                                IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
                                 Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
 						        IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
                         </WrapPanel>
