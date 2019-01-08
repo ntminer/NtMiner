@@ -44,6 +44,9 @@
             <sys:String x:Key="LblKernel">
                 LblKernel
             </sys:String>
+            <sys:String x:Key="ChkIsDualCoinEnabled">
+                ChkIsDualCoinEnabled
+            </sys:String>
             <sys:String x:Key="LblDualCoin">
                 LblDualCoin
             </sys:String>
@@ -298,7 +301,7 @@
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
 						HorizontalAlignment="Center">
 						<controls:KbCheckBox
-							Content="双挖"
+							Content="{DynamicResource ChkIsDualCoinEnabled}"
 							IconColor="{StaticResource IconFillColor}"
 							IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}" />
 						<WrapPanel VerticalAlignment="Center" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
