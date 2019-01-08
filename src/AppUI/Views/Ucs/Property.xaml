@@ -119,18 +119,22 @@
                 <TextBlock Text="{Binding DrivesVm.DriveSet.TotalVirtualMemoryGbText}"></TextBlock>
                 <controls:KbButton 
                     Margin="8 0 0 0"
+                    Padding="6 0"
+                    Height="20"
                     Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
+                    Background="{StaticResource IconFillColor}"
                     CornerRadius="2">
                     <WrapPanel>
                         <Path
                             Width="12"
                             Height="12"
                             Data="{StaticResource Icon_VirtualMemory}"
-                            Fill="{StaticResource IconFillColor}"
+                            Fill="White"
                             Stretch="Fill" />
                         <TextBlock
                             Padding="2 0"
                             VerticalAlignment="Center"
+                            Foreground="White"
                             Text="{DynamicResource LblModify}" />
                     </WrapPanel>
                 </controls:KbButton>
