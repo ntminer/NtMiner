@@ -40,7 +40,7 @@ namespace NTMiner {
                     bool isLangJsonDownloaded = false;
                     Global.Access<HasBoot5SecondEvent>(
                         Guid.Parse("5746e92f-8c79-4f91-a54d-90aa83d2bd1e"),
-                        "检查server.json是否下载成功",
+                        $"检查{Global.ServerJsonFileName}和{Global.ServerLangJsonFileName}是否下载成功",
                         LogEnum.Log,
                         action: (message) => {
                             lock (locker) {
@@ -53,7 +53,7 @@ namespace NTMiner {
                             }
                         });
                     using (WebClient webClient = new WebClient()) {
-                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/server.json";
+                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + Global.ServerJsonFileName;
                         Global.DebugLine("下载：" + jsonUrl);
                         webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                             if (!e.Cancelled && e.Error == null) {
@@ -65,10 +65,10 @@ namespace NTMiner {
                                 }
                             }
                         };
-                        webClient.DownloadFileAsync(new Uri(jsonUrl), SpecialPath.NTMinerJsonFileFullName);
+                        webClient.DownloadFileAsync(new Uri(jsonUrl), SpecialPath.LocalJsonFileFullName);
                     }
                     using (WebClient webClient = new WebClient()) {
-                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/lang.json";
+                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + Global.ServerLangJsonFileName;
                         Global.DebugLine("下载：" + jsonUrl);
                         webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                             if (!e.Cancelled && e.Error == null) {
@@ -80,7 +80,7 @@ namespace NTMiner {
                                 }
                             }
                         };
-                        webClient.DownloadFileAsync(new Uri(jsonUrl), SpecialPath.LangJsonFileFullName);
+                        webClient.DownloadFileAsync(new Uri(jsonUrl), Global.LocalLangJsonFileFullName);
                     }
                 }
             });
