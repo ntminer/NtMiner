@@ -8,11 +8,11 @@ namespace NTMiner.Core.Impl {
         private static readonly ServerJson data;
 
         static ReadOnlyServerRepository() {
-            if (!File.Exists(SpecialPath.NTMinerJsonFileFullName)) {
+            if (!File.Exists(SpecialPath.LocalJsonFileFullName)) {
                 data = new ServerJson();
             }
             else {
-                data = Global.JsonSerializer.Deserialize<ServerJson>(File.ReadAllText(SpecialPath.NTMinerJsonFileFullName));
+                data = Global.JsonSerializer.Deserialize<ServerJson>(File.ReadAllText(SpecialPath.LocalJsonFileFullName));
             }
         }
 

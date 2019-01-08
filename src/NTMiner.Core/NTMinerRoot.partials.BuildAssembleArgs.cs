@@ -55,7 +55,6 @@ namespace NTMiner {
                             string dualPool = dualCoinPool.Server;
                             argsDic.Add("dualCoin", dualCoin.Code);
                             argsDic.Add("dualAlgo", dualCoin.Algo);
-                            argsDic.Add("dualWeight", ((int)Math.Round(coinKernelProfile.DualCoinWeight)).ToString());
                             argsDic.Add("dualWallet", dualWallet);
                             argsDic.Add("dualPool", dualPool);
 
@@ -63,7 +62,20 @@ namespace NTMiner {
                             AssembleArgs(argsDic, ref kernelArgs, isDual: true);
                             AssembleArgs(argsDic, ref customArgs, isDual: true);
 
-                            return $"{kernelArgs} {customArgs}";
+                            string dualWeightArg;
+                            if (!string.IsNullOrEmpty(kernel.DualWeightArg)) {
+                                if (coinKernelProfile.IsAutoDualWeight && kernel.IsAutoDualWeight) {
+                                    dualWeightArg = string.Empty;
+                                }
+                                else {
+                                    dualWeightArg = $"{kernel.DualWeightArg} {Convert.ToInt32(coinKernelProfile.DualCoinWeight)}";
+                                }
+                            }
+                            else {
+                                dualWeightArg = string.Empty;
+                            }
+
+                            return $"{kernelArgs} {dualWeightArg} {customArgs}";
                         }
                     }
                 }
@@ -89,7 +101,6 @@ namespace NTMiner {
             if (isDual) {
                 args = args.Replace("{dualCoin}", prms["dualCoin"]);
                 args = args.Replace("{dualAlgo}", prms["dualAlgo"]);
-                args = args.Replace("{dualWeight}", prms["dualWeight"]);
                 args = args.Replace("{dualWallet}", prms["dualWallet"]);
                 args = args.Replace("{dualPool}", prms["dualPool"]);
             }

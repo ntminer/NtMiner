@@ -11,6 +11,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
             return new CoinKernelProfileData() {
                 CoinKernelId = coinKernelId,
                 IsDualCoinEnabled = false,
+                IsAutoDualWeight = true,
                 DualCoinId = Guid.Empty,
                 DualCoinWeight = 30,
                 CustomArgs = string.Empty,
@@ -35,6 +36,9 @@ namespace NTMiner.ServiceContracts.DataObjects {
 
         [DataMember]
         public double DualCoinWeight { get; set; }
+
+        [DataMember]
+        public bool IsAutoDualWeight { get; set; }
 
         [DataMember]
         public string CustomArgs { get; set; }

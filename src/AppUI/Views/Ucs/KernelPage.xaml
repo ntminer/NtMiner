@@ -1,38 +1,35 @@
-﻿<metro:MetroWindow 
+﻿<UserControl
 	x:Class="NTMiner.Views.Ucs.KernelPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
-	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-	xmlns:vm="clr-namespace:NTMiner.Vms"
-	mc:Ignorable="d" 
-	Background="#E9E7EA"
-	UseNoneWindowStyle="True"
-	BorderThickness="0 1 1 1"
-	BorderBrush="#0A548C"
-	FontSize="12"
-    ResizeMode="NoResize"
-	MouseDown="MetroWindow_MouseDown"
-	WindowStartupLocation="CenterScreen"
-	TextOptions.TextFormattingMode="Display"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+    xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+    xmlns:vm="clr-namespace:NTMiner.Vms"
+    mc:Ignorable="d"
+	Background="#EEECEF"
+    TextOptions.TextFormattingMode="Display" 
 	DataContext="{x:Static vm:KernelPageViewModel.Current}"
-	Height="520" Width="860">
+	d:DesignHeight="520" d:DesignWidth="860">
     <Grid>
         <DockPanel>
             <StackPanel DockPanel.Dock="Left" Background="{StaticResource IconFillColor}" Margin="0 0 10 0">
                 <controls:KbButton 
 				    Command="{Binding Home}"
-				    Height="50"
+				    Height="60"
 				    KbButtonHoverBackground="#0A548C" 
 				    BorderThickness="0 0 0 1"
                     BorderBrush="#550A5081"
 				    Background="Transparent">
-                    <Image Height="30" Width="30" Source="/NTMinerWpf;component/Styles/Images/logo48.png">
-                    </Image>
+                    <Path
+						Width="36"
+						Height="36"
+						Data="{StaticResource Icon_Kernels}"
+                        Fill="#EEECEF"
+						Stretch="Fill">
+                    </Path>
                 </controls:KbButton>
                 <ItemsControl
 				    Background="Transparent"
@@ -58,7 +55,7 @@
 							    Command="{Binding Data.ChangeCurrentKernelMenu, Source={StaticResource proxy}}"
 							    CommandParameter="{Binding}">
                                 <Border 
-								    Padding="16 30 12 30"
+								    Padding="16 32 12 32"
 								    BorderThickness="0 0 3 0"
 								    BorderBrush="{Binding BorderBrush}">
                                     <StackPanel>
@@ -66,12 +63,12 @@
 										    Width="24"
 										    Height="24"
 										    Data="{Binding Icon}"
-										    Fill="White"
+										    Fill="{Binding ItemForeground}"
 										    Stretch="Fill" />
                                         <Label
 										    Padding="0"
 										    VerticalAlignment="Center"
-										    Foreground="White"
+										    Foreground="{Binding ItemForeground}"
 										    FontSize="12"
 										    Content="{Binding Name}" />
                                     </StackPanel>
@@ -192,4 +189,4 @@
         </DockPanel>
         <uc:KernelDownloading Margin="57 0 0 0" HorizontalAlignment="Left" Visibility="{Binding KernelDownloadingVisible}"></uc:KernelDownloading>
     </Grid>
-</metro:MetroWindow>
+</UserControl>

@@ -1,13 +1,13 @@
-欢迎加入<a target="_blank" href="http://qm.qq.com/cgi-bin/qm/qr?k=cvTZEdM92suKOTy0fjzdCvZkJ-tFFekn"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="NTMiner开源矿工" title="NTMiner开源矿工" />官方QQ群:863725136</a>
+点击加入 [NTMiner官方QQ群](http://qm.qq.com/cgi-bin/qm/qr?k=cvTZEdM92suKOTy0fjzdCvZkJ-tFFekn): 863725136
 
-#下载地址
-1. 阿里云：<a target="_blank" href="https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.exe">点击下载</a>
+## 下载地址
+1. 阿里云：[点击下载最新版](https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner.exe)
 
 
-<a target="_blank" href="https://minerjson.oss-cn-beijing.aliyuncs.com/view.png"><img border="0" src="https://minerjson.oss-cn-beijing.aliyuncs.com/view.png" alt="NTMiner视图" title="NTMiner视图" /></a>
+![视图](https://minerjson.oss-cn-beijing.aliyuncs.com/view.png "NTMiner视图")
 
 ---
-欢迎加入<a target="_blank" href="http://qm.qq.com/cgi-bin/qm/qr?k=cvTZEdM92suKOTy0fjzdCvZkJ-tFFekn"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="NTMiner开源矿工" title="NTMiner开源矿工" />官方QQ群:863725136</a>
+点击加入 [NTMiner官方QQ群](http://qm.qq.com/cgi-bin/qm/qr?k=cvTZEdM92suKOTy0fjzdCvZkJ-tFFekn): 863725136
 
-##授权协议
+## 授权协议
 The LGPL license。

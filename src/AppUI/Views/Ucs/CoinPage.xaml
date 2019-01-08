@@ -9,7 +9,6 @@
              xmlns:vm="clr-namespace:NTMiner.Vms"
              mc:Ignorable="d"
 	         Background="{StaticResource MainColor}"
-             FontFamily="SimSun"
              TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:CoinPageViewModel.Current}"
              d:DesignHeight="520" d:DesignWidth="960">

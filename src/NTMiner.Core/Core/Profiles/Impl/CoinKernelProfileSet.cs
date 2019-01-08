@@ -113,6 +113,15 @@ namespace NTMiner.Core.Profiles.Impl {
                 }
             }
 
+            public bool IsAutoDualWeight {
+                get => _data.IsAutoDualWeight;
+                private set {
+                    if (_data.IsAutoDualWeight != value) {
+                        _data.IsAutoDualWeight = value;
+                    }
+                }
+            }
+
             public string CustomArgs {
                 get => _data.CustomArgs;
                 private set {

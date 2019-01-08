@@ -6,6 +6,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
         bool IsDualCoinEnabled { get; }
         Guid DualCoinId { get; }
         double DualCoinWeight { get; }
+        bool IsAutoDualWeight { get; }
         string CustomArgs { get; }
     }
 }

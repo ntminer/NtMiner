@@ -11,7 +11,7 @@ namespace NTMiner.Language.Impl {
                 LangViewItems = LangViewItemSet.Instance.Cast<LangViewItem>().ToList()
             };
             string json = Global.JsonSerializer.Serialize(data);
-            File.WriteAllText(Path.Combine(Global.GlobalDirFullName, "lang.json"), json);
+            File.WriteAllText(Global.ServerLangJsonFileFullName, json);
         }
 
         public LangJson() {

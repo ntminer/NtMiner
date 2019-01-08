@@ -65,6 +65,17 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsAutoDualWeight {
+            get => _inner.IsAutoDualWeight;
+            set {
+                if (_inner.IsAutoDualWeight != value) {
+                    NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsAutoDualWeight), value);
+                    OnPropertyChanged(nameof(IsAutoDualWeight));
+                    Global.Execute(new RefreshArgsAssemblyCommand());
+                }
+            }
+        }
+
         public string CustomArgs {
             get => _inner.CustomArgs;
             set {

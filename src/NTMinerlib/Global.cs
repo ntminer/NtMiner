@@ -22,6 +22,12 @@ namespace NTMiner {
             }
         }
 
+        public static string LangDbFileFullName { get; private set; }
+
+        public static string LocalLangJsonFileFullName { get; private set; }
+
+        public static string ServerLangJsonFileFullName { get; private set; }
+
         private static ILang _lang = null;
         public static ILang Lang {
             get {
@@ -66,11 +72,18 @@ namespace NTMiner {
         public static Action<string, ConsoleColor> WriteLineMethod;
         public static Action<string, ConsoleColor> DebugLineMethod;
 
+        public const string ServerJsonFileName = "server0.json";
+        public const string ServerLangJsonFileName = "serverLang0.json";
+
         static Global() {
             GlobalDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
             if (!Directory.Exists(GlobalDirFullName)) {
                 Directory.CreateDirectory(GlobalDirFullName);
             }
+            LangDbFileFullName = Path.Combine(GlobalDirFullName, "lang.litedb");
+            LocalLangJsonFileFullName = Path.Combine(GlobalDirFullName, "lang.json");
+            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, ServerLangJsonFileName);
+
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);
