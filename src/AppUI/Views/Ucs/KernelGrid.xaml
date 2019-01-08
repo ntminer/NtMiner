@@ -82,6 +82,9 @@
             <sys:String x:Key="Version">
                 Version
             </sys:String>
+            <sys:String x:Key="IsSupportDualMine">
+                IsSupportDualMine
+            </sys:String>
             <sys:String x:Key="Sort">
                 Sort
             </sys:String>
@@ -182,15 +185,15 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="160" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="170" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource PublishOn}"></TextBlock>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel>
+                            <StackPanel HorizontalAlignment="Center">
                                 <WrapPanel Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBlock Text="{DynamicResource PublishOn}"></TextBlock>
+                                    <TextBlock Text="{DynamicResource PublishOn}" Margin="0 0 4 0"></TextBlock>
                                     <TextBlock Text="{Binding PublishOnText}"></TextBlock>
                                 </WrapPanel>
                                 <TextBlock Text="{DynamicResource UnPublished}" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
@@ -202,7 +205,22 @@
                     <DataGridTextColumn.Header>
                         <TextBlock Text="{DynamicResource Size}"></TextBlock>
                     </DataGridTextColumn.Header>
-				</DataGridTextColumn>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn 
+                    Width="70" CanUserResize="False" CanUserReorder="False" 
+                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource IsSupportDualMine}" HorizontalAlignment="Center"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock 
+                                Text="{DynamicResource IsSupportDualMine}" 
+                                Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn 
                     Width="40" CanUserResize="False" CanUserReorder="False" 
                     Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
