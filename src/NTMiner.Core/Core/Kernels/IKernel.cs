@@ -18,6 +18,7 @@ namespace NTMiner.Core.Kernels {
         double DualWeightMin { get; }
         double DualWeightMax { get; }
         bool IsAutoDualWeight { get; }
+        string DualWeightArg { get; }
         string DualFullArgs { get; }
         string HelpArg { get; set; }
         string Notice { get; }

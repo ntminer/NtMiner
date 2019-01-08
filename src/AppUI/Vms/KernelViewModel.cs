@@ -22,6 +22,7 @@ namespace NTMiner.Vms {
             _dualWeightMax = 0,
             _dualWeightMin = 0,
             _isAutoDualWeight = false,
+            _dualWeightArg = string.Empty,
             _dualFullArgs = string.Empty,
             _helpArg = string.Empty,
             _code = string.Empty,
@@ -87,6 +88,7 @@ namespace NTMiner.Vms {
         private double _dualWeightMin;
         private double _dualWeightMax;
         private bool _isAutoDualWeight;
+        private string _dualWeightArg;
 
         public Guid GetId() {
             return this.Id;
@@ -131,6 +133,7 @@ namespace NTMiner.Vms {
             _dualWeightMin = data.DualWeightMin;
             _dualWeightMax = data.DualWeightMax;
             _isAutoDualWeight = data.IsAutoDualWeight;
+            _dualWeightArg = data.DualWeightArg;
             _dualFullArgs = data.DualFullArgs;
             _helpArg = data.HelpArg;
             _code = data.Code;
@@ -682,6 +685,16 @@ namespace NTMiner.Vms {
             set {
                 _isAutoDualWeight = value;
                 OnPropertyChanged(nameof(IsAutoDualWeight));
+            }
+        }
+
+        public string DualWeightArg {
+            get {
+                return _dualWeightArg;
+            }
+            set {
+                _dualWeightArg = value;
+                OnPropertyChanged(nameof(DualWeightArg));
             }
         }
 

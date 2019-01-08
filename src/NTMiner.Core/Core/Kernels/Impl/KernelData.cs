@@ -47,6 +47,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public double DualWeightMin { get; set; }
         public double DualWeightMax { get; set; }
         public bool IsAutoDualWeight { get; set; }
+        public string DualWeightArg { get; set; }
 
         public string DualFullArgs { get; set; }
 
