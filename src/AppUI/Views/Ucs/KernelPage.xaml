@@ -18,7 +18,7 @@
             <StackPanel DockPanel.Dock="Left" Background="{StaticResource IconFillColor}" Margin="0 0 10 0">
                 <controls:KbButton 
 				    Command="{Binding Home}"
-				    Height="50"
+				    Height="60"
 				    KbButtonHoverBackground="#0A548C" 
 				    BorderThickness="0 0 0 1"
                     BorderBrush="#550A5081"
@@ -27,8 +27,9 @@
 						Width="36"
 						Height="36"
 						Data="{StaticResource Icon_Kernels}"
-						Fill="White"
-						Stretch="Fill" />
+                        Fill="#EEECEF"
+						Stretch="Fill">
+                    </Path>
                 </controls:KbButton>
                 <ItemsControl
 				    Background="Transparent"
@@ -54,7 +55,7 @@
 							    Command="{Binding Data.ChangeCurrentKernelMenu, Source={StaticResource proxy}}"
 							    CommandParameter="{Binding}">
                                 <Border 
-								    Padding="16 30 12 30"
+								    Padding="16 32 12 32"
 								    BorderThickness="0 0 3 0"
 								    BorderBrush="{Binding BorderBrush}">
                                     <StackPanel>
