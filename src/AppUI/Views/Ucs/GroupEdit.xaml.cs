@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Group"
             }, ucFactory: (window) =>
             {
-                GroupViewModel vm = new GroupViewModel(source.Id).Update(source);
+                GroupViewModel vm = new GroupViewModel(source);
                 vm.CloseWindow = () => window.Close();
                 return new GroupEdit(vm);
             }, fixedSize: true);

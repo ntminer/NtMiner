@@ -43,6 +43,13 @@ namespace NTMiner.Vms {
             }
         }
 
+        public WalletViewModel(IWallet data) : this(data.GetId()) {
+            _name = data.Name;
+            _coinId = data.CoinId;
+            _address = data.Address;
+            _sortNumber = data.SortNumber;
+        }
+
         public WalletViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {

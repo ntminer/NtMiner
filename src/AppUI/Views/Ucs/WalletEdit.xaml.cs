@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
             {
-                WalletViewModel vm = new WalletViewModel(source.Id).Update(source);
+                WalletViewModel vm = new WalletViewModel(source);
                 return new WalletEdit(vm);
             }, fixedSize: true);
         }

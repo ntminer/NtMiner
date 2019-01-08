@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_MineWork"
             }, ucFactory: (window) =>
             {
-                MineWorkViewModel vm = new MineWorkViewModel(source.Id).Update(source);
+                MineWorkViewModel vm = new MineWorkViewModel(source);
                 vm.CloseWindow = () => window.Close();
                 return new MineWorkEdit(vm);
             }, fixedSize: true);

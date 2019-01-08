@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
         public LangViewModel(Guid id) {
             _id = id;
             this.Edit = new DelegateCommand(() => {
-                LangEdit.ShowWindow(new LangViewModel(this.Id).Update(this));
+                LangEdit.ShowWindow(new LangViewModel(this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

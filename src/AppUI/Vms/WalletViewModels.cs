@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
                 "添加了钱包后调整VM内存",
                 LogEnum.Log,
                 action: (message) => {
-                    _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source.GetId()).Update(message.Source));
+                    _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                     OnPropertyChanged(nameof(WalletList));
                     ICoin coin;
                     if (NTMinerRoot.Current.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 });
             foreach (var item in NTMinerRoot.Current.WalletSet) {
-                _dicById.Add(item.GetId(), new WalletViewModel(item.GetId()).Update(item));
+                _dicById.Add(item.GetId(), new WalletViewModel(item));
             }
         }
 
