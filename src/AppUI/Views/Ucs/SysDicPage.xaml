@@ -6,7 +6,6 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:vm="clr-namespace:NTMiner.Vms"
              xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-             FontFamily="SimSun"
              Background="{StaticResource MainColor}"
              TextOptions.TextFormattingMode="Display" 
              mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">

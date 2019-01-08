@@ -9,7 +9,6 @@
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms"
 			 mc:Ignorable="d" 
-			 FontFamily="SimSun" 
              BorderBrush="{StaticResource LineColor}"
              BorderThickness="0 0 1 0"
 			 TextOptions.TextFormattingMode="Display"  

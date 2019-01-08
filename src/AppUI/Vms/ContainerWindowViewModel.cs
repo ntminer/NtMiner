@@ -11,6 +11,7 @@ namespace NTMiner.Vms {
         private Visibility _minVisible = Visibility.Visible;
         private Visibility _maxVisible = Visibility.Visible;
         private Visibility _closeVisible = Visibility.Visible;
+        private Visibility _headerVisible = Visibility.Visible;
         private Visibility _footerVisible = Visibility.Visible;
         private double _width = 0;
         private double _height = 0;
@@ -130,6 +131,14 @@ namespace NTMiner.Vms {
             set {
                 _maxVisible = value;
                 OnPropertyChanged(nameof(MaxVisible));
+            }
+        }
+
+        public Visibility HeaderVisible {
+            get { return _headerVisible; }
+            set {
+                _headerVisible = value;
+                OnPropertyChanged(nameof(HeaderVisible));
             }
         }
 

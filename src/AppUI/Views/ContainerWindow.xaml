@@ -9,6 +9,7 @@
         Title="{Binding Title}"
         UseNoneWindowStyle="True"
         BorderBrush="{StaticResource IconFillColor}"
+		d:DataContext="{d:DesignData Source=Design/ContainerWindowViewModel.xaml}"
         FontSize="12"
         Background="{StaticResource MainColor}"
         WindowStartupLocation="CenterScreen"
@@ -16,12 +17,12 @@
         mc:Ignorable="d" d:DesignHeight="360" d:DesignWidth="600">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <!--上标题栏-->
-        <DockPanel>
+        <DockPanel Height="30" Visibility="{Binding HeaderVisible}">
             <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Top" Margin="0 2 0 0">
                 <WrapPanel 
                     Margin="4 4 0 0"

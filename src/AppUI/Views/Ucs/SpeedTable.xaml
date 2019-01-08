@@ -9,7 +9,7 @@
              xmlns:local="clr-namespace:NTMiner.Views.Ucs"
              xmlns:vm="clr-namespace:NTMiner.Vms"
              mc:Ignorable="d" 
-             FontFamily="SimSun" Background="White"
+             Background="White"
              TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:GpuSpeedViewModels.Current}"
              d:DesignHeight="450" d:DesignWidth="800">

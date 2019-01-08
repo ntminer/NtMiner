@@ -1,30 +1,37 @@
-﻿using MahApps.Metro.Controls;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
-using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class KernelPage : MetroWindow {
-        private static double _left;
-        private static double _top;
-
-        private static KernelPage _window;
+    public partial class KernelPage : UserControl {
         public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete = null) {
-            if (_window == null) {
-                _window = new KernelPage();
-            }
-            _window.Show();
-            _window.Activate();
-            if (kernelId != Guid.Empty) {
-                KernelPageViewModel vm = (KernelPageViewModel)_window.DataContext;
-                vm.Download(kernelId, (isSuccess, message) => {
-                    if (isSuccess) {
-                        _window.Close();
-                    }
-                    downloadComplete(isSuccess, message);
-                });
-            }
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                IconName = "Icon_Kernels",
+                CloseVisible = System.Windows.Visibility.Visible,
+                HeaderVisible = System.Windows.Visibility.Collapsed,
+                FooterVisible = System.Windows.Visibility.Collapsed,
+                Width = 860,
+                Height = 520
+            },
+            ucFactory: (window) => {
+                var uc = new KernelPage();
+                uc.CloseWindow = () => window.Close();
+                return uc;
+            },
+            beforeShow: uc => {
+                if (kernelId != Guid.Empty) {
+                    KernelPageViewModel vm = (KernelPageViewModel)uc.DataContext;
+                    vm.Download(kernelId, (isSuccess, message) => {
+                        if (isSuccess) {
+                            ((KernelPage)uc).CloseWindow();
+                        }
+                        downloadComplete(isSuccess, message);
+                    });
+                }
+            }, fixedSize: true);
         }
+
+        public Action CloseWindow { get; set; }
 
         public KernelPageViewModel Vm {
             get {
@@ -35,24 +42,6 @@ namespace NTMiner.Views.Ucs {
         public KernelPage() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            if (_left != 0) {
-                this.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
-                this.Left = _left;
-                this.Top = _top;
-            }
-        }
-
-        protected override void OnClosed(EventArgs e) {
-            _left = this.Left;
-            _top = this.Top;
-            _window = null;
-            base.OnClosed(e);
-        }
-
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
 
         private void BtnDownloadMenu_Click(object sender, System.Windows.RoutedEventArgs e) {

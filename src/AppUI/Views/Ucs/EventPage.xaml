@@ -6,7 +6,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:vm="clr-namespace:NTMiner.Vms"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-			 FontFamily="SimSun" Background="White"
+			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
 			 mc:Ignorable="d" d:DesignHeight="560" d:DesignWidth="1000">
 	<UserControl.DataContext>
