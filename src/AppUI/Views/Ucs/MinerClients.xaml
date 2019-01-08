@@ -47,13 +47,13 @@
 							Foreground="Black" />
                     </WrapPanel>
                 </controls:KbLinkButton>
-                <ComboBox 
+                <controls:KbComboBox 
 					Width="100"
 					VerticalAlignment="Center" 
 					ItemsSource="{Binding MinerGroupVmItems}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMinerGroup}">
-                </ComboBox>
+                </controls:KbComboBox>
                 <controls:KbLinkButton 
                     Margin="20 0 0 0"
 					KbDisplayLine="False"
@@ -74,21 +74,21 @@
 							Foreground="Black" />
                     </WrapPanel>
                 </controls:KbLinkButton>
-                <ComboBox 
+                <controls:KbComboBox 
 					Width="120"
 					VerticalAlignment="Center" 
 					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMineWork}">
-                </ComboBox>
+                </controls:KbComboBox>
                 <Label Margin="30 0 0 0">状态</Label>
-                <ComboBox 
+                <controls:KbComboBox 
 					Width="80"
 					VerticalAlignment="Center" 
 					ItemsSource="{Binding MineStatusEnumItems}"
 					DisplayMemberPath="Description"
 					SelectedItem="{Binding MineStatusEnumItem}">
-                </ComboBox>
+                </controls:KbComboBox>
                 <Label Width="50" HorizontalContentAlignment="Right">IP</Label>
                 <TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="Transparent"></TextBox>
                 <Label Margin="8 0 0 0">矿工名</Label>
@@ -115,11 +115,11 @@
 								Foreground="Black" />
                         </WrapPanel>
                     </controls:KbLinkButton>
-                    <ComboBox 
+                    <controls:KbComboBox 
 						VerticalAlignment="Center" Width="100"
 						ItemsSource="{Binding MineCoinVms.PleaseSelect}"
 						DisplayMemberPath="Code"
-						SelectedItem="{Binding MainCoin}"></ComboBox>
+						SelectedItem="{Binding MainCoin}"></controls:KbComboBox>
                     <WrapPanel 
                         Margin="20 0 0 0" 
                         Visibility="{Binding IsMainCoinSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -143,12 +143,12 @@
 								    Foreground="Black" />
                             </WrapPanel>
                         </controls:KbLinkButton>
-                        <ComboBox 
+                        <controls:KbComboBox 
 							VerticalAlignment="Center" Width="120"
 							ItemsSource="{Binding MainCoin.OptionPools}"
 							DisplayMemberPath="Name"
 							SelectedValuePath="Server"
-							SelectedItem="{Binding MainCoinPool}"></ComboBox>
+							SelectedItem="{Binding MainCoinPool}"></controls:KbComboBox>
                     </WrapPanel>
                     <WrapPanel Visibility="{Binding IsMainCoinSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                         <controls:KbLinkButton 
@@ -170,13 +170,13 @@
 								    Foreground="Black" />
                             </WrapPanel>
                         </controls:KbLinkButton>
-                        <ComboBox 
+                        <controls:KbComboBox 
 						    ItemsSource="{Binding MainCoin.WalletItems}"
 						    VerticalAlignment="Center" Width="160"
 						    IsEditable="False"
                             SelectedItem="{Binding MainCoinWallet}"
                             DisplayMemberPath="Name">
-                        </ComboBox>
+                        </controls:KbComboBox>
                     </WrapPanel>
                 </WrapPanel>
                 <WrapPanel>
@@ -199,11 +199,11 @@
 								Foreground="Black" />
                         </WrapPanel>
                     </controls:KbLinkButton>
-                    <ComboBox 
+                    <controls:KbComboBox 
 						VerticalAlignment="Center" Width="100"
 						ItemsSource="{Binding MineCoinVms.DualPleaseSelect}"
 						DisplayMemberPath="Code"
-						SelectedItem="{Binding DualCoin}"></ComboBox>
+						SelectedItem="{Binding DualCoin}"></controls:KbComboBox>
                     <WrapPanel 
                         Margin="20 0 0 0" 
                         Visibility="{Binding IsDualCoinSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -227,12 +227,12 @@
 								    Foreground="Black" />
                             </WrapPanel>
                         </controls:KbLinkButton>
-                        <ComboBox 
+                        <controls:KbComboBox 
 							VerticalAlignment="Center" Width="120"
 							ItemsSource="{Binding DualCoin.OptionPools}"
 							DisplayMemberPath="Name"
 							SelectedValuePath="Server"
-							SelectedItem="{Binding DualCoinPool}"></ComboBox>
+							SelectedItem="{Binding DualCoinPool}"></controls:KbComboBox>
                     </WrapPanel>
                     <WrapPanel Visibility="{Binding IsDualCoinSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                         <controls:KbLinkButton 
@@ -254,13 +254,13 @@
 								    Foreground="Black" />
                             </WrapPanel>
                         </controls:KbLinkButton>
-                        <ComboBox 
+                        <controls:KbComboBox 
 						    ItemsSource="{Binding DualCoin.WalletItems}"
 						    VerticalAlignment="Center" Width="160"
 						    IsEditable="False"
                             SelectedItem="{Binding DualCoinWallet}"
                             DisplayMemberPath="Name">
-                        </ComboBox>
+                        </controls:KbComboBox>
                     </WrapPanel>
                 </WrapPanel>
             </StackPanel>
@@ -300,8 +300,8 @@
                     <Label>/</Label>
                     <TextBlock VerticalAlignment="Center" Text="{Binding MinerClientPageCount}"></TextBlock>
                     <Label>页，每页</Label>
-                    <ComboBox VerticalAlignment="Center" ItemsSource="{Binding PageSizeItems}" SelectedItem="{Binding MinerClientPageSize}">
-                    </ComboBox>
+                    <controls:KbComboBox VerticalAlignment="Center" ItemsSource="{Binding PageSizeItems}" SelectedItem="{Binding MinerClientPageSize}">
+                    </controls:KbComboBox>
                     <Label>条，共</Label>
                     <TextBlock VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
                     <Label>条</Label>
@@ -404,14 +404,14 @@
                                         Text="{Binding ClientDataVm.SelectedMinerGroup.Name, Mode=OneWay}" 
                                         Visibility="{Binding IsChangeGroupVisible, Converter={StaticResource VisibilityInvertConverter}}" 
                                         Width="120"></TextBox>
-                                    <ComboBox 
+                                    <controls:KbComboBox 
 							            Width="110"
                                         Visibility="{Binding IsChangeGroupVisible}" 
 							            VerticalAlignment="Center" 
 							            ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
 							            DisplayMemberPath="Name"
 							            SelectedItem="{Binding ClientDataVm.SelectedMinerGroupCopy}">
-                                    </ComboBox>
+                                    </controls:KbComboBox>
                                     <controls:KbButton 
 										Margin="4 0 0 0"
 										ToolTip="确定" Command="{Binding ChangeGroup}"

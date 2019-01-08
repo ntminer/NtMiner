@@ -3,13 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:NTMiner.Controls">
 
-    <Style TargetType="{x:Type ComboBox}">
+    <Style TargetType="{x:Type controls:KbComboBox}">
         <Setter Property="Background" Value="White" />
         <Setter Property="BorderBrush" Value="{StaticResource LineColor}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ComboBox}">
+                <ControlTemplate TargetType="{x:Type controls:KbComboBox}">
                     <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -25,9 +25,10 @@
                             PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
                             <Grid
                                 x:Name="shadow"
+                                Background="White"
                                 MinWidth="{Binding ActualWidth, ElementName=templateRoot}"
                                 MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border Margin="2" Background="White">
+                                <Border Margin="2">
                                     <Border.Effect>
                                         <DropShadowEffect
                                             BlurRadius="5"
@@ -39,17 +40,20 @@
                                 <Border
                                     x:Name="DropDownBorder"
                                     Margin="2"
-                                    Background="White"
+                                    BorderBrush="{StaticResource IconFillColor}" BorderThickness="1"
                                     CornerRadius="0,0,3,3">
-                                    <ScrollViewer x:Name="DropDownScrollViewer">
-                                        <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
-                                            <ItemsPresenter
+                                    <StackPanel>
+                                        <ScrollViewer x:Name="DropDownScrollViewer">
+                                            <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                                <ItemsPresenter
                                                 x:Name="ItemsPresenter"
                                                 Grid.Row="1"
                                                 KeyboardNavigation.DirectionalNavigation="Contained"
                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                        </Grid>
-                                    </ScrollViewer>
+                                            </Grid>
+                                        </ScrollViewer>
+                                        <ContentPresenter Content="{TemplateBinding Toolbar}"></ContentPresenter>
+                                    </StackPanel>
                                 </Border>
                             </Grid>
                         </Popup>
@@ -96,7 +100,7 @@
                                                 <ControlTemplate.Triggers>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="true" />
+                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:KbComboBox}}}" Value="true" />
                                                             <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false" />
                                                             <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false" />
                                                             <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true" />
@@ -112,7 +116,7 @@
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
+                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:KbComboBox}}}" Value="false" />
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter TargetName="templateRoot" Property="Background" Value="#ECF6FD" />
                                                     </MultiDataTrigger>
@@ -122,7 +126,7 @@
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true" />
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
+                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:KbComboBox}}}" Value="false" />
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter TargetName="templateRoot" Property="Background" Value="#ECF6FD" />
                                                     </MultiDataTrigger>
@@ -132,14 +136,14 @@
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
+                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:KbComboBox}}}" Value="false" />
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter TargetName="templateRoot" Property="Background" Value="#FFF0F0F0" />
                                                     </MultiDataTrigger>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="true" />
+                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type controls:KbComboBox}}}" Value="true" />
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter TargetName="templateRoot" Property="Background" Value="White" />
                                                         <Setter TargetName="splitBorder" Property="Background" Value="Transparent" />

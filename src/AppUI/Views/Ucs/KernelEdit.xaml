@@ -274,13 +274,13 @@
 
                         <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Label Content="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></Label>
-                            <ComboBox 
+                            <controls:KbComboBox 
                                 BorderThickness="0"
 				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
 						        Width="160" ItemsSource="{Binding GroupVms.SelectionOptions}"
                                 DisplayMemberPath="Name"
                                 SelectedItem="{Binding DualCoinGroup}">
-                            </ComboBox>
+                            </controls:KbComboBox>
                             <TextBlock 
                                 Margin="2 0 0 0"
                                 Visibility="{Binding IsDualCoinGroupEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -513,18 +513,18 @@
                     </Grid.RowDefinitions>
                     <WrapPanel>
                         <Label Width="40" Content="{DynamicResource Coin}"></Label>
-                        <ComboBox 
+                        <controls:KbComboBox 
                             x:Name="CbCoins"
                             BorderThickness="0"
 						    Width="132" ItemsSource="{Binding KernelVmSingleInstance.CoinVms}" 
 						    ItemTemplate="{StaticResource CoinCodeDataTemplate}">
-                            <ComboBox.ItemContainerStyle>
+                            <controls:KbComboBox.ItemContainerStyle>
                                 <Style TargetType="ComboBoxItem">
                                     <Setter Property="Height" Value="30"></Setter>
                                     <Setter  Property="IsEnabled" Value="{Binding IsSupported}" />
                                 </Style>
-                            </ComboBox.ItemContainerStyle>
-                        </ComboBox>
+                            </controls:KbComboBox.ItemContainerStyle>
+                        </controls:KbComboBox>
                         <controls:KbButton 
                             Command="{Binding KernelVmSingleInstance.AddCoinKernel}" 
                             CommandParameter="{Binding ElementName=CbCoins, Path=SelectedItem}"

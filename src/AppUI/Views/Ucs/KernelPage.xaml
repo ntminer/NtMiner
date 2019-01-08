@@ -119,7 +119,7 @@
                 </Grid.ColumnDefinitions>
                 <WrapPanel Margin="0 4 0 0">
                     <Label Padding="2 6">币种</Label>
-                    <ComboBox 
+                    <controls:KbComboBox 
                         Padding="4 1"
                         Height="20"
                         MinWidth="66"
@@ -127,7 +127,7 @@
 						SelectedValuePath="Code"
                         DisplayMemberPath="Code"
                         SelectedItem="{Binding SelectedCoinVm}">
-                    </ComboBox>
+                    </controls:KbComboBox>
 
                     <Path Margin="4 0 0 0"
 						Width="12"

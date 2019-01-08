@@ -38,12 +38,12 @@
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <Label>颜色:</Label>
-            <ComboBox 
+            <controls:KbComboBox 
                 ItemsSource="{Binding LogColorDicVm.SysDicItemsSelect}"
                 Width="420"
                 DisplayMemberPath="Description"
                 SelectedItem="{Binding SelectedColor}">
-            </ComboBox>
+            </controls:KbComboBox>
         </WrapPanel>
         <controls:KbButton
             IsDefault="True"

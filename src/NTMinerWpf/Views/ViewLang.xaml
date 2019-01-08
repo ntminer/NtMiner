@@ -32,12 +32,12 @@
             <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
             <WrapPanel DockPanel.Dock="Right"
                        HorizontalAlignment="Right">
-                <ComboBox 
+                <controls:KbComboBox 
                     Height="26"
                     ItemsSource="{Binding LangVms.LangVms}"
                     DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}"
                     SelectionChanged="CbLanguage_SelectionChanged">
-                </ComboBox>
+                </controls:KbComboBox>
                 <controls:KbSystemCloseButton
                     Height="30"
                     KbSystemButtonForeground="#385263" />

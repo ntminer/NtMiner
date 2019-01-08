@@ -77,12 +77,12 @@
         <WrapPanel Margin="0 2">
             <Label Content="{DynamicResource SupportedGpu}" ToolTip="{DynamicResource SupportedGpu}"></Label>
             <WrapPanel Width="180" VerticalAlignment="Center">
-                <ComboBox 
+                <controls:KbComboBox 
 					Width="130" ItemsSource="{Binding SupportedGpuEnumItems}"
 					IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
 					DisplayMemberPath="Description" Height="26"
 					SelectedItem="{Binding SupportedGpuEnumItem}">
-                </ComboBox>
+                </controls:KbComboBox>
                 <Path
                     Margin="4 0 0 0"
 					Width="18"
@@ -104,12 +104,12 @@
             </WrapPanel>
             <WrapPanel Visibility="{Binding Kernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Label Content="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></Label>
-                <ComboBox 
+                <controls:KbComboBox 
                     BorderThickness="0"
 					Width="166" ItemsSource="{Binding GroupVms.SelectionOptions}"
                     DisplayMemberPath="Name"
                     SelectedItem="{Binding SelectedDualCoinGroup}">
-                </ComboBox>
+                </controls:KbComboBox>
             </WrapPanel>
         </WrapPanel>
 

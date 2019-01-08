@@ -60,24 +60,24 @@
         </controls:KbButton>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Content="{DynamicResource LblCoin}"></Label>
-            <ComboBox 
+            <controls:KbComboBox 
                 BorderThickness="0"
 			    Width="150" ItemsSource="{Binding CoinVms.AllCoins}" 
 			    ItemTemplate="{StaticResource CoinCodeDataTemplate}"
 			    SelectedItem="{Binding SelectedCoinVm}">
-            </ComboBox>
+            </controls:KbComboBox>
         </WrapPanel>
         <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Label Content="{DynamicResource LblSpeed}"></Label>
             <TextBox Width="100" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
-            <ComboBox 
+            <controls:KbComboBox 
                 Height="30"
 				Width="60"
 				VerticalAlignment="Center"
                 ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
                 DisplayMemberPath="Unit"
                 SelectedValue="{Binding SpeedUnitVm}">
-            </ComboBox>
+            </controls:KbComboBox>
             <Path
                 Margin="10 0"
                 Width="30"

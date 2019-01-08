@@ -35,12 +35,12 @@
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<WrapPanel>
-							<ComboBox 
+                            <controls:KbComboBox 
 								Width="100"
 								VerticalAlignment="Center"
 								DisplayMemberPath="Description"
 								SelectedItem="{Binding LogTypeItem}"
-								ItemsSource="{Binding Data.LogTypeItems, Source={StaticResource proxy}}"></ComboBox>
+								ItemsSource="{Binding Data.LogTypeItems, Source={StaticResource proxy}}"></controls:KbComboBox>
 							<TextBox Margin="4 0 0 0" BorderThickness="0" IsReadOnly="True" VerticalAlignment="Center" Text="{Binding MessageType.Name, Mode=OneWay}"></TextBox>
 							<TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="->"></TextBlock>
 							<TextBox Margin="4 0 0 0" BorderThickness="0" IsReadOnly="True" VerticalAlignment="Center" Text="{Binding Location.Name, Mode=OneWay}"></TextBox>
