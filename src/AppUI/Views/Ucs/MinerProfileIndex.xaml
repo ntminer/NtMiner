@@ -355,6 +355,7 @@
                                     Height="24"
                                     Padding="4 0"
                                     Background="{StaticResource IconFillColor}"
+                                    Command="{x:Static vm:AppStatic.ShowKernels}"
                                     CornerRadius="2">
                                     <WrapPanel>
                                         <Path

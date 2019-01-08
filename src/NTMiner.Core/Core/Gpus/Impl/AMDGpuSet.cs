@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NTMiner.Core.Gpus.Impl {
     internal class AMDGpuSet : IGpuSet {
@@ -40,7 +41,9 @@ namespace NTMiner.Core.Gpus.Impl {
                 "周期刷新显卡状态",
                 LogEnum.None,
                 action: message => {
-                    LoadGpuState();
+                    Task.Factory.StartNew(() => {
+                        LoadGpuState();
+                    });
                 });
         }
 
