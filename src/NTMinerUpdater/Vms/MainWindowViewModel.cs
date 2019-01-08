@@ -114,7 +114,7 @@ namespace NTMiner.Vms {
 
         public void Refresh() {
             Server.FileUrlService.GetNTMinerFiles(ntMinerFiles => {
-                this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).ToList();
+                this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;
                 }
