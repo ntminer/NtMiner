@@ -355,12 +355,37 @@
 			Manager="{Binding Manager}" />
 
         <Grid Grid.Row="3" Background="Black" Height="300" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
             <TextBox
                 Foreground="White"
                 TextWrapping="Wrap"
 				VerticalScrollBarVisibility="Auto"
 				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}" IsReadOnly="True" BorderThickness="0">
             </TextBox>
+            <RichTextBox 
+                Grid.Row="1"
+                Background="Transparent"
+				VerticalScrollBarVisibility="Auto"
+				x:Name="RichTextBoxDebug" BorderThickness="0" 
+				IsReadOnly="True" FontSize="12" FontFamily="宋体"
+				Padding="0 0 0 4" Foreground="White">
+                <FlowDocument>
+                    <Paragraph x:Name="ConsoleParagraphDebug" LineHeight="14">
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <controls:KbCheckBox 
+                Grid.Row="1"
+				Margin="0 0 18 0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+				x:Name="ChkbIsConsoleAutoScrollToEnd"
+				ToolTip="滚屏"
+				IconColor="{StaticResource IconFillColor}"
+				IsChecked="True" />
         </Grid>
 	</Grid>
 </metro:MetroWindow>
