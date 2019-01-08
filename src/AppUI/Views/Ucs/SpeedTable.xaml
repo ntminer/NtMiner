@@ -15,7 +15,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <sys:String x:Key="WindowTitle">
-            算力表
+            WindowTitle
         </sys:String>
         <sys:String x:Key="DghGpuIndex">
             DghGpuIndex
@@ -85,8 +85,8 @@
                 <DataGridTemplateColumn Width="84" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
-                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
-                            <TextBlock Text="{Binding Data.MinerProfile.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
+                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.MinerProfile.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -100,8 +100,8 @@
                     Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
-                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
-                            <TextBlock Text="{Binding Data.MinerProfile.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
+                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.MinerProfile.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -138,8 +138,8 @@
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{DynamicResource DghGpuTotalPower}" FontSize="13"></TextBlock>
-                                <TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="13"></TextBlock>
+                                <TextBlock Text="{DynamicResource DghGpuTotalPower}" FontSize="12"></TextBlock>
+                                <TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
