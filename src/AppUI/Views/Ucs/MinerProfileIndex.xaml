@@ -441,7 +441,14 @@
                                 Style="{StaticResource LblTb}"
                                 ToolTip="{DynamicResource DualCoinWeight}"
 						        Text="{DynamicResource DualCoinWeight}" />
+                            <controls:KbCheckBox
+						        Content="{DynamicResource IsAutoDualWeight}"
+						        IconColor="{StaticResource IconFillColor}"
+                                IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+                                Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
+						        IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
                             <WrapPanel 
+                                Margin="4 0 0 0"
                                 VerticalAlignment="Center"
 							    Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityInvertConverter}}">
                                 <Slider 
@@ -456,13 +463,6 @@
                                 <TextBlock Text="{Binding ElementName=dualCoinWeightSlider, Path=Value}"></TextBlock>
                                 <TextBlock Text="%"></TextBlock>
                             </WrapPanel>
-                            <controls:KbCheckBox
-                                Margin="4 0 0 0"
-						        Content="{DynamicResource IsAutoDualWeight}"
-						        IconColor="{StaticResource IconFillColor}"
-                                IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
-                                Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
-						        IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
                         </WrapPanel>
                         <WrapPanel Margin="0 3">
                             <TextBlock

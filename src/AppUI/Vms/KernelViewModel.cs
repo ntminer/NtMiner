@@ -664,6 +664,18 @@ namespace NTMiner.Vms {
             }
         }
 
+        public Visibility IsSupportDualMineVisible {
+            get {
+                if (DevMode.IsDevMode) {
+                    return Visibility.Visible;
+                }
+                if (IsSupportDualMine) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
         public double DualWeightMin {
             get => _dualWeightMin;
             set {

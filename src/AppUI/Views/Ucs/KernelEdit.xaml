@@ -182,10 +182,10 @@
                 </controls:KbTabItem.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="540"></ColumnDefinition>
+                        <ColumnDefinition Width="560"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
+                    <StackPanel Margin="0 0 10 10">
                         <WrapPanel Margin="0 2">
                             <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Code}"></TextBlock>
                             <TextBox 
@@ -241,6 +241,7 @@
 						        Text="{Binding Notice, Mode=TwoWay}" Height="50">
                             </TextBox>
                         </WrapPanel>
+                        
                         <WrapPanel Margin="0 2">
                             <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Help}"></TextBlock>
                             <TextBox 
@@ -281,7 +282,7 @@
                             </TextBox>
                         </WrapPanel>
 
-                        <WrapPanel Margin="0 2">
+                        <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMineVisible}">
                             <TextBlock Style="{StaticResource LblTb}"></TextBlock>
                             <controls:KbCheckBox 
                                 Height="26"
@@ -355,12 +356,12 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left">
                         <WrapPanel>
-                            <TextBlock Style="{StaticResource LblTb}" Width="40" Text="{DynamicResource Sort}"></TextBlock>
-                            <TextBox Width="40" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
+                            <TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="{DynamicResource Sort}"></TextBlock>
+                            <TextBox Width="40" Height="26" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
                             </TextBox>
                         </WrapPanel>
                         <controls:KbLinkButton
-                            Margin="10 124 0 0"
+                            Margin="0 124 0 0"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left"
                             Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
@@ -380,10 +381,10 @@
                             </WrapPanel>
                         </controls:KbLinkButton>
                         <TextBox 
-                            Width="100" Margin="10 6 0 0" BorderThickness="0" IsReadOnly="True" 
+                            Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True" 
                             AcceptsReturn="True" TextWrapping="Wrap">mainCoin、mainAlgo、wallet、pool、worker</TextBox>
                         <TextBox 
-                            Margin="10 0 0 0"
+                            Margin="0"
                             Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
                             Width="100" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" 
                             TextWrapping="Wrap">dualCoin、dualAlgo、dualWallet、dualPool</TextBox>
