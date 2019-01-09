@@ -5,6 +5,18 @@ using System.Linq;
 
 namespace NTMiner.Language.Impl {
     public class LangJson {
+        public static readonly LangJson Instance;
+
+        static LangJson() {
+            string langJsonFileFullName = Path.Combine(Global.GlobalDirFullName, "lang.json");
+            if (!File.Exists(langJsonFileFullName)) {
+                Instance = new LangJson();
+            }
+            else {
+                Instance = Global.JsonSerializer.Deserialize<LangJson>(File.ReadAllText(langJsonFileFullName));
+            }
+        }
+
         public static void Export() {
             LangJson data = new LangJson() {
                 Langs = LangSet.Instance.Cast<Lang>().ToList(),

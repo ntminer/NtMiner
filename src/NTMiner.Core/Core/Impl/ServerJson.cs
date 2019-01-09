@@ -7,6 +7,16 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class ServerJson {
+        public static readonly ServerJson Instance;
+        static ServerJson() {
+            if (!File.Exists(SpecialPath.LocalJsonFileFullName)) {
+                Instance = new ServerJson();
+            }
+            else {
+                Instance = Global.JsonSerializer.Deserialize<ServerJson>(File.ReadAllText(SpecialPath.LocalJsonFileFullName));
+            }
+        }
+
         public static void Export() {
             INTMinerRoot root = NTMinerRoot.Current;
             ServerJson data = new ServerJson() {
@@ -17,7 +27,7 @@ namespace NTMiner.Core.Impl {
                 KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToList(),
                 KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToList(),
                 Kernels = root.KernelSet.Cast<KernelData>().ToList(),
-                Pools = root.PoolSet.Cast<PoolData>().ToList(),
+                Pools = root.PoolSet.Cast<PoolData>().ToArray(),
                 SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToList(),
                 SysDics = root.SysDicSet.Cast<SysDicData>().ToList()
             };
@@ -25,7 +35,7 @@ namespace NTMiner.Core.Impl {
             File.WriteAllText(SpecialPath.ServerJsonFileFullName, json);
         }
 
-        public ServerJson() {
+        private ServerJson() {
             this.Coins = new List<CoinData>();
             this.Groups = new List<GroupData>();
             this.CoinGroups = new List<CoinGroupData>();
@@ -33,7 +43,7 @@ namespace NTMiner.Core.Impl {
             this.Kernels = new List<KernelData>();
             this.KernelOutputFilters = new List<KernelOutputFilterData>();
             this.KernelOutputTranslaters = new List<KernelOutputTranslaterData>();
-            this.Pools = new List<PoolData>();
+            this.Pools = new PoolData[0];
             this.SysDics = new List<SysDicData>();
             this.SysDicItems = new List<SysDicItemData>();
             this.TimeStamp = Global.GetTimestamp();
@@ -47,7 +57,7 @@ namespace NTMiner.Core.Impl {
             return GetAll<T>().FirstOrDefault(a => a.GetId() == key);
         }
 
-        public IList<T> GetAll<T>() where T : IDbEntity<Guid> {
+        public IEnumerable<T> GetAll<T>() where T : IDbEntity<Guid> {
             string typeName = typeof(T).Name;
             switch (typeName) {
                 case nameof(CoinData):
@@ -65,7 +75,7 @@ namespace NTMiner.Core.Impl {
                 case nameof(KernelOutputFilterData):
                     return (IList<T>)this.KernelOutputFilters;
                 case nameof(PoolData):
-                    return (IList<T>)this.Pools;
+                    return this.Pools.Cast<T>();
                 case nameof(SysDicData):
                     return (IList<T>)this.SysDics;
                 case nameof(SysDicItemData):
@@ -91,7 +101,7 @@ namespace NTMiner.Core.Impl {
 
         public List<KernelOutputFilterData> KernelOutputFilters { get; set; }
 
-        public List<PoolData> Pools { get; set; }
+        public PoolData[] Pools { get; set; }
 
         public List<SysDicData> SysDics { get; set; }
 

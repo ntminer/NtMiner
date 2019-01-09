@@ -56,6 +56,7 @@
         </WrapPanel>
         <controls:KbButton
             Command="{Binding Save}" 
+            Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVisibilityInvertConverter}}"
             Margin="0 10 0 0"
             Width="70" 
             Height="30"

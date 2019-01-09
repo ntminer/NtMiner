@@ -5,7 +5,6 @@ using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -33,15 +32,6 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
-
-        public Visibility SaveVisible {
-            get {
-                if (this.IsTestWallet) {
-                    return Visibility.Collapsed;
-                }
-                return Visibility.Visible;
-            }
-        }
 
         public WalletViewModel(IWallet data) : this(data.GetId()) {
             _name = data.Name;

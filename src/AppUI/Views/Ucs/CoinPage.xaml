@@ -498,6 +498,19 @@
                                                     </WrapPanel>
                                                 </controls:KbButton>
                                                 <controls:KbButton 
+                                                    Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
+                                                    Margin="2 0"
+                                                    CornerRadius="2" ToolTip="删除">
+                                                    <WrapPanel>
+                                                        <Path
+                                                        Width="18"
+                                                        Height="18"
+                                                        Data="{StaticResource Icon_Delete}"
+                                                        Fill="{StaticResource IconFillColor}"
+                                                        Stretch="Fill" />
+                                                    </WrapPanel>
+                                                </controls:KbButton>
+                                                <controls:KbButton 
                                                     Margin="2 0"
                                                     Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
                                                     CornerRadius="2" ToolTip="上移">
