@@ -459,9 +459,12 @@
                                     Width="100"
 							        IsSnapToTickEnabled="True"
                                     ToolTip="{DynamicResource DualWeightWarning}"
+                                    LostFocus="DualCoinWeightSlider_LostFocus"
 							        Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
                                     IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"></Slider>
-                                <TextBlock Text="{Binding ElementName=dualCoinWeightSlider, Path=Value}"></TextBlock>
+                                <TextBox 
+                                    Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
+                                    LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
                                 <TextBlock Text="%"></TextBlock>
                             </WrapPanel>
                         </WrapPanel>

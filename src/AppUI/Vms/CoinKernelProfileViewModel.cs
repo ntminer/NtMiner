@@ -47,20 +47,12 @@ namespace NTMiner.Vms {
         }
 
         private double _dualCoinWeight;
-        private DateTime _dualCoinWeightLastUpdateOn = DateTime.MinValue;
         public double DualCoinWeight {
             get => _dualCoinWeight;
             set {
                 if (_dualCoinWeight != value) {
                     _dualCoinWeight = value;
                     OnPropertyChanged(nameof(DualCoinWeight));
-                    if (_dualCoinWeightLastUpdateOn.AddSeconds(2) < DateTime.Now) {
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                            NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(DualCoinWeight), _dualCoinWeight);
-                            Global.Execute(new RefreshArgsAssemblyCommand());
-                        });
-                    }
-                    _dualCoinWeightLastUpdateOn = DateTime.Now;
                 }
             }
         }
