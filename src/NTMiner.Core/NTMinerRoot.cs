@@ -258,11 +258,11 @@ namespace NTMiner {
                 LogEnum.None,
                 action: message => {
                     Task.Factory.StartNew(() => {
-                        Windows.Error.DisableWindowsErrorUI();
-                        Windows.Firewall.DisableFirewall();
-                        Windows.UAC.DisableUAC();
+                        //Windows.Error.DisableWindowsErrorUI();
+                        //Windows.Firewall.DisableFirewall();
+                        //Windows.UAC.DisableUAC();
                         Windows.WAU.DisableWAU();
-                        Windows.Defender.DisableAntiSpyware();
+                        //Windows.Defender.DisableAntiSpyware();
                         Windows.Power.PowerCfgOff();
                         Windows.BcdEdit.IgnoreAllFailures();
                     });
