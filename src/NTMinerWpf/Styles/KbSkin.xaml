@@ -20,6 +20,7 @@
     <SolidColorBrush x:Key="IconFillColor">#1976AC</SolidColorBrush>
     <SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
     <SolidColorBrush x:Key="TransparentBlackColor" Color="#00000000" />
+    <SolidColorBrush x:Key="LableColor" Color="#99000000"></SolidColorBrush>
     <SolidColorBrush x:Key="LineColor">#D9D9D9</SolidColorBrush>
     <SolidColorBrush x:Key="MainColor">#80C7ED</SolidColorBrush>
     

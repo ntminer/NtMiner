@@ -22,7 +22,8 @@
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="LblTb" TargetType="TextBlock">
                 <Setter Property="FontSize" Value="12"></Setter>
-                <Setter Property="Padding" Value="0 0 2 0"></Setter>
+                <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+                <Setter Property="Padding" Value="0 0 4 0"></Setter>
                 <Setter Property="Width" Value="58"></Setter>
                 <Setter Property="VerticalAlignment" Value="Center"></Setter>
                 <Setter Property="TextAlignment" Value="Right"></Setter>

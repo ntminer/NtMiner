@@ -192,7 +192,7 @@
                     </Border>
                     <WrapPanel Grid.Column="0" Grid.Row="0" Margin="0 8 10 0" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <controls:KbButton 
-						    Width="142"
+						    Width="134"
 						    Height="40"
 						    Command="{Binding StartMine}" 
 						    Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
@@ -218,7 +218,7 @@
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border x:Name="Content"
-										Width="142"
+										Width="134"
 										Height="40"
 										Background="{StaticResource IconFillColor}">
                                         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">

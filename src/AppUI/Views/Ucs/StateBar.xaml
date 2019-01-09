@@ -11,6 +11,10 @@
 			 mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <Style x:Key="Lbl" TargetType="Label">
+                <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+                <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+            </Style>
             <sys:String x:Key="BtnCheckUpdate">
                 BtnCheckUpdate
             </sys:String>
@@ -89,37 +93,33 @@
                 <WrapPanel Margin="0 2">
                     <TextBlock
 						Margin="2 0 0 0"
+                        Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="v" />
                     <TextBlock
 						Margin="0"
+                        Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="{Binding CurrentVersion}" />
                     <TextBlock
 						Margin="2 0 0 0"
+                        Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="(" />
                     <TextBlock
 						Margin="0"
+                        Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="{Binding VersionTag}" />
                     <TextBlock
+                        Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text=")" />
-                </WrapPanel>
-                <WrapPanel Margin="0 2">
-                    <controls:KbLinkButton
-						Foreground="#0072C1"
-						Command="{x:Static vm:AppStatic.OpenOfficialSite}"
-						Content="https://github.com/ntminer/ntminer"
-						Background="Transparent"
-						KbSystemButtonHoverBackground="Transparent"
-						KbDisplayLine="False" />
                     <controls:KbButton 
 						Margin="4 0 0 0"
 						Cursor="Hand"
@@ -148,6 +148,15 @@
 							Stretch="Fill" />
                     </controls:KbButton>
                 </WrapPanel>
+                <WrapPanel Margin="0 2">
+                    <controls:KbLinkButton
+						Foreground="#0072C1"
+						Command="{x:Static vm:AppStatic.OpenOfficialSite}"
+						Content="https://github.com/ntminer/ntminer"
+						Background="Transparent"
+						KbSystemButtonHoverBackground="Transparent"
+						KbDisplayLine="False" />
+                </WrapPanel>
             </StackPanel>
 			<StackPanel DockPanel.Dock="Right">
                 <WrapPanel HorizontalAlignment="Right">
@@ -168,8 +177,17 @@
                         </WrapPanel>
                     </controls:KbButton>
                     <WrapPanel>
-                        <TextBlock Text="{DynamicResource TbUnMining}" Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
-                        <TextBlock Text="{DynamicResource TbMining}" Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock 
+                            Text="{DynamicResource TbUnMining}" 
+                            Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+                            FontWeight="Bold" 
+                            Foreground="{StaticResource LableColor}"
+                            VerticalAlignment="Center"></TextBlock>
+                        <TextBlock 
+                            Text="{DynamicResource TbMining}" 
+                            Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}" 
+                            FontWeight="Bold" 
+                            VerticalAlignment="Center"></TextBlock>
                         <TextBlock 
 							Width="103"
 							Text="{Binding MinerProfile.MineTimeSpanText}"
@@ -231,25 +249,30 @@
                             KbSystemButtonHoverBackground="Transparent"
                             Background="Transparent" />
                         <WrapPanel Width="184" Margin="0 2">
-                            <Label Padding="0 0 2 0" Content="{DynamicResource Income}" Margin="0" HorizontalContentAlignment="Right" />
+                            <Label Padding="0 0 2 0" Content="{DynamicResource Income}" Style="{StaticResource Lbl}" />
                             <Button Background="Transparent" BorderThickness="0" 
                                 Content="{Binding MinerProfile.GpuSpeedVms.IncomeMainCoinPerDayText}"
                                 Command="{x:Static vm:AppStatic.ShowCalc}"
                                 CommandParameter="{Binding MinerProfile.CoinVm}">
                             </Button>
-                            <TextBlock Text="{Binding MinerProfile.CoinVm.Code}" Padding="2 0 0 0" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
-                            <Label Padding="1" Content="/" />
-                            <Label Padding="0" Content="{DynamicResource Day}" Margin="0" />
+                            <TextBlock 
+                                Text="{Binding MinerProfile.CoinVm.Code}" 
+                                Padding="2 0 0 0" 
+                                Foreground="{StaticResource LableColor}"
+                                FontWeight="Bold" 
+                                VerticalAlignment="Center"></TextBlock>
+                            <Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
+                            <Label Padding="0" Content="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
                         </WrapPanel>
                         <WrapPanel Width="140" Margin="0 2">
-                            <Label Padding="0" Content="{DynamicResource LblReject}" Margin="0" HorizontalContentAlignment="Right" />
+                            <Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
                             <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
                             <TextBlock Text="/"  />
                             <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
                             <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
                         </WrapPanel>
                         <WrapPanel Width="130" Margin="0 2">
-                            <Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Margin="0" HorizontalContentAlignment="Right" />
+                            <Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
                             <TextBlock Text="{Binding MinerProfile.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
                         </WrapPanel>
                     </WrapPanel>
@@ -265,25 +288,30 @@
                                 KbSystemButtonHoverBackground="Transparent"
                                 Background="Transparent" />
                             <WrapPanel Width="184" Margin="0 2">
-                                <Label Padding="0 0 2 0" Content="{DynamicResource Income}" Margin="0" HorizontalContentAlignment="Right" />
+                                <Label Padding="0 0 2 0" Content="{DynamicResource Income}" Style="{StaticResource Lbl}" />
                                 <Button Background="Transparent" BorderThickness="0" 
                                     Content="{Binding MinerProfile.GpuSpeedVms.IncomeDualCoinPerDayText}"
                                     Command="{x:Static vm:AppStatic.ShowCalc}"
                                     CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
                                 </Button>
-                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" Padding="2 0 0 0" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
-                                <Label Padding="1" Content="/" />
-                                <Label Padding="0" Content="{DynamicResource Day}" Margin="0" />
+                                <TextBlock 
+                                    Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" 
+                                    Padding="2 0 0 0" 
+                                    FontWeight="Bold" 
+                                    Foreground="{StaticResource LableColor}"
+                                    VerticalAlignment="Center"></TextBlock>
+                                <Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
+                                <Label Padding="0" Content="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
                             </WrapPanel>
                             <WrapPanel Width="140" Margin="0 2">
-                                <Label Padding="0" Content="{DynamicResource LblReject}" Margin="0" HorizontalContentAlignment="Right" />
+                                <Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
                                 <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
                                 <TextBlock Text="/"  />
                                 <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
                                 <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
                             </WrapPanel>
                             <WrapPanel Width="130" Margin="0 2">
-                                <Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Margin="0" HorizontalContentAlignment="Right" />
+                                <Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
                                 <TextBlock Text="{Binding MinerProfile.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
                             </WrapPanel>
                         </WrapPanel>
