@@ -19,16 +19,16 @@ namespace NTMiner.Language.Impl {
 
         public static void Export() {
             LangJson data = new LangJson() {
-                Langs = LangSet.Instance.Cast<Lang>().ToList(),
-                LangViewItems = LangViewItemSet.Instance.Cast<LangViewItem>().ToList()
+                Langs = LangSet.Instance.Cast<Lang>().ToArray(),
+                LangViewItems = LangViewItemSet.Instance.Cast<LangViewItem>().ToArray()
             };
             string json = Global.JsonSerializer.Serialize(data);
             File.WriteAllText(Global.ServerLangJsonFileFullName, json);
         }
 
         public LangJson() {
-            this.Langs = new List<Lang>();
-            this.LangViewItems = new List<LangViewItem>();
+            this.Langs = new Lang[0];
+            this.LangViewItems = new LangViewItem[0];
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {
@@ -39,13 +39,13 @@ namespace NTMiner.Language.Impl {
             return GetAll<T>().FirstOrDefault(a => a.GetId() == key);
         }
 
-        public IList<T> GetAll<T>() where T : IDbEntity<Guid> {
+        public IEnumerable<T> GetAll<T>() where T : IDbEntity<Guid> {
             string typeName = typeof(T).Name;
             switch (typeName) {
                 case nameof(Lang):
-                    return (IList<T>)this.Langs;
+                    return this.Langs.Cast<T>();
                 case nameof(LangViewItem):
-                    return (IList<T>)this.LangViewItems;
+                    return this.LangViewItems.Cast<T>();
                 default:
                     return new List<T>();
             }
@@ -53,7 +53,7 @@ namespace NTMiner.Language.Impl {
 
         public ulong TimeStamp { get; set; }
 
-        public List<Lang> Langs { get; set; }
-        public List<LangViewItem> LangViewItems { get; set; }
+        public Lang[] Langs { get; set; }
+        public LangViewItem[] LangViewItems { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Repositories {
     public interface IRepository<T> where T : class, IDbEntity<Guid> {
-        IList<T> GetAll();
+        IEnumerable<T> GetAll();
 
         T GetByKey(Guid key);
 

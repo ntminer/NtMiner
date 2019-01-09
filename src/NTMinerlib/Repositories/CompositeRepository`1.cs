@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Repositories {
     public class CompositeRepository<T> : IRepository<T> where T : class, ILevelEntity<Guid> {
@@ -10,7 +11,7 @@ namespace NTMiner.Repositories {
             _profileRepository = profileRepository;
         }
 
-        public IList<T> GetAll() {
+        public IEnumerable<T> GetAll() {
             var globalResults = _globalRepository.GetAll();
             foreach (var item in globalResults) {
                 item.SetDataLevel(DataLevel.Global);
@@ -18,7 +19,7 @@ namespace NTMiner.Repositories {
             if (DevMode.IsDevMode) {
                 return globalResults;
             }
-            var list = globalResults;
+            var list = globalResults.ToList();
             foreach (var item in _profileRepository.GetAll()) {
                 item.SetDataLevel(DataLevel.Profile);
                 list.Add(item);

@@ -20,32 +20,32 @@ namespace NTMiner.Core.Impl {
         public static void Export() {
             INTMinerRoot root = NTMinerRoot.Current;
             ServerJson data = new ServerJson() {
-                CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToList(),
-                Coins = root.CoinSet.Cast<CoinData>().ToList(),
-                Groups = root.GroupSet.Cast<GroupData>().ToList(),
-                CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToList(),
-                KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToList(),
-                KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToList(),
-                Kernels = root.KernelSet.Cast<KernelData>().ToList(),
+                CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToArray(),
+                Coins = root.CoinSet.Cast<CoinData>().ToArray(),
+                Groups = root.GroupSet.Cast<GroupData>().ToArray(),
+                CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray(),
+                KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray(),
+                KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray(),
+                Kernels = root.KernelSet.Cast<KernelData>().ToArray(),
                 Pools = root.PoolSet.Cast<PoolData>().ToArray(),
-                SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToList(),
-                SysDics = root.SysDicSet.Cast<SysDicData>().ToList()
+                SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray(),
+                SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
             };
             string json = Global.JsonSerializer.Serialize(data);
             File.WriteAllText(SpecialPath.ServerJsonFileFullName, json);
         }
 
         private ServerJson() {
-            this.Coins = new List<CoinData>();
-            this.Groups = new List<GroupData>();
-            this.CoinGroups = new List<CoinGroupData>();
-            this.CoinKernels = new List<CoinKernelData>();
-            this.Kernels = new List<KernelData>();
-            this.KernelOutputFilters = new List<KernelOutputFilterData>();
-            this.KernelOutputTranslaters = new List<KernelOutputTranslaterData>();
+            this.Coins = new CoinData[0];
+            this.Groups = new GroupData[0];
+            this.CoinGroups = new CoinGroupData[0];
+            this.CoinKernels = new CoinKernelData[0];
+            this.Kernels = new KernelData[0];
+            this.KernelOutputFilters = new KernelOutputFilterData[0];
+            this.KernelOutputTranslaters = new KernelOutputTranslaterData[0];
             this.Pools = new PoolData[0];
-            this.SysDics = new List<SysDicData>();
-            this.SysDicItems = new List<SysDicItemData>();
+            this.SysDics = new SysDicData[0];
+            this.SysDicItems = new SysDicItemData[0];
             this.TimeStamp = Global.GetTimestamp();
         }
 
@@ -61,25 +61,25 @@ namespace NTMiner.Core.Impl {
             string typeName = typeof(T).Name;
             switch (typeName) {
                 case nameof(CoinData):
-                    return (IList<T>)this.Coins;
+                    return this.Coins.Cast<T>();
                 case nameof(GroupData):
-                    return (IList<T>)this.Groups;
+                    return this.Groups.Cast<T>();
                 case nameof(CoinGroupData):
-                    return (IList<T>)this.CoinGroups;
+                    return this.CoinGroups.Cast<T>();
                 case nameof(CoinKernelData):
-                    return (IList<T>)this.CoinKernels;
+                    return this.CoinKernels.Cast<T>();
                 case nameof(KernelData):
-                    return (IList<T>)this.Kernels;
+                    return this.Kernels.Cast<T>();
                 case nameof(KernelOutputTranslaterData):
-                    return (IList<T>)this.KernelOutputTranslaters;
+                    return this.KernelOutputTranslaters.Cast<T>();
                 case nameof(KernelOutputFilterData):
-                    return (IList<T>)this.KernelOutputFilters;
+                    return this.KernelOutputFilters.Cast<T>();
                 case nameof(PoolData):
                     return this.Pools.Cast<T>();
                 case nameof(SysDicData):
-                    return (IList<T>)this.SysDics;
+                    return this.SysDics.Cast<T>();
                 case nameof(SysDicItemData):
-                    return (IList<T>)this.SysDicItems;
+                    return this.SysDicItems.Cast<T>();
                 default:
                     return new List<T>();
             }
@@ -87,24 +87,24 @@ namespace NTMiner.Core.Impl {
 
         public ulong TimeStamp { get; set; }
 
-        public List<CoinData> Coins { get; set; }
+        public CoinData[] Coins { get; set; }
 
-        public List<GroupData> Groups { get; set; }
+        public GroupData[] Groups { get; set; }
 
-        public List<CoinGroupData> CoinGroups { get; set; }
+        public CoinGroupData[] CoinGroups { get; set; }
 
-        public List<CoinKernelData> CoinKernels { get; set; }
+        public CoinKernelData[] CoinKernels { get; set; }
 
-        public List<KernelData> Kernels { get; set; }
+        public KernelData[] Kernels { get; set; }
 
-        public List<KernelOutputTranslaterData> KernelOutputTranslaters { get; set; }
+        public KernelOutputTranslaterData[] KernelOutputTranslaters { get; set; }
 
-        public List<KernelOutputFilterData> KernelOutputFilters { get; set; }
+        public KernelOutputFilterData[] KernelOutputFilters { get; set; }
 
         public PoolData[] Pools { get; set; }
 
-        public List<SysDicData> SysDics { get; set; }
+        public SysDicData[] SysDics { get; set; }
 
-        public List<SysDicItemData> SysDicItems { get; set; }
+        public SysDicItemData[] SysDicItems { get; set; }
     }
 }

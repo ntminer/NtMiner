@@ -14,7 +14,7 @@ namespace NTMiner.Language.Impl {
             return LangJson.Instance.Exists<T>(key);
         }
 
-        public IList<T> GetAll() {
+        public IEnumerable<T> GetAll() {
             return LangJson.Instance.GetAll<T>();
         }
 

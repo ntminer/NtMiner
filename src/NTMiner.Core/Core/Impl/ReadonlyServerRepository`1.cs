@@ -15,8 +15,8 @@ namespace NTMiner.Core.Impl {
             return ServerJson.Instance.Exists<T>(key);
         }
 
-        public IList<T> GetAll() {
-            return ServerJson.Instance.GetAll<T>().ToList();
+        public IEnumerable<T> GetAll() {
+            return ServerJson.Instance.GetAll<T>();
         }
 
         public T GetByKey(Guid key) {

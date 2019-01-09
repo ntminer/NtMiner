@@ -10,7 +10,7 @@ namespace NTMiner.Repositories {
             _dbFile = dbFile;
         }
 
-        public IList<T> GetAll() {
+        public IEnumerable<T> GetAll() {
             using (LiteDatabase db = new LiteDatabase($"filename={_dbFile};journal=false")) {
                 return db.GetCollection<T>().FindAll().ToList();
             }

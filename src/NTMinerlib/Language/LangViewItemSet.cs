@@ -98,7 +98,7 @@ namespace NTMiner.Language {
             lock (_locker) {
                 if (!_isInited) {
                     IRepository<LangViewItem> repository = Repository.CreateLanguageRepository<LangViewItem>();
-                    IList<LangViewItem> langItems = repository.GetAll();
+                    var langItems = repository.GetAll();
                     foreach (var lang in LangSet.Instance) {
                         var dic = new Dictionary<string, List<ILangViewItem>>();
                         _dicByLangAndView.Add(lang.GetId(), dic);
