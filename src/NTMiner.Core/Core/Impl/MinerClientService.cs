@@ -17,6 +17,11 @@ namespace NTMiner.Core.Impl {
             return Global.JsonSerializer.Deserialize<T>(json);
         }
 
+        public bool ShowMainWindow() {
+            Global.Execute(new ShowMainWindowCommand());
+            return true;
+        }
+
         public void StartMine(string desKey, string data) {
             if (string.IsNullOrEmpty(desKey) || string.IsNullOrEmpty(data)) {
                 return;

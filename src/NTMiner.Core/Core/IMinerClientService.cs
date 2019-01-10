@@ -5,6 +5,9 @@ namespace NTMiner.Core {
     [ServiceContract]
     public interface IMinerClientService : IDisposable {
         [OperationContract]
+        bool ShowMainWindow();
+
+        [OperationContract]
         void StartMine(string desKey, string data);
 
         [OperationContract]

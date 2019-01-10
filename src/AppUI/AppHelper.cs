@@ -1,13 +1,8 @@
 ﻿using NTMiner.Views;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Pipes;
-using System.Security.Principal;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace NTMiner {
@@ -19,10 +14,6 @@ namespace NTMiner {
             startInfo.Verb = "runas";
             Process.Start(startInfo);
             Application.Current.Shutdown();
-        }
-
-        public static SolidColorBrush GetSolidColor(string key) {
-            return (SolidColorBrush)Application.Current.Resources[key];
         }
 
         #region Init
@@ -46,81 +37,34 @@ namespace NTMiner {
         }
         #endregion
 
-        #region MainWindowShowed
-        public static void MainWindowShowed() {
-            try {
-                var resultPipeClient = new NamedPipeClientStream(".", "resultPipName", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
-                resultPipeClient.Connect(200);
-                StreamWriter sw = new StreamWriter(resultPipeClient);
-                sw.WriteLine("MainWindowShowed");
-                sw.Flush();
-                sw.Close();
-            }
-            catch (Exception ex) {
-                Global.Logger.ErrorDebugLine(ex.Message, ex);
-            }
-        }
-        #endregion
-
-        #region RunPipeServer
-        public static void RunPipeServer(Application app, string appPipName) {
-            while (true) {
-                try {
-                    NamedPipeServerStream pipeServer = new NamedPipeServerStream(appPipName, PipeDirection.InOut, 2);
-                    pipeServer.WaitForConnection();
-                    StreamReader sr = new StreamReader(pipeServer);
-                    string recData = sr.ReadLine();
-                    if (recData == "ShowMainWindow") {
-                        Global.Execute(new ShowMainWindowCommand());
-                    }
-                    else if (recData == "CloseMainWindow") {
-                        Execute.OnUIThread(() => {
-                            app.MainWindow.Close();
-                        });
-                    }
-                    sr.Close();
-                }
-                catch (Exception ex) {
-                    Global.Logger.ErrorDebugLine(ex.Message, ex);
-                }
-            }
-        }
-        #endregion
-
         #region ShowMainWindow
         public static void ShowMainWindow(Application app, string appPipName) {
-            Task.Factory.StartNew(() => {
-                RunResultPipServer(app);
-            });
             try {
-                var pipeClient = new NamedPipeClientStream(".", appPipName, PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
-                pipeClient.Connect(200);
-                StreamWriter sw = new StreamWriter(pipeClient);
-                sw.WriteLine("ShowMainWindow");
-                sw.Flush();
-                Thread.Sleep(1000);
-                sw.Close();
-            }
-            catch (Exception ex) {
-                NTMinerClientDaemon.Instance.RestartNTMiner(Global.Localhost, Global.ClientPort, CommandLineArgs.WorkId, null);
-                Global.Logger.ErrorDebugLine(ex.Message, ex);
-            }
-            TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                Process thisProcess = Process.GetCurrentProcess();
-                foreach (var process in Process.GetProcessesByName(thisProcess.ProcessName)) {
-                    if (process.Id != thisProcess.Id) {
-                        try {
-                            Windows.TaskKill.Kill(process.Id);
-                        }
-                        catch {
-                        }
-                    }
+                if (!MinerClientService.Instance.ShowMainWindow(Global.Localhost)) {
+                    RestartNTMiner();
                 }
-                Windows.Cmd.RunClose(ClientId.AppFileFullName, string.Join(" ", CommandLineArgs.Args));
                 Execute.OnUIThread(() => {
                     app.Shutdown();
                 });
-            });
+            }
+            catch (Exception ex) {
+                RestartNTMiner();
+                Global.Logger.ErrorDebugLine(ex.Message, ex);
+            }
+        }
+
+        private static void RestartNTMiner() {
+            Process thisProcess = Process.GetCurrentProcess();
+            foreach (var process in Process.GetProcessesByName(thisProcess.ProcessName)) {
+                if (process.Id != thisProcess.Id) {
+                    try {
+                        Windows.TaskKill.Kill(process.Id);
+                    }
+                    catch {
+                    }
+                }
+            }
+            Windows.Cmd.RunClose(ClientId.AppFileFullName, string.Join(" ", CommandLineArgs.Args));
         }
         #endregion
 
@@ -134,26 +78,6 @@ namespace NTMiner {
             }
             else {
                 Global.Logger.ErrorDebugLine(e);
-            }
-        }
-
-        private static void RunResultPipServer(Application app) {
-            while (true) {
-                try {
-                    NamedPipeServerStream pipeServer = new NamedPipeServerStream("resultPipName", PipeDirection.InOut, 2);
-                    pipeServer.WaitForConnection();
-                    StreamReader sr = new StreamReader(pipeServer);
-                    string recData = sr.ReadLine();
-                    if (recData == "MainWindowShowed") {
-                        Execute.OnUIThread(() => {
-                            app.Shutdown();
-                        });
-                    }
-                    sr.Close();
-                }
-                catch (Exception ex) {
-                    Global.Logger.ErrorDebugLine(ex.Message, ex);
-                }
             }
         }
         #endregion

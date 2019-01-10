@@ -33,6 +33,22 @@ namespace NTMiner {
             return ChannelFactory.CreateChannel<IMinerClientService>(host, Global.ClientPort);
         }
 
+        public bool ShowMainWindow(string host) {
+            try {
+                using (var service = CreateService(host)) {
+                    return service.ShowMainWindow();
+                }
+            }
+            catch (CommunicationException e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+                return false;
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+                return false;
+            }
+        }
+
         public void StartMine(string host, string pubKey, Guid workId, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {

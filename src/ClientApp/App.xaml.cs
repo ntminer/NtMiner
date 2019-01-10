@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -105,7 +104,6 @@ namespace NTMiner {
                     action: message => {
                         Execute.OnUIThread(() => {
                             Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
-                            AppHelper.MainWindowShowed();
                         });
                     });
                 #endregion
@@ -158,9 +156,6 @@ namespace NTMiner {
                         Current.MainWindow.Close();
                     });
                 #endregion
-                Task.Factory.StartNew(() => {
-                    AppHelper.RunPipeServer(this, _appPipName);
-                });
                 try {
                     NTMinerRoot.Current.Start();
                 }

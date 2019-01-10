@@ -2,7 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -73,13 +72,9 @@ namespace NTMiner {
                                 action: message => {
                                     Execute.OnUIThread(() => {
                                         Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
-                                        AppHelper.MainWindowShowed();
                                     });
                                 });
                             #endregion
-                            Task.Factory.StartNew(() => {
-                                AppHelper.RunPipeServer(this, _appPipName);
-                            });
                         }
                         splashWindow?.Close();
                     });
