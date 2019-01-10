@@ -545,7 +545,7 @@ namespace NTMiner {
                     });
                 }
                 if (!string.IsNullOrEmpty(mineContext.Kernel.Notice)) {
-                    Global.Logger.WarnDebugLine(mineContext.Kernel.Notice);
+                    Global.Logger.WarnWriteLine(mineContext.Kernel.Notice);
                 }
                 Global.Happened(new MineStartedEvent(mineContext));
             }
