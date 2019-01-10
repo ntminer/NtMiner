@@ -166,7 +166,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (PoolViewModels.Current.AllPools.Any(a => a.Name == value && a.Id != this.Id)) {
+                    if (PoolViewModels.Current.AllPools.Any(a => a.Name == value && a.Id != this.Id && a.CoinId == this.CoinId)) {
                         throw new ValidationException("名称重复");
                     }
                 }

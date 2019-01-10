@@ -21,8 +21,8 @@ namespace NTMiner.Vms {
                     _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
                     OnPropertyChanged(nameof(AllCoins));
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     OnPropertyChanged(nameof(MainCoins));
+                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     OnPropertyChanged(nameof(PleaseSelect));
                     OnPropertyChanged(nameof(DualPleaseSelect));
                 });
@@ -34,8 +34,8 @@ namespace NTMiner.Vms {
                     _dicById.Remove(message.Source.GetId());
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
                     OnPropertyChanged(nameof(AllCoins));
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     OnPropertyChanged(nameof(MainCoins));
+                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     OnPropertyChanged(nameof(PleaseSelect));
                     OnPropertyChanged(nameof(DualPleaseSelect));
                 });
@@ -48,7 +48,6 @@ namespace NTMiner.Vms {
                     bool justAsDualCoin = coinVm.JustAsDualCoin;
                     coinVm.Update(message.Source);
                     coinVm.TestWalletVm.Address = message.Source.TestWallet;
-
                     coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                     if (MinerProfileViewModel.Current.CoinId == message.Source.GetId()) {
                         MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));

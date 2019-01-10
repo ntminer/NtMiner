@@ -62,10 +62,10 @@ namespace NTMiner.Vms {
                     list = CoinViewModels.Current.AllCoins.
                         Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.Algo) && a.Algo.ToLower().Contains(keyword))
-                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.ToLower().Contains(keyword))).ToList();
+                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.ToLower().Contains(keyword))).OrderBy(a => a.SortNumber).ToList();
                 }
                 else {
-                    list = CoinViewModels.Current.AllCoins;
+                    list = CoinViewModels.Current.AllCoins.OrderBy(a => a.SortNumber).ToList();
                 }
                 if (list.Count == 1) {
                     CurrentCoin = list.FirstOrDefault();
@@ -76,7 +76,7 @@ namespace NTMiner.Vms {
                 else {
                     CurrentCoin = list.FirstOrDefault(a => a.Id == CurrentCoin.Id);
                 }
-                return list.ToList();
+                return list;
             }
         }
         #endregion

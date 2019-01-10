@@ -37,6 +37,8 @@ namespace NTMiner {
                 {"mainCoin", mainCoin.Code },
                 {"mainAlgo", mainCoin.Algo },
                 {"wallet", wallet },
+                {"host", mainCoinPool.GetHost() },
+                {"port", mainCoinPool.GetPort().ToString() },
                 {"pool", pool },
                 {"worker", this.MinerProfile.MinerName }
             };// 这里不要考虑{logfile}，{logfile}往后推迟
@@ -56,6 +58,8 @@ namespace NTMiner {
                             argsDic.Add("dualCoin", dualCoin.Code);
                             argsDic.Add("dualAlgo", dualCoin.Algo);
                             argsDic.Add("dualWallet", dualWallet);
+                            argsDic.Add("dualHost", dualCoinPool.GetHost());
+                            argsDic.Add("dualPort", dualCoinPool.GetPort().ToString());
                             argsDic.Add("dualPool", dualPool);
 
                             kernelArgs = kernel.DualFullArgs;
@@ -95,6 +99,8 @@ namespace NTMiner {
             args = args.Replace("{mainCoin}", prms["mainCoin"]);
             args = args.Replace("{mainAlgo}", prms["mainAlgo"]);
             args = args.Replace("{wallet}", prms["wallet"]);
+            args = args.Replace("{host}", prms["host"]);
+            args = args.Replace("{port}", prms["port"]);
             args = args.Replace("{pool}", prms["pool"]);
             args = args.Replace("{worker}", prms["worker"]);
             args = args.Replace("{wallet}", prms["wallet"]);
@@ -102,6 +108,8 @@ namespace NTMiner {
                 args = args.Replace("{dualCoin}", prms["dualCoin"]);
                 args = args.Replace("{dualAlgo}", prms["dualAlgo"]);
                 args = args.Replace("{dualWallet}", prms["dualWallet"]);
+                args = args.Replace("{dualHost}", prms["dualHost"]);
+                args = args.Replace("{dualPort}", prms["dualPort"]);
                 args = args.Replace("{dualPool}", prms["dualPool"]);
             }
             // 这里不要考虑{logfile}，{logfile}往后推迟

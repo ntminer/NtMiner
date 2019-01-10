@@ -107,6 +107,8 @@ namespace NTMiner.Vms {
                     Global.Execute(new UpdateCoinCommand(upOne));
                     this.SortNumber = sortNumber;
                     Global.Execute(new UpdateCoinCommand(this));
+                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
+                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
                 }
             });
@@ -118,6 +120,8 @@ namespace NTMiner.Vms {
                     Global.Execute(new UpdateCoinCommand(nextOne));
                     this.SortNumber = sortNumber;
                     Global.Execute(new UpdateCoinCommand(this));
+                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
+                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
                 }
             });

@@ -382,12 +382,12 @@
                         </controls:KbLinkButton>
                         <TextBox 
                             Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True" 
-                            AcceptsReturn="True" TextWrapping="Wrap">mainCoin、mainAlgo、wallet、pool、worker</TextBox>
+                            AcceptsReturn="True" TextWrapping="Wrap">mainCoin、mainAlgo、wallet、host、port、pool、worker</TextBox>
                         <TextBox 
                             Margin="0"
                             Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
                             Width="100" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" 
-                            TextWrapping="Wrap">dualCoin、dualAlgo、dualWallet、dualPool</TextBox>
+                            TextWrapping="Wrap">dualCoin、dualAlgo、dualWallet、dualHost、dualPort、dualPool</TextBox>
                     </StackPanel>
 
                     <controls:KbButton

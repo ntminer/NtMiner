@@ -4,7 +4,11 @@ using System.Net;
 
 namespace NTMiner.Core {
     public static class PoolExtensions {
-        private static string GetHost(string poolServer) {
+        public static string GetHost(this IPool pool) {
+            if (pool == null) {
+                return string.Empty;
+            }
+            string poolServer = pool.Server;
             if (string.IsNullOrEmpty(poolServer)) {
                 return string.Empty;
             }
@@ -24,7 +28,7 @@ namespace NTMiner.Core {
                 return _ipDic[pool];
             }
             try {
-                string hostNameOrAddress = GetHost(pool.Server);
+                string hostNameOrAddress = GetHost(pool);
                 IPAddress[] ips = Dns.GetHostAddresses(hostNameOrAddress);
                 string ip;
                 if (ips.Length > 0) {
