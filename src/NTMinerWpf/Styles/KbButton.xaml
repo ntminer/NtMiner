@@ -85,7 +85,7 @@
                                 x:Name="Content"
                                 Width="12"
                                 Height="12"
-                                Data="F1M0,0L0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3z"
+                                Data="{TemplateBinding Icon}"
                                 Fill="{Binding KbSystemButtonForeground, RelativeSource={RelativeSource TemplatedParent}}"
                                 UseLayoutRounding="True"
                                 Stretch="Fill" />
