@@ -2,9 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Pipes;
-using System.Security.Principal;
-using System.Threading;
 
 namespace NTMiner {
     public class NTMinerDaemonService : INTMinerDaemonService {
@@ -85,29 +82,9 @@ namespace NTMiner {
             }
         }
 
-        private static NamedPipeClientStream _pipeClient;
-        private static void CloseNTMinerMainWindow() {
-            try {
-                Process[] ntMinerProcesses = Process.GetProcessesByName("NTMiner");
-                if (ntMinerProcesses.Length == 0) {
-                    return;
-                }
-                _pipeClient = new NamedPipeClientStream(".", "ntminerclient", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
-                _pipeClient.Connect(200);
-                StreamWriter sw = new StreamWriter(_pipeClient);
-                sw.WriteLine("CloseMainWindow");
-                Thread.Sleep(1000);
-                sw.Flush();
-                sw.Close();
-            }
-            catch (Exception ex) {
-                Global.Logger.ErrorDebugLine(ex.Message, ex);
-            }
-        }
-
         public void RestartNTMiner(Guid workId) {
             try {
-                CloseNTMinerMainWindow();
+                CloseNTMiner();
                 string location = GetNTMinerLocation();
                 string arguments = GetNTMinerArguments(workId);
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
