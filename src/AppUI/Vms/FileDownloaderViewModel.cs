@@ -82,7 +82,7 @@ namespace NTMiner.Vms {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     if (isSuccess) {
-                        Global.Logger.InfoDebugLine("LiteDBExplorerPortable.zip下载成功");
+                        Global.Logger.OkDebugLine("LiteDBExplorerPortable.zip下载成功");
                     }
                     string message = "下载成功";
                     if (e.Error != null) {

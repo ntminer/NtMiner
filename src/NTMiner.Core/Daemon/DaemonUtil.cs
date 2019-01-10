@@ -52,7 +52,7 @@ namespace NTMiner.Daemon {
                     ExtractResource(name);
                 }
                 Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty);
-                Global.Logger.InfoDebugLine("守护进程启动成功");
+                Global.Logger.OkDebugLine("守护进程启动成功");
             });
         }
 
@@ -61,7 +61,7 @@ namespace NTMiner.Daemon {
                 if (!File.Exists(SpecialPath.DevConsoleFileFullName)) {
                     string name = "DevConsole.exe";
                     ExtractResource(name);
-                    Global.Logger.InfoDebugLine("DevConsole解压成功");
+                    Global.Logger.OkDebugLine("DevConsole解压成功");
                 }
                 else if (HashUtil.Sha1(File.ReadAllBytes(SpecialPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
                     try {
@@ -72,11 +72,11 @@ namespace NTMiner.Daemon {
                     }
                     string name = "DevConsole.exe";
                     ExtractResource(name);
-                    Global.Logger.InfoDebugLine("发现新版DevConsole，更新成功");
+                    Global.Logger.OkDebugLine("发现新版DevConsole，更新成功");
                 }
                 string argument = poolIp + " " + consoleTitle;
                 Process.Start(SpecialPath.DevConsoleFileFullName, argument);
-                Global.Logger.InfoDebugLine("DevConsole启动成功");
+                Global.Logger.OkDebugLine("DevConsole启动成功");
             });
         }
 

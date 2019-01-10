@@ -56,13 +56,13 @@ namespace NTMiner.NoDevFee {
                 bool ranOnce = false;
 
                 string filter = $"outbound && ip && ip.DstAddr == {poolIp} && tcp && tcp.PayloadLength > 100";
-                Global.Logger.WarnDebugLine(filter);
+                Global.Logger.InfoDebugLine(filter);
                 IntPtr divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
                 object locker = new object();
 
                 if (divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
-                        Global.Logger.WarnDebugLine($"{coin} divertHandle 守护程序开启");
+                        Global.Logger.InfoDebugLine($"{coin} divertHandle 守护程序开启");
                         while (contextId == _contextId) {
                             System.Threading.Thread.Sleep(1000);
                         }
@@ -74,7 +74,7 @@ namespace NTMiner.NoDevFee {
                         }
                     });
 
-                    Global.Logger.WarnDebugLine($"{Environment.ProcessorCount}并行");
+                    Global.Logger.InfoDebugLine($"{Environment.ProcessorCount}并行");
                     Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
                         RunDiversion(
                             divertHandle: divertHandle, 
@@ -96,7 +96,7 @@ namespace NTMiner.NoDevFee {
                             divertHandle = IntPtr.Zero;
                         }
                     }
-                    Global.Logger.WarnDebugLine($"{coin} NoDevFee closed");
+                    Global.Logger.OkDebugLine($"{coin} NoDevFee closed");
                 }
                 else {
                     Global.Logger.WarnDebugLine($"{coin} NoDevFee start failed");
@@ -126,7 +126,7 @@ namespace NTMiner.NoDevFee {
             try {
                 while (true) {
                     if (contextId != _contextId) {
-                        Global.Logger.WarnDebugLine("挖矿上下文已变，NoDevFee结束");
+                        Global.Logger.OkDebugLine("挖矿上下文已变，NoDevFee结束");
                         return;
                     }
                     uint readLength = 0;
@@ -138,7 +138,7 @@ namespace NTMiner.NoDevFee {
 
                     if (!ranOnce && readLength > 1) {
                         ranOnce = true;
-                        Global.Logger.WarnDebugLine("Diversion running..");
+                        Global.Logger.InfoDebugLine("Diversion running..");
                     }
 
                     fixed (byte* inBuf = packet) {
@@ -153,19 +153,19 @@ namespace NTMiner.NoDevFee {
                                 arrow = $"{dstIp}:{dstPort}<-";
                             }
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
-                            Global.Logger.WarnDebugLine(arrow + text);
+                            Global.Logger.InfoDebugLine(arrow + text);
                             int position;
                             if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out position)) {
-                                Global.Logger.WarnDebugLine(arrow + text);
+                                Global.Logger.InfoDebugLine(arrow + text);
                                 string dwallet = Encoding.UTF8.GetString(packet, position, byteTestWallet.Length);                                
                                 if (dwallet != ourWallet) {
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Global.Logger.WarnDebugLine(msg);
                                     Buffer.BlockCopy(byteTestWallet, 0, packet, position, byteTestWallet.Length);
-                                    Global.Logger.WarnDebugLine($"::Diverting {kernelFullName} DevFee {++counter}: ({DateTime.Now})");
-                                    Global.Logger.WarnDebugLine($"::Destined for: {dwallet}");
-                                    Global.Logger.WarnDebugLine($"::Diverted to :  {testWallet}");
-                                    Global.Logger.WarnDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
+                                    Global.Logger.InfoDebugLine($"::Diverting {kernelFullName} DevFee {++counter}: ({DateTime.Now})");
+                                    Global.Logger.InfoDebugLine($"::Destined for: {dwallet}");
+                                    Global.Logger.InfoDebugLine($"::Diverted to :  {testWallet}");
+                                    Global.Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
                                 }
                             }
                         }

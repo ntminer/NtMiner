@@ -31,7 +31,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     Execute.OnUIThread(() => {
                         bool isSuccess = !e.Cancelled && e.Error == null;
                         if (isSuccess) {
-                            Global.Logger.InfoDebugLine(package + "下载成功");
+                            Global.Logger.OkDebugLine(package + "下载成功");
                         }
                         string message = "下载成功";
                         if (e.Error != null) {

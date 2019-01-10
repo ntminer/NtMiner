@@ -526,7 +526,7 @@ namespace NTMiner {
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    Global.Logger.InfoDebugLine(kernel.FullName + "本地内核包不存在，触发自动下载");
+                    Global.Logger.WarnDebugLine(kernel.FullName + "本地内核包不存在，触发自动下载");
                     if (KernelDownloader == null) {
                         throw new InvalidProgramException("为赋值NTMinerRoot.KernelDownloader");
                     }
