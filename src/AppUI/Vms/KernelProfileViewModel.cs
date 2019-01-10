@@ -4,6 +4,7 @@ using NTMiner.Views;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -147,6 +148,10 @@ namespace NTMiner.Vms {
                 return;
             }
             this.IsDownloading = true;
+            var otherSamePackageKernelVms = KernelViewModels.Current.AllKernels.Where(a => a.Package == this._kernelVm.Package && a != this._kernelVm).ToList();
+            foreach (var kernelVm in otherSamePackageKernelVms) {
+                kernelVm.KernelProfileVm.IsDownloading = true;
+            }
             string package = _kernelVm.Package;
             NTMinerRoot.Current.PackageDownloader.Download(package, progressChanged: (percent) => {
                 this.DownloadMessage = percent + "%";
@@ -158,10 +163,16 @@ namespace NTMiner.Vms {
                     File.Copy(saveFileFullName, Path.Combine(SpecialPath.PackagesDirFullName, package), overwrite: true);
                     File.Delete(saveFileFullName);
                     this.IsDownloading = false;
+                    foreach (var kernelVm in otherSamePackageKernelVms) {
+                        kernelVm.KernelProfileVm.IsDownloading = false;
+                    }
                 }
                 else {
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                         this.IsDownloading = false;
+                        foreach (var kernelVm in otherSamePackageKernelVms) {
+                            kernelVm.KernelProfileVm.IsDownloading = false;
+                        }
                     });
                 }
                 downloadComplete?.Invoke(isSuccess, message);
