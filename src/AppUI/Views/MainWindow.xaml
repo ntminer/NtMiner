@@ -370,7 +370,7 @@
                 Background="Transparent"
 				VerticalScrollBarVisibility="Auto"
 				x:Name="RichTextBoxDebug" BorderThickness="0" 
-				IsReadOnly="True" FontSize="12" FontFamily="宋体"
+				IsReadOnly="True" FontSize="12"
 				Padding="0 0 0 4" Foreground="White">
                 <FlowDocument>
                     <Paragraph x:Name="ConsoleParagraphDebug" LineHeight="14">

@@ -73,7 +73,7 @@
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="26"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <WrapPanel Grid.Row="0" VerticalAlignment="Center">
@@ -279,10 +279,6 @@
                         </WrapPanel>
                     </controls:KbTabItem.Header>
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="631*"/>
-                        </Grid.ColumnDefinitions>
                         <DataGrid ItemsSource="{Binding CurrentCoin.Pools}" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
                             MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36" Grid.ColumnSpan="2">
                             <DataGrid.Resources>

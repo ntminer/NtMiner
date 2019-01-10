@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
 
         public CalcConfigSet(INTMinerRoot root) {
             _root = root;
-            BootLog.Log(this.GetType().FullName + "接入总线");
+            Global.Logger.Debug(this.GetType().FullName + "接入总线");
         }
 
         private DateTime _initedOn = DateTime.MinValue;

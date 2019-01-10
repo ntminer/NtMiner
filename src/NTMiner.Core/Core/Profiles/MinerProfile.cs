@@ -35,7 +35,7 @@ namespace NTMiner.Core.Profiles {
             if (_data == null) {
                 throw new ValidationException("未获取到MinerProfileData数据，请重试");
             }
-            BootLog.Log(this.GetType().FullName + "接入总线");
+            Global.Logger.Debug(this.GetType().FullName + "接入总线");
         }
 
         public Guid GetId() {

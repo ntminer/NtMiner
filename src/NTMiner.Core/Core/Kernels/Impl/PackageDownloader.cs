@@ -8,7 +8,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public PackageDownloader(INTMinerRoot root) {
             _root = root;
-            BootLog.Log(this.GetType().FullName + "接入总线");
+            Global.Logger.Debug(this.GetType().FullName + "接入总线");
         }
 
         public void Download(

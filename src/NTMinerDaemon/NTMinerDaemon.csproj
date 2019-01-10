@@ -99,7 +99,6 @@
     <Compile Include="..\NTMinerlib\Windows\TaskKill.cs">
       <Link>Windows\TaskKill.cs</Link>
     </Compile>
-    <Compile Include="BootLog.cs" />
     <Compile Include="DaemonServer.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="INTMinerDaemonService.cs" />

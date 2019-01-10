@@ -71,7 +71,7 @@
             Grid.Row="1"
 			VerticalScrollBarVisibility="Auto"
 			x:Name="RichTextBox" BorderThickness="0" 
-			IsReadOnly="True" FontSize="12" FontFamily="宋体"
+			IsReadOnly="True" FontSize="12"
 			Padding="0 0 0 4" Background="Black" Foreground="White">
             <FlowDocument>
                 <Paragraph x:Name="ConsoleParagraph" LineHeight="14">

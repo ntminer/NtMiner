@@ -17,8 +17,8 @@ namespace NTMiner {
         private Mutex mutexApp;
 
         public App() {
-            BootLog.SetLogDir(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs"));
-            BootLog.Log("App.ctor start");
+            Global.SetLogDir(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs"));
+            Global.Logger.Debug("App.ctor start");
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 var exception = e.ExceptionObject as Exception;
                 if (exception != null) {
@@ -33,10 +33,10 @@ namespace NTMiner {
 
             Execute.InitializeWithDispatcher();
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
-            BootLog.Log("App.InitializeComponent start");
+            Global.Logger.Debug("App.InitializeComponent start");
             InitializeComponent();
-            BootLog.Log("App.InitializeComponent end");
-            BootLog.Log("App.ctor end");
+            Global.Logger.Debug("App.InitializeComponent end");
+            Global.Logger.Debug("App.ctor end");
         }
 
         private void Handle(Exception e) {
@@ -81,7 +81,6 @@ namespace NTMiner {
 
             this.MainWindow = new MainWindow();
             this.MainWindow.Show();
-            BootLog.SyncToDisk();
         }
 
         [DllImport("User32.dll")]

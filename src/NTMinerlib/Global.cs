@@ -22,6 +22,15 @@ namespace NTMiner {
             }
         }
 
+        private static string _logDir;
+        public static string LogDir {
+            get { return _logDir; }
+        }
+
+        public static void SetLogDir(string fullPath) {
+            _logDir = fullPath;
+        }
+
         public static string LangDbFileFullName { get; private set; }
 
         public static string LocalLangJsonFileFullName { get; private set; }

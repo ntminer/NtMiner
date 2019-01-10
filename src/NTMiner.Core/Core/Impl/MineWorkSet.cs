@@ -66,7 +66,7 @@ namespace NTMiner.Core.Impl {
                         Global.Happened(new MineWorkRemovedEvent(entity));
                     });
                 });
-            BootLog.Log(this.GetType().FullName + "接入总线");
+            Global.Logger.Debug(this.GetType().FullName + "接入总线");
         }
 
         private bool _isInited = false;

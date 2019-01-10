@@ -14,9 +14,9 @@ namespace NTMiner {
     public partial class App : Application {
         public App() {
             AppHelper.Init(this);
-            BootLog.Log("App.InitializeComponent start");
+            Global.Logger.Debug("App.InitializeComponent start");
             InitializeComponent();
-            BootLog.Log("App.InitializeComponent end");
+            Global.Logger.Debug("App.InitializeComponent end");
         }
 
         private bool createdNew;
@@ -31,7 +31,7 @@ namespace NTMiner {
         }
 
         protected override void OnStartup(StartupEventArgs e) {
-            BootLog.Log("App.OnStartup start");
+            Global.Logger.Debug("App.OnStartup start");
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             try {
                 appMutex = new Mutex(true, _appPipName, out createdNew);
@@ -45,7 +45,7 @@ namespace NTMiner {
                     return;
                 }
                 Vms.AppStatic.IsMinerClient = true;
-                BootLog.Log("new SplashWindow");
+                Global.Logger.Debug("new SplashWindow");
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
                 NTMinerRoot.Inited = OnNTMinerRootInited;
@@ -78,22 +78,21 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
-            BootLog.Log("App.OnStartup end");
-            BootLog.SyncToDisk();
+            Global.Logger.Debug("App.OnStartup end");
         }
 
         private void OnNTMinerRootInited() {
             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Access();
             NTMinerRoot.KernelDownloader = new KernelDownloader();
             Execute.OnUIThread(() => {
-                BootLog.Log("new MainWindow");
+                Global.Logger.Debug("new MainWindow");
                 Window splashWindow = MainWindow;
                 MainWindow window = new MainWindow();
                 IMainWindow mainWindow = window;
                 this.MainWindow = window;
                 this.MainWindow.Show();
                 this.MainWindow.Activate();
-                BootLog.Log("MainWindow showed");
+                Global.Logger.Debug("MainWindow showed");
                 notifyIcon = new ExtendedNotifyIcon("pack://application:,,,/NTMiner;component/logo.ico");
                 notifyIcon.Init();
                 #region 处理显示主界面命令
@@ -171,7 +170,6 @@ namespace NTMiner {
                     Global.DebugLine("自动开始挖矿倒计时", ConsoleColor.Yellow);
                     Views.Ucs.AutoStartCountdown.ShowDialog();
                 }
-                BootLog.SyncToDisk();
             });
         }
     }

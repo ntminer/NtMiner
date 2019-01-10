@@ -4,6 +4,7 @@ using System.IO;
 
 namespace NTMiner {
     public static class Global {
+        public static string LogDir;
         public static readonly ILoggingService Logger = new Log4NetLoggingService();
 
         public const string Localhost = "localhost";

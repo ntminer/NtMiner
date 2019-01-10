@@ -12,9 +12,9 @@ namespace NTMiner {
     public partial class App : Application {
         public App() {
             AppHelper.Init(this);
-            BootLog.Log("App.InitializeComponent start");
+            Global.Logger.Debug("App.InitializeComponent start");
             InitializeComponent();
-            BootLog.Log("App.InitializeComponent end");
+            Global.Logger.Debug("App.InitializeComponent end");
         }
 
         private bool createdNew;
@@ -29,7 +29,7 @@ namespace NTMiner {
         }
 
         protected override void OnStartup(StartupEventArgs e) {
-            BootLog.Log("App.OnStartup start");
+            Global.Logger.Debug("App.OnStartup start");
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             try {
                 appMutex = new Mutex(true, _appPipName, out createdNew);
@@ -43,7 +43,7 @@ namespace NTMiner {
                     return;
                 }
                 Vms.AppStatic.IsMinerClient = false;
-                BootLog.Log("new SplashWindow");
+                Global.Logger.Debug("new SplashWindow");
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
                 NTMinerRoot.Inited = () => {
@@ -56,13 +56,13 @@ namespace NTMiner {
                             result = loginWindow.ShowDialog();
                         }
                         if (result.HasValue && result.Value) {
-                            BootLog.Log("new MainWindow");
+                            Global.Logger.Debug("new MainWindow");
                             ControlCenterWindow window = new ControlCenterWindow();
                             IMainWindow mainWindow = window;
                             this.MainWindow = window;
                             this.MainWindow.Show();
                             this.MainWindow.Activate();
-                            BootLog.Log("MainWindow showed");
+                            Global.Logger.Debug("MainWindow showed");
                             notifyIcon = new ExtendedNotifyIcon("pack://application:,,,/ControlCenterApp;component/logo.ico");
                             notifyIcon.Init();
                             #region 处理显示主界面命令
@@ -82,7 +82,6 @@ namespace NTMiner {
                             });
                         }
                         splashWindow?.Close();
-                        BootLog.SyncToDisk();
                     });
                 };
             }
@@ -102,8 +101,7 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
-            BootLog.Log("App.OnStartup end");
-            BootLog.SyncToDisk();
+            Global.Logger.Debug("App.OnStartup end");
         }
     }
 }

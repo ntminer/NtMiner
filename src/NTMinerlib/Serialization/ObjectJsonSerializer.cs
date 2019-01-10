@@ -3,7 +3,7 @@
 namespace NTMiner.Serialization {
     public class ObjectJsonSerializer : IObjectSerializer {
         public ObjectJsonSerializer() {
-            BootLog.Log(this.GetType().FullName + "接入总线");
+            Global.Logger.Debug(this.GetType().FullName + "接入总线");
         }
 
         public virtual string Serialize<TObject>(TObject obj) {

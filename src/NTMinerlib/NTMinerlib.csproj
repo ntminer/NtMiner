@@ -49,7 +49,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BootLog.cs" />
     <Compile Include="Bus\Cmd.cs" />
     <Compile Include="Bus\DelegateHandler`1.cs" />
     <Compile Include="Bus\DirectBus\DirectBus.cs" />
