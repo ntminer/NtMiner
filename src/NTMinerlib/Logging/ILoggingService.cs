@@ -5,18 +5,18 @@ namespace NTMiner.Logging {
     public interface ILoggingService {
         void Debug(object message);
         void DebugFormatted(string format, params object[] args);
-        void Info(object message);
-        void InfoFormatted(string format, params object[] args);
-        void Ok(object message);
-        void Warn(object message);
-        void Warn(object message, Exception exception);
-        void WarnFormatted(string format, params object[] args);
-        void Error(object message);
-        void Error(object message, Exception exception);
-        void ErrorFormatted(string format, params object[] args);
-        void Fatal(object message);
-        void Fatal(object message, Exception exception);
-        void FatalFormatted(string format, params object[] args);
+        void InfoDebugLine(object message);
+        void InfoDebugLineFormatted(string format, params object[] args);
+        void OkDebugLine(object message);
+        void WarnDebugLine(object message);
+        void WarnDebugLine(object message, Exception exception);
+        void WarnDebugLineFormatted(string format, params object[] args);
+        void ErrorDebugLine(object message);
+        void ErrorDebugLine(object message, Exception exception);
+        void ErrorDebugLineFormatted(string format, params object[] args);
+        void FatalDebugLine(object message);
+        void FatalDebugLine(object message, Exception exception);
+        void FatalDebugLineFormatted(string format, params object[] args);
         bool IsDebugEnabled { get; }
         bool IsInfoEnabled { get; }
         bool IsWarnEnabled { get; }

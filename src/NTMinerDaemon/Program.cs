@@ -32,7 +32,7 @@ namespace NTMiner {
                                 Process.Start((string)locationValue, arguments);
                             }
                             catch (Exception e) {
-                                Global.Logger.Error(e.Message, e);
+                                Global.Logger.ErrorDebugLine(e.Message, e);
                             }
                         }
                     }
@@ -40,7 +40,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
         private static void Run() {
@@ -52,7 +52,7 @@ namespace NTMiner {
             }
             catch (Exception e) {
                 DaemonServer.Stop();
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

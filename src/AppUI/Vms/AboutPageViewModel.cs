@@ -5,7 +5,6 @@ namespace NTMiner.Vms {
     public class AboutPageViewModel : ViewModelBase {
         public static readonly AboutPageViewModel Current = new AboutPageViewModel();
 
-        private ISysDicItem dicItem;
         private string _imageSource = "/NTMinerWpf;component/Styles/Images/logo128.png";
 
         private AboutPageViewModel() {

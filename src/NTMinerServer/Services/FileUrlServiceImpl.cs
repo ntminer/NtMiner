@@ -46,7 +46,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -72,7 +72,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -84,7 +84,7 @@ namespace NTMiner.Services {
                 return uri.ToString();
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return string.Empty;
             }
         }
@@ -96,7 +96,7 @@ namespace NTMiner.Services {
                 return uri.ToString();
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return string.Empty;
             }
         }
@@ -113,7 +113,7 @@ namespace NTMiner.Services {
                 return uri.ToString();
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return string.Empty;
             }
         }

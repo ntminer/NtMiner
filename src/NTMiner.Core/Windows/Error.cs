@@ -13,7 +13,7 @@ namespace NTMiner.Windows {
                 return true;
             }
             catch (Exception e) {
-                Global.Logger.Error("disable windows erro failed，因为异常", e);
+                Global.Logger.ErrorDebugLine("disable windows erro failed，因为异常", e);
                 return false;
             }
         }

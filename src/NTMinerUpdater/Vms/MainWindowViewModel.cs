@@ -121,7 +121,7 @@ namespace NTMiner.Vms {
                 else {
                     ServerLatestVm = this.NTMinerFiles.OrderByDescending(a => a.VersionData).FirstOrDefault();
                     if (ServerLatestVm.VersionData > LocalNTMinerVersion) {
-                        Global.Logger.Info("发现新版本" + ServerLatestVm.Version);
+                        Global.Logger.InfoDebugLine("发现新版本" + ServerLatestVm.Version);
                         this.SelectedNTMinerFile = ServerLatestVm;
                         LocalIsLatest = false;
                     }
@@ -146,7 +146,7 @@ namespace NTMiner.Vms {
                 sw.Close();
             }
             catch (Exception ex) {
-                Global.Logger.Error(ex.Message, ex);
+                Global.Logger.ErrorDebugLine(ex.Message, ex);
             }
         }
 
@@ -331,12 +331,12 @@ namespace NTMiner.Vms {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     if (isSuccess) {
-                        Global.Logger.Info("NTMiner" + version + "下载成功");
+                        Global.Logger.InfoDebugLine("NTMiner" + version + "下载成功");
                     }
                     string message = "下载成功";
                     if (e.Error != null) {
                         message = "下载失败";
-                        Global.Logger.Error(e.Error.Message, e.Error);
+                        Global.Logger.ErrorDebugLine(e.Error.Message, e.Error);
                     }
                     if (e.Cancelled) {
                         message = "下载取消";

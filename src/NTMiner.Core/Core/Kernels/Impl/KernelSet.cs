@@ -175,7 +175,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickRejectPercent(_root, input, kernel, coin, isDual);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
 

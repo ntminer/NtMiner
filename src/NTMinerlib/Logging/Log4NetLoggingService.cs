@@ -38,7 +38,6 @@ $@"<log4net>
 ");
             XmlConfigurator.Configure(xmlDoc.DocumentElement);
             _log = LogManager.GetLogger("global");
-            BootLog.Log(this.GetType().FullName + "接入总线");
         }
 
         public void Debug(object message) {
@@ -51,62 +50,62 @@ $@"<log4net>
             _log.DebugFormat(CultureInfo.InvariantCulture, format, args);
         }
 
-        public void Info(object message) {
+        public void InfoDebugLine(object message) {
             Global.DebugLine(message?.ToString(), ConsoleColor.Gray);
             _log.Info(message);
         }
 
-        public void InfoFormatted(string format, params object[] args) {
+        public void InfoDebugLineFormatted(string format, params object[] args) {
             Global.DebugLine(string.Format(format, args), ConsoleColor.Gray);
             _log.InfoFormat(CultureInfo.InvariantCulture, format, args);
         }
 
-        public void Ok(object message) {
+        public void OkDebugLine(object message) {
             Global.DebugLine(message?.ToString(), ConsoleColor.Green);
             _log.Info(message);
         }
 
-        public void Warn(object message) {
+        public void WarnDebugLine(object message) {
             Global.DebugLine(message?.ToString(), ConsoleColor.Yellow);
             _log.Warn(message);
         }
 
-        public void Warn(object message, Exception exception) {
+        public void WarnDebugLine(object message, Exception exception) {
             Global.DebugLine(message?.ToString() + exception.StackTrace, ConsoleColor.Yellow);
             _log.Warn(message, exception);
         }
 
-        public void WarnFormatted(string format, params object[] args) {
+        public void WarnDebugLineFormatted(string format, params object[] args) {
             Global.DebugLine(string.Format(format, args), ConsoleColor.Yellow);
             _log.WarnFormat(CultureInfo.InvariantCulture, format, args);
         }
 
-        public void Error(object message) {
+        public void ErrorDebugLine(object message) {
             Global.DebugLine(message?.ToString(), ConsoleColor.Red);
             _log.Error(message);
         }
 
-        public void Error(object message, Exception exception) {
+        public void ErrorDebugLine(object message, Exception exception) {
             Global.DebugLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
             _log.Error(message, exception);
         }
 
-        public void ErrorFormatted(string format, params object[] args) {
+        public void ErrorDebugLineFormatted(string format, params object[] args) {
             Global.DebugLine(string.Format(format, args), ConsoleColor.Red);
             _log.ErrorFormat(CultureInfo.InvariantCulture, format, args);
         }
 
-        public void Fatal(object message) {
+        public void FatalDebugLine(object message) {
             Global.DebugLine(message?.ToString(), ConsoleColor.Red);
             _log.Fatal(message);
         }
 
-        public void Fatal(object message, Exception exception) {
+        public void FatalDebugLine(object message, Exception exception) {
             Global.DebugLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
             _log.Fatal(message, exception);
         }
 
-        public void FatalFormatted(string format, params object[] args) {
+        public void FatalDebugLineFormatted(string format, params object[] args) {
             Global.DebugLine(string.Format(format, args), ConsoleColor.Red);
             _log.FatalFormat(CultureInfo.InvariantCulture, format, args);
         }

@@ -164,7 +164,7 @@ namespace NTMiner {
                     NTMinerRoot.Current.Start();
                 }
                 catch (Exception ex) {
-                    Global.Logger.Error(ex.Message, ex);
+                    Global.Logger.ErrorDebugLine(ex.Message, ex);
                 }
                 splashWindow?.Close();
                 if (NTMinerRoot.Current.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) {

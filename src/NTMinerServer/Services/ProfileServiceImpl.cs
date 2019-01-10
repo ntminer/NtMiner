@@ -10,7 +10,7 @@ namespace NTMiner.Services {
                 return HostRoot.Current.MineWorkSet.GetMineWork(workId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return null;
             }
         }
@@ -20,7 +20,7 @@ namespace NTMiner.Services {
                 return HostRoot.Current.MineWorkSet.GetMineWorks();
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return new List<MineWorkData>();
             }
         }
@@ -30,7 +30,7 @@ namespace NTMiner.Services {
                 return HostRoot.Current.MineProfileManager.GetMinerProfile(workId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return null;
             }
         }
@@ -40,7 +40,7 @@ namespace NTMiner.Services {
                 return HostRoot.Current.MineProfileManager.GetCoinProfile(workId, coinId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return null;
             }
         }
@@ -50,7 +50,7 @@ namespace NTMiner.Services {
                 return HostRoot.Current.MineProfileManager.GetCoinKernelProfile(workId, coinKernelId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return null;
             }
         }

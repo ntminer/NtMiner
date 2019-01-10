@@ -26,11 +26,11 @@ namespace NTMiner {
                     serviceHost.Open();
                 }
 
-                Global.Logger.Info($"服务启动成功: {DateTime.Now}.");
-                Global.Logger.Info("服务列表：");
+                Global.Logger.InfoDebugLine($"服务启动成功: {DateTime.Now}.");
+                Global.Logger.InfoDebugLine("服务列表：");
                 foreach (var serviceHost in _serviceHosts) {
                     foreach (var endpoint in serviceHost.Description.Endpoints) {
-                        Global.Logger.Info(endpoint.Address.Uri.ToString());
+                        Global.Logger.InfoDebugLine(endpoint.Address.Uri.ToString());
                     }
                 }
             }

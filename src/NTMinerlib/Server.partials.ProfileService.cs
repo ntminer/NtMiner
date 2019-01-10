@@ -29,7 +29,7 @@ namespace NTMiner {
                         callback?.Invoke(null);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(null);
                     }
                 });
@@ -46,7 +46,7 @@ namespace NTMiner {
                     return new List<MineWorkData>();
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return new List<MineWorkData>();
                 }
             }
@@ -62,7 +62,7 @@ namespace NTMiner {
                     return null;
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
             }
@@ -78,7 +78,7 @@ namespace NTMiner {
                     return null;
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
             }
@@ -94,7 +94,7 @@ namespace NTMiner {
                     return null;
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
             }

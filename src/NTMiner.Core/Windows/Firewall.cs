@@ -16,7 +16,7 @@ namespace NTMiner.Windows {
                 return r;
             }
             catch (Exception e) {
-                Global.Logger.Error("disable firewall failed，因为异常", e);
+                Global.Logger.ErrorDebugLine("disable firewall failed，因为异常", e);
                 return false;
             }
         }

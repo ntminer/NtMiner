@@ -22,7 +22,7 @@ namespace NTMiner {
                 if (factory != null) {
                     factory.Abort();
                 }
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
             return channel;
         }
@@ -35,7 +35,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(string.Empty);
                 }
             });
@@ -50,7 +50,7 @@ namespace NTMiner {
                     callback?.Invoke(true);
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -65,7 +65,7 @@ namespace NTMiner {
                     callback?.Invoke(true);
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -80,7 +80,7 @@ namespace NTMiner {
                     callback?.Invoke(true);
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -95,7 +95,7 @@ namespace NTMiner {
                     callback?.Invoke(true);
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -110,7 +110,7 @@ namespace NTMiner {
                     callback?.Invoke(true);
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -124,7 +124,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -138,7 +138,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -166,12 +166,12 @@ namespace NTMiner {
                         callback?.Invoke(true);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(false);
                     }
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -190,7 +190,7 @@ namespace NTMiner {
                     callback?.Invoke(true);
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });

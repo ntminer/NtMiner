@@ -26,7 +26,7 @@ namespace NTMiner {
                         Global.DebugLine(e.Message, ConsoleColor.Red);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             }
@@ -42,7 +42,7 @@ namespace NTMiner {
                         Global.DebugLine(e.Message, ConsoleColor.Red);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             }
@@ -58,7 +58,7 @@ namespace NTMiner {
                         Global.DebugLine(e.Message, ConsoleColor.Red);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             }

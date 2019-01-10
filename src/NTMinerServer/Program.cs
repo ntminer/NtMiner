@@ -25,7 +25,7 @@ namespace NTMiner {
                 Console.WriteLine("服务停止成功: {0}.", DateTime.Now);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
             finally {
                 HostRoot.Current.Stop();

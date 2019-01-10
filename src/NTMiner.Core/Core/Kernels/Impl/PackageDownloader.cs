@@ -31,12 +31,12 @@ namespace NTMiner.Core.Kernels.Impl {
                     Execute.OnUIThread(() => {
                         bool isSuccess = !e.Cancelled && e.Error == null;
                         if (isSuccess) {
-                            Global.Logger.Info(package + "下载成功");
+                            Global.Logger.InfoDebugLine(package + "下载成功");
                         }
                         string message = "下载成功";
                         if (e.Error != null) {
                             message = "下载失败";
-                            Global.Logger.Error(e.Error.Message, e.Error);
+                            Global.Logger.ErrorDebugLine(e.Error.Message, e.Error);
                         }
                         if (e.Cancelled) {
                             message = "下载取消";

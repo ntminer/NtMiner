@@ -28,7 +28,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -59,7 +59,7 @@ namespace NTMiner.Services {
                 return new LoadClientsResponse(data);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return LoadClientsResponse.ServerError(request.MessageId, e.Message);
             }
         }
@@ -94,7 +94,7 @@ namespace NTMiner.Services {
                 };
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return QueryClientsResponse.ServerError(request.MessageId, e.Message);
             }
         }
@@ -131,7 +131,7 @@ namespace NTMiner.Services {
                 };
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return GetCoinSnapshotsResponse.ServerError(request.MessageId, e.Message);
             }
         }
@@ -164,7 +164,7 @@ namespace NTMiner.Services {
                 };
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return LoadClientResponse.ServerError(request.MessageId, e.Message);
             }
         }
@@ -192,7 +192,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -205,7 +205,7 @@ namespace NTMiner.Services {
                 return new GetMinerGroupsResponse(data);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return GetMinerGroupsResponse.ServerError(messageId, e.Message);
             }
         }
@@ -236,7 +236,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -267,7 +267,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -298,7 +298,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -329,7 +329,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -360,7 +360,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -391,7 +391,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -422,7 +422,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -435,7 +435,7 @@ namespace NTMiner.Services {
                 return new GetWalletsResponse(data);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return GetWalletsResponse.ServerError(messageId, e.Message);
             }
         }
@@ -466,7 +466,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -497,7 +497,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -510,7 +510,7 @@ namespace NTMiner.Services {
                 return new GetCalcConfigsResponse(data);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return GetCalcConfigsResponse.ServerError(messageId, e.Message);
             }
         }
@@ -541,7 +541,7 @@ namespace NTMiner.Services {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -565,7 +565,7 @@ namespace NTMiner.Services {
                 throw new NotImplementedException();
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -589,7 +589,7 @@ namespace NTMiner.Services {
                 throw new NotImplementedException();
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -613,7 +613,7 @@ namespace NTMiner.Services {
                 throw new NotImplementedException();
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }

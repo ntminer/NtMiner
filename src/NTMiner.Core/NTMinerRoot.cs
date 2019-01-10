@@ -31,7 +31,7 @@ namespace NTMiner {
                         "Debug打印",
                         LogEnum.Log,
                         action: (message) => {
-                            Global.Logger.Ok("已跳过从服务器下载Json");
+                            Global.Logger.OkDebugLine("已跳过从服务器下载Json");
                         });
                 }
                 else {
@@ -48,7 +48,7 @@ namespace NTMiner {
                                     Init();
                                 }
                                 else {
-                                    Global.Logger.Ok("下载成功了");
+                                    Global.Logger.OkDebugLine("下载成功了");
                                 }
                             }
                         });
@@ -149,21 +149,21 @@ namespace NTMiner {
                 serviceHost.Open();
             }
 
-            Global.Logger.Ok($"服务启动成功: {DateTime.Now}.");
-            Global.Logger.Info("服务列表：");
+            Global.Logger.OkDebugLine($"服务启动成功: {DateTime.Now}.");
+            Global.Logger.InfoDebugLine("服务列表：");
             foreach (var serviceHost in _serviceHosts) {
                 foreach (var endpoint in serviceHost.Description.Endpoints) {
-                    Global.Logger.Info(endpoint.Address.Uri.ToString());
+                    Global.Logger.InfoDebugLine(endpoint.Address.Uri.ToString());
                 }
             }
-            Global.Logger.Ok("Wcf服务启动完成");
+            Global.Logger.OkDebugLine("Wcf服务启动完成");
 
             Server.TimeService.GetTime((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Global.DesyncSeconds) {
-                    Global.Logger.Ok("时间同步");
+                    Global.Logger.OkDebugLine("时间同步");
                 }
                 else {
-                    Global.Logger.Warn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
+                    Global.Logger.WarnDebugLine($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
                 }
             });
 
@@ -196,14 +196,14 @@ namespace NTMiner {
                     try {
                         if (MinerProfile.IsPeriodicRestartComputer) {
                             if ((DateTime.Now - shareOn).TotalHours > MinerProfile.PeriodicRestartComputerHours) {
-                                Global.Logger.Warn($"每运行{MinerProfile.PeriodicRestartKernelHours}小时重启电脑");
+                                Global.Logger.WarnDebugLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时重启电脑");
                                 Windows.Power.Restart();
                                 return;// 退出
                             }
                         }
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                     #endregion
 
@@ -211,14 +211,14 @@ namespace NTMiner {
                     try {
                         if (IsMining && MinerProfile.IsPeriodicRestartKernel) {
                             if ((DateTime.Now - shareOn).TotalHours > MinerProfile.PeriodicRestartKernelHours) {
-                                Global.Logger.Warn($"每运行{MinerProfile.PeriodicRestartKernelHours}小时重启内核");
+                                Global.Logger.WarnDebugLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时重启内核");
                                 RestartMine();
                                 return;// 退出
                             }
                         }
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                     #endregion
 
@@ -234,7 +234,7 @@ namespace NTMiner {
                                         totalShare += dualCoinShare.TotalShareCount;
                                     }
                                     if (shareCount == totalShare) {
-                                        Global.Logger.Warn($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
+                                        Global.Logger.WarnDebugLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟收益没有增加重启内核");
                                         RestartMine();
                                     }
                                     else {
@@ -246,7 +246,7 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                     #endregion
                 });
@@ -281,13 +281,13 @@ namespace NTMiner {
                                     Directory.Delete(Path.Combine(SpecialPath.DaemonFileFullName, dir), recursive: true);
                                 }
                                 catch (Exception e) {
-                                    Global.Logger.Error(e.Message, e);
+                                    Global.Logger.ErrorDebugLine(e.Message, e);
                                 }
                             }
                         }
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             #endregion
@@ -306,17 +306,17 @@ namespace NTMiner {
                             }
                         }
                         if (toRemoves.Count == 0) {
-                            Global.Logger.Ok("没有过期日志");
+                            Global.Logger.OkDebugLine("没有过期日志");
                         }
                         else {
                             foreach (var item in toRemoves) {
                                 File.Delete(item);
                             }
-                            Global.Logger.Ok("过期日志清理完成");
+                            Global.Logger.OkDebugLine("过期日志清理完成");
                         }
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             #endregion
@@ -333,7 +333,7 @@ namespace NTMiner {
                             });
                         }
                         if (IsAutoStartCanceled) {
-                            Global.Logger.Warn("自动挖矿已取消");
+                            Global.Logger.WarnDebugLine("自动挖矿已取消");
                         }
                     });
             }
@@ -397,7 +397,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
             if (_currentMineContext != null) {
                 StopMine(wait: false);
@@ -415,7 +415,7 @@ namespace NTMiner {
                 Global.Happened(new MineStopedEvent(mineContext));
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
         #endregion
@@ -424,7 +424,7 @@ namespace NTMiner {
         public void RestartMine() {
             IMineContext mineContext = this.CurrentMineContext;
             this.StopMine();
-            Global.Logger.Warn("正在重启内核");
+            Global.Logger.WarnDebugLine("正在重启内核");
             StartMine(CommandLineArgs.WorkId);
         }
         #endregion
@@ -455,34 +455,34 @@ namespace NTMiner {
                 IMinerProfile minerProfile = this.MinerProfile;
                 ICoin mainCoin;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
-                    Global.Logger.Warn("没有选择主挖币种。");
+                    Global.Logger.WarnDebugLine("没有选择主挖币种。");
                     return;
                 }
                 ICoinProfile coinProfile = this.CoinProfileSet.GetCoinProfile(minerProfile.CoinId);
                 IPool mainCoinPool;
                 if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
-                    Global.Logger.Warn("没有选择主币矿池。");
+                    Global.Logger.WarnDebugLine("没有选择主币矿池。");
                     return;
                 }
                 ICoinKernel coinKernel;
                 if (!this.CoinKernelSet.TryGetKernel(coinProfile.CoinKernelId, out coinKernel)) {
-                    Global.Logger.Warn("没有选择挖矿内核。");
+                    Global.Logger.WarnDebugLine("没有选择挖矿内核。");
                     return;
                 }
                 IKernel kernel;
                 if (!this.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
-                    Global.Logger.Warn("无效的挖矿内核。");
+                    Global.Logger.WarnDebugLine("无效的挖矿内核。");
                     return;
                 }
                 if (!kernel.IsSupported()) {
-                    Global.Logger.Warn($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。");
+                    Global.Logger.WarnDebugLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。");
                     return;
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
                     coinProfile.Wallet = mainCoin.TestWallet;
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
-                    Global.Logger.Warn("没有填写钱包地址。");
+                    Global.Logger.WarnDebugLine("没有填写钱包地址。");
                     return;
                 }
                 IMineContext mineContext = this.CreateMineContext(
@@ -493,20 +493,20 @@ namespace NTMiner {
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     ICoin dualCoin;
                     if (!this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                        Global.Logger.Warn("没有选择双挖币种。");
+                        Global.Logger.WarnDebugLine("没有选择双挖币种。");
                         return;
                     }
                     IPool dualCoinPool;
                     coinProfile = this.CoinProfileSet.GetCoinProfile(coinKernelProfile.DualCoinId);
                     if (!this.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
-                        Global.Logger.Warn("没有选择双挖矿池。");
+                        Global.Logger.WarnDebugLine("没有选择双挖矿池。");
                         return;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
                         coinProfile.DualCoinWallet = dualCoin.TestWallet;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
-                        Global.Logger.Warn("没有填写双挖钱包。");
+                        Global.Logger.WarnDebugLine("没有填写双挖钱包。");
                         return;
                     }
                     mineContext = this.CreateDualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
@@ -516,17 +516,17 @@ namespace NTMiner {
                 }
                 KillKernelProcess();
                 if (string.IsNullOrEmpty(kernel.Package)) {
-                    Global.Logger.Warn(kernel.FullName + "没有内核包");
+                    Global.Logger.WarnDebugLine(kernel.FullName + "没有内核包");
                     this.StopMine();
                     return;
                 }
                 if (string.IsNullOrEmpty(kernel.Args)) {
-                    Global.Logger.Warn(kernel.FullName + "没有配置运行参数");
+                    Global.Logger.WarnDebugLine(kernel.FullName + "没有配置运行参数");
                     return;
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    Global.Logger.Info(kernel.FullName + "本地内核包不存在，触发自动下载");
+                    Global.Logger.InfoDebugLine(kernel.FullName + "本地内核包不存在，触发自动下载");
                     if (KernelDownloader == null) {
                         throw new InvalidProgramException("为赋值NTMinerRoot.KernelDownloader");
                     }
@@ -545,12 +545,12 @@ namespace NTMiner {
                     });
                 }
                 if (!string.IsNullOrEmpty(mineContext.Kernel.Notice)) {
-                    Global.Logger.Warn(mineContext.Kernel.Notice);
+                    Global.Logger.WarnDebugLine(mineContext.Kernel.Notice);
                 }
                 Global.Happened(new MineStartedEvent(mineContext));
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
         #endregion
@@ -568,7 +568,7 @@ namespace NTMiner {
                 Windows.TaskKill.Kill(processName);
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
         #endregion
@@ -669,7 +669,7 @@ namespace NTMiner {
                     }
                     catch (Exception ex) {
                         _gpuSet = EmptyGpuSet.Instance;
-                        Global.Logger.Error(ex);
+                        Global.Logger.ErrorDebugLine(ex);
                     }
                     if (_gpuSet == null || _gpuSet.Count == 0) {
                         try {
@@ -677,7 +677,7 @@ namespace NTMiner {
                         }
                         catch (Exception ex) {
                             _gpuSet = EmptyGpuSet.Instance;
-                            Global.Logger.Error(ex);
+                            Global.Logger.ErrorDebugLine(ex);
                         }
                     }
                     if (_gpuSet == null) {

@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                     .Queue();
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         });
 
@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
                     .Queue();
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         });
 

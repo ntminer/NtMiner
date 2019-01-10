@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
                     CloseWindow?.Invoke();
                 }
                 catch (Exception e) {
-                    Global.Logger.Error(e.Message, e);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                 }
             });
             _minerServerHost = Server.MinerServerHost;

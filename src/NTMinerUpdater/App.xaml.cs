@@ -43,7 +43,7 @@ namespace NTMiner {
             if (e == null) {
                 return;
             }
-            Global.Logger.Error(e);
+            Global.Logger.ErrorDebugLine(e);
         }
 
         protected override void OnStartup(StartupEventArgs e) {

@@ -19,7 +19,7 @@ namespace NTMiner.Bus {
                     var tMessageHandler = (DelegateHandler<TMessage>)messageHandler;
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Log) {
-                        Global.Logger.Info($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                        Global.Logger.InfoDebugLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                     }
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Console) {
                         Global.DebugLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
@@ -31,13 +31,13 @@ namespace NTMiner.Bus {
                     }
                     catch (Exception e) {
                         this.DispatchFailed?.Invoke(this, evtArgs);
-                        Global.Logger.Error(tMessageHandler.GetType().FullName + ":" + messageType.FullName + ":" + e.Message, e);
+                        Global.Logger.ErrorDebugLine(tMessageHandler.GetType().FullName + ":" + messageType.FullName + ":" + e.Message, e);
                         throw;
                     }
                 }
             }
             else if (!messageTypeDescription.IsCanNoHandler) {
-                Global.Logger.Info(messageType.FullName + "类型的消息没有对应的处理器");
+                Global.Logger.InfoDebugLine(messageType.FullName + "类型的消息没有对应的处理器");
             }
         }
 

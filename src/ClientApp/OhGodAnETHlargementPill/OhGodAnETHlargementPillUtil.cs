@@ -33,7 +33,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                                 }
                             }
                             catch (Exception e) {
-                                Global.Logger.Error(e.Message, e);
+                                Global.Logger.ErrorDebugLine(e.Message, e);
                             }
                             Global.WriteLine("小药丸启动成功", ConsoleColor.Green);
                             MainWindowViewModel.Current.Manager.CreateMessage()
@@ -62,7 +62,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                                 Windows.TaskKill.Kill(processName);
                             }
                             catch (Exception e) {
-                                Global.Logger.Error(e.Message, e);
+                                Global.Logger.ErrorDebugLine(e.Message, e);
                             }
                             Global.WriteLine("成功停止小药丸", ConsoleColor.Green);
                         }
@@ -87,7 +87,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

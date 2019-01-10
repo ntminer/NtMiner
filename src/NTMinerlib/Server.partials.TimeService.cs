@@ -27,7 +27,7 @@ namespace NTMiner {
                         callback?.Invoke(DateTime.Now);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(DateTime.Now);
                     }
                 });

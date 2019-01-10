@@ -81,7 +81,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -101,7 +101,7 @@ namespace NTMiner {
                 sw.Close();
             }
             catch (Exception ex) {
-                Global.Logger.Error(ex.Message, ex);
+                Global.Logger.ErrorDebugLine(ex.Message, ex);
             }
         }
 
@@ -115,7 +115,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -131,7 +131,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -149,7 +149,7 @@ namespace NTMiner {
                 return false;
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return false;
             }
         }

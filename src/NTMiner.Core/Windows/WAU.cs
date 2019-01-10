@@ -19,7 +19,7 @@ namespace NTMiner.Windows {
                     sc.Close();
                 }
                 catch (Exception ex) {
-                    Global.Logger.Error("Windows自动更新禁用失败，因为异常", ex);
+                    Global.Logger.ErrorDebugLine("Windows自动更新禁用失败，因为异常", ex);
                 }
             });
         }

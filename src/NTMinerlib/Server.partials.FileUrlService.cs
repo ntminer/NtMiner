@@ -30,7 +30,7 @@ namespace NTMiner {
                         callback?.Invoke(string.Empty);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(string.Empty);
                     }
                 });
@@ -50,7 +50,7 @@ namespace NTMiner {
                         callback?.Invoke(new List<NTMinerFileData>());
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(new List<NTMinerFileData>());
                     }
                 });
@@ -77,7 +77,7 @@ namespace NTMiner {
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -104,7 +104,7 @@ namespace NTMiner {
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -122,7 +122,7 @@ namespace NTMiner {
                         callback?.Invoke(string.Empty);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(string.Empty);
                     }
                 });
@@ -140,7 +140,7 @@ namespace NTMiner {
                         callback?.Invoke(string.Empty);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(string.Empty);
                     }
                 });
@@ -158,7 +158,7 @@ namespace NTMiner {
                         callback?.Invoke(string.Empty);
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(string.Empty);
                     }
                 });

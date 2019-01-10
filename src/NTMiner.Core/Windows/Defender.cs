@@ -15,7 +15,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error("Windows Defender禁用失败，因为异常", e);
+                Global.Logger.ErrorDebugLine("Windows Defender禁用失败，因为异常", e);
             }
         }
     }

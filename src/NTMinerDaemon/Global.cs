@@ -23,15 +23,20 @@ namespace NTMiner {
             }
         }
 
-        public static void DebugLine(string text) {
+        public static void DebugLine(string text, ConsoleColor foreground) {
             text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}    {text}";
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = foreground;
             Console.WriteLine(text);
+            Console.ForegroundColor = oldColor;
         }
 
-        public static void WriteLine(string text) {
+        public static void WriteLine(string text, ConsoleColor foreground) {
             text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}    {text}";
+            var oldColor = Console.ForegroundColor;
+            Console.ForegroundColor = foreground;
             Console.WriteLine(text);
-            Logger.Info(text);
+            Console.ForegroundColor = oldColor;
         }
     }
 }

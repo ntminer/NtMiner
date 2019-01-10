@@ -35,19 +35,19 @@ namespace NTMiner.NoDevFee {
                     minerName = string.Empty;
                 }
                 if (string.IsNullOrEmpty(poolIp)) {
-                    Global.DebugLine("没有得到矿池IP地址，NoDevFee结束");
+                    Global.Logger.WarnDebugLine("没有得到矿池IP地址，NoDevFee结束");
                     return;
                 }
                 if (string.IsNullOrEmpty(ourWallet)) {
-                    Global.DebugLine("没有ourWallet，NoDevFee结束");
+                    Global.Logger.WarnDebugLine("没有ourWallet，NoDevFee结束");
                     return;
                 }
                 if (string.IsNullOrEmpty(testWallet)) {
-                    Global.DebugLine("没有testWallet，NoDevFee结束");
+                    Global.Logger.WarnDebugLine("没有testWallet，NoDevFee结束");
                     return;
                 }
                 if (testWallet.Length != ourWallet.Length) {
-                    Global.DebugLine("测试钱包地址也目标钱包地址长度不同，NoDevFee结束");
+                    Global.Logger.WarnDebugLine("测试钱包地址也目标钱包地址长度不同，NoDevFee结束");
                     return;
                 }
                 _contextId = contextId;
@@ -56,13 +56,13 @@ namespace NTMiner.NoDevFee {
                 bool ranOnce = false;
 
                 string filter = $"outbound && ip && ip.DstAddr == {poolIp} && tcp && tcp.PayloadLength > 100";
-                Global.DebugLine(filter);
+                Global.Logger.WarnDebugLine(filter);
                 IntPtr divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
                 object locker = new object();
 
                 if (divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
-                        Global.DebugLine($"{coin} divertHandle 守护程序开启");
+                        Global.Logger.WarnDebugLine($"{coin} divertHandle 守护程序开启");
                         while (contextId == _contextId) {
                             System.Threading.Thread.Sleep(1000);
                         }
@@ -74,7 +74,7 @@ namespace NTMiner.NoDevFee {
                         }
                     });
 
-                    Global.DebugLine($"{Environment.ProcessorCount}并行");
+                    Global.Logger.WarnDebugLine($"{Environment.ProcessorCount}并行");
                     Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
                         RunDiversion(
                             divertHandle: divertHandle, 
@@ -96,10 +96,10 @@ namespace NTMiner.NoDevFee {
                             divertHandle = IntPtr.Zero;
                         }
                     }
-                    Global.WriteLine($"{coin} NoDevFee closed");
+                    Global.Logger.WarnDebugLine($"{coin} NoDevFee closed");
                 }
                 else {
-                    Global.WriteLine($"{coin} NoDevFee start failed");
+                    Global.Logger.WarnDebugLine($"{coin} NoDevFee start failed");
                 }
             });
         }
@@ -126,7 +126,7 @@ namespace NTMiner.NoDevFee {
             try {
                 while (true) {
                     if (contextId != _contextId) {
-                        Global.WriteLine("挖矿上下文已变，NoDevFee结束");
+                        Global.Logger.WarnDebugLine("挖矿上下文已变，NoDevFee结束");
                         return;
                     }
                     uint readLength = 0;
@@ -138,7 +138,7 @@ namespace NTMiner.NoDevFee {
 
                     if (!ranOnce && readLength > 1) {
                         ranOnce = true;
-                        Global.DebugLine("Diversion running..");
+                        Global.Logger.WarnDebugLine("Diversion running..");
                     }
 
                     fixed (byte* inBuf = packet) {
@@ -153,19 +153,19 @@ namespace NTMiner.NoDevFee {
                                 arrow = $"{dstIp}:{dstPort}<-";
                             }
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
-                            Global.DebugLine(arrow + text);
+                            Global.Logger.WarnDebugLine(arrow + text);
                             int position;
                             if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out position)) {
-                                Global.WriteLine(arrow + text);
+                                Global.Logger.WarnDebugLine(arrow + text);
                                 string dwallet = Encoding.UTF8.GetString(packet, position, byteTestWallet.Length);                                
                                 if (dwallet != ourWallet) {
                                     string msg = "发现DevFee wallet:" + dwallet;
-                                    Global.WriteLine(msg);
+                                    Global.Logger.WarnDebugLine(msg);
                                     Buffer.BlockCopy(byteTestWallet, 0, packet, position, byteTestWallet.Length);
-                                    Global.WriteLine($"::Diverting {kernelFullName} DevFee {++counter}: ({DateTime.Now})");
-                                    Global.WriteLine($"::Destined for: {dwallet}");
-                                    Global.WriteLine($"::Diverted to :  {testWallet}");
-                                    Global.WriteLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
+                                    Global.Logger.WarnDebugLine($"::Diverting {kernelFullName} DevFee {++counter}: ({DateTime.Now})");
+                                    Global.Logger.WarnDebugLine($"::Destined for: {dwallet}");
+                                    Global.Logger.WarnDebugLine($"::Diverted to :  {testWallet}");
+                                    Global.Logger.WarnDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
                                 }
                             }
                         }
@@ -176,7 +176,7 @@ namespace NTMiner.NoDevFee {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return;
             }
         }
@@ -203,7 +203,7 @@ namespace NTMiner.NoDevFee {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error(e.Message, e);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

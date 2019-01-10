@@ -58,7 +58,7 @@ namespace NTMiner {
                 sw.Close();
             }
             catch (Exception ex) {
-                Global.Logger.Error(ex.Message, ex);
+                Global.Logger.ErrorDebugLine(ex.Message, ex);
             }
         }
         #endregion
@@ -82,7 +82,7 @@ namespace NTMiner {
                     sr.Close();
                 }
                 catch (Exception ex) {
-                    Global.Logger.Error(ex.Message, ex);
+                    Global.Logger.ErrorDebugLine(ex.Message, ex);
                 }
             }
         }
@@ -104,7 +104,7 @@ namespace NTMiner {
             }
             catch (Exception ex) {
                 NTMinerClientDaemon.Instance.RestartNTMiner(Global.Localhost, Global.ClientPort, CommandLineArgs.WorkId, null);
-                Global.Logger.Error(ex.Message, ex);
+                Global.Logger.ErrorDebugLine(ex.Message, ex);
             }
             TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                 Process thisProcess = Process.GetCurrentProcess();
@@ -134,7 +134,7 @@ namespace NTMiner {
                 DialogWindow.ShowDialog(title: "验证失败", message: e.Message, icon: "Icon_Error");
             }
             else {
-                Global.Logger.Error(e);
+                Global.Logger.ErrorDebugLine(e);
             }
         }
 
@@ -153,7 +153,7 @@ namespace NTMiner {
                     sr.Close();
                 }
                 catch (Exception ex) {
-                    Global.Logger.Error(ex.Message, ex);
+                    Global.Logger.ErrorDebugLine(ex.Message, ex);
                 }
             }
         }

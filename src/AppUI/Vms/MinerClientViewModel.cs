@@ -80,7 +80,7 @@ namespace NTMiner.Vms {
                         this.ClientDataVm.GroupId = this.ClientDataVm.SelectedMinerGroupCopy.Id;
                     }
                     catch (Exception e) {
-                        Global.Logger.Error(e.Message, e);
+                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                         Refresh();

@@ -155,7 +155,7 @@ namespace NTMiner.Vms {
                 return null;
             }
             catch (Exception e) {
-                Global.Logger.Error(e);
+                Global.Logger.ErrorDebugLine(e);
                 return null;
             }
         }
@@ -171,7 +171,7 @@ namespace NTMiner.Vms {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error(e);
+                Global.Logger.ErrorDebugLine(e);
             }
             return list;
         }

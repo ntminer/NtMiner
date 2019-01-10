@@ -23,7 +23,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Global.Logger.Error("禁用UAC失败，因为异常", e);
+                Global.Logger.ErrorDebugLine("禁用UAC失败，因为异常", e);
                 return false;
             }
         }
