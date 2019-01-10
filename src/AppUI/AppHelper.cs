@@ -27,7 +27,6 @@ namespace NTMiner {
 
         #region Init
         public static void Init(Application app) {
-            Global.SetLogDir(Path.Combine(Global.GlobalDirFullName, "Logs"));
             Global.Logger.Debug("AppHelper.Init start");
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 var exception = e.ExceptionObject as Exception;

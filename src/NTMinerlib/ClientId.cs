@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace NTMiner {
     public static class ClientId {
@@ -12,7 +13,26 @@ namespace NTMiner {
         public const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
         public static Guid Id { get; private set; }
 
+        public const string ServerJsonFileName = "server0.json";
+        public const string ServerLangJsonFileName = "serverLang0.json";
+
+        public static string GlobalDirFullName { get; private set; }
+
+        public static string LangDbFileFullName { get; private set; }
+
+        public static string LocalLangJsonFileFullName { get; private set; }
+
+        public static string ServerLangJsonFileFullName { get; private set; }
+
         static ClientId() {
+            GlobalDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+            if (!Directory.Exists(GlobalDirFullName)) {
+                Directory.CreateDirectory(GlobalDirFullName);
+            }
+            LangDbFileFullName = Path.Combine(GlobalDirFullName, "lang.litedb");
+            LocalLangJsonFileFullName = Path.Combine(GlobalDirFullName, "lang.json");
+            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, ServerLangJsonFileName);
+
             object publicKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PublicKey");
             object privateKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PrivateKey");
             if (publicKeyValue == null || privateKeyValue == null) {

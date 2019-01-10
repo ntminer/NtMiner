@@ -14,7 +14,7 @@ namespace NTMiner.Daemon {
                     try {
                         string thisVersion = ThisNTMinerDaemonFileVersion;
                         if (thatVersion != thisVersion) {
-                            Global.DebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
+                            Global.Logger.Debug($"发现新版Daemon：{thatVersion}->{thisVersion}");
                             try {
                                 Windows.TaskKill.Kill("NTMinerDaemon");
                             }
@@ -32,7 +32,7 @@ namespace NTMiner.Daemon {
                             }
                         }
                         else {
-                            Global.DebugLine($"守护进程运行中");
+                            Global.Logger.Debug($"守护进程运行中");
                         }
                     }
                     catch (Exception exception) {

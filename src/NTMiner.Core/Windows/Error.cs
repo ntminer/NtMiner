@@ -9,7 +9,7 @@ namespace NTMiner.Windows {
                 foreach (var key in keys) {
                     Registry.SetValue(Microsoft.Win32.Registry.CurrentUser, subKey, key, 1);
                 }
-                Global.DebugLine("disable windows erro ok", ConsoleColor.Green);
+                Global.Logger.OkDebugLine("disable windows erro ok");
                 return true;
             }
             catch (Exception e) {

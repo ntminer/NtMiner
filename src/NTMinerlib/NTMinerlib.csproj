@@ -66,6 +66,7 @@
     <Compile Include="Language\LangSet.cs" />
     <Compile Include="Language\Messages.cs" />
     <Compile Include="Language\Repository.cs" />
+    <Compile Include="Logging\LogDir.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="Server.partials.ControlCenterService.cs" />
     <Compile Include="DateTimeExtensions.cs" />

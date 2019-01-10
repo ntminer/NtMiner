@@ -78,6 +78,9 @@
     <Compile Include="..\NTMinerlib\Logging\Log4NetLoggingService.cs">
       <Link>Logging\Log4NetLoggingService.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\Logging\LogDir.cs">
+      <Link>Logging\LogDir.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\Security\AESHelper.cs">
       <Link>Security\AESHelper.cs</Link>
     </Compile>

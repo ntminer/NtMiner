@@ -8,10 +8,10 @@ namespace NTMiner.Windows {
                 Cmd.RunClose("bcdedit", "/set {current} bootstatuspolicy ignoreallfailures", ref exitcode);
                 bool r = exitcode == 0;
                 if (r) {
-                    Global.DebugLine("bootstatuspolicy ignoreallfailures ok", ConsoleColor.Green);
+                    Global.Logger.OkDebugLine("bootstatuspolicy ignoreallfailures ok");
                 }
                 else {
-                    Global.DebugLine("bootstatuspolicy ignoreallfailures faild, exitcode=" + exitcode, ConsoleColor.Red);
+                    Global.Logger.WarnDebugLine("bootstatuspolicy ignoreallfailures faild, exitcode=" + exitcode);
                 }
                 return r;
             }

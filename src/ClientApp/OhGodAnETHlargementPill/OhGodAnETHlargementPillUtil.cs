@@ -35,7 +35,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                             catch (Exception e) {
                                 Global.Logger.ErrorDebugLine(e.Message, e);
                             }
-                            Global.WriteLine("小药丸启动成功", ConsoleColor.Green);
+                            Global.Logger.OkWriteLine("小药丸启动成功");
                             MainWindowViewModel.Current.Manager.CreateMessage()
                                  .Accent("#1751C3")
                                  .Background("#333")
@@ -47,7 +47,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                         }
                     }
                     else {
-                        Global.DebugLine("没有发现1080卡，不适用小药丸");
+                        Global.Logger.Debug("没有发现1080卡，不适用小药丸");
                     }
                 });
             Global.Access<MineStartedEvent>(
@@ -64,11 +64,11 @@ namespace NTMiner.OhGodAnETHlargementPill {
                             catch (Exception e) {
                                 Global.Logger.ErrorDebugLine(e.Message, e);
                             }
-                            Global.WriteLine("成功停止小药丸", ConsoleColor.Green);
+                            Global.Logger.OkWriteLine("成功停止小药丸");
                         }
                     }
                     else {
-                        Global.DebugLine("没有发现1080卡，不适用小药丸");
+                        Global.Logger.Debug("没有发现1080卡，不适用小药丸");
                     }
                 });
         }

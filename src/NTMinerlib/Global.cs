@@ -6,7 +6,6 @@ using NTMiner.Logging;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Timers;
 
@@ -21,21 +20,6 @@ namespace NTMiner {
                 return 3336;
             }
         }
-
-        private static string _logDir;
-        public static string LogDir {
-            get { return _logDir; }
-        }
-
-        public static void SetLogDir(string fullPath) {
-            _logDir = fullPath;
-        }
-
-        public static string LangDbFileFullName { get; private set; }
-
-        public static string LocalLangJsonFileFullName { get; private set; }
-
-        public static string ServerLangJsonFileFullName { get; private set; }
 
         private static ILang _lang = null;
         public static ILang Lang {
@@ -63,12 +47,10 @@ namespace NTMiner {
             }
         }
 
-        public static string GlobalDirFullName { get; private set; }
-
         private static ILoggingService _logger = null;
         public static ILoggingService Logger {
             get {
-                return _logger ?? new Log4NetLoggingService();
+                return _logger ?? (_logger = new Log4NetLoggingService());
             }
         }
 
@@ -81,18 +63,7 @@ namespace NTMiner {
         public static Action<string, ConsoleColor> WriteLineMethod;
         public static Action<string, ConsoleColor> DebugLineMethod;
 
-        public const string ServerJsonFileName = "server0.json";
-        public const string ServerLangJsonFileName = "serverLang0.json";
-
         static Global() {
-            GlobalDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-            if (!Directory.Exists(GlobalDirFullName)) {
-                Directory.CreateDirectory(GlobalDirFullName);
-            }
-            LangDbFileFullName = Path.Combine(GlobalDirFullName, "lang.litedb");
-            LocalLangJsonFileFullName = Path.Combine(GlobalDirFullName, "lang.json");
-            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, ServerLangJsonFileName);
-
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);

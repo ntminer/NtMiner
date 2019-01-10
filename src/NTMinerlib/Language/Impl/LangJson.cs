@@ -8,7 +8,7 @@ namespace NTMiner.Language.Impl {
         public static readonly LangJson Instance;
 
         static LangJson() {
-            string langJsonFileFullName = Path.Combine(Global.GlobalDirFullName, "lang.json");
+            string langJsonFileFullName = Path.Combine(ClientId.GlobalDirFullName, "lang.json");
             if (!File.Exists(langJsonFileFullName)) {
                 Instance = new LangJson();
             }
@@ -23,7 +23,7 @@ namespace NTMiner.Language.Impl {
                 LangViewItems = LangViewItemSet.Instance.Cast<LangViewItem>().ToArray()
             };
             string json = Global.JsonSerializer.Serialize(data);
-            File.WriteAllText(Global.ServerLangJsonFileFullName, json);
+            File.WriteAllText(ClientId.ServerLangJsonFileFullName, json);
         }
 
         public LangJson() {

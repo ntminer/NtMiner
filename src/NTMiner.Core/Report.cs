@@ -197,8 +197,7 @@ namespace NTMiner {
                 Server.ReportService.ReportSpeed(data);
             }
             catch (Exception e) {
-                Global.DebugLine(e.Message, ConsoleColor.Red);
-                Global.DebugLine(e.StackTrace, ConsoleColor.Red);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -207,8 +206,7 @@ namespace NTMiner {
                 Server.ReportService.ReportState(ClientId.Id, root.IsMining);
             }
             catch (Exception e) {
-                Global.DebugLine(e.Message, ConsoleColor.Red);
-                Global.DebugLine(e.StackTrace, ConsoleColor.Red);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

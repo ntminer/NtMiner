@@ -40,7 +40,7 @@ namespace NTMiner {
                     bool isLangJsonDownloaded = false;
                     Global.Access<HasBoot5SecondEvent>(
                         Guid.Parse("5746e92f-8c79-4f91-a54d-90aa83d2bd1e"),
-                        $"检查{Global.ServerJsonFileName}和{Global.ServerLangJsonFileName}是否下载成功",
+                        $"检查{ClientId.ServerJsonFileName}和{ClientId.ServerLangJsonFileName}是否下载成功",
                         LogEnum.Log,
                         action: (message) => {
                             lock (locker) {
@@ -53,8 +53,8 @@ namespace NTMiner {
                             }
                         });
                     using (WebClient webClient = new WebClient()) {
-                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + Global.ServerJsonFileName;
-                        Global.DebugLine("下载：" + jsonUrl);
+                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerJsonFileName;
+                        Global.Logger.Debug("下载：" + jsonUrl);
                         webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                             if (!e.Cancelled && e.Error == null) {
                                 lock (locker) {
@@ -68,8 +68,8 @@ namespace NTMiner {
                         webClient.DownloadFileAsync(new Uri(jsonUrl), SpecialPath.LocalJsonFileFullName);
                     }
                     using (WebClient webClient = new WebClient()) {
-                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + Global.ServerLangJsonFileName;
-                        Global.DebugLine("下载：" + jsonUrl);
+                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerLangJsonFileName;
+                        Global.Logger.Debug("下载：" + jsonUrl);
                         webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                             if (!e.Cancelled && e.Error == null) {
                                 lock (locker) {
@@ -80,7 +80,7 @@ namespace NTMiner {
                                 }
                             }
                         };
-                        webClient.DownloadFileAsync(new Uri(jsonUrl), Global.LocalLangJsonFileFullName);
+                        webClient.DownloadFileAsync(new Uri(jsonUrl), ClientId.LocalLangJsonFileFullName);
                     }
                 }
             });
@@ -150,10 +150,10 @@ namespace NTMiner {
             }
 
             Global.Logger.OkDebugLine($"服务启动成功: {DateTime.Now}.");
-            Global.Logger.InfoDebugLine("服务列表：");
+            Global.Logger.Debug("服务列表：");
             foreach (var serviceHost in _serviceHosts) {
                 foreach (var endpoint in serviceHost.Description.Endpoints) {
-                    Global.Logger.InfoDebugLine(endpoint.Address.Uri.ToString());
+                    Global.Logger.Debug(endpoint.Address.Uri.ToString());
                 }
             }
             Global.Logger.OkDebugLine("Wcf服务启动完成");
@@ -409,7 +409,7 @@ namespace NTMiner {
         public void StopMine(bool wait = true) {
             try {
                 KillKernelProcess();
-                Global.WriteLine("挖矿停止", ConsoleColor.Red);
+                Global.Logger.WarnWriteLine("挖矿停止");
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
                 Global.Happened(new MineStopedEvent(mineContext));

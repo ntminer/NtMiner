@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -17,7 +16,6 @@ namespace NTMiner {
         private Mutex mutexApp;
 
         public App() {
-            Global.SetLogDir(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs"));
             Global.Logger.Debug("App.ctor start");
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 var exception = e.ExceptionObject as Exception;

@@ -8,12 +8,12 @@ namespace NTMiner.Windows {
                 const string subKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System";
                 string[] names = { "ConsentPromptBehaviorAdmin", "EnableLUA", "PromptOnSecureDesktop" };
                 if (names.All(a => (int)Registry.GetValue(Microsoft.Win32.Registry.LocalMachine, subKey, a) == 0)) {
-                    Global.DebugLine("UAC已经处于禁用状态，无需再次禁用", ConsoleColor.Green);
+                    Global.Logger.OkDebugLine("UAC已经处于禁用状态，无需再次禁用");
                     return true;
                 }
                 else {
-                    if (!Windows.Role.IsAdministrator) {
-                        Global.DebugLine("禁用UAC失败，因为不是管理员", ConsoleColor.Red);
+                    if (!Role.IsAdministrator) {
+                        Global.Logger.WarnDebugLine("禁用UAC失败，因为不是管理员");
                         return false;
                     }
                     foreach (var name in names) {

@@ -101,7 +101,7 @@ namespace NTMiner.Vms {
             SpeedCharts.ShowWindow();
         });
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
-            string updaterDirFullName = Path.Combine(Global.GlobalDirFullName, "Updater");
+            string updaterDirFullName = Path.Combine(ClientId.GlobalDirFullName, "Updater");
             if (!Directory.Exists(updaterDirFullName)) {
                 Directory.CreateDirectory(updaterDirFullName);
             }
@@ -141,10 +141,10 @@ namespace NTMiner.Vms {
             CalcConfig.ShowWindow();
         });
         public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
-            Process.Start(Global.GlobalDirFullName);
+            Process.Start(ClientId.GlobalDirFullName);
         });
         public static ICommand OpenLangLiteDb { get; private set; } = new DelegateCommand(() => {
-            OpenLiteDb(Global.LangDbFileFullName);
+            OpenLiteDb(ClientId.LangDbFileFullName);
         });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(SpecialPath.LocalDbFileFullName);
@@ -154,7 +154,7 @@ namespace NTMiner.Vms {
         });
 
         private static void OpenLiteDb(string dbFileFullName) {
-            string liteDbExplorerDir = Path.Combine(Global.GlobalDirFullName, "LiteDBExplorerPortable");
+            string liteDbExplorerDir = Path.Combine(ClientId.GlobalDirFullName, "LiteDBExplorerPortable");
             string liteDbExplorerFileFullName = Path.Combine(liteDbExplorerDir, "LiteDbExplorer.exe");
             if (!Directory.Exists(liteDbExplorerDir)) {
                 Directory.CreateDirectory(liteDbExplorerDir);

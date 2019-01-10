@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
         }
 
         private void Download(Action<bool, string, string> downloadComplete) {
-            Global.DebugLine("下载：" + _downloadFileUrl);
+            Global.Logger.Debug("下载：" + _downloadFileUrl);
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, "LiteDBExplorerPortable.zip");
             using (WebClient webClient = new WebClient()) {
                 _cancel = () => {

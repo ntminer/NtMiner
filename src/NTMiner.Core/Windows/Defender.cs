@@ -8,10 +8,10 @@ namespace NTMiner.Windows {
                 var v = Registry.GetValue(Microsoft.Win32.Registry.LocalMachine, subKey, "DisableAntiSpyware");
                 if (v == null || v.ToString() != "1") {
                     Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, subKey, "DisableAntiSpyware", 1);
-                    Global.DebugLine("Windows Defender禁用成功", ConsoleColor.Green);
+                    Global.Logger.OkDebugLine("Windows Defender禁用成功");
                 }
                 else {
-                    Global.DebugLine("Windows Defender已经处于禁用状态，无需再次禁用", ConsoleColor.Green);
+                    Global.Logger.WarnDebugLine("Windows Defender已经处于禁用状态，无需再次禁用");
                 }
             }
             catch (Exception e) {

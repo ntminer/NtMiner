@@ -3,6 +3,7 @@ using NTMiner.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,7 @@ using System.Windows.Threading;
 namespace NTMiner {
     public partial class App : Application {
         public App() {
+            Logging.LogDir.SetDir(Path.Combine(ClientId.GlobalDirFullName, "Logs"));
             AppHelper.Init(this);
             Global.Logger.Debug("App.InitializeComponent start");
             InitializeComponent();
@@ -167,7 +169,7 @@ namespace NTMiner {
                 }
                 splashWindow?.Close();
                 if (NTMinerRoot.Current.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) {
-                    Global.DebugLine("自动开始挖矿倒计时", ConsoleColor.Yellow);
+                    Global.Logger.Debug("自动开始挖矿倒计时");
                     Views.Ucs.AutoStartCountdown.ShowDialog();
                 }
             });

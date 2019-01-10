@@ -11,10 +11,10 @@ namespace NTMiner.Windows {
                     if (sc != null && sc.Status == ServiceControllerStatus.Running) {
                         sc.Stop();
                         sc.WaitForStatus(ServiceControllerStatus.Stopped);
-                        Global.DebugLine("Windows自动更新禁用成功", ConsoleColor.Green);
+                        Global.Logger.OkDebugLine("Windows自动更新禁用成功");
                     }
                     else {
-                        Global.DebugLine("Windows自动更新已经处于禁用状态，无需再次禁用", ConsoleColor.Green);
+                        Global.Logger.OkDebugLine("Windows自动更新已经处于禁用状态，无需再次禁用");
                     }
                     sc.Close();
                 }

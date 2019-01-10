@@ -11,9 +11,9 @@ namespace NTMiner.Logging {
 
         public Log4NetLoggingService() {
             XmlDocument xmlDoc = new XmlDocument();
-            string logFile = "logs\root.log";
-            if (!string.IsNullOrEmpty(Global.LogDir)) {
-                logFile = Path.Combine(Global.LogDir, "root.log");
+            string logFile = "logs\\root.log";
+            if (!string.IsNullOrEmpty(LogDir.Dir)) {
+                logFile = Path.Combine(LogDir.Dir, "root.log");
             }
             xmlDoc.LoadXml(
 $@"<log4net>
@@ -48,16 +48,6 @@ $@"<log4net>
         public void DebugFormatted(string format, params object[] args) {
             Global.DebugLine(string.Format(format, args), ConsoleColor.White);
             _log.DebugFormat(CultureInfo.InvariantCulture, format, args);
-        }
-
-        public void InfoDebugLine(object message) {
-            Global.DebugLine(message?.ToString(), ConsoleColor.Gray);
-            _log.Info(message);
-        }
-
-        public void InfoDebugLineFormatted(string format, params object[] args) {
-            Global.DebugLine(string.Format(format, args), ConsoleColor.Gray);
-            _log.InfoFormat(CultureInfo.InvariantCulture, format, args);
         }
 
         public void OkDebugLine(object message) {
@@ -107,6 +97,66 @@ $@"<log4net>
 
         public void FatalDebugLineFormatted(string format, params object[] args) {
             Global.DebugLine(string.Format(format, args), ConsoleColor.Red);
+            _log.FatalFormat(CultureInfo.InvariantCulture, format, args);
+        }
+
+        public void InfoWriteLine(object message) {
+            Global.WriteLine(message?.ToString(), ConsoleColor.Gray);
+            _log.Info(message);
+        }
+
+        public void InfoWriteLineFormatted(string format, params object[] args) {
+            Global.WriteLine(string.Format(format, args), ConsoleColor.Gray);
+            _log.InfoFormat(CultureInfo.InvariantCulture, format, args);
+        }
+
+        public void OkWriteLine(object message) {
+            Global.WriteLine(message?.ToString(), ConsoleColor.Green);
+            _log.Info(message);
+        }
+
+        public void WarnWriteLine(object message) {
+            Global.WriteLine(message?.ToString(), ConsoleColor.Yellow);
+            _log.Warn(message);
+        }
+
+        public void WarnWriteLine(object message, Exception exception) {
+            Global.WriteLine(message?.ToString() + exception.StackTrace, ConsoleColor.Yellow);
+            _log.Warn(message, exception);
+        }
+
+        public void WarnWriteLineFormatted(string format, params object[] args) {
+            Global.WriteLine(string.Format(format, args), ConsoleColor.Yellow);
+            _log.WarnFormat(CultureInfo.InvariantCulture, format, args);
+        }
+
+        public void ErrorWriteLine(object message) {
+            Global.WriteLine(message?.ToString(), ConsoleColor.Red);
+            _log.Error(message);
+        }
+
+        public void ErrorWriteLine(object message, Exception exception) {
+            Global.WriteLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
+            _log.Error(message, exception);
+        }
+
+        public void ErrorWriteLineFormatted(string format, params object[] args) {
+            Global.WriteLine(string.Format(format, args), ConsoleColor.Red);
+            _log.ErrorFormat(CultureInfo.InvariantCulture, format, args);
+        }
+
+        public void FatalWriteLine(object message) {
+            Global.WriteLine(message?.ToString(), ConsoleColor.Red);
+            _log.Fatal(message);
+        }
+
+        public void FatalWriteLine(object message, Exception exception) {
+            Global.WriteLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
+            _log.Fatal(message, exception);
+        }
+
+        public void FatalWriteLineFormatted(string format, params object[] args) {
+            Global.WriteLine(string.Format(format, args), ConsoleColor.Red);
             _log.FatalFormat(CultureInfo.InvariantCulture, format, args);
         }
 

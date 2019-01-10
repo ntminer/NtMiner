@@ -47,7 +47,7 @@ namespace NTMiner {
                     callback?.Invoke(true);
                 }
                 catch (CommunicationException e) {
-                    Global.DebugLine(e.Message, ConsoleColor.Red);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
                 catch (Exception e) {
@@ -70,7 +70,7 @@ namespace NTMiner {
                     callback?.Invoke(true);
                 }
                 catch (CommunicationException e) {
-                    Global.DebugLine(e.Message, ConsoleColor.Red);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
                 catch (Exception e) {
@@ -95,7 +95,7 @@ namespace NTMiner {
                     callback?.Invoke(true);
                 }
                 catch (CommunicationException e) {
-                    Global.DebugLine(e.Message, ConsoleColor.Red);
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
                 catch (Exception e) {

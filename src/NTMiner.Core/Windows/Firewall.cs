@@ -8,10 +8,10 @@ namespace NTMiner.Windows {
                 Cmd.RunClose("netsh", "advfirewall set allprofiles state off", ref exitcode);
                 bool r = exitcode == 0;
                 if (r) {
-                    Global.DebugLine("disable firewall ok", ConsoleColor.Green);
+                    Global.Logger.OkDebugLine("disable firewall ok");
                 }
                 else {
-                    Global.DebugLine("disable firewall failed, exitcode=" + exitcode, ConsoleColor.Red);
+                    Global.Logger.WarnDebugLine("disable firewall failed, exitcode=" + exitcode);
                 }
                 return r;
             }

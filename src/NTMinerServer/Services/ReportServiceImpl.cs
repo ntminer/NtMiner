@@ -39,11 +39,10 @@ namespace NTMiner.Services {
                     clientData.PublicKey = message.PublicKey;
                     clientData.GpuInfo = message.GpuInfo;
                 }
-                Global.DebugLine($"{message.ClientId} {minerIp} 登录", ConsoleColor.Yellow);
+                Global.Logger.Debug($"{message.ClientId} {minerIp} 登录");
             }
             catch (Exception e) {
-                Global.WriteLine(e.Message, ConsoleColor.Red);
-                Global.WriteLine(e.StackTrace, ConsoleColor.Red);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -110,8 +109,7 @@ namespace NTMiner.Services {
                 }
             }
             catch (Exception e) {
-                Global.WriteLine(e.Message, ConsoleColor.Red);
-                Global.WriteLine(e.StackTrace, ConsoleColor.Red);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -136,8 +134,7 @@ namespace NTMiner.Services {
                 }
             }
             catch (Exception e) {
-                Global.WriteLine(e.Message, ConsoleColor.Red);
-                Global.WriteLine(e.StackTrace, ConsoleColor.Red);
+                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
 

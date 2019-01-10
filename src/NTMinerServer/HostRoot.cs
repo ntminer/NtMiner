@@ -165,11 +165,11 @@ namespace NTMiner {
                 serviceHost.Open();
             }
 
-            Global.DebugLine($"服务启动成功: {DateTime.Now}.");
-            Global.DebugLine("服务列表：");
+            Global.Logger.Debug($"服务启动成功: {DateTime.Now}.");
+            Global.Logger.Debug("服务列表：");
             foreach (var serviceHost in _serviceHosts) {
                 foreach (var endpoint in serviceHost.Description.Endpoints) {
-                    Global.DebugLine(endpoint.Address.Uri.ToString());
+                    Global.Logger.Debug(endpoint.Address.Uri.ToString());
                 }
             }
             StartedOn = DateTime.Now;
