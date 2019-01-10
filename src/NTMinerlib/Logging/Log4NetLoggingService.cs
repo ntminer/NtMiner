@@ -42,23 +42,28 @@ $@"<log4net>
         }
 
         public void Debug(object message) {
-            Global.DebugLine(message?.ToString());
+            Global.DebugLine(message?.ToString(), ConsoleColor.White);
             _log.Debug(message);
         }
 
         public void DebugFormatted(string format, params object[] args) {
-            Global.DebugLine(string.Format(format, args));
+            Global.DebugLine(string.Format(format, args), ConsoleColor.White);
             _log.DebugFormat(CultureInfo.InvariantCulture, format, args);
         }
 
         public void Info(object message) {
-            Global.DebugLine(message?.ToString());
+            Global.DebugLine(message?.ToString(), ConsoleColor.Gray);
             _log.Info(message);
         }
 
         public void InfoFormatted(string format, params object[] args) {
-            Global.DebugLine(string.Format(format, args));
+            Global.DebugLine(string.Format(format, args), ConsoleColor.Gray);
             _log.InfoFormat(CultureInfo.InvariantCulture, format, args);
+        }
+
+        public void Ok(object message) {
+            Global.DebugLine(message?.ToString(), ConsoleColor.Green);
+            _log.Info(message);
         }
 
         public void Warn(object message) {
@@ -67,7 +72,7 @@ $@"<log4net>
         }
 
         public void Warn(object message, Exception exception) {
-            Global.DebugLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
+            Global.DebugLine(message?.ToString() + exception.StackTrace, ConsoleColor.Yellow);
             _log.Warn(message, exception);
         }
 

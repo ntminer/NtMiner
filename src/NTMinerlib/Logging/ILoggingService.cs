@@ -7,6 +7,7 @@ namespace NTMiner.Logging {
         void DebugFormatted(string format, params object[] args);
         void Info(object message);
         void InfoFormatted(string format, params object[] args);
+        void Ok(object message);
         void Warn(object message);
         void Warn(object message, Exception exception);
         void WarnFormatted(string format, params object[] args);
