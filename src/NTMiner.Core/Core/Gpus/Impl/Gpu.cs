@@ -1,7 +1,7 @@
 ﻿namespace NTMiner.Core.Gpus.Impl {
     internal class Gpu : IGpu {
         public static readonly IGpu Total = new Gpu {
-            Index = NTMinerRoot.Current.GpuAllId,
+            Index = NTMinerRoot.GpuAllId,
             Name = "全部显卡",
             Temperature = 0,
             FanSpeed = 0,

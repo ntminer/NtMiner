@@ -9,6 +9,8 @@ namespace NTMiner {
     public partial class NTMinerRoot {
         public static IKernelDownloader KernelDownloader;
 
+        public static readonly int GpuAllId = -1;
+
         static NTMinerRoot() {
             Assembly mainAssembly = Assembly.GetEntryAssembly();
             CurrentVersion = mainAssembly.GetName().Version;
@@ -24,7 +26,6 @@ namespace NTMiner {
 
         private static readonly NTMinerRoot _current = new NTMinerRoot();
         public static readonly INTMinerRoot Current = _current;
-        public static Action Inited;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
         public static readonly string VersionTag;

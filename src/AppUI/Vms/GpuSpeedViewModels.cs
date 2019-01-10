@@ -18,12 +18,12 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this.GpuAllVm = GpuViewModels.Current.FirstOrDefault(a => a.Index == NTMinerRoot.Current.GpuAllId);
+            this.GpuAllVm = GpuViewModels.Current.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
             IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
             foreach (var item in gpuSpeeds) {
                 this._list.Add(new GpuSpeedViewModel(item));
             }
-            _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.Current.GpuAllId);
+            _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
             Global.Access<GpuSpeedChangedEvent>(
                 Guid.Parse("acb2e5fd-a3ed-4ed6-b8c7-583eafd5e579"),
                 "显卡算力变更后刷新VM内存",
@@ -127,7 +127,7 @@ namespace NTMiner.Vms {
 
         public List<GpuSpeedViewModel> GpuSpeedVms {
             get {
-                return _list.Where(a => a.GpuVm.Index != NTMinerRoot.Current.GpuAllId).ToList();
+                return _list.Where(a => a.GpuVm.Index != NTMinerRoot.GpuAllId).ToList();
             }
         }
 

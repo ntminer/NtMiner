@@ -49,7 +49,7 @@ namespace NTMiner {
                 Global.Logger.Debug("new SplashWindow");
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
-                NTMinerRoot.Inited = OnNTMinerRootInited;
+                NTMinerRoot.Current.Init(OnNTMinerRootInited);
             }
             else {
                 try {

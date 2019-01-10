@@ -24,7 +24,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                 });
             }
-            IGpuSpeed totalGpuSpeed = this._currentGpuSpeed[NTMinerRoot.Current.GpuAllId];
+            IGpuSpeed totalGpuSpeed = this._currentGpuSpeed[NTMinerRoot.GpuAllId];
             var speedExceptTotal = _currentGpuSpeed.Values.Where(a => a != totalGpuSpeed).ToArray();
             totalGpuSpeed.MainCoinSpeed.Value = speedExceptTotal.Sum(a => a.MainCoinSpeed.Value);
             totalGpuSpeed.DualCoinSpeed.Value = speedExceptTotal.Sum(a => a.DualCoinSpeed.Value);

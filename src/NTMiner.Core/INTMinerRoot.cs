@@ -8,6 +8,8 @@ using System;
 
 namespace NTMiner {
     public interface INTMinerRoot {
+        void Init(Action callback);
+
         void Exit();
 
         void Start();
@@ -31,8 +33,6 @@ namespace NTMiner {
         IMinerGroupSet MinerGroupSet { get; }
 
         string QQGroup { get; }
-
-        int GpuAllId { get; }
 
         int SpeedHistoryLengthByMinute { get; }
 

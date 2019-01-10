@@ -16,8 +16,8 @@ namespace NTMiner.Vms {
             foreach (var gpu in NTMinerRoot.Current.GpuSet) {
                 _gpuVms.Add(gpu.Index, new GpuViewModel(gpu));
             }
-            if (_gpuVms.ContainsKey(NTMinerRoot.Current.GpuAllId)) {
-                _totalGpuVm = _gpuVms[NTMinerRoot.Current.GpuAllId];
+            if (_gpuVms.ContainsKey(NTMinerRoot.GpuAllId)) {
+                _totalGpuVm = _gpuVms[NTMinerRoot.GpuAllId];
             }
             Global.Access<GpuStateChangedEvent>(
                 Guid.Parse("57a0dc71-08ca-4cde-9e7e-214ed3cfaf04"),

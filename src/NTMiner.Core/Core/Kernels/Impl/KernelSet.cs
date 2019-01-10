@@ -198,7 +198,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     long totalSpeedL = totalSpeed.ToLong(totalSpeedUnit);
                     var now = DateTime.Now;
                     GpusSpeed gpuSpeeds = (GpusSpeed)NTMinerRoot.Current.GpusSpeed;
-                    IGpuSpeed totalGpuSpeed = gpuSpeeds.First(a => a.Gpu.Index == root.GpuAllId);
+                    IGpuSpeed totalGpuSpeed = gpuSpeeds.First(a => a.Gpu.Index == NTMinerRoot.GpuAllId);
                     gpuSpeeds.SetCurrentSpeed(totalGpuSpeed.Clone());
                     if (isDual) {
                         totalGpuSpeed.DualCoinSpeed.Value = totalSpeedL;
@@ -217,7 +217,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         // 平分总算力
                         long gpuSpeedL = totalSpeedL / root.GpuSet.Count;
                         foreach (var item in gpuSpeeds) {
-                            if (item.Gpu.Index != root.GpuAllId) {
+                            if (item.Gpu.Index != NTMinerRoot.GpuAllId) {
                                 gpuSpeeds.SetCurrentSpeed(item.Clone());
                                 if (isDual) {
                                     item.DualCoinSpeed.Value = gpuSpeedL;
@@ -277,14 +277,14 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
                 if (string.IsNullOrEmpty(totalSpeedPattern)) {
                     // 求和分算力
-                    IGpuSpeed totalGpuSpeed = gpuSpeeds.First(a => a.Gpu.Index == root.GpuAllId);
+                    IGpuSpeed totalGpuSpeed = gpuSpeeds.First(a => a.Gpu.Index == NTMinerRoot.GpuAllId);
                     gpuSpeeds.SetCurrentSpeed(totalGpuSpeed.Clone());
                     if (isDual) {
-                        totalGpuSpeed.DualCoinSpeed.Value = gpuSpeeds.Where(a => a.Gpu.Index != root.GpuAllId).Sum(a => a.DualCoinSpeed.Value);
+                        totalGpuSpeed.DualCoinSpeed.Value = gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.DualCoinSpeed.Value);
                         totalGpuSpeed.DualCoinSpeed.SpeedOn = now;
                     }
                     else {
-                        totalGpuSpeed.MainCoinSpeed.Value = gpuSpeeds.Where(a => a.Gpu.Index != root.GpuAllId).Sum(a => a.MainCoinSpeed.Value); ;
+                        totalGpuSpeed.MainCoinSpeed.Value = gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.MainCoinSpeed.Value); ;
                         totalGpuSpeed.MainCoinSpeed.SpeedOn = now;
                     }
                     Global.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: totalGpuSpeed));

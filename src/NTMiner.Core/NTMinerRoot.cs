@@ -23,110 +23,95 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         #region cotr
         private NTMinerRoot() {
-            Task.Factory.StartNew(() => {
-                if (CommandLineArgs.IsSkipDownloadJson) {
-                    Init();
-                    Global.Access<HasBoot5SecondEvent>(
-                        Guid.Parse("546CCF96-D87E-4436-B236-0A9416DFE28D"),
-                        "Debug打印",
-                        LogEnum.Log,
-                        action: (message) => {
-                            Global.Logger.OkDebugLine("已跳过从服务器下载Json");
-                        });
-                }
-                else {
-                    object locker = new object();
-                    bool isServerJsonDownloaded = false;
-                    bool isLangJsonDownloaded = false;
-                    Global.Access<HasBoot5SecondEvent>(
-                        Guid.Parse("5746e92f-8c79-4f91-a54d-90aa83d2bd1e"),
-                        $"检查{ClientId.ServerJsonFileName}和{ClientId.ServerLangJsonFileName}是否下载成功",
-                        LogEnum.Log,
-                        action: (message) => {
-                            lock (locker) {
-                                if (!isServerJsonDownloaded || !isLangJsonDownloaded) {
-                                    Init();
-                                }
-                                else {
-                                    Global.Logger.OkDebugLine("下载成功了");
-                                }
-                            }
-                        });
-                    using (WebClient webClient = new WebClient()) {
-                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerJsonFileName;
-                        Global.Logger.Debug("下载：" + jsonUrl);
-                        webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                            if (!e.Cancelled && e.Error == null) {
-                                lock (locker) {
-                                    isServerJsonDownloaded = true;
-                                    if (isLangJsonDownloaded) {
-                                        Init();
-                                    }
-                                }
-                            }
-                        };
-                        webClient.DownloadFileAsync(new Uri(jsonUrl), SpecialPath.LocalJsonFileFullName);
-                    }
-                    using (WebClient webClient = new WebClient()) {
-                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerLangJsonFileName;
-                        Global.Logger.Debug("下载：" + jsonUrl);
-                        webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                            if (!e.Cancelled && e.Error == null) {
-                                lock (locker) {
-                                    isLangJsonDownloaded = true;
-                                    if (isServerJsonDownloaded) {
-                                        Init();
-                                    }
-                                }
-                            }
-                        };
-                        webClient.DownloadFileAsync(new Uri(jsonUrl), ClientId.LocalLangJsonFileFullName);
-                    }
-                }
-            });
         }
         #endregion
 
         #region Init
-        public void Init() {
+        private readonly object _locker = new object();
+        private bool _isInited = false;
+        public void Init(Action callback) {
             if (!this._isInited) {
                 lock (this._locker) {
                     if (!this._isInited) {
-                        Global.Logger.Debug("SystemRoo.PrivateInit start");
-                        this.PackageDownloader = new PackageDownloader(this);
-                        this.SysDicSet = new SysDicSet(this);
-                        this.SysDicItemSet = new SysDicItemSet(this);
-                        this.CoinSet = new CoinSet(this);
-                        this.GroupSet = new GroupSet(this);
-                        this.CoinGroupSet = new CoinGroupSet(this);
-                        this.CalcConfigSet = new CalcConfigSet(this);
-                        this.WalletSet = new WalletSet(this);
-                        this.PoolSet = new PoolSet(this);
-                        this.CoinKernelSet = new CoinKernelSet(this);
-                        this.KernelSet = new KernelSet(this);
-                        this.KernelProfileSet = new KernelProfileSet(this);
-                        this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
-                        this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
-                        this.GpusSpeed = new GpusSpeed(this);
-                        this.CoinShareSet = new CoinShareSet(this);
-                        this.MineWorkSet = new MineWorkSet(this);
-                        this.MinerGroupSet = new MinerGroupSet(this);
-                        this._minerProfile = new MinerProfile(this);
-                        this.CoinProfileSet = new CoinProfileSet(this);
-                        this.CoinKernelProfileSet = new CoinKernelProfileSet(this);
-
-                        Inited?.Invoke();
-                        Global.Logger.Debug("SystemRoo.PrivateInit end");
-                        this._isInited = true;
+                        if (CommandLineArgs.IsSkipDownloadJson) {
+                            DoInit(callback);
+                            Global.Access<HasBoot5SecondEvent>(
+                                Guid.Parse("546CCF96-D87E-4436-B236-0A9416DFE28D"),
+                                "Debug打印",
+                                LogEnum.Log,
+                                action: (message) => {
+                                    Global.Logger.OkDebugLine("已跳过从服务器下载Json");
+                                });
+                        }
+                        else {
+                            Task t1 = Task.Factory.StartNew(() => {
+                                try {
+                                    using (WebClient webClient = new WebClient()) {
+                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerJsonFileName;
+                                        Global.Logger.Debug("下载：" + jsonUrl);
+                                        webClient.DownloadFile(jsonUrl, SpecialPath.LocalJsonFileFullName);
+                                    }
+                                }
+                                catch (Exception e) {
+                                    Global.Logger.ErrorDebugLine(e.Message, e);
+                                }
+                            });
+                            Task t2 = Task.Factory.StartNew(() => {
+                                try {
+                                    using (WebClient webClient = new WebClient()) {
+                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerLangJsonFileName;
+                                        Global.Logger.Debug("下载：" + jsonUrl);
+                                        webClient.DownloadFile(jsonUrl, ClientId.LocalLangJsonFileFullName);
+                                    }
+                                }
+                                catch (Exception e) {
+                                    Global.Logger.ErrorDebugLine(e.Message, e);
+                                }
+                            });
+                            if (Task.WaitAll(new Task[] { t1, t2 }, 30 * 1000)) {
+                                DoInit(callback);
+                            }
+                            else {
+                                Global.Logger.Debug("启动json下载超时");
+                                DoInit(callback);
+                            }
+                        }
+                        _isInited = true;
                     }
                 }
             }
         }
+
+        public void DoInit(Action callback) {
+            Global.Logger.Debug("SystemRoo.PrivateInit start");
+            this.PackageDownloader = new PackageDownloader(this);
+            this.SysDicSet = new SysDicSet(this);
+            this.SysDicItemSet = new SysDicItemSet(this);
+            this.CoinSet = new CoinSet(this);
+            this.GroupSet = new GroupSet(this);
+            this.CoinGroupSet = new CoinGroupSet(this);
+            this.CalcConfigSet = new CalcConfigSet(this);
+            this.WalletSet = new WalletSet(this);
+            this.PoolSet = new PoolSet(this);
+            this.CoinKernelSet = new CoinKernelSet(this);
+            this.KernelSet = new KernelSet(this);
+            this.KernelProfileSet = new KernelProfileSet(this);
+            this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
+            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
+            this.GpusSpeed = new GpusSpeed(this);
+            this.CoinShareSet = new CoinShareSet(this);
+            this.MineWorkSet = new MineWorkSet(this);
+            this.MinerGroupSet = new MinerGroupSet(this);
+            this._minerProfile = new MinerProfile(this);
+            this.CoinProfileSet = new CoinProfileSet(this);
+            this.CoinKernelProfileSet = new CoinKernelProfileSet(this);
+
+            callback?.Invoke();
+            Global.Logger.Debug("SystemRoo.PrivateInit end");
+        }
         #endregion
 
         private MinerProfile _minerProfile;
-        private readonly object _locker = new object();
-        private bool _isInited = false;
         private List<ServiceHost> _serviceHosts = null;
         #region Start
         public void Start() {
@@ -649,10 +634,6 @@ namespace NTMiner {
         public ICoinGroupSet CoinGroupSet { get; private set; }
 
         public ICalcConfigSet CalcConfigSet { get; private set; }
-
-        public int GpuAllId {
-            get { return -1; }
-        }
 
         public int SpeedHistoryLengthByMinute {
             get {

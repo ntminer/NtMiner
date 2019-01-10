@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
 
         public string IndexText {
             get {
-                if (Index == NTMinerRoot.Current.GpuAllId) {
+                if (Index == NTMinerRoot.GpuAllId) {
                     return "All";
                 }
                 return $"GPU{Index}";
@@ -39,10 +39,10 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0℃";
                 }
-                if (this.Index == NTMinerRoot.Current.GpuAllId) {
+                if (this.Index == NTMinerRoot.GpuAllId) {
                     uint min = uint.MaxValue, max = uint.MinValue;
                     foreach (var item in GpuViewModels.Current) {
-                        if (item.Index == NTMinerRoot.Current.GpuAllId) {
+                        if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
                         if (item.Temperature > max) {
@@ -72,10 +72,10 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0%";
                 }
-                if (this.Index == NTMinerRoot.Current.GpuAllId) {
+                if (this.Index == NTMinerRoot.GpuAllId) {
                     uint min = uint.MaxValue, max = uint.MinValue;
                     foreach (var item in GpuViewModels.Current) {
-                        if (item.Index == NTMinerRoot.Current.GpuAllId) {
+                        if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
                         if (item.FanSpeed > max) {
@@ -112,7 +112,7 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0W";
                 }
-                if (this.Index == NTMinerRoot.Current.GpuAllId) {
+                if (this.Index == NTMinerRoot.GpuAllId) {
                     return $"{(GpuViewModels.Current.Sum(a => a.PowerUsage)).ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";

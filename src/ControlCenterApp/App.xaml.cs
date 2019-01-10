@@ -45,7 +45,7 @@ namespace NTMiner {
                 Global.Logger.Debug("new SplashWindow");
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
-                NTMinerRoot.Inited = () => {
+                NTMinerRoot.Current.Init(() => {
                     NTMinerRoot.KernelDownloader = new KernelDownloader();
                     Execute.OnUIThread(() => {
                         bool? result = true;
@@ -78,7 +78,7 @@ namespace NTMiner {
                         }
                         splashWindow?.Close();
                     });
-                };
+                });
             }
             else {
                 try {
