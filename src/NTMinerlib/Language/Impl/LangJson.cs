@@ -5,17 +5,7 @@ using System.Linq;
 
 namespace NTMiner.Language.Impl {
     public class LangJson {
-        public static readonly LangJson Instance;
-
-        static LangJson() {
-            string langJsonFileFullName = Path.Combine(ClientId.GlobalDirFullName, "lang.json");
-            if (!File.Exists(langJsonFileFullName)) {
-                Instance = new LangJson();
-            }
-            else {
-                Instance = Global.JsonSerializer.Deserialize<LangJson>(File.ReadAllText(langJsonFileFullName));
-            }
-        }
+        public static readonly LangJson Instance = new LangJson();
 
         public static void Export() {
             LangJson data = new LangJson() {
@@ -26,9 +16,33 @@ namespace NTMiner.Language.Impl {
             File.WriteAllText(ClientId.ServerLangJsonFileFullName, json);
         }
 
-        public LangJson() {
+        // 私有构造函数不影响序列化反序列化
+        private LangJson() {
             this.Langs = new Lang[0];
             this.LangViewItems = new LangViewItem[0];
+        }
+
+        private readonly object _locker = new object();
+        private bool _inited = false;
+        public void Init(string rawJson) {
+            if (!_inited) {
+                lock (_locker) {
+                    if (!_inited) {
+                        if (!string.IsNullOrEmpty(rawJson)) {
+                            try {
+                                LangJson data = Global.JsonSerializer.Deserialize<LangJson>(rawJson);
+                                this.Langs = data.Langs ?? new Lang[0];
+                                this.LangViewItems = data.LangViewItems ?? new LangViewItem[0];
+                                File.WriteAllText(ClientId.LocalLangJsonFileFullName, rawJson);
+                            }
+                            catch (Exception e) {
+                                Global.Logger.ErrorDebugLine(e.Message, e);
+                            }
+                        }
+                        _inited = true;
+                    }
+                }
+            }
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {

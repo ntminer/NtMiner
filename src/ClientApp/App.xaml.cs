@@ -41,10 +41,6 @@ namespace NTMiner {
                 createdNew = false;
             }
             if (createdNew) {
-                if (!NTMiner.Windows.Role.IsAdministrator) {
-                    AppHelper.RunAsAdministrator();
-                    return;
-                }
                 Vms.AppStatic.IsMinerClient = true;
                 Global.Logger.Debug("new SplashWindow");
                 SplashWindow splashWindow = new SplashWindow();

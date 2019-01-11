@@ -2,6 +2,12 @@
 
 namespace NTMiner.Language.Impl {
     public class Lang : ILang {
+        public static readonly ILang Empty = new Lang {
+            Id = Guid.Empty,
+            Name = string.Empty,
+            Code = string.Empty
+        };
+
         public Guid GetId() {
             return this.Id;
         }

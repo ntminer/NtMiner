@@ -36,8 +36,16 @@ namespace NTMiner {
             if (!this._isInited) {
                 lock (this._locker) {
                     if (!this._isInited) {
+                        string rawNTMinerJson = string.Empty;
+                        if (File.Exists(SpecialPath.LocalJsonFileFullName)) {
+                            rawNTMinerJson = File.ReadAllText(SpecialPath.LocalJsonFileFullName);
+                        }
+                        string rawLangJson = string.Empty;
+                        if (File.Exists(ClientId.LocalLangJsonFileFullName)) {
+                            rawLangJson = File.ReadAllText(ClientId.LocalLangJsonFileFullName);
+                        }
                         if (CommandLineArgs.IsSkipDownloadJson) {
-                            DoInit(callback);
+                            DoInit(rawNTMinerJson, rawLangJson, callback);
                             Global.Access<HasBoot5SecondEvent>(
                                 Guid.Parse("546CCF96-D87E-4436-B236-0A9416DFE28D"),
                                 "Debug打印",
@@ -53,7 +61,8 @@ namespace NTMiner {
                                     using (WebClient webClient = new WebClient()) {
                                         string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerJsonFileName;
                                         Global.Logger.Debug("下载：" + jsonUrl);
-                                        webClient.DownloadFile(jsonUrl, SpecialPath.LocalJsonFileFullName);
+                                        byte[] data = webClient.DownloadData(jsonUrl);
+                                        rawNTMinerJson = System.Text.Encoding.UTF8.GetString(data);
                                     }
                                 }
                                 catch (Exception e) {
@@ -65,7 +74,8 @@ namespace NTMiner {
                                     using (WebClient webClient = new WebClient()) {
                                         string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerLangJsonFileName;
                                         Global.Logger.Debug("下载：" + jsonUrl);
-                                        webClient.DownloadFile(jsonUrl, ClientId.LocalLangJsonFileFullName);
+                                        byte[] data = webClient.DownloadData(jsonUrl);
+                                        rawLangJson = System.Text.Encoding.UTF8.GetString(data);
                                     }
                                 }
                                 catch (Exception e) {
@@ -74,11 +84,11 @@ namespace NTMiner {
                             });
                             Task.Factory.StartNew(() => {
                                 if (Task.WaitAll(new Task[] { t1, t2 }, 30 * 1000)) {
-                                    DoInit(callback);
+                                    DoInit(rawNTMinerJson, rawLangJson, callback);
                                 }
                                 else {
                                     Global.Logger.Debug("启动json下载超时");
-                                    DoInit(callback);
+                                    DoInit(rawNTMinerJson, rawLangJson, callback);
                                 }
                                 _isInited = true;
                             });
@@ -88,8 +98,10 @@ namespace NTMiner {
             }
         }
 
-        public void DoInit(Action callback) {
+        public void DoInit(string rawNTMinerJson, string rawLangJson, Action callback) {
             Global.Logger.Debug("SystemRoo.PrivateInit start");
+            ServerJson.Instance.Init(rawNTMinerJson);
+            Language.Impl.LangJson.Instance.Init(rawLangJson);
             this.PackageDownloader = new PackageDownloader(this);
             this.SysDicSet = new SysDicSet(this);
             this.SysDicItemSet = new SysDicItemSet(this);

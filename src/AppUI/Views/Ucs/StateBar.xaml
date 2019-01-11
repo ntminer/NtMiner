@@ -164,6 +164,7 @@
             </StackPanel>
             <TextBlock 
                 Grid.Column="0"
+                Margin="0 0 4 0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
 				Text="{Binding MinerProfile.BootTimeSpanText}"

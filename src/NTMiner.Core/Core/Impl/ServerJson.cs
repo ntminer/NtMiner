@@ -7,15 +7,7 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class ServerJson {
-        public static readonly ServerJson Instance;
-        static ServerJson() {
-            if (!File.Exists(SpecialPath.LocalJsonFileFullName)) {
-                Instance = new ServerJson();
-            }
-            else {
-                Instance = Global.JsonSerializer.Deserialize<ServerJson>(File.ReadAllText(SpecialPath.LocalJsonFileFullName));
-            }
-        }
+        public static readonly ServerJson Instance = new ServerJson();
 
         public static void Export() {
             INTMinerRoot root = NTMinerRoot.Current;
@@ -35,6 +27,7 @@ namespace NTMiner.Core.Impl {
             File.WriteAllText(SpecialPath.ServerJsonFileFullName, json);
         }
 
+        // 私有构造函数不影响序列化反序列化
         private ServerJson() {
             this.Coins = new CoinData[0];
             this.Groups = new GroupData[0];
@@ -47,6 +40,38 @@ namespace NTMiner.Core.Impl {
             this.SysDics = new SysDicData[0];
             this.SysDicItems = new SysDicItemData[0];
             this.TimeStamp = Global.GetTimestamp();
+        }
+
+        private readonly object _locker = new object();
+        private bool _inited = false;
+        public void Init(string rawJson) {
+            if (!_inited) {
+                lock (_locker) {
+                    if (!_inited) {
+                        if (!string.IsNullOrEmpty(rawJson)) {
+                            try {
+                                ServerJson data = Global.JsonSerializer.Deserialize<ServerJson>(rawJson);
+                                this.Coins = data.Coins ?? new CoinData[0];
+                                this.Groups = data.Groups ?? new GroupData[0];
+                                this.CoinGroups = data.CoinGroups ?? new CoinGroupData[0];
+                                this.CoinKernels = data.CoinKernels ?? new CoinKernelData[0];
+                                this.Kernels = data.Kernels ?? new KernelData[0];
+                                this.KernelOutputFilters = data.KernelOutputFilters ?? new KernelOutputFilterData[0];
+                                this.KernelOutputTranslaters = data.KernelOutputTranslaters ?? new KernelOutputTranslaterData[0];
+                                this.Pools = data.Pools ?? new PoolData[0];
+                                this.SysDics = data.SysDics ?? new SysDicData[0];
+                                this.SysDicItems = data.SysDicItems ?? new SysDicItemData[0];
+                                this.TimeStamp = data.TimeStamp;
+                                File.WriteAllText(SpecialPath.LocalJsonFileFullName, rawJson);
+                            }
+                            catch (Exception e) {
+                                Global.Logger.ErrorDebugLine(e.Message, e);
+                            }
+                        }
+                        _inited = true;
+                    }
+                }
+            }
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {

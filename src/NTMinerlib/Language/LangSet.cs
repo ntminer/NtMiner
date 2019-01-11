@@ -90,7 +90,7 @@ namespace NTMiner.Language {
         public ILang GetLangByCode(string langCode) {
             InitOnece();
             if (_langs == null || _langs.Count == 0) {
-                throw new GeneralException("语言包为空");
+                return Lang.Empty;
             }
             if (_langs.Count == 1) {
                 return _langs[0];
