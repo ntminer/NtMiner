@@ -45,6 +45,7 @@ namespace NTMiner {
                                 action: (message) => {
                                     Global.Logger.OkDebugLine("已跳过从服务器下载Json");
                                 });
+                            _isInited = true;
                         }
                         else {
                             Task t1 = Task.Factory.StartNew(() => {
@@ -71,15 +72,17 @@ namespace NTMiner {
                                     Global.Logger.ErrorDebugLine(e.Message, e);
                                 }
                             });
-                            if (Task.WaitAll(new Task[] { t1, t2 }, 30 * 1000)) {
-                                DoInit(callback);
-                            }
-                            else {
-                                Global.Logger.Debug("启动json下载超时");
-                                DoInit(callback);
-                            }
+                            Task.Factory.StartNew(() => {
+                                if (Task.WaitAll(new Task[] { t1, t2 }, 30 * 1000)) {
+                                    DoInit(callback);
+                                }
+                                else {
+                                    Global.Logger.Debug("启动json下载超时");
+                                    DoInit(callback);
+                                }
+                                _isInited = true;
+                            });
                         }
-                        _isInited = true;
                     }
                 }
             }

@@ -12,6 +12,7 @@ namespace NTMiner.Vms {
         public static readonly MinerProfileViewModel Current = new MinerProfileViewModel();
 
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
+        private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private double _logoRotateTransformAngle;
         private MineWorkData _mineWork;
 
@@ -29,9 +30,12 @@ namespace NTMiner.Vms {
                 "挖矿计时秒表",
                 LogEnum.None,
                 action: message => {
+                    DateTime now = DateTime.Now;
+                    this.BootTimeSpan = now - NTMinerRoot.Current.CreatedOn;
+
                     var mineContext = NTMinerRoot.Current.CurrentMineContext;
                     if (mineContext != null) {
-                        this.MineTimeSpan = DateTime.Now - mineContext.CreatedOn;
+                        this.MineTimeSpan = now - mineContext.CreatedOn;
                     }
                 });
             Global.Access<MinerProfilePropertyChangedEvent>(
@@ -127,6 +131,27 @@ namespace NTMiner.Vms {
             }
         }
 
+        public TimeSpan BootTimeSpan {
+            get { return _bootTimeSpan; }
+            set {
+                _bootTimeSpan = value;
+                OnPropertyChanged(nameof(BootTimeSpan));
+                OnPropertyChanged(nameof(BootTimeSpanText));
+            }
+        }
+
+        public string BootTimeSpanText {
+            get {
+                string timeSting = $"{this.BootTimeSpan.Hours}:{this.BootTimeSpan.Minutes}:{this.BootTimeSpan.Seconds}";
+                if (this.BootTimeSpan.Days > 0) {
+                    return $"{this.BootTimeSpan.Days}天{timeSting}";
+                }
+                else {
+                    return timeSting;
+                }
+            }
+        }
+
         public TimeSpan MineTimeSpan {
             get {
                 return _mineTimeSpan;
@@ -140,11 +165,12 @@ namespace NTMiner.Vms {
 
         public string MineTimeSpanText {
             get {
+                string timeSting = $"{this.MineTimeSpan.Hours}:{this.MineTimeSpan.Minutes}:{this.MineTimeSpan.Seconds}";
                 if (this.MineTimeSpan.Days > 0) {
-                    return $"{this.MineTimeSpan.Days}天{this.MineTimeSpan.Hours}:{this.MineTimeSpan.Minutes}:{this.MineTimeSpan.Seconds}";
+                    return $"{this.MineTimeSpan.Days}天{timeSting}";
                 }
                 else {
-                    return $"{this.MineTimeSpan.Hours}:{this.MineTimeSpan.Minutes}:{this.MineTimeSpan.Seconds}";
+                    return timeSting;
                 }
             }
         }
@@ -417,6 +443,9 @@ namespace NTMiner.Vms {
             }
         }
 
+        /// <summary>
+        /// TFP: Time Fan Pow
+        /// </summary>
         public ConsoleColor TFPColor {
             get {
                 ConsoleColor color = ConsoleColor.White;
