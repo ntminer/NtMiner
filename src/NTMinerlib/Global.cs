@@ -80,6 +80,12 @@ namespace NTMiner {
                 Console.WriteLine(line);
                 Console.ForegroundColor = oldColor;
             };
+            DebugLineMethod = (line, color) => {
+                ConsoleColor oldColor = Console.ForegroundColor;
+                Console.ForegroundColor = color;
+                Console.WriteLine(line);
+                Console.ForegroundColor = oldColor;
+            };
             StartTimer();
         }
 
@@ -183,15 +189,15 @@ namespace NTMiner {
         public static readonly DateTime UnixBaseTime = new DateTime(1970, 1, 1);
 
         public static ulong GetTimestamp() {
-            return GetTimestamp(DateTime.Now);
+            return GetTimestamp(DateTime.Now.ToUniversalTime());
         }
 
         public static ulong GetTimestamp(DateTime dateTime) {
-            return (ulong)(dateTime - UnixBaseTime).TotalSeconds;
+            return (ulong)(dateTime.ToUniversalTime() - UnixBaseTime).TotalSeconds;
         }
 
         public static DateTime FromTimestamp(ulong timestamp) {
-            return UnixBaseTime.AddSeconds(timestamp);
+            return UnixBaseTime.AddSeconds(timestamp).ToLocalTime();
         }
 
         public static void Happened<TEvent>(TEvent evnt) where TEvent : class, IEvent {
