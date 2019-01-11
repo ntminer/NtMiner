@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace NTMiner.Daemon {
@@ -16,23 +15,20 @@ namespace NTMiner.Daemon {
                         if (thatVersion != thisVersion) {
                             Global.Logger.Debug($"发现新版Daemon：{thatVersion}->{thisVersion}");
                             try {
-                                Windows.TaskKill.Kill("NTMinerDaemon");
+                                foreach (var process in processes) {
+                                    try {
+                                        process.Kill();
+                                        process.WaitForExit(10 * 1000);
+                                    }
+                                    catch (Exception e) {
+                                        Global.Logger.ErrorDebugLine(e.Message, e);
+                                    }
+                                }
                             }
                             catch (Exception e) {
                                 Global.Logger.ErrorDebugLine(e.Message, e);
                             }
-                            DateTime t1 = DateTime.Now;
-                            processes = Process.GetProcessesByName("NTMinerDaemon");
-                            while (processes.Length != 0 && t1.AddSeconds(10) > DateTime.Now) {
-                                Thread.Sleep(200);
-                                processes = Process.GetProcessesByName("NTMinerDaemon");
-                            }
-                            if (processes.Length == 0) {
-                                ExtractRunNTMinerDaemon();
-                            }
-                        }
-                        else {
-                            Global.Logger.Debug($"守护进程运行中");
+                            ExtractRunNTMinerDaemon();
                         }
                     }
                     catch (Exception exception) {

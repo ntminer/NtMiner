@@ -386,6 +386,24 @@
 				ToolTip="滚屏"
 				IconColor="{StaticResource IconFillColor}"
 				IsChecked="True" />
+            <TextBlock 
+                Grid.Row="1" 
+                Visibility="{Binding IsDaemonRunning, Converter={StaticResource BoolToVisibilityConverter}}"
+				Margin="0 0 18 0"
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Bottom" 
+                Text="守护进程运行中" 
+                Foreground="Green"
+                Background="Black"></TextBlock>
+            <TextBlock 
+                Grid.Row="1" 
+                Visibility="{Binding IsDaemonRunning, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+				Margin="0 0 18 0"
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Bottom" 
+                Text="守护进程未运行" 
+                Foreground="Red"
+                Background="Black"></TextBlock>
         </Grid>
 	</Grid>
 </metro:MetroWindow>
