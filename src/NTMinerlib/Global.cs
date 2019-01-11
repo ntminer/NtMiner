@@ -25,15 +25,21 @@ namespace NTMiner {
         public static ILang Lang {
             get {
                 if (_lang == null) {
+                    string langCode = string.Empty;
                     object languageValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language");
                     if (languageValue == null) {
-                        _lang = LangSet.Instance.First();
+                        // 如果本机语言是中文则默认是中文
+                        if (System.Globalization.CultureInfo.InstalledUICulture.Name == "zh-CN") {
+                            langCode = "zh-CN";
+                        }
                     }
                     else {
-                        _lang = LangSet.Instance.GetLangByCode((string)languageValue);
-                        if (_lang == null) {
-                            _lang = LangSet.Instance.First();
-                        }
+                        langCode = (string)languageValue;
+                    }
+                    _lang = LangSet.Instance.GetLangByCode(langCode);
+                    if (_lang == null) {
+                        // 默认是排序在第一个的语言
+                        _lang = LangSet.Instance.First();
                     }
                 }
                 return _lang;
