@@ -37,8 +37,8 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 .Append(nameof(FileName)).Append(FileName)
                 .Append(nameof(Version)).Append(Version)
                 .Append(nameof(VersionTag)).Append(VersionTag)
-                .Append(nameof(CreatedOn)).Append(CreatedOn)
-                .Append(nameof(PublishOn)).Append(PublishOn);
+                .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
+                .Append(nameof(PublishOn)).Append(PublishOn.ToUlong());
             return sb.ToString();
         }
     }

@@ -54,7 +54,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 .Append(nameof(DualCoin)).Append(DualCoin)
                 .Append(nameof(DualCoinPool)).Append(DualCoinPool)
                 .Append(nameof(DualCoinWallet)).Append(DualCoinWallet)
-                .Append(nameof(Timestamp)).Append(Timestamp)
+                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(IUser.Password)).Append(password);
             return HashUtil.Sha1(sb.ToString());
         }

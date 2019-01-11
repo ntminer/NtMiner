@@ -27,7 +27,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 .Append(nameof(WorkId)).Append(WorkId)
                 .Append(nameof(PropertyName)).Append(PropertyName)
                 .Append(nameof(Value)).Append(Value)
-                .Append(nameof(Timestamp)).Append(Timestamp)
+                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(IUser.Password)).Append(password);
             return HashUtil.Sha1(sb.ToString());
         }

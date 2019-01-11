@@ -50,8 +50,8 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 .Append(nameof(Speed)).Append(Speed)
                 .Append(nameof(SpeedUnit)).Append(SpeedUnit)
                 .Append(nameof(IncomePerDay)).Append(IncomePerDay)
-                .Append(nameof(CreatedOn)).Append(CreatedOn)
-                .Append(nameof(ModifiedOn)).Append(ModifiedOn);
+                .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
+                .Append(nameof(ModifiedOn)).Append(ModifiedOn.ToUlong());
             return sb.ToString();
         }
     }

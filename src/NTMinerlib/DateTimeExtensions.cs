@@ -5,5 +5,9 @@ namespace NTMiner {
         public static bool IsInTime(this DateTime time) {
             return Math.Abs((DateTime.Now - time).TotalSeconds) < 60;
         }
+
+        public static ulong ToUlong(this DateTime time) {
+            return Global.GetTimestamp(time);
+        }
     }
 }

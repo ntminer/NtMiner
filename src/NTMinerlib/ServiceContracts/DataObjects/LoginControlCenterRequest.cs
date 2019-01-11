@@ -17,7 +17,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
-                .Append(nameof(Timestamp)).Append(Timestamp)
+                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(IUser.Password)).Append(password);
             return HashUtil.Sha1(sb.ToString());
         }

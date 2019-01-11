@@ -32,8 +32,8 @@ namespace NTMiner.ServiceContracts.DataObjects {
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(Name)).Append(Name)
                 .Append(nameof(Description)).Append(Description)
-                .Append(nameof(CreatedOn)).Append(CreatedOn)
-                .Append(nameof(ModifiedOn)).Append(ModifiedOn);
+                .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
+                .Append(nameof(ModifiedOn)).Append(ModifiedOn.ToUlong());
             return sb.ToString();
         }
     }
