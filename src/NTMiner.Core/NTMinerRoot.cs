@@ -12,6 +12,7 @@ using NTMiner.Core.SysDics.Impl;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.ServiceModel;
@@ -410,16 +411,18 @@ namespace NTMiner {
 
         #region StopMine
         public void StopMine(bool wait = true) {
-            try {
-                KillKernelProcess();
-                Global.Logger.WarnWriteLine("挖矿停止");
-                var mineContext = _currentMineContext;
-                _currentMineContext = null;
-                Global.Happened(new MineStopedEvent(mineContext));
-            }
-            catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
-            }
+            Task.Factory.StartNew(() => {
+                try {
+                    KillKernelProcess();
+                    Global.Logger.WarnWriteLine("挖矿停止");
+                }
+                catch (Exception e) {
+                    Global.Logger.ErrorDebugLine(e.Message, e);
+                }
+            });
+            var mineContext = _currentMineContext;
+            _currentMineContext = null;
+            Global.Happened(new MineStopedEvent(mineContext));
         }
         #endregion
 
@@ -517,6 +520,7 @@ namespace NTMiner {
                 if (_currentMineContext != null) {
                     this.StopMine();
                 }
+                // kill上一个上下文的进程，上一个上下文进程名不一定和下一个相同
                 KillKernelProcess();
                 if (string.IsNullOrEmpty(kernel.Package)) {
                     Global.Logger.WarnDebugLine(kernel.FullName + "没有内核包");
@@ -542,6 +546,7 @@ namespace NTMiner {
                 }
                 else {
                     _currentMineContext = mineContext;
+                    // kill这一个上下文的进程
                     KillKernelProcess();
                     Task.Factory.StartNew(() => {
                         MinerProcess.CreateProcess(mineContext);
@@ -568,7 +573,27 @@ namespace NTMiner {
                 return;
             }
             try {
-                Windows.TaskKill.Kill(processName);
+                Process[] processes = Process.GetProcessesByName(processName);
+                if (processes.Length != 0) {
+                    try {
+                        foreach (var process in processes) {
+                            try {
+                                process.Kill();
+                                process.WaitForExit(10 * 1000);
+                            }
+                            catch (Exception e) {
+                                Global.Logger.ErrorDebugLine(e.Message, e);
+                            }
+                        }
+                    }
+                    catch (Exception e) {
+                        Global.Logger.ErrorDebugLine(e.Message, e);
+                    }
+                }
+                processes = Process.GetProcessesByName(processName);
+                if (processes.Length != 0) {
+                    Windows.TaskKill.Kill(processName);
+                }
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
