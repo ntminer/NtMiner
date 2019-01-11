@@ -8,6 +8,8 @@ using System;
 
 namespace NTMiner {
     public interface INTMinerRoot {
+        DateTime CreatedOn { get; }
+
         void Init(Action callback);
 
         void Exit();

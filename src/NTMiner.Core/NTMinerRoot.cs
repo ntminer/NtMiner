@@ -21,8 +21,11 @@ using System.Windows;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
+        public DateTime CreatedOn { get; private set; }
+
         #region cotr
         private NTMinerRoot() {
+            CreatedOn = DateTime.Now;
         }
         #endregion
 
@@ -180,7 +183,7 @@ namespace NTMiner {
                     #region 重启电脑
                     try {
                         if (MinerProfile.IsPeriodicRestartComputer) {
-                            if ((DateTime.Now - shareOn).TotalHours > MinerProfile.PeriodicRestartComputerHours) {
+                            if ((DateTime.Now - this.CreatedOn).TotalHours > MinerProfile.PeriodicRestartComputerHours) {
                                 Global.Logger.WarnDebugLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时重启电脑");
                                 Windows.Power.Restart();
                                 return;// 退出
@@ -195,7 +198,7 @@ namespace NTMiner {
                     #region 周期重启内核
                     try {
                         if (IsMining && MinerProfile.IsPeriodicRestartKernel) {
-                            if ((DateTime.Now - shareOn).TotalHours > MinerProfile.PeriodicRestartKernelHours) {
+                            if ((DateTime.Now - CurrentMineContext.CreatedOn).TotalHours > MinerProfile.PeriodicRestartKernelHours) {
                                 Global.Logger.WarnDebugLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时重启内核");
                                 RestartMine();
                                 return;// 退出
