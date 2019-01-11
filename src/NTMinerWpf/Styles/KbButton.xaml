@@ -49,9 +49,9 @@
                         <Label HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Path
                                 x:Name="Content"
-                                Width="12"
-                                Height="3"
-                                Data="F1M0,6L0,9 9,9 9,6 0,6z"
+                                Width="14"
+                                Height="1"
+                                Data="M0 458.472727h1024v69.818182H0z"
                                 Fill="{Binding KbSystemButtonForeground, RelativeSource={RelativeSource TemplatedParent}}"
                                 UseLayoutRounding="True"
                                 Stretch="Fill" />
@@ -117,9 +117,9 @@
                         <Label HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Path
                                 x:Name="Content"
-                                Width="12"
-                                Height="12"
-                                Data="m12.65194,6.64088l-2.65193,2.65194l-2.65195,-2.65194c-0.19527,-0.19528 -0.51189,-0.19528 -0.70718,0c-0.19529,0.19528 -0.19528,0.5119 0,0.70718l2.65194,2.65195l-2.65194,2.65193c-0.19528,0.19528 -0.19528,0.51191 0,0.70719c0.19528,0.19528 0.5119,0.19528 0.70718,0l2.65195,-2.65194l2.65193,2.65194c0.19528,0.19528 0.5119,0.19528 0.70719,0c0.19528,-0.19528 0.19528,-0.51191 0,-0.70719l-2.65194,-2.65193l2.65194,-2.65195c0.19528,-0.19527 0.19528,-0.51189 0,-0.70718c-0.19528,-0.19528 -0.5119,-0.19528 -0.70719,0z"
+                                Width="13"
+                                Height="13"
+                                Data="M853.333333 204.8l-34.133333-34.133333-307.2 311.466666L204.8 170.666667l-34.133333 34.133333 311.466666 307.2L170.666667 819.2l34.133333 34.133333 307.2-311.466666 307.2 311.466666 34.133333-34.133333-311.466666-307.2z"
                                 Fill="{Binding KbSystemButtonForeground, RelativeSource={RelativeSource TemplatedParent}}"
                                 UseLayoutRounding="True"
                                 Stretch="Fill" />

@@ -25,11 +25,8 @@
             <Image Width="14" Height="14" Margin="4 0 0 0" Source="/NTMinerWpf;component/Styles/Images/logo32.png">
             </Image>
             <TextBlock DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center">开源矿工 - 在线升级</TextBlock>
-            <WrapPanel DockPanel.Dock="Right"
-                       HorizontalAlignment="Right">
-                <controls:KbSystemCloseButton
-                    Height="30"
-                    KbSystemButtonForeground="#385263" />
+            <WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <controls:KbSystemCloseButton Height="30" KbSystemButtonForeground="#385263" />
             </WrapPanel>
         </DockPanel>
         <Grid Grid.Row="1">

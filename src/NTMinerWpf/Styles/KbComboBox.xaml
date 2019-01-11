@@ -39,7 +39,7 @@
                                 </Border>
                                 <Border
                                     x:Name="DropDownBorder"
-                                    Margin="2"
+                                    Margin="0 2 0 0"
                                     BorderBrush="{StaticResource IconFillColor}" BorderThickness="1"
                                     CornerRadius="0,0,3,3">
                                     <StackPanel>
