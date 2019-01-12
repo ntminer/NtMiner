@@ -1,5 +1,6 @@
 ﻿using NTMiner.Vms;
 using System;
+using System.Collections;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -19,19 +20,19 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void InnerWrite(string text, ConsoleColor foreground) {
-            Run run = new Run(text) {
-                Foreground = new SolidColorBrush(foreground.ToMediaColor())
-            };
-            this.ConsoleParagraph.Inlines.Add(run);
-
             InlineCollection list = this.ConsoleParagraph.Inlines;
             // 满1000行删除500行
             if (list.Count > 1000) {
                 int delLines = 500;
                 while (delLines-- > 0) {
-                    list.Remove(list.FirstInline);
+                    ((IList)list).RemoveAt(0);
                 }
             }
+            Run run = new Run(text) {
+                Foreground = new SolidColorBrush(foreground.ToMediaColor())
+            };
+            list.Add(run);
+
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
                 this.RichTextBox.ScrollToEnd();
             }
