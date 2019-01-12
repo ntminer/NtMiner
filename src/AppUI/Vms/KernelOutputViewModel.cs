@@ -29,6 +29,12 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public KernelOutputViewModel() {
+            if (!DevMode.IsDevMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public KernelOutputViewModel(IKernelOutput data) : this(data.GetId()) {
             _name = data.Name;
             _gpuSpeedPattern = data.GpuSpeedPattern;
