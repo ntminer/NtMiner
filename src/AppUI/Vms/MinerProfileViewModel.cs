@@ -142,11 +142,12 @@ namespace NTMiner.Vms {
 
         public string BootTimeSpanText {
             get {
+                TimeSpan time = new TimeSpan(this.BootTimeSpan.Hours, this.BootTimeSpan.Minutes, this.BootTimeSpan.Seconds);
                 if (this.BootTimeSpan.Days > 0) {
-                    return $"{this.BootTimeSpan.Days}天{this.BootTimeSpan.Add(TimeSpan.FromDays(-this.BootTimeSpan.Days)).ToString()}";
+                    return $"{this.BootTimeSpan.Days}天{time.ToString()}";
                 }
                 else {
-                    return this.BootTimeSpan.ToString();
+                    return time.ToString();
                 }
             }
         }
@@ -164,11 +165,12 @@ namespace NTMiner.Vms {
 
         public string MineTimeSpanText {
             get {
+                TimeSpan time = new TimeSpan(this.MineTimeSpan.Hours, this.MineTimeSpan.Minutes, this.MineTimeSpan.Seconds);
                 if (this.MineTimeSpan.Days > 0) {
-                    return $"{this.MineTimeSpan.Days}天{this.MineTimeSpan.Add(TimeSpan.FromDays(-this.MineTimeSpan.Days)).ToString()}";
+                    return $"{this.MineTimeSpan.Days}天{time.ToString()}";
                 }
                 else {
-                    return this.MineTimeSpan.ToString();
+                    return time.ToString();
                 }
             }
         }
