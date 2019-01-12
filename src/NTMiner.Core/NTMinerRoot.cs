@@ -415,14 +415,14 @@ namespace NTMiner {
                 try {
                     KillKernelProcess();
                     Global.Logger.WarnWriteLine("挖矿停止");
+                    var mineContext = _currentMineContext;
+                    _currentMineContext = null;
+                    Global.Happened(new MineStopedEvent(mineContext));
                 }
                 catch (Exception e) {
                     Global.Logger.ErrorDebugLine(e.Message, e);
                 }
             });
-            var mineContext = _currentMineContext;
-            _currentMineContext = null;
-            Global.Happened(new MineStopedEvent(mineContext));
         }
         #endregion
 
