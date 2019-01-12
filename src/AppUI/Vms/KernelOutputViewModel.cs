@@ -1,5 +1,9 @@
-﻿using NTMiner.Core.Kernels;
+﻿using NTMiner.Core;
+using NTMiner.Core.Kernels;
+using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using System;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelOutputViewModel : ViewModelBase, IKernelOutput {
@@ -19,6 +23,12 @@ namespace NTMiner.Vms {
         private string _dualRejectSharePattern;
         private string _dualRejectPercentPattern;
 
+        public ICommand Remove { get; private set; }
+        public ICommand Edit { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
         public KernelOutputViewModel(IKernelOutput data) : this(data.GetId()) {
             _name = data.Name;
             _gpuSpeedPattern = data.GpuSpeedPattern;
@@ -37,6 +47,26 @@ namespace NTMiner.Vms {
 
         public KernelOutputViewModel(Guid id) {
             this._id = id;
+            this.Save = new DelegateCommand(() => {
+                if (NTMinerRoot.Current.KernelOutputSet.Contains(this.Id)) {
+                    Global.Execute(new UpdateKernelOutputCommand(this));
+                }
+                else {
+                    Global.Execute(new AddKernelOutputCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
+            this.Edit = new DelegateCommand(() => {
+                KernelOutputEdit.ShowEditWindow(this);
+            });
+            this.Remove = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
+                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核输出组吗？", title: "确认", onYes: () => {
+                    Global.Execute(new RemoveKernelOutputCommand(this.Id));
+                }, icon: "Icon_Confirm");
+            });
         }
 
         public Guid GetId() {

@@ -97,6 +97,11 @@ namespace NTMiner.Core.Kernels.Impl {
             }
         }
 
+        public bool Contains(Guid id) {
+            InitOnece();
+            return _dicById.ContainsKey(id);
+        }
+
         public bool TryGetKernelOutput(Guid id, out IKernelOutput kernelOutput) {
             InitOnece();
             KernelOutputData data;

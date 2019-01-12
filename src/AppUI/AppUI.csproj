@@ -132,6 +132,9 @@
     <Compile Include="Views\Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\KernelOutputEdit.xaml.cs">
+      <DependentUpon>KernelOutputEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\QQGroupQrCode.xaml.cs">
       <DependentUpon>QQGroupQrCode.xaml</DependentUpon>
     </Compile>
@@ -387,6 +390,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Design\PoolViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\KernelOutputEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
