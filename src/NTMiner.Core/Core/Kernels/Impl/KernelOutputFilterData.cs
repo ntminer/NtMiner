@@ -8,6 +8,8 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public Guid Id { get; set; }
 
+        public Guid KernelOutputId { get; set; }
+
         public Guid KernelId { get; set; }
 
         public string RegexPattern { get; set; }

@@ -23,6 +23,7 @@ namespace NTMiner.Vms {
 
         public KernelOutputFilterViewModel(IKernelOutputFilter data) : this(data.GetId()) {
             _kernelId = data.KernelId;
+            _kernelOutputId = data.KernelOutputId;
             _regexPattern = data.RegexPattern;
             _id = data.GetId();
         }
@@ -56,6 +57,15 @@ namespace NTMiner.Vms {
             set {
                 _id = value;
                 OnPropertyChanged(nameof(Id));
+            }
+        }
+
+        private Guid _kernelOutputId;
+        public Guid KernelOutputId {
+            get => _kernelOutputId;
+            set {
+                _kernelOutputId = value;
+                OnPropertyChanged(nameof(KernelOutputId));
             }
         }
 

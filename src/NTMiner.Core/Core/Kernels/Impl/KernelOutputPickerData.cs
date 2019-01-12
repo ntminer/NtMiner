@@ -11,6 +11,8 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public Guid Id { get; set; }
 
+        public Guid KernelOutputId { get; set; }
+
         public string TotalSpeedPattern { get; set; }
 
         public string TotalSharePattern { get; set; }

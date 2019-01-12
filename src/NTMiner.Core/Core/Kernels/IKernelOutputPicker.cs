@@ -2,6 +2,7 @@
 
 namespace NTMiner.Core.Kernels {
     public interface IKernelOutputPicker : IEntity<Guid> {
+        Guid KernelOutputId { get; }
         string TotalSpeedPattern { get; }
         string TotalSharePattern { get; }
         string AcceptSharePattern { get; }

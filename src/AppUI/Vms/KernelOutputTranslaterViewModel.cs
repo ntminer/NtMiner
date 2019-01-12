@@ -37,6 +37,7 @@ namespace NTMiner.Vms {
 
         public KernelOutputTranslaterViewModel(IKernelOutputTranslater data) : this(data.GetId()) {
             _kernelId = data.KernelId;
+            _kernelOutputId = data.KernelOutputId;
             _regexPattern = data.RegexPattern;
             _id = data.GetId();
             _replacement = data.Replacement;
@@ -111,6 +112,15 @@ namespace NTMiner.Vms {
             }
         }
 
+        private Guid _kernelOutputId;
+        public Guid KernelOutputId {
+            get => _kernelOutputId;
+            set {
+                _kernelOutputId = value;
+                OnPropertyChanged(nameof(KernelOutputId));
+            }
+        }
+
         public Guid KernelId {
             get => _kernelId;
             set {
@@ -182,6 +192,7 @@ namespace NTMiner.Vms {
         }
 
         private SysDicViewModel _clorDic;
+
         public SysDicViewModel LogColorDicVm {
             get {
                 if (_clorDic == null) {
