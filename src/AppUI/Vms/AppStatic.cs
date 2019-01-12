@@ -85,6 +85,7 @@ namespace NTMiner.Vms {
             CoinPage.ShowWindow(null);
         });
         public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
+            CoinPageViewModel.Current.IsPoolTabSelected = true;
             CoinPage.ShowWindow(coinVm);
         });
         public static ICommand ManageWallet { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
