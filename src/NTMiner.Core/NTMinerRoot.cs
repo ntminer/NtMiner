@@ -413,7 +413,10 @@ namespace NTMiner {
         public void StopMine(bool wait = true) {
             Task.Factory.StartNew(() => {
                 try {
-                    KillKernelProcess();
+                    if (_currentMineContext != null && _currentMineContext.Kernel != null) {
+                        string processName = _currentMineContext.Kernel.GetProcessName();
+                        KillKernelProcess(processName);
+                    }
                     Global.Logger.WarnWriteLine("挖矿停止");
                     var mineContext = _currentMineContext;
                     _currentMineContext = null;
@@ -521,7 +524,10 @@ namespace NTMiner {
                     this.StopMine();
                 }
                 // kill上一个上下文的进程，上一个上下文进程名不一定和下一个相同
-                KillKernelProcess();
+                if (_currentMineContext != null && _currentMineContext.Kernel != null) {
+                    string processName = _currentMineContext.Kernel.GetProcessName();
+                    KillKernelProcess(processName);
+                }
                 if (string.IsNullOrEmpty(kernel.Package)) {
                     Global.Logger.WarnDebugLine(kernel.FullName + "没有内核包");
                     this.StopMine();
@@ -547,7 +553,7 @@ namespace NTMiner {
                 else {
                     _currentMineContext = mineContext;
                     // kill这一个上下文的进程
-                    KillKernelProcess();
+                    KillKernelProcess(mineContext.Kernel.GetProcessName());
                     Task.Factory.StartNew(() => {
                         MinerProcess.CreateProcess(mineContext);
                     });
@@ -564,11 +570,7 @@ namespace NTMiner {
         #endregion
 
         #region KillKernelProcess
-        private void KillKernelProcess() {
-            if (_currentMineContext == null || _currentMineContext.Kernel == null) {
-                return;
-            }
-            string processName = _currentMineContext.Kernel.GetProcessName();
+        private void KillKernelProcess(string processName) {
             if (string.IsNullOrEmpty(processName)) {
                 return;
             }

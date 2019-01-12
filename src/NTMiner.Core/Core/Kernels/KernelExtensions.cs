@@ -13,28 +13,34 @@ namespace NTMiner.Core.Kernels {
         }
 
         public static string GetCommandName(this IKernel kernel, bool fromHelpArg = false) {
-            if (kernel == null) {
+            try {
+                if (kernel == null) {
+                    return string.Empty;
+                }
+                string args = kernel.Args;
+                if (fromHelpArg) {
+                    args = kernel.HelpArg;
+                }
+                if (!string.IsNullOrEmpty(args)) {
+                    args = args.Trim();
+                }
+                else {
+                    return string.Empty;
+                }
+                string commandName;
+                if (args[0] == '"') {
+                    int index = args.IndexOf('"', 1);
+                    commandName = args.Substring(1, index - 1);
+                }
+                else {
+                    commandName = args.Substring(0, args.IndexOf(' '));
+                }
+                return commandName;
+            }
+            catch (System.Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
                 return string.Empty;
             }
-            string args = kernel.Args;
-            if (fromHelpArg) {
-                args = kernel.HelpArg;
-            }
-            if (!string.IsNullOrEmpty(args)) {
-                args = args.Trim();
-            }
-            else {
-                return string.Empty;
-            }
-            string commandName;
-            if (args[0] == '"') {
-                int index = args.IndexOf('"', 1);
-                commandName = args.Substring(1, index - 1);
-            }
-            else {
-                commandName = args.Substring(0, args.IndexOf(' '));
-            }
-            return commandName;
         }
 
         public static bool IsSupported(this IKernel kernel) {
@@ -81,12 +87,17 @@ namespace NTMiner.Core.Kernels {
         }
 
         public static void ExtractPackage(this IKernel kernel) {
-            string kernelDir = GetKernelDirFullName(kernel);
-            if (!Directory.Exists(kernelDir)) {
-                Directory.CreateDirectory(kernelDir);
+            try {
+                string kernelDir = GetKernelDirFullName(kernel);
+                if (!Directory.Exists(kernelDir)) {
+                    Directory.CreateDirectory(kernelDir);
+                }
+                string packageZipFileFullName = GetPackageFileFullName(kernel);
+                ZipUtil.DecompressZipFile(packageZipFileFullName, kernelDir);
             }
-            string packageZipFileFullName = GetPackageFileFullName(kernel);
-            ZipUtil.DecompressZipFile(packageZipFileFullName, kernelDir);
+            catch (System.Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+            }
         }
     }
 }
