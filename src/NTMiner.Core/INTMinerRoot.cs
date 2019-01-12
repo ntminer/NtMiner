@@ -66,6 +66,8 @@ namespace NTMiner {
 
         ICoinShareSet CoinShareSet { get; }
 
+        IKernelOutputSet KernelOutputSet { get; }
+
         IKernelOutputFilterSet KernelOutputFilterSet { get; }
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }

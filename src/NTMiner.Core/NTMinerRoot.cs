@@ -115,6 +115,7 @@ namespace NTMiner {
             this.CoinKernelSet = new CoinKernelSet(this);
             this.KernelSet = new KernelSet(this);
             this.KernelProfileSet = new KernelProfileSet(this);
+            this.KernelOutputSet = new KernelOutputSet(this);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
             this.GpusSpeed = new GpusSpeed(this);
@@ -731,6 +732,8 @@ namespace NTMiner {
         public IGpusSpeed GpusSpeed { get; private set; }
 
         public ICoinShareSet CoinShareSet { get; private set; }
+
+        public IKernelOutputSet KernelOutputSet { get; private set; }
 
         public IKernelOutputFilterSet KernelOutputFilterSet { get; private set; }
 
