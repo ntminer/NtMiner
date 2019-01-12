@@ -245,7 +245,8 @@
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\GroupViewModels.cs" />
-    <Compile Include="Vms\KernelOutputPickerViewModel.cs" />
+    <Compile Include="Vms\KernelOutputViewModel.cs" />
+    <Compile Include="Vms\KernelOutputViewModels.cs" />
     <Compile Include="Vms\LogColorViewModel.cs" />
     <Compile Include="Vms\MinerClientsViewModel.cs" />
     <Compile Include="Vms\KernelCopySourceSelectViewModel.cs" />

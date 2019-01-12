@@ -531,44 +531,6 @@ namespace NTMiner.Core {
     }
     #endregion
 
-    #region KernelOutputPicker Messages
-    [MessageType(messageType: typeof(AddKernelOutputPickerCommand), description: "添加内核输出提取器")]
-    public class AddKernelOutputPickerCommand : AddEntityCommand<IKernelOutputPicker> {
-        public AddKernelOutputPickerCommand(IKernelOutputPicker input) : base(input) {
-        }
-    }
-
-    [MessageType(messageType: typeof(UpdateKernelOutputPickerCommand), description: "更新内核输出提取器")]
-    public class UpdateKernelOutputPickerCommand : UpdateEntityCommand<IKernelOutputPicker> {
-        public UpdateKernelOutputPickerCommand(IKernelOutputPicker input) : base(input) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RemoveKernelOutputPickerCommand), description: "移除内核输出提取器")]
-    public class RemoveKernelOutputPickerCommand : RemoveEntityCommand {
-        public RemoveKernelOutputPickerCommand(Guid entityId) : base(entityId) {
-        }
-    }
-
-    [MessageType(messageType: typeof(KernelOutputPickerAddedEvent), description: "添加了内核输出提取器后")]
-    public class KernelOutputPickerAddedEvent : DomainEvent<IKernelOutputPicker> {
-        public KernelOutputPickerAddedEvent(IKernelOutputPicker source) : base(source) {
-        }
-    }
-
-    [MessageType(messageType: typeof(KernelOutputPickerUpdatedEvent), description: "更新了内核输出提取器后")]
-    public class KernelOutputPickerUpdatedEvent : DomainEvent<IKernelOutputPicker> {
-        public KernelOutputPickerUpdatedEvent(IKernelOutputPicker source) : base(source) {
-        }
-    }
-
-    [MessageType(messageType: typeof(KernelOutputPickerRemovedEvent), description: "移除了内核输出提取器后")]
-    public class KernelOutputPickerRemovedEvent : DomainEvent<IKernelOutputPicker> {
-        public KernelOutputPickerRemovedEvent(IKernelOutputPicker source) : base(source) {
-        }
-    }
-    #endregion
-
     #region KernelOutputFilter Messages
     [MessageType(messageType: typeof(AddKernelOutputFilterCommand), description: "添加内核输出过滤器")]
     public class AddKernelOutputFilterCommand : AddEntityCommand<IKernelOutputFilter> {

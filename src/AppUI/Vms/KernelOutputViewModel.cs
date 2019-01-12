@@ -1,12 +1,10 @@
 ﻿using NTMiner.Core.Kernels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace NTMiner.Vms {
-    public class KernelOutputPickerViewModel : ViewModelBase, IKernelOutputPicker {
+    public class KernelOutputViewModel : ViewModelBase, IKernelOutput {
         private Guid _id;
+        private string _name;
         private string _totalSpeedPattern;
         private string _totalSharePattern;
         private string _acceptSharePattern;
@@ -21,8 +19,8 @@ namespace NTMiner.Vms {
         private string _dualRejectSharePattern;
         private string _dualRejectPercentPattern;
 
-        public KernelOutputPickerViewModel(IKernelOutputPicker data) : this(data.GetId()) {
-            _kernelOutputId = data.KernelOutputId;
+        public KernelOutputViewModel(IKernelOutput data) : this(data.GetId()) {
+            _name = data.Name;
             _gpuSpeedPattern = data.GpuSpeedPattern;
             _rejectSharePattern = data.RejectSharePattern;
             _totalSharePattern = data.TotalSharePattern;
@@ -37,8 +35,8 @@ namespace NTMiner.Vms {
             _dualTotalSpeedPattern = data.DualTotalSpeedPattern;
         }
 
-        public KernelOutputPickerViewModel(Guid id) {
-            _id = id;
+        public KernelOutputViewModel(Guid id) {
+            this._id = id;
         }
 
         public Guid GetId() {
@@ -53,12 +51,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        private Guid _kernelOutputId;
-        public Guid KernelOutputId {
-            get => _kernelOutputId;
+        public string Name {
+            get { return _name; }
             set {
-                _kernelOutputId = value;
-                OnPropertyChanged(nameof(KernelOutputId));
+                _name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
 

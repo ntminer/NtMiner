@@ -112,13 +112,11 @@
     <Compile Include="Core\Kernels\IKernelDownloader.cs" />
     <Compile Include="Core\Kernels\IKernelOutput.cs" />
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />
-    <Compile Include="Core\Kernels\IKernelOutputPicker.cs" />
     <Compile Include="Core\Kernels\Impl\CoinKernelData.cs" />
     <Compile Include="Core\Impl\MinerClientService.cs" />
     <Compile Include="Core\Kernels\Impl\KernelData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputFilterData.cs" />
-    <Compile Include="Core\Kernels\Impl\KernelOutputPickerData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputSet.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputTranslaterData.cs" />
     <Compile Include="Core\Kernels\Impl\PackageDownloader.cs" />
