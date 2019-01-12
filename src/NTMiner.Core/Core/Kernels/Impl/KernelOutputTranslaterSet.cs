@@ -256,7 +256,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     Match match = regex.Match(input);
                     if (match.Success) {
-                        if (Global.Lang.Code == "cn-zh" || (isPre && consoleTranslater.IsPre)) {
+                        if (Global.Lang.Code == "zh-CN" || (isPre && consoleTranslater.IsPre)) {
                             if (!string.IsNullOrEmpty(consoleTranslater.Replacement)) {
                                 input = regex.Replace(input, consoleTranslater.Replacement);
                             }
