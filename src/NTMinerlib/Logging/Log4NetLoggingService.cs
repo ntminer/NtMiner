@@ -50,6 +50,16 @@ $@"<log4net>
             _log.DebugFormat(CultureInfo.InvariantCulture, format, args);
         }
 
+        public void InfoDebugLine(object message) {
+            Global.DebugLine(message?.ToString(), ConsoleColor.Gray);
+            _log.Info(message);
+        }
+
+        public void InfoDebugLineFormatted(string format, params object[] args) {
+            Global.DebugLine(string.Format(format, args), ConsoleColor.Gray);
+            _log.InfoFormat(CultureInfo.InvariantCulture, format, args);
+        }
+
         public void OkDebugLine(object message) {
             Global.DebugLine(message?.ToString(), ConsoleColor.Green);
             _log.Info(message);

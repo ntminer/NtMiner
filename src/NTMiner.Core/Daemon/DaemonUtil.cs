@@ -13,7 +13,7 @@ namespace NTMiner.Daemon {
                     try {
                         string thisVersion = ThisNTMinerDaemonFileVersion;
                         if (thatVersion != thisVersion) {
-                            Global.Logger.Debug($"发现新版Daemon：{thatVersion}->{thisVersion}");
+                            Global.Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
                             try {
                                 foreach (var process in processes) {
                                     try {

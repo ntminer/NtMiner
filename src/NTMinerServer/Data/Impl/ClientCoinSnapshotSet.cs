@@ -48,7 +48,7 @@ namespace NTMiner.Data.Impl {
                     InitOnece();
                     DateTime timestamp = SnapshotTimestamp.GetSnapshotTimestamp();
                     if (timestamp == DateTime.MinValue) {
-                        Global.Logger.Debug("尚没有拍摄过快照，无需清除");
+                        Global.Logger.InfoDebugLine("尚没有拍摄过快照，无需清除");
                         return;
                     }
                     using (LiteDatabase db = HostRoot.CreateReportDb()) {

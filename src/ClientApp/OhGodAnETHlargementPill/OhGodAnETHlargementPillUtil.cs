@@ -47,7 +47,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                         }
                     }
                     else {
-                        Global.Logger.Debug("没有发现1080卡，不适用小药丸");
+                        Global.Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
                     }
                 });
             Global.Access<MineStartedEvent>(
@@ -68,7 +68,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                         }
                     }
                     else {
-                        Global.Logger.Debug("没有发现1080卡，不适用小药丸");
+                        Global.Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
                     }
                 });
         }

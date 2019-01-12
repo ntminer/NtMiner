@@ -13,13 +13,13 @@ namespace NTMiner {
         private static class MinerProcess {
             #region CreateProcess
             public static void CreateProcess(IMineContext mineContext) {
-                Global.Logger.Debug("解压内核包");
+                Global.Logger.InfoDebugLine("解压内核包");
                 // 解压内核包
                 mineContext.Kernel.ExtractPackage();
 
                 string kernelExeFileFullName;
                 string arguments;
-                Global.Logger.Debug("组装命令");
+                Global.Logger.InfoDebugLine("组装命令");
                 // 组装命令
                 BuildCmdLine(mineContext, out kernelExeFileFullName, out arguments);
                 bool isLogFile = arguments.Contains("{logfile}");
@@ -28,16 +28,16 @@ namespace NTMiner {
                     Global.Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
                 }
                 if (isLogFile) {
-                    Global.Logger.Debug("创建日志文件型进程");
+                    Global.Logger.InfoDebugLine("创建日志文件型进程");
                     // 如果内核支持日志文件
                     // 推迟打印cmdLine，因为{logfile}变量尚未求值
                     CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
                 }
                 else {
-                    Global.Logger.Debug("创建管道型进程");
+                    Global.Logger.InfoDebugLine("创建管道型进程");
                     // 如果内核不支持日志文件
                     string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                    Global.Logger.Debug(cmdLine);
+                    Global.Logger.InfoDebugLine(cmdLine);
                     CreatePipProcess(mineContext, cmdLine);
                 }
             }
@@ -98,7 +98,7 @@ namespace NTMiner {
                 string logFile = Path.Combine(SpecialPath.LogsDirFullName, "logfile_" + DateTime.Now.Ticks.ToString() + ".log");
                 arguments = arguments.Replace("{logfile}", logFile);
                 string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                Global.Logger.Debug(cmdLine);
+                Global.Logger.InfoDebugLine(cmdLine);
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
                     CreateNoWindow = true,

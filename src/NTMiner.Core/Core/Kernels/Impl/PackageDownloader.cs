@@ -8,7 +8,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public PackageDownloader(INTMinerRoot root) {
             _root = root;
-            Global.Logger.Debug(this.GetType().FullName + "接入总线");
+            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public void Download(
@@ -48,7 +48,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (string.IsNullOrEmpty(packageUrl)) {
                         downloadComplete?.Invoke(false, "未获取到内核包下载地址", saveFileFullName);
                     }
-                    Global.Logger.Debug("下载：" + packageUrl);
+                    Global.Logger.InfoDebugLine("下载：" + packageUrl);
                     webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
                 });
             }

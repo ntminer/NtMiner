@@ -39,7 +39,7 @@ namespace NTMiner.Services {
                     clientData.PublicKey = message.PublicKey;
                     clientData.GpuInfo = message.GpuInfo;
                 }
-                Global.Logger.Debug($"{message.ClientId} {minerIp} 登录");
+                Global.Logger.InfoDebugLine($"{message.ClientId} {minerIp} 登录");
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);

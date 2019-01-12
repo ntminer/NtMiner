@@ -13,7 +13,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
         public CoinKernelProfileSet(INTMinerRoot root) {
             _root = root;
-            Global.Logger.Debug(this.GetType().FullName + "接入总线");
+            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId) {

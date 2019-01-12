@@ -81,7 +81,7 @@ namespace NTMiner.Core.Impl {
 
                 Global.Happened(new CoinRemovedEvent(entity));
             });
-            Global.Logger.Debug(this.GetType().FullName + "接入总线");
+            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         private bool _isInited = false;

@@ -129,7 +129,7 @@ namespace NTMiner.Vms {
             Action<int> progressChanged,
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
-            Global.Logger.Debug("下载：" + fileName);
+            Global.Logger.InfoDebugLine("下载：" + fileName);
             string saveFileFullName = Path.Combine(_downloadDirFullName, "NTMiner" + version);
             progressChanged?.Invoke(0);
             using (WebClient webClient = new WebClient()) {

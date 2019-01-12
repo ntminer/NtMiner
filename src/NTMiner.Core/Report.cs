@@ -65,7 +65,7 @@ namespace NTMiner {
                 action: message => {
                     ReportState(root);
                 });
-            Global.Logger.Debug(typeof(Report).FullName + "接入总线");
+            Global.Logger.InfoDebugLine(typeof(Report).FullName + "接入总线");
         }
 
         private static void Login(INTMinerRoot root) {

@@ -61,7 +61,7 @@ namespace NTMiner {
                                 try {
                                     using (WebClient webClient = new WebClient()) {
                                         string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerJsonFileName;
-                                        Global.Logger.Debug("下载：" + jsonUrl);
+                                        Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
                                         rawNTMinerJson = System.Text.Encoding.UTF8.GetString(data);
                                     }
@@ -74,7 +74,7 @@ namespace NTMiner {
                                 try {
                                     using (WebClient webClient = new WebClient()) {
                                         string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerLangJsonFileName;
-                                        Global.Logger.Debug("下载：" + jsonUrl);
+                                        Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
                                         rawLangJson = System.Text.Encoding.UTF8.GetString(data);
                                     }
@@ -88,7 +88,7 @@ namespace NTMiner {
                                     DoInit(rawNTMinerJson, rawLangJson, callback);
                                 }
                                 else {
-                                    Global.Logger.Debug("启动json下载超时");
+                                    Global.Logger.InfoDebugLine("启动json下载超时");
                                     DoInit(rawNTMinerJson, rawLangJson, callback);
                                 }
                                 _isInited = true;
@@ -100,7 +100,7 @@ namespace NTMiner {
         }
 
         public void DoInit(string rawNTMinerJson, string rawLangJson, Action callback) {
-            Global.Logger.Debug("SystemRoo.PrivateInit start");
+            Global.Logger.InfoDebugLine("SystemRoo.PrivateInit start");
             ServerJson.Instance.Init(rawNTMinerJson);
             Language.Impl.LangJson.Instance.Init(rawLangJson);
             this.PackageDownloader = new PackageDownloader(this);
@@ -126,7 +126,7 @@ namespace NTMiner {
             this.CoinKernelProfileSet = new CoinKernelProfileSet(this);
 
             callback?.Invoke();
-            Global.Logger.Debug("SystemRoo.PrivateInit end");
+            Global.Logger.InfoDebugLine("SystemRoo.PrivateInit end");
         }
         #endregion
 
@@ -134,7 +134,7 @@ namespace NTMiner {
         private List<ServiceHost> _serviceHosts = null;
         #region Start
         public void Start() {
-            Global.Logger.Debug("开始启动Wcf服务");
+            Global.Logger.InfoDebugLine("开始启动Wcf服务");
             string baseUrl = $"http://{Global.Localhost}:{Global.ClientPort}/";
             ServiceHost minerClientServiceHost = new ServiceHost(typeof(Core.Impl.MinerClientService));
             minerClientServiceHost.AddServiceEndpoint(typeof(IMinerClientService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IMinerClientService)));
@@ -154,10 +154,10 @@ namespace NTMiner {
             }
 
             Global.Logger.OkDebugLine($"服务启动成功: {DateTime.Now}.");
-            Global.Logger.Debug("服务列表：");
+            Global.Logger.InfoDebugLine("服务列表：");
             foreach (var serviceHost in _serviceHosts) {
                 foreach (var endpoint in serviceHost.Description.Endpoints) {
-                    Global.Logger.Debug(endpoint.Address.Uri.ToString());
+                    Global.Logger.InfoDebugLine(endpoint.Address.Uri.ToString());
                 }
             }
             Global.Logger.OkDebugLine("Wcf服务启动完成");
@@ -626,7 +626,7 @@ namespace NTMiner {
 
         public void SetMinerProfileProperty(string propertyName, object value) {
             _minerProfile.SetValue(propertyName, value);
-            Global.Logger.Debug($"SetMinerProfileProperty({propertyName}, {value})");
+            Global.Logger.InfoDebugLine($"SetMinerProfileProperty({propertyName}, {value})");
         }
 
         public object GetMineWorkProperty(string propertyName) {
@@ -640,7 +640,7 @@ namespace NTMiner {
             if (this.CoinSet.TryGetCoin(coinId, out coin)) {
                 coinCode = coin.Code;
             }
-            Global.Logger.Debug($"SetMinerProfileProperty({coinCode}, {propertyName}, {value})");
+            Global.Logger.InfoDebugLine($"SetMinerProfileProperty({coinCode}, {propertyName}, {value})");
         }
 
         public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
@@ -658,7 +658,7 @@ namespace NTMiner {
                     kernelName = kernel.FullName;
                 }
             }
-            Global.Logger.Debug($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
+            Global.Logger.InfoDebugLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
         }
 
         public string QQGroup {

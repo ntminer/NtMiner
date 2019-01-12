@@ -77,7 +77,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     Global.Happened(new CoinKernelRemovedEvent(entity));
                 });
-            Global.Logger.Debug(this.GetType().FullName + "接入总线");
+            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         private bool _isInited = false;

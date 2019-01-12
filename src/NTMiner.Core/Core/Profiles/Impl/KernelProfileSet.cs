@@ -11,7 +11,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly INTMinerRoot _root;
         public KernelProfileSet(INTMinerRoot root) {
             _root = root;
-            Global.Logger.Debug(this.GetType().FullName + "接入总线");
+            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public IKernelProfile EmptyKernelProfile {

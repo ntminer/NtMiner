@@ -8,7 +8,7 @@ namespace NTMiner.Core.Gpus {
 
         public CoinShareSet(INTMinerRoot root) {
             _root = root;
-            Global.Logger.Debug(this.GetType().FullName + "接入总线");
+            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public ICoinShare GetOrCreate(Guid coinId) {

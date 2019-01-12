@@ -5,6 +5,8 @@ namespace NTMiner.Logging {
     public interface ILoggingService {
         void Debug(object message);
         void DebugFormatted(string format, params object[] args);
+        void InfoDebugLine(object message);
+        void InfoDebugLineFormatted(string format, params object[] args);
         void OkDebugLine(object message);
         void WarnDebugLine(object message);
         void WarnDebugLine(object message, Exception exception);

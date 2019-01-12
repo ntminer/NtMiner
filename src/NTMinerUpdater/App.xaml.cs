@@ -16,7 +16,7 @@ namespace NTMiner {
         private Mutex mutexApp;
 
         public App() {
-            Global.Logger.Debug("App.ctor start");
+            Global.Logger.InfoDebugLine("App.ctor start");
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 var exception = e.ExceptionObject as Exception;
                 if (exception != null) {
@@ -31,10 +31,10 @@ namespace NTMiner {
 
             Execute.InitializeWithDispatcher();
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
-            Global.Logger.Debug("App.InitializeComponent start");
+            Global.Logger.InfoDebugLine("App.InitializeComponent start");
             InitializeComponent();
-            Global.Logger.Debug("App.InitializeComponent end");
-            Global.Logger.Debug("App.ctor end");
+            Global.Logger.InfoDebugLine("App.InitializeComponent end");
+            Global.Logger.InfoDebugLine("App.ctor end");
         }
 
         private void Handle(Exception e) {
