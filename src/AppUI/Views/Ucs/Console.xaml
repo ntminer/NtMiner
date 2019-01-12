@@ -71,6 +71,7 @@
             Grid.Row="1"
 			VerticalScrollBarVisibility="Auto"
 			x:Name="RichTextBox" BorderThickness="0" 
+            SpellCheck.IsEnabled="False"
 			IsReadOnly="True" FontSize="12"
 			Padding="0 0 0 4" Background="Black" Foreground="White">
             <FlowDocument>

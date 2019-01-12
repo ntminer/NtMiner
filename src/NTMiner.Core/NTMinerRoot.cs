@@ -282,7 +282,7 @@ namespace NTMiner {
                         foreach (var dir in Directory.GetDirectories(SpecialPath.KernelsDirFullName)) {
                             if (dir != CurrentMineContext.Kernel.GetKernelDirFullName()) {
                                 try {
-                                    Directory.Delete(Path.Combine(SpecialPath.DaemonFileFullName, dir), recursive: true);
+                                    Directory.Delete(dir, recursive: true);
                                 }
                                 catch (Exception e) {
                                     Global.Logger.ErrorDebugLine(e.Message, e);

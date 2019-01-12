@@ -25,8 +25,9 @@ namespace NTMiner.Views.Ucs {
             this.ConsoleParagraph.Inlines.Add(run);
 
             InlineCollection list = this.ConsoleParagraph.Inlines;
+            // 满1000行删除500行
             if (list.Count > 1000) {
-                int delLines = list.Count - 1000;
+                int delLines = 500;
                 while (delLines-- > 0) {
                     list.Remove(list.FirstInline);
                 }
