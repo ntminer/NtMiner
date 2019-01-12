@@ -404,13 +404,13 @@ namespace NTMiner {
                 Global.Logger.ErrorDebugLine(e.Message, e);
             }
             if (_currentMineContext != null) {
-                StopMine(wait: false);
+                StopMine();
             }
         }
         #endregion
 
         #region StopMine
-        public void StopMine(bool wait = true) {
+        public void StopMine(Action callback = null) {
             Task.Factory.StartNew(() => {
                 try {
                     if (_currentMineContext != null && _currentMineContext.Kernel != null) {
@@ -421,6 +421,7 @@ namespace NTMiner {
                     var mineContext = _currentMineContext;
                     _currentMineContext = null;
                     Global.Happened(new MineStopedEvent(mineContext));
+                    callback?.Invoke();
                 }
                 catch (Exception e) {
                     Global.Logger.ErrorDebugLine(e.Message, e);
@@ -432,9 +433,10 @@ namespace NTMiner {
         #region RestartMine
         public void RestartMine() {
             IMineContext mineContext = this.CurrentMineContext;
-            this.StopMine();
-            Global.Logger.WarnDebugLine("正在重启内核");
-            StartMine(CommandLineArgs.WorkId);
+            this.StopMine(()=> {
+                Global.Logger.WarnDebugLine("正在重启内核");
+                StartMine(CommandLineArgs.WorkId);
+            });
         }
         #endregion
 
