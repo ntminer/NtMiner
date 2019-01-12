@@ -132,6 +132,9 @@
     <Compile Include="Views\Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\KernelOutputPage.xaml.cs">
+      <DependentUpon>KernelOutputPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\KernelOutputEdit.xaml.cs">
       <DependentUpon>KernelOutputEdit.xaml</DependentUpon>
     </Compile>
@@ -248,6 +251,7 @@
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\GroupViewModels.cs" />
+    <Compile Include="Vms\KernelOutputPageViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModels.cs" />
     <Compile Include="Vms\LogColorViewModel.cs" />
@@ -386,6 +390,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Ucs\Calc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\KernelOutputPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

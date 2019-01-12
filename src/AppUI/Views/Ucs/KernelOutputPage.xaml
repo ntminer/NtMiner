@@ -1,0 +1,141 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.KernelOutputPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+             xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+             xmlns:vm="clr-namespace:NTMiner.Vms"
+             mc:Ignorable="d"
+	         Background="{StaticResource MainColor}"
+             TextOptions.TextFormattingMode="Display" 
+             DataContext="{x:Static vm:KernelOutputPageViewModel.Current}"
+             d:DesignHeight="520" d:DesignWidth="960">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbCoinCode.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <sys:String x:Key="WindowTitle">
+                WindowTitle
+            </sys:String>
+            <sys:String x:Key="TbNoRecord">
+                TbNoRecord
+            </sys:String>
+            <sys:String x:Key="Name">
+                Name
+            </sys:String>
+            <sys:String x:Key="KernelOutputTranslater">
+                KernelOutputTranslater
+            </sys:String>
+            <sys:String x:Key="KernelOutputFilter">
+                KernelOutputFilter
+            </sys:String>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="4"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="1" Margin="0" ItemsSource="{Binding KernelOutputVms}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
+                  SelectedItem="{Binding CurrentKernelOutputVm}" RowHeight="36" AutoGenerateColumns="False"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick">
+                <DataGrid.Resources>
+                    <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn 
+                        CanUserResize="False" IsReadOnly="True"
+                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                        <DataGridTemplateColumn.Header>
+                            <controls:KbButton  
+                                Command="{Binding Data.Add, Source={StaticResource proxy}}" 
+                                Background="Transparent" BorderThickness="0"
+                                Margin="2 0"
+                                CornerRadius="2" ToolTip="添加">
+                                <WrapPanel>
+                                    <Path
+                                        Width="18"
+                                        Height="18"
+                                        Data="{StaticResource Icon_Add}"
+                                        Fill="{StaticResource IconFillColor}"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+                                    <controls:KbButton 
+                                        Margin="2 0"
+                                        Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+                                        CornerRadius="2" ToolTip="编辑">
+                                        <WrapPanel>
+                                            <Path
+                                                Width="18"
+                                                Height="18"
+                                                Data="{StaticResource Icon_Edit}"
+                                                Fill="{StaticResource IconFillColor}"
+                                                Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                    <controls:KbButton 
+                                        Margin="2 0"
+                                        Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
+                                        CornerRadius="2" ToolTip="删除">
+                                        <WrapPanel>
+                                            <Path
+                                                Width="18"
+                                                Height="18"
+                                                Data="{StaticResource Icon_Delete}"
+                                                Fill="{StaticResource IconFillColor}"
+                                                Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn MaxWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource Name}"></TextBlock>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <TabControl Padding="0"
+                BorderThickness="0"
+                Background="Transparent">
+                <controls:KbTabItem Header="{DynamicResource KernelOutputTranslater}">
+                    <Grid>
+                        
+                    </Grid>
+                </controls:KbTabItem>
+
+                <controls:KbTabItem Header="{DynamicResource KernelOutputFilter}">
+                    <Grid>
+                        
+                    </Grid>
+                </controls:KbTabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>
