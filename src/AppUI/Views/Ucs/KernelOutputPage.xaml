@@ -67,6 +67,21 @@
                 <RowDefinition Height="26"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
+            <controls:KbButton
+                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                ToolTip="KernelOutputPage translate"
+                Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                CommandParameter="KernelOutputPage"
+                Background="Transparent">
+                <WrapPanel>
+                    <Path
+                        Width="14"
+                        Height="14"
+                        Data="{StaticResource Icon_Translate}"
+                        Fill="Red"
+                        Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
             <DataGrid Grid.Row="1" Margin="0" ItemsSource="{Binding KernelOutputVms.AllKernelOutputVms}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
                   SelectedItem="{Binding CurrentKernelOutputVm}" RowHeight="36" AutoGenerateColumns="False"
                   MouseDoubleClick="DataGrid_MouseDoubleClick">
