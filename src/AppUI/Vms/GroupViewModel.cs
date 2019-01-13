@@ -9,7 +9,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class GroupViewModel : ViewModelBase, IGroup {
         public static readonly GroupViewModel PleaseSelect = new GroupViewModel(Guid.Empty) {
-            _name = "无",
+            _name = "由下级决定",
             _sortNumber = 0
         };
 

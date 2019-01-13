@@ -493,6 +493,44 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    #region KernelInput Messages
+    [MessageType(messageType: typeof(AddKernelInputCommand), description: "添加内核输入组")]
+    public class AddKernelInputCommand : AddEntityCommand<IKernelInput> {
+        public AddKernelInputCommand(IKernelInput input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(UpdateKernelInputCommand), description: "更新内核输入组")]
+    public class UpdateKernelInputCommand : UpdateEntityCommand<IKernelInput> {
+        public UpdateKernelInputCommand(IKernelInput input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(RemoveKernelInputCommand), description: "移除内核输入组")]
+    public class RemoveKernelInputCommand : RemoveEntityCommand {
+        public RemoveKernelInputCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(messageType: typeof(KernelInputAddedEvent), description: "添加了内核输入组后")]
+    public class KernelInputAddedEvent : DomainEvent<IKernelInput> {
+        public KernelInputAddedEvent(IKernelInput source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(KernelInputUpdatedEvent), description: "更新了内核输入组后")]
+    public class KernelInputUpdatedEvent : DomainEvent<IKernelInput> {
+        public KernelInputUpdatedEvent(IKernelInput source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(KernelInputRemovedEvent), description: "移除了内核输入组后")]
+    public class KernelInputRemovedEvent : DomainEvent<IKernelInput> {
+        public KernelInputRemovedEvent(IKernelInput source) : base(source) {
+        }
+    }
+    #endregion
+
     #region KernelOutput Messages
     [MessageType(messageType: typeof(AddKernelOutputCommand), description: "添加内核输出组")]
     public class AddKernelOutputCommand : AddEntityCommand<IKernelOutput> {

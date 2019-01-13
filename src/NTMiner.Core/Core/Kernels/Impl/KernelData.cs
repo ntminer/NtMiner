@@ -36,20 +36,17 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public int SortNumber { get; set; }
 
-        public Guid DualCoinGroupId { get; set; }
-
         public PublishStatus PublishState { get; set; }
 
+        public Guid DualCoinGroupId { get; set; }
         public string Args { get; set; }
-
         public bool IsSupportDualMine { get; set; }
-
         public double DualWeightMin { get; set; }
         public double DualWeightMax { get; set; }
         public bool IsAutoDualWeight { get; set; }
         public string DualWeightArg { get; set; }
-
         public string DualFullArgs { get; set; }
+
 
         public string HelpArg { get; set; }
 

@@ -11,8 +11,9 @@ namespace NTMiner.Core.Kernels {
         string Sha1 { get; }
         long Size { get; }
         int SortNumber { get; }
-        Guid DualCoinGroupId { get; }
         PublishStatus PublishState { get; }
+
+        Guid DualCoinGroupId { get; }
         string Args { get; }
         bool IsSupportDualMine { get; }
         double DualWeightMin { get; }
@@ -20,6 +21,7 @@ namespace NTMiner.Core.Kernels {
         bool IsAutoDualWeight { get; }
         string DualWeightArg { get; }
         string DualFullArgs { get; }
+
         string HelpArg { get; set; }
         string Notice { get; }
         Guid KernelOutputId { get; }
