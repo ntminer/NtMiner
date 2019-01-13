@@ -22,19 +22,6 @@ namespace NTMiner.Core.Kernels {
         string DualFullArgs { get; }
         string HelpArg { get; set; }
         string Notice { get; }
-
-        string TotalSpeedPattern { get; }
-        string TotalSharePattern { get; }
-        string AcceptSharePattern { get; }
-        string RejectSharePattern { get; }
-        string RejectPercentPattern { get; }
-        string GpuSpeedPattern { get; }
-
-        string DualTotalSpeedPattern { get; }
-        string DualTotalSharePattern { get; }
-        string DualAcceptSharePattern { get; }
-        string DualRejectSharePattern { get; }
-        string DualRejectPercentPattern { get; }
-        string DualGpuSpeedPattern { get; }
+        Guid KernelOutputId { get; }
     }
 }

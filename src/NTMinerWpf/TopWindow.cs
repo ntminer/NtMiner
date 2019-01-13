@@ -6,8 +6,8 @@ using System.Windows.Interop;
 namespace NTMiner {
     public static class TopWindow {
         public static Window GetTopWindow() {
-            var hwnd = GetForegroundWindow();
-            if (hwnd == null)
+            IntPtr hwnd = GetForegroundWindow();
+            if (hwnd == IntPtr.Zero)
                 return null;
 
             return GetWindowFromHwnd(hwnd);

@@ -5,7 +5,7 @@ namespace NTMiner.Core.Kernels {
     public interface IKernelOutputFilterSet : IEnumerable<IKernelOutputFilter> {
         bool Contains(Guid kernelOutputFilterId);
         bool TryGetKernelOutputFilter(Guid kernelOutputFilterId, out IKernelOutputFilter kernelOutputFilter);
-        IEnumerable<IKernelOutputFilter> GetKernelOutputFilters(Guid kernelId);
-        void Filter(Guid kernelId, ref string input);
+        IEnumerable<IKernelOutputFilter> GetKernelOutputFilters(Guid kernelOutputId);
+        void Filter(Guid kernelOutputId, ref string input);
     }
 }

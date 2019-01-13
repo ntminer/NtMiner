@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Vms {
     public class KernelOutputViewModels : ViewModelBase {
@@ -17,6 +18,7 @@ namespace NTMiner.Vms {
                     var vm = new KernelOutputViewModel(message.Source);
                     _dicById.Add(message.Source.GetId(), vm);
                     OnPropertyChanged(nameof(AllKernelOutputVms));
+                    OnPropertyChanged(nameof(PleaseSelectVms));
                 });
             Global.Access<KernelOutputUpdatedEvent>(
                 Guid.Parse("AA98F304-B7E1-4E93-8AFB-55F72EA37689"),
@@ -38,6 +40,7 @@ namespace NTMiner.Vms {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllKernelOutputVms));
+                        OnPropertyChanged(nameof(PleaseSelectVms));
                     }
                 });
             foreach (var item in NTMinerRoot.Current.KernelOutputSet) {
@@ -45,9 +48,26 @@ namespace NTMiner.Vms {
             }
         }
 
-        public IEnumerable<KernelOutputViewModel> AllKernelOutputVms {
+        public bool TryGetKernelOutputVm(Guid id, out KernelOutputViewModel kernelOutputVm) {
+            return _dicById.TryGetValue(id, out kernelOutputVm);
+        }
+
+        public List<KernelOutputViewModel> AllKernelOutputVms {
             get {
-                return _dicById.Values;
+                return _dicById.Values.OrderBy(a => a.Name).ToList();
+            }
+        }
+
+        private IEnumerable<KernelOutputViewModel> GetPleaseSelectVms() {
+            yield return KernelOutputViewModel.PleaseSelect;
+            foreach (var item in _dicById.Values.OrderBy(a => a.Name)) {
+                yield return item;
+            }
+        }
+
+        public List<KernelOutputViewModel> PleaseSelectVms {
+            get {
+                return GetPleaseSelectVms().ToList();
             }
         }
     }

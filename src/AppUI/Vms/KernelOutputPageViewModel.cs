@@ -8,7 +8,10 @@ namespace NTMiner.Vms {
 
         public ICommand Add { get; private set; }
 
-        public KernelOutputPageViewModel() {
+        private KernelOutputPageViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.Add = new DelegateCommand(() => {
                 new KernelOutputViewModel(Guid.NewGuid()).Edit.Execute(null);
             });
