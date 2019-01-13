@@ -48,7 +48,7 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputViewModel> AllKernelOutputVms {
             get {
-                return _dicById.Values.ToList();
+                return _dicById.Values.OrderBy(a => a.Name).ToList();
             }
         }
     }

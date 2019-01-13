@@ -23,7 +23,7 @@
             <Setter Property="TextWrapping" Value="Wrap"></Setter>
         </Style>
         <Style x:Key="TbRegex" TargetType="TextBox">
-            <Setter Property="Width" Value="400"></Setter>
+            <Setter Property="Width" Value="450"></Setter>
             <Setter Property="Height" Value="26"></Setter>
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="Background" Value="White"></Setter>
@@ -79,13 +79,13 @@
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="540"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel>
             <WrapPanel Margin="6 0 0 0">
                 <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Name}" ToolTip="{DynamicResource Name}"></TextBlock>
-                <TextBox Style="{StaticResource TbRegex}" Text="{Binding Name}">
+                <TextBox Style="{StaticResource TbRegex}" Text="{Binding Name, ValidatesOnExceptions=True}">
                 </TextBox>
             </WrapPanel>
 
