@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Vms {
     public class KernelOutputViewModels : ViewModelBase {
@@ -45,9 +46,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public IEnumerable<KernelOutputViewModel> AllKernelOutputVms {
+        public List<KernelOutputViewModel> AllKernelOutputVms {
             get {
-                return _dicById.Values;
+                return _dicById.Values.ToList();
             }
         }
     }

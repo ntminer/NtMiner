@@ -46,7 +46,7 @@
                 <RowDefinition Height="26"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="1" Margin="0" ItemsSource="{Binding KernelOutputVms}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
+            <DataGrid Grid.Row="1" Margin="0" ItemsSource="{Binding KernelOutputVms.AllKernelOutputVms}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
                   SelectedItem="{Binding CurrentKernelOutputVm}" RowHeight="36" AutoGenerateColumns="False"
                   MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Resources>
@@ -117,7 +117,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVms.AllKernelOutputVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
         </Grid>
 
         <Grid Grid.Column="2">
