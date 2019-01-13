@@ -206,6 +206,7 @@
                             <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource KernelOutput}"></TextBlock>
                             <controls:KbComboBox 
                                 BorderThickness="0"
+				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
 						        Width="180" ItemsSource="{Binding KernelOutputVms.PleaseSelectVms}"
                                 DisplayMemberPath="Name" SelectedItem="{Binding KernelOutputVm}">
                                 <controls:KbComboBox.Toolbar>
