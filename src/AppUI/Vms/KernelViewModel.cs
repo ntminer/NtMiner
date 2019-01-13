@@ -43,9 +43,6 @@ namespace NTMiner.Vms {
         private string _code;
         private string _version;
         private int _sortNumber;
-        private string _args;
-        private bool _isSupportDualMine;
-        private string _dualFullArgs;
         private string _helpArg;
         private ulong _publishOn;
         private string _package;
@@ -55,14 +52,18 @@ namespace NTMiner.Vms {
         private PublishStatus _publishState = PublishStatus.UnPublished;
         private string _notice;
         private Guid _kernelOutputId;
-        private KernelProfileViewModel _kernelProfileVm;
-        private Guid _dualCoinGroupId;
 
-        private GroupViewModel _dualCoinGroup;
+        private string _args;
+        private bool _isSupportDualMine;
+        private string _dualFullArgs;
+        private Guid _dualCoinGroupId;
         private double _dualWeightMin;
         private double _dualWeightMax;
         private bool _isAutoDualWeight;
         private string _dualWeightArg;
+        private KernelProfileViewModel _kernelProfileVm;
+
+        private GroupViewModel _dualCoinGroup;
 
         public Guid GetId() {
             return this.Id;
@@ -562,14 +563,7 @@ namespace NTMiner.Vms {
                 if (DualCoinGroupId != value.Id) {
                     DualCoinGroupId = value.Id;
                     OnPropertyChanged(nameof(DualCoinGroup));
-                    OnPropertyChanged(nameof(IsDualCoinGroupEmpty));
                 }
-            }
-        }
-
-        public bool IsDualCoinGroupEmpty {
-            get {
-                return DualCoinGroup == GroupViewModel.PleaseSelect;
             }
         }
 
