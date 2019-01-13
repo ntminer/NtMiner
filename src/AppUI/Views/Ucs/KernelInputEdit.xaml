@@ -9,7 +9,7 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/KernelInputViewModel.xaml}"
         Background="White"
-		d:DesignWidth="660" d:DesignHeight="560">
+		d:DesignWidth="660" d:DesignHeight="360">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,6 +25,9 @@
             </Style>
             <sys:String x:Key="WindowTitle">
                 WindowTitle
+            </sys:String>
+            <sys:String x:Key="Name">
+                Name
             </sys:String>
             <sys:String x:Key="Args">
                 Args
@@ -60,7 +63,16 @@
             <ColumnDefinition Width="560"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
         <StackPanel Margin="0 0 10 10">
+            <WrapPanel Margin="0 2">
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Name}" ToolTip="{DynamicResource Name}"></TextBlock>
+                <TextBox Width="450" Height='26' VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+                </TextBox>
+            </WrapPanel>
             <WrapPanel Margin="0 2">
                 <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Args}"></TextBlock>
                 <TextBox 
@@ -174,15 +186,16 @@
         </StackPanel>
 
         <controls:KbButton
-                VerticalAlignment="Bottom"
-                Command="{Binding Save}" 
-                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                Margin="0 10 0 0"
-                Width="70" 
-                Height="30"
-                Background="{StaticResource IconFillColor}"
-                Foreground="White"
-                CornerRadius="2">
+            Grid.Row="1"
+            VerticalAlignment="Bottom"
+            Command="{Binding Save}" 
+            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Margin="0 10 0 0"
+            Width="70" 
+            Height="30"
+            Background="{StaticResource IconFillColor}"
+            Foreground="White"
+            CornerRadius="2">
             <WrapPanel>
                 <Path
                     Width="12"

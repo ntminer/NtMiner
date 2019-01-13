@@ -73,6 +73,12 @@ namespace NTMiner.Vms {
             });
         }
 
+        public GroupViewModels GroupVms {
+            get {
+                return GroupViewModels.Current;
+            }
+        }
+
         public Guid GetId() {
             return this.Id;
         }

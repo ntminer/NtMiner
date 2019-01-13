@@ -11,7 +11,7 @@
 	         Background="White"
              TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:KernelInputPageViewModel.Current}"
-             d:DesignHeight="720" d:DesignWidth="960">
+             d:DesignHeight="520" d:DesignWidth="560">
     <UserControl.Resources>
         <ResourceDictionary>
             <sys:String x:Key="WindowTitle">
@@ -27,7 +27,7 @@
     </UserControl.Resources>
     <Grid>
         <DataGrid Margin="0" ItemsSource="{Binding KernelInputVms.AllKernelInputVms}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
-                  SelectedItem="{Binding CurrentKernelInputVm}" RowHeight="36" AutoGenerateColumns="False"
+                  RowHeight="36" AutoGenerateColumns="False"
                   MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Resources>
                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -85,7 +85,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MaxWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource Name}"></TextBlock>
                     </DataGridTemplateColumn.Header>

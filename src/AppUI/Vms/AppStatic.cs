@@ -92,6 +92,9 @@ namespace NTMiner.Vms {
             CoinPageViewModel.Current.IsWalletTabSelected = true;
             CoinPage.ShowWindow(coinVm);
         });
+        public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(() => {
+            KernelInputPage.ShowWindow();
+        });
         public static ICommand ShowKernelOutputs { get; private set; } = new DelegateCommand(() => {
             KernelOutputPage.ShowWindow();
         });
