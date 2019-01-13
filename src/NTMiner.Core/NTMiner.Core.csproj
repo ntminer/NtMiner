@@ -110,11 +110,15 @@
     <Compile Include="Core\Impl\ReadOnlyServerRepository`1.cs" />
     <Compile Include="Core\Impl\ServerJson.cs" />
     <Compile Include="Core\Kernels\IKernelDownloader.cs" />
+    <Compile Include="Core\Kernels\IKernelInput.cs" />
+    <Compile Include="Core\Kernels\IKernelInputSet.cs" />
     <Compile Include="Core\Kernels\IKernelOutput.cs" />
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />
     <Compile Include="Core\Kernels\Impl\CoinKernelData.cs" />
     <Compile Include="Core\Impl\MinerClientService.cs" />
     <Compile Include="Core\Kernels\Impl\KernelData.cs" />
+    <Compile Include="Core\Kernels\Impl\KernelInputData.cs" />
+    <Compile Include="Core\Kernels\Impl\KernelInputSet.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputFilterData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputSet.cs" />
