@@ -8,10 +8,10 @@
              xmlns:local="clr-namespace:NTMiner.Views.Ucs"
              xmlns:vm="clr-namespace:NTMiner.Vms"
              mc:Ignorable="d"
-	         Background="{StaticResource MainColor}"
+	         Background="White"
              TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:KernelOutputPageViewModel.Current}"
-             d:DesignHeight="520" d:DesignWidth="960">
+             d:DesignHeight="720" d:DesignWidth="960">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -27,11 +27,32 @@
             <sys:String x:Key="Name">
                 Name
             </sys:String>
-            <sys:String x:Key="KernelOutputTranslater">
-                KernelOutputTranslater
+            <sys:String x:Key="Sort">
+                Sort
             </sys:String>
-            <sys:String x:Key="KernelOutputFilter">
-                KernelOutputFilter
+            <sys:String x:Key="Translate">
+                Translate
+            </sys:String>
+            <sys:String x:Key="Search">
+                Search
+            </sys:String>
+            <sys:String x:Key="SearchTip">
+                SearchTip
+            </sys:String>
+            <sys:String x:Key="RegexPattern">
+                RegexPattern
+            </sys:String>
+            <sys:String x:Key="Replacement">
+                Replacement
+            </sys:String>
+            <sys:String x:Key="Color">
+                Color
+            </sys:String>
+            <sys:String x:Key="IsPre">
+                IsPre
+            </sys:String>
+            <sys:String x:Key="Filter">
+                Filter
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -111,7 +132,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}"></TextBlock>
+                                <TextBlock Text="{Binding Name}" Padding="0 0 4 0"></TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -124,17 +145,312 @@
             <TabControl Padding="0"
                 BorderThickness="0"
                 Background="Transparent">
-                <controls:KbTabItem Header="{DynamicResource KernelOutputTranslater}">
-                    <Grid>
-                        
-                    </Grid>
-                </controls:KbTabItem>
 
-                <controls:KbTabItem Header="{DynamicResource KernelOutputFilter}">
+                <!--start翻译-->
+                <controls:KbTabItem>
+                    <controls:KbTabItem.Header>
+                        <TextBlock Padding="8 0" Text="{DynamicResource Translate}"></TextBlock>
+                    </controls:KbTabItem.Header>
                     <Grid>
-                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <WrapPanel Grid.ColumnSpan="2">
+                            <Path
+						        Width="12"
+						        Height="12"
+						        Fill="{StaticResource IconFillColor}"
+						        Stretch="Fill"
+						        Data="{StaticResource Icon_Serach}"></Path>
+                            <TextBlock VerticalAlignment="Center" Text="{DynamicResource Search}" Margin="0 0 2 0"></TextBlock>
+                            <controls:KbTextBox 
+						        x:Name="TbTranslaterKeyword" 
+                                Width="134" 
+                                Height="20"
+						        Text="{Binding CurrentKernelOutputVm.TranslaterKeyword, UpdateSourceTrigger=PropertyChanged}" 
+						        VerticalContentAlignment="Center"
+						        Hint="{DynamicResource SearchTip}"
+						        BorderBrush="{StaticResource LineColor}"
+						        BorderThickness="1"
+						        Background="White"
+						        SelectedColor="#409EFF" />
+                            <controls:KbButton 
+						        Background="Transparent" BorderThickness="0"
+						        Height="20"
+						        Command="{Binding CurrentKernelOutputVm.ClearTranslaterKeyword}"
+						        Visibility="{Binding ElementName=TbTranslaterKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+						        Margin="-14 0 0 0" HorizontalAlignment="Left">
+                                <Path
+							        Width="8"
+							        Height="8"
+							        Data="{StaticResource Icon_Close}"
+							        Fill="{StaticResource IconFillColor}"
+							        Stretch="Fill" />
+                            </controls:KbButton>
+                        </WrapPanel>
+                        <DataGrid
+					        ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputTranslaters}" 
+					        BorderThickness="1 0 0 0"
+					        MouseDoubleClick="KernelOutputTranslaterDataGrid_MouseDoubleClick" Grid.ColumnSpan="2" Margin="0,27,0,0" Grid.RowSpan="2">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Style.Triggers>
+                                        <Trigger Property="AlternationIndex" Value="0">
+                                            <Setter Property="Background" Value="Black" />
+                                        </Trigger>
+                                        <Trigger Property="AlternationIndex" Value="1">
+                                            <Setter Property="Background" Value="Black" />
+                                        </Trigger>
+
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="DarkGray" />
+                                        </Trigger>
+
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="DarkGray" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="DataGridCell">
+                                                <Grid>
+                                                    <TextBlock />
+                                                    <ContentPresenter
+												        Margin="5,0,0,0"
+												        HorizontalAlignment="Left"
+												        VerticalAlignment="Center" />
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="DarkGray" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
+                                    <DataGridTextColumn.Header>
+                                        <WrapPanel>
+                                            <TextBlock Text="{DynamicResource RegexPattern}"></TextBlock>
+                                            <TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentKernelOutputVm.KernelOutputTranslaters.Count, Source={StaticResource proxy}}"></TextBlock>
+                                        </WrapPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource Replacement}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Replacement}" Foreground="{Binding ColorBrush}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource Color}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ColorDescription}" Foreground="{Binding ColorBrush}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource IsPre}"></TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding IsPreText}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Width="36" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Binding="{Binding SortNumber}" IsReadOnly="True">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="{DynamicResource Sort}"></TextBlock>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <controls:KbButton 
+									        Command="{Binding Data.CurrentKernelOutputVm.AddKernelOutputTranslater, Source={StaticResource proxy}}" 
+									        Background="Transparent" BorderThickness="0"
+									        Margin="10 0"
+									        CornerRadius="2" ToolTip="添加">
+                                            <WrapPanel>
+                                                <Path
+											        Width="18"
+											        Height="18"
+											        Data="{StaticResource Icon_Add}"
+											        Fill="{StaticResource IconFillColor}"
+											        Stretch="Fill" />
+                                            </WrapPanel>
+                                        </controls:KbButton>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+                                                <controls:KbButton 
+											        Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+											        Margin="2 0"
+											        CornerRadius="2" ToolTip="编辑">
+                                                    <WrapPanel>
+                                                        <Path
+													        Width="18"
+													        Height="18"
+													        Data="{StaticResource Icon_Edit}"
+													        Fill="{StaticResource IconFillColor}"
+													        Stretch="Fill" />
+                                                    </WrapPanel>
+                                                </controls:KbButton>
+                                                <controls:KbButton 
+											        Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
+											        Margin="2 0"
+											        CornerRadius="2" ToolTip="删除">
+                                                    <WrapPanel>
+                                                        <Path
+													        Width="18"
+													        Height="18"
+													        Data="{StaticResource Icon_Delete}"
+													        Fill="{StaticResource IconFillColor}"
+													        Stretch="Fill" />
+                                                    </WrapPanel>
+                                                </controls:KbButton>
+                                                <WrapPanel Visibility="{Binding Data.CurrentKernelOutputVm.TranslaterKeyword, Source={StaticResource proxy}, Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}">
+                                                    <controls:KbButton 
+												        Margin="2 0"
+												        Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
+												        CornerRadius="2" ToolTip="上移">
+                                                        <WrapPanel>
+                                                            <Path
+														        Width="18"
+														        Height="18"
+														        Data="{StaticResource Icon_SortUp}"
+														        Fill="{StaticResource IconFillColor}"
+														        Stretch="Fill" />
+                                                        </WrapPanel>
+                                                    </controls:KbButton>
+                                                    <controls:KbButton 
+												        Margin="2 0"
+												        Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
+												        CornerRadius="2" ToolTip="下移">
+                                                        <WrapPanel>
+                                                            <Path
+														        Width="18"
+														        Height="18"
+														        Data="{StaticResource Icon_SortDown}"
+														        Fill="{StaticResource IconFillColor}"
+														        Stretch="Fill" />
+                                                        </WrapPanel>
+                                                    </controls:KbButton>
+                                                </WrapPanel>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentKernelOutputVm.KernelOutputTranslaters, Converter={StaticResource NoRecordConverter}}" Grid.Column="1" Text="{DynamicResource TbNoRecord}"></TextBlock>
                     </Grid>
                 </controls:KbTabItem>
+                <!--end翻译-->
+
+                <!--start过滤-->
+                <controls:KbTabItem>
+                    <controls:KbTabItem.Header>
+                        <TextBlock Padding="8 0" Text="{DynamicResource Filter}"></TextBlock>
+                    </controls:KbTabItem.Header>
+                    <Grid>
+                        <DataGrid 
+					        ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputFilters}" BorderThickness="1 0 0 0"
+					        MouseDoubleClick="KernelOutputFilterDataGrid_MouseDoubleClick" Grid.ColumnSpan="2">
+                            <DataGrid.Resources>
+                                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
+                                    <DataGridTextColumn.Header>
+                                        <WrapPanel>
+                                            <TextBlock Text="{DynamicResource RegexPattern}"></TextBlock>
+                                            <TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentKernelOutputVm.KernelOutputFilters.Count, Source={StaticResource proxy}}"></TextBlock>
+                                        </WrapPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
+                                    <DataGridTemplateColumn.Header>
+                                        <controls:KbButton 
+									        Command="{Binding Data.CurrentKernelOutputVm.AddKernelOutputFilter, Source={StaticResource proxy}}" 
+									        Background="Transparent" BorderThickness="0"
+									        Margin="10 0"
+									        CornerRadius="2" ToolTip="添加">
+                                            <WrapPanel>
+                                                <Path
+											        Width="18"
+											        Height="18"
+											        Data="{StaticResource Icon_Add}"
+											        Fill="{StaticResource IconFillColor}"
+											        Stretch="Fill" />
+                                            </WrapPanel>
+                                        </controls:KbButton>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel 
+										        HorizontalAlignment="Right" 
+										        Background="Transparent" 
+										        VerticalAlignment="Center" 
+										        Orientation="Horizontal">
+                                                <controls:KbButton 
+											        Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+											        Margin="2 0"
+											        CornerRadius="2" ToolTip="编辑">
+                                                    <WrapPanel>
+                                                        <Path
+													        Width="18"
+													        Height="18"
+													        Data="{StaticResource Icon_Edit}"
+													        Fill="{StaticResource IconFillColor}"
+													        Stretch="Fill" />
+                                                    </WrapPanel>
+                                                </controls:KbButton>
+                                                <controls:KbButton 
+											        Command="{Binding Remove}" 
+											        Background="Transparent" 
+											        BorderThickness="0"
+											        Margin="2 0"
+											        CornerRadius="2" ToolTip="删除">
+                                                    <WrapPanel>
+                                                        <Path
+													        Width="18"
+													        Height="18"
+													        Data="{StaticResource Icon_Delete}"
+													        Fill="{StaticResource IconFillColor}"
+													        Stretch="Fill" />
+                                                    </WrapPanel>
+                                                </controls:KbButton>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding CurrentKernelOutputVm.KernelOutputFilters, Converter={StaticResource NoRecordConverter}}" Grid.Column="1" Text="{DynamicResource TbNoRecord}"></TextBlock>
+                    </Grid>
+                </controls:KbTabItem>
+                <!--end过滤-->
             </TabControl>
         </Grid>
     </Grid>

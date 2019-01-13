@@ -72,16 +72,8 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelData entity = _dicById[message.EntityId];
                     List<Guid> coinKernelIds = root.CoinKernelSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
-                    List<Guid> kernelOutputFilterIds = root.KernelOutputFilterSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
-                    List<Guid> kernelOutputTranslaterIds = root.KernelOutputTranslaterSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
                     foreach (var coinKernelId in coinKernelIds) {
                         Global.Execute(new RemoveCoinKernelCommand(coinKernelId));
-                    }
-                    foreach (var kernelOutputFilterId in kernelOutputFilterIds) {
-                        Global.Execute(new RemoveKernelOutputFilterCommand(kernelOutputFilterId));
-                    }
-                    foreach (var kernelOutputTranslaterId in kernelOutputTranslaterIds) {
-                        Global.Execute(new RemoveKernelOutputTranslaterCommand(kernelOutputTranslaterId));
                     }
                     _dicById.Remove(entity.Id);
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();

@@ -3,6 +3,8 @@ using NTMiner.Core.Kernels;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -23,9 +25,17 @@ namespace NTMiner.Vms {
         private string _dualRejectSharePattern;
         private string _dualRejectPercentPattern;
 
+        private string _translaterKeyword;
+
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
+
+        public ICommand AddKernelOutputFilter { get; private set; }
+
+        public ICommand AddKernelOutputTranslater { get; private set; }
+
+        public ICommand ClearTranslaterKeyword { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -73,6 +83,47 @@ namespace NTMiner.Vms {
                     Global.Execute(new RemoveKernelOutputCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
+            this.AddKernelOutputFilter = new DelegateCommand(() => {
+                new KernelOutputFilterViewModel(Guid.NewGuid()) {
+                    KernelOutputId = this.Id
+                }.Edit.Execute(null);
+            });
+            this.AddKernelOutputTranslater = new DelegateCommand(() => {
+                int sortNumber = this.KernelOutputTranslaters.Count == 0 ? 1 : this.KernelOutputTranslaters.Count + 1;
+                new KernelOutputTranslaterViewModel(Guid.NewGuid()) {
+                    KernelOutputId = this.Id,
+                    SortNumber = sortNumber
+                }.Edit.Execute(null);
+            });
+            this.ClearTranslaterKeyword = new DelegateCommand(() => {
+                this.TranslaterKeyword = string.Empty;
+            });
+        }
+
+        public List<KernelOutputFilterViewModel> KernelOutputFilters {
+            get {
+                return KernelOutputFilterViewModels.Current.GetListByKernelId(this.Id).ToList();
+            }
+        }
+
+        public string TranslaterKeyword {
+            get { return _translaterKeyword; }
+            set {
+                _translaterKeyword = value;
+                OnPropertyChanged(nameof(TranslaterKeyword));
+                OnPropertyChanged(nameof(KernelOutputTranslaters));
+            }
+        }
+
+        public List<KernelOutputTranslaterViewModel> KernelOutputTranslaters {
+            get {
+                var query = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.Id).AsQueryable();
+                if (!string.IsNullOrEmpty(TranslaterKeyword)) {
+                    query = query.Where(a => (a.RegexPattern != null && a.RegexPattern.Contains(TranslaterKeyword))
+                        || (a.Replacement != null && a.Replacement.Contains(TranslaterKeyword)));
+                }
+                return query.OrderBy(a => a.SortNumber).ToList();
+            }
         }
 
         public Guid GetId() {

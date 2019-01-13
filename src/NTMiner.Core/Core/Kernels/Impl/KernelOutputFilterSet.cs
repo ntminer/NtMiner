@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace NTMiner.Core.Kernels.Impl {
     internal class KernelOutputFilterSet : IKernelOutputFilterSet {
         private readonly Dictionary<Guid, KernelOutputFilterData> _dicById = new Dictionary<Guid, KernelOutputFilterData>();
-        private readonly Dictionary<Guid, List<KernelOutputFilterData>> _dicByKernelId = new Dictionary<Guid, List<KernelOutputFilterData>>();
+        private readonly Dictionary<Guid, List<KernelOutputFilterData>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputFilterData>>();
         private readonly INTMinerRoot _root;
 
         public KernelOutputFilterSet(INTMinerRoot root) {
@@ -29,10 +29,10 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelOutputFilterData entity = new KernelOutputFilterData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    if (!_dicByKernelId.ContainsKey(entity.KernelId)) {
-                        _dicByKernelId.Add(entity.KernelId, new List<KernelOutputFilterData>());
+                    if (!_dicByKernelOutputId.ContainsKey(entity.KernelOutputId)) {
+                        _dicByKernelOutputId.Add(entity.KernelOutputId, new List<KernelOutputFilterData>());
                     }
-                    _dicByKernelId[entity.KernelId].Add(entity);
+                    _dicByKernelOutputId[entity.KernelOutputId].Add(entity);
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Add(entity);
 
@@ -74,7 +74,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelOutputFilterData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    _dicByKernelId[entity.KernelId].Remove(entity);
+                    _dicByKernelOutputId[entity.KernelOutputId].Remove(entity);
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Remove(entity.Id);
 
@@ -101,11 +101,11 @@ namespace NTMiner.Core.Kernels.Impl {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
                         }
-                        if (!_dicByKernelId.ContainsKey(item.KernelId)) {
-                            _dicByKernelId.Add(item.KernelId, new List<KernelOutputFilterData>());
+                        if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                            _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputFilterData>());
                         }
-                        if (_dicByKernelId[item.KernelId].All(a => a.GetId() != item.GetId())) {
-                            _dicByKernelId[item.KernelId].Add(item);
+                        if (_dicByKernelOutputId[item.KernelOutputId].All(a => a.GetId() != item.GetId())) {
+                            _dicByKernelOutputId[item.KernelOutputId].Add(item);
                         }
                     }
                     _isInited = true;
@@ -120,8 +120,8 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public IEnumerable<IKernelOutputFilter> GetKernelOutputFilters(Guid kernelId) {
             InitOnece();
-            if (_dicByKernelId.ContainsKey(kernelId)) {
-                return _dicByKernelId[kernelId];
+            if (_dicByKernelOutputId.ContainsKey(kernelId)) {
+                return _dicByKernelOutputId[kernelId];
             }
             return new List<IKernelOutputFilter>();
         }
@@ -166,10 +166,10 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (string.IsNullOrEmpty(input)) {
                     return;
                 }
-                if (!_dicByKernelId.ContainsKey(kernelId)) {
+                if (!_dicByKernelOutputId.ContainsKey(kernelId)) {
                     return;
                 }
-                foreach (var kernelOutputFilter in _dicByKernelId[kernelId]) {
+                foreach (var kernelOutputFilter in _dicByKernelOutputId[kernelId]) {
                     Regex regex = GetRegex(kernelOutputFilter);
                     if (regex == null) {
                         continue;

@@ -9,6 +9,9 @@ namespace NTMiner.Vms {
         public ICommand Add { get; private set; }
 
         public KernelOutputPageViewModel() {
+            if (DevMode.IsDevMode) {
+                return;
+            }
             this.Add = new DelegateCommand(() => {
                 new KernelOutputViewModel(Guid.NewGuid()).Edit.Execute(null);
             });

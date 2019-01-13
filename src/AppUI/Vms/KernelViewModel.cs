@@ -14,7 +14,6 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class KernelViewModel : ViewModelBase, IKernel {
         public static readonly KernelViewModel Empty = new KernelViewModel(Guid.Empty) {
-            _translaterKeyword = string.Empty,
             _kernelProfileVm = KernelProfileViewModel.Empty,
             _args = string.Empty,
             _isSupportDualMine = false,
@@ -81,7 +80,6 @@ namespace NTMiner.Vms {
         private string _dualRejectPercentPattern;
 
         private KernelProfileViewModel _kernelProfileVm;
-        private string _translaterKeyword;
         private Guid _dualCoinGroupId;
 
         private GroupViewModel _dualCoinGroup;
@@ -105,14 +103,8 @@ namespace NTMiner.Vms {
 
         public ICommand BrowsePackage { get; private set; }
 
-        public ICommand AddKernelOutputFilter { get; private set; }
-
-        public ICommand AddKernelOutputTranslater { get; private set; }
-
         public ICommand ShowKernelHelp { get; private set; }
 
-        public ICommand ClearTranslaterKeyword { get; private set; }
-        public ICommand SelectCopySourceKernel { get; private set; }
         public ICommand AddCoinKernel { get; private set; }
         public ICommand Save { get; private set; }
 
@@ -249,18 +241,6 @@ namespace NTMiner.Vms {
                     SortNumber = sortNumber
                 }));
             });
-            this.AddKernelOutputFilter = new DelegateCommand(() => {
-                new KernelOutputFilterViewModel(Guid.NewGuid()) {
-                    KernelId = this.Id
-                }.Edit.Execute(null);
-            });
-            this.AddKernelOutputTranslater = new DelegateCommand(() => {
-                int sortNumber = this.KernelOutputTranslaters.Count == 0 ? 1 : this.KernelOutputTranslaters.Count + 1;
-                new KernelOutputTranslaterViewModel(Guid.NewGuid()) {
-                    KernelId = this.Id,
-                    SortNumber = sortNumber
-                }.Edit.Execute(null);
-            });
             this.ShowKernelHelp = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(HelpArg)) {
                     return;
@@ -288,12 +268,6 @@ namespace NTMiner.Vms {
                 }
                 KernelHelpPage.ShowWindow("内核帮助 - " + this.FullName, helpText);
             });
-            this.ClearTranslaterKeyword = new DelegateCommand(() => {
-                this.TranslaterKeyword = string.Empty;
-            });
-            this.SelectCopySourceKernel = new DelegateCommand<string>((tag) => {
-                KernelCopySourceSelect.ShowWindow(this, tag);
-            });
         }
         #endregion
 
@@ -309,12 +283,6 @@ namespace NTMiner.Vms {
         public GroupViewModels GroupVms {
             get {
                 return GroupViewModels.Current;
-            }
-        }
-
-        public List<KernelOutputFilterViewModel> KernelOutputFilters {
-            get {
-                return KernelOutputFilterViewModels.Current.GetListByKernelId(this.Id).ToList();
             }
         }
 
@@ -340,38 +308,6 @@ namespace NTMiner.Vms {
                     }
                 }
                 return list.OrderBy(a => a.SortNumber).ToList();
-            }
-        }
-
-        public string TranslaterKeyword {
-            get { return _translaterKeyword; }
-            set {
-                _translaterKeyword = value;
-                OnPropertyChanged(nameof(TranslaterKeyword));
-                OnPropertyChanged(nameof(KernelOutputTranslaters));
-            }
-        }
-
-        public List<KernelOutputTranslaterViewModel> KernelOutputTranslaters {
-            get {
-                var query = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.Id).AsQueryable();
-                if (!string.IsNullOrEmpty(TranslaterKeyword)) {
-                    query = query.Where(a => (a.RegexPattern != null && a.RegexPattern.Contains(TranslaterKeyword))
-                        || (a.Replacement != null && a.Replacement.Contains(TranslaterKeyword)));
-                }
-                return query.OrderBy(a => a.SortNumber).ToList();
-            }
-        }
-
-        public Visibility IsTransFilterVisible {
-            get {
-                if (!DevMode.IsDevMode) {
-                    return Visibility.Collapsed;
-                }
-                if (NTMinerRoot.Current.KernelSet.Contains(this.Id)) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
             }
         }
 

@@ -46,6 +46,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool TryGetKernelOutputVm(Guid id, out KernelOutputViewModel kernelOutputVm) {
+            return _dicById.TryGetValue(id, out kernelOutputVm);
+        }
+
         public List<KernelOutputViewModel> AllKernelOutputVms {
             get {
                 return _dicById.Values.OrderBy(a => a.Name).ToList();

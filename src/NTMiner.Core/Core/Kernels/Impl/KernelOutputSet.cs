@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Core.Kernels.Impl {
     public class KernelOutputSet : IKernelOutputSet {
@@ -64,6 +65,14 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     KernelOutputData entity = _dicById[message.EntityId];
+                    List<Guid> kernelOutputFilterIds = root.KernelOutputFilterSet.Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
+                    List<Guid> kernelOutputTranslaterIds = root.KernelOutputTranslaterSet.Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
+                    foreach (var kernelOutputFilterId in kernelOutputFilterIds) {
+                        Global.Execute(new RemoveKernelOutputFilterCommand(kernelOutputFilterId));
+                    }
+                    foreach (var kernelOutputTranslaterId in kernelOutputTranslaterIds) {
+                        Global.Execute(new RemoveKernelOutputTranslaterCommand(kernelOutputTranslaterId));
+                    }
                     _dicById.Remove(entity.GetId());
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Remove(message.EntityId);

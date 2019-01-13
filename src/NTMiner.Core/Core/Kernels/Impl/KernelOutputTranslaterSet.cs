@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 namespace NTMiner.Core.Kernels.Impl {
     internal class KernelOutputTranslaterSet : IKernelOutputTranslaterSet {
         private readonly Dictionary<Guid, KernelOutputTranslaterData> _dicById = new Dictionary<Guid, KernelOutputTranslaterData>();
-        private readonly Dictionary<Guid, List<KernelOutputTranslaterData>> _dicByKernelId = new Dictionary<Guid, List<KernelOutputTranslaterData>>();
+        private readonly Dictionary<Guid, List<KernelOutputTranslaterData>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputTranslaterData>>();
         private readonly INTMinerRoot _root;
 
         public KernelOutputTranslaterSet(INTMinerRoot root) {
@@ -30,10 +30,10 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelOutputTranslaterData entity = new KernelOutputTranslaterData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    if (!_dicByKernelId.ContainsKey(entity.KernelId)) {
-                        _dicByKernelId.Add(entity.KernelId, new List<KernelOutputTranslaterData>());
+                    if (!_dicByKernelOutputId.ContainsKey(entity.KernelOutputId)) {
+                        _dicByKernelOutputId.Add(entity.KernelOutputId, new List<KernelOutputTranslaterData>());
                     }
-                    _dicByKernelId[entity.KernelId].Add(entity);
+                    _dicByKernelOutputId[entity.KernelOutputId].Add(entity);
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Add(entity);
 
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (entity.Color != color) {
                         _colorDic.Remove(entity);
                     }
-                    _dicByKernelId[entity.KernelId].Sort(new SortNumberComparer());
+                    _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Update(entity);
 
@@ -84,10 +84,10 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelOutputTranslaterData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    _dicByKernelId[entity.KernelId].Remove(entity);
+                    _dicByKernelOutputId[entity.KernelOutputId].Remove(entity);
                     _colorDic.Remove(entity);
                     _regexDic.Remove(entity);
-                    _dicByKernelId[entity.KernelId].Sort(new SortNumberComparer());
+                    _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Remove(entity.Id);
 
@@ -132,14 +132,14 @@ namespace NTMiner.Core.Kernels.Impl {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
                         }
-                        if (!_dicByKernelId.ContainsKey(item.KernelId)) {
-                            _dicByKernelId.Add(item.KernelId, new List<KernelOutputTranslaterData>());
+                        if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                            _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterData>());
                         }
-                        if (_dicByKernelId[item.KernelId].All(a => a.GetId() != item.GetId())) {
-                            _dicByKernelId[item.KernelId].Add(item);
+                        if (_dicByKernelOutputId[item.KernelOutputId].All(a => a.GetId() != item.GetId())) {
+                            _dicByKernelOutputId[item.KernelOutputId].Add(item);
                         }
                     }
-                    foreach (var item in _dicByKernelId.Values) {
+                    foreach (var item in _dicByKernelOutputId.Values) {
                         item.Sort(new SortNumberComparer());
                     }
                     _isInited = true;
@@ -154,8 +154,8 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public IEnumerable<IKernelOutputTranslater> GetKernelOutputTranslaters(Guid kernelId) {
             InitOnece();
-            if (_dicByKernelId.ContainsKey(kernelId)) {
-                return _dicByKernelId[kernelId];
+            if (_dicByKernelOutputId.ContainsKey(kernelId)) {
+                return _dicByKernelOutputId[kernelId];
             }
             return new List<IKernelOutputTranslater>();
         }
@@ -243,10 +243,10 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (string.IsNullOrEmpty(input)) {
                     return;
                 }
-                if (!_dicByKernelId.ContainsKey(kernelId)) {
+                if (!_dicByKernelOutputId.ContainsKey(kernelId)) {
                     return;
                 }
-                foreach (var consoleTranslater in _dicByKernelId[kernelId]) {
+                foreach (var consoleTranslater in _dicByKernelOutputId[kernelId]) {
                     if (isPre && !consoleTranslater.IsPre) {
                         continue;
                     }

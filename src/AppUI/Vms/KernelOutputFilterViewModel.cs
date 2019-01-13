@@ -7,7 +7,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelOutputFilterViewModel : ViewModelBase, IKernelOutputFilter {
-        private Guid _kernelId;
         private string _regexPattern;
         private Guid _id;
 
@@ -22,7 +21,6 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public KernelOutputFilterViewModel(IKernelOutputFilter data) : this(data.GetId()) {
-            _kernelId = data.KernelId;
             _kernelOutputId = data.KernelOutputId;
             _regexPattern = data.RegexPattern;
             _id = data.GetId();
@@ -66,14 +64,6 @@ namespace NTMiner.Vms {
             set {
                 _kernelOutputId = value;
                 OnPropertyChanged(nameof(KernelOutputId));
-            }
-        }
-
-        public Guid KernelId {
-            get => _kernelId;
-            set {
-                _kernelId = value;
-                OnPropertyChanged(nameof(KernelId));
             }
         }
 
