@@ -9,6 +9,10 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelOutputViewModel : ViewModelBase, IKernelOutput {
+        public static readonly KernelOutputViewModel PleaseSelect = new KernelOutputViewModel(Guid.Empty) {
+            _name = "请选择"
+        };
+
         private Guid _id;
         private string _name;
         private string _totalSpeedPattern;
@@ -40,7 +44,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public KernelOutputViewModel() {
-            if (!DevMode.IsDevMode) {
+            if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

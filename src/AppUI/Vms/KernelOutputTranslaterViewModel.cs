@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public KernelOutputTranslaterViewModel() {
-            if (!DevMode.IsDevMode) {
+            if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

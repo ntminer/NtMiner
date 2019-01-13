@@ -53,6 +53,9 @@
             <sys:String x:Key="Help">
                 Help
             </sys:String>
+            <sys:String x:Key="KernelOutput">
+                KernelOutput
+            </sys:String>
             <sys:String x:Key="Args">
                 Args
             </sys:String>
@@ -94,6 +97,9 @@
             </sys:String>
             <sys:String x:Key="TbNoRecord">
                 TbNoRecord
+            </sys:String>
+            <sys:String x:Key="Manage">
+                Manage
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -166,34 +172,65 @@
 						        Text="{Binding Notice, Mode=TwoWay}" Height="50">
                             </TextBox>
                         </WrapPanel>
-                        
+
                         <WrapPanel Margin="0 2">
-                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Help}"></TextBlock>
+                            <TextBlock Style="{StaticResource LblTb}">
+                                <WrapPanel>
+                                    <TextBlock Text="{DynamicResource Help}"></TextBlock>
+                                    <controls:KbLinkButton
+                                        Margin="4 0 0 0"
+							            Visibility="{Binding HelpArg, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+							            HorizontalAlignment="Right"
+							            ToolTip="{DynamicResource Help}"
+							            KbDisplayLine="False"
+							            KbSystemButtonHoverBackground="Transparent" 
+							            Background="Transparent"
+							            Command="{Binding ShowKernelHelp}">
+                                        <WrapPanel>
+                                            <Path
+									            Width="14"
+									            Height="14"
+									            Data="{StaticResource Icon_Help}"
+									            Fill="{StaticResource IconFillColor}"
+									            Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbLinkButton>
+                                </WrapPanel>
+                            </TextBlock>
                             <TextBox 
                                 Height="26"
-						        Width="200"
+						        Width="180"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 						        VerticalContentAlignment="Center" Text="{Binding HelpArg}">
                             </TextBox>
-                            <controls:KbLinkButton
-                                Margin="4 0 0 0"
-							    Visibility="{Binding HelpArg, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-							    HorizontalAlignment="Right"
-							    ToolTip="{DynamicResource Help}"
-							    KbDisplayLine="False"
-							    KbSystemButtonHoverBackground="Transparent" 
-							    Background="Transparent"
-							    Command="{Binding ShowKernelHelp}">
-                                <WrapPanel>
-                                    <Path
-									    Width="14"
-									    Height="14"
-									    Data="{StaticResource Icon_Help}"
-									    Fill="{StaticResource IconFillColor}"
-									    Stretch="Fill" />
-                                    <TextBlock Text="{DynamicResource Help}"></TextBlock>
-                                </WrapPanel>
-                            </controls:KbLinkButton>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource KernelOutput}"></TextBlock>
+                            <controls:KbComboBox 
+                                BorderThickness="0"
+						        Width="180" ItemsSource="{Binding KernelOutputVms.PleaseSelectVms}"
+                                DisplayMemberPath="Name" SelectedItem="{Binding KernelOutputVm}">
+                                <controls:KbComboBox.Toolbar>
+                                    <WrapPanel HorizontalAlignment="Right">
+                                        <controls:KbButton
+                                                Margin="4 2"
+                                                BorderThickness="0"
+                                                Height="24"
+                                                Padding="4 0"
+                                                Background="{StaticResource IconFillColor}"
+                                                Command="{x:Static vm:AppStatic.ShowKernelOutputs}"
+                                                CornerRadius="2">
+                                            <WrapPanel>
+                                                <Path
+                                                        Width="14"
+                                                        Height="14"
+                                                        Data="{StaticResource Icon_KernelOutput}"
+                                                        Fill="White"
+                                                        Stretch="Fill" />
+                                                <TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+                                            </WrapPanel>
+                                        </controls:KbButton>
+                                    </WrapPanel>
+                                </controls:KbComboBox.Toolbar>
+                            </controls:KbComboBox>
                         </WrapPanel>
 
                         <WrapPanel Margin="0 2">
@@ -328,11 +365,15 @@
                     <TextBlock Padding="8 0" Text="{DynamicResource Coin}"></TextBlock>
                 </controls:KbTabItem.Header>
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="23*"/>
+                        <ColumnDefinition Width="637*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <WrapPanel>
+                    <WrapPanel Grid.ColumnSpan="2" Margin="0,0,0,38">
                         <Label Width="40" Content="{DynamicResource Coin}"></Label>
                         <controls:KbComboBox 
                             x:Name="CbCoins"
@@ -355,11 +396,10 @@
                             Content="{DynamicResource Add}">
                         </controls:KbButton>
                     </WrapPanel>
-                    <DataGrid 
-                        Grid.Row="1"
+                    <DataGrid
                         ItemsSource="{Binding KernelVmSingleInstance.CoinKernels}" 
                         BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
-                        MouseDoubleClick="CoinKernelDataGrid_MouseDoubleClick">
+                        MouseDoubleClick="CoinKernelDataGrid_MouseDoubleClick" Grid.ColumnSpan="2" Margin="0,25,0,0" Grid.RowSpan="2">
                         <DataGrid.Resources>
                             <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
                         </DataGrid.Resources>
@@ -465,7 +505,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock Grid.Row="1" Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
+                    <TextBlock Grid.Row="1" Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}" Grid.Column="1" Margin="271,209,293,246"></TextBlock>
                 </Grid>
             </controls:KbTabItem>
             <!--end支持币种-->
