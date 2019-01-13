@@ -5,25 +5,17 @@ using System.Windows.Input;
 namespace NTMiner.Views.Ucs {
     public partial class KernelEdit : UserControl {
         public static void ShowEditWindow(KernelViewModel source) {
-            double width = 660;
-            double height = 620;
-            bool fixedSize = false;
-            if (!DevMode.IsDevMode) {
-                width = 0;
-                height = 0;
-                fixedSize = true;
-            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
-                Width = width,
-                Height = height,
+                Width = 660,
+                Height = 520,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 KernelViewModel vm = new KernelViewModel(source);
                 vm.CloseWindow = () => window.Close();
                 return new KernelEdit(vm);
-            }, fixedSize: fixedSize);
+            }, fixedSize: false);
         }
 
         private KernelViewModel Vm {

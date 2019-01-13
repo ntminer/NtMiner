@@ -16,6 +16,7 @@ namespace NTMiner.Core.Impl {
                 Coins = root.CoinSet.Cast<CoinData>().ToArray(),
                 Groups = root.GroupSet.Cast<GroupData>().ToArray(),
                 CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray(),
+                KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().ToArray(),
                 KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray(),
                 KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray(),
                 Kernels = root.KernelSet.Cast<KernelData>().ToArray(),
@@ -34,6 +35,7 @@ namespace NTMiner.Core.Impl {
             this.CoinGroups = new CoinGroupData[0];
             this.CoinKernels = new CoinKernelData[0];
             this.Kernels = new KernelData[0];
+            this.KernelOutputs = new KernelOutputData[0];
             this.KernelOutputFilters = new KernelOutputFilterData[0];
             this.KernelOutputTranslaters = new KernelOutputTranslaterData[0];
             this.Pools = new PoolData[0];
@@ -56,6 +58,7 @@ namespace NTMiner.Core.Impl {
                                 this.CoinGroups = data.CoinGroups ?? new CoinGroupData[0];
                                 this.CoinKernels = data.CoinKernels ?? new CoinKernelData[0];
                                 this.Kernels = data.Kernels ?? new KernelData[0];
+                                this.KernelOutputs = data.KernelOutputs ?? new KernelOutputData[0];
                                 this.KernelOutputFilters = data.KernelOutputFilters ?? new KernelOutputFilterData[0];
                                 this.KernelOutputTranslaters = data.KernelOutputTranslaters ?? new KernelOutputTranslaterData[0];
                                 this.Pools = data.Pools ?? new PoolData[0];
@@ -95,6 +98,8 @@ namespace NTMiner.Core.Impl {
                     return this.CoinKernels.Cast<T>();
                 case nameof(KernelData):
                     return this.Kernels.Cast<T>();
+                case nameof(KernelOutputData):
+                    return this.KernelOutputs.Cast<T>();
                 case nameof(KernelOutputTranslaterData):
                     return this.KernelOutputTranslaters.Cast<T>();
                 case nameof(KernelOutputFilterData):
@@ -121,6 +126,8 @@ namespace NTMiner.Core.Impl {
         public CoinKernelData[] CoinKernels { get; set; }
 
         public KernelData[] Kernels { get; set; }
+
+        public KernelOutputData[] KernelOutputs { get; set; }
 
         public KernelOutputTranslaterData[] KernelOutputTranslaters { get; set; }
 
