@@ -135,6 +135,9 @@
     <Compile Include="Views\Ucs\KernelInputEdit.xaml.cs">
       <DependentUpon>KernelInputEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\KernelInputPage.xaml.cs">
+      <DependentUpon>KernelInputPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\KernelOutputPage.xaml.cs">
       <DependentUpon>KernelOutputPage.xaml</DependentUpon>
     </Compile>
@@ -252,6 +255,8 @@
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\GroupViewModels.cs" />
     <Compile Include="Vms\KernelInputViewModel.cs" />
+    <Compile Include="Vms\KernelInputViewModels.cs" />
+    <Compile Include="Vms\KernelInputPageViewModel.cs" />
     <Compile Include="Vms\KernelOutputPageViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModels.cs" />
@@ -398,6 +403,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\KernelInputEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\KernelInputPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
