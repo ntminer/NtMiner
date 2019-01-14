@@ -7,27 +7,15 @@ using System.Threading.Tasks;
 namespace NTMiner.Daemon {
     public static class DaemonUtil {
         public static void RunNTMinerDaemon() {
-            Process[] processes = Process.GetProcessesByName("NTMinerDaemon");
+            string processName = "NTMinerDaemon";
+            Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
                 NTMinerClientDaemon.Instance.GetDaemonVersion(Global.Localhost, Global.ClientPort, thatVersion => {
                     try {
                         string thisVersion = ThisNTMinerDaemonFileVersion;
                         if (thatVersion != thisVersion) {
                             Global.Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
-                            try {
-                                foreach (var process in processes) {
-                                    try {
-                                        process.Kill();
-                                        process.WaitForExit(10 * 1000);
-                                    }
-                                    catch (Exception e) {
-                                        Global.Logger.ErrorDebugLine(e.Message, e);
-                                    }
-                                }
-                            }
-                            catch (Exception e) {
-                                Global.Logger.ErrorDebugLine(e.Message, e);
-                            }
+                            Windows.TaskKill.Kill(processName);
                             ExtractRunNTMinerDaemon();
                         }
                     }
