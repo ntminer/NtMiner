@@ -251,7 +251,7 @@
                         <DataTemplate>
                             <TextBlock 
                                 Text="{DynamicResource IsSupportDualMine}" 
-                                Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                                Visibility="{Binding KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

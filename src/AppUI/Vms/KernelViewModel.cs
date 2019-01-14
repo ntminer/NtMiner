@@ -270,12 +270,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsSupportDualMine {
-            get {
-                return this.KernelInputVm.IsSupportDualMine;
-            }
-        }
-
         public GroupViewModels GroupVms {
             get {
                 return GroupViewModels.Current;
@@ -566,7 +560,6 @@ namespace NTMiner.Vms {
                 _kernelInputId = value;
                 OnPropertyChanged(nameof(KernelInputId));
                 OnPropertyChanged(nameof(KernelInputVm));
-                OnPropertyChanged(nameof(IsSupportDualMine));
             }
         }
 

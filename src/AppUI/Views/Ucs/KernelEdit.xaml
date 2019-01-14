@@ -159,13 +159,11 @@
                             <TextBlock Style="{StaticResource LblTb}">
                                 <WrapPanel>
                                     <TextBlock Text="{DynamicResource Help}"></TextBlock>
-                                    <controls:KbLinkButton
+                                    <controls:KbButton
                                         Margin="4 0 0 0"
 							            Visibility="{Binding HelpArg, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 							            HorizontalAlignment="Right"
 							            ToolTip="{DynamicResource Help}"
-							            KbDisplayLine="False"
-							            KbSystemButtonHoverBackground="Transparent" 
 							            Background="Transparent"
 							            Command="{Binding ShowKernelHelp}">
                                         <WrapPanel>
@@ -176,7 +174,7 @@
 									            Fill="{StaticResource IconFillColor}"
 									            Stretch="Fill" />
                                         </WrapPanel>
-                                    </controls:KbLinkButton>
+                                    </controls:KbButton>
                                 </WrapPanel>
                             </TextBlock>
                             <TextBox 
@@ -187,7 +185,24 @@
                             </TextBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
-                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource KernelInput}"></TextBlock>
+                            <TextBlock Style="{StaticResource LblTb}">
+                                <WrapPanel>
+                                    <TextBlock Text="{DynamicResource KernelInput}"></TextBlock>
+                                    <controls:KbButton
+							            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+							            Background="Transparent"
+							            Command="{Binding KernelInputVm.Edit}">
+                                        <WrapPanel>
+                                            <Path
+									            Width="14"
+									            Height="14"
+									            Data="{StaticResource Icon_KernelInput}"
+									            Fill="{StaticResource IconFillColor}"
+									            Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                </WrapPanel>
+                            </TextBlock>
                             <controls:KbComboBox 
                                 BorderThickness="0"
 				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
@@ -218,7 +233,24 @@
                                     </WrapPanel>
                                 </controls:KbComboBox.Toolbar>
                             </controls:KbComboBox>
-                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource KernelOutput}"></TextBlock>
+                            <TextBlock Style="{StaticResource LblTb}">
+                                <WrapPanel>
+                                    <TextBlock Text="{DynamicResource KernelOutput}"></TextBlock>
+                                    <controls:KbButton
+							            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+							            Background="Transparent"
+							            Command="{Binding KernelOutputVm.Edit}">
+                                        <WrapPanel>
+                                            <Path
+									            Width="14"
+									            Height="14"
+									            Data="{StaticResource Icon_KernelOutput}"
+									            Fill="{StaticResource IconFillColor}"
+									            Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                </WrapPanel>
+                            </TextBlock>
                             <controls:KbComboBox 
                                 BorderThickness="0"
 				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"

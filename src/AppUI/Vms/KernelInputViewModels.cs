@@ -39,9 +39,6 @@ namespace NTMiner.Vms {
                                 }
                             }
                             if (isSupportDualMine != item.IsSupportDualMine) {
-                                foreach (var kernelVm in KernelViewModels.Current.AllKernels.Where(a=>a.KernelInputId == message.Source.GetId())) {
-                                    kernelVm.OnPropertyChanged(nameof(kernelVm.IsSupportDualMine));
-                                }
                                 foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                                     coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                                     coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.DualCoinGroup));
