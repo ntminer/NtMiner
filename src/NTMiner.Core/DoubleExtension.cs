@@ -13,10 +13,10 @@
             if (speed >= 10000) {
                 return (speed / 1000d).ToString("f1") + " Kh/s";
             }
-            return speed.ToString() + " H/s";
+            return speed.ToString("f2") + " H/s";
         }
 
-        public static long ToLong(this double speed, string speedUnit) {
+        public static double FromUnitSpeed(this double speed, string speedUnit) {
             speedUnit = speedUnit?.Trim().ToLower();
             if (!speedUnit.EndsWith("/s")) {
                 return 0;
@@ -25,19 +25,19 @@
             speedUnit = speedUnit.Trim();
             switch (speedUnit) {
                 case "h":
-                    return (long)speed;
+                    return speed;
                 case "kh":
                 case "k":
-                    return (long)(speed * 1000);
+                    return speed * 1000;
                 case "mh":
                 case "m":
-                    return (long)(speed * 1000000);
+                    return speed * 1000000;
                 case "gh":
                 case "g":
-                    return (long)(speed * 1000000000);
+                    return speed * 1000000000;
                 case "th":
                 case "t":
-                    return (long)(speed * 1000000000000);
+                    return speed * 1000000000000;
                 default:
                     return 0;
             }

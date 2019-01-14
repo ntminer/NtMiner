@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(Speed));
                 ICalcConfig calcConfig;
                 if (SelectedCoinVm != null && NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
-                    this.IncomePerDay = value.ToLong(this.SpeedUnitVm.Unit) * NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(SelectedCoinVm);
+                    this.IncomePerDay = value.FromUnitSpeed(this.SpeedUnitVm.Unit) * NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(SelectedCoinVm);
                 }
             }
         }

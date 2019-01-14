@@ -65,7 +65,7 @@ namespace NTMiner.Core.Impl {
             if (item.Speed == 0) {
                 return 0;
             }
-            return item.IncomePerDay / item.Speed.ToLong(item.SpeedUnit);
+            return item.IncomePerDay / item.Speed.FromUnitSpeed(item.SpeedUnit);
         }
 
         public void SaveCalcConfigs(List<CalcConfigData> data) {

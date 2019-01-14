@@ -2,7 +2,7 @@
 
 namespace NTMiner.Core {
     public interface ISpeed {
-        long Value { get; set; }
+        double Value { get; set; }
         DateTime SpeedOn { get; set; }
     }
 }

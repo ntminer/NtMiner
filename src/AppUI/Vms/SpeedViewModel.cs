@@ -3,7 +3,7 @@ using System;
 
 namespace NTMiner.Vms {
     public class SpeedViewModel : ViewModelBase, ISpeed {
-        private long _speed;
+        private double _speed;
         private DateTime _speedOn;
 
         public SpeedViewModel(ISpeed speed) {
@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
             this.SpeedOn = data.SpeedOn;
         }
 
-        public long Value {
+        public double Value {
             get => _speed;
             set {
                 _speed = value;

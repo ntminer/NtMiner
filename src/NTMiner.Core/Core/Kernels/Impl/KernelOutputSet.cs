@@ -180,7 +180,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                 double totalSpeed;
                 if (double.TryParse(totalSpeedText, out totalSpeed)) {
-                    long totalSpeedL = totalSpeed.ToLong(totalSpeedUnit);
+                    double totalSpeedL = totalSpeed.FromUnitSpeed(totalSpeedUnit);
                     var now = DateTime.Now;
                     GpusSpeed gpuSpeeds = (GpusSpeed)NTMinerRoot.Current.GpusSpeed;
                     IGpuSpeed totalGpuSpeed = gpuSpeeds.First(a => a.Gpu.Index == NTMinerRoot.GpuAllId);
@@ -200,7 +200,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     if (string.IsNullOrEmpty(gpuSpeedPattern)) {
                         // 平分总算力
-                        long gpuSpeedL = totalSpeedL / root.GpuSet.Count;
+                        double gpuSpeedL = totalSpeedL / root.GpuSet.Count;
                         foreach (var item in gpuSpeeds) {
                             if (item.Gpu.Index != NTMinerRoot.GpuAllId) {
                                 gpuSpeeds.SetCurrentSpeed(item.Clone());
@@ -242,7 +242,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     int gpu;
                     double gpuSpeed;
                     if (int.TryParse(gpuText, out gpu) && double.TryParse(gpuSpeedText, out gpuSpeed)) {
-                        long gpuSpeedL = gpuSpeed.ToLong(gpuSpeedUnit);
+                        double gpuSpeedL = gpuSpeed.FromUnitSpeed(gpuSpeedUnit);
                         IGpuSpeed gpuSpeedItem = gpuSpeeds.First(a => a.Gpu.Index == gpu);
                         gpuSpeeds.SetCurrentSpeed(gpuSpeedItem.Clone());
                         if (isDual) {

@@ -13,6 +13,6 @@ namespace NTMiner.Core.Impl {
 
         public DateTime SpeedOn { get; set; }
 
-        public long Value { get; set; }
+        public double Value { get; set; }
     }
 }
