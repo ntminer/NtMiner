@@ -101,10 +101,7 @@ namespace NTMiner {
                 string location = GetNTMinerLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string processName = Path.GetFileNameWithoutExtension(location);
-                    Process[] processes = Process.GetProcessesByName(processName);
-                    if (processes.Length != 0) {
-                        Windows.TaskKill.Kill(processName);
-                    }
+                    Windows.TaskKill.Kill(processName);
                 }
             }
             catch (Exception e) {
