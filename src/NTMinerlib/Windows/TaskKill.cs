@@ -29,10 +29,10 @@ namespace NTMiner.Windows {
                             Global.Logger.ErrorDebugLine(e.Message, e);
                         }
                     }
-                }
-                processes = Process.GetProcessesByName(processName);
-                if (processes != null && processes.Length != 0) {
-                    Cmd.RunClose($"taskkill /F /T /IM {processName}.exe", string.Empty);
+                    processes = Process.GetProcessesByName(processName);
+                    if (processes != null && processes.Length != 0) {
+                        Cmd.RunClose($"taskkill /F /T /IM {processName}.exe", string.Empty);
+                    }
                 }
             }
             catch (System.Exception e) {
