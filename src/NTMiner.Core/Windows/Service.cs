@@ -19,6 +19,7 @@ namespace NTMiner.Windows {
                 }
                 catch (Exception e) {
                     Global.Logger.ErrorDebugLine(e.Message, e);
+                    Global.Logger.InfoDebugLine("上面这个异常可以忽略");
                     if (callback != null) {
                         callback.Invoke(false);
                     }
