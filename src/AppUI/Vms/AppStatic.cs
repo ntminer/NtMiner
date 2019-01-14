@@ -222,15 +222,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public static Visibility IsNotDevModeVisible {
-            get {
-                if (IsNotDevMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
         private static bool _isMinerClient;
         public static bool IsMinerClient {
             get {

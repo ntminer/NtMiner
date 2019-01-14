@@ -9,7 +9,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		Title="开源矿工"
-		Width="860"
+		Width="{Binding Width}"
         Height="{Binding Height}"
         MinHeight="520"
 		MinWidth="800"

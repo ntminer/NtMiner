@@ -35,12 +35,27 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int Height {
+        public double Height {
             get {
+                if (SystemParameters.WorkArea.Size.Height > 620) {
+                    if (DevMode.IsDevMode) {
+                        return 920;
+                    }
+                    return 620;
+                }
                 if (DevMode.IsDevMode) {
                     return 820;
                 }
                 return 520;
+            }
+        }
+
+        public double Width {
+            get {
+                if (SystemParameters.WorkArea.Size.Width > 1000) {
+                    return 1000;
+                }
+                return 860;
             }
         }
 
