@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NTMiner.Vms {
     public class KernelInputViewModels : ViewModelBase {
@@ -29,7 +28,25 @@ namespace NTMiner.Vms {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         var item = _dicById[message.Source.GetId()];
                         if (item != null) {
+                            bool isSupportDualMine = item.IsSupportDualMine;
+                            string args = item.Args;
+                            string dualFullArgs = item.DualFullArgs;
                             item.Update(message.Source);
+                            if (args != item.Args || dualFullArgs != item.DualFullArgs) {
+                                CoinViewModel coinVm = MinerProfileViewModel.Current.CoinVm;
+                                if (coinVm != null && coinVm.CoinKernel != null && coinVm.CoinKernel.Kernel.KernelInputId == item.Id) {
+                                    Global.Execute(new RefreshArgsAssemblyCommand());
+                                }
+                            }
+                            if (isSupportDualMine != item.IsSupportDualMine) {
+                                foreach (var kernelVm in KernelViewModels.Current.AllKernels.Where(a=>a.KernelInputId == message.Source.GetId())) {
+                                    kernelVm.OnPropertyChanged(nameof(kernelVm.IsSupportDualMine));
+                                }
+                                foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                                    coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
+                                    coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.DualCoinGroup));
+                                }
+                            }
                         }
                     }
                 });

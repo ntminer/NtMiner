@@ -39,23 +39,13 @@ namespace NTMiner.Vms {
                 action: message => {
                     var entity = _dicById[message.Source.GetId()];
                     int sortNumber = entity.SortNumber;
-                    bool isSupportDualMine = entity.IsSupportDualMine;
-                    string args = entity.Args;
-                    string dualFullArgs = entity.DualFullArgs;
+                    Guid kernelInputId = entity.KernelInputId;
                     entity.Update(message.Source);
                     if (sortNumber != entity.SortNumber) {
                         KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
                     }
-                    if (args != entity.Args || dualFullArgs != entity.DualFullArgs) {
-                        CoinViewModel coinVm = MinerProfileViewModel.Current.CoinVm;
-                        if (coinVm != null && coinVm.CoinKernel != null && coinVm.CoinKernel.KernelId == entity.Id) {
-                            Global.Execute(new RefreshArgsAssemblyCommand());
-                        }
-                    }
-                    if (isSupportDualMine != entity.IsSupportDualMine) {
-                        foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
-                            coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
-                        }
+                    if (kernelInputId != entity.KernelInputId) {
+                        Global.Execute(new RefreshArgsAssemblyCommand());
                     }
                 });
 

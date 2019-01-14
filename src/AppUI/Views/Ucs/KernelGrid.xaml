@@ -82,6 +82,12 @@
             <sys:String x:Key="Version">
                 Version
             </sys:String>
+            <sys:String x:Key="KernelInput">
+                KernelInput
+            </sys:String>
+            <sys:String x:Key="KernelOutput">
+                KernelOutput
+            </sys:String>
             <sys:String x:Key="IsSupportDualMine">
                 IsSupportDualMine
             </sys:String>
@@ -206,6 +212,34 @@
                         <TextBlock Text="{DynamicResource Size}"></TextBlock>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
+                <DataGridTemplateColumn 
+                    Width="100" CanUserResize="False" CanUserReorder="False" 
+                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource KernelInput}" HorizontalAlignment="Center"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock 
+                                Text="{Binding KernelInputVm.Name}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn 
+                    Width="100" CanUserResize="False" CanUserReorder="False" 
+                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource KernelOutput}" HorizontalAlignment="Center"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock 
+                                Text="{Binding KernelOutputVm.Name}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn 
                     Width="70" CanUserResize="False" CanUserReorder="False" 
                     Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"

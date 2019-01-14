@@ -59,30 +59,6 @@
             <sys:String x:Key="KernelOutput">
                 KernelOutput
             </sys:String>
-            <sys:String x:Key="Args">
-                Args
-            </sys:String>
-            <sys:String x:Key="IsSupportDualMine">
-                IsSupportDualMine
-            </sys:String>
-            <sys:String x:Key="DualWeightArg">
-                DualWeightArg
-            </sys:String>
-            <sys:String x:Key="IsAutoDualWeight">
-                IsAutoDualWeight
-            </sys:String>
-            <sys:String x:Key="DualWeightMin">
-                DualWeightMin
-            </sys:String>
-            <sys:String x:Key="DualWeightMax">
-                DualWeightMax
-            </sys:String>
-            <sys:String x:Key="DualCoinGroup">
-                DualCoinGroup
-            </sys:String>
-            <sys:String x:Key="DualFullArgs">
-                DualFullArgs
-            </sys:String>
             <sys:String x:Key="Coin">
                 Coin
             </sys:String>

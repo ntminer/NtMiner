@@ -12,7 +12,6 @@ using NTMiner.Core.SysDics.Impl;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.ServiceModel;
@@ -490,6 +489,11 @@ namespace NTMiner {
                     Global.Logger.WarnDebugLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。");
                     return;
                 }
+                IKernelInput kernelInput;
+                if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                    Global.Logger.WarnDebugLine("未设置内核输入");
+                    return;
+                }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
                     coinProfile.Wallet = mainCoin.TestWallet;
                 }
@@ -536,7 +540,7 @@ namespace NTMiner {
                     this.StopMine();
                     return;
                 }
-                if (string.IsNullOrEmpty(kernel.Args)) {
+                if (string.IsNullOrEmpty(kernelInput.Args)) {
                     Global.Logger.WarnDebugLine(kernel.FullName + "没有配置运行参数");
                     return;
                 }

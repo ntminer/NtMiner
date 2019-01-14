@@ -13,15 +13,6 @@ namespace NTMiner.Core.Kernels {
         int SortNumber { get; }
         PublishStatus PublishState { get; }
 
-        Guid DualCoinGroupId { get; }
-        string Args { get; }
-        bool IsSupportDualMine { get; }
-        double DualWeightMin { get; }
-        double DualWeightMax { get; }
-        bool IsAutoDualWeight { get; }
-        string DualWeightArg { get; }
-        string DualFullArgs { get; }
-
         string HelpArg { get; set; }
         string Notice { get; }
         Guid KernelInputId { get; }

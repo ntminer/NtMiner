@@ -15,14 +15,6 @@ namespace NTMiner.Vms {
     public class KernelViewModel : ViewModelBase, IKernel {
         public static readonly KernelViewModel Empty = new KernelViewModel(Guid.Empty) {
             _kernelProfileVm = KernelProfileViewModel.Empty,
-            _args = string.Empty,
-            _isSupportDualMine = false,
-            _dualCoinGroup = GroupViewModel.PleaseSelect,
-            _dualWeightMax = 0,
-            _dualWeightMin = 0,
-            _isAutoDualWeight = false,
-            _dualWeightArg = string.Empty,
-            _dualFullArgs = string.Empty,
             _helpArg = string.Empty,
             _code = string.Empty,
             _notice = string.Empty,
@@ -31,7 +23,6 @@ namespace NTMiner.Vms {
             _sha1 = string.Empty,
             _size = 0,
             _sortNumber = 0,
-            _dualCoinGroupId = Guid.Empty,
             _publishOn = 0,
             _version = string.Empty,
             _package = string.Empty,
@@ -55,17 +46,7 @@ namespace NTMiner.Vms {
         private Guid _kernelInputId;
         private Guid _kernelOutputId;
 
-        private string _args;
-        private bool _isSupportDualMine;
-        private string _dualFullArgs;
-        private Guid _dualCoinGroupId;
-        private double _dualWeightMin;
-        private double _dualWeightMax;
-        private bool _isAutoDualWeight;
-        private string _dualWeightArg;
         private KernelProfileViewModel _kernelProfileVm;
-
-        private GroupViewModel _dualCoinGroup;
 
         public Guid GetId() {
             return this.Id;
@@ -99,13 +80,6 @@ namespace NTMiner.Vms {
         }
 
         public KernelViewModel(IKernel data) : this(data.GetId()) {
-            _args = data.Args;
-            _isSupportDualMine = data.IsSupportDualMine;
-            _dualWeightMin = data.DualWeightMin;
-            _dualWeightMax = data.DualWeightMax;
-            _isAutoDualWeight = data.IsAutoDualWeight;
-            _dualWeightArg = data.DualWeightArg;
-            _dualFullArgs = data.DualFullArgs;
             _helpArg = data.HelpArg;
             _code = data.Code;
             _notice = data.Notice;
@@ -113,12 +87,12 @@ namespace NTMiner.Vms {
             _sha1 = data.Sha1;
             _size = data.Size;
             _sortNumber = data.SortNumber;
-            _dualCoinGroupId = data.DualCoinGroupId;
             _publishOn = data.PublishOn;
             _version = data.Version;
             _package = data.Package;
             _packageHistory = data.PackageHistory;
             _kernelOutputId = data.KernelOutputId;
+            _kernelInputId = data.KernelInputId;
         }
 
         public KernelViewModel(Guid id) {
@@ -293,6 +267,12 @@ namespace NTMiner.Vms {
         public KernelInputViewModels KernelInputVms {
             get {
                 return KernelInputViewModels.Current;
+            }
+        }
+
+        public bool IsSupportDualMine {
+            get {
+                return this.KernelInputVm.IsSupportDualMine;
             }
         }
 
@@ -564,105 +544,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Guid DualCoinGroupId {
-            get => _dualCoinGroupId;
-            set {
-                _dualCoinGroupId = value;
-                OnPropertyChanged(nameof(DualCoinGroupId));
-            }
-        }
-
-        public GroupViewModel DualCoinGroup {
-            get {
-                if (this.DualCoinGroupId == Guid.Empty) {
-                    return GroupViewModel.PleaseSelect;
-                }
-                if (_dualCoinGroup == null || _dualCoinGroup.Id != this.DualCoinGroupId) {
-                    GroupViewModels.Current.TryGetGroupVm(DualCoinGroupId, out _dualCoinGroup);
-                    if (_dualCoinGroup == null) {
-                        _dualCoinGroup = GroupViewModel.PleaseSelect;
-                    }
-                }
-                return _dualCoinGroup;
-            }
-            set {
-                if (DualCoinGroupId != value.Id) {
-                    DualCoinGroupId = value.Id;
-                    OnPropertyChanged(nameof(DualCoinGroup));
-                }
-            }
-        }
-
-        public string Args {
-            get { return _args; }
-            set {
-                _args = value;
-                OnPropertyChanged(nameof(Args));
-            }
-        }
-
-        public bool IsSupportDualMine {
-            get => _isSupportDualMine;
-            set {
-                _isSupportDualMine = value;
-                OnPropertyChanged(nameof(IsSupportDualMine));
-            }
-        }
-
-        public Visibility IsSupportDualMineVisible {
-            get {
-                if (DevMode.IsDevMode) {
-                    return Visibility.Visible;
-                }
-                if (IsSupportDualMine) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
-        public double DualWeightMin {
-            get => _dualWeightMin;
-            set {
-                _dualWeightMin = value;
-                OnPropertyChanged(nameof(DualWeightMin));
-            }
-        }
-
-        public double DualWeightMax {
-            get => _dualWeightMax;
-            set {
-                _dualWeightMax = value;
-                OnPropertyChanged(nameof(DualWeightMax));
-            }
-        }
-
-        public bool IsAutoDualWeight {
-            get => _isAutoDualWeight;
-            set {
-                _isAutoDualWeight = value;
-                OnPropertyChanged(nameof(IsAutoDualWeight));
-            }
-        }
-
-        public string DualWeightArg {
-            get {
-                return _dualWeightArg;
-            }
-            set {
-                _dualWeightArg = value;
-                OnPropertyChanged(nameof(DualWeightArg));
-            }
-        }
-
-        public string DualFullArgs {
-            get { return _dualFullArgs; }
-            set {
-                _dualFullArgs = value;
-                OnPropertyChanged(nameof(DualFullArgs));
-            }
-        }
-
         public string HelpArg {
             get { return _helpArg; }
             set {
@@ -684,6 +565,8 @@ namespace NTMiner.Vms {
             set {
                 _kernelInputId = value;
                 OnPropertyChanged(nameof(KernelInputId));
+                OnPropertyChanged(nameof(KernelInputVm));
+                OnPropertyChanged(nameof(IsSupportDualMine));
             }
         }
 
@@ -692,6 +575,7 @@ namespace NTMiner.Vms {
             set {
                 _kernelOutputId = value;
                 OnPropertyChanged(nameof(KernelOutputId));
+                OnPropertyChanged(nameof(KernelOutputVm));
             }
         }
     }

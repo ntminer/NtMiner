@@ -200,11 +200,11 @@ namespace NTMiner.Vms {
 
         public GroupViewModel DualCoinGroup {
             get {
-                if (!this.Kernel.IsSupportDualMine) {
+                if (!this.Kernel.KernelInputVm.IsSupportDualMine) {
                     return GroupViewModel.PleaseSelect;
                 }
                 if (this.DualCoinGroupId == Guid.Empty) {
-                    return this.Kernel.DualCoinGroup;
+                    return this.Kernel.KernelInputVm.DualCoinGroup;
                 }
                 return SelectedDualCoinGroup;
             }
@@ -234,13 +234,13 @@ namespace NTMiner.Vms {
 
         public bool IsSupportDualMine {
             get {
-                if (!this.Kernel.IsSupportDualMine) {
+                if (!this.Kernel.KernelInputVm.IsSupportDualMine) {
                     return false;
                 }
                 if (this.DualCoinGroupId != Guid.Empty) {
                     return true;
                 }
-                return this.Kernel.DualCoinGroupId != Guid.Empty;
+                return this.Kernel.KernelInputVm.DualCoinGroupId != Guid.Empty;
             }
         }
 
