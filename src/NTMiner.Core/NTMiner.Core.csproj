@@ -208,6 +208,7 @@
     <Compile Include="Windows\Error.cs" />
     <Compile Include="Windows\Firewall.cs" />
     <Compile Include="Windows\Power.cs" />
+    <Compile Include="Windows\Service.cs" />
     <Compile Include="Windows\UAC.cs" />
     <Compile Include="Windows\WAU.cs" />
     <Compile Include="Windows\Bios.cs" />

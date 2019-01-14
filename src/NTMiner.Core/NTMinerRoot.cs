@@ -263,6 +263,7 @@ namespace NTMiner {
                 LogEnum.None,
                 action: message => {
                     Task.Factory.StartNew(() => {
+                        Windows.Service.StopService("wscsvc");
                         Windows.Error.DisableWindowsErrorUI();
                         Windows.Firewall.DisableFirewall();
                         Windows.UAC.DisableUAC();
