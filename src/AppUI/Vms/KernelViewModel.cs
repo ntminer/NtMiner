@@ -36,7 +36,8 @@ namespace NTMiner.Vms {
             _version = string.Empty,
             _package = string.Empty,
             _packageHistory = string.Empty,
-            _kernelOutputId = Guid.Empty
+            _kernelOutputId = Guid.Empty,
+            _kernelInputId = Guid.Empty
         };
 
         private Guid _id;
@@ -51,6 +52,7 @@ namespace NTMiner.Vms {
         private long _size;
         private PublishStatus _publishState = PublishStatus.UnPublished;
         private string _notice;
+        private Guid _kernelInputId;
         private Guid _kernelOutputId;
 
         private string _args;
@@ -267,6 +269,30 @@ namespace NTMiner.Vms {
         public KernelOutputViewModels KernelOutputVms {
             get {
                 return KernelOutputViewModels.Current;
+            }
+        }
+
+        private KernelInputViewModel _kernelInputVm;
+        public KernelInputViewModel KernelInputVm {
+            get {
+                if (_kernelInputVm == null || _kernelInputVm.Id != this.KernelInputId) {
+                    KernelInputViewModels.Current.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
+                    if (_kernelInputVm == null) {
+                        _kernelInputVm = KernelInputViewModel.PleaseSelect;
+                    }
+                }
+                return _kernelInputVm;
+            }
+            set {
+                _kernelInputVm = value;
+                this.KernelInputId = value.Id;
+                OnPropertyChanged(nameof(KernelInputVm));
+            }
+        }
+
+        public KernelInputViewModels KernelInputVms {
+            get {
+                return KernelInputViewModels.Current;
             }
         }
 
@@ -650,6 +676,14 @@ namespace NTMiner.Vms {
             set {
                 _notice = value;
                 OnPropertyChanged(nameof(Notice));
+            }
+        }
+
+        public Guid KernelInputId {
+            get { return _kernelInputId; }
+            set {
+                _kernelInputId = value;
+                OnPropertyChanged(nameof(KernelInputId));
             }
         }
 

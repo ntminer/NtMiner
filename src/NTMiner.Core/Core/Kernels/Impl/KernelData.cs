@@ -52,6 +52,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public string Notice { get; set; }
 
+        public Guid KernelInputId { get; set; }
         public Guid KernelOutputId { get; set; }
     }
 }

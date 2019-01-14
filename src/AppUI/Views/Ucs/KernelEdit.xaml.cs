@@ -8,8 +8,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
-                Width = 660,
-                Height = 520,
+                Width = 580,
+                Height = 400,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 KernelViewModel vm = new KernelViewModel(source);

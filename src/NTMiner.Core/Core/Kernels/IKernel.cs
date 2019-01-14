@@ -24,6 +24,7 @@ namespace NTMiner.Core.Kernels {
 
         string HelpArg { get; set; }
         string Notice { get; }
+        Guid KernelInputId { get; }
         Guid KernelOutputId { get; }
     }
 }
