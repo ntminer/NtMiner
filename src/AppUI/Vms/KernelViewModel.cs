@@ -14,16 +14,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class KernelViewModel : ViewModelBase, IKernel {
         public static readonly KernelViewModel Empty = new KernelViewModel(Guid.Empty) {
-            _translaterKeyword = string.Empty,
             _kernelProfileVm = KernelProfileViewModel.Empty,
-            _args = string.Empty,
-            _isSupportDualMine = false,
-            _dualCoinGroup = GroupViewModel.PleaseSelect,
-            _dualWeightMax = 0,
-            _dualWeightMin = 0,
-            _isAutoDualWeight = false,
-            _dualWeightArg = string.Empty,
-            _dualFullArgs = string.Empty,
             _helpArg = string.Empty,
             _code = string.Empty,
             _notice = string.Empty,
@@ -32,32 +23,18 @@ namespace NTMiner.Vms {
             _sha1 = string.Empty,
             _size = 0,
             _sortNumber = 0,
-            _dualCoinGroupId = Guid.Empty,
             _publishOn = 0,
             _version = string.Empty,
             _package = string.Empty,
             _packageHistory = string.Empty,
-            _gpuSpeedPattern = string.Empty,
-            _rejectSharePattern = string.Empty,
-            _rejectPercentPattern = string.Empty,
-            _totalSharePattern = string.Empty,
-            _acceptSharePattern = string.Empty,
-            _totalSpeedPattern = string.Empty,
-            _dualGpuSpeedPattern = string.Empty,
-            _dualRejectSharePattern = string.Empty,
-            _dualRejectPercentPattern = string.Empty,
-            _dualTotalSharePattern = string.Empty,
-            _dualAcceptSharePattern = string.Empty,
-            _dualTotalSpeedPattern = string.Empty
+            _kernelOutputId = Guid.Empty,
+            _kernelInputId = Guid.Empty
         };
 
         private Guid _id;
         private string _code;
         private string _version;
         private int _sortNumber;
-        private string _args;
-        private bool _isSupportDualMine;
-        private string _dualFullArgs;
         private string _helpArg;
         private ulong _publishOn;
         private string _package;
@@ -66,29 +43,10 @@ namespace NTMiner.Vms {
         private long _size;
         private PublishStatus _publishState = PublishStatus.UnPublished;
         private string _notice;
-        private string _totalSpeedPattern;
-        private string _totalSharePattern;
-        private string _acceptSharePattern;
-        private string _gpuSpeedPattern;
-        private string _rejectSharePattern;
-        private string _rejectPercentPattern;
-
-        private string _dualTotalSpeedPattern;
-        private string _dualTotalSharePattern;
-        private string _dualAcceptSharePattern;
-        private string _dualGpuSpeedPattern;
-        private string _dualRejectSharePattern;
-        private string _dualRejectPercentPattern;
+        private Guid _kernelInputId;
+        private Guid _kernelOutputId;
 
         private KernelProfileViewModel _kernelProfileVm;
-        private string _translaterKeyword;
-        private Guid _dualCoinGroupId;
-
-        private GroupViewModel _dualCoinGroup;
-        private double _dualWeightMin;
-        private double _dualWeightMax;
-        private bool _isAutoDualWeight;
-        private string _dualWeightArg;
 
         public Guid GetId() {
             return this.Id;
@@ -105,14 +63,8 @@ namespace NTMiner.Vms {
 
         public ICommand BrowsePackage { get; private set; }
 
-        public ICommand AddKernelOutputFilter { get; private set; }
-
-        public ICommand AddKernelOutputTranslater { get; private set; }
-
         public ICommand ShowKernelHelp { get; private set; }
 
-        public ICommand ClearTranslaterKeyword { get; private set; }
-        public ICommand SelectCopySourceKernel { get; private set; }
         public ICommand AddCoinKernel { get; private set; }
         public ICommand Save { get; private set; }
 
@@ -128,13 +80,6 @@ namespace NTMiner.Vms {
         }
 
         public KernelViewModel(IKernel data) : this(data.GetId()) {
-            _args = data.Args;
-            _isSupportDualMine = data.IsSupportDualMine;
-            _dualWeightMin = data.DualWeightMin;
-            _dualWeightMax = data.DualWeightMax;
-            _isAutoDualWeight = data.IsAutoDualWeight;
-            _dualWeightArg = data.DualWeightArg;
-            _dualFullArgs = data.DualFullArgs;
             _helpArg = data.HelpArg;
             _code = data.Code;
             _notice = data.Notice;
@@ -142,23 +87,12 @@ namespace NTMiner.Vms {
             _sha1 = data.Sha1;
             _size = data.Size;
             _sortNumber = data.SortNumber;
-            _dualCoinGroupId = data.DualCoinGroupId;
             _publishOn = data.PublishOn;
             _version = data.Version;
             _package = data.Package;
             _packageHistory = data.PackageHistory;
-            _gpuSpeedPattern = data.GpuSpeedPattern;
-            _rejectSharePattern = data.RejectSharePattern;
-            _totalSharePattern = data.TotalSharePattern;
-            _acceptSharePattern = data.AcceptSharePattern;
-            _rejectPercentPattern = data.RejectPercentPattern;
-            _totalSpeedPattern = data.TotalSpeedPattern;
-            _dualGpuSpeedPattern = data.DualGpuSpeedPattern;
-            _dualRejectSharePattern = data.DualRejectSharePattern;
-            _dualAcceptSharePattern = data.DualAcceptSharePattern;
-            _dualRejectPercentPattern = data.DualRejectPercentPattern;
-            _dualTotalSharePattern = data.DualTotalSharePattern;
-            _dualTotalSpeedPattern = data.DualTotalSpeedPattern;
+            _kernelOutputId = data.KernelOutputId;
+            _kernelInputId = data.KernelInputId;
         }
 
         public KernelViewModel(Guid id) {
@@ -249,18 +183,6 @@ namespace NTMiner.Vms {
                     SortNumber = sortNumber
                 }));
             });
-            this.AddKernelOutputFilter = new DelegateCommand(() => {
-                new KernelOutputFilterViewModel(Guid.NewGuid()) {
-                    KernelId = this.Id
-                }.Edit.Execute(null);
-            });
-            this.AddKernelOutputTranslater = new DelegateCommand(() => {
-                int sortNumber = this.KernelOutputTranslaters.Count == 0 ? 1 : this.KernelOutputTranslaters.Count + 1;
-                new KernelOutputTranslaterViewModel(Guid.NewGuid()) {
-                    KernelId = this.Id,
-                    SortNumber = sortNumber
-                }.Edit.Execute(null);
-            });
             this.ShowKernelHelp = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(HelpArg)) {
                     return;
@@ -288,12 +210,6 @@ namespace NTMiner.Vms {
                 }
                 KernelHelpPage.ShowWindow("内核帮助 - " + this.FullName, helpText);
             });
-            this.ClearTranslaterKeyword = new DelegateCommand(() => {
-                this.TranslaterKeyword = string.Empty;
-            });
-            this.SelectCopySourceKernel = new DelegateCommand<string>((tag) => {
-                KernelCopySourceSelect.ShowWindow(this, tag);
-            });
         }
         #endregion
 
@@ -306,15 +222,57 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GroupViewModels GroupVms {
+        private KernelOutputViewModel _kernelOutputVm;
+        public KernelOutputViewModel KernelOutputVm {
             get {
-                return GroupViewModels.Current;
+                if (_kernelOutputVm == null || _kernelOutputVm.Id != this.KernelOutputId) {
+                    KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out _kernelOutputVm);
+                    if (_kernelOutputVm == null) {
+                        _kernelOutputVm = KernelOutputViewModel.PleaseSelect;
+                    }
+                }
+                return _kernelOutputVm;
+            }
+            set {
+                _kernelOutputVm = value;
+                this.KernelOutputId = value.Id;
+                OnPropertyChanged(nameof(KernelOutputVm));
             }
         }
 
-        public List<KernelOutputFilterViewModel> KernelOutputFilters {
+        public KernelOutputViewModels KernelOutputVms {
             get {
-                return KernelOutputFilterViewModels.Current.GetListByKernelId(this.Id).ToList();
+                return KernelOutputViewModels.Current;
+            }
+        }
+
+        private KernelInputViewModel _kernelInputVm;
+        public KernelInputViewModel KernelInputVm {
+            get {
+                if (_kernelInputVm == null || _kernelInputVm.Id != this.KernelInputId) {
+                    KernelInputViewModels.Current.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
+                    if (_kernelInputVm == null) {
+                        _kernelInputVm = KernelInputViewModel.PleaseSelect;
+                    }
+                }
+                return _kernelInputVm;
+            }
+            set {
+                _kernelInputVm = value;
+                this.KernelInputId = value.Id;
+                OnPropertyChanged(nameof(KernelInputVm));
+            }
+        }
+
+        public KernelInputViewModels KernelInputVms {
+            get {
+                return KernelInputViewModels.Current;
+            }
+        }
+
+        public GroupViewModels GroupVms {
+            get {
+                return GroupViewModels.Current;
             }
         }
 
@@ -340,38 +298,6 @@ namespace NTMiner.Vms {
                     }
                 }
                 return list.OrderBy(a => a.SortNumber).ToList();
-            }
-        }
-
-        public string TranslaterKeyword {
-            get { return _translaterKeyword; }
-            set {
-                _translaterKeyword = value;
-                OnPropertyChanged(nameof(TranslaterKeyword));
-                OnPropertyChanged(nameof(KernelOutputTranslaters));
-            }
-        }
-
-        public List<KernelOutputTranslaterViewModel> KernelOutputTranslaters {
-            get {
-                var query = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.Id).AsQueryable();
-                if (!string.IsNullOrEmpty(TranslaterKeyword)) {
-                    query = query.Where(a => (a.RegexPattern != null && a.RegexPattern.Contains(TranslaterKeyword))
-                        || (a.Replacement != null && a.Replacement.Contains(TranslaterKeyword)));
-                }
-                return query.OrderBy(a => a.SortNumber).ToList();
-            }
-        }
-
-        public Visibility IsTransFilterVisible {
-            get {
-                if (!DevMode.IsDevMode) {
-                    return Visibility.Collapsed;
-                }
-                if (NTMinerRoot.Current.KernelSet.Contains(this.Id)) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
             }
         }
 
@@ -612,112 +538,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Guid DualCoinGroupId {
-            get => _dualCoinGroupId;
-            set {
-                _dualCoinGroupId = value;
-                OnPropertyChanged(nameof(DualCoinGroupId));
-            }
-        }
-
-        public GroupViewModel DualCoinGroup {
-            get {
-                if (this.DualCoinGroupId == Guid.Empty) {
-                    return GroupViewModel.PleaseSelect;
-                }
-                if (_dualCoinGroup == null || _dualCoinGroup.Id != this.DualCoinGroupId) {
-                    GroupViewModels.Current.TryGetGroupVm(DualCoinGroupId, out _dualCoinGroup);
-                    if (_dualCoinGroup == null) {
-                        _dualCoinGroup = GroupViewModel.PleaseSelect;
-                    }
-                }
-                return _dualCoinGroup;
-            }
-            set {
-                if (DualCoinGroupId != value.Id) {
-                    DualCoinGroupId = value.Id;
-                    OnPropertyChanged(nameof(DualCoinGroup));
-                    OnPropertyChanged(nameof(IsDualCoinGroupEmpty));
-                }
-            }
-        }
-
-        public bool IsDualCoinGroupEmpty {
-            get {
-                return DualCoinGroup == GroupViewModel.PleaseSelect;
-            }
-        }
-
-        public string Args {
-            get { return _args; }
-            set {
-                _args = value;
-                OnPropertyChanged(nameof(Args));
-            }
-        }
-
-        public bool IsSupportDualMine {
-            get => _isSupportDualMine;
-            set {
-                _isSupportDualMine = value;
-                OnPropertyChanged(nameof(IsSupportDualMine));
-            }
-        }
-
-        public Visibility IsSupportDualMineVisible {
-            get {
-                if (DevMode.IsDevMode) {
-                    return Visibility.Visible;
-                }
-                if (IsSupportDualMine) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
-        public double DualWeightMin {
-            get => _dualWeightMin;
-            set {
-                _dualWeightMin = value;
-                OnPropertyChanged(nameof(DualWeightMin));
-            }
-        }
-
-        public double DualWeightMax {
-            get => _dualWeightMax;
-            set {
-                _dualWeightMax = value;
-                OnPropertyChanged(nameof(DualWeightMax));
-            }
-        }
-
-        public bool IsAutoDualWeight {
-            get => _isAutoDualWeight;
-            set {
-                _isAutoDualWeight = value;
-                OnPropertyChanged(nameof(IsAutoDualWeight));
-            }
-        }
-
-        public string DualWeightArg {
-            get {
-                return _dualWeightArg;
-            }
-            set {
-                _dualWeightArg = value;
-                OnPropertyChanged(nameof(DualWeightArg));
-            }
-        }
-
-        public string DualFullArgs {
-            get { return _dualFullArgs; }
-            set {
-                _dualFullArgs = value;
-                OnPropertyChanged(nameof(DualFullArgs));
-            }
-        }
-
         public string HelpArg {
             get { return _helpArg; }
             set {
@@ -734,99 +554,21 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string TotalSpeedPattern {
-            get => _totalSpeedPattern;
+        public Guid KernelInputId {
+            get { return _kernelInputId; }
             set {
-                _totalSpeedPattern = value;
-                OnPropertyChanged(nameof(TotalSpeedPattern));
+                _kernelInputId = value;
+                OnPropertyChanged(nameof(KernelInputId));
+                OnPropertyChanged(nameof(KernelInputVm));
             }
         }
 
-        public string TotalSharePattern {
-            get { return _totalSharePattern; }
+        public Guid KernelOutputId {
+            get { return _kernelOutputId; }
             set {
-                _totalSharePattern = value;
-                OnPropertyChanged(nameof(TotalSharePattern));
-            }
-        }
-
-        public string AcceptSharePattern {
-            get { return _acceptSharePattern; }
-            set {
-                _acceptSharePattern = value;
-                OnPropertyChanged(nameof(AcceptSharePattern));
-            }
-        }
-
-        public string RejectSharePattern {
-            get { return _rejectSharePattern; }
-            set {
-                _rejectSharePattern = value;
-                OnPropertyChanged(nameof(RejectSharePattern));
-            }
-        }
-
-        public string RejectPercentPattern {
-            get { return _rejectPercentPattern; }
-            set {
-                _rejectPercentPattern = value;
-                OnPropertyChanged(nameof(RejectPercentPattern));
-            }
-        }
-
-        public string GpuSpeedPattern {
-            get => _gpuSpeedPattern;
-            set {
-                _gpuSpeedPattern = value;
-                OnPropertyChanged(nameof(GpuSpeedPattern));
-            }
-        }
-
-        public string DualTotalSpeedPattern {
-            get => _dualTotalSpeedPattern;
-            set {
-                _dualTotalSpeedPattern = value;
-                OnPropertyChanged(nameof(DualTotalSpeedPattern));
-            }
-        }
-
-        public string DualTotalSharePattern {
-            get { return _dualTotalSharePattern; }
-            set {
-                _dualTotalSharePattern = value;
-                OnPropertyChanged(nameof(DualTotalSharePattern));
-            }
-        }
-
-        public string DualAcceptSharePattern {
-            get { return _dualAcceptSharePattern; }
-            set {
-                _dualAcceptSharePattern = value;
-                OnPropertyChanged(nameof(DualAcceptSharePattern));
-            }
-        }
-
-        public string DualRejectSharePattern {
-            get { return _dualRejectSharePattern; }
-            set {
-                _dualRejectSharePattern = value;
-                OnPropertyChanged(nameof(DualRejectSharePattern));
-            }
-        }
-
-        public string DualRejectPercentPattern {
-            get { return _dualRejectPercentPattern; }
-            set {
-                _dualRejectPercentPattern = value;
-                OnPropertyChanged(nameof(DualRejectPercentPattern));
-            }
-        }
-
-        public string DualGpuSpeedPattern {
-            get => _dualGpuSpeedPattern;
-            set {
-                _dualGpuSpeedPattern = value;
-                OnPropertyChanged(nameof(DualGpuSpeedPattern));
+                _kernelOutputId = value;
+                OnPropertyChanged(nameof(KernelOutputId));
+                OnPropertyChanged(nameof(KernelOutputVm));
             }
         }
     }

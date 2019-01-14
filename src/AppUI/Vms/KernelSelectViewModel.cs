@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
             set {
                 _selectedResult = value;
                 OnPropertyChanged(nameof(SelectedResult));
-                TopWindow.GetTopWindow().Close();
+                TopWindow.GetTopWindow()?.Close();
             }
         }
 

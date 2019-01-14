@@ -107,6 +107,7 @@
                 <controls:KbComboBox 
                     BorderThickness="0"
 					Width="166" ItemsSource="{Binding GroupVms.SelectionOptions}"
+					IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
                     DisplayMemberPath="Name"
                     SelectedItem="{Binding SelectedDualCoinGroup}">
                 </controls:KbComboBox>

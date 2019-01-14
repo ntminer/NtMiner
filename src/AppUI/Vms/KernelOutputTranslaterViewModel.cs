@@ -9,7 +9,6 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class KernelOutputTranslaterViewModel : ViewModelBase, IKernelOutputTranslater {
-        private Guid _kernelId;
         private string _regexPattern;
         private Guid _id;
         private string _replacement;
@@ -30,13 +29,13 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public KernelOutputTranslaterViewModel() {
-            if (!DevMode.IsDevMode) {
+            if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
 
         public KernelOutputTranslaterViewModel(IKernelOutputTranslater data) : this(data.GetId()) {
-            _kernelId = data.KernelId;
+            _kernelOutputId = data.KernelOutputId;
             _regexPattern = data.RegexPattern;
             _id = data.GetId();
             _replacement = data.Replacement;
@@ -56,8 +55,8 @@ namespace NTMiner.Vms {
                     Global.Execute(new AddKernelOutputTranslaterCommand(this));
                 }
                 if (sortNumber != this.SortNumber) {
-                    if (KernelViewModels.Current.TryGetKernelVm(this.KernelId, out KernelViewModel kernelVm)) {
-                        kernelVm.OnPropertyChanged(nameof(kernelVm.KernelOutputTranslaters));
+                    if (KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
+                        kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
                 }
                 CloseWindow?.Invoke();
@@ -74,7 +73,7 @@ namespace NTMiner.Vms {
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel upOne = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.KernelId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                KernelOutputTranslaterViewModel upOne = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.KernelOutputId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -82,13 +81,13 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     Global.Execute(new UpdateKernelOutputTranslaterCommand(this));
                     KernelOutputTranslaterViewModels.Current.OnPropertyChanged(nameof(KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
-                    if (KernelViewModels.Current.TryGetKernelVm(this.KernelId, out KernelViewModel kernelVm)) {
-                        kernelVm.OnPropertyChanged(nameof(kernelVm.KernelOutputTranslaters));
+                    if (KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
+                        kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel nextOne = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.KernelId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                KernelOutputTranslaterViewModel nextOne = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.KernelOutputId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -96,8 +95,8 @@ namespace NTMiner.Vms {
                     this.SortNumber = sortNumber;
                     Global.Execute(new UpdateKernelOutputTranslaterCommand(this));
                     KernelOutputTranslaterViewModels.Current.OnPropertyChanged(nameof(KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
-                    if (KernelViewModels.Current.TryGetKernelVm(this.KernelId, out KernelViewModel kernelVm)) {
-                        kernelVm.OnPropertyChanged(nameof(kernelVm.KernelOutputTranslaters));
+                    if (KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
+                        kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
                 }
             });
@@ -111,11 +110,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Guid KernelId {
-            get => _kernelId;
+        private Guid _kernelOutputId;
+        public Guid KernelOutputId {
+            get => _kernelOutputId;
             set {
-                _kernelId = value;
-                OnPropertyChanged(nameof(KernelId));
+                _kernelOutputId = value;
+                OnPropertyChanged(nameof(KernelOutputId));
             }
         }
 
@@ -182,6 +182,7 @@ namespace NTMiner.Vms {
         }
 
         private SysDicViewModel _clorDic;
+
         public SysDicViewModel LogColorDicVm {
             get {
                 if (_clorDic == null) {

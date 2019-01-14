@@ -2,7 +2,7 @@
 
 namespace NTMiner.Core.Kernels {
     public interface IKernelOutputFilter : IEntity<Guid> {
-        Guid KernelId { get; }
+        Guid KernelOutputId { get; }
         string RegexPattern { get; }
     }
 }

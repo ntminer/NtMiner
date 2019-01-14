@@ -46,7 +46,7 @@ namespace NTMiner.Core.Impl {
                     GroupData entity = _dicById[message.Input.GetId()];
                     entity.Update(message.Input);
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
-                    repository.Update(new GroupData().Update(message.Input));
+                    repository.Update(entity);
 
                     Global.Happened(new GroupUpdatedEvent(entity));
                 });

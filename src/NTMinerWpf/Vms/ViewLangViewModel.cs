@@ -49,6 +49,10 @@ namespace NTMiner.Vms {
                             results.Add(vm);
                         }
                     }
+                    Guid[] toRemoves = list.Where(a => !resourceDic.Contains(a.Key)).Select(a => a.Id).ToArray();
+                    foreach (Guid langViewItemId in toRemoves) {
+                        Global.Execute(new RemoveLangViewItemCommand(langViewItemId));
+                    }
                     return results;
                 }
                 return new List<LangViewItemViewModel>();

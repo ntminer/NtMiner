@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -17,7 +18,11 @@ namespace NTMiner.Core.Kernels {
                 if (kernel == null) {
                     return string.Empty;
                 }
-                string args = kernel.Args;
+                IKernelInput kernelInput;
+                if (kernel.KernelInputId == Guid.Empty || !NTMinerRoot.Current.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                    return string.Empty;
+                }
+                string args = kernelInput.Args;
                 if (fromHelpArg) {
                     args = kernel.HelpArg;
                 }

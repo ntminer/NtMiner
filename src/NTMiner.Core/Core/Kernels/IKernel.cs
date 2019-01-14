@@ -11,30 +11,11 @@ namespace NTMiner.Core.Kernels {
         string Sha1 { get; }
         long Size { get; }
         int SortNumber { get; }
-        Guid DualCoinGroupId { get; }
         PublishStatus PublishState { get; }
-        string Args { get; }
-        bool IsSupportDualMine { get; }
-        double DualWeightMin { get; }
-        double DualWeightMax { get; }
-        bool IsAutoDualWeight { get; }
-        string DualWeightArg { get; }
-        string DualFullArgs { get; }
+
         string HelpArg { get; set; }
         string Notice { get; }
-
-        string TotalSpeedPattern { get; }
-        string TotalSharePattern { get; }
-        string AcceptSharePattern { get; }
-        string RejectSharePattern { get; }
-        string RejectPercentPattern { get; }
-        string GpuSpeedPattern { get; }
-
-        string DualTotalSpeedPattern { get; }
-        string DualTotalSharePattern { get; }
-        string DualAcceptSharePattern { get; }
-        string DualRejectSharePattern { get; }
-        string DualRejectPercentPattern { get; }
-        string DualGpuSpeedPattern { get; }
+        Guid KernelInputId { get; }
+        Guid KernelOutputId { get; }
     }
 }

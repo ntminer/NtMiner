@@ -132,6 +132,18 @@
     <Compile Include="Views\Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\KernelInputEdit.xaml.cs">
+      <DependentUpon>KernelInputEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelInputPage.xaml.cs">
+      <DependentUpon>KernelInputPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelOutputPage.xaml.cs">
+      <DependentUpon>KernelOutputPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelOutputEdit.xaml.cs">
+      <DependentUpon>KernelOutputEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\QQGroupQrCode.xaml.cs">
       <DependentUpon>QQGroupQrCode.xaml</DependentUpon>
     </Compile>
@@ -146,9 +158,6 @@
     </Compile>
     <Compile Include="Views\Ucs\CalcConfig.xaml.cs">
       <DependentUpon>CalcConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Ucs\KernelCopySourceSelect.xaml.cs">
-      <DependentUpon>KernelCopySourceSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\KernelSelect.xaml.cs">
       <DependentUpon>KernelSelect.xaml</DependentUpon>
@@ -245,9 +254,14 @@
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\GroupViewModels.cs" />
+    <Compile Include="Vms\KernelInputViewModel.cs" />
+    <Compile Include="Vms\KernelInputViewModels.cs" />
+    <Compile Include="Vms\KernelInputPageViewModel.cs" />
+    <Compile Include="Vms\KernelOutputPageViewModel.cs" />
+    <Compile Include="Vms\KernelOutputViewModel.cs" />
+    <Compile Include="Vms\KernelOutputViewModels.cs" />
     <Compile Include="Vms\LogColorViewModel.cs" />
     <Compile Include="Vms\MinerClientsViewModel.cs" />
-    <Compile Include="Vms\KernelCopySourceSelectViewModel.cs" />
     <Compile Include="Vms\KernelSelectViewModel.cs" />
     <Compile Include="Vms\FileDownloaderViewModel.cs" />
     <Compile Include="Vms\GpuStatusBarViewModel.cs" />
@@ -384,7 +398,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Ucs\Design\KernelInputViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\KernelInputEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\KernelInputPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\KernelOutputPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\Design\KernelOutputViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Ucs\Design\PoolViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\KernelOutputEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -416,15 +454,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\KernelCopySourceSelectViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Ucs\Design\KernelOutputTranslaterViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\KernelCopySourceSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

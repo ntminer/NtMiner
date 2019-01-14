@@ -13,8 +13,8 @@ namespace NTMiner {
         public const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
         public static Guid Id { get; private set; }
 
-        public const string ServerJsonFileName = "server0.json";
-        public const string ServerLangJsonFileName = "serverLang0.json";
+        public const string ServerJsonFileName = "server1.json";
+        public const string ServerLangJsonFileName = "serverLang1.json";
 
         public static string GlobalDirFullName { get; private set; }
 

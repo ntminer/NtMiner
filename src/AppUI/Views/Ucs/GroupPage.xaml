@@ -6,10 +6,10 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:vm="clr-namespace:NTMiner.Vms"
              xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-             Background="{StaticResource MainColor}"
+             Background="White"
              TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:GroupPageViewModel.Current}"
-             mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
+             mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="660">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,14 +35,14 @@
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
-            <Grid>
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="4"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:KbButton
@@ -181,35 +181,30 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
-        <Grid Grid.Column="2" Grid.RowSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <WrapPanel VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-                <Label Width="40" Content="{DynamicResource Coin}"></Label>
-                <controls:KbComboBox 
+        <WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+            <Label Width="40" Content="{DynamicResource Coin}"></Label>
+            <controls:KbComboBox 
                         x:Name="CbCoins"
                         BorderThickness="0"
 						Width="132" ItemsSource="{Binding CurrentGroup.CoinVms}" 
 						ItemTemplate="{StaticResource CoinCodeDataTemplate}">
-                    <controls:KbComboBox.ItemContainerStyle>
-                        <Style TargetType="ComboBoxItem">
-                            <Setter Property="Height" Value="30"></Setter>
-                        </Style>
-                    </controls:KbComboBox.ItemContainerStyle>
-                </controls:KbComboBox>
-                <controls:KbButton 
+                <controls:KbComboBox.ItemContainerStyle>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Height" Value="30"></Setter>
+                    </Style>
+                </controls:KbComboBox.ItemContainerStyle>
+            </controls:KbComboBox>
+            <controls:KbButton 
                         Command="{Binding CurrentGroup.AddCoinGroup}" 
                         CommandParameter="{Binding ElementName=CbCoins, Path=SelectedItem}"
                         Background="Transparent" BorderThickness="0"
                         Margin="2 0"
                         CornerRadius="2" 
                         Content="{DynamicResource Add}">
-                </controls:KbButton>
-            </WrapPanel>
+            </controls:KbButton>
+        </WrapPanel>
+        <Grid Grid.Row="1" Grid.Column="2">
             <DataGrid 
-                Grid.Row="1"
                 ItemsSource="{Binding CurrentGroup.CoinGroupVms}" 
                 BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}">
                 <DataGrid.Resources>
@@ -296,7 +291,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentGroup.CoinGroupVms, Converter={StaticResource NoRecordConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
+            <TextBlock Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentGroup.CoinGroupVms, Converter={StaticResource NoRecordConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
         </Grid>
     </Grid>
 </UserControl>

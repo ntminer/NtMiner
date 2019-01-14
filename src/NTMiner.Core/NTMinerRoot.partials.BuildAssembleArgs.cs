@@ -27,10 +27,14 @@ namespace NTMiner {
             if (!kernel.IsSupported()) {
                 return string.Empty;
             }
+            IKernelInput kernelInput;
+            if (!KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                return string.Empty;
+            }
             ICoinKernelProfile coinKernelProfile = this.CoinKernelProfileSet.GetCoinKernelProfile(coinProfile.CoinKernelId);
             string wallet = coinProfile.Wallet;
             string pool = mainCoinPool.Server;
-            string kernelArgs = kernel.Args;
+            string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs;
             var argsDic = new Dictionary<string, string> {
@@ -45,7 +49,7 @@ namespace NTMiner {
             if (coinKernelProfile.IsDualCoinEnabled) {
                 Guid dualCoinGroupId = coinKernel.DualCoinGroupId;
                 if (dualCoinGroupId == Guid.Empty) {
-                    dualCoinGroupId = kernel.DualCoinGroupId;
+                    dualCoinGroupId = kernelInput.DualCoinGroupId;
                 }
                 if (dualCoinGroupId != Guid.Empty) {
                     ICoin dualCoin;
@@ -62,17 +66,17 @@ namespace NTMiner {
                             argsDic.Add("dualPort", dualCoinPool.GetPort().ToString());
                             argsDic.Add("dualPool", dualPool);
 
-                            kernelArgs = kernel.DualFullArgs;
+                            kernelArgs = kernelInput.DualFullArgs;
                             AssembleArgs(argsDic, ref kernelArgs, isDual: true);
                             AssembleArgs(argsDic, ref customArgs, isDual: true);
 
                             string dualWeightArg;
-                            if (!string.IsNullOrEmpty(kernel.DualWeightArg)) {
-                                if (coinKernelProfile.IsAutoDualWeight && kernel.IsAutoDualWeight) {
+                            if (!string.IsNullOrEmpty(kernelInput.DualWeightArg)) {
+                                if (coinKernelProfile.IsAutoDualWeight && kernelInput.IsAutoDualWeight) {
                                     dualWeightArg = string.Empty;
                                 }
                                 else {
-                                    dualWeightArg = $"{kernel.DualWeightArg} {Convert.ToInt32(coinKernelProfile.DualCoinWeight)}";
+                                    dualWeightArg = $"{kernelInput.DualWeightArg} {Convert.ToInt32(coinKernelProfile.DualCoinWeight)}";
                                 }
                             }
                             else {

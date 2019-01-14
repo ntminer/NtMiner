@@ -141,12 +141,18 @@ namespace NTMiner {
                             }
                             else {
                                 string input = outline;
-                                Guid kernelId = mineContext.Kernel.GetId();
-                                Current.KernelOutputFilterSet.Filter(kernelId, ref input);
+                                Guid kernelOutputId = mineContext.Kernel.KernelOutputId;
+                                Current.KernelOutputFilterSet.Filter(kernelOutputId, ref input);
                                 ConsoleColor color = ConsoleColor.White;
-                                Current.KernelOutputTranslaterSet.Translate(kernelId, ref input, ref color, isPre: true);
-                                Current.KernelSet.Pick(kernelId, ref input, mineContext);
-                                Current.KernelOutputTranslaterSet.Translate(kernelId, ref input, ref color);
+                                Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color, isPre: true);
+                                // 使用Claymore挖其非ETH币种时它也打印ETH，所以这里需要纠正它
+                                if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
+                                    if (mineContext.MainCoin.Code != "ETH" && input.Contains("ETH")) {
+                                        input = input.Replace("ETH", mineContext.MainCoin.Code);
+                                    }
+                                }
+                                Current.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
+                                Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
                                 if (!string.IsNullOrEmpty(input)) {
                                     Global.WriteLine(input, color);
                                 }

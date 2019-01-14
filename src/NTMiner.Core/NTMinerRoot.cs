@@ -12,7 +12,6 @@ using NTMiner.Core.SysDics.Impl;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.ServiceModel;
@@ -115,6 +114,8 @@ namespace NTMiner {
             this.CoinKernelSet = new CoinKernelSet(this);
             this.KernelSet = new KernelSet(this);
             this.KernelProfileSet = new KernelProfileSet(this);
+            this.KernelInputSet = new KernelInputSet(this);
+            this.KernelOutputSet = new KernelOutputSet(this);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
             this.GpusSpeed = new GpusSpeed(this);
@@ -488,6 +489,11 @@ namespace NTMiner {
                     Global.Logger.WarnDebugLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。");
                     return;
                 }
+                IKernelInput kernelInput;
+                if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                    Global.Logger.WarnDebugLine("未设置内核输入");
+                    return;
+                }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
                     coinProfile.Wallet = mainCoin.TestWallet;
                 }
@@ -534,7 +540,7 @@ namespace NTMiner {
                     this.StopMine();
                     return;
                 }
-                if (string.IsNullOrEmpty(kernel.Args)) {
+                if (string.IsNullOrEmpty(kernelInput.Args)) {
                     Global.Logger.WarnDebugLine(kernel.FullName + "没有配置运行参数");
                     return;
                 }
@@ -698,6 +704,10 @@ namespace NTMiner {
         public IGpusSpeed GpusSpeed { get; private set; }
 
         public ICoinShareSet CoinShareSet { get; private set; }
+
+        public IKernelInputSet KernelInputSet { get; private set; }
+
+        public IKernelOutputSet KernelOutputSet { get; private set; }
 
         public IKernelOutputFilterSet KernelOutputFilterSet { get; private set; }
 

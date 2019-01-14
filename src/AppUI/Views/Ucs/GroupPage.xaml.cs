@@ -8,8 +8,8 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Group",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = 860,
-                Height = 520
+                Width = 660,
+                Height = 420
             }, ucFactory: (window) => new GroupPage(), fixedSize: false);
         }
 
