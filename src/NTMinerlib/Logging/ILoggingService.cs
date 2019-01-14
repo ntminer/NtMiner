@@ -19,18 +19,8 @@ namespace NTMiner.Logging {
         void FatalDebugLineFormatted(string format, params object[] args);
 
 
-        void InfoWriteLine(object message);
-        void InfoWriteLineFormatted(string format, params object[] args);
         void OkWriteLine(object message);
         void WarnWriteLine(object message);
-        void WarnWriteLine(object message, Exception exception);
-        void WarnWriteLineFormatted(string format, params object[] args);
-        void ErrorWriteLine(object message);
-        void ErrorWriteLine(object message, Exception exception);
-        void ErrorWriteLineFormatted(string format, params object[] args);
-        void FatalWriteLine(object message);
-        void FatalWriteLine(object message, Exception exception);
-        void FatalWriteLineFormatted(string format, params object[] args);
 
         bool IsDebugEnabled { get; }
         bool IsInfoEnabled { get; }
