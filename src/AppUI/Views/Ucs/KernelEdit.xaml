@@ -239,7 +239,8 @@
                                     <controls:KbButton
 							            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 							            Background="Transparent"
-							            Command="{Binding KernelOutputVm.Edit}">
+							            Command="{x:Static vm:AppStatic.ShowKernelOutputs}"
+                                        CommandParameter="{Binding KernelOutputVm}">
                                         <WrapPanel>
                                             <Path
 									            Width="14"

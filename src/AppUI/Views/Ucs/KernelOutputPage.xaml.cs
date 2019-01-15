@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelOutputPage : UserControl {
-        public static void ShowWindow() {
+        public static void ShowWindow(KernelOutputViewModel selectedKernelOutputVm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_KernelOutput",
                 CloseVisible = System.Windows.Visibility.Visible,
@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
                 Width = 960,
                 Height = 720
             }, 
-            ucFactory: (window) => new KernelOutputPage());
+            ucFactory: (window) => new KernelOutputPage(selectedKernelOutputVm));
         }
 
         private KernelOutputPageViewModel Vm {
@@ -21,7 +21,10 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public KernelOutputPage() {
+        public KernelOutputPage(KernelOutputViewModel selectedKernelOutputVm) {
+            if (selectedKernelOutputVm != null) {
+                KernelOutputPageViewModel.Current.CurrentKernelOutputVm = selectedKernelOutputVm;
+            }
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }

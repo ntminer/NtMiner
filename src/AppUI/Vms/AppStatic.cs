@@ -95,8 +95,8 @@ namespace NTMiner.Vms {
         public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(() => {
             KernelInputPage.ShowWindow();
         });
-        public static ICommand ShowKernelOutputs { get; private set; } = new DelegateCommand(() => {
-            KernelOutputPage.ShowWindow();
+        public static ICommand ShowKernelOutputs { get; private set; } = new DelegateCommand<KernelOutputViewModel>((selectedKernelOutputVm) => {
+            KernelOutputPage.ShowWindow(selectedKernelOutputVm);
         });
         public static ICommand ShowKernels { get; private set; } = new DelegateCommand(() => {
             KernelPage.ShowWindow(Guid.Empty);
