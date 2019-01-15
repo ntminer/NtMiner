@@ -105,7 +105,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.ViewPoolIncome = new DelegateCommand<WalletViewModel>((wallet) => {
-                Process.Start(this.Url.Replace("{wallet}", wallet.Address));
+                string url = this.Url.Replace("{wallet}", wallet.Address);
+                url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
+                Process.Start(url);
             });
         }
 

@@ -123,6 +123,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ClientVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OhGodAnETHlargementPill\OhGodAnETHlargementPillUtil.cs" />
