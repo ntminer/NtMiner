@@ -59,6 +59,9 @@
             <sys:String x:Key="DualWeightWarning">
                 DualWeightWarning
             </sys:String>
+            <sys:String x:Key="SupportDualMine">
+                SupportDualMine
+            </sys:String>
             <sys:String x:Key="IsAutoDualWeight">
                 IsAutoDualWeight
             </sys:String>
@@ -373,6 +376,15 @@
                                             Visibility="{Binding IsAMDIconVisible}"
 							                Data="{StaticResource Icon_AMD}"
 							                Fill="Red"
+							                Stretch="Fill" />
+                                        <Path
+                                            Margin="4 0 0 0"
+							                Width="12"
+							                Height="14"
+                                            ToolTip="{DynamicResource SupportDualMine}"
+                                            Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
+							                Data="{StaticResource Icon_DualMine}"
+							                Fill="{StaticResource IconFillColor}"
 							                Stretch="Fill" />
                                     </WrapPanel>
 								</StackPanel>
