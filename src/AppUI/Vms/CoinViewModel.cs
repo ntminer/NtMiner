@@ -323,7 +323,7 @@ namespace NTMiner.Vms {
                         Address = this.TestWallet,
                         CoinId = this.GetId(),
                         Name = this.Code + "测试地址",
-                        SortNumber = -100
+                        SortNumber = 0
                     });
                 }
                 return _testWallets[this.GetId()];

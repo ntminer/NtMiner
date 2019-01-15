@@ -224,6 +224,7 @@
 						Visibility="Collapsed" 
 						Text="{Binding ElementName=CbMainWallet, Path=Text}" TextChanged="TbMainWallet_TextChanged"></TextBox>
                     <controls:KbComboBox 
+                        Height="40"
                         BorderThickness="0"
 						x:Name="CbMainWallet" 
 						ItemsSource="{Binding MinerProfile.CoinVm.Wallets}"
@@ -567,6 +568,7 @@
                                 <DockPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">
 									<TextBox Visibility="Collapsed" Text="{Binding ElementName=CbDualCoinWallet, Path=Text}" TextChanged="TbDualCoinWallet_TextChanged"></TextBox>
                                     <controls:KbComboBox 
+                                        Height="40"
                                         BorderThickness="0"
 										x:Name="CbDualCoinWallet" 
 										ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Wallets}"

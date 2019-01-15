@@ -15,11 +15,10 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                     OnPropertyChanged(nameof(WalletList));
-                    ICoin coin;
-                    if (NTMinerRoot.Current.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
-                        CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.Wallets));
-                        MinerProfileViewModel.Current.CoinVm.OnPropertyChanged(nameof(CoinViewModel.Wallets));
-                        MinerProfileViewModel.Current.CoinVm.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
+                    CoinViewModel coin;
+                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coin)) {
+                        coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
+                        coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                     }
                 });
             Global.Access<WalletRemovedEvent>(
@@ -29,11 +28,11 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(WalletList));
-                    ICoin coin;
-                    if (NTMinerRoot.Current.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
-                        CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.Wallets));
-                        MinerProfileViewModel.Current.CoinVm.OnPropertyChanged(nameof(CoinViewModel.Wallets));
-                        MinerProfileViewModel.Current.CoinVm.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
+                    CoinViewModel coin;
+                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coin)) {
+                        coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
+                        coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
+                        coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                     }
                 });
             Global.Access<WalletUpdatedEvent>(

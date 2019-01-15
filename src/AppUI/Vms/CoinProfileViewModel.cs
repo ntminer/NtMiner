@@ -62,7 +62,8 @@ namespace NTMiner.Vms {
                 CoinViewModel coinVm;
                 if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                     Guid id = Guid.NewGuid();
-                    int sortNumber = coinVm.Wallets.Count == 0 ? 1 : coinVm.Wallets.Max(a => a.SortNumber) + 1;
+                    var wallets = coinVm.Wallets.Where(a => a.IsTestWallet).ToArray();
+                    int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
                     new WalletViewModel(id) {
                         CoinId = CoinId,
                         SortNumber = sortNumber
@@ -78,7 +79,8 @@ namespace NTMiner.Vms {
                 CoinViewModel coinVm;
                 if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                     Guid id = Guid.NewGuid();
-                    int sortNumber = coinVm.Wallets.Count == 0 ? 1 : coinVm.Wallets.Max(a => a.SortNumber) + 1;
+                    var wallets = coinVm.Wallets.Where(a => a.IsTestWallet).ToArray();
+                    int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
                     new WalletViewModel(id) {
                         CoinId = CoinId,
                         SortNumber = sortNumber
