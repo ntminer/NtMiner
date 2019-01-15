@@ -567,14 +567,6 @@
                                     </WrapPanel>
                                 </WrapPanel>
                             </StackPanel>
-                            <TextBlock 
-                                Visibility="{Binding IsNTMinerDaemonOnline, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-                                VerticalAlignment="Center" 
-                                HorizontalAlignment="Center"
-                                Text="不在线" 
-                                FontSize="20" 
-                                Background="#88cccccc"
-                                Foreground="Red"></TextBlock>
                             <Menu 
                                 Background="Transparent" 
                                 Width="24" Height="16" 

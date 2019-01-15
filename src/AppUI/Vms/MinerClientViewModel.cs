@@ -10,7 +10,6 @@ namespace NTMiner.Vms {
     public class MinerClientViewModel : ViewModelBase {
         private Visibility _isReNameVisible = Visibility.Collapsed;
         private Visibility _isChangeGroupVisible = Visibility.Collapsed;
-        private bool _isNTMinerDaemonOnline;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -105,9 +104,6 @@ namespace NTMiner.Vms {
                     Refresh();
                 });
             });
-            NTMinerClientDaemon.Instance.IsNTMinerDaemonOnline(this.ClientDataVm.MinerIp, Global.ClientPort, isOnline => {
-                this.IsNTMinerDaemonOnline = isOnline;
-            });
         }
 
         private void Refresh() {
@@ -116,14 +112,6 @@ namespace NTMiner.Vms {
                     this.ClientDataVm.Update(data);
                 }
             });
-        }
-
-        public bool IsNTMinerDaemonOnline {
-            get => _isNTMinerDaemonOnline;
-            set {
-                _isNTMinerDaemonOnline = value;
-                OnPropertyChanged(nameof(IsNTMinerDaemonOnline));
-            }
         }
 
         public Visibility IsReNameVisible {
