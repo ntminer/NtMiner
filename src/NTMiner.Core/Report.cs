@@ -171,6 +171,9 @@ namespace NTMiner {
                             data.MainCoinShareDelta = share.TotalShareCount - preCoinShare.TotalShareCount;
                         }
                     }
+                    else {
+                        _lastSpeedMainCoin = root.CurrentMineContext.MainCoin;
+                    }
                     if (root.CurrentMineContext is IDualMineContext dualMineContext) {
                         // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
                         if (_lastSpeedDualCoin == null || _lastSpeedDualCoin == dualMineContext.DualCoin) {
@@ -191,6 +194,9 @@ namespace NTMiner {
                             else {
                                 data.DualCoinShareDelta = share.TotalShareCount - preCoinShare.TotalShareCount;
                             }
+                        }
+                        else {
+                            _lastSpeedDualCoin = dualMineContext.DualCoin;
                         }
                     }
                 }
