@@ -111,7 +111,11 @@
 						        VerticalContentAlignment="Center" Text="{Binding Version, ValidatesOnExceptions=True}">
                             </TextBox>
                             <TextBlock Style="{StaticResource LblTb}" Width="50" Text="{DynamicResource Sort}"></TextBlock>
-                            <TextBox Width="50" Height="26" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
+                            <TextBox 
+                                Width="50" Height="26" 
+                                VerticalContentAlignment="Center" 
+                                Text="{Binding SortNumber, ValidatesOnExceptions=True}"
+                                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}">
                             </TextBox>
                         </WrapPanel>
 
