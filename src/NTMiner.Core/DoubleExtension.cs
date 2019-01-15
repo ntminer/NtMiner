@@ -23,6 +23,10 @@
             }
             speedUnit = speedUnit.Substring(0, speedUnit.Length - 2);
             speedUnit = speedUnit.Trim();
+            double per;
+            if (speedUnit.Length > 1 && double.TryParse(speedUnit.Substring(0, speedUnit.Length - 1), out per)) {
+                return speed * per;
+            }
             switch (speedUnit) {
                 case "h":
                     return speed;
