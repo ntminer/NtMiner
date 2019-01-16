@@ -182,12 +182,17 @@
 						Text="{DynamicResource MainPool}" />
                     <controls:KbComboBox 
                         BorderThickness="0"
-						DisplayMemberPath="Name"
                         Height="30"
 						Width="134" 
+                        ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
                         ItemsSource="{Binding MinerProfile.CoinVm.Pools}" 
 						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
 						SelectedItem="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool}">
+                        <controls:KbComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock MinWidth="120" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+                            </DataTemplate>
+                        </controls:KbComboBox.ItemTemplate>
                         <controls:KbComboBox.Toolbar>
                             <WrapPanel HorizontalAlignment="Right">
                                 <controls:KbButton
@@ -524,12 +529,17 @@
                             <DockPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">
                                 <controls:KbComboBox 
                                     BorderThickness="0"
-									DisplayMemberPath="Name"
                                     Height="30"
 									Width="134" 
+                                    ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
                                     ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Pools}"
 									IsEnabled="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}"
 									SelectedItem="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool}">
+                                    <controls:KbComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock MinWidth="120" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+                                        </DataTemplate>
+                                    </controls:KbComboBox.ItemTemplate>
                                     <controls:KbComboBox.Toolbar>
                                         <WrapPanel HorizontalAlignment="Right">
                                             <controls:KbButton

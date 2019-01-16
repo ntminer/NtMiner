@@ -46,10 +46,10 @@
                                         <ScrollViewer x:Name="DropDownScrollViewer">
                                             <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
                                                 <ItemsPresenter
-                                                x:Name="ItemsPresenter"
-                                                Grid.Row="1"
-                                                KeyboardNavigation.DirectionalNavigation="Contained"
-                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                    x:Name="ItemsPresenter"
+                                                    Grid.Row="1"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                             </Grid>
                                         </ScrollViewer>
                                         <ContentPresenter Content="{TemplateBinding Toolbar}"></ContentPresenter>
