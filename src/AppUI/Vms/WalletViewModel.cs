@@ -10,7 +10,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class WalletViewModel : ViewModelBase, IWallet {
         public static readonly WalletViewModel PleaseSelect = new WalletViewModel(Guid.Empty) {
-            _name = "请选择"
+            _name = "不指定"
         };
 
         private Guid _id;
@@ -18,8 +18,6 @@ namespace NTMiner.Vms {
         private Guid _coinId;
         private string _address;
         private int _sortNumber;
-        private bool _isCurrentWallet;
-        private bool _isCurrentDualCoinWallet;
 
         public Guid GetId() {
             return this.Id;
@@ -78,6 +76,7 @@ namespace NTMiner.Vms {
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
+                        coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
                     }
                 }
             });
@@ -92,6 +91,7 @@ namespace NTMiner.Vms {
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
+                        coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
                     }
                 }
             });
@@ -192,22 +192,6 @@ namespace NTMiner.Vms {
                     return false;
                 }
                 return true;
-            }
-        }
-
-        public bool IsCurrentWallet {
-            get => _isCurrentWallet;
-            set {
-                _isCurrentWallet = value;
-                OnPropertyChanged(nameof(IsCurrentWallet));
-            }
-        }
-
-        public bool IsCurrentDualCoinWallet {
-            get => _isCurrentDualCoinWallet;
-            set {
-                _isCurrentDualCoinWallet = value;
-                OnPropertyChanged(nameof(IsCurrentDualCoinWallet));
             }
         }
     }

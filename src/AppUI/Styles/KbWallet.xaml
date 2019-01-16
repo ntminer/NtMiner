@@ -14,7 +14,7 @@
 					VerticalAlignment="Center"></TextBlock>
 			</WrapPanel>
 			<TextBlock x:Name="TbAddress" Text="{Binding Address}" Visibility="{Binding Address, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"></TextBlock>
-			<TextBlock Text="无" Visibility="{Binding ElementName=TbAddress, Path=Visibility, Converter={StaticResource VisibilityInvertConverter}}"></TextBlock>
+			<TextBlock Text="" Visibility="{Binding ElementName=TbAddress, Path=Visibility, Converter={StaticResource VisibilityInvertConverter}}"></TextBlock>
 		</StackPanel>
 	</DataTemplate>
 </ResourceDictionary>

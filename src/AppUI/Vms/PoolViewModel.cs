@@ -184,6 +184,20 @@ namespace NTMiner.Vms {
             set {
                 _coinId = value;
                 OnPropertyChanged(nameof(CoinId));
+                OnPropertyChanged(nameof(CoinVm));
+            }
+        }
+
+        private CoinViewModel _coinVm;
+        public CoinViewModel CoinVm {
+            get {
+                if (_coinVm == null || _coinVm.Id != this.CoinId) {
+                    CoinViewModels.Current.TryGetCoinVm(this.CoinId, out _coinVm);
+                    if (_coinVm == null) {
+                        _coinVm = CoinViewModel.PleaseSelect;
+                    }
+                }
+                return _coinVm;
             }
         }
 
@@ -246,6 +260,30 @@ namespace NTMiner.Vms {
             set {
                 _wallet = value;
                 OnPropertyChanged(nameof(Wallet));
+                OnPropertyChanged(nameof(HaveWallet));
+            }
+        }
+
+        public WalletViewModel SelectedWallet {
+            get {
+                WalletViewModel walletVm = this.CoinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId && a.Address == this.Wallet);
+                if (walletVm == null) {
+                    walletVm = WalletViewModel.PleaseSelect;
+                }
+                return walletVm;
+            }
+            set {
+                if (value != null) {
+                    this.Wallet = value.Address;
+                    OnPropertyChanged(nameof(SelectedWallet));
+                    OnPropertyChanged(nameof(HaveWallet));
+                }
+            }
+        }
+
+        public bool HaveWallet {
+            get {
+                return SelectedWallet != null && SelectedWallet != WalletViewModel.PleaseSelect;
             }
         }
     }
