@@ -9,5 +9,6 @@ namespace NTMiner.Core {
         int SortNumber { get; }
         PublishStatus PublishState { get; }
         string Description { get; }
+        string Wallet { get; }
     }
 }

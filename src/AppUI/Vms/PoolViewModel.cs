@@ -20,6 +20,7 @@ namespace NTMiner.Vms {
         private string _url;
         private int _sortNumber;
         private string _description;
+        private string _wallet;
         private PublishStatus _publishState;
         private bool _isCurrentPool;
 
@@ -52,6 +53,7 @@ namespace NTMiner.Vms {
             _sortNumber = data.SortNumber;
             _description = data.Description;
             _publishState = data.PublishState;
+            _wallet = data.Wallet;
         }
 
         public PoolViewModel(Guid id) {
@@ -236,6 +238,14 @@ namespace NTMiner.Vms {
             set {
                 _description = value;
                 OnPropertyChanged(nameof(Description));
+            }
+        }
+
+        public string Wallet {
+            get { return _wallet; }
+            set {
+                _wallet = value;
+                OnPropertyChanged(nameof(Wallet));
             }
         }
     }

@@ -31,5 +31,7 @@ namespace NTMiner.Core.Impl {
         public PublishStatus PublishState { get; set; }
 
         public string Description { get; set; }
+
+        public string Wallet { get; set; }
     }
 }
