@@ -96,7 +96,7 @@
             </sys:String>
         </ResourceDictionary>
 	</UserControl.Resources>
-    <Grid Background="#F5F5F5">
+    <Grid Background="#EBF2F9">
 		<StackPanel Margin="2 8 8 8">
 			<WrapPanel Margin="0">
 				<StackPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">

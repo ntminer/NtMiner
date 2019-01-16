@@ -322,15 +322,11 @@
                     <TextBlock Padding="8 0" Text="{DynamicResource Coin}"></TextBlock>
                 </controls:KbTabItem.Header>
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="23*"/>
-                        <ColumnDefinition Width="637*"/>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <WrapPanel Grid.ColumnSpan="2" Margin="0,0,0,38">
+                    <WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
                         <Label Width="40" Content="{DynamicResource Coin}"></Label>
                         <controls:KbComboBox 
                             x:Name="CbCoins"
@@ -354,9 +350,10 @@
                         </controls:KbButton>
                     </WrapPanel>
                     <DataGrid
+                        Grid.Row="1"
                         ItemsSource="{Binding KernelVmSingleInstance.CoinKernels}" 
                         BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
-                        MouseDoubleClick="CoinKernelDataGrid_MouseDoubleClick" Grid.ColumnSpan="2" Margin="0,25,0,0" Grid.RowSpan="2">
+                        MouseDoubleClick="CoinKernelDataGrid_MouseDoubleClick">
                         <DataGrid.Resources>
                             <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
                         </DataGrid.Resources>

@@ -171,7 +171,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <WrapPanel Grid.ColumnSpan="2">
+                        <WrapPanel Margin="0 2">
                             <Path
 						        Width="12"
 						        Height="12"
@@ -205,9 +205,10 @@
                             </controls:KbButton>
                         </WrapPanel>
                         <DataGrid
+                            Grid.Row="1"
 					        ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputTranslaters}" 
 					        BorderThickness="1 0 0 0"
-					        MouseDoubleClick="KernelOutputTranslaterDataGrid_MouseDoubleClick" Grid.ColumnSpan="2" Margin="0,27,0,0" Grid.RowSpan="2">
+					        MouseDoubleClick="KernelOutputTranslaterDataGrid_MouseDoubleClick">
                             <DataGrid.Resources>
                                 <Style TargetType="DataGridRow">
                                     <Setter Property="Foreground" Value="White" />
@@ -391,7 +392,7 @@
                     <Grid>
                         <DataGrid 
 					        ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputFilters}" BorderThickness="1 0 0 0"
-					        MouseDoubleClick="KernelOutputFilterDataGrid_MouseDoubleClick" Grid.ColumnSpan="2">
+					        MouseDoubleClick="KernelOutputFilterDataGrid_MouseDoubleClick">
                             <DataGrid.Resources>
                                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
                             </DataGrid.Resources>

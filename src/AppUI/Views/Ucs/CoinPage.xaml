@@ -280,7 +280,7 @@
                     </controls:KbTabItem.Header>
                     <Grid>
                         <DataGrid ItemsSource="{Binding CurrentCoin.Pools}" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
-                            MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36" Grid.ColumnSpan="2">
+                            MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36">
                             <DataGrid.Resources>
                                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
                             </DataGrid.Resources>
