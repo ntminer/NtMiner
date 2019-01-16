@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 
 namespace NTMiner {
-    public static class ClientId {
+    public static class ClientId {        
         public static string PublicKey { get; private set; }
 
         public static string PrivateKey { get; private set; }
@@ -12,9 +12,6 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
         public static Guid Id { get; private set; }
-
-        public const string ServerJsonFileName = "server1.json";
-        public const string ServerLangJsonFileName = "serverLang1.json";
 
         public static string GlobalDirFullName { get; private set; }
 
@@ -31,7 +28,7 @@ namespace NTMiner {
             }
             LangDbFileFullName = Path.Combine(GlobalDirFullName, "lang.litedb");
             LocalLangJsonFileFullName = Path.Combine(GlobalDirFullName, "lang.json");
-            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, ServerLangJsonFileName);
+            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, ClientVersion.ServerLangJsonFileName);
 
             object publicKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PublicKey");
             object privateKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PrivateKey");
