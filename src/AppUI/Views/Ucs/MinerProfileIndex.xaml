@@ -91,6 +91,9 @@
             <sys:String x:Key="CopyWalletAddress">
                 CopyWalletAddress
             </sys:String>
+            <sys:String x:Key="EditWalletAddress">
+                EditWalletAddress
+            </sys:String>
             <sys:String x:Key="CustomArgsTip">
                 CustomArgsTip
             </sys:String>
@@ -336,6 +339,21 @@
 								Width="14"
 								Height="14"
 								Data="{StaticResource Icon_Copy}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+                        </controls:KbButton>
+                        <controls:KbButton 
+                            Margin="4 0 0 0"
+							Padding="2"
+							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.HaveWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+							ToolTip="{DynamicResource EditWalletAddress}"
+							Background="Transparent" BorderThickness="0"
+							Command="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet.Edit}"
+							HorizontalAlignment="Left">
+                            <Path
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Edit}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
                         </controls:KbButton>
