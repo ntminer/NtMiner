@@ -47,7 +47,7 @@
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel Margin="4 0">
+    <StackPanel>
         <StackPanel IsEnabled="{Binding IsWorkEditOrFreeClient}">
             <GroupBox Header="中控服务器" Visibility="{Binding IsFreeClient, Converter={StaticResource BoolToVisibilityInvertConverter}}">
                 <StackPanel>

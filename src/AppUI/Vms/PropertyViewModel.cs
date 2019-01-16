@@ -46,17 +46,6 @@ namespace NTMiner.Vms {
                 return DrivesViewModel.Current;
             }
         }
-        public GpuStatusBarViewModel GpuStatusBarVm {
-            get {
-                return GpuStatusBarViewModel.Current;
-            }
-        }
-
-        public MinerProfileViewModel MinerProfile {
-            get {
-                return MinerProfileViewModel.Current;
-            }
-        }
 
         public List<GpuViewModel> GpuVms {
             get {

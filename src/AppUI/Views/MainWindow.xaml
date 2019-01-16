@@ -78,7 +78,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"/>
-			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="47"/>
 			<RowDefinition Height="*" MinHeight="444" />
             <RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
@@ -181,15 +181,11 @@
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*"></RowDefinition>
 						<RowDefinition Height="Auto"></RowDefinition>
-					</Grid.RowDefinitions>
-                    <Border Grid.Column="0" Grid.Row="0"
-                            Padding="0"
-                            Background="#F5F5F5"
-                            BorderThickness="0 1 0 0" 
-                            BorderBrush="{StaticResource LineColor}" 
-                            IsEnabled="{Binding MinerProfile.IsNotReadOnly}">
-						<uc:MinerProfileIndex />
-                    </Border>
+                    </Grid.RowDefinitions>
+                    <uc:MinerProfileIndex 
+                        Grid.Column="0" Grid.Row="0"
+                        BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 1 0"
+                        IsEnabled="{Binding MinerProfile.IsNotReadOnly}"/>
                     <WrapPanel Grid.Column="0" Grid.Row="0" Margin="0 8 10 0" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <controls:KbButton 
 						    Width="134"
@@ -263,48 +259,47 @@
                     </WrapPanel>
                     <TabControl 
 						Grid.Column="1" Grid.Row="0" Margin="0 -26 0 0" 
-                        Background="#F5F5F5"
 						Padding="0" BorderThickness="0" 
 						BorderBrush="{StaticResource LineColor}">
 						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-                                    <TextBlock Padding="8 0" Text="{DynamicResource HLog}"></TextBlock>
+                                    <TextBlock Padding="10 2" Text="{DynamicResource HLog}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
-                            <uc:Console BorderBrush="{StaticResource LineColor}" BorderThickness="0">
+                            <uc:Console BorderThickness="0">
 							</uc:Console>
 						</controls:KbTabItem>
 
 						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
-                                    <TextBlock Padding="8 0" Text="{DynamicResource HSpeed}"></TextBlock>
+                                    <TextBlock Padding="10 2" Text="{DynamicResource HSpeed}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
-                            <uc:SpeedTable BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
+                            <uc:SpeedTable BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 							</uc:SpeedTable>
 						</controls:KbTabItem>
 						<controls:KbTabItem>
 							<controls:KbTabItem.Header>
 								<WrapPanel>
                                     <Path 
-                                        Margin="8 0 0 0"
+                                        Margin="10 2 0 2"
 										Width="14"
 										Height="14"
 										Stretch="Fill"
 										Fill="{StaticResource IconFillColor}"
 										Data="{StaticResource Icon_MinerProfile}"></Path>
-                                    <TextBlock Padding="4 0 8 0" Text="{DynamicResource HOption}"></TextBlock>
+                                    <TextBlock Padding="4 2 10 2" Text="{DynamicResource HOption}"></TextBlock>
 								</WrapPanel>
 							</controls:KbTabItem.Header>
-                            <uc:MinerProfileOption BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
+                            <uc:MinerProfileOption BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 							</uc:MinerProfileOption>
 						</controls:KbTabItem>
 					</TabControl>
 
 					<!--下状态栏-->
-                    <uc:StateBar Grid.Row="1" Grid.ColumnSpan="2" Padding="4 0 0 0" Background="#F5F5F5">
+                    <uc:StateBar Grid.Row="1" Grid.ColumnSpan="2" Background="#F5F5F5" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 					</uc:StateBar>
 				</Grid>
 			</TabItem>

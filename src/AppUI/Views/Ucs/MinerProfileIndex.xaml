@@ -10,10 +10,9 @@
 			 xmlns:vm="clr-namespace:NTMiner.Vms"
 			 mc:Ignorable="d" 
              BorderBrush="{StaticResource LineColor}"
-             BorderThickness="0 0 1 0"
 			 TextOptions.TextFormattingMode="Display"  
 			 DataContext="{x:Static vm:MinerProfileIndexViewModel.Current}"
-			 d:DesignHeight="450" d:DesignWidth="394">
+			 d:DesignHeight="450" d:DesignWidth="400">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -98,7 +97,7 @@
         </ResourceDictionary>
 	</UserControl.Resources>
     <Grid Background="#F5F5F5">
-		<StackPanel Margin="2 8 2 8">
+		<StackPanel Margin="2 8 8 8">
 			<WrapPanel Margin="0">
 				<StackPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">
 					<WrapPanel VerticalAlignment="Center">
@@ -324,16 +323,14 @@
 								Stretch="Fill" />
                         </controls:KbButton>
                     </WrapPanel>
-                    <Border 
-						Background="White"
-						Width="308" 
-                        Height="18" 
+                    <Path
+                        Width="308"
+                        Height="14"
                         Margin="60 -20 0 0" 
-                        Padding="3 0 0 0" 
-                        VerticalAlignment="Center"
-						Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock FontSize="18">*************************************</TextBlock>
-                    </Border>
+                        Data="M98 480.86h829.99v63.79H98z"
+                        Fill="Black"
+                        Stretch="Fill"
+						Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </WrapPanel>
 
                 <WrapPanel Margin="0 3">
@@ -669,17 +666,15 @@
 										Fill="{StaticResource IconFillColor}"
 										Stretch="Fill" />
 								</controls:KbButton>
-							</WrapPanel>
-							<Border 
-								Background="White"
-								Width="308" 
-                                Height="18" 
+                            </WrapPanel>
+                            <Path
+                                Width="308"
+                                Height="14"
                                 Margin="60 -20 0 0" 
-                                Padding="3 0 0 0" 
-                                VerticalAlignment="Center"
-								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock FontSize="18">*************************************</TextBlock>
-							</Border>
+                                Data="M98 480.86h829.99v63.79H98z"
+                                Fill="Black"
+                                Stretch="Fill"
+								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 						</WrapPanel>
 					</StackPanel>
 				</WrapPanel>

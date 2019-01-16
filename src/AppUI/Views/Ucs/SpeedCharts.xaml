@@ -24,10 +24,6 @@
             <ColumnDefinition Width="Auto" MinWidth="220"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
         <ItemsControl 
             x:Name="LvGpus"
             BorderThickness="0"
@@ -101,6 +97,5 @@
             <TextBlock FontSize="20" Text="："></TextBlock>
             <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.MainCoinSpeed.SpeedText}"></TextBlock>
         </WrapPanel>
-        <uc:StateBar Grid.Row="1" Grid.ColumnSpan="2" Padding="4 0 0 0"></uc:StateBar>
     </Grid>
 </UserControl>

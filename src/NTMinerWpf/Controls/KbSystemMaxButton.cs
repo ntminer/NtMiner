@@ -19,6 +19,9 @@ namespace NTMiner.Controls {
 
         protected override void OnRender(DrawingContext drawingContext) {
             base.OnRender(drawingContext);
+            if (Design.IsInDesignMode) {
+                return;
+            }
             if (targetWindow == null) {
                 targetWindow = Window.GetWindow(this);
                 targetWindow.StateChanged += (object sender, System.EventArgs e) => {
