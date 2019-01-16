@@ -219,71 +219,81 @@
                     </controls:KbComboBox>
                 </WrapPanel>
 
-                <WrapPanel Margin="0 3">
-                    <TextBlock
-                        Style="{StaticResource LblTb}"
-                        ToolTip="{DynamicResource MainWallet}"
-						Text="{DynamicResource MainWallet}" />
-                    <TextBox 
-						Visibility="Collapsed" 
-						Text="{Binding ElementName=CbMainWallet, Path=Text}" TextChanged="TbMainWallet_TextChanged"></TextBox>
-                    <WrapPanel IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.HaveWallet, Converter={StaticResource BooleanInvertConverter}}">
-                        <controls:KbComboBox 
-                            Height="40"
-                            BorderThickness="0"
-						    x:Name="CbMainWallet" 
-						    ItemsSource="{Binding MinerProfile.CoinVm.Wallets}"
-						    VerticalContentAlignment="Center" Width="330"
-						    IsEditable="False"
-						    IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
-						    ItemTemplate="{StaticResource WalletAddressDataTemplate}"
-						    ItemContainerStyle="{StaticResource WalletItemContainerStyle}"
-						    SelectedItem="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}">
-                            <controls:KbComboBox.Toolbar>
-                                <WrapPanel HorizontalAlignment="Right">
-                                    <controls:KbButton 
-                                        Margin="4 2"
-                                        BorderThickness="0"
-                                        Height="24"
-                                        Padding="4 0"
-                                        Background="{StaticResource IconFillColor}"
-                                        CornerRadius="2"
-							            Command="{Binding MinerProfile.CoinVm.CoinProfile.AddWallet}"
-							            IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">
-                                        <WrapPanel>
-                                            <Path
-                                                Width="14"
-                                                Height="14"
-                                                Data="{StaticResource Icon_Add}"
-                                                Fill="White"
-                                                Stretch="Fill" />
-                                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="White"></TextBlock>
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                    <controls:KbButton
-                                        Margin="4 2"
-                                        BorderThickness="0"
-                                        Height="24"
-                                        Padding="4 0"
-                                        Background="{StaticResource IconFillColor}"
-                                        Command="{x:Static vm:AppStatic.ManageWallet}"
-                                        CommandParameter="{Binding MinerProfile.CoinVm}"
-                                        CornerRadius="2">
-                                        <WrapPanel>
-                                            <Path
-                                                Width="12"
-                                                Height="14"
-                                                Data="{StaticResource Icon_Wallet}"
-                                                Fill="White"
-                                                Stretch="Fill" />
-                                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                </WrapPanel>
-                            </controls:KbComboBox.Toolbar>
-                        </controls:KbComboBox>
+                <Grid Margin="0 3">
+                    <WrapPanel>
+                        <TextBlock
+                            Style="{StaticResource LblTb}"
+                            ToolTip="{DynamicResource MainWallet}"
+						    Text="{DynamicResource MainWallet}" />
+                        <TextBox 
+						    Visibility="Collapsed" 
+						    Text="{Binding ElementName=CbMainWallet, Path=Text}" TextChanged="TbMainWallet_TextChanged"></TextBox>
+                        <WrapPanel IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.HaveWallet, Converter={StaticResource BooleanInvertConverter}}">
+                            <controls:KbComboBox 
+                                Height="40"
+                                BorderThickness="0"
+						        x:Name="CbMainWallet" 
+						        ItemsSource="{Binding MinerProfile.CoinVm.Wallets}"
+						        VerticalContentAlignment="Center" Width="330"
+						        IsEditable="False"
+						        IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+						        ItemTemplate="{StaticResource WalletAddressDataTemplate}"
+						        ItemContainerStyle="{StaticResource WalletItemContainerStyle}"
+						        SelectedItem="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}">
+                                <controls:KbComboBox.Toolbar>
+                                    <WrapPanel HorizontalAlignment="Right">
+                                        <controls:KbButton 
+                                            Margin="4 2"
+                                            BorderThickness="0"
+                                            Height="24"
+                                            Padding="4 0"
+                                            Background="{StaticResource IconFillColor}"
+                                            CornerRadius="2"
+							                Command="{Binding MinerProfile.CoinVm.CoinProfile.AddWallet}"
+							                IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+                                            <WrapPanel>
+                                                <Path
+                                                    Width="14"
+                                                    Height="14"
+                                                    Data="{StaticResource Icon_Add}"
+                                                    Fill="White"
+                                                    Stretch="Fill" />
+                                                <TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="White"></TextBlock>
+                                            </WrapPanel>
+                                        </controls:KbButton>
+                                        <controls:KbButton
+                                            Margin="4 2"
+                                            BorderThickness="0"
+                                            Height="24"
+                                            Padding="4 0"
+                                            Background="{StaticResource IconFillColor}"
+                                            Command="{x:Static vm:AppStatic.ManageWallet}"
+                                            CommandParameter="{Binding MinerProfile.CoinVm}"
+                                            CornerRadius="2">
+                                            <WrapPanel>
+                                                <Path
+                                                    Width="12"
+                                                    Height="14"
+                                                    Data="{StaticResource Icon_Wallet}"
+                                                    Fill="White"
+                                                    Stretch="Fill" />
+                                                <TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+                                            </WrapPanel>
+                                        </controls:KbButton>
+                                    </WrapPanel>
+                                </controls:KbComboBox.Toolbar>
+                            </controls:KbComboBox>
+                        </WrapPanel>
+                        <Path
+                            Width="308"
+                            Height="14"
+                            Margin="60 -20 0 0" 
+                            Data="M98 480.86h829.99v63.79H98z"
+                            Fill="Black"
+                            Stretch="Fill"
+						    Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </WrapPanel>
-                    <WrapPanel Margin="-70 1 0 0" Width="50">
+                    <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 4 30 0">
                         <controls:KbButton 
 							Padding="2"
 							Margin="0 -1 -4 2"
@@ -330,15 +340,7 @@
 								Stretch="Fill" />
                         </controls:KbButton>
                     </WrapPanel>
-                    <Path
-                        Width="308"
-                        Height="14"
-                        Margin="60 -20 0 0" 
-                        Data="M98 480.86h829.99v63.79H98z"
-                        Fill="Black"
-                        Stretch="Fill"
-						Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
-                </WrapPanel>
+                </Grid>
 
                 <WrapPanel Margin="0 3">
                     <TextBlock
@@ -568,72 +570,82 @@
                                 </controls:KbComboBox>
 							</DockPanel>
 						</WrapPanel>
-                        <WrapPanel Margin="0 3">
+                        <Grid Margin="0 3">
                             <WrapPanel>
-                                <TextBlock
-                                    Style="{StaticResource LblTb}"
-                                    ToolTip="{DynamicResource DualWallet}"
-									Text="{DynamicResource DualWallet}" />
-                                <DockPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">
-									<TextBox Visibility="Collapsed" Text="{Binding ElementName=CbDualCoinWallet, Path=Text}" TextChanged="TbDualCoinWallet_TextChanged"></TextBox>
-                                    <controls:KbComboBox 
-                                        Height="40"
-                                        BorderThickness="0"
-										x:Name="CbDualCoinWallet" 
-										ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Wallets}"
-										VerticalContentAlignment="Center" Width="330"
-										IsEnabled="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}"
-										IsEditable="False"
-										ItemTemplate="{StaticResource WalletAddressDataTemplate}"
-										ItemContainerStyle="{StaticResource WalletItemContainerStyle}"
-										SelectedItem="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}">
-                                        <controls:KbComboBox.Toolbar>
-                                            <WrapPanel HorizontalAlignment="Right">
-                                                <controls:KbButton 
-                                                    Margin="4 2"
-                                                    BorderThickness="0"
-                                                    Height="24"
-                                                    Padding="4 0"
-                                                    Background="{StaticResource IconFillColor}"
-                                                    CornerRadius="2"
-									                Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.AddDualCoinWallet}"
-									                IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">
-                                                    <WrapPanel>
-                                                        <Path
-                                                            Width="14"
-                                                            Height="14"
-                                                            Data="{StaticResource Icon_Add}"
-                                                            Fill="White"
-                                                            Stretch="Fill" />
-                                                        <TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="White"></TextBlock>
-                                                    </WrapPanel>
-                                                </controls:KbButton>
-                                                <controls:KbButton
-                                                    Margin="4 2"
-                                                    BorderThickness="0"
-                                                    Height="24"
-                                                    Padding="4 0"
-                                                    Background="{StaticResource IconFillColor}"
-                                                    Command="{x:Static vm:AppStatic.ManageWallet}"
-                                                    CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}"
-                                                    CornerRadius="2">
-                                                    <WrapPanel>
-                                                        <Path
-                                                            Width="12"
-                                                            Height="14"
-                                                            Data="{StaticResource Icon_Wallet}"
-                                                            Fill="White"
-                                                            Stretch="Fill" />
-                                                        <TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
-                                                    </WrapPanel>
-                                                </controls:KbButton>
-                                            </WrapPanel>
-                                        </controls:KbComboBox.Toolbar>
-                                    </controls:KbComboBox>
-								</DockPanel>
-							</WrapPanel>
-                            <WrapPanel Margin="-70 1 0 0" VerticalAlignment="Top" Width="50">
-								<controls:KbButton 
+                                <WrapPanel>
+                                    <TextBlock
+                                        Style="{StaticResource LblTb}"
+                                        ToolTip="{DynamicResource DualWallet}"
+									    Text="{DynamicResource DualWallet}" />
+                                    <DockPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+                                        <TextBox Visibility="Collapsed" Text="{Binding ElementName=CbDualCoinWallet, Path=Text}" TextChanged="TbDualCoinWallet_TextChanged"></TextBox>
+                                        <controls:KbComboBox 
+                                            Height="40"
+                                            BorderThickness="0"
+										    x:Name="CbDualCoinWallet" 
+										    ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Wallets}"
+										    VerticalContentAlignment="Center" Width="330"
+										    IsEnabled="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}"
+										    IsEditable="False"
+										    ItemTemplate="{StaticResource WalletAddressDataTemplate}"
+										    ItemContainerStyle="{StaticResource WalletItemContainerStyle}"
+										    SelectedItem="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}">
+                                            <controls:KbComboBox.Toolbar>
+                                                <WrapPanel HorizontalAlignment="Right">
+                                                    <controls:KbButton 
+                                                        Margin="4 2"
+                                                        BorderThickness="0"
+                                                        Height="24"
+                                                        Padding="4 0"
+                                                        Background="{StaticResource IconFillColor}"
+                                                        CornerRadius="2"
+									                    Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.AddDualCoinWallet}"
+									                    IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+                                                        <WrapPanel>
+                                                            <Path
+                                                                Width="14"
+                                                                Height="14"
+                                                                Data="{StaticResource Icon_Add}"
+                                                                Fill="White"
+                                                                Stretch="Fill" />
+                                                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="White"></TextBlock>
+                                                        </WrapPanel>
+                                                    </controls:KbButton>
+                                                    <controls:KbButton
+                                                        Margin="4 2"
+                                                        BorderThickness="0"
+                                                        Height="24"
+                                                        Padding="4 0"
+                                                        Background="{StaticResource IconFillColor}"
+                                                        Command="{x:Static vm:AppStatic.ManageWallet}"
+                                                        CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}"
+                                                        CornerRadius="2">
+                                                        <WrapPanel>
+                                                            <Path
+                                                                Width="12"
+                                                                Height="14"
+                                                                Data="{StaticResource Icon_Wallet}"
+                                                                Fill="White"
+                                                                Stretch="Fill" />
+                                                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+                                                        </WrapPanel>
+                                                    </controls:KbButton>
+                                                </WrapPanel>
+                                            </controls:KbComboBox.Toolbar>
+                                        </controls:KbComboBox>
+                                    </DockPanel>
+                                </WrapPanel>
+                                <Path
+                                    Width="308"
+                                    Height="14"
+                                    Margin="60 -20 0 0" 
+                                    Data="M98 480.86h829.99v63.79H98z"
+                                    Fill="Black"
+                                    Stretch="Fill"
+								    Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </WrapPanel>
+                            <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 4 30 0">
+                                <controls:KbButton 
 									Padding="2"
 									Margin="0 -1 -4 2"
 									VerticalAlignment="Bottom"
@@ -641,28 +653,28 @@
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.ShowDualCoinWallet}"
 									HorizontalAlignment="Left">
-									<Path
+                                    <Path
 										Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}"
 										Width="16"
 										Height="8"
 										Data="{StaticResource Icon_CloseEye}"
 										Fill="{StaticResource IconFillColor}"
 										Stretch="Fill" />
-								</controls:KbButton>
-								<controls:KbButton 
+                                </controls:KbButton>
+                                <controls:KbButton 
 									Padding="2"
 									ToolTip="{DynamicResource HideWalletAddress}"
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.HideDualCoinWallet}"
 									HorizontalAlignment="Left">
-									<Path
+                                    <Path
 										Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinShowWallet, Converter={StaticResource BoolToVisibilityConverter}}"
 										Width="16"
 										Height="12"
 										Data="{StaticResource Icon_OpenEye}"
 										Fill="{StaticResource IconFillColor}"
 										Stretch="Fill" />
-								</controls:KbButton>
+                                </controls:KbButton>
                                 <controls:KbButton
                                     Margin="4 0 0 0"
 									Padding="2" 
@@ -671,23 +683,15 @@
 									Background="Transparent" BorderThickness="0"
 									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.CopyDualCoinWallet}"
 									HorizontalAlignment="Left">
-									<Path
+                                    <Path
 										Width="14"
 										Height="14"
 										Data="{StaticResource Icon_Copy}"
 										Fill="{StaticResource IconFillColor}"
 										Stretch="Fill" />
-								</controls:KbButton>
+                                </controls:KbButton>
                             </WrapPanel>
-                            <Path
-                                Width="308"
-                                Height="14"
-                                Margin="60 -20 0 0" 
-                                Data="M98 480.86h829.99v63.79H98z"
-                                Fill="Black"
-                                Stretch="Fill"
-								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
-						</WrapPanel>
+                        </Grid>
 					</StackPanel>
 				</WrapPanel>
 
