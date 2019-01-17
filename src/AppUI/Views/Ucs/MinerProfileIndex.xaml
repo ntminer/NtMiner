@@ -353,7 +353,7 @@
                         Width="136"
                         Background="White"
                         ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
-                        IsReadOnly="{Binding MinerProfile.IsMining}"
+                        IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
                         VerticalContentAlignment="Center" 
                         Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.UserName}">
                     </TextBox>
@@ -365,7 +365,7 @@
                         Width="134"
                         Background="White"
                         ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
-                        IsReadOnly="{Binding MinerProfile.IsMining}"
+                        IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
                         VerticalContentAlignment="Center" 
                         Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.Password}">
                     </TextBox>
@@ -731,7 +731,7 @@
                                 Width="136"
                                 Background="White"
                                 ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
-                                IsReadOnly="{Binding MinerProfile.IsMining}"
+                                IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
                                 VerticalContentAlignment="Center" 
                                 Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.UserName}">
                             </TextBox>
@@ -743,7 +743,7 @@
                                 Width="134"
                                 Background="White"
                                 ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
-                                IsReadOnly="{Binding MinerProfile.IsMining}"
+                                IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
                                 VerticalContentAlignment="Center" 
                                 Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.Password}">
                             </TextBox>
