@@ -111,9 +111,18 @@ namespace NTMiner.Vms {
                 }
             });
             this.ViewPoolIncome = new DelegateCommand<WalletViewModel>((wallet) => {
-                string url = this.Url.Replace("{wallet}", wallet.Address);
-                url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
-                Process.Start(url);
+                if (!string.IsNullOrEmpty(this.Url)) {
+                    string url = this.Url;
+                    if (this.IsUserMode) {
+                        url = url.Replace("{userName}", this.PoolProfileVm.UserName);
+                        url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
+                    }
+                    else {
+                        url = url.Replace("{wallet}", wallet.Address);
+                        url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
+                    }
+                    Process.Start(url);
+                }
             });
         }
 
