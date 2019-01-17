@@ -347,16 +347,19 @@
                 <WrapPanel 
                     Margin="0 3" 
                     Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Style="{StaticResource LblTb}">用户名:</TextBlock>
+                    <TextBlock Style="{StaticResource LblTb}">用户名</TextBlock>
                     <TextBox 
                         Height="26"
                         Width="136"
                         Background="White"
+                        ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
                         IsReadOnly="{Binding MinerProfile.IsMining}"
                         VerticalContentAlignment="Center" 
                         Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.UserName}">
                     </TextBox>
-                    <TextBlock Style="{StaticResource LblTb}">密码:</TextBlock>
+                    <TextBlock 
+                        Margin="2 0 0 0"
+                        Style="{StaticResource LblTb}">密码</TextBlock>
                     <TextBox 
                         Height="26"
                         Width="134"
@@ -595,7 +598,8 @@
                                 </controls:KbComboBox>
 							</DockPanel>
 						</WrapPanel>
-                        <Grid Margin="0 3">
+                        <Grid Margin="0 3"
+                              Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
                             <WrapPanel>
                                 <WrapPanel>
                                     <TextBlock
@@ -717,7 +721,32 @@
                                 </controls:KbButton>
                             </WrapPanel>
                         </Grid>
-					</StackPanel>
+                        <WrapPanel 
+                            Margin="0 3" 
+                            Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Style="{StaticResource LblTb}">用户名</TextBlock>
+                            <TextBox 
+                                Height="26"
+                                Width="136"
+                                Background="White"
+                                ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
+                                IsReadOnly="{Binding MinerProfile.IsMining}"
+                                VerticalContentAlignment="Center" 
+                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.UserName}">
+                            </TextBox>
+                            <TextBlock 
+                                Margin="2 0 0 0"
+                                Style="{StaticResource LblTb}">密码</TextBlock>
+                            <TextBox 
+                                Height="26"
+                                Width="134"
+                                Background="White"
+                                IsReadOnly="{Binding MinerProfile.IsMining}"
+                                VerticalContentAlignment="Center" 
+                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Password}">
+                            </TextBox>
+                        </WrapPanel>
+                    </StackPanel>
 				</WrapPanel>
 
                 <WrapPanel Margin="0 3" VerticalAlignment="Center">
