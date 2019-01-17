@@ -85,10 +85,12 @@
 						    Data="{StaticResource Icon_Kernel}"
 						    Fill="{StaticResource IconFillColor}"
 						    Stretch="Fill" />
-					    <Label
+					    <TextBlock
 						    Padding="0 4"
+                            MaxWidth="78"
 						    VerticalAlignment="Center"
-						    Content="{DynamicResource KernelArgs}"
+                            TextWrapping="Wrap"
+						    Text="{DynamicResource KernelArgs}"
 						    Foreground="{StaticResource LableColor}" />
 				    </WrapPanel>
 			    </controls:KbLinkButton>
@@ -100,7 +102,31 @@
 		</WrapPanel>
 
         <WrapPanel Margin="0 2">
-            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource CoinKernelArgs}" ToolTip="{DynamicResource CoinKernelArgs}"></TextBlock>
+            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
+                <controls:KbLinkButton 
+                    ToolTip="{DynamicResource CoinKernelArgs}"
+				    KbDisplayLine="False"
+				    KbSystemButtonHoverBackground="Transparent" 
+				    Background="Transparent"
+				    Margin="0" 
+				    Command="{Binding CoinKernelVm.Edit}">
+				    <WrapPanel>
+					    <Path 
+						    Width="12"
+						    Height="12"
+						    Data="{StaticResource Icon_Kernel}"
+						    Fill="{StaticResource IconFillColor}"
+						    Stretch="Fill" />
+					    <TextBlock
+                            MaxWidth="78"
+						    Padding="0 4"
+						    VerticalAlignment="Center"
+                            TextWrapping="Wrap"
+						    Text="{DynamicResource CoinKernelArgs}"
+						    Foreground="{StaticResource LableColor}" />
+				    </WrapPanel>
+			    </controls:KbLinkButton>
+            </TextBlock>
             <TextBox IsReadOnly="True" BorderThickness="0" 
 					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
 					 Text="{Binding CoinKernelVm.Args, Mode=OneWay}">
