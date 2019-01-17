@@ -125,6 +125,7 @@
     <Compile Include="Core\Kernels\Impl\KernelOutputTranslaterData.cs" />
     <Compile Include="Core\Kernels\Impl\PackageDownloader.cs" />
     <Compile Include="Core\Kernels\Impl\PoolKernelData.cs" />
+    <Compile Include="Core\Kernels\Impl\PoolKernelSet.cs" />
     <Compile Include="Core\Kernels\IPackageDownloader.cs" />
     <Compile Include="Core\Kernels\IPoolKernel.cs" />
     <Compile Include="Core\Kernels\IPoolKernelSet.cs" />

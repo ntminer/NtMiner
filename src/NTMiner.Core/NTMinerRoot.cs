@@ -112,6 +112,7 @@ namespace NTMiner {
             this.WalletSet = new WalletSet(this);
             this.PoolSet = new PoolSet(this);
             this.CoinKernelSet = new CoinKernelSet(this);
+            this.PoolKernelSet = new PoolKernelSet(this);
             this.KernelSet = new KernelSet(this);
             this.KernelProfileSet = new KernelProfileSet(this);
             this.KernelInputSet = new KernelInputSet(this);
@@ -711,6 +712,8 @@ namespace NTMiner {
         public IPoolSet PoolSet { get; private set; }
 
         public ICoinKernelSet CoinKernelSet { get; private set; }
+
+        public IPoolKernelSet PoolKernelSet { get; private set; }
 
         public IKernelSet KernelSet { get; private set; }
 

@@ -467,6 +467,44 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    #region PoolKernel Messages
+    [MessageType(messageType: typeof(AddPoolKernelCommand), description: "添加矿池级内核")]
+    public class AddPoolKernelCommand : AddEntityCommand<IPoolKernel> {
+        public AddPoolKernelCommand(IPoolKernel input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(UpdatePoolKernelCommand), description: "更新矿池级内核")]
+    public class UpdatePoolKernelCommand : UpdateEntityCommand<IPoolKernel> {
+        public UpdatePoolKernelCommand(IPoolKernel input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(RemovePoolKernelCommand), description: "移除矿池级内核")]
+    public class RemovePoolKernelCommand : RemoveEntityCommand {
+        public RemovePoolKernelCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(messageType: typeof(PoolKernelAddedEvent), description: "添加了矿池级内核后")]
+    public class PoolKernelAddedEvent : DomainEvent<IPoolKernel> {
+        public PoolKernelAddedEvent(IPoolKernel source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(PoolKernelUpdatedEvent), description: "更新了矿池级内核后")]
+    public class PoolKernelUpdatedEvent : DomainEvent<IPoolKernel> {
+        public PoolKernelUpdatedEvent(IPoolKernel source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(PoolKernelRemovedEvent), description: "移除了矿池级内核后")]
+    public class PoolKernelRemovedEvent : DomainEvent<IPoolKernel> {
+        public PoolKernelRemovedEvent(IPoolKernel source) : base(source) {
+        }
+    }
+    #endregion
+
     #region Kernel Messages
     [MessageType(messageType: typeof(AddKernelCommand), description: "添加内核")]
     public class AddKernelCommand : AddEntityCommand<IKernel> {

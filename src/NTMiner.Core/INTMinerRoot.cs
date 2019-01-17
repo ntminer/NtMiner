@@ -58,6 +58,8 @@ namespace NTMiner {
 
         ICoinKernelSet CoinKernelSet { get; }
 
+        IPoolKernelSet PoolKernelSet { get; }
+
         IKernelSet KernelSet { get; }
 
         IKernelProfileSet KernelProfileSet { get; }
