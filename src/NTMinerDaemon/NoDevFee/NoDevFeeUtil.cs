@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,7 +49,7 @@ namespace NTMiner.NoDevFee {
                     return;
                 }
                 _contextId = contextId;
-                Extract();
+                WinDivertExtract.Extract();
                 int counter = 0;
                 bool ranOnce = false;
 
@@ -177,32 +175,6 @@ namespace NTMiner.NoDevFee {
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
                 return;
-            }
-        }
-
-        private static bool _extracted = false;
-        private static void Extract() {
-            if (_extracted) {
-                return;
-            }
-            _extracted = true;
-            try {
-                Type type = typeof(NoDevFeeUtil);
-                Assembly assembly = type.Assembly;
-                string[] names = new string[] { "WinDivert.dll", "WinDivert64.sys" };
-                foreach (var name in names) {
-                    string fileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, name);
-                    Stream stream = assembly.GetManifestResourceStream(type, name);
-                    byte[] data = new byte[stream.Length];
-                    stream.Read(data, 0, data.Length);
-                    if (File.Exists(fileFullName) && HashUtil.Sha1(data) == HashUtil.Sha1(File.ReadAllBytes(fileFullName))) {
-                        continue;
-                    }
-                    File.WriteAllBytes(fileFullName, data);
-                }
-            }
-            catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

@@ -114,6 +114,7 @@
     <Compile Include="NoDevFee\NoDevFeeUtil.partials.PositionUtil.cs" />
     <Compile Include="NoDevFee\WinDivert.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.cs" />
+    <Compile Include="NoDevFee\WinDivertExtract.cs" />
     <Compile Include="NTMinerDaemonService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

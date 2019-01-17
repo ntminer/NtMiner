@@ -30,6 +30,8 @@ namespace NTMiner {
                 Console.Title = "开始时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff");
             }
 
+            WinDivertExtract.Extract();
+
             string filter = $"ip && (ip.DstAddr = {poolIp} || ip.SrcAddr = {poolIp}) && tcp && tcp.PayloadLength > 100";
             Console.WriteLine(filter);
             var divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
