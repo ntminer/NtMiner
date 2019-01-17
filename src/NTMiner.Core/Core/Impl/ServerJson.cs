@@ -9,7 +9,7 @@ namespace NTMiner.Core.Impl {
     public class ServerJson {
         public static readonly ServerJson Instance = new ServerJson();
 
-        public static void Export() {
+        public static string Export() {
             INTMinerRoot root = NTMinerRoot.Current;
             ServerJson data = new ServerJson() {
                 CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToArray(),
@@ -27,6 +27,7 @@ namespace NTMiner.Core.Impl {
             };
             string json = Global.JsonSerializer.Serialize(data);
             File.WriteAllText(SpecialPath.ServerJsonFileFullName, json);
+            return Path.GetFileName(SpecialPath.ServerJsonFileFullName);
         }
 
         // 私有构造函数不影响序列化反序列化
