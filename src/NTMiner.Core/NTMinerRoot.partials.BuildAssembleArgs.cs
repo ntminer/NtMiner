@@ -3,6 +3,7 @@ using NTMiner.Core.Kernels;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
@@ -34,6 +35,11 @@ namespace NTMiner {
             ICoinKernelProfile coinKernelProfile = this.CoinKernelProfileSet.GetCoinKernelProfile(coinProfile.CoinKernelId);
             string wallet = coinProfile.Wallet;
             string pool = mainCoinPool.Server;
+            string poolKernelArgs = string.Empty;
+            IPoolKernel poolKernel = PoolKernelSet.FirstOrDefault(a => a.PoolId == mainCoinPool.GetId() && a.KernelId == kernel.GetId());
+            if (poolKernel != null) {
+                poolKernelArgs = poolKernel.Args;
+            }
             IPoolProfile poolProfile = PoolProfileSet.GetPoolProfile(mainCoinPool.GetId());
             string userName = poolProfile.UserName;
             string password = poolProfile.Password;
@@ -78,6 +84,7 @@ namespace NTMiner {
 
                             kernelArgs = kernelInput.DualFullArgs;
                             AssembleArgs(argsDic, ref kernelArgs, isDual: true);
+                            AssembleArgs(argsDic, ref poolKernelArgs, isDual: true);
                             AssembleArgs(argsDic, ref customArgs, isDual: true);
 
                             string dualWeightArg;
@@ -93,16 +100,17 @@ namespace NTMiner {
                                 dualWeightArg = string.Empty;
                             }
 
-                            return $"{kernelArgs} {dualWeightArg} {customArgs}";
+                            return $"{kernelArgs} {dualWeightArg} {poolKernelArgs} {customArgs}";
                         }
                     }
                 }
             }
             AssembleArgs(argsDic, ref kernelArgs, isDual: false);
             AssembleArgs(argsDic, ref coinKernelArgs, isDual: false);
+            AssembleArgs(argsDic, ref poolKernelArgs, isDual: false);
             AssembleArgs(argsDic, ref customArgs, isDual: false);
 
-            return $"{kernelArgs} {coinKernelArgs} {customArgs}";
+            return $"{kernelArgs} {coinKernelArgs} {poolKernelArgs} {customArgs}";
         }
 
         private static void AssembleArgs(Dictionary<string, string> prms, ref string args, bool isDual) {

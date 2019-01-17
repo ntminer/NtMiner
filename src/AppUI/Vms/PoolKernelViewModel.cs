@@ -117,6 +117,9 @@ namespace NTMiner.Vms {
             set {
                 _args = value;
                 OnPropertyChanged(nameof(Args));
+                if (MinerProfileViewModel.Current.CoinId == this.PoolVm.CoinId) {
+                    Global.Execute(new RefreshArgsAssemblyCommand());
+                }
             }
         }
 
