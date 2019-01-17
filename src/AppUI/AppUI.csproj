@@ -132,6 +132,9 @@
     <Compile Include="Views\Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\PoolKernelEdit.xaml.cs">
+      <DependentUpon>PoolKernelEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\KernelInputEdit.xaml.cs">
       <DependentUpon>KernelInputEdit.xaml</DependentUpon>
     </Compile>
@@ -294,6 +297,7 @@
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModels.cs" />
     <Compile Include="Vms\OpenedWindowsViewModel.cs" />
+    <Compile Include="Vms\PoolKernelViewModel.cs" />
     <Compile Include="Vms\PoolProfileViewModel.cs" />
     <Compile Include="Vms\PoolProfileViewModels.cs" />
     <Compile Include="Vms\ShareViewModel.cs" />
@@ -397,6 +401,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Ucs\Calc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\PoolKernelEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

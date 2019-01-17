@@ -8,6 +8,10 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class PoolViewModel : ViewModelBase, IPool {
+        public static readonly PoolViewModel Empty = new PoolViewModel(Guid.Empty) {
+            _coinId = Guid.Empty,
+            _name = "无"
+        };
         public static readonly PoolViewModel PleaseSelect = new PoolViewModel(Guid.Empty) {
             _coinId = Guid.Empty,
             _name = "请选择"
