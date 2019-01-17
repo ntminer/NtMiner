@@ -610,27 +610,30 @@ namespace NTMiner {
         }
 
         public void SetCoinProfileProperty(Guid coinId, string propertyName, object value) {
-            this.CoinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
             string coinCode = "意外的币种";
             ICoin coin;
             if (this.CoinSet.TryGetCoin(coinId, out coin)) {
+                this.CoinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
                 coinCode = coin.Code;
             }
             Global.Logger.InfoDebugLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
         }
 
         public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
-            this.PoolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
             string poolName = "意外的矿池";
-            IPool coin;
-            if (this.PoolSet.TryGetPool(poolId, out coin)) {
-                poolName = coin.Name;
+            IPool pool;
+            if (this.PoolSet.TryGetPool(poolId, out pool)) {
+                poolName = pool.Name;
+                if (!pool.IsUserMode) {
+                    Global.DebugLine("不是用户名密码模式矿池", ConsoleColor.Green);
+                    return;
+                }
+                this.PoolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
             }
             Global.Logger.InfoDebugLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
         }
 
         public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
-            this.CoinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             string coinCode = "意外的币种";
             string kernelName = "意外的内核";
             ICoinKernel coinKernel;
@@ -643,6 +646,7 @@ namespace NTMiner {
                 if (this.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
                     kernelName = kernel.FullName;
                 }
+                this.CoinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             }
             Global.Logger.InfoDebugLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
         }
