@@ -32,6 +32,10 @@ namespace NTMiner.Core.Impl {
 
         public string Description { get; set; }
 
-        public string Wallet { get; set; }
+        public bool IsUserMode { get; set; }
+
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
     }
 }

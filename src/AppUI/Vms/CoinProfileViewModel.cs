@@ -121,9 +121,6 @@ namespace NTMiner.Vms {
 
         public WalletViewModel SelectedWallet {
             get {
-                if (MainCoinPool != null && MainCoinPool.HaveWallet) {
-                    return MainCoinPool.SelectedWallet;
-                }
                 CoinViewModel coinVm = CoinViewModels.Current[this.CoinId];
                 WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId && a.Address == this.Wallet);
                 if (walletVm == null) {

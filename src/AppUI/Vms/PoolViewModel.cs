@@ -20,7 +20,9 @@ namespace NTMiner.Vms {
         private string _url;
         private int _sortNumber;
         private string _description;
-        private string _wallet;
+        private string _userName;
+        private string _passWord;
+        private bool _isUserMode;
         private PublishStatus _publishState;
         private bool _isCurrentPool;
 
@@ -53,7 +55,9 @@ namespace NTMiner.Vms {
             _sortNumber = data.SortNumber;
             _description = data.Description;
             _publishState = data.PublishState;
-            _wallet = data.Wallet;
+            _userName = data.UserName;
+            _passWord = data.Password;
+            _isUserMode = data.IsUserMode;
         }
 
         public PoolViewModel(Guid id) {
@@ -255,35 +259,27 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string Wallet {
-            get { return _wallet; }
+        public bool IsUserMode {
+            get { return _isUserMode; }
             set {
-                _wallet = value;
-                OnPropertyChanged(nameof(Wallet));
-                OnPropertyChanged(nameof(HaveWallet));
+                _isUserMode = value;
+                OnPropertyChanged(nameof(IsUserMode));
             }
         }
 
-        public WalletViewModel SelectedWallet {
-            get {
-                WalletViewModel walletVm = this.CoinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId && a.Address == this.Wallet);
-                if (walletVm == null) {
-                    walletVm = WalletViewModel.PleaseSelect;
-                }
-                return walletVm;
-            }
+        public string UserName {
+            get { return _userName; }
             set {
-                if (value != null) {
-                    this.Wallet = value.Address;
-                    OnPropertyChanged(nameof(SelectedWallet));
-                    OnPropertyChanged(nameof(HaveWallet));
-                }
+                _userName = value;
+                OnPropertyChanged(nameof(UserName));
             }
         }
 
-        public bool HaveWallet {
-            get {
-                return SelectedWallet != null && SelectedWallet != WalletViewModel.PleaseSelect;
+        public string Password {
+            get { return _passWord; }
+            set {
+                _passWord = value;
+                OnPropertyChanged(nameof(Password));
             }
         }
     }
