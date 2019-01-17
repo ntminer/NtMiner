@@ -55,6 +55,28 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 });
+            Global.Access<PoolAddedEvent>(
+                Guid.Parse("CDDC4FD4-DC93-4CD3-B814-5A3A99228AB0"),
+                "新添了矿池后刷新矿池内核内存",
+                LogEnum.Log,
+                action: (message) => {
+                    ICoin coin;
+                    if (root.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
+                        ICoinKernel[] coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        foreach (ICoinKernel coinKernel in coinKernels) {
+                            Guid poolKernelId = Guid.NewGuid();
+                            var entity = new PoolKernelData() {
+                                Id = poolKernelId,
+                                Args = string.Empty,
+                                Description = string.Empty,
+                                KernelId = coinKernel.KernelId,
+                                PoolId = message.Source.GetId()
+                            };
+                            _dicById.Add(poolKernelId, entity);
+                            Global.Happened(new PoolKernelAddedEvent(entity));
+                        }
+                    }
+                });
             Global.Access<PoolRemovedEvent>(
                 Guid.Parse("F4B99EAE-2532-4DAC-8D49-2D6A51530722"),
                 "移除了矿池后刷新矿池内核内存",
