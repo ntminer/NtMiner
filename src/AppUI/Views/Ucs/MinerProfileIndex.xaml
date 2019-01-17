@@ -222,7 +222,8 @@
                     </controls:KbComboBox>
                 </WrapPanel>
 
-                <Grid Margin="0 3">
+                <Grid Margin="0 3"
+                      Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
                     <WrapPanel>
                         <TextBlock
                             Style="{StaticResource LblTb}"
@@ -343,6 +344,29 @@
                     </WrapPanel>
                 </Grid>
 
+                <WrapPanel 
+                    Margin="0 3" 
+                    Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Style="{StaticResource LblTb}">用户名:</TextBlock>
+                    <TextBox 
+                        Height="26"
+                        Width="136"
+                        Background="White"
+                        IsReadOnly="{Binding MinerProfile.IsMining}"
+                        VerticalContentAlignment="Center" 
+                        Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.UserName}">
+                    </TextBox>
+                    <TextBlock Style="{StaticResource LblTb}">密码:</TextBlock>
+                    <TextBox 
+                        Height="26"
+                        Width="134"
+                        Background="White"
+                        IsReadOnly="{Binding MinerProfile.IsMining}"
+                        VerticalContentAlignment="Center" 
+                        Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Password}">
+                    </TextBox>
+                </WrapPanel>
+                
                 <WrapPanel Margin="0 3">
                     <TextBlock
                         Style="{StaticResource LblTb}"
