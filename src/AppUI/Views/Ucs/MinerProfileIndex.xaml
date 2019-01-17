@@ -364,6 +364,7 @@
                         Height="26"
                         Width="134"
                         Background="White"
+                        ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
                         IsReadOnly="{Binding MinerProfile.IsMining}"
                         VerticalContentAlignment="Center" 
                         Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Password}">
@@ -741,6 +742,7 @@
                                 Height="26"
                                 Width="134"
                                 Background="White"
+                                ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
                                 IsReadOnly="{Binding MinerProfile.IsMining}"
                                 VerticalContentAlignment="Center" 
                                 Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Password}">
