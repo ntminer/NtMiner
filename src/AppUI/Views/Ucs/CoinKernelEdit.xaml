@@ -102,7 +102,7 @@
 					Fill="Red"
 					Stretch="Fill" />
             </WrapPanel>
-            <WrapPanel Visibility="{Binding Kernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+            <WrapPanel Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Label Content="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></Label>
                 <controls:KbComboBox 
                     BorderThickness="0"
@@ -141,7 +141,7 @@
 			</controls:KbLinkButton>
 			<TextBox IsReadOnly="True" BorderThickness="0" 
 					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
-					 Text="{Binding Kernel.Args, Mode=OneWay}">
+					 Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
 			</TextBox>
 		</WrapPanel>
 
