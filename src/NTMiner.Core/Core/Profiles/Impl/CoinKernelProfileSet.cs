@@ -41,7 +41,7 @@ namespace NTMiner.Core.Profiles.Impl {
             public static readonly CoinKernelProfile Empty = new CoinKernelProfile(NTMinerRoot.Current);
 
             public static CoinKernelProfile Create(INTMinerRoot root, Guid coinKernelId) {
-                if (root.CoinKernelSet.TryGetKernel(coinKernelId, out ICoinKernel coinKernel)) {
+                if (root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
                     CoinKernelProfile coinProfile = new CoinKernelProfile(root, coinKernel);
 
                     return coinProfile;

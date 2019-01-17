@@ -477,7 +477,7 @@ namespace NTMiner {
                     return;
                 }
                 ICoinKernel coinKernel;
-                if (!this.CoinKernelSet.TryGetKernel(coinProfile.CoinKernelId, out coinKernel)) {
+                if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
                     Global.Logger.WarnWriteLine("没有选择挖矿内核。");
                     return;
                 }
@@ -637,7 +637,7 @@ namespace NTMiner {
             string coinCode = "意外的币种";
             string kernelName = "意外的内核";
             ICoinKernel coinKernel;
-            if (this.CoinKernelSet.TryGetKernel(coinKernelId, out coinKernel)) {
+            if (this.CoinKernelSet.TryGetCoinKernel(coinKernelId, out coinKernel)) {
                 ICoin coin;
                 if (this.CoinSet.TryGetCoin(coinKernel.CoinId, out coin)) {
                     coinCode = coin.Code;

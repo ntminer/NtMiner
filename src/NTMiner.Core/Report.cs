@@ -124,7 +124,7 @@ namespace NTMiner {
                     }
                     data.MainCoinWallet = coinProfile.Wallet;
                     ICoinKernel coinKernel;
-                    if (root.CoinKernelSet.TryGetKernel(coinProfile.CoinKernelId, out coinKernel)) {
+                    if (root.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
                         IKernel kernel;
                         if (root.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
                             data.Kernel = kernel.FullName;

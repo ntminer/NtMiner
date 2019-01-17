@@ -116,7 +116,7 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.ContainsKey(kernelId);
         }
 
-        public bool TryGetKernel(Guid kernelId, out ICoinKernel kernel) {
+        public bool TryGetCoinKernel(Guid kernelId, out ICoinKernel kernel) {
             InitOnece();
             CoinKernelData k;
             var r = _dicById.TryGetValue(kernelId, out k);

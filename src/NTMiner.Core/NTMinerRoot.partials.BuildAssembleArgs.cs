@@ -17,7 +17,7 @@ namespace NTMiner {
                 return string.Empty;
             }
             ICoinKernel coinKernel;
-            if (!CoinKernelSet.TryGetKernel(coinProfile.CoinKernelId, out coinKernel)) {
+            if (!CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
                 return string.Empty;
             }
             IKernel kernel;
