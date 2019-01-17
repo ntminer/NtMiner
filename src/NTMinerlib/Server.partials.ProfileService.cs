@@ -83,6 +83,22 @@ namespace NTMiner {
                 }
             }
 
+            public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
+                try {
+                    using (var service = CreateService()) {
+                        return service.GetPoolProfile(workId, poolId);
+                    }
+                }
+                catch (CommunicationException e) {
+                    Global.DebugLine(e.Message, ConsoleColor.Red);
+                    return null;
+                }
+                catch (Exception e) {
+                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
+            }
+
             public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
                 try {
                     using (var service = CreateService()) {

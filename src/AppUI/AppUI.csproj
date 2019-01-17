@@ -294,6 +294,8 @@
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModels.cs" />
     <Compile Include="Vms\OpenedWindowsViewModel.cs" />
+    <Compile Include="Vms\PoolProfileViewModel.cs" />
+    <Compile Include="Vms\PoolProfileViewModels.cs" />
     <Compile Include="Vms\ShareViewModel.cs" />
     <Compile Include="Vms\ShareViewModels.cs" />
     <Compile Include="Vms\CoinSnapshotDataViewModel.cs" />

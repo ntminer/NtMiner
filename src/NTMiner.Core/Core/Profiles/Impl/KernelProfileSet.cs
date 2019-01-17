@@ -9,6 +9,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly Dictionary<Guid, KernelProfile> _dicByKernelId = new Dictionary<Guid, KernelProfile>();
 
         private readonly INTMinerRoot _root;
+        private readonly object _locker = new object();
         public KernelProfileSet(INTMinerRoot root) {
             _root = root;
             Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
@@ -24,7 +25,7 @@ namespace NTMiner.Core.Profiles.Impl {
             if (_dicByKernelId.ContainsKey(kernelId)) {
                 return _dicByKernelId[kernelId];
             }
-            lock (this) {
+            lock (_locker) {
                 if (_dicByKernelId.ContainsKey(kernelId)) {
                     return _dicByKernelId[kernelId];
                 }

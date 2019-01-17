@@ -109,7 +109,7 @@
                             ToolTip="{DynamicResource MinerName}"
                             Text="{DynamicResource MinerName}"></TextBlock>
                         <TextBox 
-                            Height="26"
+                            Height="30"
 							IsReadOnly="{Binding ElementName=ChkbAutoThisPCName, Path=IsChecked}"
 							Width="136" Background="White"
 							Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
@@ -349,25 +349,25 @@
                     Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Style="{StaticResource LblTb}">用户名</TextBlock>
                     <TextBox 
-                        Height="26"
+                        Height="30"
                         Width="136"
                         Background="White"
                         ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
                         IsReadOnly="{Binding MinerProfile.IsMining}"
                         VerticalContentAlignment="Center" 
-                        Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.UserName}">
+                        Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.UserName}">
                     </TextBox>
                     <TextBlock 
                         Margin="2 0 0 0"
                         Style="{StaticResource LblTb}">密码</TextBlock>
                     <TextBox 
-                        Height="26"
+                        Height="30"
                         Width="134"
                         Background="White"
                         ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
                         IsReadOnly="{Binding MinerProfile.IsMining}"
                         VerticalContentAlignment="Center" 
-                        Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Password}">
+                        Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.Password}">
                     </TextBox>
                 </WrapPanel>
                 
@@ -733,7 +733,7 @@
                                 ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
                                 IsReadOnly="{Binding MinerProfile.IsMining}"
                                 VerticalContentAlignment="Center" 
-                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.UserName}">
+                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.UserName}">
                             </TextBox>
                             <TextBlock 
                                 Margin="2 0 0 0"
@@ -745,7 +745,7 @@
                                 ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
                                 IsReadOnly="{Binding MinerProfile.IsMining}"
                                 VerticalContentAlignment="Center" 
-                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Password}">
+                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.Password}">
                             </TextBox>
                         </WrapPanel>
                     </StackPanel>
@@ -757,7 +757,7 @@
                         ToolTip="{DynamicResource CustomArgs}"
 						Text="{DynamicResource CustomArgs}" />
                     <TextBox 
-                        Height="26"
+                        Height="30"
 						Width="330"
                         VerticalContentAlignment="Center"
                         Background="White"

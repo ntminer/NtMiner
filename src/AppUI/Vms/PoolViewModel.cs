@@ -282,5 +282,15 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(Password));
             }
         }
+
+        private PoolProfileViewModel _poolProfileVm;
+        public PoolProfileViewModel PoolProfileVm {
+            get {
+                if (_poolProfileVm == null) {
+                    _poolProfileVm = PoolProfileViewModels.Current.GetOrCreatePoolProfile(this.Id, this.UserName, this.Password);
+                }
+                return _poolProfileVm;
+            }
+        }
     }
 }

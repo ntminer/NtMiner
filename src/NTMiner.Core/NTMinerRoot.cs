@@ -124,6 +124,7 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this._minerProfile = new MinerProfile(this);
             this.CoinProfileSet = new CoinProfileSet(this);
+            this.PoolProfileSet = new PoolProfileSet(this);
             this.CoinKernelProfileSet = new CoinKernelProfileSet(this);
 
             callback?.Invoke();
@@ -615,7 +616,17 @@ namespace NTMiner {
             if (this.CoinSet.TryGetCoin(coinId, out coin)) {
                 coinCode = coin.Code;
             }
-            Global.Logger.InfoDebugLine($"SetMinerProfileProperty({coinCode}, {propertyName}, {value})");
+            Global.Logger.InfoDebugLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
+        }
+
+        public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
+            this.PoolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
+            string poolName = "意外的矿池";
+            IPool coin;
+            if (this.PoolSet.TryGetPool(poolId, out coin)) {
+                poolName = coin.Name;
+            }
+            Global.Logger.InfoDebugLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
         }
 
         public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
@@ -714,6 +725,8 @@ namespace NTMiner {
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 
         public ICoinProfileSet CoinProfileSet { get; private set; }
+
+        public IPoolProfileSet PoolProfileSet { get; private set; }
 
         public ICoinKernelProfileSet CoinKernelProfileSet { get; private set; }
 

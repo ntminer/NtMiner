@@ -69,10 +69,10 @@
                 IsEnabled="{Binding IsReadOnly, Converter={StaticResource BooleanInvertConverter}}"
 				IconColor="{StaticResource IconFillColor}"
 				IsChecked="{Binding IsUserMode}" />
-            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center">用户名:</TextBlock>
+            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center">测试用户名</TextBlock>
             <TextBox Width="180" Height="26" IsEnabled="{Binding IsUserMode}" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding UserName}">
             </TextBox>
-            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center">密码:</TextBlock>
+            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center">密码</TextBlock>
             <TextBox Width="100" Height="26" IsEnabled="{Binding IsUserMode}" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Password}">
             </TextBox>
         </WrapPanel>

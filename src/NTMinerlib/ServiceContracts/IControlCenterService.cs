@@ -45,6 +45,9 @@ namespace NTMiner.ServiceContracts {
         ResponseBase SetCoinProfileProperty(SetCoinProfilePropertyRequest request);
 
         [OperationContract]
+        ResponseBase SetPoolProfileProperty(SetPoolProfilePropertyRequest request);
+
+        [OperationContract]
         ResponseBase SetCoinKernelProfileProperty(SetCoinKernelProfilePropertyRequest request);
 
         [OperationContract]

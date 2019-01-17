@@ -76,6 +76,8 @@ namespace NTMiner {
 
         ICoinProfileSet CoinProfileSet { get; }
 
+        IPoolProfileSet PoolProfileSet { get; }
+
         ICoinKernelProfileSet CoinKernelProfileSet { get; }
 
         void SetMinerProfileProperty(string propertyName, object value);
@@ -83,6 +85,8 @@ namespace NTMiner {
         object GetMineWorkProperty(string propertyName);
 
         void SetCoinProfileProperty(Guid coinId, string propertyName, object value);
+
+        void SetPoolProfileProperty(Guid poolId, string propertyName, object value);
 
         void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value);
 

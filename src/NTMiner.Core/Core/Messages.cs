@@ -28,6 +28,18 @@ namespace NTMiner.Core {
         public string PropertyName { get; private set; }
     }
 
+    [MessageType(messageType: typeof(PoolProfilePropertyChangedEvent), description: "矿池级设置变更后")]
+    public class PoolProfilePropertyChangedEvent : EventBase {
+        public PoolProfilePropertyChangedEvent(Guid coinId, string propertyName) {
+            this.PoolId = coinId;
+            this.PropertyName = propertyName;
+        }
+
+        public Guid PoolId { get; }
+
+        public string PropertyName { get; private set; }
+    }
+
     [MessageType(messageType: typeof(CoinKernelProfilePropertyChangedEvent), description: "挖矿币种内核级设置变更后")]
     public class CoinKernelProfilePropertyChangedEvent : EventBase {
         public CoinKernelProfilePropertyChangedEvent(Guid coinKernelId, string propertyName) {
