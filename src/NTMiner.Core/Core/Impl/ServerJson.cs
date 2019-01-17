@@ -22,6 +22,7 @@ namespace NTMiner.Core.Impl {
                 KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray(),
                 Kernels = root.KernelSet.Cast<KernelData>().ToArray(),
                 Pools = root.PoolSet.Cast<PoolData>().ToArray(),
+                PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().ToArray(),
                 SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray(),
                 SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
             };
@@ -42,6 +43,7 @@ namespace NTMiner.Core.Impl {
             this.KernelOutputFilters = new KernelOutputFilterData[0];
             this.KernelOutputTranslaters = new KernelOutputTranslaterData[0];
             this.Pools = new PoolData[0];
+            this.PoolKernels = new PoolKernelData[0];
             this.SysDics = new SysDicData[0];
             this.SysDicItems = new SysDicItemData[0];
             this.TimeStamp = Global.GetTimestamp();
@@ -66,6 +68,7 @@ namespace NTMiner.Core.Impl {
                                 this.KernelOutputFilters = data.KernelOutputFilters ?? new KernelOutputFilterData[0];
                                 this.KernelOutputTranslaters = data.KernelOutputTranslaters ?? new KernelOutputTranslaterData[0];
                                 this.Pools = data.Pools ?? new PoolData[0];
+                                this.PoolKernels = data.PoolKernels ?? new PoolKernelData[0];
                                 this.SysDics = data.SysDics ?? new SysDicData[0];
                                 this.SysDicItems = data.SysDicItems ?? new SysDicItemData[0];
                                 this.TimeStamp = data.TimeStamp;
@@ -112,6 +115,8 @@ namespace NTMiner.Core.Impl {
                     return this.KernelOutputFilters.Cast<T>();
                 case nameof(PoolData):
                     return this.Pools.Cast<T>();
+                case nameof(PoolKernelData):
+                    return this.PoolKernels.Cast<T>();
                 case nameof(SysDicData):
                     return this.SysDics.Cast<T>();
                 case nameof(SysDicItemData):
@@ -142,6 +147,8 @@ namespace NTMiner.Core.Impl {
         public KernelOutputFilterData[] KernelOutputFilters { get; set; }
 
         public PoolData[] Pools { get; set; }
+
+        public PoolKernelData[] PoolKernels { get; set; }
 
         public SysDicData[] SysDics { get; set; }
 
