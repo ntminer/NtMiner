@@ -34,8 +34,9 @@ namespace NTMiner {
             ICoinKernelProfile coinKernelProfile = this.CoinKernelProfileSet.GetCoinKernelProfile(coinProfile.CoinKernelId);
             string wallet = coinProfile.Wallet;
             string pool = mainCoinPool.Server;
-            string userName = mainCoinPool.UserName;
-            string password = mainCoinPool.Password;
+            IPoolProfile poolProfile = PoolProfileSet.GetPoolProfile(mainCoinPool.GetId());
+            string userName = poolProfile.UserName;
+            string password = poolProfile.Password;
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs;
@@ -63,8 +64,9 @@ namespace NTMiner {
                         if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
                             string dualWallet = dualCoinProfile.DualCoinWallet;
                             string dualPool = dualCoinPool.Server;
-                            string dualUserName = dualCoinPool.UserName;
-                            string dualPassword = dualCoinPool.Password;
+                            IPoolProfile dualPoolProfile = PoolProfileSet.GetPoolProfile(dualCoinPool.GetId());
+                            string dualUserName = dualPoolProfile.UserName;
+                            string dualPassword = dualPoolProfile.Password;
                             argsDic.Add("dualCoin", dualCoin.Code);
                             argsDic.Add("dualAlgo", dualCoin.Algo);
                             argsDic.Add("dualWallet", dualWallet);
