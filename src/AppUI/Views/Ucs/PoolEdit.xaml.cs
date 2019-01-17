@@ -29,5 +29,13 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
+
+        private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            DataGrid dg = (DataGrid)sender;
+            if (dg.SelectedItem != null) {
+                PoolKernelViewModel kernelVm = (PoolKernelViewModel)dg.SelectedItem;
+                kernelVm.Edit.Execute(null);
+            }
+        }
     }
 }

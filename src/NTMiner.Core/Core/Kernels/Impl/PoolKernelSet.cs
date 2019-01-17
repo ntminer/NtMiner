@@ -39,6 +39,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 action: (message) => {
                     ICoin coin;
                     if (root.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
+                        var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                         List<Guid> toRemoves = new List<Guid>();
                         IPool[] pools = root.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (IPool pool in pools) {
@@ -49,6 +50,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         foreach (Guid poolKernelId in toRemoves) {
                             var entity = _dicById[poolKernelId];
                             _dicById.Remove(poolKernelId);
+                            repository.Remove(entity.Id);
                             Global.Happened(new PoolKernelRemovedEvent(entity));
                         }
                     }
@@ -58,10 +60,12 @@ namespace NTMiner.Core.Kernels.Impl {
                 "移除了矿池后刷新矿池内核内存",
                 LogEnum.Log,
                 action: (message) => {
+                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     Guid[] toRemoves = _dicById.Values.Where(a => a.PoolId == message.Source.GetId()).Select(a => a.Id).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
                         var entity = _dicById[poolKernelId];
                         _dicById.Remove(poolKernelId);
+                        repository.Remove(entity.Id);
                         Global.Happened(new PoolKernelRemovedEvent(entity));
                     }
                 });
