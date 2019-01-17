@@ -2,12 +2,17 @@
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class PoolViewModel : ViewModelBase, IPool {
+        public static readonly PoolViewModel Empty = new PoolViewModel(Guid.Empty) {
+            _coinId = Guid.Empty,
+            _name = "无"
+        };
         public static readonly PoolViewModel PleaseSelect = new PoolViewModel(Guid.Empty) {
             _coinId = Guid.Empty,
             _name = "请选择"
@@ -20,6 +25,9 @@ namespace NTMiner.Vms {
         private string _url;
         private int _sortNumber;
         private string _description;
+        private string _userName;
+        private string _passWord;
+        private bool _isUserMode;
         private PublishStatus _publishState;
         private bool _isCurrentPool;
 
@@ -52,6 +60,9 @@ namespace NTMiner.Vms {
             _sortNumber = data.SortNumber;
             _description = data.Description;
             _publishState = data.PublishState;
+            _userName = data.UserName;
+            _passWord = data.Password;
+            _isUserMode = data.IsUserMode;
         }
 
         public PoolViewModel(Guid id) {
@@ -105,10 +116,25 @@ namespace NTMiner.Vms {
                 }
             });
             this.ViewPoolIncome = new DelegateCommand<WalletViewModel>((wallet) => {
-                string url = this.Url.Replace("{wallet}", wallet.Address);
-                url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
-                Process.Start(url);
+                if (!string.IsNullOrEmpty(this.Url)) {
+                    string url = this.Url;
+                    if (this.IsUserMode) {
+                        url = url.Replace("{userName}", this.PoolProfileVm.UserName);
+                        url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
+                    }
+                    else {
+                        url = url.Replace("{wallet}", wallet.Address);
+                        url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
+                    }
+                    Process.Start(url);
+                }
             });
+        }
+
+        public List<PoolKernelViewModel> PoolKernels {
+            get {
+                return PoolKernelViewModels.Current.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.SortNumber).ToList();
+            }
         }
 
         public bool IsCurrentPool {
@@ -182,6 +208,20 @@ namespace NTMiner.Vms {
             set {
                 _coinId = value;
                 OnPropertyChanged(nameof(CoinId));
+                OnPropertyChanged(nameof(CoinVm));
+            }
+        }
+
+        private CoinViewModel _coinVm;
+        public CoinViewModel CoinVm {
+            get {
+                if (_coinVm == null || _coinVm.Id != this.CoinId) {
+                    CoinViewModels.Current.TryGetCoinVm(this.CoinId, out _coinVm);
+                    if (_coinVm == null) {
+                        _coinVm = CoinViewModel.PleaseSelect;
+                    }
+                }
+                return _coinVm;
             }
         }
 
@@ -236,6 +276,40 @@ namespace NTMiner.Vms {
             set {
                 _description = value;
                 OnPropertyChanged(nameof(Description));
+            }
+        }
+
+        public bool IsUserMode {
+            get { return _isUserMode; }
+            set {
+                _isUserMode = value;
+                OnPropertyChanged(nameof(IsUserMode));
+            }
+        }
+
+        public string UserName {
+            get { return _userName; }
+            set {
+                _userName = value;
+                OnPropertyChanged(nameof(UserName));
+            }
+        }
+
+        public string Password {
+            get { return _passWord; }
+            set {
+                _passWord = value;
+                OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        private PoolProfileViewModel _poolProfileVm;
+        public PoolProfileViewModel PoolProfileVm {
+            get {
+                if (_poolProfileVm == null) {
+                    _poolProfileVm = PoolProfileViewModels.Current.GetOrCreatePoolProfile(this.Id, this.UserName, this.Password);
+                }
+                return _poolProfileVm;
             }
         }
     }

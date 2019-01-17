@@ -10,6 +10,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly Dictionary<Guid, CoinKernelProfile> _dicById = new Dictionary<Guid, CoinKernelProfile>();
 
         private readonly INTMinerRoot _root;
+        private readonly object _locker = new object();
 
         public CoinKernelProfileSet(INTMinerRoot root) {
             _root = root;
@@ -20,7 +21,7 @@ namespace NTMiner.Core.Profiles.Impl {
             if (_dicById.ContainsKey(coinKernelId)) {
                 return _dicById[coinKernelId];
             }
-            lock (this) {
+            lock (_locker) {
                 if (_dicById.ContainsKey(coinKernelId)) {
                     return _dicById[coinKernelId];
                 }
@@ -40,7 +41,7 @@ namespace NTMiner.Core.Profiles.Impl {
             public static readonly CoinKernelProfile Empty = new CoinKernelProfile(NTMinerRoot.Current);
 
             public static CoinKernelProfile Create(INTMinerRoot root, Guid coinKernelId) {
-                if (root.CoinKernelSet.TryGetKernel(coinKernelId, out ICoinKernel coinKernel)) {
+                if (root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
                     CoinKernelProfile coinProfile = new CoinKernelProfile(root, coinKernel);
 
                     return coinProfile;

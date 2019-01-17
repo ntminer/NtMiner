@@ -43,6 +43,19 @@ namespace NTMiner.Data.Impl {
             }
         }
 
+        private static Dictionary<string, PropertyInfo> _poolProfileProperties;
+        private static Dictionary<string, PropertyInfo> PoolProfileProperties {
+            get {
+                if (_coinProfileProperties == null) {
+                    _coinProfileProperties = new Dictionary<string, PropertyInfo>();
+                    foreach (var item in typeof(PoolProfileData).GetProperties()) {
+                        _coinProfileProperties.Add(item.Name, item);
+                    }
+                }
+                return _coinProfileProperties;
+            }
+        }
+
         private static Dictionary<string, PropertyInfo> _coinKernelProfileProperties;
         private static Dictionary<string, PropertyInfo> CoinKernelProfileProperties {
             get {
@@ -127,6 +140,44 @@ namespace NTMiner.Data.Impl {
                 propertyInfo.SetValue(data, value, null);
                 if (exist) {
                     data.ModifiedOn = DateTime.Now;
+                    col.Update(data);
+                }
+                else {
+                    col.Insert(data);
+                }
+            }
+        }
+
+        public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
+            using (var database = CreateDatabase(workId)) {
+                var col = database.GetCollection<PoolProfileData>();
+                var data = col.FindById(poolId);
+                if (data == null) {
+                    data = PoolProfileData.CreateDefaultData(poolId);
+                    col.Insert(data);
+                }
+                return data;
+            }
+        }
+
+        public void SetPoolProfileProperty(Guid workId, Guid poolId, string propertyName, object value) {
+            if (!PoolProfileProperties.ContainsKey(propertyName)) {
+                return;
+            }
+            using (var database = CreateDatabase(workId)) {
+                var col = database.GetCollection<PoolProfileData>();
+                var data = col.FindById(poolId);
+                bool exist = true;
+                if (data == null) {
+                    exist = false;
+                    data = PoolProfileData.CreateDefaultData(poolId);
+                }
+                PropertyInfo propertyInfo = PoolProfileProperties[propertyName];
+                if (propertyInfo.PropertyType == typeof(Guid)) {
+                    value = DictionaryExtensions.ConvertToGuid(value);
+                }
+                propertyInfo.SetValue(data, value, null);
+                if (exist) {
                     col.Update(data);
                 }
                 else {

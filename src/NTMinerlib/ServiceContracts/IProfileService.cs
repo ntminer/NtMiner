@@ -19,6 +19,9 @@ namespace NTMiner.ServiceContracts {
         CoinProfileData GetCoinProfile(Guid workId, Guid coinId);
 
         [OperationContract]
+        PoolProfileData GetPoolProfile(Guid workId, Guid poolId);
+
+        [OperationContract]
         CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId);
     }
 }

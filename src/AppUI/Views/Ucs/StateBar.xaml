@@ -50,13 +50,13 @@
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
-	<Border BorderThickness="0 1 0 0" BorderBrush="{StaticResource LineColor}">
+	<Border Padding="4 0 4 0">
 		<Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-			<StackPanel Grid.Column='0' Margin="4 0 0 0">
+			<StackPanel Grid.Column='0'>
 				<WrapPanel Margin="0 2">
 					<controls:KbLinkButton
 						Foreground="#0072C1"
@@ -238,7 +238,6 @@
                         <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.FanSpeedText}" Width="78" Padding="0" HorizontalAlignment="Left" />
                         <WrapPanel Width="70">
                             <Path
-                                Margin="0 0 2 0"
 			                    Width="12"
 			                    Height="16"
 			                    Data="{StaticResource Icon_Power}"

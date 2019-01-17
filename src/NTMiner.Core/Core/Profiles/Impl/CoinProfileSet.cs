@@ -9,6 +9,7 @@ namespace NTMiner.Core.Profiles.Impl {
     public class CoinProfileSet : ICoinProfileSet {
         private readonly Dictionary<Guid, CoinProfile> _dicById = new Dictionary<Guid, CoinProfile>();
         private readonly INTMinerRoot _root;
+        private readonly object _locker = new object();
 
         public CoinProfileSet(INTMinerRoot root) {
             _root = root;
@@ -19,7 +20,7 @@ namespace NTMiner.Core.Profiles.Impl {
             if (_dicById.ContainsKey(coinId)) {
                 return _dicById[coinId];
             }
-            lock (this) {
+            lock (_locker) {
                 if (_dicById.ContainsKey(coinId)) {
                     return _dicById[coinId];
                 }

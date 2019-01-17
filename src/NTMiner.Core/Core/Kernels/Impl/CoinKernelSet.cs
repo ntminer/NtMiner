@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace NTMiner.Core.Kernels.Impl {
     internal class CoinKernelSet : ICoinKernelSet {
-
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, CoinKernelData> _dicById = new Dictionary<Guid, CoinKernelData>();
 
@@ -116,7 +115,7 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.ContainsKey(kernelId);
         }
 
-        public bool TryGetKernel(Guid kernelId, out ICoinKernel kernel) {
+        public bool TryGetCoinKernel(Guid kernelId, out ICoinKernel kernel) {
             InitOnece();
             CoinKernelData k;
             var r = _dicById.TryGetValue(kernelId, out k);

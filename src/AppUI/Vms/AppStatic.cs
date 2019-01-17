@@ -13,12 +13,12 @@ namespace NTMiner.Vms {
     public static class AppStatic {
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
-                ServerJson.Export();
+                string fileName = ServerJson.Export();
                 MainWindowViewModel.Current.Manager.CreateMessage()
                     .Accent("#1751C3")
                     .Background("#333")
                     .HasBadge("Info")
-                    .HasMessage("导出成功")
+                    .HasMessage($"导出成功：{fileName}")
                     .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(2))
                     .Queue();
@@ -30,12 +30,12 @@ namespace NTMiner.Vms {
 
         public static ICommand ExportLangJson { get; private set; } = new DelegateCommand(() => {
             try {
-                LangJson.Export();
+                string fileName = LangJson.Export();
                 MainWindowViewModel.Current.Manager.CreateMessage()
                     .Accent("#1751C3")
                     .Background("#333")
                     .HasBadge("Info")
-                    .HasMessage("导出成功")
+                    .HasMessage($"导出成功：{fileName}")
                     .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(2))
                     .Queue();

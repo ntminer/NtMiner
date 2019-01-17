@@ -18,6 +18,7 @@ namespace NTMiner.Vms {
                     CoinViewModel coin;
                     if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coin)) {
                         coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
+                        coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                         coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                     }
                 });
@@ -31,6 +32,7 @@ namespace NTMiner.Vms {
                     CoinViewModel coin;
                     if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coin)) {
                         coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
+                        coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                         coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
                         coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                     }

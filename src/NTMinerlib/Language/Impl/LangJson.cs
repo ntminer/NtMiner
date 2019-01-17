@@ -7,13 +7,14 @@ namespace NTMiner.Language.Impl {
     public class LangJson {
         public static readonly LangJson Instance = new LangJson();
 
-        public static void Export() {
+        public static string Export() {
             LangJson data = new LangJson() {
                 Langs = LangSet.Instance.Cast<Lang>().ToArray(),
                 LangViewItems = LangViewItemSet.Instance.Cast<LangViewItem>().ToArray()
             };
             string json = Global.JsonSerializer.Serialize(data);
             File.WriteAllText(ClientId.ServerLangJsonFileFullName, json);
+            return Path.GetFileName(ClientId.ServerLangJsonFileFullName);
         }
 
         // 私有构造函数不影响序列化反序列化

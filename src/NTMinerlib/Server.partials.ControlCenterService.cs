@@ -391,6 +391,36 @@ namespace NTMiner {
                 });
             }
 
+            public void SetPoolProfileProperty(Guid workId, Guid poolId, string propertyName, object value, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    Guid messageId = Guid.NewGuid();
+                    try {
+                        SetPoolProfilePropertyRequest request = new SetPoolProfilePropertyRequest {
+                            MessageId = messageId,
+                            LoginName = LoginName,
+                            PoolId = poolId,
+                            WorkId = workId,
+                            PropertyName = propertyName,
+                            Value = value,
+                            Timestamp = DateTime.Now
+                        };
+                        request.SignIt(Password);
+                        using (var service = CreateService()) {
+                            ResponseBase response = service.SetPoolProfileProperty(request);
+                            callback?.Invoke(response);
+                        }
+                    }
+                    catch (CommunicationException e) {
+                        Global.DebugLine(e.Message, ConsoleColor.Red);
+                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
+                    }
+                    catch (Exception e) {
+                        Global.Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
+                    }
+                });
+            }
+
             public void SetCoinKernelProfileProperty(Guid workId, Guid coinKernelId, string propertyName, object value, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();

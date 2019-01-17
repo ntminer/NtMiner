@@ -55,6 +55,7 @@
     <Compile Include="Bus\DirectBus\DirectCommandBus.cs" />
     <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
     <Compile Include="Bus\EventBase.cs" />
+    <Compile Include="ClientVersion.cs" />
     <Compile Include="ISortable.cs" />
     <Compile Include="Language\ILang.cs" />
     <Compile Include="Language\ILangViewItem.cs" />
@@ -67,6 +68,9 @@
     <Compile Include="Language\Messages.cs" />
     <Compile Include="Language\Repository.cs" />
     <Compile Include="Logging\LogDir.cs" />
+    <Compile Include="ServiceContracts\DataObjects\IPoolProfile.cs" />
+    <Compile Include="ServiceContracts\DataObjects\PoolProfileData.cs" />
+    <Compile Include="ServiceContracts\DataObjects\SetPoolProfilePropertyRequest.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="Server.partials.ControlCenterService.cs" />
     <Compile Include="DateTimeExtensions.cs" />

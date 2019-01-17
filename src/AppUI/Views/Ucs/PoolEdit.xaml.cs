@@ -7,6 +7,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Pool",
                 IsDialogWindow = true,
+                Width = 540,
+                Height = 400,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
             {
@@ -26,6 +28,14 @@ namespace NTMiner.Views.Ucs {
             this.DataContext = vm;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+        }
+
+        private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            DataGrid dg = (DataGrid)sender;
+            if (dg.SelectedItem != null) {
+                PoolKernelViewModel kernelVm = (PoolKernelViewModel)dg.SelectedItem;
+                kernelVm.Edit.Execute(null);
+            }
         }
     }
 }

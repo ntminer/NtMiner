@@ -45,6 +45,16 @@ namespace NTMiner.Services {
             }
         }
 
+        public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
+            try {
+                return HostRoot.Current.MineProfileManager.GetPoolProfile(workId, poolId);
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+                return null;
+            }
+        }
+
         public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
             try {
                 return HostRoot.Current.MineProfileManager.GetCoinKernelProfile(workId, coinKernelId);

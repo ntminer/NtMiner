@@ -59,7 +59,7 @@ namespace NTMiner {
                             Task t1 = Task.Factory.StartNew(() => {
                                 try {
                                     using (WebClient webClient = new WebClient()) {
-                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerJsonFileName;
+                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientVersion.ServerJsonFileName;
                                         Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
                                         rawNTMinerJson = System.Text.Encoding.UTF8.GetString(data);
@@ -72,7 +72,7 @@ namespace NTMiner {
                             Task t2 = Task.Factory.StartNew(() => {
                                 try {
                                     using (WebClient webClient = new WebClient()) {
-                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientId.ServerLangJsonFileName;
+                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientVersion.ServerLangJsonFileName;
                                         Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
                                         rawLangJson = System.Text.Encoding.UTF8.GetString(data);
@@ -112,6 +112,7 @@ namespace NTMiner {
             this.WalletSet = new WalletSet(this);
             this.PoolSet = new PoolSet(this);
             this.CoinKernelSet = new CoinKernelSet(this);
+            this.PoolKernelSet = new PoolKernelSet(this);
             this.KernelSet = new KernelSet(this);
             this.KernelProfileSet = new KernelProfileSet(this);
             this.KernelInputSet = new KernelInputSet(this);
@@ -124,6 +125,7 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this._minerProfile = new MinerProfile(this);
             this.CoinProfileSet = new CoinProfileSet(this);
+            this.PoolProfileSet = new PoolProfileSet(this);
             this.CoinKernelProfileSet = new CoinKernelProfileSet(this);
 
             callback?.Invoke();
@@ -263,7 +265,6 @@ namespace NTMiner {
                 LogEnum.None,
                 action: message => {
                     Task.Factory.StartNew(() => {
-                        Windows.Service.StopService("wscsvc");
                         Windows.Error.DisableWindowsErrorUI();
                         Windows.Firewall.DisableFirewall();
                         Windows.UAC.DisableUAC();
@@ -477,7 +478,7 @@ namespace NTMiner {
                     return;
                 }
                 ICoinKernel coinKernel;
-                if (!this.CoinKernelSet.TryGetKernel(coinProfile.CoinKernelId, out coinKernel)) {
+                if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
                     Global.Logger.WarnWriteLine("没有选择挖矿内核。");
                     return;
                 }
@@ -610,21 +611,34 @@ namespace NTMiner {
         }
 
         public void SetCoinProfileProperty(Guid coinId, string propertyName, object value) {
-            this.CoinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
             string coinCode = "意外的币种";
             ICoin coin;
             if (this.CoinSet.TryGetCoin(coinId, out coin)) {
+                this.CoinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
                 coinCode = coin.Code;
             }
-            Global.Logger.InfoDebugLine($"SetMinerProfileProperty({coinCode}, {propertyName}, {value})");
+            Global.Logger.InfoDebugLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
+        }
+
+        public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
+            string poolName = "意外的矿池";
+            IPool pool;
+            if (this.PoolSet.TryGetPool(poolId, out pool)) {
+                poolName = pool.Name;
+                if (!pool.IsUserMode) {
+                    Global.DebugLine("不是用户名密码模式矿池", ConsoleColor.Green);
+                    return;
+                }
+                this.PoolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
+            }
+            Global.Logger.InfoDebugLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
         }
 
         public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
-            this.CoinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             string coinCode = "意外的币种";
             string kernelName = "意外的内核";
             ICoinKernel coinKernel;
-            if (this.CoinKernelSet.TryGetKernel(coinKernelId, out coinKernel)) {
+            if (this.CoinKernelSet.TryGetCoinKernel(coinKernelId, out coinKernel)) {
                 ICoin coin;
                 if (this.CoinSet.TryGetCoin(coinKernel.CoinId, out coin)) {
                     coinCode = coin.Code;
@@ -633,6 +647,7 @@ namespace NTMiner {
                 if (this.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
                     kernelName = kernel.FullName;
                 }
+                this.CoinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             }
             Global.Logger.InfoDebugLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
         }
@@ -698,6 +713,8 @@ namespace NTMiner {
 
         public ICoinKernelSet CoinKernelSet { get; private set; }
 
+        public IPoolKernelSet PoolKernelSet { get; private set; }
+
         public IKernelSet KernelSet { get; private set; }
 
         public IKernelProfileSet KernelProfileSet { get; private set; }
@@ -715,6 +732,8 @@ namespace NTMiner {
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 
         public ICoinProfileSet CoinProfileSet { get; private set; }
+
+        public IPoolProfileSet PoolProfileSet { get; private set; }
 
         public ICoinKernelProfileSet CoinKernelProfileSet { get; private set; }
 

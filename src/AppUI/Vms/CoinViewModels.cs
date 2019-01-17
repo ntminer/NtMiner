@@ -49,6 +49,7 @@ namespace NTMiner.Vms {
                     coinVm.Update(message.Source);
                     coinVm.TestWalletVm.Address = message.Source.TestWallet;
                     coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
+                    coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
                     if (MinerProfileViewModel.Current.CoinId == message.Source.GetId()) {
                         MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
                     }

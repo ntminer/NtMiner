@@ -280,7 +280,7 @@
                     </controls:KbTabItem.Header>
                     <Grid>
                         <DataGrid ItemsSource="{Binding CurrentCoin.Pools}" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
-                            MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36" Grid.ColumnSpan="2">
+                            MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36">
                             <DataGrid.Resources>
                                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
                             </DataGrid.Resources>
@@ -294,10 +294,16 @@
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock 
-                                                Text="{Binding Name}" 
-                                                ToolTip="{Binding Name}"
-                                                VerticalAlignment="Center"></TextBlock>
+                                            <StackPanel>
+                                                <TextBlock 
+                                                    Text="{Binding Name}" 
+                                                    ToolTip="{Binding Name}"
+                                                    VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock 
+                                                    Visibility="{Binding IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                    Text="用户名密码模式" 
+                                                    VerticalAlignment="Center"></TextBlock>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

@@ -318,6 +318,9 @@ namespace NTMiner.Vms {
         private static readonly Dictionary<Guid, WalletViewModel> _testWallets = new Dictionary<Guid, WalletViewModel>();
         public WalletViewModel TestWalletVm {
             get {
+                if (string.IsNullOrEmpty(this.TestWallet)) {
+                    return null;
+                }
                 if (!_testWallets.ContainsKey(this.GetId())) {
                     _testWallets.Add(this.GetId(), new WalletViewModel(this.GetId()) {
                         Address = this.TestWallet,
@@ -331,7 +334,9 @@ namespace NTMiner.Vms {
         }
 
         private IEnumerable<WalletViewModel> GetWallets() {
-            yield return TestWalletVm;
+            if (!string.IsNullOrEmpty(TestWallet)) {
+                yield return TestWalletVm;
+            }
             foreach (var item in WalletViewModels.Current.WalletList.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
                 yield return item;
             }

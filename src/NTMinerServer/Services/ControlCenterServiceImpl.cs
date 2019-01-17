@@ -397,6 +397,35 @@ namespace NTMiner.Services {
         }
         #endregion
 
+        public ResponseBase SetPoolProfileProperty(SetPoolProfilePropertyRequest request) {
+            if (request == null) {
+                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                if (string.IsNullOrEmpty(request.LoginName)) {
+                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
+                }
+                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
+                    return ResponseBase.Forbidden(request.MessageId);
+                }
+                if (!request.Timestamp.IsInTime()) {
+                    return ResponseBase.Expired(request.MessageId);
+                }
+                if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
+                    return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
+                }
+                if (request.Sign != request.GetSign(key.Password)) {
+                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                }
+                HostRoot.Current.MineProfileManager.SetPoolProfileProperty(request.WorkId, request.PoolId, request.PropertyName, request.Value);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+
         #region SetCoinKernelProfileProperty
         public ResponseBase SetCoinKernelProfileProperty(SetCoinKernelProfilePropertyRequest request) {
             if (request == null) {

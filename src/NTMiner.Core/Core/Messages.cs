@@ -28,6 +28,18 @@ namespace NTMiner.Core {
         public string PropertyName { get; private set; }
     }
 
+    [MessageType(messageType: typeof(PoolProfilePropertyChangedEvent), description: "矿池级设置变更后")]
+    public class PoolProfilePropertyChangedEvent : EventBase {
+        public PoolProfilePropertyChangedEvent(Guid coinId, string propertyName) {
+            this.PoolId = coinId;
+            this.PropertyName = propertyName;
+        }
+
+        public Guid PoolId { get; }
+
+        public string PropertyName { get; private set; }
+    }
+
     [MessageType(messageType: typeof(CoinKernelProfilePropertyChangedEvent), description: "挖矿币种内核级设置变更后")]
     public class CoinKernelProfilePropertyChangedEvent : EventBase {
         public CoinKernelProfilePropertyChangedEvent(Guid coinKernelId, string propertyName) {
@@ -451,6 +463,32 @@ namespace NTMiner.Core {
     [MessageType(messageType: typeof(CoinKernelRemovedEvent), description: "移除了币种级内核后")]
     public class CoinKernelRemovedEvent : DomainEvent<ICoinKernel> {
         public CoinKernelRemovedEvent(ICoinKernel source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region PoolKernel Messages
+    [MessageType(messageType: typeof(UpdatePoolKernelCommand), description: "更新矿池级内核")]
+    public class UpdatePoolKernelCommand : UpdateEntityCommand<IPoolKernel> {
+        public UpdatePoolKernelCommand(IPoolKernel input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(PoolKernelAddedEvent), description: "添加了矿池级内核后")]
+    public class PoolKernelAddedEvent : DomainEvent<IPoolKernel> {
+        public PoolKernelAddedEvent(IPoolKernel source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(PoolKernelUpdatedEvent), description: "更新了矿池级内核后")]
+    public class PoolKernelUpdatedEvent : DomainEvent<IPoolKernel> {
+        public PoolKernelUpdatedEvent(IPoolKernel source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(PoolKernelRemovedEvent), description: "移除了矿池级内核后")]
+    public class PoolKernelRemovedEvent : DomainEvent<IPoolKernel> {
+        public PoolKernelRemovedEvent(IPoolKernel source) : base(source) {
         }
     }
     #endregion

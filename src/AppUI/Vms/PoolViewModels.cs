@@ -50,6 +50,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool TryGetPoolVm(Guid poolId, out PoolViewModel poolVm) {
+            return _dicById.TryGetValue(poolId, out poolVm);
+        }
+
         public List<PoolViewModel> AllPools {
             get {
                 return _dicById.Values.ToList();

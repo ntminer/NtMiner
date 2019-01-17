@@ -103,6 +103,7 @@ namespace NTMiner.Vms {
                 if (_inner.PoolId != value) {
                     NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(PoolId), value);
                     OnPropertyChanged(nameof(PoolId));
+                    OnPropertyChanged(nameof(SelectedWallet));
                 }
             }
         }
@@ -127,12 +128,6 @@ namespace NTMiner.Vms {
                     if (walletVm != null) {
                         this.Wallet = walletVm.Address;
                     }
-                }
-                if (walletVm != null && !walletVm.IsCurrentWallet) {
-                    foreach (var item in coinVm.Wallets) {
-                        item.IsCurrentWallet = false;
-                    }
-                    walletVm.IsCurrentWallet = true;
                 }
                 return walletVm;
             }
@@ -231,12 +226,6 @@ namespace NTMiner.Vms {
                     if (walletVm != null) {
                         this.DualCoinWallet = walletVm.Address;
                     }
-                }
-                if (walletVm != null && !walletVm.IsCurrentDualCoinWallet) {
-                    foreach (var item in coinVm.Wallets) {
-                        item.IsCurrentDualCoinWallet = false;
-                    }
-                    walletVm.IsCurrentDualCoinWallet = true;
                 }
                 return walletVm;
             }
