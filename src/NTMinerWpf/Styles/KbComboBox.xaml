@@ -43,7 +43,7 @@
                                     BorderBrush="{StaticResource IconFillColor}" BorderThickness="1"
                                     CornerRadius="0,0,3,3">
                                     <StackPanel>
-                                        <ScrollViewer x:Name="DropDownScrollViewer">
+                                        <ScrollViewer x:Name="DropDownScrollViewer" MaxHeight="300">
                                             <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
                                                 <ItemsPresenter
                                                     x:Name="ItemsPresenter"
