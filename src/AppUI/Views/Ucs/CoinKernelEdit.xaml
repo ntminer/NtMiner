@@ -7,10 +7,15 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
-	<UserControl.Resources>
-		<Style TargetType="Label">
-			<Setter Property="Width" Value="88"></Setter>
-			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+    <UserControl.Resources>
+        <Style x:Key="LblTb" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Padding" Value="0 0 2 0"></Setter>
+            <Setter Property="Width" Value="90"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="TextAlignment" Value="Right"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
         </Style>
         <sys:String x:Key="WindowTitle">
             WindowTitle
@@ -18,11 +23,8 @@
         <sys:String x:Key="CoinCode">
             CoinCode
         </sys:String>
-        <sys:String x:Key="KernelCode">
-            KernelCode
-        </sys:String>
-        <sys:String x:Key="KernelVersion">
-            KernelVersion
+        <sys:String x:Key="Kernel">
+            Kernel
         </sys:String>
         <sys:String x:Key="SupportedGpu">
             SupportedGpu
@@ -42,8 +44,8 @@
     </UserControl.Resources>
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
-            <Label Content="{DynamicResource CoinCode}" ToolTip="{DynamicResource CoinCode}"></Label>
-            <WrapPanel Width="80" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource CoinCode}" ToolTip="{DynamicResource CoinCode}"></TextBlock>
+            <WrapPanel Width="180" VerticalAlignment="Center">
                 <TextBlock Text="{Binding CoinCode}">
                 </TextBlock>
                 <controls:KbButton
@@ -64,18 +66,14 @@
                     </WrapPanel>
                 </controls:KbButton>
             </WrapPanel>
-            <Label Content="{DynamicResource KernelCode}" ToolTip="{DynamicResource KernelCode}"></Label>
+            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Kernel}" ToolTip="{DynamicResource Kernel}"></TextBlock>
 			<TextBlock VerticalAlignment="Center"
-					   Text="{Binding Kernel.Code, Mode=OneWay}">
-			</TextBlock>
-            <Label Content="{DynamicResource KernelVersion}" ToolTip="{DynamicResource KernelVersion}"></Label>
-			<TextBlock VerticalAlignment="Center"
-					   Text="{Binding Kernel.Version, Mode=OneWay}">
+					   Text="{Binding Kernel.FullName, Mode=OneWay}">
 			</TextBlock>
 		</WrapPanel>
 
         <WrapPanel Margin="0 2">
-            <Label Content="{DynamicResource SupportedGpu}" ToolTip="{DynamicResource SupportedGpu}"></Label>
+            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource SupportedGpu}" ToolTip="{DynamicResource SupportedGpu}"></TextBlock>
             <WrapPanel Width="180" VerticalAlignment="Center">
                 <controls:KbComboBox 
 					Width="130" ItemsSource="{Binding SupportedGpuEnumItems}"
@@ -103,7 +101,7 @@
 					Stretch="Fill" />
             </WrapPanel>
             <WrapPanel Visibility="{Binding Kernel.KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Label Content="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></Label>
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></TextBlock>
                 <controls:KbComboBox 
                     BorderThickness="0"
 					Width="166" ItemsSource="{Binding GroupVms.SelectionOptions}"
@@ -115,30 +113,29 @@
         </WrapPanel>
 
 		<WrapPanel Margin="0 2">
-			<controls:KbLinkButton 
-				VerticalAlignment="Top"
-				Width="88"
-                ToolTip="{DynamicResource KernelArgs}"
-				KbDisplayLine="False"
-				KbSystemButtonHoverBackground="Transparent" 
-				Background="Transparent"
-				Margin="0" 
-				Command="{Binding Kernel.Edit}">
-				<WrapPanel>
-					<Path 
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Kernel}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<Label
-						Padding="0 4"
-						Width="70"
-						VerticalAlignment="Center"
-						Content="{DynamicResource KernelArgs}"
-						Foreground="Black" />
-				</WrapPanel>
-			</controls:KbLinkButton>
+            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
+                <controls:KbLinkButton 
+                    ToolTip="{DynamicResource KernelArgs}"
+				    KbDisplayLine="False"
+				    KbSystemButtonHoverBackground="Transparent" 
+				    Background="Transparent"
+				    Margin="0" 
+				    Command="{Binding Kernel.Edit}">
+				    <WrapPanel>
+					    <Path 
+						    Width="12"
+						    Height="12"
+						    Data="{StaticResource Icon_Kernel}"
+						    Fill="{StaticResource IconFillColor}"
+						    Stretch="Fill" />
+					    <Label
+						    Padding="0 4"
+						    VerticalAlignment="Center"
+						    Content="{DynamicResource KernelArgs}"
+						    Foreground="{StaticResource LableColor}" />
+				    </WrapPanel>
+			    </controls:KbLinkButton>
+            </TextBlock>
 			<TextBox IsReadOnly="True" BorderThickness="0" 
 					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
 					 Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
@@ -146,9 +143,10 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-            <Label Content="{DynamicResource Args}" ToolTip="{DynamicResource Args}"></Label>
+            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Args}" ToolTip="{DynamicResource Args}"></TextBlock>
 			<TextBox 
 				VerticalContentAlignment="Center"
+                Height="30"
 				Width="436" Background="Transparent"
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
 				Text="{Binding Args, Mode=TwoWay}">
@@ -156,7 +154,7 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-            <Label Content="{DynamicResource Description}" ToolTip="{DynamicResource Description}"></Label>
+            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Description}" ToolTip="{DynamicResource Description}"></TextBlock>
 			<TextBox 
 				Width="436" Background="Transparent"
 				IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
