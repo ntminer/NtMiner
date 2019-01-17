@@ -161,7 +161,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn 
-                                MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
+                                MinWidth="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
                                 Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
