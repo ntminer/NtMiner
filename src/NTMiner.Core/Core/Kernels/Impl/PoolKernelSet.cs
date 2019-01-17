@@ -10,30 +10,60 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public PoolKernelSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<AddPoolKernelCommand>(
-                Guid.Parse("4CD24EF6-028E-4503-B1D3-8D715CAFD91C"),
-                "添加矿池内核",
+            Global.Access<CoinKernelAddedEvent>(
+                Guid.Parse("F39019DF-21F7-40EF-9233-4F7E8291FF39"),
+                "新添了币种内核后刷新矿池内核内存",
                 LogEnum.Log,
                 action: (message) => {
-                    InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                        throw new ArgumentNullException();
+                    ICoin coin;
+                    if (root.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
+                        IPool[] pools = root.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        foreach (IPool pool in pools) {
+                            Guid poolKernelId = Guid.NewGuid();
+                            var entity = new PoolKernelData() {
+                                Id = poolKernelId,
+                                Args = string.Empty,
+                                Description = string.Empty,
+                                KernelId = message.Source.KernelId,
+                                PoolId = pool.GetId()
+                            };
+                            _dicById.Add(poolKernelId, entity);
+                            Global.Happened(new PoolKernelAddedEvent(entity));
+                        }
                     }
-                    if (!_root.PoolSet.Contains(message.Input.PoolId)) {
-                        throw new ValidationException("there is no pool with id" + message.Input.PoolId);
+                });
+            Global.Access<CoinKernelRemovedEvent>(
+                Guid.Parse("3FD6D2B4-4C8F-4C81-8E15-2FBA4E730AF7"),
+                "移除了币种内核后刷新矿池内核内存",
+                LogEnum.Log,
+                action: (message) => {
+                    ICoin coin;
+                    if (root.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
+                        List<Guid> toRemoves = new List<Guid>();
+                        IPool[] pools = root.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        foreach (IPool pool in pools) {
+                            foreach (PoolKernelData poolKernelVm in _dicById.Values.Where(a => a.PoolId == pool.GetId() && a.KernelId == message.Source.KernelId)) {
+                                toRemoves.Add(poolKernelVm.Id);
+                            }
+                        }
+                        foreach (Guid poolKernelId in toRemoves) {
+                            var entity = _dicById[poolKernelId];
+                            _dicById.Remove(poolKernelId);
+                            Global.Happened(new PoolKernelRemovedEvent(entity));
+                        }
                     }
-                    if (_dicById.ContainsKey(message.Input.GetId())) {
-                        return;
+                });
+            Global.Access<PoolRemovedEvent>(
+                Guid.Parse("F4B99EAE-2532-4DAC-8D49-2D6A51530722"),
+                "移除了矿池后刷新矿池内核内存",
+                LogEnum.Log,
+                action: (message) => {
+                    Guid[] toRemoves = _dicById.Values.Where(a => a.PoolId == message.Source.GetId()).Select(a => a.Id).ToArray();
+                    foreach (Guid poolKernelId in toRemoves) {
+                        var entity = _dicById[poolKernelId];
+                        _dicById.Remove(poolKernelId);
+                        Global.Happened(new PoolKernelRemovedEvent(entity));
                     }
-                    if (_dicById.Values.Any(a => a.PoolId == message.Input.PoolId && a.KernelId == message.Input.KernelId)) {
-                        return;
-                    }
-                    PoolKernelData entity = new PoolKernelData().Update(message.Input);
-                    _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
-                    repository.Add(entity);
-
-                    Global.Happened(new PoolKernelAddedEvent(entity));
                 });
             Global.Access<UpdatePoolKernelCommand>(
                 Guid.Parse("08843B3B-3F82-45D2-8B45-6B24F397A326"),
@@ -56,25 +86,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Update(entity);
 
                     Global.Happened(new PoolKernelUpdatedEvent(entity));
-                });
-            Global.Access<RemovePoolKernelCommand>(
-                Guid.Parse("9549A6BB-B1F1-419E-BB89-A65A42ED90F4"),
-                "移除矿池内核",
-                LogEnum.Log,
-                action: (message) => {
-                    InitOnece();
-                    if (message == null || message.EntityId == Guid.Empty) {
-                        throw new ArgumentNullException();
-                    }
-                    if (!_dicById.ContainsKey(message.EntityId)) {
-                        return;
-                    }
-                    PoolKernelData entity = _dicById[message.EntityId];
-                    _dicById.Remove(entity.Id);
-                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
-                    repository.Remove(entity.Id);
-
-                    Global.Happened(new PoolKernelRemovedEvent(entity));
                 });
             Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
@@ -100,9 +111,23 @@ namespace NTMiner.Core.Kernels.Impl {
             lock (_locker) {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
+                    List<PoolKernelData> list = repository.GetAll().ToList();
+                    foreach (IPool pool in _root.PoolSet) {
+                        foreach (ICoinKernel coinKernel in _root.CoinKernelSet.Where(a => a.CoinId == pool.CoinId)) {
+                            PoolKernelData poolKernel = list.FirstOrDefault(a => a.PoolId == pool.GetId() && a.KernelId == coinKernel.KernelId);
+                            if (poolKernel != null) {
+                                _dicById.Add(poolKernel.GetId(), poolKernel);
+                            }
+                            else {
+                                Guid poolKernelId = Guid.NewGuid();
+                                _dicById.Add(poolKernelId, new PoolKernelData() {
+                                    Id = poolKernelId,
+                                    Args = string.Empty,
+                                    Description = string.Empty,
+                                    KernelId = coinKernel.KernelId,
+                                    PoolId = pool.GetId()
+                                });
+                            }
                         }
                     }
                     _isInited = true;

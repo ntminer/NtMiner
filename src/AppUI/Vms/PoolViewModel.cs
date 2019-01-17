@@ -2,6 +2,7 @@
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
@@ -128,6 +129,12 @@ namespace NTMiner.Vms {
                     Process.Start(url);
                 }
             });
+        }
+
+        public List<PoolKernelViewModel> PoolKernels {
+            get {
+                return PoolKernelViewModels.Current.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.SortNumber).ToList();
+            }
         }
 
         public bool IsCurrentPool {

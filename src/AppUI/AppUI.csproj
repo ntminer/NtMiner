@@ -298,6 +298,7 @@
     <Compile Include="Vms\MineWorkViewModels.cs" />
     <Compile Include="Vms\OpenedWindowsViewModel.cs" />
     <Compile Include="Vms\PoolKernelViewModel.cs" />
+    <Compile Include="Vms\PoolKernelViewModels.cs" />
     <Compile Include="Vms\PoolProfileViewModel.cs" />
     <Compile Include="Vms\PoolProfileViewModels.cs" />
     <Compile Include="Vms\ShareViewModel.cs" />

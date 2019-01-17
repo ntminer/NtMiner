@@ -468,21 +468,9 @@ namespace NTMiner.Core {
     #endregion
 
     #region PoolKernel Messages
-    [MessageType(messageType: typeof(AddPoolKernelCommand), description: "添加矿池级内核")]
-    public class AddPoolKernelCommand : AddEntityCommand<IPoolKernel> {
-        public AddPoolKernelCommand(IPoolKernel input) : base(input) {
-        }
-    }
-
     [MessageType(messageType: typeof(UpdatePoolKernelCommand), description: "更新矿池级内核")]
     public class UpdatePoolKernelCommand : UpdateEntityCommand<IPoolKernel> {
         public UpdatePoolKernelCommand(IPoolKernel input) : base(input) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RemovePoolKernelCommand), description: "移除矿池级内核")]
-    public class RemovePoolKernelCommand : RemoveEntityCommand {
-        public RemovePoolKernelCommand(Guid entityId) : base(entityId) {
         }
     }
 
