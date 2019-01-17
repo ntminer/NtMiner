@@ -49,12 +49,11 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        private static readonly char[] invalidChars = { '.', ' ', '-', '_' };
         public string MinerName {
             get => _data.MinerName;
             private set {
                 if (string.IsNullOrEmpty(value)) {
-                    value = Environment.MachineName.ToLower();
+                    value = GetThisPcName();
                 }
                 value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
                 if (_data.MinerName != value) {
@@ -64,6 +63,7 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        private static readonly char[] invalidChars = { '.', ' ', '-', '_' };
         public string GetThisPcName() {
             string value = Environment.MachineName.ToLower();
             value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());

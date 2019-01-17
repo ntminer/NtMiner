@@ -499,7 +499,7 @@ namespace NTMiner {
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
                     coinProfile.Wallet = mainCoin.TestWallet;
                 }
-                if (string.IsNullOrEmpty(coinProfile.Wallet)) {
+                if (string.IsNullOrEmpty(coinProfile.Wallet) && !mainCoinPool.IsUserMode) {
                     Global.Logger.WarnWriteLine("没有填写钱包地址。");
                     return;
                 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace NTMiner.ServiceContracts.DataObjects {
@@ -7,7 +8,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
         public static MinerProfileData CreateDefaultData() {
             return new MinerProfileData {
                 Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
-                MinerName = Environment.MachineName,
+                MinerName = GetThisPcName(),
                 IsShowInTaskbar = true,
                 CoinId = Guid.Empty,
                 IsAutoBoot = false,
@@ -28,6 +29,13 @@ namespace NTMiner.ServiceContracts.DataObjects {
         }
 
         public MinerProfileData() { }
+
+        private static readonly char[] invalidChars = { '.', ' ', '-', '_' };
+        public static string GetThisPcName() {
+            string value = Environment.MachineName.ToLower();
+            value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
+            return value;
+        }
 
         public Guid GetId() {
             return this.Id;
