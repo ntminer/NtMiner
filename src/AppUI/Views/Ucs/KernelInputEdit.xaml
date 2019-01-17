@@ -179,12 +179,12 @@
         <StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left">
             <TextBox 
                 Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True" 
-                AcceptsReturn="True" TextWrapping="Wrap">mainCoin、mainAlgo、wallet、host、port、pool、worker</TextBox>
+                AcceptsReturn="True" TextWrapping="Wrap">mainCoin、mainAlgo、wallet、userName、password、host、port、pool、worker</TextBox>
             <TextBox 
                 Margin="0"
                 Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
                 Width="100" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" 
-                TextWrapping="Wrap">dualCoin、dualAlgo、dualWallet、dualHost、dualPort、dualPool</TextBox>
+                TextWrapping="Wrap">dualCoin、dualAlgo、dualWallet、dualUserName、dualPassword、dualHost、dualPort、dualPool</TextBox>
         </StackPanel>
 
         <controls:KbButton

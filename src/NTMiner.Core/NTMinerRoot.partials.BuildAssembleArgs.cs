@@ -34,6 +34,8 @@ namespace NTMiner {
             ICoinKernelProfile coinKernelProfile = this.CoinKernelProfileSet.GetCoinKernelProfile(coinProfile.CoinKernelId);
             string wallet = coinProfile.Wallet;
             string pool = mainCoinPool.Server;
+            string userName = mainCoinPool.UserName;
+            string password = mainCoinPool.Password;
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs;
@@ -41,6 +43,8 @@ namespace NTMiner {
                 {"mainCoin", mainCoin.Code },
                 {"mainAlgo", mainCoin.Algo },
                 {"wallet", wallet },
+                {"userName", userName },
+                {"password", password },
                 {"host", mainCoinPool.GetHost() },
                 {"port", mainCoinPool.GetPort().ToString() },
                 {"pool", pool },
@@ -59,9 +63,13 @@ namespace NTMiner {
                         if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
                             string dualWallet = dualCoinProfile.DualCoinWallet;
                             string dualPool = dualCoinPool.Server;
+                            string dualUserName = dualCoinPool.UserName;
+                            string dualPassword = dualCoinPool.Password;
                             argsDic.Add("dualCoin", dualCoin.Code);
                             argsDic.Add("dualAlgo", dualCoin.Algo);
                             argsDic.Add("dualWallet", dualWallet);
+                            argsDic.Add("dualUserName", dualUserName);
+                            argsDic.Add("dualPassword", dualPassword);
                             argsDic.Add("dualHost", dualCoinPool.GetHost());
                             argsDic.Add("dualPort", dualCoinPool.GetPort().ToString());
                             argsDic.Add("dualPool", dualPool);
@@ -103,6 +111,8 @@ namespace NTMiner {
             args = args.Replace("{mainCoin}", prms["mainCoin"]);
             args = args.Replace("{mainAlgo}", prms["mainAlgo"]);
             args = args.Replace("{wallet}", prms["wallet"]);
+            args = args.Replace("{userName}", prms["userName"]);
+            args = args.Replace("{password}", prms["password"]);
             args = args.Replace("{host}", prms["host"]);
             args = args.Replace("{port}", prms["port"]);
             args = args.Replace("{pool}", prms["pool"]);
@@ -112,6 +122,8 @@ namespace NTMiner {
                 args = args.Replace("{dualCoin}", prms["dualCoin"]);
                 args = args.Replace("{dualAlgo}", prms["dualAlgo"]);
                 args = args.Replace("{dualWallet}", prms["dualWallet"]);
+                args = args.Replace("{dualUserName}", prms["dualUserName"]);
+                args = args.Replace("{dualPassword}", prms["dualPassword"]);
                 args = args.Replace("{dualHost}", prms["dualHost"]);
                 args = args.Replace("{dualPort}", prms["dualPort"]);
                 args = args.Replace("{dualPool}", prms["dualPool"]);
