@@ -23,9 +23,6 @@
             <sys:String x:Key="WindowTitle">
                 WindowTitle
             </sys:String>
-            <sys:String x:Key="AddWallet">
-                AddWallet
-            </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Margin="10">
@@ -33,6 +30,22 @@
             <Label>所属币种:</Label>
             <TextBlock VerticalAlignment="Center" Text="{Binding CoinCode}">
             </TextBlock>
+            <controls:KbButton
+                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                ToolTip="PoolEdit translate"
+                Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                CommandParameter="PoolEdit"
+                Padding="8 0"
+                Background="Transparent">
+                <WrapPanel>
+                    <Path
+                        Width="14"
+                        Height="14"
+                        Data="{StaticResource Icon_Translate}"
+                        Fill="Red"
+                        Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
         </WrapPanel>
 
         <WrapPanel Margin="0 2">
