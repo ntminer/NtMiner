@@ -61,6 +61,9 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
+                if (this == PleaseSelect) {
+                    return;
+                }
                 KernelInputEdit.ShowEditWindow(this);
             });
             this.Remove = new DelegateCommand(() => {
