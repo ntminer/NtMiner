@@ -35,6 +35,9 @@ namespace NTMiner.Vms {
         public MineWorkViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 if (NTMinerRoot.Current.MineWorkSet.Contains(this.Id)) {
                     Global.Execute(new UpdateMineWorkCommand(this));
                 }
@@ -44,6 +47,9 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 MineWorkEdit.ShowEditWindow(new MineWorkViewModel(this));
             });
             this.Remove = new DelegateCommand(() => {

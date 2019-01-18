@@ -45,6 +45,9 @@ namespace NTMiner.Vms {
         public SysDicItemViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 if (NTMinerRoot.Current.SysDicItemSet.ContainsKey(this.Id)) {
                     Global.Execute(new UpdateSysDicItemCommand(this));
                 }
@@ -54,6 +57,9 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 SysDicItemEdit.ShowEditWindow(this);
             });
             this.Remove = new DelegateCommand(() => {

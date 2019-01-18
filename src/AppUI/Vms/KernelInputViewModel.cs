@@ -52,6 +52,9 @@ namespace NTMiner.Vms {
         public KernelInputViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 if (NTMinerRoot.Current.KernelInputSet.Contains(this.Id)) {
                     Global.Execute(new UpdateKernelInputCommand(this));
                 }
@@ -61,7 +64,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
-                if (this == PleaseSelect) {
+                if (this.Id == Guid.Empty) {
                     return;
                 }
                 KernelInputEdit.ShowEditWindow(this);

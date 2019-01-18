@@ -68,6 +68,9 @@ namespace NTMiner.Vms {
         public KernelOutputViewModel(Guid id) {
             this._id = id;
             this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 if (NTMinerRoot.Current.KernelOutputSet.Contains(this.Id)) {
                     Global.Execute(new UpdateKernelOutputCommand(this));
                 }
@@ -77,7 +80,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
-                if (this == PleaseSelect) {
+                if (this.Id == Guid.Empty) {
                     return;
                 }
                 KernelOutputEdit.ShowEditWindow(this);

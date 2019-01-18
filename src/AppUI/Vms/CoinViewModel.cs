@@ -77,6 +77,9 @@ namespace NTMiner.Vms {
         public CoinViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 if (NTMinerRoot.Current.CoinSet.Contains(this.Id)) {
                     Global.Execute(new UpdateCoinCommand(this));
                 }
@@ -89,6 +92,9 @@ namespace NTMiner.Vms {
                 Process.Start("https://www.feixiaohao.com/currencies/" + this.EnName + "/");
             });
             this.Edit = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 CoinEdit.ShowEditWindow(this);
             });
             this.Remove = new DelegateCommand(() => {

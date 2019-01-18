@@ -41,6 +41,9 @@ namespace NTMiner.Vms {
         public WalletViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 if (!this.IsTestWallet) {
                     if (NTMinerRoot.Current.WalletSet.Contains(this.Id)) {
                         Global.Execute(new UpdateWalletCommand(this));
@@ -52,6 +55,9 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 WalletEdit.ShowEditWindow(this);
             });
             this.Remove = new DelegateCommand(() => {

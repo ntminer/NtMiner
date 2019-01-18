@@ -34,6 +34,9 @@ namespace NTMiner.Vms {
         public GroupViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 if (NTMinerRoot.Current.GroupSet.Contains(this.Id)) {
                     Global.Execute(new UpdateGroupCommand(this));
                 }
@@ -43,6 +46,9 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 GroupEdit.ShowEditWindow(this);
             });
             this.Remove = new DelegateCommand(() => {

@@ -68,6 +68,9 @@ namespace NTMiner.Vms {
         public PoolViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 if (NTMinerRoot.Current.PoolSet.Contains(this.Id)) {
                     Global.Execute(new UpdatePoolCommand(this));
                 }
@@ -77,6 +80,9 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 PoolEdit.ShowEditWindow(this);
             });
             this.Remove = new DelegateCommand(() => {
