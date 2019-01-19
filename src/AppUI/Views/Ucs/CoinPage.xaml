@@ -73,7 +73,7 @@
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="26"></RowDefinition>
+                <RowDefinition Height="27"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <WrapPanel Grid.Row="0" VerticalAlignment="Center">
@@ -86,7 +86,7 @@
                         Data="{StaticResource Icon_Serach}"></Path>
                     <Label Padding="2 6" Content="{DynamicResource Search}"></Label>
                     <controls:KbTextBox 
-                        x:Name="TbKeyword" Width="134" Height="20"
+                        x:Name="TbKeyword" Width="134" Height="22"
                         Text="{Binding CoinKeyword, UpdateSourceTrigger=PropertyChanged}" 
                         VerticalContentAlignment="Center"
                         Hint="{DynamicResource KeywordHint}"
@@ -96,7 +96,7 @@
                         SelectedColor="#409EFF" />
                     <controls:KbButton 
                         Background="Transparent" BorderThickness="0"
-                        Height="20"
+                        Height="22"
                         Command="{Binding ClearKeyword}"
                         Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
                         Margin="-14 0 0 0" HorizontalAlignment="Left">
@@ -261,10 +261,10 @@
             <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding List, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
         </Grid>
 
-        <TabControl Grid.Column="2" Padding="0" BorderBrush="{StaticResource LineColor}" Background="Transparent">
+        <TabControl Grid.Column="2" Padding="0" BorderBrush="{StaticResource LineColor}" BorderThickness="1" Background="Transparent">
             <TabItem IsSelected="{Binding IsPoolTabSelected}">
                 <TabItem.Header>
-                    <Border Padding="10 0">
+                    <Border Padding="10 2">
                         <WrapPanel>
                             <Path 
                                 Width="14"
@@ -278,6 +278,7 @@
                 </TabItem.Header>
                 <Grid>
                     <DataGrid 
+                        BorderThickness="0"
                         ItemsSource="{Binding CurrentCoin.Pools}" Padding="0"
                         MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36">
                         <DataGrid.Resources>
@@ -433,6 +434,7 @@
                 </TabItem.Header>
                 <Grid>
                     <DataGrid 
+                        BorderThickness="0"
                         ItemsSource="{Binding CurrentCoin.Wallets}" RowHeight="36"
                         MouseDoubleClick="WalletDataGrid_MouseDoubleClick">
                         <DataGrid.Resources>
@@ -566,6 +568,7 @@
                 </TabItem.Header>
                 <Grid>
                     <DataGrid 
+                        BorderThickness="0"
                         ItemsSource="{Binding CurrentCoin.CoinKernels}"
                         MouseDoubleClick="KernelDataGrid_MouseDoubleClick">
                         <DataGrid.Resources>
