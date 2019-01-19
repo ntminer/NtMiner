@@ -324,10 +324,10 @@
                 </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="28"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" VerticalAlignment="Center">
+                    <WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" Margin="0 2">
                         <Label Width="40" Content="{DynamicResource Coin}"></Label>
                         <controls:KbComboBox 
                             x:Name="CbCoins"
