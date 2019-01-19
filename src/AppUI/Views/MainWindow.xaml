@@ -184,7 +184,7 @@
                     </Grid.RowDefinitions>
                     <uc:MinerProfileIndex 
                         Grid.Column="0" Grid.Row="0"
-                        BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 1 0"
+                        BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 1"
                         IsEnabled="{Binding MinerProfile.IsNotReadOnly}"/>
                     <WrapPanel Grid.Column="0" Grid.Row="0" Margin="0 8 10 0" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <controls:KbButton 
@@ -258,48 +258,49 @@
 						    IsChecked="{Binding MinerProfile.IsAutoStart}" />
                     </WrapPanel>
                     <TabControl 
-						Grid.Column="1" Grid.Row="0" Margin="0 -26 0 0" 
-						Padding="0" BorderThickness="0" 
-						BorderBrush="{StaticResource LineColor}">
-						<controls:KbTabItem>
-							<controls:KbTabItem.Header>
+						Grid.Column="1" Grid.Row="0" Margin="0 -27 0 0" 
+						Padding="0"
+						BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+						<TabItem>
+							<TabItem.Header>
 								<WrapPanel>
-                                    <TextBlock Padding="10 2" Text="{DynamicResource HLog}"></TextBlock>
+                                    <TextBlock Padding="10 0" Text="{DynamicResource HLog}"></TextBlock>
 								</WrapPanel>
-							</controls:KbTabItem.Header>
+							</TabItem.Header>
                             <uc:Console BorderThickness="0">
 							</uc:Console>
-						</controls:KbTabItem>
+						</TabItem>
 
-						<controls:KbTabItem>
-							<controls:KbTabItem.Header>
+						<TabItem>
+							<TabItem.Header>
 								<WrapPanel>
                                     <TextBlock Padding="10 2" Text="{DynamicResource HSpeed}"></TextBlock>
 								</WrapPanel>
-							</controls:KbTabItem.Header>
-                            <uc:SpeedTable BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
+							</TabItem.Header>
+                            <uc:SpeedTable>
 							</uc:SpeedTable>
-						</controls:KbTabItem>
-						<controls:KbTabItem>
-							<controls:KbTabItem.Header>
-								<WrapPanel>
-                                    <Path 
-                                        Margin="10 2 0 2"
-										Width="14"
-										Height="14"
-										Stretch="Fill"
-										Fill="{StaticResource IconFillColor}"
-										Data="{StaticResource Icon_MinerProfile}"></Path>
-                                    <TextBlock Padding="4 2 10 2" Text="{DynamicResource HOption}"></TextBlock>
-								</WrapPanel>
-							</controls:KbTabItem.Header>
-                            <uc:MinerProfileOption BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
+						</TabItem>
+						<TabItem>
+							<TabItem.Header>
+                                <Border Padding="10 0">
+                                    <WrapPanel>
+                                        <Path 
+										    Width="14"
+										    Height="14"
+										    Stretch="Fill"
+										    Fill="{StaticResource IconFillColor}"
+										    Data="{StaticResource Icon_MinerProfile}"></Path>
+                                        <TextBlock Padding="4 0 0 0" Text="{DynamicResource HOption}"></TextBlock>
+                                    </WrapPanel>
+                                </Border>
+							</TabItem.Header>
+                            <uc:MinerProfileOption>
 							</uc:MinerProfileOption>
-						</controls:KbTabItem>
+						</TabItem>
 					</TabControl>
 
 					<!--下状态栏-->
-                    <uc:StateBar Grid.Row="1" Grid.ColumnSpan="2" Background="#EBF2F9" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
+                    <uc:StateBar Grid.Row="1" Grid.ColumnSpan="2" Background="#EBF2F9">
 					</uc:StateBar>
 				</Grid>
 			</TabItem>
