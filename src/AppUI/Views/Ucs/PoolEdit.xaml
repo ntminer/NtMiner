@@ -42,10 +42,10 @@
         <TabControl 
 		    Padding="0" BorderThickness="0" 
 		    BorderBrush="{StaticResource LineColor}">
-            <controls:KbTabItem>
-                <controls:KbTabItem.Header>
-                    <TextBlock Text="{DynamicResource Pool}" Padding="8 0"></TextBlock>
-                </controls:KbTabItem.Header>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="{DynamicResource Pool}" Padding="10 0"></TextBlock>
+                </TabItem.Header>
                 <Grid Width="504">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
@@ -126,13 +126,13 @@
                         </WrapPanel>
                     </controls:KbButton>
                 </Grid>
-            </controls:KbTabItem>
+            </TabItem>
 
             <!--start矿池级参数-->
-            <controls:KbTabItem>
-                <controls:KbTabItem.Header>
-                    <TextBlock Padding="8 0" Text="{DynamicResource Kernel}"></TextBlock>
-                </controls:KbTabItem.Header>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Padding="10 0" Text="{DynamicResource Kernel}"></TextBlock>
+                </TabItem.Header>
                 <Grid>
                     <DataGrid 
                         ItemsSource="{Binding PoolKernels}" 
@@ -186,7 +186,7 @@
                     </DataGrid>
                     <TextBlock Visibility="{Binding PoolKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
                 </Grid>
-            </controls:KbTabItem>
+            </TabItem>
             <!--end矿池级参数-->
         </TabControl>
         <controls:KbButton
