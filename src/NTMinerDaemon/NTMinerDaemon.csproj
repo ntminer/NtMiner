@@ -66,12 +66,6 @@
     <Compile Include="..\NTMinerlib\ChannelFactory.cs">
       <Link>ChannelFactory.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\ClientId.cs">
-      <Link>ClientId.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\ClientVersion.cs">
-      <Link>ClientVersion.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\DevMode.cs">
       <Link>DevMode.cs</Link>
     </Compile>
@@ -108,6 +102,7 @@
     <Compile Include="..\NTMinerlib\Windows\TaskKill.cs">
       <Link>Windows\TaskKill.cs</Link>
     </Compile>
+    <Compile Include="ClientId.cs" />
     <Compile Include="DaemonServer.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="INTMinerDaemonService.cs" />
