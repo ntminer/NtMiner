@@ -50,7 +50,7 @@
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
-	<Border Padding="4 0 4 0">
+	<Border Padding="4 0 4 0" Background="Transparent">
 		<Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>

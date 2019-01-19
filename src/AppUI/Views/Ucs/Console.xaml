@@ -14,20 +14,19 @@
             AnnouncementContent
         </sys:String>
     </UserControl.Resources>
-	<Grid>
+	<Grid Background="Black">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid>
 			<TextBox 
-				Background="Black" Text="{DynamicResource AnnouncementContent}"
+                Text="{DynamicResource AnnouncementContent}"
 				BorderThickness="0" AcceptsReturn="True" 
 				TextWrapping="Wrap" IsReadOnly="True" 
 				Padding="4" Foreground="White">
 			</TextBox>
 			<WrapPanel 
-				Background="Black"
 				Margin="0 0 18 0"
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
@@ -73,7 +72,7 @@
 			x:Name="RichTextBox" BorderThickness="0" 
             SpellCheck.IsEnabled="False"
 			IsReadOnly="True" FontSize="12"
-			Padding="0 0 0 4" Background="Black" Foreground="White">
+			Padding="0 0 0 4" Background="Transparent" Foreground="White">
             <FlowDocument>
                 <Paragraph x:Name="ConsoleParagraph" LineHeight="14">
                 </Paragraph>
