@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace NTMiner.Core.Gpus.Adl {
     public class AdlHelper {
         private IntPtr hHandle;
-        private List<ADLAdapterInfo> _adlAdapterInfos;
+        private List<ADLAdapterInfo> _adlAdapterInfos = new List<ADLAdapterInfo>();
 
         public bool Init() {
             int ret = 0;
