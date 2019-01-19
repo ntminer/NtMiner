@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
                 });
         }
 
-        public PoolProfileViewModel GetOrCreatePoolProfile(Guid poolId, string userName, string password) {
+        public PoolProfileViewModel GetOrCreatePoolProfile(Guid poolId) {
             if (_poolProfileDicById.ContainsKey(poolId)) {
                 return _poolProfileDicById[poolId];
             }

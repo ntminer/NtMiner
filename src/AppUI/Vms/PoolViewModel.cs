@@ -313,7 +313,7 @@ namespace NTMiner.Vms {
         public PoolProfileViewModel PoolProfileVm {
             get {
                 if (_poolProfileVm == null) {
-                    _poolProfileVm = PoolProfileViewModels.Current.GetOrCreatePoolProfile(this.Id, this.UserName, this.Password);
+                    _poolProfileVm = PoolProfileViewModels.Current.GetOrCreatePoolProfile(this.Id);
                 }
                 return _poolProfileVm;
             }
