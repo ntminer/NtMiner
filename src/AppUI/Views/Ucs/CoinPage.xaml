@@ -548,7 +548,9 @@
                     </Grid>
                 </controls:KbTabItem>
 
-                <controls:KbTabItem IsSelected="{Binding IsKernelTabSelected}"
+                <controls:KbTabItem 
+                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    IsSelected="{Binding IsKernelTabSelected}"
                     Width="70">
                     <controls:KbTabItem.Header>
                         <WrapPanel>
