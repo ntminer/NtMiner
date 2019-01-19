@@ -38,7 +38,13 @@ namespace NTMiner.Core.Kernels {
                     commandName = args.Substring(1, index - 1);
                 }
                 else {
-                    commandName = args.Substring(0, args.IndexOf(' '));
+                    int firstSpaceIndex = args.IndexOf(' ');
+                    if (firstSpaceIndex != -1) {
+                        commandName = args.Substring(0, args.IndexOf(' '));
+                    }
+                    else {
+                        commandName = args;
+                    }
                 }
                 return commandName;
             }
