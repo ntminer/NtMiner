@@ -62,13 +62,12 @@ namespace NTMiner.Core.Profiles.Impl {
                     IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
                     var result = repository.GetByKey(poolId);
                     if (result == null) {
-                        string userName = string.Empty;
-                        string password = string.Empty;
-                        if (_root.PoolSet.TryGetPool(poolId, out IPool pool)) {
-                            userName = pool.UserName;
-                            password = pool.Password;
-                        }
+                        // 如果本地未设置用户名密码则使用默认的测试用户名密码
                         result = PoolProfileData.CreateDefaultData(poolId);
+                        if (_root.PoolSet.TryGetPool(poolId, out IPool pool)) {
+                            result.UserName = pool.UserName;
+                            result.Password = pool.Password;
+                        }
                     }
                     return result;
                 }

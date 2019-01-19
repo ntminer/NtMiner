@@ -24,8 +24,6 @@ namespace NTMiner.Vms {
                 return _poolProfileDicById[poolId];
             }
             PoolProfileViewModel poolProfile = new PoolProfileViewModel(NTMinerRoot.Current.PoolProfileSet.GetPoolProfile(poolId));
-            poolProfile.UserName = userName;
-            poolProfile.Password = password;
             _poolProfileDicById.Add(poolId, poolProfile);
             return poolProfile;
         }
