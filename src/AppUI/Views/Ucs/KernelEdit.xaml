@@ -320,7 +320,7 @@
             <!--start支持币种-->
             <TabItem>
                 <TabItem.Header>
-                    <TextBlock Padding="10 0" Text="{DynamicResource Coin}"></TextBlock>
+                    <TextBlock Padding="10 2" Text="{DynamicResource Coin}"></TextBlock>
                 </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>

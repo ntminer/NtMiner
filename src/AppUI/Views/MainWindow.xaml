@@ -278,7 +278,7 @@
 
                             <TabItem>
                                 <TabItem.Header>
-                                    <Border Padding="10 0">
+                                    <Border Padding="10 2">
                                         <TextBlock Text="{DynamicResource HSpeed}"></TextBlock>
                                     </Border>
                                 </TabItem.Header>
@@ -287,7 +287,7 @@
                             </TabItem>
                             <TabItem>
                                 <TabItem.Header>
-                                    <Border Padding="10 0">
+                                    <Border Padding="10 2">
                                         <WrapPanel>
                                             <Path 
 										        Width="14"

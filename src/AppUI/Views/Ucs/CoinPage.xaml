@@ -420,7 +420,7 @@
 
             <TabItem IsSelected="{Binding IsWalletTabSelected}">
                 <TabItem.Header>
-                    <Border Padding="10 0">
+                    <Border Padding="10 2">
                         <WrapPanel>
                             <Path 
                                 Width="14"
@@ -554,7 +554,7 @@
                 Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
                 IsSelected="{Binding IsKernelTabSelected}">
                 <TabItem.Header>
-                    <Border Padding="10 0">
+                    <Border Padding="10 2">
                         <WrapPanel>
                             <Path 
                                 Width="14"

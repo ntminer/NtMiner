@@ -56,7 +56,7 @@
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="0 2 0 0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="4"></ColumnDefinition>
@@ -157,15 +157,16 @@
         </Grid>
 
         <Grid Grid.Column="2">
-            <TabControl Padding="0"
-                BorderThickness="0"
+            <TabControl 
+                Padding="0"
+                BorderThickness="1"
+                BorderBrush="{StaticResource LineColor}"
                 Background="Transparent">
-
                 <!--start翻译-->
-                <controls:KbTabItem>
-                    <controls:KbTabItem.Header>
-                        <TextBlock Padding="8 0" Text="{DynamicResource Translate}"></TextBlock>
-                    </controls:KbTabItem.Header>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Padding="10 2" Text="{DynamicResource Translate}"></TextBlock>
+                    </TabItem.Header>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -381,14 +382,14 @@
                         </DataGrid>
                         <TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentKernelOutputVm.KernelOutputTranslaters, Converter={StaticResource NoRecordConverter}}" Grid.Column="1" Text="{DynamicResource TbNoRecord}"></TextBlock>
                     </Grid>
-                </controls:KbTabItem>
+                </TabItem>
                 <!--end翻译-->
 
                 <!--start过滤-->
-                <controls:KbTabItem>
-                    <controls:KbTabItem.Header>
-                        <TextBlock Padding="8 0" Text="{DynamicResource Filter}"></TextBlock>
-                    </controls:KbTabItem.Header>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Padding="10 2" Text="{DynamicResource Filter}"></TextBlock>
+                    </TabItem.Header>
                     <Grid>
                         <DataGrid 
 					        ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputFilters}" BorderThickness="1 0 0 0"
@@ -465,7 +466,7 @@
                         </DataGrid>
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding CurrentKernelOutputVm.KernelOutputFilters, Converter={StaticResource NoRecordConverter}}" Grid.Column="1" Text="{DynamicResource TbNoRecord}"></TextBlock>
                     </Grid>
-                </controls:KbTabItem>
+                </TabItem>
                 <!--end过滤-->
             </TabControl>
         </Grid>
