@@ -263,20 +263,20 @@
                         </WrapPanel>
                         <TabControl Background="{StaticResource MainColor}"
 						    Grid.Column="1" Grid.Row="0" 
-                            Margin="0 -23 0 0" 
+                            Margin="0 -26 0 0" 
 						    Padding="0"
-						    BorderBrush="{StaticResource LineColor}">
-                            <TabItem Padding="10 0" Header="{DynamicResource HLog}">
+						    BorderBrush="{StaticResource LineColor}" BorderThickness="1 0 1 1">
+                            <controls:KbTabItem Header="{DynamicResource HLog}">
                                 <uc:Console>
                                 </uc:Console>
-                            </TabItem>
+                            </controls:KbTabItem>
 
-                            <TabItem Padding="10 2" Header="{DynamicResource HSpeed}">
-                                <uc:SpeedTable>
+                            <controls:KbTabItem Header="{DynamicResource HSpeed}">
+                                <uc:SpeedTable BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
                                 </uc:SpeedTable>
-                            </TabItem>
-                            <TabItem Padding="10 0">
-                                <TabItem.Header>
+                            </controls:KbTabItem>
+                            <controls:KbTabItem>
+                                <controls:KbTabItem.Header>
                                     <WrapPanel>
                                         <Path 
 										    Width="14"
@@ -286,10 +286,10 @@
 										    Data="{StaticResource Icon_MinerProfile}"></Path>
                                         <TextBlock Padding="4 0 0 0" Text="{DynamicResource HOption}"></TextBlock>
                                     </WrapPanel>
-                                </TabItem.Header>
-                                <uc:MinerProfileOption>
+                                </controls:KbTabItem.Header>
+                                <uc:MinerProfileOption BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
                                 </uc:MinerProfileOption>
-                            </TabItem>
+                            </controls:KbTabItem>
                         </TabControl>
 
                         <!--下状态栏-->

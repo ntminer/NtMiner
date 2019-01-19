@@ -243,6 +243,7 @@
                 <ControlTemplate TargetType="{x:Type controls:KbTabItem}">
                     <Border
                         x:Name="x"
+                        Padding="10 0"
                         Background="#EBEBEB"
                         BorderThickness="0 2 0 0"
                         Margin="0 0 1 0">
