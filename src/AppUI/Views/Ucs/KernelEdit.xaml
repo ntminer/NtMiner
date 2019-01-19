@@ -87,10 +87,10 @@
         <TabControl 
 		    Padding="0" BorderThickness="0" 
 		    BorderBrush="{StaticResource LineColor}">
-            <controls:KbTabItem>
-                <controls:KbTabItem.Header>
-                    <TextBlock Text="{DynamicResource Kernel}" Padding="8 0"></TextBlock>
-                </controls:KbTabItem.Header>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="{DynamicResource Kernel}" Padding="10 2"></TextBlock>
+                </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
@@ -315,19 +315,19 @@
                         </WrapPanel>
                     </controls:KbButton>
                 </Grid>
-            </controls:KbTabItem>
+            </TabItem>
 
             <!--start支持币种-->
-            <controls:KbTabItem>
-                <controls:KbTabItem.Header>
-                    <TextBlock Padding="8 0" Text="{DynamicResource Coin}"></TextBlock>
-                </controls:KbTabItem.Header>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Padding="10 0" Text="{DynamicResource Coin}"></TextBlock>
+                </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="28"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                    <WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" VerticalAlignment="Center">
                         <Label Width="40" Content="{DynamicResource Coin}"></Label>
                         <controls:KbComboBox 
                             x:Name="CbCoins"
@@ -353,7 +353,7 @@
                     <DataGrid
                         Grid.Row="1"
                         ItemsSource="{Binding KernelVmSingleInstance.CoinKernels}" 
-                        BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
+                        BorderThickness="0" BorderBrush="{StaticResource LineColor}"
                         MouseDoubleClick="CoinKernelDataGrid_MouseDoubleClick">
                         <DataGrid.Resources>
                             <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -462,7 +462,7 @@
                     </DataGrid>
                     <TextBlock Grid.Row="1" Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}" Grid.Column="1" Margin="271,209,293,246"></TextBlock>
                 </Grid>
-            </controls:KbTabItem>
+            </TabItem>
             <!--end支持币种-->
         </TabControl>
         <controls:KbButton
