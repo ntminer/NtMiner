@@ -14,7 +14,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbCoinCode.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="Label">

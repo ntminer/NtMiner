@@ -16,7 +16,6 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbCoinCode.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="LblTb" TargetType="TextBlock">
@@ -146,8 +145,8 @@
                         Height="30"
 						Width="136" 
                         ItemsSource="{Binding MinerProfile.CoinVms.MainCoins}" 
+                        DisplayMemberPath="CodeAlgo"
 						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
-						ItemTemplate="{StaticResource CoinCodeDataTemplate}"
 						SelectedItem="{Binding MinerProfile.CoinVm}">
                         <controls:KbComboBox.ItemContainerStyle>
                             <Style TargetType="ComboBoxItem">
@@ -527,7 +526,7 @@
                                     Height="30"
 									Width="136" 
                                     ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.DualCoinGroup.DualCoinVms}"
-									ItemTemplate="{StaticResource CoinCodeDataTemplate}"
+									DisplayMemberPath="CodeAlgo"
 									IsEnabled="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}"
 									SelectedItem="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
                                     <controls:KbComboBox.Toolbar>

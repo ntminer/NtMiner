@@ -12,9 +12,6 @@
 		d:DesignWidth="660" d:DesignHeight="360">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbCoinCode.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <Style x:Key="LblTb" TargetType="TextBlock">
                 <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
                 <Setter Property="FontSize" Value="12"></Setter>
