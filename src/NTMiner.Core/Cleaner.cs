@@ -6,7 +6,31 @@ using System.IO;
 namespace NTMiner {
     public static class Cleaner {
         public static void ClearPackages() {
-
+            HashSet<string> packageFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var kernel in NTMinerRoot.Current.KernelSet) {
+                if (!string.IsNullOrEmpty(kernel.Package)) {
+                    packageFileNames.Add(kernel.Package);
+                }
+            }
+            try {
+                int n = 0;
+                foreach (string file in Directory.GetFiles(SpecialPath.PackagesDirFullName)) {
+                    FileInfo fileInfo = new FileInfo(file);
+                    if (fileInfo.LastWriteTime.AddDays(2) < DateTime.Now && !packageFileNames.Contains(file)) {
+                        File.Delete(file);
+                        n++;
+                    }
+                }
+                if (n == 0) {
+                    Global.Logger.OkDebugLine("没有过期的Package");
+                }
+                else {
+                    Global.Logger.OkDebugLine("过期Package清理完成");
+                }
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+            }
         }
 
         public static void CleanKernels() {

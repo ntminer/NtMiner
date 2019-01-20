@@ -18,6 +18,11 @@ namespace UnitTestProject1 {
             Assert.AreEqual("-", s);
         }
 
+        [TestMethod]
+        public void GetFileNameTest() {
+            Assert.AreEqual("a", Path.GetFileNameWithoutExtension("a.txt"));
+            Assert.AreEqual("a", Path.GetFileNameWithoutExtension("a"));
+        }
 
         [TestMethod]
         public void RegexReplaceTest() {
