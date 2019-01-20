@@ -20,5 +20,9 @@ namespace NTMiner.Views.Ucs {
                 ((KernelViewModel)dg.SelectedItem).Edit.Execute(null);
             }
         }
+
+        private void DataGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            Vm.KernelDownloadingVisible = System.Windows.Visibility.Collapsed;
+        }
     }
 }
