@@ -13,9 +13,11 @@ using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -672,6 +674,24 @@ namespace NTMiner {
         public int SpeedHistoryLengthByMinute {
             get {
                 return 10;
+            }
+        }
+
+        private string _gpuSetInfo = null;
+        public string GpuSetInfo {
+            get {
+                if (_gpuSetInfo == null) {
+                    StringBuilder sb = new StringBuilder();
+                    int len = sb.Length;
+                    foreach (var g in GpuSet.Where(a => a.Index != GpuAllId).GroupBy(a => a.Name)) {
+                        if (sb.Length != len) {
+                            sb.Append(";");
+                        }
+                        sb.Append(g.Key).Append(" x ").Append(g.Count());
+                    }
+                    _gpuSetInfo = sb.ToString();
+                }
+                return _gpuSetInfo;
             }
         }
 

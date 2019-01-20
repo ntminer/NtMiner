@@ -38,6 +38,8 @@ namespace NTMiner {
 
         int SpeedHistoryLengthByMinute { get; }
 
+        string GpuSetInfo { get; }
+
         IGpuSet GpuSet { get; }
 
         ISysDicSet SysDicSet { get; }

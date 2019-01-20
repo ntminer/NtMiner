@@ -4,26 +4,11 @@ using NTMiner.Core.Kernels;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace NTMiner {
     public static class Report {
         private class CoinShareData {
             public int TotalShareCount { get; set; }
-        }
-
-        static string gpuInfo = string.Empty;
-        static Report() {
-            StringBuilder gpuSb = new StringBuilder();
-            int len = gpuSb.Length;
-            foreach (var g in NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).GroupBy(a => a.Name)) {
-                if (gpuSb.Length != len) {
-                    gpuSb.Append(";");
-                }
-                gpuSb.Append(g.Key).Append("|").Append(g.Count());
-            }
-            gpuInfo = gpuSb.ToString();
         }
 
         public static void Init(INTMinerRoot root) {
@@ -78,7 +63,7 @@ namespace NTMiner {
                     Version = NTMinerRoot.CurrentVersion.ToString(4),
                     PublicKey = ClientId.PublicKey,
                     MinerName = root.MinerProfile.MinerName,
-                    GpuInfo = gpuInfo
+                    GpuInfo = root.GpuSetInfo
                 });
             }
             catch (Exception e) {
