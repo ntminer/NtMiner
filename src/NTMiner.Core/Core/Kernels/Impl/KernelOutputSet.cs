@@ -156,7 +156,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickGpuSpeed(_root, input, kernelOutput, coin, isDual);
                 PickTotalShare(_root, input, kernelOutput, coin, isDual);
                 PickAcceptShare(_root, input, kernelOutput, coin, isDual);
+                PickAcceptOneShare(_root, input, kernelOutput, coin, isDual);
                 PickRejectPattern(_root, input, kernelOutput, coin, isDual);
+                PickRejectOneShare(_root, input, kernelOutput, coin, isDual);
                 PickRejectPercent(_root, input, kernelOutput, coin, isDual);
             }
             catch (Exception e) {
@@ -319,6 +321,23 @@ namespace NTMiner.Core.Kernels.Impl {
             }
         }
 
+        private static void PickAcceptOneShare(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+            string acceptOneShare = kernelOutput.AcceptOneShare;
+            if (isDual) {
+                acceptOneShare = kernelOutput.DualAcceptOneShare;
+            }
+            if (string.IsNullOrEmpty(acceptOneShare)) {
+                return;
+            }
+            var match = Regex.Match(input, acceptOneShare);
+            if (match.Success) {
+                ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
+                share.AcceptShareCount = share.AcceptShareCount + 1;
+                share.ShareOn = DateTime.Now;
+                Global.Happened(new ShareChangedEvent(share));
+            }
+        }
+
         private static void PickRejectPattern(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string rejectSharePattern = kernelOutput.RejectSharePattern;
             if (isDual) {
@@ -338,6 +357,23 @@ namespace NTMiner.Core.Kernels.Impl {
                     share.ShareOn = DateTime.Now;
                     Global.Happened(new ShareChangedEvent(share));
                 }
+            }
+        }
+
+        private static void PickRejectOneShare(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+            string rejectOneShare = kernelOutput.RejectOneShare;
+            if (isDual) {
+                rejectOneShare = kernelOutput.DualRejectOneShare;
+            }
+            if (string.IsNullOrEmpty(rejectOneShare)) {
+                return;
+            }
+            var match = Regex.Match(input, rejectOneShare);
+            if (match.Success) {
+                ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
+                share.RejectCount = share.RejectCount + 1;
+                share.ShareOn = DateTime.Now;
+                Global.Happened(new ShareChangedEvent(share));
             }
         }
 
