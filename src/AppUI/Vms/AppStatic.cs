@@ -11,6 +11,30 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
+        public static double MainWindowHeight {
+            get {
+                if (DevMode.IsDevMode) {
+                    if (SystemParameters.WorkArea.Size.Height > 920) {
+                        return 920;
+                    }
+                    return SystemParameters.WorkArea.Size.Height;
+                }
+                if (SystemParameters.WorkArea.Size.Height > 620) {
+                    return 620;
+                }
+                return 520;
+            }
+        }
+
+        public static double MainWindowWidth {
+            get {
+                if (SystemParameters.WorkArea.Size.Width > 1000) {
+                    return 1000;
+                }
+                return 860;
+            }
+        }
+
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 string fileName = ServerJson.Export();
