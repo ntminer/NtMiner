@@ -47,8 +47,14 @@
         <sys:String x:Key="AcceptSharePattern">
             AcceptSharePattern
         </sys:String>
+        <sys:String x:Key="AcceptOneShare">
+            AcceptOneShare
+        </sys:String>
         <sys:String x:Key="RejectSharePattern">
             RejectSharePattern
+        </sys:String>
+        <sys:String x:Key="RejectOneShare">
+            RejectOneShare
         </sys:String>
         <sys:String x:Key="RejectPercentPattern">
             RejectPercentPattern
@@ -68,8 +74,14 @@
         <sys:String x:Key="DualAcceptSharePattern">
             DualAcceptSharePattern
         </sys:String>
+        <sys:String x:Key="DualAcceptOneShare">
+            DualAcceptOneShare
+        </sys:String>
         <sys:String x:Key="DualRejectSharePattern">
             DualRejectSharePattern
+        </sys:String>
+        <sys:String x:Key="DualRejectOneShare">
+            DualRejectOneShare
         </sys:String>
         <sys:String x:Key="DualRejectPercentPattern">
             DualRejectPercentPattern
@@ -108,8 +120,18 @@
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource AcceptOneShare}" ToolTip="{DynamicResource AcceptOneShare}"></TextBlock>
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding AcceptOneShare}">
+                        </TextBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2">
                         <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource RejectSharePattern}" ToolTip="{DynamicResource RejectSharePattern}"></TextBlock>
                         <TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectSharePattern}">
+                        </TextBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2">
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource RejectOneShare}" ToolTip="{DynamicResource RejectOneShare}"></TextBlock>
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding RejectOneShare}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
@@ -143,8 +165,18 @@
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualAcceptOneShare}" ToolTip="{DynamicResource DualAcceptOneShare}"></TextBlock>
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualAcceptOneShare}">
+                        </TextBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2">
                         <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualRejectSharePattern}" ToolTip="{DynamicResource DualRejectSharePattern}"></TextBlock>
                         <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectSharePattern}">
+                        </TextBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 2">
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualRejectOneShare}" ToolTip="{DynamicResource DualRejectOneShare}"></TextBlock>
+                        <TextBox Style="{StaticResource TbRegex}" Text="{Binding DualRejectOneShare}">
                         </TextBox>
                     </WrapPanel>
                     <WrapPanel Margin="0 2">
