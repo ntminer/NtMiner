@@ -325,7 +325,7 @@ namespace NTMiner.Vms {
         public WalletViewModel TestWalletVm {
             get {
                 if (string.IsNullOrEmpty(this.TestWallet)) {
-                    return null;
+                    return WalletViewModel.CreateEmptyWallet(this.Id);
                 }
                 if (!_testWallets.ContainsKey(this.GetId())) {
                     _testWallets.Add(this.GetId(), new WalletViewModel(this.GetId()) {

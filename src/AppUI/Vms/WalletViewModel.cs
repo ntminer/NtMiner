@@ -10,8 +10,18 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class WalletViewModel : ViewModelBase, IWallet {
         public static readonly WalletViewModel PleaseSelect = new WalletViewModel(Guid.Empty) {
-            _name = "不指定"
+            _name = "不指定",
+            _address = string.Empty,
         };
+
+        public static WalletViewModel CreateEmptyWallet(Guid coinId) {
+            return new WalletViewModel(Guid.Empty) {
+                _name = "无",
+                _address = string.Empty,
+                _coinId = coinId,
+                _sortNumber = 0
+            };
+        }
 
         private Guid _id;
         private string _name;
