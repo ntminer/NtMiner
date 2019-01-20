@@ -16,7 +16,8 @@ namespace NTMiner {
                 int n = 0;
                 foreach (string file in Directory.GetFiles(SpecialPath.PackagesDirFullName)) {
                     FileInfo fileInfo = new FileInfo(file);
-                    if (fileInfo.LastWriteTime.AddDays(2) < DateTime.Now && !packageFileNames.Contains(file)) {
+                    string fileName = Path.GetFileName(file);
+                    if (fileInfo.LastWriteTime.AddDays(2) < DateTime.Now && !packageFileNames.Contains(fileName)) {
                         File.Delete(file);
                         n++;
                     }
