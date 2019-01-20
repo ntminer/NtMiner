@@ -27,6 +27,7 @@ namespace NTMiner.Views.Ucs {
         public KernelEdit(KernelViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            this.CbCoins.SelectedItem = CoinViewModel.PleaseSelect;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 

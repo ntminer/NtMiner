@@ -157,6 +157,7 @@
 
         <Grid Grid.Column="2">
             <TabControl 
+                Margin="0 2 0 0"
                 Padding="0"
                 BorderThickness="1"
                 BorderBrush="{StaticResource LineColor}"
@@ -164,7 +165,7 @@
                 <!--start翻译-->
                 <TabItem>
                     <TabItem.Header>
-                        <TextBlock Padding="10 2" Text="{DynamicResource Translate}"></TextBlock>
+                        <TextBlock Padding="10 0" Text="{DynamicResource Translate}"></TextBlock>
                     </TabItem.Header>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -387,7 +388,7 @@
                 <!--start过滤-->
                 <TabItem>
                     <TabItem.Header>
-                        <TextBlock Padding="10 2" Text="{DynamicResource Filter}"></TextBlock>
+                        <TextBlock Padding="10 0" Text="{DynamicResource Filter}"></TextBlock>
                     </TabItem.Header>
                     <Grid>
                         <DataGrid 

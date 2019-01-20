@@ -181,6 +181,9 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
+                if (this == PleaseSelect) {
+                    return true;
+                }
                 return this.IsSupported();
             }
         }

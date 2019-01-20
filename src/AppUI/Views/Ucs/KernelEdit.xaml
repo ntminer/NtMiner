@@ -82,11 +82,11 @@
     </UserControl.Resources>
     <Grid>
         <TabControl 
-		    Padding="0" BorderThickness="0" 
+		    Padding="0" BorderThickness="0 1 0 0" 
 		    BorderBrush="{StaticResource LineColor}">
             <TabItem>
                 <TabItem.Header>
-                    <TextBlock Text="{DynamicResource Kernel}" Padding="10 2"></TextBlock>
+                    <TextBlock Text="{DynamicResource Kernel}" Padding="10 0"></TextBlock>
                 </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -317,19 +317,20 @@
             <!--start支持币种-->
             <TabItem>
                 <TabItem.Header>
-                    <TextBlock Padding="10 2" Text="{DynamicResource Coin}"></TextBlock>
+                    <TextBlock Padding="10 0" Text="{DynamicResource Coin}"></TextBlock>
                 </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" Margin="0 2">
-                        <Label Width="40" Content="{DynamicResource Coin}"></Label>
+                    <WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" Margin="0 4">
+                        <Label Width="Auto" Content="{DynamicResource Coin}"></Label>
                         <controls:KbComboBox 
                             x:Name="CbCoins"
                             BorderThickness="0"
-						    Width="132" ItemsSource="{Binding KernelVmSingleInstance.CoinVms}" 
+						    Width="132" 
+                            ItemsSource="{Binding KernelVmSingleInstance.CoinVms}" 
 						    DisplayMemberPath="CodeAlgo">
                             <controls:KbComboBox.ItemContainerStyle>
                                 <Style TargetType="ComboBoxItem">

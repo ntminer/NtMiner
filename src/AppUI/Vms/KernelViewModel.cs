@@ -174,6 +174,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.AddCoinKernel = new DelegateCommand<CoinViewModel>((coinVm) => {
+                if (coinVm == null || coinVm.Id == Guid.Empty) {
+                    return;
+                }
                 int sortNumber = coinVm.CoinKernels.Count == 0 ? 1 : coinVm.CoinKernels.Max(a => a.SortNumber) + 1;
                 Global.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
                     Args = string.Empty,
@@ -290,7 +293,9 @@ namespace NTMiner.Vms {
 
         public List<CoinViewModel> CoinVms {
             get {
-                List<CoinViewModel> list = new List<CoinViewModel>();
+                List<CoinViewModel> list = new List<CoinViewModel>() {
+                    CoinViewModel.PleaseSelect
+                };
                 var coinKernelVms = CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == this.Id).ToList();
                 foreach (var item in CoinViewModels.Current.AllCoins) {
                     if (coinKernelVms.All(a => a.CoinId != item.Id)) {

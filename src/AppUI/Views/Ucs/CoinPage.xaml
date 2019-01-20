@@ -260,10 +260,16 @@
             <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding List, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
         </Grid>
 
-        <TabControl Grid.Column="2" Padding="0" BorderBrush="{StaticResource LineColor}" BorderThickness="1" Background="Transparent">
+        <TabControl 
+            Grid.Column="2" 
+            Margin="0 4 0 0"
+            Padding="0" 
+            BorderBrush="{StaticResource LineColor}" 
+            BorderThickness="1" 
+            Background="Transparent">
             <TabItem IsSelected="{Binding IsPoolTabSelected}">
                 <TabItem.Header>
-                    <Border Padding="10 2">
+                    <Border Padding="10 0">
                         <WrapPanel>
                             <Path 
                                 Width="14"
@@ -419,7 +425,7 @@
 
             <TabItem IsSelected="{Binding IsWalletTabSelected}">
                 <TabItem.Header>
-                    <Border Padding="10 2">
+                    <Border Padding="10 0">
                         <WrapPanel>
                             <Path 
                                 Width="14"
@@ -553,7 +559,7 @@
                 Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
                 IsSelected="{Binding IsKernelTabSelected}">
                 <TabItem.Header>
-                    <Border Padding="10 2">
+                    <Border Padding="10 0">
                         <WrapPanel>
                             <Path 
                                 Width="14"
@@ -566,10 +572,15 @@
                     </Border>
                 </TabItem.Header>
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="23*"/>
+                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="683*"/>
+                    </Grid.ColumnDefinitions>
                     <DataGrid 
                         BorderThickness="0"
                         ItemsSource="{Binding CurrentCoin.CoinKernels}"
-                        MouseDoubleClick="KernelDataGrid_MouseDoubleClick">
+                        MouseDoubleClick="KernelDataGrid_MouseDoubleClick" Grid.ColumnSpan="3">
                         <DataGrid.Resources>
                             <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
                         </DataGrid.Resources>
@@ -722,7 +733,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock Visibility="{Binding CurrentCoin.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
+                    <TextBlock Visibility="{Binding CurrentCoin.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}" Grid.Column="2" Margin="280,239,328,239"></TextBlock>
                 </Grid>
             </TabItem>
         </TabControl>
