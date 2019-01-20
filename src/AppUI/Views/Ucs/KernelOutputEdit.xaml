@@ -192,6 +192,25 @@
                 </StackPanel>
             </GroupBox>
         </StackPanel>
+        <controls:KbButton
+            Grid.Column="1"
+            Margin="10 0 0 0"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            ToolTip="KernelOutputEdit translate"
+            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+            CommandParameter="KernelOutputEdit"
+            Background="Transparent">
+            <WrapPanel>
+                <Path
+                    Width="14"
+                    Height="14"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="Red"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
         <TextBox 
             Grid.Column="1"
             Margin="10 20 0 0"

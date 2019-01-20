@@ -12,6 +12,14 @@ namespace UnitTestProject1 {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void Test1() {
+            string a = null;
+            string s = $"{null}-{a}";
+            Assert.AreEqual("-", s);
+        }
+
+
+        [TestMethod]
         public void RegexReplaceTest() {
             Regex regex = new Regex(@"t=");
             string text = @"11:55:42:201	384	ETH: GPU0 t=88 fan=77, GPU1 t=66 fan=99";
