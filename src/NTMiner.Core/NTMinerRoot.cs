@@ -283,50 +283,18 @@ namespace NTMiner {
                 "挖矿开始后清理除当前外的Temp/Kernel",
                 LogEnum.None,
                 action: message => {
-                    try {
-                        foreach (var dir in Directory.GetDirectories(SpecialPath.KernelsDirFullName)) {
-                            if (dir != CurrentMineContext.Kernel.GetKernelDirFullName()) {
-                                try {
-                                    Directory.Delete(dir, recursive: true);
-                                }
-                                catch (Exception e) {
-                                    Global.Logger.ErrorDebugLine(e.Message, e);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
-                    }
+                    Cleaner.CleanKernels();
                 });
             #endregion
-            #region 挖矿开始后执行一次过期日志清理工作
-            Global.Access<MineStartedEvent>(
+            #region 每50分钟执行一次过期日志清理工作
+            Global.Access<Per50MinuteEvent>(
                 Guid.Parse("d27419f4-7eda-4dbf-bf25-e8c5f1efacb5"),
-                "挖矿开始后执行一次过期日志清理工作",
+                "每50分钟执行一次过期日志清理工作",
                 LogEnum.None,
                 action: message => {
-                    try {
-                        List<string> toRemoves = new List<string>();
-                        foreach (var file in Directory.GetFiles(SpecialPath.LogsDirFullName)) {
-                            FileInfo fileInfo = new FileInfo(file);
-                            if (fileInfo.LastWriteTime.AddDays(7) < DateTime.Now) {
-                                toRemoves.Add(file);
-                            }
-                        }
-                        if (toRemoves.Count == 0) {
-                            Global.Logger.OkDebugLine("没有过期日志");
-                        }
-                        else {
-                            foreach (var item in toRemoves) {
-                                File.Delete(item);
-                            }
-                            Global.Logger.OkDebugLine("过期日志清理完成");
-                        }
-                    }
-                    catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
-                    }
+                    Cleaner.ClearKernelLogs();
+                    Cleaner.ClearRootLogs();
+                    Cleaner.ClearPackages();
                 });
             #endregion
             #region 启动10秒钟后自动开始挖矿

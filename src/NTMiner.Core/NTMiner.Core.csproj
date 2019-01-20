@@ -82,6 +82,7 @@
     <Compile Include="..\NTMinerDaemon\INTMinerDaemonService.cs">
       <Link>INTMinerDaemonService.cs</Link>
     </Compile>
+    <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Core\CoinExtensions.cs" />
     <Compile Include="Core\Gpus\Adl\AdlHelper.cs" />
