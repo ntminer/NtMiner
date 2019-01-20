@@ -18,15 +18,19 @@ namespace NTMiner.Vms {
         private string _totalSpeedPattern;
         private string _totalSharePattern;
         private string _acceptSharePattern;
+        private string _acceptOneShare;
         private string _gpuSpeedPattern;
+        private string _rejectOneShare;
         private string _rejectSharePattern;
         private string _rejectPercentPattern;
 
         private string _dualTotalSpeedPattern;
         private string _dualTotalSharePattern;
         private string _dualAcceptSharePattern;
+        private string _dualAcceptOneShare;
         private string _dualGpuSpeedPattern;
         private string _dualRejectSharePattern;
+        private string _dualRejectOneShare;
         private string _dualRejectPercentPattern;
 
         private string _translaterKeyword;
@@ -51,15 +55,19 @@ namespace NTMiner.Vms {
 
         public KernelOutputViewModel(IKernelOutput data) : this(data.GetId()) {
             _name = data.Name;
+            _totalSpeedPattern = data.TotalSpeedPattern;
             _gpuSpeedPattern = data.GpuSpeedPattern;
-            _rejectSharePattern = data.RejectSharePattern;
             _totalSharePattern = data.TotalSharePattern;
             _acceptSharePattern = data.AcceptSharePattern;
+            _acceptOneShare = data.AcceptOneShare;
+            _rejectSharePattern = data.RejectSharePattern;
+            _rejectOneShare = data.RejectOneShare;
             _rejectPercentPattern = data.RejectPercentPattern;
-            _totalSpeedPattern = data.TotalSpeedPattern;
             _dualGpuSpeedPattern = data.DualGpuSpeedPattern;
-            _dualRejectSharePattern = data.DualRejectSharePattern;
             _dualAcceptSharePattern = data.DualAcceptSharePattern;
+            _dualAcceptOneShare = data.DualAcceptOneShare;
+            _dualRejectSharePattern = data.DualRejectSharePattern;
+            _dualRejectOneShare = data.DualRejectOneShare;
             _dualRejectPercentPattern = data.DualRejectPercentPattern;
             _dualTotalSharePattern = data.DualTotalSharePattern;
             _dualTotalSpeedPattern = data.DualTotalSpeedPattern;
@@ -183,11 +191,27 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string AcceptOneShare {
+            get { return _acceptOneShare; }
+            set {
+                _acceptOneShare = value;
+                OnPropertyChanged(nameof(AcceptOneShare));
+            }
+        }
+
         public string RejectSharePattern {
             get { return _rejectSharePattern; }
             set {
                 _rejectSharePattern = value;
                 OnPropertyChanged(nameof(RejectSharePattern));
+            }
+        }
+
+        public string RejectOneShare {
+            get { return _rejectOneShare; }
+            set {
+                _rejectOneShare = value;
+                OnPropertyChanged(nameof(RejectOneShare));
             }
         }
 
@@ -223,6 +247,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string DualAcceptOneShare {
+            get { return _dualAcceptOneShare; }
+            set {
+                _dualAcceptOneShare = value;
+                OnPropertyChanged(nameof(DualAcceptOneShare));
+            }
+        }
+
         public string DualAcceptSharePattern {
             get { return _dualAcceptSharePattern; }
             set {
@@ -236,6 +268,14 @@ namespace NTMiner.Vms {
             set {
                 _dualRejectSharePattern = value;
                 OnPropertyChanged(nameof(DualRejectSharePattern));
+            }
+        }
+
+        public string DualRejectOneShare {
+            get { return _dualRejectOneShare; }
+            set {
+                _dualRejectOneShare = value;
+                OnPropertyChanged(nameof(DualRejectOneShare));
             }
         }
 
