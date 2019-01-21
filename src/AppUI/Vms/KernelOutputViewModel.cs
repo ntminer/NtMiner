@@ -15,6 +15,7 @@ namespace NTMiner.Vms {
 
         private Guid _id;
         private string _name;
+        private bool _prependDateTime;
         private string _totalSpeedPattern;
         private string _totalSharePattern;
         private string _acceptSharePattern;
@@ -55,6 +56,7 @@ namespace NTMiner.Vms {
 
         public KernelOutputViewModel(IKernelOutput data) : this(data.GetId()) {
             _name = data.Name;
+            _prependDateTime = data.PrependDateTime;
             _totalSpeedPattern = data.TotalSpeedPattern;
             _gpuSpeedPattern = data.GpuSpeedPattern;
             _totalSharePattern = data.TotalSharePattern;
@@ -164,6 +166,14 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(value)) {
                     throw new ValidationException("名称是必须的");
                 }
+            }
+        }
+
+        public bool PrependDateTime {
+            get { return _prependDateTime; }
+            set {
+                _prependDateTime = value;
+                OnPropertyChanged(nameof(PrependDateTime));
             }
         }
 

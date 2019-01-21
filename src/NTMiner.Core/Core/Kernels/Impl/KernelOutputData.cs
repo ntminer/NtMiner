@@ -12,6 +12,8 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public string Name { get; set; }
 
+        public bool PrependDateTime { get; set; }
+
         public string TotalSpeedPattern { get; set; }
 
         public string TotalSharePattern { get; set; }

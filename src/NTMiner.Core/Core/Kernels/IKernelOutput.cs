@@ -3,6 +3,7 @@
 namespace NTMiner.Core.Kernels {
     public interface IKernelOutput : IEntity<Guid> {
         string Name { get; }
+        bool PrependDateTime { get; }
         string TotalSpeedPattern { get; }
         string TotalSharePattern { get; }
         string AcceptSharePattern { get; }
