@@ -35,6 +35,9 @@
         <sys:String x:Key="Name">
             Name
         </sys:String>
+        <sys:String x:Key="PrependDateTime">
+            PrependDateTime
+        </sys:String>
         <sys:String x:Key="MainCoin">
             MainCoin
         </sys:String>
@@ -100,6 +103,12 @@
                 <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Name}" ToolTip="{DynamicResource Name}"></TextBlock>
                 <TextBox Style="{StaticResource TbRegex}" Text="{Binding Name, ValidatesOnExceptions=True}">
                 </TextBox>
+            </WrapPanel>
+
+            <WrapPanel Margin="6 0 0 0">
+                <TextBlock Style="{StaticResource LblTb}"></TextBlock>
+                <CheckBox Margin="0 2 0 0" IsChecked="{Binding PrependDateTime}" Content="{DynamicResource PrependDateTime}">
+                </CheckBox>
             </WrapPanel>
 
             <GroupBox Header="{DynamicResource MainCoin}">
