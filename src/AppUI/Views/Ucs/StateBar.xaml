@@ -30,9 +30,6 @@
             <sys:String x:Key="PoolIncome">
                 PoolIncome
             </sys:String>
-            <sys:String x:Key="Income">
-                Income
-            </sys:String>
             <sys:String x:Key="Day">
                 Day
             </sys:String>
@@ -259,7 +256,7 @@
                             KbSystemButtonHoverBackground="Transparent"
                             Background="Transparent" />
                         <WrapPanel Width="184" Margin="0 2">
-                            <Label Padding="0 0 2 0" Content="{DynamicResource Income}" Style="{StaticResource Lbl}" />
+                            <Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
                             <Button Background="Transparent" BorderThickness="0" 
                                 Content="{Binding MinerProfile.GpuSpeedVms.IncomeMainCoinPerDayText}"
                                 Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -298,7 +295,7 @@
                                 KbSystemButtonHoverBackground="Transparent"
                                 Background="Transparent" />
                             <WrapPanel Width="184" Margin="0 2">
-                                <Label Padding="0 0 2 0" Content="{DynamicResource Income}" Style="{StaticResource Lbl}" />
+                                <Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
                                 <Button Background="Transparent" BorderThickness="0" 
                                     Content="{Binding MinerProfile.GpuSpeedVms.IncomeDualCoinPerDayText}"
                                     Command="{x:Static vm:AppStatic.ShowCalc}"
