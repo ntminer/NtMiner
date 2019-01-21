@@ -40,44 +40,46 @@ namespace NTMiner {
         }
 
         private static void Update() {
-            try {
-                byte[] htmlData = GetHtmlAsync("https://www.f2pool.com/").Result;
-                if (htmlData != null && htmlData.Length != 0) {
-                    Console.WriteLine($"{DateTime.Now} - 鱼池首页html获取成功");
-                    string html = Encoding.UTF8.GetString(htmlData);
-                    double usdCny = PickUsdCny(html);
-                    Console.WriteLine($"usdCny={usdCny}");
-                    List<IncomeItem> incomeItems = PickIncomeItems(html);
-                    FillCny(incomeItems, usdCny);
-                    NeatenSpeedUnit(incomeItems);
-                    foreach (IncomeItem incomeItem in incomeItems) {
-                        Console.WriteLine(incomeItem.ToString());
-                    }
-                    Console.WriteLine(incomeItems.Count + "条");
-                    if (incomeItems != null && incomeItems.Count != 0) {
-                        Login();
-                        GetCalcConfigsResponse response = Server.ControlCenterService.GetCalcConfigs();
-                        HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                        foreach (CalcConfigData calcConfigData in response.Data) {
-                            IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
-                            if (incomeItem != null) {
-                                coinCodes.Add(calcConfigData.CoinCode);
-                                calcConfigData.Speed = incomeItem.Speed;
-                                calcConfigData.SpeedUnit = incomeItem.SpeedUnit;
-                                calcConfigData.IncomePerDay = incomeItem.IncomeCoin;
-                                calcConfigData.IncomeUsdPerDay = incomeItem.IncomeUsd;
-                                calcConfigData.IncomeCnyPerDay = incomeItem.IncomeCny;
-                                calcConfigData.ModifiedOn = DateTime.Now;
-                            }
+            Task.Factory.StartNew(() => {
+                try {
+                    byte[] htmlData = GetHtmlAsync("https://www.f2pool.com/").Result;
+                    if (htmlData != null && htmlData.Length != 0) {
+                        Console.WriteLine($"{DateTime.Now} - 鱼池首页html获取成功");
+                        string html = Encoding.UTF8.GetString(htmlData);
+                        double usdCny = PickUsdCny(html);
+                        Console.WriteLine($"usdCny={usdCny}");
+                        List<IncomeItem> incomeItems = PickIncomeItems(html);
+                        FillCny(incomeItems, usdCny);
+                        NeatenSpeedUnit(incomeItems);
+                        foreach (IncomeItem incomeItem in incomeItems) {
+                            Console.WriteLine(incomeItem.ToString());
                         }
-                        Server.ControlCenterService.SaveCalcConfigs(response.Data);
-                        Console.WriteLine($"更新了{string.Join(",", coinCodes)}");
+                        Console.WriteLine(incomeItems.Count + "条");
+                        if (incomeItems != null && incomeItems.Count != 0) {
+                            Login();
+                            GetCalcConfigsResponse response = Server.ControlCenterService.GetCalcConfigs();
+                            HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                            foreach (CalcConfigData calcConfigData in response.Data) {
+                                IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
+                                if (incomeItem != null) {
+                                    coinCodes.Add(calcConfigData.CoinCode);
+                                    calcConfigData.Speed = incomeItem.Speed;
+                                    calcConfigData.SpeedUnit = incomeItem.SpeedUnit;
+                                    calcConfigData.IncomePerDay = incomeItem.IncomeCoin;
+                                    calcConfigData.IncomeUsdPerDay = incomeItem.IncomeUsd;
+                                    calcConfigData.IncomeCnyPerDay = incomeItem.IncomeCny;
+                                    calcConfigData.ModifiedOn = DateTime.Now;
+                                }
+                            }
+                            Server.ControlCenterService.SaveCalcConfigs(response.Data);
+                            Console.WriteLine($"更新了{string.Join(",", coinCodes)}");
+                        }
                     }
                 }
-            }
-            catch (Exception e) {
-                PrintError(e);
-            }
+                catch (Exception e) {
+                    PrintError(e);
+                }
+            });
         }
 
         private static void Login() {
@@ -90,7 +92,10 @@ namespace NTMiner {
                     Server.LoginName = user.LoginName;
                     Server.Password = user.Password;
                     Console.WriteLine($"LoginName:{user.LoginName}");
-                    Console.WriteLine($"Password:{user.Password}");
+                    Console.Write($"Password:");
+                    Console.ForegroundColor = Console.BackgroundColor;
+                    Console.WriteLine(user.Password);
+                    Console.ResetColor();
                 }
             }
         }
