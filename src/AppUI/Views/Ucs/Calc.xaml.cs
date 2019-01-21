@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow(CoinViewModel coin) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Calc",
-                Width = 500,
+                Width = 650,
                 Height = 250,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {

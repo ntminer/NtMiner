@@ -10,7 +10,7 @@
     xmlns:local="clr-namespace:NTMiner.Views.Ucs"
     xmlns:vm="clr-namespace:NTMiner.Vms"
 	FontSize="12"
-    mc:Ignorable="d" d:DesignHeight="250" d:DesignWidth="500">
+    mc:Ignorable="d" d:DesignHeight="250" d:DesignWidth="650">
     <UserControl.Resources>
         <ResourceDictionary>
             <sys:String x:Key="WindowTitle">
@@ -21,9 +21,6 @@
             </sys:String>
             <sys:String x:Key="LblSpeed">
                 LblSpeed
-            </sys:String>
-            <sys:String x:Key="LblIncome">
-                LblIncome
             </sys:String>
             <sys:String x:Key="TbDay">
                 TbDay
@@ -82,15 +79,18 @@
                 Data="{StaticResource Icon_ArrowRight}"
                 Fill="{StaticResource IconFillColor}"
                 Stretch="Fill"/>
-            <Label Content="{DynamicResource LblIncome}"></Label>
-            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
-            <Label>
-                <WrapPanel>
-                    <TextBlock Text="{Binding SelectedCoinVm.Code}"></TextBlock>
-                    <TextBlock Text="/"></TextBlock>
-                    <TextBlock Text="{DynamicResource TbDay}"></TextBlock>
-                </WrapPanel>
-            </Label>
+            <WrapPanel VerticalAlignment="Center">
+                <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
+                <TextBlock Text="{Binding SelectedCoinVm.Code}"></TextBlock>
+                <TextBlock Text="，"></TextBlock>
+                <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeUsdPerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
+                <TextBlock Text="USD"></TextBlock>
+                <TextBlock Text="，"></TextBlock>
+                <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeCnyPerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
+                <TextBlock Text="CNY"></TextBlock>
+                <TextBlock Text="/"></TextBlock>
+                <TextBlock Text="{DynamicResource TbDay}"></TextBlock>
+            </WrapPanel>
         </WrapPanel>
     </Grid>
 </UserControl>
