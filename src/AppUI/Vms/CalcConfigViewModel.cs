@@ -4,6 +4,8 @@ using System;
 namespace NTMiner.Vms {
     public class CalcConfigViewModel : ViewModelBase, ICalcConfig {
         private double _incomePerDay;
+        private double _incomeUsdPerDay;
+        private double _incomeCnyPerDay;
         private string _speedUnit;
         private double _speed;
         private string _coinCode;
@@ -12,6 +14,8 @@ namespace NTMiner.Vms {
 
         public CalcConfigViewModel(ICalcConfig data) {
             _incomePerDay = data.IncomePerDay;
+            _incomeUsdPerDay = data.IncomeUsdPerDay;
+            _incomeCnyPerDay = data.IncomeCnyPerDay;
             _speed = data.Speed;
             _speedUnit = data.SpeedUnit;
             _coinCode = data.CoinCode;
@@ -60,6 +64,22 @@ namespace NTMiner.Vms {
             set {
                 _incomePerDay = value;
                 OnPropertyChanged(nameof(IncomePerDay));
+            }
+        }
+
+        public double IncomeUsdPerDay {
+            get { return _incomeUsdPerDay; }
+            set {
+                _incomeUsdPerDay = value;
+                OnPropertyChanged(nameof(IncomeUsdPerDay));
+            }
+        }
+
+        public double IncomeCnyPerDay {
+            get { return _incomeCnyPerDay; }
+            set {
+                _incomeCnyPerDay = value;
+                OnPropertyChanged(nameof(IncomeCnyPerDay));
             }
         }
 

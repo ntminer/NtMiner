@@ -13,6 +13,8 @@ namespace NTMiner.ServiceContracts.DataObjects {
             this.Speed = data.Speed;
             this.SpeedUnit = data.SpeedUnit;
             this.IncomePerDay = data.IncomePerDay;
+            this.IncomeUsdPerDay = data.IncomeUsdPerDay;
+            this.IncomeCnyPerDay = data.IncomeCnyPerDay;
             this.CreatedOn = data.CreatedOn;
             this.ModifiedOn = data.ModifiedOn;
         }
@@ -21,6 +23,8 @@ namespace NTMiner.ServiceContracts.DataObjects {
             this.Speed = data.Speed;
             this.SpeedUnit = data.SpeedUnit;
             this.IncomePerDay = data.IncomePerDay;
+            this.IncomeUsdPerDay = data.IncomeUsdPerDay;
+            this.IncomeCnyPerDay = data.IncomeCnyPerDay;
             this.CreatedOn = data.CreatedOn;
             this.ModifiedOn = data.ModifiedOn;
         }
@@ -39,6 +43,12 @@ namespace NTMiner.ServiceContracts.DataObjects {
         public double IncomePerDay { get; set; }
 
         [DataMember]
+        public double IncomeUsdPerDay { get; set; }
+
+        [DataMember]
+        public double IncomeCnyPerDay { get; set; }
+
+        [DataMember]
         public DateTime CreatedOn { get; set; }
 
         [DataMember]
@@ -50,6 +60,8 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 .Append(nameof(Speed)).Append(Speed)
                 .Append(nameof(SpeedUnit)).Append(SpeedUnit)
                 .Append(nameof(IncomePerDay)).Append(IncomePerDay)
+                .Append(nameof(IncomeUsdPerDay)).Append(IncomeUsdPerDay)
+                .Append(nameof(IncomeCnyPerDay)).Append(IncomeCnyPerDay)
                 .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
                 .Append(nameof(ModifiedOn)).Append(ModifiedOn.ToUlong());
             return sb.ToString();

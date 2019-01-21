@@ -397,6 +397,7 @@ namespace NTMiner.Services {
         }
         #endregion
 
+        #region SetPoolProfileProperty
         public ResponseBase SetPoolProfileProperty(SetPoolProfilePropertyRequest request) {
             if (request == null) {
                 return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
@@ -425,6 +426,7 @@ namespace NTMiner.Services {
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
+        #endregion
 
         #region SetCoinKernelProfileProperty
         public ResponseBase SetCoinKernelProfileProperty(SetCoinKernelProfilePropertyRequest request) {

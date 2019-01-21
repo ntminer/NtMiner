@@ -1,6 +1,10 @@
-﻿using System;
+﻿using LiteDB;
+using NTMiner.Data.Impl;
+using NTMiner.ServiceContracts.DataObjects;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -50,10 +54,38 @@ namespace NTMiner {
                         Console.WriteLine(incomeItem.ToString());
                     }
                     Console.WriteLine(incomeItems.Count + "条");
+                    if (incomeItems != null && incomeItems.Count != 0) {
+                        FileLoginNameAndPassword();
+                        GetCalcConfigsResponse response = Server.ControlCenterService.GetCalcConfigs();
+                        foreach (CalcConfigData calcConfigData in response.Data) {
+                            IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
+                            if (incomeItem != null) {
+                                calcConfigData.Speed = incomeItem.Speed;
+                                calcConfigData.SpeedUnit = incomeItem.SpeedUnit;
+                                calcConfigData.IncomePerDay = incomeItem.IncomeCoin;
+                                calcConfigData.IncomeUsdPerDay = incomeItem.IncomeUsd;
+                                calcConfigData.IncomeCnyPerDay = incomeItem.IncomeCny;
+                                calcConfigData.ModifiedOn = DateTime.Now;
+                            }
+                        }
+                        Server.ControlCenterService.SaveCalcConfigs(response.Data);
+                    }
                 }
             }
             catch (Exception e) {
                 PrintError(e);
+            }
+        }
+
+        private static void FileLoginNameAndPassword() {
+            string ntMinerServerLocalDbFileFullName = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName, "local.litedb");
+            using (var db = new LiteDatabase($"filename={ntMinerServerLocalDbFileFullName};journal=false")) {
+                var col = db.GetCollection<UserData>();
+                UserData user = col.FindOne(Query.All());
+                if (user != null) {
+                    Server.LoginName = user.LoginName;
+                    Server.Password = user.Password;
+                }
             }
         }
 
@@ -66,6 +98,7 @@ namespace NTMiner {
         private static void NeatenSpeedUnit(List<IncomeItem> incomeItems) {
             foreach (var incomeItem in incomeItems) {
                 if (!string.IsNullOrEmpty(incomeItem.SpeedUnit)) {
+                    incomeItem.SpeedUnit = incomeItem.SpeedUnit.ToLower();
                     incomeItem.SpeedUnit = incomeItem.SpeedUnit.Replace("sol/s", "h/s");
                     incomeItem.SpeedUnit = incomeItem.SpeedUnit.Replace("graph/s", "h/s");
                 }
