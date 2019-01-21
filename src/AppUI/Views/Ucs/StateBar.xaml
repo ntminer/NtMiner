@@ -287,7 +287,7 @@
                 <StackPanel HorizontalAlignment="Right">
                     <WrapPanel>
                         <controls:KbLinkButton
-                            Margin="4 2 8 2"
+                            Padding="0"
                             Foreground="#0072C1"
                             Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
                             CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
@@ -301,7 +301,7 @@
                                 Command="{x:Static vm:AppStatic.ShowCalc}"
                                 CommandParameter="{Binding MinerProfile.CoinVm}">
                                 <WrapPanel>
-                                    <Label Padding="0" Content="≈" Style="{StaticResource Lbl}" />
+                                    <Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
                                     <TextBlock 
                                         VerticalAlignment="Center"
                                         Padding="0"
@@ -358,7 +358,7 @@
                     <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
                         <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                             <controls:KbLinkButton
-                                Margin="4 2 8 2"
+                                Padding="0"
                                 Foreground="#0072C1"
                                 Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
                                 CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
@@ -372,7 +372,7 @@
                                     Command="{x:Static vm:AppStatic.ShowCalc}"
                                     CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
                                     <WrapPanel>
-                                        <Label Padding="0" Content="≈" Style="{StaticResource Lbl}" />
+                                        <Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
                                         <TextBlock 
                                             VerticalAlignment="Center"
                                             Padding="0"
