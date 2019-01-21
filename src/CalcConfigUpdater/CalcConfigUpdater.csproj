@@ -55,7 +55,6 @@
       <Link>Data\Impl\UserData.cs</Link>
     </Compile>
     <Compile Include="IncomeItem.cs" />
-    <Compile Include="IncomeTable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
