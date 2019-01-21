@@ -55,11 +55,13 @@ namespace NTMiner {
                     }
                     Console.WriteLine(incomeItems.Count + "条");
                     if (incomeItems != null && incomeItems.Count != 0) {
-                        FileLoginNameAndPassword();
+                        Login();
                         GetCalcConfigsResponse response = Server.ControlCenterService.GetCalcConfigs();
+                        HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                         foreach (CalcConfigData calcConfigData in response.Data) {
                             IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
                             if (incomeItem != null) {
+                                coinCodes.Add(calcConfigData.CoinCode);
                                 calcConfigData.Speed = incomeItem.Speed;
                                 calcConfigData.SpeedUnit = incomeItem.SpeedUnit;
                                 calcConfigData.IncomePerDay = incomeItem.IncomeCoin;
@@ -69,6 +71,7 @@ namespace NTMiner {
                             }
                         }
                         Server.ControlCenterService.SaveCalcConfigs(response.Data);
+                        Console.WriteLine($"更新了{string.Join(",", coinCodes)}");
                     }
                 }
             }
@@ -77,14 +80,17 @@ namespace NTMiner {
             }
         }
 
-        private static void FileLoginNameAndPassword() {
-            string ntMinerServerLocalDbFileFullName = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName, "local.litedb");
+        private static void Login() {
+            // 约定收益计算器运行在NTMinerServer程序的子目录
+            string ntMinerServerLocalDbFileFullName = Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.FullName, "local.litedb");
             using (var db = new LiteDatabase($"filename={ntMinerServerLocalDbFileFullName};journal=false")) {
                 var col = db.GetCollection<UserData>();
                 UserData user = col.FindOne(Query.All());
                 if (user != null) {
                     Server.LoginName = user.LoginName;
                     Server.Password = user.Password;
+                    Console.WriteLine($"LoginName:{user.LoginName}");
+                    Console.WriteLine($"Password:{user.Password}");
                 }
             }
         }
