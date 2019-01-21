@@ -1,4 +1,5 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.Core;
+using NTMiner.ServiceContracts.DataObjects;
 
 namespace NTMiner.Vms {
     public class CalcViewModel : ViewModelBase {
@@ -25,6 +26,8 @@ namespace NTMiner.Vms {
                 _speed = value;
                 OnPropertyChanged(nameof(Speed));
                 OnPropertyChanged(nameof(IncomePerDayText));
+                OnPropertyChanged(nameof(IncomeUsdPerDayText));
+                OnPropertyChanged(nameof(IncomeCnyPerDayText));
             }
         }
 
@@ -35,6 +38,20 @@ namespace NTMiner.Vms {
                 _speedUnitVm = value;
                 OnPropertyChanged(nameof(SpeedUnitVm));
                 OnPropertyChanged(nameof(IncomePerDayText));
+                OnPropertyChanged(nameof(IncomeUsdPerDayText));
+                OnPropertyChanged(nameof(IncomeCnyPerDayText));
+            }
+        }
+
+        private CoinViewModel _incomeCoinVm;
+        private IncomePerDay _incomePerDay = IncomePerDay.Zero;
+        public IncomePerDay IncomePerDay {
+            get {
+                if (_incomeCoinVm == null || this.SelectedCoinVm != _incomeCoinVm) {
+                    _incomeCoinVm = SelectedCoinVm;
+                    _incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(_incomeCoinVm);
+                }
+                return _incomePerDay;
             }
         }
 
@@ -42,12 +59,31 @@ namespace NTMiner.Vms {
             get {
                 ICalcConfig calcConfig;
                 if (SelectedCoinVm != null && NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
-                    return (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(SelectedCoinVm)).ToString("f7");
+                    return (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * IncomePerDay.IncomeCoin).ToString("f7");
                 }
                 return "0";
             }
         }
 
+        public string IncomeUsdPerDayText {
+            get {
+                ICalcConfig calcConfig;
+                if (SelectedCoinVm != null && NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
+                    return (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * IncomePerDay.IncomeUsd).ToString("f2");
+                }
+                return "0";
+            }
+        }
+
+        public string IncomeCnyPerDayText {
+            get {
+                ICalcConfig calcConfig;
+                if (SelectedCoinVm != null && NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(SelectedCoinVm, out calcConfig)) {
+                    return (this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * IncomePerDay.IncomeCny).ToString("f2");
+                }
+                return "0";
+            }
+        }
 
         public CoinViewModels CoinVms {
             get {

@@ -12,7 +12,11 @@ namespace NTMiner.Vms {
 
         private Guid _mainCoinId;
         private double _incomeMainCoinPerDay;
+        private double _incomeMainCoinUsdPerDay;
+        private double _incomeMainCoinCnyPerDay;
         private double _incomeDualCoinPerDay;
+        private double _incomeDualCoinUsdPerDay;
+        private double _incomeDualCoinCnyPerDay;
 
         private GpuSpeedViewModels() {
             if (Design.IsInDesignMode) {
@@ -40,7 +44,11 @@ namespace NTMiner.Vms {
                             item.DualCoinSpeed.SpeedOn = now;
                         }
                         IncomeMainCoinPerDay = 0;
+                        IncomeMainCoinUsdPerDay = 0;
+                        IncomeMainCoinCnyPerDay = 0;
                         IncomeDualCoinPerDay = 0;
+                        IncomeDualCoinUsdPerDay = 0;
+                        IncomeDualCoinCnyPerDay = 0;
                     }
                     int index = message.Source.Gpu.Index;
                     GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
@@ -56,16 +64,26 @@ namespace NTMiner.Vms {
                         IMineContext mineContext = NTMinerRoot.Current.CurrentMineContext;
                         if (mineContext == null) {
                             IncomeMainCoinPerDay = 0;
+                            IncomeMainCoinUsdPerDay = 0;
+                            IncomeMainCoinCnyPerDay = 0;
                             IncomeDualCoinPerDay = 0;
+                            IncomeDualCoinUsdPerDay = 0;
+                            IncomeDualCoinCnyPerDay = 0;
                         }
                         else {
                             if (message.IsDualSpeed) {
                                 if (mineContext is IDualMineContext dualMineContext) {
-                                    IncomeDualCoinPerDay = _totalSpeedVm.DualCoinSpeed.Value * NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(dualMineContext.DualCoin);
+                                    IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(dualMineContext.DualCoin);
+                                    IncomeDualCoinPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeCoin;
+                                    IncomeDualCoinUsdPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeUsd;
+                                    IncomeDualCoinCnyPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeCny;
                                 }
                             }
                             else {
-                                IncomeMainCoinPerDay = _totalSpeedVm.MainCoinSpeed.Value *NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(mineContext.MainCoin);
+                                IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(mineContext.MainCoin);
+                                IncomeMainCoinPerDay = _totalSpeedVm.MainCoinSpeed.Value * incomePerDay.IncomeCoin;
+                                IncomeMainCoinUsdPerDay = _totalSpeedVm.MainCoinSpeed.Value * incomePerDay.IncomeUsd;
+                                IncomeMainCoinCnyPerDay = _totalSpeedVm.MainCoinSpeed.Value * incomePerDay.IncomeCny;
                             }
                         }
                     }
@@ -106,6 +124,36 @@ namespace NTMiner.Vms {
             }
         }
 
+        public double IncomeMainCoinUsdPerDay {
+            get { return _incomeMainCoinUsdPerDay; }
+            set {
+                _incomeMainCoinUsdPerDay = value;
+                OnPropertyChanged(nameof(IncomeMainCoinUsdPerDay));
+                OnPropertyChanged(nameof(IncomeMainCoinUsdPerDayText));
+            }
+        }
+
+        public string IncomeMainCoinUsdPerDayText {
+            get {
+                return IncomeMainCoinUsdPerDay.ToString("f2");
+            }
+        }
+
+        public double IncomeMainCoinCnyPerDay {
+            get { return _incomeMainCoinCnyPerDay; }
+            set {
+                _incomeMainCoinCnyPerDay = value;
+                OnPropertyChanged(nameof(IncomeMainCoinCnyPerDay));
+                OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
+            }
+        }
+
+        public string IncomeMainCoinCnyPerDayText {
+            get {
+                return IncomeMainCoinCnyPerDay.ToString("f2");
+            }
+        }
+
         public double IncomeDualCoinPerDay {
             get => _incomeDualCoinPerDay;
             set {
@@ -118,6 +166,36 @@ namespace NTMiner.Vms {
         public string IncomeDualCoinPerDayText {
             get {
                 return IncomeDualCoinPerDay.ToString("f7");
+            }
+        }
+
+        public double IncomeDualCoinUsdPerDay {
+            get { return _incomeDualCoinUsdPerDay; }
+            set {
+                _incomeDualCoinUsdPerDay = value;
+                OnPropertyChanged(nameof(IncomeDualCoinUsdPerDay));
+                OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
+            }
+        }
+
+        public string IncomeDualCoinUsdPerDayText {
+            get {
+                return IncomeDualCoinUsdPerDay.ToString("f2");
+            }
+        }
+
+        public double IncomeDualCoinCnyPerDay {
+            get { return _incomeDualCoinCnyPerDay; }
+            set {
+                _incomeDualCoinCnyPerDay = value;
+                OnPropertyChanged(nameof(IncomeDualCoinCnyPerDay));
+                OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
+            }
+        }
+
+        public string IncomeDualCoinCnyPerDayText {
+            get {
+                return IncomeDualCoinCnyPerDay.ToString("f2");
             }
         }
 

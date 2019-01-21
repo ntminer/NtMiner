@@ -56,16 +56,17 @@ namespace NTMiner.Core.Impl {
             return true;
         }
 
-        public double GetIncomePerHashPerDay(ICoin coin) {
+        public IncomePerDay GetIncomePerHashPerDay(ICoin coin) {
             Init();
             if (!_dicByCoinCode.ContainsKey(coin.Code)) {
-                return 0;
+                return IncomePerDay.Zero;
             }
             CalcConfigData item = _dicByCoinCode[coin.Code];
             if (item.Speed == 0) {
-                return 0;
+                return IncomePerDay.Zero;
             }
-            return item.IncomePerDay / item.Speed.FromUnitSpeed(item.SpeedUnit);
+            double speed = item.Speed.FromUnitSpeed(item.SpeedUnit);
+            return new IncomePerDay(item.IncomePerDay / speed, item.IncomeUsdPerDay / speed, item.IncomeCnyPerDay / speed);
         }
 
         public void SaveCalcConfigs(List<CalcConfigData> data) {

@@ -110,6 +110,7 @@
     <Compile Include="Core\Impl\MinerGroupSet.cs" />
     <Compile Include="Core\Impl\ReadOnlyServerRepository`1.cs" />
     <Compile Include="Core\Impl\ServerJson.cs" />
+    <Compile Include="Core\IncomePerDay.cs" />
     <Compile Include="Core\Kernels\IKernelDownloader.cs" />
     <Compile Include="Core\Kernels\IKernelInput.cs" />
     <Compile Include="Core\Kernels\IKernelInputSet.cs" />
