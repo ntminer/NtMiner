@@ -157,7 +157,7 @@ namespace NTMiner {
                                     IKernelOutput kernelOutput;
                                     if (Current.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out kernelOutput)) {
                                         if (kernelOutput.PrependDateTime) {
-                                            Global.WriteLine($"{DateTime.Now} {input}", color);
+                                            Global.WriteLine($"{DateTime.Now}    {input}", color);
                                         }
                                         else {
                                             Global.WriteLine(input, color);
