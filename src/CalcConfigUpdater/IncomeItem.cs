@@ -1,4 +1,4 @@
-﻿namespace CalcConfigUpdater {
+﻿namespace NTMiner {
     public class IncomeItem {
         public string DataCode { get; set; }
         public string CoinCode { get; set; }

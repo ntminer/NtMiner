@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CalcConfigUpdater {
+namespace NTMiner {
     public class IncomeTable {
         public IncomeTable() {
             this.IncomeItems = new List<IncomeItem>();

@@ -75,8 +75,6 @@ namespace NTMiner {
             this.WalletSet = new WalletSet(this);
             this.MineProfileManager = new MineProfileManager(this);
             this.NTMinerFileSet = new NTMinerFileSet(this);
-
-            Windows.App.SetAutoBoot("NTMiner.WcfServer", true);
         }
 
         public IUserSet UserSet { get; private set; }
