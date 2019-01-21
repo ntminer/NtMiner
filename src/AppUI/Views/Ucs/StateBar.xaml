@@ -45,6 +45,9 @@
             <sys:String x:Key="LblTotalSpeed">
                 LblTotalSpeed
             </sys:String>
+            <sys:String x:Key="Github">
+                Github
+            </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
 	<Border Padding="4 0 4 0" Background="Transparent">
@@ -153,10 +156,19 @@
                     <controls:KbLinkButton
 						Foreground="#0072C1"
 						Command="{x:Static vm:AppStatic.OpenOfficialSite}"
-						Content="https://github.com/ntminer/ntminer"
 						Background="Transparent"
 						KbSystemButtonHoverBackground="Transparent"
-						KbDisplayLine="False" />
+						KbDisplayLine="False">
+                        <WrapPanel>
+                            <Path 
+						        Width="14"
+						        Height="14"
+						        Data="{StaticResource Icon_Github}"
+						        Fill="{StaticResource IconFillColor}"
+						        Stretch="Fill" />
+                            <TextBlock Text="{DynamicResource Github}"></TextBlock>
+                        </WrapPanel>
+                    </controls:KbLinkButton>
                 </WrapPanel>
             </StackPanel>
             <TextBlock 
