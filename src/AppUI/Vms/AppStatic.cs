@@ -218,6 +218,10 @@ namespace NTMiner.Vms {
             Process.Start("https://github.com/ntminer/ntminer");
         });
 
+        public static ICommand OpenDiscussSite { get; private set; } = new DelegateCommand(() => {
+            Process.Start("https://github.com/ntminer/ntminer/issues");
+        });
+
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(() => {
             QQGroupQrCode.ShowWindow();
         });
