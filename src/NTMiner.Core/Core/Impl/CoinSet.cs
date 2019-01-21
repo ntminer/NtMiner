@@ -72,6 +72,10 @@ namespace NTMiner.Core.Impl {
                 foreach (var id in toRemoves) {
                     Global.Execute(new RemoveWalletCommand(id));
                 }
+                toRemoves = root.CoinGroupSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                foreach (var id in toRemoves) {
+                    Global.Execute(new RemoveCoinGroupCommand(id));
+                }
                 _dicById.Remove(entity.Id);
                 if (_dicByCode.ContainsKey(entity.Code)) {
                     _dicByCode.Remove(entity.Code);
