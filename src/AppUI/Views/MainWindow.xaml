@@ -269,7 +269,15 @@
                             <TabItem>
                                 <TabItem.Header>
                                     <Border Padding="10 0">
-                                        <TextBlock Text="{DynamicResource HLog}"></TextBlock>
+                                        <WrapPanel>
+                                            <Path 
+										        Width="14"
+										        Height="14"
+										        Stretch="Fill"
+										        Fill="{StaticResource IconFillColor}"
+										        Data="{StaticResource Icon_Log}"></Path>
+                                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource HLog}"></TextBlock>
+                                        </WrapPanel>
                                     </Border>
                                 </TabItem.Header>
                                 <uc:Console BorderBrush="{StaticResource MainColor}" BorderThickness="0 1 0 0" Margin="0 -1 0 0">
@@ -279,7 +287,15 @@
                             <TabItem>
                                 <TabItem.Header>
                                     <Border Padding="10 0">
-                                        <TextBlock Text="{DynamicResource HSpeed}"></TextBlock>
+                                        <WrapPanel>
+                                            <Path 
+										        Width="14"
+										        Height="14"
+										        Stretch="Fill"
+										        Fill="{StaticResource IconFillColor}"
+										        Data="{StaticResource Icon_Table}"></Path>
+                                            <TextBlock Margin="4 0 0 0" Text="{DynamicResource HSpeed}"></TextBlock>
+                                        </WrapPanel>
                                     </Border>
                                 </TabItem.Header>
                                 <uc:SpeedTable>
