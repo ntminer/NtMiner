@@ -11,7 +11,7 @@
 	         Background="White"
              TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:KernelInputPageViewModel.Current}"
-             d:DesignHeight="520" d:DesignWidth="560">
+             d:DesignHeight="520" d:DesignWidth="1000">
     <UserControl.Resources>
         <ResourceDictionary>
             <sys:String x:Key="WindowTitle">
@@ -23,6 +23,9 @@
             <sys:String x:Key="Name">
                 Name
             </sys:String>
+            <sys:String x:Key="Args">
+                Args
+            </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -33,6 +36,21 @@
                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
+                <DataGridTemplateColumn Width="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource Name}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Padding="0 0 4 0"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" Binding="{Binding Args}" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{DynamicResource Args}"></TextBlock>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn 
                     CanUserResize="False" IsReadOnly="True"
                     Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
@@ -82,16 +100,6 @@
                                     </WrapPanel>
                                 </controls:KbButton>
                             </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource Name}"></TextBlock>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" Padding="0 0 4 0"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

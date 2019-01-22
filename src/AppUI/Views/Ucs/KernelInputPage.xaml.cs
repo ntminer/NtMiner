@@ -8,8 +8,8 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_KernelInput",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = 560,
-                Height = 520
+                Width = 1000,
+                Height = 620
             }, 
             ucFactory: (window) => new KernelInputPage());
         }
