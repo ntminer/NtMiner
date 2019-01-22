@@ -10,21 +10,17 @@
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
     <UserControl.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Width" Value="60"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
-        </Style>
         <Style x:Key="LblTb" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
             <Setter Property="FontSize" Value="12"></Setter>
             <Setter Property="Padding" Value="0 0 2 0"></Setter>
-            <Setter Property="Width" Value="120"></Setter>
+            <Setter Property="Width" Value="150"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="TextAlignment" Value="Right"></Setter>
             <Setter Property="TextWrapping" Value="Wrap"></Setter>
         </Style>
         <Style x:Key="TbRegex" TargetType="TextBox">
-            <Setter Property="Width" Value="450"></Setter>
+            <Setter Property="Width" Value="600"></Setter>
             <Setter Property="Height" Value="26"></Setter>
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="Background" Value="White"></Setter>
