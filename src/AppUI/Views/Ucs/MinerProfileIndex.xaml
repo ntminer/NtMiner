@@ -87,6 +87,12 @@
             <sys:String x:Key="AddWallet">
                 AddWallet
             </sys:String>
+            <sys:String x:Key="ShowUserNamePassword">
+                ShowUserNamePassword
+            </sys:String>
+            <sys:String x:Key="HideUserNamePassword">
+                HideUserNamePassword
+            </sys:String>
             <sys:String x:Key="ShowWalletAddress">
                 ShowWalletAddress
             </sys:String>
@@ -353,27 +359,77 @@
                     Margin="0 3" 
                     Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource UserName}"></TextBlock>
-                    <TextBox 
-                        Height="30"
-                        Width="136"
-                        Background="White"
-                        ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
-                        IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
-                        VerticalContentAlignment="Center" 
-                        Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.UserName}">
-                    </TextBox>
+                    <Grid>
+                        <TextBox 
+                            Height="30"
+                            Width="136"
+                            Background="White"
+                            ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
+                            IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+                            VerticalContentAlignment="Center" 
+                            Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.UserName}">
+                        </TextBox>
+                        <Path
+                            Margin="1 0"
+                            Width="134"
+                            Height="16"
+                            HorizontalAlignment="Left"
+                            Data="M98 480.86h829.99v63.79H98z"
+                            Fill="Black"
+                            Stretch="Fill"
+					        Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
                     <TextBlock 
                         Margin="2 0 0 0"
                         Style="{StaticResource LblTb}" Text="{DynamicResource Password}"></TextBlock>
-                    <TextBox 
-                        Height="30"
-                        Width="134"
-                        Background="White"
-                        ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
-                        IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
-                        VerticalContentAlignment="Center" 
-                        Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.Password}">
-                    </TextBox>
+                    <Grid>
+                        <TextBox 
+                            Height="30"
+                            Width="114"
+                            Background="White"
+                            ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
+                            IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+                            VerticalContentAlignment="Center" 
+                            Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.Password}">
+                        </TextBox>
+                        <Path
+                            Margin="1 0"
+                            Width="112"
+                            Height="16"
+                            HorizontalAlignment="Left"
+                            Data="M98 480.86h829.99v63.79H98z"
+                            Fill="Black"
+                            Stretch="Fill"
+					        Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+                    <Grid>
+                        <controls:KbButton 
+						    ToolTip="{DynamicResource ShowUserNamePassword}"
+						    Background="Transparent" BorderThickness="0"
+						    Command="{Binding MinerProfile.CoinVm.CoinProfile.ShowWallet}"
+						    HorizontalAlignment="Left">
+                            <Path
+							    Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+							    Width="16"
+							    Height="8"
+							    Data="{StaticResource Icon_CloseEye}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill" />
+                        </controls:KbButton>
+                        <controls:KbButton 
+						    ToolTip="{DynamicResource HideUserNamePassword}"
+						    Background="Transparent" BorderThickness="0"
+						    Command="{Binding MinerProfile.CoinVm.CoinProfile.HideWallet}"
+						    HorizontalAlignment="Left">
+                            <Path
+							    Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsShowWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+							    Width="16"
+							    Height="12"
+							    Data="{StaticResource Icon_OpenEye}"
+							    Fill="{StaticResource IconFillColor}"
+							    Stretch="Fill" />
+                        </controls:KbButton>
+                    </Grid>
                 </WrapPanel>
                 
                 <WrapPanel Margin="0 3">
@@ -731,27 +787,77 @@
                             Margin="0 3" 
                             Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
                             <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource UserName}"></TextBlock>
-                            <TextBox 
-                                Height="26"
-                                Width="136"
-                                Background="White"
-                                ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
-                                IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
-                                VerticalContentAlignment="Center" 
-                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.UserName}">
-                            </TextBox>
+                            <Grid>
+                                <TextBox 
+                                    Height="26"
+                                    Width="136"
+                                    Background="White"
+                                    ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
+                                    IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+                                    VerticalContentAlignment="Center" 
+                                    Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.UserName}">
+                                </TextBox>
+                                <Path
+                                    Margin="1 0"
+                                    Width="134"
+                                    Height="16"
+                                    HorizontalAlignment="Left"
+                                    Data="M98 480.86h829.99v63.79H98z"
+                                    Fill="Black"
+                                    Stretch="Fill"
+					                Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </Grid>
                             <TextBlock 
                                 Margin="2 0 0 0"
                                 Style="{StaticResource LblTb}" Text="{DynamicResource Password}"></TextBlock>
-                            <TextBox 
-                                Height="26"
-                                Width="134"
-                                Background="White"
-                                ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
-                                IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
-                                VerticalContentAlignment="Center" 
-                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.Password}">
-                            </TextBox>
+                            <Grid>
+                                <TextBox 
+                                    Height="26"
+                                    Width="114"
+                                    Background="White"
+                                    ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
+                                    IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+                                    VerticalContentAlignment="Center" 
+                                    Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.Password}">
+                                </TextBox>
+                                <Path
+                                    Margin="1 0"
+                                    Width="112"
+                                    Height="16"
+                                    HorizontalAlignment="Left"
+                                    Data="M98 480.86h829.99v63.79H98z"
+                                    Fill="Black"
+                                    Stretch="Fill"
+					                Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </Grid>
+                            <Grid>
+                                <controls:KbButton 
+									ToolTip="{DynamicResource ShowUserNamePassword}"
+									Background="Transparent" BorderThickness="0"
+									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.ShowDualCoinWallet}"
+									HorizontalAlignment="Left">
+                                    <Path
+										Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+										Width="16"
+										Height="8"
+										Data="{StaticResource Icon_CloseEye}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+                                </controls:KbButton>
+                                <controls:KbButton 
+									ToolTip="{DynamicResource HideUserNamePassword}"
+									Background="Transparent" BorderThickness="0"
+									Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.HideDualCoinWallet}"
+									HorizontalAlignment="Left">
+                                    <Path
+										Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinShowWallet, Converter={StaticResource BoolToVisibilityConverter}}"
+										Width="16"
+										Height="12"
+										Data="{StaticResource Icon_OpenEye}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+                                </controls:KbButton>
+                            </Grid>
                         </WrapPanel>
                     </StackPanel>
 				</WrapPanel>
