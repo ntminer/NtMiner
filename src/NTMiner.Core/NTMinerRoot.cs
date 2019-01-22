@@ -61,7 +61,7 @@ namespace NTMiner {
                             Task t1 = Task.Factory.StartNew(() => {
                                 try {
                                     using (WebClient webClient = new WebClient()) {
-                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientVersion.ServerJsonFileName;
+                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
                                         Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
                                         rawNTMinerJson = System.Text.Encoding.UTF8.GetString(data);
@@ -74,7 +74,7 @@ namespace NTMiner {
                             Task t2 = Task.Factory.StartNew(() => {
                                 try {
                                     using (WebClient webClient = new WebClient()) {
-                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ClientVersion.ServerLangJsonFileName;
+                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerLangJsonFileName;
                                         Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
                                         rawLangJson = System.Text.Encoding.UTF8.GetString(data);

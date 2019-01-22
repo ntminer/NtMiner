@@ -28,7 +28,7 @@ namespace NTMiner {
             }
             LangDbFileFullName = Path.Combine(GlobalDirFullName, "lang.litedb");
             LocalLangJsonFileFullName = Path.Combine(GlobalDirFullName, "lang.json");
-            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, ClientVersion.ServerLangJsonFileName);
+            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, AssemblyInfo.ServerLangJsonFileName);
 
             object publicKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PublicKey");
             object privateKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PrivateKey");
