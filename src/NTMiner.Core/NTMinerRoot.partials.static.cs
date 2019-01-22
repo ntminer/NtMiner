@@ -15,31 +15,14 @@ namespace NTMiner {
             Assembly mainAssembly = Assembly.GetEntryAssembly();
             CurrentVersion = mainAssembly.GetName().Version;
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
-            var atrr = mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).Cast<AssemblyDescriptionAttribute>().FirstOrDefault();
-            if (atrr != null) {
-                VersionTag = atrr.Description;
-            }
-            else {
-                VersionTag = "谜麟";
-            }
         }
 
         private static readonly NTMinerRoot _current = new NTMinerRoot();
         public static readonly INTMinerRoot Current = _current;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
-        public static readonly string VersionTag;
 
         public static bool IsAutoStartCanceled = false;
-
-        public static string Title {
-            get {
-                if (CommandLineArgs.IsControlCenter && !CommandLineArgs.IsWorker) {
-                    return "开源矿工中控";
-                }
-                return "开源矿工";
-            }
-        }
 
         public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
             return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);

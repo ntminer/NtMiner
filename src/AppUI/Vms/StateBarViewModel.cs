@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
 
         public string VersionTag {
             get {
-                return NTMinerRoot.VersionTag;
+                return NTMinerRoot.CurrentVersionTag;
             }
         }
 
