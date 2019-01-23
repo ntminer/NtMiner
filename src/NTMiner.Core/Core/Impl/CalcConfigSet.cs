@@ -72,7 +72,7 @@ namespace NTMiner.Core.Impl {
         public void SaveCalcConfigs(List<CalcConfigData> data) {
             lock (_locker) {
                 _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-                Server.ControlCenterService.SaveCalcConfigs(data);
+                Server.ControlCenterService.SaveCalcConfigsAsync(data);
             }
         }
 

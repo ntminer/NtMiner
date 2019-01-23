@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NTMiner.NoDevFee {
     public unsafe static partial class NoDevFeeUtil {
         private static Guid _contextId;
-        public static void Start(
+        public static void StartAsync(
             Guid contextId, 
             string minerName,
             string coin, 

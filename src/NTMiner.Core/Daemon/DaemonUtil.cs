@@ -10,13 +10,13 @@ namespace NTMiner.Daemon {
             string processName = "NTMinerDaemon";
             Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
-                NTMinerClientDaemon.Instance.GetDaemonVersion(Global.Localhost, Global.ClientPort, thatVersion => {
+                NTMinerClientDaemon.Instance.GetDaemonVersionAsync(Global.Localhost, Global.ClientPort, thatVersion => {
                     try {
                         string thisVersion = ThisNTMinerDaemonFileVersion;
                         if (thatVersion != thisVersion) {
                             Global.Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
                             Windows.TaskKill.Kill(processName);
-                            ExtractRunNTMinerDaemon();
+                            ExtractRunNTMinerDaemonAsync();
                         }
                     }
                     catch (Exception exception) {
@@ -25,11 +25,11 @@ namespace NTMiner.Daemon {
                 });
             }
             else {
-                ExtractRunNTMinerDaemon();
+                ExtractRunNTMinerDaemonAsync();
             }
         }
 
-        private static void ExtractRunNTMinerDaemon() {
+        private static void ExtractRunNTMinerDaemonAsync() {
             Task.Factory.StartNew(() => {
                 string[] names = new string[] { "NTMinerDaemon.exe" };
                 foreach (var name in names) {
@@ -40,7 +40,7 @@ namespace NTMiner.Daemon {
             });
         }
 
-        public static void RunDevConsole(string poolIp, string consoleTitle) {
+        public static void RunDevConsoleAsync(string poolIp, string consoleTitle) {
             Task.Factory.StartNew(() => {
                 if (!File.Exists(SpecialPath.DevConsoleFileFullName)) {
                     string name = "DevConsole.exe";

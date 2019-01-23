@@ -44,7 +44,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                     });
                 };
-                Server.FileUrlService.GetPackageUrl(package, packageUrl => {
+                Server.FileUrlService.GetPackageUrlAsync(package, packageUrl => {
                     if (string.IsNullOrEmpty(packageUrl)) {
                         downloadComplete?.Invoke(false, "未获取到内核包下载地址", saveFileFullName);
                     }

@@ -98,7 +98,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
             if (CommandLineArgs.IsWorker) {
-                Server.ProfileService.GetMineWork(CommandLineArgs.WorkId, mineWorkData => {
+                Server.ProfileService.GetMineWorkAsync(CommandLineArgs.WorkId, mineWorkData => {
                     if (mineWorkData != null) {
                         this.MineWork = mineWorkData;
                     }

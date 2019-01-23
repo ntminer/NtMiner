@@ -45,7 +45,7 @@ namespace NTMiner {
         }
         private static void Run() {
             try {
-                Task.Factory.StartNew(DaemonServer.Start);
+                DaemonServer.StartAsync();
                 while (true) {
                     Thread.Sleep(1000);
                 }

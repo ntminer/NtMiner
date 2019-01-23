@@ -131,7 +131,7 @@ namespace NTMiner.Core.Profiles.Impl {
                         propertyInfo.SetValue(this, value, null);
                         if (CommandLineArgs.IsWorker) {
                             if (CommandLineArgs.IsControlCenter) {
-                                Server.ControlCenterService.SetPoolProfileProperty(CommandLineArgs.WorkId, PoolId, propertyName, value, isSuccess => {
+                                Server.ControlCenterService.SetPoolProfilePropertyAsync(CommandLineArgs.WorkId, PoolId, propertyName, value, isSuccess => {
                                     Global.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                                 });
                             }

@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
                 NTMinerRoot.Current.StartMine(CommandLineArgs.WorkId);
             });
             this.StopMine = new DelegateCommand(() => {
-                NTMinerRoot.Current.StopMine();
+                NTMinerRoot.Current.StopMineAsync();
             });
             if (DevMode.IsDevMode) {
                 Global.Access<Per10SecondEvent>(
@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
                     "在界面上展示守护进程的运行状态",
                     LogEnum.None,
                     action: message => {
-                        NTMinerClientDaemon.Instance.GetDaemonVersion(Global.Localhost, Global.ClientPort, thatVersion => {
+                        NTMinerClientDaemon.Instance.GetDaemonVersionAsync(Global.Localhost, Global.ClientPort, thatVersion => {
                             this.IsDaemonRunning = !string.IsNullOrEmpty(thatVersion);
                         });
                     });

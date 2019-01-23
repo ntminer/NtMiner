@@ -64,7 +64,7 @@ namespace NTMiner {
                                         string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
                                         Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
-                                        rawNTMinerJson = System.Text.Encoding.UTF8.GetString(data);
+                                        rawNTMinerJson = Encoding.UTF8.GetString(data);
                                     }
                                 }
                                 catch (Exception e) {
@@ -77,7 +77,7 @@ namespace NTMiner {
                                         string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerLangJsonFileName;
                                         Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
-                                        rawLangJson = System.Text.Encoding.UTF8.GetString(data);
+                                        rawLangJson = Encoding.UTF8.GetString(data);
                                     }
                                 }
                                 catch (Exception e) {
@@ -167,7 +167,7 @@ namespace NTMiner {
             }
             Global.Logger.OkDebugLine("Wcf服务启动完成");
 
-            Server.TimeService.GetTime((remoteTime) => {
+            Server.TimeService.GetTimeAsync((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Global.DesyncSeconds) {
                     Global.Logger.OkDebugLine("时间同步");
                 }
@@ -270,7 +270,7 @@ namespace NTMiner {
                         Windows.Error.DisableWindowsErrorUI();
                         Windows.Firewall.DisableFirewall();
                         Windows.UAC.DisableUAC();
-                        Windows.WAU.DisableWAU();
+                        Windows.WAU.DisableWAUAsync();
                         Windows.Defender.DisableAntiSpyware();
                         Windows.Power.PowerCfgOff();
                         Windows.BcdEdit.IgnoreAllFailures();
@@ -324,7 +324,7 @@ namespace NTMiner {
                  action: message => {
                      string poolIp = CurrentMineContext.MainCoinPool.GetIp();
                      string consoleTitle = CurrentMineContext.MainCoinPool.Server;
-                     Daemon.DaemonUtil.RunDevConsole(poolIp, consoleTitle);
+                     Daemon.DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);
                  });
             }
             #endregion
@@ -334,7 +334,7 @@ namespace NTMiner {
                 "开始挖矿后启动NoDevFee",
                 LogEnum.Log,
                  action: message => {
-                     NTMinerClientDaemon.Instance.Start(callback: null);
+                     NTMinerClientDaemon.Instance.StartAsync(callback: null);
                  });
             #endregion
             #region 停止挖矿后停止NoDevFee
@@ -343,7 +343,7 @@ namespace NTMiner {
                 "停止挖矿后停止NoDevFee",
                 LogEnum.Log,
                  action: message => {
-                     NTMinerClientDaemon.Instance.Stop(callback: null);
+                     NTMinerClientDaemon.Instance.StopAsync(callback: null);
                  });
             #endregion
             #region 周期确保守护进程在运行
@@ -356,7 +356,7 @@ namespace NTMiner {
                     action: message => {
                         Daemon.DaemonUtil.RunNTMinerDaemon();
                         if (IsMining) {
-                            NTMinerClientDaemon.Instance.Start(callback: null);
+                            NTMinerClientDaemon.Instance.StartAsync(callback: null);
                         }
                     });
             }
@@ -377,13 +377,13 @@ namespace NTMiner {
                 Global.Logger.ErrorDebugLine(e.Message, e);
             }
             if (_currentMineContext != null) {
-                StopMine();
+                StopMineAsync();
             }
         }
         #endregion
 
         #region StopMine
-        public void StopMine(Action callback = null) {
+        public void StopMineAsync(Action callback = null) {
             Task.Factory.StartNew(() => {
                 try {
                     if (_currentMineContext != null && _currentMineContext.Kernel != null) {
@@ -405,7 +405,7 @@ namespace NTMiner {
 
         #region RestartMine
         public void RestartMine() {
-            this.StopMine(()=> {
+            this.StopMineAsync(()=> {
                 Global.Logger.WarnWriteLine("正在重启内核");
                 StartMine(CommandLineArgs.WorkId);
             });
@@ -500,7 +500,7 @@ namespace NTMiner {
                     mineContext = this.CreateDualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
                 }
                 if (_currentMineContext != null) {
-                    this.StopMine();
+                    this.StopMineAsync();
                 }
                 // kill上一个上下文的进程，上一个上下文进程名不一定和下一个相同
                 if (_currentMineContext != null && _currentMineContext.Kernel != null) {
@@ -509,7 +509,7 @@ namespace NTMiner {
                 }
                 if (string.IsNullOrEmpty(kernel.Package)) {
                     Global.Logger.WarnWriteLine(kernel.FullName + "没有内核包");
-                    this.StopMine();
+                    this.StopMineAsync();
                     return;
                 }
                 if (string.IsNullOrEmpty(kernelInput.Args)) {
@@ -533,9 +533,7 @@ namespace NTMiner {
                     _currentMineContext = mineContext;
                     // kill这一个上下文的进程
                     Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName());
-                    Task.Factory.StartNew(() => {
-                        MinerProcess.CreateProcess(mineContext);
-                    });
+                    MinerProcess.CreateProcessAsync(mineContext);
                 }
                 if (!string.IsNullOrEmpty(mineContext.Kernel.Notice)) {
                     Global.Logger.WarnWriteLine(mineContext.Kernel.Notice);

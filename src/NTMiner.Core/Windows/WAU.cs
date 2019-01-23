@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Windows {
     public static class WAU {
-        public static void DisableWAU() {
+        public static void DisableWAUAsync() {
             Task.Factory.StartNew(() => {
                 ServiceController sc = new ServiceController("wuauserv");
                 try {

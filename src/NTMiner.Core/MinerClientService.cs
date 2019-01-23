@@ -49,7 +49,7 @@ namespace NTMiner {
             }
         }
 
-        public void StartMine(string host, string pubKey, Guid workId, Action<bool> callback) {
+        public void StartMineAsync(string host, string pubKey, Guid workId, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     string desKey;
@@ -73,7 +73,7 @@ namespace NTMiner {
             });
         }
 
-        public void StopMine(string host, string pubKey, Action<bool> callback) {
+        public void StopMineAsync(string host, string pubKey, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     string desKey;
@@ -96,7 +96,7 @@ namespace NTMiner {
             });
         }
 
-        public void SetMinerProfileProperty(string host, string pubKey, string propertyName, object value, Action<bool> callback) {
+        public void SetMinerProfilePropertyAsync(string host, string pubKey, string propertyName, object value, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     string desKey;

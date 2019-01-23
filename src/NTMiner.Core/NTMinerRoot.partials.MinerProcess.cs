@@ -12,34 +12,36 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         private static class MinerProcess {
             #region CreateProcess
-            public static void CreateProcess(IMineContext mineContext) {
-                Global.Logger.InfoDebugLine("解压内核包");
-                // 解压内核包
-                mineContext.Kernel.ExtractPackage();
+            public static void CreateProcessAsync(IMineContext mineContext) {
+                Task.Factory.StartNew(() => {
+                    Global.Logger.InfoDebugLine("解压内核包");
+                    // 解压内核包
+                    mineContext.Kernel.ExtractPackage();
 
-                string kernelExeFileFullName;
-                string arguments;
-                Global.Logger.InfoDebugLine("组装命令");
-                // 组装命令
-                BuildCmdLine(mineContext, out kernelExeFileFullName, out arguments);
-                bool isLogFile = arguments.Contains("{logfile}");
-                // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
-                if (!File.Exists(kernelExeFileFullName)) {
-                    Global.Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
-                }
-                if (isLogFile) {
-                    Global.Logger.InfoDebugLine("创建日志文件型进程");
-                    // 如果内核支持日志文件
-                    // 推迟打印cmdLine，因为{logfile}变量尚未求值
-                    CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
-                }
-                else {
-                    Global.Logger.InfoDebugLine("创建管道型进程");
-                    // 如果内核不支持日志文件
-                    string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                    Global.Logger.InfoDebugLine(cmdLine);
-                    CreatePipProcess(mineContext, cmdLine);
-                }
+                    string kernelExeFileFullName;
+                    string arguments;
+                    Global.Logger.InfoDebugLine("组装命令");
+                    // 组装命令
+                    BuildCmdLine(mineContext, out kernelExeFileFullName, out arguments);
+                    bool isLogFile = arguments.Contains("{logfile}");
+                    // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
+                    if (!File.Exists(kernelExeFileFullName)) {
+                        Global.Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
+                    }
+                    if (isLogFile) {
+                        Global.Logger.InfoDebugLine("创建日志文件型进程");
+                        // 如果内核支持日志文件
+                        // 推迟打印cmdLine，因为{logfile}变量尚未求值
+                        CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
+                    }
+                    else {
+                        Global.Logger.InfoDebugLine("创建管道型进程");
+                        // 如果内核不支持日志文件
+                        string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
+                        Global.Logger.InfoDebugLine(cmdLine);
+                        CreatePipProcess(mineContext, cmdLine);
+                    }
+                });
             }
             #endregion
 
@@ -78,7 +80,7 @@ namespace NTMiner {
                                         Current.CurrentMineContext.ProcessDisappearedCound = mineContext.ProcessDisappearedCound;
                                     }
                                     else {
-                                        Current.StopMine();
+                                        Current.StopMineAsync();
                                     }
                                     Global.UnAccess(daemon);
                                     clear?.Invoke();
@@ -107,71 +109,71 @@ namespace NTMiner {
                 Process process = new Process();
                 process.StartInfo = startInfo;
                 process.Start();
-                Task.Factory.StartNew(() => {
-                    ReadPrintLoopLogFile(mineContext, logFile);
-                });
+                ReadPrintLoopLogFileAsync(mineContext, logFile);
                 Daemon(mineContext, null);
             }
             #endregion
 
             #region ReadPrintLoopLogFile
-            private static void ReadPrintLoopLogFile(IMineContext mineContext, string logFile) {
-                bool isLogFileCreated = true;
-                int n = 0;
-                while (!File.Exists(logFile)) {
-                    if (n >= 10) {
-                        // 10秒钟都没有建立日志文件，不可能
-                        isLogFileCreated = false;
-                        break;
+            private static void ReadPrintLoopLogFileAsync(IMineContext mineContext, string logFile) {
+                Task.Factory.StartNew(() => {
+                    bool isLogFileCreated = true;
+                    int n = 0;
+                    while (!File.Exists(logFile)) {
+                        if (n >= 10) {
+                            // 10秒钟都没有建立日志文件，不可能
+                            isLogFileCreated = false;
+                            break;
+                        }
+                        Thread.Sleep(1000);
+                        if (mineContext != Current.CurrentMineContext) {
+                            isLogFileCreated = false;
+                            break;
+                        }
+                        n++;
                     }
-                    Thread.Sleep(1000);
-                    if (mineContext != Current.CurrentMineContext) {
-                        isLogFileCreated = false;
-                        break;
-                    }
-                    n++;
-                }
-                if (isLogFileCreated) {
-                    using (FileStream stream = File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    using (StreamReader sreader = new StreamReader(stream, Encoding.Default)) {
-                        while (mineContext == Current.CurrentMineContext) {
-                            string outline = sreader.ReadLine();
-                            if (string.IsNullOrEmpty(outline)) {
-                                Thread.Sleep(1000);
-                            }
-                            else {
-                                string input = outline;
-                                Guid kernelOutputId = mineContext.Kernel.KernelOutputId;
-                                Current.KernelOutputFilterSet.Filter(kernelOutputId, ref input);
-                                ConsoleColor color = ConsoleColor.White;
-                                Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color, isPre: true);
-                                // 使用Claymore挖其非ETH币种时它也打印ETH，所以这里需要纠正它
-                                if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
-                                    if (mineContext.MainCoin.Code != "ETH" && input.Contains("ETH")) {
-                                        input = input.Replace("ETH", mineContext.MainCoin.Code);
-                                    }
+                    if (isLogFileCreated) {
+                        using (FileStream stream = File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        using (StreamReader sreader = new StreamReader(stream, Encoding.Default)) {
+                            while (mineContext == Current.CurrentMineContext) {
+                                string outline = sreader.ReadLine();
+                                if (string.IsNullOrEmpty(outline)) {
+                                    Thread.Sleep(1000);
                                 }
-                                Current.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
-                                Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
-                                if (!string.IsNullOrEmpty(input)) {
-                                    IKernelOutput kernelOutput;
-                                    if (Current.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out kernelOutput)) {
-                                        if (kernelOutput.PrependDateTime) {
-                                            Global.WriteLine($"{DateTime.Now}    {input}", color);
+                                else {
+                                    string input = outline;
+                                    Guid kernelOutputId = mineContext.Kernel.KernelOutputId;
+                                    Current.KernelOutputFilterSet.Filter(kernelOutputId, ref input);
+                                    ConsoleColor color = ConsoleColor.White;
+                                    Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color, isPre: true);
+                                    // 使用Claymore挖其非ETH币种时它也打印ETH，所以这里需要纠正它
+                                    if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
+                                        if (mineContext.MainCoin.Code != "ETH" && input.Contains("ETH")) {
+                                            input = input.Replace("ETH", mineContext.MainCoin.Code);
+                                        }
+                                    }
+                                    Current.KernelOutputSet.Pick(kernelOutputId, ref input, mineContext);
+                                    Current.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color);
+                                    if (!string.IsNullOrEmpty(input)) {
+                                        IKernelOutput kernelOutput;
+                                        if (Current.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out kernelOutput)) {
+                                            if (kernelOutput.PrependDateTime) {
+                                                Global.WriteLine($"{DateTime.Now}    {input}", color);
+                                            }
+                                            else {
+                                                Global.WriteLine(input, color);
+                                            }
                                         }
                                         else {
                                             Global.WriteLine(input, color);
                                         }
                                     }
-                                    else {
-                                        Global.WriteLine(input, color);
-                                    }
                                 }
                             }
                         }
+                        Global.Logger.WarnWriteLine("日志输出结束");
                     }
-                    Global.Logger.WarnWriteLine("日志输出结束");
-                }
+                });
             }
             #endregion
 
@@ -257,9 +259,7 @@ namespace NTMiner {
                             }
                             CloseHandle(hReadOut);
                         });
-                        Task.Factory.StartNew(() => {
-                            ReadPrintLoopLogFile(mineContext, pipLogFileFullName);
-                        });
+                        ReadPrintLoopLogFileAsync(mineContext, pipLogFileFullName);
                     }
                 }
                 else {

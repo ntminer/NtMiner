@@ -62,9 +62,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 "周期刷新显卡状态",
                 LogEnum.None,
                 action: message => {
-                    Task.Factory.StartNew(() => {
-                        LoadGpuState();
-                    });
+                    LoadGpuStateAsync();
                 });
         }
 
@@ -74,27 +72,29 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        private void LoadGpuState() {
-            for (int i = 0; i < _nvmlDevices.Length; i++) {
-                var nvmlDevice = _nvmlDevices[i];
-                uint power = 0;
-                NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
-                power = (uint)(power / 1000.0);
-                uint temp = 0;
-                NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
-                uint speed = 0;
-                NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref speed);
+        private void LoadGpuStateAsync() {
+            Task.Factory.StartNew(() => {
+                for (int i = 0; i < _nvmlDevices.Length; i++) {
+                    var nvmlDevice = _nvmlDevices[i];
+                    uint power = 0;
+                    NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
+                    power = (uint)(power / 1000.0);
+                    uint temp = 0;
+                    NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
+                    uint speed = 0;
+                    NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref speed);
 
-                Gpu gpu = (Gpu)_gpus[i];
-                bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
-                gpu.Temperature = temp;
-                gpu.PowerUsage = power;
-                gpu.FanSpeed = speed;
+                    Gpu gpu = (Gpu)_gpus[i];
+                    bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
+                    gpu.Temperature = temp;
+                    gpu.PowerUsage = power;
+                    gpu.FanSpeed = speed;
 
-                if (isChanged) {
-                    Global.Happened(new GpuStateChangedEvent(gpu));
+                    if (isChanged) {
+                        Global.Happened(new GpuStateChangedEvent(gpu));
+                    }
                 }
-            }
+            });
         }
 
         public GpuType GpuType {

@@ -41,28 +41,28 @@ namespace NTMiner.Core.Gpus.Impl {
                 "周期刷新显卡状态",
                 LogEnum.None,
                 action: message => {
-                    Task.Factory.StartNew(() => {
-                        LoadGpuState();
-                    });
+                    LoadGpuStateAsync();
                 });
         }
 
-        private void LoadGpuState() {
-            for (int i = 0; i < Count; i++) {
-                uint power = adlHelper.GetPowerUsageByIndex(i);
-                uint temp = adlHelper.GetTemperatureByIndex(i);
-                uint speed = adlHelper.GetFanSpeedByIndex(i);
+        private void LoadGpuStateAsync() {
+            Task.Factory.StartNew(() => {
+                for (int i = 0; i < Count; i++) {
+                    uint power = adlHelper.GetPowerUsageByIndex(i);
+                    uint temp = adlHelper.GetTemperatureByIndex(i);
+                    uint speed = adlHelper.GetFanSpeedByIndex(i);
 
-                Gpu gpu = (Gpu)_gpus[i];
-                bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
-                gpu.Temperature = temp;
-                gpu.PowerUsage = power;
-                gpu.FanSpeed = speed;
+                    Gpu gpu = (Gpu)_gpus[i];
+                    bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
+                    gpu.Temperature = temp;
+                    gpu.PowerUsage = power;
+                    gpu.FanSpeed = speed;
 
-                if (isChanged) {
-                    Global.Happened(new GpuStateChangedEvent(gpu));
+                    if (isChanged) {
+                        Global.Happened(new GpuStateChangedEvent(gpu));
+                    }
                 }
-            }
+            });
         }
 
         public GpuType GpuType {

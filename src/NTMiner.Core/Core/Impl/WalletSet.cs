@@ -16,7 +16,7 @@ namespace NTMiner.Core.Impl {
 
         private void AddWallet(WalletData entity) {
             if (UseRemoteWalletList) {
-                Server.ControlCenterService.AddOrUpdateWallet(entity, null);
+                Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
             }
             else {
                 var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Impl {
 
         private void UpdateWallet(WalletData entity) {
             if (UseRemoteWalletList) {
-                Server.ControlCenterService.AddOrUpdateWallet(entity, null);
+                Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
             }
             else {
                 var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Impl {
 
         private void RemoveWallet(Guid id) {
             if (UseRemoteWalletList) {
-                Server.ControlCenterService.RemoveWallet(id, null);
+                Server.ControlCenterService.RemoveWalletAsync(id, null);
             }
             else {
                 var repository = NTMinerRoot.CreateLocalRepository<WalletData>();

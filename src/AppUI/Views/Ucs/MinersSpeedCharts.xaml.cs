@@ -49,7 +49,7 @@ namespace NTMiner.Views.Ucs {
         private void RefreshTotalSpeedChart(int limit) {
             //NTMinerRoot.Current.DebugLine($"获取总算力数据，范围{leftTime} - {rightTime}");
             var coinCodes = NTMinerRoot.Current.CoinSet.Select(a => a.Code).ToList();
-            Server.ControlCenterService.GetLatestSnapshots(
+            Server.ControlCenterService.GetLatestSnapshotsAsync(
                 limit,
                 coinCodes,
                 (response)=> {

@@ -18,7 +18,7 @@ namespace NTMiner {
 
         void StartMine(Guid workId);
 
-        void StopMine(Action callback = null);
+        void StopMineAsync(Action callback = null);
 
         void RestartMine();
 

@@ -15,7 +15,7 @@ namespace NTMiner {
                 return ChannelFactory.CreateChannel<IReportService>(Server.MinerServerHost, Server.MinerServerPort);
             }
 
-            public void Login(LoginData message) {
+            public void LoginAsync(LoginData message) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var service = CreateService()) {
@@ -31,7 +31,7 @@ namespace NTMiner {
                 });
             }
 
-            public void ReportSpeed(SpeedData message) {
+            public void ReportSpeedAsync(SpeedData message) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var service = CreateService()) {
@@ -47,7 +47,7 @@ namespace NTMiner {
                 });
             }
 
-            public void ReportState(Guid clientId, bool isMining) {
+            public void ReportStateAsync(Guid clientId, bool isMining) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var service = CreateService()) {

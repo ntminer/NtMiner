@@ -87,7 +87,7 @@ namespace NTMiner.Vms {
                     this.BtnCancelVisible = Visibility.Collapsed;
                     if (isSuccess) {
                         this.DownloadMessage = "更新成功，正在重启";
-                        Task.Factory.StartNew(CloseNTMinerMainWindow);
+                        CloseNTMinerMainWindow();
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                             string location = GetNTMinerLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
@@ -154,14 +154,14 @@ namespace NTMiner.Vms {
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };
-                Server.FileUrlService.GetNTMinerUrl(fileName, url => {
+                Server.FileUrlService.GetNTMinerUrlAsync(fileName, url => {
                     webClient.DownloadFileAsync(new Uri(url), saveFileFullName);
                 });
             }
         }
 
         public void Refresh() {
-            Server.FileUrlService.GetNTMinerFiles(ntMinerFiles => {
+            Server.FileUrlService.GetNTMinerFilesAsync(ntMinerFiles => {
                 this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;

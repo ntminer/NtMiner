@@ -15,7 +15,7 @@ namespace NTMiner {
                 return ChannelFactory.CreateChannel<ITimeService>(Server.MinerServerHost, Server.MinerServerPort);
             }
 
-            public void GetTime(Action<DateTime> callback) {
+            public void GetTimeAsync(Action<DateTime> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var service = CreateService()) {
@@ -33,6 +33,11 @@ namespace NTMiner {
                 });
             }
 
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <param name="host"></param>
+            /// <returns></returns>
             public string GetServerPubKey(string host) {
                 using (var service = ChannelFactory.CreateChannel<ITimeService>(host, Server.MinerServerPort)) {
                     return service.GetServerPubKey();
