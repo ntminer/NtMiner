@@ -3,6 +3,7 @@ using NTMiner.ServiceContracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
@@ -11,6 +12,16 @@ using System.Windows;
 namespace UnitTestProject1 {
     [TestClass]
     public class UnitTest1 {
+        [TestMethod]
+        public void HttpHeadTest() {
+            string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/server1.1.2.json";
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(url));
+            webRequest.Method = "HEAD";
+            HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
+            string etag = response.GetResponseHeader("ETag");
+            Console.WriteLine(etag);
+        }
+
         [TestMethod]
         public void Test1() {
             string a = null;
