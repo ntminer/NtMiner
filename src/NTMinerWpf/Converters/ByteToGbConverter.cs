@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 
 namespace NTMiner.Converters {
+    [ValueConversion(typeof(long), typeof(string))]
     public class ByteToGbConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             long l = (long)value;

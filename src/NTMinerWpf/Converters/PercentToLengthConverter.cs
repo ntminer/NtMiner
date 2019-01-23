@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 
 namespace NTMiner.Converters {
+    [ValueConversion(typeof(double), typeof(double))]
     public class PercentToLengthConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             double percent = (double)value;
