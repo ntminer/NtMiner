@@ -380,11 +380,6 @@ namespace NTMiner.Vms {
                     if (this == Empty) {
                         return;
                     }
-                    if (!string.IsNullOrEmpty(value)) {
-                        if (!System.Version.TryParse(value, out Version version)) {
-                            throw new ValidationException("版本号格式不正确");
-                        }
-                    }
                 }
             }
         }

@@ -33,6 +33,9 @@
             <sys:String x:Key="Version">
                 Version
             </sys:String>
+            <sys:String x:Key="VersionToolTip">
+                VersionToolTip
+            </sys:String>
             <sys:String x:Key="Package">
                 Package
             </sys:String>
@@ -106,7 +109,9 @@
                             <TextBox 
 						        Width="150"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
-						        VerticalContentAlignment="Center" Text="{Binding Version, ValidatesOnExceptions=True}">
+						        VerticalContentAlignment="Center" 
+                                ToolTip="{DynamicResource VersionToolTip}"
+                                Text="{Binding Version}">
                             </TextBox>
                             <TextBlock Style="{StaticResource LblTb}" Width="50" Text="{DynamicResource Sort}"></TextBlock>
                             <TextBox 
