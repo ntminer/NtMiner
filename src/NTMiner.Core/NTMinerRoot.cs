@@ -334,7 +334,7 @@ namespace NTMiner {
                 "开始挖矿后启动NoDevFee",
                 LogEnum.Log,
                  action: message => {
-                     NTMinerClientDaemon.Instance.Start(callback: null);
+                     NTMinerClientDaemon.Instance.StartAsync(callback: null);
                  });
             #endregion
             #region 停止挖矿后停止NoDevFee
@@ -343,7 +343,7 @@ namespace NTMiner {
                 "停止挖矿后停止NoDevFee",
                 LogEnum.Log,
                  action: message => {
-                     NTMinerClientDaemon.Instance.Stop(callback: null);
+                     NTMinerClientDaemon.Instance.StopAsync(callback: null);
                  });
             #endregion
             #region 周期确保守护进程在运行
@@ -356,7 +356,7 @@ namespace NTMiner {
                     action: message => {
                         Daemon.DaemonUtil.RunNTMinerDaemon();
                         if (IsMining) {
-                            NTMinerClientDaemon.Instance.Start(callback: null);
+                            NTMinerClientDaemon.Instance.StartAsync(callback: null);
                         }
                     });
             }

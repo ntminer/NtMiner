@@ -41,7 +41,7 @@ namespace NTMiner {
             });
         }
 
-        public void RestartWindows(string clientHost, int clientPort, Action<bool> callback) {
+        public void RestartWindowsAsync(string clientHost, int clientPort, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var client = CreateService(clientHost, clientPort)) {
@@ -56,7 +56,7 @@ namespace NTMiner {
             });
         }
 
-        public void ShutdownWindows(string clientHost, int clientPort, Action<bool> callback) {
+        public void ShutdownWindowsAsync(string clientHost, int clientPort, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var client = CreateService(clientHost, clientPort)) {
@@ -71,7 +71,7 @@ namespace NTMiner {
             });
         }
 
-        public void OpenNTMiner(string clientHost, int clientPort, Guid workId, Action<bool> callback) {
+        public void OpenNTMinerAsync(string clientHost, int clientPort, Guid workId, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var client = CreateService(clientHost, clientPort)) {
@@ -86,7 +86,7 @@ namespace NTMiner {
             });
         }
 
-        public void RestartNTMiner(string clientHost, int clientPort, Guid workId, Action<bool> callback) {
+        public void RestartNTMinerAsync(string clientHost, int clientPort, Guid workId, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var client = CreateService(clientHost, clientPort)) {
@@ -101,7 +101,7 @@ namespace NTMiner {
             });
         }
 
-        public void CloseNTMiner(string clientHost, int clientPort, Action<bool> callback) {
+        public void CloseNTMinerAsync(string clientHost, int clientPort, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var client = CreateService(clientHost, clientPort)) {
@@ -116,7 +116,7 @@ namespace NTMiner {
             });
         }
 
-        public void IsNTMinerDaemonOnline(string clientHost, int clientPort, Action<bool> callback) {
+        public void IsNTMinerDaemonOnlineAsync(string clientHost, int clientPort, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var client = CreateService(clientHost, clientPort)) {
@@ -130,7 +130,7 @@ namespace NTMiner {
             });
         }
 
-        public void IsNTMinerOnline(string clientHost, int clientPort, Action<bool> callback) {
+        public void IsNTMinerOnlineAsync(string clientHost, int clientPort, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var client = CreateService(clientHost, clientPort)) {
@@ -144,7 +144,7 @@ namespace NTMiner {
             });
         }
 
-        public void Start(Action<bool> callback) {
+        public void StartAsync(Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     if (!NTMinerRoot.Current.IsMining) {
@@ -177,7 +177,7 @@ namespace NTMiner {
             });
         }
 
-        public void Stop(Action<bool> callback) {
+        public void StopAsync(Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     if (NTMinerRoot.Current.IsMining) {

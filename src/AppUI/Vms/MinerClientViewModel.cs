@@ -29,23 +29,23 @@ namespace NTMiner.Vms {
             this.ClientDataVm = new ClientDataViewModel(clientData);
             this.RestartWindows = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定重启{this.ClientDataVm.MinerName}电脑吗？", title: "确认", onYes: () => {
-                    NTMinerClientDaemon.Instance.RestartWindows(this.ClientDataVm.MinerIp, Global.ClientPort, null);
+                    NTMinerClientDaemon.Instance.RestartWindowsAsync(this.ClientDataVm.MinerIp, Global.ClientPort, null);
                 }, icon: "Icon_Confirm");
             });
             this.ShutdownWindows = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定关机{this.ClientDataVm.MinerName}电脑吗？", title: "确认", onYes: () => {
-                    NTMinerClientDaemon.Instance.ShutdownWindows(this.ClientDataVm.MinerIp, Global.ClientPort, null);
+                    NTMinerClientDaemon.Instance.ShutdownWindowsAsync(this.ClientDataVm.MinerIp, Global.ClientPort, null);
                 }, icon: "Icon_Confirm");
             });
             this.StartNTMiner = new DelegateCommand(() => {
-                NTMinerClientDaemon.Instance.OpenNTMiner(this.ClientDataVm.MinerIp, Global.ClientPort, this.ClientDataVm.WorkId, null);
+                NTMinerClientDaemon.Instance.OpenNTMinerAsync(this.ClientDataVm.MinerIp, Global.ClientPort, this.ClientDataVm.WorkId, null);
             });
             this.RestartNTMiner = new DelegateCommand(() => {
                 MinerClientRestart.ShowWindow(this);
             });
             this.CloseNTMiner = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定关闭{this.ClientDataVm.MinerName}挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
-                    NTMinerClientDaemon.Instance.CloseNTMiner(this.ClientDataVm.MinerIp, Global.ClientPort, null);
+                    NTMinerClientDaemon.Instance.CloseNTMinerAsync(this.ClientDataVm.MinerIp, Global.ClientPort, null);
                 }, icon: "Icon_Confirm");
             });
             this.ShowReName = new DelegateCommand(() => {
@@ -53,7 +53,7 @@ namespace NTMiner.Vms {
                 this.IsReNameVisible = Visibility.Visible;
             });
             this.ReName = new DelegateCommand(() => {
-                MinerClientService.Instance.SetMinerProfileProperty(
+                MinerClientService.Instance.SetMinerProfilePropertyAsync(
                             this.ClientDataVm.MinerIp,
                             this.ClientDataVm.PublicKey,
                             nameof(ClientDataVm.MinerName),
@@ -92,14 +92,14 @@ namespace NTMiner.Vms {
             });
             this.StartMine = new DelegateCommand(() => {
                 ClientDataVm.IsMining = true;
-                MinerClientService.Instance.StartMine(this.ClientDataVm.MinerIp, this.ClientDataVm.PublicKey, ClientDataVm.WorkId, null);
+                MinerClientService.Instance.StartMineAsync(this.ClientDataVm.MinerIp, this.ClientDataVm.PublicKey, ClientDataVm.WorkId, null);
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                     Refresh();
                 });
             });
             this.StopMine = new DelegateCommand(() => {
                 ClientDataVm.IsMining = false;
-                MinerClientService.Instance.StopMine(this.ClientDataVm.MinerIp, this.ClientDataVm.PublicKey, null);
+                MinerClientService.Instance.StopMineAsync(this.ClientDataVm.MinerIp, this.ClientDataVm.PublicKey, null);
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                     Refresh();
                 });
