@@ -72,18 +72,8 @@
             Text="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
-			Margin="18 0 4 0" Foreground="Yellow">
+			Margin="4 0" Foreground="Yellow">
         </TextBox>
-        <Path
-            Grid.Row="1"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Margin="2 2 0 0"
-            Width="14"
-            Height="14"
-            Data="{StaticResource Icon_Notice}"
-            Fill="Yellow"
-            Stretch="Fill" />
         <Path 
             Grid.Row="2"
             Visibility="{Binding IsWatermarkVisible}"

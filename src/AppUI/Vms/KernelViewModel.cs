@@ -565,9 +565,9 @@ namespace NTMiner.Vms {
         public string KernelNotice {
             get {
                 if (string.IsNullOrEmpty(this.Notice)) {
-                    return this.FullName;
+                    return string.Empty;
                 }
-                return $"{this.FullName}：{this.Notice}";
+                return $"🚩{this.FullName}：{this.Notice}";
             }
         }
 
