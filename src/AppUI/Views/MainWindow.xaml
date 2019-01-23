@@ -376,6 +376,7 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBox
+                Padding="10 0"
                 Foreground="White"
                 TextWrapping="Wrap"
 				VerticalScrollBarVisibility="Auto"
