@@ -4,6 +4,7 @@ using NTMiner.ServiceContracts.DataObjects;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -15,6 +16,7 @@ namespace NTMiner.Vms {
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private double _logoRotateTransformAngle;
         private MineWorkData _mineWork;
+        private Visibility _isWatermarkVisible = Visibility.Visible;
 
         public ICommand CustomTheme { get; private set; }
 
@@ -58,6 +60,7 @@ namespace NTMiner.Vms {
                 LogEnum.None,
                 action: message => {
                     this.OnPropertyChanged(nameof(this.IsMining));
+                    this.IsWatermarkVisible = Visibility.Collapsed;
                 });
             Global.Access<MineStopedEvent>(
                 Guid.Parse("C4C1308A-1C04-4094-91A2-D11993C626A0"),
@@ -103,6 +106,16 @@ namespace NTMiner.Vms {
                         this.MineWork = mineWorkData;
                     }
                 });
+            }
+        }
+
+        public Visibility IsWatermarkVisible {
+            get {
+                return _isWatermarkVisible;
+            }
+            set {
+                _isWatermarkVisible = value;
+                OnPropertyChanged(nameof(IsWatermarkVisible));
             }
         }
 

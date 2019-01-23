@@ -65,11 +65,19 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 			</WrapPanel>
-		</Grid>
+        </Grid>
+        <Path 
+            Grid.Row="1"
+            Visibility="{Binding IsWatermarkVisible}"
+            Margin="50 0 50 50"
+            Data="{StaticResource Icon_Logo}"
+            Fill="#0FFFFFFF"
+            Stretch="Fill" />
         <RichTextBox 
             Grid.Row="1"
 			VerticalScrollBarVisibility="Auto"
-			x:Name="RichTextBox" BorderThickness="0" 
+			x:Name="RichTextBox" 
+            BorderThickness="0" 
             SpellCheck.IsEnabled="False"
 			IsReadOnly="True" FontSize="12"
 			Padding="0 0 0 4" Background="Transparent" Foreground="White">
