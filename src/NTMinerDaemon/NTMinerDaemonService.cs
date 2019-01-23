@@ -137,7 +137,7 @@ namespace NTMiner {
             string ourWallet, 
             string testWallet, 
             string kernelName) {
-            NoDevFee.NoDevFeeUtil.Start(contextId, minerName, coin, poolIp, ourWallet, testWallet, kernelName);
+            NoDevFee.NoDevFeeUtil.StartAsync(contextId, minerName, coin, poolIp, ourWallet, testWallet, kernelName);
         }
 
         public void StopMine() {

@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
                 NTMinerRoot.Current.StartMine(CommandLineArgs.WorkId);
             });
             this.StopMine = new DelegateCommand(() => {
-                NTMinerRoot.Current.StopMine();
+                NTMinerRoot.Current.StopMineAsync();
             });
             if (DevMode.IsDevMode) {
                 Global.Access<Per10SecondEvent>(

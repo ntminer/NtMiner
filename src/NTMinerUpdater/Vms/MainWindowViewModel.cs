@@ -87,7 +87,7 @@ namespace NTMiner.Vms {
                     this.BtnCancelVisible = Visibility.Collapsed;
                     if (isSuccess) {
                         this.DownloadMessage = "更新成功，正在重启";
-                        Task.Factory.StartNew(CloseNTMinerMainWindow);
+                        CloseNTMinerMainWindow();
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                             string location = GetNTMinerLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {

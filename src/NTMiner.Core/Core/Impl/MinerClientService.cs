@@ -50,7 +50,7 @@ namespace NTMiner.Core.Impl {
             if (time.AddSeconds(Global.DesyncSeconds) < DateTime.Now) {
                 return;
             }
-            NTMinerRoot.Current.StopMine();
+            NTMinerRoot.Current.StopMineAsync();
         }
 
         public void SetMinerProfileProperty(string desKey, string data) {

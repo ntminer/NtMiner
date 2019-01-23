@@ -21,10 +21,10 @@ namespace NTMiner {
                     Enabled = true
                 };
                 t.Elapsed += (object sender, ElapsedEventArgs e) => {
-                    Update();
+                    UpdateAsync();
                 };
                 t.Start();
-                Update();
+                UpdateAsync();
                 Console.WriteLine("输入exit并回车可以停止服务！");
 
                 while (Console.ReadLine() != "exit") {
@@ -39,7 +39,7 @@ namespace NTMiner {
             System.Threading.Thread.Sleep(1000);
         }
 
-        private static void Update() {
+        private static void UpdateAsync() {
             Task.Factory.StartNew(() => {
                 try {
                     byte[] htmlData = GetHtmlAsync("https://www.f2pool.com/").Result;

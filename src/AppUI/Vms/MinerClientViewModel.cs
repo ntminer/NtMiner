@@ -70,21 +70,19 @@ namespace NTMiner.Vms {
                 this.IsChangeGroupVisible = Visibility.Visible;
             });
             this.ChangeGroup = new DelegateCommand(() => {
-                Task.Factory.StartNew(() => {
-                    try {
-                        Server.ControlCenterService.UpdateClientAsync(
-                            this.ClientDataVm.Id,
-                            nameof(ClientDataVm.GroupId),
-                            this.ClientDataVm.SelectedMinerGroupCopy.Id, null);
-                        this.ClientDataVm.GroupId = this.ClientDataVm.SelectedMinerGroupCopy.Id;
-                    }
-                    catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
-                    }
+                try {
+                    Server.ControlCenterService.UpdateClientAsync(
+                        this.ClientDataVm.Id,
+                        nameof(ClientDataVm.GroupId),
+                        this.ClientDataVm.SelectedMinerGroupCopy.Id, null);
+                    this.ClientDataVm.GroupId = this.ClientDataVm.SelectedMinerGroupCopy.Id;
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                         Refresh();
                     });
-                });
+                }
+                catch (Exception e) {
+                    Global.Logger.ErrorDebugLine(e.Message, e);
+                }
                 this.IsChangeGroupVisible = Visibility.Collapsed;
             });
             this.CancelChangeGroup = new DelegateCommand(() => {
