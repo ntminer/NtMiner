@@ -64,7 +64,7 @@ namespace NTMiner {
                                         string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
                                         Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
-                                        rawNTMinerJson = System.Text.Encoding.UTF8.GetString(data);
+                                        rawNTMinerJson = Encoding.UTF8.GetString(data);
                                     }
                                 }
                                 catch (Exception e) {
@@ -77,7 +77,7 @@ namespace NTMiner {
                                         string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerLangJsonFileName;
                                         Global.Logger.InfoDebugLine("下载：" + jsonUrl);
                                         byte[] data = webClient.DownloadData(jsonUrl);
-                                        rawLangJson = System.Text.Encoding.UTF8.GetString(data);
+                                        rawLangJson = Encoding.UTF8.GetString(data);
                                     }
                                 }
                                 catch (Exception e) {
