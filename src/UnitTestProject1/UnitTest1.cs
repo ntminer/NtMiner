@@ -58,6 +58,20 @@ namespace UnitTestProject1 {
         }
 
         [TestMethod]
+        public void RegexTest1() {
+            string line = "11.1 h/s | 12.2 h/s | 13.3 h/s";
+            Regex regex = new Regex(@"(?<gpuSpeed>\d+\.?\d*) (?<gpuSpeedUnit>.+?/s)(?: \|)?");
+            MatchCollection matches = regex.Matches(line);
+            for (int gpuId = 0; gpuId < matches.Count; gpuId++) {
+                Match match = matches[gpuId];
+                double gpuSpeed;
+                string gpuSpeedUnit = match.Groups["gpuSpeedUnit"].Value;
+                double.TryParse(match.Groups["gpuSpeed"].Value, out gpuSpeed);
+                Console.WriteLine($"GPU{gpuId} {gpuSpeed} {gpuSpeedUnit}");
+            }
+        }
+
+        [TestMethod]
         public void FileDeleteTest() {
             File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString()));
         }
