@@ -231,19 +231,25 @@ namespace NTMiner.Core.Kernels.Impl {
                 return;
             }
             var now = DateTime.Now;
+            bool hasGpuId = gpuSpeedPattern.Contains("?<gpu>");
             Regex regex = new Regex(gpuSpeedPattern);
             MatchCollection matches = regex.Matches(input);
             if (matches.Count > 0) {
                 GpusSpeed gpuSpeeds = (GpusSpeed)NTMinerRoot.Current.GpusSpeed;
-
-                foreach (Match match in matches) {
-                    string gpuText = match.Groups["gpu"].Value;
+                for (int i = 0; i < matches.Count; i++) {
+                    Match match = matches[i];
                     string gpuSpeedText = match.Groups["gpuSpeed"].Value;
                     string gpuSpeedUnit = match.Groups["gpuSpeedUnit"].Value;
 
-                    int gpu;
+                    int gpu = i;
+                    if (hasGpuId) {
+                        string gpuText = match.Groups["gpu"].Value;
+                        if (!int.TryParse(gpuText, out gpu)) {
+                            gpu = i;
+                        }
+                    }
                     double gpuSpeed;
-                    if (int.TryParse(gpuText, out gpu) && double.TryParse(gpuSpeedText, out gpuSpeed)) {
+                    if (double.TryParse(gpuSpeedText, out gpuSpeed)) {
                         double gpuSpeedL = gpuSpeed.FromUnitSpeed(gpuSpeedUnit);
                         IGpuSpeed gpuSpeedItem = gpuSpeeds.First(a => a.Gpu.Index == gpu);
                         gpuSpeeds.SetCurrentSpeed(gpuSpeedItem.Clone());
