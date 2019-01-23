@@ -30,11 +30,9 @@ namespace NTMiner {
 
         [OperationContract]
         void StartMine(
-            Guid contextId,
+            int contextId,
             string minerName,
             string coin,
-            string poolIp,
-            int poolPort,
             string ourWallet,
             string testWallet,
             string kernelName);

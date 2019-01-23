@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
     public unsafe static partial class NoDevFeeUtil {
-        private static Guid _contextId;
+        private static volatile int _contextId;
         public static void StartAsync(
-            Guid contextId, 
+            int contextId, 
             string minerName,
             string coin, 
-            string poolIp, 
             string ourWallet,
             string testWallet,
             string kernelFullName) {
@@ -20,7 +19,7 @@ namespace NTMiner.NoDevFee {
                 return;
             }
             Task.Factory.StartNew(() => {
-                if (contextId == Guid.Empty) {
+                if (contextId == 0) {
                     return;
                 }
                 if (contextId == _contextId) {
@@ -31,10 +30,6 @@ namespace NTMiner.NoDevFee {
                 }
                 if (minerName == null) {
                     minerName = string.Empty;
-                }
-                if (string.IsNullOrEmpty(poolIp)) {
-                    Global.Logger.WarnDebugLine("没有得到矿池IP地址，NoDevFee结束");
-                    return;
                 }
                 if (string.IsNullOrEmpty(ourWallet)) {
                     Global.Logger.WarnDebugLine("没有ourWallet，NoDevFee结束");
@@ -53,11 +48,10 @@ namespace NTMiner.NoDevFee {
                 int counter = 0;
                 bool ranOnce = false;
 
-                string filter = $"outbound && ip && ip.DstAddr == {poolIp} && tcp && tcp.PayloadLength > 100";
+                string filter = $"outbound && ip && ip.DstAddr != 127.0.0.1 && tcp && tcp.PayloadLength > 100";
                 Global.Logger.InfoDebugLine(filter);
                 IntPtr divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
-                object locker = new object();
-
+                
                 if (divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
                         Global.Logger.InfoDebugLine($"{coin} divertHandle 守护程序开启");
@@ -65,10 +59,8 @@ namespace NTMiner.NoDevFee {
                             System.Threading.Thread.Sleep(1000);
                         }
                         if (divertHandle != IntPtr.Zero) {
-                            lock (locker) {
-                                WinDivertMethods.WinDivertClose(divertHandle);
-                                divertHandle = IntPtr.Zero;
-                            }
+                            WinDivertMethods.WinDivertClose(divertHandle);
+                            divertHandle = IntPtr.Zero;
                         }
                     });
 
@@ -79,7 +71,6 @@ namespace NTMiner.NoDevFee {
                             contextId: contextId, 
                             workerName: minerName, 
                             coin: coin, 
-                            poolIp: poolIp,
                             ourWallet: ourWallet,
                             testWallet: testWallet,
                             kernelFullName: kernelFullName,
@@ -87,13 +78,6 @@ namespace NTMiner.NoDevFee {
                             counter: ref counter,
                             ranOnce: ref ranOnce);
                     }));
-
-                    if (divertHandle != IntPtr.Zero) {
-                        lock (locker) {
-                            WinDivertMethods.WinDivertClose(divertHandle);
-                            divertHandle = IntPtr.Zero;
-                        }
-                    }
                     Global.Logger.OkDebugLine($"{coin} NoDevFee closed");
                 }
                 else {
@@ -103,15 +87,14 @@ namespace NTMiner.NoDevFee {
         }
 
         public static void Stop() {
-            _contextId = Guid.NewGuid();
+            _contextId = Guid.NewGuid().GetHashCode();
         }
 
         private static void RunDiversion(
             IntPtr divertHandle, 
-            Guid contextId,
+            int contextId,
             string workerName,
             string coin, 
-            string poolIp,
             string ourWallet, 
             string testWallet, 
             string kernelFullName,
@@ -144,18 +127,14 @@ namespace NTMiner.NoDevFee {
                         WinDivertMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
-                            string dstIp = ipv4Header->DstAddr.ToString();
-                            var dstPort = tcpHdr->DstPort;
-                            string arrow = $"->{dstIp}:{dstPort}";
-                            if (dstIp == poolIp) {
-                                arrow = $"{dstIp}:{dstPort}<-";
-                            }
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             int position;
                             if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out position)) {
-                                Global.Logger.InfoDebugLine(arrow + text);
                                 string dwallet = Encoding.UTF8.GetString(packet, position, byteTestWallet.Length);                                
                                 if (dwallet != ourWallet) {
+                                    string dstIp = ipv4Header->DstAddr.ToString();
+                                    var dstPort = tcpHdr->DstPort;
+                                    Global.Logger.InfoDebugLine($"{dstIp}:{dstPort} {text}");
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Global.Logger.WarnDebugLine(msg);
                                     Buffer.BlockCopy(byteTestWallet, 0, packet, position, byteTestWallet.Length);

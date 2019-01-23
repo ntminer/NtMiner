@@ -24,7 +24,7 @@ namespace NTMiner {
                 return;
             }
             if (args.Length >= 2) {
-                Console.Title = args[1] + "开始时间："+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff");
+                Console.Title = args[1] + "开始时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff");
             }
             else {
                 Console.Title = "开始时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff");

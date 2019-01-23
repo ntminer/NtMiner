@@ -155,10 +155,9 @@ namespace NTMiner {
                     try {
                         using (var client = CreateService(Global.Localhost, Global.ClientPort)) {
                             client.StartMine(
-                                context.Id, context.MinerName,
+                                context.Id.GetHashCode(), 
+                                context.MinerName,
                                 context.MainCoin.Code,
-                                context.MainCoinPool.GetIp(),
-                                context.MainCoinPool.GetPort(),
                                 context.MainCoinWallet,
                                 context.MainCoin.TestWallet,
                                 context.Kernel.FullName);
@@ -227,11 +226,9 @@ namespace NTMiner {
             }
 
             public void StartMine(
-                Guid contextId,
+                int contextId,
                 string workerName,
                 string coin,
-                string poolIp,
-                int poolPort,
                 string ourWallet,
                 string testWallet,
                 string kernelName) {

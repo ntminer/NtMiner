@@ -129,15 +129,13 @@ namespace NTMiner {
         }
 
         public void StartMine(
-            Guid contextId, 
+            int contextId, 
             string minerName,
             string coin, 
-            string poolIp, 
-            int poolPort, 
             string ourWallet, 
             string testWallet, 
             string kernelName) {
-            NoDevFee.NoDevFeeUtil.StartAsync(contextId, minerName, coin, poolIp, ourWallet, testWallet, kernelName);
+            NoDevFee.NoDevFeeUtil.StartAsync(contextId, minerName, coin, ourWallet, testWallet, kernelName);
         }
 
         public void StopMine() {
