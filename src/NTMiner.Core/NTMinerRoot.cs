@@ -535,9 +535,6 @@ namespace NTMiner {
                     Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName());
                     MinerProcess.CreateProcessAsync(mineContext);
                 }
-                if (!string.IsNullOrEmpty(mineContext.Kernel.Notice)) {
-                    Global.Logger.WarnWriteLine(mineContext.Kernel.Notice);
-                }
                 Global.Happened(new MineStartedEvent(mineContext));
             }
             catch (Exception e) {

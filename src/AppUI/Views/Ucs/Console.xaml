@@ -16,15 +16,16 @@
     </UserControl.Resources>
 	<Grid Background="Black">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid>
 			<TextBox 
                 Text="{DynamicResource AnnouncementContent}"
 				BorderThickness="0" AcceptsReturn="True" 
 				TextWrapping="Wrap" IsReadOnly="True" 
-				Padding="4" Foreground="White">
+				Padding="4 0" Foreground="White">
 			</TextBox>
 			<WrapPanel 
 				Margin="0 0 18 0"
@@ -66,15 +67,22 @@
 				</controls:KbButton>
 			</WrapPanel>
         </Grid>
-        <Path 
+        <TextBox 
             Grid.Row="1"
+            Text="{Binding CoinVm.CoinKernel.Kernel.Notice}"
+			BorderThickness="0" AcceptsReturn="True" 
+			TextWrapping="Wrap" IsReadOnly="True" 
+			Padding="4 0" Foreground="Yellow">
+        </TextBox>
+        <Path 
+            Grid.Row="2"
             Visibility="{Binding IsWatermarkVisible}"
             Margin="50 0 50 50"
             Data="{StaticResource Icon_Logo}"
             Fill="#0FFFFFFF"
             Stretch="Fill" />
         <RichTextBox 
-            Grid.Row="1"
+            Grid.Row="2"
 			VerticalScrollBarVisibility="Auto"
 			x:Name="RichTextBox" 
             BorderThickness="0" 
