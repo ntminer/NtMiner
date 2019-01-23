@@ -11,80 +11,100 @@ namespace NTMiner.Core.Impl {
 
         public CoinSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<AddCoinCommand>(Guid.Parse("4CF438BB-7B59-4C56-AB8C-D01312848450"), "添加币种", LogEnum.Log, action: message => {
-                InitOnece();
-                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                    throw new ArgumentNullException();
-                }
-                if (string.IsNullOrEmpty(message.Input.Code)) {
-                    throw new ValidationException("coin code can't be null or empty");
-                }
-                if (_dicById.ContainsKey(message.Input.GetId())) {
-                    return;
-                }
-                if (_dicByCode.ContainsKey(message.Input.Code)) {
-                    throw new DuplicateCodeException();
-                }
-                CoinData entity = new CoinData().Update(message.Input);
-                _dicById.Add(entity.Id, entity);
-                _dicByCode.Add(entity.Code, entity);
-                var repository = NTMinerRoot.CreateServerRepository<CoinData>();
-                repository.Add(entity);
+            Global.Access<RefreshCoinSetCommand>(
+                Guid.Parse("EFEE90C3-4721-4923-805C-9A0F31042CB0"),
+                "刷新币种数据集",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new CoinSetRefreshedEvent());
+                });
+            Global.Access<AddCoinCommand>(
+                Guid.Parse("4CF438BB-7B59-4C56-AB8C-D01312848450"),
+                "添加币种",
+                LogEnum.Log,
+                action: message => {
+                    InitOnece();
+                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                        throw new ArgumentNullException();
+                    }
+                    if (string.IsNullOrEmpty(message.Input.Code)) {
+                        throw new ValidationException("coin code can't be null or empty");
+                    }
+                    if (_dicById.ContainsKey(message.Input.GetId())) {
+                        return;
+                    }
+                    if (_dicByCode.ContainsKey(message.Input.Code)) {
+                        throw new DuplicateCodeException();
+                    }
+                    CoinData entity = new CoinData().Update(message.Input);
+                    _dicById.Add(entity.Id, entity);
+                    _dicByCode.Add(entity.Code, entity);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
+                    repository.Add(entity);
 
-                Global.Happened(new CoinAddedEvent(entity));
-            });
-            Global.Access<UpdateCoinCommand>(Guid.Parse("86EAEA27-7B7C-4A12-8F22-8F1422C6A489"), "更新币种", LogEnum.Log, action: message => {
-                InitOnece();
-                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                    throw new ArgumentNullException();
-                }
-                if (string.IsNullOrEmpty(message.Input.Code)) {
-                    throw new ValidationException("coin code can't be null or empty");
-                }
-                if (!_dicById.ContainsKey(message.Input.GetId())) {
-                    return;
-                }
-                CoinData entity = _dicById[message.Input.GetId()];
-                entity.Update(message.Input);
-                var repository = NTMinerRoot.CreateServerRepository<CoinData>();
-                repository.Update(entity);
+                    Global.Happened(new CoinAddedEvent(entity));
+                });
+            Global.Access<UpdateCoinCommand>(
+                Guid.Parse("86EAEA27-7B7C-4A12-8F22-8F1422C6A489"),
+                "更新币种",
+                LogEnum.Log,
+                action: message => {
+                    InitOnece();
+                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                        throw new ArgumentNullException();
+                    }
+                    if (string.IsNullOrEmpty(message.Input.Code)) {
+                        throw new ValidationException("coin code can't be null or empty");
+                    }
+                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                        return;
+                    }
+                    CoinData entity = _dicById[message.Input.GetId()];
+                    entity.Update(message.Input);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
+                    repository.Update(entity);
 
-                Global.Happened(new CoinUpdatedEvent(message.Input));
-            });
-            Global.Access<RemoveCoinCommand>(Guid.Parse("9BB00186-9647-48D1-BF7B-4281A3FF317C"), "移除币种", LogEnum.Log, action: message => {
-                InitOnece();
-                if (message == null || message.EntityId == Guid.Empty) {
-                    throw new ArgumentNullException();
-                }
-                if (!_dicById.ContainsKey(message.EntityId)) {
-                    return;
-                }
-                CoinData entity = _dicById[message.EntityId];
-                Guid[] toRemoves = root.PoolSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
-                foreach (var id in toRemoves) {
-                    Global.Execute(new RemovePoolCommand(id));
-                }
-                toRemoves = root.CoinKernelSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
-                foreach (var id in toRemoves) {
-                    Global.Execute(new RemoveCoinKernelCommand(id));
-                }
-                toRemoves = root.WalletSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
-                foreach (var id in toRemoves) {
-                    Global.Execute(new RemoveWalletCommand(id));
-                }
-                toRemoves = root.CoinGroupSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
-                foreach (var id in toRemoves) {
-                    Global.Execute(new RemoveCoinGroupCommand(id));
-                }
-                _dicById.Remove(entity.Id);
-                if (_dicByCode.ContainsKey(entity.Code)) {
-                    _dicByCode.Remove(entity.Code);
-                }
-                var repository = NTMinerRoot.CreateServerRepository<CoinData>();
-                repository.Remove(entity.Id);
+                    Global.Happened(new CoinUpdatedEvent(message.Input));
+                });
+            Global.Access<RemoveCoinCommand>(
+                Guid.Parse("9BB00186-9647-48D1-BF7B-4281A3FF317C"),
+                "移除币种",
+                LogEnum.Log,
+                action: message => {
+                    InitOnece();
+                    if (message == null || message.EntityId == Guid.Empty) {
+                        throw new ArgumentNullException();
+                    }
+                    if (!_dicById.ContainsKey(message.EntityId)) {
+                        return;
+                    }
+                    CoinData entity = _dicById[message.EntityId];
+                    Guid[] toRemoves = root.PoolSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    foreach (var id in toRemoves) {
+                        Global.Execute(new RemovePoolCommand(id));
+                    }
+                    toRemoves = root.CoinKernelSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    foreach (var id in toRemoves) {
+                        Global.Execute(new RemoveCoinKernelCommand(id));
+                    }
+                    toRemoves = root.WalletSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    foreach (var id in toRemoves) {
+                        Global.Execute(new RemoveWalletCommand(id));
+                    }
+                    toRemoves = root.CoinGroupSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    foreach (var id in toRemoves) {
+                        Global.Execute(new RemoveCoinGroupCommand(id));
+                    }
+                    _dicById.Remove(entity.Id);
+                    if (_dicByCode.ContainsKey(entity.Code)) {
+                        _dicByCode.Remove(entity.Code);
+                    }
+                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
+                    repository.Remove(entity.Id);
 
-                Global.Happened(new CoinRemovedEvent(entity));
-            });
+                    Global.Happened(new CoinRemovedEvent(entity));
+                });
             Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
@@ -108,6 +128,8 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicByCode.Clear();
+                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

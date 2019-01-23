@@ -13,6 +13,14 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
+            Global.Access<CoinSetRefreshedEvent>(
+                Guid.Parse("E1BD1C77-2845-4EC1-9262-BAFBC2C0532C"),
+                "币种数据集刷新后刷新Vm内存",
+                LogEnum.Console,
+                action: message => {
+                    Init();
+                    OnPropertyChangeds();
+                });
             Global.Access<CoinAddedEvent>(
                 Guid.Parse("1ee6e72d-d98f-42ab-8732-dcee2e42f4b8"),
                 "添加了币种后刷新VM内存",
@@ -63,9 +71,21 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(MainCoins));
                     }
                 });
+            Init();
+        }
+
+        private void Init() {
+            _dicById.Clear();
             foreach (var item in NTMinerRoot.Current.CoinSet) {
                 _dicById.Add(item.GetId(), new CoinViewModel(item));
             }
+        }
+
+        private void OnPropertyChangeds() {
+            OnPropertyChanged(nameof(AllCoins));
+            OnPropertyChanged(nameof(MainCoins));
+            OnPropertyChanged(nameof(PleaseSelect));
+            OnPropertyChanged(nameof(DualPleaseSelect));
         }
 
         public CoinViewModel this[Guid coinId] {

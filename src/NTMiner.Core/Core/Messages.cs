@@ -6,6 +6,20 @@ using NTMiner.ServiceContracts.DataObjects;
 using System;
 
 namespace NTMiner.Core {
+    #region Refresh
+    [MessageType(messageType: typeof(RefreshCoinSetCommand), description: "刷新币种数据集")]
+    public class RefreshCoinSetCommand : Cmd {
+        public RefreshCoinSetCommand() {
+        }
+    }
+
+    [MessageType(messageType: typeof(CoinSetRefreshedEvent), description: "币种数据集刷新后")]
+    public class CoinSetRefreshedEvent : EventBase {
+        public CoinSetRefreshedEvent() {
+        }
+    }
+    #endregion
+
     #region profile Messages
     [MessageType(messageType: typeof(MinerProfilePropertyChangedEvent), description: "MinerProfile设置变更后")]
     public class MinerProfilePropertyChangedEvent : EventBase {
