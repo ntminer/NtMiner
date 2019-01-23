@@ -1,12 +1,15 @@
 ﻿using System;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 
 namespace NTMiner {
     public static class ChannelFactory {
+        private static readonly TimeSpan Timeout = new TimeSpan(hours: 0, minutes: 0, seconds: 30);
         public static readonly BasicHttpBinding BasicHttpBinding = new BasicHttpBinding {
             TransferMode = TransferMode.Streamed,
-            SendTimeout = new TimeSpan(0, 30, 0),
+            SendTimeout = Timeout,
+            ReceiveTimeout = Timeout,
+            CloseTimeout = Timeout,
+            OpenTimeout = Timeout,
             MaxReceivedMessageSize = 10485760,
             Security = { Mode = BasicHttpSecurityMode.None },
             Name = "BasicHttpBinding",
