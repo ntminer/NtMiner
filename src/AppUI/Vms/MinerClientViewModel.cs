@@ -72,7 +72,7 @@ namespace NTMiner.Vms {
             this.ChangeGroup = new DelegateCommand(() => {
                 Task.Factory.StartNew(() => {
                     try {
-                        Server.ControlCenterService.UpdateClient(
+                        Server.ControlCenterService.UpdateClientAsync(
                             this.ClientDataVm.Id,
                             nameof(ClientDataVm.GroupId),
                             this.ClientDataVm.SelectedMinerGroupCopy.Id, null);
@@ -107,7 +107,7 @@ namespace NTMiner.Vms {
         }
 
         private void Refresh() {
-            Server.ControlCenterService.LoadClient(this.ClientDataVm.GetId(), data => {
+            Server.ControlCenterService.LoadClientAsync(this.ClientDataVm.GetId(), data => {
                 if (data != null) {
                     this.ClientDataVm.Update(data);
                 }

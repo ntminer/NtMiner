@@ -26,7 +26,7 @@ namespace NTMiner.Views {
 
         private void KbButtonLogin_Click(object sender, RoutedEventArgs e) {
             string passwordSha1 = HashUtil.Sha1(TxtPassword.Password);
-            Server.ControlCenterService.Login(Vm.LoginName, passwordSha1, response => {
+            Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, response => {
                 Execute.OnUIThread(() => {
                     if (response == null) {
                         Vm.Message = "服务器忙";

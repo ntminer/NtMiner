@@ -188,7 +188,7 @@ namespace NTMiner.Vms {
                     dualCoinWallet = this.DualCoinWallet.Address;
                 }
             }
-            Server.ControlCenterService.QueryClients(
+            Server.ControlCenterService.QueryClientsAsync(
                 this.MinerClientPageIndex,
                 this.MinerClientPageSize,
                 mineWorkId,
@@ -210,7 +210,7 @@ namespace NTMiner.Vms {
         }
 
         public void LoadClients() {
-            Server.ControlCenterService.LoadClients(this.MinerClients.Select(a => a.ClientDataVm.Id).ToList(), (response)=> {
+            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.ClientDataVm.Id).ToList(), (response)=> {
                 Execute.OnUIThread(() => {
                     if (response != null) {
                         foreach (var item in this.MinerClients) {

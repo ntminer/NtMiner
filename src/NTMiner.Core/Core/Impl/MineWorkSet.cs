@@ -26,7 +26,7 @@ namespace NTMiner.Core.Impl {
                     }
                     MineWorkData entity = new MineWorkData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    Server.ControlCenterService.AddOrUpdateMineWork(entity, isSuccess=> {
+                    Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, isSuccess=> {
                         Global.Happened(new MineWorkAddedEvent(entity));
                     });
                 });
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Impl {
                     }
                     MineWorkData entity = _dicById[message.Input.GetId()];
                     entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMineWork(entity, isSuccess=> {
+                    Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, isSuccess=> {
                         Global.Happened(new MineWorkUpdatedEvent(entity));
                     });
                 });
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Impl {
                     }
                     MineWorkData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    Server.ControlCenterService.RemoveMineWork(entity.Id, isSuccess=> {
+                    Server.ControlCenterService.RemoveMineWorkAsync(entity.Id, isSuccess=> {
                         Global.Happened(new MineWorkRemovedEvent(entity));
                     });
                 });

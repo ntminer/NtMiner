@@ -171,7 +171,7 @@ namespace NTMiner.Core.Profiles.Impl {
                         propertyInfo.SetValue(this, value, null);
                         if (CommandLineArgs.IsWorker) {
                             if (CommandLineArgs.IsControlCenter) {
-                                Server.ControlCenterService.SetCoinProfileProperty(CommandLineArgs.WorkId, CoinId, propertyName, value, isSuccess => {
+                                Server.ControlCenterService.SetCoinProfilePropertyAsync(CommandLineArgs.WorkId, CoinId, propertyName, value, isSuccess => {
                                     Global.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
                                 });
                             }

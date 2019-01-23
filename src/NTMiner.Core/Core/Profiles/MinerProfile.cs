@@ -231,7 +231,7 @@ namespace NTMiner.Core.Profiles {
                     propertyInfo.SetValue(this, value, null);
                     if (CommandLineArgs.IsWorker) {
                         if (CommandLineArgs.IsControlCenter) {
-                            Server.ControlCenterService.SetMinerProfileProperty(CommandLineArgs.WorkId, propertyName, value, isSuccess => {
+                            Server.ControlCenterService.SetMinerProfilePropertyAsync(CommandLineArgs.WorkId, propertyName, value, isSuccess => {
                                 Global.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                             });
                         }

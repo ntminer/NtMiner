@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
                 if (WorkId != value.Id) {
                     WorkId = value.Id;
                     OnPropertyChanged(nameof(SelectedMineWork));
-                    Server.ControlCenterService.UpdateClient(this.Id, nameof(IClientData.WorkId), value.Id, null);
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IClientData.WorkId), value.Id, null);
                 }
             }
         }

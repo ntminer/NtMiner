@@ -71,7 +71,7 @@ namespace NTMiner {
                                     calcConfigData.ModifiedOn = DateTime.Now;
                                 }
                             }
-                            Server.ControlCenterService.SaveCalcConfigs(response.Data);
+                            Server.ControlCenterService.SaveCalcConfigsAsync(response.Data);
                             Console.WriteLine($"更新了{string.Join(",", coinCodes)}");
                         }
                     }
