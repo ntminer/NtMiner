@@ -138,7 +138,7 @@ namespace NTMiner.Vms {
             }
             string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
             if (!File.Exists(ntMinerUpdaterFileFullName)) {
-                Server.FileUrlService.GetNTMinerUpdaterUrl(downloadFileUrl => {
+                Server.FileUrlService.GetNTMinerUpdaterUrlAsync(downloadFileUrl => {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         return;
                     }
@@ -191,7 +191,7 @@ namespace NTMiner.Vms {
                 Directory.CreateDirectory(liteDbExplorerDir);
             }
             if (!File.Exists(liteDbExplorerFileFullName)) {
-                Server.FileUrlService.GetLiteDBExplorerUrl(downloadFileUrl => {
+                Server.FileUrlService.GetLiteDBExplorerUrlAsync(downloadFileUrl => {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         return;
                     }

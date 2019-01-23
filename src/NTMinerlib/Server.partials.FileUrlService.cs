@@ -17,7 +17,7 @@ namespace NTMiner {
             }
 
             #region GetNTMinerUrl
-            public void GetNTMinerUrl(string fileName, Action<string> callback) {
+            public void GetNTMinerUrlAsync(string fileName, Action<string> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var client = CreateService()) {
@@ -37,7 +37,7 @@ namespace NTMiner {
             }
             #endregion
 
-            public void GetNTMinerFiles(Action<List<NTMinerFileData>> callback) {
+            public void GetNTMinerFilesAsync(Action<List<NTMinerFileData>> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var client = CreateService()) {
@@ -56,7 +56,7 @@ namespace NTMiner {
                 });
             }
 
-            public void AddOrUpdateNTMinerFile(NTMinerFileData entity, Action<ResponseBase> callback) {
+            public void AddOrUpdateNTMinerFileAsync(NTMinerFileData entity, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
                     try {
@@ -83,7 +83,7 @@ namespace NTMiner {
                 });
             }
 
-            public void RemoveNTMinerFile(Guid id, Action<ResponseBase> callback) {
+            public void RemoveNTMinerFileAsync(Guid id, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
                     try {
@@ -110,7 +110,7 @@ namespace NTMiner {
                 });
             }
 
-            public void GetLiteDBExplorerUrl(Action<string> callback) {
+            public void GetLiteDBExplorerUrlAsync(Action<string> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var service = CreateService()) {
@@ -128,7 +128,7 @@ namespace NTMiner {
                 });
             }
 
-            public void GetNTMinerUpdaterUrl(Action<string> callback) {
+            public void GetNTMinerUpdaterUrlAsync(Action<string> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var service = CreateService()) {
@@ -146,7 +146,7 @@ namespace NTMiner {
                 });
             }
 
-            public void GetPackageUrl(string package, Action<string> callback) {
+            public void GetPackageUrlAsync(string package, Action<string> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var service = CreateService()) {

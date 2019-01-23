@@ -167,7 +167,7 @@ namespace NTMiner {
             }
             Global.Logger.OkDebugLine("Wcf服务启动完成");
 
-            Server.TimeService.GetTime((remoteTime) => {
+            Server.TimeService.GetTimeAsync((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Global.DesyncSeconds) {
                     Global.Logger.OkDebugLine("时间同步");
                 }

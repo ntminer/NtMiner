@@ -27,7 +27,7 @@ namespace NTMiner {
             return channel;
         }
 
-        public void GetDaemonVersion(string clientHost, int clientPort, Action<string> callback) {
+        public void GetDaemonVersionAsync(string clientHost, int clientPort, Action<string> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var client = CreateService(clientHost, clientPort)) {

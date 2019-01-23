@@ -55,7 +55,7 @@ namespace NTMiner {
 
         private static void Login(INTMinerRoot root) {
             try {
-                Server.ReportService.Login(new LoginData() {
+                Server.ReportService.LoginAsync(new LoginData() {
                     WorkId = CommandLineArgs.WorkId,
                     MessageId = Guid.NewGuid(),
                     ClientId = ClientId.Id,
@@ -185,7 +185,7 @@ namespace NTMiner {
                         }
                     }
                 }
-                Server.ReportService.ReportSpeed(data);
+                Server.ReportService.ReportSpeedAsync(data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -194,7 +194,7 @@ namespace NTMiner {
 
         private static void ReportState(INTMinerRoot root) {
             try {
-                Server.ReportService.ReportState(ClientId.Id, root.IsMining);
+                Server.ReportService.ReportStateAsync(ClientId.Id, root.IsMining);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
