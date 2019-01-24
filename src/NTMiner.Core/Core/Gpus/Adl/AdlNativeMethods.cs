@@ -161,9 +161,15 @@ namespace NTMiner.Core.Gpus.Adl {
                         ADLLibrary = ADLImport.GetModuleHandle(ADLImport.Atiadlxx_FileName);
                     }
                 }
-                catch (DllNotFoundException) { }
-                catch (EntryPointNotFoundException) { }
-                catch (Exception) { }
+                catch (DllNotFoundException e) {
+                    Global.Logger.ErrorDebugLine(e.Message, e);
+                }
+                catch (EntryPointNotFoundException e) {
+                    Global.Logger.ErrorDebugLine(e.Message, e);
+                }
+                catch (Exception e) {
+                    Global.Logger.ErrorDebugLine(e.Message, e);
+                }
             }
             #endregion Constructor
 
