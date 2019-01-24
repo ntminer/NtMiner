@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0℃";
                 }
-                if (this.Index == NTMinerRoot.GpuAllId) {
+                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     uint min = uint.MaxValue, max = uint.MinValue;
                     foreach (var item in GpuViewModels.Current) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
@@ -72,7 +72,7 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0%";
                 }
-                if (this.Index == NTMinerRoot.GpuAllId) {
+                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     uint min = uint.MaxValue, max = uint.MinValue;
                     foreach (var item in GpuViewModels.Current) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
