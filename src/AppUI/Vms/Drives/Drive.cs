@@ -41,8 +41,8 @@ namespace NTMiner.Vms {
 
         public VirtualMemory VirtualMemory {
             get {
-                if (VirtualMemory.VirtualMemories.ContainsKey(this.Name)) {
-                    return VirtualMemory.VirtualMemories[this.Name];
+                if (VirtualMemories.Instance.Contains(this.Name)) {
+                    return VirtualMemories.Instance[this.Name];
                 }
                 return VirtualMemory.Empty;
             }

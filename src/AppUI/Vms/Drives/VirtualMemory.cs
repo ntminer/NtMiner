@@ -1,8 +1,45 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
+    public class VirtualMemories : IEnumerable<VirtualMemory> {
+        public static readonly VirtualMemories Instance = new VirtualMemories();
+
+        private readonly Dictionary<string, VirtualMemory> _dic = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
+
+        private VirtualMemories() { }
+
+        public void Clear() {
+            _dic.Clear();
+        }
+
+        public void Add(string driveName, VirtualMemory item) {
+            if (!_dic.ContainsKey(driveName)) {
+                _dic.Add(driveName, item);
+            }
+        }
+
+        public VirtualMemory this[string driveName] {
+            get {
+                return _dic[driveName];
+            }
+        }
+
+        public bool Contains(string driveName) {
+            return _dic.ContainsKey(driveName);
+        }
+
+        public IEnumerator<VirtualMemory> GetEnumerator() {
+            return _dic.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return _dic.Values.GetEnumerator();
+        }
+    }
+
     public class VirtualMemory {
         public static readonly VirtualMemory Empty = new VirtualMemory {
             DriveName = string.Empty,
@@ -10,38 +47,37 @@ namespace NTMiner.Vms {
             MaxSizeMb = 0
         };
         private static readonly Dictionary<string, VirtualMemory> _initialVms = new Dictionary<string, VirtualMemory>();
-        public static readonly Dictionary<string, VirtualMemory> VirtualMemories = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
 
         static VirtualMemory() {
             foreach (var item in GetPagingFiles()) {
                 _initialVms.Add(item.DriveName, item);
             }
             foreach (var item in GetPagingFiles()) {
-                VirtualMemories.Add(item.DriveName, item);
+                VirtualMemories.Instance.Add(item.DriveName, item);
             }
         }
 
         public static void RefreshVirtualMemories() {
-            VirtualMemories.Clear();
+            VirtualMemories.Instance.Clear();
             foreach (var item in GetPagingFiles()) {
-                VirtualMemories.Add(item.DriveName, item);
+                VirtualMemories.Instance.Add(item.DriveName, item);
             }
         }
 
         public static bool IsStateChanged {
             get {
                 foreach (var item in _initialVms) {
-                    if (!VirtualMemories.ContainsKey(item.Key)) {
+                    if (!VirtualMemories.Instance.Contains(item.Key)) {
                         return true;
                     }
                 }
-                foreach (var item in VirtualMemories) {
-                    if (!_initialVms.ContainsKey(item.Key)) {
+                foreach (var item in VirtualMemories.Instance) {
+                    if (!_initialVms.ContainsKey(item.DriveName)) {
                         return true;
                     }
                 }
                 foreach (var item in _initialVms) {
-                    if (VirtualMemories[item.Key].MaxSizeB != item.Value.MaxSizeB) {
+                    if (VirtualMemories.Instance[item.Key].MaxSizeB != item.Value.MaxSizeB) {
                         return true;
                     }
                 }
