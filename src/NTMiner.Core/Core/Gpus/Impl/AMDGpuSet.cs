@@ -33,7 +33,10 @@ namespace NTMiner.Core.Gpus.Impl {
             for (int i = 0; i < deviceCount; i++) {
                 _gpus.Add(i, new Gpu {
                     Index = i,
-                    Name = adlHelper.GetGpuName(i)
+                    Name = adlHelper.GetGpuName(i),
+                    Temperature = 0,
+                    PowerUsage = 0,
+                    FanSpeed = 0
                 });
             }
             Global.Access<Per5SecondEvent>(
