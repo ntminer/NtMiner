@@ -32,6 +32,10 @@ namespace NTMiner.ServiceContracts.DataObjects {
         [DataMember]
         public string DualCoinWallet { get; set; }
         [DataMember]
+        public string Version { get; set; }
+        [DataMember]
+        public string Kernel { get; set; }
+        [DataMember]
         public string Sign { get; set; }
 
         public void SignIt(string password) {
@@ -54,6 +58,8 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 .Append(nameof(DualCoin)).Append(DualCoin)
                 .Append(nameof(DualCoinPool)).Append(DualCoinPool)
                 .Append(nameof(DualCoinWallet)).Append(DualCoinWallet)
+                .Append(nameof(Version)).Append(Version)
+                .Append(nameof(Kernel)).Append(Kernel)
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(IUser.Password)).Append(password);
             return HashUtil.Sha1(sb.ToString());

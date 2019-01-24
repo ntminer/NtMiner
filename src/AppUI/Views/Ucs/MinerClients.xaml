@@ -93,6 +93,10 @@
                 <TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="Transparent"></TextBox>
                 <Label Margin="8 0 0 0">矿工名</Label>
                 <TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding MinerName}" Background="Transparent"></TextBox>
+                <Label Margin="8 0 0 0">版本号</Label>
+                <TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding Version}" Background="Transparent"></TextBox>
+                <Label Margin="8 0 0 0">内核</Label>
+                <TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding Kernel}" Background="Transparent"></TextBox>
             </WrapPanel>
             <StackPanel Visibility="{Binding IsMineWorkSelected, Converter={StaticResource BoolToVisibilityInvertConverter}}">
                 <WrapPanel>

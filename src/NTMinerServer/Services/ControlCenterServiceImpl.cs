@@ -88,7 +88,8 @@ namespace NTMiner.Services {
                     request.PageIndex, request.PageSize, request.MineWorkId,
                     request.MinerIp, request.MinerName, request.MineState,
                     request.MainCoin, request.MainCoinPool, request.MainCoinWallet,
-                    request.DualCoin, request.DualCoinPool, request.DualCoinWallet, out total) ?? new List<ClientData>();
+                    request.DualCoin, request.DualCoinPool, request.DualCoinWallet,
+                    request.Version, request.Kernel, out total) ?? new List<ClientData>();
                 return new QueryClientsResponse(data) {
                     Total = total
                 };

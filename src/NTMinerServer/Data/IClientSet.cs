@@ -33,6 +33,8 @@ namespace NTMiner.Data {
             string dualCoin,
             string dualCoinPool,
             string dualCoinWallet,
+            string version,
+            string kernel,
             out int total);
 
         List<ClientData> LoadClients(IEnumerable<Guid> clientIds);

@@ -134,6 +134,8 @@ namespace NTMiner.Data.Impl {
             string dualCoin,
             string dualCoinPool,
             string dualCoinWallet,
+            string version,
+            string kernel,
             out int total) {
             InitOnece();
             lock (_locker) {
@@ -182,6 +184,12 @@ namespace NTMiner.Data.Impl {
                     else {
                         query = query.Where(a => a.IsMining == false);
                     }
+                }
+                if (!string.IsNullOrEmpty(version)) {
+                    query = query.Where(a => a.Version != null && a.Version.StartsWith(version, StringComparison.OrdinalIgnoreCase));
+                }
+                if (!string.IsNullOrEmpty(kernel)) {
+                    query = query.Where(a => a.Kernel != null && a.Kernel.StartsWith(kernel, StringComparison.OrdinalIgnoreCase));
                 }
                 total = query.Count();
                 return query.OrderBy(a => a.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();

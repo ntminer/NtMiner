@@ -17,6 +17,11 @@ namespace NTMiner.Vms {
         private EnumItem<MineStatus> _mineStatusEnumItem;
         private string _minerIp;
         private string _minerName;
+        private double _logoRotateTransformAngle;
+        private string _version;
+        private string _kernel;
+        private WalletViewModel _mainCoinWallet;
+        private WalletViewModel _dualCoinWallet;
         private CoinViewModel _mainCoin;
         private CoinViewModel _dualCoin;
         private PoolViewModel _mainCoinPool;
@@ -77,11 +82,7 @@ namespace NTMiner.Vms {
             };
             t.Start();
         }
-
-        private double _logoRotateTransformAngle;
-        private WalletViewModel _mainCoinWallet;
-        private WalletViewModel _dualCoinWallet;
-
+        
         public int MinerClientRefreshPeriod {
             get {
                 return 120;
@@ -195,7 +196,8 @@ namespace NTMiner.Vms {
                 this.MinerIp, this.MinerName,
                 this.MineStatusEnumItem.Value,
                 mainCoin, mainCoinPool, mainCoinWallet,
-                dualCoin, dualCoinPool, dualCoinWallet, (response)=> {
+                dualCoin, dualCoinPool, dualCoinWallet,
+                this.Version, this.Kernel, (response) => {
                     if (response != null) {
                         Execute.OnUIThread(() => {
                             this.MinerClients = response.Data.Select(a => new MinerClientViewModel(a)).ToList();
@@ -210,7 +212,7 @@ namespace NTMiner.Vms {
         }
 
         public void LoadClients() {
-            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.ClientDataVm.Id).ToList(), (response)=> {
+            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.ClientDataVm.Id).ToList(), (response) => {
                 Execute.OnUIThread(() => {
                     if (response != null) {
                         foreach (var item in this.MinerClients) {
@@ -380,6 +382,28 @@ namespace NTMiner.Vms {
                 if (_minerName != value) {
                     _minerName = value;
                     OnPropertyChanged(nameof(MinerName));
+                    QueryMinerClients();
+                }
+            }
+        }
+
+        public string Version {
+            get => _version;
+            set {
+                if (_version != value) {
+                    _version = value;
+                    OnPropertyChanged(nameof(Version));
+                    QueryMinerClients();
+                }
+            }
+        }
+
+        public string Kernel {
+            get => _kernel;
+            set {
+                if (_kernel != value) {
+                    _kernel = value;
+                    OnPropertyChanged(nameof(Kernel));
                     QueryMinerClients();
                 }
             }

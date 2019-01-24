@@ -141,6 +141,8 @@ namespace NTMiner {
                 string dualCoin,
                 string dualCoinPool,
                 string dualCoinWallet,
+                string version,
+                string kernel,
                 Action<QueryClientsResponse> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -160,6 +162,8 @@ namespace NTMiner {
                                 DualCoin = dualCoin,
                                 DualCoinPool = dualCoinPool,
                                 DualCoinWallet = dualCoinWallet,
+                                Version = version,
+                                Kernel = kernel,
                                 Timestamp = DateTime.Now
                             };
                             request.SignIt(Password);
