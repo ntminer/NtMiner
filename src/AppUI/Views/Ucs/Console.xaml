@@ -67,9 +67,20 @@
 				</controls:KbButton>
 			</WrapPanel>
         </Grid>
+        <Path
+            Grid.Row="1"
+            Margin="4 2 0 0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Visibility="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+            Width="14"
+            Height="14"
+            Data="{StaticResource Icon_Notice}"
+            Fill="Yellow"
+            Stretch="Fill" />
         <TextBox 
             Grid.Row="1"
-            Text="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay}"
+            Text="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
 			Margin="4 0" Foreground="Yellow">

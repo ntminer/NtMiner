@@ -562,7 +562,7 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.Notice)) {
                     return string.Empty;
                 }
-                return $"🚩{this.FullName}：{this.Notice}";
+                return $"{this.FullName}：{this.Notice}";
             }
         }
 
