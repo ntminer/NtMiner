@@ -13,6 +13,9 @@
         <sys:String x:Key="AnnouncementContent">
             AnnouncementContent
         </sys:String>
+        <sys:String x:Key="IsShowCommandLine">
+            IsShowCommandLine
+        </sys:String>
     </UserControl.Resources>
 	<Grid Background="Black">
 		<Grid.RowDefinitions>
@@ -21,6 +24,10 @@
             <RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
 			<TextBox 
                 Text="{DynamicResource AnnouncementContent}"
 				BorderThickness="0" AcceptsReturn="True" 
@@ -48,10 +55,9 @@
                     </WrapPanel>
                 </controls:KbButton>
                 <controls:KbCheckBox 
-					x:Name="ChkbIsConsoleAutoScrollToEnd"
-					ToolTip="滚屏"
+					ToolTip="{DynamicResource IsShowCommandLine}"
 					IconColor="{StaticResource IconFillColor}"
-					IsChecked="True" />
+					IsChecked="{Binding IsShowCommandLine}" />
 				<controls:KbButton 
 					Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 					ToolTip="自定义主题"
@@ -66,6 +72,16 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 			</WrapPanel>
+            <TextBox 
+                Grid.Row="1"
+                Padding="4 2"
+                TextWrapping="Wrap"
+                AcceptsReturn="True"
+                BorderThickness="0"
+                Foreground="LightGray"
+                Visibility="{Binding IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}"
+                IsReadOnly="True" 
+                Text="{Binding ArgsAssembly, Mode=OneWay}"></TextBox>
         </Grid>
         <Path
             Grid.Row="1"
@@ -83,7 +99,7 @@
             Text="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
-			Margin="4 0" Foreground="Yellow">
+			Padding="4 2" Foreground="Yellow">
         </TextBox>
         <Path 
             Grid.Row="2"
@@ -105,5 +121,14 @@
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
+        <controls:KbCheckBox 
+            Grid.Row="2"
+            Margin="0 -2 14 0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+			x:Name="ChkbIsConsoleAutoScrollToEnd"
+			ToolTip="滚屏"
+			IconColor="{StaticResource IconFillColor}"
+			IsChecked="True" />
     </Grid>
 </UserControl>
