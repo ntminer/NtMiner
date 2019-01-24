@@ -16,6 +16,9 @@
         <sys:String x:Key="IsShowCommandLine">
             IsShowCommandLine
         </sys:String>
+        <sys:String x:Key="IsShowCommandLineTooltip">
+            IsShowCommandLineTooltip
+        </sys:String>
     </UserControl.Resources>
 	<Grid Background="Black">
 		<Grid.RowDefinitions>
@@ -75,6 +78,7 @@
             <TextBox 
                 Grid.Row="1"
                 Padding="4 2"
+                ToolTip="{DynamicResource IsShowCommandLineTooltip}"
                 TextWrapping="Wrap"
                 AcceptsReturn="True"
                 BorderThickness="0"
