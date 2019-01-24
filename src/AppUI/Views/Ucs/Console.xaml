@@ -38,7 +38,7 @@
 				Padding="4 0" Foreground="White">
 			</TextBox>
 			<WrapPanel 
-				Margin="0 0 18 0"
+				Margin="0 0 14 0"
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
                 <controls:KbButton

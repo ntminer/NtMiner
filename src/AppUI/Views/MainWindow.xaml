@@ -371,19 +371,7 @@
         </Grid>
 
         <Grid Grid.Row="2" Background="Black" Height="300" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <TextBox
-                Padding="10 0"
-                Foreground="White"
-                TextWrapping="Wrap"
-				VerticalScrollBarVisibility="Auto"
-				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}" IsReadOnly="True" BorderThickness="0">
-            </TextBox>
             <RichTextBox 
-                Grid.Row="1"
                 Background="Transparent"
 				VerticalScrollBarVisibility="Auto"
 				x:Name="RichTextBoxDebug" BorderThickness="0" 
@@ -395,7 +383,6 @@
                 </FlowDocument>
             </RichTextBox>
             <controls:KbCheckBox 
-                Grid.Row="1"
 				Margin="0 0 18 0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
@@ -404,7 +391,6 @@
 				IconColor="{StaticResource IconFillColor}"
 				IsChecked="True" />
             <TextBlock 
-                Grid.Row="1" 
                 Visibility="{Binding IsDaemonRunning, Converter={StaticResource BoolToVisibilityConverter}}"
 				Margin="0 0 18 0"
                 HorizontalAlignment="Right" 
@@ -413,7 +399,6 @@
                 Foreground="Green"
                 Background="Black"></TextBlock>
             <TextBlock 
-                Grid.Row="1" 
                 Visibility="{Binding IsDaemonRunning, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 				Margin="0 0 18 0"
                 HorizontalAlignment="Right" 
