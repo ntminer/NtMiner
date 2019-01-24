@@ -23,6 +23,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 IsAutoThisPCName = true,
                 ServerHost = NTMinerRegistry.MINER_SERVER_HOST,
                 ServerPort = Server.MinerServerPort,
+                IsShowCommandLine = false,
                 CreatedOn = DateTime.Now,
                 ModifiedOn = Global.UnixBaseTime
             };
@@ -72,6 +73,9 @@ namespace NTMiner.ServiceContracts.DataObjects {
         public bool IsPeriodicRestartComputer { get; set; }
         [DataMember]
         public int PeriodicRestartComputerHours { get; set; }
+
+        [DataMember]
+        public bool IsShowCommandLine { get; set; }
 
         [DataMember]
         public DateTime CreatedOn { get; set; }

@@ -21,5 +21,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
         int PeriodicRestartComputerHours { get; }
 
         bool IsAutoRestartKernel { get; }
+
+        bool IsShowCommandLine { get; }
     }
 }

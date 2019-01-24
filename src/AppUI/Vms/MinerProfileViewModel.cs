@@ -434,6 +434,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsShowCommandLine {
+            get { return NTMinerRoot.Current.MinerProfile.IsShowCommandLine; }
+            set {
+                if (NTMinerRoot.Current.MinerProfile.IsShowCommandLine != value) {
+                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsShowCommandLine), value);
+                    OnPropertyChanged(nameof(IsShowCommandLine));
+                }
+            }
+        }
+
         public ConsoleColor SpeedColor {
             get {
                 ConsoleColor color = ConsoleColor.White;

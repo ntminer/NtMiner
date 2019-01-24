@@ -46,13 +46,13 @@ namespace NTMiner.Data.Impl {
         private static Dictionary<string, PropertyInfo> _poolProfileProperties;
         private static Dictionary<string, PropertyInfo> PoolProfileProperties {
             get {
-                if (_coinProfileProperties == null) {
-                    _coinProfileProperties = new Dictionary<string, PropertyInfo>();
+                if (_poolProfileProperties == null) {
+                    _poolProfileProperties = new Dictionary<string, PropertyInfo>();
                     foreach (var item in typeof(PoolProfileData).GetProperties()) {
-                        _coinProfileProperties.Add(item.Name, item);
+                        _poolProfileProperties.Add(item.Name, item);
                     }
                 }
-                return _coinProfileProperties;
+                return _poolProfileProperties;
             }
         }
 

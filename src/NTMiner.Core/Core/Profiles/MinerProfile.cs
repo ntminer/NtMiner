@@ -170,6 +170,13 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsShowCommandLine {
+            get { return _data.IsShowCommandLine; }
+            set {
+                _data.IsShowCommandLine = value;
+            }
+        }
+
         public string ServerHost {
             get {
                 string host = _data.ServerHost;
