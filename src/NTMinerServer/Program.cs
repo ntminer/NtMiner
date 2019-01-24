@@ -4,7 +4,7 @@ namespace NTMiner {
     class Program {
         static void Main(string[] args) {
             try {
-                Windows.App.SetAutoBoot("NTMiner.WcfServer", true);
+                NTMinerRegistry.SetAutoBoot("NTMinerServer", true);
                 Run();
             }
             catch (Exception e) {

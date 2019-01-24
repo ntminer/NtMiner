@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 try {
                     if (string.IsNullOrEmpty(this.MinerServerHost)) {
-                        this.MinerServerHost = Server.MINER_SERVER_HOST;
+                        this.MinerServerHost = NTMinerRegistry.MINER_SERVER_HOST;
                     }
                     string serverPubKey = Server.TimeService.GetServerPubKey(this.MinerServerHost);
                     Server.MinerServerPubKey = serverPubKey;

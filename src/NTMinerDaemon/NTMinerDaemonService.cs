@@ -17,18 +17,9 @@ namespace NTMiner {
             Windows.Power.Shutdown();
         }
 
-        private string GetNTMinerLocation() {
-            object locationValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Location");
-            if (locationValue != null) {
-                return (string)locationValue;
-            }
-            return string.Empty;
-        }
-
         private string GetNTMinerArguments(Guid workId) {
-            object argumentsValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Arguments");
-            if (argumentsValue != null) {
-                string arguments = (string)argumentsValue;
+            string arguments = NTMinerRegistry.GetArguments();
+            if (!string.IsNullOrEmpty(arguments)) {
                 string[] parts = arguments.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 int workIdIndex = -1;
                 int controlCenterIndex = -1;
@@ -68,7 +59,7 @@ namespace NTMiner {
 
         public void OpenNTMiner(Guid workId) {
             try {
-                string location = GetNTMinerLocation();
+                string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string arguments = string.Empty;
                     if (workId != Guid.Empty) {
@@ -85,7 +76,7 @@ namespace NTMiner {
         public void RestartNTMiner(Guid workId) {
             try {
                 CloseNTMiner();
-                string location = GetNTMinerLocation();
+                string location = NTMinerRegistry.GetLocation();
                 string arguments = GetNTMinerArguments(workId);
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     Windows.Cmd.RunClose(location, arguments);
@@ -98,7 +89,7 @@ namespace NTMiner {
 
         public void CloseNTMiner() {
             try {
-                string location = GetNTMinerLocation();
+                string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string processName = Path.GetFileNameWithoutExtension(location);
                     Windows.TaskKill.Kill(processName);
@@ -115,7 +106,7 @@ namespace NTMiner {
 
         public bool IsNTMinerOnline() {
             try {
-                string location = GetNTMinerLocation();
+                string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(location));
                     return processes.Length != 0;

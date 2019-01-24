@@ -96,7 +96,7 @@ namespace NTMiner.Core.Profiles {
             private set {
                 if (_data.IsAutoBoot != value) {
                     _data.IsAutoBoot = value;
-                    Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "IsAutoBoot", value);
+                    NTMinerRegistry.SetIsAutoBoot(value);
                 }
             }
         }

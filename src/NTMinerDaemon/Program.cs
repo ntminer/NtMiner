@@ -18,18 +18,14 @@ namespace NTMiner {
                     mutexCreated = false;
                 }
                 if (mutexCreated) {
-                    Windows.App.SetAutoBoot("NTMinerDaemon", true);
-                    object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "IsAutoBoot");
-                    if (isAutoBootValue != null && isAutoBootValue.ToString() == "True") {
-                        object locationValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Location");
-                        if (locationValue != null) {
-                            string arguments = string.Empty;
-                            object argumentsValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Arguments");
-                            if (argumentsValue != null) {
-                                arguments = (string)argumentsValue;
-                            }
+                    NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
+                    bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
+                    if (isAutoBoot) {
+                        string location = NTMinerRegistry.GetLocation();
+                        if (!string.IsNullOrEmpty(location)) {
+                            string arguments = NTMinerRegistry.GetArguments();
                             try {
-                                Process.Start((string)locationValue, arguments);
+                                Process.Start(location, arguments);
                             }
                             catch (Exception e) {
                                 Global.Logger.ErrorDebugLine(e.Message, e);

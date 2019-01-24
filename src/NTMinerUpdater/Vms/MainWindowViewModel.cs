@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -89,13 +88,14 @@ namespace NTMiner.Vms {
                         this.DownloadMessage = "更新成功，正在重启";
                         CloseNTMinerMainWindow();
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                            string location = GetNTMinerLocation();
+                            string location = NTMinerRegistry.GetLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                                 location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
                             }
                             File.Copy(saveFileFullName, location, overwrite: true);
                             File.Delete(saveFileFullName);
-                            Process.Start(location, (string)GetNTMinerArguments());
+                            string arguments = NTMinerRegistry.GetArguments();
+                            Process.Start(location, arguments);
                             this.IsDownloading = false;
                             Execute.OnUIThread(() => {
                                 Application.Current.MainWindow.Close();
@@ -182,25 +182,9 @@ namespace NTMiner.Vms {
             });
         }
 
-        private static string GetNTMinerLocation() {
-            object locationValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Location");
-            if (locationValue != null) {
-                return (string)locationValue;
-            }
-            return string.Empty;
-        }
-
-        private static string GetNTMinerArguments() {
-            object argumentsValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Arguments");
-            if (argumentsValue != null) {
-                return (string)argumentsValue;
-            }
-            return string.Empty;
-        }
-
         private static void CloseNTMinerMainWindow() {
             try {
-                string location = GetNTMinerLocation();
+                string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string processName = Path.GetFileNameWithoutExtension(location);
                     Process[] processes = Process.GetProcessesByName(processName);
@@ -268,10 +252,7 @@ namespace NTMiner.Vms {
         public Version LocalNTMinerVersion {
             get {
                 if (_localNTMinerVersion == null) {
-                    string currentVersion = GetLocalNTMinerVersion();
-                    if (string.IsNullOrEmpty(currentVersion)) {
-                        currentVersion = "1.0";
-                    }
+                    string currentVersion = NTMinerRegistry.GetCurrentVersion();
                     if (!Version.TryParse(currentVersion, out _localNTMinerVersion)) {
                         _localNTMinerVersion = new Version(1, 0);
                     }
@@ -282,27 +263,8 @@ namespace NTMiner.Vms {
 
         public string LocalNTMinerVersionTag {
             get {
-                return GetLocalNTMinerVersionTag();
+                return NTMinerRegistry.GetCurrentVersionTag();
             }
-        }
-
-        private static string GetLocalNTMinerVersion() {
-            string currentVersion = "1.0.0.0";
-            string currentVersionTag = string.Empty;
-            object currentVersionValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "CurrentVersion");
-            if (currentVersionValue != null) {
-                currentVersion = (string)currentVersionValue;
-            }
-            return currentVersion;
-        }
-
-        private static string GetLocalNTMinerVersionTag() {
-            string currentVersionTag = string.Empty;
-            object currentVersionTagValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "CurrentVersionTag");
-            if (currentVersionTagValue != null) {
-                currentVersionTag = (string)currentVersionTagValue;
-            }
-            return currentVersionTag;
         }
 
         public Visibility BtnCancelVisible {

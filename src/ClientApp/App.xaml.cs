@@ -50,8 +50,8 @@ namespace NTMiner {
             else {
                 try {
                     if (CommandLineArgs.IsWorkEdit) {
-                        object argumentsValue = NTMiner.Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Arguments");
-                        if (argumentsValue != null && (string)argumentsValue == $"--controlcenter --workid={CommandLineArgs.WorkId}") {
+                        string arguments = NTMinerRegistry.GetArguments();
+                        if (arguments == $"--controlcenter --workid={CommandLineArgs.WorkId}") {
                             AppHelper.ShowMainWindow(this, _appPipName);
                         }
                         else {

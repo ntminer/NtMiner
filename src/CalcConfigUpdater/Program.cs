@@ -15,7 +15,7 @@ namespace NTMiner {
     class Program {
         static void Main(string[] args) {
             try {
-                Windows.App.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
+                NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
                 const int minutes = 60 * 1000;
                 Timer t = new Timer(10 * minutes) {
                     Enabled = true

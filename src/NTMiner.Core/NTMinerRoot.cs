@@ -176,10 +176,10 @@ namespace NTMiner {
                 }
             });
 
-            Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Location", ClientId.AppFileFullName);
-            Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Arguments", string.Join(" ", CommandLineArgs.Args));
-            Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "CurrentVersion", CurrentVersion.ToString());
-            Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "CurrentVersionTag", CurrentVersionTag);
+            NTMinerRegistry.SetLocation(ClientId.AppFileFullName);
+            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
+            NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
+            NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
 
             Report.Init(this);
 

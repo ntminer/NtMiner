@@ -1,5 +1,6 @@
 ﻿using NTMiner.Logging;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace NTMiner {
@@ -18,7 +19,7 @@ namespace NTMiner {
         public static string Sha1 {
             get {
                 if (_sha1 == null) {
-                    _sha1 = HashUtil.Sha1(File.ReadAllBytes(ClientId.AppFileFullName));
+                    _sha1 = HashUtil.Sha1(File.ReadAllBytes(Process.GetCurrentProcess().MainModule.FileName));
                 }
                 return _sha1;
             }

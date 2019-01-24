@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using NTMiner.ServiceContracts.DataObjects;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -61,16 +60,8 @@ namespace NTMiner.Vms {
                 }, icon: "Icon_Confirm");
             });
             this.Config = new DelegateCommand(() => {
-                Windows.Cmd.RunClose(GetNTMinerLocation(), $"--controlcenter --workid={this.Id}");
+                Windows.Cmd.RunClose(NTMinerRegistry.GetLocation(), $"--controlcenter --workid={this.Id}");
             });
-        }
-
-        private static string GetNTMinerLocation() {
-            object locationValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Location");
-            if (locationValue != null) {
-                return (string)locationValue;
-            }
-            return string.Empty;
         }
 
         public Guid GetId() {

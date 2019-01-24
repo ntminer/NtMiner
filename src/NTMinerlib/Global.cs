@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using NTMiner.Bus;
+﻿using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
 using NTMiner.Language;
 using NTMiner.Logging;
@@ -25,17 +24,7 @@ namespace NTMiner {
         public static ILang Lang {
             get {
                 if (_lang == null) {
-                    string langCode = string.Empty;
-                    object languageValue = Windows.Registry.GetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language");
-                    if (languageValue == null) {
-                        // 如果本机语言是中文则默认是中文
-                        if (System.Globalization.CultureInfo.InstalledUICulture.Name == "zh-CN") {
-                            langCode = "zh-CN";
-                        }
-                    }
-                    else {
-                        langCode = (string)languageValue;
-                    }
+                    string langCode = NTMinerRegistry.GetLanguage();
                     _lang = LangSet.Instance.GetLangByCode(langCode);
                     if (_lang == null) {
                         // 默认是排序在第一个的语言
@@ -47,7 +36,7 @@ namespace NTMiner {
             set {
                 if (_lang != value && value != null) {
                     _lang = LangSet.Instance.GetLangByCode(value.Code);
-                    Windows.Registry.SetValue(Registry.Users, ClientId.NTMinerRegistrySubKey, "Language", value.Code);
+                    NTMinerRegistry.SetLanguage(value.Code);
                     Happened(new GlobalLangChangedEvent(value));
                 }
             }

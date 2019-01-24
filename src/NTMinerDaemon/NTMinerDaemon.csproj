@@ -81,6 +81,9 @@
     <Compile Include="..\NTMinerlib\Logging\LogDir.cs">
       <Link>Logging\LogDir.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
+      <Link>NTMinerRegistry.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\Security\AESHelper.cs">
       <Link>Security\AESHelper.cs</Link>
     </Compile>
@@ -89,9 +92,6 @@
     </Compile>
     <Compile Include="..\NTMinerlib\Security\RSAHelper.cs">
       <Link>Security\RSAHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\Windows\App.cs">
-      <Link>Windows\App.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>
@@ -102,7 +102,6 @@
     <Compile Include="..\NTMinerlib\Windows\TaskKill.cs">
       <Link>Windows\TaskKill.cs</Link>
     </Compile>
-    <Compile Include="ClientId.cs" />
     <Compile Include="DaemonServer.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="INTMinerDaemonService.cs" />

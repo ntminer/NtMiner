@@ -68,6 +68,7 @@
     <Compile Include="Language\Messages.cs" />
     <Compile Include="Language\Repository.cs" />
     <Compile Include="Logging\LogDir.cs" />
+    <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="ServiceContracts\DataObjects\IPoolProfile.cs" />
     <Compile Include="ServiceContracts\DataObjects\PoolProfileData.cs" />
     <Compile Include="ServiceContracts\DataObjects\SetPoolProfilePropertyRequest.cs" />
@@ -180,7 +181,6 @@
     <Compile Include="Server.partials.TimeService.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="ChannelFactory.cs" />
-    <Compile Include="Windows\App.cs" />
     <Compile Include="Windows\Registry.cs" />
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />
