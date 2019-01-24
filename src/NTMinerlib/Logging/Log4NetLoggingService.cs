@@ -120,6 +120,11 @@ $@"<log4net>
             _log.Warn(message);
         }
 
+        public void ErrorWriteLine(object message) {
+            Global.WriteLine(message?.ToString(), ConsoleColor.Red);
+            _log.Warn(message);
+        }
+
         public bool IsDebugEnabled {
             get {
                 return _log.IsDebugEnabled;

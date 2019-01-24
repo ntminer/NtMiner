@@ -438,39 +438,47 @@ namespace NTMiner {
                 IMinerProfile minerProfile = this.MinerProfile;
                 ICoin mainCoin;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
-                    Global.Logger.WarnWriteLine("没有选择主挖币种。");
+                    Global.Logger.ErrorWriteLine("没有选择主挖币种。");
                     return;
                 }
                 ICoinProfile coinProfile = this.CoinProfileSet.GetCoinProfile(minerProfile.CoinId);
                 IPool mainCoinPool;
                 if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
-                    Global.Logger.WarnWriteLine("没有选择主币矿池。");
+                    Global.Logger.ErrorWriteLine("没有选择主币矿池。");
                     return;
                 }
                 ICoinKernel coinKernel;
                 if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
-                    Global.Logger.WarnWriteLine("没有选择挖矿内核。");
+                    Global.Logger.ErrorWriteLine("没有选择挖矿内核。");
                     return;
                 }
                 IKernel kernel;
                 if (!this.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
-                    Global.Logger.WarnWriteLine("无效的挖矿内核。");
+                    Global.Logger.ErrorWriteLine("无效的挖矿内核。");
                     return;
                 }
                 if (!kernel.IsSupported()) {
-                    Global.Logger.WarnWriteLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。");
+                    Global.Logger.ErrorWriteLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。");
                     return;
                 }
                 IKernelInput kernelInput;
                 if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
-                    Global.Logger.WarnWriteLine("未设置内核输入");
+                    Global.Logger.ErrorWriteLine("未设置内核输入");
                     return;
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
                     coinProfile.Wallet = mainCoin.TestWallet;
                 }
+                if (mainCoinPool.IsUserMode) {
+                    IPoolProfile poolProfile = PoolProfileSet.GetPoolProfile(mainCoinPool.GetId());
+                    string userName = poolProfile.UserName;
+                    if (string.IsNullOrEmpty(userName)) {
+                        Global.Logger.ErrorWriteLine("没有填写矿池用户名。");
+                        return;
+                    }
+                }
                 if (string.IsNullOrEmpty(coinProfile.Wallet) && !mainCoinPool.IsUserMode) {
-                    Global.Logger.WarnWriteLine("没有填写钱包地址。");
+                    Global.Logger.ErrorWriteLine("没有填写钱包地址。");
                     return;
                 }
                 IMineContext mineContext = this.CreateMineContext(
@@ -481,20 +489,20 @@ namespace NTMiner {
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     ICoin dualCoin;
                     if (!this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                        Global.Logger.WarnWriteLine("没有选择双挖币种。");
+                        Global.Logger.ErrorWriteLine("没有选择双挖币种。");
                         return;
                     }
                     IPool dualCoinPool;
                     coinProfile = this.CoinProfileSet.GetCoinProfile(coinKernelProfile.DualCoinId);
                     if (!this.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
-                        Global.Logger.WarnWriteLine("没有选择双挖矿池。");
+                        Global.Logger.ErrorWriteLine("没有选择双挖矿池。");
                         return;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
                         coinProfile.DualCoinWallet = dualCoin.TestWallet;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
-                        Global.Logger.WarnWriteLine("没有填写双挖钱包。");
+                        Global.Logger.ErrorWriteLine("没有填写双挖钱包。");
                         return;
                     }
                     mineContext = this.CreateDualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
@@ -508,12 +516,12 @@ namespace NTMiner {
                     Windows.TaskKill.Kill(processName);
                 }
                 if (string.IsNullOrEmpty(kernel.Package)) {
-                    Global.Logger.WarnWriteLine(kernel.FullName + "没有内核包");
+                    Global.Logger.ErrorWriteLine(kernel.FullName + "没有内核包");
                     this.StopMineAsync();
                     return;
                 }
                 if (string.IsNullOrEmpty(kernelInput.Args)) {
-                    Global.Logger.WarnWriteLine(kernel.FullName + "没有配置运行参数");
+                    Global.Logger.ErrorWriteLine(kernel.FullName + "没有配置运行参数");
                     return;
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);

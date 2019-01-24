@@ -73,7 +73,7 @@ namespace NTMiner {
                                 Process[] processes = Process.GetProcessesByName(processName);
                                 if (processes.Length == 0) {
                                     mineContext.ProcessDisappearedCound = mineContext.ProcessDisappearedCound + 1;
-                                    Global.Logger.WarnWriteLine(processName + $"挖矿内核进程消失");
+                                    Global.Logger.ErrorWriteLine(processName + $"挖矿内核进程消失");
                                     if (Current.MinerProfile.IsAutoRestartKernel && mineContext.ProcessDisappearedCound <= 3) {
                                         Global.Logger.WarnWriteLine($"尝试第{mineContext.ProcessDisappearedCound}次重启，共3次");
                                         Current.RestartMine();
@@ -263,7 +263,7 @@ namespace NTMiner {
                     }
                 }
                 else {
-                    Global.Logger.WarnWriteLine("内核启动失败，请重试");
+                    Global.Logger.ErrorWriteLine("内核启动失败，请重试");
                 }
             }
 
