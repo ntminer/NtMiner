@@ -66,14 +66,19 @@ namespace NTMiner {
                                 Global.Logger.InfoDebugLine("下载完成：" + serverJsonFileUrl);
                                 IETag etag;
                                 if (ETagSet.Instance.TryGetETagByKey(serverJsonFileUrl, out etag)) {
-                                    Global.Execute(new UpdateETagCommand(new ETag(etag) {
-                                        Value = etagValue
+                                    Global.Execute(new UpdateETagCommand(new ETag() {
+                                        Id = etag.GetId(),
+                                        Key = etag.Key,
+                                        Value = etagValue,
+                                        TimeStamp = DateTime.Now
                                     }));
                                 }
                                 else {
                                     Global.Execute(new AddETagCommand(new ETag() {
+                                        Id = Guid.NewGuid(),
                                         Key = serverJsonFileUrl,
-                                        Value = etagValue
+                                        Value = etagValue,
+                                        TimeStamp = DateTime.Now
                                     }));
                                 }
                                 countdown.Signal();
@@ -84,14 +89,19 @@ namespace NTMiner {
                                 Global.Logger.InfoDebugLine("下载完成：" + serverLangJsonFileUrl);
                                 IETag etag;
                                 if (ETagSet.Instance.TryGetETagByKey(serverLangJsonFileUrl, out etag)) {
-                                    Global.Execute(new UpdateETagCommand(new ETag(etag) {
-                                        Value = etagValue
+                                    Global.Execute(new UpdateETagCommand(new ETag() {
+                                        Id = etag.GetId(),
+                                        Key = etag.Key,
+                                        Value = etagValue,
+                                        TimeStamp = DateTime.Now
                                     }));
                                 }
                                 else {
                                     Global.Execute(new AddETagCommand(new ETag() {
+                                        Id = Guid.NewGuid(),
                                         Key = serverLangJsonFileUrl,
-                                        Value = etagValue
+                                        Value = etagValue,
+                                        TimeStamp = DateTime.Now
                                     }));
                                 }
                                 countdown.Signal();
