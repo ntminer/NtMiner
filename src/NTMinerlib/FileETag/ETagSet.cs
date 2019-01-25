@@ -99,14 +99,20 @@ namespace NTMiner.FileETag {
             }
         }
 
-        public bool TryGetETagByKey(string key, out ETag etag) {
+        public bool TryGetETagByKey(string key, out IETag etag) {
             InitOnece();
-            return _dicByKey.TryGetValue(key, out etag);
+            ETag entity;
+            bool result = _dicByKey.TryGetValue(key, out entity);
+            etag = entity;
+            return result;
         }
 
-        public bool TryGetETagByValue(string value, out ETag etag) {
+        public bool TryGetETagByValue(string value, out IETag etag) {
             InitOnece();
-            return _dicByValue.TryGetValue(value, out etag);
+            ETag entity;
+            bool result = _dicByValue.TryGetValue(value, out entity);
+            etag = entity;
+            return result;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 
 namespace NTMiner.FileETag {
     public static class ETagClient {
-        public static void HeadETag(string fileUrl, Action<string> callback) {
+        public static void HeadETagAsync(string fileUrl, Action<string> callback) {
             try {
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
                 webRequest.Method = "HEAD";
@@ -14,6 +15,32 @@ namespace NTMiner.FileETag {
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
                 callback?.Invoke(string.Empty);
+            }
+        }
+
+        public static void GetFileAsync(string fileUrl, Action<string, byte[]> callback) {
+            try {
+                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
+                webRequest.Method = "GET";
+                HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
+                string etag = response.GetResponseHeader("ETag");
+                using (MemoryStream ms = new MemoryStream())
+                using (Stream stream = response.GetResponseStream()) {
+                    byte[] buffer = new byte[1024];
+                    int n = stream.Read(buffer, 0, buffer.Length);
+                    while (n > 0) {
+                        ms.Write(buffer, 0, n);
+                        n = stream.Read(buffer, 0, buffer.Length);
+                    }
+                    byte[] data = new byte[ms.Length];
+                    ms.Position = 0;
+                    ms.Read(data, 0, data.Length);
+                    callback?.Invoke(etag, data);
+                }
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+                callback?.Invoke(string.Empty, new byte[0]);
             }
         }
     }

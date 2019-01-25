@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
@@ -9,15 +8,17 @@ using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
+using NTMiner.FileETag;
+using NTMiner.FileETag.Impl;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -58,34 +59,46 @@ namespace NTMiner {
                             _isInited = true;
                         }
                         else {
-                            Task t1 = Task.Factory.StartNew(() => {
-                                try {
-                                    using (WebClient webClient = new WebClient()) {
-                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
-                                        Global.Logger.InfoDebugLine("下载：" + jsonUrl);
-                                        byte[] data = webClient.DownloadData(jsonUrl);
-                                        rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                    }
+                            CountdownEvent countdown = new CountdownEvent(2);
+                            string serverJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
+                            ETagClient.GetFileAsync(serverJsonFileUrl, (etagValue, data) => {
+                                rawNTMinerJson = Encoding.UTF8.GetString(data);
+                                Global.Logger.InfoDebugLine("下载完成：" + serverJsonFileUrl);
+                                IETag etag;
+                                if (ETagSet.Instance.TryGetETagByKey(serverJsonFileUrl, out etag)) {
+                                    Global.Execute(new UpdateETagCommand(new ETag(etag) {
+                                        Value = etagValue
+                                    }));
                                 }
-                                catch (Exception e) {
-                                    Global.Logger.ErrorDebugLine(e.Message, e);
+                                else {
+                                    Global.Execute(new AddETagCommand(new ETag() {
+                                        Key = serverJsonFileUrl,
+                                        Value = etagValue
+                                    }));
                                 }
+                                countdown.Signal();
                             });
-                            Task t2 = Task.Factory.StartNew(() => {
-                                try {
-                                    using (WebClient webClient = new WebClient()) {
-                                        string jsonUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerLangJsonFileName;
-                                        Global.Logger.InfoDebugLine("下载：" + jsonUrl);
-                                        byte[] data = webClient.DownloadData(jsonUrl);
-                                        rawLangJson = Encoding.UTF8.GetString(data);
-                                    }
+                            string serverLangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerLangJsonFileName;
+                            ETagClient.GetFileAsync(serverLangJsonFileUrl, (etagValue, data) => {
+                                rawLangJson = Encoding.UTF8.GetString(data);
+                                Global.Logger.InfoDebugLine("下载完成：" + serverLangJsonFileUrl);
+                                IETag etag;
+                                if (ETagSet.Instance.TryGetETagByKey(serverLangJsonFileUrl, out etag)) {
+                                    Global.Execute(new UpdateETagCommand(new ETag(etag) {
+                                        Value = etagValue
+                                    }));
                                 }
-                                catch (Exception e) {
-                                    Global.Logger.ErrorDebugLine(e.Message, e);
+                                else {
+                                    Global.Execute(new AddETagCommand(new ETag() {
+                                        Key = serverLangJsonFileUrl,
+                                        Value = etagValue
+                                    }));
                                 }
+                                countdown.Signal();
                             });
                             Task.Factory.StartNew(() => {
-                                if (Task.WaitAll(new Task[] { t1, t2 }, 30 * 1000)) {
+                                if (countdown.Wait(30 * 1000)) {
+                                    Global.Logger.InfoDebugLine("json下载完成");
                                     DoInit(rawNTMinerJson, rawLangJson, callback);
                                 }
                                 else {

@@ -12,10 +12,19 @@ namespace UnitTestProject1 {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
-        public void HttpHeadTest() {
+        public void ETagTest1() {
             string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/server1.1.2.json";
-            NTMiner.FileETag.ETagClient.HeadETag(url, etag => {
+            NTMiner.FileETag.ETagClient.HeadETagAsync(url, etag => {
                 Console.WriteLine(etag);
+            });
+        }
+
+        [TestMethod]
+        public void ETagTest2() {
+            string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/server1.1.2.json";
+            NTMiner.FileETag.ETagClient.GetFileAsync(url, (etag, data) => {
+                Console.WriteLine(etag);
+                Console.WriteLine(System.Text.Encoding.UTF8.GetString(data));
             });
         }
 

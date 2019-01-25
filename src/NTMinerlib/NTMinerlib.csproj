@@ -57,6 +57,7 @@
     <Compile Include="Bus\EventBase.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FileETag\ETagClient.cs" />
+    <Compile Include="FileETag\ETagFileResult.cs" />
     <Compile Include="FileETag\ETagSet.cs" />
     <Compile Include="FileETag\IETag.cs" />
     <Compile Include="FileETag\Impl\ETag.cs" />

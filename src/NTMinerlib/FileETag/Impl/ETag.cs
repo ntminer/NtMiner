@@ -6,6 +6,12 @@ namespace NTMiner.FileETag.Impl {
             this.Id = Guid.NewGuid();
         }
 
+        public ETag(IETag data) {
+            this.Id = data.GetId();
+            this.Key = data.Key;
+            this.Value = data.Value;
+        }
+
         public Guid GetId() {
             return this.Id;
         }
