@@ -22,7 +22,7 @@ namespace NTMiner.Core.Impl {
                 KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray(),
                 Kernels = root.KernelSet.Cast<KernelData>().ToArray(),
                 Pools = root.PoolSet.Cast<PoolData>().ToArray(),
-                PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().ToArray(),
+                PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToArray(),
                 SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray(),
                 SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
             };

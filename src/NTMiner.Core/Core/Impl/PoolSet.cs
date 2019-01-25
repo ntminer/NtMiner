@@ -1,6 +1,9 @@
-﻿using System;
+﻿using NTMiner.Core.Kernels;
+using NTMiner.Core.Kernels.Impl;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Core.Impl {
     internal class PoolSet : IPoolSet {
@@ -34,6 +37,22 @@ namespace NTMiner.Core.Impl {
                     repository.Add(entity);
 
                     Global.Happened(new PoolAddedEvent(entity));
+                    ICoin coin;
+                    if (root.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
+                        ICoinKernel[] coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        foreach (ICoinKernel coinKernel in coinKernels) {
+                            Guid poolKernelId = Guid.NewGuid();
+                            var poolKernel = new PoolKernelData() {
+                                Id = poolKernelId,
+                                Args = string.Empty,
+                                Description = string.Empty,
+                                KernelId = coinKernel.KernelId,
+                                PoolId = message.Input.GetId()
+                            };
+                            _dicById.Add(poolKernelId, entity);
+                            Global.Happened(new PoolKernelAddedEvent(poolKernel));
+                        }
+                    }
                 });
             Global.Access<UpdatePoolCommand>(
                 Guid.Parse("62d847f6-2b1f-4891-990b-3beb4c1dc5b0"),
