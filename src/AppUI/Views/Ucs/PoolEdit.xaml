@@ -98,6 +98,9 @@
                             <TextBox Width="100" Height="26" IsEnabled="{Binding IsUserMode}" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Password}">
                             </TextBox>
                         </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Foreground="Red" TextWrapping="Wrap">由于添加用户名密码模式的矿池需要填写复杂的矿池级参数，用户添加起来有一定门槛，所以暂不对用户开发这个功能。</TextBlock>
+                        </WrapPanel>
                     </StackPanel>
                     
                     <controls:KbButton
