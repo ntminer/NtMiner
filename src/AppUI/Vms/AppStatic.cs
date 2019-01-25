@@ -259,10 +259,12 @@ namespace NTMiner.Vms {
                 _isMinerClient = value;
                 if (value) {
                     IsMinerClientVisible = Visibility.Visible;
+                    IsMinerClientDevVisible = DevMode.IsDevMode ? Visibility.Visible : Visibility.Collapsed;
                     IsMinerClientNotVisible = Visibility.Collapsed;
                 }
                 else {
                     IsMinerClientVisible = Visibility.Collapsed;
+                    IsMinerClientDevVisible = Visibility.Collapsed;
                     IsMinerClientNotVisible = Visibility.Visible;
                 }
             }
@@ -273,6 +275,10 @@ namespace NTMiner.Vms {
         }
 
         public static Visibility IsMinerClientNotVisible {
+            get; private set;
+        }
+
+        public static Visibility IsMinerClientDevVisible {
             get; private set;
         }
     }
