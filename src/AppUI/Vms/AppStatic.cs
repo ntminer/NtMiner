@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Impl;
+using NTMiner.FileETag;
 using NTMiner.Language.Impl;
 using NTMiner.Notifications;
 using NTMiner.Views;
@@ -142,10 +143,28 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         return;
                     }
-                    FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
+                    FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName, etagValue) => {
                         if (isSuccess) {
                             File.Copy(saveFileFullName, ntMinerUpdaterFileFullName);
                             File.Delete(saveFileFullName);
+                            IETag etag;
+                            string etagKey = "Updater/NTMinerUpdater.exe";
+                            if (ETagSet.Instance.TryGetETagByKey(etagKey, out etag)) {
+                                Global.Execute(new UpdateETagCommand(new ETag {
+                                    Id = etag.GetId(),
+                                    Key = etagKey,
+                                    Value = etagValue,
+                                    TimeStamp = DateTime.Now
+                                }));
+                            }
+                            else {
+                                Global.Execute(new AddETagCommand(new ETag {
+                                    Id = Guid.NewGuid(),
+                                    Key = etagKey,
+                                    Value = etagValue,
+                                    TimeStamp = DateTime.Now
+                                }));
+                            }
                             window?.Close();
                             Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
                         }
@@ -195,10 +214,28 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         return;
                     }
-                    FileDownloader.ShowWindow(downloadFileUrl, "LiteDB数据库管理工具", (window, isSuccess, message, saveFileFullName) => {
+                    FileDownloader.ShowWindow(downloadFileUrl, "LiteDB数据库管理工具", (window, isSuccess, message, saveFileFullName, etagValue) => {
                         if (isSuccess) {
                             ZipUtil.DecompressZipFile(saveFileFullName, liteDbExplorerDir);
                             File.Delete(saveFileFullName);
+                            string etagKey = "LiteDBExplorerPortable";
+                            IETag etag;
+                            if (ETagSet.Instance.TryGetETagByKey(etagKey, out etag)) {
+                                Global.Execute(new UpdateETagCommand(new ETag {
+                                    Id = etag.GetId(),
+                                    Key = etagKey,
+                                    Value = etagValue,
+                                    TimeStamp = DateTime.Now
+                                }));
+                            }
+                            else {
+                                Global.Execute(new AddETagCommand(new ETag {
+                                    Id = Guid.NewGuid(),
+                                    Key = etagKey,
+                                    Value = etagValue,
+                                    TimeStamp = DateTime.Now
+                                }));
+                            }
                             window?.Close();
                             Windows.Cmd.RunClose(liteDbExplorerFileFullName, dbFileFullName);
                         }

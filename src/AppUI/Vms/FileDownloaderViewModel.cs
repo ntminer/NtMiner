@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
 
         public ICommand CancelDownload { get; private set; }
 
-        public FileDownloaderViewModel(string downloadFileUrl, Action<bool, string, string> downloadComplete) {
+        public FileDownloaderViewModel(string downloadFileUrl, Action<bool, string, string, string> downloadComplete) {
             if (string.IsNullOrEmpty(downloadFileUrl)) {
                 throw new InvalidProgramException();
             }
@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        private void Download(Action<bool, string, string> downloadComplete) {
+        private void Download(Action<bool, string, string, string> downloadComplete) {
             Global.Logger.InfoDebugLine("下载：" + _downloadFileUrl);
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, "LiteDBExplorerPortable.zip");
             using (WebClient webClient = new WebClient()) {
@@ -95,9 +95,10 @@ namespace NTMiner.Vms {
                     this.DownloadMessage = message;
                     this.DownloadPercent = 0;
                     this.BtnCancelVisible = Visibility.Collapsed;
+                    string etagValue = webClient.ResponseHeaders.Get("ETag");
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                         Execute.OnUIThread(() => {
-                            downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
+                            downloadComplete?.Invoke(isSuccess, message, saveFileFullName, etagValue);
                         });
                     });
                 };
