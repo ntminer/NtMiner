@@ -7,8 +7,7 @@
 		     xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
              xmlns:local="clr-namespace:NTMiner.Views"
 		     xmlns:vm="clr-namespace:NTMiner.Vms"
-             mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="120">
+             mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <sys:String x:Key="MihOption">
@@ -70,35 +69,15 @@
             </WrapPanel>
         </controls:KbButton>
         <Menu Background="Transparent" VerticalAlignment="Center">
-            <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+            <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientDevVisible}">
                 <MenuItem.Icon>
                     <Path
 					    Width="14"
 					    Height="14"
-					    Data="{StaticResource Icon_Developer}"
+					    Data="{StaticResource Icon_Db}"
 					    Fill="#385263"
 					    Stretch="Fill" />
                 </MenuItem.Icon>
-                <MenuItem Header="kernel input" Command="{x:Static vm:AppStatic.ShowKernelInputs}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_KernelInput}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="kernel output" Command="{x:Static vm:AppStatic.ShowKernelOutputs}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_KernelOutput}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
                 <MenuItem Header="global dir" Command="{x:Static vm:AppStatic.ShowGlobalDir}">
                     <MenuItem.Icon>
                         <Path
@@ -155,6 +134,36 @@
 						    Width="14"
 						    Height="14"
 						    Data="{StaticResource Icon_Db}"
+						    Fill="{StaticResource IconFillColor}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                <MenuItem.Icon>
+                    <Path
+					    Width="14"
+					    Height="14"
+					    Data="{StaticResource Icon_Developer}"
+					    Fill="#385263"
+					    Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem Header="kernel input" Command="{x:Static vm:AppStatic.ShowKernelInputs}">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="14"
+						    Height="14"
+						    Data="{StaticResource Icon_KernelInput}"
+						    Fill="{StaticResource IconFillColor}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="kernel output" Command="{x:Static vm:AppStatic.ShowKernelOutputs}">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="14"
+						    Height="14"
+						    Data="{StaticResource Icon_KernelOutput}"
 						    Fill="{StaticResource IconFillColor}"
 						    Stretch="Fill" />
                     </MenuItem.Icon>
@@ -286,7 +295,7 @@
 					    Width="14"
 					    Height="8"
 					    Data="{StaticResource Icon_Menu}"
-					    Fill="{StaticResource IconFillColor}"
+					    Fill="#385263"
 					    Stretch="Fill" />
                 </MenuItem.Icon>
                 <MenuItem Header="{DynamicResource MihMiner}" Command="{x:Static vm:AppStatic.ShowMinerClients}">
