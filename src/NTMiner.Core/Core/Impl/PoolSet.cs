@@ -37,6 +37,7 @@ namespace NTMiner.Core.Impl {
                     repository.Add(entity);
 
                     Global.Happened(new PoolAddedEvent(entity));
+
                     ICoin coin;
                     if (root.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
                         ICoinKernel[] coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
@@ -49,8 +50,7 @@ namespace NTMiner.Core.Impl {
                                 KernelId = coinKernel.KernelId,
                                 PoolId = message.Input.GetId()
                             };
-                            _dicById.Add(poolKernelId, entity);
-                            Global.Happened(new PoolKernelAddedEvent(poolKernel));
+                            Global.Execute(new AddPoolKernelCommand(poolKernel));
                         }
                     }
                 });
@@ -102,6 +102,10 @@ namespace NTMiner.Core.Impl {
                     _dicById.Remove(entity.GetId());
 
                     Global.Happened(new PoolRemovedEvent(entity));
+                    Guid[] toRemoves = root.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
+                    foreach (Guid poolKernelId in toRemoves) {
+                        Global.Execute(new RemovePoolKernelCommand(poolKernelId));
+                    }
                 });
             Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }

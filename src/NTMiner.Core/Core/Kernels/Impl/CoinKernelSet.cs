@@ -34,6 +34,22 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Add(entity);
 
                     Global.Happened(new CoinKernelAddedEvent(entity));
+
+                    ICoin coin;
+                    if (root.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
+                        IPool[] pools = root.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        foreach (IPool pool in pools) {
+                            Guid poolKernelId = Guid.NewGuid();
+                            var poolKernel = new PoolKernelData() {
+                                Id = poolKernelId,
+                                Args = string.Empty,
+                                Description = string.Empty,
+                                KernelId = message.Input.KernelId,
+                                PoolId = pool.GetId()
+                            };
+                            Global.Execute(new AddPoolKernelCommand(poolKernel));
+                        }
+                    }
                 });
             Global.Access<UpdateCoinKernelCommand>(
                 Guid.Parse("b3dfdf09-f732-4b3b-aeeb-25de7b83d30c"),
@@ -75,6 +91,19 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Remove(entity.Id);
 
                     Global.Happened(new CoinKernelRemovedEvent(entity));
+                    ICoin coin;
+                    if (root.CoinSet.TryGetCoin(entity.CoinId, out coin)) {
+                        List<Guid> toRemoves = new List<Guid>();
+                        IPool[] pools = root.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        foreach (IPool pool in pools) {
+                            foreach (PoolKernelData poolKernel in root.PoolKernelSet.Where(a => a.PoolId == pool.GetId() && a.KernelId == entity.KernelId)) {
+                                toRemoves.Add(poolKernel.Id);
+                            }
+                        }
+                        foreach (Guid poolKernelId in toRemoves) {
+                            Global.Execute(new RemovePoolKernelCommand(poolKernelId));
+                        }
+                    }
                 });
             Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }

@@ -10,62 +10,29 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public PoolKernelSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<CoinKernelAddedEvent>(
-                Guid.Parse("F39019DF-21F7-40EF-9233-4F7E8291FF39"),
-                "新添了币种内核后刷新矿池内核内存",
-                LogEnum.Log,
-                action: (message) => {
-                    ICoin coin;
-                    if (root.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
-                        IPool[] pools = root.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
-                        foreach (IPool pool in pools) {
-                            Guid poolKernelId = Guid.NewGuid();
-                            var entity = new PoolKernelData() {
-                                Id = poolKernelId,
-                                Args = string.Empty,
-                                Description = string.Empty,
-                                KernelId = message.Source.KernelId,
-                                PoolId = pool.GetId()
-                            };
-                            _dicById.Add(poolKernelId, entity);
-                            Global.Happened(new PoolKernelAddedEvent(entity));
-                        }
-                    }
-                });
-            Global.Access<CoinKernelRemovedEvent>(
-                Guid.Parse("3FD6D2B4-4C8F-4C81-8E15-2FBA4E730AF7"),
-                "移除了币种内核后刷新矿池内核内存",
-                LogEnum.Log,
-                action: (message) => {
-                    ICoin coin;
-                    if (root.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
+            Global.Access<AddPoolKernelCommand>(
+                Guid.Parse("B926F4A0-4318-493D-BCE1-CBE329AC7DD7"),
+                "处理添加矿池级内核命令",
+                LogEnum.None,
+                action: message => {
+                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                        var entity = new PoolKernelData().Update(message.Input);
+                        _dicById.Add(message.Input.GetId(), entity);
                         var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
-                        List<Guid> toRemoves = new List<Guid>();
-                        IPool[] pools = root.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
-                        foreach (IPool pool in pools) {
-                            foreach (PoolKernelData poolKernelVm in _dicById.Values.Where(a => a.PoolId == pool.GetId() && a.KernelId == message.Source.KernelId)) {
-                                toRemoves.Add(poolKernelVm.Id);
-                            }
-                        }
-                        foreach (Guid poolKernelId in toRemoves) {
-                            var entity = _dicById[poolKernelId];
-                            _dicById.Remove(poolKernelId);
-                            repository.Remove(entity.Id);
-                            Global.Happened(new PoolKernelRemovedEvent(entity));
-                        }
+                        repository.Add(entity);
+                        Global.Happened(new PoolKernelAddedEvent(message.Input));
                     }
                 });
-            Global.Access<PoolRemovedEvent>(
-                Guid.Parse("F4B99EAE-2532-4DAC-8D49-2D6A51530722"),
-                "移除了矿池后刷新矿池内核内存",
-                LogEnum.Log,
-                action: (message) => {
-                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
-                    Guid[] toRemoves = _dicById.Values.Where(a => a.PoolId == message.Source.GetId()).Select(a => a.Id).ToArray();
-                    foreach (Guid poolKernelId in toRemoves) {
-                        var entity = _dicById[poolKernelId];
-                        _dicById.Remove(poolKernelId);
-                        repository.Remove(entity.Id);
+            Global.Access<RemovePoolKernelCommand>(
+                Guid.Parse("151EC414-58E3-4752-8758-4742256D2297"),
+                "处理移除矿池级内核命令",
+                LogEnum.None,
+                action: message => {
+                    if (_dicById.ContainsKey(message.EntityId)) {
+                        var entity = _dicById[message.EntityId];
+                        _dicById.Remove(message.EntityId);
+                        var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
+                        repository.Remove(message.EntityId);
                         Global.Happened(new PoolKernelRemovedEvent(entity));
                     }
                 });
