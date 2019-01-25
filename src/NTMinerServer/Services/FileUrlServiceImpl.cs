@@ -77,18 +77,14 @@ namespace NTMiner.Services {
             }
         }
 
-        public string GetNTMinerUpdaterUrl(out string headUrl) {
+        public string GetNTMinerUpdaterUrl() {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "NTMinerUpdater.exe", SignHttpMethod.Get);
                 var uri = HostRoot.OssClient.GeneratePresignedUri(req);
-                var headReq = new GeneratePresignedUriRequest("ntminer", "NTMinerUpdater.exe", SignHttpMethod.Head);
-                var headUri = HostRoot.OssClient.GeneratePresignedUri(headReq);
-                headUrl = headUri.ToString();
                 return uri.ToString();
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                headUrl = string.Empty;
                 return string.Empty;
             }
         }

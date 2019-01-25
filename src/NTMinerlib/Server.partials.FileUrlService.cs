@@ -128,22 +128,21 @@ namespace NTMiner {
                 });
             }
 
-            public void GetNTMinerUpdaterUrlAsync(Action<string, string> callback) {
+            public void GetNTMinerUpdaterUrlAsync(Action<string> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var service = CreateService()) {
-                            string headUrl;
-                            string downloadUrl = service.GetNTMinerUpdaterUrl(out headUrl);
-                            callback?.Invoke(downloadUrl, headUrl);
+                            string downloadUrl = service.GetNTMinerUpdaterUrl();
+                            callback?.Invoke(downloadUrl);
                         }
                     }
                     catch (CommunicationException e) {
                         Global.DebugLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(string.Empty, string.Empty);
+                        callback?.Invoke(string.Empty);
                     }
                     catch (Exception e) {
                         Global.Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(string.Empty, string.Empty);
+                        callback?.Invoke(string.Empty);
                     }
                 });
             }

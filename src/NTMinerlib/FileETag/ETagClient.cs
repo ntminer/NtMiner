@@ -10,7 +10,7 @@ namespace NTMiner.FileETag {
                 webRequest.Timeout = 3 * 1000;
                 webRequest.Method = "HEAD";
                 HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
-                string etag = response.GetResponseHeader("ETag");
+                string etag = response.GetResponseHeader("ETag").Trim('"');
                 callback?.Invoke(etag);
             }
             catch (Exception e) {
@@ -24,7 +24,7 @@ namespace NTMiner.FileETag {
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
                 webRequest.Method = "GET";
                 HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
-                string etag = response.GetResponseHeader("ETag");
+                string etag = response.GetResponseHeader("ETag").Trim('"');
                 using (MemoryStream ms = new MemoryStream())
                 using (Stream stream = response.GetResponseStream()) {
                     byte[] buffer = new byte[1024];

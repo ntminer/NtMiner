@@ -5,8 +5,8 @@ namespace NTMiner.Core.Kernels {
         void Download(
             string package,
             Action<int> progressChanged,
-            // isSuccess, message, saveFileFullName, etag
-            Action<bool, string, string, string> downloadComplete,
+            // isSuccess, message, saveFileFullName
+            Action<bool, string, string> downloadComplete,
             out Action cancel);
     }
 }

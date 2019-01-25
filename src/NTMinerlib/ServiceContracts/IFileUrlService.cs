@@ -19,7 +19,7 @@ namespace NTMiner.ServiceContracts {
         ResponseBase RemoveNTMinerFile(RemoveNTMinerFileRequest request);
 
         [OperationContract]
-        string GetNTMinerUpdaterUrl(out string headUrl);
+        string GetNTMinerUpdaterUrl();
 
         [OperationContract]
         string GetLiteDBExplorerUrl();

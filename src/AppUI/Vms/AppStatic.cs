@@ -137,30 +137,24 @@ namespace NTMiner.Vms {
             if (!Directory.Exists(updaterDirFullName)) {
                 Directory.CreateDirectory(updaterDirFullName);
             }
-            Server.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, headUrl) => {
-                if (string.IsNullOrEmpty(downloadFileUrl) || string.IsNullOrEmpty(headUrl)) {
+            Server.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl) => {
+                if (string.IsNullOrEmpty(downloadFileUrl)) {
                     return;
                 }
-                ETagClient.HeadETagAsync(headUrl, headEtagValue => {
-                    Global.DebugLine($"{headUrl} {headEtagValue}");
-                    string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
-                    string etagKey = "Updater/NTMinerUpdater.exe";
-                    IETag etag = null;
-                    if (!File.Exists(ntMinerUpdaterFileFullName) || !ETagSet.Instance.TryGetETagByKey(etagKey, out etag) || etag.Value != headEtagValue) {
-                        FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName, etagValue) => {
-                            if (isSuccess) {
-                                File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
-                                File.Delete(saveFileFullName);
-                                ETagSet.Instance.AddOrUpdateETag(etagKey, etagValue);
-                                window?.Close();
-                                Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
-                            }
-                        });
-                    }
-                    else {
-                        Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
-                    }
-                });
+                string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
+                if (!File.Exists(ntMinerUpdaterFileFullName)) {
+                    FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
+                        if (isSuccess) {
+                            File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
+                            File.Delete(saveFileFullName);
+                            window?.Close();
+                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
+                        }
+                    });
+                }
+                else {
+                    Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
+                }
             });
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
@@ -202,12 +196,10 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         return;
                     }
-                    FileDownloader.ShowWindow(downloadFileUrl, "LiteDB数据库管理工具", (window, isSuccess, message, saveFileFullName, etagValue) => {
+                    FileDownloader.ShowWindow(downloadFileUrl, "LiteDB数据库管理工具", (window, isSuccess, message, saveFileFullName) => {
                         if (isSuccess) {
                             ZipUtil.DecompressZipFile(saveFileFullName, liteDbExplorerDir);
                             File.Delete(saveFileFullName);
-                            string etagKey = "LiteDBExplorerPortable";
-                            ETagSet.Instance.AddOrUpdateETag(etagKey, etagValue);
                             window?.Close();
                             Windows.Cmd.RunClose(liteDbExplorerFileFullName, dbFileFullName);
                         }

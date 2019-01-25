@@ -157,7 +157,7 @@ namespace NTMiner.Vms {
             NTMinerRoot.Current.PackageDownloader.Download(package, progressChanged: (percent) => {
                 this.DownloadMessage = percent + "%";
                 this.DownloadPercent = (double)percent / 100;
-            }, downloadComplete: (isSuccess, message, saveFileFullName, etagValue) => {
+            }, downloadComplete: (isSuccess, message, saveFileFullName) => {
                 this.DownloadMessage = message;
                 this.DownloadPercent = 0;
                 if (isSuccess) {
@@ -167,7 +167,6 @@ namespace NTMiner.Vms {
                     foreach (var kernelVm in otherSamePackageKernelVms) {
                         kernelVm.KernelProfileVm.IsDownloading = false;
                     }
-                    ETagSet.Instance.AddOrUpdateETag($"Packages/{package}", etagValue);
                 }
                 else {
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {

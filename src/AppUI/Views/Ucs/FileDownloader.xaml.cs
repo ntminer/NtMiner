@@ -7,14 +7,14 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow(
             string downloadFileUrl, string fileTitle,
             // window, isSuccess, message, saveFileFullName, etagValue
-            Action<ContainerWindow, bool, string, string, string> downloadComplete) {
+            Action<ContainerWindow, bool, string, string> downloadComplete) {
             Execute.OnUIThread(() => {
                 ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                     IconName = "Icon_Download",
                     CloseVisible = System.Windows.Visibility.Visible,
                 }, ucFactory: (window) => {
-                    FileDownloaderViewModel vm = new FileDownloaderViewModel(downloadFileUrl, (isSuccess, message, saveFileFullName, etagValue) => {
-                        downloadComplete(window, isSuccess, message, saveFileFullName, etagValue);
+                    FileDownloaderViewModel vm = new FileDownloaderViewModel(downloadFileUrl, (isSuccess, message, saveFileFullName) => {
+                        downloadComplete(window, isSuccess, message, saveFileFullName);
                     });
                     return new FileDownloader(vm);
                 }, fixedSize: true);
