@@ -8,7 +8,6 @@ using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
-using NTMiner.FileETag;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
@@ -63,14 +62,14 @@ namespace NTMiner {
                             ETagClient.GetFileAsync(serverJsonFileUrl, (etagValue, data) => {
                                 rawNTMinerJson = Encoding.UTF8.GetString(data);
                                 Global.Logger.InfoDebugLine("下载完成：" + serverJsonFileUrl);
-                                ETagSet.Instance.AddOrUpdateETag(SpecialPath.LocalJsonFileName, etagValue);
+                                SpecialPath.LocalJsonFileNameETag = etagValue;
                                 countdown.Signal();
                             });
                             string serverLangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerLangJsonFileName;
                             ETagClient.GetFileAsync(serverLangJsonFileUrl, (etagValue, data) => {
                                 rawLangJson = Encoding.UTF8.GetString(data);
                                 Global.Logger.InfoDebugLine("下载完成：" + serverLangJsonFileUrl);
-                                ETagSet.Instance.AddOrUpdateETag(ClientId.LocalLangJsonFileName, etagValue);
+                                ClientId.LocalLangJsonFileNameETag = etagValue;
                                 countdown.Signal();
                             });
                             Task.Factory.StartNew(() => {

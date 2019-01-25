@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace NTMiner.FileETag {
+namespace NTMiner {
     public static class ETagClient {
         public static void HeadETagAsync(string fileUrl, Action<string> callback) {
             try {

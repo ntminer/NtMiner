@@ -1,4 +1,4 @@
-﻿namespace NTMiner.FileETag {
+﻿namespace NTMiner {
     public class ETagFileResult {
         public ETagFileResult(string etag, byte[] data) {
             this.ETag = etag;

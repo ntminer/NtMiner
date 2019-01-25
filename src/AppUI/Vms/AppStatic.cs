@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Impl;
-using NTMiner.FileETag;
 using NTMiner.Language.Impl;
 using NTMiner.Notifications;
 using NTMiner.Views;

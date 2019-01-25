@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles;
-using NTMiner.FileETag;
 using NTMiner.Views;
 using System;
 using System.Diagnostics;
