@@ -7,6 +7,7 @@ namespace NTMiner.FileETag {
         public static void HeadETagAsync(string fileUrl, Action<string> callback) {
             try {
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
+                webRequest.Timeout = 3 * 1000;
                 webRequest.Method = "HEAD";
                 HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
                 string etag = response.GetResponseHeader("ETag");
