@@ -60,7 +60,7 @@
     <Compile Include="FileETag\ETagFileResult.cs" />
     <Compile Include="FileETag\ETagSet.cs" />
     <Compile Include="FileETag\IETag.cs" />
-    <Compile Include="FileETag\Impl\ETag.cs" />
+    <Compile Include="FileETag\ETag.cs" />
     <Compile Include="FileETag\Messages.cs" />
     <Compile Include="FileETag\Repository.cs" />
     <Compile Include="ISortable.cs" />

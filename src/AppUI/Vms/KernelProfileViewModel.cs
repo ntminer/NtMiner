@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles;
+using NTMiner.FileETag;
 using NTMiner.Views;
 using System;
 using System.Diagnostics;
@@ -156,7 +157,7 @@ namespace NTMiner.Vms {
             NTMinerRoot.Current.PackageDownloader.Download(package, progressChanged: (percent) => {
                 this.DownloadMessage = percent + "%";
                 this.DownloadPercent = (double)percent / 100;
-            }, downloadComplete: (isSuccess, message, saveFileFullName) => {
+            }, downloadComplete: (isSuccess, message, saveFileFullName, etagValue) => {
                 this.DownloadMessage = message;
                 this.DownloadPercent = 0;
                 if (isSuccess) {
@@ -165,6 +166,23 @@ namespace NTMiner.Vms {
                     this.IsDownloading = false;
                     foreach (var kernelVm in otherSamePackageKernelVms) {
                         kernelVm.KernelProfileVm.IsDownloading = false;
+                    }
+                    IETag etag;
+                    if (ETagSet.Instance.TryGetETagByKey(package, out etag)) {
+                        Global.Execute(new UpdateETagCommand(new ETag() {
+                            Id = etag.GetId(),
+                            Key = etag.Key,
+                            Value = etagValue,
+                            TimeStamp = DateTime.Now
+                        }));
+                    }
+                    else {
+                        Global.Execute(new AddETagCommand(new ETag() {
+                            Id = Guid.NewGuid(),
+                            Key = $"Packages/{package}",
+                            Value = etagValue,
+                            TimeStamp = DateTime.Now
+                        }));
                     }
                 }
                 else {

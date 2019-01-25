@@ -1,5 +1,4 @@
-﻿using NTMiner.FileETag.Impl;
-using NTMiner.Repositories;
+﻿using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
 

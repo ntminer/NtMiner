@@ -9,7 +9,6 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.FileETag;
-using NTMiner.FileETag.Impl;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
@@ -76,7 +75,7 @@ namespace NTMiner {
                                 else {
                                     Global.Execute(new AddETagCommand(new ETag() {
                                         Id = Guid.NewGuid(),
-                                        Key = serverJsonFileUrl,
+                                        Key = SpecialPath.LocalJsonFileName,
                                         Value = etagValue,
                                         TimeStamp = DateTime.Now
                                     }));
@@ -99,7 +98,7 @@ namespace NTMiner {
                                 else {
                                     Global.Execute(new AddETagCommand(new ETag() {
                                         Id = Guid.NewGuid(),
-                                        Key = serverLangJsonFileUrl,
+                                        Key = ClientId.LocalLangJsonFileName,
                                         Value = etagValue,
                                         TimeStamp = DateTime.Now
                                     }));

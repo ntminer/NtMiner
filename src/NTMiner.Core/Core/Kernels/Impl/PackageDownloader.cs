@@ -14,7 +14,8 @@ namespace NTMiner.Core.Kernels.Impl {
         public void Download(
             string package,
             Action<int> progressChanged,
-            Action<bool, string, string> downloadComplete,
+            // isSuccess, message, saveFileFullName, etag
+            Action<bool, string, string, string> downloadComplete,
             out Action cancel) {
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, package);
             progressChanged?.Invoke(0);
@@ -41,12 +42,13 @@ namespace NTMiner.Core.Kernels.Impl {
                         if (e.Cancelled) {
                             message = "下载取消";
                         }
-                        downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
+                        string etag = webClient.ResponseHeaders.Get("ETag");
+                        downloadComplete?.Invoke(isSuccess, message, saveFileFullName, etag);
                     });
                 };
                 Server.FileUrlService.GetPackageUrlAsync(package, packageUrl => {
                     if (string.IsNullOrEmpty(packageUrl)) {
-                        downloadComplete?.Invoke(false, "未获取到内核包下载地址", saveFileFullName);
+                        downloadComplete?.Invoke(false, "未获取到内核包下载地址", saveFileFullName, string.Empty);
                     }
                     Global.Logger.InfoDebugLine("下载：" + packageUrl);
                     webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
