@@ -147,24 +147,8 @@ namespace NTMiner.Vms {
                         if (isSuccess) {
                             File.Copy(saveFileFullName, ntMinerUpdaterFileFullName);
                             File.Delete(saveFileFullName);
-                            IETag etag;
                             string etagKey = "Updater/NTMinerUpdater.exe";
-                            if (ETagSet.Instance.TryGetETagByKey(etagKey, out etag)) {
-                                Global.Execute(new UpdateETagCommand(new ETag {
-                                    Id = etag.GetId(),
-                                    Key = etagKey,
-                                    Value = etagValue,
-                                    TimeStamp = DateTime.Now
-                                }));
-                            }
-                            else {
-                                Global.Execute(new AddETagCommand(new ETag {
-                                    Id = Guid.NewGuid(),
-                                    Key = etagKey,
-                                    Value = etagValue,
-                                    TimeStamp = DateTime.Now
-                                }));
-                            }
+                            ETagSet.Instance.AddOrUpdateETag(etagKey, etagValue);
                             window?.Close();
                             Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
                         }
@@ -219,23 +203,7 @@ namespace NTMiner.Vms {
                             ZipUtil.DecompressZipFile(saveFileFullName, liteDbExplorerDir);
                             File.Delete(saveFileFullName);
                             string etagKey = "LiteDBExplorerPortable";
-                            IETag etag;
-                            if (ETagSet.Instance.TryGetETagByKey(etagKey, out etag)) {
-                                Global.Execute(new UpdateETagCommand(new ETag {
-                                    Id = etag.GetId(),
-                                    Key = etagKey,
-                                    Value = etagValue,
-                                    TimeStamp = DateTime.Now
-                                }));
-                            }
-                            else {
-                                Global.Execute(new AddETagCommand(new ETag {
-                                    Id = Guid.NewGuid(),
-                                    Key = etagKey,
-                                    Value = etagValue,
-                                    TimeStamp = DateTime.Now
-                                }));
-                            }
+                            ETagSet.Instance.AddOrUpdateETag(etagKey, etagValue);
                             window?.Close();
                             Windows.Cmd.RunClose(liteDbExplorerFileFullName, dbFileFullName);
                         }

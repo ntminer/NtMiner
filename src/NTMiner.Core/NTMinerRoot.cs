@@ -63,46 +63,14 @@ namespace NTMiner {
                             ETagClient.GetFileAsync(serverJsonFileUrl, (etagValue, data) => {
                                 rawNTMinerJson = Encoding.UTF8.GetString(data);
                                 Global.Logger.InfoDebugLine("下载完成：" + serverJsonFileUrl);
-                                IETag etag;
-                                if (ETagSet.Instance.TryGetETagByKey(serverJsonFileUrl, out etag)) {
-                                    Global.Execute(new UpdateETagCommand(new ETag() {
-                                        Id = etag.GetId(),
-                                        Key = etag.Key,
-                                        Value = etagValue,
-                                        TimeStamp = DateTime.Now
-                                    }));
-                                }
-                                else {
-                                    Global.Execute(new AddETagCommand(new ETag() {
-                                        Id = Guid.NewGuid(),
-                                        Key = SpecialPath.LocalJsonFileName,
-                                        Value = etagValue,
-                                        TimeStamp = DateTime.Now
-                                    }));
-                                }
+                                ETagSet.Instance.AddOrUpdateETag(SpecialPath.LocalJsonFileName, etagValue);
                                 countdown.Signal();
                             });
                             string serverLangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerLangJsonFileName;
                             ETagClient.GetFileAsync(serverLangJsonFileUrl, (etagValue, data) => {
                                 rawLangJson = Encoding.UTF8.GetString(data);
                                 Global.Logger.InfoDebugLine("下载完成：" + serverLangJsonFileUrl);
-                                IETag etag;
-                                if (ETagSet.Instance.TryGetETagByKey(serverLangJsonFileUrl, out etag)) {
-                                    Global.Execute(new UpdateETagCommand(new ETag() {
-                                        Id = etag.GetId(),
-                                        Key = etag.Key,
-                                        Value = etagValue,
-                                        TimeStamp = DateTime.Now
-                                    }));
-                                }
-                                else {
-                                    Global.Execute(new AddETagCommand(new ETag() {
-                                        Id = Guid.NewGuid(),
-                                        Key = ClientId.LocalLangJsonFileName,
-                                        Value = etagValue,
-                                        TimeStamp = DateTime.Now
-                                    }));
-                                }
+                                ETagSet.Instance.AddOrUpdateETag(ClientId.LocalLangJsonFileName, etagValue);
                                 countdown.Signal();
                             });
                             Task.Factory.StartNew(() => {

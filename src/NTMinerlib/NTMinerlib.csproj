@@ -61,7 +61,6 @@
     <Compile Include="FileETag\ETagSet.cs" />
     <Compile Include="FileETag\IETag.cs" />
     <Compile Include="FileETag\ETag.cs" />
-    <Compile Include="FileETag\Messages.cs" />
     <Compile Include="FileETag\Repository.cs" />
     <Compile Include="ISortable.cs" />
     <Compile Include="Language\ILang.cs" />

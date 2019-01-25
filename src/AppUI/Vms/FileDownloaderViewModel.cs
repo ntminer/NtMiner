@@ -70,7 +70,7 @@ namespace NTMiner.Vms {
 
         private void Download(Action<bool, string, string, string> downloadComplete) {
             Global.Logger.InfoDebugLine("下载：" + _downloadFileUrl);
-            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, "LiteDBExplorerPortable.zip");
+            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, Guid.NewGuid().ToString());
             using (WebClient webClient = new WebClient()) {
                 _cancel = () => {
                     webClient.CancelAsync();
@@ -82,7 +82,7 @@ namespace NTMiner.Vms {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     if (isSuccess) {
-                        Global.Logger.OkDebugLine("LiteDBExplorerPortable.zip下载成功");
+                        Global.Logger.OkDebugLine($"{_downloadFileUrl}下载成功");
                     }
                     string message = "下载成功";
                     if (e.Error != null) {

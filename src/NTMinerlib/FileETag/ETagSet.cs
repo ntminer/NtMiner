@@ -12,60 +12,6 @@ namespace NTMiner.FileETag {
         private readonly Dictionary<Guid, ETag> _dicById = new Dictionary<Guid, ETag>();
 
         private ETagSet() {
-            Global.Access<AddETagCommand>(
-                Guid.Parse("BAE23025-199B-4E5D-A90E-C6C33F4C4075"),
-                "处理添加ETag命令",
-                LogEnum.None,
-                action: message => {
-                    var entity = new ETag().Update(message.Input);
-                    if (!string.IsNullOrEmpty(message.Input.Key) && !_dicByKey.ContainsKey(message.Input.Key)) {
-                        _dicByKey.Add(message.Input.Key, entity);
-                    }
-                    if (!string.IsNullOrEmpty(message.Input.Value) && !_dicByValue.ContainsKey(message.Input.Value)) {
-                        _dicByValue.Add(message.Input.Value, entity);
-                    }
-                    IRepository<ETag> repository = Repository.CreateETagRepository<ETag>();
-                    if (!_dicById.ContainsKey(entity.Id)) {
-                        _dicById.Add(entity.Id, entity);
-                    }
-                    repository.Add(entity);
-                    Global.Happened(new ETagAddedEvent(entity));
-                });
-            Global.Access<UpdateETagCommand>(
-                Guid.Parse("CC801DF8-6B53-4900-A2CB-86B0DFE6C489"),
-                "处理修改ETag命令",
-                LogEnum.None,
-                action: message => {
-                    ETag entity;
-                    if (_dicById.TryGetValue(message.Input.GetId(), out entity)) {
-                        string value = entity.Value;
-                        entity.Update(message.Input);
-                        if (value != entity.Value) {
-                            _dicByValue.Remove(value);
-                            _dicByValue.Add(entity.Value, entity);
-                        }
-                        IRepository<ETag> repository = Repository.CreateETagRepository<ETag>();
-                        repository.Update(entity);
-                        Global.Happened(new ETagUpdatedEvent(entity));
-                    }
-                });
-            Global.Access<RemoveETagCommand>(
-                Guid.Parse("75DDFBB8-B6C9-4D45-9ABA-90850CF66F73"),
-                "处理删除ETag命令",
-                LogEnum.None,
-                action: message => {
-                    ETag entity;
-                    if (message.EntityId != Guid.Empty && _dicById.TryGetValue(message.EntityId, out entity)) {
-                        _dicById.Remove(entity.Id);
-                        _dicByKey.Remove(entity.Key);
-                        _dicByValue.Remove(entity.Value);
-                    }
-                    else if(!string.IsNullOrEmpty(message.Key) && _dicByKey.TryGetValue(message.Key, out entity)){
-                        _dicById.Remove(entity.Id);
-                        _dicByKey.Remove(entity.Key);
-                        _dicByValue.Remove(entity.Value);
-                    }
-                });
         }
 
         private bool _isInited = false;
@@ -95,6 +41,34 @@ namespace NTMiner.FileETag {
                     }
                     _isInited = true;
                 }
+            }
+        }
+
+        public void AddOrUpdateETag(string key, string value) {
+            InitOnece();
+            IRepository<ETag> repository = Repository.CreateETagRepository<ETag>();
+            ETag etag;
+            if (_dicByKey.TryGetValue(key, out etag)) {
+                string oldValue = etag.Value;
+                etag.Value = value;
+                if (oldValue != value) {
+                    _dicByValue.Remove(oldValue);
+                    _dicByValue.Add(value, etag);
+                }
+                etag.TimeStamp = DateTime.Now;
+                repository.Update(etag);
+            }
+            else {
+                etag = new ETag() {
+                    Id = Guid.NewGuid(),
+                    Key = key,
+                    Value = value,
+                    TimeStamp = DateTime.Now
+                };
+                _dicById.Add(etag.Id, etag);
+                _dicByKey.Add(etag.Key, etag);
+                _dicByValue.Add(etag.Value, etag);
+                repository.Add(etag);
             }
         }
 

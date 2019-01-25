@@ -167,23 +167,7 @@ namespace NTMiner.Vms {
                     foreach (var kernelVm in otherSamePackageKernelVms) {
                         kernelVm.KernelProfileVm.IsDownloading = false;
                     }
-                    IETag etag;
-                    if (ETagSet.Instance.TryGetETagByKey(package, out etag)) {
-                        Global.Execute(new UpdateETagCommand(new ETag() {
-                            Id = etag.GetId(),
-                            Key = etag.Key,
-                            Value = etagValue,
-                            TimeStamp = DateTime.Now
-                        }));
-                    }
-                    else {
-                        Global.Execute(new AddETagCommand(new ETag() {
-                            Id = Guid.NewGuid(),
-                            Key = $"Packages/{package}",
-                            Value = etagValue,
-                            TimeStamp = DateTime.Now
-                        }));
-                    }
+                    ETagSet.Instance.AddOrUpdateETag($"Packages/{package}", etagValue);
                 }
                 else {
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
