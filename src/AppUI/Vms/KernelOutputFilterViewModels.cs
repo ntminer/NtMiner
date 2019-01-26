@@ -8,26 +8,32 @@ namespace NTMiner.Vms {
         public static readonly KernelOutputFilterViewModels Current = new KernelOutputFilterViewModels();
 
         private readonly Dictionary<Guid, List<KernelOutputFilterViewModel>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputFilterViewModel>>();
+        private readonly Dictionary<Guid, KernelOutputFilterViewModel> _dicById = new Dictionary<Guid, KernelOutputFilterViewModel>();
 
         private KernelOutputFilterViewModels() {
-            foreach (var item in NTMinerRoot.Current.KernelOutputFilterSet) {
-                if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
-                    _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputFilterViewModel>());
-                }
-                _dicByKernelOutputId[item.KernelOutputId].Add(new KernelOutputFilterViewModel(item));
-            }
+            Global.Access<KernelOutputFilterSetRefreshedEvent>(
+                Guid.Parse("F2F6E87D-1F11-4636-84F0-F8CDB8AADDDD"),
+                "内核输出过滤器数据集刷新后刷新Vm内存",
+                LogEnum.Console,
+                action: message => {
+                    Init(isRefresh: true);
+                });
             Global.Access<KernelOutputFilterAddedEvent>(
                 Guid.Parse("d7a72ffc-ad5d-4862-b502-bffb3a9f0234"),
                 "添加了内核输出过滤器后刷新VM内存",
                 LogEnum.None,
                 action: message => {
-                    KernelOutputViewModel kernelOutputVm;
-                    if (KernelOutputViewModels.Current.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
-                        if (!_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
-                            _dicByKernelOutputId.Add(message.Source.KernelOutputId, new List<KernelOutputFilterViewModel>());
+                    if (!_dicById.ContainsKey(message.Source.GetId())) {
+                        KernelOutputFilterViewModel vm = new KernelOutputFilterViewModel(message.Source);
+                        _dicById.Add(vm.Id, vm);
+                        KernelOutputViewModel kernelOutputVm;
+                        if (KernelOutputViewModels.Current.TryGetKernelOutputVm(vm.KernelOutputId, out kernelOutputVm)) {
+                            if (!_dicByKernelOutputId.ContainsKey(vm.KernelOutputId)) {
+                                _dicByKernelOutputId.Add(vm.KernelOutputId, new List<KernelOutputFilterViewModel>());
+                            }
+                            _dicByKernelOutputId[vm.KernelOutputId].Add(vm);
+                            kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                         }
-                        _dicByKernelOutputId[message.Source.KernelOutputId].Add(new KernelOutputFilterViewModel(message.Source));
-                        kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                     }
                 });
             Global.Access<KernelOutputFilterUpdatedEvent>(
@@ -35,11 +41,9 @@ namespace NTMiner.Vms {
                 "更新了内核输出过滤器后刷新VM内存",
                 LogEnum.None,
                 action: message => {
-                    if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
-                        var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());
-                        if (item != null) {
-                            item.Update(message.Source);
-                        }
+                    KernelOutputFilterViewModel vm;
+                    if (_dicById.TryGetValue(message.Source.GetId(), out vm)) {
+                        vm.Update(message.Source);
                     }
                 });
             Global.Access<KernelOutputFilterRemovedEvent>(
@@ -47,17 +51,39 @@ namespace NTMiner.Vms {
                 "删除了内核输出过滤器后刷新VM内存",
                 LogEnum.None,
                 action: message => {
-                    if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
-                        var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());
-                        if (item != null) {
-                            _dicByKernelOutputId[message.Source.KernelOutputId].Remove(item);
+                    KernelOutputFilterViewModel vm;
+                    if (_dicById.TryGetValue(message.Source.GetId(), out vm)) {
+                        _dicById.Remove(vm.Id);
+                        _dicByKernelOutputId[vm.KernelOutputId].Remove(vm);
+                        KernelOutputViewModel kernelOutputVm;
+                        if (KernelOutputViewModels.Current.TryGetKernelOutputVm(vm.KernelOutputId, out kernelOutputVm)) {
+                            kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                         }
                     }
-                    KernelOutputViewModel kernelOutputVm;
-                    if (KernelOutputViewModels.Current.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
-                        kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
-                    }
                 });
+            Init();
+        }
+
+        private void Init(bool isRefresh = false) {
+            if (isRefresh) {
+                foreach (var item in NTMinerRoot.Current.KernelOutputFilterSet) {
+                    KernelOutputFilterViewModel vm;
+                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
+                        Global.Execute(new UpdateKernelOutputFilterCommand(item));
+                    }
+                    else {
+                        Global.Execute(new AddKernelOutputFilterCommand(item));
+                    }
+                }
+            }
+            else {
+                foreach (var item in NTMinerRoot.Current.KernelOutputFilterSet) {
+                    if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                        _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputFilterViewModel>());
+                    }
+                    _dicByKernelOutputId[item.KernelOutputId].Add(new KernelOutputFilterViewModel(item));
+                }
+            }
         }
 
         public IEnumerable<KernelOutputFilterViewModel> GetListByKernelId(Guid kernelId) {
