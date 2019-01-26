@@ -249,7 +249,6 @@
     <Compile Include="Vms\CalcConfigViewModel.cs" />
     <Compile Include="Vms\CalcConfigViewModels.cs" />
     <Compile Include="Vms\CalcViewModel.cs" />
-    <Compile Include="Vms\CheckUpPageViewModel.cs" />
     <Compile Include="Vms\ClientDataViewModel.cs" />
     <Compile Include="Vms\CoinGroupViewModel.cs" />
     <Compile Include="Vms\CoinGroupViewModels.cs" />
