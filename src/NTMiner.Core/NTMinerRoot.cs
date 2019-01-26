@@ -354,9 +354,19 @@ namespace NTMiner {
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.None,
                     action: message => {
-                        ETagClient.HeadETagAsync(AssemblyInfo.ServerJsonFileUrl, etagValue => {
-                            if (!string.IsNullOrEmpty(etagValue) && etagValue != AssemblyInfo.LocalJsonFileNameETag) {
+                        ETagClient.HeadETagAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, etagHeadValue => {
+                            if (!string.IsNullOrEmpty(etagHeadValue) && etagHeadValue != AssemblyInfo.LocalJsonFileNameETag) {
                                 Global.DebugLine("发现" + AssemblyInfo.ServerJsonFileUrl + "新版本");
+                                ETagClient.GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (etagValue, data) => {
+                                    string rawNTMinerJson = Encoding.UTF8.GetString(data);
+                                    Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}，etagValue：{etagValue}");
+                                    AssemblyInfo.LocalJsonFileNameETag = etagValue;
+                                    ServerJson.Instance.ReInit(rawNTMinerJson);
+                                    var refreshCommands = RefreshCommand.CreateRefreshCommands();
+                                    foreach (var refreshCommand in refreshCommands) {
+                                        Global.Execute(refreshCommand);
+                                    }
+                                });
                             }
                         });
                     });

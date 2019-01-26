@@ -4,13 +4,13 @@ using NTMiner.Core.Kernels;
 using NTMiner.Core.SysDics;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Core {
     #region Refresh 注意Refresh命令有先后顺序
     public abstract class RefreshCommand : Cmd {
-        public static List<RefreshCommand> CreateRefreshCommands() {
-            return new List<RefreshCommand>() {
+        public static RefreshCommand[] CreateRefreshCommands() {
+            return (new RefreshCommand[] {
                 new RefreshCoinSetCommand(),
                 new RefreshGroupSetCommand(),
                 new RefreshCoinGroupSetCommand(),
@@ -24,7 +24,7 @@ namespace NTMiner.Core {
                 new RefreshPoolKernelSetCommand(),
                 new RefreshSysDicSetCommand(),
                 new RefreshSysDicItemSetCommand()
-            };
+            }).OrderBy(a => a.Sort).ToArray();
         }
 
         protected RefreshCommand(int order) {

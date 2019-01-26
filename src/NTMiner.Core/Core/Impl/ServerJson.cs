@@ -84,6 +84,11 @@ namespace NTMiner.Core.Impl {
             }
         }
 
+        public void ReInit(string rawJson) {
+            _inited = false;
+            Init(rawJson);
+        }
+
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {
             return GetAll<T>().Any(a => a.GetId() == key);
         }
