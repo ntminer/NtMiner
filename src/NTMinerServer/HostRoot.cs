@@ -14,23 +14,19 @@ namespace NTMiner {
     public class HostRoot : IHostRoot {
         public static readonly IHostRoot Current = new HostRoot();
 
-        private static OssClient _ossClient = null;
+        private OssClient _ossClient = null;
 
-        public static OssClient OssClient {
+        public OssClient OssClient {
             get {
                 OSSClientInit();
                 return _ossClient;
             }
         }
 
-        static HostRoot() {
-            OSSClientInit();
-        }
-
         #region OSSClientInit
-        private static DateTime _ossClientOn = DateTime.MinValue;
-        private static readonly object ossClientLocker = new object();
-        private static void OSSClientInit() {
+        private DateTime _ossClientOn = DateTime.MinValue;
+        private readonly object ossClientLocker = new object();
+        private void OSSClientInit() {
             DateTime now = DateTime.Now;
             if (_ossClientOn.AddMinutes(10) < now) {
                 lock (ossClientLocker) {
@@ -42,6 +38,9 @@ namespace NTMiner {
                         }
                         if (hostConfigData == null) {
                             Console.WriteLine("HostConfigData未配置");
+                        }
+                        else {
+                            this.HostConfig = hostConfigData;
                         }
                         string accessKeyId = hostConfigData.OssAccessKeyId;
                         string accessKeySecret = hostConfigData.OssAccessKeySecret;
@@ -65,6 +64,7 @@ namespace NTMiner {
         private List<ServiceHost> _serviceHosts = null;
 
         private HostRoot() {
+            OSSClientInit();
             this.UserSet = new UserSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ClientCoinSnapshotSet = new ClientCoinSnapshotSet(this);
@@ -125,6 +125,8 @@ namespace NTMiner {
         }
 
         public DateTime StartedOn { get; private set; } = DateTime.Now;
+
+        public IHostConfig HostConfig { get; private set; }
 
         public void Start() {
             string baseUrl = $"http://{Global.Localhost}:{Global.ClientPort}/";

@@ -1,9 +1,14 @@
-﻿using NTMiner.Data;
+﻿using Aliyun.OSS;
+using NTMiner.Data;
 using System;
 
 namespace NTMiner {
     public interface IHostRoot {
         DateTime StartedOn { get; }
+
+        IHostConfig HostConfig { get; }
+
+        OssClient OssClient { get; }
 
         void Start();
 

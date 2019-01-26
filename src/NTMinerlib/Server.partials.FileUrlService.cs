@@ -16,6 +16,27 @@ namespace NTMiner {
                 return ChannelFactory.CreateChannel<IFileUrlService>(Server.MinerServerHost, Server.MinerServerPort);
             }
 
+            #region GetServerJsonVersionAsync
+            public void GetServerJsonVersionAsync(Action<ulong> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (var client = CreateService()) {
+                            ulong timestamp = client.GetServerJsonVersion();
+                            callback?.Invoke(timestamp);
+                        }
+                    }
+                    catch (CommunicationException e) {
+                        Global.DebugLine(e.Message, ConsoleColor.Red);
+                        callback?.Invoke(0);
+                    }
+                    catch (Exception e) {
+                        Global.Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(0);
+                    }
+                });
+            }
+            #endregion
+
             #region GetNTMinerUrl
             public void GetNTMinerUrlAsync(string fileName, Action<string> callback) {
                 Task.Factory.StartNew(() => {

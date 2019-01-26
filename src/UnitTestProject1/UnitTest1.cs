@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
 using NTMiner.ServiceContracts;
 using System;
 using System.Collections.Generic;
@@ -12,24 +11,6 @@ using System.Windows;
 namespace UnitTestProject1 {
     [TestClass]
     public class UnitTest1 {
-        [TestMethod]
-        public void ETagTest1() {
-            string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/serverLang1.1.3.json";
-            ETagClient.HeadETagAsync(url, etag => {
-                Console.WriteLine(etag);
-            });
-            System.Threading.Thread.Sleep(1000);
-        }
-
-        [TestMethod]
-        public void ETagTest2() {
-            string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/server1.1.2.json";
-            ETagClient.GetFileAsync(url, (etag, data) => {
-                Console.WriteLine(etag);
-                Console.WriteLine(System.Text.Encoding.UTF8.GetString(data));
-            });
-        }
-
         [TestMethod]
         public void Test1() {
             string a = null;

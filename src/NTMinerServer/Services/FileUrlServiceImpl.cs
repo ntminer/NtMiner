@@ -6,6 +6,10 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services {
     public class FileUrlServiceImpl : IFileUrlService {
+        public ulong GetServerJsonVersion() {
+            return HostRoot.Current.HostConfig.ServerJsonVersion;
+        }
+
         public string GetNTMinerUrl(string fileName) {
             if (string.IsNullOrEmpty(fileName)) {
                 return string.Empty;
@@ -13,7 +17,7 @@ namespace NTMiner.Services {
             var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get) {
                 Expiration = DateTime.Now.AddMinutes(10)
             };
-            var uri = HostRoot.OssClient.GeneratePresignedUri(req);
+            var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
             return uri.ToString();
         }
 
@@ -80,7 +84,7 @@ namespace NTMiner.Services {
         public string GetNTMinerUpdaterUrl() {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "NTMinerUpdater.exe", SignHttpMethod.Get);
-                var uri = HostRoot.OssClient.GeneratePresignedUri(req);
+                var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
             catch (Exception e) {
@@ -92,7 +96,7 @@ namespace NTMiner.Services {
         public string GetLiteDBExplorerUrl() {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
-                var uri = HostRoot.OssClient.GeneratePresignedUri(req);
+                var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
             catch (Exception e) {
@@ -109,7 +113,7 @@ namespace NTMiner.Services {
                 var req = new GeneratePresignedUriRequest("ntminer", $"packages/{package}", SignHttpMethod.Get) {
                     Expiration = DateTime.Now.AddMinutes(10)
                 };
-                var uri = HostRoot.OssClient.GeneratePresignedUri(req);
+                var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
             catch (Exception e) {

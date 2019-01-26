@@ -56,7 +56,6 @@
     <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
     <Compile Include="Bus\EventBase.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ETagClient.cs" />
     <Compile Include="ETagFileResult.cs" />
     <Compile Include="ISortable.cs" />
     <Compile Include="Language\ILang.cs" />
@@ -74,6 +73,7 @@
     <Compile Include="ServiceContracts\DataObjects\IPoolProfile.cs" />
     <Compile Include="ServiceContracts\DataObjects\PoolProfileData.cs" />
     <Compile Include="ServiceContracts\DataObjects\SetPoolProfilePropertyRequest.cs" />
+    <Compile Include="ServiceContracts\DataObjects\SetServerJsonVersionRequest.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="Server.partials.ControlCenterService.cs" />
     <Compile Include="DateTimeExtensions.cs" />

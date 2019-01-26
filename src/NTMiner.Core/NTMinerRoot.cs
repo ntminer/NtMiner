@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
@@ -58,16 +59,17 @@ namespace NTMiner {
                         }
                         else {
                             CountdownEvent countdown = new CountdownEvent(2);
-                            ETagClient.GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (etagValue, data) => {
+                            GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                 rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}，etagValue：{etagValue}");
-                                AssemblyInfo.LocalJsonFileNameETag = etagValue;
+                                Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
                                 countdown.Signal();
                             });
-                            ETagClient.GetFileAsync(AssemblyInfo.ServerLangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (etagValue, data) => {
+                            Server.FileUrlService.GetServerJsonVersionAsync(timestamp => {
+                                AssemblyInfo.JsonFileVersion = timestamp;
+                            });
+                            GetFileAsync(AssemblyInfo.ServerLangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                 rawLangJson = Encoding.UTF8.GetString(data);
-                                Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerLangJsonFileUrl}，etagValue：{etagValue}");
-                                AssemblyInfo.LocalLangJsonFileNameETag = etagValue;
+                                Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerLangJsonFileUrl}");
                                 countdown.Signal();
                             });
                             Task.Factory.StartNew(() => {
@@ -354,13 +356,12 @@ namespace NTMiner {
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.None,
                     action: message => {
-                        ETagClient.HeadETagAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, etagHeadValue => {
-                            if (!string.IsNullOrEmpty(etagHeadValue) && etagHeadValue != AssemblyInfo.LocalJsonFileNameETag) {
-                                Global.DebugLine("发现" + AssemblyInfo.ServerJsonFileUrl + "新版本");
-                                ETagClient.GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (etagValue, data) => {
+                        Server.FileUrlService.GetServerJsonVersionAsync(timestamp => {
+                            if (timestamp != 0 && timestamp != AssemblyInfo.JsonFileVersion) {
+                                GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                     string rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                    Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}，etagValue：{etagValue}");
-                                    AssemblyInfo.LocalJsonFileNameETag = etagValue;
+                                    Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
+                                    AssemblyInfo.JsonFileVersion = timestamp;
                                     ServerJson.Instance.ReInit(rawNTMinerJson);
                                     var refreshCommands = RefreshCommand.CreateRefreshCommands();
                                     foreach (var refreshCommand in refreshCommands) {
@@ -373,6 +374,33 @@ namespace NTMiner {
             #endregion
         }
         #endregion
+
+        public static void GetFileAsync(string fileUrl, Action<byte[]> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
+                    webRequest.Method = "GET";
+                    HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
+                    using (MemoryStream ms = new MemoryStream())
+                    using (Stream stream = response.GetResponseStream()) {
+                        byte[] buffer = new byte[1024];
+                        int n = stream.Read(buffer, 0, buffer.Length);
+                        while (n > 0) {
+                            ms.Write(buffer, 0, n);
+                            n = stream.Read(buffer, 0, buffer.Length);
+                        }
+                        byte[] data = new byte[ms.Length];
+                        ms.Position = 0;
+                        ms.Read(data, 0, data.Length);
+                        callback?.Invoke(data);
+                    }
+                }
+                catch (Exception e) {
+                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    callback?.Invoke(new byte[0]);
+                }
+            });
+        }
 
         #region Exit
         public void Exit() {

@@ -1,4 +1,6 @@
-﻿using NTMiner.ServiceContracts;
+﻿using LiteDB;
+using NTMiner.Data.Impl;
+using NTMiner.ServiceContracts;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,42 @@ namespace NTMiner.Services {
             }
         }
         #endregion
+
+        public ResponseBase SetServerJsonVersion(SetServerJsonVersionRequest request) {
+            if (request == null) {
+                return LoadClientsResponse.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                if (string.IsNullOrEmpty(request.LoginName)) {
+                    return LoadClientsResponse.InvalidInput(request.MessageId, "登录名不能为空");
+                }
+                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
+                    return LoadClientsResponse.Forbidden(request.MessageId);
+                }
+                if (!request.Timestamp.IsInTime()) {
+                    return LoadClientsResponse.Expired(request.MessageId);
+                }
+                if (request.Sign != request.GetSign(key.Password)) {
+                    return LoadClientsResponse.Forbidden(request.MessageId, "签名验证未通过");
+                }
+                using (LiteDatabase db = HostRoot.CreateLocalDb()) {
+                    var col = db.GetCollection<HostConfigData>();
+                    var hostConfigData = col.FindOne(Query.All());
+                    if (hostConfigData != null) {
+                        hostConfigData.ServerJsonVersion = Global.GetTimestamp();
+                        HostRoot.Current.HostConfig.ServerJsonVersion = hostConfigData.ServerJsonVersion;
+                        col.Update(hostConfigData);
+                        Global.DebugLine("SetServerJsonVersion " + hostConfigData.ServerJsonVersion);
+                        return ResponseBase.Ok(request.MessageId);
+                    }
+                    return ResponseBase.ServerError(request.MessageId, "HostConfigData记录不存在");
+                }
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
 
         #region LoadClients
         public LoadClientsResponse LoadClients(LoadClientsRequest request) {

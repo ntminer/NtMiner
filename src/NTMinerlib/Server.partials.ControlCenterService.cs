@@ -43,6 +43,32 @@ namespace NTMiner {
                 });
             }
 
+            public void SetServerJsonVersion(Action<ResponseBase> callback) {
+                Guid messageId = Guid.NewGuid();
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (var service = CreateService()) {
+                            SetServerJsonVersionRequest request = new SetServerJsonVersionRequest {
+                                MessageId = messageId,
+                                LoginName = LoginName,
+                                Timestamp = DateTime.Now
+                            };
+                            request.SignIt(Password);
+                            ResponseBase response = service.SetServerJsonVersion(request);
+                            callback?.Invoke(response);
+                        }
+                    }
+                    catch (CommunicationException e) {
+                        Global.DebugLine(e.Message, ConsoleColor.Red);
+                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
+                    }
+                    catch (Exception e) {
+                        Global.Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
+                    }
+                });
+            }
+
             public void LoadClientsAsync(List<Guid> clientIds, Action<LoadClientsResponse> callback) {
                 Guid messageId = Guid.NewGuid();
                 Task.Factory.StartNew(() => {

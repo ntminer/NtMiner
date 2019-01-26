@@ -86,6 +86,7 @@
     <Compile Include="Data\IUserSet.cs" />
     <Compile Include="Data\IWalletSet.cs" />
     <Compile Include="Data\SnapshotTimestamp.cs" />
+    <Compile Include="IHostConfig.cs" />
     <Compile Include="Services\ControlCenterServiceImpl.cs" />
     <Compile Include="IHostRoot.cs" />
     <Compile Include="Services\ProfileServiceImpl.cs" />

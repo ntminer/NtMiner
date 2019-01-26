@@ -69,6 +69,36 @@ namespace NTMiner.Vms {
             }
         });
 
+        public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
+            try {
+                Server.ControlCenterService.SetServerJsonVersion(response => {
+                    if (response != null && response.IsSuccess()) {
+                        MainWindowViewModel.Current.Manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("#333")
+                            .HasBadge("Info")
+                            .HasMessage($"刷新成功")
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
+                    }
+                    else {
+                        MainWindowViewModel.Current.Manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage($"刷新失败")
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
+                    }
+                });
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+            }
+        });
+
         public static ICommand ShowLangViewItems { get; private set; } = new DelegateCommand<string>((viewId) => {
             ViewLang.ShowWindow(new ViewLangViewModel(viewId));
         });
