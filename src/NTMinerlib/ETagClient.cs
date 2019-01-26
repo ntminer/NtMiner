@@ -8,7 +8,7 @@ namespace NTMiner {
         public static void HeadETagAsync(string fileUrl, Action<string> callback) {
             Task.Factory.StartNew(() => {
                 try {
-                    Global.Logger.InfoDebugLine("HeadETagAsync " + fileUrl);
+                    Global.DebugLine("HeadETagAsync " + fileUrl);
                     HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
                     webRequest.Timeout = 300 * 1000;
                     webRequest.Method = "HEAD";

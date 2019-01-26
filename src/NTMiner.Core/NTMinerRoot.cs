@@ -348,6 +348,19 @@ namespace NTMiner {
                     });
             }
             #endregion
+            #region 发生了用户活动时检查serverJson是否有新版本
+            Global.Access<UserActionEvent>(
+                    Guid.Parse("C7FA9D54-4D16-47F5-AA81-4C76384F95B9"),
+                    "发生了用户活动时检查serverJson是否有新版本",
+                    LogEnum.None,
+                    action: message => {
+                        ETagClient.HeadETagAsync(AssemblyInfo.ServerJsonFileUrl, etagValue => {
+                            if (!string.IsNullOrEmpty(etagValue) && etagValue != AssemblyInfo.LocalJsonFileNameETag) {
+                                Global.DebugLine("发现" + AssemblyInfo.ServerJsonFileUrl + "新版本");
+                            }
+                        });
+                    });
+            #endregion
         }
         #endregion
 
