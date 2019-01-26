@@ -34,7 +34,7 @@ namespace NTMiner {
                     }
                 });
             if (!DevMode.IsDevMode) {
-                Global.Access<Per1MinuteEvent>(
+                Global.Access<Per100MinuteEvent>(
                     Guid.Parse("732B9E09-1F97-4A1D-80E4-094DFD2CCC9D"),
                     "切换语言后刷新视图语言资源",
                     LogEnum.None,
