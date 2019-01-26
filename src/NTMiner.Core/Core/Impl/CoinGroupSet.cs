@@ -10,6 +10,14 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         public CoinGroupSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshCoinGroupSetCommand>(
+                Guid.Parse("6597A41B-A7C9-402E-A4F9-7642FA185313"),
+                "处理刷新币组数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new CoinGroupSetRefreshedEvent());
+                });
             Global.Access<AddCoinGroupCommand>(
                 Guid.Parse("2dd8f7e9-c79d-4621-954f-9fc45b0207dd"),
                 "添加币组",
@@ -64,6 +72,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

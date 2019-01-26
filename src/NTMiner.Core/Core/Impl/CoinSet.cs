@@ -13,7 +13,7 @@ namespace NTMiner.Core.Impl {
             _root = root;
             Global.Access<RefreshCoinSetCommand>(
                 Guid.Parse("EFEE90C3-4721-4923-805C-9A0F31042CB0"),
-                "刷新币种数据集",
+                "处理刷新币种数据集命令",
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;

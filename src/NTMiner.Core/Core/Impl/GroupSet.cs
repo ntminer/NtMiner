@@ -9,6 +9,14 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         public GroupSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshGroupSetCommand>(
+                Guid.Parse("CE28E5E9-8908-433E-BF0A-43BC7E5B60E1"),
+                "处理刷新组数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new GroupSetRefreshedEvent());
+                });
             Global.Access<AddGroupCommand>(
                 Guid.Parse("e0c313ff-2550-41f8-9403-8575638c7faf"),
                 "添加组",
@@ -89,6 +97,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

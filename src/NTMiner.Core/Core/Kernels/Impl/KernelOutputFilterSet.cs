@@ -12,6 +12,14 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelOutputFilterSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshKernelOutputFilterSetCommand>(
+                Guid.Parse("66DB9CB7-68C1-4654-8D49-4FA97F5B5188"),
+                "处理刷新内核输出过滤器数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new KernelOutputFilterSetRefreshedEvent());
+                });
             Global.Access<AddKernelOutputFilterCommand>(
                 Guid.Parse("43c09cc6-456c-4e55-95b1-63b5937c5b11"),
                 "添加内核输出过滤器",
@@ -96,6 +104,8 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
+                    _dicByKernelOutputId.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

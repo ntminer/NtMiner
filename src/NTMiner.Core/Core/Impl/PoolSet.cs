@@ -7,12 +7,19 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     internal class PoolSet : IPoolSet {
-
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, PoolData> _dicById = new Dictionary<Guid, PoolData>();
 
         public PoolSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshPoolSetCommand>(
+                Guid.Parse("14E998D3-0512-4D74-AEEC-BE88EE0F89E9"),
+                "处理刷新矿池数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new PoolSetRefreshedEvent());
+                });
             Global.Access<AddPoolCommand>(
                 Guid.Parse("5ee1b14b-4b9e-445f-b6fe-433f6fe44b18"),
                 "添加矿池",
@@ -123,6 +130,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

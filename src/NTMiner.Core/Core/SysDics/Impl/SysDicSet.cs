@@ -12,6 +12,14 @@ namespace NTMiner.Core.SysDics.Impl {
 
         public SysDicSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshSysDicSetCommand>(
+                Guid.Parse("9BFB2BEC-2103-4F69-B9E8-19CAFE12920E"),
+                "处理刷新系统字典数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new SysDicSetRefreshedEvent());
+                });
             Global.Access<AddSysDicCommand>(
                 Guid.Parse("9353be1f-707f-455f-ade5-07e081141d47"),
                 "添加系统字典",
@@ -102,6 +110,8 @@ namespace NTMiner.Core.SysDics.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicByCode.Clear();
+                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

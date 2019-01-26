@@ -10,6 +10,14 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public PoolKernelSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshPoolKernelSetCommand>(
+                Guid.Parse("241152F1-536C-4773-AF3B-1A2B4E99D3E8"),
+                "处理刷新矿池内核数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new PoolKernelSetRefreshedEvent());
+                });
             Global.Access<AddPoolKernelCommand>(
                 Guid.Parse("B926F4A0-4318-493D-BCE1-CBE329AC7DD7"),
                 "处理添加矿池级内核命令",
@@ -81,6 +89,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     List<PoolKernelData> list = repository.GetAll().ToList();
                     foreach (IPool pool in _root.PoolSet) {

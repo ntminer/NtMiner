@@ -13,6 +13,14 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelOutputTranslaterSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshKernelOutputTranslaterSetCommand>(
+                Guid.Parse("86FF7BB1-2747-443C-BAF9-478FE46C1CCE"),
+                "处理刷新内核输出翻译器数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new KernelOutputTranslaterSetRefreshedEvent());
+                });
             Global.Access<AddKernelOutputTranslaterCommand>(
                 Guid.Parse("d9da43ad-8fb7-4d6b-a8c7-ac0c1bbc4dd3"),
                 "添加内核输出翻译器",
@@ -127,6 +135,8 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
+                    _dicByKernelOutputId.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

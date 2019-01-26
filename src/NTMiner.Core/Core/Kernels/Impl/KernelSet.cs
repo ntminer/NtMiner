@@ -11,6 +11,14 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshKernelSetCommand>(
+                Guid.Parse("3FE50ED8-1E60-4C3C-8486-DE478BBF9308"),
+                "处理刷新内核数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new KernelSetRefreshedEvent());
+                });
             Global.Access<AddKernelCommand>(
                 Guid.Parse("331be370-2d4f-488f-9dd8-3709e3ff63af"),
                 "添加内核",
@@ -101,6 +109,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

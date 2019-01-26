@@ -10,6 +10,14 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public CoinKernelSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshCoinKernelSetCommand>(
+                Guid.Parse("47F9B343-3A55-43AF-A92F-9500A1BA1924"),
+                "处理刷新币种内核数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new CoinKernelSetRefreshedEvent());
+                });
             Global.Access<AddCoinKernelCommand>(
                 Guid.Parse("6345c411-4860-433b-ad5e-3a743bcebfa8"),
                 "添加币种内核",
@@ -128,6 +136,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

@@ -10,6 +10,14 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelInputSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshKernelInputSetCommand>(
+                Guid.Parse("AD17471F-02D2-4ABF-B3AE-B66F7BD16FA4"),
+                "处理刷新内核输入数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new KernelInputSetRefreshedEvent());
+                });
             Global.Access<AddKernelInputCommand>(
                 Guid.Parse("62D0B345-26F8-42BA-B7CD-E547C2B298C9"),
                 "添加内核输入组",
@@ -86,6 +94,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<KernelInputData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

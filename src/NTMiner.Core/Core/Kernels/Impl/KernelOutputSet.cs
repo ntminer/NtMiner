@@ -14,6 +14,14 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelOutputSet(INTMinerRoot root) {
             _root = root;
+            Global.Access<RefreshKernelOutputSetCommand>(
+                Guid.Parse("1BDEC360-3F1A-4CC2-9A1A-0E5805D6EBCD"),
+                "处理刷新内核输出数据集命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new KernelOutputSetRefreshedEvent());
+                });
             Global.Access<AddKernelOutputCommand>(
                 Guid.Parse("142AE86A-C264-40B2-A617-D65E33C7FEE2"),
                 "添加内核输出组",
@@ -102,6 +110,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
