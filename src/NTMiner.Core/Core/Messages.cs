@@ -4,18 +4,189 @@ using NTMiner.Core.Kernels;
 using NTMiner.Core.SysDics;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core {
-    #region Refresh
+    #region Refresh 注意Refresh命令有先后顺序
+    public abstract class RefreshCommand : Cmd {
+        public static List<RefreshCommand> CreateRefreshCommands() {
+            return new List<RefreshCommand>() {
+                new RefreshCoinSetCommand(),
+                new RefreshGroupSetCommand(),
+                new RefreshCoinGroupSetCommand(),
+                new RefreshKernelInputSetCommand(),
+                new RefreshKernelOutputSetCommand(),
+                new RefreshKernelOutputTranslaterSetCommand(),
+                new RefreshKernelOutputFilterSetCommand(),
+                new RefreshKernelSetCommand(),
+                new RefreshCoinKernelSetCommand(),
+                new RefreshPoolSetCommand(),
+                new RefreshPoolKernelSetCommand(),
+                new RefreshSysDicSetCommand(),
+                new RefreshSysDicItemSetCommand()
+            };
+        }
+
+        protected RefreshCommand(int order) {
+            this.Sort = Sort;
+        }
+
+        public int Sort { get; private set; }
+    }
+
     [MessageType(messageType: typeof(RefreshCoinSetCommand), description: "刷新币种数据集")]
-    public class RefreshCoinSetCommand : Cmd {
-        public RefreshCoinSetCommand() {
+    public class RefreshCoinSetCommand : RefreshCommand {
+        public RefreshCoinSetCommand() : base(0) {
         }
     }
 
     [MessageType(messageType: typeof(CoinSetRefreshedEvent), description: "币种数据集刷新后")]
     public class CoinSetRefreshedEvent : EventBase {
         public CoinSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshGroupSetCommand), description: "刷新组数据集")]
+    public class RefreshGroupSetCommand : RefreshCommand {
+        public RefreshGroupSetCommand() : base(1) {
+        }
+    }
+
+    [MessageType(messageType: typeof(GroupSetRefreshedEvent), description: "组数据集刷新后")]
+    public class GroupSetRefreshedEvent : EventBase {
+        public GroupSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshCoinGroupSetCommand), description: "刷新币组数据集")]
+    public class RefreshCoinGroupSetCommand : RefreshCommand {
+        public RefreshCoinGroupSetCommand() : base(2) {
+        }
+    }
+
+    [MessageType(messageType: typeof(CoinGroupSetRefreshedEvent), description: "币组数据集刷新后")]
+    public class CoinGroupSetRefreshedEvent : EventBase {
+        public CoinGroupSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshKernelInputSetCommand), description: "刷新内核输入数据集")]
+    public class RefreshKernelInputSetCommand : RefreshCommand {
+        public RefreshKernelInputSetCommand() : base(3) {
+        }
+    }
+
+    [MessageType(messageType: typeof(KernelInputSetRefreshedEvent), description: "内核输入数据集刷新后")]
+    public class KernelInputSetRefreshedEvent : EventBase {
+        public KernelInputSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshKernelOutputSetCommand), description: "刷新内核输出数据集")]
+    public class RefreshKernelOutputSetCommand : RefreshCommand {
+        public RefreshKernelOutputSetCommand() : base(4) {
+        }
+    }
+
+    [MessageType(messageType: typeof(KernelOutputSetRefreshedEvent), description: "内核输出数据集刷新后")]
+    public class KernelOutputSetRefreshedEvent : EventBase {
+        public KernelOutputSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshKernelOutputTranslaterSetCommand), description: "刷新内核输出翻译器数据集")]
+    public class RefreshKernelOutputTranslaterSetCommand : RefreshCommand {
+        public RefreshKernelOutputTranslaterSetCommand() : base(5) {
+        }
+    }
+
+    [MessageType(messageType: typeof(KernelOutputTranslaterSetRefreshedEvent), description: "内核输出翻译器数据集刷新后")]
+    public class KernelOutputTranslaterSetRefreshedEvent : EventBase {
+        public KernelOutputTranslaterSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshKernelOutputFilterSetCommand), description: "刷新内核输出过滤器数据集")]
+    public class RefreshKernelOutputFilterSetCommand : RefreshCommand {
+        public RefreshKernelOutputFilterSetCommand() : base(6) {
+        }
+    }
+
+    [MessageType(messageType: typeof(KernelOutputFilterSetRefreshedEvent), description: "内核输出过滤器数据集刷新后")]
+    public class KernelOutputFilterSetRefreshedEvent : EventBase {
+        public KernelOutputFilterSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshKernelSetCommand), description: "刷新内核数据集")]
+    public class RefreshKernelSetCommand : RefreshCommand {
+        public RefreshKernelSetCommand() : base(7) {
+        }
+    }
+
+    [MessageType(messageType: typeof(KernelSetRefreshedEvent), description: "内核数据集刷新后")]
+    public class KernelSetRefreshedEvent : EventBase {
+        public KernelSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshCoinKernelSetCommand), description: "刷新币种内核数据集")]
+    public class RefreshCoinKernelSetCommand : RefreshCommand {
+        public RefreshCoinKernelSetCommand() : base(8) {
+        }
+    }
+
+    [MessageType(messageType: typeof(CoinKernelSetRefreshedEvent), description: "币种内核数据集刷新后")]
+    public class CoinKernelSetRefreshedEvent : EventBase {
+        public CoinKernelSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshPoolSetCommand), description: "刷新矿池数据集")]
+    public class RefreshPoolSetCommand : RefreshCommand {
+        public RefreshPoolSetCommand() : base(9) {
+        }
+    }
+
+    [MessageType(messageType: typeof(PoolSetRefreshedEvent), description: "矿池数据集刷新后")]
+    public class PoolSetRefreshedEvent : EventBase {
+        public PoolSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshPoolKernelSetCommand), description: "刷新矿池内核数据集")]
+    public class RefreshPoolKernelSetCommand : RefreshCommand {
+        public RefreshPoolKernelSetCommand() : base(10) {
+        }
+    }
+
+    [MessageType(messageType: typeof(PoolKernelSetRefreshedEvent), description: "矿池内核数据集刷新后")]
+    public class PoolKernelSetRefreshedEvent : EventBase {
+        public PoolKernelSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshSysDicSetCommand), description: "刷新系统字典数据集")]
+    public class RefreshSysDicSetCommand : RefreshCommand {
+        public RefreshSysDicSetCommand() : base(11) {
+        }
+    }
+
+    [MessageType(messageType: typeof(SysDicSetRefreshedEvent), description: "系统字典数据集刷新后")]
+    public class SysDicSetRefreshedEvent : EventBase {
+        public SysDicSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshSysDicItemSetCommand), description: "刷新系统字典项数据集")]
+    public class RefreshSysDicItemSetCommand : RefreshCommand {
+        public RefreshSysDicItemSetCommand() : base(12) {
+        }
+    }
+
+    [MessageType(messageType: typeof(SysDicItemSetRefreshedEvent), description: "系统字典项数据集刷新后")]
+    public class SysDicItemSetRefreshedEvent : EventBase {
+        public SysDicItemSetRefreshedEvent() {
         }
     }
     #endregion

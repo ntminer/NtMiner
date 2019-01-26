@@ -134,10 +134,6 @@ namespace NTMiner.Core.Impl {
 
         public CoinGroupData[] CoinGroups { get; set; }
 
-        public CoinKernelData[] CoinKernels { get; set; }
-
-        public KernelData[] Kernels { get; set; }
-
         public KernelInputData[] KernelInputs { get; set; }
 
         public KernelOutputData[] KernelOutputs { get; set; }
@@ -145,6 +141,10 @@ namespace NTMiner.Core.Impl {
         public KernelOutputTranslaterData[] KernelOutputTranslaters { get; set; }
 
         public KernelOutputFilterData[] KernelOutputFilters { get; set; }
+
+        public KernelData[] Kernels { get; set; }
+
+        public CoinKernelData[] CoinKernels { get; set; }
 
         public PoolData[] Pools { get; set; }
 
