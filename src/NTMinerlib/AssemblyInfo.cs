@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NTMiner {
+﻿namespace NTMiner {
     public static class AssemblyInfo {
         public const string VERSION = "1.1.4";
         public const string COPYRIGHT = "Copyright ©  2019";

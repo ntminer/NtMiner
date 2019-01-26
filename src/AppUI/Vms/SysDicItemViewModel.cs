@@ -4,7 +4,6 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {

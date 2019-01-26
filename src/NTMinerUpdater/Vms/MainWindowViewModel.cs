@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.ServiceContracts.DataObjects;
 using NTMiner.Views;
 using System;
 using System.Collections.Generic;

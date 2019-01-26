@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.SysDics;
-using System;
+﻿using System;
 
 namespace NTMiner.Vms {
     public class AboutPageViewModel : ViewModelBase {

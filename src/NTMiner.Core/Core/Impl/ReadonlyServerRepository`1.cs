@@ -1,7 +1,6 @@
 ﻿using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class ReadOnlyServerRepository<T> : IRepository<T> where T : class, IDbEntity<Guid> {

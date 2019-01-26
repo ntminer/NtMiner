@@ -1,6 +1,5 @@
 ﻿using NTMiner.Vms;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelInputEdit : UserControl {

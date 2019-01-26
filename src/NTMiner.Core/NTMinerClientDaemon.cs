@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using System;
+﻿using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using NTMiner.Repositories;
+﻿using NTMiner.Repositories;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;

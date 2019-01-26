@@ -2,7 +2,6 @@
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
