@@ -13,11 +13,20 @@
         <sys:String x:Key="AnnouncementContent">
             AnnouncementContent
         </sys:String>
+        <sys:String x:Key="AnnouncementContentTooltip">
+            AnnouncementContentTooltip
+        </sys:String>
         <sys:String x:Key="IsShowCommandLine">
             IsShowCommandLine
         </sys:String>
         <sys:String x:Key="IsShowCommandLineTooltip">
             IsShowCommandLineTooltip
+        </sys:String>
+        <sys:String x:Key="AutoScrollToEnd">
+            AutoScrollToEnd
+        </sys:String>
+        <sys:String x:Key="KernelNotice">
+            KernelNotice
         </sys:String>
     </UserControl.Resources>
 	<Grid Background="Black">
@@ -33,6 +42,7 @@
             </Grid.RowDefinitions>
 			<TextBox 
                 Text="{DynamicResource AnnouncementContent}"
+                ToolTip="{DynamicResource AnnouncementContentTooltip}"
 				BorderThickness="0" AcceptsReturn="True" 
 				TextWrapping="Wrap" IsReadOnly="True" 
 				Padding="4 0" Foreground="White">
@@ -100,6 +110,7 @@
             Stretch="Fill" />
         <TextBox 
             Grid.Row="1"
+            ToolTip="{DynamicResource KernelNotice}"
             Text="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
@@ -131,7 +142,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
 			x:Name="ChkbIsConsoleAutoScrollToEnd"
-			ToolTip="滚屏"
+			ToolTip="{DynamicResource AutoScrollToEnd}"
 			IconColor="{StaticResource IconFillColor}"
 			IsChecked="True" />
     </Grid>
