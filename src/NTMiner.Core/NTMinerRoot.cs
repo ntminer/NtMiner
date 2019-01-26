@@ -61,14 +61,14 @@ namespace NTMiner {
                             string serverJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
                             ETagClient.GetFileAsync(serverJsonFileUrl, (etagValue, data) => {
                                 rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                Global.Logger.InfoDebugLine("下载完成：" + serverJsonFileUrl);
+                                Global.Logger.InfoDebugLine($"下载完成：{serverJsonFileUrl}，etagValue：{etagValue}");
                                 SpecialPath.LocalJsonFileNameETag = etagValue;
                                 countdown.Signal();
                             });
                             string serverLangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerLangJsonFileName;
                             ETagClient.GetFileAsync(serverLangJsonFileUrl, (etagValue, data) => {
                                 rawLangJson = Encoding.UTF8.GetString(data);
-                                Global.Logger.InfoDebugLine("下载完成：" + serverLangJsonFileUrl);
+                                Global.Logger.InfoDebugLine($"下载完成：{serverLangJsonFileUrl}，etagValue：{etagValue}");
                                 ClientId.LocalLangJsonFileNameETag = etagValue;
                                 countdown.Signal();
                             });
