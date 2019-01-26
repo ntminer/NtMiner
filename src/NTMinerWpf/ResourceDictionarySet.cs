@@ -31,6 +31,18 @@ namespace NTMiner {
                     foreach (var kv in _dicByViewId) {
                         FillResourceDic(kv.Key, kv.Value);
                     }
+                    if (!DevMode.IsDevMode) {
+                        Global.Execute(new RefreshLangViewItemSetCommand());
+                    }
+                });
+            Global.Access<LangViewItemSetRefreshedEvent>(
+                Guid.Parse("50508740-61ED-4B09-A29A-97A7769896A6"),
+                "语言项数据集变更后刷新WPF资源集",
+                LogEnum.None,
+                action: message => {
+                    foreach (var kv in _dicByViewId) {
+                        FillResourceDic(kv.Key, kv.Value);
+                    }
                 });
         }
 

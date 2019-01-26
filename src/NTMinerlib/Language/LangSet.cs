@@ -12,6 +12,15 @@ namespace NTMiner.Language {
         private readonly List<Lang> _langs = new List<Lang>();
 
         private LangSet() {
+            Global.Access<RefreshLangSetCommand>(
+                Guid.Parse("8AFAE1AE-349A-4138-9297-6CC17A13F29E"),
+                "处理刷新语言命令",
+                LogEnum.None,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new LangSetRefreshedEvent());
+                });
+
             Global.Access<AddLangCommand>(
                 Guid.Parse("75818F82-D124-48B0-8138-D150D77EC557"),
                 "处理添加语言命令",

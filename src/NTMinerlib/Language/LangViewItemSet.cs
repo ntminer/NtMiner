@@ -13,6 +13,14 @@ namespace NTMiner.Language {
         private readonly Dictionary<Guid, LangViewItem> _dicById = new Dictionary<Guid, LangViewItem>();
 
         private LangViewItemSet() {
+            Global.Access<RefreshLangViewItemSetCommand>(
+                Guid.Parse("90E8BC51-65FA-4192-BB94-F08BFADBC78E"),
+                "处理刷新语言项命令",
+                LogEnum.None,
+                action: message => {
+                    _isInited = false;
+                    Global.Happened(new LangViewItemSetRefreshedEvent());
+                });
             Global.Access<AddLangViewItemCommand>(
                 Guid.Parse("07AC4BE6-AB09-48D2-A3D7-8653EE52CC43"),
                 "处理添加语言项命令",
@@ -97,6 +105,8 @@ namespace NTMiner.Language {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    _dicByLangAndView.Clear();
+                    _dicById.Clear();
                     IRepository<LangViewItem> repository = Repository.CreateLanguageRepository<LangViewItem>();
                     var langItems = repository.GetAll();
                     foreach (var lang in LangSet.Instance) {

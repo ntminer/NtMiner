@@ -69,6 +69,12 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
+            Init();
+        }
+
+        private void Init() {
+            _dicByLangAndView.Clear();
+            _dicById.Clear();
             foreach (var lang in LangViewModels.Current.LangVms) {
                 var dic = new Dictionary<string, List<LangViewItemViewModel>>();
                 _dicByLangAndView.Add(lang, dic);
