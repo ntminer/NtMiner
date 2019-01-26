@@ -28,7 +28,6 @@ namespace NTMiner {
         public static string ServerDbFileName { get; private set; }
         public static string ServerDbFileFullName { get; private set; }
 
-        public static string LocalJsonFileNameETag;
         public static string LocalJsonFileName { get; private set; }
         public static string LocalJsonFileFullName { get; private set; }
 

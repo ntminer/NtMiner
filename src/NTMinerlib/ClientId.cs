@@ -14,7 +14,6 @@ namespace NTMiner {
         public static string GlobalDirFullName { get; private set; }
         public static string LangDbFileName { get; private set; }
         public static string LangDbFileFullName { get; private set; }
-        public static string LocalLangJsonFileNameETag;
         public static string LocalLangJsonFileName { get; private set; }
         public static string LocalLangJsonFileFullName { get; private set; }
 

@@ -14,10 +14,11 @@ namespace UnitTestProject1 {
     public class UnitTest1 {
         [TestMethod]
         public void ETagTest1() {
-            string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/server1.1.2.json";
+            string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/serverLang1.1.3.json";
             ETagClient.HeadETagAsync(url, etag => {
                 Console.WriteLine(etag);
             });
+            System.Threading.Thread.Sleep(1000);
         }
 
         [TestMethod]

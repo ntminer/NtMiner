@@ -58,18 +58,16 @@ namespace NTMiner {
                         }
                         else {
                             CountdownEvent countdown = new CountdownEvent(2);
-                            string serverJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
-                            ETagClient.GetFileAsync(serverJsonFileUrl, (etagValue, data) => {
+                            ETagClient.GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (etagValue, data) => {
                                 rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                Global.Logger.InfoDebugLine($"下载完成：{serverJsonFileUrl}，etagValue：{etagValue}");
-                                SpecialPath.LocalJsonFileNameETag = etagValue;
+                                Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}，etagValue：{etagValue}");
+                                AssemblyInfo.LocalJsonFileNameETag = etagValue;
                                 countdown.Signal();
                             });
-                            string serverLangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerLangJsonFileName;
-                            ETagClient.GetFileAsync(serverLangJsonFileUrl, (etagValue, data) => {
+                            ETagClient.GetFileAsync(AssemblyInfo.ServerLangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (etagValue, data) => {
                                 rawLangJson = Encoding.UTF8.GetString(data);
-                                Global.Logger.InfoDebugLine($"下载完成：{serverLangJsonFileUrl}，etagValue：{etagValue}");
-                                ClientId.LocalLangJsonFileNameETag = etagValue;
+                                Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerLangJsonFileUrl}，etagValue：{etagValue}");
+                                AssemblyInfo.LocalLangJsonFileNameETag = etagValue;
                                 countdown.Signal();
                             });
                             Task.Factory.StartNew(() => {
