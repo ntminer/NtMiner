@@ -46,7 +46,9 @@ namespace NTMiner {
                                     Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerLangJsonFileUrl}，etagValue：{etagValue}");
                                     AssemblyInfo.LocalLangJsonFileNameETag = etagValue;
                                     Language.Impl.LangJson.Instance.ReInit(rawLangJson);
-                                    Global.Execute(new RefreshLangViewItemSetCommand());
+                                    Execute.OnUIThread(() => {
+                                        Global.Execute(new RefreshLangViewItemSetCommand());
+                                    });
                                 });
                             }
                         });

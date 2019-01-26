@@ -10,6 +10,7 @@ namespace NTMiner {
                 try {
                     Global.Logger.InfoDebugLine("HeadETagAsync " + fileUrl);
                     HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
+                    webRequest.Timeout = 300 * 1000;
                     webRequest.Method = "HEAD";
                     HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
                     string etag = response.GetResponseHeader("ETag").Trim('"');
