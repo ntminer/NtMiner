@@ -10,47 +10,47 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <sys:String x:Key="MihOption">
-                MihOption
+            <sys:String x:Key="Option">
+                Option
             </sys:String>
-            <sys:String x:Key="MihCoin">
-                MihCoin
+            <sys:String x:Key="Coin">
+                Coin
             </sys:String>
-            <sys:String x:Key="MihCoinGroup">
-                MihCoinGroup
+            <sys:String x:Key="CoinGroup">
+                CoinGroup
             </sys:String>
-            <sys:String x:Key="MihKernel">
-                MihKernel
+            <sys:String x:Key="Kernel">
+                Kernel
             </sys:String>
-            <sys:String x:Key="MihSpeedChart">
-                MihSpeedChart
+            <sys:String x:Key="SpeedChart">
+                SpeedChart
             </sys:String>
-            <sys:String x:Key="MihOnlineUpdate">
-                MihOnlineUpdate
+            <sys:String x:Key="OnlineUpdate">
+                OnlineUpdate
             </sys:String>
-            <sys:String x:Key="MihHelp">
-                MihHelp
+            <sys:String x:Key="Help">
+                Help
             </sys:String>
-            <sys:String x:Key="MihAbout">
-                MihAbout
+            <sys:String x:Key="About">
+                About
             </sys:String>
-            <sys:String x:Key="MihSetServerJsonVersion">
-                MihSetServerJsonVersion
+            <sys:String x:Key="SetServerJsonVersion">
+                SetServerJsonVersion
             </sys:String>
-            <sys:String x:Key="MihExit">
-                MihExit
+            <sys:String x:Key="Exit">
+                Exit
             </sys:String>
-            <sys:String x:Key="MihMiner">
-                MihMiner
+            <sys:String x:Key="Miner">
+                Miner
             </sys:String>
-            <sys:String x:Key="MihMinerGroup">
-                MihMinerGroup
+            <sys:String x:Key="MinerGroup">
+                MinerGroup
             </sys:String>
-            <sys:String x:Key="MihMineWork">
-                MihMineWork
+            <sys:String x:Key="MineWork">
+                MineWork
             </sys:String>
-            <sys:String x:Key="MihCalcConfig">
-                MihCalcConfig
+            <sys:String x:Key="CalcConfig">
+                CalcConfig
             </sys:String>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -211,7 +211,7 @@
 					    Fill="#385263"
 					    Stretch="Fill" />
                 </MenuItem.Icon>
-                <MenuItem Header="{DynamicResource MihCoin}" Command="{x:Static vm:AppStatic.ShowCoins}">
+                <MenuItem Header="{DynamicResource Coin}" Command="{x:Static vm:AppStatic.ShowCoins}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -221,7 +221,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihCoinGroup}" Command="{x:Static vm:AppStatic.ShowGroups}">
+                <MenuItem Header="{DynamicResource CoinGroup}" Command="{x:Static vm:AppStatic.ShowGroups}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -231,7 +231,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihKernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
+                <MenuItem Header="{DynamicResource Kernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -241,7 +241,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihSpeedChart}" Command="{x:Static vm:AppStatic.ShowSpeedChart}">
+                <MenuItem Header="{DynamicResource SpeedChart}" Command="{x:Static vm:AppStatic.ShowSpeedChart}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -251,7 +251,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihOnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+                <MenuItem Header="{DynamicResource OnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
                     <MenuItem.Icon>
                         <Path
                             Width="14"
@@ -261,7 +261,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihHelp}" Command="{x:Static vm:AppStatic.ShowHelp}">
+                <MenuItem Header="{DynamicResource Help}" Command="{x:Static vm:AppStatic.ShowHelp}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -271,7 +271,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihAbout}" Command="{x:Static vm:AppStatic.ShowAbout}">
+                <MenuItem Header="{DynamicResource About}" Command="{x:Static vm:AppStatic.ShowAbout}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -281,7 +281,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihExit}" Command="{x:Static vm:AppStatic.AppExit}">
+                <MenuItem Header="{DynamicResource Exit}" Command="{x:Static vm:AppStatic.AppExit}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -301,7 +301,7 @@
 					    Fill="#385263"
 					    Stretch="Fill" />
                 </MenuItem.Icon>
-                <MenuItem Header="{DynamicResource MihMiner}" Command="{x:Static vm:AppStatic.ShowMinerClients}">
+                <MenuItem Header="{DynamicResource Miner}" Command="{x:Static vm:AppStatic.ShowMinerClients}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -311,7 +311,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihMinerGroup}" Command="{x:Static vm:AppStatic.ManageMinerGroup}">
+                <MenuItem Header="{DynamicResource MinerGroup}" Command="{x:Static vm:AppStatic.ManageMinerGroup}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -321,7 +321,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihMineWork}" Command="{x:Static vm:AppStatic.ManageMineWork}">
+                <MenuItem Header="{DynamicResource MineWork}" Command="{x:Static vm:AppStatic.ManageMineWork}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -331,7 +331,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihCoin}" Command="{x:Static vm:AppStatic.ShowCoins}">
+                <MenuItem Header="{DynamicResource Coin}" Command="{x:Static vm:AppStatic.ShowCoins}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -341,7 +341,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihKernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
+                <MenuItem Header="{DynamicResource Kernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -351,7 +351,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihCalcConfig}" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
+                <MenuItem Header="{DynamicResource CalcConfig}" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
                     <MenuItem.Icon>
                         <Path
 						    Width="16"
@@ -361,7 +361,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihOnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+                <MenuItem Header="{DynamicResource OnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
                     <MenuItem.Icon>
                         <Path
                             Width="14"
@@ -371,7 +371,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihHelp}" Command="{x:Static vm:AppStatic.ShowHelp}">
+                <MenuItem Header="{DynamicResource Help}" Command="{x:Static vm:AppStatic.ShowHelp}">
                     <MenuItem.Icon>
                         <Path
 						    Width="16"
@@ -381,7 +381,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihAbout}" Command="{x:Static vm:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
+                <MenuItem Header="{DynamicResource About}" Command="{x:Static vm:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -391,7 +391,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihSetServerJsonVersion}" Command="{x:Static vm:AppStatic.SetServerJsonVersion}">
+                <MenuItem Header="{DynamicResource SetServerJsonVersion}" Command="{x:Static vm:AppStatic.SetServerJsonVersion}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
@@ -401,7 +401,7 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource MihExit}" Command="{x:Static vm:AppStatic.AppExit}">
+                <MenuItem Header="{DynamicResource Exit}" Command="{x:Static vm:AppStatic.AppExit}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"
