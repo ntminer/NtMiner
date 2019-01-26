@@ -452,40 +452,36 @@
                         </controls:KbComboBox.ItemContainerStyle>
                         <controls:KbComboBox.ItemTemplate>
 							<DataTemplate>
-                                <StackPanel>
-									<WrapPanel>
-										<TextBlock Text="{Binding Kernel.Code}"></TextBlock>
-                                        <TextBlock Text="{Binding Kernel.Version}" Margin="4 0 0 0"></TextBlock>
-                                        <Path
-                                            Margin="4 0 0 0"
-							                Width="18"
-							                Height="14"
-                                            ToolTip="NVIDIA"
-                                            Visibility="{Binding IsNvidiaIconVisible}"
-							                Data="{StaticResource Icon_Nvidia}"
-							                Fill="Green"
-							                Stretch="Fill" />
-                                        <Path
-                                            Margin="4 0 0 0"
-							                Width="16"
-							                Height="14"
-                                            ToolTip="AMD"
-                                            Visibility="{Binding IsAMDIconVisible}"
-							                Data="{StaticResource Icon_AMD}"
-							                Fill="Red"
-							                Stretch="Fill" />
-                                        <Path
-                                            Margin="4 0 0 0"
-							                Width="12"
-							                Height="14"
-                                            ToolTip="{DynamicResource SupportDualMine}"
-                                            Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
-							                Data="{StaticResource Icon_DualMine}"
-							                Fill="{StaticResource IconFillColor}"
-							                Stretch="Fill" />
-                                    </WrapPanel>
-								</StackPanel>
-							</DataTemplate>
+                                <WrapPanel ToolTip="{Binding Kernel.KernelNotice}">
+                                    <Path
+							            Width="18"
+							            Height="14"
+                                        ToolTip="NVIDIA"
+                                        Visibility="{Binding IsNvidiaIconVisible}"
+							            Data="{StaticResource Icon_Nvidia}"
+							            Fill="Green"
+							            Stretch="Fill" />
+                                    <Path
+                                        Margin="4 0 0 0"
+							            Width="16"
+							            Height="14"
+                                        ToolTip="AMD"
+                                        Visibility="{Binding IsAMDIconVisible}"
+							            Data="{StaticResource Icon_AMD}"
+							            Fill="Red"
+							            Stretch="Fill" />
+                                    <Path
+                                        Margin="4 0 0 0"
+							            Width="12"
+							            Height="14"
+                                        ToolTip="{DynamicResource SupportDualMine}"
+                                        Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
+							            Data="{StaticResource Icon_DualMine}"
+							            Fill="{StaticResource IconFillColor}"
+							            Stretch="Fill" />
+                                    <TextBlock Margin="4 0 0 0" Text="{Binding Kernel.FullName}"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
                         </controls:KbComboBox.ItemTemplate>
                         <controls:KbComboBox.Toolbar>
                             <WrapPanel HorizontalAlignment="Right" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
