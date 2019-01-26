@@ -16,13 +16,12 @@ namespace NTMiner.Vms {
                     SortNumber = Count + 1
                 }.Edit.Execute(null);
             });
-            Global.Access<CoinSetRefreshedEvent>(
+            Global.Access<GroupSetRefreshedEvent>(
                 Guid.Parse("E1BD1C77-2845-4EC1-9262-BAFBC2C0532C"),
-                "币种数据集刷新后刷新Vm内存",
+                "组数据集刷新后刷新Vm内存",
                 LogEnum.Console,
                 action: message => {
                     Init(isRefresh: true);
-                    OnPropertyChangeds();
                 });
             Global.Access<GroupAddedEvent>(
                 Guid.Parse("285077b7-b6ce-4b2a-8033-29650ea701ec"),
@@ -66,10 +65,10 @@ namespace NTMiner.Vms {
                 foreach (var item in NTMinerRoot.Current.GroupSet) {
                     GroupViewModel vm;
                     if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        vm.Update(item);
+                        Global.Execute(new UpdateGroupCommand(item));
                     }
                     else {
-                        _dicById.Add(item.GetId(), new GroupViewModel(item));
+                        Global.Execute(new AddGroupCommand(item));
                     }
                 }
             }

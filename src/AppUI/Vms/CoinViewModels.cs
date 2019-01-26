@@ -19,7 +19,6 @@ namespace NTMiner.Vms {
                 LogEnum.Console,
                 action: message => {
                     Init(isRefresh: true);
-                    OnPropertyChangeds();
                 });
             Global.Access<CoinAddedEvent>(
                 Guid.Parse("1ee6e72d-d98f-42ab-8732-dcee2e42f4b8"),
@@ -73,10 +72,10 @@ namespace NTMiner.Vms {
                 foreach (var item in NTMinerRoot.Current.CoinSet) {
                     CoinViewModel vm;
                     if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        vm.Update(item);
+                        Global.Execute(new UpdateCoinCommand(item));
                     }
                     else {
-                        _dicById.Add(item.GetId(), new CoinViewModel(item));
+                        Global.Execute(new AddCoinCommand(item));
                     }
                 }
             }
