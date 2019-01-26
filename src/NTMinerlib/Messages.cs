@@ -50,6 +50,12 @@ namespace NTMiner {
     }
     #endregion
 
+    [MessageType(messageType: typeof(UserActionEvent), description: "发生了用户活动后")]
+    public class UserActionEvent : EventBase {
+        public UserActionEvent() {
+        }
+    }
+
     [MessageType(messageType: typeof(UpdateHandlerIdCommand), description: "更新处理器日志配置")]
     public class UpdateHandlerIdCommand : UpdateEntityCommand<IHandlerId> {
         public UpdateHandlerIdCommand(IHandlerId input) : base(input) {
