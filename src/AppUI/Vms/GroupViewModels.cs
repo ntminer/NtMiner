@@ -10,16 +10,20 @@ namespace NTMiner.Vms {
 
         private readonly Dictionary<Guid, GroupViewModel> _dicById = new Dictionary<Guid, GroupViewModel>();
         public ICommand Add { get; private set; }
-        private GroupViewModels() {
-            foreach (var item in NTMinerRoot.Current.GroupSet) {
-                GroupViewModel groupVm = new GroupViewModel(item);
-                _dicById.Add(item.GetId(), groupVm);
-            }
+        private GroupViewModels() {            
             this.Add = new DelegateCommand(() => {
                 new GroupViewModel(Guid.NewGuid()) {
                     SortNumber = Count + 1
                 }.Edit.Execute(null);
             });
+            Global.Access<CoinSetRefreshedEvent>(
+                Guid.Parse("E1BD1C77-2845-4EC1-9262-BAFBC2C0532C"),
+                "币种数据集刷新后刷新Vm内存",
+                LogEnum.Console,
+                action: message => {
+                    Init(isRefresh: true);
+                    OnPropertyChangeds();
+                });
             Global.Access<GroupAddedEvent>(
                 Guid.Parse("285077b7-b6ce-4b2a-8033-29650ea701ec"),
                 "添加了组后调整VM内存",
@@ -28,9 +32,7 @@ namespace NTMiner.Vms {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         GroupViewModel groupVm = new GroupViewModel(message.Source);
                         _dicById.Add(message.Source.GetId(), groupVm);
-                        OnPropertyChanged(nameof(List));
-                        OnPropertyChanged(nameof(SelectionOptions));
-                        OnPropertyChanged(nameof(Count));
+                        OnPropertyChangeds();
                     }
                 });
             Global.Access<GroupUpdatedEvent>(
@@ -54,10 +56,35 @@ namespace NTMiner.Vms {
                 LogEnum.Log,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
-                    OnPropertyChanged(nameof(List));
-                    OnPropertyChanged(nameof(SelectionOptions));
-                    OnPropertyChanged(nameof(Count));
+                    OnPropertyChangeds();
                 });
+            Init();
+        }
+
+        private void Init(bool isRefresh = false) {
+            if (isRefresh) {
+                foreach (var item in NTMinerRoot.Current.GroupSet) {
+                    GroupViewModel vm;
+                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
+                        vm.Update(item);
+                    }
+                    else {
+                        _dicById.Add(item.GetId(), new GroupViewModel(item));
+                    }
+                }
+            }
+            else {
+                foreach (var item in NTMinerRoot.Current.GroupSet) {
+                    GroupViewModel groupVm = new GroupViewModel(item);
+                    _dicById.Add(item.GetId(), groupVm);
+                }
+            }
+        }
+
+        private void OnPropertyChangeds() {
+            OnPropertyChanged(nameof(List));
+            OnPropertyChanged(nameof(SelectionOptions));
+            OnPropertyChanged(nameof(Count));
         }
 
         public bool TryGetGroupVm(Guid groupId, out GroupViewModel groupVm) {

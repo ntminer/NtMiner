@@ -9,14 +9,13 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, CoinGroupViewModel> _dicById = new Dictionary<Guid, CoinGroupViewModel>();
         private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
         private CoinGroupViewModels() {
-            foreach (var item in NTMinerRoot.Current.CoinGroupSet) {
-                CoinGroupViewModel groupVm = new CoinGroupViewModel(item);
-                _dicById.Add(item.GetId(), groupVm);
-                if (!_listByGroupId.ContainsKey(item.GroupId)) {
-                    _listByGroupId.Add(item.GroupId, new List<CoinGroupViewModel>());
-                }
-                _listByGroupId[item.GroupId].Add(groupVm);
-            }
+            Global.Access<CoinGroupRemovedEvent>(
+                Guid.Parse("59FC48A0-9D6A-4445-A76D-489B8009D261"),
+                "币组数据集刷新后刷新Vm内存",
+                LogEnum.Console,
+                action: message => {
+                    Init(isRefresh: true);
+                });
             Global.Access<CoinGroupAddedEvent>(
                 Guid.Parse("e0476d29-0115-405e-81d1-c7fb65051c83"),
                 "添加了币组后调整VM内存",
@@ -29,12 +28,7 @@ namespace NTMiner.Vms {
                             _listByGroupId.Add(coinGroupVm.GroupId, new List<CoinGroupViewModel>());
                         }
                         _listByGroupId[coinGroupVm.GroupId].Add(coinGroupVm);
-                        GroupViewModel groupVm;
-                        if (GroupViewModels.Current.TryGetGroupVm(coinGroupVm.GroupId, out groupVm)) {
-                            groupVm.OnPropertyChanged(nameof(groupVm.CoinVms));
-                            groupVm.OnPropertyChanged(nameof(groupVm.DualCoinVms));
-                            groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
-                        }
+                        OnGroupPropertyChanged(coinGroupVm.GroupId);
                     }
                 });
             Global.Access<CoinGroupUpdatedEvent>(
@@ -65,14 +59,48 @@ namespace NTMiner.Vms {
                         if (_listByGroupId.ContainsKey(entity.GroupId)) {
                             _listByGroupId[entity.GroupId].Remove(entity);
                         }
-                        GroupViewModel groupVm;
-                        if (GroupViewModels.Current.TryGetGroupVm(entity.GroupId, out groupVm)) {
-                            groupVm.OnPropertyChanged(nameof(groupVm.CoinVms));
-                            groupVm.OnPropertyChanged(nameof(groupVm.DualCoinVms));
-                            groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
-                        }
+                        OnGroupPropertyChanged(entity.GroupId);
                     }
                 });
+            Init();
+        }
+
+        private void Init(bool isRefresh = false) {
+            if (isRefresh) {
+                foreach (var item in NTMinerRoot.Current.CoinGroupSet) {
+                    CoinGroupViewModel vm;
+                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
+                        vm.Update(item);
+                    }
+                    else {
+                        vm = new CoinGroupViewModel(item);
+                        _dicById.Add(item.GetId(), vm);
+                        if (!_listByGroupId.ContainsKey(item.GroupId)) {
+                            _listByGroupId.Add(item.GroupId, new List<CoinGroupViewModel>());
+                        }
+                        _listByGroupId[item.GroupId].Add(vm);
+                    }
+                }
+            }
+            else {
+                foreach (var item in NTMinerRoot.Current.CoinGroupSet) {
+                    CoinGroupViewModel groupVm = new CoinGroupViewModel(item);
+                    _dicById.Add(item.GetId(), groupVm);
+                    if (!_listByGroupId.ContainsKey(item.GroupId)) {
+                        _listByGroupId.Add(item.GroupId, new List<CoinGroupViewModel>());
+                    }
+                    _listByGroupId[item.GroupId].Add(groupVm);
+                }
+            }
+        }
+
+        private void OnGroupPropertyChanged(Guid groupId) {
+            GroupViewModel groupVm;
+            if (GroupViewModels.Current.TryGetGroupVm(groupId, out groupVm)) {
+                groupVm.OnPropertyChanged(nameof(groupVm.CoinVms));
+                groupVm.OnPropertyChanged(nameof(groupVm.DualCoinVms));
+                groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
+            }
         }
 
         public bool TryGetGroupVm(Guid coinGroupId, out CoinGroupViewModel groupVm) {
