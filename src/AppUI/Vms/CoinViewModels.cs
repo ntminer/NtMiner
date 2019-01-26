@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
                 "币种数据集刷新后刷新Vm内存",
                 LogEnum.Console,
                 action: message => {
-                    Init();
+                    Init(isRefresh: true);
                     OnPropertyChangeds();
                 });
             Global.Access<CoinAddedEvent>(
@@ -74,10 +74,22 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init() {
-            _dicById.Clear();
-            foreach (var item in NTMinerRoot.Current.CoinSet) {
-                _dicById.Add(item.GetId(), new CoinViewModel(item));
+        private void Init(bool isRefresh = false) {
+            if (isRefresh) {
+                foreach (var item in NTMinerRoot.Current.CoinSet) {
+                    CoinViewModel vm;
+                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
+                        vm.Update(item);
+                    }
+                    else {
+                        _dicById.Add(item.GetId(), new CoinViewModel(item));
+                    }
+                }
+            }
+            else {
+                foreach (var item in NTMinerRoot.Current.CoinSet) {
+                    _dicById.Add(item.GetId(), new CoinViewModel(item));
+                }
             }
         }
 
