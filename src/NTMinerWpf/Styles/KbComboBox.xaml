@@ -26,8 +26,7 @@
                             <Grid
                                 x:Name="shadow"
                                 Background="White"
-                                MinWidth="{Binding ActualWidth, ElementName=templateRoot}"
-                                MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                MinWidth="{Binding ActualWidth, ElementName=templateRoot}">
                                 <Border Margin="2">
                                     <Border.Effect>
                                         <DropShadowEffect
