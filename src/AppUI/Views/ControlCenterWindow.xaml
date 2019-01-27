@@ -24,8 +24,12 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="400"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 		<!--上标题栏-->
-		<Grid>
+		<Grid Grid.ColumnSpan="2">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -71,8 +75,8 @@
 			</WrapPanel>
         </Grid>
         <Viewbox Grid.Row="1" Stretch="Fill">
-            <Grid x:Name="Container" Width="1360" Height="750">
-            </Grid>
+            <uc:MinersSpeedCharts Width="960" Height="750">
+            </uc:MinersSpeedCharts>
         </Viewbox>
         <notification:NotificationMessageContainer 
             Grid.Row="1"
@@ -81,7 +85,7 @@
 			MaxWidth="500"
 			Manager="{Binding Manager}" />
 
-        <WrapPanel Grid.Row="2" Grid.ColumnSpan="3">
+        <WrapPanel Grid.Row="2">
             <TextBlock VerticalAlignment="Center" Text="官网：" />
             <controls:KbLinkButton
 				Foreground="#0072C1"
@@ -117,5 +121,50 @@
 					Stretch="Fill" />
             </controls:KbButton>
         </WrapPanel>
+
+        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <WrapPanel>
+                <TextBlock></TextBlock>
+            </WrapPanel>
+            <RichTextBox 
+                Grid.Row="1"
+			    VerticalScrollBarVisibility="Auto"
+			    x:Name="RichTextBoxDebug" 
+                BorderThickness="0" 
+                SpellCheck.IsEnabled="False"
+			    IsReadOnly="True" FontSize="12"
+			    Padding="0 0 0 4" Background="Black" Foreground="White">
+                <FlowDocument>
+                    <Paragraph x:Name="ConsoleParagraphDebug" LineHeight="14">
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <RichTextBox 
+                Grid.Row="2"
+			    VerticalScrollBarVisibility="Auto"
+			    x:Name="RichTextBox" 
+                BorderThickness="0" 
+                SpellCheck.IsEnabled="False"
+			    IsReadOnly="True" FontSize="12"
+			    Padding="0 0 0 4" Background="Black" Foreground="White">
+                <FlowDocument>
+                    <Paragraph x:Name="ConsoleParagraph" LineHeight="14">
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <controls:KbCheckBox 
+                Grid.Row="1"
+                Margin="0 2 14 0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+			    x:Name="ChkbIsConsoleAutoScrollToEnd"
+			    IconColor="{StaticResource IconFillColor}"
+			    IsChecked="True" />
+        </Grid>
     </Grid>
 </metro:MetroWindow>

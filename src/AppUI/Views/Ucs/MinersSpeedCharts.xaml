@@ -48,7 +48,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="164" Width="420" Margin="0 0 30 10">
+                        <Grid Height="130" Width="420" Margin="30 0 0 10">
                             <lvc:CartesianChart 
 								Background="Transparent"
 								DisableAnimations="True"                                            

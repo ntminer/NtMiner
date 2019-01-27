@@ -16,9 +16,7 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private readonly Window _window;
-        public MinersSpeedCharts(Window window) {
-            _window = window;
+        public MinersSpeedCharts() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
 
@@ -138,7 +136,7 @@ namespace NTMiner.Views.Ucs {
 
         private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
-                _window?.DragMove();
+                Window.GetWindow(this)?.DragMove();
             }
         }
     }
