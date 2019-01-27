@@ -43,7 +43,7 @@ namespace NTMiner {
                 });
             }
 
-            public void SetServerJsonVersion(Action<ResponseBase> callback) {
+            public void SetServerJsonVersionAsync(Action<ResponseBase> callback) {
                 Guid messageId = Guid.NewGuid();
                 Task.Factory.StartNew(() => {
                     try {
