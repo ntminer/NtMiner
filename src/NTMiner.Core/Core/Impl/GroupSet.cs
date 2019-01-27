@@ -20,7 +20,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<AddGroupCommand>(
                 Guid.Parse("e0c313ff-2550-41f8-9403-8575638c7faf"),
                 "添加组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -39,7 +39,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<UpdateGroupCommand>(
                 Guid.Parse("b2d190dd-b60d-41f9-8e93-65902c318a78"),
                 "更新组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -61,7 +61,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<RemoveGroupCommand>(
                 Guid.Parse("7dede0b5-be81-4fc1-bee1-cdeb6afa7b72"),
                 "移除组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

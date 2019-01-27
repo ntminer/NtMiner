@@ -21,7 +21,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<AddPoolKernelCommand>(
                 Guid.Parse("B926F4A0-4318-493D-BCE1-CBE329AC7DD7"),
                 "处理添加矿池级内核命令",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         var entity = new PoolKernelData().Update(message.Input);
@@ -34,7 +34,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<RemovePoolKernelCommand>(
                 Guid.Parse("151EC414-58E3-4752-8758-4742256D2297"),
                 "处理移除矿池级内核命令",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (_dicById.ContainsKey(message.EntityId)) {
                         var entity = _dicById[message.EntityId];
@@ -47,7 +47,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<UpdatePoolKernelCommand>(
                 Guid.Parse("08843B3B-3F82-45D2-8B45-6B24F397A326"),
                 "更新矿池内核",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {

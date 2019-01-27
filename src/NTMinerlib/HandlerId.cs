@@ -9,7 +9,7 @@ namespace NTMiner {
             Global.Access<UpdateHandlerIdCommand>(
                 Guid.Parse("77acf9fd-5e2f-464e-be81-5095d830962b"),
                 "更新处理器日志配置",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     if (_dicById.ContainsKey(message.Input.Id)) {
                         _dicById[message.Input.Id].LogType = message.Input.LogType;

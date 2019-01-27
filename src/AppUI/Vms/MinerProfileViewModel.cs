@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
             Global.Access<Per1SecondEvent>(
                 Guid.Parse("479A35A1-5A5A-48AF-B184-F1EC568BE181"),
                 "挖矿计时秒表",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     DateTime now = DateTime.Now;
                     this.BootTimeSpan = now - NTMinerRoot.Current.CreatedOn;
@@ -43,21 +43,21 @@ namespace NTMiner.Vms {
             Global.Access<MinerProfilePropertyChangedEvent>(
                 Guid.Parse("00F1C9F7-ADC8-438D-8B7E-942F6EE5F9A4"),
                 "MinerProfile设置变更后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });
             Global.Access<MineWorkPropertyChangedEvent>(
                 Guid.Parse("7F96F755-E292-4146-9390-75635D150A4B"),
                 "MineWork设置变更后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });
             Global.Access<MineStartedEvent>(
                 Guid.Parse("36B6B69F-37E3-44BE-9CA9-20D6764E7058"),
                 "挖矿开始后刷新MinerProfileVM的IsMinig属性",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     this.OnPropertyChanged(nameof(this.IsMining));
                     this.IsWatermarkVisible = Visibility.Collapsed;
@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
             Global.Access<MineStopedEvent>(
                 Guid.Parse("C4C1308A-1C04-4094-91A2-D11993C626A0"),
                 "挖矿停止后刷新MinerProfileVM的IsMinig属性",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     this.OnPropertyChanged(nameof(this.IsMining));
                 });
@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
             Global.Access<RefreshArgsAssemblyCommand>(
                 Guid.Parse("4931C5C3-178F-4867-B615-215F0744C1EB"),
                 "刷新参数总成",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: cmd => {
                     this.OnPropertyChanged(nameof(this.ArgsAssembly));
                 });
@@ -87,7 +87,7 @@ namespace NTMiner.Vms {
             Global.Access<MineStartedEvent>(
                 Guid.Parse("D8CC83D6-B9B5-4739-BD66-0F772A22BBF8"),
                 "挖矿开始后将风扇转起来",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     t.Start();
                     OnPropertyChanged(nameof(GpuStateColor));
@@ -95,7 +95,7 @@ namespace NTMiner.Vms {
             Global.Access<MineStopedEvent>(
                 Guid.Parse("0BB360E4-92A6-4629-861F-B3E4C9BE1203"),
                 "挖矿停止后将风扇停转",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     t.Stop();
                     OnPropertyChanged(nameof(GpuStateColor));

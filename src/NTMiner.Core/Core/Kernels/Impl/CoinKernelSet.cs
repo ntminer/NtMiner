@@ -21,7 +21,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<AddCoinKernelCommand>(
                 Guid.Parse("6345c411-4860-433b-ad5e-3a743bcebfa8"),
                 "添加币种内核",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<UpdateCoinKernelCommand>(
                 Guid.Parse("b3dfdf09-f732-4b3b-aeeb-25de7b83d30c"),
                 "更新币种内核",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -84,7 +84,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<RemoveCoinKernelCommand>(
                 Guid.Parse("ee34113f-e616-421d-adcc-c2e810723035"),
                 "移除币种内核",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

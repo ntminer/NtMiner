@@ -26,7 +26,7 @@ namespace NTMiner.Views {
             Global.Access<Language.GlobalLangChangedEvent>(
                 Guid.Parse("9EE73F13-F1E1-4B20-86F2-A06B69ED4D45"),
                 "全局语言变更时调整窗口的标题",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     foreach (var item in Windows) {
                         item.OnPropertyChanged(nameof(item.Title));

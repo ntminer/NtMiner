@@ -31,7 +31,7 @@ namespace NTMiner.Views.Ucs {
             DelegateHandler<Per10SecondEvent> refreshMinerClients = Global.Access<Per10SecondEvent>(
                 Guid.Parse("D0B01F1E-764A-4B83-B115-F7FC496CEB0A"),
                 "周期刷新在线客户端列表",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     Execute.OnUIThread(() => {
                         Vm.LoadClients();

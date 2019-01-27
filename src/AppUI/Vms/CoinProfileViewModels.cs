@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
             Global.Access<CoinKernelProfilePropertyChangedEvent>(
                 Guid.Parse("78C01B0B-4569-496B-92E7-009E577FE695"),
                 "币种内核设置变更后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {
                         _coinKernelProfileDicById[message.CoinKernelId].OnPropertyChanged(message.PropertyName);
@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
             Global.Access<CoinProfilePropertyChangedEvent>(
                 Guid.Parse("5784E496-14B4-49BD-9234-D2793CB679A5"),
                 "币种设置变更后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     if (_coinProfileDicById.ContainsKey(message.CoinId)) {
                         _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);

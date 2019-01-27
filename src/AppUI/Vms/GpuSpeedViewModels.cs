@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
             Global.Access<GpuSpeedChangedEvent>(
                 Guid.Parse("acb2e5fd-a3ed-4ed6-b8c7-583eafd5e579"),
                 "显卡算力变更后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: (message) => {
                     Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
                     if (_mainCoinId != mainCoinId) {

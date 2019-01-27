@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
             Global.Access<SysDicAddedEvent>(
                 Guid.Parse("eef03852-17c4-4124-bb64-444f6c4f19ab"),
                 "添加了系统字典后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         SysDicViewModel sysDicVm = new SysDicViewModel(message.Source);
@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
             Global.Access<SysDicUpdatedEvent>(
                 Guid.Parse("f34d33e9-981b-4513-9425-e8694a4b5b17"),
                 "更新了系统字典后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         SysDicViewModel entity = _dicById[message.Source.GetId()];
@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
             Global.Access<SysDicRemovedEvent>(
                 Guid.Parse("25c11087-a479-40de-8ddc-9c807a66afab"),
                 "删除了系统字典后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     _dicByCode.Remove(message.Source.Code);

@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
             Global.Access<KernelAddedEvent>(
                 Guid.Parse("35917be2-7373-440d-b083-8edc1050f2cc"),
                 "添加了内核后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                     OnPropertyChanged(nameof(AllKernels));
@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
             Global.Access<KernelRemovedEvent>(
                 Guid.Parse("c8a5fdca-85c3-40ae-8c79-41af2aa1d4da"),
                 "删除了内核后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllKernels));
@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
             Global.Access<KernelUpdatedEvent>(
                 Guid.Parse("98b29a2f-fbcf-466d-81a4-ddbbc4594225"),
                 "更新了内核后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     var entity = _dicById[message.Source.GetId()];
                     int sortNumber = entity.SortNumber;

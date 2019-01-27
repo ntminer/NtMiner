@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
             Global.Access<CoinAddedEvent>(
                 Guid.Parse("1ee6e72d-d98f-42ab-8732-dcee2e42f4b8"),
                 "添加了币种后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
             Global.Access<CoinRemovedEvent>(
                 Guid.Parse("6c966862-6dfa-4473-94b5-1133a16180a1"),
                 "移除了币种后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
             Global.Access<CoinUpdatedEvent>(
                 Guid.Parse("114c90e5-6a0a-4aa4-9ba8-5ed603286c51"),
                 "更新了币种后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     CoinViewModel coinVm = _dicById[message.Source.GetId()];
                     bool justAsDualCoin = coinVm.JustAsDualCoin;

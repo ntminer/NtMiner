@@ -21,7 +21,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<AddCoinGroupCommand>(
                 Guid.Parse("2dd8f7e9-c79d-4621-954f-9fc45b0207dd"),
                 "添加币组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<RemoveCoinGroupCommand>(
                 Guid.Parse("e52874f4-37d8-4d49-a637-5b95aa89367e"),
                 "移除币组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

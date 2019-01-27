@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
             Global.Access<KernelInputAddedEvent>(
                 Guid.Parse("7BB2CAD5-333F-4BDD-B6FF-3F0AA50724EA"),
                 "添加了内核输入后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     var vm = new KernelInputViewModel(message.Source);
                     _dicById.Add(message.Source.GetId(), vm);
@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
             Global.Access<KernelInputUpdatedEvent>(
                 Guid.Parse("A85F4699-F884-43A3-B6F1-3E7CBCA7D7D6"),
                 "更新了内核输入后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         var item = _dicById[message.Source.GetId()];
@@ -56,7 +56,7 @@ namespace NTMiner.Vms {
             Global.Access<KernelInputRemovedEvent>(
                 Guid.Parse("4E0CFBAF-443F-4C09-B86B-3DBC7D7AF875"),
                 "移除了内核输入后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Remove(message.Source.GetId());

@@ -23,7 +23,7 @@ namespace NTMiner.Core.SysDics.Impl {
             Global.Access<AddSysDicItemCommand>(
                 Guid.Parse("485407c5-ffe0-462d-b05f-a13418307be0"),
                 "添加系统字典项",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -52,7 +52,7 @@ namespace NTMiner.Core.SysDics.Impl {
             Global.Access<UpdateSysDicItemCommand>(
                 Guid.Parse("0379df7f-9f34-449a-91b2-4bd32e0c287f"),
                 "更新系统字典项",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -74,7 +74,7 @@ namespace NTMiner.Core.SysDics.Impl {
             Global.Access<RemoveSysDicItemCommand>(
                 Guid.Parse("d0b7b706-2a57-492c-842d-03a4281ecfdf"),
                 "移除系统字典项",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

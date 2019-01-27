@@ -19,7 +19,7 @@ namespace NTMiner {
             Global.Access<HasBoot2SecondEvent>(
                 Guid.Parse("b4efba26-1f02-42f2-822a-dd38cffd466d"),
                 "登录服务器并报告一次0算力",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     Login(root);
                     // 报告0算力从而告知服务器该客户端当前在线的币种
@@ -29,7 +29,7 @@ namespace NTMiner {
             Global.Access<Per2MinuteEvent>(
                 Guid.Parse("0b16bbd3-329b-4b46-9ebe-c403cae26018"),
                 "每两分钟上报一次",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     ReportSpeed(root);
                 });

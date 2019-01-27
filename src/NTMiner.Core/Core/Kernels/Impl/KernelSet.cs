@@ -22,7 +22,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<AddKernelCommand>(
                 Guid.Parse("331be370-2d4f-488f-9dd8-3709e3ff63af"),
                 "添加内核",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<UpdateKernelCommand>(
                 Guid.Parse("f23c801a-afbe-4e59-93c2-3eaecf3c7d8e"),
                 "更新内核",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -66,7 +66,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<RemoveKernelCommand>(
                 Guid.Parse("b90d68ba-2af2-48db-8bf3-5b2795667e8c"),
                 "移除内核",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

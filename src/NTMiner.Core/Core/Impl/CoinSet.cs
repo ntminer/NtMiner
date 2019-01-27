@@ -22,7 +22,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<AddCoinCommand>(
                 Guid.Parse("4CF438BB-7B59-4C56-AB8C-D01312848450"),
                 "添加币种",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -48,7 +48,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<UpdateCoinCommand>(
                 Guid.Parse("86EAEA27-7B7C-4A12-8F22-8F1422C6A489"),
                 "更新币种",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -70,7 +70,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<RemoveCoinCommand>(
                 Guid.Parse("9BB00186-9647-48D1-BF7B-4281A3FF317C"),
                 "移除币种",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

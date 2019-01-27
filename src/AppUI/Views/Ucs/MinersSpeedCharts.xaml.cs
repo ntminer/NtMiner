@@ -30,7 +30,7 @@ namespace NTMiner.Views.Ucs {
             DelegateHandler<Per10SecondEvent> refeshTotalSpeedChart = Global.Access<Per10SecondEvent>(
                 Guid.Parse("CCF4833F-7957-49B2-9642-3EFAFCFE9C9E"),
                 "周期刷新总算力图",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     RefreshTotalSpeedChart(limit: 1);
                     Execute.OnUIThread(() => {

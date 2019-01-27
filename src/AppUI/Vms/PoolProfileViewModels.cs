@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
             Global.Access<PoolProfilePropertyChangedEvent>(
                 Guid.Parse("EC4B0EAE-E8BA-48DA-B6FA-749A5346A669"),
                 "矿池设置变更后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     if (_poolProfileDicById.ContainsKey(message.PoolId)) {
                         _poolProfileDicById[message.PoolId].OnPropertyChanged(message.PropertyName);

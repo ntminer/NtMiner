@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
             Global.Access<KernelOutputFilterAddedEvent>(
                 Guid.Parse("d7a72ffc-ad5d-4862-b502-bffb3a9f0234"),
                 "添加了内核输出过滤器后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         KernelOutputFilterViewModel vm = new KernelOutputFilterViewModel(message.Source);
@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
             Global.Access<KernelOutputFilterUpdatedEvent>(
                 Guid.Parse("0439daab-5248-4897-a156-1adf3f2677b2"),
                 "更新了内核输出过滤器后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     KernelOutputFilterViewModel vm;
                     if (_dicById.TryGetValue(message.Source.GetId(), out vm)) {
@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
             Global.Access<KernelOutputFilterRemovedEvent>(
                 Guid.Parse("d08e92d9-0849-4e1b-8265-40ed74053667"),
                 "删除了内核输出过滤器后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     KernelOutputFilterViewModel vm;
                     if (_dicById.TryGetValue(message.Source.GetId(), out vm)) {

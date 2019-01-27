@@ -178,7 +178,7 @@ namespace NTMiner {
             Global.Access<MineStartedEvent>(
                 Guid.Parse("e69e8729-868b-4b5d-b120-2914fffddf90"),
                 "挖矿开始时将无份额内核重启份额计数置0",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     shareCount = 0;
                     shareOn = DateTime.Now;
@@ -253,7 +253,7 @@ namespace NTMiner {
             Global.Access<HasBoot5SecondEvent>(
                 Guid.Parse("32c49476-8232-4130-bd81-52443ed4ab4e"),
                 "启动5秒钟后优化windows环境",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     Task.Factory.StartNew(() => {
                         Windows.Error.DisableWindowsErrorUI();
@@ -270,7 +270,7 @@ namespace NTMiner {
             Global.Access<MineStartedEvent>(
                 Guid.Parse("57cf1fad-e75b-4eb1-8868-39953b21cced"),
                 "挖矿开始后清理除当前外的Temp/Kernel",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     Cleaner.CleanKernels();
                 });
@@ -279,7 +279,7 @@ namespace NTMiner {
             Global.Access<Per50MinuteEvent>(
                 Guid.Parse("d27419f4-7eda-4dbf-bf25-e8c5f1efacb5"),
                 "每50分钟执行一次过期日志清理工作",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     Cleaner.ClearKernelLogs();
                     Cleaner.ClearRootLogs();
@@ -291,7 +291,7 @@ namespace NTMiner {
                 Global.Access<HasBoot10SecondEvent>(
                     Guid.Parse("53004081-ee0f-44a2-b848-95668e63aa8c"),
                     "启动10秒钟后自动开始挖矿",
-                    LogEnum.Log,
+                    LogEnum.Console,
                     action: (message) => {
                         if ((this.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsAutoStartCanceled && !this.IsMining) {
                             Execute.OnUIThread(() => {
@@ -309,7 +309,7 @@ namespace NTMiner {
                 Global.Access<MineStartedEvent>(
                  Guid.Parse("638627D4-31EB-42F9-B92B-31B28D78B792"),
                 "开始挖矿后启动DevConsole",
-                LogEnum.Log,
+                LogEnum.Console,
                  action: message => {
                      string poolIp = CurrentMineContext.MainCoinPool.GetIp();
                      string consoleTitle = CurrentMineContext.MainCoinPool.Server;
@@ -321,7 +321,7 @@ namespace NTMiner {
             Global.Access<MineStartedEvent>(
                  Guid.Parse("3362e34f-74a9-4db9-a550-f7779994b459"),
                 "开始挖矿后启动NoDevFee",
-                LogEnum.Log,
+                LogEnum.Console,
                  action: message => {
                      NTMinerClientDaemon.Instance.StartAsync(callback: null);
                  });
@@ -330,7 +330,7 @@ namespace NTMiner {
             Global.Access<MineStopedEvent>(
                  Guid.Parse("D693A381-0AAD-4768-BC6F-2EEDD9F321BC"),
                 "停止挖矿后停止NoDevFee",
-                LogEnum.Log,
+                LogEnum.Console,
                  action: message => {
                      NTMinerClientDaemon.Instance.StopAsync(callback: null);
                  });
@@ -354,7 +354,7 @@ namespace NTMiner {
             Global.Access<UserActionEvent>(
                     Guid.Parse("C7FA9D54-4D16-47F5-AA81-4C76384F95B9"),
                     "发生了用户活动时检查serverJson是否有新版本",
-                    LogEnum.None,
+                    LogEnum.Console,
                     action: message => {
                         Server.FileUrlService.GetServerJsonVersionAsync(timestamp => {
                             if (timestamp != 0 && timestamp != AssemblyInfo.JsonFileVersion) {

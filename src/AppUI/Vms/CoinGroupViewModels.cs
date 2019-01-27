@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
             Global.Access<CoinGroupAddedEvent>(
                 Guid.Parse("e0476d29-0115-405e-81d1-c7fb65051c83"),
                 "添加了币组后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Source);
@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
             Global.Access<CoinGroupUpdatedEvent>(
                 Guid.Parse("c600d33a-21e3-45ad-b9b3-cfd5578885f4"),
                 "更新了币组后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         CoinGroupViewModel entity = _dicById[message.Source.GetId()];
@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
             Global.Access<CoinGroupRemovedEvent>(
                 Guid.Parse("76842ab6-c1a3-4eee-b951-f25be25ec35a"),
                 "删除了币组后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         var entity = _dicById[message.Source.GetId()];

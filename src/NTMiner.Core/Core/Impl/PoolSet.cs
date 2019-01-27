@@ -23,7 +23,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<AddPoolCommand>(
                 Guid.Parse("5ee1b14b-4b9e-445f-b6fe-433f6fe44b18"),
                 "添加矿池",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<UpdatePoolCommand>(
                 Guid.Parse("62d847f6-2b1f-4891-990b-3beb4c1dc5b0"),
                 "更新矿池",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -93,7 +93,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<RemovePoolCommand>(
                 Guid.Parse("c5ce3c6c-78c4-4e76-81e3-2feeac5d5ced"),
                 "移除矿池",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

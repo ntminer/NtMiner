@@ -15,7 +15,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<AddMineWorkCommand>(
                 Guid.Parse("2ce02224-8ddf-4499-9d1d-7439ba5ca2fc"),
                 "添加工作",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -33,7 +33,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<UpdateMineWorkCommand>(
                 Guid.Parse("21140dbe-c9be-48d6-ae92-4d0ebc666a25"),
                 "更新工作",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<RemoveMineWorkCommand>(
                 Guid.Parse("cec3ccf4-9700-4e38-b786-8ceefe5209fb"),
                 "移除工作",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

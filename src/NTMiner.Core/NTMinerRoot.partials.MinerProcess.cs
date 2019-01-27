@@ -66,7 +66,7 @@ namespace NTMiner {
                 daemon = Global.Access<Per1MinuteEvent>(
                     Guid.Parse("a4761e90-dc3c-4483-b055-546084863640"),
                     "周期性检查挖矿内核是否消失，如果消失尝试重启",
-                    LogEnum.None,
+                    LogEnum.Console,
                     action: message => {
                         if (mineContext == Current.CurrentMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
@@ -235,7 +235,7 @@ namespace NTMiner {
                         closeHandle = Global.Access<MineStopedEvent>(
                             Guid.Parse("91642027-fd28-4bdd-a05a-31caac6609b1"),
                             "挖矿停止后关闭非托管的日志句柄",
-                            LogEnum.Log,
+                            LogEnum.Console,
                             action: message => {
                                 if (!isHWriteOutHasClosed) {
                                     CloseHandle(hWriteOut);

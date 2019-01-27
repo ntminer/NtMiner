@@ -24,7 +24,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<AddKernelOutputTranslaterCommand>(
                 Guid.Parse("d9da43ad-8fb7-4d6b-a8c7-ac0c1bbc4dd3"),
                 "添加内核输出翻译器",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -50,7 +50,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<UpdateKernelOutputTranslaterCommand>(
                 Guid.Parse("9e22fc7d-41da-4291-8dde-d8282f81d188"),
                 "更新内核输出翻译器",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -81,7 +81,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<RemoveKernelOutputTranslaterCommand>(
                 Guid.Parse("7e76b569-aa52-492a-ae41-f2e0a22ffa9b"),
                 "移除内核输出翻译器",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -104,7 +104,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<SysDicItemUpdatedEvent>(
                 Guid.Parse("de662262-bd05-4cae-ba6e-843f18541966"),
                 "LogColor字典项更新后刷新翻译器内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     ISysDic dic;
                     if (!_root.SysDicSet.TryGetSysDic("LogColor", out dic)) {

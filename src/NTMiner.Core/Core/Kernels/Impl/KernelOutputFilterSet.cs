@@ -23,7 +23,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<AddKernelOutputFilterCommand>(
                 Guid.Parse("43c09cc6-456c-4e55-95b1-63b5937c5b11"),
                 "添加内核输出过滤器",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<UpdateKernelOutputFilterCommand>(
                 Guid.Parse("b449bd25-98d8-4a60-9c75-36a6983c6176"),
                 "更新内核输出过滤器",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -71,7 +71,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Global.Access<RemoveKernelOutputFilterCommand>(
                 Guid.Parse("11a3a185-3d2e-463e-bd92-94a0db909d32"),
                 "移除内核输出过滤器",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

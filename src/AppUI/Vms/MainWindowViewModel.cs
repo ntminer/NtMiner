@@ -26,7 +26,7 @@ namespace NTMiner.Vms {
                 Global.Access<Per10SecondEvent>(
                     Guid.Parse("868658E4-B281-4E55-BE0F-0E2B66777D6C"),
                     "在界面上展示守护进程的运行状态",
-                    LogEnum.None,
+                    LogEnum.Console,
                     action: message => {
                         NTMinerClientDaemon.Instance.GetDaemonVersionAsync(Global.Localhost, Global.ClientPort, thatVersion => {
                             this.IsDaemonRunning = !string.IsNullOrEmpty(thatVersion);

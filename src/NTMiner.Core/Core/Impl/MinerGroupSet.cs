@@ -13,7 +13,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<AddMinerGroupCommand>(
                 Guid.Parse("051DE144-1C91-4633-B826-EDFBE951B450"),
                 "添加矿工组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -37,7 +37,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<UpdateMinerGroupCommand>(
                 Guid.Parse("BC6ADC0E-E57C-4313-8C85-D866E2068913"),
                 "更新矿工组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -58,7 +58,7 @@ namespace NTMiner.Core.Impl {
             Global.Access<RemoveMinerGroupCommand>(
                 Guid.Parse("3083F1E6-0932-484E-AD2F-BDEA2790FD44"),
                 "移除矿工组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

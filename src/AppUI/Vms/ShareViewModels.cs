@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
             Global.Access<ShareChangedEvent>(
                 Guid.Parse("7430a1b0-0ba1-487d-9d39-84211b0bde07"),
                 "收益变更后调整VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     ShareViewModel shareVm;
                     if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {
