@@ -59,6 +59,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(List));
                     OnPropertyChanged(nameof(Count));
                 });
+            Init();
         }
 
         private void Init(bool isRefresh = false) {
