@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NTMiner.ServiceContracts.DataObjects {
     [DataContract]
-    public class StartMineRequest : RequestBase {
+    public class StartMineRequest : RequestBase, ISignatureRequest {
         [DataMember]
         public string LoginName { get; set; }
         [DataMember]

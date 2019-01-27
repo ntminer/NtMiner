@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NTMiner.ServiceContracts.DataObjects {
     [DataContract]
-    public class RemoveMinerGroupRequest : RequestBase {
+    public class RemoveMinerGroupRequest : RequestBase, ISignatureRequest {
         [DataMember]
         public string LoginName { get; set; }
         [DataMember]

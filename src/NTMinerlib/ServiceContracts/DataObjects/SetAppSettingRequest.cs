@@ -3,7 +3,7 @@ using System.Text;
 
 namespace NTMiner.ServiceContracts.DataObjects {
     [DataContract]
-    public class SetAppSettingRequest : RequestBase {
+    public class SetAppSettingRequest : RequestBase, ISignatureRequest {
         [DataMember]
         public string LoginName { get; set; }
         [DataMember]

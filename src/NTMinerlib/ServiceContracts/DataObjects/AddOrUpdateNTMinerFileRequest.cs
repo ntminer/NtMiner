@@ -3,7 +3,7 @@ using System.Text;
 
 namespace NTMiner.ServiceContracts.DataObjects {
     [DataContract]
-    public class AddOrUpdateNTMinerFileRequest : RequestBase {
+    public class AddOrUpdateNTMinerFileRequest : RequestBase, ISignatureRequest {
         [DataMember]
         public string LoginName { get; set; }
         [DataMember]

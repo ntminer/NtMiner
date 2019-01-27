@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NTMiner.ServiceContracts.DataObjects {
     [DataContract]
-    public class SetCoinProfilePropertyRequest : RequestBase {
+    public class SetCoinProfilePropertyRequest : RequestBase, ISignatureRequest {
         [DataMember]
         public string LoginName { get; set; }
         [DataMember]

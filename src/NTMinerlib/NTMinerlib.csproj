@@ -75,6 +75,7 @@
     <Compile Include="ServiceContracts\DataObjects\GetAppSettingsResponse.cs" />
     <Compile Include="ServiceContracts\DataObjects\IAppSetting.cs" />
     <Compile Include="ServiceContracts\DataObjects\IPoolProfile.cs" />
+    <Compile Include="ServiceContracts\DataObjects\ISignatureRequest.cs" />
     <Compile Include="ServiceContracts\DataObjects\PoolProfileData.cs" />
     <Compile Include="ServiceContracts\DataObjects\SetAppSettingRequest.cs" />
     <Compile Include="ServiceContracts\DataObjects\SetPoolProfilePropertyRequest.cs" />

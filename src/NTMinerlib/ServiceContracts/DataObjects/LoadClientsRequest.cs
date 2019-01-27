@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NTMiner.ServiceContracts.DataObjects {
     [DataContract]
-    public class LoadClientsRequest : RequestBase {
+    public class LoadClientsRequest : RequestBase, ISignatureRequest {
         public LoadClientsRequest() {
             ClientIds = new List<Guid>();
         }

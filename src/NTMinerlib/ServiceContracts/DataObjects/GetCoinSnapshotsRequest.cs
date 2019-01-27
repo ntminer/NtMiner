@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NTMiner.ServiceContracts.DataObjects {
     [DataContract]
-    public class GetCoinSnapshotsRequest : RequestBase {
+    public class GetCoinSnapshotsRequest : RequestBase, ISignatureRequest {
         public GetCoinSnapshotsRequest() {
             this.CoinCodes = new List<string>();
         }
