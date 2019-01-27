@@ -12,7 +12,7 @@ namespace NTMiner.Services {
         #region LoginControlCenter
         public ResponseBase LoginControlCenter(LoginControlCenterRequest request) {
             if (request == null) {
-                return LoadClientsResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -38,20 +38,20 @@ namespace NTMiner.Services {
 
         public ResponseBase SetServerJsonVersion(SetServerJsonVersionRequest request) {
             if (request == null) {
-                return LoadClientsResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
-                    return LoadClientsResponse.InvalidInput(request.MessageId, "登录名不能为空");
+                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
                 }
                 if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return LoadClientsResponse.Forbidden(request.MessageId);
+                    return ResponseBase.Forbidden(request.MessageId);
                 }
                 if (!request.Timestamp.IsInTime()) {
-                    return LoadClientsResponse.Expired(request.MessageId);
+                    return ResponseBase.Expired(request.MessageId);
                 }
                 if (request.Sign != request.GetSign(key.Password)) {
-                    return LoadClientsResponse.Forbidden(request.MessageId, "签名验证未通过");
+                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
                 }
                 using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                     var col = db.GetCollection<HostConfigData>();
@@ -75,30 +75,30 @@ namespace NTMiner.Services {
         #region LoadClients
         public LoadClientsResponse LoadClients(LoadClientsRequest request) {
             if (request == null) {
-                return LoadClientsResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<LoadClientsResponse>(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
-                    return LoadClientsResponse.InvalidInput(request.MessageId, "登录名不能为空");
+                    return ResponseBase.InvalidInput<LoadClientsResponse>(request.MessageId, "登录名不能为空");
                 }
                 if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return LoadClientsResponse.Forbidden(request.MessageId);
+                    return ResponseBase.Forbidden<LoadClientsResponse>(request.MessageId);
                 }
                 if (!request.Timestamp.IsInTime()) {
-                    return LoadClientsResponse.Expired(request.MessageId);
+                    return ResponseBase.Expired<LoadClientsResponse>(request.MessageId);
                 }
                 if (request.ClientIds == null || request.ClientIds.Count == 0) {
-                    return LoadClientsResponse.InvalidInput(request.MessageId, "clientIds为空");
+                    return ResponseBase.InvalidInput<LoadClientsResponse>(request.MessageId, "clientIds为空");
                 }
                 if (request.Sign != request.GetSign(key.Password)) {
-                    return LoadClientsResponse.Forbidden(request.MessageId, "签名验证未通过");
+                    return ResponseBase.Forbidden<LoadClientsResponse>(request.MessageId, "签名验证未通过");
                 }
                 var data = HostRoot.Current.ClientSet.LoadClients(request.ClientIds) ?? new List<ClientData>();
                 return new LoadClientsResponse(data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return LoadClientsResponse.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError<LoadClientsResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -106,20 +106,20 @@ namespace NTMiner.Services {
         #region QueryClients
         public QueryClientsResponse QueryClients(QueryClientsRequest request) {
             if (request == null) {
-                return QueryClientsResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<QueryClientsResponse>(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
-                    return QueryClientsResponse.InvalidInput(request.MessageId, "登录名不能为空");
+                    return ResponseBase.InvalidInput<QueryClientsResponse>(request.MessageId, "登录名不能为空");
                 }
                 if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return QueryClientsResponse.Forbidden(request.MessageId);
+                    return ResponseBase.Forbidden<QueryClientsResponse>(request.MessageId);
                 }
                 if (!request.Timestamp.IsInTime()) {
-                    return QueryClientsResponse.Expired(request.MessageId);
+                    return ResponseBase.Expired<QueryClientsResponse>(request.MessageId);
                 }
                 if (request.Sign != request.GetSign(key.Password)) {
-                    return QueryClientsResponse.Forbidden(request.MessageId, "签名验证未通过");
+                    return ResponseBase.Forbidden<QueryClientsResponse>(request.MessageId, "签名验证未通过");
                 }
                 int total;
                 var data = HostRoot.Current.ClientSet.QueryClients(
@@ -134,7 +134,7 @@ namespace NTMiner.Services {
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return QueryClientsResponse.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError<QueryClientsResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -142,20 +142,20 @@ namespace NTMiner.Services {
         #region GetCoinSnapshots
         public GetCoinSnapshotsResponse GetLatestSnapshots(GetCoinSnapshotsRequest request) {
             if (request == null) {
-                return GetCoinSnapshotsResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
-                    return GetCoinSnapshotsResponse.InvalidInput(request.MessageId, "登录名不能为空");
+                    return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>(request.MessageId, "登录名不能为空");
                 }
                 if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return GetCoinSnapshotsResponse.Forbidden(request.MessageId);
+                    return ResponseBase.Forbidden<GetCoinSnapshotsResponse>(request.MessageId);
                 }
                 if (!request.Timestamp.IsInTime()) {
-                    return GetCoinSnapshotsResponse.Expired(request.MessageId);
+                    return ResponseBase.Expired<GetCoinSnapshotsResponse>(request.MessageId);
                 }
                 if (request.Sign != request.GetSign(key.Password)) {
-                    return GetCoinSnapshotsResponse.Forbidden(request.MessageId, "签名验证未通过");
+                    return ResponseBase.Forbidden<GetCoinSnapshotsResponse>(request.MessageId, "签名验证未通过");
                 }
                 int totalMiningCount;
                 int totalOnlineCount;
@@ -171,7 +171,7 @@ namespace NTMiner.Services {
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return GetCoinSnapshotsResponse.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError<GetCoinSnapshotsResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -179,23 +179,23 @@ namespace NTMiner.Services {
         #region LoadClient
         public LoadClientResponse LoadClient(LoadClientRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<LoadClientResponse>(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
-                    return LoadClientResponse.InvalidInput(request.MessageId, "登录名不能为空");
+                    return ResponseBase.InvalidInput<LoadClientResponse>(request.MessageId, "登录名不能为空");
                 }
                 if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return LoadClientResponse.Forbidden(request.MessageId);
+                    return ResponseBase.Forbidden<LoadClientResponse>(request.MessageId);
                 }
                 if (!request.Timestamp.IsInTime()) {
-                    return LoadClientResponse.Expired(request.MessageId);
+                    return ResponseBase.Expired<LoadClientResponse>(request.MessageId);
                 }
                 if (request.ClientId == Guid.Empty) {
-                    return LoadClientResponse.InvalidInput(request.MessageId, "clientId为空");
+                    return ResponseBase.InvalidInput<LoadClientResponse>(request.MessageId, "clientId为空");
                 }
                 if (request.Sign != request.GetSign(key.Password)) {
-                    return LoadClientResponse.Forbidden(request.MessageId, "签名验证未通过");
+                    return ResponseBase.Forbidden<LoadClientResponse>(request.MessageId, "签名验证未通过");
                 }
                 var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId);
                 return new LoadClientResponse {
@@ -204,7 +204,7 @@ namespace NTMiner.Services {
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return LoadClientResponse.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError<LoadClientResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -212,7 +212,7 @@ namespace NTMiner.Services {
         #region UpdateClient
         public ResponseBase UpdateClient(UpdateClientRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -245,7 +245,7 @@ namespace NTMiner.Services {
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return GetMinerGroupsResponse.ServerError(messageId, e.Message);
+                return ResponseBase.ServerError<GetMinerGroupsResponse>(messageId, e.Message);
             }
         }
         #endregion
@@ -253,7 +253,7 @@ namespace NTMiner.Services {
         #region AddOrUpdateMinerGroup
         public ResponseBase AddOrUpdateMinerGroup(AddOrUpdateMinerGroupRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -284,7 +284,7 @@ namespace NTMiner.Services {
         #region RemoveMinerGroup
         public ResponseBase RemoveMinerGroup(RemoveMinerGroupRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -315,7 +315,7 @@ namespace NTMiner.Services {
         #region AddOrUpdateMineWork
         public ResponseBase AddOrUpdateMineWork(AddOrUpdateMineWorkRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -346,7 +346,7 @@ namespace NTMiner.Services {
         #region RemoveMineWork
         public ResponseBase RemoveMineWork(RemoveMineWorkRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -377,7 +377,7 @@ namespace NTMiner.Services {
         #region SetMinerProfileProperty
         public ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -408,7 +408,7 @@ namespace NTMiner.Services {
         #region SetCoinProfileProperty
         public ResponseBase SetCoinProfileProperty(SetCoinProfilePropertyRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -439,7 +439,7 @@ namespace NTMiner.Services {
         #region SetPoolProfileProperty
         public ResponseBase SetPoolProfileProperty(SetPoolProfilePropertyRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -470,7 +470,7 @@ namespace NTMiner.Services {
         #region SetCoinKernelProfileProperty
         public ResponseBase SetCoinKernelProfileProperty(SetCoinKernelProfilePropertyRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -506,7 +506,7 @@ namespace NTMiner.Services {
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return GetWalletsResponse.ServerError(messageId, e.Message);
+                return ResponseBase.ServerError<GetWalletsResponse>(messageId, e.Message);
             }
         }
         #endregion
@@ -514,7 +514,7 @@ namespace NTMiner.Services {
         #region AddOrUpdateWallet
         public ResponseBase AddOrUpdateWallet(AddOrUpdateWalletRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -545,7 +545,7 @@ namespace NTMiner.Services {
         #region RemoveWallet
         public ResponseBase RemoveWallet(RemoveWalletRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -581,7 +581,7 @@ namespace NTMiner.Services {
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return GetCalcConfigsResponse.ServerError(messageId, e.Message);
+                return ResponseBase.ServerError<GetCalcConfigsResponse>(messageId, e.Message);
             }
         }
         #endregion
@@ -589,7 +589,7 @@ namespace NTMiner.Services {
         #region SaveCalcConfigs
         public ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -620,7 +620,7 @@ namespace NTMiner.Services {
         #region StartMine
         public ResponseBase StartMine(StartMineRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -644,7 +644,7 @@ namespace NTMiner.Services {
         #region StopMine
         public ResponseBase StopMine(StopMineRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -668,7 +668,7 @@ namespace NTMiner.Services {
         #region SetClientMinerProfileProperty
         public ResponseBase SetClientMinerProfileProperty(SetClientMinerProfilePropertyRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {

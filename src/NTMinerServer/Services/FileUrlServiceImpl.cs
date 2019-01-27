@@ -40,7 +40,7 @@ namespace NTMiner.Services {
 
         public ResponseBase AddOrUpdateNTMinerFile(AddOrUpdateNTMinerFileRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
@@ -69,7 +69,7 @@ namespace NTMiner.Services {
 
         public ResponseBase RemoveNTMinerFile(RemoveNTMinerFileRequest request) {
             if (request == null) {
-                return LoadClientResponse.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
                 if (string.IsNullOrEmpty(request.LoginName)) {
