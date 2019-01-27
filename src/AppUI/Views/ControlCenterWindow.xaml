@@ -5,6 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:notification="clr-namespace:NTMiner.Notifications.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
@@ -15,10 +16,8 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
+        DataContext="{x:Static vm:ControlCenterWindowViewModel.Current}"
 		Title="{Binding Title}" Height="780" Width="1360">
-    <metro:MetroWindow.DataContext>
-        <vm:ControlCenterWindowViewModel></vm:ControlCenterWindowViewModel>
-    </metro:MetroWindow.DataContext>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -75,6 +74,12 @@
             <Grid x:Name="Container" Width="1360" Height="750">
             </Grid>
         </Viewbox>
+        <notification:NotificationMessageContainer 
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+			MaxWidth="500"
+			Manager="{Binding Manager}" />
 
         <WrapPanel Grid.Row="2" Grid.ColumnSpan="3">
             <TextBlock VerticalAlignment="Center" Text="官网：" />

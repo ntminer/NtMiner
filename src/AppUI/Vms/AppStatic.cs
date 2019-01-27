@@ -74,7 +74,7 @@ namespace NTMiner.Vms {
                 Server.ControlCenterService.SetServerJsonVersionAsync(response => {
                     Execute.OnUIThread(() => {
                         if (response != null && response.IsSuccess()) {
-                            MainWindowViewModel.Current.Manager.CreateMessage()
+                            ControlCenterWindowViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("#333")
                                 .HasBadge("Info")
@@ -84,7 +84,7 @@ namespace NTMiner.Vms {
                                 .Queue();
                         }
                         else {
-                            MainWindowViewModel.Current.Manager.CreateMessage()
+                            ControlCenterWindowViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("Red")
                                 .HasBadge("Error")

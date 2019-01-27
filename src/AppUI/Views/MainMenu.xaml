@@ -142,7 +142,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+            <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientDevVisible}">
                 <MenuItem.Icon>
                     <Path
 					    Width="14"
