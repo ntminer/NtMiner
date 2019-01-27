@@ -3,9 +3,9 @@ using System;
 
 namespace NTMiner.ServiceContracts {
     public interface IAppSettingService : IDisposable {
-        GetAppSettingsResponse GetAppSettings();
-        GetAppSettingResponse GetAppSetting(string key);
-        GetAppSettingsResponse GetAppSettings(string[] keys);
+        GetAppSettingsResponse GetAllAppSettings(Guid messageId);
+        GetAppSettingResponse GetAppSetting(Guid messageId, string key);
+        GetAppSettingsResponse GetAppSettings(Guid messageId, string[] keys);
         ResponseBase SetAppSetting(SetAppSettingRequest request);
     }
 }

@@ -66,6 +66,7 @@ namespace NTMiner {
         private HostRoot() {
             OSSClientInit();
             this.UserSet = new UserSet(this);
+            this.AppSettingSet = new AppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ClientCoinSnapshotSet = new ClientCoinSnapshotSet(this);
             this.ClientSet = new ClientSet(this);
@@ -78,6 +79,8 @@ namespace NTMiner {
         }
 
         public IUserSet UserSet { get; private set; }
+
+        public IAppSettingSet AppSettingSet { get; private set; }
 
         public ICalcConfigSet CalcConfigSet { get; private set; }
 
