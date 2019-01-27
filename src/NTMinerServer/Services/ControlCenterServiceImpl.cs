@@ -15,17 +15,9 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.Forbidden(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId, "登录名不存在");
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "密码错误");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -41,17 +33,9 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                     var col = db.GetCollection<HostConfigData>();
@@ -74,24 +58,13 @@ namespace NTMiner.Services {
 
         #region LoadClients
         public LoadClientsResponse LoadClients(LoadClientsRequest request) {
-            if (request == null) {
+            if (request == null || request.ClientIds == null || request.ClientIds.Count == 0) {
                 return ResponseBase.InvalidInput<LoadClientsResponse>(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput<LoadClientsResponse>(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden<LoadClientsResponse>(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired<LoadClientsResponse>(request.MessageId);
-                }
-                if (request.ClientIds == null || request.ClientIds.Count == 0) {
-                    return ResponseBase.InvalidInput<LoadClientsResponse>(request.MessageId, "clientIds为空");
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden<LoadClientsResponse>(request.MessageId, "签名验证未通过");
+                LoadClientsResponse response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 var data = HostRoot.Current.ClientSet.LoadClients(request.ClientIds) ?? new List<ClientData>();
                 return new LoadClientsResponse(data);
@@ -109,17 +82,9 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput<QueryClientsResponse>(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput<QueryClientsResponse>(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden<QueryClientsResponse>(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired<QueryClientsResponse>(request.MessageId);
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden<QueryClientsResponse>(request.MessageId, "签名验证未通过");
+                QueryClientsResponse response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 int total;
                 var data = HostRoot.Current.ClientSet.QueryClients(
@@ -145,17 +110,9 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden<GetCoinSnapshotsResponse>(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired<GetCoinSnapshotsResponse>(request.MessageId);
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden<GetCoinSnapshotsResponse>(request.MessageId, "签名验证未通过");
+                GetCoinSnapshotsResponse response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 int totalMiningCount;
                 int totalOnlineCount;
@@ -178,24 +135,13 @@ namespace NTMiner.Services {
 
         #region LoadClient
         public LoadClientResponse LoadClient(LoadClientRequest request) {
-            if (request == null) {
+            if (request == null || request.ClientId == Guid.Empty) {
                 return ResponseBase.InvalidInput<LoadClientResponse>(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput<LoadClientResponse>(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden<LoadClientResponse>(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired<LoadClientResponse>(request.MessageId);
-                }
-                if (request.ClientId == Guid.Empty) {
-                    return ResponseBase.InvalidInput<LoadClientResponse>(request.MessageId, "clientId为空");
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden<LoadClientResponse>(request.MessageId, "签名验证未通过");
+                LoadClientResponse response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId);
                 return new LoadClientResponse {
@@ -215,17 +161,9 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 HostRoot.Current.ClientSet.UpdateClient(request.ClientId, request.PropertyName, request.Value);
                 return ResponseBase.Ok(request.MessageId);
@@ -252,24 +190,13 @@ namespace NTMiner.Services {
 
         #region AddOrUpdateMinerGroup
         public ResponseBase AddOrUpdateMinerGroup(AddOrUpdateMinerGroupRequest request) {
-            if (request == null) {
+            if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.Data == null) {
-                    return ResponseBase.InvalidInput(request.MessageId);
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 HostRoot.Current.MinerGroupSet.AddOrUpdate(request.Data);
                 return ResponseBase.Ok(request.MessageId);
@@ -283,24 +210,13 @@ namespace NTMiner.Services {
 
         #region RemoveMinerGroup
         public ResponseBase RemoveMinerGroup(RemoveMinerGroupRequest request) {
-            if (request == null) {
+            if (request == null || request.MinerGroupId == Guid.Empty) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.MinerGroupId == Guid.Empty) {
-                    return ResponseBase.InvalidInput(request.MessageId, "给定的id不存在");
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 HostRoot.Current.MinerGroupSet.Remove(request.MinerGroupId);
                 return ResponseBase.Ok(request.MessageId);
@@ -314,24 +230,13 @@ namespace NTMiner.Services {
 
         #region AddOrUpdateMineWork
         public ResponseBase AddOrUpdateMineWork(AddOrUpdateMineWorkRequest request) {
-            if (request == null) {
+            if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.Data == null) {
-                    return ResponseBase.InvalidInput(request.MessageId);
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 HostRoot.Current.MineWorkSet.AddOrUpdate(request.Data);
                 return ResponseBase.Ok(request.MessageId);
@@ -345,24 +250,13 @@ namespace NTMiner.Services {
 
         #region RemoveMineWork
         public ResponseBase RemoveMineWork(RemoveMineWorkRequest request) {
-            if (request == null) {
+            if (request == null || request.MineWorkId == Guid.Empty) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.MineWorkId == Guid.Empty) {
-                    return ResponseBase.InvalidInput(request.MessageId, "给定的id不存在");
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 HostRoot.Current.MineWorkSet.Remove(request.MineWorkId);
                 return ResponseBase.Ok(request.MessageId);
@@ -380,20 +274,12 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
                     return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
                 }
                 HostRoot.Current.MineProfileManager.SetMinerProfileProperty(request.WorkId, request.PropertyName, request.Value);
                 return ResponseBase.Ok(request.MessageId);
@@ -411,20 +297,12 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
                     return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
                 }
                 HostRoot.Current.MineProfileManager.SetCoinProfileProperty(request.WorkId, request.CoinId, request.PropertyName, request.Value);
                 return ResponseBase.Ok(request.MessageId);
@@ -442,20 +320,12 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
                     return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
                 }
                 HostRoot.Current.MineProfileManager.SetPoolProfileProperty(request.WorkId, request.PoolId, request.PropertyName, request.Value);
                 return ResponseBase.Ok(request.MessageId);
@@ -473,20 +343,12 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
                     return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
                 }
                 HostRoot.Current.MineProfileManager.SetCoinKernelProfileProperty(request.WorkId, request.CoinKernelId, request.PropertyName, request.Value);
                 return ResponseBase.Ok(request.MessageId);
@@ -513,24 +375,13 @@ namespace NTMiner.Services {
 
         #region AddOrUpdateWallet
         public ResponseBase AddOrUpdateWallet(AddOrUpdateWalletRequest request) {
-            if (request == null) {
+            if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.Data == null) {
-                    return ResponseBase.InvalidInput(request.MessageId);
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 HostRoot.Current.WalletSet.AddOrUpdate(request.Data);
                 return ResponseBase.Ok(request.MessageId);
@@ -544,24 +395,13 @@ namespace NTMiner.Services {
 
         #region RemoveWallet
         public ResponseBase RemoveWallet(RemoveWalletRequest request) {
-            if (request == null) {
+            if (request == null || request.WalletId == Guid.Empty) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.WalletId == Guid.Empty) {
-                    return ResponseBase.InvalidInput(request.MessageId, "WalletId为空");
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 HostRoot.Current.WalletSet.Remove(request.WalletId);
                 return ResponseBase.Ok(request.MessageId);
@@ -588,24 +428,13 @@ namespace NTMiner.Services {
 
         #region SaveCalcConfigs
         public ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request) {
-            if (request == null) {
+            if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
-                }
-                if (request.Data == null) {
-                    return ResponseBase.InvalidInput(request.MessageId);
-                }
-                if (request.Sign != request.GetSign(key.Password)) {
-                    return ResponseBase.Forbidden(request.MessageId, "签名验证未通过");
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 HostRoot.Current.CalcConfigSet.SaveCalcConfigs(request.Data);
                 return ResponseBase.Ok(request.MessageId);
@@ -623,14 +452,9 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 throw new NotImplementedException();
             }
@@ -647,14 +471,9 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 throw new NotImplementedException();
             }
@@ -671,14 +490,9 @@ namespace NTMiner.Services {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (string.IsNullOrEmpty(request.LoginName)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "登录名不能为空");
-                }
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-                if (!request.Timestamp.IsInTime()) {
-                    return ResponseBase.Expired(request.MessageId);
+                ResponseBase response;
+                if (!request.IsValid(out response)) {
+                    return response;
                 }
                 throw new NotImplementedException();
             }

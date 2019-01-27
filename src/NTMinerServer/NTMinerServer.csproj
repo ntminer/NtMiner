@@ -99,6 +99,7 @@
     <Compile Include="Services\ReportServiceImpl.cs" />
     <Compile Include="Services\FileUrlServiceImpl.cs" />
     <Compile Include="Services\TimeServiceImpl.cs" />
+    <Compile Include="Services\SignatureRequestExtension.cs" />
     <Compile Include="SpecialPath.cs" />
   </ItemGroup>
   <ItemGroup>
