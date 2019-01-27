@@ -9,6 +9,7 @@
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:view="clr-namespace:NTMiner.Views"
         xmlns:vm="clr-namespace:NTMiner.Vms"
+        Background="#EBEBEB"
         mc:Ignorable="d" d:DesignHeight="730" d:DesignWidth="940">
     <UserControl.DataContext>
         <vm:MinersSpeedChartsViewModel></vm:MinersSpeedChartsViewModel>
@@ -36,7 +37,6 @@
 				VerticalScrollBarVisibility="Auto">
             <ItemsControl 
                 MouseDown="ItemsControl_MouseDown"
-				Padding="6 6 0 6"
 				ItemsSource="{Binding TotalVms}"
 				BorderThickness="0"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -52,7 +52,8 @@
                             <lvc:CartesianChart 
 								Background="Transparent"
 								DisableAnimations="True"                                            
-								Hoverable="False" DataTooltip="{x:Null}"
+								Hoverable="False" 
+                                DataTooltip="{x:Null}"
 								Series="{Binding Series}"
 								AxisY="{Binding AxisY}"
 								AxisX="{Binding AxisX}">

@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
                         Step = axisStep
                     },
                     Foreground = black,
-                    FontSize = 13,
+                    FontSize = 12,
                 }
             };
             LineSeries mainCoinSpeedLs = new LineSeries {
