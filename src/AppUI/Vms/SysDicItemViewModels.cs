@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, SysDicItemViewModel> _dicById = new Dictionary<Guid, SysDicItemViewModel>();
 
         public SysDicItemViewModels() {
-            Global.Access<PoolSetRefreshedEvent>(
+            Global.Access<SysDicItemSetRefreshedEvent>(
                 Guid.Parse("ECED5930-39A0-4422-A217-34469B600D5A"),
                 "系统字典项数据集刷新后刷新Vm内存",
                 LogEnum.Console,
