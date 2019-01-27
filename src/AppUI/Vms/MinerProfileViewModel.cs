@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
             Global.Access<Per1SecondEvent>(
                 Guid.Parse("479A35A1-5A5A-48AF-B184-F1EC568BE181"),
                 "挖矿计时秒表",
-                LogEnum.Console,
+                LogEnum.None,
                 action: message => {
                     DateTime now = DateTime.Now;
                     this.BootTimeSpan = now - NTMinerRoot.Current.CreatedOn;
