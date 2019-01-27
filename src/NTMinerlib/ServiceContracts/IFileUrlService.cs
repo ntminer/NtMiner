@@ -10,6 +10,9 @@ namespace NTMiner.ServiceContracts {
         ulong GetServerJsonVersion();
 
         [OperationContract]
+        string GetMinerJsonPutUrl(string fileName);
+
+        [OperationContract]
         string GetNTMinerUrl(string fileName);
 
         [OperationContract]

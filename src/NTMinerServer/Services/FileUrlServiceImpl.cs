@@ -10,6 +10,18 @@ namespace NTMiner.Services {
             return HostRoot.Current.HostConfig.ServerJsonVersion;
         }
 
+        public string GetMinerJsonPutUrl(string fileName) {
+            try {
+                var req = new GeneratePresignedUriRequest("minerjson", fileName, SignHttpMethod.Put);
+                var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
+                return uri.ToString();
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+                return string.Empty;
+            }
+        }
+
         public string GetNTMinerUrl(string fileName) {
             if (string.IsNullOrEmpty(fileName)) {
                 return string.Empty;
