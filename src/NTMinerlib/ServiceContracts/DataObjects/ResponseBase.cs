@@ -30,7 +30,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
         }
 
         public static ResponseBase ClientError(Guid messageId, string description) {
-            return ClientError(messageId, description);
+            return ClientError<ResponseBase>(messageId, description);
         }
 
         public static T Forbidden<T>(Guid messageId, string description = "无权访问") where T : ResponseBase, new() {
