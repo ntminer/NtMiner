@@ -59,7 +59,13 @@ namespace NTMiner.Core.Profiles.Impl {
                     if (this.KernelId == Guid.Empty || this.Kernel == null) {
                         return InstallStatus.Installed;
                     }
+                    if (string.IsNullOrEmpty(this.Kernel.Package)) {
+                        return InstallStatus.Uninstalled;
+                    }
                     string packageFullName = this.Kernel.GetPackageFileFullName();
+                    if (string.IsNullOrEmpty(packageFullName)) {
+                        return InstallStatus.Uninstalled;
+                    }
                     if (File.Exists(packageFullName)) {
                         return InstallStatus.Installed;
                     }

@@ -46,16 +46,23 @@ namespace NTMiner.Vms {
                         if (processes != null && processes.Length != 0) {
                             Windows.TaskKill.Kill(processName);
                         }
-                        File.Delete(_kernelVm.GetPackageFileFullName());
-                        if (Directory.Exists(_kernelVm.GetKernelDirFullName())) {
+                        string packageFileFullName = _kernelVm.GetPackageFileFullName();
+                        if (!string.IsNullOrEmpty(packageFileFullName)) {
+                            File.Delete(packageFileFullName);
+                        }
+                        string kernelDirFullName = _kernelVm.GetKernelDirFullName();
+                        if (!string.IsNullOrEmpty(kernelDirFullName) && Directory.Exists(kernelDirFullName)) {
                             try {
-                                Directory.Delete(_kernelVm.GetKernelDirFullName(), recursive: true);
+                                Directory.Delete(kernelDirFullName, recursive: true);
                             }
                             catch (Exception e) {
                                 Global.Logger.ErrorDebugLine(e.Message, e);
                             }
                         }
-                        File.Delete(_kernelVm.GetDownloadFileFullName());
+                        string downloadFileFullName = _kernelVm.GetDownloadFileFullName();
+                        if (!string.IsNullOrEmpty(downloadFileFullName)) {
+                            File.Delete(downloadFileFullName);
+                        }
                     }
                     Refresh();
                     KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));

@@ -190,8 +190,12 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(HelpArg)) {
                     return;
                 }
+                string kernelDirFullName = this.GetKernelDirFullName();
+                if (string.IsNullOrEmpty(kernelDirFullName)) {
+                    return;
+                }
                 string helpArg = this.HelpArg.Trim();
-                string asFileFullName = Path.Combine(this.GetKernelDirFullName(), helpArg);
+                string asFileFullName = Path.Combine(kernelDirFullName, helpArg);
                 // 如果当前内核不处在挖矿中则可以解压缩，否则不能解压缩因为内核文件处在使用中无法覆盖
                 if (!NTMinerRoot.Current.IsMining || NTMinerRoot.Current.CurrentMineContext.Kernel.GetId() != this.GetId()) {
                     if (!this.IsPackageFileExist()) {
@@ -207,7 +211,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     string commandName = this.GetCommandName(fromHelpArg: true);
-                    string kernelExeFileFullName = Path.Combine(this.GetKernelDirFullName(), commandName);
+                    string kernelExeFileFullName = Path.Combine(kernelDirFullName, commandName);
                     int exitCode = -1;
                     Windows.Cmd.RunClose(kernelExeFileFullName, helpArg.Substring(commandName.Length), ref exitCode, out helpText);
                 }
