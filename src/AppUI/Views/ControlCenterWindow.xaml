@@ -17,7 +17,7 @@
 		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
         DataContext="{x:Static vm:ControlCenterWindowViewModel.Current}"
-		Title="{Binding Title}" Height="780" Width="1360">
+		Title="{Binding Title}" Height="860" Width="1536">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
