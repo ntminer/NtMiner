@@ -17,8 +17,15 @@ namespace NTMiner.Core.SysDics.Impl {
                 "处理刷新系统字典项数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    _isInited = false;
-                    Init(isReInit: true);
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
+                    foreach (var item in repository.GetAll()) {
+                        if (_dicById.ContainsKey(item.Id)) {
+                            Global.Execute(new UpdateSysDicItemCommand(item));
+                        }
+                        else {
+                            Global.Execute(new AddSysDicItemCommand(item));
+                        }
+                    }
                 });
             Global.Access<AddSysDicItemCommand>(
                 Guid.Parse("485407c5-ffe0-462d-b05f-a13418307be0"),
@@ -108,31 +115,19 @@ namespace NTMiner.Core.SysDics.Impl {
             Init();
         }
 
-        private void Init(bool isReInit = false) {
+        private void Init() {
             lock (_locker) {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
-                    if (isReInit) {
-                        foreach (var item in repository.GetAll()) {
-                            if (_dicById.ContainsKey(item.Id)) {
-                                Global.Execute(new UpdateSysDicItemCommand(item));
-                            }
-                            else {
-                                Global.Execute(new AddSysDicItemCommand(item));
-                            }
+                    foreach (var item in repository.GetAll()) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
                         }
-                    }
-                    else {
-                        foreach (var item in repository.GetAll()) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                _dicById.Add(item.GetId(), item);
-                            }
-                            if (!_dicByDicId.ContainsKey(item.DicId)) {
-                                _dicByDicId.Add(item.DicId, new Dictionary<string, SysDicItemData>(StringComparer.OrdinalIgnoreCase));
-                            }
-                            if (!_dicByDicId[item.DicId].ContainsKey(item.Code)) {
-                                _dicByDicId[item.DicId].Add(item.Code, item);
-                            }
+                        if (!_dicByDicId.ContainsKey(item.DicId)) {
+                            _dicByDicId.Add(item.DicId, new Dictionary<string, SysDicItemData>(StringComparer.OrdinalIgnoreCase));
+                        }
+                        if (!_dicByDicId[item.DicId].ContainsKey(item.Code)) {
+                            _dicByDicId[item.DicId].Add(item.Code, item);
                         }
                     }
                     _isInited = true;

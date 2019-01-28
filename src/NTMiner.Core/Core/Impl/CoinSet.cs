@@ -16,8 +16,15 @@ namespace NTMiner.Core.Impl {
                 "处理刷新币种数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    _isInited = false;
-                    Init(isReInit: true);
+                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
+                    foreach (var item in repository.GetAll()) {
+                        if (_dicById.ContainsKey(item.Id)) {
+                            Global.Execute(new UpdateCoinCommand(item));
+                        }
+                        else {
+                            Global.Execute(new AddCoinCommand(item));
+                        }
+                    }
                 });
             Global.Access<AddCoinCommand>(
                 Guid.Parse("4CF438BB-7B59-4C56-AB8C-D01312848450"),
@@ -125,28 +132,16 @@ namespace NTMiner.Core.Impl {
             Init();
         }
 
-        private void Init(bool isReInit = false) {
+        private void Init() {
             lock (_locker) {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateServerRepository<CoinData>();
-                    if (isReInit) {
-                        foreach (var item in repository.GetAll()) {
-                            if (_dicById.ContainsKey(item.Id)) {
-                                Global.Execute(new UpdateCoinCommand(item));
-                            }
-                            else {
-                                Global.Execute(new AddCoinCommand(item));
-                            }
+                    foreach (var item in repository.GetAll()) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
                         }
-                    }
-                    else {
-                        foreach (var item in repository.GetAll()) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                _dicById.Add(item.GetId(), item);
-                            }
-                            if (!_dicByCode.ContainsKey(item.Code)) {
-                                _dicByCode.Add(item.Code, item);
-                            }
+                        if (!_dicByCode.ContainsKey(item.Code)) {
+                            _dicByCode.Add(item.Code, item);
                         }
                     }
                     _isInited = true;

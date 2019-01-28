@@ -17,8 +17,15 @@ namespace NTMiner.Core.Impl {
                 "处理刷新矿池数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    _isInited = false;
-                    Init(isReInit: true);
+                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
+                    foreach (var item in repository.GetAll()) {
+                        if (_dicById.ContainsKey(item.Id)) {
+                            Global.Execute(new UpdatePoolCommand(item));
+                        }
+                        else {
+                            Global.Execute(new AddPoolCommand(item));
+                        }
+                    }
                 });
             Global.Access<AddPoolCommand>(
                 Guid.Parse("5ee1b14b-4b9e-445f-b6fe-433f6fe44b18"),
@@ -127,25 +134,13 @@ namespace NTMiner.Core.Impl {
             Init();
         }
 
-        private void Init(bool isReInit = false) {
+        private void Init() {
             lock (_locker) {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
-                    if (isReInit) {
-                        foreach (var item in repository.GetAll()) {
-                            if (_dicById.ContainsKey(item.Id)) {
-                                Global.Execute(new UpdatePoolCommand(item));
-                            }
-                            else {
-                                Global.Execute(new AddPoolCommand(item));
-                            }
-                        }
-                    }
-                    else {
-                        foreach (var item in repository.GetAll()) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                _dicById.Add(item.GetId(), item);
-                            }
+                    foreach (var item in repository.GetAll()) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
                         }
                     }
                     _isInited = true;

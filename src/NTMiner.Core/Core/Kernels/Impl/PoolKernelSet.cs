@@ -15,8 +15,15 @@ namespace NTMiner.Core.Kernels.Impl {
                 "处理刷新矿池内核数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    _isInited = false;
-                    Init(isReInit: true);
+                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
+                    foreach (var item in repository.GetAll()) {
+                        if (_dicById.ContainsKey(item.Id)) {
+                            Global.Execute(new UpdatePoolKernelCommand(item));
+                        }
+                        else {
+                            Global.Execute(new AddPoolKernelCommand(item));
+                        }
+                    }
                 });
             Global.Access<AddPoolKernelCommand>(
                 Guid.Parse("B926F4A0-4318-493D-BCE1-CBE329AC7DD7"),
@@ -58,8 +65,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
-                    }
-                    PoolKernelData entity = _dicById[message.Input.GetId()];
+                    }                    PoolKernelData entity = _dicById[message.Input.GetId()];
                     entity.Update(message.Input);
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     repository.Update(entity);
@@ -86,38 +92,26 @@ namespace NTMiner.Core.Kernels.Impl {
             Init();
         }
 
-        private void Init(bool isReInit = false) {
+        private void Init() {
             lock (_locker) {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
-                    if (isReInit) {
-                        foreach (var item in repository.GetAll()) {
-                            if (_dicById.ContainsKey(item.Id)) {
-                                Global.Execute(new UpdatePoolKernelCommand(item));
+                    List<PoolKernelData> list = repository.GetAll().ToList();
+                    foreach (IPool pool in _root.PoolSet) {
+                        foreach (ICoinKernel coinKernel in _root.CoinKernelSet.Where(a => a.CoinId == pool.CoinId)) {
+                            PoolKernelData poolKernel = list.FirstOrDefault(a => a.PoolId == pool.GetId() && a.KernelId == coinKernel.KernelId);
+                            if (poolKernel != null) {
+                                _dicById.Add(poolKernel.GetId(), poolKernel);
                             }
                             else {
-                                Global.Execute(new AddPoolKernelCommand(item));
-                            }
-                        }
-                    }
-                    else {
-                        List<PoolKernelData> list = repository.GetAll().ToList();
-                        foreach (IPool pool in _root.PoolSet) {
-                            foreach (ICoinKernel coinKernel in _root.CoinKernelSet.Where(a => a.CoinId == pool.CoinId)) {
-                                PoolKernelData poolKernel = list.FirstOrDefault(a => a.PoolId == pool.GetId() && a.KernelId == coinKernel.KernelId);
-                                if (poolKernel != null) {
-                                    _dicById.Add(poolKernel.GetId(), poolKernel);
-                                }
-                                else {
-                                    Guid poolKernelId = Guid.NewGuid();
-                                    _dicById.Add(poolKernelId, new PoolKernelData() {
-                                        Id = poolKernelId,
-                                        Args = string.Empty,
-                                        Description = string.Empty,
-                                        KernelId = coinKernel.KernelId,
-                                        PoolId = pool.GetId()
-                                    });
-                                }
+                                Guid poolKernelId = Guid.NewGuid();
+                                _dicById.Add(poolKernelId, new PoolKernelData() {
+                                    Id = poolKernelId,
+                                    Args = string.Empty,
+                                    Description = string.Empty,
+                                    KernelId = coinKernel.KernelId,
+                                    PoolId = pool.GetId()
+                                });
                             }
                         }
                     }

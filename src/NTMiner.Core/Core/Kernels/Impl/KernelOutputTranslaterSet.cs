@@ -18,8 +18,15 @@ namespace NTMiner.Core.Kernels.Impl {
                 "处理刷新内核输出翻译器数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    _isInited = false;
-                    Init(isReInit: true);
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    foreach (var item in repository.GetAll()) {
+                        if (_dicById.ContainsKey(item.Id)) {
+                            Global.Execute(new UpdateKernelOutputTranslaterCommand(item));
+                        }
+                        else {
+                            Global.Execute(new AddKernelOutputTranslaterCommand(item));
+                        }
+                    }
                 });
             Global.Access<AddKernelOutputTranslaterCommand>(
                 Guid.Parse("d9da43ad-8fb7-4d6b-a8c7-ac0c1bbc4dd3"),
@@ -132,35 +139,23 @@ namespace NTMiner.Core.Kernels.Impl {
             Init();
         }
 
-        private void Init(bool isReInit = false) {
+        private void Init() {
             lock (_locker) {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
-                    if (isReInit) {
-                        foreach (var item in repository.GetAll()) {
-                            if (_dicById.ContainsKey(item.Id)) {
-                                Global.Execute(new UpdateKernelOutputTranslaterCommand(item));
-                            }
-                            else {
-                                Global.Execute(new AddKernelOutputTranslaterCommand(item));
-                            }
+                    foreach (var item in repository.GetAll()) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
+                        }
+                        if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                            _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterData>());
+                        }
+                        if (_dicByKernelOutputId[item.KernelOutputId].All(a => a.GetId() != item.GetId())) {
+                            _dicByKernelOutputId[item.KernelOutputId].Add(item);
                         }
                     }
-                    else {
-                        foreach (var item in repository.GetAll()) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                _dicById.Add(item.GetId(), item);
-                            }
-                            if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
-                                _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterData>());
-                            }
-                            if (_dicByKernelOutputId[item.KernelOutputId].All(a => a.GetId() != item.GetId())) {
-                                _dicByKernelOutputId[item.KernelOutputId].Add(item);
-                            }
-                        }
-                        foreach (var item in _dicByKernelOutputId.Values) {
-                            item.Sort(new SortNumberComparer());
-                        }
+                    foreach (var item in _dicByKernelOutputId.Values) {
+                        item.Sort(new SortNumberComparer());
                     }
                     _isInited = true;
                 }

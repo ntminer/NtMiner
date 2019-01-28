@@ -16,8 +16,15 @@ namespace NTMiner.Core.Kernels.Impl {
                 "处理刷新内核数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    _isInited = false;
-                    Init(isReInit: true);
+                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
+                    foreach (var item in repository.GetAll()) {
+                        if (_dicById.ContainsKey(item.Id)) {
+                            Global.Execute(new UpdateKernelCommand(item));
+                        }
+                        else {
+                            Global.Execute(new AddKernelCommand(item));
+                        }
+                    }
                 });
             Global.Access<AddKernelCommand>(
                 Guid.Parse("331be370-2d4f-488f-9dd8-3709e3ff63af"),
@@ -106,25 +113,13 @@ namespace NTMiner.Core.Kernels.Impl {
             Init();
         }
 
-        private void Init(bool isReInit = false) {
+        private void Init() {
             lock (_locker) {
                 if (!_isInited) {
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
-                    if (isReInit) {
-                        foreach (var item in repository.GetAll()) {
-                            if (_dicById.ContainsKey(item.Id)) {
-                                Global.Execute(new UpdateKernelCommand(item));
-                            }
-                            else {
-                                Global.Execute(new AddKernelCommand(item));
-                            }
-                        }
-                    }
-                    else {
-                        foreach (var item in repository.GetAll()) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                _dicById.Add(item.GetId(), item);
-                            }
+                    foreach (var item in repository.GetAll()) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
                         }
                     }
                     _isInited = true;

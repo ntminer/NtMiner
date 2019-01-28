@@ -17,8 +17,15 @@ namespace NTMiner.Core.SysDics.Impl {
                 "处理刷新系统字典数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    _isInited = false;
-                    Init(isReInit: true);
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
+                    foreach (var item in repository.GetAll()) {
+                        if (_dicById.ContainsKey(item.Id)) {
+                            Global.Execute(new UpdateSysDicCommand(item));
+                        }
+                        else {
+                            Global.Execute(new AddSysDicCommand(item));
+                        }
+                    }
                 });
             Global.Access<AddSysDicCommand>(
                 Guid.Parse("9353be1f-707f-455f-ade5-07e081141d47"),
@@ -107,28 +114,16 @@ namespace NTMiner.Core.SysDics.Impl {
             Init();
         }
 
-        private void Init(bool isReInit = false) {
+        private void Init() {
             lock (_locker) {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
-                    if (isReInit) {
-                        foreach (var item in repository.GetAll()) {
-                            if (_dicById.ContainsKey(item.Id)) {
-                                Global.Execute(new UpdateSysDicCommand(item));
-                            }
-                            else {
-                                Global.Execute(new AddSysDicCommand(item));
-                            }
+                    foreach (var item in repository.GetAll()) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
                         }
-                    }
-                    else {
-                        foreach (var item in repository.GetAll()) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                _dicById.Add(item.GetId(), item);
-                            }
-                            if (!_dicByCode.ContainsKey(item.Code)) {
-                                _dicByCode.Add(item.Code, item);
-                            }
+                        if (!_dicByCode.ContainsKey(item.Code)) {
+                            _dicByCode.Add(item.Code, item);
                         }
                     }
                     _isInited = true;
