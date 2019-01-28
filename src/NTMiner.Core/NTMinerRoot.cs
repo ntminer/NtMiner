@@ -64,8 +64,12 @@ namespace NTMiner {
                                 Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
                                 countdown.Signal();
                             });
-                            Server.FileUrlService.GetServerJsonVersionAsync(timestamp => {
-                                AssemblyInfo.JsonFileVersion = timestamp;
+                            Server.AppSettingService.GetAppSettingAsync(AppSettingData.ServerJsonVersionKey, response => {
+                                if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value != null) {
+                                    if (response.Data.Value is ulong value) {
+                                        AssemblyInfo.JsonFileVersion = value;
+                                    }
+                                }
                             });
                             GetFileAsync(AssemblyInfo.ServerLangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                 rawLangJson = Encoding.UTF8.GetString(data);
@@ -356,12 +360,12 @@ namespace NTMiner {
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.Console,
                     action: message => {
-                        Server.FileUrlService.GetServerJsonVersionAsync(timestamp => {
-                            if (timestamp != 0 && timestamp != AssemblyInfo.JsonFileVersion) {
+                        Server.AppSettingService.GetAppSettingAsync(AppSettingData.ServerJsonVersionKey, response => {
+                            if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value is ulong value && AssemblyInfo.JsonFileVersion != value) {
                                 GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                     string rawNTMinerJson = Encoding.UTF8.GetString(data);
                                     Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
-                                    AssemblyInfo.JsonFileVersion = timestamp;
+                                    AssemblyInfo.JsonFileVersion = value;
                                     ServerJson.Instance.ReInit(rawNTMinerJson);
                                     var refreshCommands = RefreshCommand.CreateRefreshCommands();
                                     foreach (var refreshCommand in refreshCommands) {

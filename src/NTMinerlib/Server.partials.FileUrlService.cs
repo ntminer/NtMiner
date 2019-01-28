@@ -13,31 +13,10 @@ namespace NTMiner {
             private FileUrlServiceFace() { }
 
             private IFileUrlService CreateService() {
-                return ChannelFactory.CreateChannel<IFileUrlService>(Server.MinerServerHost, Server.MinerServerPort);
+                return ChannelFactory.CreateChannel<IFileUrlService>(MinerServerHost, MinerServerPort);
             }
 
-            #region GetServerJsonVersionAsync
-            public void GetServerJsonVersionAsync(Action<ulong> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var client = CreateService()) {
-                            ulong timestamp = client.GetServerJsonVersion();
-                            callback?.Invoke(timestamp);
-                        }
-                    }
-                    catch (CommunicationException e) {
-                        Global.DebugLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(0);
-                    }
-                    catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(0);
-                    }
-                });
-            }
-            #endregion
-
-            #region GetNTMinerUrl
+            #region GetNTMinerUrlAsync
             public void GetNTMinerUrlAsync(string fileName, Action<string> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -58,6 +37,7 @@ namespace NTMiner {
             }
             #endregion
 
+            #region GetNTMinerFilesAsync
             public void GetNTMinerFilesAsync(Action<List<NTMinerFileData>> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -76,7 +56,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region AddOrUpdateNTMinerFileAsync
             public void AddOrUpdateNTMinerFileAsync(NTMinerFileData entity, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -103,7 +85,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region RemoveNTMinerFileAsync
             public void RemoveNTMinerFileAsync(Guid id, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -130,7 +114,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region GetLiteDBExplorerUrlAsync
             public void GetLiteDBExplorerUrlAsync(Action<string> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -148,7 +134,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region GetNTMinerUpdaterUrlAsync
             public void GetNTMinerUpdaterUrlAsync(Action<string> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -167,7 +155,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region GetPackageUrlAsync
             public void GetPackageUrlAsync(string package, Action<string> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -185,6 +175,7 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
         }
     }
 }

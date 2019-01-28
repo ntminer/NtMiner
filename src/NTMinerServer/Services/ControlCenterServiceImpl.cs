@@ -1,6 +1,4 @@
-﻿using LiteDB;
-using NTMiner.Data.Impl;
-using NTMiner.ServiceContracts;
+﻿using NTMiner.ServiceContracts;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
@@ -27,34 +25,6 @@ namespace NTMiner.Services {
             }
         }
         #endregion
-
-        public ResponseBase SetServerJsonVersion(SetServerJsonVersionRequest request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
-            }
-            try {
-                ResponseBase response;
-                if (!request.IsValid(out response)) {
-                    return response;
-                }
-                using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                    var col = db.GetCollection<HostConfigData>();
-                    var hostConfigData = col.FindOne(Query.All());
-                    if (hostConfigData != null) {
-                        hostConfigData.ServerJsonVersion = Global.GetTimestamp();
-                        HostRoot.Current.HostConfig.ServerJsonVersion = hostConfigData.ServerJsonVersion;
-                        col.Update(hostConfigData);
-                        Global.DebugLine("SetServerJsonVersion " + hostConfigData.ServerJsonVersion);
-                        return ResponseBase.Ok(request.MessageId);
-                    }
-                    return ResponseBase.ServerError(request.MessageId, "HostConfigData记录不存在");
-                }
-            }
-            catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
-            }
-        }
 
         #region LoadClients
         public LoadClientsResponse LoadClients(LoadClientsRequest request) {

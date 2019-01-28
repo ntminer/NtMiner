@@ -3,6 +3,5 @@
         string OssAccessKeyId { get; }
         string OssAccessKeySecret { get; }
         string OssEndpoint { get; }
-        ulong ServerJsonVersion { get; set; }
     }
 }

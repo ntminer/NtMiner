@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Impl;
 using NTMiner.Language.Impl;
 using NTMiner.Notifications;
+using NTMiner.ServiceContracts.DataObjects;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -71,7 +72,10 @@ namespace NTMiner.Vms {
 
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             try {
-                Server.ControlCenterService.SetServerJsonVersionAsync(response => {
+                Server.AppSettingService.SetAppSettingAsync(new AppSettingData {
+                    Key = AppSettingData.ServerJsonVersionKey,
+                    Value = Global.GetTimestamp()
+                }, response => {
                     Execute.OnUIThread(() => {
                         if (response != null && response.IsSuccess()) {
                             ControlCenterWindowViewModel.Current.Manager.CreateMessage()

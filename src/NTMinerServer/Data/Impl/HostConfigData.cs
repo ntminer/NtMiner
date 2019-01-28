@@ -6,6 +6,5 @@ namespace NTMiner.Data.Impl {
         public string OssAccessKeyId { get; set; }
         public string OssAccessKeySecret { get; set; }
         public string OssEndpoint { get; set; }
-        public ulong ServerJsonVersion { get; set; }
     }
 }

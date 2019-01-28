@@ -1,6 +1,7 @@
 ﻿namespace NTMiner {
     public static partial class Server {
         public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
+        public static readonly AppSettingServiceFace AppSettingService = AppSettingServiceFace.Instance;
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly TimeServiceFace TimeService = TimeServiceFace.Instance;
         public static readonly ProfileServiceFace ProfileService = ProfileServiceFace.Instance;

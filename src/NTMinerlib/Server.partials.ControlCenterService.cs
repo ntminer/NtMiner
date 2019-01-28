@@ -17,6 +17,7 @@ namespace NTMiner {
                 return ChannelFactory.CreateChannel<IControlCenterService>(MinerServerHost, MinerServerPort);
             }
 
+            #region LoginAsync
             public void LoginAsync(string loginName, string password, Action<ResponseBase> callback) {
                 Guid messageId = Guid.NewGuid();
                 Task.Factory.StartNew(() => {
@@ -42,33 +43,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
-            public void SetServerJsonVersionAsync(Action<ResponseBase> callback) {
-                Guid messageId = Guid.NewGuid();
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var service = CreateService()) {
-                            SetServerJsonVersionRequest request = new SetServerJsonVersionRequest {
-                                MessageId = messageId,
-                                LoginName = LoginName,
-                                Timestamp = DateTime.Now
-                            };
-                            request.SignIt(Password);
-                            ResponseBase response = service.SetServerJsonVersion(request);
-                            callback?.Invoke(response);
-                        }
-                    }
-                    catch (CommunicationException e) {
-                        Global.DebugLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                    catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
-            }
-
+            #region LoadClientsAsync
             public void LoadClientsAsync(List<Guid> clientIds, Action<LoadClientsResponse> callback) {
                 Guid messageId = Guid.NewGuid();
                 Task.Factory.StartNew(() => {
@@ -95,7 +72,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region GetLatestSnapshotsAsync
             public void GetLatestSnapshotsAsync(
                 int limit,
                 List<string> coinCodes,
@@ -126,7 +105,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region LoadClientAsync
             public void LoadClientAsync(Guid clientId, Action<LoadClientResponse> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -153,7 +134,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region QueryClientsAsync
             public void QueryClientsAsync(
                 int pageIndex,
                 int pageSize,
@@ -207,7 +190,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region UpdateClientAsync
             public void UpdateClientAsync(Guid clientId, string propertyName, object value, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -236,7 +221,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region GetMinerGroups
             /// <summary>
             /// 同步方法
             /// </summary>
@@ -257,7 +244,9 @@ namespace NTMiner {
                     return ResponseBase.ClientError<GetMinerGroupsResponse>(messageId, e.Message);
                 }
             }
+            #endregion
 
+            #region AddOrUpdateMinerGroupAsync
             public void AddOrUpdateMinerGroupAsync(MinerGroupData entity, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -285,7 +274,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region RemoveMinerGroupAsync
             public void RemoveMinerGroupAsync(Guid id, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -311,7 +302,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region AddOrUpdateMineWorkAsync
             public void AddOrUpdateMineWorkAsync(MineWorkData entity, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -339,7 +332,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region RemoveMineWorkAsync
             public void RemoveMineWorkAsync(Guid id, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -366,7 +361,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region SetMinerProfilePropertyAsync
             public void SetMinerProfilePropertyAsync(Guid workId, string propertyName, object value, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -395,7 +392,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region SetCoinProfilePropertyAsync
             public void SetCoinProfilePropertyAsync(Guid workId, Guid coinId, string propertyName, object value, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -425,7 +424,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region SetPoolProfilePropertyAsync
             public void SetPoolProfilePropertyAsync(Guid workId, Guid poolId, string propertyName, object value, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -455,7 +456,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region SetCoinKernelProfilePropertyAsync
             public void SetCoinKernelProfilePropertyAsync(Guid workId, Guid coinKernelId, string propertyName, object value, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -485,7 +488,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region GetWallets
             /// <summary>
             /// 同步方法
             /// </summary>
@@ -506,7 +511,9 @@ namespace NTMiner {
                     return ResponseBase.ClientError<GetWalletsResponse>(messageId, e.Message);
                 }
             }
+            #endregion
 
+            #region AddOrUpdateWalletAsync
             public void AddOrUpdateWalletAsync(WalletData entity, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -534,7 +541,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region RemoveWalletAsync
             public void RemoveWalletAsync(Guid id, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -561,7 +570,9 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
+            #region GetCalcConfigs
             /// <summary>
             /// 同步方法
             /// </summary>
@@ -582,7 +593,9 @@ namespace NTMiner {
                     return ResponseBase.ClientError<GetCalcConfigsResponse>(messageId, e.Message);
                 }
             }
+            #endregion
 
+            #region SaveCalcConfigsAsync
             public void SaveCalcConfigsAsync(List<CalcConfigData> configs) {
                 Task.Factory.StartNew(() => {
                     Guid messageId = Guid.NewGuid();
@@ -609,6 +622,7 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
         }
     }
 }

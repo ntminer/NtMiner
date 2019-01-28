@@ -6,10 +6,6 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services {
     public class FileUrlServiceImpl : IFileUrlService {
-        public ulong GetServerJsonVersion() {
-            return HostRoot.Current.HostConfig.ServerJsonVersion;
-        }
-
         public string GetMinerJsonPutUrl(string fileName) {
             try {
                 var req = new GeneratePresignedUriRequest("minerjson", fileName, SignHttpMethod.Put);

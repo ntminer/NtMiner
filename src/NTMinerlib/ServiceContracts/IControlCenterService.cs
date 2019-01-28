@@ -9,9 +9,6 @@ namespace NTMiner.ServiceContracts {
         ResponseBase LoginControlCenter(LoginControlCenterRequest request);
 
         [OperationContract]
-        ResponseBase SetServerJsonVersion(SetServerJsonVersionRequest request);
-
-        [OperationContract]
         LoadClientsResponse LoadClients(LoadClientsRequest request);
 
         [OperationContract]

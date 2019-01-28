@@ -7,9 +7,6 @@ namespace NTMiner.ServiceContracts {
     [ServiceContract]
     public interface IFileUrlService : IDisposable {
         [OperationContract]
-        ulong GetServerJsonVersion();
-
-        [OperationContract]
         string GetMinerJsonPutUrl(string fileName);
 
         [OperationContract]
