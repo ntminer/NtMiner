@@ -39,8 +39,8 @@ namespace NTMiner {
                 lock (this._locker) {
                     if (!this._isInited) {
                         string rawNTMinerJson = string.Empty;
-                        if (File.Exists(SpecialPath.LocalJsonFileFullName)) {
-                            rawNTMinerJson = File.ReadAllText(SpecialPath.LocalJsonFileFullName);
+                        if (File.Exists(SpecialPath.ServerJsonFileFullName)) {
+                            rawNTMinerJson = File.ReadAllText(SpecialPath.ServerJsonFileFullName);
                         }
                         string rawLangJson = string.Empty;
                         if (File.Exists(ClientId.LocalLangJsonFileFullName)) {

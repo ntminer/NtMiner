@@ -17,8 +17,6 @@ namespace NTMiner {
         public static string LocalLangJsonFileName { get; private set; }
         public static string LocalLangJsonFileFullName { get; private set; }
 
-        public static string ServerLangJsonFileFullName { get; private set; }
-
         static ClientId() {
             GlobalDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
             if (!Directory.Exists(GlobalDirFullName)) {
@@ -28,7 +26,6 @@ namespace NTMiner {
             LangDbFileFullName = Path.Combine(GlobalDirFullName, LangDbFileName);
             LocalLangJsonFileName = "lang.json";
             LocalLangJsonFileFullName = Path.Combine(GlobalDirFullName, LocalLangJsonFileName);
-            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, AssemblyInfo.LangJsonFileName);
 
             string publicKey, privateKey;
             NTMinerRegistry.GetKeyPair(out publicKey, out privateKey);

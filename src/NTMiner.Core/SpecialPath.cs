@@ -16,10 +16,8 @@ namespace NTMiner {
             }
             ServerDbFileName = "server.litedb";
             ServerDbFileFullName = Path.Combine(ClientId.GlobalDirFullName, ServerDbFileName);
-            LocalJsonFileName = "ntminer.json";
-            LocalJsonFileFullName = Path.Combine(ClientId.GlobalDirFullName, LocalJsonFileName);
-
-            ServerJsonFileFullName = Path.Combine(ClientId.GlobalDirFullName, AssemblyInfo.ServerJsonFileName);
+            ServerJsonFileName = "server.json";
+            ServerJsonFileFullName = Path.Combine(ClientId.GlobalDirFullName, ServerJsonFileName);
 
             LocalDbFileFullName = Path.Combine(ClientId.GlobalDirFullName, "local.litedb");
         }
@@ -28,9 +26,7 @@ namespace NTMiner {
         public static string ServerDbFileName { get; private set; }
         public static string ServerDbFileFullName { get; private set; }
 
-        public static string LocalJsonFileName { get; private set; }
-        public static string LocalJsonFileFullName { get; private set; }
-
+        public static string ServerJsonFileName { get; private set; }
         public static string ServerJsonFileFullName { get; private set; }
 
         public static string DaemonFileFullName { get; private set; }

@@ -27,8 +27,8 @@ namespace NTMiner.Core.Impl {
                 SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
             };
             string json = Global.JsonSerializer.Serialize(data);
-            File.WriteAllText(SpecialPath.ServerJsonFileFullName, json);
-            return Path.GetFileName(SpecialPath.ServerJsonFileFullName);
+            File.WriteAllText(AssemblyInfo.ServerJsonFileFullName, json);
+            return Path.GetFileName(AssemblyInfo.ServerJsonFileFullName);
         }
 
         // 私有构造函数不影响序列化反序列化
@@ -72,7 +72,7 @@ namespace NTMiner.Core.Impl {
                                 this.SysDics = data.SysDics ?? new SysDicData[0];
                                 this.SysDicItems = data.SysDicItems ?? new SysDicItemData[0];
                                 this.TimeStamp = data.TimeStamp;
-                                File.WriteAllText(SpecialPath.LocalJsonFileFullName, rawJson);
+                                File.WriteAllText(SpecialPath.ServerJsonFileFullName, rawJson);
                             }
                             catch (Exception e) {
                                 Global.Logger.ErrorDebugLine(e.Message, e);
