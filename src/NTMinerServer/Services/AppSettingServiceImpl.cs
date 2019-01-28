@@ -7,7 +7,7 @@ namespace NTMiner.Services {
         public GetAppSettingResponse GetAppSetting(Guid messageId, string key) {
             try {
                 var data = HostRoot.Current.AppSettingSet.GetAppSetting(key);
-                return new GetAppSettingResponse(data);
+                return GetAppSettingResponse.Ok(messageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -18,7 +18,7 @@ namespace NTMiner.Services {
         public GetAppSettingsResponse GetAppSettings(Guid messageId, string[] keys) {
             try {
                 var data = HostRoot.Current.AppSettingSet.GetAppSettings(keys);
-                return new GetAppSettingsResponse(data);
+                return GetAppSettingsResponse.Ok(messageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -29,7 +29,7 @@ namespace NTMiner.Services {
         public GetAppSettingsResponse GetAllAppSettings(Guid messageId) {
             try {
                 var data = HostRoot.Current.AppSettingSet.GetAllAppSettings();
-                return new GetAppSettingsResponse(data);
+                return GetAppSettingsResponse.Ok(messageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);

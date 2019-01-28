@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace NTMiner.ServiceContracts.DataObjects {
@@ -8,8 +9,16 @@ namespace NTMiner.ServiceContracts.DataObjects {
             this.Data = new List<CoinSnapshotData>();
         }
 
-        public GetCoinSnapshotsResponse(List<CoinSnapshotData> data) {
-            this.Data = data;
+        public static GetCoinSnapshotsResponse Ok(Guid messageId, List<CoinSnapshotData> data, int totalMiningCount, int totalOnlineCount) {
+            return new GetCoinSnapshotsResponse() {
+                MessageId = messageId,
+                StateCode = 200,
+                ReasonPhrase = "Ok",
+                Description = "成功",
+                Data = data,
+                TotalMiningCount = totalMiningCount,
+                TotalOnlineCount = totalOnlineCount
+            };
         }
 
         [DataMember]

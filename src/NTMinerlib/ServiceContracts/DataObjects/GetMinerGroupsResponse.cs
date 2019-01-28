@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace NTMiner.ServiceContracts.DataObjects {
@@ -8,8 +9,14 @@ namespace NTMiner.ServiceContracts.DataObjects {
             this.Data = new List<MinerGroupData>();
         }
 
-        public GetMinerGroupsResponse(List<MinerGroupData> data) {
-            this.Data = data;
+        public static GetMinerGroupsResponse Ok(Guid messageId, List<MinerGroupData> data) {
+            return new GetMinerGroupsResponse {
+                MessageId = messageId,
+                StateCode = 200,
+                ReasonPhrase = "Ok",
+                Description = "成功",
+                Data = data
+            };
         }
 
         [DataMember]

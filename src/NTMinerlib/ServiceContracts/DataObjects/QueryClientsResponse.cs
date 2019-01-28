@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace NTMiner.ServiceContracts.DataObjects {
@@ -8,8 +9,15 @@ namespace NTMiner.ServiceContracts.DataObjects {
             this.Data = new List<ClientData>();
         }
 
-        public QueryClientsResponse(List<ClientData> data) {
-            this.Data = data;
+        public static QueryClientsResponse Ok(Guid messageId, List<ClientData> data, int total) {
+            return new QueryClientsResponse() {
+                MessageId = messageId,
+                StateCode = 200,
+                ReasonPhrase = "Ok",
+                Description = "成功",
+                Data = data,
+                Total = total
+            };
         }
 
         [DataMember]

@@ -37,7 +37,7 @@ namespace NTMiner.Services {
                     return response;
                 }
                 var data = HostRoot.Current.ClientSet.LoadClients(request.ClientIds) ?? new List<ClientData>();
-                return new LoadClientsResponse(data);
+                return LoadClientsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -63,9 +63,7 @@ namespace NTMiner.Services {
                     request.MainCoin, request.MainCoinPool, request.MainCoinWallet,
                     request.DualCoin, request.DualCoinPool, request.DualCoinWallet,
                     request.Version, request.Kernel, out total) ?? new List<ClientData>();
-                return new QueryClientsResponse(data) {
-                    Total = total
-                };
+                return QueryClientsResponse.Ok(request.MessageId, data, total);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -91,10 +89,7 @@ namespace NTMiner.Services {
                     request.CoinCodes,
                     out totalMiningCount,
                     out totalOnlineCount) ?? new List<CoinSnapshotData>();
-                return new GetCoinSnapshotsResponse(data) {
-                    TotalMiningCount = totalMiningCount,
-                    TotalOnlineCount = totalOnlineCount
-                };
+                return GetCoinSnapshotsResponse.Ok(request.MessageId, data, totalMiningCount, totalOnlineCount);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -114,9 +109,7 @@ namespace NTMiner.Services {
                     return response;
                 }
                 var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId);
-                return new LoadClientResponse {
-                    Data = data
-                };
+                return LoadClientResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -149,7 +142,7 @@ namespace NTMiner.Services {
         public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
             try {
                 var data = HostRoot.Current.MinerGroupSet.GetMinerGroups();
-                return new GetMinerGroupsResponse(data);
+                return GetMinerGroupsResponse.Ok(messageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -334,7 +327,7 @@ namespace NTMiner.Services {
         public GetWalletsResponse GetWallets(Guid messageId) {
             try {
                 var data = HostRoot.Current.WalletSet.GetWallets();
-                return new GetWalletsResponse(data);
+                return GetWalletsResponse.Ok(messageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -387,7 +380,7 @@ namespace NTMiner.Services {
         public GetCalcConfigsResponse GetCalcConfigs(Guid messageId) {
             try {
                 var data = HostRoot.Current.CalcConfigSet.GetCalcConfigs();
-                return new GetCalcConfigsResponse(data);
+                return GetCalcConfigsResponse.Ok(messageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);

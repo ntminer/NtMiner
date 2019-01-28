@@ -1,12 +1,19 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace NTMiner.ServiceContracts.DataObjects {
     public class GetAppSettingResponse : ResponseBase {
         public GetAppSettingResponse() {
         }
 
-        public GetAppSettingResponse(AppSettingData data) {
-            this.Data = data;
+        public static GetAppSettingResponse Ok(Guid messageId, AppSettingData data) {
+            return new GetAppSettingResponse() {
+                MessageId = messageId,
+                StateCode = 200,
+                ReasonPhrase = "Ok",
+                Description = "成功",
+                Data = data
+            };
         }
 
         [DataMember]

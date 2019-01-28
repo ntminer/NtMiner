@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace NTMiner.ServiceContracts.DataObjects {
@@ -7,8 +8,14 @@ namespace NTMiner.ServiceContracts.DataObjects {
             this.Data = new List<AppSettingData>();
         }
 
-        public GetAppSettingsResponse(List<AppSettingData> data) {
-            this.Data = data;
+        public static GetAppSettingsResponse Ok(Guid messageId, List<AppSettingData> data) {
+            return new GetAppSettingsResponse() {
+                MessageId = messageId,
+                StateCode = 200,
+                ReasonPhrase = "Ok",
+                Description = "成功",
+                Data = data
+            };
         }
 
         [DataMember]
