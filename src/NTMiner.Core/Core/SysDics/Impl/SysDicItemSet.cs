@@ -111,16 +111,21 @@ namespace NTMiner.Core.SysDics.Impl {
         private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                        if (!_dicByDicId.ContainsKey(item.DicId)) {
-                            _dicByDicId.Add(item.DicId, new Dictionary<string, SysDicItemData>(StringComparer.OrdinalIgnoreCase));
-                        }
-                        if (!_dicByDicId[item.DicId].ContainsKey(item.Code)) {
-                            _dicByDicId[item.DicId].Add(item.Code, item);
+                    if (isReInit) {
+
+                    }
+                    else {
+                        var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
+                        foreach (var item in repository.GetAll()) {
+                            if (!_dicById.ContainsKey(item.GetId())) {
+                                _dicById.Add(item.GetId(), item);
+                            }
+                            if (!_dicByDicId.ContainsKey(item.DicId)) {
+                                _dicByDicId.Add(item.DicId, new Dictionary<string, SysDicItemData>(StringComparer.OrdinalIgnoreCase));
+                            }
+                            if (!_dicByDicId[item.DicId].ContainsKey(item.Code)) {
+                                _dicByDicId[item.DicId].Add(item.Code, item);
+                            }
                         }
                     }
                     _isInited = true;

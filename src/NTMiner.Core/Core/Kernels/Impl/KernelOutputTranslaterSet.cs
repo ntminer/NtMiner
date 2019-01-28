@@ -135,20 +135,25 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                        if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
-                            _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterData>());
-                        }
-                        if (_dicByKernelOutputId[item.KernelOutputId].All(a => a.GetId() != item.GetId())) {
-                            _dicByKernelOutputId[item.KernelOutputId].Add(item);
-                        }
+                    if (isReInit) {
+
                     }
-                    foreach (var item in _dicByKernelOutputId.Values) {
-                        item.Sort(new SortNumberComparer());
+                    else {
+                        var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                        foreach (var item in repository.GetAll()) {
+                            if (!_dicById.ContainsKey(item.GetId())) {
+                                _dicById.Add(item.GetId(), item);
+                            }
+                            if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                                _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterData>());
+                            }
+                            if (_dicByKernelOutputId[item.KernelOutputId].All(a => a.GetId() != item.GetId())) {
+                                _dicByKernelOutputId[item.KernelOutputId].Add(item);
+                            }
+                        }
+                        foreach (var item in _dicByKernelOutputId.Values) {
+                            item.Sort(new SortNumberComparer());
+                        }
                     }
                     _isInited = true;
                 }

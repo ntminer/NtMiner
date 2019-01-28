@@ -72,10 +72,15 @@ namespace NTMiner.Core.Impl {
         private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
+                    if (isReInit) {
+
+                    }
+                    else {
+                        var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>();
+                        foreach (var item in repository.GetAll()) {
+                            if (!_dicById.ContainsKey(item.GetId())) {
+                                _dicById.Add(item.GetId(), item);
+                            }
                         }
                     }
                     _isInited = true;
