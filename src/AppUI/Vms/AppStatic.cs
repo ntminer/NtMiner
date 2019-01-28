@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             try {
                 Server.AppSettingService.SetAppSettingAsync(new AppSettingData {
-                    Key = AppSettingData.ServerJsonVersionKey,
+                    Key = AssemblyInfo.ServerJsonFileName,
                     Value = Global.GetTimestamp()
                 }, response => {
                     Execute.OnUIThread(() => {

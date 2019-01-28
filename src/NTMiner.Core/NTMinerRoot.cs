@@ -64,16 +64,16 @@ namespace NTMiner {
                                 Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
                                 countdown.Signal();
                             });
-                            Server.AppSettingService.GetAppSettingAsync(AppSettingData.ServerJsonVersionKey, response => {
+                            Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
                                 if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value != null) {
                                     if (response.Data.Value is ulong value) {
                                         JsonFileVersion = value;
                                     }
                                 }
                             });
-                            GetFileAsync(AssemblyInfo.ServerLangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                            GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                 rawLangJson = Encoding.UTF8.GetString(data);
-                                Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerLangJsonFileUrl}");
+                                Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
                                 countdown.Signal();
                             });
                             Task.Factory.StartNew(() => {
@@ -363,7 +363,7 @@ namespace NTMiner {
                         if (DevMode.IsDevMode) {
                             return;
                         }
-                        Server.AppSettingService.GetAppSettingAsync(AppSettingData.ServerJsonVersionKey, response => {
+                        Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
                             if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value is ulong value && JsonFileVersion != value) {
                                 GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                     string rawNTMinerJson = Encoding.UTF8.GetString(data);
@@ -384,6 +384,7 @@ namespace NTMiner {
         }
         #endregion
 
+        #region GetFileAsync
         public static void GetFileAsync(string fileUrl, Action<byte[]> callback) {
             Task.Factory.StartNew(() => {
                 try {
@@ -410,6 +411,7 @@ namespace NTMiner {
                 }
             });
         }
+        #endregion
 
         #region Exit
         public void Exit() {

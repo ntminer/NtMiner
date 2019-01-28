@@ -28,7 +28,7 @@ namespace NTMiner {
             LangDbFileFullName = Path.Combine(GlobalDirFullName, LangDbFileName);
             LocalLangJsonFileName = "lang.json";
             LocalLangJsonFileFullName = Path.Combine(GlobalDirFullName, LocalLangJsonFileName);
-            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, AssemblyInfo.ServerLangJsonFileName);
+            ServerLangJsonFileFullName = Path.Combine(GlobalDirFullName, AssemblyInfo.LangJsonFileName);
 
             string publicKey, privateKey;
             NTMinerRegistry.GetKeyPair(out publicKey, out privateKey);

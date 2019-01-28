@@ -4,8 +4,6 @@ using System.Text;
 namespace NTMiner.ServiceContracts.DataObjects {
     [DataContract]
     public class AppSettingData : IAppSetting {
-        public const string ServerJsonVersionKey = "ServerJsonVersion";
-
         [DataMember]
         [LiteDB.BsonId]
         public string Key { get; set; }
