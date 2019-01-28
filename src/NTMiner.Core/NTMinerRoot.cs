@@ -370,10 +370,12 @@ namespace NTMiner {
                                     Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
                                     JsonFileVersion = value;
                                     ServerJson.Instance.ReInit(rawNTMinerJson);
-                                    var refreshCommands = RefreshCommand.CreateRefreshCommands();
-                                    foreach (var refreshCommand in refreshCommands) {
-                                        Global.Execute(refreshCommand);
-                                    }
+                                    Execute.OnUIThread(() => {
+                                        var refreshCommands = RefreshCommand.CreateRefreshCommands();
+                                        foreach (var refreshCommand in refreshCommands) {
+                                            Global.Execute(refreshCommand);
+                                        }
+                                    });
                                 });
                             }
                         });
