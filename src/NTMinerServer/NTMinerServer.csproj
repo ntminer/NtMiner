@@ -89,7 +89,7 @@
     <Compile Include="Data\IWalletSet.cs" />
     <Compile Include="Data\SnapshotTimestamp.cs" />
     <Compile Include="IHostConfig.cs" />
-    <Compile Include="Services\AppSettingService.cs" />
+    <Compile Include="Services\AppSettingServiceImpl.cs" />
     <Compile Include="Services\ControlCenterServiceImpl.cs" />
     <Compile Include="IHostRoot.cs" />
     <Compile Include="Services\ProfileServiceImpl.cs" />

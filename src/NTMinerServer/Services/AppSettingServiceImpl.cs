@@ -3,7 +3,7 @@ using NTMiner.ServiceContracts.DataObjects;
 using System;
 
 namespace NTMiner.Services {
-    public class AppSettingService : IAppSettingService {
+    public class AppSettingServiceImpl : IAppSettingService {
         public GetAppSettingResponse GetAppSetting(Guid messageId, string key) {
             try {
                 var data = HostRoot.Current.AppSettingSet.GetAppSetting(key);
