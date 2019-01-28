@@ -7,7 +7,7 @@ namespace NTMiner.Core.Impl {
         public ReadOnlyServerRepository() { }
 
         public void Add(T entity) {
-            throw new NotImplementedException();
+            // noting need todo
         }
 
         public bool Exists(Guid key) {
@@ -23,11 +23,11 @@ namespace NTMiner.Core.Impl {
         }
 
         public void Remove(Guid id) {
-            throw new NotImplementedException();
+            // noting need todo
         }
 
         public void Update(T entity) {
-            throw new NotImplementedException();
+            // noting need todo
         }
     }
 }

@@ -360,6 +360,9 @@ namespace NTMiner {
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.Console,
                     action: message => {
+                        if (DevMode.IsDevMode) {
+                            return;
+                        }
                         Server.AppSettingService.GetAppSettingAsync(AppSettingData.ServerJsonVersionKey, response => {
                             if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value is ulong value && JsonFileVersion != value) {
                                 GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
