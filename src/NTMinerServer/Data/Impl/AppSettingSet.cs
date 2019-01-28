@@ -1,12 +1,11 @@
 ﻿using LiteDB;
 using NTMiner.ServiceContracts.DataObjects;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Data.Impl {
     public class AppSettingSet : IAppSettingSet {
-        private Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>(StringComparer.OrdinalIgnoreCase);
+        private Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>();
 
         private readonly IHostRoot _root;
 

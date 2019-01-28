@@ -7,6 +7,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
         public const string ServerJsonVersionKey = "ServerJsonVersion";
 
         [DataMember]
+        [LiteDB.BsonId]
         public string Key { get; set; }
 
         [DataMember]
