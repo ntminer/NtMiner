@@ -15,7 +15,7 @@ namespace NTMiner.Core.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Init();
+                    Init(isReInit: true);
                 });
             Global.Access<AddGroupCommand>(
                 Guid.Parse("e0c313ff-2550-41f8-9403-8575638c7faf"),
@@ -94,10 +94,9 @@ namespace NTMiner.Core.Impl {
             Init();
         }
 
-        private void Init() {
+        private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

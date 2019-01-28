@@ -18,7 +18,7 @@ namespace NTMiner.Core.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Init();
+                    Init(isReInit: true);
                 });
             Global.Access<AddPoolCommand>(
                 Guid.Parse("5ee1b14b-4b9e-445f-b6fe-433f6fe44b18"),
@@ -127,10 +127,9 @@ namespace NTMiner.Core.Impl {
             Init();
         }
 
-        private void Init() {
+        private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

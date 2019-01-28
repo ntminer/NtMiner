@@ -19,7 +19,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Init();
+                    Init(isReInit: true);
                 });
             Global.Access<AddKernelOutputTranslaterCommand>(
                 Guid.Parse("d9da43ad-8fb7-4d6b-a8c7-ac0c1bbc4dd3"),
@@ -132,11 +132,9 @@ namespace NTMiner.Core.Kernels.Impl {
             Init();
         }
 
-        private void Init() {
+        private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    _dicById.Clear();
-                    _dicByKernelOutputId.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

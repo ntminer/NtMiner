@@ -18,7 +18,7 @@ namespace NTMiner.Core.SysDics.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Init();
+                    Init(isReInit: true);
                 });
             Global.Access<AddSysDicCommand>(
                 Guid.Parse("9353be1f-707f-455f-ade5-07e081141d47"),
@@ -107,11 +107,9 @@ namespace NTMiner.Core.SysDics.Impl {
             Init();
         }
 
-        private void Init() {
+        private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    _dicByCode.Clear();
-                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

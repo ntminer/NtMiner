@@ -17,7 +17,7 @@ namespace NTMiner.Core.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Init();
+                    Init(isReInit: true);
                 });
             Global.Access<AddCoinCommand>(
                 Guid.Parse("4CF438BB-7B59-4C56-AB8C-D01312848450"),
@@ -125,11 +125,9 @@ namespace NTMiner.Core.Impl {
             Init();
         }
 
-        private void Init() {
+        private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    _dicByCode.Clear();
-                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {

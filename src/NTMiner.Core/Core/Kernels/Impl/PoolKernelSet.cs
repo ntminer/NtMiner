@@ -16,7 +16,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Init();
+                    Init(isReInit: true);
                 });
             Global.Access<AddPoolKernelCommand>(
                 Guid.Parse("B926F4A0-4318-493D-BCE1-CBE329AC7DD7"),
@@ -86,10 +86,9 @@ namespace NTMiner.Core.Kernels.Impl {
             Init();
         }
 
-        private void Init() {
+        private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    _dicById.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     List<PoolKernelData> list = repository.GetAll().ToList();
                     foreach (IPool pool in _root.PoolSet) {

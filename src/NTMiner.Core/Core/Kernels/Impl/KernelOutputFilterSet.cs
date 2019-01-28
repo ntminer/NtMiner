@@ -18,7 +18,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Init();
+                    Init(isReInit: true);
                 });
             Global.Access<AddKernelOutputFilterCommand>(
                 Guid.Parse("43c09cc6-456c-4e55-95b1-63b5937c5b11"),
@@ -101,11 +101,9 @@ namespace NTMiner.Core.Kernels.Impl {
             Init();
         }
 
-        private void Init() {
+        private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
-                    _dicById.Clear();
-                    _dicByKernelOutputId.Clear();
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
