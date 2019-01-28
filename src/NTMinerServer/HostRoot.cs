@@ -138,7 +138,7 @@ namespace NTMiner {
             timeServiceHost.AddServiceEndpoint(typeof(ITimeService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(ITimeService)));
 
             ServiceHost appSettingServiceHost = new ServiceHost(typeof(AppSettingServiceImpl));
-            timeServiceHost.AddServiceEndpoint(typeof(IAppSettingService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IAppSettingService)));
+            appSettingServiceHost.AddServiceEndpoint(typeof(IAppSettingService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IAppSettingService)));
 
             ServiceHost minerServerServiceHost = new ServiceHost(typeof(ControlCenterServiceImpl));
             minerServerServiceHost.AddServiceEndpoint(typeof(IControlCenterService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IControlCenterService)));
