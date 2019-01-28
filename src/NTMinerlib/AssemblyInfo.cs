@@ -6,7 +6,6 @@
         public static readonly string ServerJsonFileName = $"server{VERSION}.json";
         public static readonly string ServerLangJsonFileName = $"serverLang{VERSION}.json";
 
-        public static ulong JsonFileVersion;
         public static readonly string ServerJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ServerJsonFileName;
         public static readonly string ServerLangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ServerLangJsonFileName;
     }

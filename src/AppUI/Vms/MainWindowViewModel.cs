@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                     "在开发者调试区展示ServerJsonVersion",
                     LogEnum.None,
                     action: message => {
-                        this.ServerJsonVersion = AssemblyInfo.JsonFileVersion;
+                        this.ServerJsonVersion = NTMinerRoot.JsonFileVersion;
                     });
             }
         }

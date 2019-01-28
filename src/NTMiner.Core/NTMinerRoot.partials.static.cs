@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Impl;
+﻿using NTMiner.Core;
+using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.Repositories;
 using System;
@@ -21,6 +22,14 @@ namespace NTMiner {
         public static readonly INTMinerRoot Current = _current;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
+        private static ulong _jsonFileVersion;
+        public static ulong JsonFileVersion {
+            get { return _jsonFileVersion; }
+            set {
+                _jsonFileVersion = value;
+                Global.Happened(new ServerJsonVersionChangedEvent());
+            }
+        }
 
         public static bool IsAutoStartCanceled = false;
 

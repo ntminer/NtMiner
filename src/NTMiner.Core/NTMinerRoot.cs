@@ -67,7 +67,7 @@ namespace NTMiner {
                             Server.AppSettingService.GetAppSettingAsync(AppSettingData.ServerJsonVersionKey, response => {
                                 if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value != null) {
                                     if (response.Data.Value is ulong value) {
-                                        AssemblyInfo.JsonFileVersion = value;
+                                        JsonFileVersion = value;
                                     }
                                 }
                             });
@@ -361,11 +361,11 @@ namespace NTMiner {
                     LogEnum.Console,
                     action: message => {
                         Server.AppSettingService.GetAppSettingAsync(AppSettingData.ServerJsonVersionKey, response => {
-                            if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value is ulong value && AssemblyInfo.JsonFileVersion != value) {
+                            if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value is ulong value && JsonFileVersion != value) {
                                 GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                     string rawNTMinerJson = Encoding.UTF8.GetString(data);
                                     Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
-                                    AssemblyInfo.JsonFileVersion = value;
+                                    JsonFileVersion = value;
                                     ServerJson.Instance.ReInit(rawNTMinerJson);
                                     var refreshCommands = RefreshCommand.CreateRefreshCommands();
                                     foreach (var refreshCommand in refreshCommands) {
