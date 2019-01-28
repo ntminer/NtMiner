@@ -97,11 +97,18 @@ namespace NTMiner.Core.Impl {
         private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
+                    var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     if (isReInit) {
-
+                        foreach (var item in repository.GetAll()) {
+                            if (_dicById.ContainsKey(item.Id)) {
+                                Global.Execute(new UpdateGroupCommand(item));
+                            }
+                            else {
+                                Global.Execute(new AddGroupCommand(item));
+                            }
+                        }
                     }
                     else {
-                        var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                         foreach (var item in repository.GetAll()) {
                             if (!_dicById.ContainsKey(item.GetId())) {
                                 _dicById.Add(item.GetId(), item);

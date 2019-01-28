@@ -110,11 +110,18 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     if (isReInit) {
-
+                        foreach (var item in repository.GetAll()) {
+                            if (_dicById.ContainsKey(item.Id)) {
+                                Global.Execute(new UpdateKernelOutputCommand(item));
+                            }
+                            else {
+                                Global.Execute(new AddKernelOutputCommand(item));
+                            }
+                        }
                     }
                     else {
-                        var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                         foreach (var item in repository.GetAll()) {
                             if (!_dicById.ContainsKey(item.GetId())) {
                                 _dicById.Add(item.GetId(), item);

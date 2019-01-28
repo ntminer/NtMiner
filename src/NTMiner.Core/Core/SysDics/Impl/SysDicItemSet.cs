@@ -111,11 +111,18 @@ namespace NTMiner.Core.SysDics.Impl {
         private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
                     if (isReInit) {
-
+                        foreach (var item in repository.GetAll()) {
+                            if (_dicById.ContainsKey(item.Id)) {
+                                Global.Execute(new UpdateSysDicItemCommand(item));
+                            }
+                            else {
+                                Global.Execute(new AddSysDicItemCommand(item));
+                            }
+                        }
                     }
                     else {
-                        var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
                         foreach (var item in repository.GetAll()) {
                             if (!_dicById.ContainsKey(item.GetId())) {
                                 _dicById.Add(item.GetId(), item);

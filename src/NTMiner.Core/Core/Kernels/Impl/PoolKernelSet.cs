@@ -89,11 +89,18 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init(bool isReInit = false) {
             lock (_locker) {
                 if (!_isInited) {
+                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     if (isReInit) {
-
+                        foreach (var item in repository.GetAll()) {
+                            if (_dicById.ContainsKey(item.Id)) {
+                                Global.Execute(new UpdatePoolKernelCommand(item));
+                            }
+                            else {
+                                Global.Execute(new AddPoolKernelCommand(item));
+                            }
+                        }
                     }
                     else {
-                        var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                         List<PoolKernelData> list = repository.GetAll().ToList();
                         foreach (IPool pool in _root.PoolSet) {
                             foreach (ICoinKernel coinKernel in _root.CoinKernelSet.Where(a => a.CoinId == pool.CoinId)) {
