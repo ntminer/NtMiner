@@ -13,8 +13,10 @@ namespace NTMiner.Vms {
         public SysDicViewModel CurrentSysDic {
             get { return _currentSysDic; }
             set {
-                _currentSysDic = value;
-                OnPropertyChanged(nameof(CurrentSysDic));
+                if (_currentSysDic != value) {
+                    _currentSysDic = value;
+                    OnPropertyChanged(nameof(CurrentSysDic));
+                }
             }
         }
 

@@ -34,16 +34,20 @@ namespace NTMiner.Vms {
         public SpeedViewModel MainCoinSpeed {
             get => _mainCoinSpeed;
             set {
-                _mainCoinSpeed = value;
-                OnPropertyChanged(nameof(MainCoinSpeed));
+                if (_mainCoinSpeed != value) {
+                    _mainCoinSpeed = value;
+                    OnPropertyChanged(nameof(MainCoinSpeed));
+                }
             }
         }
 
         public SpeedViewModel DualCoinSpeed {
             get => _dualCoinSpeed;
             set {
-                _dualCoinSpeed = value;
-                OnPropertyChanged(nameof(DualCoinSpeed));
+                if (_dualCoinSpeed != value) {
+                    _dualCoinSpeed = value;
+                    OnPropertyChanged(nameof(DualCoinSpeed));
+                }
             }
         }
     }

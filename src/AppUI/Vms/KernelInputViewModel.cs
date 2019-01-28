@@ -92,24 +92,30 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public string Name {
             get { return _name; }
             set {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                if (_name != value) {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
             }
         }
 
         public Guid DualCoinGroupId {
             get => _dualCoinGroupId;
             set {
-                _dualCoinGroupId = value;
-                OnPropertyChanged(nameof(DualCoinGroupId));
+                if (_dualCoinGroupId != value) {
+                    _dualCoinGroupId = value;
+                    OnPropertyChanged(nameof(DualCoinGroupId));
+                }
             }
         }
 
@@ -137,16 +143,20 @@ namespace NTMiner.Vms {
         public string Args {
             get { return _args; }
             set {
-                _args = value;
-                OnPropertyChanged(nameof(Args));
+                if (_args != value) {
+                    _args = value;
+                    OnPropertyChanged(nameof(Args));
+                }
             }
         }
 
         public bool IsSupportDualMine {
             get => _isSupportDualMine;
             set {
-                _isSupportDualMine = value;
-                OnPropertyChanged(nameof(IsSupportDualMine));
+                if (_isSupportDualMine != value) {
+                    _isSupportDualMine = value;
+                    OnPropertyChanged(nameof(IsSupportDualMine));
+                }
             }
         }
 
@@ -165,24 +175,30 @@ namespace NTMiner.Vms {
         public double DualWeightMin {
             get => _dualWeightMin;
             set {
-                _dualWeightMin = value;
-                OnPropertyChanged(nameof(DualWeightMin));
+                if (_dualWeightMin != value) {
+                    _dualWeightMin = value;
+                    OnPropertyChanged(nameof(DualWeightMin));
+                }
             }
         }
 
         public double DualWeightMax {
             get => _dualWeightMax;
             set {
-                _dualWeightMax = value;
-                OnPropertyChanged(nameof(DualWeightMax));
+                if (_dualWeightMax != value) {
+                    _dualWeightMax = value;
+                    OnPropertyChanged(nameof(DualWeightMax));
+                }
             }
         }
 
         public bool IsAutoDualWeight {
             get => _isAutoDualWeight;
             set {
-                _isAutoDualWeight = value;
-                OnPropertyChanged(nameof(IsAutoDualWeight));
+                if (_isAutoDualWeight != value) {
+                    _isAutoDualWeight = value;
+                    OnPropertyChanged(nameof(IsAutoDualWeight));
+                }
             }
         }
 
@@ -191,16 +207,20 @@ namespace NTMiner.Vms {
                 return _dualWeightArg;
             }
             set {
-                _dualWeightArg = value;
-                OnPropertyChanged(nameof(DualWeightArg));
+                if (_dualWeightArg != value) {
+                    _dualWeightArg = value;
+                    OnPropertyChanged(nameof(DualWeightArg));
+                }
             }
         }
 
         public string DualFullArgs {
             get { return _dualFullArgs; }
             set {
-                _dualFullArgs = value;
-                OnPropertyChanged(nameof(DualFullArgs));
+                if (_dualFullArgs != value) {
+                    _dualFullArgs = value;
+                    OnPropertyChanged(nameof(DualFullArgs));
+                }
             }
         }
     }

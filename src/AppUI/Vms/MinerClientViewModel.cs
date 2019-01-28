@@ -114,16 +114,20 @@ namespace NTMiner.Vms {
         public Visibility IsReNameVisible {
             get => _isReNameVisible;
             set {
-                _isReNameVisible = value;
-                OnPropertyChanged(nameof(IsReNameVisible));
+                if (_isReNameVisible != value) {
+                    _isReNameVisible = value;
+                    OnPropertyChanged(nameof(IsReNameVisible));
+                }
             }
         }
 
         public Visibility IsChangeGroupVisible {
             get { return _isChangeGroupVisible; }
             set {
-                _isChangeGroupVisible = value;
-                OnPropertyChanged(nameof(IsChangeGroupVisible));
+                if (_isChangeGroupVisible != value) {
+                    _isChangeGroupVisible = value;
+                    OnPropertyChanged(nameof(IsChangeGroupVisible));
+                }
             }
         }
 

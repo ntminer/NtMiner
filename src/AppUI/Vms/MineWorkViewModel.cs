@@ -71,8 +71,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -101,8 +103,10 @@ namespace NTMiner.Vms {
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
             }
         }
     }

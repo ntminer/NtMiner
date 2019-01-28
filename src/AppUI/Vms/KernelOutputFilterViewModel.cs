@@ -53,8 +53,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -62,16 +64,20 @@ namespace NTMiner.Vms {
         public Guid KernelOutputId {
             get => _kernelOutputId;
             set {
-                _kernelOutputId = value;
-                OnPropertyChanged(nameof(KernelOutputId));
+                if (_kernelOutputId != value) {
+                    _kernelOutputId = value;
+                    OnPropertyChanged(nameof(KernelOutputId));
+                }
             }
         }
 
         public string RegexPattern {
             get => _regexPattern;
             set {
-                _regexPattern = value;
-                OnPropertyChanged(nameof(RegexPattern));
+                if (_regexPattern != value) {
+                    _regexPattern = value;
+                    OnPropertyChanged(nameof(RegexPattern));
+                }
             }
         }
     }

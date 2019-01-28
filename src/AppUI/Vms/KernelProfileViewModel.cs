@@ -115,10 +115,12 @@ namespace NTMiner.Vms {
         public bool IsDownloading {
             get { return _isDownloading; }
             set {
-                _isDownloading = value;
-                OnPropertyChanged(nameof(IsDownloading));
-                Refresh();
-                KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.DownloadingVms));
+                if (_isDownloading != value) {
+                    _isDownloading = value;
+                    OnPropertyChanged(nameof(IsDownloading));
+                    Refresh();
+                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.DownloadingVms));
+                }
             }
         }
 
@@ -127,8 +129,10 @@ namespace NTMiner.Vms {
                 return _downloadPercent;
             }
             set {
-                _downloadPercent = value;
-                OnPropertyChanged(nameof(DownloadPercent));
+                if (_downloadPercent != value) {
+                    _downloadPercent = value;
+                    OnPropertyChanged(nameof(DownloadPercent));
+                }
             }
         }
 
@@ -137,8 +141,10 @@ namespace NTMiner.Vms {
                 return _downloadMessage;
             }
             set {
-                _downloadMessage = value;
-                OnPropertyChanged(nameof(DownloadMessage));
+                if (_downloadMessage != value) {
+                    _downloadMessage = value;
+                    OnPropertyChanged(nameof(DownloadMessage));
+                }
             }
         }
 

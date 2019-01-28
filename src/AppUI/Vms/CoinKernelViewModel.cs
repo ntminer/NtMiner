@@ -99,8 +99,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -109,9 +111,11 @@ namespace NTMiner.Vms {
                 return _coinId;
             }
             set {
-                _coinId = value;
-                OnPropertyChanged(nameof(CoinId));
-                OnPropertyChanged(nameof(CoinCode));
+                if (_coinId != value) {
+                    _coinId = value;
+                    OnPropertyChanged(nameof(CoinId));
+                    OnPropertyChanged(nameof(CoinCode));
+                }
             }
         }
 
@@ -137,8 +141,10 @@ namespace NTMiner.Vms {
         public Guid KernelId {
             get => _kernelId;
             set {
-                _kernelId = value;
-                OnPropertyChanged(nameof(KernelId));
+                if (_kernelId != value) {
+                    _kernelId = value;
+                    OnPropertyChanged(nameof(KernelId));
+                }
             }
         }
 
@@ -161,16 +167,20 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 
         public Guid DualCoinGroupId {
             get => _dualCoinGroupId;
             set {
-                _dualCoinGroupId = value;
-                OnPropertyChanged(nameof(DualCoinGroupId));
+                if (_dualCoinGroupId != value) {
+                    _dualCoinGroupId = value;
+                    OnPropertyChanged(nameof(DualCoinGroupId));
+                }
             }
         }
 
@@ -219,16 +229,20 @@ namespace NTMiner.Vms {
         public string Args {
             get { return _args; }
             set {
-                _args = value;
-                OnPropertyChanged(nameof(Args));
+                if (_args != value) {
+                    _args = value;
+                    OnPropertyChanged(nameof(Args));
+                }
             }
         }
 
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
             }
         }
 
@@ -247,11 +261,13 @@ namespace NTMiner.Vms {
         public SupportedGpu SupportedGpu {
             get => _supportedGpu;
             set {
-                _supportedGpu = value;
-                OnPropertyChanged(nameof(SupportedGpu));
-                OnPropertyChanged(nameof(IsNvidiaIconVisible));
-                OnPropertyChanged(nameof(IsAMDIconVisible));
-                OnPropertyChanged(nameof(IsSupported));
+                if (_supportedGpu != value) {
+                    _supportedGpu = value;
+                    OnPropertyChanged(nameof(SupportedGpu));
+                    OnPropertyChanged(nameof(IsNvidiaIconVisible));
+                    OnPropertyChanged(nameof(IsAMDIconVisible));
+                    OnPropertyChanged(nameof(IsSupported));
+                }
             }
         }
 
@@ -299,8 +315,10 @@ namespace NTMiner.Vms {
                 return SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
             }
             set {
-                SupportedGpu = value.Value;
-                OnPropertyChanged(nameof(SupportedGpuEnumItem));
+                if (SupportedGpu != value.Value) {
+                    SupportedGpu = value.Value;
+                    OnPropertyChanged(nameof(SupportedGpuEnumItem));
+                }
             }
         }
 

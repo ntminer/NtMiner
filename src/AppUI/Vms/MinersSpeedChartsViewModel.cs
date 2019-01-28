@@ -10,16 +10,20 @@ namespace NTMiner.Vms {
         public int TotalMiningCount {
             get => _totalMiningCount;
             set {
-                _totalMiningCount = value;
-                OnPropertyChanged(nameof(TotalMiningCount));
+                if (_totalMiningCount != value) {
+                    _totalMiningCount = value;
+                    OnPropertyChanged(nameof(TotalMiningCount));
+                }
             }
         }
 
         public int TotalOnlineCount {
             get => _totalOnlineCount;
             set {
-                _totalOnlineCount = value;
-                OnPropertyChanged(nameof(TotalOnlineCount));
+                if (_totalOnlineCount != value) {
+                    _totalOnlineCount = value;
+                    OnPropertyChanged(nameof(TotalOnlineCount));
+                }
             }
         }
 

@@ -237,9 +237,11 @@ namespace NTMiner.Vms {
                 return _kernelOutputVm;
             }
             set {
-                _kernelOutputVm = value;
-                this.KernelOutputId = value.Id;
-                OnPropertyChanged(nameof(KernelOutputVm));
+                if (_kernelOutputVm != value) {
+                    _kernelOutputVm = value;
+                    this.KernelOutputId = value.Id;
+                    OnPropertyChanged(nameof(KernelOutputVm));
+                }
             }
         }
 
@@ -261,9 +263,11 @@ namespace NTMiner.Vms {
                 return _kernelInputVm;
             }
             set {
-                _kernelInputVm = value;
-                this.KernelInputId = value.Id;
-                OnPropertyChanged(nameof(KernelInputVm));
+                if (_kernelInputVm != value) {
+                    _kernelInputVm = value;
+                    this.KernelInputId = value.Id;
+                    OnPropertyChanged(nameof(KernelInputVm));
+                }
             }
         }
 
@@ -337,8 +341,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -396,34 +402,42 @@ namespace NTMiner.Vms {
         public string Package {
             get { return _package; }
             set {
-                _package = value;
-                OnPropertyChanged(nameof(Package));
+                if (_package != value) {
+                    _package = value;
+                    OnPropertyChanged(nameof(Package));
+                }
             }
         }
 
         public string PackageHistory {
             get { return _packageHistory; }
             set {
-                _packageHistory = value;
-                OnPropertyChanged(nameof(PackageHistory));
-                KernelProfileVm.Refresh();
+                if (_packageHistory != value) {
+                    _packageHistory = value;
+                    OnPropertyChanged(nameof(PackageHistory));
+                    KernelProfileVm.Refresh();
+                }
             }
         }
 
         public string Sha1 {
             get => _sha1;
             set {
-                _sha1 = value;
-                OnPropertyChanged(nameof(Sha1));
+                if (_sha1 != value) {
+                    _sha1 = value;
+                    OnPropertyChanged(nameof(Sha1));
+                }
             }
         }
 
         public long Size {
             get => _size;
             set {
-                _size = value;
-                OnPropertyChanged(nameof(Size));
-                OnPropertyChanged(nameof(SizeMbText));
+                if (_size != value) {
+                    _size = value;
+                    OnPropertyChanged(nameof(Size));
+                    OnPropertyChanged(nameof(SizeMbText));
+                }
             }
         }
 
@@ -462,10 +476,12 @@ namespace NTMiner.Vms {
         public ulong PublishOn {
             get => _publishOn;
             set {
-                _publishOn = value;
-                OnPropertyChanged(nameof(PublishOn));
-                OnPropertyChanged(nameof(PublishOnText));
-                OnPropertyChanged(nameof(IsPublished));
+                if (_publishOn != value) {
+                    _publishOn = value;
+                    OnPropertyChanged(nameof(PublishOn));
+                    OnPropertyChanged(nameof(PublishOnText));
+                    OnPropertyChanged(nameof(IsPublished));
+                }
             }
         }
 
@@ -496,11 +512,13 @@ namespace NTMiner.Vms {
         public PublishStatus PublishState {
             get => _publishState;
             set {
-                _publishState = value;
-                OnPropertyChanged(nameof(PublishState));
-                OnPropertyChanged(nameof(PublishStateDescription));
-                OnPropertyChanged(nameof(IsBtnPublishVisible));
-                OnPropertyChanged(nameof(PublishOnText));
+                if (_publishState != value) {
+                    _publishState = value;
+                    OnPropertyChanged(nameof(PublishState));
+                    OnPropertyChanged(nameof(PublishStateDescription));
+                    OnPropertyChanged(nameof(IsBtnPublishVisible));
+                    OnPropertyChanged(nameof(PublishOnText));
+                }
             }
         }
 
@@ -515,8 +533,10 @@ namespace NTMiner.Vms {
                 return PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
             }
             set {
-                PublishState = value.Value;
-                OnPropertyChanged(nameof(PublishStateEnumItem));
+                if (PublishState != value.Value) {
+                    PublishState = value.Value;
+                    OnPropertyChanged(nameof(PublishStateEnumItem));
+                }
             }
         }
 
@@ -535,25 +555,31 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 
         public string HelpArg {
             get { return _helpArg; }
             set {
-                _helpArg = value;
-                OnPropertyChanged(nameof(HelpArg));
+                if (_helpArg != value) {
+                    _helpArg = value;
+                    OnPropertyChanged(nameof(HelpArg));
+                }
             }
         }
 
         public string Notice {
             get => _notice;
             set {
-                _notice = value;
-                OnPropertyChanged(nameof(Notice));
-                OnPropertyChanged(nameof(KernelNotice));
+                if (_notice != value) {
+                    _notice = value;
+                    OnPropertyChanged(nameof(Notice));
+                    OnPropertyChanged(nameof(KernelNotice));
+                }
             }
         }
 
@@ -569,18 +595,22 @@ namespace NTMiner.Vms {
         public Guid KernelInputId {
             get { return _kernelInputId; }
             set {
-                _kernelInputId = value;
-                OnPropertyChanged(nameof(KernelInputId));
-                OnPropertyChanged(nameof(KernelInputVm));
+                if (_kernelInputId != value) {
+                    _kernelInputId = value;
+                    OnPropertyChanged(nameof(KernelInputId));
+                    OnPropertyChanged(nameof(KernelInputVm));
+                }
             }
         }
 
         public Guid KernelOutputId {
             get { return _kernelOutputId; }
             set {
-                _kernelOutputId = value;
-                OnPropertyChanged(nameof(KernelOutputId));
-                OnPropertyChanged(nameof(KernelOutputVm));
+                if (_kernelOutputId != value) {
+                    _kernelOutputId = value;
+                    OnPropertyChanged(nameof(KernelOutputId));
+                    OnPropertyChanged(nameof(KernelOutputVm));
+                }
             }
         }
     }

@@ -41,8 +41,10 @@ namespace NTMiner.Vms {
         public SpeedChartViewModel CurrentSpeedChartVm {
             get => _currentSpeedChartVm;
             set {
-                _currentSpeedChartVm = value;
-                OnPropertyChanged(nameof(CurrentSpeedChartVm));
+                if (_currentSpeedChartVm != value) {
+                    _currentSpeedChartVm = value;
+                    OnPropertyChanged(nameof(CurrentSpeedChartVm));
+                }
             }
         }
 
@@ -55,8 +57,10 @@ namespace NTMiner.Vms {
         public int ItemsPanelColumns {
             get => _itemsPanelColumns;
             set {
-                _itemsPanelColumns = value;
-                OnPropertyChanged(nameof(ItemsPanelColumns));
+                if (_itemsPanelColumns != value) {
+                    _itemsPanelColumns = value;
+                    OnPropertyChanged(nameof(ItemsPanelColumns));
+                }
             }
         }
     }

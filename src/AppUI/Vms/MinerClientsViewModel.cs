@@ -92,8 +92,10 @@ namespace NTMiner.Vms {
         public double LogoRotateTransformAngle {
             get => _logoRotateTransformAngle;
             set {
-                _logoRotateTransformAngle = value;
-                OnPropertyChanged(nameof(LogoRotateTransformAngle));
+                if (_logoRotateTransformAngle != value) {
+                    _logoRotateTransformAngle = value;
+                    OnPropertyChanged(nameof(LogoRotateTransformAngle));
+                }
             }
         }
 
@@ -125,9 +127,11 @@ namespace NTMiner.Vms {
         public int MinerClientPageIndex {
             get => _minerClientPageIndex;
             set {
-                _minerClientPageIndex = value;
-                OnPropertyChanged(nameof(MinerClientPageIndex));
-                QueryMinerClients();
+                if (_minerClientPageIndex != value) {
+                    _minerClientPageIndex = value;
+                    OnPropertyChanged(nameof(MinerClientPageIndex));
+                    QueryMinerClients();
+                }
             }
         }
 
@@ -140,17 +144,21 @@ namespace NTMiner.Vms {
         public int MinerClientPageSize {
             get => _minerClientPageSize;
             set {
-                _minerClientPageSize = value;
-                OnPropertyChanged(nameof(MinerClientPageSize));
-                QueryMinerClients();
+                if (_minerClientPageSize != value) {
+                    _minerClientPageSize = value;
+                    OnPropertyChanged(nameof(MinerClientPageSize));
+                    QueryMinerClients();
+                }
             }
         }
 
         public int MinerClientTotal {
             get => _minerClientTotal;
             set {
-                _minerClientTotal = value;
-                OnPropertyChanged(nameof(MinerClientTotal));
+                if (_minerClientTotal != value) {
+                    _minerClientTotal = value;
+                    OnPropertyChanged(nameof(MinerClientTotal));
+                }
             }
         }
 
@@ -247,8 +255,10 @@ namespace NTMiner.Vms {
                 return _minerClients;
             }
             private set {
-                _minerClients = value;
-                OnPropertyChanged(nameof(MinerClients));
+                if (_minerClients != value) {
+                    _minerClients = value;
+                    OnPropertyChanged(nameof(MinerClients));
+                }
             }
         }
 
@@ -309,18 +319,22 @@ namespace NTMiner.Vms {
         public WalletViewModel MainCoinWallet {
             get => _mainCoinWallet;
             set {
-                _mainCoinWallet = value;
-                OnPropertyChanged(nameof(MainCoinWallet));
-                QueryMinerClients();
+                if (_mainCoinWallet != value) {
+                    _mainCoinWallet = value;
+                    OnPropertyChanged(nameof(MainCoinWallet));
+                    QueryMinerClients();
+                }
             }
         }
 
         public WalletViewModel DualCoinWallet {
             get => _dualCoinWallet;
             set {
-                _dualCoinWallet = value;
-                OnPropertyChanged(nameof(DualCoinWallet));
-                QueryMinerClients();
+                if (_dualCoinWallet != value) {
+                    _dualCoinWallet = value;
+                    OnPropertyChanged(nameof(DualCoinWallet));
+                    QueryMinerClients();
+                }
             }
         }
 
@@ -353,9 +367,11 @@ namespace NTMiner.Vms {
             get => _dualCoinPool;
             set {
                 if (_dualCoinPool != null) {
-                    _dualCoinPool = value;
-                    OnPropertyChanged(nameof(DualCoinPool));
-                    QueryMinerClients();
+                    if (_dualCoinPool != value) {
+                        _dualCoinPool = value;
+                        OnPropertyChanged(nameof(DualCoinPool));
+                        QueryMinerClients();
+                    }
                 }
             }
         }

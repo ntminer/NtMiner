@@ -65,16 +65,20 @@ namespace NTMiner.Vms {
         public Visibility IsBtnRunAsAdministratorVisible {
             get => _isBtnRunAsAdministratorVisible;
             set {
-                _isBtnRunAsAdministratorVisible = value;
-                OnPropertyChanged(nameof(IsBtnRunAsAdministratorVisible));
+                if (_isBtnRunAsAdministratorVisible != value) {
+                    _isBtnRunAsAdministratorVisible = value;
+                    OnPropertyChanged(nameof(IsBtnRunAsAdministratorVisible));
+                }
             }
         }
 
         public bool IsDaemonRunning {
             get { return _isDaemonRunning; }
             set {
-                _isDaemonRunning = value;
-                OnPropertyChanged(nameof(IsDaemonRunning));
+                if (_isDaemonRunning != value) {
+                    _isDaemonRunning = value;
+                    OnPropertyChanged(nameof(IsDaemonRunning));
+                }
             }
         }
 
@@ -108,9 +112,11 @@ namespace NTMiner.Vms {
         public ulong ServerJsonVersion {
             get => _serverJsonVersion;
             set {
-                _serverJsonVersion = value;
-                OnPropertyChanged(nameof(ServerJsonVersion));
-                OnPropertyChanged(nameof(ServerJsonVersionText));
+                if (_serverJsonVersion != value) {
+                    _serverJsonVersion = value;
+                    OnPropertyChanged(nameof(ServerJsonVersion));
+                    OnPropertyChanged(nameof(ServerJsonVersionText));
+                }
             }
         }
 

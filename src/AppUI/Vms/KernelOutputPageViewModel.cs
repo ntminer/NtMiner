@@ -25,8 +25,10 @@ namespace NTMiner.Vms {
                 return _currentKernelOutputVm;
             }
             set {
-                _currentKernelOutputVm = value;
-                OnPropertyChanged(nameof(CurrentKernelOutputVm));
+                if (_currentKernelOutputVm != value) {
+                    _currentKernelOutputVm = value;
+                    OnPropertyChanged(nameof(CurrentKernelOutputVm));
+                }
             }
         }
 

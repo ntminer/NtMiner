@@ -146,18 +146,22 @@ namespace NTMiner.Vms {
         public bool IsCurrentPool {
             get { return _isCurrentPool; }
             set {
-                _isCurrentPool = value;
-                OnPropertyChanged(nameof(IsCurrentPool));
+                if (_isCurrentPool != value) {
+                    _isCurrentPool = value;
+                    OnPropertyChanged(nameof(IsCurrentPool));
+                }
             }
         }
 
         public DataLevel DataLevel {
             get { return _dataLevel; }
             set {
-                _dataLevel = value;
-                OnPropertyChanged(nameof(DataLevel));
-                OnPropertyChanged(nameof(DataLevelText));
-                OnPropertyChanged(nameof(IsReadOnly));
+                if (_dataLevel != value) {
+                    _dataLevel = value;
+                    OnPropertyChanged(nameof(DataLevel));
+                    OnPropertyChanged(nameof(DataLevelText));
+                    OnPropertyChanged(nameof(IsReadOnly));
+                }
             }
         }
 
@@ -183,8 +187,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -212,9 +218,11 @@ namespace NTMiner.Vms {
                 return _coinId;
             }
             set {
-                _coinId = value;
-                OnPropertyChanged(nameof(CoinId));
-                OnPropertyChanged(nameof(CoinVm));
+                if (_coinId != value) {
+                    _coinId = value;
+                    OnPropertyChanged(nameof(CoinId));
+                    OnPropertyChanged(nameof(CoinVm));
+                }
             }
         }
 
@@ -256,56 +264,70 @@ namespace NTMiner.Vms {
         public string Url {
             get => _url;
             set {
-                _url = value;
-                OnPropertyChanged(nameof(Url));
+                if (_url != value) {
+                    _url = value;
+                    OnPropertyChanged(nameof(Url));
+                }
             }
         }
 
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 
         public PublishStatus PublishState {
             get => _publishState;
             set {
-                _publishState = value;
-                OnPropertyChanged(nameof(PublishState));
+                if (_publishState != value) {
+                    _publishState = value;
+                    OnPropertyChanged(nameof(PublishState));
+                }
             }
         }
 
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
             }
         }
 
         public bool IsUserMode {
             get { return _isUserMode; }
             set {
-                _isUserMode = value;
-                OnPropertyChanged(nameof(IsUserMode));
+                if (_isUserMode != value) {
+                    _isUserMode = value;
+                    OnPropertyChanged(nameof(IsUserMode));
+                }
             }
         }
 
         public string UserName {
             get { return _userName; }
             set {
-                _userName = value;
-                OnPropertyChanged(nameof(UserName));
+                if (_userName != value) {
+                    _userName = value;
+                    OnPropertyChanged(nameof(UserName));
+                }
             }
         }
 
         public string Password {
             get { return _passWord; }
             set {
-                _passWord = value;
-                OnPropertyChanged(nameof(Password));
+                if (_passWord != value) {
+                    _passWord = value;
+                    OnPropertyChanged(nameof(Password));
+                }
             }
         }
 

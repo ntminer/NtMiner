@@ -18,23 +18,29 @@ namespace NTMiner.Vms {
         public string Name {
             get => _name;
             set {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                if (_name != value) {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
             }
         }
         public string IconName {
             get => _iconName;
             set {
-                _iconName = value;
-                OnPropertyChanged(nameof(IconName));
+                if (_iconName != value) {
+                    _iconName = value;
+                    OnPropertyChanged(nameof(IconName));
+                }
             }
         }
 
         public Geometry Icon {
             get { return _icon; }
             private set {
-                _icon = value;
-                OnPropertyChanged(nameof(Icon));
+                if (_icon != value) {
+                    _icon = value;
+                    OnPropertyChanged(nameof(Icon));
+                }
             }
         }
 
@@ -46,8 +52,10 @@ namespace NTMiner.Vms {
                 return _itemBackground;
             }
             set {
-                _itemBackground = value;
-                OnPropertyChanged(nameof(ItemBackground));
+                if (_itemBackground != value) {
+                    _itemBackground = value;
+                    OnPropertyChanged(nameof(ItemBackground));
+                }
             }
         }
 
@@ -59,8 +67,10 @@ namespace NTMiner.Vms {
                 return _itemForeground;
             }
             set {
-                _itemForeground = value;
-                OnPropertyChanged(nameof(ItemForeground));
+                if (_itemForeground != value) {
+                    _itemForeground = value;
+                    OnPropertyChanged(nameof(ItemForeground));
+                }
             }
         }
 
@@ -71,8 +81,10 @@ namespace NTMiner.Vms {
                 return _borderBrush;
             }
             set {
-                _borderBrush = value;
-                OnPropertyChanged(nameof(BorderBrush));
+                if (_borderBrush != value) {
+                    _borderBrush = value;
+                    OnPropertyChanged(nameof(BorderBrush));
+                }
             }
         }
 

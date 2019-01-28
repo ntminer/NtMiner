@@ -15,17 +15,21 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _data.Id;
             set {
-                _data.Id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_data.Id != value) {
+                    _data.Id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public Guid WorkId {
             get => _data.WorkId;
             set {
-                _data.WorkId = value;
-                OnPropertyChanged(nameof(WorkId));
-                OnPropertyChanged(nameof(SelectedMineWork));
+                if (_data.WorkId != value) {
+                    _data.WorkId = value;
+                    OnPropertyChanged(nameof(WorkId));
+                    OnPropertyChanged(nameof(SelectedMineWork));
+                }
             }
         }
 
@@ -65,27 +69,33 @@ namespace NTMiner.Vms {
         public string PublicKey {
             get => _data.PublicKey;
             set {
-                _data.PublicKey = value;
-                OnPropertyChanged(nameof(PublicKey));
+                if (_data.PublicKey != value) {
+                    _data.PublicKey = value;
+                    OnPropertyChanged(nameof(PublicKey));
+                }
             }
         }
 
         public string Version {
             get => _data.Version;
             set {
-                _data.Version = value;
-                OnPropertyChanged(nameof(Version));
+                if (_data.Version != value) {
+                    _data.Version = value;
+                    OnPropertyChanged(nameof(Version));
+                }
             }
         }
 
         public DateTime ModifiedOn {
             get => _data.ModifiedOn;
             set {
-                _data.ModifiedOn = value;
-                OnPropertyChanged(nameof(ModifiedOn));
-                OnPropertyChanged(nameof(ModifiedOnText));
-                OnPropertyChanged(nameof(IsNTMinerOnline));
-                OnPropertyChanged(nameof(IsMining));
+                if (_data.ModifiedOn != value) {
+                    _data.ModifiedOn = value;
+                    OnPropertyChanged(nameof(ModifiedOn));
+                    OnPropertyChanged(nameof(ModifiedOnText));
+                    OnPropertyChanged(nameof(IsNTMinerOnline));
+                    OnPropertyChanged(nameof(IsMining));
+                }
             }
         }
 
@@ -109,25 +119,31 @@ namespace NTMiner.Vms {
                 return _data.IsMining;
             }
             set {
-                _data.IsMining = value;
-                OnPropertyChanged(nameof(IsMining));
+                if (_data.IsMining != value) {
+                    _data.IsMining = value;
+                    OnPropertyChanged(nameof(IsMining));
+                }
             }
         }
 
         public string MinerName {
             get => _data.MinerName;
             set {
-                _data.MinerName = value;
-                OnPropertyChanged(nameof(MinerName));
+                if (_data.MinerName != value) {
+                    _data.MinerName = value;
+                    OnPropertyChanged(nameof(MinerName));
+                }
             }
         }
 
         public Guid GroupId {
             get { return _data.GroupId; }
             set {
-                _data.GroupId = value;
-                OnPropertyChanged(nameof(GroupId));
-                OnPropertyChanged(nameof(SelectedMinerGroup));
+                if (_data.GroupId != value) {
+                    _data.GroupId = value;
+                    OnPropertyChanged(nameof(GroupId));
+                    OnPropertyChanged(nameof(SelectedMinerGroup));
+                }
             }
         }
 
@@ -143,8 +159,10 @@ namespace NTMiner.Vms {
                 return _selectedMinerGroup;
             }
             set {
-                _selectedMinerGroup = value;
-                OnPropertyChanged(nameof(SelectedMinerGroup));
+                if (_selectedMinerGroup != value) {
+                    _selectedMinerGroup = value;
+                    OnPropertyChanged(nameof(SelectedMinerGroup));
+                }
             }
         }
 
@@ -160,8 +178,10 @@ namespace NTMiner.Vms {
                 return _selectedMinerGroupCopy;
             }
             set {
-                _selectedMinerGroupCopy = value;
-                OnPropertyChanged(nameof(SelectedMinerGroupCopy));
+                if (_selectedMinerGroupCopy != value) {
+                    _selectedMinerGroupCopy = value;
+                    OnPropertyChanged(nameof(SelectedMinerGroupCopy));
+                }
             }
         }
 
@@ -169,24 +189,30 @@ namespace NTMiner.Vms {
         public string MinerNameCopy {
             get => _minerNameCopy;
             set {
-                _minerNameCopy = value;
-                OnPropertyChanged(nameof(MinerNameCopy));
+                if (_minerNameCopy != value) {
+                    _minerNameCopy = value;
+                    OnPropertyChanged(nameof(MinerNameCopy));
+                }
             }
         }
 
         public string MinerIp {
             get => _data.MinerIp;
             set {
-                _data.MinerIp = value;
-                OnPropertyChanged(nameof(MinerIp));
+                if (_data.MinerIp != value) {
+                    _data.MinerIp = value;
+                    OnPropertyChanged(nameof(MinerIp));
+                }
             }
         }
 
         public string MainCoinCode {
             get => _data.MainCoinCode ?? string.Empty;
             set {
-                _data.MainCoinCode = value;
-                OnPropertyChanged(nameof(MainCoinCode));
+                if (_data.MainCoinCode != value) {
+                    _data.MainCoinCode = value;
+                    OnPropertyChanged(nameof(MainCoinCode));
+                }
             }
         }
 
@@ -201,40 +227,50 @@ namespace NTMiner.Vms {
         public string MainCoinPool {
             get => _data.MainCoinPool;
             set {
-                _data.MainCoinPool = value;
-                OnPropertyChanged(nameof(MainCoinPool));
+                if (_data.MainCoinPool != value) {
+                    _data.MainCoinPool = value;
+                    OnPropertyChanged(nameof(MainCoinPool));
+                }
             }
         }
 
         public string MainCoinWallet {
             get => _data.MainCoinWallet;
             set {
-                _data.MainCoinWallet = value;
-                OnPropertyChanged(nameof(MainCoinWallet));
+                if (_data.MainCoinWallet != value) {
+                    _data.MainCoinWallet = value;
+                    OnPropertyChanged(nameof(MainCoinWallet));
+                }
             }
         }
 
         public string Kernel {
             get => _data.Kernel;
             set {
-                _data.Kernel = value;
-                OnPropertyChanged(nameof(Kernel));
+                if (_data.Kernel != value) {
+                    _data.Kernel = value;
+                    OnPropertyChanged(nameof(Kernel));
+                }
             }
         }
 
         public bool IsDualCoinEnabled {
             get => _data.IsDualCoinEnabled;
             set {
-                _data.IsDualCoinEnabled = value;
-                OnPropertyChanged(nameof(IsDualCoinEnabled));
+                if (_data.IsDualCoinEnabled != value) {
+                    _data.IsDualCoinEnabled = value;
+                    OnPropertyChanged(nameof(IsDualCoinEnabled));
+                }
             }
         }
 
         public string DualCoinCode {
             get => _data.DualCoinCode ?? string.Empty;
             set {
-                _data.DualCoinCode = value;
-                OnPropertyChanged(nameof(DualCoinCode));
+                if (_data.DualCoinCode != value) {
+                    _data.DualCoinCode = value;
+                    OnPropertyChanged(nameof(DualCoinCode));
+                }
             }
         }
 
@@ -249,24 +285,30 @@ namespace NTMiner.Vms {
         public string DualCoinPool {
             get => _data.DualCoinPool;
             set {
-                _data.DualCoinPool = value;
-                OnPropertyChanged(nameof(DualCoinPool));
+                if (_data.DualCoinPool != value) {
+                    _data.DualCoinPool = value;
+                    OnPropertyChanged(nameof(DualCoinPool));
+                }
             }
         }
 
         public string DualCoinWallet {
             get => _data.DualCoinWallet;
             set {
-                _data.DualCoinWallet = value;
-                OnPropertyChanged(nameof(DualCoinWallet));
+                if (_data.DualCoinWallet != value) {
+                    _data.DualCoinWallet = value;
+                    OnPropertyChanged(nameof(DualCoinWallet));
+                }
             }
         }
 
         public string GpuInfo {
             get => _data.GpuInfo;
             set {
-                _data.GpuInfo = value;
-                OnPropertyChanged(nameof(GpuInfo));
+                if (_data.GpuInfo != value) {
+                    _data.GpuInfo = value;
+                    OnPropertyChanged(nameof(GpuInfo));
+                }
             }
         }
     }

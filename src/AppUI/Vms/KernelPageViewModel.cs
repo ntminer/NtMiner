@@ -77,26 +77,32 @@ namespace NTMiner.Vms {
                 return _selectedCoinVm;
             }
             set {
-                _selectedCoinVm = value;
-                OnPropertyChanged(nameof(SelectedCoinVm));
-                OnPropertyChanged(nameof(QueryResults));
+                if (_selectedCoinVm != value) {
+                    _selectedCoinVm = value;
+                    OnPropertyChanged(nameof(SelectedCoinVm));
+                    OnPropertyChanged(nameof(QueryResults));
+                }
             }
         }
 
         public Visibility KernelDownloadingVisible {
             get => _kernelDownloadingVisible;
             set {
-                _kernelDownloadingVisible = value;
-                OnPropertyChanged(nameof(KernelDownloadingVisible));
+                if (_kernelDownloadingVisible != value) {
+                    _kernelDownloadingVisible = value;
+                    OnPropertyChanged(nameof(KernelDownloadingVisible));
+                }
             }
         }
 
         public string Keyword {
             get => _keyword;
             set {
-                _keyword = value;
-                OnPropertyChanged(nameof(Keyword));
-                OnPropertyChanged(nameof(QueryResults));
+                if (_keyword != value) {
+                    _keyword = value;
+                    OnPropertyChanged(nameof(Keyword));
+                    OnPropertyChanged(nameof(QueryResults));
+                }
             }
         }
 
@@ -140,8 +146,10 @@ namespace NTMiner.Vms {
         public List<KernelMenu> KernelMenus {
             get { return _kernelMenus; }
             set {
-                _kernelMenus = value;
-                OnPropertyChanged(nameof(KernelMenus));
+                if (_kernelMenus != value) {
+                    _kernelMenus = value;
+                    OnPropertyChanged(nameof(KernelMenus));
+                }
             }
         }
 
@@ -158,16 +166,20 @@ namespace NTMiner.Vms {
         public Visibility IsBtnUnInstallVisible {
             get => _isBtnUnInstallVisible;
             set {
-                _isBtnUnInstallVisible = value;
-                OnPropertyChanged(nameof(IsBtnUnInstallVisible));
+                if (_isBtnUnInstallVisible != value) {
+                    _isBtnUnInstallVisible = value;
+                    OnPropertyChanged(nameof(IsBtnUnInstallVisible));
+                }
             }
         }
 
         public KernelMenu CurrentKernelMenu {
             get => _currentKernelMenu;
             set {
-                _currentKernelMenu = value;
-                OnPropertyChanged(nameof(CurrentKernelMenu));
+                if (_currentKernelMenu != value) {
+                    _currentKernelMenu = value;
+                    OnPropertyChanged(nameof(CurrentKernelMenu));
+                }
             }
         }
     }

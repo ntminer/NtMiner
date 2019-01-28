@@ -139,16 +139,20 @@ namespace NTMiner.Vms {
         public SeriesCollection Series {
             get => _series;
             private set {
-                _series = value;
-                OnPropertyChanged(nameof(Series));
+                if (_series != value) {
+                    _series = value;
+                    OnPropertyChanged(nameof(Series));
+                }
             }
         }
 
         public AxesCollection AxisY {
             get => _axisY;
             private set {
-                _axisY = value;
-                OnPropertyChanged(nameof(AxisY));
+                if (_axisY != value) {
+                    _axisY = value;
+                    OnPropertyChanged(nameof(AxisY));
+                }
             }
         }
 
@@ -157,8 +161,10 @@ namespace NTMiner.Vms {
                 return _axisX;
             }
             private set {
-                _axisX = value;
-                OnPropertyChanged(nameof(AxisX));
+                if (_axisX != value) {
+                    _axisX = value;
+                    OnPropertyChanged(nameof(AxisX));
+                }
             }
         }
 

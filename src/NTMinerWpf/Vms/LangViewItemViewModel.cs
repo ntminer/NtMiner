@@ -54,40 +54,50 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public Guid LangId {
             get => _langId;
             set {
-                _langId = value;
-                OnPropertyChanged(nameof(LangId));
+                if (_langId != value) {
+                    _langId = value;
+                    OnPropertyChanged(nameof(LangId));
+                }
             }
         }
 
         public string ViewId {
             get => _viewId;
             set {
-                _viewId = value;
-                OnPropertyChanged(nameof(ViewId));
+                if (_viewId != value) {
+                    _viewId = value;
+                    OnPropertyChanged(nameof(ViewId));
+                }
             }
         }
 
         public string Key {
             get => _key;
             set {
-                _key = value;
-                OnPropertyChanged(nameof(Key));
+                if (_key != value) {
+                    _key = value;
+                    OnPropertyChanged(nameof(Key));
+                }
             }
         }
 
         public string Value {
             get => _value;
             set {
-                _value = value;
-                OnPropertyChanged(nameof(Value));
+                if (_value != value) {
+                    _value = value;
+                    OnPropertyChanged(nameof(Value));
+                }
             }
         }
     }

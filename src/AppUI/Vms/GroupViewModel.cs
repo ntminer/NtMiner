@@ -129,18 +129,22 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public string Name {
             get => _name;
             set {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
-                if (string.IsNullOrEmpty(value)) {
-                    throw new ValidationException("名称不能为空");
+                if (_name != value) {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                    if (string.IsNullOrEmpty(value)) {
+                        throw new ValidationException("名称不能为空");
+                    }
                 }
             }
         }
@@ -148,8 +152,10 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
     }

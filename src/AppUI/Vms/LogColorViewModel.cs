@@ -36,8 +36,10 @@ namespace NTMiner.Vms {
                 return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.SpeedColor);
             }
             set {
-                MinerProfile.SpeedColor = value.ConsoleColor;
-                OnPropertyChanged(nameof(CurrentSpeedColor));
+                if (MinerProfile.SpeedColor != value.ConsoleColor) {
+                    MinerProfile.SpeedColor = value.ConsoleColor;
+                    OnPropertyChanged(nameof(CurrentSpeedColor));
+                }
             }
         }
 
@@ -46,8 +48,10 @@ namespace NTMiner.Vms {
                 return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.TFPColor);
             }
             set {
-                MinerProfile.TFPColor = value.ConsoleColor;
-                OnPropertyChanged(nameof(CurrentTFPColor));
+                if (MinerProfile.TFPColor != value.ConsoleColor) {
+                    MinerProfile.TFPColor = value.ConsoleColor;
+                    OnPropertyChanged(nameof(CurrentTFPColor));
+                }
             }
         }
 
@@ -56,8 +60,10 @@ namespace NTMiner.Vms {
                 return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.SuccessColor);
             }
             set {
-                MinerProfile.SuccessColor = value.ConsoleColor;
-                OnPropertyChanged(nameof(CurrentSuccessColor));
+                if (MinerProfile.SuccessColor != value.ConsoleColor) {
+                    MinerProfile.SuccessColor = value.ConsoleColor;
+                    OnPropertyChanged(nameof(CurrentSuccessColor));
+                }
             }
         }
 
@@ -66,8 +72,10 @@ namespace NTMiner.Vms {
                 return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.FailColor);
             }
             set {
-                MinerProfile.FailColor = value.ConsoleColor;
-                OnPropertyChanged(nameof(CurrentFailColor));
+                if (MinerProfile.FailColor != value.ConsoleColor) {
+                    MinerProfile.FailColor = value.ConsoleColor;
+                    OnPropertyChanged(nameof(CurrentFailColor));
+                }
             }
         }
 
@@ -76,8 +84,10 @@ namespace NTMiner.Vms {
                 return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.ErrorColor);
             }
             set {
-                MinerProfile.ErrorColor = value.ConsoleColor;
-                OnPropertyChanged(nameof(CurrentErrorColor));
+                if (MinerProfile.ErrorColor != value.ConsoleColor) {
+                    MinerProfile.ErrorColor = value.ConsoleColor;
+                    OnPropertyChanged(nameof(CurrentErrorColor));
+                }
             }
         }
 
@@ -86,8 +96,10 @@ namespace NTMiner.Vms {
                 return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.InfoColor);
             }
             set {
-                MinerProfile.InfoColor = value.ConsoleColor;
-                OnPropertyChanged(nameof(CurrentInfoColor));
+                if (MinerProfile.InfoColor != value.ConsoleColor) {
+                    MinerProfile.InfoColor = value.ConsoleColor;
+                    OnPropertyChanged(nameof(CurrentInfoColor));
+                }
             }
         }
     }
@@ -104,8 +116,10 @@ namespace NTMiner.Vms {
         public string ColorText {
             get => _colorText;
             set {
-                _colorText = value;
-                OnPropertyChanged(nameof(ColorText));
+                if (_colorText != value) {
+                    _colorText = value;
+                    OnPropertyChanged(nameof(ColorText));
+                }
             }
         }
 

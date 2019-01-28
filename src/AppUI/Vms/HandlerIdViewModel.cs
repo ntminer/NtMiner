@@ -30,32 +30,40 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public Type MessageType {
             get { return _messageType; }
             set {
-                _messageType = value;
-                OnPropertyChanged(nameof(MessageType));
+                if (_messageType != value) {
+                    _messageType = value;
+                    OnPropertyChanged(nameof(MessageType));
+                }
             }
         }
 
         public Type Location {
             get => _location;
             set {
-                _location = value;
-                OnPropertyChanged(nameof(Location));
+                if (_location != value) {
+                    _location = value;
+                    OnPropertyChanged(nameof(Location));
+                }
             }
         }
 
         public LogEnum LogType {
             get => _logType;
             set {
-                _logType = value;
-                OnPropertyChanged(nameof(LogType));
+                if (_logType != value) {
+                    _logType = value;
+                    OnPropertyChanged(nameof(LogType));
+                }
             }
         }
 
@@ -64,15 +72,20 @@ namespace NTMiner.Vms {
                 return this.LogType.GetEnumItem();
             }
             set {
-                this.LogType = value.Value;
+                if (this.LogType != value.Value) {
+                    this.LogType = value.Value;
+                    OnPropertyChanged(nameof(LogTypeItem));
+                }
             }
         }
 
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
             }
         }
     }

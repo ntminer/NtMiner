@@ -26,31 +26,39 @@ namespace NTMiner.Vms {
         public string HostAndPort {
             get => _hostAndPort;
             set {
-                _hostAndPort = value;
-                OnPropertyChanged(nameof(HostAndPort));
+                if (_hostAndPort != value) {
+                    _hostAndPort = value;
+                    OnPropertyChanged(nameof(HostAndPort));
+                }
             }
         }
 
         public string LoginName {
             get => _loginName;
             set {
-                _loginName = value;
-                OnPropertyChanged(nameof(LoginName));
+                if (_loginName != value) {
+                    _loginName = value;
+                    OnPropertyChanged(nameof(LoginName));
+                }
             }
         }
         public string Message {
             get => _message;
             set {
-                _message = value;
-                OnPropertyChanged(nameof(Message));
+                if (_message != value) {
+                    _message = value;
+                    OnPropertyChanged(nameof(Message));
+                }
             }
         }
 
         public Visibility MessageVisible {
             get => _messageVisible;
             set {
-                _messageVisible = value;
-                OnPropertyChanged(nameof(MessageVisible));
+                if (_messageVisible != value) {
+                    _messageVisible = value;
+                    OnPropertyChanged(nameof(MessageVisible));
+                }
             }
         }
     }

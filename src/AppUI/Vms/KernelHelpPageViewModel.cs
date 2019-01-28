@@ -7,8 +7,10 @@
         public string HelpText {
             get => _helpText;
             set {
-                _helpText = value;
-                OnPropertyChanged(nameof(HelpText));
+                if (_helpText != value) {
+                    _helpText = value;
+                    OnPropertyChanged(nameof(HelpText));
+                }
             }
         }
     }

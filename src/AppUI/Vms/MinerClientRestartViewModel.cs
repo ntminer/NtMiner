@@ -22,8 +22,10 @@ namespace NTMiner.Vms {
         public MinerClientViewModel MinerClientVm {
             get => _minerClientVm;
             set {
-                _minerClientVm = value;
-                OnPropertyChanged(nameof(MinerClientVm));
+                if (_minerClientVm != value) {
+                    _minerClientVm = value;
+                    OnPropertyChanged(nameof(MinerClientVm));
+                }
             }
         }
 
@@ -36,8 +38,10 @@ namespace NTMiner.Vms {
         public MineWorkViewModel SelectedMineWork {
             get => _selectedMineWork;
             set {
-                _selectedMineWork = value;
-                OnPropertyChanged(nameof(SelectedMineWork));
+                if (_selectedMineWork != value) {
+                    _selectedMineWork = value;
+                    OnPropertyChanged(nameof(SelectedMineWork));
+                }
             }
         }
     }

@@ -116,8 +116,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -137,17 +139,21 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 
         public Guid CoinId {
             get => _coinId;
             set {
-                _coinId = value;
-                OnPropertyChanged(nameof(CoinId));
-                OnPropertyChanged(nameof(CoinCode));
+                if (_coinId != value) {
+                    _coinId = value;
+                    OnPropertyChanged(nameof(CoinId));
+                    OnPropertyChanged(nameof(CoinCode));
+                }
             }
         }
 

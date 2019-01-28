@@ -28,9 +28,11 @@ namespace NTMiner.Vms {
         public uint Temperature {
             get => _gpu.Temperature;
             set {
-                _gpu.Temperature = value;
-                OnPropertyChanged(nameof(Temperature));
-                OnPropertyChanged(nameof(TemperatureText));
+                if (_gpu.Temperature != value) {
+                    _gpu.Temperature = value;
+                    OnPropertyChanged(nameof(Temperature));
+                    OnPropertyChanged(nameof(TemperatureText));
+                }
             }
         }
 
@@ -61,9 +63,11 @@ namespace NTMiner.Vms {
         public uint FanSpeed {
             get => _gpu.FanSpeed;
             set {
-                _gpu.FanSpeed = value;
-                OnPropertyChanged(nameof(FanSpeed));
-                OnPropertyChanged(nameof(FanSpeedText));
+                if (_gpu.FanSpeed != value) {
+                    _gpu.FanSpeed = value;
+                    OnPropertyChanged(nameof(FanSpeed));
+                    OnPropertyChanged(nameof(FanSpeedText));
+                }
             }
         }
 
@@ -94,10 +98,12 @@ namespace NTMiner.Vms {
         public uint PowerUsage {
             get => _gpu.PowerUsage;
             set {
-                _gpu.PowerUsage = value;
-                OnPropertyChanged(nameof(PowerUsage));
-                OnPropertyChanged(nameof(PowerUsageW));
-                OnPropertyChanged(nameof(PowerUsageWText));
+                if (_gpu.PowerUsage != value) {
+                    _gpu.PowerUsage = value;
+                    OnPropertyChanged(nameof(PowerUsage));
+                    OnPropertyChanged(nameof(PowerUsageW));
+                    OnPropertyChanged(nameof(PowerUsageWText));
+                }
             }
         }
 

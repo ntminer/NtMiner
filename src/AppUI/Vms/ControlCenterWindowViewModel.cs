@@ -21,8 +21,10 @@ namespace NTMiner.Vms {
                 return _title;
             }
             set {
-                _title = value;
-                OnPropertyChanged(nameof(Title));
+                if (_title != value) {
+                    _title = value;
+                    OnPropertyChanged(nameof(Title));
+                }
             }
         }
 

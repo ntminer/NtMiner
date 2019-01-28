@@ -114,8 +114,10 @@ namespace NTMiner.Vms {
                 return _isWatermarkVisible;
             }
             set {
-                _isWatermarkVisible = value;
-                OnPropertyChanged(nameof(IsWatermarkVisible));
+                if (_isWatermarkVisible != value) {
+                    _isWatermarkVisible = value;
+                    OnPropertyChanged(nameof(IsWatermarkVisible));
+                }
             }
         }
 
@@ -139,17 +141,21 @@ namespace NTMiner.Vms {
         public double LogoRotateTransformAngle {
             get => _logoRotateTransformAngle;
             set {
-                _logoRotateTransformAngle = value;
-                OnPropertyChanged(nameof(LogoRotateTransformAngle));
+                if (_logoRotateTransformAngle != value) {
+                    _logoRotateTransformAngle = value;
+                    OnPropertyChanged(nameof(LogoRotateTransformAngle));
+                }
             }
         }
 
         public TimeSpan BootTimeSpan {
             get { return _bootTimeSpan; }
             set {
-                _bootTimeSpan = value;
-                OnPropertyChanged(nameof(BootTimeSpan));
-                OnPropertyChanged(nameof(BootTimeSpanText));
+                if (_bootTimeSpan != value) {
+                    _bootTimeSpan = value;
+                    OnPropertyChanged(nameof(BootTimeSpan));
+                    OnPropertyChanged(nameof(BootTimeSpanText));
+                }
             }
         }
 
@@ -170,9 +176,11 @@ namespace NTMiner.Vms {
                 return _mineTimeSpan;
             }
             set {
-                _mineTimeSpan = value;
-                OnPropertyChanged(nameof(MineTimeSpan));
-                OnPropertyChanged(nameof(MineTimeSpanText));
+                if (_mineTimeSpan != value) {
+                    _mineTimeSpan = value;
+                    OnPropertyChanged(nameof(MineTimeSpan));
+                    OnPropertyChanged(nameof(MineTimeSpanText));
+                }
             }
         }
 
@@ -253,8 +261,10 @@ namespace NTMiner.Vms {
         public MineWorkData MineWork {
             get => _mineWork;
             set {
-                _mineWork = value;
-                OnPropertyChanged(nameof(MineWork));
+                if (_mineWork != value) {
+                    _mineWork = value;
+                    OnPropertyChanged(nameof(MineWork));
+                }
             }
         }
 

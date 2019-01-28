@@ -62,7 +62,12 @@ namespace NTMiner.Vms {
 
         public string SelectedView {
             get => _selectedView;
-            set => _selectedView = value;
+            set {
+                if (_selectedView != value) {
+                    _selectedView = value;
+                    OnPropertyChanged(nameof(SelectedView));
+                }
+            }
         }
 
         public Guid GetId() {
@@ -72,8 +77,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -112,8 +119,10 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get { return _sortNumber; }
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
     }

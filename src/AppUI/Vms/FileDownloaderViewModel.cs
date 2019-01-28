@@ -45,8 +45,10 @@ namespace NTMiner.Vms {
                 return _downloadPercent;
             }
             set {
-                _downloadPercent = value;
-                OnPropertyChanged(nameof(DownloadPercent));
+                if (_downloadPercent != value) {
+                    _downloadPercent = value;
+                    OnPropertyChanged(nameof(DownloadPercent));
+                }
             }
         }
 
@@ -55,16 +57,20 @@ namespace NTMiner.Vms {
                 return _downloadMessage;
             }
             set {
-                _downloadMessage = value;
-                OnPropertyChanged(nameof(DownloadMessage));
+                if (_downloadMessage != value) {
+                    _downloadMessage = value;
+                    OnPropertyChanged(nameof(DownloadMessage));
+                }
             }
         }
 
         public Visibility BtnCancelVisible {
             get => _btnCancelVisible;
             set {
-                _btnCancelVisible = value;
-                OnPropertyChanged(nameof(BtnCancelVisible));
+                if (_btnCancelVisible != value) {
+                    _btnCancelVisible = value;
+                    OnPropertyChanged(nameof(BtnCancelVisible));
+                }
             }
         }
 

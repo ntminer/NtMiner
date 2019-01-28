@@ -24,9 +24,11 @@ namespace NTMiner.Vms {
                 return _acceptShareCount;
             }
             set {
-                _acceptShareCount = value;
-                OnPropertyChanged(nameof(AcceptShareCount));
-                OnPropertyChanged(nameof(TotalShareCount));
+                if (_acceptShareCount != value) {
+                    _acceptShareCount = value;
+                    OnPropertyChanged(nameof(AcceptShareCount));
+                    OnPropertyChanged(nameof(TotalShareCount));
+                }
             }
         }
 
@@ -48,19 +50,23 @@ namespace NTMiner.Vms {
         public int RejectCount {
             get => _rejectCount;
             set {
-                _rejectCount = value;
-                OnPropertyChanged(nameof(RejectCount));
-                OnPropertyChanged(nameof(RejectPercent));
-                OnPropertyChanged(nameof(TotalShareCount));
-                OnPropertyChanged(nameof(RejectPercentText));
+                if (_rejectCount != value) {
+                    _rejectCount = value;
+                    OnPropertyChanged(nameof(RejectCount));
+                    OnPropertyChanged(nameof(RejectPercent));
+                    OnPropertyChanged(nameof(TotalShareCount));
+                    OnPropertyChanged(nameof(RejectPercentText));
+                }
             }
         }
 
         public DateTime ShareOn {
             get => _shareOn;
             set {
-                _shareOn = value;
-                OnPropertyChanged(nameof(ShareOn));
+                if (_shareOn != value) {
+                    _shareOn = value;
+                    OnPropertyChanged(nameof(ShareOn));
+                }
             }
         }
     }

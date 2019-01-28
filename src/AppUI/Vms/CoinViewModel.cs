@@ -166,16 +166,20 @@ namespace NTMiner.Vms {
         public bool IsCurrentCoin {
             get { return _isCurrentCoin; }
             set {
-                _isCurrentCoin = value;
-                OnPropertyChanged(nameof(IsCurrentCoin));
+                if (_isCurrentCoin != value) {
+                    _isCurrentCoin = value;
+                    OnPropertyChanged(nameof(IsCurrentCoin));
+                }
             }
         }
 
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -218,18 +222,22 @@ namespace NTMiner.Vms {
         public string EnName {
             get => _enName;
             set {
-                _enName = value;
-                OnPropertyChanged(nameof(EnName));
-                OnPropertyChanged(nameof(FullName));
+                if (_enName != value) {
+                    _enName = value;
+                    OnPropertyChanged(nameof(EnName));
+                    OnPropertyChanged(nameof(FullName));
+                }
             }
         }
 
         public string CnName {
             get => _cnName;
             set {
-                _cnName = value;
-                OnPropertyChanged(nameof(CnName));
-                OnPropertyChanged(nameof(FullName));
+                if (_cnName != value) {
+                    _cnName = value;
+                    OnPropertyChanged(nameof(CnName));
+                    OnPropertyChanged(nameof(FullName));
+                }
             }
         }
 
@@ -242,17 +250,21 @@ namespace NTMiner.Vms {
         public string Algo {
             get => _algo;
             set {
-                _algo = value;
-                OnPropertyChanged(nameof(Algo));
-                OnPropertyChanged(nameof(CodeAlgo));
+                if (_algo != value) {
+                    _algo = value;
+                    OnPropertyChanged(nameof(Algo));
+                    OnPropertyChanged(nameof(CodeAlgo));
+                }
             }
         }
 
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 
@@ -275,17 +287,21 @@ namespace NTMiner.Vms {
         public string WalletRegexPattern {
             get => _walletRegexPattern;
             set {
-                _walletRegexPattern = value;
-                OnPropertyChanged(nameof(WalletRegexPattern));
-                OnPropertyChanged(nameof(TestWallet));
+                if (_walletRegexPattern != value) {
+                    _walletRegexPattern = value;
+                    OnPropertyChanged(nameof(WalletRegexPattern));
+                    OnPropertyChanged(nameof(TestWallet));
+                }
             }
         }
 
         public bool JustAsDualCoin {
             get => _justAsDualCoin;
             set {
-                _justAsDualCoin = value;
-                OnPropertyChanged(nameof(JustAsDualCoin));
+                if (_justAsDualCoin != value) {
+                    _justAsDualCoin = value;
+                    OnPropertyChanged(nameof(JustAsDualCoin));
+                }
             }
         }
 

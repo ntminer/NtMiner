@@ -112,24 +112,30 @@ namespace NTMiner.Vms {
         public SeriesCollection Series {
             get => _series;
             set {
-                _series = value;
-                OnPropertyChanged(nameof(Series));
+                if (_series != value) {
+                    _series = value;
+                    OnPropertyChanged(nameof(Series));
+                }
             }
         }
 
         public SeriesCollection SeriesShadow {
             get => _seriesShadow;
             set {
-                _seriesShadow = value;
-                OnPropertyChanged(nameof(SeriesShadow));
+                if (_seriesShadow != value) {
+                    _seriesShadow = value;
+                    OnPropertyChanged(nameof(SeriesShadow));
+                }
             }
         }
 
         public AxesCollection AxisY {
             get => _axisY;
             set {
-                _axisY = value;
-                OnPropertyChanged(nameof(AxisY));
+                if (_axisY != value) {
+                    _axisY = value;
+                    OnPropertyChanged(nameof(AxisY));
+                }
             }
         }
 
@@ -138,16 +144,20 @@ namespace NTMiner.Vms {
                 return _axisX;
             }
             set {
-                _axisX = value;
-                OnPropertyChanged(nameof(AxisX));
+                if (_axisX != value) {
+                    _axisX = value;
+                    OnPropertyChanged(nameof(AxisX));
+                }
             }
         }
 
         public AxesCollection AxisYShadow {
             get => _axisYShadow;
             set {
-                _axisYShadow = value;
-                OnPropertyChanged(nameof(AxisYShadow));
+                if (_axisYShadow != value) {
+                    _axisYShadow = value;
+                    OnPropertyChanged(nameof(AxisYShadow));
+                }
             }
         }
 
@@ -156,8 +166,10 @@ namespace NTMiner.Vms {
                 return _axisXShadow;
             }
             set {
-                _axisXShadow = value;
-                OnPropertyChanged(nameof(AxisXShadow));
+                if (_axisXShadow != value) {
+                    _axisXShadow = value;
+                    OnPropertyChanged(nameof(AxisXShadow));
+                }
             }
         }
 
@@ -169,8 +181,10 @@ namespace NTMiner.Vms {
                 return _itemBackground;
             }
             set {
-                _itemBackground = value;
-                OnPropertyChanged(nameof(ItemBackground));
+                if (_itemBackground != value) {
+                    _itemBackground = value;
+                    OnPropertyChanged(nameof(ItemBackground));
+                }
             }
         }
 

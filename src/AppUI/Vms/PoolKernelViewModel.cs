@@ -44,8 +44,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -54,8 +56,10 @@ namespace NTMiner.Vms {
                 return _poolId;
             }
             set {
-                _poolId = value;
-                OnPropertyChanged(nameof(PoolId));
+                if (_poolId != value) {
+                    _poolId = value;
+                    OnPropertyChanged(nameof(PoolId));
+                }
             }
         }
 
@@ -91,8 +95,10 @@ namespace NTMiner.Vms {
         public Guid KernelId {
             get => _kernelId;
             set {
-                _kernelId = value;
-                OnPropertyChanged(nameof(KernelId));
+                if (_kernelId != value) {
+                    _kernelId = value;
+                    OnPropertyChanged(nameof(KernelId));
+                }
             }
         }
 
@@ -115,10 +121,12 @@ namespace NTMiner.Vms {
         public string Args {
             get { return _args; }
             set {
-                _args = value;
-                OnPropertyChanged(nameof(Args));
-                if (MinerProfileViewModel.Current.CoinId == this.PoolVm.CoinId) {
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                if (_args != value) {
+                    _args = value;
+                    OnPropertyChanged(nameof(Args));
+                    if (MinerProfileViewModel.Current.CoinId == this.PoolVm.CoinId) {
+                        Global.Execute(new RefreshArgsAssemblyCommand());
+                    }
                 }
             }
         }
@@ -126,8 +134,10 @@ namespace NTMiner.Vms {
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
             }
         }
     }

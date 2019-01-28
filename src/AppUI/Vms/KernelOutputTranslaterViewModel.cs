@@ -105,8 +105,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -114,35 +116,43 @@ namespace NTMiner.Vms {
         public Guid KernelOutputId {
             get => _kernelOutputId;
             set {
-                _kernelOutputId = value;
-                OnPropertyChanged(nameof(KernelOutputId));
+                if (_kernelOutputId != value) {
+                    _kernelOutputId = value;
+                    OnPropertyChanged(nameof(KernelOutputId));
+                }
             }
         }
 
         public string RegexPattern {
             get => _regexPattern;
             set {
-                _regexPattern = value;
-                OnPropertyChanged(nameof(RegexPattern));
+                if (_regexPattern != value) {
+                    _regexPattern = value;
+                    OnPropertyChanged(nameof(RegexPattern));
+                }
             }
         }
 
         public string Replacement {
             get => _replacement;
             set {
-                _replacement = value;
-                OnPropertyChanged(nameof(Replacement));
+                if (_replacement != value) {
+                    _replacement = value;
+                    OnPropertyChanged(nameof(Replacement));
+                }
             }
         }
 
         public string Color {
             get => _color;
             set {
-                _color = value;
-                OnPropertyChanged(nameof(Color));
-                OnPropertyChanged(nameof(ColorBrush));
-                OnPropertyChanged(nameof(ColorDicItem));
-                OnPropertyChanged(nameof(ColorDescription));
+                if (_color != value) {
+                    _color = value;
+                    OnPropertyChanged(nameof(Color));
+                    OnPropertyChanged(nameof(ColorBrush));
+                    OnPropertyChanged(nameof(ColorDicItem));
+                    OnPropertyChanged(nameof(ColorDescription));
+                }
             }
         }
 
@@ -195,17 +205,21 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 
         public bool IsPre {
             get { return _isPre; }
             set {
-                _isPre = value;
-                OnPropertyChanged(nameof(IsPre));
-                OnPropertyChanged(nameof(IsPreText));
+                if (_isPre != value) {
+                    _isPre = value;
+                    OnPropertyChanged(nameof(IsPre));
+                    OnPropertyChanged(nameof(IsPreText));
+                }
             }
         }
 

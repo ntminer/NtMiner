@@ -19,27 +19,33 @@ namespace NTMiner.Vms {
         public KernelViewModel SelectedResult {
             get => _selectedResult;
             set {
-                _selectedResult = value;
-                OnPropertyChanged(nameof(SelectedResult));
-                TopWindow.GetTopWindow()?.Close();
+                if (_selectedResult != value) {
+                    _selectedResult = value;
+                    OnPropertyChanged(nameof(SelectedResult));
+                    TopWindow.GetTopWindow()?.Close();
+                }
             }
         }
 
         public string Keyword {
             get => _keyword;
             set {
-                _keyword = value;
-                OnPropertyChanged(nameof(Keyword));
-                OnPropertyChanged(nameof(QueryResults));
+                if (_keyword != value) {
+                    _keyword = value;
+                    OnPropertyChanged(nameof(Keyword));
+                    OnPropertyChanged(nameof(QueryResults));
+                }
             }
         }
 
         public CoinViewModel ExceptedCoin {
             get => _exceptedCoin;
             set {
-                _exceptedCoin = value;
-                OnPropertyChanged(nameof(ExceptedCoin));
-                OnPropertyChanged(nameof(QueryResults));
+                if (_exceptedCoin != value) {
+                    _exceptedCoin = value;
+                    OnPropertyChanged(nameof(ExceptedCoin));
+                    OnPropertyChanged(nameof(QueryResults));
+                }
             }
         }
 
