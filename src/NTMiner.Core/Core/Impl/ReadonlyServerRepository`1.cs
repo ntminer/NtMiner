@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
-    public class ReadOnlyServerRepository<T> : IRepository<T> where T : class, IDbEntity<Guid> {
+    public class ReadOnlyServerRepository<T> : IRepository<T>, IReadOnlyRepository where T : class, IDbEntity<Guid> {
         public ReadOnlyServerRepository() { }
 
         public void Add(T entity) {

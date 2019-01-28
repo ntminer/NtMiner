@@ -70,6 +70,7 @@
     <Compile Include="Language\Repository.cs" />
     <Compile Include="Logging\LogDir.cs" />
     <Compile Include="NTMinerRegistry.cs" />
+    <Compile Include="Repositories\IReadOnlyRepository.cs" />
     <Compile Include="ServiceContracts\DataObjects\AppSettingData.cs" />
     <Compile Include="ServiceContracts\DataObjects\GetAppSettingResponse.cs" />
     <Compile Include="ServiceContracts\DataObjects\GetAppSettingsResponse.cs" />

@@ -37,7 +37,7 @@ namespace NTMiner.Bus {
                 }
             }
             else if (!messageTypeDescription.IsCanNoHandler) {
-                Global.Logger.WarnDebugLine(messageType.FullName + "类型的消息没有对应的处理器");
+                Global.DebugLine(messageType.FullName + "类型的消息没有对应的处理器");
             }
         }
 
