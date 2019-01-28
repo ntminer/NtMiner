@@ -1,4 +1,5 @@
-﻿using NTMiner.Notifications;
+﻿using NTMiner.Core;
+using NTMiner.Notifications;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ namespace NTMiner.Vms {
         private INotificationMessageManager _manager;
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private bool _isDaemonRunning = true;
+        private ulong _serverJsonVersion;
 
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
@@ -25,12 +27,19 @@ namespace NTMiner.Vms {
             if (DevMode.IsDevMode) {
                 Global.Access<Per10SecondEvent>(
                     Guid.Parse("868658E4-B281-4E55-BE0F-0E2B66777D6C"),
-                    "在界面上展示守护进程的运行状态",
+                    "在开发者调试区展示守护进程的运行状态",
                     LogEnum.None,
                     action: message => {
                         NTMinerClientDaemon.Instance.GetDaemonVersionAsync(Global.Localhost, Global.ClientPort, thatVersion => {
                             this.IsDaemonRunning = !string.IsNullOrEmpty(thatVersion);
                         });
+                    });
+                Global.Access<ServerJsonVersionChangedEvent>(
+                    Guid.Parse("064BD3E0-0E79-4D12-A1B0-51F4751AD846"),
+                    "在开发者调试区展示ServerJsonVersion",
+                    LogEnum.None,
+                    action: message => {
+                        this.ServerJsonVersion = AssemblyInfo.JsonFileVersion;
                     });
             }
         }
@@ -93,6 +102,21 @@ namespace NTMiner.Vms {
                     _manager = new NotificationMessageManager();
                 }
                 return _manager;
+            }
+        }
+
+        public ulong ServerJsonVersion {
+            get => _serverJsonVersion;
+            set {
+                _serverJsonVersion = value;
+                OnPropertyChanged(nameof(ServerJsonVersion));
+                OnPropertyChanged(nameof(ServerJsonVersionText));
+            }
+        }
+
+        public string ServerJsonVersionText {
+            get {
+                return Global.FromTimestamp(this.ServerJsonVersion).ToString("yyyy-MM-dd HH:mm:ss");
             }
         }
     }

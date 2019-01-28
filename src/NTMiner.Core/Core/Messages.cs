@@ -7,6 +7,10 @@ using System;
 using System.Linq;
 
 namespace NTMiner.Core {
+    public class ServerJsonVersionChangedEvent : EventBase {
+        public ServerJsonVersionChangedEvent() { }
+    }
+
     #region Refresh 注意Refresh命令有先后顺序
     public abstract class RefreshCommand : Cmd {
         public static RefreshCommand[] CreateRefreshCommands() {
