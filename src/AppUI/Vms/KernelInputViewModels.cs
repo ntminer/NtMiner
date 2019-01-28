@@ -10,13 +10,6 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelInputViewModel> _dicById = new Dictionary<Guid, KernelInputViewModel>();
 
         private KernelInputViewModels() {
-            Global.Access<KernelInputSetRefreshedEvent>(
-                Guid.Parse("4027C417-0DEA-4C96-8794-A79D6602684D"),
-                "内核输入数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<KernelInputAddedEvent>(
                 Guid.Parse("7BB2CAD5-333F-4BDD-B6FF-3F0AA50724EA"),
                 "添加了内核输入后刷新VM内存",
@@ -66,22 +59,9 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.KernelInputSet) {
-                    KernelInputViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdateKernelInputCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddKernelInputCommand(item));
-                    }
-                }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.KernelInputSet) {
-                    _dicById.Add(item.GetId(), new KernelInputViewModel(item));
-                }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.KernelInputSet) {
+                _dicById.Add(item.GetId(), new KernelInputViewModel(item));
             }
         }
 

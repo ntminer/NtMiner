@@ -10,13 +10,6 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelViewModel> _dicById = new Dictionary<Guid, KernelViewModel>();
 
         private KernelViewModels() {
-            Global.Access<KernelSetRefreshedEvent>(
-                Guid.Parse("CD2F6575-7032-4D9F-AFFA-8B6A4EAACAD2"),
-                "内核数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<KernelAddedEvent>(
                 Guid.Parse("35917be2-7373-440d-b083-8edc1050f2cc"),
                 "添加了内核后调整VM内存",
@@ -59,22 +52,9 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.KernelSet) {
-                    KernelViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdateKernelCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddKernelCommand(item));
-                    }
-                }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.KernelSet) {
-                    _dicById.Add(item.GetId(), new KernelViewModel(item));
-                }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.KernelSet) {
+                _dicById.Add(item.GetId(), new KernelViewModel(item));
             }
         }
 

@@ -15,7 +15,7 @@ namespace NTMiner.Core.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Global.Happened(new GroupSetRefreshedEvent());
+                    Init();
                 });
             Global.Access<AddGroupCommand>(
                 Guid.Parse("e0c313ff-2550-41f8-9403-8575638c7faf"),

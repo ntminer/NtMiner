@@ -18,7 +18,7 @@ namespace NTMiner.Core.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Global.Happened(new PoolSetRefreshedEvent());
+                    Init();
                 });
             Global.Access<AddPoolCommand>(
                 Guid.Parse("5ee1b14b-4b9e-445f-b6fe-433f6fe44b18"),

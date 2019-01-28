@@ -16,7 +16,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Global.Happened(new CoinKernelSetRefreshedEvent());
+                    Init();
                 });
             Global.Access<AddCoinKernelCommand>(
                 Guid.Parse("6345c411-4860-433b-ad5e-3a743bcebfa8"),

@@ -18,7 +18,7 @@ namespace NTMiner.Core.SysDics.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Global.Happened(new SysDicSetRefreshedEvent());
+                    Init();
                 });
             Global.Access<AddSysDicCommand>(
                 Guid.Parse("9353be1f-707f-455f-ade5-07e081141d47"),

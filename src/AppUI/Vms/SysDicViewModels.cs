@@ -13,13 +13,6 @@ namespace NTMiner.Vms {
 
         public ICommand Add { get; private set; }
         private SysDicViewModels() {
-            Global.Access<SysDicSetRefreshedEvent>(
-                Guid.Parse("62D47241-D680-41B1-BB29-9500A632C919"),
-                "系统字典数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<SysDicAddedEvent>(
                 Guid.Parse("eef03852-17c4-4124-bb64-444f6c4f19ab"),
                 "添加了系统字典后调整VM内存",
@@ -62,24 +55,11 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.SysDicSet) {
-                    SysDicViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdateSysDicCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddSysDicCommand(item));
-                    }
-                }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.SysDicSet) {
-                    SysDicViewModel sysDicVm = new SysDicViewModel(item);
-                    _dicById.Add(item.GetId(), sysDicVm);
-                    _dicByCode.Add(item.Code, sysDicVm);
-                }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.SysDicSet) {
+                SysDicViewModel sysDicVm = new SysDicViewModel(item);
+                _dicById.Add(item.GetId(), sysDicVm);
+                _dicByCode.Add(item.Code, sysDicVm);
             }
         }
 

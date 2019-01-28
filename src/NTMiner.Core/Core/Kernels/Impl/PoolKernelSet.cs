@@ -16,7 +16,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Global.Happened(new PoolKernelSetRefreshedEvent());
+                    Init();
                 });
             Global.Access<AddPoolKernelCommand>(
                 Guid.Parse("B926F4A0-4318-493D-BCE1-CBE329AC7DD7"),

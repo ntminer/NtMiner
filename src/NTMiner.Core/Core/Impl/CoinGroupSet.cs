@@ -16,7 +16,7 @@ namespace NTMiner.Core.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Global.Happened(new CoinGroupSetRefreshedEvent());
+                    Init();
                 });
             Global.Access<AddCoinGroupCommand>(
                 Guid.Parse("2dd8f7e9-c79d-4621-954f-9fc45b0207dd"),

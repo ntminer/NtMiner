@@ -10,13 +10,6 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, SysDicItemViewModel> _dicById = new Dictionary<Guid, SysDicItemViewModel>();
 
         public SysDicItemViewModels() {
-            Global.Access<SysDicItemSetRefreshedEvent>(
-                Guid.Parse("ECED5930-39A0-4422-A217-34469B600D5A"),
-                "系统字典项数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<SysDicItemAddedEvent>(
                 Guid.Parse("3527e754-9b63-4931-8b14-5b5cada26165"),
                 "添加了系统字典项后调整VM内存",
@@ -68,22 +61,9 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.SysDicItemSet) {
-                    SysDicItemViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdateSysDicItemCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddSysDicItemCommand(item));
-                    }
-                }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.SysDicItemSet) {
-                    _dicById.Add(item.GetId(), new SysDicItemViewModel(item));
-                }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.SysDicItemSet) {
+                _dicById.Add(item.GetId(), new SysDicItemViewModel(item));
             }
         }
 

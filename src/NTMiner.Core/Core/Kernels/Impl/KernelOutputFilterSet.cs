@@ -18,7 +18,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Global.Happened(new KernelOutputFilterSetRefreshedEvent());
+                    Init();
                 });
             Global.Access<AddKernelOutputFilterCommand>(
                 Guid.Parse("43c09cc6-456c-4e55-95b1-63b5937c5b11"),

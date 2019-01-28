@@ -9,13 +9,6 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, CoinGroupViewModel> _dicById = new Dictionary<Guid, CoinGroupViewModel>();
         private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
         private CoinGroupViewModels() {
-            Global.Access<CoinGroupSetRefreshedEvent>(
-                Guid.Parse("59FC48A0-9D6A-4445-A76D-489B8009D261"),
-                "币组数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<CoinGroupAddedEvent>(
                 Guid.Parse("e0476d29-0115-405e-81d1-c7fb65051c83"),
                 "添加了币组后调整VM内存",
@@ -65,27 +58,14 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.CoinGroupSet) {
-                    CoinGroupViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdateCoinGroupCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddCoinGroupCommand(item));
-                    }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.CoinGroupSet) {
+                CoinGroupViewModel groupVm = new CoinGroupViewModel(item);
+                _dicById.Add(item.GetId(), groupVm);
+                if (!_listByGroupId.ContainsKey(item.GroupId)) {
+                    _listByGroupId.Add(item.GroupId, new List<CoinGroupViewModel>());
                 }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.CoinGroupSet) {
-                    CoinGroupViewModel groupVm = new CoinGroupViewModel(item);
-                    _dicById.Add(item.GetId(), groupVm);
-                    if (!_listByGroupId.ContainsKey(item.GroupId)) {
-                        _listByGroupId.Add(item.GroupId, new List<CoinGroupViewModel>());
-                    }
-                    _listByGroupId[item.GroupId].Add(groupVm);
-                }
+                _listByGroupId[item.GroupId].Add(groupVm);
             }
         }
 

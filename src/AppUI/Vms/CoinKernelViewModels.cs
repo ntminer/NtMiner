@@ -8,13 +8,6 @@ namespace NTMiner.Vms {
         public static readonly CoinKernelViewModels Current = new CoinKernelViewModels();
         private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
         private CoinKernelViewModels() {
-            Global.Access<CoinKernelSetRefreshedEvent>(
-                Guid.Parse("D9FA7869-ABE5-44C9-9EB0-D1AD7143158F"),
-                "币种内核数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<CoinKernelAddedEvent>(
                 Guid.Parse("b3d7280d-3107-4730-a111-f34dd5cf4ede"),
                 "添加了币种内核后刷新VM内存",
@@ -89,22 +82,9 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.CoinKernelSet) {
-                    CoinKernelViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdateCoinKernelCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddCoinKernelCommand(item));
-                    }
-                }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.CoinKernelSet) {
-                    _dicById.Add(item.GetId(), new CoinKernelViewModel(item));
-                }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.CoinKernelSet) {
+                _dicById.Add(item.GetId(), new CoinKernelViewModel(item));
             }
         }
 

@@ -8,13 +8,6 @@ namespace NTMiner.Vms {
         public static readonly PoolViewModels Current = new PoolViewModels();
         private readonly Dictionary<Guid, PoolViewModel> _dicById = new Dictionary<Guid, PoolViewModel>();
         private PoolViewModels() {
-            Global.Access<PoolSetRefreshedEvent>(
-                Guid.Parse("B99D3B1B-6E0B-4F06-ABCA-87102DFEC73E"),
-                "矿池数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<PoolAddedEvent>(
                 Guid.Parse("1fdd642a-5976-4da1-afae-def9730a91bd"),
                 "添加矿池后刷新VM内存",
@@ -55,22 +48,9 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.PoolSet) {
-                    PoolViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdatePoolCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddPoolCommand(item));
-                    }
-                }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.PoolSet) {
-                    _dicById.Add(item.GetId(), new PoolViewModel(item));
-                }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.PoolSet) {
+                _dicById.Add(item.GetId(), new PoolViewModel(item));
             }
         }
 

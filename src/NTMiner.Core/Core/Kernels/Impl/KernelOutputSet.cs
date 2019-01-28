@@ -20,7 +20,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Global.Happened(new KernelOutputSetRefreshedEvent());
+                    Init();
                 });
             Global.Access<AddKernelOutputCommand>(
                 Guid.Parse("142AE86A-C264-40B2-A617-D65E33C7FEE2"),

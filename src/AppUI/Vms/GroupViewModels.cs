@@ -16,13 +16,6 @@ namespace NTMiner.Vms {
                     SortNumber = Count + 1
                 }.Edit.Execute(null);
             });
-            Global.Access<GroupSetRefreshedEvent>(
-                Guid.Parse("E1BD1C77-2845-4EC1-9262-BAFBC2C0532C"),
-                "组数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<GroupAddedEvent>(
                 Guid.Parse("285077b7-b6ce-4b2a-8033-29650ea701ec"),
                 "添加了组后调整VM内存",
@@ -60,23 +53,10 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.GroupSet) {
-                    GroupViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdateGroupCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddGroupCommand(item));
-                    }
-                }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.GroupSet) {
-                    GroupViewModel groupVm = new GroupViewModel(item);
-                    _dicById.Add(item.GetId(), groupVm);
-                }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.GroupSet) {
+                GroupViewModel groupVm = new GroupViewModel(item);
+                _dicById.Add(item.GetId(), groupVm);
             }
         }
 

@@ -10,13 +10,6 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelOutputViewModel> _dicById = new Dictionary<Guid, KernelOutputViewModel>();
 
         private KernelOutputViewModels() {
-            Global.Access<KernelOutputSetRefreshedEvent>(
-                Guid.Parse("BF64170D-DD7F-4805-8A86-EEA4C6046CBF"),
-                "内核输出数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<KernelOutputAddedEvent>(
                 Guid.Parse("E1864E02-ED87-49D6-AD9F-A54953D6BC7E"),
                 "添加了内核输出组后刷新VM内存",
@@ -53,22 +46,9 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.KernelOutputSet) {
-                    KernelOutputViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdateKernelOutputCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddKernelOutputCommand(item));
-                    }
-                }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.KernelOutputSet) {
-                    _dicById.Add(item.GetId(), new KernelOutputViewModel(item));
-                }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.KernelOutputSet) {
+                _dicById.Add(item.GetId(), new KernelOutputViewModel(item));
             }
         }
 

@@ -11,13 +11,6 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelOutputFilterViewModel> _dicById = new Dictionary<Guid, KernelOutputFilterViewModel>();
 
         private KernelOutputFilterViewModels() {
-            Global.Access<KernelOutputFilterSetRefreshedEvent>(
-                Guid.Parse("F2F6E87D-1F11-4636-84F0-F8CDB8AADDDD"),
-                "内核输出过滤器数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init(isRefresh: true);
-                });
             Global.Access<KernelOutputFilterAddedEvent>(
                 Guid.Parse("d7a72ffc-ad5d-4862-b502-bffb3a9f0234"),
                 "添加了内核输出过滤器后刷新VM内存",
@@ -64,25 +57,12 @@ namespace NTMiner.Vms {
             Init();
         }
 
-        private void Init(bool isRefresh = false) {
-            if (isRefresh) {
-                foreach (var item in NTMinerRoot.Current.KernelOutputFilterSet) {
-                    KernelOutputFilterViewModel vm;
-                    if (_dicById.TryGetValue(item.GetId(), out vm)) {
-                        Global.Execute(new UpdateKernelOutputFilterCommand(item));
-                    }
-                    else {
-                        Global.Execute(new AddKernelOutputFilterCommand(item));
-                    }
+        private void Init() {
+            foreach (var item in NTMinerRoot.Current.KernelOutputFilterSet) {
+                if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                    _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputFilterViewModel>());
                 }
-            }
-            else {
-                foreach (var item in NTMinerRoot.Current.KernelOutputFilterSet) {
-                    if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
-                        _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputFilterViewModel>());
-                    }
-                    _dicByKernelOutputId[item.KernelOutputId].Add(new KernelOutputFilterViewModel(item));
-                }
+                _dicByKernelOutputId[item.KernelOutputId].Add(new KernelOutputFilterViewModel(item));
             }
         }
 
