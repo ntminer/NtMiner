@@ -39,10 +39,18 @@ namespace NTMiner.Vms {
                 action: message => {
                     var entity = _dicById[message.Source.GetId()];
                     int sortNumber = entity.SortNumber;
+                    PublishStatus publishStatus = entity.PublishState;
                     Guid kernelInputId = entity.KernelInputId;
                     entity.Update(message.Source);
                     if (sortNumber != entity.SortNumber) {
                         KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
+                    }
+                    if (publishStatus != entity.PublishState) {
+                        foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a=>a.KernelId == entity.Id)) {
+                            foreach (var coinVm in CoinViewModels.Current.AllCoins.Where(a=>a.Id == coinKernelVm.CoinId)) {
+                                coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
+                            }
+                        }
                     }
                     if (kernelInputId != entity.KernelInputId) {
                         Global.Execute(new RefreshArgsAssemblyCommand());
