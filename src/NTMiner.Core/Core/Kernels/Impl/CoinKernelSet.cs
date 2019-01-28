@@ -82,6 +82,9 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     CoinKernelData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     entity.Update(message.Input);
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Update(entity);

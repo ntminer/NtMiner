@@ -70,6 +70,9 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     KernelOutputTranslaterData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     string regexPattern = entity.RegexPattern;
                     string color = entity.Color;
                     entity.Update(message.Input);

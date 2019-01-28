@@ -65,7 +65,11 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
-                    }                    PoolKernelData entity = _dicById[message.Input.GetId()];
+                    }
+                    PoolKernelData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     entity.Update(message.Input);
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     repository.Update(entity);

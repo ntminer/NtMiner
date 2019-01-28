@@ -75,9 +75,6 @@ namespace NTMiner.Repositories {
                 _globalRepository.Remove(id);
             }
             else {
-                if (!(_globalRepository is IReadOnlyRepository) && _globalRepository.Exists(id)) {
-                    throw new ValidationException("系统记录不能被删除，如果该条记录不满足您的需求您可自定义添加新记录。");
-                }
                 _profileRepository.Remove(id);
             }
         }
@@ -88,11 +85,10 @@ namespace NTMiner.Repositories {
                 _globalRepository.Update(entity);
             }
             else {
-                if (!(_globalRepository is IReadOnlyRepository) && _globalRepository.Exists(entity.GetId())) {
-                    throw new ValidationException("系统记录不能修改，如果该条记录不满足您的需求您可自定义添加新记录。");
+                if (_profileRepository.Exists(entity.GetId())) {
+                    entity.SetDataLevel(DataLevel.Profile);
+                    _profileRepository.Update(entity);
                 }
-                entity.SetDataLevel(DataLevel.Profile);
-                _profileRepository.Update(entity);
             }
         }
     }

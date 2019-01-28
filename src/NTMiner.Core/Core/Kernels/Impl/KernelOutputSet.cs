@@ -64,6 +64,9 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     KernelOutputData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     entity.Update(message.Input);
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Update(entity);

@@ -69,6 +69,9 @@ namespace NTMiner.Core.SysDics.Impl {
                         return;
                     }
                     SysDicData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     entity.Update(message.Input);
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     repository.Update(entity);

@@ -68,6 +68,9 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     CoinData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     entity.Update(message.Input);
                     var repository = NTMinerRoot.CreateServerRepository<CoinData>();
                     repository.Update(entity);

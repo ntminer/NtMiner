@@ -89,11 +89,13 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    // 组合GlobalDb和ProfileDb，Profile用户无权修改GlobalDb中的数据，否则抛出异常终端流程从而确保GlobalDb中的数据不会被后续的流程修改
+                    PoolData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
+                    entity.Update(message.Input);
                     var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                     repository.Update(new PoolData().Update(message.Input));
-                    PoolData entity = _dicById[message.Input.GetId()];
-                    entity.Update(message.Input);
 
                     Global.Happened(new PoolUpdatedEvent(entity));
                 });
