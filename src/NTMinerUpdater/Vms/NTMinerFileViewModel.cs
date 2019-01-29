@@ -25,11 +25,14 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 if (Login()) {
                     Server.FileUrlService.AddOrUpdateNTMinerFileAsync(new NTMinerFileData().Update(this), response => {
-                        if (response != null && response.IsSuccess()) {
+                        if (response.IsSuccess()) {
                             MainWindowViewModel.Current.Refresh();
                             Execute.OnUIThread(() => {
                                 TopWindow.GetTopWindow()?.Close();
                             });
+                        }
+                        else {
+                            Global.Logger.ErrorDebugLine($"AddOrUpdateNTMinerFileAsync失败");
                         }
                     });
                 }

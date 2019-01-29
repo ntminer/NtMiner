@@ -2,8 +2,17 @@
 using System.Runtime.Serialization;
 
 namespace NTMiner.ServiceContracts.DataObjects {
+    public static class ResponseBaseExtension {
+        public static bool IsSuccess(this ResponseBase response) {
+            if (response == null) {
+                return false;
+            }
+            return response.StateCode == 200;
+        }
+    }
+
     [DataContract]
-    public class ResponseBase : object {
+    public class ResponseBase {
         public static ResponseBase Forbidden(Guid messageId, string description = "无权访问") {
             return Forbidden<ResponseBase>(messageId, description);
         }
@@ -79,10 +88,6 @@ namespace NTMiner.ServiceContracts.DataObjects {
         }
 
         public ResponseBase() {
-        }
-
-        public bool IsSuccess() {
-            return this.StateCode == 200;
         }
 
         [DataMember]

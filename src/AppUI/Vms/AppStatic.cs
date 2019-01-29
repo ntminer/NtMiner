@@ -77,7 +77,7 @@ namespace NTMiner.Vms {
                     Value = Global.GetTimestamp()
                 }, response => {
                     Execute.OnUIThread(() => {
-                        if (response != null && response.IsSuccess()) {
+                        if (response.IsSuccess()) {
                             ControlCenterWindowViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("#333")

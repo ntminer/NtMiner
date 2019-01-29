@@ -65,10 +65,13 @@ namespace NTMiner {
                                 countdown.Signal();
                             });
                             Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
-                                if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value != null) {
+                                if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
                                     if (response.Data.Value is ulong value) {
                                         JsonFileVersion = value;
                                     }
+                                }
+                                else {
+                                    Global.Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败");
                                 }
                             });
                             GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
@@ -364,7 +367,7 @@ namespace NTMiner {
                             return;
                         }
                         Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
-                            if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value is ulong value && JsonFileVersion != value) {
+                            if (response.IsSuccess() && response.Data != null && response.Data.Value is ulong value && JsonFileVersion != value) {
                                 GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                     string rawNTMinerJson = Encoding.UTF8.GetString(data);
                                     Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{Global.FromTimestamp(value)}");
@@ -377,6 +380,9 @@ namespace NTMiner {
                                         }
                                     });
                                 });
+                            }
+                            else {
+                                Global.Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败");
                             }
                         });
                     });
