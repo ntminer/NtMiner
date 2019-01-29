@@ -82,8 +82,8 @@
             <RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<!--上标题栏-->
-        <Canvas>
-			<WrapPanel Canvas.Left="4" Canvas.Top="3">
+        <Grid>
+            <WrapPanel VerticalAlignment="Center">
                 <Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png"></Image>
 				<controls:KbLinkButton
 					ToolTip="{DynamicResource NTMinerTitleToopTip}"
@@ -140,7 +140,7 @@
 						Visibility="{Binding MinerProfile.IsWorkEdit, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
 				</WrapPanel>
 			</WrapPanel>
-			<WrapPanel Canvas.Right="0" HorizontalAlignment="Right">
+			<WrapPanel HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" 
 					VerticalAlignment="Top">
                     <controls:KbComboBox 
@@ -165,7 +165,7 @@
 						KbSystemButtonForeground="#385263" />
 				</WrapPanel>
 			</WrapPanel>
-		</Canvas>
+		</Grid>
 		<!--上导航栏-->
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -265,7 +265,7 @@
 						    Grid.Column="1" Grid.Row="0" 
                             Margin="0 -23 0 0" 
 						    Padding="0"
-						    BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+						    BorderBrush="{StaticResource LineColor}" BorderThickness="1 1 1 0">
                             <TabItem>
                                 <TabItem.Header>
                                     <Border Padding="10 0">
