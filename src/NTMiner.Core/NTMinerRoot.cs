@@ -367,19 +367,26 @@ namespace NTMiner {
                             return;
                         }
                         Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
-                            if (response.IsSuccess() && response.Data != null && response.Data.Value is ulong value && JsonFileVersion != value) {
-                                GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                                    string rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                    Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{Global.FromTimestamp(value)}");
-                                    JsonFileVersion = value;
-                                    ServerJson.Instance.ReInit(rawNTMinerJson);
-                                    Execute.OnUIThread(() => {
-                                        var refreshCommands = RefreshCommand.CreateRefreshCommands();
-                                        foreach (var refreshCommand in refreshCommands) {
-                                            Global.Execute(refreshCommand);
-                                        }
+                            if (response.IsSuccess() && response.Data != null && response.Data.Value is ulong value) {
+                                if (JsonFileVersion != value) {
+                                    GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                                        string rawNTMinerJson = Encoding.UTF8.GetString(data);
+                                        Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{Global.FromTimestamp(value)}");
+                                        JsonFileVersion = value;
+                                        ServerJson.Instance.ReInit(rawNTMinerJson);
+                                        Global.Logger.InfoDebugLine("ServerJson数据集刷新完成");
+                                        Execute.OnUIThread(() => {
+                                            var refreshCommands = RefreshCommand.CreateRefreshCommands();
+                                            foreach (var refreshCommand in refreshCommands) {
+                                                Global.Execute(refreshCommand);
+                                            }
+                                            Global.Logger.InfoDebugLine("刷新完成");
+                                        });
                                     });
-                                });
+                                }
+                                else {
+                                    Global.WriteDevLine("server.json没有新版本", ConsoleColor.Green);
+                                }
                             }
                             else {
                                 Global.Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败");
