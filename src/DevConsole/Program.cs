@@ -70,6 +70,7 @@ namespace NTMiner {
                         WinDivertMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
+                            string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             string dstIp = ipv4Header->DstAddr.ToString();
                             var dstPort = tcpHdr->DstPort;
                             string arrow = $"->{dstIp}:{dstPort}";
@@ -80,7 +81,6 @@ namespace NTMiner {
                             else {
                                 Console.WriteLine($"->->->->->->->->->->->->->{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}->->->->->->->->->->->->->->->");
                             }
-                            string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             Console.WriteLine(arrow + text);
                             Console.WriteLine();
                             Console.WriteLine();
