@@ -25,7 +25,7 @@
             Margin="0 4 20 0"
             VerticalAlignment="Top"
             HorizontalAlignment="Right"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="KernelHelpPage translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="KernelHelpPage"

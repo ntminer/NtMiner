@@ -74,7 +74,7 @@
         <controls:KbButton
             Grid.Row="2"
             HorizontalAlignment="Right"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="AboutPage translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="AboutPage"

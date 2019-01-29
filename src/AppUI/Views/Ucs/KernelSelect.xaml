@@ -96,7 +96,7 @@
 				                        Data="{StaticResource Icon_AMD}"
 				                        Fill="Red"
 				                        Stretch="Fill" />
-                                    <TextBlock Text="{Binding Package}" Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"></TextBlock>
+                                    <TextBlock Text="{Binding Package}" Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
                                 </WrapPanel>
                                 <WrapPanel>
                                     <TextBlock Text="{Binding SupportedCoins}" ToolTip="支持币种"></TextBlock>

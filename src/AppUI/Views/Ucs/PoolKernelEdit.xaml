@@ -48,7 +48,7 @@
                 <controls:KbButton
                     Margin="2 0"
                     HorizontalAlignment="Right"
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                     ToolTip="PoolKernelEdit translate"
                     Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                     CommandParameter="PoolKernelEdit"
@@ -139,7 +139,7 @@
 				VerticalContentAlignment="Center"
                 Height="30"
 				Width="436" Background="Transparent"
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Text="{Binding Args, Mode=TwoWay}">
 			</TextBox>
 		</WrapPanel>
@@ -148,7 +148,7 @@
             <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Description}" ToolTip="{DynamicResource Description}"></TextBlock>
 			<TextBox 
 				Width="436" Background="Transparent"
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				AcceptsReturn="True" TextWrapping="Wrap" 
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Description, Mode=TwoWay}" Height="60">                
@@ -156,7 +156,7 @@
         </WrapPanel>
         <controls:KbButton
             Command="{Binding Save}" 
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             Margin="0 10 0 0"
             Width="70" 
             Height="30"

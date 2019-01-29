@@ -70,7 +70,7 @@
                     <controls:KbButton
                         Margin="50 0 0 0"
                         BorderThickness="0"
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         ToolTip="MinerProfileOption translate"
                         Background="Transparent"
                         Command="{x:Static vm:AppStatic.ShowLangViewItems}"

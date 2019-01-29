@@ -56,7 +56,7 @@
     </UserControl.Resources>
     <WrapPanel>
         <controls:KbButton
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="MainMenu translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="MainMenu"

@@ -17,7 +17,7 @@
         </sys:String>
     </UserControl.Resources>
     <StackPanel Margin="10">
-        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
             <Label>名称:</Label>
             <TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
             </TextBox>

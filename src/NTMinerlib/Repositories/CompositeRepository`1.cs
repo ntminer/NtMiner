@@ -16,7 +16,7 @@ namespace NTMiner.Repositories {
             foreach (var item in globalResults) {
                 item.SetDataLevel(DataLevel.Global);
             }
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 return globalResults;
             }
             var list = globalResults.ToList();
@@ -28,7 +28,7 @@ namespace NTMiner.Repositories {
         }
 
         public void Add(T entity) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 entity.SetDataLevel(DataLevel.Global);
                 _globalRepository.Add(entity);
             }
@@ -39,7 +39,7 @@ namespace NTMiner.Repositories {
         }
 
         public T GetByKey(Guid id) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 var entity = _globalRepository.GetByKey(id);
                 if (entity != null) {
                     entity.SetDataLevel(DataLevel.Global);
@@ -60,7 +60,7 @@ namespace NTMiner.Repositories {
         }
 
         public bool Exists(Guid key) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 return _globalRepository.Exists(key);
             }
             bool result = _globalRepository.Exists(key);
@@ -71,7 +71,7 @@ namespace NTMiner.Repositories {
         }
 
         public void Remove(Guid id) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 _globalRepository.Remove(id);
             }
             else {
@@ -80,7 +80,7 @@ namespace NTMiner.Repositories {
         }
 
         public void Update(T entity) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 entity.SetDataLevel(DataLevel.Global);
                 _globalRepository.Update(entity);
             }

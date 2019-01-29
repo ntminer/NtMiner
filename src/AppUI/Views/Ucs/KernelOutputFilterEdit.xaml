@@ -24,7 +24,7 @@
         </WrapPanel>
         <controls:KbButton
             Command="{Binding Save}" 
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             Margin="0 10 0 0"
             Width="70" 
             Height="30"

@@ -64,7 +64,7 @@ namespace NTMiner.Data.Impl {
                             _dataList.Add(item);
                         }
                     }
-                    Global.DebugLine("将最近20分钟的快照载入内存");
+                    Global.WriteDevLine("将最近20分钟的快照载入内存");
                     _isInited = true;
                 }
             }
@@ -79,11 +79,11 @@ namespace NTMiner.Data.Impl {
                 throw new InvalidProgramException("客户端每两分钟上报一次数据，所以快照拍摄周期不能大于2分钟，否则一个快照中同一个人可能出现两次");
             }
             if (leftTime == DateTime.MinValue) {
-                Global.DebugLine("尚没有数据源，暂不拍摄");
+                Global.WriteDevLine("尚没有数据源，暂不拍摄");
                 return;
             }
             DateTime rightTime = leftTime.AddSeconds(seconds);
-            Global.DebugLine($"快照时间区间{{{leftTime} - {rightTime}]");
+            Global.WriteDevLine($"快照时间区间{{{leftTime} - {rightTime}]");
             if (rightTime <= DateTime.Now) {
                 try {
                     if (IsSnapshoted(leftTime, rightTime)) {
@@ -100,7 +100,7 @@ namespace NTMiner.Data.Impl {
                 }
             }
             else {
-                Global.DebugLine("快照已拍摄到当前时间");
+                Global.WriteDevLine("快照已拍摄到当前时间");
             }
         }
 
@@ -146,7 +146,7 @@ namespace NTMiner.Data.Impl {
                     var col = db.GetCollection<CoinSnapshotData>();
                     col.Insert(data);
                 }
-                Global.DebugLine("拍摄快照" + data.Count + "张，快照时间戳：" + timestamp.ToString("yyyy-MM-dd HH:mm:ss fff"));
+                Global.WriteDevLine("拍摄快照" + data.Count + "张，快照时间戳：" + timestamp.ToString("yyyy-MM-dd HH:mm:ss fff"));
             }
         }
 

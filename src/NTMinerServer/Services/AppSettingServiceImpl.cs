@@ -47,7 +47,7 @@ namespace NTMiner.Services {
                     return response;
                 }
                 HostRoot.Current.AppSettingSet.SetAppSetting(request.Data);
-                Global.DebugLine($"{request.Data.Key} {request.Data.Value}");
+                Global.WriteDevLine($"{request.Data.Key} {request.Data.Value}");
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

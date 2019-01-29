@@ -87,7 +87,7 @@
                 <Label Content="{DynamicResource LblMachineName}" ToolTip="{DynamicResource LblMachineName}"></Label>
                 <TextBlock Text="{Binding MachineName}"></TextBlock>
                 <controls:KbButton
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                     ToolTip="MainWindow translate"
                     Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                     CommandParameter="Property"

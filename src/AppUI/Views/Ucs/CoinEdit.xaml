@@ -43,13 +43,13 @@
         <WrapPanel Margin="0 2">
             <Label Content="{DynamicResource Code}"></Label>
             <TextBox 
-                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+                IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
                 Width="150"
                 VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
             </TextBox>
             <Label Content="{DynamicResource Algo}"></Label>
             <TextBox 
-                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+                IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
                 Width="160"
                 VerticalContentAlignment="Center" Text="{Binding Algo}">
             </TextBox>
@@ -58,33 +58,33 @@
         <WrapPanel Margin="0 2">
             <Label Content="{DynamicResource EnName}"></Label>
             <TextBox 
-                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+                IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
                 Width="150"
                 VerticalContentAlignment="Center" Text="{Binding EnName}">
             </TextBox>
             <Label Content="{DynamicResource CnName}"></Label>
             <TextBox 
-                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+                IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
                 Width="160"
                 VerticalContentAlignment="Center" Text="{Binding CnName}">
             </TextBox>
         </WrapPanel>
 
-        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
             <Label Content="{DynamicResource WalletRegexPattern}"></Label>
             <TextBox 
                 Width="380"
-                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+                IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
                 VerticalContentAlignment="Center" Text="{Binding WalletRegexPattern}">
             </TextBox>
         </WrapPanel>
 
-        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
             <Label Content="{DynamicResource TestWallet}"></Label>
             <TextBox 
                 x:Name="TbTestWallet" 
                 Width="380" 
-                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+                IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
                 VerticalContentAlignment="Center" Text="{Binding TestWallet, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
             </TextBox>
             <TextBlock VerticalAlignment="Center">(</TextBlock>
@@ -92,7 +92,7 @@
             <TextBlock VerticalAlignment="Center">)</TextBlock>
         </WrapPanel>
 
-        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
             <Label></Label>
             <CheckBox
                 Content="{DynamicResource JustAsDualCoin}"
@@ -101,7 +101,7 @@
             <controls:KbButton
                 Margin="2 0"
                 HorizontalAlignment="Right"
-                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                 ToolTip="CoinEdit translate"
                 Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                 CommandParameter="CoinEdit"
@@ -118,7 +118,7 @@
         </WrapPanel>
         <controls:KbButton
             Command="{Binding Save}" 
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             Margin="0 10 0 0"
             Width="70" 
             Height="30"

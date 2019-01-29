@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 HeaderVisible = System.Windows.Visibility.Collapsed,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = DevMode.IsDevMode ? 1200 : AppStatic.MainWindowWidth,
+                Width = DevMode.IsDebugMode ? 1200 : AppStatic.MainWindowWidth,
                 Height = AppStatic.MainWindowHeight
             },
             ucFactory: (window) => {

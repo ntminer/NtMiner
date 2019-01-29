@@ -40,7 +40,7 @@
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource Downloading}"></TextBlock>
             <controls:KbButton
                 HorizontalAlignment="Right"
-                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                 ToolTip="KernelDownloading translate"
                 Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                 CommandParameter="KernelDownloading"

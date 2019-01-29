@@ -164,7 +164,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn 
                                 MinWidth="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
-                                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
@@ -195,7 +195,7 @@
 		    Margin="4"
 		    VerticalAlignment="Top"
 		    HorizontalAlignment="Right"
-		    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+		    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 		    ToolTip="PoolEdit translate"
 		    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
 		    CommandParameter="PoolEdit"

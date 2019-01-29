@@ -27,7 +27,7 @@
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="{DynamicResource TbMessage}"></TextBlock>
             <controls:KbButton
-                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                 ToolTip="AutoStartCountdown translate"
                 Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                 CommandParameter="AutoStartCountdown"

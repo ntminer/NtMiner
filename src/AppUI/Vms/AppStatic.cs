@@ -262,24 +262,33 @@ namespace NTMiner.Vms {
             QQGroupQrCode.ShowWindow();
         });
 
-        public static bool IsDevMode {
+        public static bool IsDebugMode {
             get {
                 if (Design.IsInDesignMode) {
                     return true;
                 }
-                return DevMode.IsDevMode;
+                return DevMode.IsDebugMode;
             }
         }
 
-        public static bool IsNotDevMode {
+        public static bool IsNotDebugMode {
             get {
-                return !IsDevMode;
+                return !IsDebugMode;
+            }
+        }
+
+        public static Visibility IsDebugModeVisible {
+            get {
+                if (IsDebugMode) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
             }
         }
 
         public static Visibility IsDevModeVisible {
             get {
-                if (IsDevMode) {
+                if (DevMode.IsDevMode) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
@@ -295,7 +304,7 @@ namespace NTMiner.Vms {
                 _isMinerClient = value;
                 if (value) {
                     IsMinerClientVisible = Visibility.Visible;
-                    IsMinerClientDevVisible = DevMode.IsDevMode ? Visibility.Visible : Visibility.Collapsed;
+                    IsMinerClientDevVisible = DevMode.IsDebugMode ? Visibility.Visible : Visibility.Collapsed;
                     IsMinerClientNotVisible = Visibility.Collapsed;
                 }
                 else {

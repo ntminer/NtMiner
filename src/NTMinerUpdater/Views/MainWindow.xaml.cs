@@ -26,7 +26,7 @@ namespace NTMiner.Views {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (!DevMode.IsDevMode) {
+            if (!DevMode.IsDebugMode) {
                 return;
             }
             DataGrid dg = (DataGrid)sender;

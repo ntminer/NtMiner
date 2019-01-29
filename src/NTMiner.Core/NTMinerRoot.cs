@@ -360,14 +360,14 @@ namespace NTMiner {
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.Console,
                     action: message => {
-                        if (DevMode.IsDevMode) {
+                        if (DevMode.IsDebugMode) {
                             return;
                         }
                         Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
                             if (response != null && response.IsSuccess() && response.Data != null && response.Data.Value is ulong value && JsonFileVersion != value) {
                                 GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                     string rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                    Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
+                                    Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{Global.FromTimestamp(value)}");
                                     JsonFileVersion = value;
                                     ServerJson.Instance.ReInit(rawNTMinerJson);
                                     Execute.OnUIThread(() => {
@@ -648,7 +648,7 @@ namespace NTMiner {
             if (this.PoolSet.TryGetPool(poolId, out pool)) {
                 poolName = pool.Name;
                 if (!pool.IsUserMode) {
-                    Global.DebugLine("不是用户名密码模式矿池", ConsoleColor.Green);
+                    Global.WriteDevLine("不是用户名密码模式矿池", ConsoleColor.Green);
                     return;
                 }
                 this.PoolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);

@@ -148,7 +148,7 @@
 							Stretch="Fill" />
                     </controls:KbButton>
                     <controls:KbButton
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 						Margin="4 0 0 0"
                         Cursor="Hand"
                         ToolTip="{DynamicResource BtnServerConfig}"
@@ -202,7 +202,7 @@
                 <WrapPanel HorizontalAlignment="Right">
                     <controls:KbButton
                         Margin="0 0 4 0"
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         ToolTip="StateBar translate"
                         Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                         CommandParameter="StateBar"

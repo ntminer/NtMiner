@@ -16,7 +16,7 @@ namespace NTMiner.Views.Ucs {
         public Console() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            Global.WriteLineMethod = WriteLine;
+            Global.WriteUserLineMethod = WriteLine;
         }
 
         private void InnerWrite(string text, ConsoleColor foreground) {

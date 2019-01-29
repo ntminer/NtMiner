@@ -52,7 +52,7 @@
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
                 <controls:KbButton
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                     ToolTip="Console translate"
                     Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                     CommandParameter="Console"
@@ -72,7 +72,7 @@
 					IconColor="{StaticResource IconFillColor}"
 					IsChecked="{Binding IsShowCommandLine}" />
 				<controls:KbButton 
-					Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 					ToolTip="自定义主题"
 					Background="Transparent" 
 					BorderThickness="0"

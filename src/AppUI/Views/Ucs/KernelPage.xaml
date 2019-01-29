@@ -157,7 +157,7 @@
                     </controls:KbButton>
 
                     <controls:KbButton  
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 					    Command="{Binding Add}" 
 					    Background="Transparent" BorderThickness="0"
 					    Margin="20 0 0 0"

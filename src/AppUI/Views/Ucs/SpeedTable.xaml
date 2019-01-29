@@ -58,7 +58,7 @@
                             <WrapPanel>
                                 <TextBlock Text="{DynamicResource DghGpuName}"></TextBlock>
                                 <controls:KbButton
-                                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                                     ToolTip="SpeedTable translate"
                                     Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                                     CommandParameter="SpeedTable"

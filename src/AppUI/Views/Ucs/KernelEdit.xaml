@@ -102,13 +102,13 @@
                             <TextBox 
                                 Height="26"
 						        Width="150"
-						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						        IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 						        VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
                             </TextBox>
                             <TextBlock Style="{StaticResource LblTb}" Width="50" Text="{DynamicResource Version}"></TextBlock>
                             <TextBox 
 						        Width="150"
-						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						        IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 						        VerticalContentAlignment="Center" 
                                 ToolTip="{DynamicResource VersionToolTip}"
                                 Text="{Binding Version}">
@@ -118,7 +118,7 @@
                                 Width="50" Height="26" 
                                 VerticalContentAlignment="Center" 
                                 Text="{Binding SortNumber, ValidatesOnExceptions=True}"
-                                IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}">
+                                IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}">
                             </TextBox>
                         </WrapPanel>
 
@@ -131,7 +131,7 @@
                                     <Button 
 						                Margin="4 0 0 0"
                                         Padding="4 0"
-						                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
+						                IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 						                VerticalAlignment="Center"
 						                Command="{Binding BrowsePackage}"
 						                Content="{DynamicResource Browser}">
@@ -142,7 +142,7 @@
                             </Grid>
                         </WrapPanel>
 
-                        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                        <WrapPanel Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                             <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource PackageHistory}"></TextBlock>
                             <TextBox 
                                 ToolTip="{DynamicResource PackageHistoryTip}"
@@ -155,7 +155,7 @@
                             <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Notice}"></TextBlock>
                             <TextBox 
 						        Width="450" Background="Transparent" Padding="0 4"
-						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						        IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 						        AcceptsReturn="True" TextWrapping="Wrap" 
 						        VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 						        Text="{Binding Notice, Mode=TwoWay}" Height="100">
@@ -187,7 +187,7 @@
                             <TextBox 
                                 Height="26"
 						        Width="180"
-						        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						        IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 						        VerticalContentAlignment="Center" Text="{Binding HelpArg}">
                             </TextBox>
                         </WrapPanel>
@@ -196,7 +196,7 @@
                                 <WrapPanel>
                                     <TextBlock Text="{DynamicResource KernelInput}"></TextBlock>
                                     <controls:KbButton
-							            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+							            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 							            Background="Transparent"
 							            Command="{Binding KernelInputVm.Edit}">
                                         <WrapPanel>
@@ -212,7 +212,7 @@
                             </TextBlock>
                             <controls:KbComboBox 
                                 BorderThickness="0"
-				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
+				                IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 						        Width="180" 
                                 Height="26"
                                 ItemsSource="{Binding KernelInputVms.PleaseSelectVms}"
@@ -244,7 +244,7 @@
                                 <WrapPanel>
                                     <TextBlock Text="{DynamicResource KernelOutput}"></TextBlock>
                                     <controls:KbButton
-							            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+							            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 							            Background="Transparent"
 							            Command="{x:Static vm:AppStatic.ShowKernelOutputs}"
                                         CommandParameter="{Binding KernelOutputVm}">
@@ -261,7 +261,7 @@
                             </TextBlock>
                             <controls:KbComboBox 
                                 BorderThickness="0"
-				                IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
+				                IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 						        Width="180" 
                                 Height="26"
                                 ItemsSource="{Binding KernelOutputVms.PleaseSelectVms}"
@@ -295,7 +295,7 @@
                     <controls:KbButton
                         Grid.Row="1"
                         Command="{Binding Save}" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         Margin="0 10 0 0"
                         Width="70" 
                         Height="30"
@@ -329,7 +329,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" Margin="0 4">
+                    <WrapPanel Grid.Row="0" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}" Margin="0 4">
                         <Label Width="Auto" Content="{DynamicResource Coin}"></Label>
                         <controls:KbComboBox 
                             x:Name="CbCoins"
@@ -429,7 +429,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn 
                                 MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
-                                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
@@ -472,7 +472,7 @@
             Margin="4"
             VerticalAlignment="Top"
             HorizontalAlignment="Right"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="KernelEdit translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="KernelEdit"

@@ -158,14 +158,14 @@ namespace NTMiner {
                                         IKernelOutput kernelOutput;
                                         if (Current.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out kernelOutput)) {
                                             if (kernelOutput.PrependDateTime) {
-                                                Global.WriteLine($"{DateTime.Now}    {input}", color);
+                                                Global.WriteUserLine($"{DateTime.Now}    {input}", color);
                                             }
                                             else {
-                                                Global.WriteLine(input, color);
+                                                Global.WriteUserLine(input, color);
                                             }
                                         }
                                         else {
-                                            Global.WriteLine(input, color);
+                                            Global.WriteUserLine(input, color);
                                         }
                                     }
                                 }

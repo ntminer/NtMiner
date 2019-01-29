@@ -197,9 +197,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Visibility IsDevModeVisible {
+        public Visibility IsDebugModeVisible {
             get {
-                if (DevMode.IsDevMode) {
+                if (DevMode.IsDebugMode) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;

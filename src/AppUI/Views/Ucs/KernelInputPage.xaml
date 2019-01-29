@@ -53,7 +53,7 @@
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
                     CanUserResize="False" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.Add, Source={StaticResource proxy}}" 
@@ -109,7 +109,7 @@
         <controls:KbButton
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="KernelInputPage translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="KernelInputPage"

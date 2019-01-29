@@ -107,7 +107,7 @@
                             Stretch="Fill" />
                     </controls:KbButton>
                     <controls:KbButton
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         ToolTip="CoinPage translate"
                         Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                         CommandParameter="CoinPage"
@@ -133,7 +133,7 @@
                 <DataGrid.Columns>
                     <DataGridTemplateColumn 
                         CanUserResize="False" IsReadOnly="True"
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                         <DataGridTemplateColumn.Header>
                             <controls:KbButton  
                                 Command="{Binding Data.Add, Source={StaticResource proxy}}" 
@@ -226,7 +226,7 @@
                                         KbSystemButtonHoverBackground="Transparent"
                                         Background="Transparent" />
                                     <WrapPanel Visibility="{Binding JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock Text="仅作为双挖币" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"></TextBlock>
+                                        <TextBlock Text="仅作为双挖币" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
                                     </WrapPanel>
                                 </StackPanel>
                             </DataTemplate>
@@ -242,7 +242,7 @@
                     </DataGridTextColumn>
                     <DataGridTemplateColumn 
                         Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         CanUserSort="False" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
                             <WrapPanel>
@@ -327,7 +327,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn 
                                 Width="40" CanUserResize="False" CanUserReorder="False" 
-                                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                                 CanUserSort="False" IsReadOnly="True">
                                 <DataGridTemplateColumn.Header>
                                     <TextBlock Text="{DynamicResource Sort}"></TextBlock>
@@ -456,7 +456,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn 
                                 Width="40" CanUserResize="False" CanUserReorder="False" 
-                                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                                 CanUserSort="False" IsReadOnly="True">
                                 <DataGridTemplateColumn.Header>
                                     <TextBlock Text="{DynamicResource Sort}"></TextBlock>
@@ -556,7 +556,7 @@
             </TabItem>
 
             <TabItem 
-                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                 IsSelected="{Binding IsKernelTabSelected}">
                 <TabItem.Header>
                     <Border Padding="10 0">
@@ -634,7 +634,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn 
                                     Width="40" CanUserResize="False" CanUserReorder="False" 
-                                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                                     CanUserSort="False" IsReadOnly="True">
                                 <DataGridTemplateColumn.Header>
                                     <TextBlock Text="{DynamicResource Sort}"></TextBlock>
@@ -657,7 +657,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn 
                                     MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
-                                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                                 <DataGridTemplateColumn.Header>
                                     <controls:KbButton 
                                             Command="{Binding Data.CurrentCoin.AddCoinKernel, Source={StaticResource proxy}}" 

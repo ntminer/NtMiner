@@ -109,7 +109,7 @@ namespace NTMiner.Vms {
         public List<KernelViewModel> QueryResults {
             get {
                 IQueryable<KernelViewModel> query = KernelViewModels.Current.AllKernels.AsQueryable();
-                if (!AppStatic.IsDevMode) {
+                if (!AppStatic.IsDebugMode) {
                     query = query.Where(a => a.PublishState == Core.PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {

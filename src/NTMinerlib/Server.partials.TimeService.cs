@@ -23,7 +23,7 @@ namespace NTMiner {
                         }
                     }
                     catch (CommunicationException e) {
-                        Global.DebugLine(e.Message, ConsoleColor.Red);
+                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
                         callback?.Invoke(DateTime.Now);
                     }
                     catch (Exception e) {

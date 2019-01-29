@@ -37,10 +37,11 @@ namespace NTMiner.Vms {
                 Global.Access<ServerJsonVersionChangedEvent>(
                     Guid.Parse("064BD3E0-0E79-4D12-A1B0-51F4751AD846"),
                     "在开发者调试区展示ServerJsonVersion",
-                    LogEnum.None,
+                    LogEnum.Console,
                     action: message => {
                         this.ServerJsonVersion = NTMinerRoot.JsonFileVersion;
                     });
+                this._serverJsonVersion = NTMinerRoot.JsonFileVersion;
             }
         }
 

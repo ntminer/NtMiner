@@ -44,7 +44,7 @@
         </Grid.RowDefinitions>
         <controls:KbButton
             HorizontalAlignment="Left"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="GroupPage translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="GroupPage"
@@ -68,7 +68,7 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
                     MinWidth="80" CanUserResize="False" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.GroupVms.Add, Source={StaticResource proxy}}" 
@@ -164,7 +164,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn 
                         Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         CanUserSort="False" IsReadOnly="True" >
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource Sort}"></TextBlock>
@@ -178,7 +178,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
-        <WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+        <WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
             <Label Width="40" Content="{DynamicResource Coin}"></Label>
             <controls:KbComboBox 
                         x:Name="CbCoins"
@@ -220,7 +220,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn 
                         Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         CanUserSort="False" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource Sort}"></TextBlock>
@@ -233,7 +233,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn 
                         MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel 

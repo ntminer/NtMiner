@@ -25,7 +25,7 @@ namespace NTMiner {
             }
         }
 
-        public static void DebugLine(string text, ConsoleColor foreground) {
+        public static void WriteDevLine(string text, ConsoleColor foreground) {
             if (!DevMode.IsDevMode) {
                 return;
             }
@@ -36,7 +36,7 @@ namespace NTMiner {
             Console.ForegroundColor = oldColor;
         }
 
-        public static void WriteLine(string text, ConsoleColor foreground) {
+        public static void WriteUserLine(string text, ConsoleColor foreground) {
             text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}    {text}";
             var oldColor = Console.ForegroundColor;
             Console.ForegroundColor = foreground;

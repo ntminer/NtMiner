@@ -23,7 +23,7 @@
         Height="30">
         <controls:KbButton
             Margin="0 -50 0 0"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="FileDownloader translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="FileDownloader"

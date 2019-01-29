@@ -55,21 +55,21 @@ namespace NTMiner {
         public static ICmdBus CommandBus { get; private set; }
         public static IEventBus EventBus { get; private set; }
         
-        public static Action<string, ConsoleColor> WriteLineMethod;
-        public static Action<string, ConsoleColor> DebugLineMethod;
+        public static Action<string, ConsoleColor> WriteUserLineMethod;
+        public static Action<string, ConsoleColor> WriteDevLineMethod;
 
         static Global() {
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);
             EventBus = new DirectEventBus(MessageDispatcher);
-            WriteLineMethod = (line, color) => {
+            WriteUserLineMethod = (line, color) => {
                 ConsoleColor oldColor = Console.ForegroundColor;
                 Console.ForegroundColor = color;
                 Console.WriteLine(line);
                 Console.ForegroundColor = oldColor;
             };
-            DebugLineMethod = (line, color) => {
+            WriteDevLineMethod = (line, color) => {
                 ConsoleColor oldColor = Console.ForegroundColor;
                 Console.ForegroundColor = color;
                 Console.WriteLine(line);
@@ -223,38 +223,38 @@ namespace NTMiner {
             return JsonSerializer.Deserialize<T>(json);
         }
 
-        public static void WriteLine() {
-            WriteLineMethod?.Invoke(string.Empty, ConsoleColor.White);
+        public static void WriteUserLine() {
+            WriteUserLineMethod?.Invoke(string.Empty, ConsoleColor.White);
         }
 
-        public static void WriteLine(string text) {
-            WriteLineMethod?.Invoke(text, ConsoleColor.White);
+        public static void WriteUserLine(string text) {
+            WriteUserLineMethod?.Invoke(text, ConsoleColor.White);
         }
 
-        public static void WriteLine(string text, ConsoleColor foreground) {
-            WriteLineMethod?.Invoke(text, foreground);
+        public static void WriteUserLine(string text, ConsoleColor foreground) {
+            WriteUserLineMethod?.Invoke(text, foreground);
         }
-        public static void WriteLine(object obj, ConsoleColor consoleColor = ConsoleColor.White) {
+        public static void WriteUserLine(object obj, ConsoleColor consoleColor = ConsoleColor.White) {
             if (obj == null) {
                 return;
             }
-            WriteLine(obj.ToString());
+            WriteUserLine(obj.ToString());
         }
 
-        public static void DebugLine(string text) {
+        public static void WriteDevLine(string text) {
             if (!DevMode.IsDevMode) {
                 return;
             }
             text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}    {text}";
-            DebugLineMethod?.Invoke(text, ConsoleColor.White);
+            WriteDevLineMethod?.Invoke(text, ConsoleColor.White);
         }
 
-        public static void DebugLine(string text, ConsoleColor foreground) {
+        public static void WriteDevLine(string text, ConsoleColor foreground) {
             if (!DevMode.IsDevMode) {
                 return;
             }
             text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}    {text}";
-            DebugLineMethod?.Invoke(text, foreground);
+            WriteDevLineMethod?.Invoke(text, foreground);
         }
     }
 }

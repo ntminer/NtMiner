@@ -215,7 +215,7 @@
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
                     Width="100" CanUserResize="False" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                     CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource KernelInput}" HorizontalAlignment="Center"></TextBlock>
@@ -229,7 +229,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn 
                     Width="100" CanUserResize="False" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                     CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource KernelOutput}" HorizontalAlignment="Center"></TextBlock>
@@ -243,7 +243,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn 
                     Width="70" CanUserResize="False" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                     CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource IsSupportDualMine}" HorizontalAlignment="Center"></TextBlock>
@@ -258,7 +258,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn 
                     Width="40" CanUserResize="False" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                     CanUserSort="False" IsReadOnly="True" Binding="{Binding SortNumber}">
                     <DataGridTextColumn.Header>
                         <TextBlock Text="{DynamicResource Sort}"></TextBlock>
@@ -330,7 +330,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"
-					Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel>
@@ -422,7 +422,7 @@
                                         </WrapPanel>
                                     </controls:KbButton>
                                 </WrapPanel>
-                                <TextBlock Text="{Binding Package}" Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"></TextBlock>
+                                <TextBlock Text="{Binding Package}" Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -434,7 +434,7 @@
             Margin="0 4 20 0"
             VerticalAlignment="Top"
             HorizontalAlignment="Right"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="KernelGrid translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="KernelGrid"

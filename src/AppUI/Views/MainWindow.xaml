@@ -102,7 +102,7 @@
 					</WrapPanel>
                 </controls:KbLinkButton>
                 <controls:KbButton
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                     ToolTip="MainWindow translate"
                     Command="{x:Static vm:AppStatic.ShowLangViewItems}"
                     CommandParameter="MainWindow"

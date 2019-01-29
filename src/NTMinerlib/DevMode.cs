@@ -6,17 +6,23 @@ namespace NTMiner {
     public static class DevMode {
         private const string AppDebugParamName = "--debug";
         private const string AppReleaseParamName = "--release";
+        private const string AppConsoleParamName = "--dev";
 
+        public static bool IsDebugMode { get; private set; }
         public static bool IsDevMode { get; private set; }
 
         static DevMode() {
             List<string> _commandLineArgs = Environment.GetCommandLineArgs().Skip(1).ToList();
-            IsDevMode = _commandLineArgs.Contains(AppDebugParamName, StringComparer.OrdinalIgnoreCase);
+            IsDebugMode = _commandLineArgs.Contains(AppDebugParamName, StringComparer.OrdinalIgnoreCase);
 #if DEBUG
-            IsDevMode = true;
+            IsDebugMode = true;
 #endif
-            if (IsDevMode && _commandLineArgs.Contains(AppReleaseParamName, StringComparer.OrdinalIgnoreCase)) {
-                IsDevMode = false;
+            if (IsDebugMode && _commandLineArgs.Contains(AppReleaseParamName, StringComparer.OrdinalIgnoreCase)) {
+                IsDebugMode = false;
+            }
+            IsDevMode = IsDebugMode;
+            if (!IsDevMode && _commandLineArgs.Contains(AppConsoleParamName, StringComparer.OrdinalIgnoreCase)) {
+                IsDevMode = true;
             }
         }
     }

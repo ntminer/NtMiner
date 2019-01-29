@@ -100,7 +100,7 @@
             Margin="2 0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="CalcConfig translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="CalcConfig"

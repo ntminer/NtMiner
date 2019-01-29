@@ -25,7 +25,7 @@ namespace NTMiner {
                         }
                     }
                     catch (CommunicationException e) {
-                        Global.DebugLine(e.Message, ConsoleColor.Red);
+                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
                         callback?.Invoke(null);
                     }
                     catch (Exception e) {
@@ -46,7 +46,7 @@ namespace NTMiner {
                     }
                 }
                 catch (CommunicationException e) {
-                    Global.DebugLine(e.Message, ConsoleColor.Red);
+                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
                     return new List<MineWorkData>();
                 }
                 catch (Exception e) {
@@ -67,7 +67,7 @@ namespace NTMiner {
                     }
                 }
                 catch (CommunicationException e) {
-                    Global.DebugLine(e.Message, ConsoleColor.Red);
+                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
                     return null;
                 }
                 catch (Exception e) {
@@ -89,7 +89,7 @@ namespace NTMiner {
                     }
                 }
                 catch (CommunicationException e) {
-                    Global.DebugLine(e.Message, ConsoleColor.Red);
+                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
                     return null;
                 }
                 catch (Exception e) {
@@ -111,7 +111,7 @@ namespace NTMiner {
                     }
                 }
                 catch (CommunicationException e) {
-                    Global.DebugLine(e.Message, ConsoleColor.Red);
+                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
                     return null;
                 }
                 catch (Exception e) {
@@ -133,7 +133,7 @@ namespace NTMiner {
                     }
                 }
                 catch (CommunicationException e) {
-                    Global.DebugLine(e.Message, ConsoleColor.Red);
+                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
                     return null;
                 }
                 catch (Exception e) {

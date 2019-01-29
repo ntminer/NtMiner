@@ -23,7 +23,7 @@ namespace NTMiner {
                         }
                     }
                     catch (CommunicationException e) {
-                        Global.DebugLine(e.Message, ConsoleColor.Red);
+                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
                     }
                     catch (Exception e) {
                         Global.Logger.ErrorDebugLine(e.Message, e);
@@ -39,7 +39,7 @@ namespace NTMiner {
                         }
                     }
                     catch (CommunicationException e) {
-                        Global.DebugLine(e.Message, ConsoleColor.Red);
+                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
                     }
                     catch (Exception e) {
                         Global.Logger.ErrorDebugLine(e.Message, e);
@@ -55,7 +55,7 @@ namespace NTMiner {
                         }
                     }
                     catch (CommunicationException e) {
-                        Global.DebugLine(e.Message, ConsoleColor.Red);
+                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
                     }
                     catch (Exception e) {
                         Global.Logger.ErrorDebugLine(e.Message, e);

@@ -38,7 +38,7 @@ namespace NTMiner {
         }
 
         public static IRepository<T> CreateServerRepository<T>() where T : class, IDbEntity<Guid> {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 return new CommonRepository<T>(SpecialPath.ServerDbFileFullName);
             }
             else {

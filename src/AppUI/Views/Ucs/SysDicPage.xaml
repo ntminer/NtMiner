@@ -32,7 +32,7 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
                     MinWidth="80" CanUserResize="False" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.SysDicVms.Add, Source={StaticResource proxy}}" 
@@ -122,7 +122,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn 
                         Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
@@ -143,12 +143,12 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn 
                         Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
                     MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton 
                             Command="{Binding Data.AddSysDicItem, Source={StaticResource proxy}}" 

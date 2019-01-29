@@ -38,7 +38,7 @@
         <controls:KbButton
             Margin="2 0"
             HorizontalAlignment="Right"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             ToolTip="Calc translate"
             Command="{x:Static vm:AppStatic.ShowLangViewItems}"
             CommandParameter="Calc"
