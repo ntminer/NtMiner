@@ -1,5 +1,5 @@
 ﻿using NTMiner.Repositories;
-using NTMiner.ServiceContracts.ControlCenter.DataObjects;
+using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

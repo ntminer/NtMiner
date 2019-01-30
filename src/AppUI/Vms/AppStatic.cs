@@ -2,7 +2,7 @@
 using NTMiner.Language.Impl;
 using NTMiner.Notifications;
 using NTMiner.ServiceContracts;
-using NTMiner.ServiceContracts.ControlCenter.DataObjects;
+using NTMiner.ServiceContracts.DataObjects;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;

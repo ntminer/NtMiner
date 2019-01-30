@@ -1,5 +1,5 @@
-﻿using NTMiner.ServiceContracts;
-using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.ServiceContracts.MinerClient;
 using System;
 using System.ServiceModel;
 using System.Threading.Tasks;

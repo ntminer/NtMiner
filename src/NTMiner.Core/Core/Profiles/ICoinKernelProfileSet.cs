@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.ControlCenter.DataObjects;
+﻿using NTMiner.ServiceContracts.DataObjects;
 using System;
 
 namespace NTMiner.Core.Profiles {

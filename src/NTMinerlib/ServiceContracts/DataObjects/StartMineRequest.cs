@@ -1,5 +1,4 @@
-﻿using NTMiner.ServiceContracts.ControlCenter.DataObjects;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -8,6 +7,8 @@ namespace NTMiner.ServiceContracts.DataObjects {
     public class StartMineRequest : RequestBase, ISignatureRequest {
         [DataMember]
         public string LoginName { get; set; }
+        [DataMember]
+        public Guid ClientId { get; set; }
         [DataMember]
         public Guid WorkId { get; set; }
         [DataMember]
@@ -21,6 +22,7 @@ namespace NTMiner.ServiceContracts.DataObjects {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
+                .Append(nameof(ClientId)).Append(ClientId)
                 .Append(nameof(WorkId)).Append(WorkId)
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(IUser.Password)).Append(password);

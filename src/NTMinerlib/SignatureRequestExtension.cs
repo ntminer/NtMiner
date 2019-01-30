@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.ControlCenter.DataObjects;
+﻿using NTMiner.ServiceContracts.DataObjects;
 
 namespace NTMiner {
     public static class SignatureRequestExtension {

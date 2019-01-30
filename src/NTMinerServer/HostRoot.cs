@@ -2,7 +2,7 @@
 using LiteDB;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
-using NTMiner.ServiceContracts.ControlCenter;
+using NTMiner.ServiceContracts;
 using NTMiner.Services;
 using NTMiner.User;
 using System;

@@ -1,6 +1,6 @@
 ﻿using NTMiner.ServiceContracts;
-using NTMiner.ServiceContracts.ControlCenter;
-using NTMiner.ServiceContracts.ControlCenter.DataObjects;
+using NTMiner.ServiceContracts;
+using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
