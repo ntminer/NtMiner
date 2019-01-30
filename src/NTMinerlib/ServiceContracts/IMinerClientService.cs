@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 
-namespace NTMiner.Core {
+namespace NTMiner.ServiceContracts {
     [ServiceContract]
     public interface IMinerClientService : IDisposable {
         [OperationContract]

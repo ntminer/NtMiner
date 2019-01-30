@@ -85,6 +85,7 @@
     <Compile Include="ServiceContracts\DataObjects\SetPoolProfilePropertyRequest.cs" />
     <Compile Include="ServiceContracts\DataObjects\SetServerJsonVersionRequest.cs" />
     <Compile Include="ServiceContracts\IAppSettingService.cs" />
+    <Compile Include="ServiceContracts\IMinerClientService.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="Server.partials.ControlCenterService.cs" />
     <Compile Include="DateTimeExtensions.cs" />

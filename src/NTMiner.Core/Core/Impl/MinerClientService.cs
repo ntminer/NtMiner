@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.ServiceContracts;
+using System;
 using System.ServiceModel;
 
 namespace NTMiner.Core.Impl {

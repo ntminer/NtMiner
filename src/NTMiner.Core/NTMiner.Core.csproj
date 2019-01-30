@@ -104,7 +104,6 @@
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
     <Compile Include="Core\IMinerGroupSet.cs" />
-    <Compile Include="Core\IMinerClientService.cs" />
     <Compile Include="Core\Impl\GroupData.cs" />
     <Compile Include="Core\Impl\GroupSet.cs" />
     <Compile Include="Core\Impl\MinerGroupSet.cs" />
