@@ -1,5 +1,5 @@
 ﻿using LiteDB;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.ServiceContracts.ControlCenter.DataObjects;
 
 namespace NTMiner.Data.Impl {
     public class UserData : IUser {

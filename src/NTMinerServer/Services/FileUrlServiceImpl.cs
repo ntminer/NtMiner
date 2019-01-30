@@ -1,6 +1,7 @@
 ﻿using Aliyun.OSS;
 using NTMiner.ServiceContracts;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.ServiceContracts.ControlCenter;
+using NTMiner.ServiceContracts.ControlCenter.DataObjects;
 using System;
 using System.Collections.Generic;
 

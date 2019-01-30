@@ -1,5 +1,5 @@
 ﻿using LiteDB;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.ServiceContracts.ControlCenter.DataObjects;
 using System.Collections.Generic;
 using System.Linq;
 

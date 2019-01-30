@@ -9,7 +9,7 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.ServiceContracts;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.ServiceContracts.ControlCenter.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.IO;

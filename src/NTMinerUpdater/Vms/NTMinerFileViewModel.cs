@@ -1,4 +1,5 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.ServiceContracts;
+using NTMiner.ServiceContracts.ControlCenter.DataObjects;
 using NTMiner.Views;
 using System;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner.ServiceContracts;
+using NTMiner.ServiceContracts.ControlCenter;
 using System;
 using System.Collections.Generic;
 using System.IO;

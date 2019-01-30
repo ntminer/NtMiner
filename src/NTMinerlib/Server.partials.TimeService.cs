@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts;
+﻿using NTMiner.ServiceContracts.ControlCenter;
 using System;
 using System.ServiceModel;
 using System.Threading.Tasks;

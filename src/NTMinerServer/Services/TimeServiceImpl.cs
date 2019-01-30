@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts;
+﻿using NTMiner.ServiceContracts.ControlCenter;
 using System;
 
 namespace NTMiner.Services {

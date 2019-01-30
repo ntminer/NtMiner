@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.ServiceContracts.ControlCenter.DataObjects;
 
 namespace NTMiner.Data {
     public interface IUserSet {
