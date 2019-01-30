@@ -6,7 +6,6 @@ using NTMiner.ServiceContracts;
 using NTMiner.Services;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
@@ -99,23 +98,6 @@ namespace NTMiner {
         public IMineProfileManager MineProfileManager { get; private set; }
 
         public INTMinerFileSet NTMinerFileSet { get; private set; }
-
-        // 创建一个128位数随机数，base64编码后返回
-        private static string CreateAesKey() {
-            byte[] data = new byte[16];// 128位
-            using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
-                rng.GetBytes(data);
-            }
-            return Convert.ToBase64String(data);
-        }
-
-        public static string EncryptSerialize<T>(T obj, string pubKey, out string desKey) {
-            string json = Global.JsonSerializer.Serialize(obj);
-            string key = CreateAesKey();
-            desKey = Security.RSAHelper.EncryptString(key, pubKey);
-            string result = Security.AESHelper.Encrypt(json, key);
-            return result;
-        }
 
         public void Stop() {
             if (_serviceHosts == null) {

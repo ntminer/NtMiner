@@ -211,34 +211,8 @@ namespace NTMiner {
             MessageDispatcher.UnRegister(handler);
         }
 
-        public static T DecryptDeserialize<T>(string desKey, string data) {
-            if (string.IsNullOrEmpty(desKey) || string.IsNullOrEmpty(data)) {
-                return default(T);
-            }
-            desKey = Security.RSAHelper.DecryptString(desKey, ClientId.PrivateKey);
-            string json = Security.AESHelper.Decrypt(data, desKey);
-            if (string.IsNullOrEmpty(json)) {
-                return default(T);
-            }
-            return JsonSerializer.Deserialize<T>(json);
-        }
-
-        public static void WriteUserLine() {
-            WriteUserLineMethod?.Invoke(string.Empty, ConsoleColor.White);
-        }
-
-        public static void WriteUserLine(string text) {
-            WriteUserLineMethod?.Invoke(text, ConsoleColor.White);
-        }
-
         public static void WriteUserLine(string text, ConsoleColor foreground) {
             WriteUserLineMethod?.Invoke(text, foreground);
-        }
-        public static void WriteUserLine(object obj, ConsoleColor consoleColor = ConsoleColor.White) {
-            if (obj == null) {
-                return;
-            }
-            WriteUserLine(obj.ToString());
         }
 
         public static void WriteDevLine(string text) {

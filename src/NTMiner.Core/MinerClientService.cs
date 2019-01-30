@@ -1,7 +1,5 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
@@ -10,23 +8,6 @@ namespace NTMiner {
         public static readonly MinerClientService Instance = new MinerClientService();
 
         private MinerClientService() {
-        }
-
-        // 创建一个128位数随机数，base64编码后返回
-        private static string CreateAesKey() {
-            byte[] data = new byte[16];// 128位
-            using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
-                rng.GetBytes(data);
-            }
-            return Convert.ToBase64String(data);
-        }
-
-        private static string EncryptSerialize<T>(T obj, out string desKey) {
-            string json = Global.JsonSerializer.Serialize(obj);
-            string key = CreateAesKey();
-            desKey = Security.RSAHelper.EncryptString(key, ClientId.PrivateKey);
-            string result = Security.AESHelper.Encrypt(json, key);
-            return result;
         }
 
         private IMinerClientService CreateService(string host) {
