@@ -71,6 +71,9 @@
     <Compile Include="Logging\LogDir.cs" />
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IReadOnlyRepository.cs" />
+    <Compile Include="Security\AESHelper.cs" />
+    <Compile Include="Security\BigInteger.cs" />
+    <Compile Include="Security\RSAHelper.cs" />
     <Compile Include="ServiceContracts\DataObjects\AppSettingData.cs" />
     <Compile Include="ServiceContracts\DataObjects\GetAppSettingResponse.cs" />
     <Compile Include="ServiceContracts\DataObjects\GetAppSettingsResponse.cs" />
