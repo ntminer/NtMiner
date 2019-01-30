@@ -7,7 +7,19 @@
         public static readonly ProfileServiceFace ProfileService = ProfileServiceFace.Instance;
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
         public static string LoginName { get; set; }
-        public static string Password { get; set; }
+
+        private static string _password;
+        public static string Password {
+            get { return _password; }
+            set {
+                _password = value;
+                PasswordSha1 = HashUtil.Sha1(value);
+            }
+        }
+
+        public static string PasswordSha1 {
+            get; private set;
+        }
 
         public static string MinerServerHost {
             get {

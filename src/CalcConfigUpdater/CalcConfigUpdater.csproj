@@ -51,9 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NTMinerServer\Data\Impl\UserData.cs">
-      <Link>Data\Impl\UserData.cs</Link>
-    </Compile>
     <Compile Include="IncomeItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

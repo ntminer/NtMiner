@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.ServiceContracts.DataObjects;
+using System;
 using System.ServiceModel;
 
 namespace NTMiner.ServiceContracts {
@@ -8,7 +9,7 @@ namespace NTMiner.ServiceContracts {
         bool ShowMainWindow();
 
         [OperationContract]
-        void StartMine(Guid workId, DateTime timestamp);
+        ResponseBase StartMine(StartMineRequest request);
 
         [OperationContract]
         void StopMine(DateTime timestamp);

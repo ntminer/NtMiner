@@ -3,13 +3,12 @@ using NTMiner.ServiceContracts.ControlCenter.DataObjects;
 using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Data.Impl {
+namespace NTMiner.User {
     public class UserSet : IUserSet {
-        private Dictionary<string, IUser> _pubKeys = new Dictionary<string, IUser>();
-
-        private IHostRoot _root;
-        public UserSet(IHostRoot root) {
-            _root = root;
+        private Dictionary<string, IUser> _dicByLoginName = new Dictionary<string, IUser>();
+        private readonly string _dbFileFullName;
+        public UserSet(string dbFileFullName) {
+            _dbFileFullName = dbFileFullName;
         }
 
         private object _locker = new object();
@@ -20,11 +19,11 @@ namespace NTMiner.Data.Impl {
             if (_lastInitOn.AddMinutes(10) < now) {
                 lock (_locker) {
                     if (_lastInitOn.AddMinutes(10) < now) {
-                        _pubKeys.Clear();
-                        using (LiteDatabase db = HostRoot.CreateLocalDb()) {
+                        _dicByLoginName.Clear();
+                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
                             var col = db.GetCollection<UserData>();
                             foreach (var item in col.FindAll()) {
-                                _pubKeys.Add(item.LoginName, item);
+                                _dicByLoginName.Add(item.LoginName, item);
                             }
                         }
                         _lastInitOn = DateTime.Now;
@@ -35,12 +34,12 @@ namespace NTMiner.Data.Impl {
 
         public bool Contains(string pubKey) {
             InitOnece();
-            return _pubKeys.ContainsKey(pubKey);
+            return _dicByLoginName.ContainsKey(pubKey);
         }
 
         public bool TryGetKey(string pubKey, out IUser key) {
             InitOnece();
-            return _pubKeys.TryGetValue(pubKey, out key);
+            return _dicByLoginName.TryGetValue(pubKey, out key);
         }
     }
 }

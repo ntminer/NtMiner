@@ -1,14 +1,13 @@
-﻿using NTMiner.ServiceContracts;
-using NTMiner.ServiceContracts.ControlCenter.DataObjects;
+﻿using NTMiner.ServiceContracts.ControlCenter.DataObjects;
 
-namespace NTMiner.Services {
+namespace NTMiner {
     public static class SignatureRequestExtension {
-        public static bool IsValid<TResponse>(this ISignatureRequest request, out TResponse response) where TResponse : ResponseBase, new() {
+        public static bool IsValid<TResponse>(this ISignatureRequest request, IUserSet userSet, out TResponse response) where TResponse : ResponseBase, new() {
             if (string.IsNullOrEmpty(request.LoginName)) {
                 response = ResponseBase.InvalidInput<TResponse>(request.MessageId, "登录名不能为空");
                 return false;
             }
-            if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out IUser key)) {
+            if (!userSet.TryGetKey(request.LoginName, out IUser key)) {
                 response = ResponseBase.Forbidden<TResponse>(request.MessageId, "登录名不存在");
                 return false;
             }

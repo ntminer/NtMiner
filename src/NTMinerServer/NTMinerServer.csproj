@@ -67,7 +67,6 @@
     <Compile Include="Data\Impl\AppSettingSet.cs" />
     <Compile Include="Data\Impl\HostConfigData.cs" />
     <Compile Include="Data\Impl\NTMinerFileSet.cs" />
-    <Compile Include="Data\Impl\UserData.cs" />
     <Compile Include="Data\ICalcConfigSet.cs" />
     <Compile Include="Data\IClientCoinSnapshotSet.cs" />
     <Compile Include="Data\IClientSet.cs" />
@@ -82,10 +81,8 @@
     <Compile Include="Data\Impl\MineProfileManager.cs" />
     <Compile Include="Data\Impl\MinerGroupSet.cs" />
     <Compile Include="Data\Impl\MineWorkSet.cs" />
-    <Compile Include="Data\Impl\UserSet.cs" />
     <Compile Include="Data\Impl\WalletSet.cs" />
     <Compile Include="Data\INTMinerFileSet.cs" />
-    <Compile Include="Data\IUserSet.cs" />
     <Compile Include="Data\IWalletSet.cs" />
     <Compile Include="Data\SnapshotTimestamp.cs" />
     <Compile Include="IHostConfig.cs" />
@@ -99,7 +96,6 @@
     <Compile Include="Services\ReportServiceImpl.cs" />
     <Compile Include="Services\FileUrlServiceImpl.cs" />
     <Compile Include="Services\TimeServiceImpl.cs" />
-    <Compile Include="Services\SignatureRequestExtension.cs" />
     <Compile Include="SpecialPath.cs" />
   </ItemGroup>
   <ItemGroup>

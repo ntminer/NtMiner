@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Gpus {
+namespace NTMiner.Core.Impl {
     internal class CoinShare : ICoinShare {
         public CoinShare() { }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.ServiceContracts.ControlCenter.DataObjects {
+namespace NTMiner {
     public interface ISignatureRequest {
         Guid MessageId { get; }
         string LoginName { get; }

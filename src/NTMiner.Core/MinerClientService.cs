@@ -1,4 +1,5 @@
 ﻿using NTMiner.ServiceContracts;
+using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -34,7 +35,14 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     using (var service = CreateService(host)) {
-                        service.StartMine(workId, DateTime.Now);
+                        StartMineRequest request = new StartMineRequest() {
+                            MessageId = Guid.NewGuid(),
+                            LoginName = "admin",
+                            WorkId = workId,
+                            Timestamp = DateTime.Now
+                        };
+                        request.SignIt(Server.PasswordSha1);
+                        service.StartMine(request);
                     }
                     callback?.Invoke(true);
                 }

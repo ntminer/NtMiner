@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Core.Gpus {
+namespace NTMiner.Core.Impl {
     public class CoinShareSet : ICoinShareSet {
         private readonly Dictionary<Guid, CoinShare> _dicByCoinId = new Dictionary<Guid, CoinShare>();
         private readonly INTMinerRoot _root;

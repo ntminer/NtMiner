@@ -58,6 +58,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ETagFileResult.cs" />
     <Compile Include="ISortable.cs" />
+    <Compile Include="IUserSet.cs" />
     <Compile Include="Language\ILang.cs" />
     <Compile Include="Language\ILangViewItem.cs" />
     <Compile Include="Language\Impl\Lang.cs" />
@@ -79,13 +80,15 @@
     <Compile Include="ServiceContracts\ControlCenter\DataObjects\GetAppSettingsResponse.cs" />
     <Compile Include="ServiceContracts\ControlCenter\DataObjects\IAppSetting.cs" />
     <Compile Include="ServiceContracts\ControlCenter\DataObjects\IPoolProfile.cs" />
-    <Compile Include="ServiceContracts\ControlCenter\DataObjects\ISignatureRequest.cs" />
+    <Compile Include="ISignatureRequest.cs" />
     <Compile Include="ServiceContracts\ControlCenter\DataObjects\PoolProfileData.cs" />
     <Compile Include="ServiceContracts\ControlCenter\DataObjects\SetAppSettingRequest.cs" />
     <Compile Include="ServiceContracts\ControlCenter\DataObjects\SetPoolProfilePropertyRequest.cs" />
     <Compile Include="ServiceContracts\ControlCenter\DataObjects\SetServerJsonVersionRequest.cs" />
     <Compile Include="ServiceContracts\ControlCenter\IAppSettingService.cs" />
+    <Compile Include="ServiceContracts\DataObjects\StartMineRequest.cs" />
     <Compile Include="ServiceContracts\IMinerClientService.cs" />
+    <Compile Include="SignatureRequestExtension.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="Server.partials.ControlCenterService.cs" />
     <Compile Include="DateTimeExtensions.cs" />
@@ -190,6 +193,8 @@
     <Compile Include="Global.cs" />
     <Compile Include="ServiceContracts\ControlCenter\ITimeService.cs" />
     <Compile Include="Server.partials.TimeService.cs" />
+    <Compile Include="User\UserData.cs" />
+    <Compile Include="User\UserSet.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="ChannelFactory.cs" />
     <Compile Include="Windows\Registry.cs" />

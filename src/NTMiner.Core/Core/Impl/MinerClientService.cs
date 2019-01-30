@@ -1,4 +1,5 @@
 ﻿using NTMiner.ServiceContracts;
+using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.ServiceModel;
 
@@ -10,11 +11,22 @@ namespace NTMiner.Core.Impl {
             return true;
         }
 
-        public void StartMine(Guid workId, DateTime timestamp) {
-            if (timestamp.AddSeconds(Global.DesyncSeconds) < DateTime.Now) {
-                return;
+        public ResponseBase StartMine(StartMineRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
-            NTMinerRoot.Current.StartMine(workId);
+            try {
+                ResponseBase response;
+                if (!request.IsValid(NTMinerRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                NTMinerRoot.Current.StartMine(request.WorkId);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
         }
 
         public void StopMine(DateTime timestamp) {

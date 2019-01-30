@@ -15,7 +15,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 return ResponseBase.Ok(request.MessageId);
@@ -34,7 +34,7 @@ namespace NTMiner.Services {
             }
             try {
                 LoadClientsResponse response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.ClientSet.LoadClients(request.ClientIds) ?? new List<ClientData>();
@@ -54,7 +54,7 @@ namespace NTMiner.Services {
             }
             try {
                 QueryClientsResponse response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 int total;
@@ -80,7 +80,7 @@ namespace NTMiner.Services {
             }
             try {
                 GetCoinSnapshotsResponse response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 int totalMiningCount;
@@ -106,7 +106,7 @@ namespace NTMiner.Services {
             }
             try {
                 LoadClientResponse response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId);
@@ -126,7 +126,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.ClientSet.UpdateClient(request.ClientId, request.PropertyName, request.Value);
@@ -159,7 +159,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.MinerGroupSet.AddOrUpdate(request.Data);
@@ -179,7 +179,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.MinerGroupSet.Remove(request.MinerGroupId);
@@ -199,7 +199,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.MineWorkSet.AddOrUpdate(request.Data);
@@ -219,7 +219,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.MineWorkSet.Remove(request.MineWorkId);
@@ -239,7 +239,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -262,7 +262,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -285,7 +285,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -308,7 +308,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -344,7 +344,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.WalletSet.AddOrUpdate(request.Data);
@@ -364,7 +364,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.WalletSet.Remove(request.WalletId);
@@ -397,7 +397,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.CalcConfigSet.SaveCalcConfigs(request.Data);
@@ -417,7 +417,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 throw new NotImplementedException();
@@ -436,7 +436,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 throw new NotImplementedException();
@@ -455,7 +455,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 throw new NotImplementedException();

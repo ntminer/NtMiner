@@ -10,6 +10,7 @@ using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.ServiceContracts;
 using NTMiner.ServiceContracts.ControlCenter.DataObjects;
+using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +26,8 @@ using System.Windows;
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         public DateTime CreatedOn { get; private set; }
+
+        public IUserSet UserSet { get; private set; }
 
         #region cotr
         private NTMinerRoot() {
@@ -103,6 +106,7 @@ namespace NTMiner {
             Language.Impl.LangJson.Instance.Init(rawLangJson);
             this.PackageDownloader = new PackageDownloader(this);
             this.SysDicSet = new SysDicSet(this);
+            this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
             this.SysDicItemSet = new SysDicItemSet(this);
             this.CoinSet = new CoinSet(this);
             this.GroupSet = new GroupSet(this);

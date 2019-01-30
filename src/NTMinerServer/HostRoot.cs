@@ -4,6 +4,7 @@ using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.ServiceContracts.ControlCenter;
 using NTMiner.Services;
+using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -64,7 +65,7 @@ namespace NTMiner {
 
         private HostRoot() {
             OSSClientInit();
-            this.UserSet = new UserSet(this);
+            this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
             this.AppSettingSet = new AppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ClientCoinSnapshotSet = new ClientCoinSnapshotSet(this);

@@ -44,7 +44,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.AppSettingSet.SetAppSetting(request.Data);

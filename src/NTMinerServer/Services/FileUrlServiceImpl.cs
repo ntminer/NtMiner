@@ -41,7 +41,7 @@ namespace NTMiner.Services {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.NTMinerFileSet.AddOrUpdate(request.Data);
@@ -59,7 +59,7 @@ namespace NTMiner.Services {
             }
             try {
                 LoadClientsResponse response;
-                if (!request.IsValid(out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
                 HostRoot.Current.NTMinerFileSet.Remove(request.NTMinerId);
