@@ -84,15 +84,6 @@
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Security\AESHelper.cs">
-      <Link>Security\AESHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\Security\BigInteger.cs">
-      <Link>Security\BigInteger.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\Security\RSAHelper.cs">
-      <Link>Security\RSAHelper.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>
     </Compile>

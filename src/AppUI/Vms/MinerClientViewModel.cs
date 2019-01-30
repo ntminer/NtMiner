@@ -54,7 +54,6 @@ namespace NTMiner.Vms {
             this.ReName = new DelegateCommand(() => {
                 MinerClientService.Instance.SetMinerProfilePropertyAsync(
                             this.ClientDataVm.MinerIp,
-                            this.ClientDataVm.PublicKey,
                             nameof(ClientDataVm.MinerName),
                             this.ClientDataVm.MinerNameCopy, null);
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
@@ -89,14 +88,14 @@ namespace NTMiner.Vms {
             });
             this.StartMine = new DelegateCommand(() => {
                 ClientDataVm.IsMining = true;
-                MinerClientService.Instance.StartMineAsync(this.ClientDataVm.MinerIp, this.ClientDataVm.PublicKey, ClientDataVm.WorkId, null);
+                MinerClientService.Instance.StartMineAsync(this.ClientDataVm.MinerIp, ClientDataVm.WorkId, null);
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                     Refresh();
                 });
             });
             this.StopMine = new DelegateCommand(() => {
                 ClientDataVm.IsMining = false;
-                MinerClientService.Instance.StopMineAsync(this.ClientDataVm.MinerIp, this.ClientDataVm.PublicKey, null);
+                MinerClientService.Instance.StopMineAsync(this.ClientDataVm.MinerIp, null);
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                     Refresh();
                 });

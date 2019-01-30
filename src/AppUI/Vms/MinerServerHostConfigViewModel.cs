@@ -13,7 +13,6 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(this.MinerServerHost)) {
                         this.MinerServerHost = NTMinerRegistry.MINER_SERVER_HOST;
                     }
-                    string serverPubKey = Server.TimeService.GetServerPubKey(this.MinerServerHost);
                     Server.MinerServerHost = this.MinerServerHost;
                     CloseWindow?.Invoke();
                 }

@@ -66,16 +66,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string PublicKey {
-            get => _data.PublicKey;
-            set {
-                if (_data.PublicKey != value) {
-                    _data.PublicKey = value;
-                    OnPropertyChanged(nameof(PublicKey));
-                }
-            }
-        }
-
         public string Version {
             get => _data.Version;
             set {

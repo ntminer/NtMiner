@@ -61,7 +61,6 @@ namespace NTMiner {
                     ClientId = ClientId.Id,
                     Timestamp = DateTime.Now,
                     Version = NTMinerRoot.CurrentVersion.ToString(4),
-                    PublicKey = ClientId.PublicKey,
                     MinerName = root.MinerProfile.MinerName,
                     GpuInfo = root.GpuSetInfo
                 });

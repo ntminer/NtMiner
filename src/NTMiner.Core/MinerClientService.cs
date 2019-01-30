@@ -30,7 +30,7 @@ namespace NTMiner {
             }
         }
 
-        public void StartMineAsync(string host, string pubKey, Guid workId, Action<bool> callback) {
+        public void StartMineAsync(string host, Guid workId, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var service = CreateService(host)) {
@@ -49,7 +49,7 @@ namespace NTMiner {
             });
         }
 
-        public void StopMineAsync(string host, string pubKey, Action<bool> callback) {
+        public void StopMineAsync(string host, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var service = CreateService(host)) {
@@ -68,7 +68,7 @@ namespace NTMiner {
             });
         }
 
-        public void SetMinerProfilePropertyAsync(string host, string pubKey, string propertyName, object value, Action<bool> callback) {
+        public void SetMinerProfilePropertyAsync(string host, string propertyName, object value, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (var service = CreateService(host)) {

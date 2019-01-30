@@ -123,9 +123,6 @@
     <Compile Include="Repositories\CompositeRepository`1.cs" />
     <Compile Include="Repositories\DuplicateIdException.cs" />
     <Compile Include="Repositories\IRepository`1.cs" />
-    <Compile Include="Security\AESHelper.cs" />
-    <Compile Include="Security\BigInteger.cs" />
-    <Compile Include="Security\RSAHelper.cs" />
     <Compile Include="Serialization\IObjectSerializer.cs" />
     <Compile Include="Serialization\ObjectJsonSerializer.cs" />
     <Compile Include="Server.cs" />

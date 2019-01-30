@@ -133,24 +133,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region GetKeyPair
-        public static void GetKeyPair(out string publicKey, out string privateKey) {
-            object publicKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PublicKey");
-            object privateKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "PrivateKey");
-            if (publicKeyValue == null || privateKeyValue == null) {
-                var rsaKey = Security.RSAHelper.GetRASKey();
-                publicKey = rsaKey.PublicKey;
-                privateKey = rsaKey.PrivateKey;
-                Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "PublicKey", publicKey);
-                Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "PrivateKey", privateKey);
-            }
-            else {
-                publicKey = (string)publicKeyValue;
-                privateKey = (string)privateKeyValue;
-            }
-        }
-        #endregion
-
         #region GetClientId
         public static Guid GetClientId() {
             Guid id;

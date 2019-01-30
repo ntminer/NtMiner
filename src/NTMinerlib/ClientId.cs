@@ -4,10 +4,6 @@ using System.IO;
 
 namespace NTMiner {
     public static class ClientId {        
-        public static string PublicKey { get; private set; }
-
-        public static string PrivateKey { get; private set; }
-
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static Guid Id { get; private set; }
 
@@ -26,11 +22,6 @@ namespace NTMiner {
             LangDbFileFullName = Path.Combine(GlobalDirFullName, LangDbFileName);
             LocalLangJsonFileName = "lang.json";
             LocalLangJsonFileFullName = Path.Combine(GlobalDirFullName, LocalLangJsonFileName);
-
-            string publicKey, privateKey;
-            NTMinerRegistry.GetKeyPair(out publicKey, out privateKey);
-            PublicKey = publicKey;
-            PrivateKey = privateKey;
             Id = NTMinerRegistry.GetClientId();
         }
     }

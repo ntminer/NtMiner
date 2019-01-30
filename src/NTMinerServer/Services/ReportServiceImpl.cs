@@ -25,7 +25,6 @@ namespace NTMiner.Services {
                         ModifiedOn = DateTime.Now,
                         MinerIp = minerIp,
                         MinerName = message.MinerName,
-                        PublicKey = message.PublicKey,
                         GpuInfo = message.GpuInfo
                     };
                     HostRoot.Current.ClientSet.Add(clientData);
@@ -36,7 +35,6 @@ namespace NTMiner.Services {
                     clientData.ModifiedOn = DateTime.Now;
                     clientData.MinerIp = minerIp;
                     clientData.MinerName = message.MinerName;
-                    clientData.PublicKey = message.PublicKey;
                     clientData.GpuInfo = message.GpuInfo;
                 }
                 Global.Logger.InfoDebugLine($"{message.ClientId} {minerIp} 登录");

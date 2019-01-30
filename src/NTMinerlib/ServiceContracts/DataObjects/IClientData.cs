@@ -4,8 +4,6 @@ namespace NTMiner.ServiceContracts.DataObjects {
     public interface IClientData : IEntity<Guid> {
         Guid WorkId { get; }
 
-        string PublicKey { get; }
-
         string Version { get; }
 
         bool IsMining { get; }

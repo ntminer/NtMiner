@@ -32,17 +32,6 @@ namespace NTMiner {
                     }
                 });
             }
-
-            /// <summary>
-            /// 同步方法
-            /// </summary>
-            /// <param name="host"></param>
-            /// <returns></returns>
-            public string GetServerPubKey(string host) {
-                using (var service = ChannelFactory.CreateChannel<ITimeService>(host, Server.MinerServerPort)) {
-                    return service.GetServerPubKey();
-                }
-            }
         }
     }
 }

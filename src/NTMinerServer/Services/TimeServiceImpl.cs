@@ -7,12 +7,8 @@ namespace NTMiner.Services {
             return DateTime.Now;
         }
 
-        public string GetServerPubKey() {
-            return ClientId.PublicKey;
-        }
-
         public void Dispose() {
-            
+            // nothing need todo
         }
     }
 }

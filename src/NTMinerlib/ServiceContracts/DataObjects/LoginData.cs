@@ -14,9 +14,6 @@ namespace NTMiner.ServiceContracts.DataObjects {
         public string MinerName { get; set; }
 
         [DataMember]
-        public string PublicKey { get; set; }
-
-        [DataMember]
         public string Version { get; set; }
 
         [DataMember]

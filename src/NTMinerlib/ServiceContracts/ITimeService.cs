@@ -6,8 +6,5 @@ namespace NTMiner.ServiceContracts {
     public interface ITimeService : IDisposable {
         [OperationContract]
         DateTime GetTime();
-
-        [OperationContract]
-        string GetServerPubKey();
     }
 }
