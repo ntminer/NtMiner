@@ -8,7 +8,6 @@ using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
-using NTMiner.ServiceContracts;
 using NTMiner.ServiceContracts.DataObjects;
 using NTMiner.ServiceContracts.MinerClient;
 using NTMiner.User;

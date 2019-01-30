@@ -1,6 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
-
-namespace NTMiner {
+﻿namespace NTMiner {
     public static class SignatureRequestExtension {
         public static bool IsValid<TResponse>(this ISignatureRequest request, IUserSet userSet, out TResponse response) where TResponse : ResponseBase, new() {
             if (string.IsNullOrEmpty(request.LoginName)) {

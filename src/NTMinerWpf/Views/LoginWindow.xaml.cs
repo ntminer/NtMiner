@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using NTMiner.ServiceContracts;
 using NTMiner.Vms;
 using System;
 using System.Windows;
