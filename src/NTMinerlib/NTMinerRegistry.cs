@@ -112,24 +112,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region MinerServerPubKey
-        public const string MINER_SERVER_PUBKEY = "AwEAAdRA5vw4CvIXKynkRa4HLJaFTwUzIcOWybnht5ZV/4BOu6g4cmrDwmRLrMM0rTjUJQ==";
-        public static string GetMinerServerPubKey() {
-            object minerServerPubKeyValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "MinerServerPubKey");
-            if (minerServerPubKeyValue == null) {
-                return MINER_SERVER_PUBKEY;
-            }
-            return (string)minerServerPubKeyValue;
-        }
-
-        public static void SetMinerServerPubKey(string pubKey) {
-            if (string.IsNullOrEmpty(pubKey)) {
-                pubKey = MINER_SERVER_PUBKEY;
-            }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "MinerServerPubKey", pubKey);
-        }
-        #endregion
-
         #region Language
         public static string GetLanguage() {
             string langCode = string.Empty;

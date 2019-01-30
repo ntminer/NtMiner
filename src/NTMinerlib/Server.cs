@@ -18,15 +18,6 @@
             }
         }
 
-        public static string MinerServerPubKey {
-            get {
-                return NTMinerRegistry.GetMinerServerPubKey();
-            }
-            set {
-                NTMinerRegistry.SetMinerServerPubKey(value);
-            }
-        }
-
         public static int MinerServerPort {
             get {
                 return 3336;

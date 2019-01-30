@@ -52,13 +52,8 @@ namespace NTMiner {
         public void StartMineAsync(string host, string pubKey, Guid workId, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
-                    string desKey;
-                    string data = EncryptSerialize(new Dictionary<string, object> {
-                            {"workId", workId },
-                            {"time", DateTime.Now }
-                        }, out desKey);
                     using (var service = CreateService(host)) {
-                        service.StartMine(desKey, data);
+                        service.StartMine(workId, DateTime.Now);
                     }
                     callback?.Invoke(true);
                 }
@@ -76,12 +71,8 @@ namespace NTMiner {
         public void StopMineAsync(string host, string pubKey, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
-                    string desKey;
-                    string data = EncryptSerialize(new Dictionary<string, object> {
-                            {"time", DateTime.Now }
-                        }, out desKey);
                     using (var service = CreateService(host)) {
-                        service.StopMine(desKey, data);
+                        service.StopMine(DateTime.Now);
                     }
                     callback?.Invoke(true);
                 }
@@ -99,14 +90,8 @@ namespace NTMiner {
         public void SetMinerProfilePropertyAsync(string host, string pubKey, string propertyName, object value, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
-                    string desKey;
-                    string data = EncryptSerialize(new Dictionary<string, object> {
-                                {"propertyName",  propertyName},
-                                {"value",  value},
-                                {"time", DateTime.Now }
-                            }, out desKey);
                     using (var service = CreateService(host)) {
-                        service.SetMinerProfileProperty(desKey, data);
+                        service.SetMinerProfileProperty(propertyName, value, DateTime.Now);
                     }
                     callback?.Invoke(true);
                 }

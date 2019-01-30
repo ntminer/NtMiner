@@ -8,12 +8,12 @@ namespace NTMiner.Core {
         bool ShowMainWindow();
 
         [OperationContract]
-        void StartMine(string desKey, string data);
+        void StartMine(Guid workId, DateTime timestamp);
 
         [OperationContract]
-        void StopMine(string desKey, string data);
+        void StopMine(DateTime timestamp);
 
         [OperationContract]
-        void SetMinerProfileProperty(string desKey, string data);
+        void SetMinerProfileProperty(string propertyName, object value, DateTime timestamp);
     }
 }
