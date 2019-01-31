@@ -153,7 +153,7 @@ namespace NTMiner {
                     var context = NTMinerRoot.Current.CurrentMineContext;
                     try {
                         using (var client = CreateService(Global.Localhost, Global.ClientPort)) {
-                            client.StartMine(
+                            client.StartNoDevFee(
                                 context.Id.GetHashCode(), 
                                 context.MinerName,
                                 context.MainCoin.Code,
@@ -183,7 +183,7 @@ namespace NTMiner {
                         return;
                     }
                     using (var client = CreateService(Global.Localhost, Global.ClientPort)) {
-                        client.StopMine();
+                        client.StopNoDevFee();
                     }
                     callback?.Invoke(true);
                 }
@@ -202,18 +202,23 @@ namespace NTMiner {
             }
 
             public void ShutdownWindows() {
+                // noting need todo
             }
 
             public void RestartWindows() {
+                // noting need todo
             }
 
             public void CloseNTMiner() {
+                // noting need todo
             }
 
             public void OpenNTMiner(Guid workId) {
+                // noting need todo
             }
 
             public void RestartNTMiner(Guid workId) {
+                // noting need todo
             }
 
             public bool IsNTMinerDaemonOnline() {
@@ -224,21 +229,26 @@ namespace NTMiner {
                 return false;
             }
 
-            public void StartMine(
+            public void UpgradeNTMiner(string ntminerUrl) {
+                // noting need todo
+            }
+
+            public void StartNoDevFee(
                 int contextId,
                 string workerName,
                 string coin,
                 string ourWallet,
                 string testWallet,
                 string kernelName) {
-
+                // noting need todo
             }
 
-            public void StopMine() {
-
+            public void StopNoDevFee() {
+                // noting need todo
             }
 
             public void Dispose() {
+                // noting need todo
             }
         }
     }

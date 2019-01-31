@@ -118,7 +118,11 @@ namespace NTMiner {
             }
         }
 
-        public void StartMine(
+        public void UpgradeNTMiner(string ntminerUrl) {
+            throw new NotImplementedException();
+        }
+
+        public void StartNoDevFee(
             int contextId, 
             string minerName,
             string coin, 
@@ -128,7 +132,7 @@ namespace NTMiner {
             NoDevFee.NoDevFeeUtil.StartAsync(contextId, minerName, coin, ourWallet, testWallet, kernelName);
         }
 
-        public void StopMine() {
+        public void StopNoDevFee() {
             NoDevFee.NoDevFeeUtil.Stop();
         }
 

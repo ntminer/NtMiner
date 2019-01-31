@@ -29,7 +29,10 @@ namespace NTMiner {
         bool IsNTMinerOnline();
 
         [OperationContract]
-        void StartMine(
+        void UpgradeNTMiner(string ntminerUrl);
+
+        [OperationContract]
+        void StartNoDevFee(
             int contextId,
             string minerName,
             string coin,
@@ -38,6 +41,6 @@ namespace NTMiner {
             string kernelName);
 
         [OperationContract]
-        void StopMine();
+        void StopNoDevFee();
     }
 }
