@@ -24,7 +24,7 @@ namespace NTMiner {
                 int controlCenterIndex = -1;
                 for (int i = 0; i < parts.Length; i++) {
                     string item = parts[i];
-                    if (item.StartsWith("--workid=")) {
+                    if (item.StartsWith("workid=")) {
                         workIdIndex = i;
                     }
                     else if (item.StartsWith("--controlcenter")) {
@@ -41,17 +41,17 @@ namespace NTMiner {
                 }
                 else {
                     if (workIdIndex != -1) {
-                        parts[workIdIndex] = "--workid=" + workId;
+                        parts[workIdIndex] = "workid=" + workId;
                     }
                     else {
                         Array.Resize(ref parts, parts.Length + 1);
-                        parts[parts.Length - 1] = "--workid=" + workId;
+                        parts[parts.Length - 1] = "workid=" + workId;
                     }
                 }
                 return string.Join(" ", parts);
             }
             else if (workId != Guid.Empty) {
-                return "--workid=" + workId;
+                return "workid=" + workId;
             }
             return string.Empty;
         }
@@ -62,7 +62,7 @@ namespace NTMiner {
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string arguments = string.Empty;
                     if (workId != Guid.Empty) {
-                        arguments = "--workid=" + workId.ToString();
+                        arguments = "workid=" + workId.ToString();
                     }
                     Windows.Cmd.RunClose(location, arguments);
                 }

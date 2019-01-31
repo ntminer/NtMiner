@@ -14,9 +14,7 @@ namespace NTMiner {
         public App() {
             Logging.LogDir.SetDir(Path.Combine(ClientId.GlobalDirFullName, "Logs"));
             AppHelper.Init(this);
-            Global.Logger.InfoDebugLine("App.InitializeComponent start");
             InitializeComponent();
-            Global.Logger.InfoDebugLine("App.InitializeComponent end");
         }
 
         private bool createdNew;
@@ -31,7 +29,6 @@ namespace NTMiner {
         }
 
         protected override void OnStartup(StartupEventArgs e) {
-            Global.Logger.InfoDebugLine("App.OnStartup start");
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 Vms.AppStatic.Upgrade(CommandLineArgs.Upgrade, ()=> {
@@ -47,7 +44,6 @@ namespace NTMiner {
                 }
                 if (createdNew) {
                     Vms.AppStatic.IsMinerClient = true;
-                    Global.Logger.InfoDebugLine("new SplashWindow");
                     SplashWindow splashWindow = new SplashWindow();
                     splashWindow.Show();
                     NTMinerRoot.Current.Init(OnNTMinerRootInited);
@@ -56,7 +52,7 @@ namespace NTMiner {
                     try {
                         if (CommandLineArgs.IsWorkEdit) {
                             string arguments = NTMinerRegistry.GetArguments();
-                            if (arguments == $"--controlcenter --workid={CommandLineArgs.WorkId}") {
+                            if (arguments == $"--controlcenter workid={CommandLineArgs.WorkId}") {
                                 AppHelper.ShowMainWindow(this, _appPipName);
                             }
                             else {
@@ -81,21 +77,18 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
-            Global.Logger.InfoDebugLine("App.OnStartup end");
         }
 
         private void OnNTMinerRootInited() {
             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Access();
             NTMinerRoot.KernelDownloader = new KernelDownloader();
             Execute.OnUIThread(() => {
-                Global.Logger.InfoDebugLine("new MainWindow");
                 Window splashWindow = MainWindow;
                 MainWindow window = new MainWindow();
                 IMainWindow mainWindow = window;
                 this.MainWindow = window;
                 this.MainWindow.Show();
                 this.MainWindow.Activate();
-                Global.Logger.InfoDebugLine("MainWindow showed");
                 notifyIcon = new ExtendedNotifyIcon("pack://application:,,,/NTMiner;component/logo.ico");
                 notifyIcon.Init();
                 #region 处理显示主界面命令
@@ -129,12 +122,12 @@ namespace NTMiner {
                         }
                         if (message.MineWorkId != Guid.Empty) {
                             if (!CommandLineArgs.IsWorker) {
-                                args.Add("--workid=" + message.MineWorkId.ToString());
+                                args.Add("workid=" + message.MineWorkId.ToString());
                             }
                             else {
                                 for (int i = 0; i < args.Count; i++) {
-                                    if (args[i].StartsWith("--workid=", StringComparison.OrdinalIgnoreCase)) {
-                                        args[i] = "--workid=" + message.MineWorkId.ToString();
+                                    if (args[i].StartsWith("workid=", StringComparison.OrdinalIgnoreCase)) {
+                                        args[i] = "workid=" + message.MineWorkId.ToString();
                                         break;
                                     }
                                 }
@@ -144,7 +137,7 @@ namespace NTMiner {
                             if (CommandLineArgs.IsWorker) {
                                 int workIdIndex = -1;
                                 for (int i = 0; i < args.Count; i++) {
-                                    if (args[i].ToLower().Contains("--workid=")) {
+                                    if (args[i].ToLower().Contains("workid=")) {
                                         workIdIndex = i;
                                         break;
                                     }

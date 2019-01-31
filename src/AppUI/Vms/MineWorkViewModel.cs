@@ -60,7 +60,7 @@ namespace NTMiner.Vms {
                 }, icon: "Icon_Confirm");
             });
             this.Config = new DelegateCommand(() => {
-                Windows.Cmd.RunClose(NTMinerRegistry.GetLocation(), $"--controlcenter --workid={this.Id}");
+                Windows.Cmd.RunClose(NTMinerRegistry.GetLocation(), $"--controlcenter workid={this.Id}");
             });
         }
 

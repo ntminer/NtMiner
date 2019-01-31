@@ -492,14 +492,14 @@ namespace NTMiner {
                     List<string> args = CommandLineArgs.Args;
                     if (CommandLineArgs.IsWorker) {
                         for (int i = 0; i < args.Count; i++) {
-                            if (args[i].StartsWith("--workid=", StringComparison.OrdinalIgnoreCase)) {
-                                args[i] = "--workid=" + workId.ToString();
+                            if (args[i].StartsWith("workid=", StringComparison.OrdinalIgnoreCase)) {
+                                args[i] = "workid=" + workId.ToString();
                                 break;
                             }
                         }
                     }
                     else {
-                        args.Add("--workid=" + workId.ToString());
+                        args.Add("workid=" + workId.ToString());
                     }
                     if (!CommandLineArgs.IsAutoStart) {
                         args.Add("--autostart");

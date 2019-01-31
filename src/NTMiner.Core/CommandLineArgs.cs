@@ -29,40 +29,31 @@ namespace NTMiner {
             IsControlCenter = _commandLineArgs.Contains("--ControlCenter", StringComparer.OrdinalIgnoreCase);
             IsAutoStart = _commandLineArgs.Contains("--AutoStart", StringComparer.OrdinalIgnoreCase);
             Upgrade = PickArgument("upgrade=");
-            int index = 0;
-            for (; index < _commandLineArgs.Count; index++) {
-                string item = _commandLineArgs[index];
-                if (item.StartsWith("--workid=", StringComparison.OrdinalIgnoreCase)) {
-                    string[] parts = item.Split('=');
-                    if (parts.Length != 2) {
-                        throw new InvalidProgramException("--workid参数格式错误");
-                    }
-                    if (!Guid.TryParse(parts[1], out WorkId)) {
-                        throw new InvalidProgramException();
-                    }
-                    IsWorker = WorkId != Guid.Empty;
-                    if (!IsWorker) {
-                        _commandLineArgs.RemoveAt(index);
-                    }
-                    break;
-                }
-            }
+            string workId = PickArgument("workid=");
+            Guid.TryParse(workId, out WorkId);
             IsWorkEdit = IsControlCenter && IsWorker;
             JustClientWorker = !IsControlCenter && IsWorker;
             IsFreeClient = !IsControlCenter && !IsWorker;
         }
 
         private static string PickArgument(string argumentName) {
-            foreach (var item in _commandLineArgs) {
+            string result = string.Empty;
+            int index = -1;
+            for (int i = 0; i < _commandLineArgs.Count; i++) {
+                string item = _commandLineArgs[i];
                 if (item.StartsWith(argumentName)) {
                     string[] parts = item.Split('=');
-                    if (parts.Length != 2) {
-                        return string.Empty;
+                    if (parts.Length == 2) {
+                        result = parts[0];
+                        index = i;
+                        break;
                     }
-                    return parts[0];
                 }
             }
-            return string.Empty;
+            if (string.IsNullOrEmpty(result) && index != -1) {
+                _commandLineArgs.RemoveAt(index);
+            }
+            return result;
         }
     }
 }
