@@ -165,14 +165,22 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel>
-								<WrapPanel>
+                            <StackPanel>
+                                <WrapPanel>
                                     <TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-								</WrapPanel>
-								<WrapPanel>
-									<TextBlock Text="{Binding SupportedCoins}" ToolTip="{DynamicResource SupportedCoins}"></TextBlock>
-								</WrapPanel>
-							</StackPanel>
+                                    <WrapPanel Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+                                        <Path
+                                            Margin="4 0 0 0"
+                                            Visibility="{Binding Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+                                            Width="14"
+                                            Height="14"
+                                            Data="{StaticResource Icon_Notice}"
+                                            Fill="{StaticResource IconFillColor}"
+                                            Stretch="Fill" />
+                                    </WrapPanel>
+                                </WrapPanel>
+                                <TextBlock Text="{Binding SupportedCoins}" ToolTip="{DynamicResource SupportedCoins}"></TextBlock>
+                            </StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
