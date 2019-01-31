@@ -57,7 +57,7 @@ namespace NTMiner {
                                 ClientIds = clientIds,
                                 Timestamp = DateTime.Now
                             };
-                            request.SignIt(Password);
+                            request.SignIt(PasswordSha1);
                             LoadClientsResponse response = service.LoadClients(request);
                             callback?.Invoke(response);
                         }
@@ -90,7 +90,7 @@ namespace NTMiner {
                                 CoinCodes = coinCodes,
                                 Timestamp = DateTime.Now
                             };
-                            request.SignIt(Password);
+                            request.SignIt(PasswordSha1);
                             GetCoinSnapshotsResponse response = service.GetLatestSnapshots(request);
                             callback?.Invoke(response);
                         }
@@ -118,7 +118,7 @@ namespace NTMiner {
                             ClientId = clientId,
                             Timestamp = DateTime.Now
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             LoadClientResponse response = service.LoadClient(request);
                             callback?.Invoke(response);
@@ -175,7 +175,7 @@ namespace NTMiner {
                                 Kernel = kernel,
                                 Timestamp = DateTime.Now
                             };
-                            request.SignIt(Password);
+                            request.SignIt(PasswordSha1);
                             QueryClientsResponse response = service.QueryClients(request);
                             callback?.Invoke(response);
                         }
@@ -205,7 +205,7 @@ namespace NTMiner {
                             Value = value,
                             Timestamp = DateTime.Now
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.UpdateClient(request);
                             callback?.Invoke(response);
@@ -258,7 +258,7 @@ namespace NTMiner {
                             Data = entity,
                             Timestamp = DateTime.Now
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.AddOrUpdateMinerGroup(request);
                             callback?.Invoke(response);
@@ -286,7 +286,7 @@ namespace NTMiner {
                             LoginName = LoginName,
                             Timestamp = DateTime.Now
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.RemoveMinerGroup(request);
                             callback?.Invoke(response);
@@ -316,7 +316,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now,
                             Data = entity
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.AddOrUpdateMineWork(request);
                             callback?.Invoke(response);
@@ -345,7 +345,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now,
                             MineWorkId = id
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.RemoveMineWork(request);
                             callback?.Invoke(response);
@@ -376,7 +376,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now,
                             WorkId = workId
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.SetMinerProfileProperty(request);
                             callback?.Invoke(response);
@@ -408,7 +408,7 @@ namespace NTMiner {
                             Value = value,
                             Timestamp = DateTime.Now
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.SetCoinProfileProperty(request);
                             callback?.Invoke(response);
@@ -440,7 +440,7 @@ namespace NTMiner {
                             Value = value,
                             Timestamp = DateTime.Now
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.SetPoolProfileProperty(request);
                             callback?.Invoke(response);
@@ -472,7 +472,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now,
                             WorkId = workId
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.SetCoinKernelProfileProperty(request);
                             callback?.Invoke(response);
@@ -525,7 +525,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now,
                             Data = entity
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.AddOrUpdateWallet(request);
                             callback?.Invoke(response);
@@ -554,7 +554,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now,
                             WalletId = id
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.RemoveWallet(request);
                             callback?.Invoke(response);
@@ -609,7 +609,7 @@ namespace NTMiner {
                             MessageId = messageId,
                             Timestamp = DateTime.Now
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             service.SaveCalcConfigs(request);
                         }

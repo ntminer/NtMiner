@@ -90,7 +90,7 @@ namespace NTMiner {
                 UserData user = col.FindOne(Query.All());
                 if (user != null) {
                     Server.LoginName = user.LoginName;
-                    Server.Password = user.Password;
+                    Server.PasswordSha1 = user.Password;
                     Console.WriteLine($"LoginName:{user.LoginName}");
                     Console.Write($"Password:");
                     Console.ForegroundColor = Console.BackgroundColor;

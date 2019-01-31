@@ -41,7 +41,7 @@ namespace NTMiner {
                             WorkId = workId,
                             Timestamp = DateTime.Now
                         };
-                        request.SignIt(Server.PasswordSha1);
+                        request.SignIt(Server.PasswordSha1Sha1);
                         service.StartMine(request);
                     }
                     callback?.Invoke(true);

@@ -8,16 +8,16 @@
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
         public static string LoginName { get; set; }
 
-        private static string _password;
-        public static string Password {
-            get { return _password; }
+        private static string _passwordSha1;
+        public static string PasswordSha1 {
+            get { return _passwordSha1; }
             set {
-                _password = value;
-                PasswordSha1 = HashUtil.Sha1(value);
+                _passwordSha1 = value;
+                PasswordSha1Sha1 = HashUtil.Sha1(value);
             }
         }
 
-        public static string PasswordSha1 {
+        public static string PasswordSha1Sha1 {
             get; private set;
         }
 

@@ -89,7 +89,7 @@ namespace NTMiner {
                             LoginName = LoginName,
                             Timestamp = DateTime.Now
                         };
-                        request.SignIt(Password);
+                        request.SignIt(PasswordSha1);
                         using (var service = CreateService()) {
                             ResponseBase response = service.SetAppSetting(request);
                             callback?.Invoke(response);

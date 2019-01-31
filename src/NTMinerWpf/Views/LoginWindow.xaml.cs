@@ -40,7 +40,7 @@ namespace NTMiner.Views {
                     }
                     if (response.IsSuccess()) {
                         Server.LoginName = Vm.LoginName;
-                        Server.Password = passwordSha1;
+                        Server.PasswordSha1 = passwordSha1;
                         this.DialogResult = true;
                         this.Close();
                     }
