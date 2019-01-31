@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.ServiceContracts.DataObjects;
+using System;
 using System.Runtime.Serialization;
 using System.Text;
 

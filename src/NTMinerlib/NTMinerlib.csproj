@@ -88,7 +88,7 @@
     <Compile Include="ServiceContracts\IAppSettingService.cs" />
     <Compile Include="ServiceContracts\MinerClient\DataObjects\StartMineRequest.cs" />
     <Compile Include="ServiceContracts\MinerClient\IMinerClientService.cs" />
-    <Compile Include="SignatureRequestExtension.cs" />
+    <Compile Include="ServiceContracts\DataObjects\SignatureRequestExtension.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="Server.partials.ControlCenterService.cs" />
     <Compile Include="DateTimeExtensions.cs" />
@@ -174,8 +174,8 @@
     <Compile Include="ServiceContracts\DataObjects\RemoveMineWorkRequest.cs" />
     <Compile Include="ServiceContracts\DataObjects\RemoveNTMinerFileRequest.cs" />
     <Compile Include="ServiceContracts\DataObjects\RemoveWalletRequest.cs" />
-    <Compile Include="RequestBase.cs" />
-    <Compile Include="ResponseBase.cs" />
+    <Compile Include="ServiceContracts\DataObjects\RequestBase.cs" />
+    <Compile Include="ServiceContracts\DataObjects\ResponseBase.cs" />
     <Compile Include="ServiceContracts\DataObjects\SaveCalcConfigsRequest.cs" />
     <Compile Include="ServiceContracts\DataObjects\SetClientMinerProfilePropertyRequest.cs" />
     <Compile Include="ServiceContracts\DataObjects\SetCoinKernelProfilePropertyRequest.cs" />

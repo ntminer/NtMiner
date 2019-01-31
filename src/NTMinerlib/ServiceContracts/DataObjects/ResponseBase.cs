@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NTMiner {
+namespace NTMiner.ServiceContracts.DataObjects {
     public static class ResponseBaseExtension {
         public static bool IsSuccess(this ResponseBase response) {
             if (response == null) {

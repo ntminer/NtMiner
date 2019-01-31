@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NTMiner {
+namespace NTMiner.ServiceContracts.DataObjects {
     [DataContract]
     public class RequestBase {
         public RequestBase() {
