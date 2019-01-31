@@ -1,6 +1,6 @@
 ﻿using LiteDB;
 
-namespace NTMiner {
+namespace NTMiner.User {
     public interface IUser {
         ObjectId Id { get; }
 

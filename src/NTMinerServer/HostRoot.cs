@@ -5,6 +5,7 @@ using NTMiner.Data.Impl;
 using NTMiner.ServiceContracts;
 using NTMiner.Services;
 using NTMiner.User;
+using NTMiner.User.Impl;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;

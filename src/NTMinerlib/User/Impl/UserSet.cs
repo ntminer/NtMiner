@@ -1,8 +1,9 @@
 ﻿using LiteDB;
+using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
 
-namespace NTMiner.User {
+namespace NTMiner.User.Impl {
     public class UserSet : IUserSet {
         private Dictionary<string, IUser> _dicByLoginName = new Dictionary<string, IUser>();
         private readonly string _dbFileFullName;

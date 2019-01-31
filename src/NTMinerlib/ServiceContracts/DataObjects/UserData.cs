@@ -1,6 +1,7 @@
 ﻿using LiteDB;
+using NTMiner.User;
 
-namespace NTMiner.User {
+namespace NTMiner.ServiceContracts.DataObjects {
     public class UserData : IUser {
         public UserData() { }
 

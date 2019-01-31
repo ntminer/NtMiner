@@ -11,6 +11,7 @@ using NTMiner.Core.SysDics.Impl;
 using NTMiner.ServiceContracts.DataObjects;
 using NTMiner.ServiceContracts.MinerClient;
 using NTMiner.User;
+using NTMiner.User.Impl;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,5 +1,6 @@
 ﻿using Aliyun.OSS;
 using NTMiner.Data;
+using NTMiner.User;
 using System;
 
 namespace NTMiner {
