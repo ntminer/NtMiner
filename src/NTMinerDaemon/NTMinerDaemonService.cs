@@ -119,15 +119,27 @@ namespace NTMiner {
         }
 
         public void UpgradeNTMiner(string ntminerFileName) {
-            throw new NotImplementedException();
+            try {
+                if (string.IsNullOrEmpty(ntminerFileName)) {
+                    return;
+                }
+                string location = NTMinerRegistry.GetLocation();
+                if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                    string arguments = "upgrade=" + ntminerFileName;
+                    Windows.Cmd.RunClose(location, arguments);
+                }
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+            }
         }
 
         public void StartNoDevFee(
-            int contextId, 
+            int contextId,
             string minerName,
-            string coin, 
-            string ourWallet, 
-            string testWallet, 
+            string coin,
+            string ourWallet,
+            string testWallet,
             string kernelName) {
             NoDevFee.NoDevFeeUtil.StartAsync(contextId, minerName, coin, ourWallet, testWallet, kernelName);
         }

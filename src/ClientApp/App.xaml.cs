@@ -33,42 +33,49 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             Global.Logger.InfoDebugLine("App.OnStartup start");
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            try {
-                appMutex = new Mutex(true, _appPipName, out createdNew);
-            }
-            catch (Exception) {
-                createdNew = false;
-            }
-            if (createdNew) {
-                Vms.AppStatic.IsMinerClient = true;
-                Global.Logger.InfoDebugLine("new SplashWindow");
-                SplashWindow splashWindow = new SplashWindow();
-                splashWindow.Show();
-                NTMinerRoot.Current.Init(OnNTMinerRootInited);
+            if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
+                Vms.AppStatic.Upgrade(CommandLineArgs.Upgrade, ()=> {
+                    Environment.Exit(0);
+                });
             }
             else {
                 try {
-                    if (CommandLineArgs.IsWorkEdit) {
-                        string arguments = NTMinerRegistry.GetArguments();
-                        if (arguments == $"--controlcenter --workid={CommandLineArgs.WorkId}") {
-                            AppHelper.ShowMainWindow(this, _appPipName);
-                        }
-                        else {
-                            NTMinerClientDaemon.Instance.RestartNTMinerAsync(Global.Localhost, Global.ClientPort, CommandLineArgs.WorkId, null);
-                            this.Shutdown();
-                        }
-                    }
-                    else {
-                        AppHelper.ShowMainWindow(this, _appPipName);
-                    }
+                    appMutex = new Mutex(true, _appPipName, out createdNew);
                 }
                 catch (Exception) {
-                    DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
-                    Process currentProcess = Process.GetCurrentProcess();
-                    Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
-                    foreach (var process in processes) {
-                        if (process.Id != currentProcess.Id) {
-                            NTMiner.Windows.TaskKill.Kill(process.Id);
+                    createdNew = false;
+                }
+                if (createdNew) {
+                    Vms.AppStatic.IsMinerClient = true;
+                    Global.Logger.InfoDebugLine("new SplashWindow");
+                    SplashWindow splashWindow = new SplashWindow();
+                    splashWindow.Show();
+                    NTMinerRoot.Current.Init(OnNTMinerRootInited);
+                }
+                else {
+                    try {
+                        if (CommandLineArgs.IsWorkEdit) {
+                            string arguments = NTMinerRegistry.GetArguments();
+                            if (arguments == $"--controlcenter --workid={CommandLineArgs.WorkId}") {
+                                AppHelper.ShowMainWindow(this, _appPipName);
+                            }
+                            else {
+                                NTMinerClientDaemon.Instance.RestartNTMinerAsync(Global.Localhost, Global.ClientPort, CommandLineArgs.WorkId, null);
+                                this.Shutdown();
+                            }
+                        }
+                        else {
+                            AppHelper.ShowMainWindow(this, _appPipName);
+                        }
+                    }
+                    catch (Exception) {
+                        DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
+                        Process currentProcess = Process.GetCurrentProcess();
+                        Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
+                        foreach (var process in processes) {
+                            if (process.Id != currentProcess.Id) {
+                                NTMiner.Windows.TaskKill.Kill(process.Id);
+                            }
                         }
                     }
                 }

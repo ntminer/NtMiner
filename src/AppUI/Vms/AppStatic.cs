@@ -176,45 +176,71 @@ namespace NTMiner.Vms {
             NTMinerUpdaterConfig.ShowWindow();
         });
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
-            string updaterDirFullName = Path.Combine(ClientId.GlobalDirFullName, "Updater");
-            if (!Directory.Exists(updaterDirFullName)) {
-                Directory.CreateDirectory(updaterDirFullName);
-            }
-            Server.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl) => {
-                if (string.IsNullOrEmpty(downloadFileUrl)) {
-                    return;
+            Upgrade(string.Empty, null);
+        });
+        public static void Upgrade(string ntminerFileName, Action callback) {
+            try {
+                string updaterDirFullName = Path.Combine(ClientId.GlobalDirFullName, "Updater");
+                if (!Directory.Exists(updaterDirFullName)) {
+                    Directory.CreateDirectory(updaterDirFullName);
                 }
-                string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
-                Uri uri = new Uri(downloadFileUrl);
-                string updaterVersion = NTMinerRegistry.GetUpdaterVersion();
-                if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
-                    FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
-                        if (isSuccess) {
-                            File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
-                            File.Delete(saveFileFullName);
-                            NTMinerRegistry.SetUpdaterVersion(uri.AbsolutePath);
-                            window?.Close();
-                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
+                Server.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl) => {
+                    try {
+                        if (string.IsNullOrEmpty(downloadFileUrl)) {
+                            callback?.Invoke();
+                            return;
                         }
-                        else {
-                            Execute.OnUIThread(() => {
-                                ControlCenterWindowViewModel.Current.Manager.CreateMessage()
-                                    .Accent("#1751C3")
-                                    .Background("Red")
-                                    .HasBadge("Error")
-                                    .HasMessage(message)
-                                    .Dismiss()
-                                    .WithDelay(TimeSpan.FromSeconds(2))
-                                    .Queue();
+                        string argument = string.Empty;
+                        if (!string.IsNullOrEmpty(ntminerFileName)) {
+                            argument = "ntminerFileName=" + ntminerFileName;
+                        }
+                        string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
+                        Uri uri = new Uri(downloadFileUrl);
+                        string updaterVersion = NTMinerRegistry.GetUpdaterVersion();
+                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
+                            FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
+                                try {
+                                    if (isSuccess) {
+                                        File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
+                                        File.Delete(saveFileFullName);
+                                        NTMinerRegistry.SetUpdaterVersion(uri.AbsolutePath);
+                                        window?.Close();
+                                        Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                                        callback?.Invoke();
+                                    }
+                                    else {
+                                        Execute.OnUIThread(() => {
+                                            ControlCenterWindowViewModel.Current.Manager.CreateMessage()
+                                                .Accent("#1751C3")
+                                                .Background("Red")
+                                                .HasBadge("Error")
+                                                .HasMessage(message)
+                                                .Dismiss()
+                                                .WithDelay(TimeSpan.FromSeconds(2))
+                                                .Queue();
+                                        });
+                                        callback?.Invoke();
+                                    }
+                                }
+                                catch {
+                                    callback?.Invoke();
+                                }
                             });
                         }
-                    });
-                }
-                else {
-                    Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
-                }
-            });
-        });
+                        else {
+                            Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
+                            callback?.Invoke();
+                        }
+                    }
+                    catch {
+                        callback?.Invoke();
+                    }
+                });
+            }
+            catch {
+                callback?.Invoke();
+            }
+        }
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
             Process.Start("https://github.com/ntminer/ntminer");
         });

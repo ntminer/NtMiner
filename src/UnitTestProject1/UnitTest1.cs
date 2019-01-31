@@ -106,6 +106,12 @@ namespace UnitTestProject1 {
         }
 
         [TestMethod]
+        public void RunCloseTest() {
+            string location = NTMiner.NTMinerRegistry.GetLocation();
+            NTMiner.Windows.Cmd.RunClose(location, string.Empty);
+        }
+
+        [TestMethod]
         public void WcfTest() {
             BasicHttpBinding BasicHttpBinding = new BasicHttpBinding {
                 TransferMode = TransferMode.Streamed,
