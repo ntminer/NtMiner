@@ -178,6 +178,14 @@ namespace NTMiner.Vms {
                 }
                 OnPropertyChanged(nameof(IsBtnInstallVisible));
                 IsReady = true;
+                if (!string.IsNullOrEmpty(CommandLineArgs.NTMinerFileName)) {
+                    NTMinerFileViewModel ntminerFileVm = this.NTMinerFiles.FirstOrDefault(a => a.FileName == CommandLineArgs.NTMinerFileName);
+                    if (ntminerFileVm != null) {
+                        IsHistoryVisible = Visibility.Visible;
+                        this.SelectedNTMinerFile = ntminerFileVm;
+                        Install.Execute(null);
+                    }
+                }
             });
         }
 
