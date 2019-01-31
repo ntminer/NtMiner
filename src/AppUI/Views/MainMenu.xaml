@@ -37,6 +37,9 @@
             <sys:String x:Key="SetServerJsonVersion">
                 SetServerJsonVersion
             </sys:String>
+            <sys:String x:Key="ShowNTMinerUpdaterConfig">
+                ShowNTMinerUpdaterConfig
+            </sys:String>
             <sys:String x:Key="Exit">
                 Exit
             </sys:String>
@@ -400,6 +403,18 @@
                             Width="16"
                             Height="16"
                             Data="{StaticResource Icon_Refresh}"
+                            Fill="{StaticResource IconFillColor}"
+                            Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem 
+                    Header="{DynamicResource ShowNTMinerUpdaterConfig}" 
+                    Command="{x:Static vm:AppStatic.ShowNTMinerUpdaterConfig}">
+                    <MenuItem.Icon>
+                        <Path
+                            Width="16"
+                            Height="16"
+                            Data="{StaticResource Icon_Update}"
                             Fill="{StaticResource IconFillColor}"
                             Stretch="Fill" />
                     </MenuItem.Icon>

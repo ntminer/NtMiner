@@ -132,6 +132,9 @@
     <Compile Include="Views\Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\NTMinerUpdaterConfig.xaml.cs">
+      <DependentUpon>NTMinerUpdaterConfig.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\PoolKernelEdit.xaml.cs">
       <DependentUpon>PoolKernelEdit.xaml</DependentUpon>
     </Compile>
@@ -295,6 +298,7 @@
     <Compile Include="Vms\MineWorkPageViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModels.cs" />
+    <Compile Include="Vms\NTMinerUpdaterConfigViewModel.cs" />
     <Compile Include="Vms\OpenedWindowsViewModel.cs" />
     <Compile Include="Vms\PoolKernelViewModel.cs" />
     <Compile Include="Vms\PoolKernelViewModels.cs" />
@@ -397,6 +401,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Ucs\Calc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\NTMinerUpdaterConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

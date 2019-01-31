@@ -75,33 +75,35 @@ namespace NTMiner.Vms {
 
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             try {
-                Server.AppSettingService.SetAppSettingAsync(new AppSettingData {
-                    Key = ServerJsonFileName,
-                    Value = Global.GetTimestamp()
-                }, response => {
-                    Execute.OnUIThread(() => {
-                        if (response.IsSuccess()) {
-                            ControlCenterWindowViewModel.Current.Manager.CreateMessage()
-                                .Accent("#1751C3")
-                                .Background("#333")
-                                .HasBadge("Info")
-                                .HasMessage($"刷新成功")
-                                .Dismiss()
-                                .WithDelay(TimeSpan.FromSeconds(2))
-                                .Queue();
-                        }
-                        else {
-                            ControlCenterWindowViewModel.Current.Manager.CreateMessage()
-                                .Accent("#1751C3")
-                                .Background("Red")
-                                .HasBadge("Error")
-                                .HasMessage($"刷新失败")
-                                .Dismiss()
-                                .WithDelay(TimeSpan.FromSeconds(2))
-                                .Queue();
-                        }
+                DialogWindow.ShowDialog(message: $"您确定刷新{AssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
+                    Server.AppSettingService.SetAppSettingAsync(new AppSettingData {
+                        Key = ServerJsonFileName,
+                        Value = Global.GetTimestamp()
+                    }, response => {
+                        Execute.OnUIThread(() => {
+                            if (response.IsSuccess()) {
+                                ControlCenterWindowViewModel.Current.Manager.CreateMessage()
+                                    .Accent("#1751C3")
+                                    .Background("#333")
+                                    .HasBadge("Info")
+                                    .HasMessage($"刷新成功")
+                                    .Dismiss()
+                                    .WithDelay(TimeSpan.FromSeconds(2))
+                                    .Queue();
+                            }
+                            else {
+                                ControlCenterWindowViewModel.Current.Manager.CreateMessage()
+                                    .Accent("#1751C3")
+                                    .Background("Red")
+                                    .HasBadge("Error")
+                                    .HasMessage($"刷新失败")
+                                    .Dismiss()
+                                    .WithDelay(TimeSpan.FromSeconds(2))
+                                    .Queue();
+                            }
+                        });
                     });
-                });
+                }, icon: "Icon_Confirm");
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -169,6 +171,9 @@ namespace NTMiner.Vms {
         });
         public static ICommand ShowSpeedChart { get; private set; } = new DelegateCommand(() => {
             SpeedCharts.ShowWindow();
+        });
+        public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(() => {
+            NTMinerUpdaterConfig.ShowWindow();
         });
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
             string updaterDirFullName = Path.Combine(ClientId.GlobalDirFullName, "Updater");
