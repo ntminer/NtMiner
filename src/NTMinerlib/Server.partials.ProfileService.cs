@@ -14,7 +14,7 @@ namespace NTMiner {
             }
 
             private IProfileService CreateService() {
-                return ChannelFactory.CreateChannel<IProfileService>(Server.MinerServerHost, Server.MinerServerPort);
+                return ChannelFactory.CreateChannel<IProfileService>(MinerServerHost, MinerServerPort);
             }
 
             public void GetMineWorkAsync(Guid workId, Action<MineWorkData> callback) {

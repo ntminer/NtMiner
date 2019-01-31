@@ -5,8 +5,6 @@ namespace NTMiner.ServiceContracts.DataObjects {
         string MinerName { get; }
         bool IsAutoThisPCName { get; }
         bool IsShowInTaskbar { get; }
-        string ServerHost { get; }
-        int ServerPort { get; }
         Guid CoinId { get; }
         bool IsAutoBoot { get; }
         bool IsAutoStart { get; }

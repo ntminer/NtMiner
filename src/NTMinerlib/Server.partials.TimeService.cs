@@ -12,7 +12,7 @@ namespace NTMiner {
             }
 
             private ITimeService CreateService() {
-                return ChannelFactory.CreateChannel<ITimeService>(Server.MinerServerHost, Server.MinerServerPort);
+                return ChannelFactory.CreateChannel<ITimeService>(MinerServerHost, MinerServerPort);
             }
 
             public void GetTimeAsync(Action<DateTime> callback) {

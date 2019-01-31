@@ -176,36 +176,6 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        public string ServerHost {
-            get {
-                string host = _data.ServerHost;
-                if (string.IsNullOrEmpty(host)) {
-                    host = Server.MinerServerHost;
-                }
-                return host;
-            }
-            private set {
-                if (_data.ServerHost != value) {
-                    _data.ServerHost = value;
-                }
-            }
-        }
-
-        public int ServerPort {
-            get {
-                int port = _data.ServerPort;
-                if (port == 0) {
-                    port = Server.MinerServerPort;
-                }
-                return port;
-            }
-            private set {
-                if (_data.ServerPort != value) {
-                    _data.ServerPort = value;
-                }
-            }
-        }
-
         public Guid CoinId {
             get => _data.CoinId;
             private set {

@@ -321,30 +321,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string ServerHost {
-            get {
-                return NTMinerRoot.Current.MinerProfile.ServerHost;
-            }
-            set {
-                if (NTMinerRoot.Current.MinerProfile.ServerHost != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(ServerHost), value);
-                    OnPropertyChanged(nameof(ServerHost));
-                }
-            }
-        }
-
-        public int ServerPort {
-            get {
-                return NTMinerRoot.Current.MinerProfile.ServerPort;
-            }
-            set {
-                if (NTMinerRoot.Current.MinerProfile.ServerPort != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(ServerPort), value);
-                    OnPropertyChanged(nameof(ServerPort));
-                }
-            }
-        }
-
         public bool IsAutoBoot {
             get => NTMinerRoot.Current.MinerProfile.IsAutoBoot;
             set {

@@ -21,8 +21,6 @@ namespace NTMiner.ServiceContracts.DataObjects {
                 IsPeriodicRestartComputer = false,
                 PeriodicRestartComputerHours = 24,
                 IsAutoThisPCName = true,
-                ServerHost = NTMinerRegistry.MINER_SERVER_HOST,
-                ServerPort = Server.MinerServerPort,
                 IsShowCommandLine = false,
                 CreatedOn = DateTime.Now,
                 ModifiedOn = Global.UnixBaseTime
@@ -55,10 +53,6 @@ namespace NTMiner.ServiceContracts.DataObjects {
         public bool IsAutoStart { get; set; }
         [DataMember]
         public bool IsAutoRestartKernel { get; set; }
-        [DataMember]
-        public string ServerHost { get; set; }
-        [DataMember]
-        public int ServerPort { get; set; }
         [DataMember]
         public Guid CoinId { get; set; }
         [DataMember]

@@ -15,12 +15,6 @@
             <sys:String x:Key="WindowTitle">
                 选项
             </sys:String>
-            <sys:String x:Key="LblServerHost">
-                LblServerHost
-            </sys:String>
-            <sys:String x:Key="LblServerPort">
-                LblServerPort
-            </sys:String>
             <sys:String x:Key="LblIsAutoRestartKernel">
                 LblIsAutoRestartKernel
             </sys:String>
@@ -49,18 +43,6 @@
     </UserControl.Resources>
     <StackPanel>
         <StackPanel IsEnabled="{Binding IsWorkEditOrFreeClient}">
-            <GroupBox Header="中控服务器" Visibility="{Binding IsFreeClient, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-                <StackPanel>
-                    <WrapPanel Margin="0 2">
-                        <Label Content="{DynamicResource LblServerHost}"></Label>
-                        <TextBox Margin="4 0" Width="170" Text="{Binding ServerHost}" VerticalContentAlignment="Center" Background="White">
-                        </TextBox>
-                        <Label Content="{DynamicResource LblServerPort}"></Label>
-                        <TextBlock Margin="4 0" Width="40" Text="{Binding ServerPort}" VerticalAlignment="Center" Background="White">
-                        </TextBlock>
-                    </WrapPanel>
-                </StackPanel>
-            </GroupBox>
             <StackPanel Margin="9 4 0 0">
                 <WrapPanel Margin="0 2">
                     <controls:KbCheckBox
