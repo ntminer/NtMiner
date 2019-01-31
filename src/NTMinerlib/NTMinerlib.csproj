@@ -206,5 +206,8 @@
     <None Include="packages.config" />
     <Compile Include="Server.partials.AppSettingService.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="ServiceContracts\README.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
