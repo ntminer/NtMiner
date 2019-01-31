@@ -18,7 +18,6 @@ namespace NTMiner {
 
         #region Init
         public static void Init(Application app) {
-            Global.Logger.InfoDebugLine("AppHelper.Init start");
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 var exception = e.ExceptionObject as Exception;
                 if (exception != null) {
@@ -33,7 +32,6 @@ namespace NTMiner {
 
             Execute.InitializeWithDispatcher();
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
-            Global.Logger.InfoDebugLine("AppHelper.Init end");
         }
         #endregion
 

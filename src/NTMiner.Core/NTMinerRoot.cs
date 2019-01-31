@@ -106,7 +106,6 @@ namespace NTMiner {
         }
 
         public void DoInit(string rawNTMinerJson, string rawLangJson, Action callback) {
-            Global.Logger.InfoDebugLine("SystemRoo.PrivateInit start");
             ServerJson.Instance.Init(rawNTMinerJson);
             Language.Impl.LangJson.Instance.Init(rawLangJson);
             this.PackageDownloader = new PackageDownloader(this);
@@ -138,7 +137,6 @@ namespace NTMiner {
             this.CoinKernelProfileSet = new CoinKernelProfileSet(this);
 
             callback?.Invoke();
-            Global.Logger.InfoDebugLine("SystemRoo.PrivateInit end");
         }
         #endregion
 
