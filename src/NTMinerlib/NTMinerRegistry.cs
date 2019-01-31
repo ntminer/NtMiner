@@ -63,7 +63,6 @@ namespace NTMiner {
         #region CurrentVersion
         public static string GetCurrentVersion() {
             string currentVersion = "1.0.0.0";
-            string currentVersionTag = string.Empty;
             object currentVersionValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "CurrentVersion");
             if (currentVersionValue != null) {
                 currentVersion = (string)currentVersionValue;
@@ -91,6 +90,24 @@ namespace NTMiner {
 
         public static void SetCurrentVersionTag(string versionTag) {
             Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "CurrentVersionTag", versionTag);
+        }
+        #endregion
+
+        #region UpdaterVersion
+        public static string GetUpdaterVersion() {
+            string updaterVersion = "NTMinerUpdater.exe";
+            object updaterVersionValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "UpdaterVersion");
+            if (updaterVersionValue != null) {
+                updaterVersion = (string)updaterVersionValue;
+            }
+            if (string.IsNullOrEmpty(updaterVersion)) {
+                return "NTMinerUpdater.exe";
+            }
+            return updaterVersion;
+        }
+
+        public static void SetUpdaterVersion(string version) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "UpdaterVersion", version);
         }
         #endregion
 

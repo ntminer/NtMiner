@@ -185,17 +185,14 @@ namespace NTMiner.Vms {
                     return;
                 }
                 string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
-                IAppSetting updaterDownloadFileUrlSetting = NTMinerRoot.Current.AppSettingSet.GetAppSetting("updaterDownloadFileUrl");
                 Uri uri = new Uri(downloadFileUrl);
-                if (updaterDownloadFileUrlSetting == null || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != (string)updaterDownloadFileUrlSetting.Value) {
+                string updaterVersion = NTMinerRegistry.GetUpdaterVersion();
+                if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
                     FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                         if (isSuccess) {
                             File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
                             File.Delete(saveFileFullName);
-                            Global.Execute(new SetAppSettingCommand(new AppSettingData {
-                                Key = "updaterDownloadFileUrl",
-                                Value = uri.AbsolutePath
-                            }));
+                            NTMinerRegistry.SetUpdaterVersion(uri.AbsolutePath);
                             window?.Close();
                             Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
                         }
