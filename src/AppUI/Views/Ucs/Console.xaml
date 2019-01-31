@@ -111,6 +111,7 @@
         <TextBox 
             Grid.Row="1"
             ToolTip="{DynamicResource KernelNotice}"
+            Visibility="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
             Text="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
