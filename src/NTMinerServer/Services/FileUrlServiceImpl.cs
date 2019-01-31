@@ -1,4 +1,5 @@
 ﻿using Aliyun.OSS;
+using NTMiner.AppSetting;
 using NTMiner.ServiceContracts;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
@@ -72,7 +73,9 @@ namespace NTMiner.Services {
 
         public string GetNTMinerUpdaterUrl() {
             try {
-                var req = new GeneratePresignedUriRequest("ntminer", "NTMinerUpdater.exe", SignHttpMethod.Get);
+                IAppSetting ntminerUpdaterFileNameSetting = HostRoot.Current.AppSettingSet.GetAppSetting("ntminerUpdaterFileName");
+                string ntminerUpdaterFileName = ntminerUpdaterFileNameSetting == null ? "NTMinerUpdater.exe" : (string)ntminerUpdaterFileNameSetting.Value;
+                var req = new GeneratePresignedUriRequest("ntminer", ntminerUpdaterFileName, SignHttpMethod.Get);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }

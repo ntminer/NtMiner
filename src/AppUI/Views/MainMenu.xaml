@@ -391,7 +391,10 @@
                             Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{DynamicResource SetServerJsonVersion}" Command="{x:Static vm:AppStatic.SetServerJsonVersion}">
+                <MenuItem 
+                    Header="{DynamicResource SetServerJsonVersion}" 
+                    ToolTip="{x:Static vm:AppStatic.ServerJsonFileName}"
+                    Command="{x:Static vm:AppStatic.SetServerJsonVersion}">
                     <MenuItem.Icon>
                         <Path
                             Width="16"

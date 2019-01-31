@@ -71,10 +71,12 @@ namespace NTMiner.Vms {
             }
         });
 
+        public static string ServerJsonFileName = AssemblyInfo.ServerJsonFileName;
+
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             try {
                 Server.AppSettingService.SetAppSettingAsync(new AppSettingData {
-                    Key = AssemblyInfo.ServerJsonFileName,
+                    Key = ServerJsonFileName,
                     Value = Global.GetTimestamp()
                 }, response => {
                     Execute.OnUIThread(() => {
@@ -178,9 +180,9 @@ namespace NTMiner.Vms {
                     return;
                 }
                 string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
-                IAppSetting updaterDownloadFileUrl = NTMinerRoot.Current.AppSettingSet.GetAppSetting("updaterDownloadFileUrl");
+                IAppSetting updaterDownloadFileUrlSetting = NTMinerRoot.Current.AppSettingSet.GetAppSetting("updaterDownloadFileUrl");
                 Uri uri = new Uri(downloadFileUrl);
-                if (updaterDownloadFileUrl == null || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != (string)updaterDownloadFileUrl.Value) {
+                if (updaterDownloadFileUrlSetting == null || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != (string)updaterDownloadFileUrlSetting.Value) {
                     FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                         if (isSuccess) {
                             File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
