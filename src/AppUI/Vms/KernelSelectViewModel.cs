@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
                 if (ExceptedCoin != null) {
                     query = query.Where(a => !a.SupportedCoinVms.Contains(ExceptedCoin));
                 }
-                return query.OrderBy(a => a.SortNumber).ToList();
+                return query.OrderBy(a => a.Code + a.Version).ToList();
             }
         }
     }

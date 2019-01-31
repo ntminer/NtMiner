@@ -39,21 +39,11 @@ namespace NTMiner.Vms {
             this._kernelMenus.Add(_updateKernelMenu);
             this._kernelMenus.Add(_uninstallKernelMenu);
             this.Add = new DelegateCommand(() => {
-                int sortNumber = NTMinerRoot.Current.KernelSet.Count == 0 ? 1 : NTMinerRoot.Current.KernelSet.Max(a => a.SortNumber) + 1;
-                new KernelViewModel(Guid.NewGuid()) {
-                    SortNumber = sortNumber
-                }.Edit.Execute(null);
+                new KernelViewModel(Guid.NewGuid()).Edit.Execute(null);
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 Keyword = string.Empty;
             });
-            if (!Design.IsInDesignMode) {
-                KernelViewModels.Current.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
-                    if (e.PropertyName == nameof(KernelViewModels.AllKernels)) {
-                        OnPropertyChanged(nameof(QueryResults));
-                    }
-                };
-            }
             this.Home.Execute(null);
         }
 
@@ -133,13 +123,13 @@ namespace NTMiner.Vms {
                 else {
                     IsBtnUnInstallVisible = Visibility.Collapsed;
                 }
-                return query.OrderBy(a => a.SortNumber).ToList();
+                return query.OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 
         public List<KernelViewModel> DownloadingVms {
             get {
-                return KernelViewModels.Current.AllKernels.Where(a => a.KernelProfileVm.IsDownloading).OrderBy(a => a.SortNumber).ToList();
+                return KernelViewModels.Current.AllKernels.Where(a => a.KernelProfileVm.IsDownloading).OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 

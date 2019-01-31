@@ -22,7 +22,6 @@ namespace NTMiner.Vms {
             _publishState = PublishStatus.UnPublished,
             _sha1 = string.Empty,
             _size = 0,
-            _sortNumber = 0,
             _publishOn = 0,
             _version = string.Empty,
             _package = string.Empty,
@@ -34,7 +33,6 @@ namespace NTMiner.Vms {
         private Guid _id;
         private string _code;
         private string _version;
-        private int _sortNumber;
         private string _helpArg;
         private ulong _publishOn;
         private string _package;
@@ -86,7 +84,6 @@ namespace NTMiner.Vms {
             _publishState = data.PublishState;
             _sha1 = data.Sha1;
             _size = data.Size;
-            _sortNumber = data.SortNumber;
             _publishOn = data.PublishOn;
             _version = data.Version;
             _package = data.Package;
@@ -119,32 +116,6 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定删除{this.FullName}内核吗？", title: "确认", onYes: () => {
                     Global.Execute(new RemoveKernelCommand(this.Id));
                 }, icon: "Icon_Confirm");
-            });
-            this.SortUp = new DelegateCommand(() => {
-                KernelViewModel upOne = KernelViewModels.Current.AllKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
-                if (upOne != null) {
-                    int sortNumber = upOne.SortNumber;
-                    upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateKernelCommand(upOne));
-                    this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateKernelCommand(this));
-                    KernelViewModels.Current.OnPropertyChanged(nameof(KernelViewModels.AllKernels));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.DownloadingVms));
-                }
-            });
-            this.SortDown = new DelegateCommand(() => {
-                KernelViewModel nextOne = KernelViewModels.Current.AllKernels.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
-                if (nextOne != null) {
-                    int sortNumber = nextOne.SortNumber;
-                    nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateKernelCommand(nextOne));
-                    this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateKernelCommand(this));
-                    KernelViewModels.Current.OnPropertyChanged(nameof(KernelViewModels.AllKernels));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.DownloadingVms));
-                }
             });
             this.Publish = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
@@ -289,7 +260,7 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> OtherVersionKernelVms {
             get {
-                return KernelViewModels.Current.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.SortNumber).ToList();
+                return KernelViewModels.Current.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 
@@ -553,16 +524,6 @@ namespace NTMiner.Vms {
         public bool IsSupported {
             get {
                 return this.IsSupported();
-            }
-        }
-
-        public int SortNumber {
-            get => _sortNumber;
-            set {
-                if (_sortNumber != value) {
-                    _sortNumber = value;
-                    OnPropertyChanged(nameof(SortNumber));
-                }
             }
         }
 

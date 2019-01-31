@@ -101,24 +101,17 @@
                             <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Code}"></TextBlock>
                             <TextBox 
                                 Height="26"
-						        Width="150"
+						        Width="180"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 						        VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
                             </TextBox>
-                            <TextBlock Style="{StaticResource LblTb}" Width="50" Text="{DynamicResource Version}"></TextBlock>
+                            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Version}"></TextBlock>
                             <TextBox 
-						        Width="150"
+						        Width="180"
 						        IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 						        VerticalContentAlignment="Center" 
                                 ToolTip="{DynamicResource VersionToolTip}"
                                 Text="{Binding Version}">
-                            </TextBox>
-                            <TextBlock Style="{StaticResource LblTb}" Width="50" Text="{DynamicResource Sort}"></TextBlock>
-                            <TextBox 
-                                Width="50" Height="26" 
-                                VerticalContentAlignment="Center" 
-                                Text="{Binding SortNumber, ValidatesOnExceptions=True}"
-                                IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}">
                             </TextBox>
                         </WrapPanel>
 

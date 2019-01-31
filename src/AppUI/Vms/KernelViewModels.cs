@@ -17,6 +17,7 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                     OnPropertyChanged(nameof(AllKernels));
+                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
                     foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
@@ -28,6 +29,7 @@ namespace NTMiner.Vms {
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllKernels));
+                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
                     foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
@@ -38,13 +40,9 @@ namespace NTMiner.Vms {
                 LogEnum.Console,
                 action: message => {
                     var entity = _dicById[message.Source.GetId()];
-                    int sortNumber = entity.SortNumber;
                     PublishStatus publishStatus = entity.PublishState;
                     Guid kernelInputId = entity.KernelInputId;
                     entity.Update(message.Source);
-                    if (sortNumber != entity.SortNumber) {
-                        KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
-                    }
                     if (publishStatus != entity.PublishState) {
                         foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a=>a.KernelId == entity.Id)) {
                             foreach (var coinVm in CoinViewModels.Current.AllCoins.Where(a=>a.Id == coinKernelVm.CoinId)) {

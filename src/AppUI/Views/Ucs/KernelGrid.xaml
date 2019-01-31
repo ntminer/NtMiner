@@ -91,9 +91,6 @@
             <sys:String x:Key="IsSupportDualMine">
                 IsSupportDualMine
             </sys:String>
-            <sys:String x:Key="Sort">
-                Sort
-            </sys:String>
             <sys:String x:Key="Install">
                 Install
             </sys:String>
@@ -256,14 +253,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn 
-                    Width="40" CanUserResize="False" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                    CanUserSort="False" IsReadOnly="True" Binding="{Binding SortNumber}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock Text="{DynamicResource Sort}"></TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
                 <DataGridTemplateColumn Width="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource Install}"></TextBlock>
@@ -334,7 +323,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel>
-                                <WrapPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center">
+                                <WrapPanel>
                                     <controls:KbButton 
 									    ToolTip="{DynamicResource Publish}"
 									    Command="{Binding Publish}" 
@@ -422,7 +411,7 @@
                                         </WrapPanel>
                                     </controls:KbButton>
                                 </WrapPanel>
-                                <TextBlock Text="{Binding Package}" Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
+                                <TextBlock Text="{Binding Package}" Margin="4 0 0 0" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

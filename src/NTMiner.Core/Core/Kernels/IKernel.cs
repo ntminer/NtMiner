@@ -10,7 +10,6 @@ namespace NTMiner.Core.Kernels {
         string PackageHistory { get; }
         string Sha1 { get; }
         long Size { get; }
-        int SortNumber { get; }
         PublishStatus PublishState { get; }
 
         string HelpArg { get; set; }

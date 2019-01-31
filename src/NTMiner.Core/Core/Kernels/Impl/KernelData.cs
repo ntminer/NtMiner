@@ -34,8 +34,6 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public long Size { get; set; }
 
-        public int SortNumber { get; set; }
-
         public PublishStatus PublishState { get; set; }
 
         public string HelpArg { get; set; }
