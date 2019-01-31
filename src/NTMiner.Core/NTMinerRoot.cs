@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.AppSetting;
+using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
@@ -8,6 +9,7 @@ using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
+using NTMiner.Data.Impl;
 using NTMiner.ServiceContracts.DataObjects;
 using NTMiner.ServiceContracts.MinerClient;
 using NTMiner.User;
@@ -29,6 +31,8 @@ namespace NTMiner {
         public DateTime CreatedOn { get; private set; }
 
         public IUserSet UserSet { get; private set; }
+
+        public IAppSettingSet AppSettingSet { get; private set; }
 
         #region cotr
         private NTMinerRoot() {
@@ -107,6 +111,7 @@ namespace NTMiner {
             Language.Impl.LangJson.Instance.Init(rawLangJson);
             this.PackageDownloader = new PackageDownloader(this);
             this.SysDicSet = new SysDicSet(this);
+            this.AppSettingSet = new AppSettingSet(SpecialPath.LocalDbFileFullName);
             this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
             this.SysDicItemSet = new SysDicItemSet(this);
             this.CoinSet = new CoinSet(this);

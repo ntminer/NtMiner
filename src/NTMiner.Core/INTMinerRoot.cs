@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.AppSetting;
+using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles;
@@ -12,6 +13,8 @@ namespace NTMiner {
         DateTime CreatedOn { get; }
 
         IUserSet UserSet { get; }
+
+        IAppSettingSet AppSettingSet { get; }
 
         void Init(Action callback);
 

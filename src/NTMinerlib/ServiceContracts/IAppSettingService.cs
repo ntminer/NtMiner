@@ -6,9 +6,6 @@ namespace NTMiner.ServiceContracts {
     [ServiceContract]
     public interface IAppSettingService : IDisposable {
         [OperationContract]
-        GetAppSettingsResponse GetAllAppSettings(Guid messageId);
-
-        [OperationContract]
         GetAppSettingResponse GetAppSetting(Guid messageId, string key);
 
         [OperationContract]

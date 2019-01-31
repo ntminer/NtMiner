@@ -63,8 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\ClientCoinSnapshotData.cs" />
-    <Compile Include="Data\IAppSettingSet.cs" />
-    <Compile Include="Data\Impl\AppSettingSet.cs" />
     <Compile Include="Data\Impl\HostConfigData.cs" />
     <Compile Include="Data\Impl\NTMinerFileSet.cs" />
     <Compile Include="Data\ICalcConfigSet.cs" />

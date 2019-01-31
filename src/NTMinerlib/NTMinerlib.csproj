@@ -49,6 +49,10 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSetting\IAppSetting.cs" />
+    <Compile Include="AppSetting\IAppSettingSet.cs" />
+    <Compile Include="AppSetting\Impl\AppSettingSet.cs" />
+    <Compile Include="AppSetting\Messages.cs" />
     <Compile Include="Bus\Cmd.cs" />
     <Compile Include="Bus\DelegateHandler`1.cs" />
     <Compile Include="Bus\DirectBus\DirectBus.cs" />
@@ -78,7 +82,6 @@
     <Compile Include="ServiceContracts\DataObjects\AppSettingData.cs" />
     <Compile Include="ServiceContracts\DataObjects\GetAppSettingResponse.cs" />
     <Compile Include="ServiceContracts\DataObjects\GetAppSettingsResponse.cs" />
-    <Compile Include="ServiceContracts\DataObjects\IAppSetting.cs" />
     <Compile Include="ServiceContracts\DataObjects\IPoolProfile.cs" />
     <Compile Include="ISignatureRequest.cs" />
     <Compile Include="ServiceContracts\DataObjects\PoolProfileData.cs" />

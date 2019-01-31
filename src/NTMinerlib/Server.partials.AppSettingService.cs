@@ -15,27 +15,6 @@ namespace NTMiner {
                 return ChannelFactory.CreateChannel<IAppSettingService>(MinerServerHost, MinerServerPort);
             }
 
-            #region GetAllAppSettingsAsync
-            public void GetAllAppSettingsAsync(Action<GetAppSettingsResponse> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var client = CreateService()) {
-                            var response = client.GetAllAppSettings(Guid.NewGuid());
-                            callback?.Invoke(response);
-                        }
-                    }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(null);
-                    }
-                    catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
-                    }
-                });
-            }
-            #endregion
-
             #region GetAppSettingAsync
             public void GetAppSettingAsync(string key, Action<GetAppSettingResponse> callback) {
                 Task.Factory.StartNew(() => {

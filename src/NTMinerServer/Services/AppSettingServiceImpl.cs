@@ -1,13 +1,15 @@
-﻿using NTMiner.ServiceContracts;
+﻿using NTMiner.AppSetting;
+using NTMiner.ServiceContracts;
 using NTMiner.ServiceContracts.DataObjects;
 using System;
+using System.Linq;
 
 namespace NTMiner.Services {
     public class AppSettingServiceImpl : IAppSettingService {
         public GetAppSettingResponse GetAppSetting(Guid messageId, string key) {
             try {
-                var data = HostRoot.Current.AppSettingSet.GetAppSetting(key);
-                return GetAppSettingResponse.Ok(messageId, data);
+                IAppSetting data = HostRoot.Current.AppSettingSet.GetAppSetting(key);
+                return GetAppSettingResponse.Ok(messageId, AppSettingData.Create(data));
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -18,18 +20,7 @@ namespace NTMiner.Services {
         public GetAppSettingsResponse GetAppSettings(Guid messageId, string[] keys) {
             try {
                 var data = HostRoot.Current.AppSettingSet.GetAppSettings(keys);
-                return GetAppSettingsResponse.Ok(messageId, data);
-            }
-            catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetAppSettingsResponse>(messageId, e.Message);
-            }
-        }
-
-        public GetAppSettingsResponse GetAllAppSettings(Guid messageId) {
-            try {
-                var data = HostRoot.Current.AppSettingSet.GetAllAppSettings();
-                return GetAppSettingsResponse.Ok(messageId, data);
+                return GetAppSettingsResponse.Ok(messageId, data.Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -46,7 +37,7 @@ namespace NTMiner.Services {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                HostRoot.Current.AppSettingSet.SetAppSetting(request.Data);
+                Global.Execute(new SetAppSettingCommand(request.Data));
                 Global.WriteDevLine($"{request.Data.Key} {request.Data.Value}");
                 return ResponseBase.Ok(request.MessageId);
             }

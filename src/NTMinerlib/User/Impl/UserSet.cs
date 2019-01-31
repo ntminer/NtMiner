@@ -19,7 +19,6 @@ namespace NTMiner.User.Impl {
             if (_lastInitOn.AddMinutes(10) < now) {
                 lock (_locker) {
                     if (_lastInitOn.AddMinutes(10) < now) {
-                        _dicByLoginName.Clear();
                         using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
                             var col = db.GetCollection<UserData>();
                             foreach (var item in col.FindAll()) {
