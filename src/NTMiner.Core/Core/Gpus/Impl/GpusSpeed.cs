@@ -114,7 +114,6 @@ namespace NTMiner.Core.Gpus.Impl {
                         }
                     }
                 });
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public void ClearOutOfDateHistory() {

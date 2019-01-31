@@ -105,7 +105,6 @@ namespace NTMiner.Core.SysDics.Impl {
 
                     Global.Happened(new SysDicItemRemovedEvent(entity));
                 });
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         private bool _isInited = false;

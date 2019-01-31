@@ -8,7 +8,6 @@ namespace NTMiner.Core.Impl {
 
         public CoinShareSet(INTMinerRoot root) {
             _root = root;
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public ICoinShare GetOrCreate(Guid coinId) {

@@ -12,7 +12,6 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly object _locker = new object();
         public KernelProfileSet(INTMinerRoot root) {
             _root = root;
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public IKernelProfile EmptyKernelProfile {

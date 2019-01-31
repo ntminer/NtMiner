@@ -96,7 +96,6 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     Global.Happened(new KernelRemovedEvent(entity));
                 });
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         private bool _isInited = false;

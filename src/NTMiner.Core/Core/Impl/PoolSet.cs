@@ -123,7 +123,6 @@ namespace NTMiner.Core.Impl {
                         Global.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
                 });
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         private bool _isInited = false;
