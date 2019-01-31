@@ -234,6 +234,9 @@
     <Compile Include="Views\Ucs\GroupPage.xaml.cs">
       <DependentUpon>GroupPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\UserEdit.xaml.cs">
+      <DependentUpon>UserEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\VirtualMemory.xaml.cs">
       <DependentUpon>VirtualMemory.xaml</DependentUpon>
     </Compile>
@@ -567,6 +570,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\GroupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\UserEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

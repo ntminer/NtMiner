@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.UserEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
+        xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Width" Value="60"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+        </Style>
+        <sys:String x:Key="WindowTitle">
+            用户
+        </sys:String>
+    </UserControl.Resources>
+    <StackPanel Margin="10">
+        <WrapPanel Margin="0 2">
+            <Label>登录名:</Label>
+            <TextBox Width="180" VerticalContentAlignment="Center" Text="{Binding LoginName, ValidatesOnExceptions=True}">
+            </TextBox>
+            <Label>密码:</Label>
+            <TextBox Width="180" VerticalContentAlignment="Center" Text="{Binding Password, ValidatesOnExceptions=True}">
+            </TextBox>
+        </WrapPanel>
+
+        <WrapPanel Margin="0 2">
+            <Label>说明:</Label>
+            <TextBox Width="420" Background="Transparent" Padding="0 4"
+                     AcceptsReturn="True" TextWrapping="Wrap" 
+                     VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+                     Text="{Binding Description, Mode=TwoWay}" 
+                     Height="100">                
+            </TextBox>
+        </WrapPanel>
+        <controls:KbButton
+            Command="{Binding Save}" 
+            VerticalAlignment="Bottom"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+            Margin="0 10 0 0"
+            Width="70" 
+            Height="30"
+            Background="{StaticResource IconFillColor}"
+            Foreground="White"
+            CornerRadius="2">
+            <WrapPanel>
+                <Path
+                    Width="12"
+                    Height="12"
+                    Data="{StaticResource Icon_Ok}"
+                    Fill="White"
+                    Stretch="Fill" />
+                <TextBlock
+                    Padding="4"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Text="确定" />
+            </WrapPanel>
+        </controls:KbButton>
+    </StackPanel>
+</UserControl>
