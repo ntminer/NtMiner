@@ -28,8 +28,12 @@ namespace NTMiner {
         [OperationContract]
         bool IsNTMinerOnline();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ntminerFileName">ntminer exe文件名，带扩展名</param>
         [OperationContract]
-        void UpgradeNTMiner(string ntminerUrl);
+        void UpgradeNTMiner(string ntminerFileName);
 
         [OperationContract]
         void StartNoDevFee(

@@ -118,7 +118,7 @@ namespace NTMiner {
             }
         }
 
-        public void UpgradeNTMiner(string ntminerUrl) {
+        public void UpgradeNTMiner(string ntminerFileName) {
             throw new NotImplementedException();
         }
 

@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Impl;
+﻿using NTMiner.AppSetting;
+using NTMiner.Core.Impl;
 using NTMiner.Language.Impl;
 using NTMiner.Notifications;
 using NTMiner.ServiceContracts.DataObjects;
@@ -177,13 +178,31 @@ namespace NTMiner.Vms {
                     return;
                 }
                 string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
-                if (!File.Exists(ntMinerUpdaterFileFullName)) {
+                IAppSetting updaterDownloadFileUrl = NTMinerRoot.Current.AppSettingSet.GetAppSetting("updaterDownloadFileUrl");
+                Uri uri = new Uri(downloadFileUrl);
+                if (updaterDownloadFileUrl == null || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != (string)updaterDownloadFileUrl.Value) {
                     FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                         if (isSuccess) {
                             File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
                             File.Delete(saveFileFullName);
+                            Global.Execute(new SetAppSettingCommand(new AppSettingData {
+                                Key = "updaterDownloadFileUrl",
+                                Value = uri.AbsolutePath
+                            }));
                             window?.Close();
                             Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, string.Empty);
+                        }
+                        else {
+                            Execute.OnUIThread(() => {
+                                ControlCenterWindowViewModel.Current.Manager.CreateMessage()
+                                    .Accent("#1751C3")
+                                    .Background("Red")
+                                    .HasBadge("Error")
+                                    .HasMessage(message)
+                                    .Dismiss()
+                                    .WithDelay(TimeSpan.FromSeconds(2))
+                                    .Queue();
+                            });
                         }
                     });
                 }
