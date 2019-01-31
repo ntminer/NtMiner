@@ -2,8 +2,6 @@
 
 namespace NTMiner.User {
     public interface IUser {
-        ObjectId Id { get; }
-
         string LoginName { get; }
 
         /// <summary>

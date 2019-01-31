@@ -35,6 +35,7 @@ namespace NTMiner.Data.Impl {
                             col.Insert(entity);
                         }
                     }
+                    Global.Happened(new AppSettingChangedEvent(entity));
                 });
         }
 

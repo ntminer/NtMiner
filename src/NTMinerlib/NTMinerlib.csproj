@@ -198,6 +198,7 @@
     <Compile Include="Server.partials.TimeService.cs" />
     <Compile Include="ServiceContracts\DataObjects\UserData.cs" />
     <Compile Include="User\Impl\UserSet.cs" />
+    <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="ChannelFactory.cs" />
     <Compile Include="Windows\Registry.cs" />

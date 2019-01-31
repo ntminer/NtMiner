@@ -11,4 +11,10 @@ namespace NTMiner.AppSetting {
             get; private set;
         }
     }
+
+    [MessageType(messageType: typeof(AppSettingChangedEvent), description: "AppSetting变更后")]
+    public class AppSettingChangedEvent : DomainEvent<IAppSetting> {
+        public AppSettingChangedEvent(IAppSetting source) : base(source) {
+        }
+    }
 }
