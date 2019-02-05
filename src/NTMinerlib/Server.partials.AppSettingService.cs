@@ -36,11 +36,11 @@ namespace NTMiner {
             #endregion
 
             #region GetAppSettingsAsync
-            public void GetAppSettingsAsync(string[] keys, Action<GetAppSettingsResponse> callback) {
+            public void GetAppSettingsAsync(Action<GetAppSettingsResponse> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (var client = CreateService()) {
-                            var response = client.GetAppSettings(Guid.NewGuid(), keys);
+                            var response = client.GetAppSettings(Guid.NewGuid());
                             callback?.Invoke(response);
                         }
                     }

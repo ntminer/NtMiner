@@ -8,7 +8,7 @@ namespace NTMiner.ServiceContracts {
         GetAppSettingResponse GetAppSetting(Guid messageId, string key);
 
         [OperationContract]
-        GetAppSettingsResponse GetAppSettings(Guid messageId, string[] keys);
+        GetAppSettingsResponse GetAppSettings(Guid messageId);
 
         [OperationContract]
         ResponseBase SetAppSetting(SetAppSettingRequest request);

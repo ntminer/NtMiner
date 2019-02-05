@@ -6,6 +6,7 @@ using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Timers;
 
 namespace NTMiner {
@@ -42,10 +43,15 @@ namespace NTMiner {
             }
         }
 
+        public static Assembly EntryAssembly = Assembly.GetEntryAssembly();
+
         private static ILoggingService _logger = null;
         public static ILoggingService Logger {
             get {
-                return _logger ?? (_logger = new Log4NetLoggingService());
+                if (_logger == null) {
+                    _logger = new Log4NetLoggingService();
+                }
+                return _logger;
             }
         }
 
