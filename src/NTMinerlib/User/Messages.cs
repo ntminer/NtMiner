@@ -1,5 +1,4 @@
 ﻿using NTMiner.Bus;
-using NTMiner;
 
 namespace NTMiner.User {
     [MessageType(messageType: typeof(AddUserCommand), description: "添加用户")]

@@ -1,9 +1,8 @@
-﻿using NTMiner;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace NTMiner.ServiceContracts.MinerClient.DataObjects {
+namespace NTMiner.MinerClient {
     [DataContract]
     public class StartMineRequest : RequestBase, ISignatureRequest {
         [DataMember]

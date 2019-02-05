@@ -2,7 +2,6 @@
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
-using NTMiner;
 using System;
 using System.Windows.Media;
 

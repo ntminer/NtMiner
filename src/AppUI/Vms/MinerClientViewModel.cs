@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using NTMiner.Views;
+﻿using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Windows;

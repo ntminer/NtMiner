@@ -2,15 +2,6 @@
 using System.Runtime.Serialization;
 
 namespace NTMiner {
-    public static class ResponseBaseExtension {
-        public static bool IsSuccess(this ResponseBase response) {
-            if (response == null) {
-                return false;
-            }
-            return response.StateCode == 200;
-        }
-    }
-
     [DataContract]
     public class ResponseBase {
         public static ResponseBase Forbidden(Guid messageId, string description = "无权访问") {

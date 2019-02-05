@@ -1,5 +1,4 @@
 ﻿using NTMiner.AppSetting;
-using NTMiner;
 using System;
 using System.Windows.Input;
 

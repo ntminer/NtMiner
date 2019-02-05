@@ -85,7 +85,7 @@
     <Compile Include="LoadClientsResponse.cs" />
     <Compile Include="LoginControlCenterRequest.cs" />
     <Compile Include="LoginData.cs" />
-    <Compile Include="MinerClient\DataObjects\StartMineRequest.cs" />
+    <Compile Include="MinerClient\StartMineRequest.cs" />
     <Compile Include="MinerGroupData.cs" />
     <Compile Include="MinerProfileData.cs" />
     <Compile Include="MineStatus.cs" />
@@ -101,6 +101,7 @@
     <Compile Include="RemoveWalletRequest.cs" />
     <Compile Include="RequestBase.cs" />
     <Compile Include="ResponseBase.cs" />
+    <Compile Include="ResponseBaseExtension.cs" />
     <Compile Include="SaveCalcConfigsRequest.cs" />
     <Compile Include="SetAppSettingRequest.cs" />
     <Compile Include="SetClientMinerProfilePropertyRequest.cs" />

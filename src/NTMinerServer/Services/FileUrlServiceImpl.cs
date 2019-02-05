@@ -1,7 +1,5 @@
 ﻿using Aliyun.OSS;
-using NTMiner.AppSetting;
 using NTMiner.ServiceContracts;
-using NTMiner;
 using System;
 using System.Collections.Generic;
 

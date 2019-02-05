@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using System;
+﻿using System;
 using System.ServiceModel;
 
 namespace NTMiner.ServiceContracts.MinerClient {

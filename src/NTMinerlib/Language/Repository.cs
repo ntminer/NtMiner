@@ -1,6 +1,5 @@
 ﻿using NTMiner.Language.Impl;
 using NTMiner.Repositories;
-using NTMiner;
 using System;
 using System.IO;
 

@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
-using NTMiner;
 using System;
 using System.Collections.Generic;
 

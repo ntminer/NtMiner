@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using NTMiner.User;
+﻿using NTMiner.User;
 
 namespace NTMiner {
     public static class SignatureRequestExtension {

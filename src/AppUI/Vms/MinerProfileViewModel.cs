@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.SysDics;
-using NTMiner;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;

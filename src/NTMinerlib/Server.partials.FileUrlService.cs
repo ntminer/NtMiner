@@ -1,5 +1,4 @@
 ﻿using NTMiner.ServiceContracts;
-using NTMiner;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;

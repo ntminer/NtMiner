@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using System;
+﻿using System;
 
 namespace NTMiner.Vms {
     public class ClientDataViewModel : ViewModelBase, IClientData {

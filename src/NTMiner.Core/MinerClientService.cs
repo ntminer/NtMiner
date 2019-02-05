@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using NTMiner.ServiceContracts.MinerClient;
+﻿using NTMiner.ServiceContracts.MinerClient;
 using System;
 using System.ServiceModel;
 using System.Threading.Tasks;

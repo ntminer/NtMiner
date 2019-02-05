@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using System;
+﻿using System;
 
 namespace NTMiner.Data {
     public interface IMineProfileManager {

@@ -2,7 +2,6 @@
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.SysDics;
-using NTMiner;
 using System;
 using System.Linq;
 

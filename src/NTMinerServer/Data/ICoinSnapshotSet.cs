@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace NTMiner.Data {
     public interface ICoinSnapshotSet {

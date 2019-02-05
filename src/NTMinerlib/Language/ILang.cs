@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using System;
+﻿using System;
 
 namespace NTMiner.Language {
     public interface ILang : IDbEntity<Guid> {

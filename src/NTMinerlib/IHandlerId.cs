@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using System;
+﻿using System;
 
 namespace NTMiner {
     public interface IHandlerId : IEntity<Guid> {

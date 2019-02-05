@@ -1,5 +1,4 @@
 ﻿using NTMiner.Repositories;
-using NTMiner;
 using System;
 using System.Collections.Generic;
 

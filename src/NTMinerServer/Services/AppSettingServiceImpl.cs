@@ -1,6 +1,5 @@
 ﻿using NTMiner.AppSetting;
 using NTMiner.ServiceContracts;
-using NTMiner;
 using System;
 using System.Linq;
 

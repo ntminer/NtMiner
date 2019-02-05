@@ -1,5 +1,4 @@
 ﻿using NTMiner.Notifications;
-using NTMiner;
 using System;
 using System.Linq;
 using System.Windows;

@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public interface ICalcConfigSet : IEnumerable<CalcConfigData> {

@@ -1,6 +1,5 @@
 ﻿using NTMiner.Data;
 using NTMiner.ServiceContracts;
-using NTMiner;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
