@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;

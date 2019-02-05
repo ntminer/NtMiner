@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner;
 
 namespace NTMiner.Vms {
     public class CalcViewModel : ViewModelBase {

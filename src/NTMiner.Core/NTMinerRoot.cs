@@ -10,7 +10,7 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.Data.Impl;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner;
 using NTMiner.ServiceContracts.MinerClient;
 using NTMiner.User;
 using NTMiner.User.Impl;
@@ -380,7 +380,7 @@ namespace NTMiner {
                                 if (JsonFileVersion != value) {
                                     GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                         string rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                        Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{Global.FromTimestamp(value)}");
+                                        Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{Timestamp.FromTimestamp(value)}");
                                         JsonFileVersion = value;
                                         ServerJson.Instance.ReInit(rawNTMinerJson);
                                         Global.Logger.InfoDebugLine("ServerJson数据集刷新完成");

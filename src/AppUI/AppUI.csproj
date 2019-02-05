@@ -678,6 +678,10 @@
       <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
       <Name>NTMiner.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NTMiner.ServiceContracts.DataObjects\NTMinerDataObjects.csproj">
+      <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
+      <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
       <Name>NTMinerlib</Name>

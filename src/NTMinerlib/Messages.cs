@@ -1,4 +1,5 @@
 ﻿using NTMiner.Bus;
+using NTMiner;
 using System;
 
 namespace NTMiner {

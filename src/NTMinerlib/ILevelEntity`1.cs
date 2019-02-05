@@ -1,4 +1,6 @@
-﻿namespace NTMiner {
+﻿using NTMiner;
+
+namespace NTMiner {
     public interface ILevelEntity<T> : IDbEntity<T> {
         DataLevel DataLevel { get; }
 

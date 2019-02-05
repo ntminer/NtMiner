@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner;
 using System.Collections.Generic;
 
 namespace NTMiner.Core {

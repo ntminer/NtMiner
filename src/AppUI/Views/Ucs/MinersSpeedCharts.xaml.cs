@@ -1,6 +1,6 @@
 ﻿using LiveCharts;
 using NTMiner.Bus;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner;
 using NTMiner.Vms;
 using System;
 using System.Linq;

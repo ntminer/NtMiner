@@ -1,4 +1,6 @@
-﻿namespace NTMiner {
+﻿using NTMiner;
+
+namespace NTMiner {
     public static partial class Server {
         public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
         public static readonly AppSettingServiceFace AppSettingService = AppSettingServiceFace.Instance;

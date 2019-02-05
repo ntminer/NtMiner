@@ -1,5 +1,5 @@
 ﻿using NTMiner.Notifications;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner;
 using System;
 using System.Linq;
 using System.Windows;

@@ -123,7 +123,7 @@ namespace NTMiner.Vms {
 
         public string ServerJsonVersionText {
             get {
-                return Global.FromTimestamp(this.ServerJsonVersion).ToString("yyyy-MM-dd HH:mm:ss");
+                return Timestamp.FromTimestamp(this.ServerJsonVersion).ToString("yyyy-MM-dd HH:mm:ss");
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner;
+using System;
 
 namespace NTMiner.Core {
     public interface ICoinGroup : IEntity<Guid> {

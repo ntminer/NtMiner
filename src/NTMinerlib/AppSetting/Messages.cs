@@ -1,4 +1,5 @@
 ﻿using NTMiner.Bus;
+using NTMiner;
 
 namespace NTMiner.AppSetting {
     [MessageType(messageType: typeof(SetAppSettingCommand), description: "设置AppSetting")]

@@ -41,14 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\NTMiner.ServiceContracts.DataObjects\HashUtil.cs">
+      <Link>HashUtil.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerDaemon\NoDevFee\WinDivert.cs">
       <Link>NoDevFee\WinDivert.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerDaemon\NoDevFee\WinDivertExtract.cs">
       <Link>NoDevFee\WinDivertExtract.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\HashUtil.cs">
-      <Link>HashUtil.cs</Link>
     </Compile>
     <Compile Include="Global.cs" />
     <Compile Include="Program.cs" />

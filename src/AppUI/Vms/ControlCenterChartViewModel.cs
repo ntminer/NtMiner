@@ -2,7 +2,7 @@
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner;
 using System;
 using System.Windows.Media;
 

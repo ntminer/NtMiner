@@ -63,14 +63,14 @@
     <Compile Include="..\NTMiner.Core\Windows\Power.cs">
       <Link>Windows\Power.cs</Link>
     </Compile>
+    <Compile Include="..\NTMiner.ServiceContracts.DataObjects\HashUtil.cs">
+      <Link>HashUtil.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\ChannelFactory.cs">
       <Link>ChannelFactory.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\DevMode.cs">
       <Link>DevMode.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\HashUtil.cs">
-      <Link>HashUtil.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Logging\ILoggingService.cs">
       <Link>Logging\ILoggingService.cs</Link>

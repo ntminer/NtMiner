@@ -1,6 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.AppSetting;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner;
 using System;
 using System.Collections.Generic;
 

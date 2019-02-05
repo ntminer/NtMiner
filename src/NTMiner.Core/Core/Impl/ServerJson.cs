@@ -46,7 +46,7 @@ namespace NTMiner.Core.Impl {
             this.PoolKernels = new PoolKernelData[0];
             this.SysDics = new SysDicData[0];
             this.SysDicItems = new SysDicItemData[0];
-            this.TimeStamp = Global.GetTimestamp();
+            this.TimeStamp = Timestamp.GetTimestamp();
         }
 
         private readonly object _locker = new object();

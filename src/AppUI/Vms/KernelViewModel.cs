@@ -120,7 +120,7 @@ namespace NTMiner.Vms {
             this.Publish = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.Published;
-                    this.PublishOn = Global.GetTimestamp();
+                    this.PublishOn = Timestamp.GetTimestamp();
                     Global.Execute(new UpdateKernelCommand(this));
                 }, icon: "Icon_Confirm");
             });
@@ -471,7 +471,7 @@ namespace NTMiner.Vms {
 
         public string PublishOnText {
             get {
-                return Global.UnixBaseTime.AddSeconds(this.PublishOn).ToString("yyyy-MM-dd HH:mm");
+                return Timestamp.UnixBaseTime.AddSeconds(this.PublishOn).ToString("yyyy-MM-dd HH:mm");
             }
         }
 

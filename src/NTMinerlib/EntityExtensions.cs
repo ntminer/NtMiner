@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner;
+using System;
 using System.Linq;
 using System.Reflection;
 
