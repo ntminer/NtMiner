@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace NTMinerWebApi.Areas.HelpPage.ModelDescriptions
+namespace NTMiner.Areas.HelpPage.ModelDescriptions
 {
     public interface IModelDocumentationProvider
     {

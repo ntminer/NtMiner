@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace NTMinerWebApi.Areas.HelpPage.ModelDescriptions
+namespace NTMiner.Areas.HelpPage.ModelDescriptions
 {
     internal static class ModelNameHelper
     {

@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace NTMinerWebApi.Areas.HelpPage
+namespace NTMiner.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

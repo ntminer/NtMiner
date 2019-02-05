@@ -1,6 +1,6 @@
 using System;
 
-namespace NTMinerWebApi.Areas.HelpPage.ModelDescriptions
+namespace NTMiner.Areas.HelpPage.ModelDescriptions
 {
     /// <summary>
     /// Use this attribute to change the name of the <see cref="ModelDescription"/> generated for a type.

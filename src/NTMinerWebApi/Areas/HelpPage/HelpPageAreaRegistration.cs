@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace NTMinerWebApi.Areas.HelpPage
+namespace NTMiner.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

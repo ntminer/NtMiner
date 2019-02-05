@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace NTMinerWebApi {
+namespace NTMiner {
     public static class WebApiConfig {
         public static void Register(HttpConfiguration config) {
             // Web API 配置和服务

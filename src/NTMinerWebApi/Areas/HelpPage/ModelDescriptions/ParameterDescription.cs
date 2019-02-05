@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace NTMinerWebApi.Areas.HelpPage.ModelDescriptions
+namespace NTMiner.Areas.HelpPage.ModelDescriptions
 {
     public class ParameterDescription
     {

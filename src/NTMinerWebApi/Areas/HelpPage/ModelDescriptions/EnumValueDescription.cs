@@ -1,4 +1,4 @@
-namespace NTMinerWebApi.Areas.HelpPage.ModelDescriptions
+namespace NTMiner.Areas.HelpPage.ModelDescriptions
 {
     public class EnumValueDescription
     {
