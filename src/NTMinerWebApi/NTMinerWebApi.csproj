@@ -3,9 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <RootNamespace>NTMiner</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aliyun.OSS.SDK.NetCore" Version="2.9.0" />
     <PackageReference Include="LiteDB" Version="4.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -13,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj" />
+    <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj" />
   </ItemGroup>
 
 </Project>

@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace NTMinerWebApi {
+namespace NTMiner {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
