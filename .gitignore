@@ -263,3 +263,5 @@ __pycache__/
 DevConsole.exe
 NTMinerDaemon.exe
 CalcConfigUpdater.exe
+local.litedb
+report.litedb
