@@ -6,9 +6,28 @@ using NTMiner.Data.Impl;
 using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
+using System.Web.Http;
+using System.Web.Http.SelfHost;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
+        static void Main(string[] args) {
+            var config = new HttpSelfHostConfiguration("http://localhost:3339");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+            config.Routes.MapHttpRoute(
+                "API Default", "api/{controller}/{id}",
+                new { id = RouteParameter.Optional });
+
+            using (var server = new HttpSelfHostServer(config)) {
+                server.OpenAsync().Wait();
+                Console.WriteLine("Enter exit to quit.");
+                string line = Console.ReadLine();
+                while (line != "exit") {
+                    line = Console.ReadLine();
+                }
+            }
+        }
+
         public static readonly IHostRoot Current = new HostRoot();
 
         private OssClient _ossClient = null;
