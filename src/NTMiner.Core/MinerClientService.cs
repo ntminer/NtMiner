@@ -10,7 +10,7 @@ namespace NTMiner {
         }
 
         private IMinerClientService CreateService(string host) {
-            throw new NotImplementedException();
+            return new EmptyMinerClientService();
         }
 
         public bool ShowMainWindow(string host) {
@@ -75,6 +75,28 @@ namespace NTMiner {
                     callback?.Invoke(false);
                 }
             });
+        }
+    }
+
+    public class EmptyMinerClientService : IMinerClientService {
+        public void Dispose() {
+            
+        }
+
+        public void SetMinerProfileProperty(string propertyName, object value, DateTime timestamp) {
+            
+        }
+
+        public bool ShowMainWindow() {
+            return true;
+        }
+
+        public ResponseBase StartMine(StartMineRequest request) {
+            return ResponseBase.Ok(request.MessageId);
+        }
+
+        public void StopMine(DateTime timestamp) {
+            
         }
     }
 }

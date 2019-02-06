@@ -10,7 +10,7 @@ namespace NTMiner {
             private ReportServiceFace() { }
 
             private IReportService CreateService() {
-                throw new NotImplementedException();
+                return new EmptyReportService();
             }
 
             public void LoginAsync(LoginData message) {
@@ -47,6 +47,24 @@ namespace NTMiner {
                     catch (Exception e) {
                     }
                 });
+            }
+        }
+
+        public class EmptyReportService : IReportService {
+            public void Dispose() {
+                
+            }
+
+            public void Login(LoginData message) {
+                
+            }
+
+            public void ReportSpeed(SpeedData message) {
+                
+            }
+
+            public void ReportState(Guid clientId, bool isMining) {
+                
             }
         }
     }

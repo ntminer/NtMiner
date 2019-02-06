@@ -11,7 +11,7 @@ namespace NTMiner {
             private FileUrlServiceFace() { }
 
             private IFileUrlService CreateService() {
-                throw new NotImplementedException();
+                return new EmptyFileUrlService();
             }
 
             #region GetNTMinerUrlAsync
@@ -139,6 +139,44 @@ namespace NTMiner {
                 });
             }
             #endregion
+        }
+
+        public class EmptyFileUrlService : IFileUrlService {
+            public ResponseBase AddOrUpdateNTMinerFile(AddOrUpdateNTMinerFileRequest request) {
+                return null;
+            }
+
+            public void Dispose() {
+                
+            }
+
+            public string GetLiteDBExplorerUrl() {
+                return null;
+            }
+
+            public string GetMinerJsonPutUrl(string fileName) {
+                return null;
+            }
+
+            public List<NTMinerFileData> GetNTMinerFiles() {
+                return null;
+            }
+
+            public string GetNTMinerUpdaterUrl() {
+                return null;
+            }
+
+            public string GetNTMinerUrl(string fileName) {
+                return null;
+            }
+
+            public string GetPackageUrl(string package) {
+                return null;
+            }
+
+            public ResponseBase RemoveNTMinerFile(RemoveNTMinerFileRequest request) {
+                return null;
+            }
         }
     }
 }

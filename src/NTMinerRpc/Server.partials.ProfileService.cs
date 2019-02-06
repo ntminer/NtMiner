@@ -12,7 +12,7 @@ namespace NTMiner {
             }
 
             private IProfileService CreateService() {
-                throw new NotImplementedException();
+                return new EmptyProfileService();
             }
 
             public void GetMineWorkAsync(Guid workId, Action<MineWorkData> callback) {
@@ -108,6 +108,36 @@ namespace NTMiner {
                 catch (Exception e) {
                     return null;
                 }
+            }
+        }
+
+        public class EmptyProfileService : IProfileService {
+            public void Dispose() {
+                
+            }
+
+            public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
+                return null;
+            }
+
+            public CoinProfileData GetCoinProfile(Guid workId, Guid coinId) {
+                return null;
+            }
+
+            public MinerProfileData GetMinerProfile(Guid workId) {
+                return null;
+            }
+
+            public MineWorkData GetMineWork(Guid workId) {
+                return null;
+            }
+
+            public List<MineWorkData> GetMineWorks() {
+                return null;
+            }
+
+            public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
+                return null;
             }
         }
     }

@@ -10,7 +10,7 @@ namespace NTMiner {
             private AppSettingServiceFace() { }
 
             private IAppSettingService CreateService() {
-                throw new NotImplementedException();
+                return new EmptyAppSettingService();
             }
 
             #region GetAppSettingAsync
@@ -68,6 +68,24 @@ namespace NTMiner {
                 });
             }
             #endregion
+        }
+
+        public class EmptyAppSettingService : IAppSettingService {
+            public void Dispose() {
+                
+            }
+
+            public GetAppSettingResponse GetAppSetting(Guid messageId, string key) {
+                return null;
+            }
+
+            public GetAppSettingsResponse GetAppSettings(Guid messageId) {
+                return null;
+            }
+
+            public ResponseBase SetAppSetting(SetAppSettingRequest request) {
+                return null;
+            }
         }
     }
 }

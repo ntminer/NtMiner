@@ -12,7 +12,7 @@ namespace NTMiner {
             }
 
             private IControlCenterService CreateService() {
-                throw new NotImplementedException();
+                return new EmptyControlCenterService();
             }
 
             #region LoginAsync
@@ -523,6 +523,104 @@ namespace NTMiner {
                 });
             }
             #endregion
+        }
+
+        public class EmptyControlCenterService : IControlCenterService {
+            public ResponseBase AddOrUpdateMinerGroup(AddOrUpdateMinerGroupRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase AddOrUpdateMineWork(AddOrUpdateMineWorkRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase AddOrUpdateWallet(AddOrUpdateWalletRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public void Dispose() {
+                
+            }
+
+            public GetCalcConfigsResponse GetCalcConfigs(Guid messageId) {
+                return null;
+            }
+
+            public GetCoinSnapshotsResponse GetLatestSnapshots(GetCoinSnapshotsRequest request) {
+                return null;
+            }
+
+            public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
+                return null;
+            }
+
+            public GetWalletsResponse GetWallets(Guid messageId) {
+                return null;
+            }
+
+            public LoadClientResponse LoadClient(LoadClientRequest request) {
+                return null;
+            }
+
+            public LoadClientsResponse LoadClients(LoadClientsRequest request) {
+                return null;
+            }
+
+            public ResponseBase LoginControlCenter(LoginControlCenterRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public QueryClientsResponse QueryClients(QueryClientsRequest request) {
+                return null;
+            }
+
+            public ResponseBase RemoveMinerGroup(RemoveMinerGroupRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase RemoveMineWork(RemoveMineWorkRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase RemoveWallet(RemoveWalletRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase SetClientMinerProfileProperty(SetClientMinerProfilePropertyRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase SetCoinKernelProfileProperty(SetCoinKernelProfilePropertyRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase SetCoinProfileProperty(SetCoinProfilePropertyRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase SetPoolProfileProperty(SetPoolProfilePropertyRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase StartMine(StartMineRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase StopMine(StopMineRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
+
+            public ResponseBase UpdateClient(UpdateClientRequest request) {
+                return ResponseBase.Ok(request.MessageId);
+            }
         }
     }
 }

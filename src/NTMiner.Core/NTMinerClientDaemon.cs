@@ -8,7 +8,7 @@ namespace NTMiner {
         private NTMinerClientDaemon() { }
 
         private static INTMinerDaemonService CreateService(string clientHost, int clientPort) {
-            throw new NotImplementedException();
+            return new EmptyNTMinerDaemonService();
         }
 
         public void GetDaemonVersionAsync(string clientHost, int clientPort, Action<string> callback) {
@@ -180,8 +180,6 @@ namespace NTMiner {
         }
 
         public class EmptyNTMinerDaemonService : INTMinerDaemonService {
-            public static readonly INTMinerDaemonService Instance = new EmptyNTMinerDaemonService();
-
             public string GetDaemonVersion() {
                 return string.Empty;
             }

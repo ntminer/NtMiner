@@ -11,7 +11,7 @@ namespace NTMiner {
             }
 
             private ITimeService CreateService() {
-                throw new NotImplementedException();
+                return new EmptyTimeService();
             }
 
             public void GetTimeAsync(Action<DateTime> callback) {
@@ -25,6 +25,16 @@ namespace NTMiner {
                         callback?.Invoke(DateTime.Now);
                     }
                 });
+            }
+        }
+
+        public class EmptyTimeService : ITimeService {
+            public void Dispose() {
+                
+            }
+
+            public DateTime GetTime() {
+                return DateTime.Now;
             }
         }
     }
