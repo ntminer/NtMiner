@@ -18,8 +18,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.ServiceModel;
-using System.ServiceModel.Description;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -140,37 +138,8 @@ namespace NTMiner {
         #endregion
 
         private MinerProfile _minerProfile;
-        private List<ServiceHost> _serviceHosts = null;
         #region Start
         public void Start() {
-            Global.Logger.InfoDebugLine("开始启动Wcf服务");
-            string baseUrl = $"http://{Global.Localhost}:{Global.ClientPort}/";
-            ServiceHost minerClientServiceHost = new ServiceHost(typeof(Core.Impl.MinerClientService));
-            minerClientServiceHost.AddServiceEndpoint(typeof(IMinerClientService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IMinerClientService)));
-            _serviceHosts = new List<ServiceHost>
-            {
-                minerClientServiceHost
-            };
-            foreach (var serviceHost in _serviceHosts) {
-                ServiceMetadataBehavior serviceMetadata = serviceHost.Description.Behaviors.Find<ServiceMetadataBehavior>();
-                if (serviceMetadata == null) {
-                    serviceMetadata = new ServiceMetadataBehavior();
-                    serviceHost.Description.Behaviors.Add(serviceMetadata);
-                }
-                serviceMetadata.HttpGetEnabled = false;
-
-                serviceHost.Open();
-            }
-
-            Global.Logger.OkDebugLine($"服务启动成功: {DateTime.Now}.");
-            Global.Logger.InfoDebugLine("服务列表：");
-            foreach (var serviceHost in _serviceHosts) {
-                foreach (var endpoint in serviceHost.Description.Endpoints) {
-                    Global.Logger.InfoDebugLine(endpoint.Address.Uri.ToString());
-                }
-            }
-            Global.Logger.OkDebugLine("Wcf服务启动完成");
-
             Server.TimeService.GetTimeAsync((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Global.DesyncSeconds) {
                     Global.Logger.OkDebugLine("时间同步");
@@ -436,16 +405,6 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
-            try {
-                if (_serviceHosts != null) {
-                    foreach (var serviceHost in _serviceHosts) {
-                        serviceHost.Close();
-                    }
-                }
-            }
-            catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
-            }
             if (_currentMineContext != null) {
                 StopMineAsync();
             }

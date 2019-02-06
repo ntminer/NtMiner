@@ -1,16 +1,16 @@
-﻿using NTMiner.ServiceContracts.MinerClient;
-using System;
-using System.ServiceModel;
+﻿using System;
+using System.Web.Http;
 
-namespace NTMiner.Core.Impl {
-    [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
-    public class MinerClientService : IMinerClientService {
+namespace NTMiner.Controllers {
+    public class MinerClientController : ApiController {
+        [HttpGet]
         public bool ShowMainWindow() {
             Global.Execute(new ShowMainWindowCommand());
             return true;
         }
 
-        public ResponseBase StartMine(StartMineRequest request) {
+        [HttpPost]
+        public ResponseBase StartMine([FromBody]StartMineRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -28,6 +28,7 @@ namespace NTMiner.Core.Impl {
             }
         }
 
+        [HttpPost]
         public void StopMine(DateTime timestamp) {
             if (timestamp.AddSeconds(Global.DesyncSeconds) < DateTime.Now) {
                 return;
@@ -35,6 +36,7 @@ namespace NTMiner.Core.Impl {
             NTMinerRoot.Current.StopMineAsync();
         }
 
+        [HttpPost]
         public void SetMinerProfileProperty(string propertyName, object value, DateTime timestamp) {
             if (timestamp.AddSeconds(Global.DesyncSeconds) < DateTime.Now) {
                 return;
@@ -43,10 +45,6 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             NTMinerRoot.Current.SetMinerProfileProperty(propertyName, value);
-        }
-
-        public void Dispose() {
-            // noting need todo
         }
     }
 }

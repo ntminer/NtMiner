@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -9,21 +8,7 @@ namespace NTMiner {
         private NTMinerClientDaemon() { }
 
         private static INTMinerDaemonService CreateService(string clientHost, int clientPort) {
-            ChannelFactory<INTMinerDaemonService> factory = null;
-            INTMinerDaemonService channel = EmptyNTMinerDaemonService.Instance;
-            try {
-                var baseUri = new Uri($"http://{clientHost}:{clientPort}/Daemon/");
-                factory = new ChannelFactory<INTMinerDaemonService>(ChannelFactory.BasicHttpBinding, new EndpointAddress(new Uri(baseUri, typeof(INTMinerDaemonService).Name)));
-                //利用通道创建客户端代理
-                channel = factory.CreateChannel();
-            }
-            catch (Exception e) {
-                if (factory != null) {
-                    factory.Abort();
-                }
-                Global.Logger.ErrorDebugLine(e.Message, e);
-            }
-            return channel;
+            throw new NotImplementedException();
         }
 
         public void GetDaemonVersionAsync(string clientHost, int clientPort, Action<string> callback) {

@@ -1,6 +1,5 @@
 ﻿using NTMiner.ServiceContracts.MinerClient;
 using System;
-using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -11,7 +10,7 @@ namespace NTMiner {
         }
 
         private IMinerClientService CreateService(string host) {
-            return ChannelFactory.CreateChannel<IMinerClientService>(host, Global.ClientPort);
+            throw new NotImplementedException();
         }
 
         public bool ShowMainWindow(string host) {
@@ -19,10 +18,6 @@ namespace NTMiner {
                 using (var service = CreateService(host)) {
                     return service.ShowMainWindow();
                 }
-            }
-            catch (CommunicationException e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
-                return false;
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
@@ -45,10 +40,6 @@ namespace NTMiner {
                     }
                     callback?.Invoke(true);
                 }
-                catch (CommunicationException e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
                 catch (Exception e) {
                     Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
@@ -63,10 +54,6 @@ namespace NTMiner {
                         service.StopMine(DateTime.Now);
                     }
                     callback?.Invoke(true);
-                }
-                catch (CommunicationException e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
                 }
                 catch (Exception e) {
                     Global.Logger.ErrorDebugLine(e.Message, e);
@@ -83,19 +70,11 @@ namespace NTMiner {
                     }
                     callback?.Invoke(true);
                 }
-                catch (CommunicationException e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
                 catch (Exception e) {
                     Global.Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
-        }
-
-        public void Dispose() {
-            // nothing need todo
         }
     }
 }
