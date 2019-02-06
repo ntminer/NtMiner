@@ -140,17 +140,16 @@ namespace NTMiner {
         #endregion
 
         private MinerProfile _minerProfile;
+        private HttpSelfHostServer _httpServer;
         #region Start
         public void Start() {
             var config = new HttpSelfHostConfiguration("http://localhost:3336");
-
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             config.Routes.MapHttpRoute(
                 "API Default", "api/{controller}/{id}",
                 new { id = RouteParameter.Optional });
-
-            using (var server = new HttpSelfHostServer(config)) {
-                server.OpenAsync().Wait();
-            }
+            _httpServer = new HttpSelfHostServer(config);
+            _httpServer.OpenAsync().Wait();
             Server.TimeService.GetTimeAsync((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Global.DesyncSeconds) {
                     Global.Logger.OkDebugLine("时间同步");
@@ -416,6 +415,9 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
+            if (_httpServer != null) {
+                _httpServer.Dispose();
+            }
             if (_currentMineContext != null) {
                 StopMineAsync();
             }
