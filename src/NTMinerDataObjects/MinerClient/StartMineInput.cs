@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.MinerClient {
-    public class StartMineRequest : RequestBase, ISignatureRequest {
+    public class StartMineInput : RequestBase, ISignatureRequest {
         public string LoginName { get; set; }
         public Guid WorkId { get; set; }
         public string Sign { get; set; }

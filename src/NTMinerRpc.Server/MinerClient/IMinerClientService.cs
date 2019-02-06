@@ -4,7 +4,7 @@ namespace NTMiner.MinerClient {
     public interface IMinerClientService : IDisposable {
         bool ShowMainWindow();
 
-        ResponseBase StartMine(StartMineRequest request);
+        ResponseBase StartMine(StartMineInput request);
 
         void StopMine(DateTime timestamp);
 

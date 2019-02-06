@@ -82,7 +82,7 @@
     <Compile Include="LoadClientsResponse.cs" />
     <Compile Include="LoginControlCenterRequest.cs" />
     <Compile Include="LoginData.cs" />
-    <Compile Include="MinerClient\StartMineRequest.cs" />
+    <Compile Include="MinerClient\StartMineInput.cs" />
     <Compile Include="MinerGroupData.cs" />
     <Compile Include="MinerProfileData.cs" />
     <Compile Include="MineStatus.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.MinerClient;
+using System;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -28,7 +29,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     using (var service = CreateService(host)) {
-                        MinerClient.StartMineRequest request = new MinerClient.StartMineRequest() {
+                        StartMineInput request = new StartMineInput() {
                             MessageId = Guid.NewGuid(),
                             LoginName = "admin",
                             WorkId = workId,
@@ -90,7 +91,7 @@ namespace NTMiner {
             return true;
         }
 
-        public ResponseBase StartMine(MinerClient.StartMineRequest request) {
+        public ResponseBase StartMine(StartMineInput request) {
             return ResponseBase.Ok(request.MessageId);
         }
 
