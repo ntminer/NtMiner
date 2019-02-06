@@ -7,8 +7,8 @@
     <ProjectGuid>{C3C601D5-B592-4348-870F-19B97747E9D0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NTMinerRpc</RootNamespace>
-    <AssemblyName>NTMinerRpc</AssemblyName>
+    <RootNamespace>NTMiner</RootNamespace>
+    <AssemblyName>NTMinerRpc.Server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
