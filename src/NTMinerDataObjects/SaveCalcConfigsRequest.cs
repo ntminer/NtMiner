@@ -1,15 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class SaveCalcConfigsRequest : RequestBase, ISignatureRequest {
-        [DataMember]
         public string LoginName { get; set; }
-        [DataMember]
         public List<CalcConfigData> Data { get; set; }
-        [DataMember]
         public string Sign { get; set; }
 
         public void SignIt(string password) {

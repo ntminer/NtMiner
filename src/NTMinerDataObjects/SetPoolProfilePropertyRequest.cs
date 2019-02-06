@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class SetPoolProfilePropertyRequest : RequestBase, ISignatureRequest {
-        [DataMember]
         public string LoginName { get; set; }
-        [DataMember]
         public Guid WorkId { get; set; }
-        [DataMember]
         public Guid PoolId { get; set; }
-        [DataMember]
         public string PropertyName { get; set; }
-        [DataMember]
         public object Value { get; set; }
-        [DataMember]
         public string Sign { get; set; }
 
         public void SignIt(string password) {

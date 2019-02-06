@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class MinerGroupData : IMinerGroup, IDbEntity<Guid>, ITimestampEntity<Guid> {
         public MinerGroupData() {
             CreatedOn = DateTime.Now;
@@ -12,19 +10,14 @@ namespace NTMiner {
             return this.Id;
         }
 
-        [DataMember]
         public Guid Id { get; set; }
 
-        [DataMember]
         public string Name { get; set; }
 
-        [DataMember]
         public string Description { get; set; }
 
-        [DataMember]
         public DateTime CreatedOn { get; set; }
 
-        [DataMember]
         public DateTime ModifiedOn { get; set; }
 
         public string GetSignData() {

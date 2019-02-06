@@ -1,8 +1,6 @@
-﻿using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class AppSettingData : IAppSetting {
         public AppSettingData() { }
 
@@ -19,11 +17,9 @@ namespace NTMiner {
             };
         }
 
-        [DataMember]
         [LiteDB.BsonId]
         public string Key { get; set; }
 
-        [DataMember]
         public object Value { get; set; }
 
         public string GetSignData() {

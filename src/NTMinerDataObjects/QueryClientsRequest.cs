@@ -1,41 +1,23 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class QueryClientsRequest : RequestBase, ISignatureRequest {
-        [DataMember]
         public string LoginName { get; set; }
-        [DataMember]
         public int PageIndex { get; set; }
-        [DataMember]
         public int PageSize { get; set; }
-        [DataMember]
         public Guid? MineWorkId { get; set; }
-        [DataMember]
         public string MinerIp { get; set; }
-        [DataMember]
         public string MinerName { get; set; }
-        [DataMember]
         public MineStatus MineState { get; set; }
-        [DataMember]
         public string MainCoin { get; set; }
-        [DataMember]
         public string MainCoinPool { get; set; }
-        [DataMember]
         public string MainCoinWallet { get; set; }
-        [DataMember]
         public string DualCoin { get; set; }
-        [DataMember]
         public string DualCoinPool { get; set; }
-        [DataMember]
         public string DualCoinWallet { get; set; }
-        [DataMember]
         public string Version { get; set; }
-        [DataMember]
         public string Kernel { get; set; }
-        [DataMember]
         public string Sign { get; set; }
 
         public void SignIt(string password) {

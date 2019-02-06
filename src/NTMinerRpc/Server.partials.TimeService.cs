@@ -1,6 +1,5 @@
 ﻿using NTMiner.ServiceContracts;
 using System;
-using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -12,7 +11,7 @@ namespace NTMiner {
             }
 
             private ITimeService CreateService() {
-                return ChannelFactory.CreateChannel<ITimeService>(MinerServerHost, MinerServerPort);
+                throw new NotImplementedException();
             }
 
             public void GetTimeAsync(Action<DateTime> callback) {
@@ -22,12 +21,7 @@ namespace NTMiner {
                             callback?.Invoke(service.GetTime());
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(DateTime.Now);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(DateTime.Now);
                     }
                 });

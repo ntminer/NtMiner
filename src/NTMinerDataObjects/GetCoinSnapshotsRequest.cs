@@ -1,21 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class GetCoinSnapshotsRequest : RequestBase, ISignatureRequest {
         public GetCoinSnapshotsRequest() {
             this.CoinCodes = new List<string>();
         }
 
-        [DataMember]
         public string LoginName { get; set; }
-        [DataMember]
         public int Limit { get; set; }
-        [DataMember]
         public List<string> CoinCodes { get; set; }
-        [DataMember]
         public string Sign { get; set; }
 
         public void SignIt(string password) {

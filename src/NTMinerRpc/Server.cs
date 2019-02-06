@@ -22,12 +22,7 @@
         }
 
         public static string MinerServerHost {
-            get {
-                return NTMinerRegistry.GetMinerServerHost();
-            }
-            set {
-                NTMinerRegistry.SetMinerServerHost(value);
-            }
+            get;set;
         }
 
         public static int MinerServerPort {

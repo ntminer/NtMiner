@@ -1,6 +1,5 @@
 ﻿using NTMiner.ServiceContracts;
 using System;
-using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -11,7 +10,7 @@ namespace NTMiner {
             private ReportServiceFace() { }
 
             private IReportService CreateService() {
-                return ChannelFactory.CreateChannel<IReportService>(MinerServerHost, MinerServerPort);
+                throw new NotImplementedException();
             }
 
             public void LoginAsync(LoginData message) {
@@ -21,11 +20,7 @@ namespace NTMiner {
                             service.Login(message);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             }
@@ -37,11 +32,7 @@ namespace NTMiner {
                             service.ReportSpeed(message);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             }
@@ -53,11 +44,7 @@ namespace NTMiner {
                             service.ReportState(clientId, isMining);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             }

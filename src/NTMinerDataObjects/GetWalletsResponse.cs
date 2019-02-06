@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
-    [DataContract]
     public class GetWalletsResponse : ResponseBase {
         public GetWalletsResponse() {
             this.Data = new List<WalletData>();
@@ -19,7 +17,6 @@ namespace NTMiner {
             };
         }
 
-        [DataMember]
         public List<WalletData> Data { get; set; }
     }
 }

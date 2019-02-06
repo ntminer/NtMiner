@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
-    [DataContract]
     public class GetMinerGroupsResponse : ResponseBase {
         public GetMinerGroupsResponse() {
             this.Data = new List<MinerGroupData>();
@@ -19,7 +17,6 @@ namespace NTMiner {
             };
         }
 
-        [DataMember]
         public List<MinerGroupData> Data { get; set; }
     }
 }

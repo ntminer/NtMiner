@@ -1,7 +1,6 @@
 ﻿using NTMiner.ServiceContracts;
 using System;
 using System.Collections.Generic;
-using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -13,7 +12,7 @@ namespace NTMiner {
             }
 
             private IProfileService CreateService() {
-                return ChannelFactory.CreateChannel<IProfileService>(MinerServerHost, MinerServerPort);
+                throw new NotImplementedException();
             }
 
             public void GetMineWorkAsync(Guid workId, Action<MineWorkData> callback) {
@@ -23,12 +22,7 @@ namespace NTMiner {
                             callback?.Invoke(service.GetMineWork(workId));
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(null);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(null);
                     }
                 });
@@ -44,12 +38,7 @@ namespace NTMiner {
                         return service.GetMineWorks();
                     }
                 }
-                catch (CommunicationException e) {
-                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    return new List<MineWorkData>();
-                }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return new List<MineWorkData>();
                 }
             }
@@ -65,12 +54,7 @@ namespace NTMiner {
                         return service.GetMinerProfile(workId);
                     }
                 }
-                catch (CommunicationException e) {
-                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    return null;
-                }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
             }
@@ -87,12 +71,7 @@ namespace NTMiner {
                         return service.GetCoinProfile(workId, coinId);
                     }
                 }
-                catch (CommunicationException e) {
-                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    return null;
-                }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
             }
@@ -109,12 +88,7 @@ namespace NTMiner {
                         return service.GetPoolProfile(workId, poolId);
                     }
                 }
-                catch (CommunicationException e) {
-                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    return null;
-                }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
             }
@@ -131,12 +105,7 @@ namespace NTMiner {
                         return service.GetCoinKernelProfile(workId, coinKernelId);
                     }
                 }
-                catch (CommunicationException e) {
-                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    return null;
-                }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
             }

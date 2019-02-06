@@ -1,9 +1,7 @@
 ﻿using LiteDB;
 using System;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
-    [DataContract]
     public class CoinProfileData : ICoinProfile, IDbEntity<Guid>, ITimestampEntity<Guid> {
         public CoinProfileData() { }
 
@@ -27,22 +25,14 @@ namespace NTMiner {
         }
 
         [BsonId]
-        [DataMember]
         public Guid CoinId { get; set; }
 
-        [DataMember]
         public Guid PoolId { get; set; }
-        [DataMember]
         public string Wallet { get; set; }
-        [DataMember]
         public bool IsHideWallet { get; set; }
-        [DataMember]
         public Guid CoinKernelId { get; set; }
-        [DataMember]
         public Guid DualCoinPoolId { get; set; }
-        [DataMember]
         public string DualCoinWallet { get; set; }
-        [DataMember]
         public bool IsDualCoinHideWallet { get; set; }
 
         public DateTime CreatedOn { get; set; }

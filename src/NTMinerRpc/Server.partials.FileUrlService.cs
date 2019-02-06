@@ -1,7 +1,6 @@
 ﻿using NTMiner.ServiceContracts;
 using System;
 using System.Collections.Generic;
-using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -12,7 +11,7 @@ namespace NTMiner {
             private FileUrlServiceFace() { }
 
             private IFileUrlService CreateService() {
-                return ChannelFactory.CreateChannel<IFileUrlService>(MinerServerHost, MinerServerPort);
+                throw new NotImplementedException();
             }
 
             #region GetNTMinerUrlAsync
@@ -24,12 +23,7 @@ namespace NTMiner {
                             callback?.Invoke(url);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(string.Empty);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(string.Empty);
                     }
                 });
@@ -45,12 +39,7 @@ namespace NTMiner {
                             callback?.Invoke(list);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(new List<NTMinerFileData>());
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(new List<NTMinerFileData>());
                     }
                 });
@@ -74,12 +63,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -103,12 +87,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -123,12 +102,7 @@ namespace NTMiner {
                             callback?.Invoke(service.GetLiteDBExplorerUrl());
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(string.Empty);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(string.Empty);
                     }
                 });
@@ -144,12 +118,7 @@ namespace NTMiner {
                             callback?.Invoke(downloadUrl);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(string.Empty);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(string.Empty);
                     }
                 });
@@ -164,12 +133,7 @@ namespace NTMiner {
                             callback?.Invoke(service.GetPackageUrl(package));
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(string.Empty);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(string.Empty);
                     }
                 });

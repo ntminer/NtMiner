@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
-    [DataContract]
     public class QueryClientsResponse : ResponseBase {
         public QueryClientsResponse() {
             this.Data = new List<ClientData>();
@@ -20,10 +18,8 @@ namespace NTMiner {
             };
         }
 
-        [DataMember]
         public List<ClientData> Data { get; set; }
 
-        [DataMember]
         public int Total { get; set; }
     }
 }

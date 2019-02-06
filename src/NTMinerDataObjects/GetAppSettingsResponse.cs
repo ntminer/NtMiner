@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
     public class GetAppSettingsResponse : ResponseBase {
@@ -18,7 +17,6 @@ namespace NTMiner {
             };
         }
 
-        [DataMember]
         public List<AppSettingData> Data { get; set; }
     }
 }

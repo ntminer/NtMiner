@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
-    [DataContract]
     public class LoadClientResponse : ResponseBase {
         public static LoadClientResponse Ok(Guid messageId, ClientData data) {
             return new LoadClientResponse() {
@@ -14,7 +12,6 @@ namespace NTMiner {
             };
         }
 
-        [DataMember]
         public ClientData Data { get; set; }
     }
 }

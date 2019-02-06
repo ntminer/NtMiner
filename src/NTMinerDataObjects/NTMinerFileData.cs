@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class NTMinerFileData : INTMinerFile, IDbEntity<Guid> {
         public NTMinerFileData() {
 
@@ -13,22 +11,16 @@ namespace NTMiner {
             return this.Id;
         }
 
-        [DataMember]
         public Guid Id { get; set; }
 
-        [DataMember]
         public string FileName { get; set; }
 
-        [DataMember]
         public string Version { get; set; }
 
-        [DataMember]
         public string VersionTag { get; set; }
 
-        [DataMember]
         public DateTime CreatedOn { get; set; }
 
-        [DataMember]
         public DateTime PublishOn { get; set; }
 
         public string GetSignData() {

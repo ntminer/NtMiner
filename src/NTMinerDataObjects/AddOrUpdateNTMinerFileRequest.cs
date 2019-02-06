@@ -1,14 +1,9 @@
-﻿using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class AddOrUpdateNTMinerFileRequest : RequestBase, ISignatureRequest {
-        [DataMember]
         public string LoginName { get; set; }
-        [DataMember]
         public NTMinerFileData Data { get; set; }
-        [DataMember]
         public string Sign { get; set; }
 
         public void SignIt(string password) {

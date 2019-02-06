@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
-    [DataContract]
     public class GetCalcConfigsResponse : ResponseBase {
         public GetCalcConfigsResponse() {
             this.Data = new List<CalcConfigData>();
@@ -19,7 +17,6 @@ namespace NTMiner {
             };
         }
 
-        [DataMember]
         public List<CalcConfigData> Data { get; set; }
     }
 }

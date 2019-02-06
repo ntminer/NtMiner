@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NTMiner.MinerClient {
-    [DataContract]
     public class StartMineRequest : RequestBase, ISignatureRequest {
-        [DataMember]
         public string LoginName { get; set; }
-        [DataMember]
         public Guid WorkId { get; set; }
-        [DataMember]
         public string Sign { get; set; }
 
         public void SignIt(string password) {

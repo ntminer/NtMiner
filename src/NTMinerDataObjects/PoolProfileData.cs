@@ -1,9 +1,7 @@
 ﻿using LiteDB;
 using System;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
-    [DataContract]
     public class PoolProfileData : IPoolProfile, IDbEntity<Guid> {
         public PoolProfileData() { }
 
@@ -20,13 +18,10 @@ namespace NTMiner {
         }
 
         [BsonId]
-        [DataMember]
         public Guid PoolId { get; set; }
 
-        [DataMember]
         public string UserName { get; set; }
 
-        [DataMember]
         public string Password { get; set; }
     }
 }

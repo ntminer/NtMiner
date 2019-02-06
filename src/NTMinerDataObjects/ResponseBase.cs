@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
-    [DataContract]
     public class ResponseBase {
         public static ResponseBase Forbidden(Guid messageId, string description = "无权访问") {
             return Forbidden<ResponseBase>(messageId, description);
@@ -81,16 +79,12 @@ namespace NTMiner {
         public ResponseBase() {
         }
 
-        [DataMember]
         public Guid MessageId { get; set; }
 
-        [DataMember]
         public int StateCode { get; set; }
 
-        [DataMember]
         public string ReasonPhrase { get; set; }
 
-        [DataMember]
         public string Description { get; set; }
     }
 }

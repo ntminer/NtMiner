@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class RemoveWalletRequest : RequestBase, ISignatureRequest {
-        [DataMember]
         public string LoginName { get; set; }
-        [DataMember]
         public Guid WalletId { get; set; }
-        [DataMember]
         public string Sign { get; set; }
 
         public void SignIt(string password) {

@@ -1,14 +1,10 @@
-﻿using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class LoginControlCenterRequest : RequestBase, ISignatureRequest {
         public LoginControlCenterRequest() { }
 
-        [DataMember]
         public string LoginName { get; set; }
-        [DataMember]
         public string Sign { get; set; }
 
         public void SignIt(string password) {

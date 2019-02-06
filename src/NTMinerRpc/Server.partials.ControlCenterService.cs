@@ -1,7 +1,6 @@
 ﻿using NTMiner.ServiceContracts;
 using System;
 using System.Collections.Generic;
-using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -13,7 +12,7 @@ namespace NTMiner {
             }
 
             private IControlCenterService CreateService() {
-                return ChannelFactory.CreateChannel<IControlCenterService>(MinerServerHost, MinerServerPort);
+                throw new NotImplementedException();
             }
 
             #region LoginAsync
@@ -32,12 +31,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -61,12 +55,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError<LoadClientsResponse>(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError<LoadClientsResponse>(messageId, e.Message));
                     }
                 });
@@ -94,12 +83,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError<GetCoinSnapshotsResponse>(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError<GetCoinSnapshotsResponse>(messageId, e.Message));
                     }
                 });
@@ -123,12 +107,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError<LoadClientResponse>(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError<LoadClientResponse>(messageId, e.Message));
                     }
                 });
@@ -179,12 +158,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError<QueryClientsResponse>(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError<QueryClientsResponse>(messageId, e.Message));
                     }
                 });
@@ -210,12 +184,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -234,12 +203,7 @@ namespace NTMiner {
                         return service.GetMinerGroups(messageId);
                     }
                 }
-                catch (CommunicationException e) {
-                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    return ResponseBase.ClientError<GetMinerGroupsResponse>(messageId, e.Message);
-                }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return ResponseBase.ClientError<GetMinerGroupsResponse>(messageId, e.Message);
                 }
             }
@@ -263,12 +227,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -291,12 +250,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -321,12 +275,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -350,12 +299,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -381,12 +325,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -413,12 +352,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -445,12 +379,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -477,12 +406,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -501,12 +425,7 @@ namespace NTMiner {
                         return service.GetWallets(messageId);
                     }
                 }
-                catch (CommunicationException e) {
-                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    return ResponseBase.ClientError<GetWalletsResponse>(messageId, e.Message);
-                }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return ResponseBase.ClientError<GetWalletsResponse>(messageId, e.Message);
                 }
             }
@@ -530,12 +449,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -559,12 +473,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });
@@ -583,12 +492,7 @@ namespace NTMiner {
                         return service.GetCalcConfigs(messageId);
                     }
                 }
-                catch (CommunicationException e) {
-                    Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    return ResponseBase.ClientError<GetCalcConfigsResponse>(messageId, e.Message);
-                }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
                     return ResponseBase.ClientError<GetCalcConfigsResponse>(messageId, e.Message);
                 }
             }
@@ -613,11 +517,8 @@ namespace NTMiner {
                             service.SaveCalcConfigs(request);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
+                        
                     }
                 });
             }

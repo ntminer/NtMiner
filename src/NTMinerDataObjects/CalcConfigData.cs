@@ -1,10 +1,8 @@
 ﻿using LiteDB;
 using System;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace NTMiner {
-    [DataContract]
     public class CalcConfigData : ICalcConfig {
         public CalcConfigData() { }
 
@@ -30,28 +28,20 @@ namespace NTMiner {
         }
 
         [BsonId]
-        [DataMember]
         public string CoinCode { get; set; }
 
-        [DataMember]
         public double Speed { get; set; }
 
-        [DataMember]
         public string SpeedUnit { get; set; }
 
-        [DataMember]
         public double IncomePerDay { get; set; }
 
-        [DataMember]
         public double IncomeUsdPerDay { get; set; }
 
-        [DataMember]
         public double IncomeCnyPerDay { get; set; }
 
-        [DataMember]
         public DateTime CreatedOn { get; set; }
 
-        [DataMember]
         public DateTime ModifiedOn { get; set; }
 
         public string GetSignData() {

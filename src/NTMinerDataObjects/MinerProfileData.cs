@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace NTMiner {
-    [DataContract]
     public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, ITimestampEntity<Guid> {
         public static MinerProfileData CreateDefaultData() {
             return new MinerProfileData {
@@ -39,42 +37,25 @@ namespace NTMiner {
         public Guid GetId() {
             return this.Id;
         }
-        [DataMember]
         public Guid Id { get; set; }
-        [DataMember]
         public string MinerName { get; set; }
-        [DataMember]
         public bool IsAutoThisPCName { get; set; }
-        [DataMember]
         public bool IsShowInTaskbar { get; set; }
-        [DataMember]
         public bool IsAutoBoot { get; set; }
-        [DataMember]
         public bool IsAutoStart { get; set; }
-        [DataMember]
         public bool IsAutoRestartKernel { get; set; }
-        [DataMember]
         public Guid CoinId { get; set; }
-        [DataMember]
         public bool IsNoShareRestartKernel { get; set; }
-        [DataMember]
         public int NoShareRestartKernelMinutes { get; set; }
-        [DataMember]
         public bool IsPeriodicRestartKernel { get; set; }
-        [DataMember]
         public int PeriodicRestartKernelHours { get; set; }
-        [DataMember]
         public bool IsPeriodicRestartComputer { get; set; }
-        [DataMember]
         public int PeriodicRestartComputerHours { get; set; }
 
-        [DataMember]
         public bool IsShowCommandLine { get; set; }
 
-        [DataMember]
         public DateTime CreatedOn { get; set; }
 
-        [DataMember]
         public DateTime ModifiedOn { get; set; }
     }
 }

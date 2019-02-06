@@ -1,6 +1,5 @@
 ﻿using NTMiner.ServiceContracts;
 using System;
-using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -11,7 +10,7 @@ namespace NTMiner {
             private AppSettingServiceFace() { }
 
             private IAppSettingService CreateService() {
-                return ChannelFactory.CreateChannel<IAppSettingService>(MinerServerHost, MinerServerPort);
+                throw new NotImplementedException();
             }
 
             #region GetAppSettingAsync
@@ -23,12 +22,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(null);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(null);
                     }
                 });
@@ -44,12 +38,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(null);
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(null);
                     }
                 });
@@ -73,12 +62,7 @@ namespace NTMiner {
                             callback?.Invoke(response);
                         }
                     }
-                    catch (CommunicationException e) {
-                        Global.WriteDevLine(e.Message, ConsoleColor.Red);
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
                     catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
                         callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
                     }
                 });

@@ -79,12 +79,8 @@
     <Compile Include="Security\AESHelper.cs" />
     <Compile Include="Security\BigInteger.cs" />
     <Compile Include="Security\RSAHelper.cs" />
-    <Compile Include="ServiceContracts\IAppSettingService.cs" />
-    <Compile Include="ServiceContracts\MinerClient\IMinerClientService.cs" />
     <Compile Include="SortNumberComparer.cs" />
-    <Compile Include="Server.partials.ControlCenterService.cs" />
     <Compile Include="DictionaryExtensions.cs" />
-    <Compile Include="Server.partials.FileUrlService.cs" />
     <Compile Include="DevMode.cs" />
     <Compile Include="HandlerId.cs" />
     <Compile Include="Bus\IBus.cs" />
@@ -110,23 +106,14 @@
     <Compile Include="Logging\ILoggingService.cs" />
     <Compile Include="Logging\Log4NetLoggingService.cs" />
     <Compile Include="Messages.cs" />
-    <Compile Include="Server.partials.ProfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.partials.ReportService.cs" />
     <Compile Include="Repositories\CommonRepository`1.cs" />
     <Compile Include="Repositories\CompositeRepository`1.cs" />
     <Compile Include="Repositories\DuplicateIdException.cs" />
     <Compile Include="Repositories\IRepository`1.cs" />
     <Compile Include="Serialization\IObjectSerializer.cs" />
     <Compile Include="Serialization\ObjectJsonSerializer.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="ServiceContracts\IControlCenterService.cs" />
-    <Compile Include="ServiceContracts\IProfileService.cs" />
-    <Compile Include="ServiceContracts\IReportService.cs" />
-    <Compile Include="ServiceContracts\IFileUrlService.cs" />
     <Compile Include="Global.cs" />
-    <Compile Include="ServiceContracts\ITimeService.cs" />
-    <Compile Include="Server.partials.TimeService.cs" />
     <Compile Include="User\Impl\UserSet.cs" />
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
@@ -138,10 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Compile Include="Server.partials.AppSettingService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ServiceContracts\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
