@@ -1,5 +1,4 @@
-﻿using NTMiner;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,10 +10,6 @@ namespace NTMiner {
             private readonly string baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api/ControlCenter";
 
             private ControlCenterServiceFace() {
-            }
-
-            private IControlCenterService CreateService() {
-                return new EmptyControlCenterService();
             }
 
             #region LoginAsync
@@ -67,34 +62,33 @@ namespace NTMiner {
                 int limit,
                 List<string> coinCodes,
                 Action<GetCoinSnapshotsResponse> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
-                        using (var service = CreateService()) {
-                            GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
-                                MessageId = messageId,
-                                LoginName = LoginName,
-                                Limit = limit,
-                                CoinCodes = coinCodes,
-                                Timestamp = DateTime.Now
-                            };
-                            request.SignIt(PasswordSha1);
-                            GetCoinSnapshotsResponse response = service.GetLatestSnapshots(request);
-                            callback?.Invoke(response);
-                        }
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
+                            MessageId = messageId,
+                            LoginName = LoginName,
+                            Limit = limit,
+                            CoinCodes = coinCodes,
+                            Timestamp = DateTime.Now
+                        };
+                        request.SignIt(PasswordSha1);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.GetLatestSnapshots)}", request);
+                        GetCoinSnapshotsResponse response = message.Result.Content.ReadAsAsync<GetCoinSnapshotsResponse>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError<GetCoinSnapshotsResponse>(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<GetCoinSnapshotsResponse>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region LoadClientAsync
             public void LoadClientAsync(Guid clientId, Action<LoadClientResponse> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         LoadClientRequest request = new LoadClientRequest {
                             MessageId = messageId,
                             LoginName = LoginName,
@@ -102,15 +96,14 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            LoadClientResponse response = service.LoadClient(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.LoadClient)}", request);
+                        LoadClientResponse response = message.Result.Content.ReadAsAsync<LoadClientResponse>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError<LoadClientResponse>(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<LoadClientResponse>(messageId, e.Message));
+                }
             }
             #endregion
 
@@ -131,45 +124,44 @@ namespace NTMiner {
                 string version,
                 string kernel,
                 Action<QueryClientsResponse> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
-                        using (var service = CreateService()) {
-                            var request = new QueryClientsRequest {
-                                LoginName = LoginName,
-                                PageIndex = pageIndex,
-                                PageSize = pageSize,
-                                MineWorkId = mineWorkId,
-                                MinerIp = minerIp,
-                                MinerName = minerName,
-                                MineState = mineState,
-                                MainCoin = mainCoin,
-                                MainCoinPool = mainCoinPool,
-                                MainCoinWallet = mainCoinWallet,
-                                DualCoin = dualCoin,
-                                DualCoinPool = dualCoinPool,
-                                DualCoinWallet = dualCoinWallet,
-                                Version = version,
-                                Kernel = kernel,
-                                Timestamp = DateTime.Now
-                            };
-                            request.SignIt(PasswordSha1);
-                            QueryClientsResponse response = service.QueryClients(request);
-                            callback?.Invoke(response);
-                        }
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        var request = new QueryClientsRequest {
+                            LoginName = LoginName,
+                            PageIndex = pageIndex,
+                            PageSize = pageSize,
+                            MineWorkId = mineWorkId,
+                            MinerIp = minerIp,
+                            MinerName = minerName,
+                            MineState = mineState,
+                            MainCoin = mainCoin,
+                            MainCoinPool = mainCoinPool,
+                            MainCoinWallet = mainCoinWallet,
+                            DualCoin = dualCoin,
+                            DualCoinPool = dualCoinPool,
+                            DualCoinWallet = dualCoinWallet,
+                            Version = version,
+                            Kernel = kernel,
+                            Timestamp = DateTime.Now
+                        };
+                        request.SignIt(PasswordSha1);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.QueryClients)}", request);
+                        QueryClientsResponse response = message.Result.Content.ReadAsAsync<QueryClientsResponse>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError<QueryClientsResponse>(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<QueryClientsResponse>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region UpdateClientAsync
             public void UpdateClientAsync(Guid clientId, string propertyName, object value, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         UpdateClientRequest request = new UpdateClientRequest {
                             MessageId = messageId,
                             LoginName = LoginName,
@@ -179,15 +171,14 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.UpdateClient(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.UpdateClient)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
@@ -199,8 +190,10 @@ namespace NTMiner {
             /// <returns></returns>
             public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
                 try {
-                    using (var service = CreateService()) {
-                        return service.GetMinerGroups(messageId);
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IControlCenterService.GetMinerGroups)}?messageId={messageId}");
+                        GetMinerGroupsResponse response = message.Result.Content.ReadAsAsync<GetMinerGroupsResponse>().Result;
+                        return response;
                     }
                 }
                 catch (Exception e) {
@@ -211,9 +204,9 @@ namespace NTMiner {
 
             #region AddOrUpdateMinerGroupAsync
             public void AddOrUpdateMinerGroupAsync(MinerGroupData entity, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         entity.ModifiedOn = DateTime.Now;
                         AddOrUpdateMinerGroupRequest request = new AddOrUpdateMinerGroupRequest {
                             MessageId = messageId,
@@ -222,46 +215,44 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.AddOrUpdateMinerGroup(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.AddOrUpdateMinerGroup)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region RemoveMinerGroupAsync
             public void RemoveMinerGroupAsync(Guid id, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         RemoveMinerGroupRequest request = new RemoveMinerGroupRequest() {
                             MessageId = messageId,
                             LoginName = LoginName,
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.RemoveMinerGroup(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.RemoveMinerGroup)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region AddOrUpdateMineWorkAsync
             public void AddOrUpdateMineWorkAsync(MineWorkData entity, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         entity.ModifiedOn = DateTime.Now;
                         AddOrUpdateMineWorkRequest request = new AddOrUpdateMineWorkRequest {
                             MessageId = messageId,
@@ -270,23 +261,22 @@ namespace NTMiner {
                             Data = entity
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.AddOrUpdateMineWork(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.AddOrUpdateMineWork)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region RemoveMineWorkAsync
             public void RemoveMineWorkAsync(Guid id, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         RemoveMineWorkRequest request = new RemoveMineWorkRequest {
                             MessageId = messageId,
                             LoginName = LoginName,
@@ -294,23 +284,22 @@ namespace NTMiner {
                             MineWorkId = id
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.RemoveMineWork(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.RemoveMineWork)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region SetMinerProfilePropertyAsync
             public void SetMinerProfilePropertyAsync(Guid workId, string propertyName, object value, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest() {
                             MessageId = messageId,
                             LoginName = LoginName,
@@ -320,23 +309,22 @@ namespace NTMiner {
                             WorkId = workId
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.SetMinerProfileProperty(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SetMinerProfileProperty)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region SetCoinProfilePropertyAsync
             public void SetCoinProfilePropertyAsync(Guid workId, Guid coinId, string propertyName, object value, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         SetCoinProfilePropertyRequest request = new SetCoinProfilePropertyRequest {
                             MessageId = messageId,
                             LoginName = LoginName,
@@ -347,23 +335,22 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.SetCoinProfileProperty(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SetCoinProfileProperty)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region SetPoolProfilePropertyAsync
             public void SetPoolProfilePropertyAsync(Guid workId, Guid poolId, string propertyName, object value, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         SetPoolProfilePropertyRequest request = new SetPoolProfilePropertyRequest {
                             MessageId = messageId,
                             LoginName = LoginName,
@@ -374,23 +361,22 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.SetPoolProfileProperty(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SetPoolProfileProperty)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region SetCoinKernelProfilePropertyAsync
             public void SetCoinKernelProfilePropertyAsync(Guid workId, Guid coinKernelId, string propertyName, object value, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         SetCoinKernelProfilePropertyRequest request = new SetCoinKernelProfilePropertyRequest {
                             MessageId = messageId,
                             LoginName = LoginName,
@@ -401,15 +387,14 @@ namespace NTMiner {
                             WorkId = workId
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.SetCoinKernelProfileProperty(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SetCoinKernelProfileProperty)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
@@ -421,8 +406,10 @@ namespace NTMiner {
             public GetWalletsResponse GetWallets() {
                 Guid messageId = Guid.NewGuid();
                 try {
-                    using (var service = CreateService()) {
-                        return service.GetWallets(messageId);
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IControlCenterService.GetWallets)}?messageId={messageId}");
+                        GetWalletsResponse response = message.Result.Content.ReadAsAsync<GetWalletsResponse>().Result;
+                        return response;
                     }
                 }
                 catch (Exception e) {
@@ -433,9 +420,9 @@ namespace NTMiner {
 
             #region AddOrUpdateWalletAsync
             public void AddOrUpdateWalletAsync(WalletData entity, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         entity.ModifiedOn = DateTime.Now;
                         AddOrUpdateWalletRequest request = new AddOrUpdateWalletRequest {
                             LoginName = LoginName,
@@ -444,23 +431,22 @@ namespace NTMiner {
                             Data = entity
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.AddOrUpdateWallet(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.AddOrUpdateWallet)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
             #region RemoveWalletAsync
             public void RemoveWalletAsync(Guid id, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         RemoveWalletRequest request = new RemoveWalletRequest {
                             MessageId = messageId,
                             LoginName = LoginName,
@@ -468,15 +454,14 @@ namespace NTMiner {
                             WalletId = id
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            ResponseBase response = service.RemoveWallet(request);
-                            callback?.Invoke(response);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.RemoveWallet)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
 
@@ -488,8 +473,10 @@ namespace NTMiner {
             public GetCalcConfigsResponse GetCalcConfigs() {
                 Guid messageId = Guid.NewGuid();
                 try {
-                    using (var service = CreateService()) {
-                        return service.GetCalcConfigs(messageId);
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IControlCenterService.GetCalcConfigs)}?messageId={messageId}");
+                        GetCalcConfigsResponse response = message.Result.Content.ReadAsAsync<GetCalcConfigsResponse>().Result;
+                        return response;
                     }
                 }
                 catch (Exception e) {
@@ -499,10 +486,10 @@ namespace NTMiner {
             #endregion
 
             #region SaveCalcConfigsAsync
-            public void SaveCalcConfigsAsync(List<CalcConfigData> configs) {
-                Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
-                    try {
+            public void SaveCalcConfigsAsync(List<CalcConfigData> configs, Action<ResponseBase> callback) {
+                Guid messageId = Guid.NewGuid();
+                try {
+                    using (HttpClient client = new HttpClient()) {
                         if (configs == null || configs.Count == 0) {
                             return;
                         }
@@ -513,114 +500,16 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        using (var service = CreateService()) {
-                            service.SaveCalcConfigs(request);
-                        }
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SaveCalcConfigs)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<ResponseBase>(messageId, e.Message));
+                }
             }
             #endregion
-        }
-
-        public class EmptyControlCenterService : IControlCenterService {
-            public ResponseBase AddOrUpdateMinerGroup(AddOrUpdateMinerGroupRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase AddOrUpdateMineWork(AddOrUpdateMineWorkRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase AddOrUpdateWallet(AddOrUpdateWalletRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public void Dispose() {
-                
-            }
-
-            public GetCalcConfigsResponse GetCalcConfigs(Guid messageId) {
-                return null;
-            }
-
-            public GetCoinSnapshotsResponse GetLatestSnapshots(GetCoinSnapshotsRequest request) {
-                return null;
-            }
-
-            public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
-                return null;
-            }
-
-            public GetWalletsResponse GetWallets(Guid messageId) {
-                return null;
-            }
-
-            public LoadClientResponse LoadClient(LoadClientRequest request) {
-                return null;
-            }
-
-            public LoadClientsResponse LoadClients(LoadClientsRequest request) {
-                return null;
-            }
-
-            public ResponseBase LoginControlCenter(LoginControlCenterRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public QueryClientsResponse QueryClients(QueryClientsRequest request) {
-                return null;
-            }
-
-            public ResponseBase RemoveMinerGroup(RemoveMinerGroupRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase RemoveMineWork(RemoveMineWorkRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase RemoveWallet(RemoveWalletRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase SetClientMinerProfileProperty(SetClientMinerProfilePropertyRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase SetCoinKernelProfileProperty(SetCoinKernelProfilePropertyRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase SetCoinProfileProperty(SetCoinProfilePropertyRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase SetPoolProfileProperty(SetPoolProfilePropertyRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase StartMine(StartMineRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase StopMine(StopMineRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
-
-            public ResponseBase UpdateClient(UpdateClientRequest request) {
-                return ResponseBase.Ok(request.MessageId);
-            }
         }
     }
 }
