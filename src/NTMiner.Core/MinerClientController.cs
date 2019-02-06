@@ -3,7 +3,7 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class MinerClientController : ApiController, IMinerClientService {
+    public class MinerClientController : ApiController {
         [HttpGet]
         public bool ShowMainWindow() {
             Global.Execute(new ShowMainWindowCommand());

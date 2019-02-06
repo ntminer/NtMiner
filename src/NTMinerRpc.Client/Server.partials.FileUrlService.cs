@@ -15,7 +15,7 @@ namespace NTMiner {
             public void GetNTMinerUrlAsync(string fileName, Action<string> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IFileUrlService.GetNTMinerUrl)}?fileName={fileName}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetNTMinerUrl?fileName={fileName}");
                         string response = message.Result.Content.ReadAsStringAsync().Result;
                         callback?.Invoke(response);
                     }
@@ -30,7 +30,7 @@ namespace NTMiner {
             public void GetNTMinerFilesAsync(Action<List<NTMinerFileData>> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IFileUrlService.GetNTMinerFiles)}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetNTMinerFiles");
                         List<NTMinerFileData> response = message.Result.Content.ReadAsAsync<List<NTMinerFileData>>().Result;
                         callback?.Invoke(response ?? new List<NTMinerFileData>());
                     }
@@ -53,7 +53,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IFileUrlService.AddOrUpdateNTMinerFile)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/AddOrUpdateNTMinerFile", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -76,7 +76,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IFileUrlService.RemoveNTMinerFile)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/RemoveNTMinerFile", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -91,7 +91,7 @@ namespace NTMiner {
             public void GetLiteDBExplorerUrlAsync(Action<string> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IFileUrlService.GetLiteDBExplorerUrl)}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetLiteDBExplorerUrl");
                         string response = message.Result.Content.ReadAsStringAsync().Result;
                         callback?.Invoke(response);
                     }
@@ -106,7 +106,7 @@ namespace NTMiner {
             public void GetNTMinerUpdaterUrlAsync(Action<string> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IFileUrlService.GetNTMinerUpdaterUrl)}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetNTMinerUpdaterUrl");
                         string response = message.Result.Content.ReadAsStringAsync().Result;
                         callback?.Invoke(response);
                     }
@@ -121,7 +121,7 @@ namespace NTMiner {
             public void GetPackageUrlAsync(string package, Action<string> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IFileUrlService.GetPackageUrl)}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetPackageUrl");
                         string response = message.Result.Content.ReadAsStringAsync().Result;
                         callback?.Invoke(response);
                     }

@@ -13,7 +13,7 @@ namespace NTMiner {
             public void GetAppSettingAsync(string key, Action<GetAppSettingResponse> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IAppSettingService.GetAppSetting)}?messageId={Guid.NewGuid()}&key={key}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetAppSetting?messageId={Guid.NewGuid()}&key={key}");
                         GetAppSettingResponse response = message.Result.Content.ReadAsAsync<GetAppSettingResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -28,7 +28,7 @@ namespace NTMiner {
             public void GetAppSettingsAsync(Action<GetAppSettingsResponse> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IAppSettingService.GetAppSettings)}?messageId={Guid.NewGuid()}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetAppSettings?messageId={Guid.NewGuid()}");
                         GetAppSettingsResponse response = message.Result.Content.ReadAsAsync<GetAppSettingsResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -51,7 +51,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IAppSettingService.SetAppSetting)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/SetAppSetting", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }

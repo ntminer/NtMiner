@@ -273,10 +273,6 @@
       <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
       <Name>NTMinerRpc.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerRpc.Server\NTMinerRpc.Server.csproj">
-      <Project>{c3c601d5-b592-4348-870f-19b97747e9d0}</Project>
-      <Name>NTMinerRpc.Server</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>

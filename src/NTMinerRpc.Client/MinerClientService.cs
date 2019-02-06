@@ -13,7 +13,7 @@ namespace NTMiner {
         public bool ShowMainWindow(string host) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.GetAsync($"http://{host}:3336/api/MinerClient/{nameof(IMinerClientService.ShowMainWindow)}");
+                    Task<HttpResponseMessage> message = client.GetAsync($"http://{host}:3336/api/MinerClient/ShowMainWindow");
                     bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                     return response;
                 }
@@ -34,7 +34,7 @@ namespace NTMiner {
                         Timestamp = DateTime.Now
                     };
                     request.SignIt(Server.PasswordSha1Sha1);
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/{nameof(IMinerClientService.StartMine)}", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StartMine", request);
                     bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                     callback?.Invoke(response);
                 }
@@ -47,7 +47,7 @@ namespace NTMiner {
         public void StopMineAsync(string host, Action<bool> callback) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/{nameof(IMinerClientService.StopMine)}", new { timestamp = DateTime.Now });
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StopMine", new { timestamp = DateTime.Now });
                     bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                     callback?.Invoke(response);
                 }
@@ -60,7 +60,7 @@ namespace NTMiner {
         public void SetMinerProfilePropertyAsync(string host, string propertyName, object value, Action<bool> callback) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/{nameof(IMinerClientService.SetMinerProfileProperty)}", new { propertyName, value });
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/SetMinerProfileProperty", new { propertyName, value });
                     bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                     callback?.Invoke(response);
                 }

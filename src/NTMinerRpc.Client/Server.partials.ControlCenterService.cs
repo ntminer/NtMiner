@@ -23,7 +23,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(password);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.LoginControlCenter)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/LoginControlCenter", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -46,7 +46,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.LoadClients)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/LoadClients", request);
                         LoadClientsResponse response = message.Result.Content.ReadAsAsync<LoadClientsResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -73,7 +73,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.GetLatestSnapshots)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/GetLatestSnapshots", request);
                         GetCoinSnapshotsResponse response = message.Result.Content.ReadAsAsync<GetCoinSnapshotsResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -96,7 +96,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.LoadClient)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/LoadClient", request);
                         LoadClientResponse response = message.Result.Content.ReadAsAsync<LoadClientResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -146,7 +146,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.QueryClients)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/QueryClients", request);
                         QueryClientsResponse response = message.Result.Content.ReadAsAsync<QueryClientsResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -171,7 +171,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.UpdateClient)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/UpdateClient", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -191,7 +191,7 @@ namespace NTMiner {
             public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IControlCenterService.GetMinerGroups)}?messageId={messageId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetMinerGroups?messageId={messageId}");
                         GetMinerGroupsResponse response = message.Result.Content.ReadAsAsync<GetMinerGroupsResponse>().Result;
                         return response;
                     }
@@ -215,7 +215,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.AddOrUpdateMinerGroup)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/AddOrUpdateMinerGroup", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -237,7 +237,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.RemoveMinerGroup)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/RemoveMinerGroup", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -261,7 +261,7 @@ namespace NTMiner {
                             Data = entity
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.AddOrUpdateMineWork)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/AddOrUpdateMineWork", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -284,7 +284,7 @@ namespace NTMiner {
                             MineWorkId = id
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.RemoveMineWork)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/RemoveMineWork", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -309,7 +309,7 @@ namespace NTMiner {
                             WorkId = workId
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SetMinerProfileProperty)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/SetMinerProfileProperty", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -335,7 +335,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SetCoinProfileProperty)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/SetCoinProfileProperty", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -361,7 +361,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SetPoolProfileProperty)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/SetPoolProfileProperty", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -387,7 +387,7 @@ namespace NTMiner {
                             WorkId = workId
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SetCoinKernelProfileProperty)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/SetCoinKernelProfileProperty", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -407,7 +407,7 @@ namespace NTMiner {
                 Guid messageId = Guid.NewGuid();
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IControlCenterService.GetWallets)}?messageId={messageId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetWallets?messageId={messageId}");
                         GetWalletsResponse response = message.Result.Content.ReadAsAsync<GetWalletsResponse>().Result;
                         return response;
                     }
@@ -431,7 +431,7 @@ namespace NTMiner {
                             Data = entity
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.AddOrUpdateWallet)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/AddOrUpdateWallet", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -454,7 +454,7 @@ namespace NTMiner {
                             WalletId = id
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.RemoveWallet)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/RemoveWallet", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -474,7 +474,7 @@ namespace NTMiner {
                 Guid messageId = Guid.NewGuid();
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IControlCenterService.GetCalcConfigs)}?messageId={messageId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetCalcConfigs?messageId={messageId}");
                         GetCalcConfigsResponse response = message.Result.Content.ReadAsAsync<GetCalcConfigsResponse>().Result;
                         return response;
                     }
@@ -500,7 +500,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.SaveCalcConfigs)}", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/SaveCalcConfigs", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }

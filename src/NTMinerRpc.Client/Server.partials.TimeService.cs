@@ -14,7 +14,7 @@ namespace NTMiner {
             public void GetTimeAsync(Action<DateTime> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(ITimeService.GetTime)}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetTime");
                         DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
                         callback?.Invoke(response);
                     }

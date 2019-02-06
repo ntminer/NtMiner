@@ -15,7 +15,7 @@ namespace NTMiner {
             public void GetMineWorkAsync(Guid workId, Action<MineWorkData> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetMineWork)}?workId={workId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetMineWork?workId={workId}");
                         MineWorkData response = message.Result.Content.ReadAsAsync<MineWorkData>().Result;
                         callback?.Invoke(response);
                     }
@@ -32,7 +32,7 @@ namespace NTMiner {
             public List<MineWorkData> GetMineWorks() {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetMineWorks)}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetMineWorks");
                         List<MineWorkData> response = message.Result.Content.ReadAsAsync<List<MineWorkData>>().Result;
                         return response;
                     }
@@ -50,7 +50,7 @@ namespace NTMiner {
             public MinerProfileData GetMinerProfile(Guid workId) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetMinerProfile)}?workId={workId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetMinerProfile?workId={workId}");
                         MinerProfileData response = message.Result.Content.ReadAsAsync<MinerProfileData>().Result;
                         return response;
                     }
@@ -69,7 +69,7 @@ namespace NTMiner {
             public CoinProfileData GetCoinProfile(Guid workId, Guid coinId) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetMinerProfile)}?workId={workId}&coinId={coinId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetMinerProfile?workId={workId}&coinId={coinId}");
                         CoinProfileData response = message.Result.Content.ReadAsAsync<CoinProfileData>().Result;
                         return response;
                     }
@@ -88,7 +88,7 @@ namespace NTMiner {
             public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetPoolProfile)}?workId={workId}&poolId={poolId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetPoolProfile?workId={workId}&poolId={poolId}");
                         PoolProfileData response = message.Result.Content.ReadAsAsync<PoolProfileData>().Result;
                         return response;
                     }
@@ -107,7 +107,7 @@ namespace NTMiner {
             public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetCoinKernelProfile)}?workId={workId}&coinKernelId={coinKernelId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetCoinKernelProfile?workId={workId}&coinKernelId={coinKernelId}");
                         CoinKernelProfileData response = message.Result.Content.ReadAsAsync<CoinKernelProfileData>().Result;
                         return response;
                     }

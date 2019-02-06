@@ -12,7 +12,7 @@ namespace NTMiner {
             public void LoginAsync(LoginData data) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportService.Login)}", data);
+                        client.PostAsJsonAsync($"{baseUrl}/Login", data);
                     }
                 }
                 catch {
@@ -22,7 +22,7 @@ namespace NTMiner {
             public void ReportSpeedAsync(SpeedData data) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportService.ReportSpeed)}", data);
+                        client.PostAsJsonAsync($"{baseUrl}/ReportSpeed", data);
                     }
                 }
                 catch {
@@ -32,7 +32,7 @@ namespace NTMiner {
             public void ReportStateAsync(Guid clientId, bool isMining) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportService.ReportState)}", new { clientId, isMining});
+                        client.PostAsJsonAsync($"{baseUrl}/ReportState", new { clientId, isMining});
                     }
                 }
                 catch {
