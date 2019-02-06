@@ -1,8 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace NTMiner.Areas.HelpPage.ModelDescriptions
-{
+namespace NTMiner.Areas.HelpPage.ModelDescriptions {
     public interface IModelDocumentationProvider
     {
         string GetDocumentation(MemberInfo member);

@@ -1,7 +1,6 @@
 using System;
 
-namespace NTMiner.Areas.HelpPage.ModelDescriptions
-{
+namespace NTMiner.Areas.HelpPage.ModelDescriptions {
     public class ParameterAnnotation
     {
         public Attribute AnnotationAttribute { get; set; }

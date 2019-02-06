@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace NTMiner.Areas.HelpPage.ModelDescriptions
-{
+namespace NTMiner.Areas.HelpPage.ModelDescriptions {
     public class ComplexTypeModelDescription : ModelDescription
     {
         public ComplexTypeModelDescription()

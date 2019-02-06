@@ -1,11 +1,10 @@
+using NTMiner.Areas.HelpPage.ModelDescriptions;
+using NTMiner.Areas.HelpPage.Models;
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using NTMiner.Areas.HelpPage.ModelDescriptions;
-using NTMiner.Areas.HelpPage.Models;
 
-namespace NTMiner.Areas.HelpPage.Controllers
-{
+namespace NTMiner.Areas.HelpPage.Controllers {
     /// <summary>
     /// The controller that will handle requests for the help page.
     /// </summary>

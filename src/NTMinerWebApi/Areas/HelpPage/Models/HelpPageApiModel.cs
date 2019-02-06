@@ -1,11 +1,10 @@
+using NTMiner.Areas.HelpPage.ModelDescriptions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using NTMiner.Areas.HelpPage.ModelDescriptions;
 
-namespace NTMiner.Areas.HelpPage.Models
-{
+namespace NTMiner.Areas.HelpPage.Models {
     /// <summary>
     /// The model that represents an API displayed on the help page.
     /// </summary>

@@ -1,7 +1,6 @@
 using System;
 
-namespace NTMiner.Areas.HelpPage.ModelDescriptions
-{
+namespace NTMiner.Areas.HelpPage.ModelDescriptions {
     /// <summary>
     /// Describes a type model.
     /// </summary>

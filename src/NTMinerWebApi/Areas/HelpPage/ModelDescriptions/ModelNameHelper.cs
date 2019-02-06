@@ -3,8 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace NTMiner.Areas.HelpPage.ModelDescriptions
-{
+namespace NTMiner.Areas.HelpPage.ModelDescriptions {
     internal static class ModelNameHelper
     {
         // Modify this to provide custom model name mapping.

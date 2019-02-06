@@ -1,5 +1,4 @@
-namespace NTMiner.Areas.HelpPage.ModelDescriptions
-{
+namespace NTMiner.Areas.HelpPage.ModelDescriptions {
     public class EnumValueDescription
     {
         public string Documentation { get; set; }

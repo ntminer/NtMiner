@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace NTMiner.Areas.HelpPage.ModelDescriptions
-{
+namespace NTMiner.Areas.HelpPage.ModelDescriptions {
     public class ParameterDescription
     {
         public ParameterDescription()

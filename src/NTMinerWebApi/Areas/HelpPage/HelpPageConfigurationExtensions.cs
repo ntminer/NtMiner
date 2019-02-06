@@ -1,3 +1,5 @@
+using NTMiner.Areas.HelpPage.ModelDescriptions;
+using NTMiner.Areas.HelpPage.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,11 +13,8 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using NTMiner.Areas.HelpPage.ModelDescriptions;
-using NTMiner.Areas.HelpPage.Models;
 
-namespace NTMiner.Areas.HelpPage
-{
+namespace NTMiner.Areas.HelpPage {
     public static class HelpPageConfigurationExtensions
     {
         private const string ApiModelPrefix = "MS_HelpPageApiModel_";
