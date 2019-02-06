@@ -30,7 +30,7 @@
 
         public static int MinerServerPort {
             get {
-                return 3336;
+                return 3339;
             }
         }
     }
