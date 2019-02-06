@@ -93,9 +93,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NTMinerDaemon\INTMinerDaemonService.cs">
-      <Link>INTMinerDaemonService.cs</Link>
-    </Compile>
     <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />

@@ -4,15 +4,18 @@ using System.IO;
 using System.Web.Http;
 
 namespace NTMiner {
-    public class NTMinerDaemonController : ApiController, INTMinerDaemonService {
+    public class NTMinerDaemonController : ApiController {
+        [HttpGet]
         public string GetDaemonVersion() {
             return Global.Sha1;
         }
 
+        [HttpPost]
         public void RestartWindows() {
             Windows.Power.Restart();
         }
 
+        [HttpPost]
         public void ShutdownWindows() {
             Windows.Power.Shutdown();
         }
@@ -57,6 +60,7 @@ namespace NTMiner {
             return string.Empty;
         }
 
+        [HttpPost]
         public void OpenNTMiner(Guid workId) {
             try {
                 string location = NTMinerRegistry.GetLocation();
@@ -73,6 +77,7 @@ namespace NTMiner {
             }
         }
 
+        [HttpPost]
         public void RestartNTMiner(Guid workId) {
             try {
                 CloseNTMiner();
@@ -87,6 +92,7 @@ namespace NTMiner {
             }
         }
 
+        [HttpPost]
         public void CloseNTMiner() {
             try {
                 string location = NTMinerRegistry.GetLocation();
@@ -100,10 +106,12 @@ namespace NTMiner {
             }
         }
 
+        [HttpGet]
         public bool IsNTMinerDaemonOnline() {
             return true;
         }
 
+        [HttpGet]
         public bool IsNTMinerOnline() {
             try {
                 string location = NTMinerRegistry.GetLocation();
@@ -119,6 +127,7 @@ namespace NTMiner {
             }
         }
 
+        [HttpPost]
         public void UpgradeNTMiner(string ntminerFileName) {
             try {
                 if (string.IsNullOrEmpty(ntminerFileName)) {
@@ -135,6 +144,7 @@ namespace NTMiner {
             }
         }
 
+        [HttpPost]
         public void StartNoDevFee(
             int contextId,
             string minerName,
@@ -145,6 +155,7 @@ namespace NTMiner {
             NoDevFee.NoDevFeeUtil.StartAsync(contextId, minerName, coin, ourWallet, testWallet, kernelName);
         }
 
+        [HttpPost]
         public void StopNoDevFee() {
             NoDevFee.NoDevFeeUtil.Stop();
         }

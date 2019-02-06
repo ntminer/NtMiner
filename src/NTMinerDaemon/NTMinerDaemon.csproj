@@ -108,7 +108,6 @@
     </Compile>
     <Compile Include="DaemonServer.cs" />
     <Compile Include="Global.cs" />
-    <Compile Include="INTMinerDaemonService.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.partials.PositionUtil.cs" />
     <Compile Include="NoDevFee\WinDivert.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.cs" />

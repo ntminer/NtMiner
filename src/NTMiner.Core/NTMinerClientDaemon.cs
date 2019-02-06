@@ -1,237 +1,157 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
     public class NTMinerClientDaemon {
         public static readonly NTMinerClientDaemon Instance = new NTMinerClientDaemon();
+        private readonly string baseUrl = $"http://localhost:3337/api/NTMinerDaemon";
 
         private NTMinerClientDaemon() { }
 
-        private static INTMinerDaemonService CreateService(string clientHost, int clientPort) {
-            return new EmptyNTMinerDaemonService();
-        }
-
         public void GetDaemonVersionAsync(string clientHost, int clientPort, Action<string> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (var client = CreateService(clientHost, clientPort)) {
-                        callback?.Invoke(client.GetDaemonVersion());
-                    }
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.GetAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/GetDaemonVersion");
+                    string response = message.Result.Content.ReadAsAsync<string>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(string.Empty);
-                }
-            });
+            }
+            catch {
+                callback?.Invoke(string.Empty);
+            }
         }
 
         public void RestartWindowsAsync(string clientHost, int clientPort, Action<bool> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (var client = CreateService(clientHost, clientPort)) {
-                        client.RestartWindows();
-                    }
-                    callback?.Invoke(true);
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/RestartWindows", null);
+                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
-            });
+            }
+            catch (Exception e) {
+                callback?.Invoke(false);
+            }
         }
 
         public void ShutdownWindowsAsync(string clientHost, int clientPort, Action<bool> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (var client = CreateService(clientHost, clientPort)) {
-                        client.ShutdownWindows();
-                    }
-                    callback?.Invoke(true);
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/ShutdownWindows", null);
+                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
-            });
+            }
+            catch (Exception e) {
+                callback?.Invoke(false);
+            }
         }
 
         public void OpenNTMinerAsync(string clientHost, int clientPort, Guid workId, Action<bool> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (var client = CreateService(clientHost, clientPort)) {
-                        client.OpenNTMiner(workId);
-                    }
-                    callback?.Invoke(true);
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/OpenNTMiner", new { workId });
+                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
-            });
+            }
+            catch (Exception e) {
+                callback?.Invoke(false);
+            }
         }
 
         public void RestartNTMinerAsync(string clientHost, int clientPort, Guid workId, Action<bool> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (var client = CreateService(clientHost, clientPort)) {
-                        client.RestartNTMiner(workId);
-                    }
-                    callback?.Invoke(true);
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/RestartNTMiner", new { workId });
+                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
-            });
+            }
+            catch (Exception e) {
+                callback?.Invoke(false);
+            }
         }
 
         public void CloseNTMinerAsync(string clientHost, int clientPort, Action<bool> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (var client = CreateService(clientHost, clientPort)) {
-                        client.CloseNTMiner();
-                    }
-                    callback?.Invoke(true);
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/CloseNTMiner", null);
+                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
-            });
+            }
+            catch (Exception e) {
+                callback?.Invoke(false);
+            }
         }
 
         public void IsNTMinerDaemonOnlineAsync(string clientHost, int clientPort, Action<bool> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (var client = CreateService(clientHost, clientPort)) {
-                        callback?.Invoke(client.IsNTMinerDaemonOnline());
-                    }
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/IsNTMinerDaemonOnline", null);
+                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
-            });
+            }
+            catch (Exception e) {
+                callback?.Invoke(false);
+            }
         }
 
         public void IsNTMinerOnlineAsync(string clientHost, int clientPort, Action<bool> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (var client = CreateService(clientHost, clientPort)) {
-                        callback?.Invoke(client.IsNTMinerOnline());
-                    }
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/IsNTMinerOnline", null);
+                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
-            });
+            }
+            catch (Exception e) {
+                callback?.Invoke(false);
+            }
         }
 
         public void StartAsync(Action<bool> callback) {
-            Task.Factory.StartNew(() => {
-                try {
+            try {
+                using (HttpClient client = new HttpClient()) {
                     if (!NTMinerRoot.Current.IsMining) {
                         callback?.Invoke(false);
                         return;
                     }
                     var context = NTMinerRoot.Current.CurrentMineContext;
-                    try {
-                        using (var client = CreateService(Global.Localhost, Global.ClientPort)) {
-                            client.StartNoDevFee(
-                                context.Id.GetHashCode(), 
-                                context.MinerName,
-                                context.MainCoin.Code,
-                                context.MainCoinWallet,
-                                context.MainCoin.TestWallet,
-                                context.Kernel.FullName);
-                        }
-                        callback?.Invoke(true);
-                    }
-                    catch (Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(false);
-                    }
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3337/api/NTMinerDaemon/StartNoDevFee", new {
+                        contextId = context.Id.GetHashCode(),
+                        minerName = context.MinerName,
+                        coin = context.MainCoin.Code,
+                        ourWallet = context.MainCoinWallet,
+                        testWallet = context.MainCoin.TestWallet,
+                        kernelName = context.Kernel.FullName
+                    });
+                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
-            });
+            }
+            catch {
+                callback?.Invoke(false);
+            }
         }
 
         public void StopAsync(Action<bool> callback) {
-            Task.Factory.StartNew(() => {
-                try {
+            try {
+                using (HttpClient client = new HttpClient()) {
                     if (NTMinerRoot.Current.IsMining) {
                         callback?.Invoke(false);
                         return;
                     }
-                    using (var client = CreateService(Global.Localhost, Global.ClientPort)) {
-                        client.StopNoDevFee();
-                    }
-                    callback?.Invoke(true);
+                    Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:3337/api/NTMinerDaemon/StopNoDevFee", null);
+                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                    callback?.Invoke(response);
                 }
-                catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
-                }
-            });
-        }
-
-        public class EmptyNTMinerDaemonService : INTMinerDaemonService {
-            public string GetDaemonVersion() {
-                return string.Empty;
             }
-
-            public void ShutdownWindows() {
-                // noting need todo
-            }
-
-            public void RestartWindows() {
-                // noting need todo
-            }
-
-            public void CloseNTMiner() {
-                // noting need todo
-            }
-
-            public void OpenNTMiner(Guid workId) {
-                // noting need todo
-            }
-
-            public void RestartNTMiner(Guid workId) {
-                // noting need todo
-            }
-
-            public bool IsNTMinerDaemonOnline() {
-                return false;
-            }
-
-            public bool IsNTMinerOnline() {
-                return false;
-            }
-
-            public void UpgradeNTMiner(string ntminerUrl) {
-                // noting need todo
-            }
-
-            public void StartNoDevFee(
-                int contextId,
-                string workerName,
-                string coin,
-                string ourWallet,
-                string testWallet,
-                string kernelName) {
-                // noting need todo
-            }
-
-            public void StopNoDevFee() {
-                // noting need todo
-            }
-
-            public void Dispose() {
-                // noting need todo
+            catch {
+                callback?.Invoke(false);
             }
         }
     }
