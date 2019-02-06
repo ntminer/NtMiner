@@ -1,31 +1,28 @@
-﻿using NTMiner;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class Server {
         public partial class ProfileServiceFace {
             public static readonly ProfileServiceFace Instance = new ProfileServiceFace();
+            private readonly string baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api/Profile";
 
             private ProfileServiceFace() {
             }
 
-            private IProfileService CreateService() {
-                return new EmptyProfileService();
-            }
-
             public void GetMineWorkAsync(Guid workId, Action<MineWorkData> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var service = CreateService()) {
-                            callback?.Invoke(service.GetMineWork(workId));
-                        }
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetMineWork)}?workId={workId}");
+                        MineWorkData response = message.Result.Content.ReadAsAsync<MineWorkData>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(null);
-                    }
-                });
+                }
+                catch {
+                    callback?.Invoke(null);
+                }
             }
 
             /// <summary>
@@ -34,11 +31,13 @@ namespace NTMiner {
             /// <returns></returns>
             public List<MineWorkData> GetMineWorks() {
                 try {
-                    using (var service = CreateService()) {
-                        return service.GetMineWorks();
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetMineWorks)}");
+                        List<MineWorkData> response = message.Result.Content.ReadAsAsync<List<MineWorkData>>().Result;
+                        return response;
                     }
                 }
-                catch (Exception e) {
+                catch {
                     return new List<MineWorkData>();
                 }
             }
@@ -50,11 +49,13 @@ namespace NTMiner {
             /// <returns></returns>
             public MinerProfileData GetMinerProfile(Guid workId) {
                 try {
-                    using (var service = CreateService()) {
-                        return service.GetMinerProfile(workId);
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetMinerProfile)}?workId={workId}");
+                        MinerProfileData response = message.Result.Content.ReadAsAsync<MinerProfileData>().Result;
+                        return response;
                     }
                 }
-                catch (Exception e) {
+                catch {
                     return null;
                 }
             }
@@ -67,11 +68,13 @@ namespace NTMiner {
             /// <returns></returns>
             public CoinProfileData GetCoinProfile(Guid workId, Guid coinId) {
                 try {
-                    using (var service = CreateService()) {
-                        return service.GetCoinProfile(workId, coinId);
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetMinerProfile)}?workId={workId}&coinId={coinId}");
+                        CoinProfileData response = message.Result.Content.ReadAsAsync<CoinProfileData>().Result;
+                        return response;
                     }
                 }
-                catch (Exception e) {
+                catch {
                     return null;
                 }
             }
@@ -84,11 +87,13 @@ namespace NTMiner {
             /// <returns></returns>
             public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
                 try {
-                    using (var service = CreateService()) {
-                        return service.GetPoolProfile(workId, poolId);
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetPoolProfile)}?workId={workId}&poolId={poolId}");
+                        PoolProfileData response = message.Result.Content.ReadAsAsync<PoolProfileData>().Result;
+                        return response;
                     }
                 }
-                catch (Exception e) {
+                catch {
                     return null;
                 }
             }
@@ -101,43 +106,15 @@ namespace NTMiner {
             /// <returns></returns>
             public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
                 try {
-                    using (var service = CreateService()) {
-                        return service.GetCoinKernelProfile(workId, coinKernelId);
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IProfileService.GetCoinKernelProfile)}?workId={workId}&coinKernelId={coinKernelId}");
+                        CoinKernelProfileData response = message.Result.Content.ReadAsAsync<CoinKernelProfileData>().Result;
+                        return response;
                     }
                 }
-                catch (Exception e) {
+                catch {
                     return null;
                 }
-            }
-        }
-
-        public class EmptyProfileService : IProfileService {
-            public void Dispose() {
-                
-            }
-
-            public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
-                return null;
-            }
-
-            public CoinProfileData GetCoinProfile(Guid workId, Guid coinId) {
-                return null;
-            }
-
-            public MinerProfileData GetMinerProfile(Guid workId) {
-                return null;
-            }
-
-            public MineWorkData GetMineWork(Guid workId) {
-                return null;
-            }
-
-            public List<MineWorkData> GetMineWorks() {
-                return null;
-            }
-
-            public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
-                return null;
             }
         }
     }

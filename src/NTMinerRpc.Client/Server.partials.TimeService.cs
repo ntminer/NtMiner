@@ -1,40 +1,27 @@
-﻿using NTMiner;
-using System;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class Server {
         public class TimeServiceFace {
             public static readonly TimeServiceFace Instance = new TimeServiceFace();
+            private readonly string baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api/Time";
 
             private TimeServiceFace() {
             }
 
-            private ITimeService CreateService() {
-                return new EmptyTimeService();
-            }
-
             public void GetTimeAsync(Action<DateTime> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var service = CreateService()) {
-                            callback?.Invoke(service.GetTime());
-                        }
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(ITimeService.GetTime)}");
+                        DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(DateTime.Now);
-                    }
-                });
-            }
-        }
-
-        public class EmptyTimeService : ITimeService {
-            public void Dispose() {
-                
-            }
-
-            public DateTime GetTime() {
-                return DateTime.Now;
+                }
+                catch {
+                    callback?.Invoke(DateTime.Now);
+                }
             }
         }
     }

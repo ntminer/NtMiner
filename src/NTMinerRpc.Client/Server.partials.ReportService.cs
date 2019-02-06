@@ -1,70 +1,42 @@
-﻿using NTMiner;
-using System;
-using System.Threading.Tasks;
+﻿using System;
+using System.Net.Http;
 
 namespace NTMiner {
     public static partial class Server {
         public partial class ReportServiceFace {
             public static readonly ReportServiceFace Instance = new ReportServiceFace();
+            private readonly string baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api/Report";
 
             private ReportServiceFace() { }
 
-            private IReportService CreateService() {
-                return new EmptyReportService();
+            public void LoginAsync(LoginData data) {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportService.Login)}", data);
+                    }
+                }
+                catch {
+                }
             }
 
-            public void LoginAsync(LoginData message) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var service = CreateService()) {
-                            service.Login(message);
-                        }
+            public void ReportSpeedAsync(SpeedData data) {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportService.ReportSpeed)}", data);
                     }
-                    catch (Exception e) {
-                    }
-                });
-            }
-
-            public void ReportSpeedAsync(SpeedData message) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var service = CreateService()) {
-                            service.ReportSpeed(message);
-                        }
-                    }
-                    catch (Exception e) {
-                    }
-                });
+                }
+                catch {
+                }
             }
 
             public void ReportStateAsync(Guid clientId, bool isMining) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var service = CreateService()) {
-                            service.ReportState(clientId, isMining);
-                        }
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportService.ReportState)}", new { clientId, isMining});
                     }
-                    catch (Exception e) {
-                    }
-                });
-            }
-        }
-
-        public class EmptyReportService : IReportService {
-            public void Dispose() {
-                
-            }
-
-            public void Login(LoginData message) {
-                
-            }
-
-            public void ReportSpeed(SpeedData message) {
-                
-            }
-
-            public void ReportState(Guid clientId, bool isMining) {
-                
+                }
+                catch {
+                }
             }
         }
     }
