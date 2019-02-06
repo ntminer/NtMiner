@@ -56,7 +56,7 @@
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerRpc\NTMinerRpc.Server.csproj">
+    <ProjectReference Include="..\NTMinerRpc.Server\NTMinerRpc.Server.csproj">
       <Project>{c3c601d5-b592-4348-870f-19b97747e9d0}</Project>
       <Name>NTMinerRpc.Server</Name>
     </ProjectReference>

@@ -121,7 +121,7 @@
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
       <Name>NTMinerlib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerRpc\NTMinerRpc.Server.csproj">
+    <ProjectReference Include="..\NTMinerRpc.Server\NTMinerRpc.Server.csproj">
       <Project>{c3c601d5-b592-4348-870f-19b97747e9d0}</Project>
       <Name>NTMinerRpc.Server</Name>
     </ProjectReference>
