@@ -53,8 +53,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -65,9 +63,6 @@
     </Compile>
     <Compile Include="..\NTMinerDataObjects\HashUtil.cs">
       <Link>HashUtil.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\ChannelFactory.cs">
-      <Link>ChannelFactory.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\DevMode.cs">
       <Link>DevMode.cs</Link>

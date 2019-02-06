@@ -42,8 +42,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.XML" />
@@ -117,7 +115,6 @@
     <Compile Include="User\Impl\UserSet.cs" />
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
-    <Compile Include="ChannelFactory.cs" />
     <Compile Include="Windows\Registry.cs" />
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />
