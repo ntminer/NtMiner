@@ -5,18 +5,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class AppSettingController : ApiController {
-        public GetAppSettingsResponse Get(Guid messageId) {
-            try {
-                var data = HostRoot.Current.AppSettingSet.GetAppSettings();
-                return GetAppSettingsResponse.Ok(messageId, data.Select(a => AppSettingData.Create(a)).ToList());
-            }
-            catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetAppSettingsResponse>(messageId, e.Message);
-            }
-        }
-
-        public GetAppSettingResponse Get(Guid messageId, string key) {
+        public GetAppSettingResponse GetAppSetting(Guid messageId, string key) {
             try {
                 IAppSetting data = HostRoot.Current.AppSettingSet.GetAppSetting(key);
                 return GetAppSettingResponse.Ok(messageId, AppSettingData.Create(data));
@@ -27,7 +16,19 @@ namespace NTMiner.Controllers {
             }
         }
 
-        public ResponseBase Post([FromBody]SetAppSettingRequest request) {
+        public GetAppSettingsResponse GetAppSettings(Guid messageId) {
+            try {
+                var data = HostRoot.Current.AppSettingSet.GetAppSettings();
+                return GetAppSettingsResponse.Ok(messageId, data.Select(a => AppSettingData.Create(a)).ToList());
+            }
+            catch (Exception e) {
+                Global.Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError<GetAppSettingsResponse>(messageId, e.Message);
+            }
+        }
+
+        [HttpPost]
+        public ResponseBase SetAppSetting([FromBody]SetAppSettingRequest request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
