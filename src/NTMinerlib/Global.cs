@@ -15,11 +15,6 @@ namespace NTMiner {
         public static bool IsPublishHandlerIdAddedEvent = false;
 
         public const string Localhost = "localhost";
-        public static int ClientPort {
-            get {
-                return 3336;
-            }
-        }
 
         private static ILang _lang = null;
         public static ILang Lang {
