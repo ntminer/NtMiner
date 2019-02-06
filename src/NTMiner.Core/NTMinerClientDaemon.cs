@@ -87,19 +87,6 @@ namespace NTMiner {
             }
         }
 
-        public void IsNTMinerDaemonOnlineAsync(string clientHost, int clientPort, Action<bool> callback) {
-            try {
-                using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/IsNTMinerDaemonOnline", null);
-                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
-                    callback?.Invoke(response);
-                }
-            }
-            catch (Exception e) {
-                callback?.Invoke(false);
-            }
-        }
-
         public void IsNTMinerOnlineAsync(string clientHost, int clientPort, Action<bool> callback) {
             try {
                 using (HttpClient client = new HttpClient()) {

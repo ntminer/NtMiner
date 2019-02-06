@@ -107,11 +107,6 @@ namespace NTMiner {
         }
 
         [HttpGet]
-        public bool IsNTMinerDaemonOnline() {
-            return true;
-        }
-
-        [HttpGet]
         public bool IsNTMinerOnline() {
             try {
                 string location = NTMinerRegistry.GetLocation();
