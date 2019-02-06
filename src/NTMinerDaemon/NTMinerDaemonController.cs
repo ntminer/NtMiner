@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Web.Http;
 
 namespace NTMiner {
-    public class NTMinerDaemonService : INTMinerDaemonService {
+    public class NTMinerDaemonController : ApiController, INTMinerDaemonService {
         public string GetDaemonVersion() {
             return Global.Sha1;
         }
@@ -146,10 +147,6 @@ namespace NTMiner {
 
         public void StopNoDevFee() {
             NoDevFee.NoDevFeeUtil.Stop();
-        }
-
-        public void Dispose() {
-            // nothing need todo
         }
     }
 }
