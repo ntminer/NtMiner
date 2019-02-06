@@ -175,7 +175,6 @@
     <Compile Include="Daemon\DaemonUtil.cs" />
     <Compile Include="DoubleExtension.cs" />
     <Compile Include="LongExtension.cs" />
-    <Compile Include="MinerClientService.cs" />
     <Compile Include="NTMinerClientDaemon.cs" />
     <Compile Include="NTMinerRoot.partials.MineContext.cs" />
     <Compile Include="NTMinerRoot.partials.MinerProcess.cs" />
