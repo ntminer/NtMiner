@@ -59,13 +59,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ETagFileResult.cs" />
     <Compile Include="ISortable.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="Server.partials.AppSettingService.cs" />
-    <Compile Include="Server.partials.ControlCenterService.cs" />
-    <Compile Include="Server.partials.FileUrlService.cs" />
-    <Compile Include="Server.partials.ProfileService.cs" />
-    <Compile Include="Server.partials.ReportService.cs" />
-    <Compile Include="Server.partials.TimeService.cs" />
     <Compile Include="SignatureRequestExtension.cs" />
     <Compile Include="User\IUserSet.cs" />
     <Compile Include="Language\ILang.cs" />

@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerRpc", "src\NTMinerRp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerWebApi", "src\NTMinerWebApi\NTMinerWebApi.csproj", "{E7B88637-7704-4701-98E0-7875BB6E8C98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerRpc.Client", "src\NTMinerRpc.Client\NTMinerRpc.Client.csproj", "{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -218,6 +220,18 @@ Global
 		{E7B88637-7704-4701-98E0-7875BB6E8C98}.Release|x64.Build.0 = Release|Any CPU
 		{E7B88637-7704-4701-98E0-7875BB6E8C98}.Release|x86.ActiveCfg = Release|Any CPU
 		{E7B88637-7704-4701-98E0-7875BB6E8C98}.Release|x86.Build.0 = Release|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Debug|x64.Build.0 = Debug|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Debug|x86.Build.0 = Debug|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Release|x64.ActiveCfg = Release|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Release|x64.Build.0 = Release|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
