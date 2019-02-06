@@ -52,7 +52,7 @@ namespace NTMiner {
                         };
                         request.SignIt(PasswordSha1);
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IAppSettingService.SetAppSetting)}", request);
-                        GetAppSettingsResponse response = message.Result.Content.ReadAsAsync<GetAppSettingsResponse>().Result;
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
                 }

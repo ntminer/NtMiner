@@ -1,12 +1,14 @@
 ﻿using NTMiner;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class Server {
         public class ControlCenterServiceFace {
             public static readonly ControlCenterServiceFace Instance = new ControlCenterServiceFace();
+            private readonly string baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api/ControlCenter";
 
             private ControlCenterServiceFace() {
             }
@@ -18,47 +20,45 @@ namespace NTMiner {
             #region LoginAsync
             public void LoginAsync(string loginName, string password, Action<ResponseBase> callback) {
                 Guid messageId = Guid.NewGuid();
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var service = CreateService()) {
-                            LoginControlCenterRequest request = new LoginControlCenterRequest {
-                                MessageId = messageId,
-                                LoginName = loginName,
-                                Timestamp = DateTime.Now
-                            };
-                            request.SignIt(password);
-                            ResponseBase response = service.LoginControlCenter(request);
-                            callback?.Invoke(response);
-                        }
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        LoginControlCenterRequest request = new LoginControlCenterRequest {
+                            MessageId = messageId,
+                            LoginName = loginName,
+                            Timestamp = DateTime.Now
+                        };
+                        request.SignIt(password);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.LoginControlCenter)}", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError(messageId, e.Message));
+                }
             }
             #endregion
 
             #region LoadClientsAsync
             public void LoadClientsAsync(List<Guid> clientIds, Action<LoadClientsResponse> callback) {
                 Guid messageId = Guid.NewGuid();
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (var service = CreateService()) {
-                            LoadClientsRequest request = new LoadClientsRequest {
-                                MessageId = messageId,
-                                LoginName = LoginName,
-                                ClientIds = clientIds,
-                                Timestamp = DateTime.Now
-                            };
-                            request.SignIt(PasswordSha1);
-                            LoadClientsResponse response = service.LoadClients(request);
-                            callback?.Invoke(response);
-                        }
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        LoadClientsRequest request = new LoadClientsRequest {
+                            MessageId = messageId,
+                            LoginName = LoginName,
+                            ClientIds = clientIds,
+                            Timestamp = DateTime.Now
+                        };
+                        request.SignIt(PasswordSha1);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IControlCenterService.LoadClients)}", request);
+                        LoadClientsResponse response = message.Result.Content.ReadAsAsync<LoadClientsResponse>().Result;
+                        callback?.Invoke(response);
                     }
-                    catch (Exception e) {
-                        callback?.Invoke(ResponseBase.ClientError<LoadClientsResponse>(messageId, e.Message));
-                    }
-                });
+                }
+                catch (Exception e) {
+                    callback?.Invoke(ResponseBase.ClientError<LoadClientsResponse>(messageId, e.Message));
+                }
             }
             #endregion
 
