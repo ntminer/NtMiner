@@ -202,6 +202,7 @@
     <Resource Include="Styles\Images\cc64.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
