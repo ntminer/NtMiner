@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class ControlCenterController : ApiController {
+    public class ControlCenterController : ApiController, IControlCenterService {
         #region LoginControlCenter
         [HttpPost]
         public ResponseBase LoginControlCenter([FromBody]LoginControlCenterRequest request) {

@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts;
+﻿using NTMiner;
 using System;
 using System.Threading.Tasks;
 

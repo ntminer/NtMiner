@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.ServiceContracts {
+namespace NTMiner {
     public interface IAppSettingService : IDisposable {
         GetAppSettingResponse GetAppSetting(Guid messageId, string key);
 

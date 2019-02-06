@@ -3,7 +3,7 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class ReportController : ApiController {
+    public class ReportController : ApiController, IReportService {
         [HttpPost]
         public void Login([FromBody]LoginData message) {
             try {

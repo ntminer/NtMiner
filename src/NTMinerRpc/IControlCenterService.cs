@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.ServiceContracts {
+namespace NTMiner {
     public interface IControlCenterService : IDisposable {
         ResponseBase LoginControlCenter(LoginControlCenterRequest request);
 

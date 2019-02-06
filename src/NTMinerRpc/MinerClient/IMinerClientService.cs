@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.ServiceContracts.MinerClient {
+namespace NTMiner.MinerClient {
     public interface IMinerClientService : IDisposable {
         bool ShowMainWindow();
 

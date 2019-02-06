@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class AppSettingController : ApiController {
+    public class AppSettingController : ApiController, IAppSettingService {
         public GetAppSettingResponse GetAppSetting(Guid messageId, string key) {
             try {
                 IAppSetting data = HostRoot.Current.AppSettingSet.GetAppSetting(key);

@@ -1,5 +1,4 @@
-﻿using NTMiner.ServiceContracts.MinerClient;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -9,7 +8,7 @@ namespace NTMiner {
         private MinerClientService() {
         }
 
-        private IMinerClientService CreateService(string host) {
+        private MinerClient.IMinerClientService CreateService(string host) {
             return new EmptyMinerClientService();
         }
 
@@ -29,7 +28,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     using (var service = CreateService(host)) {
-                        StartMineRequest request = new StartMineRequest() {
+                        MinerClient.StartMineRequest request = new MinerClient.StartMineRequest() {
                             MessageId = Guid.NewGuid(),
                             LoginName = "admin",
                             WorkId = workId,
@@ -78,7 +77,7 @@ namespace NTMiner {
         }
     }
 
-    public class EmptyMinerClientService : IMinerClientService {
+    public class EmptyMinerClientService : MinerClient.IMinerClientService {
         public void Dispose() {
             
         }
@@ -91,7 +90,7 @@ namespace NTMiner {
             return true;
         }
 
-        public ResponseBase StartMine(StartMineRequest request) {
+        public ResponseBase StartMine(MinerClient.StartMineRequest request) {
             return ResponseBase.Ok(request.MessageId);
         }
 

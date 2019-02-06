@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner.ServiceContracts {
+namespace NTMiner {
     public interface IFileUrlService : IDisposable {
         string GetMinerJsonPutUrl(string fileName);
 

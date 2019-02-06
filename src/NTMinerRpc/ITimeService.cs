@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.ServiceContracts {
+namespace NTMiner {
     public interface ITimeService : IDisposable {
         DateTime GetTime();
     }

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class FileUrlController : ApiController
-    {
+    public class FileUrlController : ApiController, IFileUrlService {
         [HttpGet]
         public string GetMinerJsonPutUrl(string fileName) {
             try {

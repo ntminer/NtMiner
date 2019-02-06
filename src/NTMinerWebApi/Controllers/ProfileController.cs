@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class ProfileController : ApiController
-    {
+    public class ProfileController : ApiController, IProfileService {
         [HttpGet]
         public MineWorkData GetMineWork(Guid workId) {
             try {
