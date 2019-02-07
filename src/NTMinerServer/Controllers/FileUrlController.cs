@@ -6,7 +6,7 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class FileUrlController : ApiController {
         [HttpPost]
-        public string MinerJsonPutUrl(string fileName) {
+        public string MinerJsonPutUrl([FromBody]string fileName) {
             try {
                 var req = new GeneratePresignedUriRequest("minerjson", fileName, SignHttpMethod.Put);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
@@ -19,7 +19,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public string NTMinerUrl(string fileName) {
+        public string NTMinerUrl([FromBody]string fileName) {
             if (string.IsNullOrEmpty(fileName)) {
                 return string.Empty;
             }
@@ -103,7 +103,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public string PackageUrl(string package) {
+        public string PackageUrl([FromBody]string package) {
             try {
                 if (string.IsNullOrEmpty(package)) {
                     return string.Empty;

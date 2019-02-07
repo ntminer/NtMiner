@@ -121,7 +121,7 @@ namespace NTMiner {
             public void GetPackageUrlAsync(string package, Action<string> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsync($"{baseUrl}/PackageUrl", null);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/PackageUrl", new { package });
                         string response = message.Result.Content.ReadAsStringAsync().Result;
                         callback?.Invoke(response);
                     }

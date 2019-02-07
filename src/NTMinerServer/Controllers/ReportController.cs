@@ -109,7 +109,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public void ReportState(Guid clientId, bool isMining) {
+        public void ReportState([FromBody]Guid clientId, [FromBody]bool isMining) {
             try {
                 string minerIp = System.Web.HttpContext.Current.GetWebClientIp();
                 ClientData clientData = HostRoot.Current.ClientSet.LoadClient(clientId);

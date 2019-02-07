@@ -5,7 +5,8 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class AppSettingController : ApiController {
-        public GetAppSettingResponse AppSetting(Guid messageId, string key) {
+        [HttpPost]
+        public GetAppSettingResponse AppSetting([FromBody]Guid messageId, [FromBody]string key) {
             try {
                 IAppSetting data = HostRoot.Current.AppSettingSet.GetAppSetting(key);
                 return GetAppSettingResponse.Ok(messageId, AppSettingData.Create(data));
@@ -16,7 +17,8 @@ namespace NTMiner.Controllers {
             }
         }
 
-        public GetAppSettingsResponse AppSettings(Guid messageId) {
+        [HttpPost]
+        public GetAppSettingsResponse AppSettings([FromBody]Guid messageId) {
             try {
                 var data = HostRoot.Current.AppSettingSet.GetAppSettings();
                 return GetAppSettingsResponse.Ok(messageId, data.Select(a => AppSettingData.Create(a)).ToList());
