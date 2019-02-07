@@ -15,7 +15,7 @@ namespace NTMiner {
             var config = new HttpSelfHostConfiguration("http://localhost:3339");
             config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             config.Routes.MapHttpRoute(
-                "API Default", "api/{controller}/{id}",
+                "API Default", "api/{controller}/{action}",
                 new { id = RouteParameter.Optional });
 
             using (var server = new HttpSelfHostServer(config)) {
