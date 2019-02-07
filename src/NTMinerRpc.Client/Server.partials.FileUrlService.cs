@@ -16,7 +16,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/NTMinerUrl", new { fileName });
-                        string response = message.Result.Content.ReadAsStringAsync().Result;
+                        string response = message.Result.Content.ReadAsAsync<string>().Result;
                         callback?.Invoke(response);
                     }
                 }
@@ -92,7 +92,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsync($"{baseUrl}/LiteDBExplorerUrl", null);
-                        string response = message.Result.Content.ReadAsStringAsync().Result;
+                        string response = message.Result.Content.ReadAsAsync<string>().Result;
                         callback?.Invoke(response);
                     }
                 }
@@ -107,7 +107,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsync($"{baseUrl}/NTMinerUpdaterUrl", null);
-                        string response = message.Result.Content.ReadAsStringAsync().Result;
+                        string response = message.Result.Content.ReadAsAsync<string>().Result;
                         callback?.Invoke(response);
                     }
                 }
@@ -122,7 +122,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/PackageUrl", new { package });
-                        string response = message.Result.Content.ReadAsStringAsync().Result;
+                        string response = message.Result.Content.ReadAsAsync<string>().Result;
                         callback?.Invoke(response);
                     }
                 }
