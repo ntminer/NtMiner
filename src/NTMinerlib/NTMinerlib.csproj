@@ -57,7 +57,6 @@
     <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
     <Compile Include="Bus\EventBase.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ETagFileResult.cs" />
     <Compile Include="ISortable.cs" />
     <Compile Include="SignatureRequestExtension.cs" />
     <Compile Include="User\IUserSet.cs" />
