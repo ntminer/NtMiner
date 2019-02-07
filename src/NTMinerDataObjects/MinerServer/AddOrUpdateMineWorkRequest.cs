@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class AddOrUpdateMineWorkRequest : RequestBase, ISignatureRequest {
         public string LoginName { get; set; }
         public MineWorkData Data { get; set; }

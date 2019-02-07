@@ -1,7 +1,7 @@
 ﻿using LiteDB;
 using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class PoolProfileData : IPoolProfile, IDbEntity<Guid> {
         public PoolProfileData() { }
 

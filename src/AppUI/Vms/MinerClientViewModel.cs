@@ -1,4 +1,5 @@
-﻿using NTMiner.Views;
+﻿using NTMiner.MinerServer;
+using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Windows;

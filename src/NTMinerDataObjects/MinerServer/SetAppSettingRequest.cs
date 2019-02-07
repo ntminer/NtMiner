@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class SetAppSettingRequest : RequestBase, ISignatureRequest {
         public string LoginName { get; set; }
         public AppSettingData Data { get; set; }

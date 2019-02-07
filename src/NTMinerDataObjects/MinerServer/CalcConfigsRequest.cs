@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class CalcConfigsRequest {
         public Guid MessageId { get; set; }
     }

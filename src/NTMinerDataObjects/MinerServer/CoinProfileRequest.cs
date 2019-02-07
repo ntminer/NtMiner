@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class CoinProfileRequest {
         public Guid WorkId { get; set; }
         public Guid CoinId { get; set; }

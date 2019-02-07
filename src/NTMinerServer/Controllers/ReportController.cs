@@ -1,4 +1,5 @@
 ﻿using NTMiner.Data;
+using NTMiner.MinerServer;
 using System;
 using System.Web.Http;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class ReportStateRequest {
         public Guid ClientId { get; set; }
         public bool IsMining { get; set; }

@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using NTMiner.Bus;
+using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
 using System.Linq;

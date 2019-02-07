@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class LoadClientResponse : ResponseBase {
         public static LoadClientResponse Ok(Guid messageId, ClientData data) {
             return new LoadClientResponse() {

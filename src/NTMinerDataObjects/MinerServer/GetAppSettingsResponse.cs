@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class GetAppSettingsResponse : ResponseBase {
         public GetAppSettingsResponse() {
             this.Data = new List<AppSettingData>();

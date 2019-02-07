@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, ITimestampEntity<Guid> {
         public static MinerProfileData CreateDefaultData() {
             return new MinerProfileData {

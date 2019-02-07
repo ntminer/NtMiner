@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class GetAppSettingResponse : ResponseBase {
         public GetAppSettingResponse() {
         }

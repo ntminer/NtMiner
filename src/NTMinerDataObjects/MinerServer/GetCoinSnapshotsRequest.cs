@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class GetCoinSnapshotsRequest : RequestBase, ISignatureRequest {
         public GetCoinSnapshotsRequest() {
             this.CoinCodes = new List<string>();

@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.Impl;
 using NTMiner.Language.Impl;
+using NTMiner.MinerServer;
 using NTMiner.Notifications;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;

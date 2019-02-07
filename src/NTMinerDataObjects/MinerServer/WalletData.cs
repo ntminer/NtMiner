@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class WalletData : IWallet, IDbEntity<Guid> {
         public WalletData() {
             this.CreatedOn = DateTime.Now;

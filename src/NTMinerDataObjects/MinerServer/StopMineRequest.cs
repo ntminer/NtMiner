@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class StopMineRequest : RequestBase, ISignatureRequest {
         public string LoginName { get; set; }
         public Guid ClientId { get; set; }

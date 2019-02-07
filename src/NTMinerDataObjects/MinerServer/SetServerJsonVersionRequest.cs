@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class SetServerJsonVersionRequest : RequestBase, ISignatureRequest {
         public string LoginName { get; set; }
         public string Sign { get; set; }

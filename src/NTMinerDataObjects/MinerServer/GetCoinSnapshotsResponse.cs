@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class GetCoinSnapshotsResponse : ResponseBase {
         public GetCoinSnapshotsResponse() {
             this.Data = new List<CoinSnapshotData>();

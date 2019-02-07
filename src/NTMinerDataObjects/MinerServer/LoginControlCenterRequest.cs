@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class LoginControlCenterRequest : RequestBase, ISignatureRequest {
         public LoginControlCenterRequest() { }
 

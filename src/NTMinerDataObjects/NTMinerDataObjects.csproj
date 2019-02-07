@@ -77,7 +77,7 @@
     <Compile Include="IMineWork.cs" />
     <Compile Include="INTMinerFile.cs" />
     <Compile Include="IPoolProfile.cs" />
-    <Compile Include="MinerServer\ISignatureRequest.cs" />
+    <Compile Include="ISignatureRequest.cs" />
     <Compile Include="ITimestampEntity·1.cs" />
     <Compile Include="IUser.cs" />
     <Compile Include="IWallet.cs" />
@@ -125,7 +125,7 @@
     <Compile Include="MinerServer\StopMineRequest.cs" />
     <Compile Include="Timestamp.cs" />
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
-    <Compile Include="MinerServer\UserData.cs" />
+    <Compile Include="UserData.cs" />
     <Compile Include="MinerServer\WalletData.cs" />
     <Compile Include="MinerServer\WalletsRequest.cs" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class MinerGroupsRequest {
         public Guid MessageId { get; set; }
     }

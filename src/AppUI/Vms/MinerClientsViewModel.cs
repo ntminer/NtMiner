@@ -1,4 +1,5 @@
-﻿using NTMiner.Views.Ucs;
+﻿using NTMiner.MinerServer;
+using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class QueryClientsResponse : ResponseBase {
         public QueryClientsResponse() {
             this.Data = new List<ClientData>();

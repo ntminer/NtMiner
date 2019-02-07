@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class GetCalcConfigsResponse : ResponseBase {
         public GetCalcConfigsResponse() {
             this.Data = new List<CalcConfigData>();

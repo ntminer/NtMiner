@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class GetMinerGroupsResponse : ResponseBase {
         public GetMinerGroupsResponse() {
             this.Data = new List<MinerGroupData>();

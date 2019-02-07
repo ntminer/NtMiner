@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class RemoveWalletRequest : RequestBase, ISignatureRequest {
         public string LoginName { get; set; }
         public Guid WalletId { get; set; }

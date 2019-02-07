@@ -2,6 +2,7 @@
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
+using NTMiner.MinerServer;
 using System;
 using System.Windows.Media;
 

@@ -1,7 +1,7 @@
 ﻿using LiteDB;
 using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class CoinProfileData : ICoinProfile, IDbEntity<Guid>, ITimestampEntity<Guid> {
         public CoinProfileData() { }
 

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class AddOrUpdateWalletRequest : RequestBase, ISignatureRequest {
         public string LoginName { get; set; }
         public WalletData Data { get; set; }

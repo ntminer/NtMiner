@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class SetMinerProfilePropertyRequest : RequestBase, ISignatureRequest {
         public string LoginName { get; set; }
         public Guid WorkId { get; set; }

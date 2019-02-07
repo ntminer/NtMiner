@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class NTMinerFileData : INTMinerFile, IDbEntity<Guid> {
         public NTMinerFileData() {
 

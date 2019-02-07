@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.MinerServer;
+using System;
 
 namespace NTMiner.Vms {
     public class CoinSnapshotDataViewModel : ViewModelBase {

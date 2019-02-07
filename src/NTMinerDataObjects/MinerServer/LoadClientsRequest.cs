@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class LoadClientsRequest : RequestBase, ISignatureRequest {
         public LoadClientsRequest() {
             ClientIds = new List<Guid>();

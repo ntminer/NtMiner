@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public class ClientData : IClientData, IDbEntity<Guid>, ITimestampEntity<Guid> {
         public ClientData() {
         }
