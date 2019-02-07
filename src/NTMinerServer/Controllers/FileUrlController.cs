@@ -6,9 +6,12 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class FileUrlController : ApiController {
         [HttpPost]
-        public string MinerJsonPutUrl([FromBody]string fileName) {
+        public string MinerJsonPutUrl([FromBody]MinerJsonPutUrlRequest request) {
+            if (request == null || string.IsNullOrEmpty(request.FileName)) {
+                return string.Empty;
+            }
             try {
-                var req = new GeneratePresignedUriRequest("minerjson", fileName, SignHttpMethod.Put);
+                var req = new GeneratePresignedUriRequest("minerjson", request.FileName, SignHttpMethod.Put);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
@@ -19,11 +22,11 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public string NTMinerUrl([FromBody]string fileName) {
-            if (string.IsNullOrEmpty(fileName)) {
+        public string NTMinerUrl([FromBody]NTMinerUrlRequest request) {
+            if (request == null || string.IsNullOrEmpty(request.FileName)) {
                 return string.Empty;
             }
-            var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get) {
+            var req = new GeneratePresignedUriRequest("ntminer", request.FileName, SignHttpMethod.Get) {
                 Expiration = DateTime.Now.AddMinutes(10)
             };
             var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
@@ -103,12 +106,12 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public string PackageUrl([FromBody]string package) {
+        public string PackageUrl([FromBody]PackageUrlRequest request) {
             try {
-                if (string.IsNullOrEmpty(package)) {
+                if (request == null || string.IsNullOrEmpty(request.Package)) {
                     return string.Empty;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", $"packages/{package}", SignHttpMethod.Get) {
+                var req = new GeneratePresignedUriRequest("ntminer", $"packages/{request.Package}", SignHttpMethod.Get) {
                     Expiration = DateTime.Now.AddMinutes(10)
                 };
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);

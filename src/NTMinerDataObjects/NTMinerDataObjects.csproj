@@ -46,10 +46,15 @@
     <Compile Include="AddOrUpdateNTMinerFileRequest.cs" />
     <Compile Include="AddOrUpdateWalletRequest.cs" />
     <Compile Include="AppSettingData.cs" />
+    <Compile Include="AppSettingRequest.cs" />
+    <Compile Include="AppSettingsRequest.cs" />
     <Compile Include="CalcConfigData.cs" />
+    <Compile Include="CalcConfigsRequest.cs" />
     <Compile Include="ClientData.cs" />
     <Compile Include="CoinKernelProfileData.cs" />
+    <Compile Include="CoinKernelProfileRequest.cs" />
     <Compile Include="CoinProfileData.cs" />
+    <Compile Include="CoinProfileRequest.cs" />
     <Compile Include="CoinSnapshotData.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="GetAppSettingResponse.cs" />
@@ -84,11 +89,18 @@
     <Compile Include="LoginData.cs" />
     <Compile Include="MinerClient\StartMineInput.cs" />
     <Compile Include="MinerGroupData.cs" />
+    <Compile Include="MinerGroupsRequest.cs" />
+    <Compile Include="MinerJsonPutUrlRequest.cs" />
     <Compile Include="MinerProfileData.cs" />
+    <Compile Include="MinerProfileRequest.cs" />
     <Compile Include="MineStatus.cs" />
     <Compile Include="MineWorkData.cs" />
+    <Compile Include="MineWorkRequest.cs" />
     <Compile Include="NTMinerFileData.cs" />
+    <Compile Include="NTMinerUrlRequest.cs" />
+    <Compile Include="PackageUrlRequest.cs" />
     <Compile Include="PoolProfileData.cs" />
+    <Compile Include="PoolProfileRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryClientsRequest.cs" />
     <Compile Include="QueryClientsResponse.cs" />
@@ -96,6 +108,7 @@
     <Compile Include="RemoveMineWorkRequest.cs" />
     <Compile Include="RemoveNTMinerFileRequest.cs" />
     <Compile Include="RemoveWalletRequest.cs" />
+    <Compile Include="ReportStateRequest.cs" />
     <Compile Include="RequestBase.cs" />
     <Compile Include="ResponseBase.cs" />
     <Compile Include="ResponseBaseExtension.cs" />
@@ -114,6 +127,7 @@
     <Compile Include="UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="WalletData.cs" />
+    <Compile Include="WalletsRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

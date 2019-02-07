@@ -6,26 +6,26 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class AppSettingController : ApiController {
         [HttpPost]
-        public GetAppSettingResponse AppSetting([FromBody]Guid messageId, [FromBody]string key) {
+        public GetAppSettingResponse AppSetting([FromBody]AppSettingRequest request) {
             try {
-                IAppSetting data = HostRoot.Current.AppSettingSet.GetAppSetting(key);
-                return GetAppSettingResponse.Ok(messageId, AppSettingData.Create(data));
+                IAppSetting data = HostRoot.Current.AppSettingSet.GetAppSetting(request.Key);
+                return GetAppSettingResponse.Ok(request.MessageId, AppSettingData.Create(data));
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetAppSettingResponse>(messageId, e.Message);
+                return ResponseBase.ServerError<GetAppSettingResponse>(request.MessageId, e.Message);
             }
         }
 
         [HttpPost]
-        public GetAppSettingsResponse AppSettings([FromBody]Guid messageId) {
+        public GetAppSettingsResponse AppSettings([FromBody]AppSettingsRequest request) {
             try {
                 var data = HostRoot.Current.AppSettingSet.GetAppSettings();
-                return GetAppSettingsResponse.Ok(messageId, data.Select(a => AppSettingData.Create(a)).ToList());
+                return GetAppSettingsResponse.Ok(request.MessageId, data.Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetAppSettingsResponse>(messageId, e.Message);
+                return ResponseBase.ServerError<GetAppSettingsResponse>(request.MessageId, e.Message);
             }
         }
 

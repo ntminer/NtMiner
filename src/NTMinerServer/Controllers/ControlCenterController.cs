@@ -143,14 +143,14 @@ namespace NTMiner.Controllers {
 
         #region MinerGroups
         [HttpPost]
-        public GetMinerGroupsResponse MinerGroups([FromBody]Guid messageId) {
+        public GetMinerGroupsResponse MinerGroups([FromBody]MinerGroupsRequest request) {
             try {
                 var data = HostRoot.Current.MinerGroupSet.GetMinerGroups();
-                return GetMinerGroupsResponse.Ok(messageId, data);
+                return GetMinerGroupsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetMinerGroupsResponse>(messageId, e.Message);
+                return ResponseBase.ServerError<GetMinerGroupsResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -337,14 +337,14 @@ namespace NTMiner.Controllers {
 
         #region Wallets
         [HttpPost]
-        public GetWalletsResponse Wallets([FromBody]Guid messageId) {
+        public GetWalletsResponse Wallets([FromBody]WalletsRequest request) {
             try {
                 var data = HostRoot.Current.WalletSet.GetWallets();
-                return GetWalletsResponse.Ok(messageId, data);
+                return GetWalletsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetWalletsResponse>(messageId, e.Message);
+                return ResponseBase.ServerError<GetWalletsResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -393,14 +393,14 @@ namespace NTMiner.Controllers {
 
         #region CalcConfigs
         [HttpPost]
-        public GetCalcConfigsResponse CalcConfigs([FromBody]Guid messageId) {
+        public GetCalcConfigsResponse CalcConfigs([FromBody]CalcConfigsRequest request) {
             try {
                 var data = HostRoot.Current.CalcConfigSet.GetCalcConfigs();
-                return GetCalcConfigsResponse.Ok(messageId, data);
+                return GetCalcConfigsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Global.Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetCalcConfigsResponse>(messageId, e.Message);
+                return ResponseBase.ServerError<GetCalcConfigsResponse>(request.MessageId, e.Message);
             }
         }
         #endregion

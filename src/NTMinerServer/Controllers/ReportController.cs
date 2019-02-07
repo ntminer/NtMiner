@@ -109,14 +109,14 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public void ReportState([FromBody]Guid clientId, [FromBody]bool isMining) {
+        public void ReportState([FromBody]ReportStateRequest request) {
             try {
                 string minerIp = System.Web.HttpContext.Current.GetWebClientIp();
-                ClientData clientData = HostRoot.Current.ClientSet.LoadClient(clientId);
+                ClientData clientData = HostRoot.Current.ClientSet.LoadClient(request.ClientId);
                 if (clientData == null) {
                     clientData = new ClientData {
-                        Id = clientId,
-                        IsMining = isMining,
+                        Id = request.ClientId,
+                        IsMining = request.IsMining,
                         CreatedOn = DateTime.Now,
                         ModifiedOn = DateTime.Now,
                         MinerIp = minerIp
@@ -124,7 +124,7 @@ namespace NTMiner.Controllers {
                     HostRoot.Current.ClientSet.Add(clientData);
                 }
                 else {
-                    clientData.IsMining = isMining;
+                    clientData.IsMining = request.IsMining;
                     clientData.ModifiedOn = DateTime.Now;
                     clientData.MinerIp = minerIp;
                 }
