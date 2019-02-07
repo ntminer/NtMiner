@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class Server {
@@ -12,30 +13,36 @@ namespace NTMiner {
             public void LoginAsync(LoginData data) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        client.PostAsJsonAsync($"{baseUrl}/Login", data);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/Login", data);
+                        Global.WriteDevLine(message.Result.ReasonPhrase);
                     }
                 }
-                catch {
+                catch (Exception e){
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                 }
             }
 
             public void ReportSpeedAsync(SpeedData data) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        client.PostAsJsonAsync($"{baseUrl}/ReportSpeed", data);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/ReportSpeed", data);
+                        Global.WriteDevLine(message.Result.ReasonPhrase);
                     }
                 }
-                catch {
+                catch (Exception e) {
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                 }
             }
 
             public void ReportStateAsync(Guid clientId, bool isMining) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        client.PostAsJsonAsync($"{baseUrl}/ReportState", new { clientId, isMining});
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/ReportState", new { clientId, isMining});
+                        Global.WriteDevLine(message.Result.ReasonPhrase);
                     }
                 }
-                catch {
+                catch (Exception e) {
+                    Global.Logger.ErrorDebugLine(e.Message, e);
                 }
             }
         }
