@@ -20,6 +20,7 @@ namespace NTMiner {
 
             using (var server = new HttpSelfHostServer(config)) {
                 server.OpenAsync().Wait();
+                Console.WriteLine(config.BaseAddress);
                 Console.WriteLine("Enter exit to quit.");
                 string line = Console.ReadLine();
                 while (line != "exit") {
