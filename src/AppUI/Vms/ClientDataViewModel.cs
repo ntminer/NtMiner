@@ -82,13 +82,13 @@ namespace NTMiner.Vms {
                     _data.ModifiedOn = value;
                     OnPropertyChanged(nameof(ModifiedOn));
                     OnPropertyChanged(nameof(ModifiedOnText));
-                    OnPropertyChanged(nameof(IsNTMinerOnline));
+                    OnPropertyChanged(nameof(IsClientOnline));
                     OnPropertyChanged(nameof(IsMining));
                 }
             }
         }
 
-        public bool IsNTMinerOnline {
+        public bool IsClientOnline {
             get {
                 return this.ModifiedOn.AddSeconds(121) >= DateTime.Now;
             }
@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
 
         public bool IsMining {
             get {
-                if (!IsNTMinerOnline) {
+                if (!IsClientOnline) {
                     return false;
                 }
                 return _data.IsMining;

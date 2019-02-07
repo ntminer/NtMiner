@@ -106,7 +106,6 @@
     <Compile Include="..\NTMinerlib\Windows\TaskKill.cs">
       <Link>Windows\TaskKill.cs</Link>
     </Compile>
-    <Compile Include="DaemonServer.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.partials.PositionUtil.cs" />
     <Compile Include="NoDevFee\WinDivert.cs" />
