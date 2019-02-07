@@ -139,7 +139,10 @@ namespace NTMiner {
             /// <param name="messageId"></param>
             /// <returns></returns>
             public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
-                GetMinerGroupsResponse response = Request<GetMinerGroupsResponse>("ControlCenter", "MinerGroups", new { messageId = Guid.NewGuid() });
+                MinerGroupsRequest request = new MinerGroupsRequest {
+                    MessageId = Guid.NewGuid()
+                };
+                GetMinerGroupsResponse response = Request<GetMinerGroupsResponse>("ControlCenter", "MinerGroups", request);
                 return response;
             }
             #endregion
@@ -282,8 +285,10 @@ namespace NTMiner {
             /// </summary>
             /// <returns></returns>
             public GetWalletsResponse GetWallets() {
-                Guid messageId = Guid.NewGuid();
-                GetWalletsResponse response = Request<GetWalletsResponse>("ControlCenter", "Wallets", new { messageId = Guid.NewGuid() });
+                WalletsRequest request = new WalletsRequest {
+                    MessageId = Guid.NewGuid()
+                };
+                GetWalletsResponse response = Request<GetWalletsResponse>("ControlCenter", "Wallets", request);
                 return response;
             }
             #endregion
@@ -325,8 +330,10 @@ namespace NTMiner {
             /// </summary>
             /// <returns></returns>
             public GetCalcConfigsResponse GetCalcConfigs() {
-                Guid messageId = Guid.NewGuid();
-                GetCalcConfigsResponse response = Request<GetCalcConfigsResponse>("ControlCenter", "CalcConfigs", new { messageId = Guid.NewGuid() });
+                CalcConfigsRequest request = new CalcConfigsRequest {
+                    MessageId = Guid.NewGuid()
+                };
+                GetCalcConfigsResponse response = Request<GetCalcConfigsResponse>("ControlCenter", "CalcConfigs", request);
                 return response;
             }
             #endregion

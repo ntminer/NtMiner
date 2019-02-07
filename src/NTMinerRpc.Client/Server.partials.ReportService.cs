@@ -38,7 +38,11 @@ namespace NTMiner {
             public void ReportStateAsync(Guid clientId, bool isMining) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/ReportState", new { clientId, isMining});
+                        ReportStateRequest request = new ReportStateRequest {
+                            ClientId = clientId,
+                            IsMining = isMining
+                        };
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/ReportState", request);
                         Global.WriteDevLine(message.Result.ReasonPhrase);
                     }
                 }

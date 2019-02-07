@@ -11,7 +11,10 @@ namespace NTMiner {
 
             #region GetNTMinerUrlAsync
             public void GetNTMinerUrlAsync(string fileName, Action<string> callback) {
-                string response = Request<string>("FileUrl", "NTMinerUrl", new { fileName });
+                NTMinerUrlRequest request = new NTMinerUrlRequest {
+                    FileName = fileName
+                };
+                string response = Request<string>("FileUrl", "NTMinerUrl", request);
                 callback?.Invoke(response);
             }
             #endregion
@@ -69,7 +72,10 @@ namespace NTMiner {
 
             #region GetPackageUrlAsync
             public void GetPackageUrlAsync(string package, Action<string> callback) {
-                string response = Request<string>("FileUrl", "PackageUrl", new { package });
+                PackageUrlRequest request = new PackageUrlRequest {
+                    Package = package
+                };
+                string response = Request<string>("FileUrl", "PackageUrl", request);
                 callback?.Invoke(response);
             }
             #endregion

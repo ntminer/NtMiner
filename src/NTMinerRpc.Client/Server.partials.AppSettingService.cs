@@ -9,14 +9,21 @@ namespace NTMiner {
 
             #region GetAppSettingAsync
             public void GetAppSettingAsync(string key, Action<GetAppSettingResponse> callback) {
-                GetAppSettingResponse response = Request<GetAppSettingResponse>("AppSetting", "AppSetting", new { messageId = Guid.NewGuid(), key });
+                AppSettingRequest request = new AppSettingRequest {
+                    MessageId = Guid.NewGuid(),
+                    Key = key
+                };
+                GetAppSettingResponse response = Request<GetAppSettingResponse>("AppSetting", "AppSetting", request);
                 callback?.Invoke(response);
             }
             #endregion
 
             #region GetAppSettingsAsync
             public void GetAppSettingsAsync(Action<GetAppSettingsResponse> callback) {
-                GetAppSettingsResponse response = Request<GetAppSettingsResponse>("AppSetting", "AppSettings", new { messageId = Guid.NewGuid() });
+                AppSettingsRequest request = new AppSettingsRequest {
+                    MessageId = Guid.NewGuid()
+                };
+                GetAppSettingsResponse response = Request<GetAppSettingsResponse>("AppSetting", "AppSettings", request);
                 callback?.Invoke(response);
             }
             #endregion
