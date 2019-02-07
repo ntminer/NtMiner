@@ -16,7 +16,8 @@ namespace NTMiner {
             this.Description = data.Description;
         }
 
-        [BsonId]
+        public ObjectId Id { get; set; }
+
         public string LoginName { get; set; }
 
         public string Password { get; set; }
