@@ -5,7 +5,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class FileUrlController : ApiController {
-        [HttpGet]
+        [HttpPost]
         public string MinerJsonPutUrl(string fileName) {
             try {
                 var req = new GeneratePresignedUriRequest("minerjson", fileName, SignHttpMethod.Put);
@@ -18,7 +18,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public string NTMinerUrl(string fileName) {
             if (string.IsNullOrEmpty(fileName)) {
                 return string.Empty;
@@ -30,7 +30,7 @@ namespace NTMiner.Controllers {
             return uri.ToString();
         }
 
-        [HttpGet]
+        [HttpPost]
         public List<NTMinerFileData> NTMinerFiles() {
             var list = HostRoot.Current.NTMinerFileSet.GetNTMinerFiles();
             return list;
@@ -74,7 +74,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public string NTMinerUpdaterUrl() {
             try {
                 IAppSetting ntminerUpdaterFileNameSetting = HostRoot.Current.AppSettingSet.GetAppSetting("ntminerUpdaterFileName");
@@ -89,7 +89,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public string LiteDBExplorerUrl() {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
@@ -102,7 +102,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public string PackageUrl(string package) {
             try {
                 if (string.IsNullOrEmpty(package)) {

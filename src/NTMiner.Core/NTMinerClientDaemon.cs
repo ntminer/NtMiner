@@ -12,7 +12,7 @@ namespace NTMiner {
         public void GetDaemonVersionAsync(string clientHost, int clientPort, Action<string> callback) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.GetAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/GetDaemonVersion");
+                    Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/GetDaemonVersion", null);
                     string response = message.Result.Content.ReadAsAsync<string>().Result;
                     callback?.Invoke(response);
                 }

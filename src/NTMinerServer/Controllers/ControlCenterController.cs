@@ -142,7 +142,7 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region MinerGroups
-        [HttpGet]
+        [HttpPost]
         public GetMinerGroupsResponse MinerGroups(Guid messageId) {
             try {
                 var data = HostRoot.Current.MinerGroupSet.GetMinerGroups();
@@ -336,7 +336,7 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region Wallets
-        [HttpGet]
+        [HttpPost]
         public GetWalletsResponse Wallets(Guid messageId) {
             try {
                 var data = HostRoot.Current.WalletSet.GetWallets();
@@ -392,7 +392,7 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region CalcConfigs
-        [HttpGet]
+        [HttpPost]
         public GetCalcConfigsResponse CalcConfigs(Guid messageId) {
             try {
                 var data = HostRoot.Current.CalcConfigSet.GetCalcConfigs();

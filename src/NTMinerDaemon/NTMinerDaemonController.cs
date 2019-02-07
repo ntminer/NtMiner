@@ -5,7 +5,7 @@ using System.Web.Http;
 
 namespace NTMiner {
     public class NTMinerDaemonController : ApiController {
-        [HttpGet]
+        [HttpPost]
         public string GetDaemonVersion() {
             return Global.Sha1;
         }

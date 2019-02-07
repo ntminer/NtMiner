@@ -4,7 +4,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ProfileController : ApiController {
-        [HttpGet]
+        [HttpPost]
         public MineWorkData MineWork(Guid workId) {
             try {
                 return HostRoot.Current.MineWorkSet.GetMineWork(workId);
@@ -15,7 +15,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public List<MineWorkData> MineWorks() {
             try {
                 return HostRoot.Current.MineWorkSet.GetMineWorks();
@@ -26,7 +26,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public MinerProfileData MinerProfile(Guid workId) {
             try {
                 return HostRoot.Current.MineProfileManager.GetMinerProfile(workId);
@@ -37,7 +37,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public CoinProfileData CoinProfile(Guid workId, Guid coinId) {
             try {
                 return HostRoot.Current.MineProfileManager.GetCoinProfile(workId, coinId);
@@ -48,7 +48,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public PoolProfileData PoolProfile(Guid workId, Guid poolId) {
             try {
                 return HostRoot.Current.MineProfileManager.GetPoolProfile(workId, poolId);
@@ -59,7 +59,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public CoinKernelProfileData CoinKernelProfile(Guid workId, Guid coinKernelId) {
             try {
                 return HostRoot.Current.MineProfileManager.GetCoinKernelProfile(workId, coinKernelId);

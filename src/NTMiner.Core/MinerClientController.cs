@@ -4,7 +4,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class MinerClientController : ApiController {
-        [HttpGet]
+        [HttpPost]
         public bool ShowMainWindow() {
             Global.Execute(new ShowMainWindowCommand());
             return true;

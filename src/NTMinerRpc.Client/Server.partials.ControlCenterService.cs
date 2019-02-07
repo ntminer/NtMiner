@@ -191,7 +191,7 @@ namespace NTMiner {
             public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/MinerGroups?messageId={messageId}");
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/MinerGroups", new { messageId = Guid.NewGuid()});
                         GetMinerGroupsResponse response = message.Result.Content.ReadAsAsync<GetMinerGroupsResponse>().Result;
                         return response;
                     }
@@ -407,7 +407,7 @@ namespace NTMiner {
                 Guid messageId = Guid.NewGuid();
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/Wallets?messageId={messageId}");
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/Wallets", new { messageId = Guid.NewGuid()});
                         GetWalletsResponse response = message.Result.Content.ReadAsAsync<GetWalletsResponse>().Result;
                         return response;
                     }
@@ -474,7 +474,7 @@ namespace NTMiner {
                 Guid messageId = Guid.NewGuid();
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/CalcConfigs?messageId={messageId}");
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/CalcConfigs", new { messageId = Guid.NewGuid()});
                         GetCalcConfigsResponse response = message.Result.Content.ReadAsAsync<GetCalcConfigsResponse>().Result;
                         return response;
                     }

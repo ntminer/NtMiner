@@ -13,7 +13,7 @@ namespace NTMiner {
         public bool ShowMainWindow(string host) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.GetAsync($"http://{host}:3336/api/MinerClient/ShowMainWindow");
+                    Task<HttpResponseMessage> message = client.PostAsync($"http://{host}:3336/api/MinerClient/ShowMainWindow", null);
                     bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                     return response;
                 }

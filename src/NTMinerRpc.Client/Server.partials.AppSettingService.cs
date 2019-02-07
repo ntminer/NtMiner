@@ -8,12 +8,12 @@ namespace NTMiner {
             public static readonly AppSettingServiceFace Instance = new AppSettingServiceFace();
             private readonly string baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api/AppSetting";
             private AppSettingServiceFace() { }
-            
+
             #region GetAppSettingAsync
             public void GetAppSettingAsync(string key, Action<GetAppSettingResponse> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/AppSetting?messageId={Guid.NewGuid()}&key={key}");
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/AppSetting", new { messageId = Guid.NewGuid(), key });
                         GetAppSettingResponse response = message.Result.Content.ReadAsAsync<GetAppSettingResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -28,7 +28,7 @@ namespace NTMiner {
             public void GetAppSettingsAsync(Action<GetAppSettingsResponse> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/AppSettings?messageId={Guid.NewGuid()}");
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/AppSettings", new { messageId = Guid.NewGuid()});
                         GetAppSettingsResponse response = message.Result.Content.ReadAsAsync<GetAppSettingsResponse>().Result;
                         callback?.Invoke(response);
                     }
