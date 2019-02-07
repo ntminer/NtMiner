@@ -77,7 +77,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定刷新{AssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
                     Server.AppSettingService.SetAppSettingAsync(new AppSettingData {
                         Key = ServerJsonFileName,
-                        Value = Timestamp.GetTimestamp()
+                        Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                     }, response => {
                         Execute.OnUIThread(() => {
                             if (response.IsSuccess()) {

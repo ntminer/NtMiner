@@ -22,8 +22,8 @@ namespace NTMiner {
         public static readonly INTMinerRoot Current = _current;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
-        private static ulong _jsonFileVersion;
-        public static ulong JsonFileVersion {
+        private static string _jsonFileVersion;
+        public static string JsonFileVersion {
             get { return _jsonFileVersion; }
             set {
                 _jsonFileVersion = value;

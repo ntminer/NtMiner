@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         private INotificationMessageManager _manager;
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private bool _isDaemonRunning = true;
-        private ulong _serverJsonVersion;
+        private string _serverJsonVersion;
 
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
@@ -110,20 +110,13 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ulong ServerJsonVersion {
+        public string ServerJsonVersion {
             get => _serverJsonVersion;
             set {
                 if (_serverJsonVersion != value) {
                     _serverJsonVersion = value;
                     OnPropertyChanged(nameof(ServerJsonVersion));
-                    OnPropertyChanged(nameof(ServerJsonVersionText));
                 }
-            }
-        }
-
-        public string ServerJsonVersionText {
-            get {
-                return Timestamp.FromTimestamp(this.ServerJsonVersion).ToString("yyyy-MM-dd HH:mm:ss");
             }
         }
     }

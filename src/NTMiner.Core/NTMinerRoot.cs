@@ -73,7 +73,7 @@ namespace NTMiner {
                             });
                             Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
                                 if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
-                                    if (response.Data.Value is ulong value) {
+                                    if (response.Data.Value is string value) {
                                         JsonFileVersion = value;
                                     }
                                 }
@@ -352,11 +352,11 @@ namespace NTMiner {
                             return;
                         }
                         Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
-                            if (response.IsSuccess() && response.Data != null && response.Data.Value is ulong value) {
+                            if (response.IsSuccess() && response.Data != null && response.Data.Value is string value) {
                                 if (JsonFileVersion != value) {
                                     GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                         string rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                        Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{Timestamp.FromTimestamp(value)}");
+                                        Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{value}");
                                         JsonFileVersion = value;
                                         ServerJson.Instance.ReInit(rawNTMinerJson);
                                         Global.Logger.InfoDebugLine("ServerJson数据集刷新完成");
