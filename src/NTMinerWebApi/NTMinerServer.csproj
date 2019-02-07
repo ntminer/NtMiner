@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E7B88637-7704-4701-98E0-7875BB6E8C98}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>NTMinerWebApi</RootNamespace>
-    <AssemblyName>NTMinerWebApi</AssemblyName>
+    <RootNamespace>NTMiner</RootNamespace>
+    <AssemblyName>NTMinerServer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
