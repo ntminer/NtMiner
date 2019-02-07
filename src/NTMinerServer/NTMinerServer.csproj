@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aliyun.OSS, Version=2.9.0.0, Culture=neutral, PublicKeyToken=0ad4175f0dac0b9b, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Aliyun.OSS.SDK.2.9.0\lib\Aliyun.OSS.dll</HintPath>
@@ -111,6 +114,7 @@
   <ItemGroup>
     <Content Include="CalcConfigUpdater\CalcConfigUpdater.exe" />
     <Content Include="CalcConfigUpdater\pattern.txt" />
+    <Content Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
