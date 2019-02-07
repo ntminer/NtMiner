@@ -15,7 +15,7 @@ namespace NTMiner {
             public void GetNTMinerUrlAsync(string fileName, Action<string> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetNTMinerUrl?fileName={fileName}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/NTMinerUrl?fileName={fileName}");
                         string response = message.Result.Content.ReadAsStringAsync().Result;
                         callback?.Invoke(response);
                     }
@@ -30,7 +30,7 @@ namespace NTMiner {
             public void GetNTMinerFilesAsync(Action<List<NTMinerFileData>> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetNTMinerFiles");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/NTMinerFiles");
                         List<NTMinerFileData> response = message.Result.Content.ReadAsAsync<List<NTMinerFileData>>().Result;
                         callback?.Invoke(response ?? new List<NTMinerFileData>());
                     }
@@ -91,7 +91,7 @@ namespace NTMiner {
             public void GetLiteDBExplorerUrlAsync(Action<string> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetLiteDBExplorerUrl");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/LiteDBExplorerUrl");
                         string response = message.Result.Content.ReadAsStringAsync().Result;
                         callback?.Invoke(response);
                     }
@@ -106,7 +106,7 @@ namespace NTMiner {
             public void GetNTMinerUpdaterUrlAsync(Action<string> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetNTMinerUpdaterUrl");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/NTMinerUpdaterUrl");
                         string response = message.Result.Content.ReadAsStringAsync().Result;
                         callback?.Invoke(response);
                     }
@@ -121,7 +121,7 @@ namespace NTMiner {
             public void GetPackageUrlAsync(string package, Action<string> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetPackageUrl");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/PackageUrl");
                         string response = message.Result.Content.ReadAsStringAsync().Result;
                         callback?.Invoke(response);
                     }

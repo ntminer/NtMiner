@@ -73,7 +73,7 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/GetLatestSnapshots", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/LatestSnapshots", request);
                         GetCoinSnapshotsResponse response = message.Result.Content.ReadAsAsync<GetCoinSnapshotsResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -191,7 +191,7 @@ namespace NTMiner {
             public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetMinerGroups?messageId={messageId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/MinerGroups?messageId={messageId}");
                         GetMinerGroupsResponse response = message.Result.Content.ReadAsAsync<GetMinerGroupsResponse>().Result;
                         return response;
                     }
@@ -407,7 +407,7 @@ namespace NTMiner {
                 Guid messageId = Guid.NewGuid();
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetWallets?messageId={messageId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/Wallets?messageId={messageId}");
                         GetWalletsResponse response = message.Result.Content.ReadAsAsync<GetWalletsResponse>().Result;
                         return response;
                     }
@@ -474,7 +474,7 @@ namespace NTMiner {
                 Guid messageId = Guid.NewGuid();
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetCalcConfigs?messageId={messageId}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/CalcConfigs?messageId={messageId}");
                         GetCalcConfigsResponse response = message.Result.Content.ReadAsAsync<GetCalcConfigsResponse>().Result;
                         return response;
                     }

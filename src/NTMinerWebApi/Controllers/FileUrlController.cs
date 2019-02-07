@@ -6,7 +6,7 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class FileUrlController : ApiController {
         [HttpGet]
-        public string GetMinerJsonPutUrl(string fileName) {
+        public string MinerJsonPutUrl(string fileName) {
             try {
                 var req = new GeneratePresignedUriRequest("minerjson", fileName, SignHttpMethod.Put);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
@@ -19,7 +19,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public string GetNTMinerUrl(string fileName) {
+        public string NTMinerUrl(string fileName) {
             if (string.IsNullOrEmpty(fileName)) {
                 return string.Empty;
             }
@@ -31,7 +31,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public List<NTMinerFileData> GetNTMinerFiles() {
+        public List<NTMinerFileData> NTMinerFiles() {
             var list = HostRoot.Current.NTMinerFileSet.GetNTMinerFiles();
             return list;
         }
@@ -75,7 +75,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public string GetNTMinerUpdaterUrl() {
+        public string NTMinerUpdaterUrl() {
             try {
                 IAppSetting ntminerUpdaterFileNameSetting = HostRoot.Current.AppSettingSet.GetAppSetting("ntminerUpdaterFileName");
                 string ntminerUpdaterFileName = ntminerUpdaterFileNameSetting == null ? "NTMinerUpdater.exe" : (string)ntminerUpdaterFileNameSetting.Value;
@@ -90,7 +90,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public string GetLiteDBExplorerUrl() {
+        public string LiteDBExplorerUrl() {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
@@ -103,7 +103,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public string GetPackageUrl(string package) {
+        public string PackageUrl(string package) {
             try {
                 if (string.IsNullOrEmpty(package)) {
                     return string.Empty;

@@ -72,9 +72,9 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region GetCoinSnapshots
+        #region LatestSnapshots
         [HttpPost]
-        public GetCoinSnapshotsResponse GetLatestSnapshots([FromBody]GetCoinSnapshotsRequest request) {
+        public GetCoinSnapshotsResponse LatestSnapshots([FromBody]GetCoinSnapshotsRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>(Guid.Empty, "参数错误");
             }
@@ -141,9 +141,9 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region GetMinerGroups
+        #region MinerGroups
         [HttpGet]
-        public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
+        public GetMinerGroupsResponse MinerGroups(Guid messageId) {
             try {
                 var data = HostRoot.Current.MinerGroupSet.GetMinerGroups();
                 return GetMinerGroupsResponse.Ok(messageId, data);
@@ -335,9 +335,9 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region GetWallets
+        #region Wallets
         [HttpGet]
-        public GetWalletsResponse GetWallets(Guid messageId) {
+        public GetWalletsResponse Wallets(Guid messageId) {
             try {
                 var data = HostRoot.Current.WalletSet.GetWallets();
                 return GetWalletsResponse.Ok(messageId, data);
@@ -391,9 +391,9 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region GetCalcConfigs
+        #region CalcConfigs
         [HttpGet]
-        public GetCalcConfigsResponse GetCalcConfigs(Guid messageId) {
+        public GetCalcConfigsResponse CalcConfigs(Guid messageId) {
             try {
                 var data = HostRoot.Current.CalcConfigSet.GetCalcConfigs();
                 return GetCalcConfigsResponse.Ok(messageId, data);

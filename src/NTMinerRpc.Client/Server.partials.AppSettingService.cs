@@ -13,7 +13,7 @@ namespace NTMiner {
             public void GetAppSettingAsync(string key, Action<GetAppSettingResponse> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetAppSetting?messageId={Guid.NewGuid()}&key={key}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/AppSetting?messageId={Guid.NewGuid()}&key={key}");
                         GetAppSettingResponse response = message.Result.Content.ReadAsAsync<GetAppSettingResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -28,7 +28,7 @@ namespace NTMiner {
             public void GetAppSettingsAsync(Action<GetAppSettingsResponse> callback) {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetAppSettings?messageId={Guid.NewGuid()}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/AppSettings?messageId={Guid.NewGuid()}");
                         GetAppSettingsResponse response = message.Result.Content.ReadAsAsync<GetAppSettingsResponse>().Result;
                         callback?.Invoke(response);
                     }

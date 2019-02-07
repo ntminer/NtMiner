@@ -5,7 +5,7 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class ProfileController : ApiController {
         [HttpGet]
-        public MineWorkData GetMineWork(Guid workId) {
+        public MineWorkData MineWork(Guid workId) {
             try {
                 return HostRoot.Current.MineWorkSet.GetMineWork(workId);
             }
@@ -16,7 +16,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public List<MineWorkData> GetMineWorks() {
+        public List<MineWorkData> MineWorks() {
             try {
                 return HostRoot.Current.MineWorkSet.GetMineWorks();
             }
@@ -27,7 +27,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public MinerProfileData GetMinerProfile(Guid workId) {
+        public MinerProfileData MinerProfile(Guid workId) {
             try {
                 return HostRoot.Current.MineProfileManager.GetMinerProfile(workId);
             }
@@ -38,7 +38,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public CoinProfileData GetCoinProfile(Guid workId, Guid coinId) {
+        public CoinProfileData CoinProfile(Guid workId, Guid coinId) {
             try {
                 return HostRoot.Current.MineProfileManager.GetCoinProfile(workId, coinId);
             }
@@ -49,7 +49,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
+        public PoolProfileData PoolProfile(Guid workId, Guid poolId) {
             try {
                 return HostRoot.Current.MineProfileManager.GetPoolProfile(workId, poolId);
             }
@@ -60,7 +60,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpGet]
-        public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
+        public CoinKernelProfileData CoinKernelProfile(Guid workId, Guid coinKernelId) {
             try {
                 return HostRoot.Current.MineProfileManager.GetCoinKernelProfile(workId, coinKernelId);
             }
