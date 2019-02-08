@@ -12,16 +12,18 @@ namespace NTMiner {
             }
 
             public void GetTimeAsync(Action<DateTime> callback) {
-                try {
-                    using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetTime");
-                        DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
-                        callback?.Invoke(response);
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetTime");
+                            DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
+                            callback?.Invoke(response);
+                        }
                     }
-                }
-                catch {
-                    callback?.Invoke(DateTime.Now);
-                }
+                    catch {
+                        callback?.Invoke(DateTime.Now);
+                    }
+                });
             }
         }
     }

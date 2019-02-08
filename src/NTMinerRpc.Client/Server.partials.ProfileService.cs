@@ -1,6 +1,7 @@
 ﻿using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class Server {
@@ -11,11 +12,13 @@ namespace NTMiner {
             }
 
             public void GetMineWorkAsync(Guid workId, Action<MineWorkData> callback) {
-                MineWorkRequest request = new MineWorkRequest {
-                    WorkId = workId
-                };
-                MineWorkData response = Request<MineWorkData>("Profile", "MineWork", request);
-                callback?.Invoke(response);
+                Task.Factory.StartNew(() => {
+                    MineWorkRequest request = new MineWorkRequest {
+                        WorkId = workId
+                    };
+                    MineWorkData response = Request<MineWorkData>("Profile", "MineWork", request);
+                    callback?.Invoke(response);
+                });
             }
 
             /// <summary>
