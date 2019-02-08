@@ -82,18 +82,6 @@
     <Compile Include="..\NTMinerDataObjects\HashUtil.cs">
       <Link>HashUtil.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\DevMode.cs">
-      <Link>DevMode.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\Logging\ILoggingService.cs">
-      <Link>Logging\ILoggingService.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\Logging\Log4NetLoggingService.cs">
-      <Link>Logging\Log4NetLoggingService.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\Logging\LogDir.cs">
-      <Link>Logging\LogDir.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
@@ -125,6 +113,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NoDevFee\WinDivert.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
+      <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
+      <Name>NTMinerLogging</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />

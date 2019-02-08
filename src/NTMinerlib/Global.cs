@@ -56,26 +56,11 @@ namespace NTMiner {
         public static ICmdBus CommandBus { get; private set; }
         public static IEventBus EventBus { get; private set; }
         
-        public static Action<string, ConsoleColor> WriteUserLineMethod;
-        public static Action<string, ConsoleColor> WriteDevLineMethod;
-
         static Global() {
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);
             EventBus = new DirectEventBus(MessageDispatcher);
-            WriteUserLineMethod = (line, color) => {
-                ConsoleColor oldColor = Console.ForegroundColor;
-                Console.ForegroundColor = color;
-                Console.WriteLine(line);
-                Console.ForegroundColor = oldColor;
-            };
-            WriteDevLineMethod = (line, color) => {
-                ConsoleColor oldColor = Console.ForegroundColor;
-                Console.ForegroundColor = color;
-                Console.WriteLine(line);
-                Console.ForegroundColor = oldColor;
-            };
             StartTimer();
         }
 
@@ -196,26 +181,6 @@ namespace NTMiner {
 
         public static void UnAccess<TMessage>(DelegateHandler<TMessage> handler) {
             MessageDispatcher.UnRegister(handler);
-        }
-
-        public static void WriteUserLine(string text, ConsoleColor foreground) {
-            WriteUserLineMethod?.Invoke(text, foreground);
-        }
-
-        public static void WriteDevLine(string text) {
-            if (!DevMode.IsDevMode) {
-                return;
-            }
-            text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}    {text}";
-            WriteDevLineMethod?.Invoke(text, ConsoleColor.White);
-        }
-
-        public static void WriteDevLine(string text, ConsoleColor foreground) {
-            if (!DevMode.IsDevMode) {
-                return;
-            }
-            text = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}    {text}";
-            WriteDevLineMethod?.Invoke(text, foreground);
         }
     }
 }

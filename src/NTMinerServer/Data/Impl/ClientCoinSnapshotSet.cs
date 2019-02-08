@@ -37,7 +37,7 @@ namespace NTMiner.Data.Impl {
                         if (values.Length != 0) {
                             col.Upsert(values);
                         }
-                        Global.WriteDevLine("刷了" + values.Length + "条");
+                        Write.DevLine("刷了" + values.Length + "条");
                     }
                 });
             Global.Access<Per2MinuteEvent>(
@@ -48,7 +48,7 @@ namespace NTMiner.Data.Impl {
                     InitOnece();
                     DateTime timestamp = SnapshotTimestamp.GetSnapshotTimestamp();
                     if (timestamp == DateTime.MinValue) {
-                        Global.WriteDevLine("尚没有拍摄过快照，无需清除");
+                        Write.DevLine("尚没有拍摄过快照，无需清除");
                         return;
                     }
                     using (LiteDatabase db = HostRoot.CreateReportDb()) {

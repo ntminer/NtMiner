@@ -30,7 +30,7 @@ namespace NTMiner.Views {
                 }
             };
             InitializeComponent();
-            Global.WriteDevLineMethod = DebugLine;
+            Write.WriteDevLineMethod = DebugLine;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             if (!Windows.Role.IsAdministrator) {
                 Vm.Manager

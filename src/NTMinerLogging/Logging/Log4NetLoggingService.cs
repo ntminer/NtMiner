@@ -41,87 +41,87 @@ $@"<log4net>
         }
 
         public void Debug(object message) {
-            Global.WriteDevLine(message?.ToString(), ConsoleColor.White);
+            Write.DevLine(message?.ToString(), ConsoleColor.White);
             _log.Debug(message);
         }
 
         public void DebugFormatted(string format, params object[] args) {
-            Global.WriteDevLine(string.Format(format, args), ConsoleColor.White);
+            Write.DevLine(string.Format(format, args), ConsoleColor.White);
             _log.DebugFormat(CultureInfo.InvariantCulture, format, args);
         }
 
         public void InfoDebugLine(object message) {
-            Global.WriteDevLine(message?.ToString(), ConsoleColor.Gray);
+            Write.DevLine(message?.ToString(), ConsoleColor.Gray);
             _log.Info(message);
         }
 
         public void InfoDebugLineFormatted(string format, params object[] args) {
-            Global.WriteDevLine(string.Format(format, args), ConsoleColor.Gray);
+            Write.DevLine(string.Format(format, args), ConsoleColor.Gray);
             _log.InfoFormat(CultureInfo.InvariantCulture, format, args);
         }
 
         public void OkDebugLine(object message) {
-            Global.WriteDevLine(message?.ToString(), ConsoleColor.Green);
+            Write.DevLine(message?.ToString(), ConsoleColor.Green);
             _log.Info(message);
         }
 
         public void WarnDebugLine(object message) {
-            Global.WriteDevLine(message?.ToString(), ConsoleColor.Yellow);
+            Write.DevLine(message?.ToString(), ConsoleColor.Yellow);
             _log.Warn(message);
         }
 
         public void WarnDebugLine(object message, Exception exception) {
-            Global.WriteDevLine(message?.ToString() + exception.StackTrace, ConsoleColor.Yellow);
+            Write.DevLine(message?.ToString() + exception.StackTrace, ConsoleColor.Yellow);
             _log.Warn(message, exception);
         }
 
         public void WarnDebugLineFormatted(string format, params object[] args) {
-            Global.WriteDevLine(string.Format(format, args), ConsoleColor.Yellow);
+            Write.DevLine(string.Format(format, args), ConsoleColor.Yellow);
             _log.WarnFormat(CultureInfo.InvariantCulture, format, args);
         }
 
         public void ErrorDebugLine(object message) {
-            Global.WriteDevLine(message?.ToString(), ConsoleColor.Red);
+            Write.DevLine(message?.ToString(), ConsoleColor.Red);
             _log.Error(message);
         }
 
         public void ErrorDebugLine(object message, Exception exception) {
-            Global.WriteDevLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
+            Write.DevLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
             _log.Error(message, exception);
         }
 
         public void ErrorDebugLineFormatted(string format, params object[] args) {
-            Global.WriteDevLine(string.Format(format, args), ConsoleColor.Red);
+            Write.DevLine(string.Format(format, args), ConsoleColor.Red);
             _log.ErrorFormat(CultureInfo.InvariantCulture, format, args);
         }
 
         public void FatalDebugLine(object message) {
-            Global.WriteDevLine(message?.ToString(), ConsoleColor.Red);
+            Write.DevLine(message?.ToString(), ConsoleColor.Red);
             _log.Fatal(message);
         }
 
         public void FatalDebugLine(object message, Exception exception) {
-            Global.WriteDevLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
+            Write.DevLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
             _log.Fatal(message, exception);
         }
 
         public void FatalDebugLineFormatted(string format, params object[] args) {
-            Global.WriteDevLine(string.Format(format, args), ConsoleColor.Red);
+            Write.DevLine(string.Format(format, args), ConsoleColor.Red);
             _log.FatalFormat(CultureInfo.InvariantCulture, format, args);
         }
 
         public void OkWriteLine(object message) {
-            Global.WriteUserLine(message?.ToString(), ConsoleColor.Green);
+            Write.UserLine(message?.ToString(), ConsoleColor.Green);
             _log.Info(message);
         }
 
         public void WarnWriteLine(object message) {
-            Global.WriteUserLine(message?.ToString(), ConsoleColor.Yellow);
+            Write.UserLine(message?.ToString(), ConsoleColor.Yellow);
             _log.Warn(message);
         }
 
         public void ErrorWriteLine(object message) {
-            Global.WriteUserLine(message?.ToString(), ConsoleColor.Red);
+            Write.UserLine(message?.ToString(), ConsoleColor.Red);
             _log.Warn(message);
         }
 

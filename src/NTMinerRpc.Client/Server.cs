@@ -48,7 +48,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Global.WriteDevLine(e.Message + e.StackTrace);
+                Write.DevLine(e.Message + e.StackTrace);
                 return default(T);
             }
         }

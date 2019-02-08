@@ -22,7 +22,7 @@ namespace NTMiner.Bus {
                         Global.Logger.InfoDebugLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                     }
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Console) {
-                        Global.WriteDevLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                        Write.DevLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                     }
                     this.Dispatching?.Invoke(this, evtArgs);
                     try {
@@ -37,7 +37,7 @@ namespace NTMiner.Bus {
                 }
             }
             else if (!messageTypeDescription.IsCanNoHandler) {
-                Global.WriteDevLine(messageType.FullName + "类型的消息没有对应的处理器");
+                Write.DevLine(messageType.FullName + "类型的消息没有对应的处理器");
             }
         }
 

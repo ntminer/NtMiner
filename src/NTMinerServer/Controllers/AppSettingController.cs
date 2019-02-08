@@ -41,7 +41,7 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 Global.Execute(new SetAppSettingCommand(request.Data));
-                Global.WriteDevLine($"{request.Data.Key} {request.Data.Value}");
+                Write.DevLine($"{request.Data.Key} {request.Data.Value}");
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

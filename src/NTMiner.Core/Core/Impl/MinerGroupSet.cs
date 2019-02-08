@@ -32,7 +32,7 @@ namespace NTMiner.Core.Impl {
                             Global.Happened(new MinerGroupAddedEvent(entity));
                         }
                         else {
-                            Global.WriteUserLine("新建或更新矿工组失败", ConsoleColor.Red);
+                            Write.UserLine("新建或更新矿工组失败", ConsoleColor.Red);
                         }
                     });
 

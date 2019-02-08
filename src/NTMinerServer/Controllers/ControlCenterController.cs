@@ -16,7 +16,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Global.WriteDevLine($"{request.LoginName}登录");
+                Write.DevLine($"{request.LoginName}登录");
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -419,7 +419,7 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 HostRoot.Current.CalcConfigSet.SaveCalcConfigs(request.Data);
-                Global.WriteDevLine("SaveCalcConfigs");
+                Write.DevLine("SaveCalcConfigs");
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

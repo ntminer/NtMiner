@@ -370,7 +370,7 @@ namespace NTMiner {
                                     });
                                 }
                                 else {
-                                    Global.WriteDevLine("server.json没有新版本", ConsoleColor.Green);
+                                    Write.DevLine("server.json没有新版本", ConsoleColor.Green);
                                 }
                             }
                             else {
@@ -639,7 +639,7 @@ namespace NTMiner {
             if (this.PoolSet.TryGetPool(poolId, out pool)) {
                 poolName = pool.Name;
                 if (!pool.IsUserMode) {
-                    Global.WriteDevLine("不是用户名密码模式矿池", ConsoleColor.Green);
+                    Write.DevLine("不是用户名密码模式矿池", ConsoleColor.Green);
                     return;
                 }
                 this.PoolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);

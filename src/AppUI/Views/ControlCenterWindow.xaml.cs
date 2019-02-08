@@ -19,10 +19,10 @@ namespace NTMiner.Views {
         public ControlCenterWindow() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            Global.WriteUserLineMethod = (text, foreground)=> {
+            Write.WriteUserLineMethod = (text, foreground)=> {
                 WriteLine(this.RichTextBox, this.ConsoleParagraph, text, foreground);
             };
-            Global.WriteDevLineMethod = (text, foreground) => {
+            Write.WriteDevLineMethod = (text, foreground) => {
                 WriteLine(this.RichTextBoxDebug, this.ConsoleParagraphDebug, text, foreground);
             };
         }
