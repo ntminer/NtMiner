@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.MinerServer;
 using System;
 
 namespace NTMiner.Vms {

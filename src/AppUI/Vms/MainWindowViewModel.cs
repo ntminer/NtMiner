@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         private INotificationMessageManager _manager;
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private bool _isDaemonRunning = true;
-        private ulong _serverJsonVersion;
+        private string _serverJsonVersion;
 
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                     "在开发者调试区展示守护进程的运行状态",
                     LogEnum.None,
                     action: message => {
-                        NTMinerClientDaemon.Instance.GetDaemonVersionAsync(Global.Localhost, Global.ClientPort, thatVersion => {
+                        NTMinerClientDaemon.Instance.GetDaemonVersionAsync(Global.Localhost, 3337, thatVersion => {
                             this.IsDaemonRunning = !string.IsNullOrEmpty(thatVersion);
                         });
                     });
@@ -110,20 +110,13 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ulong ServerJsonVersion {
+        public string ServerJsonVersion {
             get => _serverJsonVersion;
             set {
                 if (_serverJsonVersion != value) {
                     _serverJsonVersion = value;
                     OnPropertyChanged(nameof(ServerJsonVersion));
-                    OnPropertyChanged(nameof(ServerJsonVersionText));
                 }
-            }
-        }
-
-        public string ServerJsonVersionText {
-            get {
-                return Global.FromTimestamp(this.ServerJsonVersion).ToString("yyyy-MM-dd HH:mm:ss");
             }
         }
     }

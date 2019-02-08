@@ -1,5 +1,5 @@
-﻿using NTMiner.Repositories;
-using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.MinerServer;
+using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

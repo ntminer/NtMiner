@@ -4,6 +4,6 @@ namespace NTMiner.AppSetting {
     public interface IAppSettingSet {
         IAppSetting GetAppSetting(string key);
 
-        List<IAppSetting> GetAppSettings(string[] keys);
+        List<IAppSetting> GetAppSettings();
     }
 }

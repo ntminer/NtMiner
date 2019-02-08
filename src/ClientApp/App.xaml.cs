@@ -56,7 +56,7 @@ namespace NTMiner {
                                 AppHelper.ShowMainWindow(this, _appPipName);
                             }
                             else {
-                                NTMinerClientDaemon.Instance.RestartNTMinerAsync(Global.Localhost, Global.ClientPort, CommandLineArgs.WorkId, null);
+                                NTMinerClientDaemon.Instance.RestartNTMinerAsync(Global.Localhost, 3337, CommandLineArgs.WorkId, null);
                                 this.Shutdown();
                             }
                         }

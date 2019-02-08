@@ -47,7 +47,7 @@
     <Compile Include="..\NTMinerDaemon\NoDevFee\WinDivertExtract.cs">
       <Link>NoDevFee\WinDivertExtract.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\HashUtil.cs">
+    <Compile Include="..\NTMinerDataObjects\HashUtil.cs">
       <Link>HashUtil.cs</Link>
     </Compile>
     <Compile Include="Global.cs" />

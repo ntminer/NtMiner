@@ -1,5 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
-using System;
+﻿using System;
 using System.Linq;
 
 namespace NTMiner.Vms {

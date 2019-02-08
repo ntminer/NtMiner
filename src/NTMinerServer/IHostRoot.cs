@@ -12,10 +12,6 @@ namespace NTMiner {
 
         OssClient OssClient { get; }
 
-        void Start();
-
-        void Stop();
-
         IUserSet UserSet { get; }
         IAppSettingSet AppSettingSet { get; }
         ICalcConfigSet CalcConfigSet { get; }

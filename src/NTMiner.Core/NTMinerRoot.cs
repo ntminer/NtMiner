@@ -10,8 +10,6 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.Data.Impl;
-using NTMiner.ServiceContracts.DataObjects;
-using NTMiner.ServiceContracts.MinerClient;
 using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
@@ -19,11 +17,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.ServiceModel;
-using System.ServiceModel.Description;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.SelfHost;
 using System.Windows;
 
 namespace NTMiner {
@@ -75,7 +73,7 @@ namespace NTMiner {
                             });
                             Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
                                 if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
-                                    if (response.Data.Value is ulong value) {
+                                    if (response.Data.Value is string value) {
                                         JsonFileVersion = value;
                                     }
                                 }
@@ -141,37 +139,15 @@ namespace NTMiner {
         #endregion
 
         private MinerProfile _minerProfile;
-        private List<ServiceHost> _serviceHosts = null;
+        private HttpSelfHostServer _httpServer;
         #region Start
         public void Start() {
-            Global.Logger.InfoDebugLine("开始启动Wcf服务");
-            string baseUrl = $"http://{Global.Localhost}:{Global.ClientPort}/";
-            ServiceHost minerClientServiceHost = new ServiceHost(typeof(Core.Impl.MinerClientService));
-            minerClientServiceHost.AddServiceEndpoint(typeof(IMinerClientService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IMinerClientService)));
-            _serviceHosts = new List<ServiceHost>
-            {
-                minerClientServiceHost
-            };
-            foreach (var serviceHost in _serviceHosts) {
-                ServiceMetadataBehavior serviceMetadata = serviceHost.Description.Behaviors.Find<ServiceMetadataBehavior>();
-                if (serviceMetadata == null) {
-                    serviceMetadata = new ServiceMetadataBehavior();
-                    serviceHost.Description.Behaviors.Add(serviceMetadata);
-                }
-                serviceMetadata.HttpGetEnabled = false;
-
-                serviceHost.Open();
-            }
-
-            Global.Logger.OkDebugLine($"服务启动成功: {DateTime.Now}.");
-            Global.Logger.InfoDebugLine("服务列表：");
-            foreach (var serviceHost in _serviceHosts) {
-                foreach (var endpoint in serviceHost.Description.Endpoints) {
-                    Global.Logger.InfoDebugLine(endpoint.Address.Uri.ToString());
-                }
-            }
-            Global.Logger.OkDebugLine("Wcf服务启动完成");
-
+            var config = new HttpSelfHostConfiguration("http://localhost:3336");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+            config.Routes.MapHttpRoute(
+                "API Default", "api/{controller}/{action}");
+            _httpServer = new HttpSelfHostServer(config);
+            _httpServer.OpenAsync().Wait();
             Server.TimeService.GetTimeAsync((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Global.DesyncSeconds) {
                     Global.Logger.OkDebugLine("时间同步");
@@ -376,11 +352,11 @@ namespace NTMiner {
                             return;
                         }
                         Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
-                            if (response.IsSuccess() && response.Data != null && response.Data.Value is ulong value) {
+                            if (response.IsSuccess() && response.Data != null && response.Data.Value is string value) {
                                 if (JsonFileVersion != value) {
                                     GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                         string rawNTMinerJson = Encoding.UTF8.GetString(data);
-                                        Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{Global.FromTimestamp(value)}");
+                                        Global.Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{value}");
                                         JsonFileVersion = value;
                                         ServerJson.Instance.ReInit(rawNTMinerJson);
                                         Global.Logger.InfoDebugLine("ServerJson数据集刷新完成");
@@ -437,15 +413,8 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
-            try {
-                if (_serviceHosts != null) {
-                    foreach (var serviceHost in _serviceHosts) {
-                        serviceHost.Close();
-                    }
-                }
-            }
-            catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+            if (_httpServer != null) {
+                _httpServer.Dispose();
             }
             if (_currentMineContext != null) {
                 StopMineAsync();

@@ -1,6 +1,5 @@
 ﻿using LiteDB;
-using NTMiner.ServiceContracts.DataObjects;
-using NTMiner.User;
+using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -71,7 +70,7 @@ namespace NTMiner {
                                     calcConfigData.ModifiedOn = DateTime.Now;
                                 }
                             }
-                            Server.ControlCenterService.SaveCalcConfigsAsync(response.Data);
+                            Server.ControlCenterService.SaveCalcConfigsAsync(response.Data, null);
                             Console.WriteLine($"更新了{string.Join(",", coinCodes)}");
                         }
                     }

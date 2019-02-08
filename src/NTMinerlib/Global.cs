@@ -6,6 +6,7 @@ using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Timers;
 
 namespace NTMiner {
@@ -14,11 +15,6 @@ namespace NTMiner {
         public static bool IsPublishHandlerIdAddedEvent = false;
 
         public const string Localhost = "localhost";
-        public static int ClientPort {
-            get {
-                return 3336;
-            }
-        }
 
         private static ILang _lang = null;
         public static ILang Lang {
@@ -42,10 +38,15 @@ namespace NTMiner {
             }
         }
 
+        public static Assembly EntryAssembly = Assembly.GetEntryAssembly();
+
         private static ILoggingService _logger = null;
         public static ILoggingService Logger {
             get {
-                return _logger ?? (_logger = new Log4NetLoggingService());
+                if (_logger == null) {
+                    _logger = new Log4NetLoggingService();
+                }
+                return _logger;
             }
         }
 
@@ -173,20 +174,6 @@ namespace NTMiner {
                 #endregion
             };
             t.Start();
-        }
-
-        public static readonly DateTime UnixBaseTime = new DateTime(1970, 1, 1);
-
-        public static ulong GetTimestamp() {
-            return GetTimestamp(DateTime.Now.ToUniversalTime());
-        }
-
-        public static ulong GetTimestamp(DateTime dateTime) {
-            return (ulong)(dateTime.ToUniversalTime() - UnixBaseTime).TotalSeconds;
-        }
-
-        public static DateTime FromTimestamp(ulong timestamp) {
-            return UnixBaseTime.AddSeconds(timestamp).ToLocalTime();
         }
 
         public static void Happened<TEvent>(TEvent evnt) where TEvent : class, IEvent {

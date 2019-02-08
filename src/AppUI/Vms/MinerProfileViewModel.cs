@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.SysDics;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.MinerServer;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;

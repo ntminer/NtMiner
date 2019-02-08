@@ -69,19 +69,30 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.SelfHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.SelfHost.4.0.30506.0\lib\net40\System.Web.Http.SelfHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NTMinerDaemon\INTMinerDaemonService.cs">
-      <Link>INTMinerDaemonService.cs</Link>
-    </Compile>
     <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
@@ -121,7 +132,7 @@
     <Compile Include="Core\Kernels\IKernelOutput.cs" />
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />
     <Compile Include="Core\Kernels\Impl\CoinKernelData.cs" />
-    <Compile Include="Core\Impl\MinerClientService.cs" />
+    <Compile Include="MinerClientController.cs" />
     <Compile Include="Core\Kernels\Impl\KernelData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelInputData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelInputSet.cs" />
@@ -161,7 +172,6 @@
     <Compile Include="Daemon\DaemonUtil.cs" />
     <Compile Include="DoubleExtension.cs" />
     <Compile Include="LongExtension.cs" />
-    <Compile Include="MinerClientService.cs" />
     <Compile Include="NTMinerClientDaemon.cs" />
     <Compile Include="NTMinerRoot.partials.MineContext.cs" />
     <Compile Include="NTMinerRoot.partials.MinerProcess.cs" />
@@ -232,6 +242,7 @@
     <Compile Include="ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <Compile Include="NTMinerRoot.partials.BuildAssembleArgs.cs" />
   </ItemGroup>
@@ -250,9 +261,17 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+      <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
+      <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
       <Name>NTMinerlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerRpc.Client\NTMinerRpc.Client.csproj">
+      <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
+      <Name>NTMinerRpc.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>

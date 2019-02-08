@@ -1,10 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner.ServiceContracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using System.ServiceModel;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -109,35 +107,6 @@ namespace UnitTestProject1 {
         public void RunCloseTest() {
             string location = NTMiner.NTMinerRegistry.GetLocation();
             NTMiner.Windows.Cmd.RunClose(location, string.Empty);
-        }
-
-        [TestMethod]
-        public void WcfTest() {
-            BasicHttpBinding BasicHttpBinding = new BasicHttpBinding {
-                TransferMode = TransferMode.Streamed,
-                SendTimeout = new TimeSpan(0, 30, 0),
-                MaxReceivedMessageSize = 10485760,
-                Security = { Mode = BasicHttpSecurityMode.None },
-                Name = "BasicHttpBinding",
-                ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas() {
-                    MaxArrayLength = 1048576,
-                    MaxStringContentLength = 1000000
-                }
-            };
-
-            NetTcpBinding NetTcpBinding = new NetTcpBinding {
-                TransferMode = TransferMode.Streamed,
-                SendTimeout = new TimeSpan(0, 30, 0),
-                MaxReceivedMessageSize = 10737418240,
-                Security = { Mode = SecurityMode.None },
-                Name = "TcpBinding",
-                ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas() {
-                    MaxArrayLength = 1048576,
-                    MaxStringContentLength = 1000000
-                }
-            };
-            var factory = new ChannelFactory<IControlCenterService>(BasicHttpBinding, new EndpointAddress(new Uri(new Uri($"http://test:111/"), typeof(IControlCenterService).Name)));
-            var channel = factory.CreateChannel();
         }
     }
 }

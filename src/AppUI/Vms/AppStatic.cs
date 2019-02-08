@@ -1,8 +1,7 @@
-﻿using NTMiner.AppSetting;
-using NTMiner.Core.Impl;
+﻿using NTMiner.Core.Impl;
 using NTMiner.Language.Impl;
+using NTMiner.MinerServer;
 using NTMiner.Notifications;
-using NTMiner.ServiceContracts.DataObjects;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -78,7 +77,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定刷新{AssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
                     Server.AppSettingService.SetAppSettingAsync(new AppSettingData {
                         Key = ServerJsonFileName,
-                        Value = Global.GetTimestamp()
+                        Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                     }, response => {
                         Execute.OnUIThread(() => {
                             if (response.IsSuccess()) {

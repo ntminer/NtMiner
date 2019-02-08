@@ -3,17 +3,31 @@ using LiteDB;
 using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
-using NTMiner.ServiceContracts;
-using NTMiner.Services;
 using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using System.ServiceModel.Description;
+using System.Web.Http;
+using System.Web.Http.SelfHost;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
+        static void Main(string[] args) {
+            var config = new HttpSelfHostConfiguration("http://localhost:3339");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+            config.Routes.MapHttpRoute(
+                "API Default", "api/{controller}/{action}");
+
+            using (var server = new HttpSelfHostServer(config)) {
+                server.OpenAsync().Wait();
+                Console.WriteLine(config.BaseAddress);
+                Console.WriteLine("Enter exit to quit.");
+                string line = Console.ReadLine();
+                while (line != "exit") {
+                    line = Console.ReadLine();
+                }
+            }
+        }
+
         public static readonly IHostRoot Current = new HostRoot();
 
         private OssClient _ossClient = null;
@@ -63,8 +77,6 @@ namespace NTMiner {
             return new LiteDatabase($"filename={SpecialPath.ReportDbFileFullName};journal=false");
         }
 
-        private List<ServiceHost> _serviceHosts = null;
-
         private HostRoot() {
             OSSClientInit();
             this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
@@ -102,69 +114,8 @@ namespace NTMiner {
 
         public INTMinerFileSet NTMinerFileSet { get; private set; }
 
-        public void Stop() {
-            if (_serviceHosts == null) {
-                return;
-            }
-            foreach (var serviceHost in _serviceHosts) {
-                serviceHost.Close();
-            }
-            _serviceHosts = null;
-        }
-
         public DateTime StartedOn { get; private set; } = DateTime.Now;
 
         public IHostConfig HostConfig { get; private set; }
-
-        public void Start() {
-            string baseUrl = $"http://{Global.Localhost}:{Global.ClientPort}/";
-
-            ServiceHost timeServiceHost = new ServiceHost(typeof(TimeServiceImpl));
-            timeServiceHost.AddServiceEndpoint(typeof(ITimeService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(ITimeService)));
-
-            ServiceHost appSettingServiceHost = new ServiceHost(typeof(AppSettingServiceImpl));
-            appSettingServiceHost.AddServiceEndpoint(typeof(IAppSettingService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IAppSettingService)));
-
-            ServiceHost minerServerServiceHost = new ServiceHost(typeof(ControlCenterServiceImpl));
-            minerServerServiceHost.AddServiceEndpoint(typeof(IControlCenterService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IControlCenterService)));
-
-            ServiceHost mineServerServiceHost = new ServiceHost(typeof(ProfileServiceImpl));
-            mineServerServiceHost.AddServiceEndpoint(typeof(IProfileService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IProfileService)));
-
-            ServiceHost reportServerServiceHost = new ServiceHost(typeof(ReportServiceImpl));
-            reportServerServiceHost.AddServiceEndpoint(typeof(IReportService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IReportService)));
-
-            ServiceHost versionServerServiceHost = new ServiceHost(typeof(FileUrlServiceImpl));
-            versionServerServiceHost.AddServiceEndpoint(typeof(IFileUrlService), ChannelFactory.BasicHttpBinding, new Uri(new Uri(baseUrl), nameof(IFileUrlService)));
-
-            _serviceHosts = new List<ServiceHost>
-            {
-                timeServiceHost,
-                appSettingServiceHost,
-                minerServerServiceHost,
-                mineServerServiceHost,
-                reportServerServiceHost,
-                versionServerServiceHost
-            };
-            foreach (var serviceHost in _serviceHosts) {
-                ServiceMetadataBehavior serviceMetadata = serviceHost.Description.Behaviors.Find<ServiceMetadataBehavior>();
-                if (serviceMetadata == null) {
-                    serviceMetadata = new ServiceMetadataBehavior();
-                    serviceHost.Description.Behaviors.Add(serviceMetadata);
-                }
-                serviceMetadata.HttpGetEnabled = false;
-
-                serviceHost.Open();
-            }
-
-            Global.WriteDevLine($"服务启动成功: {DateTime.Now}.");
-            Global.WriteDevLine("服务列表：");
-            foreach (var serviceHost in _serviceHosts) {
-                foreach (var endpoint in serviceHost.Description.Endpoints) {
-                    Global.WriteDevLine(endpoint.Address.Uri.ToString());
-                }
-            }
-            StartedOn = DateTime.Now;
-        }
     }
 }

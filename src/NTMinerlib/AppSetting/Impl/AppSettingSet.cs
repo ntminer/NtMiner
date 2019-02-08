@@ -1,8 +1,9 @@
 ﻿using LiteDB;
 using NTMiner.AppSetting;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Data.Impl {
     public class AppSettingSet : IAppSettingSet {
@@ -70,16 +71,9 @@ namespace NTMiner.Data.Impl {
             return data;
         }
 
-        public List<IAppSetting> GetAppSettings(string[] keys) {
+        public List<IAppSetting> GetAppSettings() {
             InitOnece();
-            List<IAppSetting> results = new List<IAppSetting>();
-            AppSettingData item;
-            foreach (var key in keys) {
-                if (_dicByKey.TryGetValue(key, out item)) {
-                    results.Add(item);
-                }
-            }
-            return results;
+            return _dicByKey.Values.Cast<IAppSetting>().ToList();
         }
     }
 }

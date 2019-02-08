@@ -1,5 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
-using System;
+﻿using System;
 
 namespace NTMiner.Vms {
     public class CalcConfigViewModel : ViewModelBase, ICalcConfig {

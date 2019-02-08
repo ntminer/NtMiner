@@ -390,7 +390,7 @@
                     Visibility="{Binding IsDaemonRunning, Converter={StaticResource BoolToVisibilityConverter}}"
 				    Margin="0 0 20 0"
                     ToolTip="ServerJsonVersion"
-                    Text="{Binding ServerJsonVersionText}" 
+                    Text="{Binding ServerJsonVersion}" 
                     Foreground="White"
                     Background="Black"></TextBlock>
                 <controls:KbCheckBox 

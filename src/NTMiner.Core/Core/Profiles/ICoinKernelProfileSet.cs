@@ -1,5 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
-using System;
+﻿using System;
 
 namespace NTMiner.Core.Profiles {
     public interface ICoinKernelProfileSet {

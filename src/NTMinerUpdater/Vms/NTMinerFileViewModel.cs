@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.MinerServer;
 using NTMiner.Views;
 using System;
 using System.Linq;

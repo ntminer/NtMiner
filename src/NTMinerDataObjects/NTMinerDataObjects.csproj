@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NTMiner</RootNamespace>
+    <AssemblyName>NTMinerDataObjects</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MinerServer\AddOrUpdateMinerGroupRequest.cs" />
+    <Compile Include="MinerServer\AddOrUpdateMineWorkRequest.cs" />
+    <Compile Include="MinerServer\AddOrUpdateNTMinerFileRequest.cs" />
+    <Compile Include="MinerServer\AddOrUpdateWalletRequest.cs" />
+    <Compile Include="MinerServer\AppSettingData.cs" />
+    <Compile Include="MinerServer\AppSettingRequest.cs" />
+    <Compile Include="MinerServer\AppSettingsRequest.cs" />
+    <Compile Include="MinerServer\CalcConfigData.cs" />
+    <Compile Include="MinerServer\CalcConfigsRequest.cs" />
+    <Compile Include="MinerServer\ClientData.cs" />
+    <Compile Include="MinerServer\CoinKernelProfileData.cs" />
+    <Compile Include="MinerServer\CoinKernelProfileRequest.cs" />
+    <Compile Include="MinerServer\CoinProfileData.cs" />
+    <Compile Include="MinerServer\CoinProfileRequest.cs" />
+    <Compile Include="MinerServer\CoinSnapshotData.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="MinerServer\GetAppSettingResponse.cs" />
+    <Compile Include="MinerServer\GetAppSettingsResponse.cs" />
+    <Compile Include="MinerServer\GetCalcConfigsResponse.cs" />
+    <Compile Include="MinerServer\GetCoinSnapshotsRequest.cs" />
+    <Compile Include="MinerServer\GetCoinSnapshotsResponse.cs" />
+    <Compile Include="MinerServer\GetMinerGroupsResponse.cs" />
+    <Compile Include="MinerServer\GetWalletsResponse.cs" />
+    <Compile Include="HashUtil.cs" />
+    <Compile Include="IAppSetting.cs" />
+    <Compile Include="ICalcConfig.cs" />
+    <Compile Include="IClientData.cs" />
+    <Compile Include="ICoinKernelProfile.cs" />
+    <Compile Include="ICoinProfile.cs" />
+    <Compile Include="IDbEntity`1.cs" />
+    <Compile Include="IEntity`1.cs" />
+    <Compile Include="IMinerGroup.cs" />
+    <Compile Include="IMinerProfile.cs" />
+    <Compile Include="IMineWork.cs" />
+    <Compile Include="INTMinerFile.cs" />
+    <Compile Include="IPoolProfile.cs" />
+    <Compile Include="ISignatureRequest.cs" />
+    <Compile Include="ITimestampEntity·1.cs" />
+    <Compile Include="IUser.cs" />
+    <Compile Include="IWallet.cs" />
+    <Compile Include="MinerServer\LoadClientRequest.cs" />
+    <Compile Include="MinerServer\LoadClientResponse.cs" />
+    <Compile Include="MinerServer\LoadClientsRequest.cs" />
+    <Compile Include="MinerServer\LoadClientsResponse.cs" />
+    <Compile Include="MinerServer\LoginControlCenterRequest.cs" />
+    <Compile Include="MinerServer\LoginData.cs" />
+    <Compile Include="MinerClient\StartMineInput.cs" />
+    <Compile Include="MinerServer\MinerGroupData.cs" />
+    <Compile Include="MinerServer\MinerGroupsRequest.cs" />
+    <Compile Include="MinerServer\MinerJsonPutUrlRequest.cs" />
+    <Compile Include="MinerServer\MinerProfileData.cs" />
+    <Compile Include="MinerServer\MinerProfileRequest.cs" />
+    <Compile Include="MineStatus.cs" />
+    <Compile Include="MinerServer\MineWorkData.cs" />
+    <Compile Include="MinerServer\MineWorkRequest.cs" />
+    <Compile Include="MinerServer\NTMinerFileData.cs" />
+    <Compile Include="MinerServer\NTMinerUrlRequest.cs" />
+    <Compile Include="MinerServer\PackageUrlRequest.cs" />
+    <Compile Include="MinerServer\PoolProfileData.cs" />
+    <Compile Include="MinerServer\PoolProfileRequest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MinerServer\QueryClientsRequest.cs" />
+    <Compile Include="MinerServer\QueryClientsResponse.cs" />
+    <Compile Include="MinerServer\RemoveMinerGroupRequest.cs" />
+    <Compile Include="MinerServer\RemoveMineWorkRequest.cs" />
+    <Compile Include="MinerServer\RemoveNTMinerFileRequest.cs" />
+    <Compile Include="MinerServer\RemoveWalletRequest.cs" />
+    <Compile Include="MinerServer\ReportStateRequest.cs" />
+    <Compile Include="RequestBase.cs" />
+    <Compile Include="ResponseBase.cs" />
+    <Compile Include="ResponseBaseExtension.cs" />
+    <Compile Include="MinerServer\SaveCalcConfigsRequest.cs" />
+    <Compile Include="MinerServer\SetAppSettingRequest.cs" />
+    <Compile Include="MinerServer\SetClientMinerProfilePropertyRequest.cs" />
+    <Compile Include="MinerServer\SetCoinKernelProfilePropertyRequest.cs" />
+    <Compile Include="MinerServer\SetCoinProfilePropertyRequest.cs" />
+    <Compile Include="MinerServer\SetMinerProfilePropertyRequest.cs" />
+    <Compile Include="MinerServer\SetPoolProfilePropertyRequest.cs" />
+    <Compile Include="MinerServer\SetServerJsonVersionRequest.cs" />
+    <Compile Include="MinerServer\SpeedData.cs" />
+    <Compile Include="MinerServer\StartMineRequest.cs" />
+    <Compile Include="MinerServer\StopMineRequest.cs" />
+    <Compile Include="Timestamp.cs" />
+    <Compile Include="MinerServer\UpdateClientRequest.cs" />
+    <Compile Include="UserData.cs" />
+    <Compile Include="MinerServer\WalletData.cs" />
+    <Compile Include="MinerServer\WalletsRequest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
