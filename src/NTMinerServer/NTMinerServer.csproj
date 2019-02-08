@@ -68,7 +68,6 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.SelfHost.5.2.7\lib\net45\System.Web.Http.SelfHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -102,7 +101,7 @@
     <Compile Include="Data\IWalletSet.cs" />
     <Compile Include="Data\SnapshotTimestamp.cs" />
     <Compile Include="HostRoot.cs" />
-    <Compile Include="HttpContextExtension.cs" />
+    <Compile Include="HttpRequestMessageExtension.cs" />
     <Compile Include="IHostConfig.cs" />
     <Compile Include="IHostRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

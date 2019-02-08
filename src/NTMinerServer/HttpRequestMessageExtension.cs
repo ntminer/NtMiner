@@ -3,11 +3,7 @@ using System.ServiceModel.Channels;
 using System.Web;
 
 namespace NTMiner {
-    public static class HttpContextExtension {
-        /// <summary>
-        /// 获取web客户端ip
-        /// </summary>
-        /// <returns></returns>
+    public static class HttpRequestMessageExtension {
         public static string GetWebClientIp(this HttpRequestMessage request) {
             string ip;
             if (request.Properties.ContainsKey("MS_HttpContext")) {
