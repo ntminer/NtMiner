@@ -10,17 +10,19 @@ namespace NTMiner {
         private MinerClientService() {
         }
 
-        public bool ShowMainWindow(string host) {
-            try {
-                using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsync($"http://{host}:3336/api/MinerClient/ShowMainWindow", null);
-                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
-                    return response;
+        public void ShowMainWindowAsync(string host, Action<bool> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://{host}:3336/api/MinerClient/ShowMainWindow", null);
+                        bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                        callback?.Invoke(response);
+                    }
                 }
-            }
-            catch {
-                return false;
-            }
+                catch {
+                    callback?.Invoke(false);
+                }
+            });
         }
 
         public void StartMineAsync(string host, Guid workId, Action<bool> callback) {

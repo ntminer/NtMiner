@@ -38,11 +38,11 @@ namespace NTMiner {
         #region ShowMainWindow
         public static void ShowMainWindow(Application app, string appPipName) {
             try {
-                if (!MinerClientService.Instance.ShowMainWindow(VirtualRoot.Localhost)) {
+                MinerClientService.Instance.ShowMainWindowAsync(VirtualRoot.Localhost, isSuccess=> {
                     RestartNTMiner();
-                }
-                Execute.OnUIThread(() => {
-                    app.Shutdown();
+                    Execute.OnUIThread(() => {
+                        app.Shutdown();
+                    });
                 });
             }
             catch (Exception ex) {
