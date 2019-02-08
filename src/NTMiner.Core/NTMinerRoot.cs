@@ -55,7 +55,7 @@ namespace NTMiner {
                         }
                         if (CommandLineArgs.IsSkipDownloadJson) {
                             DoInit(rawNTMinerJson, rawLangJson, callback);
-                            Global.Access<HasBoot5SecondEvent>(
+                            VirtualRoot.Access<HasBoot5SecondEvent>(
                                 Guid.Parse("546CCF96-D87E-4436-B236-0A9416DFE28D"),
                                 "Debug打印",
                                 LogEnum.Log,
@@ -149,7 +149,7 @@ namespace NTMiner {
             _httpServer = new HttpSelfHostServer(config);
             _httpServer.OpenAsync().Wait();
             Server.TimeService.GetTimeAsync((remoteTime) => {
-                if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Global.DesyncSeconds) {
+                if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < VirtualRoot.DesyncSeconds) {
                     Logger.OkDebugLine("时间同步");
                 }
                 else {
@@ -167,7 +167,7 @@ namespace NTMiner {
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
             #region 挖矿开始时将无份额内核重启份额计数置0
-            Global.Access<MineStartedEvent>(
+            VirtualRoot.Access<MineStartedEvent>(
                 Guid.Parse("e69e8729-868b-4b5d-b120-2914fffddf90"),
                 "挖矿开始时将无份额内核重启份额计数置0",
                 LogEnum.Console,
@@ -177,7 +177,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 每10秒钟检查是否需要重启
-            Global.Access<Per10SecondEvent>(
+            VirtualRoot.Access<Per10SecondEvent>(
                 Guid.Parse("16b3b7b4-5e6c-46b0-97a4-90e085614b78"),
                 "每10秒钟检查是否需要重启",
                 LogEnum.None,
@@ -242,7 +242,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 启动5秒钟后优化windows环境
-            Global.Access<HasBoot5SecondEvent>(
+            VirtualRoot.Access<HasBoot5SecondEvent>(
                 Guid.Parse("32c49476-8232-4130-bd81-52443ed4ab4e"),
                 "启动5秒钟后优化windows环境",
                 LogEnum.Console,
@@ -259,7 +259,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 挖矿开始后清理除当前外的Temp/Kernel
-            Global.Access<MineStartedEvent>(
+            VirtualRoot.Access<MineStartedEvent>(
                 Guid.Parse("57cf1fad-e75b-4eb1-8868-39953b21cced"),
                 "挖矿开始后清理除当前外的Temp/Kernel",
                 LogEnum.Console,
@@ -268,7 +268,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 每50分钟执行一次过期日志清理工作
-            Global.Access<Per50MinuteEvent>(
+            VirtualRoot.Access<Per50MinuteEvent>(
                 Guid.Parse("d27419f4-7eda-4dbf-bf25-e8c5f1efacb5"),
                 "每50分钟执行一次过期日志清理工作",
                 LogEnum.Console,
@@ -280,7 +280,7 @@ namespace NTMiner {
             #endregion
             #region 启动10秒钟后自动开始挖矿
             if (this.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) {
-                Global.Access<HasBoot10SecondEvent>(
+                VirtualRoot.Access<HasBoot10SecondEvent>(
                     Guid.Parse("53004081-ee0f-44a2-b848-95668e63aa8c"),
                     "启动10秒钟后自动开始挖矿",
                     LogEnum.Console,
@@ -298,7 +298,7 @@ namespace NTMiner {
             #endregion
             #region 开始挖矿后启动DevConsole
             if (DevMode.IsDevMode) {
-                Global.Access<MineStartedEvent>(
+                VirtualRoot.Access<MineStartedEvent>(
                  Guid.Parse("638627D4-31EB-42F9-B92B-31B28D78B792"),
                 "开始挖矿后启动DevConsole",
                 LogEnum.Console,
@@ -310,7 +310,7 @@ namespace NTMiner {
             }
             #endregion
             #region 开始挖矿后启动NoDevFee
-            Global.Access<MineStartedEvent>(
+            VirtualRoot.Access<MineStartedEvent>(
                  Guid.Parse("3362e34f-74a9-4db9-a550-f7779994b459"),
                 "开始挖矿后启动NoDevFee",
                 LogEnum.Console,
@@ -319,7 +319,7 @@ namespace NTMiner {
                  });
             #endregion
             #region 停止挖矿后停止NoDevFee
-            Global.Access<MineStopedEvent>(
+            VirtualRoot.Access<MineStopedEvent>(
                  Guid.Parse("D693A381-0AAD-4768-BC6F-2EEDD9F321BC"),
                 "停止挖矿后停止NoDevFee",
                 LogEnum.Console,
@@ -330,7 +330,7 @@ namespace NTMiner {
             #region 周期确保守护进程在运行
             Daemon.DaemonUtil.RunNTMinerDaemon();
             if (!CommandLineArgs.IsControlCenter) {
-                Global.Access<Per20SecondEvent>(
+                VirtualRoot.Access<Per20SecondEvent>(
                     Guid.Parse("F11D42E1-CEBA-4C7E-BB2E-3AC1EBB03F14"),
                     "周期确保守护进程在运行",
                     LogEnum.None,
@@ -343,7 +343,7 @@ namespace NTMiner {
             }
             #endregion
             #region 发生了用户活动时检查serverJson是否有新版本
-            Global.Access<UserActionEvent>(
+            VirtualRoot.Access<UserActionEvent>(
                     Guid.Parse("C7FA9D54-4D16-47F5-AA81-4C76384F95B9"),
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.Console,
@@ -363,7 +363,7 @@ namespace NTMiner {
                                         Execute.OnUIThread(() => {
                                             var refreshCommands = RefreshCommand.CreateRefreshCommands();
                                             foreach (var refreshCommand in refreshCommands) {
-                                                Global.Execute(refreshCommand);
+                                                VirtualRoot.Execute(refreshCommand);
                                             }
                                             Logger.InfoDebugLine("刷新完成");
                                         });
@@ -433,7 +433,7 @@ namespace NTMiner {
                     Logger.WarnWriteLine("挖矿停止");
                     var mineContext = _currentMineContext;
                     _currentMineContext = null;
-                    Global.Happened(new MineStopedEvent(mineContext));
+                    VirtualRoot.Happened(new MineStopedEvent(mineContext));
                     callback?.Invoke();
                 }
                 catch (Exception e) {
@@ -583,7 +583,7 @@ namespace NTMiner {
                     Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName());
                     MinerProcess.CreateProcessAsync(mineContext);
                 }
-                Global.Happened(new MineStartedEvent(mineContext));
+                VirtualRoot.Happened(new MineStartedEvent(mineContext));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

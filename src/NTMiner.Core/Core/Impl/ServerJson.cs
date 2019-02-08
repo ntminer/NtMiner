@@ -26,7 +26,7 @@ namespace NTMiner.Core.Impl {
                 SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray(),
                 SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
             };
-            string json = Global.JsonSerializer.Serialize(data);
+            string json = VirtualRoot.JsonSerializer.Serialize(data);
             File.WriteAllText(AssemblyInfo.ServerJsonFileFullName, json);
             return Path.GetFileName(AssemblyInfo.ServerJsonFileFullName);
         }
@@ -57,7 +57,7 @@ namespace NTMiner.Core.Impl {
                     if (!_inited) {
                         if (!string.IsNullOrEmpty(rawJson)) {
                             try {
-                                ServerJson data = Global.JsonSerializer.Deserialize<ServerJson>(rawJson);
+                                ServerJson data = VirtualRoot.JsonSerializer.Deserialize<ServerJson>(rawJson);
                                 this.Coins = data.Coins ?? new CoinData[0];
                                 this.Groups = data.Groups ?? new GroupData[0];
                                 this.CoinGroups = data.CoinGroups ?? new CoinGroupData[0];

@@ -9,7 +9,7 @@ namespace NTMiner.User.Impl {
         private readonly string _dbFileFullName;
         public UserSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            Global.Access<AddUserCommand>(
+            VirtualRoot.Access<AddUserCommand>(
                 Guid.Parse("0E117810-6472-4688-B782-0AA9520B2DE6"),
                 "处理添加用户命令",
                 LogEnum.Console,
@@ -21,10 +21,10 @@ namespace NTMiner.User.Impl {
                             var col = db.GetCollection<UserData>();
                             col.Insert(entity);
                         }
-                        Global.Happened(new UserAddedEvent(entity));
+                        VirtualRoot.Happened(new UserAddedEvent(entity));
                     }
                 });
-            Global.Access<UpdateUserCommand>(
+            VirtualRoot.Access<UpdateUserCommand>(
                 Guid.Parse("5800AE7E-D6FB-490A-AD86-CD585875D87E"),
                 "处理修改用户命令",
                 LogEnum.Console,
@@ -36,10 +36,10 @@ namespace NTMiner.User.Impl {
                             var col = db.GetCollection<UserData>();
                             col.Update(entity);
                         }
-                        Global.Happened(new UserUpdatedEvent(entity));
+                        VirtualRoot.Happened(new UserUpdatedEvent(entity));
                     }
                 });
-            Global.Access<RemoveUserCommand>(
+            VirtualRoot.Access<RemoveUserCommand>(
                 Guid.Parse("73FB4937-7CBE-4C72-8B3F-4003D2A2A321"),
                 "处理删除用户命令",
                 LogEnum.Console,
@@ -51,7 +51,7 @@ namespace NTMiner.User.Impl {
                             var col = db.GetCollection<UserData>();
                             col.Delete(entity.LoginName);
                         }
-                        Global.Happened(new UserRemovedEvent(entity));
+                        VirtualRoot.Happened(new UserRemovedEvent(entity));
                     }
                 });
         }

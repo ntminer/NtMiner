@@ -12,7 +12,7 @@ namespace NTMiner.Data.Impl {
 
         public AppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            Global.Access<SetAppSettingCommand>(
+            VirtualRoot.Access<SetAppSettingCommand>(
                 Guid.Parse("21205872-1601-4097-B058-891386FB8125"),
                 "处理设置AppSetting命令",
                 LogEnum.Console,
@@ -36,7 +36,7 @@ namespace NTMiner.Data.Impl {
                             col.Insert(entity);
                         }
                     }
-                    Global.Happened(new AppSettingChangedEvent(entity));
+                    VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                 });
         }
 

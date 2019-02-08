@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{CoinVm.Code}吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveCoinGroupCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveCoinGroupCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
@@ -36,9 +36,9 @@ namespace NTMiner.Vms {
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateCoinGroupCommand(upOne));
+                    VirtualRoot.Execute(new UpdateCoinGroupCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateCoinGroupCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
                     GroupViewModel groupVm;
                     if (GroupViewModels.Current.TryGetGroupVm(this.GroupId, out groupVm)) {
                         groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
@@ -50,9 +50,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateCoinGroupCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateCoinGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateCoinGroupCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
                     GroupViewModel groupVm;
                     if (GroupViewModels.Current.TryGetGroupVm(this.GroupId, out groupVm)) {
                         groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));

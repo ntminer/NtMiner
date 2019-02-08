@@ -6,7 +6,7 @@ namespace NTMiner.Controllers {
     public class MinerClientController : ApiController {
         [HttpPost]
         public bool ShowMainWindow() {
-            Global.Execute(new ShowMainWindowCommand());
+            VirtualRoot.Execute(new ShowMainWindowCommand());
             return true;
         }
 
@@ -31,7 +31,7 @@ namespace NTMiner.Controllers {
 
         [HttpPost]
         public void StopMine(DateTime timestamp) {
-            if (timestamp.AddSeconds(Global.DesyncSeconds) < DateTime.Now) {
+            if (timestamp.AddSeconds(VirtualRoot.DesyncSeconds) < DateTime.Now) {
                 return;
             }
             NTMinerRoot.Current.StopMineAsync();
@@ -39,7 +39,7 @@ namespace NTMiner.Controllers {
 
         [HttpPost]
         public void SetMinerProfileProperty(string propertyName, object value, DateTime timestamp) {
-            if (timestamp.AddSeconds(Global.DesyncSeconds) < DateTime.Now) {
+            if (timestamp.AddSeconds(VirtualRoot.DesyncSeconds) < DateTime.Now) {
                 return;
             }
             if (string.IsNullOrEmpty(propertyName)) {

@@ -10,7 +10,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelInputSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<RefreshKernelInputSetCommand>(
+            VirtualRoot.Access<RefreshKernelInputSetCommand>(
                 Guid.Parse("AD17471F-02D2-4ABF-B3AE-B66F7BD16FA4"),
                 "处理刷新内核输入数据集命令",
                 LogEnum.Console,
@@ -18,14 +18,14 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelInputData>();
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
-                            Global.Execute(new UpdateKernelInputCommand(item));
+                            VirtualRoot.Execute(new UpdateKernelInputCommand(item));
                         }
                         else {
-                            Global.Execute(new AddKernelInputCommand(item));
+                            VirtualRoot.Execute(new AddKernelInputCommand(item));
                         }
                     }
                 });
-            Global.Access<AddKernelInputCommand>(
+            VirtualRoot.Access<AddKernelInputCommand>(
                 Guid.Parse("62D0B345-26F8-42BA-B7CD-E547C2B298C9"),
                 "添加内核输入组",
                 LogEnum.Console,
@@ -42,9 +42,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelInputData>();
                     repository.Add(entity);
 
-                    Global.Happened(new KernelInputAddedEvent(entity));
+                    VirtualRoot.Happened(new KernelInputAddedEvent(entity));
                 });
-            Global.Access<UpdateKernelInputCommand>(
+            VirtualRoot.Access<UpdateKernelInputCommand>(
                 Guid.Parse("FED12C08-7BD7-4A8E-BD0B-A19075F4E8C4"),
                 "更新内核输入组",
                 LogEnum.Console,
@@ -67,9 +67,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelInputData>();
                     repository.Update(entity);
 
-                    Global.Happened(new KernelInputUpdatedEvent(entity));
+                    VirtualRoot.Happened(new KernelInputUpdatedEvent(entity));
                 });
-            Global.Access<RemoveKernelInputCommand>(
+            VirtualRoot.Access<RemoveKernelInputCommand>(
                 Guid.Parse("2227F6B9-5A2A-42AB-8147-05E245E2872F"),
                 "移除内核输入组",
                 LogEnum.Console,
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelInputData>();
                     repository.Remove(message.EntityId);
 
-                    Global.Happened(new KernelInputRemovedEvent(entity));
+                    VirtualRoot.Happened(new KernelInputRemovedEvent(entity));
                 });
         }
 

@@ -46,7 +46,7 @@ namespace NTMiner.Core.Impl {
 
         public WalletSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<AddWalletCommand>(
+            VirtualRoot.Access<AddWalletCommand>(
                 Guid.Parse("d050de9d-7356-471b-b9c7-19d685aa770a"),
                 "添加钱包",
                 LogEnum.Console,
@@ -68,9 +68,9 @@ namespace NTMiner.Core.Impl {
                     _dicById.Add(entity.Id, entity);
                     AddWallet(entity);
 
-                    Global.Happened(new WalletAddedEvent(entity));
+                    VirtualRoot.Happened(new WalletAddedEvent(entity));
                 });
-            Global.Access<UpdateWalletCommand>(
+            VirtualRoot.Access<UpdateWalletCommand>(
                 Guid.Parse("658f0e61-8c86-493f-a147-d66da2ed194d"),
                 "更新钱包",
                 LogEnum.Console,
@@ -95,9 +95,9 @@ namespace NTMiner.Core.Impl {
                     entity.Update(message.Input);
                     UpdateWallet(entity);
 
-                    Global.Happened(new WalletUpdatedEvent(entity));
+                    VirtualRoot.Happened(new WalletUpdatedEvent(entity));
                 });
-            Global.Access<RemoveWalletCommand>(
+            VirtualRoot.Access<RemoveWalletCommand>(
                 Guid.Parse("bd70fe34-7575-43d0-a8e5-d8e9566d8d56"),
                 "移除钱包",
                 LogEnum.Console,
@@ -113,7 +113,7 @@ namespace NTMiner.Core.Impl {
                     _dicById.Remove(entity.GetId());
                     RemoveWallet(entity.Id);
 
-                    Global.Happened(new WalletRemovedEvent(entity));
+                    VirtualRoot.Happened(new WalletRemovedEvent(entity));
                 });
         }
 

@@ -12,7 +12,7 @@ namespace NTMiner.Core.Impl {
         public MineWorkSet(INTMinerRoot root) {
             _root = root;
             ICoin coin = root.CoinSet.FirstOrDefault();
-            Global.Access<AddMineWorkCommand>(
+            VirtualRoot.Access<AddMineWorkCommand>(
                 Guid.Parse("2ce02224-8ddf-4499-9d1d-7439ba5ca2fc"),
                 "添加工作",
                 LogEnum.Console,
@@ -27,10 +27,10 @@ namespace NTMiner.Core.Impl {
                     MineWorkData entity = new MineWorkData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
                     Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, isSuccess=> {
-                        Global.Happened(new MineWorkAddedEvent(entity));
+                        VirtualRoot.Happened(new MineWorkAddedEvent(entity));
                     });
                 });
-            Global.Access<UpdateMineWorkCommand>(
+            VirtualRoot.Access<UpdateMineWorkCommand>(
                 Guid.Parse("21140dbe-c9be-48d6-ae92-4d0ebc666a25"),
                 "更新工作",
                 LogEnum.Console,
@@ -45,10 +45,10 @@ namespace NTMiner.Core.Impl {
                     MineWorkData entity = _dicById[message.Input.GetId()];
                     entity.Update(message.Input);
                     Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, isSuccess=> {
-                        Global.Happened(new MineWorkUpdatedEvent(entity));
+                        VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
                     });
                 });
-            Global.Access<RemoveMineWorkCommand>(
+            VirtualRoot.Access<RemoveMineWorkCommand>(
                 Guid.Parse("cec3ccf4-9700-4e38-b786-8ceefe5209fb"),
                 "移除工作",
                 LogEnum.Console,
@@ -63,7 +63,7 @@ namespace NTMiner.Core.Impl {
                     MineWorkData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
                     Server.ControlCenterService.RemoveMineWorkAsync(entity.Id, isSuccess=> {
-                        Global.Happened(new MineWorkRemovedEvent(entity));
+                        VirtualRoot.Happened(new MineWorkRemovedEvent(entity));
                     });
                 });
         }

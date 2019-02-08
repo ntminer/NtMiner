@@ -56,10 +56,10 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.KernelInputSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateKernelInputCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelInputCommand(this));
                 }
                 else {
-                    Global.Execute(new AddKernelInputCommand(this));
+                    VirtualRoot.Execute(new AddKernelInputCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -74,7 +74,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核输入吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveKernelInputCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveKernelInputCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
         }

@@ -16,7 +16,7 @@ namespace NTMiner {
                 return;
             }
 
-            Global.Access<HasBoot2SecondEvent>(
+            VirtualRoot.Access<HasBoot2SecondEvent>(
                 Guid.Parse("b4efba26-1f02-42f2-822a-dd38cffd466d"),
                 "登录服务器并报告一次0算力",
                 LogEnum.Console,
@@ -26,7 +26,7 @@ namespace NTMiner {
                     ReportSpeed(root);
                 });
 
-            Global.Access<Per2MinuteEvent>(
+            VirtualRoot.Access<Per2MinuteEvent>(
                 Guid.Parse("0b16bbd3-329b-4b46-9ebe-c403cae26018"),
                 "每两分钟上报一次",
                 LogEnum.Console,
@@ -34,7 +34,7 @@ namespace NTMiner {
                     ReportSpeed(root);
                 });
 
-            Global.Access<MineStartedEvent>(
+            VirtualRoot.Access<MineStartedEvent>(
                 Guid.Parse("6e8ab8a2-7d08-41bd-9410-107793639f7f"),
                 "开始挖矿后报告状态",
                 LogEnum.Console,
@@ -43,7 +43,7 @@ namespace NTMiner {
                     ReportSpeed(root);
                 });
 
-            Global.Access<MineStopedEvent>(
+            VirtualRoot.Access<MineStopedEvent>(
                 Guid.Parse("5ff27468-2a01-4ce4-91a3-aa354791d0eb"),
                 "停止挖矿后报告状态",
                 LogEnum.Console,

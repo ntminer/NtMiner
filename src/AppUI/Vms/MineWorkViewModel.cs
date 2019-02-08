@@ -37,10 +37,10 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.MineWorkSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateMineWorkCommand(this));
+                    VirtualRoot.Execute(new UpdateMineWorkCommand(this));
                 }
                 else {
-                    Global.Execute(new AddMineWorkCommand(this));
+                    VirtualRoot.Execute(new AddMineWorkCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -55,7 +55,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveMineWorkCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.Config = new DelegateCommand(() => {

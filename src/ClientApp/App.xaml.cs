@@ -56,7 +56,7 @@ namespace NTMiner {
                                 AppHelper.ShowMainWindow(this, _appPipName);
                             }
                             else {
-                                NTMinerClientDaemon.Instance.RestartNTMinerAsync(Global.Localhost, 3337, CommandLineArgs.WorkId, null);
+                                NTMinerClientDaemon.Instance.RestartNTMinerAsync(VirtualRoot.Localhost, 3337, CommandLineArgs.WorkId, null);
                                 this.Shutdown();
                             }
                         }
@@ -92,7 +92,7 @@ namespace NTMiner {
                 notifyIcon = new ExtendedNotifyIcon("pack://application:,,,/NTMiner;component/logo.ico");
                 notifyIcon.Init();
                 #region 处理显示主界面命令
-                Global.Access<ShowMainWindowCommand>(
+                VirtualRoot.Access<ShowMainWindowCommand>(
                     Guid.Parse("01f3c467-f494-42b8-bcb5-848050df59f3"),
                     "处理显示主界面命令",
                     LogEnum.None,
@@ -103,7 +103,7 @@ namespace NTMiner {
                     });
                 #endregion
                 #region 处理重启NTMiner命令
-                Global.Access<RestartNTMinerCommand>(
+                VirtualRoot.Access<RestartNTMinerCommand>(
                     Guid.Parse("d1712c1f-507c-496f-9da2-870cbd9fc57f"),
                     "处理重启NTMiner命令",
                     LogEnum.None,

@@ -13,7 +13,7 @@ namespace NTMiner.Data.Impl {
         private readonly IHostRoot _root;
         internal ClientSet(IHostRoot root) {
             _root = root;
-            Global.Access<Per10SecondEvent>(
+            VirtualRoot.Access<Per10SecondEvent>(
                 Guid.Parse("ea795e07-7f4b-4284-aa72-aa00c17c89d8"),
                 "周期性将内存中的ClientData列表刷入磁盘",
                 LogEnum.Console,

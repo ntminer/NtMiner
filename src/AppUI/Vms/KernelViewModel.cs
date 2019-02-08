@@ -96,10 +96,10 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.KernelSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }
                 else {
-                    Global.Execute(new AddKernelCommand(this));
+                    VirtualRoot.Execute(new AddKernelCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -114,20 +114,20 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.FullName}内核吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveKernelCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveKernelCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.Publish = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.Published;
                     this.PublishOn = Timestamp.GetTimestamp();
-                    Global.Execute(new UpdateKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }, icon: "Icon_Confirm");
             });
             this.UnPublish = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定取消发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.UnPublished;
-                    Global.Execute(new UpdateKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }, icon: "Icon_Confirm");
             });
             this.BrowsePackage = new DelegateCommand(() => {
@@ -149,7 +149,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 int sortNumber = coinVm.CoinKernels.Count == 0 ? 1 : coinVm.CoinKernels.Max(a => a.SortNumber) + 1;
-                Global.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
+                VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
                     Args = string.Empty,
                     CoinId = coinVm.Id,
                     Description = string.Empty,

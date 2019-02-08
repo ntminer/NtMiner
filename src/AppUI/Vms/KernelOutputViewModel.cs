@@ -82,10 +82,10 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.KernelOutputSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateKernelOutputCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelOutputCommand(this));
                 }
                 else {
-                    Global.Execute(new AddKernelOutputCommand(this));
+                    VirtualRoot.Execute(new AddKernelOutputCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -100,7 +100,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核输出组吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveKernelOutputCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveKernelOutputCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.AddKernelOutputFilter = new DelegateCommand(() => {

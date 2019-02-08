@@ -46,7 +46,7 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.CoinKernelSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateCoinKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -58,7 +58,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveCoinKernelCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveCoinKernelCommand(this.Id));
                     Kernel.OnPropertyChanged(nameof(Kernel.SupportedCoins));
                 }, icon: "Icon_Confirm");
             });
@@ -67,9 +67,9 @@ namespace NTMiner.Vms {
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateCoinKernelCommand(upOne));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateCoinKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
@@ -83,9 +83,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateCoinKernelCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateCoinKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));

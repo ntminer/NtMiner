@@ -9,7 +9,7 @@ namespace NTMiner.Vms {
         public static readonly PoolKernelViewModels Current = new PoolKernelViewModels();
         private readonly Dictionary<Guid, PoolKernelViewModel> _dicById = new Dictionary<Guid, PoolKernelViewModel>();
         private PoolKernelViewModels() {
-            Global.Access<PoolKernelAddedEvent>(
+            VirtualRoot.Access<PoolKernelAddedEvent>(
                 Guid.Parse("75C01641-A50D-4880-826F-83F56C817B82"),
                 "新添了矿池内核后刷新矿池内核VM内存",
                 LogEnum.Console,
@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
-            Global.Access<PoolKernelRemovedEvent>(
+            VirtualRoot.Access<PoolKernelRemovedEvent>(
                 Guid.Parse("777F7A90-CCBA-44C7-877C-471E65828A0B"),
                 "移除了币种内核后刷新矿池内核VM内存",
                 LogEnum.Console,
@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
-            Global.Access<PoolKernelUpdatedEvent>(
+            VirtualRoot.Access<PoolKernelUpdatedEvent>(
                 Guid.Parse("A5A1F722-735E-4792-BAFC-F050CC4909BB"),
                 "更新了矿池内核后刷新VM内存",
                 LogEnum.Console,

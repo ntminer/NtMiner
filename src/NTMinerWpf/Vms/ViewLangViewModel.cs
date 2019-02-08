@@ -44,14 +44,14 @@ namespace NTMiner.Vms {
                                 LangId = LangVms.CurrentLangVm.Id,
                                 ViewId = this.ViewId
                             };
-                            Global.Execute(new AddLangViewItemCommand(vm));
+                            VirtualRoot.Execute(new AddLangViewItemCommand(vm));
                             LangViewItemViewModels.Current.TryGetLangViewItemVm(vm.Id, out vm);
                             results.Add(vm);
                         }
                     }
                     Guid[] toRemoves = list.Where(a => !resourceDic.Contains(a.Key)).Select(a => a.Id).ToArray();
                     foreach (Guid langViewItemId in toRemoves) {
-                        Global.Execute(new RemoveLangViewItemCommand(langViewItemId));
+                        VirtualRoot.Execute(new RemoveLangViewItemCommand(langViewItemId));
                     }
                     return results;
                 }

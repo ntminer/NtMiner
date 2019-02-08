@@ -38,7 +38,7 @@ namespace NTMiner {
         #region ShowMainWindow
         public static void ShowMainWindow(Application app, string appPipName) {
             try {
-                if (!MinerClientService.Instance.ShowMainWindow(Global.Localhost)) {
+                if (!MinerClientService.Instance.ShowMainWindow(VirtualRoot.Localhost)) {
                     RestartNTMiner();
                 }
                 Execute.OnUIThread(() => {

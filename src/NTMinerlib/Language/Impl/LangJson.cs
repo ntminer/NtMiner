@@ -12,7 +12,7 @@ namespace NTMiner.Language.Impl {
                 Langs = LangSet.Instance.Cast<Lang>().ToArray(),
                 LangViewItems = LangViewItemSet.Instance.Cast<LangViewItem>().ToArray()
             };
-            string json = Global.JsonSerializer.Serialize(data);
+            string json = VirtualRoot.JsonSerializer.Serialize(data);
             File.WriteAllText(AssemblyInfo.LangJsonFileFullName, json);
             return Path.GetFileName(AssemblyInfo.LangJsonFileFullName);
         }
@@ -31,7 +31,7 @@ namespace NTMiner.Language.Impl {
                     if (!_inited) {
                         if (!string.IsNullOrEmpty(rawJson)) {
                             try {
-                                LangJson data = Global.JsonSerializer.Deserialize<LangJson>(rawJson);
+                                LangJson data = VirtualRoot.JsonSerializer.Deserialize<LangJson>(rawJson);
                                 this.Langs = data.Langs ?? new Lang[0];
                                 this.LangViewItems = data.LangViewItems ?? new LangViewItem[0];
                                 File.WriteAllText(ClientId.LocalLangJsonFileFullName, rawJson);

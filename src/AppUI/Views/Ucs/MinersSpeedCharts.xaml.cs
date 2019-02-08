@@ -25,7 +25,7 @@ namespace NTMiner.Views.Ucs {
             }
             #region 总算力
             RefreshTotalSpeedChart(limit: 60);
-            DelegateHandler<Per10SecondEvent> refeshTotalSpeedChart = Global.Access<Per10SecondEvent>(
+            DelegateHandler<Per10SecondEvent> refeshTotalSpeedChart = VirtualRoot.Access<Per10SecondEvent>(
                 Guid.Parse("CCF4833F-7957-49B2-9642-3EFAFCFE9C9E"),
                 "周期刷新总算力图",
                 LogEnum.Console,
@@ -38,7 +38,7 @@ namespace NTMiner.Views.Ucs {
                     });
                 });
             this.Unloaded += (object sender, RoutedEventArgs e) => {
-                Global.UnAccess(refeshTotalSpeedChart);
+                VirtualRoot.UnAccess(refeshTotalSpeedChart);
             };
             #endregion
         }

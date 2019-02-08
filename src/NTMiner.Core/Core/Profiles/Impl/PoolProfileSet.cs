@@ -131,14 +131,14 @@ namespace NTMiner.Core.Profiles.Impl {
                         if (CommandLineArgs.IsWorker) {
                             if (CommandLineArgs.IsControlCenter) {
                                 Server.ControlCenterService.SetPoolProfilePropertyAsync(CommandLineArgs.WorkId, PoolId, propertyName, value, isSuccess => {
-                                    Global.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
+                                    VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                                 });
                             }
                         }
                         else {
                             IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
                             repository.Update(_data);
-                            Global.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
+                            VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                         }
                     }
                 }

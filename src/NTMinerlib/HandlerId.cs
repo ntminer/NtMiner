@@ -6,7 +6,7 @@ namespace NTMiner {
         private static readonly Dictionary<Guid, HandlerId> _dicById = new Dictionary<Guid, HandlerId>();
 
         static HandlerId() {
-            Global.Access<UpdateHandlerIdCommand>(
+            VirtualRoot.Access<UpdateHandlerIdCommand>(
                 Guid.Parse("77acf9fd-5e2f-464e-be81-5095d830962b"),
                 "更新处理器日志配置",
                 LogEnum.Console,
@@ -26,7 +26,7 @@ namespace NTMiner {
                 item.MessageType = messageType;
                 item.Location = location;
                 item.Description = description;
-                Global.Happened(new HandlerIdUpdatedEvent(item));
+                VirtualRoot.Happened(new HandlerIdUpdatedEvent(item));
                 return item;
             }
             else {
@@ -38,8 +38,8 @@ namespace NTMiner {
                     LogType = logType
                 };
                 _dicById.Add(id, item);
-                if (Global.IsPublishHandlerIdAddedEvent) {
-                    Global.Happened(new HandlerIdAddedEvent(item));
+                if (VirtualRoot.IsPublishHandlerIdAddedEvent) {
+                    VirtualRoot.Happened(new HandlerIdAddedEvent(item));
                 }
                 return item;
             }

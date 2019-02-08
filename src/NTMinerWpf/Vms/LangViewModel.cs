@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Code}系统字典吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveLangCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveLangCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
@@ -35,9 +35,9 @@ namespace NTMiner.Vms {
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateLangCommand(upOne));
+                    VirtualRoot.Execute(new UpdateLangCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateLangCommand(this));
+                    VirtualRoot.Execute(new UpdateLangCommand(this));
                     LangViewModels.Current.OnPropertyChanged(nameof(LangViewModels.LangVms));
                 }
             });
@@ -46,9 +46,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateLangCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateLangCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateLangCommand(this));
+                    VirtualRoot.Execute(new UpdateLangCommand(this));
                     LangViewModels.Current.OnPropertyChanged(nameof(LangViewModels.LangVms));
                 }
             });

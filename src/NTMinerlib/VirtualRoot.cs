@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Timers;
 
 namespace NTMiner {
-    public static partial class Global {
+    public static partial class VirtualRoot {
         public const int DesyncSeconds = 180;
         public static bool IsPublishHandlerIdAddedEvent = false;
 
@@ -45,7 +45,7 @@ namespace NTMiner {
         public static ICmdBus CommandBus { get; private set; }
         public static IEventBus EventBus { get; private set; }
         
-        static Global() {
+        static VirtualRoot() {
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);

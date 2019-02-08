@@ -8,7 +8,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, PoolProfileViewModel> _poolProfileDicById = new Dictionary<Guid, PoolProfileViewModel>();
 
         private PoolProfileViewModels() {
-            Global.Access<PoolProfilePropertyChangedEvent>(
+            VirtualRoot.Access<PoolProfilePropertyChangedEvent>(
                 Guid.Parse("EC4B0EAE-E8BA-48DA-B6FA-749A5346A669"),
                 "矿池设置变更后刷新VM内存",
                 LogEnum.Console,

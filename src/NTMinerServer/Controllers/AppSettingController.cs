@@ -40,7 +40,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Global.Execute(new SetAppSettingCommand(request.Data));
+                VirtualRoot.Execute(new SetAppSettingCommand(request.Data));
                 Write.DevLine($"{request.Data.Key} {request.Data.Value}");
                 return ResponseBase.Ok(request.MessageId);
             }

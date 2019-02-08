@@ -12,7 +12,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelOutputFilterSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<RefreshKernelOutputFilterSetCommand>(
+            VirtualRoot.Access<RefreshKernelOutputFilterSetCommand>(
                 Guid.Parse("66DB9CB7-68C1-4654-8D49-4FA97F5B5188"),
                 "处理刷新内核输出过滤器数据集命令",
                 LogEnum.Console,
@@ -20,14 +20,14 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
-                            Global.Execute(new UpdateKernelOutputFilterCommand(item));
+                            VirtualRoot.Execute(new UpdateKernelOutputFilterCommand(item));
                         }
                         else {
-                            Global.Execute(new AddKernelOutputFilterCommand(item));
+                            VirtualRoot.Execute(new AddKernelOutputFilterCommand(item));
                         }
                     }
                 });
-            Global.Access<AddKernelOutputFilterCommand>(
+            VirtualRoot.Access<AddKernelOutputFilterCommand>(
                 Guid.Parse("43c09cc6-456c-4e55-95b1-63b5937c5b11"),
                 "添加内核输出过滤器",
                 LogEnum.Console,
@@ -51,9 +51,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Add(entity);
 
-                    Global.Happened(new KernelOutputFilterAddedEvent(entity));
+                    VirtualRoot.Happened(new KernelOutputFilterAddedEvent(entity));
                 });
-            Global.Access<UpdateKernelOutputFilterCommand>(
+            VirtualRoot.Access<UpdateKernelOutputFilterCommand>(
                 Guid.Parse("b449bd25-98d8-4a60-9c75-36a6983c6176"),
                 "更新内核输出过滤器",
                 LogEnum.Console,
@@ -76,9 +76,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Update(entity);
 
-                    Global.Happened(new KernelOutputFilterUpdatedEvent(entity));
+                    VirtualRoot.Happened(new KernelOutputFilterUpdatedEvent(entity));
                 });
-            Global.Access<RemoveKernelOutputFilterCommand>(
+            VirtualRoot.Access<RemoveKernelOutputFilterCommand>(
                 Guid.Parse("11a3a185-3d2e-463e-bd92-94a0db909d32"),
                 "移除内核输出过滤器",
                 LogEnum.Console,
@@ -96,7 +96,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>();
                     repository.Remove(entity.Id);
 
-                    Global.Happened(new KernelOutputFilterRemovedEvent(entity));
+                    VirtualRoot.Happened(new KernelOutputFilterRemovedEvent(entity));
                 });
         }
 

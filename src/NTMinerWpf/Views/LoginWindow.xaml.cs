@@ -60,8 +60,8 @@ namespace NTMiner.Views {
 
         private void CbLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
             LangViewModel selectedItem = (LangViewModel)e.AddedItems[0];
-            if (selectedItem != Global.Lang) {
-                Global.Lang = selectedItem;
+            if (selectedItem != VirtualRoot.Lang) {
+                VirtualRoot.Lang = selectedItem;
                 UILanguageInit();
             }
         }

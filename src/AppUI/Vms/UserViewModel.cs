@@ -34,10 +34,10 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.UserSet.Contains(this.LoginName)) {
-                    Global.Execute(new UpdateUserCommand(this));
+                    VirtualRoot.Execute(new UpdateUserCommand(this));
                 }
                 else {
-                    Global.Execute(new AddUserCommand(this));
+                    VirtualRoot.Execute(new AddUserCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.LoginName}矿池吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveUserCommand(this.LoginName));
+                    VirtualRoot.Execute(new RemoveUserCommand(this.LoginName));
                 }, icon: "Icon_Confirm");
             });
         }

@@ -103,7 +103,7 @@
     <Compile Include="Repositories\IRepository`1.cs" />
     <Compile Include="Serialization\IObjectSerializer.cs" />
     <Compile Include="Serialization\ObjectJsonSerializer.cs" />
-    <Compile Include="Global.cs" />
+    <Compile Include="VirtualRoot.cs" />
     <Compile Include="User\Impl\UserSet.cs" />
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />

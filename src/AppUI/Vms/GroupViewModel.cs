@@ -38,10 +38,10 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.GroupSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateGroupCommand(this));
+                    VirtualRoot.Execute(new UpdateGroupCommand(this));
                 }
                 else {
-                    Global.Execute(new AddGroupCommand(this));
+                    VirtualRoot.Execute(new AddGroupCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -56,7 +56,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveGroupCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveGroupCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
@@ -64,9 +64,9 @@ namespace NTMiner.Vms {
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateGroupCommand(upOne));
+                    VirtualRoot.Execute(new UpdateGroupCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateGroupCommand(this));
+                    VirtualRoot.Execute(new UpdateGroupCommand(this));
                     GroupViewModels.Current.OnPropertyChanged(nameof(GroupViewModels.List));
                 }
             });
@@ -75,9 +75,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateGroupCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateGroupCommand(this));
+                    VirtualRoot.Execute(new UpdateGroupCommand(this));
                     GroupViewModels.Current.OnPropertyChanged(nameof(GroupViewModels.List));
                 }
             });
@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                     GroupId = this.Id,
                     SortNumber = sortNumber
                 };
-                Global.Execute(new AddCoinGroupCommand(coinGroupVm));
+                VirtualRoot.Execute(new AddCoinGroupCommand(coinGroupVm));
             });
         }
 

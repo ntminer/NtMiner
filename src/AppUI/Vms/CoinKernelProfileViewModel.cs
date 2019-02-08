@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                 if (_inner.IsDualCoinEnabled != value) {
                     NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsDualCoinEnabled), value);
                     OnPropertyChanged(nameof(IsDualCoinEnabled));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
                 if (_inner.IsAutoDualWeight != value) {
                     NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsAutoDualWeight), value);
                     OnPropertyChanged(nameof(IsAutoDualWeight));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
                 if (_inner.CustomArgs != value) {
                     NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CustomArgs), value);
                     OnPropertyChanged(nameof(CustomArgs));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace NTMiner.Vms {
                 if (value != null && value.Id != Guid.Empty) {
                     DualCoinId = value.Id;
                     OnPropertyChanged(nameof(SelectedDualCoin));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }

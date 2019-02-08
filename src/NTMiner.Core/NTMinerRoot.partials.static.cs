@@ -27,7 +27,7 @@ namespace NTMiner {
             get { return _jsonFileVersion; }
             set {
                 _jsonFileVersion = value;
-                Global.Happened(new ServerJsonVersionChangedEvent());
+                VirtualRoot.Happened(new ServerJsonVersionChangedEvent());
             }
         }
 
@@ -47,8 +47,8 @@ namespace NTMiner {
         }
 
         /// <summary>
-        /// 创建组合仓储，组合仓储由GlobalDb和ProfileDb层序组成。
-        /// 如果是开发者则访问GlobalDb且只访问GlobalDb，否则将GlobalDb和ProfileDb并起来访问且不能修改删除GlobalDb。
+        /// 创建组合仓储，组合仓储由ServerDb和ProfileDb层序组成。
+        /// 如果是开发者则访问ServerDb且只访问GlobalDb，否则将ServerDb和ProfileDb并起来访问且不能修改删除GlobalDb。
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>

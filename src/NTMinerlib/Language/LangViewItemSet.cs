@@ -13,15 +13,15 @@ namespace NTMiner.Language {
         private readonly Dictionary<Guid, LangViewItem> _dicById = new Dictionary<Guid, LangViewItem>();
 
         private LangViewItemSet() {
-            Global.Access<RefreshLangViewItemSetCommand>(
+            VirtualRoot.Access<RefreshLangViewItemSetCommand>(
                 Guid.Parse("90E8BC51-65FA-4192-BB94-F08BFADBC78E"),
                 "处理刷新语言项命令",
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
-                    Global.Happened(new LangViewItemSetRefreshedEvent());
+                    VirtualRoot.Happened(new LangViewItemSetRefreshedEvent());
                 });
-            Global.Access<AddLangViewItemCommand>(
+            VirtualRoot.Access<AddLangViewItemCommand>(
                 Guid.Parse("07AC4BE6-AB09-48D2-A3D7-8653EE52CC43"),
                 "处理添加语言项命令",
                 LogEnum.Console,
@@ -44,10 +44,10 @@ namespace NTMiner.Language {
                         var repository = Repository.CreateLanguageRepository<LangViewItem>();
                         repository.Add(entity);
 
-                        Global.Happened(new LangViewItemAddedEvent(entity));
+                        VirtualRoot.Happened(new LangViewItemAddedEvent(entity));
                     }
                 });
-            Global.Access<UpdateLangViewItemCommand>(
+            VirtualRoot.Access<UpdateLangViewItemCommand>(
                 Guid.Parse("CEC2EFC5-4F92-4226-ADCE-BE36D8968B9E"),
                 "处理修改语言项命令",
                 LogEnum.Console,
@@ -58,10 +58,10 @@ namespace NTMiner.Language {
                         var repository = Repository.CreateLanguageRepository<LangViewItem>();
                         repository.Update(entity);
 
-                        Global.Happened(new LangViewItemUpdatedEvent(entity));
+                        VirtualRoot.Happened(new LangViewItemUpdatedEvent(entity));
                     }
                 });
-            Global.Access<RemoveLangViewItemCommand>(
+            VirtualRoot.Access<RemoveLangViewItemCommand>(
                 Guid.Parse("3827E59B-872D-45E6-8512-7EC22E1BE6E3"),
                 "处理删除语言项命令",
                 LogEnum.Console,
@@ -87,7 +87,7 @@ namespace NTMiner.Language {
                         var repository = Repository.CreateLanguageRepository<LangViewItem>();
                         repository.Remove(entity.Id);
 
-                        Global.Happened(new LangViewItemRemovedEvent(entity));
+                        VirtualRoot.Happened(new LangViewItemRemovedEvent(entity));
                     }
                 });
         }

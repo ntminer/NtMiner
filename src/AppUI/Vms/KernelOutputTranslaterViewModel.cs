@@ -49,10 +49,10 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 int sortNumber = this.SortNumber;
                 if (NTMinerRoot.Current.KernelOutputTranslaterSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                 }
                 else {
-                    Global.Execute(new AddKernelOutputTranslaterCommand(this));
+                    VirtualRoot.Execute(new AddKernelOutputTranslaterCommand(this));
                 }
                 if (sortNumber != this.SortNumber) {
                     if (KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出翻译器吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveKernelOutputTranslaterCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
@@ -77,9 +77,9 @@ namespace NTMiner.Vms {
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(upOne));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                     KernelOutputTranslaterViewModels.Current.OnPropertyChanged(nameof(KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
                     if (KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
@@ -91,9 +91,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                     KernelOutputTranslaterViewModels.Current.OnPropertyChanged(nameof(KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
                     if (KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));

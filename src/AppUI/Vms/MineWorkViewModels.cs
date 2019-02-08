@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
             this.Add = new DelegateCommand(() => {
                 new MineWorkViewModel(Guid.NewGuid()).Edit.Execute(null);
             });
-            Global.Access<MineWorkAddedEvent>(
+            VirtualRoot.Access<MineWorkAddedEvent>(
                 Guid.Parse("3fcceca1-add2-4a35-9609-a936be6885b2"),
                 "添加作业后刷新VM内存",
                 LogEnum.Console,
@@ -37,13 +37,13 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
-            Global.Access<MineWorkUpdatedEvent>(
+            VirtualRoot.Access<MineWorkUpdatedEvent>(
                 Guid.Parse("2ee32a0d-3c39-4910-92c6-ec7b26f43421"),
                 "更新作业后刷新VM内存",
                 LogEnum.Console, action: message => {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 });
-            Global.Access<MineWorkRemovedEvent>(
+            VirtualRoot.Access<MineWorkRemovedEvent>(
                 Guid.Parse("19681790-dd17-449e-a386-eb1d317b4acd"),
                 "删除作业后刷新VM内存",
                 LogEnum.Console,

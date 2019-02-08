@@ -34,10 +34,10 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.MinerGroupSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateMinerGroupCommand(this));
+                    VirtualRoot.Execute(new UpdateMinerGroupCommand(this));
                 }
                 else {
-                    Global.Execute(new AddMinerGroupCommand(this));
+                    VirtualRoot.Execute(new AddMinerGroupCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveMinerGroupCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
         }

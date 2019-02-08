@@ -55,10 +55,10 @@ namespace NTMiner.Vms {
                 }
                 if (!this.IsTestWallet) {
                     if (NTMinerRoot.Current.WalletSet.Contains(this.Id)) {
-                        Global.Execute(new UpdateWalletCommand(this));
+                        VirtualRoot.Execute(new UpdateWalletCommand(this));
                     }
                     else {
-                        Global.Execute(new AddWalletCommand(this));
+                        VirtualRoot.Execute(new AddWalletCommand(this));
                     }
                 }
                 CloseWindow?.Invoke();
@@ -77,7 +77,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}钱包吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveWalletCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveWalletCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
@@ -85,9 +85,9 @@ namespace NTMiner.Vms {
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateWalletCommand(upOne));
+                    VirtualRoot.Execute(new UpdateWalletCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateWalletCommand(this));
+                    VirtualRoot.Execute(new UpdateWalletCommand(this));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
@@ -100,9 +100,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateWalletCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateWalletCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateWalletCommand(this));
+                    VirtualRoot.Execute(new UpdateWalletCommand(this));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));

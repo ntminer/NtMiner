@@ -171,14 +171,14 @@ namespace NTMiner.Core.Profiles.Impl {
                         if (CommandLineArgs.IsWorker) {
                             if (CommandLineArgs.IsControlCenter) {
                                 Server.ControlCenterService.SetCoinProfilePropertyAsync(CommandLineArgs.WorkId, CoinId, propertyName, value, isSuccess => {
-                                    Global.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
+                                    VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
                                 });
                             }
                         }
                         else {
                             IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>();
                             repository.Update(_data);
-                            Global.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
+                            VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
                         }
                     }
                 }

@@ -11,7 +11,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<RefreshKernelSetCommand>(
+            VirtualRoot.Access<RefreshKernelSetCommand>(
                 Guid.Parse("3FE50ED8-1E60-4C3C-8486-DE478BBF9308"),
                 "处理刷新内核数据集命令",
                 LogEnum.Console,
@@ -19,14 +19,14 @@ namespace NTMiner.Core.Kernels.Impl {
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
-                            Global.Execute(new UpdateKernelCommand(item));
+                            VirtualRoot.Execute(new UpdateKernelCommand(item));
                         }
                         else {
-                            Global.Execute(new AddKernelCommand(item));
+                            VirtualRoot.Execute(new AddKernelCommand(item));
                         }
                     }
                 });
-            Global.Access<AddKernelCommand>(
+            VirtualRoot.Access<AddKernelCommand>(
                 Guid.Parse("331be370-2d4f-488f-9dd8-3709e3ff63af"),
                 "添加内核",
                 LogEnum.Console,
@@ -46,9 +46,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Add(entity);
 
-                    Global.Happened(new KernelAddedEvent(entity));
+                    VirtualRoot.Happened(new KernelAddedEvent(entity));
                 });
-            Global.Access<UpdateKernelCommand>(
+            VirtualRoot.Access<UpdateKernelCommand>(
                 Guid.Parse("f23c801a-afbe-4e59-93c2-3eaecf3c7d8e"),
                 "更新内核",
                 LogEnum.Console,
@@ -71,9 +71,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Update(entity);
 
-                    Global.Happened(new KernelUpdatedEvent(entity));
+                    VirtualRoot.Happened(new KernelUpdatedEvent(entity));
                 });
-            Global.Access<RemoveKernelCommand>(
+            VirtualRoot.Access<RemoveKernelCommand>(
                 Guid.Parse("b90d68ba-2af2-48db-8bf3-5b2795667e8c"),
                 "移除内核",
                 LogEnum.Console,
@@ -88,13 +88,13 @@ namespace NTMiner.Core.Kernels.Impl {
                     KernelData entity = _dicById[message.EntityId];
                     List<Guid> coinKernelIds = root.CoinKernelSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
                     foreach (var coinKernelId in coinKernelIds) {
-                        Global.Execute(new RemoveCoinKernelCommand(coinKernelId));
+                        VirtualRoot.Execute(new RemoveCoinKernelCommand(coinKernelId));
                     }
                     _dicById.Remove(entity.Id);
                     IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>();
                     repository.Remove(entity.Id);
 
-                    Global.Happened(new KernelRemovedEvent(entity));
+                    VirtualRoot.Happened(new KernelRemovedEvent(entity));
                 });
         }
 

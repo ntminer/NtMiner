@@ -48,10 +48,10 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.SysDicItemSet.ContainsKey(this.Id)) {
-                    Global.Execute(new UpdateSysDicItemCommand(this));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                 }
                 else {
-                    Global.Execute(new AddSysDicItemCommand(this));
+                    VirtualRoot.Execute(new AddSysDicItemCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -66,7 +66,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Code}系统字典项吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveSysDicItemCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveSysDicItemCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
@@ -74,9 +74,9 @@ namespace NTMiner.Vms {
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateSysDicItemCommand(upOne));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateSysDicItemCommand(this));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                     SysDicViewModel sysDicVm;
                     if (SysDicViewModels.Current.TryGetSysDicVm(this.DicId, out sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
@@ -89,9 +89,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateSysDicItemCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateSysDicItemCommand(this));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                     SysDicViewModel sysDicVm;
                     if (SysDicViewModels.Current.TryGetSysDicVm(this.DicId, out sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));

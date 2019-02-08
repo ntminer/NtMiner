@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<LangViewModel, Dictionary<string, List<LangViewItemViewModel>>> _dicByLangAndView = new Dictionary<LangViewModel, Dictionary<string, List<LangViewItemViewModel>>>();
 
         private LangViewItemViewModels() {
-            Global.Access<LangViewItemAddedEvent>(
+            VirtualRoot.Access<LangViewItemAddedEvent>(
                 Guid.Parse("60FD738F-F260-4EF2-A60A-66B04EC6B243"),
                 "添加了语言项后刷新VM内存",
                 LogEnum.None,
@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
                         _dicById.Add(entity.Id, entity);
                     }
                 });
-            Global.Access<LangViewItemUpdatedEvent>(
+            VirtualRoot.Access<LangViewItemUpdatedEvent>(
                 Guid.Parse("A4DCFEE0-FA36-4D84-9D98-0D4455BE1EA7"),
                 "更新了语言项后刷新VM内存",
                 LogEnum.None,
@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
                         langItemVm.Update(message.Source);
                     }
                 });
-            Global.Access<LangViewItemRemovedEvent>(
+            VirtualRoot.Access<LangViewItemRemovedEvent>(
                 Guid.Parse("4AA8EA72-7BD9-45D8-B798-EF505C665572"),
                 "删除了语言项后刷新VM内存",
                 LogEnum.None,

@@ -10,7 +10,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public CoinKernelSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<RefreshCoinKernelSetCommand>(
+            VirtualRoot.Access<RefreshCoinKernelSetCommand>(
                 Guid.Parse("47F9B343-3A55-43AF-A92F-9500A1BA1924"),
                 "处理刷新币种内核数据集命令",
                 LogEnum.Console,
@@ -18,14 +18,14 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
-                            Global.Execute(new UpdateCoinKernelCommand(item));
+                            VirtualRoot.Execute(new UpdateCoinKernelCommand(item));
                         }
                         else {
-                            Global.Execute(new AddCoinKernelCommand(item));
+                            VirtualRoot.Execute(new AddCoinKernelCommand(item));
                         }
                     }
                 });
-            Global.Access<AddCoinKernelCommand>(
+            VirtualRoot.Access<AddCoinKernelCommand>(
                 Guid.Parse("6345c411-4860-433b-ad5e-3a743bcebfa8"),
                 "添加币种内核",
                 LogEnum.Console,
@@ -48,7 +48,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Add(entity);
 
-                    Global.Happened(new CoinKernelAddedEvent(entity));
+                    VirtualRoot.Happened(new CoinKernelAddedEvent(entity));
 
                     ICoin coin;
                     if (root.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
@@ -62,11 +62,11 @@ namespace NTMiner.Core.Kernels.Impl {
                                 KernelId = message.Input.KernelId,
                                 PoolId = pool.GetId()
                             };
-                            Global.Execute(new AddPoolKernelCommand(poolKernel));
+                            VirtualRoot.Execute(new AddPoolKernelCommand(poolKernel));
                         }
                     }
                 });
-            Global.Access<UpdateCoinKernelCommand>(
+            VirtualRoot.Access<UpdateCoinKernelCommand>(
                 Guid.Parse("b3dfdf09-f732-4b3b-aeeb-25de7b83d30c"),
                 "更新币种内核",
                 LogEnum.Console,
@@ -89,9 +89,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Update(entity);
 
-                    Global.Happened(new CoinKernelUpdatedEvent(entity));
+                    VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
                 });
-            Global.Access<RemoveCoinKernelCommand>(
+            VirtualRoot.Access<RemoveCoinKernelCommand>(
                 Guid.Parse("ee34113f-e616-421d-adcc-c2e810723035"),
                 "移除币种内核",
                 LogEnum.Console,
@@ -108,7 +108,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     repository.Remove(entity.Id);
 
-                    Global.Happened(new CoinKernelRemovedEvent(entity));
+                    VirtualRoot.Happened(new CoinKernelRemovedEvent(entity));
                     ICoin coin;
                     if (root.CoinSet.TryGetCoin(entity.CoinId, out coin)) {
                         List<Guid> toRemoves = new List<Guid>();
@@ -119,7 +119,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             }
                         }
                         foreach (Guid poolKernelId in toRemoves) {
-                            Global.Execute(new RemovePoolKernelCommand(poolKernelId));
+                            VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                         }
                     }
                 });

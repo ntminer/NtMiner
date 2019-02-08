@@ -11,19 +11,19 @@ namespace NTMiner {
         private readonly Dictionary<string, ResourceDictionary> _dicByViewId = new Dictionary<string, ResourceDictionary>();
 
         private ResourceDictionarySet() {
-            Global.Access<LangViewItemUpdatedEvent>(
+            VirtualRoot.Access<LangViewItemUpdatedEvent>(
                 Guid.Parse("E537F225-11C6-4B0D-B2B3-BC111E4EFFEA"),
                 "更新了语言视图项后刷新WPF动态资源集",
                 LogEnum.None,
                 action: message => {
                     ResourceDictionary resourceDictionary;
                     if (TryGetResourceDic(message.Source.ViewId, out resourceDictionary)) {
-                        if (resourceDictionary.Contains(message.Source.Key) && Global.Lang.GetId() == message.Source.LangId) {
+                        if (resourceDictionary.Contains(message.Source.Key) && VirtualRoot.Lang.GetId() == message.Source.LangId) {
                             resourceDictionary[message.Source.Key] = message.Source.Value;
                         }
                     }
                 });
-            Global.Access<GlobalLangChangedEvent>(
+            VirtualRoot.Access<GlobalLangChangedEvent>(
                 Guid.Parse("732B9E09-1F97-4A1D-80E4-094DFD2CCC9D"),
                 "切换语言后刷新视图语言资源",
                 LogEnum.None,
@@ -32,7 +32,7 @@ namespace NTMiner {
                         FillResourceDic(kv.Key, kv.Value);
                     }
                 });
-            Global.Access<LangViewItemSetRefreshedEvent>(
+            VirtualRoot.Access<LangViewItemSetRefreshedEvent>(
                 Guid.Parse("50508740-61ED-4B09-A29A-97A7769896A6"),
                 "语言项数据集变更后刷新WPF资源集",
                 LogEnum.None,
@@ -55,7 +55,7 @@ namespace NTMiner {
             if (!_dicByViewId.ContainsKey(viewId)) {
                 _dicByViewId.Add(viewId, resourceDictionary);
             }
-            IList<ILangViewItem> langItems = LangViewItemSet.Instance.GetLangItems(Global.Lang.GetId(), viewId);
+            IList<ILangViewItem> langItems = LangViewItemSet.Instance.GetLangItems(VirtualRoot.Lang.GetId(), viewId);
             Type stringType = typeof(string);
             foreach (var item in langItems) {
                 if (resourceDictionary.Contains(item.Key) && resourceDictionary[item.Key].GetType() == stringType) {

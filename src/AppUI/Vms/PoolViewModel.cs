@@ -72,10 +72,10 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.PoolSet.Contains(this.Id)) {
-                    Global.Execute(new UpdatePoolCommand(this));
+                    VirtualRoot.Execute(new UpdatePoolCommand(this));
                 }
                 else {
-                    Global.Execute(new AddPoolCommand(this));
+                    VirtualRoot.Execute(new AddPoolCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -90,7 +90,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}矿池吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemovePoolCommand(this.Id));
+                    VirtualRoot.Execute(new RemovePoolCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
@@ -98,9 +98,9 @@ namespace NTMiner.Vms {
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdatePoolCommand(upOne));
+                    VirtualRoot.Execute(new UpdatePoolCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdatePoolCommand(this));
+                    VirtualRoot.Execute(new UpdatePoolCommand(this));
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Pools));
                         coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));
@@ -112,9 +112,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdatePoolCommand(nextOne));
+                    VirtualRoot.Execute(new UpdatePoolCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdatePoolCommand(this));
+                    VirtualRoot.Execute(new UpdatePoolCommand(this));
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Pools));
                         coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));

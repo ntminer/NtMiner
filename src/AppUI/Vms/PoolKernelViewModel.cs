@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.PoolKernelSet.Contains(this.Id)) {
-                    Global.Execute(new UpdatePoolKernelCommand(this));
+                    VirtualRoot.Execute(new UpdatePoolKernelCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -125,7 +125,7 @@ namespace NTMiner.Vms {
                     _args = value;
                     OnPropertyChanged(nameof(Args));
                     if (MinerProfileViewModel.Current.CoinId == this.PoolVm.CoinId) {
-                        Global.Execute(new RefreshArgsAssemblyCommand());
+                        VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                     }
                 }
             }

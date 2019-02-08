@@ -30,10 +30,10 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.KernelOutputFilterSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateKernelOutputFilterCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelOutputFilterCommand(this));
                 }
                 else {
-                    Global.Execute(new AddKernelOutputFilterCommand(this));
+                    VirtualRoot.Execute(new AddKernelOutputFilterCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -45,7 +45,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出过滤器吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveKernelOutputFilterCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveKernelOutputFilterCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
         }

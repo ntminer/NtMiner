@@ -9,7 +9,7 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         public GroupSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<RefreshGroupSetCommand>(
+            VirtualRoot.Access<RefreshGroupSetCommand>(
                 Guid.Parse("CE28E5E9-8908-433E-BF0A-43BC7E5B60E1"),
                 "处理刷新组数据集命令",
                 LogEnum.Console,
@@ -17,14 +17,14 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
-                            Global.Execute(new UpdateGroupCommand(item));
+                            VirtualRoot.Execute(new UpdateGroupCommand(item));
                         }
                         else {
-                            Global.Execute(new AddGroupCommand(item));
+                            VirtualRoot.Execute(new AddGroupCommand(item));
                         }
                     }
                 });
-            Global.Access<AddGroupCommand>(
+            VirtualRoot.Access<AddGroupCommand>(
                 Guid.Parse("e0c313ff-2550-41f8-9403-8575638c7faf"),
                 "添加组",
                 LogEnum.Console,
@@ -41,9 +41,9 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     repository.Add(entity);
 
-                    Global.Happened(new GroupAddedEvent(entity));
+                    VirtualRoot.Happened(new GroupAddedEvent(entity));
                 });
-            Global.Access<UpdateGroupCommand>(
+            VirtualRoot.Access<UpdateGroupCommand>(
                 Guid.Parse("b2d190dd-b60d-41f9-8e93-65902c318a78"),
                 "更新组",
                 LogEnum.Console,
@@ -66,9 +66,9 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     repository.Update(entity);
 
-                    Global.Happened(new GroupUpdatedEvent(entity));
+                    VirtualRoot.Happened(new GroupUpdatedEvent(entity));
                 });
-            Global.Access<RemoveGroupCommand>(
+            VirtualRoot.Access<RemoveGroupCommand>(
                 Guid.Parse("7dede0b5-be81-4fc1-bee1-cdeb6afa7b72"),
                 "移除组",
                 LogEnum.Console,
@@ -83,13 +83,13 @@ namespace NTMiner.Core.Impl {
                     GroupData entity = _dicById[message.EntityId];
                     Guid[] toRemoves = root.CoinGroupSet.GetGroupCoinIds(entity.Id).ToArray();
                     foreach (var id in toRemoves) {
-                        Global.Execute(new RemoveCoinGroupCommand(id));
+                        VirtualRoot.Execute(new RemoveCoinGroupCommand(id));
                     }
                     _dicById.Remove(entity.GetId());
                     var repository = NTMinerRoot.CreateServerRepository<GroupData>();
                     repository.Remove(message.EntityId);
 
-                    Global.Happened(new GroupRemovedEvent(entity));
+                    VirtualRoot.Happened(new GroupRemovedEvent(entity));
                 });
         }
 

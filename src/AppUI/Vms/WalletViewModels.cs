@@ -8,7 +8,7 @@ namespace NTMiner.Vms {
         public static readonly WalletViewModels Current = new WalletViewModels();
         private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
         private WalletViewModels() {
-            Global.Access<WalletAddedEvent>(
+            VirtualRoot.Access<WalletAddedEvent>(
                 Guid.Parse("a0a78584-1c43-4364-b8f1-315c9de9e0bf"),
                 "添加了钱包后调整VM内存",
                 LogEnum.Console,
@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
                         coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                     }
                 });
-            Global.Access<WalletRemovedEvent>(
+            VirtualRoot.Access<WalletRemovedEvent>(
                 Guid.Parse("126829e4-d78e-492f-a74d-d2d05aef0bc2"),
                 "删除了钱包后调整VM内存",
                 LogEnum.Console,
@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
                         coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                     }
                 });
-            Global.Access<WalletUpdatedEvent>(
+            VirtualRoot.Access<WalletUpdatedEvent>(
                 Guid.Parse("718c3a5f-5059-452a-94d5-9714e81b1986"),
                 "更新了钱包后调整VM内存",
                 LogEnum.Console,

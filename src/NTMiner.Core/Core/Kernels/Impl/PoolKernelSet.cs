@@ -10,7 +10,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public PoolKernelSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<RefreshPoolKernelSetCommand>(
+            VirtualRoot.Access<RefreshPoolKernelSetCommand>(
                 Guid.Parse("241152F1-536C-4773-AF3B-1A2B4E99D3E8"),
                 "处理刷新矿池内核数据集命令",
                 LogEnum.Console,
@@ -18,14 +18,14 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
-                            Global.Execute(new UpdatePoolKernelCommand(item));
+                            VirtualRoot.Execute(new UpdatePoolKernelCommand(item));
                         }
                         else {
-                            Global.Execute(new AddPoolKernelCommand(item));
+                            VirtualRoot.Execute(new AddPoolKernelCommand(item));
                         }
                     }
                 });
-            Global.Access<AddPoolKernelCommand>(
+            VirtualRoot.Access<AddPoolKernelCommand>(
                 Guid.Parse("B926F4A0-4318-493D-BCE1-CBE329AC7DD7"),
                 "处理添加矿池级内核命令",
                 LogEnum.Console,
@@ -35,10 +35,10 @@ namespace NTMiner.Core.Kernels.Impl {
                         _dicById.Add(message.Input.GetId(), entity);
                         var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                         repository.Add(entity);
-                        Global.Happened(new PoolKernelAddedEvent(message.Input));
+                        VirtualRoot.Happened(new PoolKernelAddedEvent(message.Input));
                     }
                 });
-            Global.Access<RemovePoolKernelCommand>(
+            VirtualRoot.Access<RemovePoolKernelCommand>(
                 Guid.Parse("151EC414-58E3-4752-8758-4742256D2297"),
                 "处理移除矿池级内核命令",
                 LogEnum.Console,
@@ -48,10 +48,10 @@ namespace NTMiner.Core.Kernels.Impl {
                         _dicById.Remove(message.EntityId);
                         var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                         repository.Remove(message.EntityId);
-                        Global.Happened(new PoolKernelRemovedEvent(entity));
+                        VirtualRoot.Happened(new PoolKernelRemovedEvent(entity));
                     }
                 });
-            Global.Access<UpdatePoolKernelCommand>(
+            VirtualRoot.Access<UpdatePoolKernelCommand>(
                 Guid.Parse("08843B3B-3F82-45D2-8B45-6B24F397A326"),
                 "更新矿池内核",
                 LogEnum.Console,
@@ -74,7 +74,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     repository.Update(entity);
 
-                    Global.Happened(new PoolKernelUpdatedEvent(entity));
+                    VirtualRoot.Happened(new PoolKernelUpdatedEvent(entity));
                 });
         }
 

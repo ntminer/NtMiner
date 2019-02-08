@@ -16,7 +16,7 @@ namespace NTMiner.Vms {
                     SortNumber = Count + 1
                 }.Edit.Execute(null);
             });
-            Global.Access<GroupAddedEvent>(
+            VirtualRoot.Access<GroupAddedEvent>(
                 Guid.Parse("285077b7-b6ce-4b2a-8033-29650ea701ec"),
                 "添加了组后调整VM内存",
                 LogEnum.Console,
@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
                         OnPropertyChangeds();
                     }
                 });
-            Global.Access<GroupUpdatedEvent>(
+            VirtualRoot.Access<GroupUpdatedEvent>(
                 Guid.Parse("cc692b24-3771-4e86-bbd8-0af452452456"),
                 "更新了组后调整VM内存",
                 LogEnum.Console,
@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
-            Global.Access<GroupRemovedEvent>(
+            VirtualRoot.Access<GroupRemovedEvent>(
                 Guid.Parse("9ae5c909-9d4f-4082-be86-a5003e7c6f7e"),
                 "删除了组后调整VM内存",
                 LogEnum.Console,

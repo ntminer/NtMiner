@@ -56,7 +56,7 @@ namespace NTMiner.Core.Profiles {
                 value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
                 if (_data.MinerName != value) {
                     _data.MinerName = value;
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }
@@ -207,14 +207,14 @@ namespace NTMiner.Core.Profiles {
                     if (CommandLineArgs.IsWorker) {
                         if (CommandLineArgs.IsControlCenter) {
                             Server.ControlCenterService.SetMinerProfilePropertyAsync(CommandLineArgs.WorkId, propertyName, value, isSuccess => {
-                                Global.Happened(new MinerProfilePropertyChangedEvent(propertyName));
+                                VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                             });
                         }
                     }
                     else {
                         IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
                         repository.Update(_data);
-                        Global.Happened(new MinerProfilePropertyChangedEvent(propertyName));
+                        VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                     }
                 }
             }

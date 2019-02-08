@@ -1,12 +1,22 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Web.Http;
 
 namespace NTMiner {
     public class NTMinerDaemonController : ApiController {
+        private static string _sha1 = null;
+        public static string Sha1 {
+            get {
+                if (_sha1 == null) {
+                    _sha1 = HashUtil.Sha1(File.ReadAllBytes(Process.GetCurrentProcess().MainModule.FileName));
+                }
+                return _sha1;
+            }
+        }
         [HttpPost]
         public string GetDaemonVersion() {
-            return Global.Sha1;
+            return Sha1;
         }
 
         [HttpPost]

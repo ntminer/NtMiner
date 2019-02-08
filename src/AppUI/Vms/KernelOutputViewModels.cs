@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelOutputViewModel> _dicById = new Dictionary<Guid, KernelOutputViewModel>();
 
         private KernelOutputViewModels() {
-            Global.Access<KernelOutputAddedEvent>(
+            VirtualRoot.Access<KernelOutputAddedEvent>(
                 Guid.Parse("E1864E02-ED87-49D6-AD9F-A54953D6BC7E"),
                 "添加了内核输出组后刷新VM内存",
                 LogEnum.Console,
@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(AllKernelOutputVms));
                     OnPropertyChanged(nameof(PleaseSelectVms));
                 });
-            Global.Access<KernelOutputUpdatedEvent>(
+            VirtualRoot.Access<KernelOutputUpdatedEvent>(
                 Guid.Parse("AA98F304-B7E1-4E93-8AFB-55F72EA37689"),
                 "更新了内核输出组后刷新VM内存",
                 LogEnum.Console,
@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
-            Global.Access<KernelOutputRemovedEvent>(
+            VirtualRoot.Access<KernelOutputRemovedEvent>(
                 Guid.Parse("BE4A8820-AA3E-474B-AF04-9798D4B08DFC"),
                 "移除了内核输出组后刷新VM内存",
                 LogEnum.Console,

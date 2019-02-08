@@ -81,10 +81,10 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.CoinSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateCoinCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinCommand(this));
                 }
                 else {
-                    Global.Execute(new AddCoinCommand(this));
+                    VirtualRoot.Execute(new AddCoinCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Code}币种吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveCoinCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveCoinCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
             this.SortUp = new DelegateCommand(() => {
@@ -110,9 +110,9 @@ namespace NTMiner.Vms {
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateCoinCommand(upOne));
+                    VirtualRoot.Execute(new UpdateCoinCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateCoinCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinCommand(this));
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
@@ -123,9 +123,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateCoinCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateCoinCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateCoinCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinCommand(this));
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
@@ -417,7 +417,7 @@ namespace NTMiner.Vms {
                 if (value != null && value.Id != Guid.Empty) {
                     CoinProfile.CoinKernelId = value.Id;
                     OnPropertyChanged(nameof(CoinKernel));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }

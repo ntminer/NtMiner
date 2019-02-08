@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
             this.CustomTheme = new DelegateCommand(() => {
                 LogColor.ShowWindow();
             });
-            Global.Access<Per1SecondEvent>(
+            VirtualRoot.Access<Per1SecondEvent>(
                 Guid.Parse("479A35A1-5A5A-48AF-B184-F1EC568BE181"),
                 "挖矿计时秒表",
                 LogEnum.None,
@@ -40,21 +40,21 @@ namespace NTMiner.Vms {
                         this.MineTimeSpan = now - mineContext.CreatedOn;
                     }
                 });
-            Global.Access<MinerProfilePropertyChangedEvent>(
+            VirtualRoot.Access<MinerProfilePropertyChangedEvent>(
                 Guid.Parse("00F1C9F7-ADC8-438D-8B7E-942F6EE5F9A4"),
                 "MinerProfile设置变更后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });
-            Global.Access<MineWorkPropertyChangedEvent>(
+            VirtualRoot.Access<MineWorkPropertyChangedEvent>(
                 Guid.Parse("7F96F755-E292-4146-9390-75635D150A4B"),
                 "MineWork设置变更后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });
-            Global.Access<MineStartedEvent>(
+            VirtualRoot.Access<MineStartedEvent>(
                 Guid.Parse("36B6B69F-37E3-44BE-9CA9-20D6764E7058"),
                 "挖矿开始后刷新MinerProfileVM的IsMinig属性",
                 LogEnum.Console,
@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
                     this.OnPropertyChanged(nameof(this.IsMining));
                     this.IsWatermarkVisible = Visibility.Collapsed;
                 });
-            Global.Access<MineStopedEvent>(
+            VirtualRoot.Access<MineStopedEvent>(
                 Guid.Parse("C4C1308A-1C04-4094-91A2-D11993C626A0"),
                 "挖矿停止后刷新MinerProfileVM的IsMinig属性",
                 LogEnum.Console,
@@ -70,7 +70,7 @@ namespace NTMiner.Vms {
                     this.OnPropertyChanged(nameof(this.IsMining));
                 });
 
-            Global.Access<RefreshArgsAssemblyCommand>(
+            VirtualRoot.Access<RefreshArgsAssemblyCommand>(
                 Guid.Parse("4931C5C3-178F-4867-B615-215F0744C1EB"),
                 "刷新参数总成",
                 LogEnum.Console,
@@ -84,7 +84,7 @@ namespace NTMiner.Vms {
                 }
                 this.LogoRotateTransformAngle += 50;
             };
-            Global.Access<MineStartedEvent>(
+            VirtualRoot.Access<MineStartedEvent>(
                 Guid.Parse("D8CC83D6-B9B5-4739-BD66-0F772A22BBF8"),
                 "挖矿开始后将风扇转起来",
                 LogEnum.Console,
@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                     t.Start();
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
-            Global.Access<MineStopedEvent>(
+            VirtualRoot.Access<MineStopedEvent>(
                 Guid.Parse("0BB360E4-92A6-4629-861F-B3E4C9BE1203"),
                 "挖矿停止后将风扇停转",
                 LogEnum.Console,
@@ -445,7 +445,7 @@ namespace NTMiner.Vms {
                 ISysDicItem dicItem;
                 if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SpeedColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(SpeedColor));
                     }
                 }
@@ -470,7 +470,7 @@ namespace NTMiner.Vms {
                 ISysDicItem dicItem;
                 if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(TFPColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(TFPColor));
                     }
                 }
@@ -492,7 +492,7 @@ namespace NTMiner.Vms {
                 ISysDicItem dicItem;
                 if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SuccessColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(SuccessColor));
                     }
                 }
@@ -513,7 +513,7 @@ namespace NTMiner.Vms {
                 ISysDicItem dicItem;
                 if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(FailColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(FailColor));
                     }
                 }
@@ -534,7 +534,7 @@ namespace NTMiner.Vms {
                 ISysDicItem dicItem;
                 if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(ErrorColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(ErrorColor));
                     }
                 }
@@ -555,7 +555,7 @@ namespace NTMiner.Vms {
                 ISysDicItem dicItem;
                 if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(InfoColor), out dicItem)) {
                     if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
                         OnPropertyChanged(nameof(InfoColor));
                     }
                 }
@@ -592,7 +592,7 @@ namespace NTMiner.Vms {
                 if (value != null && !string.IsNullOrEmpty(value.Code)) {
                     this.CoinId = value.Id;
                     OnPropertyChanged(nameof(CoinVm));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }

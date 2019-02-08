@@ -21,10 +21,10 @@ namespace NTMiner.Vms {
             });
             this.Save = new DelegateCommand(() => {
                 if (LangViewItemViewModels.Current.Contains(this.Id)) {
-                    Global.Execute(new UpdateLangViewItemCommand(this));
+                    VirtualRoot.Execute(new UpdateLangViewItemCommand(this));
                 }
                 else {
-                    Global.Execute(new AddLangViewItemCommand(this));
+                    VirtualRoot.Execute(new AddLangViewItemCommand(this));
                 }
                 TopWindow.GetTopWindow()?.Close();
             });

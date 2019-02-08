@@ -113,7 +113,7 @@ namespace NTMiner.Vms {
                 if (_inner.Wallet != value) {
                     NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(Wallet), value ?? string.Empty);
                     OnPropertyChanged(nameof(Wallet));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace NTMiner.Vms {
                 if (value != null && value.Id != Guid.Empty) {
                     PoolId = value.Id;
                     OnPropertyChanged(nameof(MainCoinPool));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }
@@ -211,7 +211,7 @@ namespace NTMiner.Vms {
                 if (_inner.DualCoinWallet != value) {
                     NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(DualCoinWallet), value ?? string.Empty);
                     OnPropertyChanged(nameof(DualCoinWallet));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }
@@ -269,7 +269,7 @@ namespace NTMiner.Vms {
                 if (value != null && value.Id != Guid.Empty) {
                     DualCoinPoolId = value.Id;
                     OnPropertyChanged(nameof(DualCoinPool));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }

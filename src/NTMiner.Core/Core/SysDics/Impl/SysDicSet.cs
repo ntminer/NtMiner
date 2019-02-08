@@ -12,7 +12,7 @@ namespace NTMiner.Core.SysDics.Impl {
 
         public SysDicSet(INTMinerRoot root) {
             _root = root;
-            Global.Access<RefreshSysDicSetCommand>(
+            VirtualRoot.Access<RefreshSysDicSetCommand>(
                 Guid.Parse("9BFB2BEC-2103-4F69-B9E8-19CAFE12920E"),
                 "处理刷新系统字典数据集命令",
                 LogEnum.Console,
@@ -20,14 +20,14 @@ namespace NTMiner.Core.SysDics.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
-                            Global.Execute(new UpdateSysDicCommand(item));
+                            VirtualRoot.Execute(new UpdateSysDicCommand(item));
                         }
                         else {
-                            Global.Execute(new AddSysDicCommand(item));
+                            VirtualRoot.Execute(new AddSysDicCommand(item));
                         }
                     }
                 });
-            Global.Access<AddSysDicCommand>(
+            VirtualRoot.Access<AddSysDicCommand>(
                 Guid.Parse("9353be1f-707f-455f-ade5-07e081141d47"),
                 "添加系统字典",
                 LogEnum.Console,
@@ -51,9 +51,9 @@ namespace NTMiner.Core.SysDics.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     repository.Add(entity);
 
-                    Global.Happened(new SysDicAddedEvent(entity));
+                    VirtualRoot.Happened(new SysDicAddedEvent(entity));
                 });
-            Global.Access<UpdateSysDicCommand>(
+            VirtualRoot.Access<UpdateSysDicCommand>(
                 Guid.Parse("b37df2da-ab45-416e-ba58-d703667f300b"),
                 "更新系统字典",
                 LogEnum.Console,
@@ -76,9 +76,9 @@ namespace NTMiner.Core.SysDics.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     repository.Update(entity);
 
-                    Global.Happened(new SysDicUpdatedEvent(entity));
+                    VirtualRoot.Happened(new SysDicUpdatedEvent(entity));
                 });
-            Global.Access<RemoveSysDicCommand>(
+            VirtualRoot.Access<RemoveSysDicCommand>(
                 Guid.Parse("ac6af880-89a1-47a4-9596-55e33714db45"),
                 "移除系统字典",
                 LogEnum.Console,
@@ -93,7 +93,7 @@ namespace NTMiner.Core.SysDics.Impl {
                     SysDicData entity = _dicById[message.EntityId];
                     List<Guid> toRemoves = root.SysDicItemSet.GetSysDicItems(entity.Code).Select(a => a.GetId()).ToList();
                     foreach (var id in toRemoves) {
-                        Global.Execute(new RemoveSysDicItemCommand(id));
+                        VirtualRoot.Execute(new RemoveSysDicItemCommand(id));
                     }
                     _dicById.Remove(entity.Id);
                     if (_dicByCode.ContainsKey(entity.Code)) {
@@ -102,7 +102,7 @@ namespace NTMiner.Core.SysDics.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     repository.Remove(entity.Id);
 
-                    Global.Happened(new SysDicRemovedEvent(entity));
+                    VirtualRoot.Happened(new SysDicRemovedEvent(entity));
                 });
         }
 

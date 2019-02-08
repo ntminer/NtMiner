@@ -49,7 +49,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
-            DelegateHandler<GpuSpeedChangedEvent> gpuSpeedChangedEventHandler = Global.Access<GpuSpeedChangedEvent>(
+            DelegateHandler<GpuSpeedChangedEvent> gpuSpeedChangedEventHandler = VirtualRoot.Access<GpuSpeedChangedEvent>(
                 Guid.Parse("2cb8adb2-1e7e-433e-8904-ae71d9563c20"),
                 "显卡算力变更后刷新算力图界面",
                 LogEnum.Console,
@@ -119,7 +119,7 @@ namespace NTMiner.Views.Ucs {
 
             Vm.ItemsPanelColumns = 1;
             this.Unloaded += (object sender, RoutedEventArgs e) => {
-                Global.UnAccess(gpuSpeedChangedEventHandler);
+                VirtualRoot.UnAccess(gpuSpeedChangedEventHandler);
                 foreach (var item in Vm.SpeedChartVms) {
                     item.Series = null;
                     item.SeriesShadow = null;

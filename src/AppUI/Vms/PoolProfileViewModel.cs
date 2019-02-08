@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
                 if (_inner.UserName != value) {
                     NTMinerRoot.Current.SetPoolProfileProperty(this.PoolId, nameof(UserName), value ?? string.Empty);
                     OnPropertyChanged(nameof(UserName));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }
@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
                 if (_inner.Password != value) {
                     NTMinerRoot.Current.SetPoolProfileProperty(this.PoolId, nameof(Password), value ?? string.Empty);
                     OnPropertyChanged(nameof(Password));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
         }
