@@ -7,14 +7,8 @@ namespace NTMiner {
         public static void Debug(object message) {
             _logger.Debug(message);
         }
-        public static void DebugFormatted(string format, params object[] args) {
-            _logger.DebugFormatted(format, args) ;
-        }
         public static void InfoDebugLine(object message) {
             _logger.InfoDebugLine(message);
-        }
-        public static void InfoDebugLineFormatted(string format, params object[] args) {
-            _logger.InfoDebugLineFormatted(format, args);
         }
         public static void OkDebugLine(object message) {
             _logger.OkDebugLine(message);
@@ -25,17 +19,11 @@ namespace NTMiner {
         public static void WarnDebugLine(object message, Exception exception) {
             _logger.WarnDebugLine(message, exception);
         }
-        public static void WarnDebugLineFormatted(string format, params object[] args) {
-            _logger.WarnDebugLineFormatted(format, args);
-        }
         public static void ErrorDebugLine(object message) {
             _logger.ErrorDebugLine(message);
         }
         public static void ErrorDebugLine(object message, Exception exception) {
             _logger.ErrorDebugLine(message, exception);
-        }
-        public static void ErrorDebugLineFormatted(string format, params object[] args) {
-            _logger.ErrorDebugLineFormatted(format, args);
         }
         public static void FatalDebugLine(object message) {
             _logger.FatalDebugLine(message);
@@ -43,10 +31,6 @@ namespace NTMiner {
         public static void FatalDebugLine(object message, Exception exception) {
             _logger.FatalDebugLine(message, exception);
         }
-        public static void FatalDebugLineFormatted(string format, params object[] args) {
-            _logger.FatalDebugLineFormatted(format, args);
-        }
-
 
         public static void OkWriteLine(object message) {
             _logger.OkWriteLine(message);

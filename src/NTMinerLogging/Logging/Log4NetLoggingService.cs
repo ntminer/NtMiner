@@ -1,7 +1,6 @@
 ﻿using log4net;
 using log4net.Config;
 using System;
-using System.Globalization;
 using System.IO;
 using System.Xml;
 
@@ -45,19 +44,9 @@ $@"<log4net>
             _log.Debug(message);
         }
 
-        public void DebugFormatted(string format, params object[] args) {
-            Write.DevLine(string.Format(format, args), ConsoleColor.White);
-            _log.DebugFormat(CultureInfo.InvariantCulture, format, args);
-        }
-
         public void InfoDebugLine(object message) {
             Write.DevLine(message?.ToString(), ConsoleColor.Gray);
             _log.Info(message);
-        }
-
-        public void InfoDebugLineFormatted(string format, params object[] args) {
-            Write.DevLine(string.Format(format, args), ConsoleColor.Gray);
-            _log.InfoFormat(CultureInfo.InvariantCulture, format, args);
         }
 
         public void OkDebugLine(object message) {
@@ -75,11 +64,6 @@ $@"<log4net>
             _log.Warn(message, exception);
         }
 
-        public void WarnDebugLineFormatted(string format, params object[] args) {
-            Write.DevLine(string.Format(format, args), ConsoleColor.Yellow);
-            _log.WarnFormat(CultureInfo.InvariantCulture, format, args);
-        }
-
         public void ErrorDebugLine(object message) {
             Write.DevLine(message?.ToString(), ConsoleColor.Red);
             _log.Error(message);
@@ -90,11 +74,6 @@ $@"<log4net>
             _log.Error(message, exception);
         }
 
-        public void ErrorDebugLineFormatted(string format, params object[] args) {
-            Write.DevLine(string.Format(format, args), ConsoleColor.Red);
-            _log.ErrorFormat(CultureInfo.InvariantCulture, format, args);
-        }
-
         public void FatalDebugLine(object message) {
             Write.DevLine(message?.ToString(), ConsoleColor.Red);
             _log.Fatal(message);
@@ -103,11 +82,6 @@ $@"<log4net>
         public void FatalDebugLine(object message, Exception exception) {
             Write.DevLine(message?.ToString() + exception.StackTrace, ConsoleColor.Red);
             _log.Fatal(message, exception);
-        }
-
-        public void FatalDebugLineFormatted(string format, params object[] args) {
-            Write.DevLine(string.Format(format, args), ConsoleColor.Red);
-            _log.FatalFormat(CultureInfo.InvariantCulture, format, args);
         }
 
         public void OkWriteLine(object message) {
@@ -123,36 +97,6 @@ $@"<log4net>
         public void ErrorWriteLine(object message) {
             Write.UserLine(message?.ToString(), ConsoleColor.Red);
             _log.Warn(message);
-        }
-
-        public bool IsDebugEnabled {
-            get {
-                return _log.IsDebugEnabled;
-            }
-        }
-
-        public bool IsInfoEnabled {
-            get {
-                return _log.IsInfoEnabled;
-            }
-        }
-
-        public bool IsWarnEnabled {
-            get {
-                return _log.IsWarnEnabled;
-            }
-        }
-
-        public bool IsErrorEnabled {
-            get {
-                return _log.IsErrorEnabled;
-            }
-        }
-
-        public bool IsFatalEnabled {
-            get {
-                return _log.IsFatalEnabled;
-            }
         }
     }
 }
