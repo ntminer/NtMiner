@@ -5,7 +5,6 @@ using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Timers;
 
 namespace NTMiner {
@@ -36,8 +35,6 @@ namespace NTMiner {
                 }
             }
         }
-
-        public static Assembly EntryAssembly = Assembly.GetEntryAssembly();
 
         public static IObjectSerializer JsonSerializer { get; private set; }
 
