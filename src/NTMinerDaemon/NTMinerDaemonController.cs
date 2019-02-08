@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.NTMinerDaemon;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Web.Http;
@@ -30,13 +31,13 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public void OpenNTMiner(Guid workId) {
+        public void OpenNTMiner([FromBody]OpenNTMinerRequest request) {
             try {
                 string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string arguments = string.Empty;
-                    if (workId != Guid.Empty) {
-                        arguments = "workid=" + workId.ToString();
+                    if (request.WorkId != Guid.Empty) {
+                        arguments = "workid=" + request.WorkId.ToString();
                     }
                     Windows.Cmd.RunClose(location, arguments);
                 }
@@ -47,7 +48,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public void RestartNTMiner(Guid workId) {
+        public void RestartNTMiner([FromBody]RestartNTMinerRequest request) {
             try {
                 CloseNTMiner();
                 string location = NTMinerRegistry.GetLocation();
@@ -65,7 +66,7 @@ namespace NTMiner {
                             controlCenterIndex = i;
                         }
                     }
-                    if (workId == Guid.Empty) {
+                    if (request.WorkId == Guid.Empty) {
                         if (workIdIndex != -1) {
                             parts[workIdIndex] = string.Empty;
                         }
@@ -75,17 +76,17 @@ namespace NTMiner {
                     }
                     else {
                         if (workIdIndex != -1) {
-                            parts[workIdIndex] = "workid=" + workId;
+                            parts[workIdIndex] = "workid=" + request.WorkId;
                         }
                         else {
                             Array.Resize(ref parts, parts.Length + 1);
-                            parts[parts.Length - 1] = "workid=" + workId;
+                            parts[parts.Length - 1] = "workid=" + request.WorkId;
                         }
                     }
                     arguments = string.Join(" ", parts);
                 }
-                else if (workId != Guid.Empty) {
-                    arguments = "workid=" + workId;
+                else if (request.WorkId != Guid.Empty) {
+                    arguments = "workid=" + request.WorkId;
                 }
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     Windows.Cmd.RunClose(location, arguments);
@@ -111,14 +112,14 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public void UpgradeNTMiner(string ntminerFileName) {
+        public void UpgradeNTMiner([FromBody]UpgradeNTMinerRequest request) {
             try {
-                if (string.IsNullOrEmpty(ntminerFileName)) {
+                if (string.IsNullOrEmpty(request.NTMinerFileName)) {
                     return;
                 }
                 string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                    string arguments = "upgrade=" + ntminerFileName;
+                    string arguments = "upgrade=" + request.NTMinerFileName;
                     Windows.Cmd.RunClose(location, arguments);
                 }
             }
@@ -128,14 +129,8 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public void StartNoDevFee(
-            int contextId,
-            string minerName,
-            string coin,
-            string ourWallet,
-            string testWallet,
-            string kernelName) {
-            NoDevFee.NoDevFeeUtil.StartAsync(contextId, minerName, coin, ourWallet, testWallet, kernelName);
+        public void StartNoDevFee([FromBody]StartRequest request) {
+            NoDevFee.NoDevFeeUtil.StartAsync(request.ContextId, request.MinerName, request.Coin, request.OurWallet, request.TestWallet, request.KernelName);
         }
 
         [HttpPost]

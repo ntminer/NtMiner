@@ -102,6 +102,10 @@
     <Compile Include="MinerServer\PackageUrlRequest.cs" />
     <Compile Include="MinerServer\PoolProfileData.cs" />
     <Compile Include="MinerServer\PoolProfileRequest.cs" />
+    <Compile Include="NTMinerDaemon\OpenNTMinerRequest.cs" />
+    <Compile Include="NTMinerDaemon\RestartNTMinerRequest.cs" />
+    <Compile Include="NTMinerDaemon\StartRequest.cs" />
+    <Compile Include="NTMinerDaemon\UpgradeNTMinerRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MinerServer\QueryClientsRequest.cs" />
     <Compile Include="MinerServer\QueryClientsResponse.cs" />
@@ -133,8 +137,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NTMinerDaemon\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
