@@ -11,7 +11,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase StartMine([FromBody]StartMineInput request) {
+        public ResponseBase StartMine([FromBody]StartMineRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -30,22 +30,22 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public void StopMine(DateTime timestamp) {
-            if (timestamp.AddSeconds(VirtualRoot.DesyncSeconds) < DateTime.Now) {
+        public void StopMine([FromBody]StopMineRequest request) {
+            if (request.Timestamp.AddSeconds(VirtualRoot.DesyncSeconds) < DateTime.Now) {
                 return;
             }
             NTMinerRoot.Current.StopMineAsync();
         }
 
         [HttpPost]
-        public void SetMinerProfileProperty(string propertyName, object value, DateTime timestamp) {
-            if (timestamp.AddSeconds(VirtualRoot.DesyncSeconds) < DateTime.Now) {
+        public void SetMinerProfileProperty([FromBody]SetMinerProfilePropertyRequest request) {
+            if (request.Timestamp.AddSeconds(VirtualRoot.DesyncSeconds) < DateTime.Now) {
                 return;
             }
-            if (string.IsNullOrEmpty(propertyName)) {
+            if (string.IsNullOrEmpty(request.PropertyName)) {
                 return;
             }
-            NTMinerRoot.Current.SetMinerProfileProperty(propertyName, value);
+            NTMinerRoot.Current.SetMinerProfileProperty(request.PropertyName, request.Value);
         }
     }
 }

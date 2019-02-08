@@ -27,7 +27,7 @@ namespace NTMiner {
             Guid messageId = Guid.NewGuid();
             try {
                 using (HttpClient client = new HttpClient()) {
-                    StartMineInput request = new StartMineInput() {
+                    StartMineRequest request = new StartMineRequest() {
                         MessageId = messageId,
                         LoginName = "admin",
                         WorkId = workId,
@@ -44,29 +44,37 @@ namespace NTMiner {
             }
         }
 
-        public void StopMineAsync(string host, Action<bool> callback) {
+        public void StopMineAsync(string host, Action callback) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StopMine", new { timestamp = DateTime.Now });
-                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
-                    callback?.Invoke(response);
+                    StopMineRequest request = new StopMineRequest {
+                        Timestamp = DateTime.Now
+                    };
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StopMine", request);
+                    Write.DevLine("StopMineAsync " + message.Result.ReasonPhrase);
+                    callback?.Invoke();
                 }
             }
             catch {
-                callback?.Invoke(false);
+                callback?.Invoke();
             }
         }
 
-        public void SetMinerProfilePropertyAsync(string host, string propertyName, object value, Action<bool> callback) {
+        public void SetMinerProfilePropertyAsync(string host, string propertyName, object value, Action callback) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/SetMinerProfileProperty", new { propertyName, value });
-                    bool response = message.Result.Content.ReadAsAsync<bool>().Result;
-                    callback?.Invoke(response);
+                    SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest {
+                        PropertyName = propertyName,
+                        Value = value,
+                        Timestamp = DateTime.Now
+                    };
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/SetMinerProfileProperty", request);
+                    Write.DevLine("SetMinerProfilePropertyAsync " + message.Result.ReasonPhrase);
+                    callback?.Invoke();
                 }
             }
             catch {
-                callback?.Invoke(false);
+                callback?.Invoke();
             }
         }
     }

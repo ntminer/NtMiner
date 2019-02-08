@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
+    <Compile Include="MinerClient\StopMineRequest.cs" />
     <Compile Include="MinerServer\AddOrUpdateMinerGroupRequest.cs" />
     <Compile Include="MinerServer\AddOrUpdateMineWorkRequest.cs" />
     <Compile Include="MinerServer\AddOrUpdateNTMinerFileRequest.cs" />
@@ -88,7 +90,7 @@
     <Compile Include="MinerServer\LoadClientsResponse.cs" />
     <Compile Include="MinerServer\LoginControlCenterRequest.cs" />
     <Compile Include="MinerServer\LoginData.cs" />
-    <Compile Include="MinerClient\StartMineInput.cs" />
+    <Compile Include="MinerClient\StartMineRequest.cs" />
     <Compile Include="MinerServer\MinerGroupData.cs" />
     <Compile Include="MinerServer\MinerGroupsRequest.cs" />
     <Compile Include="MinerServer\MinerJsonPutUrlRequest.cs" />
