@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Net.Http;
+using System.ServiceModel.Channels;
 using System.Web;
 
 namespace NTMiner {
@@ -7,50 +8,22 @@ namespace NTMiner {
         /// 获取web客户端ip
         /// </summary>
         /// <returns></returns>
-        public static string GetWebClientIp(this HttpContext httpContext) {
-            string userIP = "未获取用户IP";
-
-            try {
-                if (httpContext == null
-                 || httpContext.Request == null
-                 || httpContext.Request.ServerVariables == null) {
-                    return "";
-                }
-
-                string customerIP = "";
-
-                //CDN加速后取到的IP simone 090805
-                customerIP = httpContext.Request.Headers["Cdn-Src-Ip"];
-                if (!string.IsNullOrEmpty(customerIP)) {
-                    return customerIP;
-                }
-
-                customerIP = httpContext.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-
-                if (!String.IsNullOrEmpty(customerIP)) {
-                    return customerIP;
-                }
-
-                if (httpContext.Request.ServerVariables["HTTP_VIA"] != null) {
-                    customerIP = httpContext.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-
-                    if (customerIP == null) {
-                        customerIP = httpContext.Request.ServerVariables["REMOTE_ADDR"];
-                    }
-                }
-                else {
-                    customerIP = httpContext.Request.ServerVariables["REMOTE_ADDR"];
-                }
-
-                if (string.Compare(customerIP, "unknown", true) == 0 || String.IsNullOrEmpty(customerIP)) {
-                    return httpContext.Request.UserHostAddress;
-                }
-                return customerIP;
+        public static string GetWebClientIp(this HttpRequestMessage request) {
+            string ip;
+            if (request.Properties.ContainsKey("MS_HttpContext")) {
+                ip = ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
             }
-            catch { }
-
-            return userIP;
-
+            else if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name)) {
+                RemoteEndpointMessageProperty prop = (RemoteEndpointMessageProperty)request.Properties[RemoteEndpointMessageProperty.Name];
+                ip = prop.Address;
+            }
+            else if (HttpContext.Current != null) {
+                ip = HttpContext.Current.Request.UserHostAddress;
+            }
+            else {
+                ip = string.Empty;
+            }
+            return ip;
         }
     }
 }
