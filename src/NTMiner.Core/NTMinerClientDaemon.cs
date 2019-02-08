@@ -58,7 +58,7 @@ namespace NTMiner {
                         WorkId = workId
                     };
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/OpenNTMiner", request);
-                    Write.DevLine(message.Result.ReasonPhrase);
+                    Write.DevLine("OpenNTMinerAsync " + message.Result.ReasonPhrase);
                     callback?.Invoke();
                 }
             }
@@ -75,7 +75,7 @@ namespace NTMiner {
                         WorkId = workId
                     };
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/RestartNTMiner", request);
-                    Write.DevLine(message.Result.ReasonPhrase);
+                    Write.DevLine("RestartNTMinerAsync " + message.Result.ReasonPhrase);
                     callback?.Invoke();
                 }
             }
@@ -92,7 +92,7 @@ namespace NTMiner {
                         NTMinerFileName = ntminerFileName
                     };
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/UpgradeNTMiner", request);
-                    Write.DevLine(message.Result.ReasonPhrase);
+                    Write.DevLine("UpgradeNTMinerAsync " + message.Result.ReasonPhrase);
                     callback?.Invoke();
                 }
             }
@@ -106,7 +106,7 @@ namespace NTMiner {
             try {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/CloseNTMiner", null);
-                    Write.DevLine(message.Result.ReasonPhrase);
+                    Write.DevLine("CloseNTMinerAsync " + message.Result.ReasonPhrase);
                     callback?.Invoke();
                 }
             }
@@ -151,7 +151,7 @@ namespace NTMiner {
                         return;
                     }
                     Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:3337/api/NTMinerDaemon/StopNoDevFee", null);
-                    Write.DevLine(message.Result.ReasonPhrase);
+                    Write.DevLine("StopAsync " + message.Result.ReasonPhrase);
                     callback?.Invoke();
                 }
             }
