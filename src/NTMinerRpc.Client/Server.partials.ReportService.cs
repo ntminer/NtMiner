@@ -15,7 +15,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/Login", data);
-                        Write.DevLine(message.Result.ReasonPhrase);
+                        Write.DevLine("LoginAsync " + message.Result.ReasonPhrase);
                     }
                 }
                 catch (Exception e){
@@ -27,7 +27,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/ReportSpeed", data);
-                        Write.DevLine(message.Result.ReasonPhrase);
+                        Write.DevLine("ReportSpeedAsync " + message.Result.ReasonPhrase);
                     }
                 }
                 catch (Exception e) {
@@ -43,7 +43,7 @@ namespace NTMiner {
                             IsMining = isMining
                         };
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/ReportState", request);
-                        Write.DevLine(message.Result.ReasonPhrase);
+                        Write.DevLine("ReportStateAsync " + message.Result.ReasonPhrase);
                     }
                 }
                 catch (Exception e) {
