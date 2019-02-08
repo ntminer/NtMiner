@@ -155,11 +155,11 @@ namespace NTMiner {
                     NTMinerRoot.Current.Start();
                 }
                 catch (Exception ex) {
-                    Global.Logger.ErrorDebugLine(ex.Message, ex);
+                    Logger.ErrorDebugLine(ex.Message, ex);
                 }
                 splashWindow?.Close();
                 if (NTMinerRoot.Current.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) {
-                    Global.Logger.InfoDebugLine("自动开始挖矿倒计时");
+                    Logger.InfoDebugLine("自动开始挖矿倒计时");
                     Views.Ucs.AutoStartCountdown.ShowDialog();
                 }
             });

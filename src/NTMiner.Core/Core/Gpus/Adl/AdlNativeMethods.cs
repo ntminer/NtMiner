@@ -162,13 +162,13 @@ namespace NTMiner.Core.Gpus.Adl {
                     }
                 }
                 catch (DllNotFoundException e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
                 catch (EntryPointNotFoundException e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
             }
             #endregion Constructor

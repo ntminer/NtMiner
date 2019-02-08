@@ -19,7 +19,7 @@ namespace NTMiner.Bus {
                     var tMessageHandler = (DelegateHandler<TMessage>)messageHandler;
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Log) {
-                        Global.Logger.InfoDebugLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                        Logger.InfoDebugLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                     }
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Console) {
                         Write.DevLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
@@ -31,7 +31,7 @@ namespace NTMiner.Bus {
                     }
                     catch (Exception e) {
                         this.DispatchFailed?.Invoke(this, evtArgs);
-                        Global.Logger.ErrorDebugLine(tMessageHandler.GetType().FullName + ":" + messageType.FullName + ":" + e.Message, e);
+                        Logger.ErrorDebugLine(tMessageHandler.GetType().FullName + ":" + messageType.FullName + ":" + e.Message, e);
                         throw;
                     }
                 }

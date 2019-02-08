@@ -65,7 +65,7 @@ namespace NTMiner {
                 });
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -186,7 +186,7 @@ namespace NTMiner {
                 Server.ReportService.ReportSpeedAsync(data);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -195,7 +195,7 @@ namespace NTMiner {
                 Server.ReportService.ReportStateAsync(ClientId.Id, root.IsMining);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

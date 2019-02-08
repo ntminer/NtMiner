@@ -128,7 +128,7 @@ namespace NTMiner.Vms {
             Action<int> progressChanged,
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
-            Global.Logger.InfoDebugLine("下载：" + fileName);
+            Logger.InfoDebugLine("下载：" + fileName);
             string saveFileFullName = Path.Combine(_downloadDirFullName, "NTMiner" + version);
             progressChanged?.Invoke(0);
             using (WebClient webClient = new WebClient()) {
@@ -141,12 +141,12 @@ namespace NTMiner.Vms {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     if (isSuccess) {
-                        Global.Logger.OkDebugLine("NTMiner" + version + "下载成功");
+                        Logger.OkDebugLine("NTMiner" + version + "下载成功");
                     }
                     string message = "下载成功";
                     if (e.Error != null) {
                         message = "下载失败";
-                        Global.Logger.ErrorDebugLine(e.Error.Message, e.Error);
+                        Logger.ErrorDebugLine(e.Error.Message, e.Error);
                     }
                     if (e.Cancelled) {
                         message = "下载取消";
@@ -168,7 +168,7 @@ namespace NTMiner.Vms {
                 else {
                     ServerLatestVm = this.NTMinerFiles.OrderByDescending(a => a.VersionData).FirstOrDefault();
                     if (ServerLatestVm.VersionData > LocalNTMinerVersion) {
-                        Global.Logger.WarnDebugLine("发现新版本" + ServerLatestVm.Version);
+                        Logger.WarnDebugLine("发现新版本" + ServerLatestVm.Version);
                         this.SelectedNTMinerFile = ServerLatestVm;
                         LocalIsLatest = false;
                     }
@@ -201,7 +201,7 @@ namespace NTMiner.Vms {
                 }
             }
             catch (Exception ex) {
-                Global.Logger.ErrorDebugLine(ex.Message, ex);
+                Logger.ErrorDebugLine(ex.Message, ex);
             }
         }
 

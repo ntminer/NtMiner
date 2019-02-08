@@ -16,15 +16,15 @@ namespace NTMiner.Windows {
                 Cmd.RunClose("powercfg", "-h off", ref exitcode);
                 bool r = exitcode == 0;
                 if (r) {
-                    Global.Logger.OkDebugLine("powercfg -h off ok");
+                    Logger.OkDebugLine("powercfg -h off ok");
                 }
                 else {
-                    Global.Logger.WarnDebugLine("powercfg -h off failed, exitcode=" + exitcode);
+                    Logger.WarnDebugLine("powercfg -h off failed, exitcode=" + exitcode);
                 }
                 return r;
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine("powercfg -h off failed，因为异常", e);
+                Logger.ErrorDebugLine("powercfg -h off failed，因为异常", e);
                 return false;
             }
         }

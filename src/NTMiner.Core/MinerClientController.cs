@@ -24,7 +24,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }

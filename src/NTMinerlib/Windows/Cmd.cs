@@ -14,7 +14,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -31,7 +31,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -54,7 +54,7 @@ namespace NTMiner.Windows {
             }
             catch (Exception e) {
                 output = string.Empty;
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

@@ -41,7 +41,7 @@ namespace NTMiner.Core {
                 return ip;
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine($"获取矿池ip地址失败：{pool.Server}", e);
+                Logger.ErrorDebugLine($"获取矿池ip地址失败：{pool.Server}", e);
                 return string.Empty;
             }
         }

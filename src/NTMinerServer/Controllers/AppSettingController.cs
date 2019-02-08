@@ -13,7 +13,7 @@ namespace NTMiner.Controllers {
                 return GetAppSettingResponse.Ok(request.MessageId, AppSettingData.Create(data));
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<GetAppSettingResponse>(request.MessageId, e.Message);
             }
         }
@@ -25,7 +25,7 @@ namespace NTMiner.Controllers {
                 return GetAppSettingsResponse.Ok(request.MessageId, data.Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<GetAppSettingsResponse>(request.MessageId, e.Message);
             }
         }
@@ -45,7 +45,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }

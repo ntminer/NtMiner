@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                             });
                         }
                         else {
-                            Global.Logger.ErrorDebugLine($"AddOrUpdateNTMinerFileAsync失败");
+                            Logger.ErrorDebugLine($"AddOrUpdateNTMinerFileAsync失败");
                         }
                     });
                 }

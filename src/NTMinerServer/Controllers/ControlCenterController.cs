@@ -20,7 +20,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -41,7 +41,7 @@ namespace NTMiner.Controllers {
                 return LoadClientsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<LoadClientsResponse>(request.MessageId, e.Message);
             }
         }
@@ -68,7 +68,7 @@ namespace NTMiner.Controllers {
                 return QueryClientsResponse.Ok(request.MessageId, data, total);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<QueryClientsResponse>(request.MessageId, e.Message);
             }
         }
@@ -95,7 +95,7 @@ namespace NTMiner.Controllers {
                 return GetCoinSnapshotsResponse.Ok(request.MessageId, data, totalMiningCount, totalOnlineCount);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<GetCoinSnapshotsResponse>(request.MessageId, e.Message);
             }
         }
@@ -116,7 +116,7 @@ namespace NTMiner.Controllers {
                 return LoadClientResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<LoadClientResponse>(request.MessageId, e.Message);
             }
         }
@@ -137,7 +137,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -151,7 +151,7 @@ namespace NTMiner.Controllers {
                 return GetMinerGroupsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<GetMinerGroupsResponse>(request.MessageId, e.Message);
             }
         }
@@ -172,7 +172,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -193,7 +193,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -214,7 +214,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -235,7 +235,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -259,7 +259,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -283,7 +283,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -307,7 +307,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -331,7 +331,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -345,7 +345,7 @@ namespace NTMiner.Controllers {
                 return GetWalletsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<GetWalletsResponse>(request.MessageId, e.Message);
             }
         }
@@ -366,7 +366,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -387,7 +387,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -401,7 +401,7 @@ namespace NTMiner.Controllers {
                 return GetCalcConfigsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<GetCalcConfigsResponse>(request.MessageId, e.Message);
             }
         }
@@ -423,7 +423,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -443,7 +443,7 @@ namespace NTMiner.Controllers {
                 throw new NotImplementedException();
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -463,7 +463,7 @@ namespace NTMiner.Controllers {
                 throw new NotImplementedException();
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
@@ -483,7 +483,7 @@ namespace NTMiner.Controllers {
                 throw new NotImplementedException();
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }

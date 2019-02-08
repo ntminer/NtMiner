@@ -1,7 +1,6 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
 using NTMiner.Language;
-using NTMiner.Logging;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
@@ -39,16 +38,6 @@ namespace NTMiner {
         }
 
         public static Assembly EntryAssembly = Assembly.GetEntryAssembly();
-
-        private static ILoggingService _logger = null;
-        public static ILoggingService Logger {
-            get {
-                if (_logger == null) {
-                    _logger = new Log4NetLoggingService();
-                }
-                return _logger;
-            }
-        }
 
         public static IObjectSerializer JsonSerializer { get; private set; }
 

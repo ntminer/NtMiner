@@ -49,7 +49,7 @@ namespace NTMiner.Core.Kernels {
                 return commandName;
             }
             catch (System.Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return string.Empty;
             }
         }
@@ -128,7 +128,7 @@ namespace NTMiner.Core.Kernels {
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

@@ -75,7 +75,7 @@ namespace NTMiner.Core.Impl {
                                 File.WriteAllText(SpecialPath.ServerJsonFileFullName, rawJson);
                             }
                             catch (Exception e) {
-                                Global.Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e.Message, e);
                             }
                         }
                         _inited = true;

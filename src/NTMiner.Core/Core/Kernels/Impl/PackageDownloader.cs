@@ -31,12 +31,12 @@ namespace NTMiner.Core.Kernels.Impl {
                     Execute.OnUIThread(() => {
                         bool isSuccess = !e.Cancelled && e.Error == null;
                         if (isSuccess) {
-                            Global.Logger.OkDebugLine(package + "下载成功");
+                            Logger.OkDebugLine(package + "下载成功");
                         }
                         string message = "下载成功";
                         if (e.Error != null) {
                             message = "下载失败";
-                            Global.Logger.ErrorDebugLine(e.Error.Message, e.Error);
+                            Logger.ErrorDebugLine(e.Error.Message, e.Error);
                         }
                         if (e.Cancelled) {
                             message = "下载取消";
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (string.IsNullOrEmpty(packageUrl)) {
                         downloadComplete?.Invoke(false, "未获取到内核包下载地址", saveFileFullName);
                     }
-                    Global.Logger.InfoDebugLine("下载：" + packageUrl);
+                    Logger.InfoDebugLine("下载：" + packageUrl);
                     webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
                 });
             }

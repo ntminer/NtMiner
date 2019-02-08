@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
                     .Queue();
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         });
 
@@ -66,7 +66,7 @@ namespace NTMiner.Vms {
                     .Queue();
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         });
 
@@ -105,7 +105,7 @@ namespace NTMiner.Vms {
                 }, icon: "Icon_Confirm");
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         });
 

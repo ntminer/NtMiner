@@ -75,7 +75,7 @@ namespace NTMiner.Vms {
         }
 
         private void Download(Action<bool, string, string> downloadComplete) {
-            Global.Logger.InfoDebugLine("下载：" + _downloadFileUrl);
+            Logger.InfoDebugLine("下载：" + _downloadFileUrl);
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, Guid.NewGuid().ToString());
             using (WebClient webClient = new WebClient()) {
                 _cancel = () => {
@@ -88,12 +88,12 @@ namespace NTMiner.Vms {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     if (isSuccess) {
-                        Global.Logger.OkDebugLine($"{_downloadFileUrl}下载成功");
+                        Logger.OkDebugLine($"{_downloadFileUrl}下载成功");
                     }
                     string message = "下载成功";
                     if (e.Error != null) {
                         message = "下载失败";
-                        Global.Logger.ErrorDebugLine(e.Error.Message, e.Error);
+                        Logger.ErrorDebugLine(e.Error.Message, e.Error);
                     }
                     if (e.Cancelled) {
                         message = "下载取消";

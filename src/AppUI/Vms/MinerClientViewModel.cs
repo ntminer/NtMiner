@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
                     });
                 }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
                 this.IsChangeGroupVisible = Visibility.Collapsed;
             });

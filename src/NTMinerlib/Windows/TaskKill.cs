@@ -12,21 +12,21 @@ namespace NTMiner.Windows {
                     foreach (var process in processes) {
                         try {
                             if (process.CloseMainWindow()) {
-                                Global.Logger.InfoDebugLine("CloseMainWindow成功杀死进程");
+                                Logger.InfoDebugLine("CloseMainWindow成功杀死进程");
                                 continue;
                             }
                         }
                         catch (System.Exception e) {
-                            Global.Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e.Message, e);
                         }
                         try {
                             process.Kill();
                             process.WaitForExit(10 * 1000);
-                            Global.Logger.InfoDebugLine("Kill成功杀死进程");
+                            Logger.InfoDebugLine("Kill成功杀死进程");
                             continue;
                         }
                         catch (System.Exception e) {
-                            Global.Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e.Message, e);
                         }
                     }
                     processes = Process.GetProcessesByName(processName);
@@ -36,7 +36,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (System.Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -49,27 +49,27 @@ namespace NTMiner.Windows {
                 if (process != null) {
                     try {
                         if (process.CloseMainWindow()) {
-                            Global.Logger.InfoDebugLine("CloseMainWindow成功杀死进程");
+                            Logger.InfoDebugLine("CloseMainWindow成功杀死进程");
                             return;
                         }
                     }
                     catch (System.Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e.Message, e);
                     }
                     try {
                         process.Kill();
                         process.WaitForExit(10 * 1000);
-                        Global.Logger.InfoDebugLine("Kill成功杀死进程");
+                        Logger.InfoDebugLine("Kill成功杀死进程");
                         return;
                     }
                     catch (System.Exception e) {
-                        Global.Logger.ErrorDebugLine(e.Message, e);
+                        Logger.ErrorDebugLine(e.Message, e);
                     }
                     Cmd.RunClose($"taskkill /F /T /PID {processId}", string.Empty);
                 }
             }
             catch (System.Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

@@ -96,7 +96,7 @@ namespace NTMiner.Data.Impl {
                     }
                 }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
             }
             else {

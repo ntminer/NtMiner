@@ -15,7 +15,7 @@ namespace NTMiner.Windows {
                 return registData;
             }
             catch (System.Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return registData;
             }
         }
@@ -26,7 +26,7 @@ namespace NTMiner.Windows {
                 registryKey.SetValue(valueName, value);
             }
             catch (System.Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -38,7 +38,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (System.Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -49,7 +49,7 @@ namespace NTMiner.Windows {
                 return valueNames.Any(a => a == valueName);
             }
             catch (System.Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return false;
             }
         }

@@ -47,7 +47,7 @@ namespace NTMiner {
             }
             catch (Exception ex) {
                 RestartNTMiner();
-                Global.Logger.ErrorDebugLine(ex.Message, ex);
+                Logger.ErrorDebugLine(ex.Message, ex);
             }
         }
 
@@ -75,7 +75,7 @@ namespace NTMiner {
                 DialogWindow.ShowDialog(title: "验证失败", message: e.Message, icon: "Icon_Error");
             }
             else {
-                Global.Logger.ErrorDebugLine(e);
+                Logger.ErrorDebugLine(e);
             }
         }
         #endregion

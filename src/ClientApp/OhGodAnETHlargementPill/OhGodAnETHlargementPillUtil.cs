@@ -33,9 +33,9 @@ namespace NTMiner.OhGodAnETHlargementPill {
                                 }
                             }
                             catch (Exception e) {
-                                Global.Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e.Message, e);
                             }
-                            Global.Logger.OkWriteLine("小药丸启动成功");
+                            Logger.OkWriteLine("小药丸启动成功");
                             MainWindowViewModel.Current.Manager.CreateMessage()
                                  .Accent("#1751C3")
                                  .Background("#333")
@@ -47,7 +47,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                         }
                     }
                     else {
-                        Global.Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
+                        Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
                     }
                 });
             Global.Access<MineStartedEvent>(
@@ -62,13 +62,13 @@ namespace NTMiner.OhGodAnETHlargementPill {
                                 Windows.TaskKill.Kill(processName);
                             }
                             catch (Exception e) {
-                                Global.Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e.Message, e);
                             }
-                            Global.Logger.OkWriteLine("成功停止小药丸");
+                            Logger.OkWriteLine("成功停止小药丸");
                         }
                     }
                     else {
-                        Global.Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
+                        Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
                     }
                 });
         }
@@ -87,7 +87,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

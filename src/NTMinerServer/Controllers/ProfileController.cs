@@ -11,7 +11,7 @@ namespace NTMiner.Controllers {
                 return HostRoot.Current.MineWorkSet.GetMineWork(request.WorkId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return null;
             }
         }
@@ -22,7 +22,7 @@ namespace NTMiner.Controllers {
                 return HostRoot.Current.MineWorkSet.GetMineWorks();
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return new List<MineWorkData>();
             }
         }
@@ -33,7 +33,7 @@ namespace NTMiner.Controllers {
                 return HostRoot.Current.MineProfileManager.GetMinerProfile(request.WorkId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return null;
             }
         }
@@ -44,7 +44,7 @@ namespace NTMiner.Controllers {
                 return HostRoot.Current.MineProfileManager.GetCoinProfile(request.WorkId, request.CoinId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return null;
             }
         }
@@ -55,7 +55,7 @@ namespace NTMiner.Controllers {
                 return HostRoot.Current.MineProfileManager.GetPoolProfile(request.WorkId, request.PoolId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return null;
             }
         }
@@ -66,7 +66,7 @@ namespace NTMiner.Controllers {
                 return HostRoot.Current.MineProfileManager.GetCoinKernelProfile(request.WorkId, request.CoinKernelId);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
                 return null;
             }
         }

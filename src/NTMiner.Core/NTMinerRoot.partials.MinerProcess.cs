@@ -14,31 +14,31 @@ namespace NTMiner {
             #region CreateProcess
             public static void CreateProcessAsync(IMineContext mineContext) {
                 Task.Factory.StartNew(() => {
-                    Global.Logger.InfoDebugLine("解压内核包");
+                    Logger.InfoDebugLine("解压内核包");
                     // 解压内核包
                     mineContext.Kernel.ExtractPackage();
 
                     string kernelExeFileFullName;
                     string arguments;
-                    Global.Logger.InfoDebugLine("组装命令");
+                    Logger.InfoDebugLine("组装命令");
                     // 组装命令
                     BuildCmdLine(mineContext, out kernelExeFileFullName, out arguments);
                     bool isLogFile = arguments.Contains("{logfile}");
                     // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
                     if (!File.Exists(kernelExeFileFullName)) {
-                        Global.Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
+                        Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
                     }
                     if (isLogFile) {
-                        Global.Logger.InfoDebugLine("创建日志文件型进程");
+                        Logger.InfoDebugLine("创建日志文件型进程");
                         // 如果内核支持日志文件
                         // 推迟打印cmdLine，因为{logfile}变量尚未求值
                         CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
                     }
                     else {
-                        Global.Logger.InfoDebugLine("创建管道型进程");
+                        Logger.InfoDebugLine("创建管道型进程");
                         // 如果内核不支持日志文件
                         string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                        Global.Logger.InfoDebugLine(cmdLine);
+                        Logger.InfoDebugLine(cmdLine);
                         CreatePipProcess(mineContext, cmdLine);
                     }
                 });
@@ -73,9 +73,9 @@ namespace NTMiner {
                                 Process[] processes = Process.GetProcessesByName(processName);
                                 if (processes.Length == 0) {
                                     mineContext.ProcessDisappearedCound = mineContext.ProcessDisappearedCound + 1;
-                                    Global.Logger.ErrorWriteLine(processName + $"挖矿内核进程消失");
+                                    Logger.ErrorWriteLine(processName + $"挖矿内核进程消失");
                                     if (Current.MinerProfile.IsAutoRestartKernel && mineContext.ProcessDisappearedCound <= 3) {
-                                        Global.Logger.WarnWriteLine($"尝试第{mineContext.ProcessDisappearedCound}次重启，共3次");
+                                        Logger.WarnWriteLine($"尝试第{mineContext.ProcessDisappearedCound}次重启，共3次");
                                         Current.RestartMine();
                                         Current.CurrentMineContext.ProcessDisappearedCound = mineContext.ProcessDisappearedCound;
                                     }
@@ -100,7 +100,7 @@ namespace NTMiner {
                 string logFile = Path.Combine(SpecialPath.LogsDirFullName, "logfile_" + DateTime.Now.Ticks.ToString() + ".log");
                 arguments = arguments.Replace("{logfile}", logFile);
                 string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                Global.Logger.InfoDebugLine(cmdLine);
+                Logger.InfoDebugLine(cmdLine);
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
                     CreateNoWindow = true,
@@ -171,7 +171,7 @@ namespace NTMiner {
                                 }
                             }
                         }
-                        Global.Logger.WarnWriteLine("日志输出结束");
+                        Logger.WarnWriteLine("日志输出结束");
                     }
                 });
             }
@@ -263,7 +263,7 @@ namespace NTMiner {
                     }
                 }
                 else {
-                    Global.Logger.ErrorWriteLine("内核启动失败，请重试");
+                    Logger.ErrorWriteLine("内核启动失败，请重试");
                 }
             }
 

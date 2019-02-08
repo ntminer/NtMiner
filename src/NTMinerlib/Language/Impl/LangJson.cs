@@ -37,7 +37,7 @@ namespace NTMiner.Language.Impl {
                                 File.WriteAllText(ClientId.LocalLangJsonFileFullName, rawJson);
                             }
                             catch (Exception e) {
-                                Global.Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e.Message, e);
                             }
                         }
                         _inited = true;

@@ -199,7 +199,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

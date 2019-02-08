@@ -23,14 +23,14 @@ namespace NTMiner {
                     }
                 }
                 if (n == 0) {
-                    Global.Logger.OkDebugLine("没有过期的Package");
+                    Logger.OkDebugLine("没有过期的Package");
                 }
                 else {
-                    Global.Logger.OkDebugLine("过期Package清理完成");
+                    Logger.OkDebugLine("过期Package清理完成");
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -47,13 +47,13 @@ namespace NTMiner {
                             Directory.Delete(dir, recursive: true);
                         }
                         catch (Exception e) {
-                            Global.Logger.ErrorDebugLine(e.Message, e);
+                            Logger.ErrorDebugLine(e.Message, e);
                         }
                     }
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -71,17 +71,17 @@ namespace NTMiner {
                     }
                 }
                 if (toRemoves.Count == 0) {
-                    Global.Logger.OkDebugLine("没有过期的RootLog");
+                    Logger.OkDebugLine("没有过期的RootLog");
                 }
                 else {
                     foreach (var item in toRemoves) {
                         File.Delete(item);
                     }
-                    Global.Logger.OkDebugLine("过期RootLog清理完成");
+                    Logger.OkDebugLine("过期RootLog清理完成");
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -95,17 +95,17 @@ namespace NTMiner {
                     }
                 }
                 if (toRemoves.Count == 0) {
-                    Global.Logger.OkDebugLine("没有过期的KernelLog");
+                    Logger.OkDebugLine("没有过期的KernelLog");
                 }
                 else {
                     foreach (var item in toRemoves) {
                         File.Delete(item);
                     }
-                    Global.Logger.OkDebugLine("过期KernelLog清理完成");
+                    Logger.OkDebugLine("过期KernelLog清理完成");
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

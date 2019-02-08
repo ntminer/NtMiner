@@ -34,10 +34,10 @@ namespace NTMiner.Controllers {
                     clientData.MinerName = message.MinerName;
                     clientData.GpuInfo = message.GpuInfo;
                 }
-                Global.Logger.InfoDebugLine($"{message.ClientId} {minerIp} 登录");
+                Logger.InfoDebugLine($"{message.ClientId} {minerIp} 登录");
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -105,7 +105,7 @@ namespace NTMiner.Controllers {
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -131,7 +131,7 @@ namespace NTMiner.Controllers {
                 }
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }
