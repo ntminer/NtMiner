@@ -10,6 +10,7 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.Data.Impl;
+using NTMiner.NTMinerDaemon;
 using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
@@ -315,7 +316,16 @@ namespace NTMiner {
                 "开始挖矿后启动NoDevFee",
                 LogEnum.Console,
                  action: message => {
-                     NTMinerClientDaemon.Instance.StartAsync(callback: null);
+                     var context = CurrentMineContext;
+                     StartRequest request = new StartRequest {
+                         ContextId = context.Id.GetHashCode(),
+                         MinerName = context.MinerName,
+                         Coin = context.MainCoin.Code,
+                         OurWallet = context.MainCoinWallet,
+                         TestWallet = context.MainCoin.TestWallet,
+                         KernelName = context.Kernel.FullName
+                     };
+                     NTMinerClientDaemon.Instance.StartAsync(request, callback: null);
                  });
             #endregion
             #region 停止挖矿后停止NoDevFee
@@ -337,7 +347,16 @@ namespace NTMiner {
                     action: message => {
                         Daemon.DaemonUtil.RunNTMinerDaemon();
                         if (IsMining) {
-                            NTMinerClientDaemon.Instance.StartAsync(callback: null);
+                            var context = CurrentMineContext;
+                            StartRequest request = new StartRequest {
+                                ContextId = context.Id.GetHashCode(),
+                                MinerName = context.MinerName,
+                                Coin = context.MainCoin.Code,
+                                OurWallet = context.MainCoinWallet,
+                                TestWallet = context.MainCoin.TestWallet,
+                                KernelName = context.Kernel.FullName
+                            };
+                            NTMinerClientDaemon.Instance.StartAsync(request, callback: null);
                         }
                     });
             }

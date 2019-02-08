@@ -116,22 +116,9 @@ namespace NTMiner {
             }
         }
 
-        public void StartAsync(Action callback) {
+        public void StartAsync(StartRequest request, Action callback) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    if (!NTMinerRoot.Current.IsMining) {
-                        callback?.Invoke();
-                        return;
-                    }
-                    var context = NTMinerRoot.Current.CurrentMineContext;
-                    StartRequest request = new StartRequest {
-                        ContextId = context.Id.GetHashCode(),
-                        MinerName = context.MinerName,
-                        Coin = context.MainCoin.Code,
-                        OurWallet = context.MainCoinWallet,
-                        TestWallet = context.MainCoin.TestWallet,
-                        KernelName = context.Kernel.FullName
-                    };
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3337/api/NTMinerDaemon/StartNoDevFee", request);
                     Write.DevLine(message.Result.ReasonPhrase);
                     callback?.Invoke();
@@ -146,10 +133,6 @@ namespace NTMiner {
         public void StopAsync(Action callback) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    if (NTMinerRoot.Current.IsMining) {
-                        callback?.Invoke();
-                        return;
-                    }
                     Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:3337/api/NTMinerDaemon/StopNoDevFee", null);
                     Write.DevLine("StopAsync " + message.Result.ReasonPhrase);
                     callback?.Invoke();
