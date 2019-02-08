@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
@@ -39,39 +38,6 @@ namespace NTMiner {
             else {
                 try {
                     appMutex = new Mutex(true, _appPipName, out createdNew);
-                    if (!createdNew) {
-                        try {
-                            string location = NTMinerRegistry.GetLocation();
-                            if (!string.IsNullOrEmpty(location)) {
-                                bool retry = false;
-                                string processName = Path.GetFileNameWithoutExtension(location);
-                                Process[] processes = Process.GetProcessesByName(processName);
-                                Process currentProcess = Process.GetCurrentProcess();
-                                if (processes.Any(a => a.Id == currentProcess.Id) && (processes.Length == 1)) {
-                                    retry = true;
-                                }
-                                else if (processes.Length == 0) {
-                                    retry = true;
-                                }
-                                if (retry) {
-                                    int times = 0;
-                                    while (!createdNew && times < 10) {
-                                        try {
-                                            appMutex = new Mutex(true, _appPipName, out createdNew);
-                                            times++;
-                                            if (!createdNew) {
-                                                Thread.Sleep(200);
-                                            }
-                                        }
-                                        catch {
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        catch {
-                        }
-                    }
                 }
                 catch (Exception) {
                     createdNew = false;
