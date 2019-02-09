@@ -71,23 +71,25 @@ namespace NTMiner {
             });
         }
 
-        public void SetMinerProfilePropertyAsync(string host, string propertyName, object value, Action callback) {
+        public void SetMinerProfilePropertyAsync(string host, string propertyName, object value, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest {
+                            MessageId = Guid.NewGuid(),
+                            LoginName = "admin",
                             PropertyName = propertyName,
                             Value = value,
                             Timestamp = DateTime.Now
                         };
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/SetMinerProfileProperty", request);
-                        Write.DevLine("SetMinerProfilePropertyAsync " + message.Result.ReasonPhrase);
-                        callback?.Invoke();
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke();
+                    callback?.Invoke(null);
                 }
             });
         }

@@ -49,14 +49,22 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public void SetMinerProfileProperty([FromBody]SetMinerProfilePropertyRequest request) {
-            if (request.Timestamp.AddSeconds(VirtualRoot.DesyncSeconds) < DateTime.Now) {
-                return;
+        public ResponseBase SetMinerProfileProperty([FromBody]SetMinerProfilePropertyRequest request) {
+            if (request == null || string.IsNullOrEmpty(request.PropertyName)) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
-            if (string.IsNullOrEmpty(request.PropertyName)) {
-                return;
+            try {
+                ResponseBase response;
+                if (!request.IsValid(NTMinerRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                NTMinerRoot.Current.SetMinerProfileProperty(request.PropertyName, request.Value);
+                return ResponseBase.Ok(request.MessageId);
             }
-            NTMinerRoot.Current.SetMinerProfileProperty(request.PropertyName, request.Value);
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
         }
     }
 }

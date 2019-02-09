@@ -55,7 +55,11 @@ namespace NTMiner.Vms {
                 MinerClientService.Instance.SetMinerProfilePropertyAsync(
                             this.ClientDataVm.MinerIp,
                             nameof(ClientDataVm.MinerName),
-                            this.ClientDataVm.MinerNameCopy, null);
+                            this.ClientDataVm.MinerNameCopy, response => {
+                                if (!response.IsSuccess()) {
+                                    Write.UserLine(response.Description, ConsoleColor.Red);
+                                }
+                            });
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                     Refresh();
                 });
