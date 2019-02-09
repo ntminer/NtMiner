@@ -88,7 +88,11 @@ namespace NTMiner.Vms {
             });
             this.StartMine = new DelegateCommand(() => {
                 ClientDataVm.IsMining = true;
-                MinerClientService.Instance.StartMineAsync(this.ClientDataVm.MinerIp, ClientDataVm.WorkId, null);
+                MinerClientService.Instance.StartMineAsync(this.ClientDataVm.MinerIp, ClientDataVm.WorkId, response=> {
+                    if (!response.IsSuccess()) {
+                        Write.UserLine(response.Description, ConsoleColor.Red);
+                    }
+                });
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                     Refresh();
                 });

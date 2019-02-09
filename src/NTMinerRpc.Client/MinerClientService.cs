@@ -26,7 +26,7 @@ namespace NTMiner {
             });
         }
 
-        public void StartMineAsync(string host, Guid workId, Action<bool> callback) {
+        public void StartMineAsync(string host, Guid workId, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 Guid messageId = Guid.NewGuid();
                 try {
@@ -39,13 +39,13 @@ namespace NTMiner {
                         };
                         request.SignIt(Server.PasswordSha1Sha1);
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StartMine", request);
-                        bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(false);
+                    callback?.Invoke(null);
                 }
             });
         }
