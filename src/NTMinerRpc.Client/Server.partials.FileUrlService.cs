@@ -51,9 +51,8 @@ namespace NTMiner {
             #region RemoveNTMinerFileAsync
             public void RemoveNTMinerFileAsync(Guid id, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
                     RemoveNTMinerFileRequest request = new RemoveNTMinerFileRequest {
-                        MessageId = messageId,
+                        MessageId = Guid.NewGuid(),
                         LoginName = LoginName,
                         NTMinerId = id,
                         Timestamp = DateTime.Now

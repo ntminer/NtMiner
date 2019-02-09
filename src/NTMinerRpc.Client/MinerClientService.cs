@@ -19,7 +19,8 @@ namespace NTMiner {
                         callback?.Invoke(response);
                     }
                 }
-                catch {
+                catch (Exception e){
+                    Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -42,7 +43,8 @@ namespace NTMiner {
                         callback?.Invoke(response);
                     }
                 }
-                catch {
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke(false);
                 }
             });
@@ -60,7 +62,8 @@ namespace NTMiner {
                         callback?.Invoke();
                     }
                 }
-                catch {
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke();
                 }
             });
@@ -80,7 +83,8 @@ namespace NTMiner {
                         callback?.Invoke();
                     }
                 }
-                catch {
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
                     callback?.Invoke();
                 }
             });
