@@ -28,11 +28,10 @@ namespace NTMiner {
 
         public void StartMineAsync(string host, Guid workId, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
-                Guid messageId = Guid.NewGuid();
                 try {
                     using (HttpClient client = new HttpClient()) {
                         StartMineRequest request = new StartMineRequest() {
-                            MessageId = messageId,
+                            MessageId = Guid.NewGuid(),
                             LoginName = "admin",
                             WorkId = workId,
                             Timestamp = DateTime.Now
@@ -50,21 +49,24 @@ namespace NTMiner {
             });
         }
 
-        public void StopMineAsync(string host, Action callback) {
+        public void StopMineAsync(string host, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        StopMineRequest request = new StopMineRequest {
+                        StopMineRequest request = new StopMineRequest() {
+                            MessageId = Guid.NewGuid(),
+                            LoginName = "admin",
                             Timestamp = DateTime.Now
                         };
+                        request.SignIt(Server.PasswordSha1Sha1);
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StopMine", request);
-                        Write.DevLine("StopMineAsync " + message.Result.ReasonPhrase);
-                        callback?.Invoke();
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
                     }
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke();
+                    callback?.Invoke(null);
                 }
             });
         }

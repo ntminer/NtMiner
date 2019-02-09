@@ -49,9 +49,8 @@ namespace NTMiner {
             public void SetAppSettingAsync(AppSettingData entity, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        Guid messageId = Guid.NewGuid();
                         SetAppSettingRequest request = new SetAppSettingRequest() {
-                            MessageId = messageId,
+                            MessageId = Guid.NewGuid(),
                             Data = entity,
                             LoginName = LoginName,
                             Timestamp = DateTime.Now

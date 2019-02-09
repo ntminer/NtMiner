@@ -34,9 +34,8 @@ namespace NTMiner {
             #region AddOrUpdateNTMinerFileAsync
             public void AddOrUpdateNTMinerFileAsync(NTMinerFileData entity, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
-                    Guid messageId = Guid.NewGuid();
                     AddOrUpdateNTMinerFileRequest request = new AddOrUpdateNTMinerFileRequest() {
-                        MessageId = messageId,
+                        MessageId = Guid.NewGuid(),
                         Data = entity,
                         LoginName = LoginName,
                         Timestamp = DateTime.Now
