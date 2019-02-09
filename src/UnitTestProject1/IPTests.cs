@@ -73,7 +73,9 @@ namespace UnitTestProject1 {
         /// </remarks>
         /// <returns></returns>
         private static HashSet<IPAddress> GetAllDevicesOnlan() {
-            HashSet<IPAddress> all = new HashSet<IPAddress>();
+            HashSet<IPAddress> all = new HashSet<IPAddress> {
+                IPAddress.Parse("127.0.0.1")
+            };
             int spaceForNetTable = 0;
             // Get the space needed
             // We do that by requesting the table, but not giving any space at all.
