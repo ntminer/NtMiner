@@ -53,13 +53,11 @@ namespace NTMiner.Vms {
             });
             this.ReName = new DelegateCommand(() => {
                 MinerClientService.Instance.SetMinerProfilePropertyAsync(
-                            this.ClientDataVm.MinerIp,
-                            nameof(ClientDataVm.MinerName),
-                            this.ClientDataVm.MinerNameCopy, response => {
-                                if (!response.IsSuccess()) {
-                                    Write.UserLine(response.Description, ConsoleColor.Red);
-                                }
-                            });
+                    this.ClientDataVm.MinerIp, nameof(ClientDataVm.MinerName), this.ClientDataVm.MinerNameCopy, response => {
+                        if (!response.IsSuccess()) {
+                            Write.UserLine($"{this.ClientDataVm.MinerIp} {response.Description}", ConsoleColor.Red);
+                        }
+                    });
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                     Refresh();
                 });
@@ -74,10 +72,14 @@ namespace NTMiner.Vms {
             this.ChangeGroup = new DelegateCommand(() => {
                 try {
                     Server.ControlCenterService.UpdateClientAsync(
-                        this.ClientDataVm.Id,
-                        nameof(ClientDataVm.GroupId),
-                        this.ClientDataVm.SelectedMinerGroupCopy.Id, null);
-                    this.ClientDataVm.GroupId = this.ClientDataVm.SelectedMinerGroupCopy.Id;
+                        this.ClientDataVm.Id, nameof(ClientDataVm.GroupId), this.ClientDataVm.SelectedMinerGroupCopy.Id, response => {
+                            if (!response.IsSuccess()) {
+                                Write.UserLine($"{this.ClientDataVm.MinerIp} {response.Description}", ConsoleColor.Red);
+                            }
+                            else {
+                                this.ClientDataVm.GroupId = this.ClientDataVm.SelectedMinerGroupCopy.Id;
+                            }
+                        });                    
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                         Refresh();
                     });
@@ -94,7 +96,7 @@ namespace NTMiner.Vms {
                 ClientDataVm.IsMining = true;
                 MinerClientService.Instance.StartMineAsync(this.ClientDataVm.MinerIp, ClientDataVm.WorkId, response=> {
                     if (!response.IsSuccess()) {
-                        Write.UserLine(response.Description, ConsoleColor.Red);
+                        Write.UserLine($"{this.ClientDataVm.MinerIp} {response.Description}", ConsoleColor.Red);
                     }
                 });
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
@@ -105,7 +107,7 @@ namespace NTMiner.Vms {
                 ClientDataVm.IsMining = false;
                 MinerClientService.Instance.StopMineAsync(this.ClientDataVm.MinerIp, response => {
                     if (!response.IsSuccess()) {
-                        Write.UserLine(response.Description, ConsoleColor.Red);
+                        Write.UserLine($"{this.ClientDataVm.MinerIp} {response.Description}", ConsoleColor.Red);
                     }
                 });
                 TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
