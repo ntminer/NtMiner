@@ -1,5 +1,6 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
+using NTMiner.Ip;
 using NTMiner.Language;
 using NTMiner.Serialization;
 using System;
@@ -41,12 +42,15 @@ namespace NTMiner {
         public static IMessageDispatcher MessageDispatcher { get; private set; }
         public static ICmdBus CommandBus { get; private set; }
         public static IEventBus EventBus { get; private set; }
-        
+
+        public static IIpSet IpSet { get; private set; }
+
         static VirtualRoot() {
             JsonSerializer = new ObjectJsonSerializer();
             MessageDispatcher = new MessageDispatcher();
             CommandBus = new DirectCommandBus(MessageDispatcher);
             EventBus = new DirectEventBus(MessageDispatcher);
+            IpSet = Ip.Impl.IpSet.Instance;
             StartTimer();
         }
 
