@@ -99,8 +99,14 @@ namespace NTMiner {
                     Task.Factory.StartNew(() => {
                         Parallel.ForEach(VirtualRoot.IpSet, (ip, state, i) => {
                             try {
-                                MinerClientService.Instance.AddUserAsync(ip.ToString(), message.User.LoginName, HashUtil.Sha1(message.User.Password), message.User.Description, null);
-                                Write.DevLine($"向{ip.ToString()}广播登录成功成功");
+                                MinerClientService.Instance.AddUserAsync(ip.ToString(), message.User.LoginName, HashUtil.Sha1(message.User.Password), message.User.Description, response=> {
+                                    if (response.IsSuccess()) {
+                                        Write.DevLine($"向{ip.ToString()}广播登录成功成功", ConsoleColor.Green);
+                                    }
+                                    else {
+                                        Write.DevLine($"向{ip.ToString()}广播登录成功失败", ConsoleColor.Red);
+                                    }
+                                });
                             }
                             catch (Exception e) {
                                 Write.DevLine(e.Message);
