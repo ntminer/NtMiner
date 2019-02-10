@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.MinerServer {
+namespace NTMiner {
     public class SpeedData : RequestBase {
         public SpeedData() { }
 

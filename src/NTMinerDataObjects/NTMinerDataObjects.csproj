@@ -130,7 +130,7 @@
     <Compile Include="MinerServer\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="MinerServer\SetPoolProfilePropertyRequest.cs" />
     <Compile Include="MinerServer\SetServerJsonVersionRequest.cs" />
-    <Compile Include="MinerServer\SpeedData.cs" />
+    <Compile Include="SpeedData.cs" />
     <Compile Include="MinerServer\StartMineRequest.cs" />
     <Compile Include="MinerServer\StopMineRequest.cs" />
     <Compile Include="Timestamp.cs" />

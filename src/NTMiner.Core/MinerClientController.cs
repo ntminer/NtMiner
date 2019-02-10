@@ -122,5 +122,17 @@ namespace NTMiner.Controllers {
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
+
+        [HttpPost]
+        public SpeedData GetSpeed() {
+            try {
+                SpeedData data = Report.CreateSpeedData(NTMinerRoot.Current);
+                return data;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return null;
+            }
+        }
     }
 }
