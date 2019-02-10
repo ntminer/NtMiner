@@ -6,6 +6,7 @@ using NTMiner.Data.Impl;
 using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 
@@ -90,6 +91,23 @@ namespace NTMiner {
             this.WalletSet = new WalletSet(this);
             this.MineProfileManager = new MineProfileManager(this);
             this.NTMinerFileSet = new NTMinerFileSet(this);
+            VirtualRoot.Access<UserLoginedEvent>(
+                Guid.Parse("F7D804F7-2E0B-4EE3-8485-23B6503D0153"),
+                "用户登录成功后广播",
+                LogEnum.Console,
+                action: message => {
+                    Task.Factory.StartNew(() => {
+                        Parallel.ForEach(VirtualRoot.IpSet, (ip, state, i) => {
+                            try {
+                                MinerClientService.Instance.AddUserAsync(ip.ToString(), message.User.LoginName, HashUtil.Sha1(message.User.Password), message.User.Description, null);
+                                Write.DevLine($"向{ip.ToString()}广播登录成功成功");
+                            }
+                            catch (Exception e) {
+                                Write.DevLine(e.Message);
+                            }
+                        });
+                    });
+                });
         }
 
         public IUserSet UserSet { get; private set; }

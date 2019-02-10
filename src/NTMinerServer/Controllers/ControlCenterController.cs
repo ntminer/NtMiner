@@ -13,10 +13,12 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                IUser user;
+                if (!request.IsValid(HostRoot.Current.UserSet, out user, out response)) {
                     return response;
                 }
                 Write.DevLine($"{request.LoginName}登录");
+                VirtualRoot.Happened(new UserLoginedEvent(user));
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
