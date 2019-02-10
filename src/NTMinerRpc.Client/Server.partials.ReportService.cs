@@ -11,20 +11,6 @@ namespace NTMiner {
 
             private ReportServiceFace() { }
 
-            public void LoginAsync(LoginData data) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/Login", data);
-                            Write.DevLine("LoginAsync " + message.Result.ReasonPhrase);
-                        }
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
-                });
-            }
-
             public void ReportSpeedAsync(SpeedData data) {
                 Task.Factory.StartNew(() => {
                     try {

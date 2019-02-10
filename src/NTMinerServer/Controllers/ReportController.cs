@@ -6,7 +6,7 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class ReportController : ApiController {
         [HttpPost]
-        public void Login([FromBody]LoginData message) {
+        public void ReportSpeed([FromBody]SpeedData message) {
             try {
                 if (message == null) {
                     return;
@@ -18,40 +18,8 @@ namespace NTMiner.Controllers {
                         Id = message.ClientId,
                         WorkId = message.WorkId,
                         Version = message.Version,
-                        CreatedOn = DateTime.Now,
-                        ModifiedOn = DateTime.Now,
                         MinerIp = minerIp,
-                        MinerName = message.MinerName,
-                        GpuInfo = message.GpuInfo
-                    };
-                    HostRoot.Current.ClientSet.Add(clientData);
-                }
-                else {
-                    clientData.WorkId = message.WorkId;
-                    clientData.Version = message.Version;
-                    clientData.ModifiedOn = DateTime.Now;
-                    clientData.MinerIp = minerIp;
-                    clientData.MinerName = message.MinerName;
-                    clientData.GpuInfo = message.GpuInfo;
-                }
-                Logger.InfoDebugLine($"{message.ClientId} {minerIp} 登录");
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
-        }
-
-        [HttpPost]
-        public void ReportSpeed([FromBody]SpeedData message) {
-            try {
-                if (message == null) {
-                    return;
-                }
-                string minerIp = Request.GetWebClientIp();
-                ClientData clientData = HostRoot.Current.ClientSet.LoadClient(message.ClientId);
-                if (clientData == null) {
-                    clientData = new ClientData() {
-                        Id = message.ClientId,
+                        GpuInfo = message.GpuInfo,
                         MinerName = message.MinerName,
                         CreatedOn = DateTime.Now,
                         ModifiedOn = DateTime.Now,
@@ -63,12 +31,15 @@ namespace NTMiner.Controllers {
                         DualCoinPool = message.DualCoinPool,
                         DualCoinWallet = message.DualCoinWallet,
                         DualCoinCode = message.DualCoinCode,
-                        IsMining = message.IsMining,
-                        MinerIp = minerIp
+                        IsMining = message.IsMining
                     };
                     HostRoot.Current.ClientSet.Add(clientData);
                 }
                 else {
+                    clientData.WorkId = message.WorkId;
+                    clientData.Version = message.Version;
+                    clientData.MinerIp = minerIp;
+                    clientData.GpuInfo = message.GpuInfo;
                     clientData.MinerName = message.MinerName;
                     clientData.ModifiedOn = DateTime.Now;
                     clientData.MainCoinCode = message.MainCoinCode;
@@ -80,7 +51,6 @@ namespace NTMiner.Controllers {
                     clientData.DualCoinWallet = message.DualCoinWallet;
                     clientData.DualCoinCode = message.DualCoinCode;
                     clientData.IsMining = message.IsMining;
-                    clientData.MinerIp = minerIp;
                 }
                 bool isMainCoin = !string.IsNullOrEmpty(message.MainCoinCode);
                 // 认为双挖币不能和主挖币相同

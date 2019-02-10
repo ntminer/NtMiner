@@ -6,6 +6,14 @@ namespace NTMiner.MinerServer {
 
         public Guid ClientId { get; set; }
 
+        public Guid WorkId { get; set; }
+
+        public string Version { get; set; }
+
+        public string MinerIp { get; set; }
+
+        public string GpuInfo { get; set; }
+
         public string MinerName { get; set; }
 
         public string MainCoinCode { get; set; }

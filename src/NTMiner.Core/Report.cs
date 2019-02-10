@@ -21,7 +21,6 @@ namespace NTMiner {
                 "登录服务器并报告一次0算力",
                 LogEnum.Console,
                 action: message => {
-                    Login(root);
                     // 报告0算力从而告知服务器该客户端当前在线的币种
                     ReportSpeed(root);
                 });
@@ -39,7 +38,6 @@ namespace NTMiner {
                 "开始挖矿后报告状态",
                 LogEnum.Console,
                 action: message => {
-                    Login(root);
                     ReportSpeed(root);
                 });
 
@@ -52,23 +50,6 @@ namespace NTMiner {
                 });
         }
 
-        private static void Login(INTMinerRoot root) {
-            try {
-                Server.ReportService.LoginAsync(new LoginData() {
-                    WorkId = CommandLineArgs.WorkId,
-                    MessageId = Guid.NewGuid(),
-                    ClientId = ClientId.Id,
-                    Timestamp = DateTime.Now,
-                    Version = NTMinerRoot.CurrentVersion.ToString(4),
-                    MinerName = root.MinerProfile.MinerName,
-                    GpuInfo = root.GpuSetInfo
-                });
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
-        }
-
         private static readonly Dictionary<Guid, CoinShareData> _coinShareDic = new Dictionary<Guid, CoinShareData>();
         private static ICoin _lastSpeedMainCoin;
         private static ICoin _lastSpeedDualCoin;
@@ -76,7 +57,10 @@ namespace NTMiner {
             try {
                 SpeedData data = new SpeedData {
                     MessageId = Guid.NewGuid(),
+                    WorkId = CommandLineArgs.WorkId,
+                    Version = NTMinerRoot.CurrentVersion.ToString(4),
                     MinerName = root.MinerProfile.MinerName,
+                    GpuInfo = root.GpuSetInfo,
                     ClientId = ClientId.Id,
                     Timestamp = DateTime.Now,
                     MainCoinCode = string.Empty,
@@ -91,7 +75,7 @@ namespace NTMiner {
                     IsDualCoinEnabled = false,
                     Kernel = string.Empty,
                     MainCoinPool = string.Empty,
-                    MainCoinWallet = string.Empty
+                    MainCoinWallet = string.Empty,
                 };
                 #region 当前选中的币种是什么
                 ICoin mainCoin;
