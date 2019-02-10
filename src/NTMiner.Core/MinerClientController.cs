@@ -7,15 +7,18 @@ namespace NTMiner.Controllers {
     public class MinerClientController : ApiController {
         [HttpPost]
         public ResponseBase AddUser([FromBody]AddUserRequest request) {
-            if (request == null || string.IsNullOrEmpty(request.LoginName)) {
+            if (request == null || string.IsNullOrEmpty(request.LoginName) || string.IsNullOrEmpty(request.Password)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                if (NTMinerRoot.Current.UserSet.Contains(request.LoginName)) {
-                    return ResponseBase.ClientError(request.MessageId, $"登录名{request.LoginName}已经存在");
-                }
-                if (string.IsNullOrEmpty(request.Password)) {
-                    return ResponseBase.ClientError(request.MessageId, $"密码不能为空");
+                IUser user;
+                if (NTMinerRoot.Current.UserSet.TryGetKey(request.LoginName, out user)) {
+                    if (user.Password == request.Password) {
+                        return ResponseBase.Ok(request.MessageId);
+                    }
+                    else {
+                        return ResponseBase.ClientError(request.MessageId, $"密码错误");
+                    }
                 }
                 VirtualRoot.Execute(new AddUserCommand(request));
                 return ResponseBase.Ok(request.MessageId);

@@ -104,7 +104,7 @@ namespace NTMiner {
                                         Write.DevLine($"向{ip.ToString()}广播登录成功成功", ConsoleColor.Green);
                                     }
                                     else {
-                                        Write.DevLine($"向{ip.ToString()}广播登录成功失败", ConsoleColor.Red);
+                                        Write.DevLine($"向{ip.ToString()}广播登录成功失败：{response.Description}", ConsoleColor.Red);
                                     }
                                 });
                             }
