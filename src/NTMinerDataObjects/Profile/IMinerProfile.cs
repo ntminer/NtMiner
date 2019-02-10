@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.Profile {
     public interface IMinerProfile : IEntity<Guid> {
         string MinerName { get; }
         bool IsAutoThisPCName { get; }

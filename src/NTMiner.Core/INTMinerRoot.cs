@@ -4,6 +4,7 @@ using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.SysDics;
+using NTMiner.Profile;
 using NTMiner.User;
 using System;
 

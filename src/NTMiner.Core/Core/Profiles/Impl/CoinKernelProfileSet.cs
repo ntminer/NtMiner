@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.Kernels;
 using NTMiner.MinerServer;
+using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;

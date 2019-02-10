@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Profile;
+using System;
 
 namespace NTMiner.Core.Profiles {
     public interface ICoinProfileSet {

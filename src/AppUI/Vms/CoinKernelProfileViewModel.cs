@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Profile;
+using System;
 using System.Linq;
 
 namespace NTMiner.Vms {

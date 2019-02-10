@@ -11,6 +11,7 @@ using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.Data.Impl;
 using NTMiner.NTMinerDaemon;
+using NTMiner.Profile;
 using NTMiner.User;
 using NTMiner.User.Impl;
 using System;

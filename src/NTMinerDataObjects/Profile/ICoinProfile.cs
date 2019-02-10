@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.Profile {
     public interface ICoinProfile {
         Guid CoinId { get; }
         Guid PoolId { get; }

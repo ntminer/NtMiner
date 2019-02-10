@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Profile;
+using System;
 
 namespace NTMiner.Vms {
     public class PoolProfileViewModel : ViewModelBase, IPoolProfile {

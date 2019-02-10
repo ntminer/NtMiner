@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
+using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
