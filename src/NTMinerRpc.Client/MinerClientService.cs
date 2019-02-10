@@ -117,13 +117,29 @@ namespace NTMiner {
             });
         }
 
+        public void GetProfile(string host, Action<ProfileData> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://{host}:3336/api/MinerClient/GetProfile", null);
+                        ProfileData data = message.Result.Content.ReadAsAsync<ProfileData>().Result;
+                        callback?.Invoke(data);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    callback?.Invoke(null);
+                }
+            });
+        }
+
         public void GetSpeed(string host, Action<SpeedData> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsync($"http://{host}:3336/api/MinerClient/GetSpeed", null);
-                        SpeedData speedData = message.Result.Content.ReadAsAsync<SpeedData>().Result;
-                        callback?.Invoke(speedData);
+                        SpeedData data = message.Result.Content.ReadAsAsync<SpeedData>().Result;
+                        callback?.Invoke(data);
                     }
                 }
                 catch (Exception e) {

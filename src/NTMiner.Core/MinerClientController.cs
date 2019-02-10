@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.Core;
+using NTMiner.MinerClient;
 using NTMiner.User;
 using System;
 using System.Web.Http;
@@ -124,9 +125,21 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
+        public ProfileData GetProfile() {
+            try {
+                ProfileData data = Report.CreateProfileData();
+                return data;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return null;
+            }
+        }
+
+        [HttpPost]
         public SpeedData GetSpeed() {
             try {
-                SpeedData data = Report.CreateSpeedData(NTMinerRoot.Current);
+                SpeedData data = Report.CreateSpeedData();
                 return data;
             }
             catch (Exception e) {

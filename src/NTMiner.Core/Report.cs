@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
+using NTMiner.MinerClient;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace NTMiner {
                 LogEnum.Console,
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
-                    ReportSpeed(root);
+                    ReportSpeed();
                 });
 
             VirtualRoot.Access<Per2MinuteEvent>(
@@ -30,7 +31,7 @@ namespace NTMiner {
                 "每两分钟上报一次",
                 LogEnum.Console,
                 action: message => {
-                    ReportSpeed(root);
+                    ReportSpeed();
                 });
 
             VirtualRoot.Access<MineStartedEvent>(
@@ -38,7 +39,7 @@ namespace NTMiner {
                 "开始挖矿后报告状态",
                 LogEnum.Console,
                 action: message => {
-                    ReportSpeed(root);
+                    ReportSpeed();
                 });
 
             VirtualRoot.Access<MineStopedEvent>(
@@ -46,14 +47,95 @@ namespace NTMiner {
                 "停止挖矿后报告状态",
                 LogEnum.Console,
                 action: message => {
-                    ReportState(root);
+                    ReportState();
                 });
+        }
+
+        public static ProfileData CreateProfileData() {
+            INTMinerRoot root = NTMinerRoot.Current;
+            IMinerProfile minerProfile = root.MinerProfile;
+            if (minerProfile == null) {
+                return null;
+            }
+            ICoin mainCoin;
+            if (!root.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
+                return null;
+            }
+            string dualCoinCode = null;
+            string dualCoinPool = null;
+            string dualCoinWallet = null;
+            bool isDualCoinPoolIsUserMode = false;
+            string dualCoinPoolUserName = null;
+            double dualCoinWeight = 0;
+            bool isAutoDualWeight = true;
+            bool isDualCoinEnabled = false;
+            string mainCoinPool = null;
+            string mainCoinWallet = null;
+            bool isMainCoinPoolIsUserMode = false;
+            string mainCoinPoolUserName = null;
+            ICoinProfile mainCoinProfile = root.CoinProfileSet.GetCoinProfile(mainCoin.GetId());
+            IPool mainCoinPoolModel;
+            if (!root.PoolSet.TryGetPool(mainCoinProfile.PoolId, out mainCoinPoolModel)) {
+                return null;
+            }
+            mainCoinPool = mainCoinPoolModel.Server;
+            mainCoinWallet = mainCoinProfile.Wallet;
+            isMainCoinPoolIsUserMode = mainCoinPoolModel.IsUserMode;
+            mainCoinPoolUserName = mainCoinPoolModel.UserName;
+            ICoinKernelProfile coinKernelProfile = root.CoinKernelProfileSet.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
+            isDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
+            if (isDualCoinEnabled) {
+                ICoin dualCoin;
+                if (!root.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
+                    return null;
+                }
+                dualCoinCode = dualCoin.Code;
+                isAutoDualWeight = coinKernelProfile.IsAutoDualWeight;
+                dualCoinWeight = coinKernelProfile.DualCoinWeight;
+                ICoinProfile dualCoinProfile = root.CoinProfileSet.GetCoinProfile(coinKernelProfile.DualCoinId);
+                IPool dualCoinPoolModel;
+                if (!root.PoolSet.TryGetPool(dualCoinProfile.PoolId, out dualCoinPoolModel)) {
+                    return null;
+                }
+                dualCoinPool = dualCoinPoolModel.Server;
+                dualCoinWallet = dualCoinProfile.Wallet;
+                isDualCoinPoolIsUserMode = dualCoinPoolModel.IsUserMode;
+                dualCoinPoolUserName = dualCoinPoolModel.UserName;
+            }
+            ProfileData data = new ProfileData {
+                CoinCode = mainCoin.Code,
+                DualCoinCode = dualCoinCode,
+                DualCoinPool = dualCoinPool,
+                DualCoinWallet = dualCoinWallet,
+                IsDualCoinPoolIsUserMode = isDualCoinPoolIsUserMode,
+                DualCoinPoolUserName = dualCoinPoolUserName,
+                DualCoinWeight = dualCoinWeight,
+                IsAutoBoot = minerProfile.IsAutoBoot,
+                IsAutoDualWeight = isAutoDualWeight,
+                IsAutoRestartKernel = minerProfile.IsAutoRestartKernel,
+                IsAutoStart = minerProfile.IsAutoStart,
+                IsAutoThisPCName = minerProfile.IsAutoThisPCName,
+                IsDualCoinEnabled = isDualCoinEnabled,
+                IsNoShareRestartKernel = minerProfile.IsNoShareRestartKernel,
+                IsPeriodicRestartComputer = minerProfile.IsPeriodicRestartComputer,
+                IsPeriodicRestartKernel = minerProfile.IsPeriodicRestartKernel,
+                MainCoinPool = mainCoinPool,
+                MainCoinWallet = mainCoinWallet,
+                IsMainCoinPoolIsUserMode = isMainCoinPoolIsUserMode,
+                MainCoinPoolUserName = mainCoinPoolUserName,
+                MinerName = minerProfile.MinerName,
+                NoShareRestartKernelMinutes = minerProfile.NoShareRestartKernelMinutes,
+                PeriodicRestartComputerHours = minerProfile.PeriodicRestartComputerHours,
+                PeriodicRestartKernelHours = minerProfile.PeriodicRestartKernelHours
+            };
+            return data;
         }
 
         private static readonly Dictionary<Guid, CoinShareData> _coinShareDic = new Dictionary<Guid, CoinShareData>();
         private static ICoin _lastSpeedMainCoin;
         private static ICoin _lastSpeedDualCoin;
-        public static SpeedData CreateSpeedData(INTMinerRoot root) {
+        public static SpeedData CreateSpeedData() {
+            INTMinerRoot root = NTMinerRoot.Current;
             SpeedData data = new SpeedData {
                 MessageId = Guid.NewGuid(),
                 WorkId = CommandLineArgs.WorkId,
@@ -169,9 +251,9 @@ namespace NTMiner {
             return data;
         }
 
-        private static void ReportSpeed(INTMinerRoot root) {
+        private static void ReportSpeed() {
             try {
-                SpeedData data = CreateSpeedData(root);
+                SpeedData data = CreateSpeedData();
                 Server.ReportService.ReportSpeedAsync(data);
             }
             catch (Exception e) {
@@ -179,9 +261,9 @@ namespace NTMiner {
             }
         }
 
-        private static void ReportState(INTMinerRoot root) {
+        private static void ReportState() {
             try {
-                Server.ReportService.ReportStateAsync(ClientId.Id, root.IsMining);
+                Server.ReportService.ReportStateAsync(ClientId.Id, NTMinerRoot.Current.IsMining);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
