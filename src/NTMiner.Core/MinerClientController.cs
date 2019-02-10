@@ -30,6 +30,31 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
+        public ResponseBase ChangePassword([FromBody]ChangePasswordRequest request) {
+            if (request == null || string.IsNullOrEmpty(request.LoginName) || string.IsNullOrEmpty(request.OldPassword) || string.IsNullOrEmpty(request.NewPassword)) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                IUser user;
+                if (!NTMinerRoot.Current.UserSet.TryGetKey(request.LoginName, out user)) {
+                    return ResponseBase.ClientError(request.MessageId, $"登录名不存在");
+                }
+                if (user.Password == request.NewPassword) {
+                    return ResponseBase.Ok(request.MessageId);
+                }
+                if (user.Password != request.OldPassword) {
+                    return ResponseBase.ClientError(request.MessageId, $"旧密码不正确");
+                }
+                VirtualRoot.Execute(new ChangePasswordCommand(request.LoginName, request.OldPassword, request.NewPassword, request.Description));
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+
+        [HttpPost]
         public bool ShowMainWindow() {
             try {
                 VirtualRoot.Execute(new ShowMainWindowCommand());
