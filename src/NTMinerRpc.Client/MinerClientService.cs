@@ -26,8 +26,7 @@ namespace NTMiner {
                         callback?.Invoke(response);
                     }
                 }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+                catch {
                     callback?.Invoke(null);
                 }
             });
