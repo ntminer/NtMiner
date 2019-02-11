@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.User.Impl {
     public class UserSet : IUserSet {
@@ -66,9 +67,7 @@ namespace NTMiner.User.Impl {
                     if (_lastInitOn.AddMinutes(10) < now) {
                         using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
                             var col = db.GetCollection<UserData>();
-                            foreach (var item in col.FindAll()) {
-                                _dicByLoginName.Add(item.LoginName, item);
-                            }
+                            _dicByLoginName = col.FindAll().ToDictionary(a => a.LoginName, a => a);
                         }
                         _lastInitOn = DateTime.Now;
                     }
