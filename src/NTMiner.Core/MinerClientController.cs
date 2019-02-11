@@ -140,7 +140,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public SpeedData GetSpeed() {
             try {
-                SpeedData data = Report.CreateSpeedData();
+                SpeedData data = Report.CreateSpeedData(withGpuSpeeds: true);
                 return data;
             }
             catch (Exception e) {

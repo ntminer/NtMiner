@@ -6,6 +6,7 @@ using NTMiner.Profile;
 using NTMiner.Hashrate;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner {
     public static class Report {
@@ -135,7 +136,7 @@ namespace NTMiner {
         private static readonly Dictionary<Guid, CoinShareData> _coinShareDic = new Dictionary<Guid, CoinShareData>();
         private static ICoin _lastSpeedMainCoin;
         private static ICoin _lastSpeedDualCoin;
-        public static SpeedData CreateSpeedData() {
+        public static SpeedData CreateSpeedData(bool withGpuSpeeds = false) {
             INTMinerRoot root = NTMinerRoot.Current;
             SpeedData data = new SpeedData {
                 WorkId = CommandLineArgs.WorkId,
@@ -157,6 +158,16 @@ namespace NTMiner {
                 MainCoinPool = string.Empty,
                 MainCoinWallet = string.Empty,
             };
+            if (withGpuSpeeds) {
+                data.GpuSpeeds = root.GpusSpeed.Select(a => new GpuSpeedData {
+                    Index = a.Gpu.Index,
+                    MainCoinSpeed = (long)a.MainCoinSpeed.Value,
+                    DualCoinSpeed = (long)a.DualCoinSpeed.Value,
+                    FanSpeed = a.Gpu.FanSpeed,
+                    Temperature = a.Gpu.Temperature,
+                    PowerUsage = a.Gpu.PowerUsage
+                }).ToArray();
+            }
             #region 当前选中的币种是什么
             ICoin mainCoin;
             if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out mainCoin)) {
