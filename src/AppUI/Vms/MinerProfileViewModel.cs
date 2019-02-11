@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.SysDics;
+using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Views.Ucs;
 using System;
@@ -99,6 +100,12 @@ namespace NTMiner.Vms {
                     t.Stop();
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
+        }
+
+        public IMineWork MineWork {
+            get {
+                return NTMinerRoot.Current.MineWork;
+            }
         }
 
         public Visibility IsWatermarkVisible {
