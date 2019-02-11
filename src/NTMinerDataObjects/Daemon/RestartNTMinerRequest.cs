@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.NTMinerDaemon {
+namespace NTMiner.Daemon {
     public class RestartNTMinerRequest {
         public RestartNTMinerRequest() { }
         public Guid WorkId { get; set; }

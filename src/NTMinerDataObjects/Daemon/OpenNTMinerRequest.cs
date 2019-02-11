@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.NTMinerDaemon {
+namespace NTMiner.Daemon {
     public class OpenNTMinerRequest {
         public OpenNTMinerRequest() { }
 

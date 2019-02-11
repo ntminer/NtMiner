@@ -1,5 +1,6 @@
 ﻿using NTMiner.Data;
 using NTMiner.MinerServer;
+using NTMiner.Hashrate;
 using System;
 using System.Web.Http;
 

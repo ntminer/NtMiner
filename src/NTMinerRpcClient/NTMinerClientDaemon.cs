@@ -1,4 +1,4 @@
-﻿using NTMiner.NTMinerDaemon;
+﻿using NTMiner.Daemon;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;

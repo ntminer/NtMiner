@@ -1,8 +1,10 @@
 ﻿using System;
 
-namespace NTMiner {
-    public class SpeedData : RequestBase {
-        public SpeedData() { }
+namespace NTMiner.Hashrate {
+    public class SpeedData {
+        public SpeedData() {
+            GpuSpeeds = new GpuSpeedData[0];
+        }
 
         public Guid ClientId { get; set; }
 
@@ -36,10 +38,12 @@ namespace NTMiner {
 
         public int DualCoinShareDelta { get; set; }
 
+        public bool IsMining { get; set; }
+
         public long MainCoinSpeed { get; set; }
 
         public long DualCoinSpeed { get; set; }
 
-        public bool IsMining { get; set; }
+        public GpuSpeedData[] GpuSpeeds { get; set; }
     }
 }

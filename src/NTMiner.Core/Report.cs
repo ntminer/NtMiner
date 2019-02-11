@@ -3,6 +3,7 @@ using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.MinerClient;
 using NTMiner.Profile;
+using NTMiner.Hashrate;
 using System;
 using System.Collections.Generic;
 
@@ -137,13 +138,11 @@ namespace NTMiner {
         public static SpeedData CreateSpeedData() {
             INTMinerRoot root = NTMinerRoot.Current;
             SpeedData data = new SpeedData {
-                MessageId = Guid.NewGuid(),
                 WorkId = CommandLineArgs.WorkId,
                 Version = NTMinerRoot.CurrentVersion.ToString(4),
                 MinerName = root.MinerProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
                 ClientId = ClientId.Id,
-                Timestamp = DateTime.Now,
                 MainCoinCode = string.Empty,
                 MainCoinShareDelta = 0,
                 MainCoinSpeed = 0,
