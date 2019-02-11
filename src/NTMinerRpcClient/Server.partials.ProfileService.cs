@@ -14,11 +14,17 @@ namespace NTMiner {
 
             public void GetMineWorkAsync(Guid workId, Action<MineWorkData> callback) {
                 Task.Factory.StartNew(() => {
-                    MineWorkRequest request = new MineWorkRequest {
-                        WorkId = workId
-                    };
-                    MineWorkData response = Request<MineWorkData>("Profile", "MineWork", request);
-                    callback?.Invoke(response);
+                    try {
+                        MineWorkRequest request = new MineWorkRequest {
+                            WorkId = workId
+                        };
+                        MineWorkData response = Request<MineWorkData>("Profile", "MineWork", request);
+                        callback?.Invoke(response);
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(null);
+                    }
                 });
             }
 
@@ -27,8 +33,14 @@ namespace NTMiner {
             /// </summary>
             /// <returns></returns>
             public List<MineWorkData> GetMineWorks() {
-                List<MineWorkData> response = Request<List<MineWorkData>>("Profile", "MineWorks", null);
-                return response;
+                try {
+                    List<MineWorkData> response = Request<List<MineWorkData>>("Profile", "MineWorks", null);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
             }
 
             /// <summary>
@@ -37,11 +49,17 @@ namespace NTMiner {
             /// <param name="workId"></param>
             /// <returns></returns>
             public MinerProfileData GetMinerProfile(Guid workId) {
-                MinerProfileRequest request = new MinerProfileRequest {
-                    WorkId = workId
-                };
-                MinerProfileData response = Request<MinerProfileData>("Profile", "MinerProfile", request);
-                return response;
+                try {
+                    MinerProfileRequest request = new MinerProfileRequest {
+                        WorkId = workId
+                    };
+                    MinerProfileData response = Request<MinerProfileData>("Profile", "MinerProfile", request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
             }
 
             /// <summary>
@@ -51,12 +69,18 @@ namespace NTMiner {
             /// <param name="coinId"></param>
             /// <returns></returns>
             public CoinProfileData GetCoinProfile(Guid workId, Guid coinId) {
-                CoinProfileRequest request = new CoinProfileRequest {
-                    WorkId = workId,
-                    CoinId = coinId
-                };
-                CoinProfileData response = Request<CoinProfileData>("Profile", "CoinProfile", request);
-                return response;
+                try {
+                    CoinProfileRequest request = new CoinProfileRequest {
+                        WorkId = workId,
+                        CoinId = coinId
+                    };
+                    CoinProfileData response = Request<CoinProfileData>("Profile", "CoinProfile", request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
             }
 
             /// <summary>
@@ -66,12 +90,18 @@ namespace NTMiner {
             /// <param name="poolId"></param>
             /// <returns></returns>
             public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
-                PoolProfileRequest request = new PoolProfileRequest {
-                    WorkId = workId,
-                    PoolId = poolId
-                };
-                PoolProfileData response = Request<PoolProfileData>("Profile", "PoolProfile", request);
-                return response;
+                try {
+                    PoolProfileRequest request = new PoolProfileRequest {
+                        WorkId = workId,
+                        PoolId = poolId
+                    };
+                    PoolProfileData response = Request<PoolProfileData>("Profile", "PoolProfile", request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
             }
 
             /// <summary>
@@ -81,12 +111,18 @@ namespace NTMiner {
             /// <param name="coinKernelId"></param>
             /// <returns></returns>
             public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
-                CoinKernelProfileRequest request = new CoinKernelProfileRequest {
-                    WorkId = workId,
-                    CoinKernelId = coinKernelId
-                };
-                CoinKernelProfileData response = Request<CoinKernelProfileData>("Profile", "CoinKernelProfile", request);
-                return response;
+                try {
+                    CoinKernelProfileRequest request = new CoinKernelProfileRequest {
+                        WorkId = workId,
+                        CoinKernelId = coinKernelId
+                    };
+                    CoinKernelProfileData response = Request<CoinKernelProfileData>("Profile", "CoinKernelProfile", request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
             }
         }
     }

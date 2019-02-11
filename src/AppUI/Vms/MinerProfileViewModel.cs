@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.SysDics;
-using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Views.Ucs;
 using System;
@@ -16,7 +15,6 @@ namespace NTMiner.Vms {
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private double _logoRotateTransformAngle;
-        private MineWorkData _mineWork;
         private Visibility _isWatermarkVisible = Visibility.Visible;
 
         public ICommand CustomTheme { get; private set; }
@@ -101,13 +99,6 @@ namespace NTMiner.Vms {
                     t.Stop();
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
-            if (CommandLineArgs.IsWorker) {
-                Server.ProfileService.GetMineWorkAsync(CommandLineArgs.WorkId, mineWorkData => {
-                    if (mineWorkData != null) {
-                        this.MineWork = mineWorkData;
-                    }
-                });
-            }
         }
 
         public Visibility IsWatermarkVisible {
@@ -257,16 +248,6 @@ namespace NTMiner.Vms {
 
         public Guid GetId() {
             return this.Id;
-        }
-
-        public MineWorkData MineWork {
-            get => _mineWork;
-            set {
-                if (_mineWork != value) {
-                    _mineWork = value;
-                    OnPropertyChanged(nameof(MineWork));
-                }
-            }
         }
 
         public string MinerName {

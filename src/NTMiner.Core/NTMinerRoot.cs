@@ -27,6 +27,7 @@ using System.Web.Http.SelfHost;
 using System.Windows;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerServer.Impl;
+using NTMiner.MinerServer;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
@@ -160,7 +161,13 @@ namespace NTMiner {
                     Logger.WarnDebugLine($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
                 }
             });
-
+            if (CommandLineArgs.IsWorker && CommandLineArgs.WorkId != Guid.Empty) {
+                Server.ProfileService.GetMineWorkAsync(CommandLineArgs.WorkId, mineWorkData => {
+                    if (mineWorkData != null) {
+                        MineWork = mineWorkData;
+                    }
+                });
+            }
             NTMinerRegistry.SetLocation(ClientId.AppFileFullName);
             NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
             NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
@@ -627,6 +634,8 @@ namespace NTMiner {
                 return CurrentMineContext != null;
             }
         }
+
+        public IMineWork MineWork { get; private set; }
 
         public IMinerProfile MinerProfile {
             get { return _minerProfile; }
