@@ -3,6 +3,7 @@ using System.Text;
 
 namespace NTMiner.MinerServer {
     public class RemoveNTMinerFileRequest : RequestBase, ISignatureRequest {
+        public RemoveNTMinerFileRequest() { }
         public string LoginName { get; set; }
         public Guid NTMinerId { get; set; }
         public string Sign { get; set; }

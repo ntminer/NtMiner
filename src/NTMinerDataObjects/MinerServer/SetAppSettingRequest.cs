@@ -2,6 +2,7 @@
 
 namespace NTMiner.MinerServer {
     public class SetAppSettingRequest : RequestBase, ISignatureRequest {
+        public SetAppSettingRequest() { }
         public string LoginName { get; set; }
         public AppSettingData Data { get; set; }
         public string Sign { get; set; }

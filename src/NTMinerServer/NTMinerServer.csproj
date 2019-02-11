@@ -138,9 +138,9 @@
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerRpc.Client\NTMinerRpc.Client.csproj">
+    <ProjectReference Include="..\NTMinerRpc.Client\NTMinerRpcClient.csproj">
       <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
-      <Name>NTMinerRpc.Client</Name>
+      <Name>NTMinerRpcClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

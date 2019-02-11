@@ -1,5 +1,6 @@
 ﻿namespace NTMiner.MinerClient {
     public class ProfileData {
+        public ProfileData() { }
         public string MinerName { get; set; }
         public bool IsAutoThisPCName { get; set; }
         public bool IsAutoBoot { get; set; }

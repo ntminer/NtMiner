@@ -2,6 +2,7 @@
 
 namespace NTMiner.MinerServer {
     public class SetServerJsonVersionRequest : RequestBase, ISignatureRequest {
+        public SetServerJsonVersionRequest() { }
         public string LoginName { get; set; }
         public string Sign { get; set; }
 

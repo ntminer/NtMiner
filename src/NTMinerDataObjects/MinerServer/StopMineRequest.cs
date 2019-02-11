@@ -3,6 +3,7 @@ using System.Text;
 
 namespace NTMiner.MinerServer {
     public class StopMineRequest : RequestBase, ISignatureRequest {
+        public StopMineRequest() { }
         public string LoginName { get; set; }
         public Guid ClientId { get; set; }
         public string Sign { get; set; }

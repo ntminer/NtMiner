@@ -3,6 +3,7 @@ using System.Text;
 
 namespace NTMiner.MinerServer {
     public class QueryClientsRequest : RequestBase, ISignatureRequest {
+        public QueryClientsRequest() { }
         public string LoginName { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }

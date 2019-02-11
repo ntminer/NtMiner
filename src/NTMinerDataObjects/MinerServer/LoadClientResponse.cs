@@ -2,6 +2,7 @@
 
 namespace NTMiner.MinerServer {
     public class LoadClientResponse : ResponseBase {
+        public LoadClientResponse() { }
         public static LoadClientResponse Ok(Guid messageId, ClientData data) {
             return new LoadClientResponse() {
                 MessageId = messageId,

@@ -3,6 +3,7 @@ using System.Text;
 
 namespace NTMiner.MinerServer {
     public class UpdateClientRequest : RequestBase, ISignatureRequest {
+        public UpdateClientRequest() { }
         public string LoginName { get; set; }
         public Guid ClientId { get; set; }
         public string PropertyName { get; set; }

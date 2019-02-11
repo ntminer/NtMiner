@@ -2,6 +2,7 @@
 
 namespace NTMiner.MinerClient {
     public class StopMineRequest : RequestBase, ISignatureRequest {
+        public StopMineRequest() { }
         public string LoginName { get; set; }
         public string Sign { get; set; }
 

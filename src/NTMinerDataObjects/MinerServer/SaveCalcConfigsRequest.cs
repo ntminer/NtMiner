@@ -3,6 +3,7 @@ using System.Text;
 
 namespace NTMiner.MinerServer {
     public class SaveCalcConfigsRequest : RequestBase, ISignatureRequest {
+        public SaveCalcConfigsRequest() { }
         public string LoginName { get; set; }
         public List<CalcConfigData> Data { get; set; }
         public string Sign { get; set; }

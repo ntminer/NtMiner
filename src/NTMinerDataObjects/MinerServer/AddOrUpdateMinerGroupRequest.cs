@@ -2,6 +2,7 @@
 
 namespace NTMiner.MinerServer {
     public class AddOrUpdateMinerGroupRequest : RequestBase, ISignatureRequest {
+        public AddOrUpdateMinerGroupRequest() { }
         public string LoginName { get; set; }
         public MinerGroupData Data { get; set; }
         public string Sign { get; set; }

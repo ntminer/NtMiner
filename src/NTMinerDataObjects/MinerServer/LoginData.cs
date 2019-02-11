@@ -2,6 +2,7 @@
 
 namespace NTMiner.MinerServer {
     public class LoginData : RequestBase {
+        public LoginData() { }
         public Guid WorkId { get; set; }
 
         public Guid ClientId { get; set; }
