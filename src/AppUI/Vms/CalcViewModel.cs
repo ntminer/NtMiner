@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.MinerServer;
 
 namespace NTMiner.Vms {
     public class CalcViewModel : ViewModelBase {

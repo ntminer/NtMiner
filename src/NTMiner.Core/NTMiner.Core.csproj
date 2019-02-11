@@ -287,5 +287,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Daemon\NTMinerDaemon.exe" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\MinerServer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

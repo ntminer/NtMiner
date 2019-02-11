@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public interface ICalcConfig {
         string CoinCode { get; }
         double Speed { get; }

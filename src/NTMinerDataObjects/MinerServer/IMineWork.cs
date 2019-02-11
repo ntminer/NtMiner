@@ -1,7 +1,7 @@
 ﻿using System;
 
-namespace NTMiner {
-    public interface IMinerGroup : IEntity<Guid> {
+namespace NTMiner.MinerServer {
+    public interface IMineWork : IEntity<Guid> {
         string Name { get; }
         string Description { get; }
     }

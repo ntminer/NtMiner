@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.MinerServer {
     public interface IWallet : IEntity<Guid> {
         Guid CoinId { get; }
         string Name { get; }
