@@ -2,7 +2,6 @@
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class Server {
@@ -12,20 +11,18 @@ namespace NTMiner {
             private ProfileServiceFace() {
             }
 
-            public void GetMineWorkAsync(Guid workId, Action<MineWorkData> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        MineWorkRequest request = new MineWorkRequest {
-                            WorkId = workId
-                        };
-                        MineWorkData response = Request<MineWorkData>("Profile", "MineWork", request);
-                        callback?.Invoke(response);
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
-                    }
-                });
+            public MineWorkData GetMineWork(Guid workId) {
+                try {
+                    MineWorkRequest request = new MineWorkRequest {
+                        WorkId = workId
+                    };
+                    MineWorkData response = Request<MineWorkData>("Profile", "MineWork", request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
             }
 
             /// <summary>

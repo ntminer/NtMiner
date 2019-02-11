@@ -23,6 +23,7 @@ namespace NTMiner {
             Upgrade = PickArgument("upgrade=");
             string workId = PickArgument("workid=");
             Guid.TryParse(workId, out WorkId);
+            IsWorker = WorkId != Guid.Empty;
             IsWorkEdit = IsControlCenter && IsWorker;
             JustClientWorker = !IsControlCenter && IsWorker;
             IsFreeClient = !IsControlCenter && !IsWorker;
