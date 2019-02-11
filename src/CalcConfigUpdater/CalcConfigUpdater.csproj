@@ -72,7 +72,7 @@
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
       <Name>NTMinerlib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerRpc.Client\NTMinerRpcClient.csproj">
+    <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
       <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
       <Name>NTMinerRpcClient</Name>
     </ProjectReference>
