@@ -3,6 +3,7 @@ using System.Text;
 
 namespace NTMiner.Profile {
     public class SetClientMinerProfilePropertyRequest : RequestBase, ISignatureRequest {
+        public SetClientMinerProfilePropertyRequest() { }
         public string LoginName { get; set; }
         public Guid ClientId { get; set; }
         public string PropertyName { get; set; }

@@ -3,6 +3,7 @@ using System.Text;
 
 namespace NTMiner.Profile {
     public class SetCoinProfilePropertyRequest : RequestBase, ISignatureRequest {
+        public SetCoinProfilePropertyRequest() { }
         public string LoginName { get; set; }
         public Guid WorkId { get; set; }
         public Guid CoinId { get; set; }

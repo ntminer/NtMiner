@@ -110,7 +110,7 @@
     <Compile Include="Profile\PoolProfileRequest.cs" />
     <Compile Include="NTMinerDaemon\OpenNTMinerRequest.cs" />
     <Compile Include="NTMinerDaemon\RestartNTMinerRequest.cs" />
-    <Compile Include="NTMinerDaemon\StartRequest.cs" />
+    <Compile Include="NTMinerDaemon\StartNoDevFeeRequest.cs" />
     <Compile Include="NTMinerDaemon\UpgradeNTMinerRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MinerServer\QueryClientsRequest.cs" />

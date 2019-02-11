@@ -130,7 +130,7 @@ namespace NTMiner {
             });
         }
 
-        public void StartAsync(StartRequest request, Action callback) {
+        public void StartNoDevFeeAsync(StartNoDevFeeRequest request, Action callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {

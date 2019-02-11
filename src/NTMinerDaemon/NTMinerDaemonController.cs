@@ -133,7 +133,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public void StartNoDevFee([FromBody]StartRequest request) {
+        public void StartNoDevFee([FromBody]StartNoDevFeeRequest request) {
             NoDevFee.NoDevFeeUtil.StartAsync(request.ContextId, request.MinerName, request.Coin, request.OurWallet, request.TestWallet, request.KernelName);
         }
 

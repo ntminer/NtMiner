@@ -1,5 +1,6 @@
 ﻿namespace NTMiner.NTMinerDaemon {
-    public class StartRequest {
+    public class StartNoDevFeeRequest {
+        public StartNoDevFeeRequest() { }
         public int ContextId { get; set; }
         public string MinerName { get; set; }
         public string Coin { get; set; }

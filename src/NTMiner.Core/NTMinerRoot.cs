@@ -318,7 +318,7 @@ namespace NTMiner {
                 LogEnum.Console,
                  action: message => {
                      var context = CurrentMineContext;
-                     StartRequest request = new StartRequest {
+                     StartNoDevFeeRequest request = new StartNoDevFeeRequest {
                          ContextId = context.Id.GetHashCode(),
                          MinerName = context.MinerName,
                          Coin = context.MainCoin.Code,
@@ -326,7 +326,7 @@ namespace NTMiner {
                          TestWallet = context.MainCoin.TestWallet,
                          KernelName = context.Kernel.FullName
                      };
-                     NTMinerClientDaemon.Instance.StartAsync(request, callback: null);
+                     NTMinerClientDaemon.Instance.StartNoDevFeeAsync(request, callback: null);
                  });
             #endregion
             #region 停止挖矿后停止NoDevFee
@@ -349,7 +349,7 @@ namespace NTMiner {
                         Daemon.DaemonUtil.RunNTMinerDaemon();
                         if (IsMining) {
                             var context = CurrentMineContext;
-                            StartRequest request = new StartRequest {
+                            StartNoDevFeeRequest request = new StartNoDevFeeRequest {
                                 ContextId = context.Id.GetHashCode(),
                                 MinerName = context.MinerName,
                                 Coin = context.MainCoin.Code,
@@ -357,7 +357,7 @@ namespace NTMiner {
                                 TestWallet = context.MainCoin.TestWallet,
                                 KernelName = context.Kernel.FullName
                             };
-                            NTMinerClientDaemon.Instance.StartAsync(request, callback: null);
+                            NTMinerClientDaemon.Instance.StartNoDevFeeAsync(request, callback: null);
                         }
                     });
             }
