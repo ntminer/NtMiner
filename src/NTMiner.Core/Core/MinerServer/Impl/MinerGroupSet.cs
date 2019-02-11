@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace NTMiner.Core.Impl {
+namespace NTMiner.Core.MinerServer.Impl {
     public class MinerGroupSet : IMinerGroupSet {
         private readonly Dictionary<Guid, MinerGroupData> _dicById = new Dictionary<Guid, MinerGroupData>();
         private readonly INTMinerRoot _root;

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.Core.Impl {
+namespace NTMiner.Core.MinerServer.Impl {
     public class MineWorkSet : IMineWorkSet {
         private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
 

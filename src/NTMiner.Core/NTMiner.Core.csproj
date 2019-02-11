@@ -117,12 +117,12 @@
     <Compile Include="Core\Impl\CoinGroupData.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
-    <Compile Include="Core\IMinerGroupSet.cs" />
+    <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />
     <Compile Include="Core\Impl\GroupData.cs" />
     <Compile Include="Core\Impl\GroupSet.cs" />
     <Compile Include="Core\Impl\KeyData.cs" />
     <Compile Include="Core\Impl\KeySet.cs" />
-    <Compile Include="Core\Impl\MinerGroupSet.cs" />
+    <Compile Include="Core\MinerServer\Impl\MinerGroupSet.cs" />
     <Compile Include="Core\Impl\ReadOnlyServerRepository`1.cs" />
     <Compile Include="Core\Impl\ServerJson.cs" />
     <Compile Include="Core\IncomePerDay.cs" />
@@ -147,12 +147,12 @@
     <Compile Include="Core\Kernels\IPoolKernel.cs" />
     <Compile Include="Core\Kernels\IPoolKernelSet.cs" />
     <Compile Include="Core\Profiles\ICoinKernelProfileSet.cs" />
-    <Compile Include="Core\IMineWorkSet.cs" />
+    <Compile Include="Core\MinerServer\IMineWorkSet.cs" />
     <Compile Include="Core\Profiles\ICoinProfileSet.cs" />
     <Compile Include="Core\Profiles\IKernelProfile.cs" />
     <Compile Include="Core\Profiles\IKernelProfileSet.cs" />
     <Compile Include="Core\Profiles\Impl\CoinKernelProfileSet.cs" />
-    <Compile Include="Core\Impl\MineWorkSet.cs" />
+    <Compile Include="Core\MinerServer\Impl\MineWorkSet.cs" />
     <Compile Include="Core\Impl\PoolData.cs" />
     <Compile Include="Core\Profiles\Impl\CoinProfileSet.cs" />
     <Compile Include="Core\Profiles\Impl\KernelProfileSet.cs" />
@@ -287,8 +287,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Daemon\NTMinerDaemon.exe" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\MinerServer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -25,6 +25,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 using System.Windows;
+using NTMiner.Core.MinerServer;
+using NTMiner.Core.MinerServer.Impl;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
