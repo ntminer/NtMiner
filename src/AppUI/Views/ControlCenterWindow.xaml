@@ -83,7 +83,7 @@
 			</WrapPanel>
 		</Grid>
 		<Viewbox Grid.Row="1" Stretch="Fill">
-			<uc:MinersSpeedCharts Width="960" Height="800">
+			<uc:MinersSpeedCharts Width="960" Height="720">
 			</uc:MinersSpeedCharts>
 		</Viewbox>
 		<notification:NotificationMessageContainer 
