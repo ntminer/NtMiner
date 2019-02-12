@@ -7,6 +7,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
+                FooterVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_MineWork"
             }, ucFactory: (window) =>
             {

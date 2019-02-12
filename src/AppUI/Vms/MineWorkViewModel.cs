@@ -100,6 +100,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string ArgsAssembly {
+            get {
+                return NTMinerRoot.Current.BuildAssembleArgs();
+            }
+        }
+
         public string Description {
             get => _description;
             set {
