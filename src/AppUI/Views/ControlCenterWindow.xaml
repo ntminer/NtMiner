@@ -5,6 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:notification="clr-namespace:NTMiner.Notifications.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
@@ -18,6 +19,13 @@
 		mc:Ignorable="d"
 		DataContext="{x:Static vm:ControlCenterWindowViewModel.Current}"
 		Title="{Binding Title}" Height="860" Width="1536">
+	<metro:MetroWindow.Resources>
+		<ResourceDictionary>
+			<sys:String x:Key="Title">
+				开源矿工群控客户端
+			</sys:String>
+		</ResourceDictionary>
+	</metro:MetroWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -41,7 +49,7 @@
 				<TextBlock
 					Margin="4 0 0 0"
 					FontSize="14"
-					Text="{Binding Title}">
+					Text="{DynamicResource Title}">
 				</TextBlock>
 			</WrapPanel>
 			<WrapPanel Grid.Column="1" Margin="8 0 0 0" VerticalAlignment="Center">
@@ -86,7 +94,6 @@
 			Manager="{Binding Manager}" />
 
 		<WrapPanel Grid.Row="2" Background="#EBEBEB">
-			<TextBlock VerticalAlignment="Center" Text="官网：" />
 			<controls:KbLinkButton
 				Foreground="#0072C1"
 				Command="{x:Static vm:AppStatic.OpenOfficialSite}"
