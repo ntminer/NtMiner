@@ -11,7 +11,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
-		Background="{StaticResource MainColor}"
+		Background="#EBEBEB"
 		FontSize="12"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
