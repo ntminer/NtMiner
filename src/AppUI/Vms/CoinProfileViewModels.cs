@@ -28,6 +28,14 @@ namespace NTMiner.Vms {
                         _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                     }
                 });
+            VirtualRoot.Access<MinerProfileSwichedEvent>(
+                Guid.Parse("AA8CC3C3-A110-4F8D-AAB3-97EE29968B3A"),
+                "MinerProfile切换后刷新Vm内存",
+                LogEnum.Console,
+                action: message => {
+                    _coinKernelProfileDicById.Clear();
+                    _coinProfileDicById.Clear();
+                });
         }
 
         public CoinProfileViewModel GetOrCreateCoinProfile(Guid coinId) {

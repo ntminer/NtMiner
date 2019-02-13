@@ -13,7 +13,6 @@ namespace NTMiner.Core.Profiles {
         void SetCoinProfileProperty(Guid coinId, string propertyName, object value);
         IPoolProfile GetPoolProfile(Guid poolId);
         void SetPoolProfileProperty(Guid poolId, string propertyName, object value);
-        int WalletCount { get; }
         bool ContainsWallet(Guid walletId);
         bool TryGetWallet(Guid walletId, out IWallet wallet);
         IEnumerable<IWallet> GetAllWallets();

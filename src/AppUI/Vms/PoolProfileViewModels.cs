@@ -17,6 +17,13 @@ namespace NTMiner.Vms {
                         _poolProfileDicById[message.PoolId].OnPropertyChanged(message.PropertyName);
                     }
                 });
+            VirtualRoot.Access<MinerProfileSwichedEvent>(
+                Guid.Parse("AE442E71-BB88-4A13-AA3F-E0C65429EC49"),
+                "MinerProfile切换后刷新Vm内存",
+                LogEnum.Console,
+                action: message => {
+                    _poolProfileDicById.Clear();
+                });
         }
 
         public PoolProfileViewModel GetOrCreatePoolProfile(Guid poolId) {

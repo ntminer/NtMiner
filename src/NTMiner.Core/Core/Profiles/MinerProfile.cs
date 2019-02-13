@@ -319,13 +319,6 @@ namespace NTMiner.Core.Profiles {
             _poolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
         }
 
-        [IgnoreReflectionSet]
-        public int WalletCount {
-            get {
-                return _walletSet.WalletCount;
-            }
-        }
-
         public bool ContainsWallet(Guid walletId) {
             return _walletSet.ContainsWallet(walletId);
         }
@@ -976,13 +969,6 @@ namespace NTMiner.Core.Profiles {
 
             private bool _isInited = false;
             private object _locker = new object();
-
-            public int WalletCount {
-                get {
-                    InitOnece();
-                    return _dicById.Count;
-                }
-            }
 
             private void InitOnece() {
                 if (_isInited) {

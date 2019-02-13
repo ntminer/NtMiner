@@ -331,13 +331,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        private PoolProfileViewModel _poolProfileVm;
         public PoolProfileViewModel PoolProfileVm {
             get {
-                if (_poolProfileVm == null) {
-                    _poolProfileVm = PoolProfileViewModels.Current.GetOrCreatePoolProfile(this.Id);
-                }
-                return _poolProfileVm;
+                return PoolProfileViewModels.Current.GetOrCreatePoolProfile(this.Id);
             }
         }
     }
