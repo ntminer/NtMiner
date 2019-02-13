@@ -109,6 +109,45 @@ namespace NTMiner.Vms {
             }
         });
 
+        public static Visibility JustClientWorkerVisible {
+            get {
+                if (CommandLineArgs.JustClientWorker) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public static Visibility IsWorkEditVisible {
+            get {
+                if (CommandLineArgs.IsWorkEdit) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public static Visibility IsFreeClientVisible {
+            get {
+                if (CommandLineArgs.IsFreeClient) {
+                    return Visibility.Collapsed;
+                }
+                return Visibility.Visible;
+            }
+        }
+
+        public static bool IsWorkEditOrFreeClient {
+            get {
+                if (CommandLineArgs.IsWorkEdit) {
+                    return true;
+                }
+                if (CommandLineArgs.IsFreeClient) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public static ICommand ShowLangViewItems { get; private set; } = new DelegateCommand<string>((viewId) => {
             ViewLang.ShowWindow(new ViewLangViewModel(viewId));
         });

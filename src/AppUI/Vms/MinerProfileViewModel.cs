@@ -3,7 +3,6 @@ using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -170,36 +169,6 @@ namespace NTMiner.Vms {
                 else {
                     return time.ToString();
                 }
-            }
-        }
-
-        public bool JustClientWorker {
-            get {
-                return CommandLineArgs.JustClientWorker;
-            }
-        }
-
-        public bool IsWorkEdit {
-            get {
-                return CommandLineArgs.IsWorkEdit;
-            }
-        }
-
-        public bool IsFreeClient {
-            get {
-                return CommandLineArgs.IsFreeClient;
-            }
-        }
-
-        public bool IsWorkEditOrFreeClient {
-            get {
-                if (IsWorkEdit) {
-                    return true;
-                }
-                if (CommandLineArgs.IsFreeClient) {
-                    return true;
-                }
-                return false;
             }
         }
 

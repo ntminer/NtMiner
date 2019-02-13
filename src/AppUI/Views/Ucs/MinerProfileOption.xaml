@@ -42,7 +42,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <StackPanel IsEnabled="{Binding IsWorkEditOrFreeClient}">
+        <StackPanel IsEnabled="{x:Static vm:AppStatic.IsWorkEditOrFreeClient}">
             <StackPanel Margin="9 4 0 0">
                 <WrapPanel Margin="0 2">
                     <controls:KbCheckBox

@@ -126,18 +126,18 @@
 					Command="{x:Static vm:AppStatic.RunAsAdministrator}">
 				</controls:KbButton>
 				<WrapPanel Margin="4 0 0 0">
-					<WrapPanel Visibility="{Binding MinerProfile.IsFreeClient, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+					<WrapPanel Visibility="{x:Static vm:AppStatic.IsFreeClientVisible}">
 						<TextBlock VerticalAlignment="Center" Margin="8 0 0 0">作业：</TextBlock>
 						<TextBlock VerticalAlignment="Center" FontSize="14" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
 					</WrapPanel>
 					<TextBlock 
 						VerticalAlignment="Center" FontSize="14" Text="(中控)" Foreground="Red"
 						ToolTip="受中控控制，本地不能编辑。"
-						Visibility="{Binding MinerProfile.JustClientWorker, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+						Visibility="{x:Static vm:AppStatic.JustClientWorkerVisible}"></TextBlock>
 					<TextBlock 
 						x:Name="TbWorkEdit"
 						VerticalAlignment="Center" FontSize="14" Text="(编辑作业)" Foreground="Red"
-						Visibility="{Binding MinerProfile.IsWorkEdit, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+						Visibility="{x:Static vm:AppStatic.IsWorkEditVisible}"></TextBlock>
 				</WrapPanel>
 			</WrapPanel>
 			<WrapPanel HorizontalAlignment="Right">
