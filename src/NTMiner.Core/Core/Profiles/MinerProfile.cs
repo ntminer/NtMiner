@@ -223,7 +223,7 @@ namespace NTMiner.Core.Profiles {
                 if (propertyInfo.GetCustomAttributes(attrubuteType, inherit: false).Length > 0) {
                     continue;
                 }
-                _properties.Add(propertyInfo.Name, propertyInfo);
+                properties.Add(propertyInfo.Name, propertyInfo);
             }
             return properties;
         }

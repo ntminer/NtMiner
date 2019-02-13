@@ -18,7 +18,7 @@
 		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
 		DataContext="{x:Static vm:ControlCenterWindowViewModel.Current}"
-		Title="{Binding Title}" Height="860" Width="1536">
+		Title="{DynamicResource Title}" Height="860" Width="1536">
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
 			<sys:String x:Key="Title">

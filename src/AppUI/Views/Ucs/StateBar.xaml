@@ -3,68 +3,68 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 DataContext="{x:Static vm:StateBarViewModel.Current}"
 			 mc:Ignorable="d">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Style x:Key="Lbl" TargetType="Label">
-                <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-                <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
-            </Style>
-            <sys:String x:Key="BtnCheckUpdate">
-                BtnCheckUpdate
-            </sys:String>
-            <sys:String x:Key="BtnServerConfig">
-                BtnServerConfig
-            </sys:String>
-            <sys:String x:Key="TbUnMining">
-                TbUnMining
-            </sys:String>
-            <sys:String x:Key="TbMining">
-                TbMining
-            </sys:String>
-            <sys:String x:Key="PoolIncome">
-                PoolIncome
-            </sys:String>
-            <sys:String x:Key="Day">
-                Day
-            </sys:String>
-            <sys:String x:Key="LblReject">
-                LblReject
-            </sys:String>
-            <sys:String x:Key="LblRejectCount">
-                LblRejectCount
-            </sys:String>
-            <sys:String x:Key="LblRequestCount">
-                LblRequestCount
-            </sys:String>
-            <sys:String x:Key="LblTotalSpeed">
-                LblTotalSpeed
-            </sys:String>
-            <sys:String x:Key="Github">
-                Github
-            </sys:String>
-            <sys:String x:Key="Discuss">
-                Discuss
-            </sys:String>
-            <sys:String x:Key="RunningTimeSpan">
-                RunningTimeSpan
-            </sys:String>
-            <sys:String x:Key="MiningTimeSpan">
-                MiningTimeSpan
-            </sys:String>
-        </ResourceDictionary>
-    </UserControl.Resources>
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<Style x:Key="Lbl" TargetType="Label">
+				<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+				<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+			</Style>
+			<sys:String x:Key="BtnCheckUpdate">
+				BtnCheckUpdate
+			</sys:String>
+			<sys:String x:Key="BtnServerConfig">
+				BtnServerConfig
+			</sys:String>
+			<sys:String x:Key="TbUnMining">
+				TbUnMining
+			</sys:String>
+			<sys:String x:Key="TbMining">
+				TbMining
+			</sys:String>
+			<sys:String x:Key="PoolIncome">
+				PoolIncome
+			</sys:String>
+			<sys:String x:Key="Day">
+				Day
+			</sys:String>
+			<sys:String x:Key="LblReject">
+				LblReject
+			</sys:String>
+			<sys:String x:Key="LblRejectCount">
+				LblRejectCount
+			</sys:String>
+			<sys:String x:Key="LblRequestCount">
+				LblRequestCount
+			</sys:String>
+			<sys:String x:Key="LblTotalSpeed">
+				LblTotalSpeed
+			</sys:String>
+			<sys:String x:Key="Github">
+				Github
+			</sys:String>
+			<sys:String x:Key="Discuss">
+				Discuss
+			</sys:String>
+			<sys:String x:Key="RunningTimeSpan">
+				RunningTimeSpan
+			</sys:String>
+			<sys:String x:Key="MiningTimeSpan">
+				MiningTimeSpan
+			</sys:String>
+		</ResourceDictionary>
+	</UserControl.Resources>
 	<Border Padding="4 0 4 0" Background="Transparent">
 		<Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column='0'>
 				<WrapPanel Margin="0 2">
 					<controls:KbLinkButton
@@ -87,348 +87,348 @@
 					<TextBox VerticalAlignment="Center" IsReadOnly="True" 
 						Background="Transparent" 
 						BorderThickness="0" Text="{Binding QQGroup, Mode=OneWay}">
-                    </TextBox>
-                    <controls:KbButton 
-					    Margin="2 -1 0 0"
+					</TextBox>
+					<controls:KbButton 
+						Margin="2 -1 0 0"
 						Cursor="Hand"
 						ToolTip="点击显示QQ群二维码"
 						Background="Transparent" 
 						BorderThickness="0"
 						Command="{x:Static vm:AppStatic.ShowQQGroupQrCode}">
-                        <Path 
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_QRCode}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </controls:KbButton>
-                </WrapPanel>
-                <WrapPanel Margin="0 2">
-                    <TextBlock
+						<Path 
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_QRCode}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</controls:KbButton>
+				</WrapPanel>
+				<WrapPanel Margin="0 2">
+					<TextBlock
 						Margin="2 0 0 0"
-                        Foreground="{StaticResource LableColor}"
+						Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="v" />
-                    <TextBlock
+					<TextBlock
 						Margin="0"
-                        Foreground="{StaticResource LableColor}"
+						Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="{Binding CurrentVersion}" />
-                    <TextBlock
+					<TextBlock
 						Margin="2 0 0 0"
-                        Foreground="{StaticResource LableColor}"
+						Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="(" />
-                    <TextBlock
+					<TextBlock
 						Margin="0"
-                        Foreground="{StaticResource LableColor}"
+						Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="{Binding VersionTag}" />
-                    <TextBlock
-                        Foreground="{StaticResource LableColor}"
+					<TextBlock
+						Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text=")" />
-                    <controls:KbButton 
+					<controls:KbButton 
 						Margin="4 0 0 0"
 						Cursor="Hand"
 						ToolTip="{DynamicResource BtnCheckUpdate}"
 						Background="Transparent" 
 						BorderThickness="0"
 						Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
-                        <Path 
+						<Path 
 							Width="14"
 							Height="13"
 							Data="{StaticResource Icon_Update}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-                    </controls:KbButton>
-                    <controls:KbButton
-                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					</controls:KbButton>
+					<controls:KbButton
+						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 						Margin="4 0 0 0"
-                        Cursor="Hand"
-                        ToolTip="{DynamicResource BtnServerConfig}"
+						Cursor="Hand"
+						ToolTip="{DynamicResource BtnServerConfig}"
 						Command="{Binding ConfigMinerServerHost}"
 						Background="Transparent">
-                        <Path 
+						<Path 
 							Width="16"
 							Height="13"
 							Data="{StaticResource Icon_Server}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-                    </controls:KbButton>
-                </WrapPanel>
-                <WrapPanel Margin="0 2">
-                    <controls:KbLinkButton
+					</controls:KbButton>
+				</WrapPanel>
+				<WrapPanel Margin="0 2">
+					<controls:KbLinkButton
 						Foreground="#0072C1"
 						Command="{x:Static vm:AppStatic.OpenOfficialSite}"
 						Background="Transparent"
 						KbSystemButtonHoverBackground="Transparent"
 						KbDisplayLine="False">
-                        <WrapPanel>
-                            <TextBlock Text="{DynamicResource Github}"></TextBlock>
-                            <Path 
-						        Width="14"
-						        Height="14"
-						        Data="{StaticResource Icon_Github}"
-						        Fill="{StaticResource IconFillColor}"
-						        Stretch="Fill" />
-                        </WrapPanel>
-                    </controls:KbLinkButton>
-                    <controls:KbLinkButton
-                        Margin="8 0 0 0"
+						<WrapPanel>
+							<TextBlock Text="{DynamicResource Github}"></TextBlock>
+							<Path 
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Github}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbLinkButton>
+					<controls:KbLinkButton
+						Margin="8 0 0 0"
 						Foreground="#0072C1"
 						Command="{x:Static vm:AppStatic.OpenDiscussSite}"
 						Background="Transparent"
 						KbSystemButtonHoverBackground="Transparent"
 						KbDisplayLine="False">
-                        <WrapPanel>
-                            <TextBlock Text="{DynamicResource Discuss}"></TextBlock>
-                            <Path 
-						        Width="14"
-						        Height="14"
-						        Data="{StaticResource Icon_Discuss}"
-						        Fill="{StaticResource IconFillColor}"
-						        Stretch="Fill" />
-                        </WrapPanel>
-                    </controls:KbLinkButton>
-                </WrapPanel>
-            </StackPanel>
-            <StackPanel Grid.Column="1">
-                <WrapPanel HorizontalAlignment="Right">
-                    <controls:KbButton
-                        Margin="0 0 4 0"
-                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                        ToolTip="StateBar translate"
-                        Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                        CommandParameter="StateBar"
-                        Background="Transparent">
-                        <WrapPanel>
-                            <Path
-                                Width="14"
-                                Height="14"
-                                Data="{StaticResource Icon_Translate}"
-                                Fill="Red"
-                                Stretch="Fill" />
-                        </WrapPanel>
-                    </controls:KbButton>
-                    <TextBlock 
-                        Margin="0 0 4 0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        ToolTip="{DynamicResource RunningTimeSpan}"
-				        Text="{Binding MinerProfile.BootTimeSpanText}"
-				        Background="Transparent"></TextBlock>
-                    <WrapPanel>
-                        <TextBlock 
-                            Text="{DynamicResource TbUnMining}" 
-                            Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-                            FontWeight="Bold" 
-                            Foreground="{StaticResource LableColor}"
-                            VerticalAlignment="Center"></TextBlock>
-                        <TextBlock 
-                            Text="{DynamicResource TbMining}" 
-                            Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}" 
-                            FontWeight="Bold" 
-                            VerticalAlignment="Center"></TextBlock>
-                        <TextBlock 
+						<WrapPanel>
+							<TextBlock Text="{DynamicResource Discuss}"></TextBlock>
+							<Path 
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Discuss}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbLinkButton>
+				</WrapPanel>
+			</StackPanel>
+			<StackPanel Grid.Column="1">
+				<WrapPanel HorizontalAlignment="Right">
+					<controls:KbButton
+						Margin="0 0 4 0"
+						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+						ToolTip="StateBar translate"
+						Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+						CommandParameter="StateBar"
+						Background="Transparent">
+						<WrapPanel>
+							<Path
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Translate}"
+								Fill="Red"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
+					<TextBlock 
+						Margin="0 0 4 0"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Top"
+						ToolTip="{DynamicResource RunningTimeSpan}"
+						Text="{Binding BootTimeSpanText}"
+						Background="Transparent"></TextBlock>
+					<WrapPanel>
+						<TextBlock 
+							Text="{DynamicResource TbUnMining}" 
+							Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+							FontWeight="Bold" 
+							Foreground="{StaticResource LableColor}"
+							VerticalAlignment="Center"></TextBlock>
+						<TextBlock 
+							Text="{DynamicResource TbMining}" 
+							Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}" 
+							FontWeight="Bold" 
+							VerticalAlignment="Center"></TextBlock>
+						<TextBlock 
 							Width="83"
-                            ToolTip="{DynamicResource MiningTimeSpan}"
-							Text="{Binding MinerProfile.MineTimeSpanText}"
+							ToolTip="{DynamicResource MiningTimeSpan}"
+							Text="{Binding MineTimeSpanText}"
 							Background="Transparent"
 							VerticalAlignment="Center"></TextBlock>
-                    </WrapPanel>
-                    <WrapPanel VerticalAlignment="Center">
-                        <Path
-                            Margin="0 0 2 0"
-			                Width="18"
-			                Height="16"
-                            ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
-			                Data="{Binding GpuStatusBarVm.Icon}"
-			                Fill="{Binding GpuStatusBarVm.IconFill}"
-			                Stretch="Fill">
-                        </Path>
-                        <TextBlock Text="{Binding GpuStatusBarVm.GpuCountText}" Width="80"></TextBlock>
-                        <Path
-                            Margin="0 0 2 0"
-			                Width="8"
-			                Height="16"
-			                Data="{StaticResource Icon_Temperature}"
-			                Fill="{Binding MinerProfile.GpuStateColor}"
-			                Stretch="Fill" />
-                        <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.TemperatureText}" Width="82" Padding="0" HorizontalAlignment="Left" />
-                        <Path
-                            Margin="0 0 2 0"
-			                Width="16"
-			                Height="16"
-			                Data="{StaticResource Icon_Fan}"
-			                Fill="{Binding MinerProfile.GpuStateColor}"
-			                Stretch="Fill">
-                            <Path.RenderTransform>
-                                <RotateTransform Angle="{Binding MinerProfile.LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
-                            </Path.RenderTransform>
-                        </Path>
-                        <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.FanSpeedText}" Width="78" Padding="0" HorizontalAlignment="Left" />
-                        <WrapPanel Width="70">
-                            <Path
-			                    Width="12"
-			                    Height="16"
-			                    Data="{StaticResource Icon_Power}"
-			                    Fill="{Binding MinerProfile.GpuStateColor}"
-			                    Stretch="Fill" />
-                            <TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
-                        </WrapPanel>
-                    </WrapPanel>
-                </WrapPanel>
-                <StackPanel HorizontalAlignment="Right">
-                    <WrapPanel>
-                        <controls:KbLinkButton
-                            Padding="0"
-                            Foreground="#0072C1"
-                            Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
-                            CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
-                            Content="{DynamicResource PoolIncome}"
-                            KbDisplayLine="False"
-                            KbSystemButtonHoverBackground="Transparent"
-                            Background="Transparent" />
-                        <WrapPanel Width="284" Margin="0 2">
-                            <controls:KbButton 
-                                Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
-                                Command="{x:Static vm:AppStatic.ShowCalc}"
-                                CommandParameter="{Binding MinerProfile.CoinVm}">
-                                <WrapPanel>
-                                    <Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
-                                    <TextBlock 
-                                        VerticalAlignment="Center"
-                                        Padding="0"
-                                        Background="Transparent"
-                                        Text="{Binding MinerProfile.GpuSpeedVms.IncomeMainCoinPerDayText}">
-                                    </TextBlock>
-                                    <TextBlock 
-                                        Text="{Binding MinerProfile.CoinVm.Code}" 
-                                        Padding="0"
-                                        Foreground="{StaticResource LableColor}"
-                                        FontWeight="Bold" 
-                                        VerticalAlignment="Center"></TextBlock>
-                                    <Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
-                                    <TextBlock 
-                                        VerticalAlignment="Center"
-                                        Padding="0"
-                                        Background="Transparent"
-                                        Text="{Binding MinerProfile.GpuSpeedVms.IncomeMainCoinUsdPerDayText}">
-                                    </TextBlock>
-                                    <TextBlock 
-                                        Text="USD" 
-                                        Padding="0"
-                                        Foreground="{StaticResource LableColor}"
-                                        VerticalAlignment="Center"></TextBlock>
-                                    <Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
-                                    <TextBlock 
-                                        VerticalAlignment="Center"
-                                        Padding="0"
-                                        Background="Transparent"
-                                        Text="{Binding MinerProfile.GpuSpeedVms.IncomeMainCoinCnyPerDayText}">
-                                    </TextBlock>
-                                    <TextBlock 
-                                        Text="CNY" 
-                                        Padding="0"
-                                        Foreground="{StaticResource LableColor}"
-                                        VerticalAlignment="Center"></TextBlock>
-                                    <Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-                                    <Label Padding="0" Content="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
-                                </WrapPanel>
-                            </controls:KbButton>
-                        </WrapPanel>
-                        <WrapPanel Width="140" Margin="0 2">
-                            <Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
-                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
-                            <Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-                            <TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
-                            <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
-                        </WrapPanel>
-                        <WrapPanel Width="130" Margin="0 2">
-                            <Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
-                            <TextBlock Text="{Binding MinerProfile.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
-                        </WrapPanel>
-                    </WrapPanel>
-                    <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <controls:KbLinkButton
-                                Padding="0"
-                                Foreground="#0072C1"
-                                Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
-                                CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
-                                Content="{DynamicResource PoolIncome}"
-                                KbDisplayLine="False"
-                                KbSystemButtonHoverBackground="Transparent"
-                                Background="Transparent" />
-                            <WrapPanel Width="284" Margin="0 2">
-                                <controls:KbButton 
-                                    Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
-                                    Command="{x:Static vm:AppStatic.ShowCalc}"
-                                    CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
-                                    <WrapPanel>
-                                        <Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
-                                        <TextBlock 
-                                            VerticalAlignment="Center"
-                                            Padding="0"
-                                            Background="Transparent" 
-                                            Text="{Binding MinerProfile.GpuSpeedVms.IncomeDualCoinPerDayText}">
-                                        </TextBlock>
-                                        <TextBlock 
-                                            Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" 
-                                            Padding="0"
-                                            FontWeight="Bold" 
-                                            Foreground="{StaticResource LableColor}"
-                                            VerticalAlignment="Center"></TextBlock>
-                                        <Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
-                                        <TextBlock 
-                                            VerticalAlignment="Center"
-                                            Padding="0"
-                                            Background="Transparent" 
-                                            Text="{Binding MinerProfile.GpuSpeedVms.IncomeDualCoinUsdPerDayText}">
-                                        </TextBlock>
-                                        <TextBlock 
-                                            Text="USD" 
-                                            Padding="0"
-                                            Foreground="{StaticResource LableColor}"
-                                            VerticalAlignment="Center"></TextBlock>
-                                        <Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
-                                        <TextBlock 
-                                            VerticalAlignment="Center"
-                                            Padding="0"
-                                            Background="Transparent"
-                                            Text="{Binding MinerProfile.GpuSpeedVms.IncomeDualCoinCnyPerDayText}">
-                                        </TextBlock>
-                                        <TextBlock 
-                                            Text="CNY" 
-                                            Padding="0"
-                                            Foreground="{StaticResource LableColor}"
-                                            VerticalAlignment="Center"></TextBlock>
-                                        <Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-                                        <Label Padding="0" Content="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                            </WrapPanel>
-                            <WrapPanel Width="140" Margin="0 2">
-                                <Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
-                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
-                                <Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-                                <TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
-                                <TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
-                            </WrapPanel>
-                            <WrapPanel Width="130" Margin="0 2">
-                                <Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
-                                <TextBlock Text="{Binding MinerProfile.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
-                            </WrapPanel>
-                        </WrapPanel>
-                    </WrapPanel>
-                </StackPanel>
-            </StackPanel>
+					</WrapPanel>
+					<WrapPanel VerticalAlignment="Center">
+						<Path
+							Margin="0 0 2 0"
+							Width="18"
+							Height="16"
+							ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
+							Data="{Binding GpuStatusBarVm.Icon}"
+							Fill="{Binding GpuStatusBarVm.IconFill}"
+							Stretch="Fill">
+						</Path>
+						<TextBlock Text="{Binding GpuStatusBarVm.GpuCountText}" Width="80"></TextBlock>
+						<Path
+							Margin="0 0 2 0"
+							Width="8"
+							Height="16"
+							Data="{StaticResource Icon_Temperature}"
+							Fill="{Binding GpuStateColor}"
+							Stretch="Fill" />
+						<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.TemperatureText}" Width="82" Padding="0" HorizontalAlignment="Left" />
+						<Path
+							Margin="0 0 2 0"
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Fan}"
+							Fill="{Binding GpuStateColor}"
+							Stretch="Fill">
+							<Path.RenderTransform>
+								<RotateTransform Angle="{Binding LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
+							</Path.RenderTransform>
+						</Path>
+						<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.FanSpeedText}" Width="78" Padding="0" HorizontalAlignment="Left" />
+						<WrapPanel Width="70">
+							<Path
+								Width="12"
+								Height="16"
+								Data="{StaticResource Icon_Power}"
+								Fill="{Binding GpuStateColor}"
+								Stretch="Fill" />
+							<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" HorizontalAlignment="Left" />
+						</WrapPanel>
+					</WrapPanel>
+				</WrapPanel>
+				<StackPanel HorizontalAlignment="Right">
+					<WrapPanel>
+						<controls:KbLinkButton
+							Padding="0"
+							Foreground="#0072C1"
+							Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
+							CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
+							Content="{DynamicResource PoolIncome}"
+							KbDisplayLine="False"
+							KbSystemButtonHoverBackground="Transparent"
+							Background="Transparent" />
+						<WrapPanel Width="284" Margin="0 2">
+							<controls:KbButton 
+								Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
+								Command="{x:Static vm:AppStatic.ShowCalc}"
+								CommandParameter="{Binding MinerProfile.CoinVm}">
+								<WrapPanel>
+									<Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
+									<TextBlock 
+										VerticalAlignment="Center"
+										Padding="0"
+										Background="Transparent"
+										Text="{Binding GpuSpeedVms.IncomeMainCoinPerDayText}">
+									</TextBlock>
+									<TextBlock 
+										Text="{Binding MinerProfile.CoinVm.Code}" 
+										Padding="0"
+										Foreground="{StaticResource LableColor}"
+										FontWeight="Bold" 
+										VerticalAlignment="Center"></TextBlock>
+									<Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
+									<TextBlock 
+										VerticalAlignment="Center"
+										Padding="0"
+										Background="Transparent"
+										Text="{Binding GpuSpeedVms.IncomeMainCoinUsdPerDayText}">
+									</TextBlock>
+									<TextBlock 
+										Text="USD" 
+										Padding="0"
+										Foreground="{StaticResource LableColor}"
+										VerticalAlignment="Center"></TextBlock>
+									<Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
+									<TextBlock 
+										VerticalAlignment="Center"
+										Padding="0"
+										Background="Transparent"
+										Text="{Binding GpuSpeedVms.IncomeMainCoinCnyPerDayText}">
+									</TextBlock>
+									<TextBlock 
+										Text="CNY" 
+										Padding="0"
+										Foreground="{StaticResource LableColor}"
+										VerticalAlignment="Center"></TextBlock>
+									<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
+									<Label Padding="0" Content="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
+								</WrapPanel>
+							</controls:KbButton>
+						</WrapPanel>
+						<WrapPanel Width="140" Margin="0 2">
+							<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
+							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
+							<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
+							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
+							<TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
+						</WrapPanel>
+						<WrapPanel Width="130" Margin="0 2">
+							<Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
+							<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
+						</WrapPanel>
+					</WrapPanel>
+					<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+						<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+							<controls:KbLinkButton
+								Padding="0"
+								Foreground="#0072C1"
+								Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
+								CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
+								Content="{DynamicResource PoolIncome}"
+								KbDisplayLine="False"
+								KbSystemButtonHoverBackground="Transparent"
+								Background="Transparent" />
+							<WrapPanel Width="284" Margin="0 2">
+								<controls:KbButton 
+									Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
+									Command="{x:Static vm:AppStatic.ShowCalc}"
+									CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
+									<WrapPanel>
+										<Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
+										<TextBlock 
+											VerticalAlignment="Center"
+											Padding="0"
+											Background="Transparent" 
+											Text="{Binding GpuSpeedVms.IncomeDualCoinPerDayText}">
+										</TextBlock>
+										<TextBlock 
+											Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" 
+											Padding="0"
+											FontWeight="Bold" 
+											Foreground="{StaticResource LableColor}"
+											VerticalAlignment="Center"></TextBlock>
+										<Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
+										<TextBlock 
+											VerticalAlignment="Center"
+											Padding="0"
+											Background="Transparent" 
+											Text="{Binding GpuSpeedVms.IncomeDualCoinUsdPerDayText}">
+										</TextBlock>
+										<TextBlock 
+											Text="USD" 
+											Padding="0"
+											Foreground="{StaticResource LableColor}"
+											VerticalAlignment="Center"></TextBlock>
+										<Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
+										<TextBlock 
+											VerticalAlignment="Center"
+											Padding="0"
+											Background="Transparent"
+											Text="{Binding GpuSpeedVms.IncomeDualCoinCnyPerDayText}">
+										</TextBlock>
+										<TextBlock 
+											Text="CNY" 
+											Padding="0"
+											Foreground="{StaticResource LableColor}"
+											VerticalAlignment="Center"></TextBlock>
+										<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
+										<Label Padding="0" Content="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+							<WrapPanel Width="140" Margin="0 2">
+								<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
+								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
+								<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
+								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
+								<TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
+							</WrapPanel>
+							<WrapPanel Width="130" Margin="0 2">
+								<Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
+								<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
+							</WrapPanel>
+						</WrapPanel>
+					</WrapPanel>
+				</StackPanel>
+			</StackPanel>
 		</Grid>
 	</Border>
 </UserControl>

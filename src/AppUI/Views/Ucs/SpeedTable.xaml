@@ -86,7 +86,7 @@
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
                             <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
-                            <TextBlock Text="{Binding Data.MinerProfile.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                            <TextBlock Text="{Binding Data.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -101,7 +101,7 @@
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
                             <TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
-                            <TextBlock Text="{Binding Data.MinerProfile.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                            <TextBlock Text="{Binding Data.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
