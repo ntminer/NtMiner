@@ -12,6 +12,7 @@ namespace NTMiner {
     public static partial class VirtualRoot {
         public const int DesyncSeconds = 180;
         public static bool IsPublishHandlerIdAddedEvent = false;
+        public static bool IsControlCenter = false;
 
         public const string Localhost = "localhost";
 

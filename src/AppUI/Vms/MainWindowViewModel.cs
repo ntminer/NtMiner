@@ -57,12 +57,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool JustClientWorker {
-            get {
-                return CommandLineArgs.JustClientWorker;
-            }
-        }
-
         public Visibility IsBtnRunAsAdministratorVisible {
             get => _isBtnRunAsAdministratorVisible;
             set {

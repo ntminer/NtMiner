@@ -133,11 +133,7 @@
 					<TextBlock 
 						VerticalAlignment="Center" FontSize="14" Text="(中控)" Foreground="Red"
 						ToolTip="受中控控制，本地不能编辑。"
-						Visibility="{x:Static vm:AppStatic.JustClientWorkerVisible}"></TextBlock>
-					<TextBlock 
-						x:Name="TbWorkEdit"
-						VerticalAlignment="Center" FontSize="14" Text="(编辑作业)" Foreground="Red"
-						Visibility="{x:Static vm:AppStatic.IsWorkEditVisible}"></TextBlock>
+						Visibility="{x:Static vm:AppStatic.IsWorkerClientVisible}"></TextBlock>
 				</WrapPanel>
 			</WrapPanel>
 			<WrapPanel HorizontalAlignment="Right">

@@ -10,6 +10,7 @@ using System.Windows.Threading;
 namespace NTMiner {
     public partial class App : Application {
         public App() {
+            VirtualRoot.IsControlCenter = true;
             AppHelper.Init(this);
             Logger.InfoDebugLine("App.InitializeComponent start");
             InitializeComponent();

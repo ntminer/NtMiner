@@ -50,19 +50,7 @@ namespace NTMiner {
                 }
                 else {
                     try {
-                        if (CommandLineArgs.IsWorkEdit) {
-                            string arguments = NTMinerRegistry.GetArguments();
-                            if (arguments == $"--controlcenter workid={CommandLineArgs.WorkId}") {
-                                AppHelper.ShowMainWindow(this, _appPipName);
-                            }
-                            else {
-                                NTMinerClientDaemon.Instance.RestartNTMinerAsync(VirtualRoot.Localhost, 3337, CommandLineArgs.WorkId, null);
-                                this.Shutdown();
-                            }
-                        }
-                        else {
-                            AppHelper.ShowMainWindow(this, _appPipName);
-                        }
+                        AppHelper.ShowMainWindow(this, _appPipName);
                     }
                     catch (Exception) {
                         DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
@@ -100,55 +88,6 @@ namespace NTMiner {
                         Execute.OnUIThread(() => {
                             Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
                         });
-                    });
-                #endregion
-                #region 处理重启NTMiner命令
-                VirtualRoot.Access<RestartNTMinerCommand>(
-                    Guid.Parse("d1712c1f-507c-496f-9da2-870cbd9fc57f"),
-                    "处理重启NTMiner命令",
-                    LogEnum.None,
-                    action: message => {
-                        List<string> args = CommandLineArgs.Args;
-                        if (message.IsWorkEdit) {
-                            if (CommandLineArgs.IsWorkEdit && CommandLineArgs.WorkId == message.MineWorkId) {
-                                Execute.OnUIThread(() => {
-                                    Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
-                                });
-                                return;
-                            }
-                            if (!CommandLineArgs.IsControlCenter) {
-                                args.Add("--controlCenter");
-                            }
-                        }
-                        if (message.MineWorkId != Guid.Empty) {
-                            if (CommandLineArgs.WorkId == Guid.Empty) {
-                                args.Add("workid=" + message.MineWorkId.ToString());
-                            }
-                            else {
-                                for (int i = 0; i < args.Count; i++) {
-                                    if (args[i].StartsWith("workid=", StringComparison.OrdinalIgnoreCase)) {
-                                        args[i] = "workid=" + message.MineWorkId.ToString();
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            if (CommandLineArgs.WorkId != Guid.Empty) {
-                                int workIdIndex = -1;
-                                for (int i = 0; i < args.Count; i++) {
-                                    if (args[i].ToLower().Contains("workid=")) {
-                                        workIdIndex = i;
-                                        break;
-                                    }
-                                }
-                                if (workIdIndex != -1) {
-                                    args.RemoveAt(workIdIndex);
-                                }
-                            }
-                        }
-                        NTMiner.Windows.Cmd.RunClose(ClientId.AppFileFullName, string.Join(" ", args));
-                        Current.MainWindow.Close();
                     });
                 #endregion
                 try {

@@ -109,18 +109,9 @@ namespace NTMiner.Vms {
             }
         });
 
-        public static Visibility JustClientWorkerVisible {
+        public static Visibility IsWorkerClientVisible {
             get {
-                if (CommandLineArgs.JustClientWorker) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
-        public static Visibility IsWorkEditVisible {
-            get {
-                if (CommandLineArgs.IsWorkEdit) {
+                if (CommandLineArgs.WorkId != Guid.Empty) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
@@ -136,15 +127,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public static bool IsWorkEditOrFreeClient {
+        public static bool IsFreeClient {
             get {
-                if (CommandLineArgs.IsWorkEdit) {
-                    return true;
-                }
-                if (CommandLineArgs.IsFreeClient) {
-                    return true;
-                }
-                return false;
+                return CommandLineArgs.IsFreeClient;
             }
         }
 

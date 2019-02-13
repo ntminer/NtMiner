@@ -330,8 +330,7 @@ namespace NTMiner {
             #endregion
             #region 周期确保守护进程在运行
             Daemon.DaemonUtil.RunNTMinerDaemon();
-            if (!CommandLineArgs.IsControlCenter) {
-                VirtualRoot.Access<Per20SecondEvent>(
+            VirtualRoot.Access<Per20SecondEvent>(
                     Guid.Parse("F11D42E1-CEBA-4C7E-BB2E-3AC1EBB03F14"),
                     "周期确保守护进程在运行",
                     LogEnum.None,
@@ -350,7 +349,6 @@ namespace NTMiner {
                             NTMinerClientDaemon.Instance.StartNoDevFeeAsync(request, callback: null);
                         }
                     });
-            }
             #endregion
             #region 发生了用户活动时检查serverJson是否有新版本
             VirtualRoot.Access<UserActionEvent>(

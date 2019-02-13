@@ -23,16 +23,6 @@ namespace NTMiner {
         public RefreshArgsAssemblyCommand() { }
     }
 
-    [MessageType(messageType: typeof(RestartNTMinerCommand), description: "重启NTMiner")]
-    public class RestartNTMinerCommand : Cmd {
-        public RestartNTMinerCommand(bool isWorkEdit, Guid mineWorkId) {
-            this.MineWorkId = mineWorkId;
-            this.IsWorkEdit = isWorkEdit;
-        }
-        public bool IsWorkEdit { get; private set; }
-        public Guid MineWorkId { get; private set; }
-    }
-
     [MessageType(messageType: typeof(MineStartedEvent), description: "挖矿开始事件")]
     public class MineStartedEvent : EventBase {
         public MineStartedEvent(IMineContext mineContext) {
