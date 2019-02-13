@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Kernels;
-using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
@@ -13,8 +12,10 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly INTMinerRoot _root;
         private readonly object _locker = new object();
 
-        public CoinKernelProfileSet(INTMinerRoot root) {
+        private readonly Guid _workId;
+        public CoinKernelProfileSet(INTMinerRoot root, Guid workId) {
             _root = root;
+            _workId = workId;
         }
 
         public ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId) {
@@ -25,7 +26,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (_dicById.ContainsKey(coinKernelId)) {
                     return _dicById[coinKernelId];
                 }
-                CoinKernelProfile coinKernelProfile = CoinKernelProfile.Create(_root, coinKernelId);
+                CoinKernelProfile coinKernelProfile = CoinKernelProfile.Create(_root, _workId, coinKernelId);
                 _dicById.Add(coinKernelId, coinKernelProfile);
 
                 return coinKernelProfile;
@@ -38,11 +39,11 @@ namespace NTMiner.Core.Profiles.Impl {
         }
 
         private class CoinKernelProfile : ICoinKernelProfile {
-            public static readonly CoinKernelProfile Empty = new CoinKernelProfile(NTMinerRoot.Current);
+            public static readonly CoinKernelProfile Empty = new CoinKernelProfile(NTMinerRoot.Current, Guid.Empty);
 
-            public static CoinKernelProfile Create(INTMinerRoot root, Guid coinKernelId) {
+            public static CoinKernelProfile Create(INTMinerRoot root, Guid workId, Guid coinKernelId) {
                 if (root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
-                    CoinKernelProfile coinProfile = new CoinKernelProfile(root, coinKernel);
+                    CoinKernelProfile coinProfile = new CoinKernelProfile(root, workId, coinKernel);
 
                     return coinProfile;
                 }
@@ -51,13 +52,15 @@ namespace NTMiner.Core.Profiles.Impl {
                 }
             }
 
-            private CoinKernelProfile(INTMinerRoot root) {
+            private readonly Guid _workId;
+            private CoinKernelProfile(INTMinerRoot root, Guid workId) {
                 _root = root;
+                _workId = workId;
             }
 
             private CoinKernelProfileData GetCoinKernelProfileData(Guid coinKernelId) {
-                if (CommandLineArgs.WorkId != Guid.Empty) {
-                    return Server.ProfileService.GetCoinKernelProfile(CommandLineArgs.WorkId, coinKernelId);
+                if (_workId != Guid.Empty) {
+                    return Server.ProfileService.GetCoinKernelProfile(_workId, coinKernelId);
                 }
                 else {
                     IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
@@ -71,8 +74,9 @@ namespace NTMiner.Core.Profiles.Impl {
 
             private readonly INTMinerRoot _root;
             private CoinKernelProfileData _data;
-            private CoinKernelProfile(INTMinerRoot root, ICoinKernel coinKernel) {
+            private CoinKernelProfile(INTMinerRoot root, Guid workId, ICoinKernel coinKernel) {
                 _root = root;
+                _workId = workId;
                 _data = GetCoinKernelProfileData(coinKernel.GetId());
                 if (_data == null) {
                     throw new ValidationException("未获取到CoinKernelProfileData数据，请重试");
@@ -152,9 +156,9 @@ namespace NTMiner.Core.Profiles.Impl {
                             value = DictionaryExtensions.ConvertToGuid(value);
                         }
                         propertyInfo.SetValue(this, value, null);
-                        if (CommandLineArgs.WorkId != Guid.Empty) {
+                        if (_workId != Guid.Empty) {
                             if (CommandLineArgs.IsControlCenter) {
-                                Server.ControlCenterService.SetCoinKernelProfilePropertyAsync(CommandLineArgs.WorkId, CoinKernelId, propertyName, value, isSuccess => {
+                                Server.ControlCenterService.SetCoinKernelProfilePropertyAsync(_workId, CoinKernelId, propertyName, value, isSuccess => {
                                     VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
                                 });
                             }

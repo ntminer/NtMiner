@@ -1,5 +1,4 @@
-﻿using NTMiner.MinerServer;
-using NTMiner.Profile;
+﻿using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,8 +10,10 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly INTMinerRoot _root;
         private readonly object _locker = new object();
 
-        public PoolProfileSet(INTMinerRoot root) {
+        private readonly Guid _workId;
+        public PoolProfileSet(INTMinerRoot root, Guid workId) {
             _root = root;
+            _workId = workId;
         }
 
         public IPoolProfile GetPoolProfile(Guid poolId) {
@@ -23,7 +24,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (_dicById.ContainsKey(poolId)) {
                     return _dicById[poolId];
                 }
-                PoolProfile coinProfile = PoolProfile.Create(_root, poolId);
+                PoolProfile coinProfile = PoolProfile.Create(_root, _workId, poolId);
                 _dicById.Add(poolId, coinProfile);
                 return coinProfile;
             }
@@ -35,11 +36,12 @@ namespace NTMiner.Core.Profiles.Impl {
         }
 
         public class PoolProfile : IPoolProfile {
-            public static readonly PoolProfile Empty = new PoolProfile(NTMinerRoot.Current);
+            public static readonly PoolProfile Empty = new PoolProfile(NTMinerRoot.Current, Guid.Empty);
 
-            public static PoolProfile Create(INTMinerRoot root, Guid poolIdId) {
+            private readonly Guid _workId;
+            public static PoolProfile Create(INTMinerRoot root, Guid workId, Guid poolIdId) {
                 if (root.PoolSet.TryGetPool(poolIdId, out IPool pool)) {
-                    PoolProfile coinProfile = new PoolProfile(root, pool);
+                    PoolProfile coinProfile = new PoolProfile(root, workId, pool);
 
                     return coinProfile;
                 }
@@ -50,13 +52,14 @@ namespace NTMiner.Core.Profiles.Impl {
 
             private readonly INTMinerRoot _root;
             private PoolProfileData _data;
-            private PoolProfile(INTMinerRoot root) {
+            private PoolProfile(INTMinerRoot root, Guid workId) {
                 _root = root;
+                _workId = workId;
             }
 
             private PoolProfileData GetPoolProfileData(Guid poolId) {
-                if (CommandLineArgs.WorkId != Guid.Empty) {
-                    return Server.ProfileService.GetPoolProfile(CommandLineArgs.WorkId, poolId);
+                if (_workId != Guid.Empty) {
+                    return Server.ProfileService.GetPoolProfile(_workId, poolId);
                 }
                 else {
                     IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
@@ -73,8 +76,9 @@ namespace NTMiner.Core.Profiles.Impl {
                 }
             }
 
-            private PoolProfile(INTMinerRoot root, IPool pool) {
+            private PoolProfile(INTMinerRoot root, Guid workId, IPool pool) {
                 _root = root;
+                _workId = workId;
                 _data = GetPoolProfileData(pool.GetId());
                 if (_data == null) {
                     throw new ValidationException("未获取到PoolProfileData数据，请重试");
@@ -129,9 +133,9 @@ namespace NTMiner.Core.Profiles.Impl {
                             value = DictionaryExtensions.ConvertToGuid(value);
                         }
                         propertyInfo.SetValue(this, value, null);
-                        if (CommandLineArgs.WorkId != Guid.Empty) {
+                        if (_workId != Guid.Empty) {
                             if (CommandLineArgs.IsControlCenter) {
-                                Server.ControlCenterService.SetPoolProfilePropertyAsync(CommandLineArgs.WorkId, PoolId, propertyName, value, isSuccess => {
+                                Server.ControlCenterService.SetPoolProfilePropertyAsync(_workId, PoolId, propertyName, value, isSuccess => {
                                     VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                                 });
                             }

@@ -1,5 +1,4 @@
-﻿using NTMiner.MinerServer;
-using NTMiner.Profile;
+﻿using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,9 +10,10 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly Dictionary<Guid, CoinProfile> _dicById = new Dictionary<Guid, CoinProfile>();
         private readonly INTMinerRoot _root;
         private readonly object _locker = new object();
-
-        public CoinProfileSet(INTMinerRoot root) {
+        private readonly Guid _workId;
+        public CoinProfileSet(INTMinerRoot root, Guid workId) {
             _root = root;
+            _workId = workId;
         }
 
         public ICoinProfile GetCoinProfile(Guid coinId) {
@@ -24,7 +24,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (_dicById.ContainsKey(coinId)) {
                     return _dicById[coinId];
                 }
-                CoinProfile coinProfile = CoinProfile.Create(_root, coinId);
+                CoinProfile coinProfile = CoinProfile.Create(_root, _workId, coinId);
                 _dicById.Add(coinId, coinProfile);
                 return coinProfile;
             }
@@ -36,11 +36,11 @@ namespace NTMiner.Core.Profiles.Impl {
         }
 
         private class CoinProfile : ICoinProfile {
-            public static readonly CoinProfile Empty = new CoinProfile(NTMinerRoot.Current);
+            public static readonly CoinProfile Empty = new CoinProfile(NTMinerRoot.Current, Guid.Empty);
 
-            public static CoinProfile Create(INTMinerRoot root, Guid coinId) {
+            public static CoinProfile Create(INTMinerRoot root, Guid workId, Guid coinId) {
                 if (root.CoinSet.TryGetCoin(coinId, out ICoin coin)) {
-                    CoinProfile coinProfile = new CoinProfile(root, coin);
+                    CoinProfile coinProfile = new CoinProfile(root, workId, coin);
 
                     return coinProfile;
                 }
@@ -50,14 +50,16 @@ namespace NTMiner.Core.Profiles.Impl {
             }
 
             private readonly INTMinerRoot _root;
+            private readonly Guid _workId;
             private CoinProfileData _data;
-            private CoinProfile(INTMinerRoot root) {
+            private CoinProfile(INTMinerRoot root, Guid workId) {
                 _root = root;
+                _workId = workId;
             }
 
             private CoinProfileData GetCoinProfileData(Guid coinId) {
-                if (CommandLineArgs.WorkId != Guid.Empty) {
-                    return Server.ProfileService.GetCoinProfile(CommandLineArgs.WorkId, coinId);
+                if (_workId != Guid.Empty) {
+                    return Server.ProfileService.GetCoinProfile(_workId, coinId);
                 }
                 else {
                     IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>();
@@ -69,8 +71,9 @@ namespace NTMiner.Core.Profiles.Impl {
                 }
             }
 
-            private CoinProfile(INTMinerRoot root, ICoin coin) {
+            private CoinProfile(INTMinerRoot root, Guid workId, ICoin coin) {
                 _root = root;
+                _workId = workId;
                 _data = GetCoinProfileData(coin.GetId());
                 if (_data == null) {
                     throw new ValidationException("未获取到CoinProfileData数据，请重试");
@@ -169,9 +172,9 @@ namespace NTMiner.Core.Profiles.Impl {
                             value = DictionaryExtensions.ConvertToGuid(value);
                         }
                         propertyInfo.SetValue(this, value, null);
-                        if (CommandLineArgs.WorkId != Guid.Empty) {
+                        if (_workId != Guid.Empty) {
                             if (CommandLineArgs.IsControlCenter) {
-                                Server.ControlCenterService.SetCoinProfilePropertyAsync(CommandLineArgs.WorkId, CoinId, propertyName, value, isSuccess => {
+                                Server.ControlCenterService.SetCoinProfilePropertyAsync(_workId, CoinId, propertyName, value, isSuccess => {
                                     VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
                                 });
                             }

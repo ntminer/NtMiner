@@ -3,14 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace NTMiner.Core.Impl {
+namespace NTMiner.Core.Profiles.Impl {
     internal class WalletSet : IWalletSet {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, WalletData> _dicById = new Dictionary<Guid, WalletData>();
 
         private bool UseRemoteWalletList {
             get {
-                return CommandLineArgs.WorkId != Guid.Empty || CommandLineArgs.IsControlCenter;
+                return _workId != Guid.Empty || CommandLineArgs.IsControlCenter;
             }
         }
 
@@ -44,8 +44,10 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public WalletSet(INTMinerRoot root) {
+        private readonly Guid _workId;
+        public WalletSet(INTMinerRoot root, Guid workId) {
             _root = root;
+            _workId = workId;
             VirtualRoot.Access<AddWalletCommand>(
                 Guid.Parse("d050de9d-7356-471b-b9c7-19d685aa770a"),
                 "添加钱包",

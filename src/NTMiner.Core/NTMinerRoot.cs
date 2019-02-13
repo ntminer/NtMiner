@@ -120,7 +120,7 @@ namespace NTMiner {
             this.GroupSet = new GroupSet(this);
             this.CoinGroupSet = new CoinGroupSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
-            this.WalletSet = new WalletSet(this);
+            this.WalletSet = new WalletSet(this, CommandLineArgs.WorkId);
             this.PoolSet = new PoolSet(this);
             this.CoinKernelSet = new CoinKernelSet(this);
             this.PoolKernelSet = new PoolKernelSet(this);
@@ -135,9 +135,9 @@ namespace NTMiner {
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
             this._minerProfile = new MinerProfile(this);
-            this.CoinProfileSet = new CoinProfileSet(this);
-            this.PoolProfileSet = new PoolProfileSet(this);
-            this.CoinKernelProfileSet = new CoinKernelProfileSet(this);
+            this.CoinProfileSet = new CoinProfileSet(this, CommandLineArgs.WorkId);
+            this.PoolProfileSet = new PoolProfileSet(this, CommandLineArgs.WorkId);
+            this.CoinKernelProfileSet = new CoinKernelProfileSet(this, CommandLineArgs.WorkId);
             if (CommandLineArgs.WorkId != Guid.Empty) {
                 MineWork = Server.ProfileService.GetMineWork(CommandLineArgs.WorkId);
             }

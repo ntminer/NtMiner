@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Core {
+namespace NTMiner.Core.Profiles {
     public interface IWalletSet : IEnumerable<IWallet> {
         int Count { get; }
         bool Contains(Guid walletId);
