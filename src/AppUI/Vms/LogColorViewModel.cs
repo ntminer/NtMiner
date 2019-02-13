@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NTMiner.Core;
+using NTMiner.Core.SysDics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
@@ -31,13 +33,145 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ConsoleColorItem CurrentSpeedColor {
+        private ConsoleColor SpeedColor {
             get {
-                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.SpeedColor);
+                ConsoleColor color = ConsoleColor.White;
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SpeedColor), out dicItem)) {
+                    if (!dicItem.Value.TryParse(out color)) {
+                        color = ConsoleColor.White;
+                    }
+                }
+                return color;
             }
             set {
-                if (MinerProfile.SpeedColor != value.ConsoleColor) {
-                    MinerProfile.SpeedColor = value.ConsoleColor;
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SpeedColor), out dicItem)) {
+                    if (dicItem.Value != value.GetName()) {
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        OnPropertyChanged(nameof(SpeedColor));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// TFP: Time Fan Pow
+        /// </summary>
+        private ConsoleColor TFPColor {
+            get {
+                ConsoleColor color = ConsoleColor.White;
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(TFPColor), out dicItem)) {
+                    if (!dicItem.Value.TryParse(out color)) {
+                        color = ConsoleColor.White;
+                    }
+                }
+                return color;
+            }
+            set {
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(TFPColor), out dicItem)) {
+                    if (dicItem.Value != value.GetName()) {
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        OnPropertyChanged(nameof(TFPColor));
+                    }
+                }
+            }
+        }
+
+        private ConsoleColor SuccessColor {
+            get {
+                ConsoleColor color = ConsoleColor.White;
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SuccessColor), out dicItem)) {
+                    if (!dicItem.Value.TryParse(out color)) {
+                        color = ConsoleColor.White;
+                    }
+                }
+                return color;
+            }
+            set {
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SuccessColor), out dicItem)) {
+                    if (dicItem.Value != value.GetName()) {
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        OnPropertyChanged(nameof(SuccessColor));
+                    }
+                }
+            }
+        }
+        private ConsoleColor FailColor {
+            get {
+                ConsoleColor color = ConsoleColor.White;
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(FailColor), out dicItem)) {
+                    if (!dicItem.Value.TryParse(out color)) {
+                        color = ConsoleColor.White;
+                    }
+                }
+                return color;
+            }
+            set {
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(FailColor), out dicItem)) {
+                    if (dicItem.Value != value.GetName()) {
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        OnPropertyChanged(nameof(FailColor));
+                    }
+                }
+            }
+        }
+        private ConsoleColor ErrorColor {
+            get {
+                ConsoleColor color = ConsoleColor.White;
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(ErrorColor), out dicItem)) {
+                    if (!dicItem.Value.TryParse(out color)) {
+                        color = ConsoleColor.White;
+                    }
+                }
+                return color;
+            }
+            set {
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(ErrorColor), out dicItem)) {
+                    if (dicItem.Value != value.GetName()) {
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        OnPropertyChanged(nameof(ErrorColor));
+                    }
+                }
+            }
+        }
+        private ConsoleColor InfoColor {
+            get {
+                ConsoleColor color = ConsoleColor.White;
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(InfoColor), out dicItem)) {
+                    if (!dicItem.Value.TryParse(out color)) {
+                        color = ConsoleColor.White;
+                    }
+                }
+                return color;
+            }
+            set {
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(InfoColor), out dicItem)) {
+                    if (dicItem.Value != value.GetName()) {
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
+                        OnPropertyChanged(nameof(InfoColor));
+                    }
+                }
+            }
+        }
+
+        public ConsoleColorItem CurrentSpeedColor {
+            get {
+                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == SpeedColor);
+            }
+            set {
+                if (SpeedColor != value.ConsoleColor) {
+                    SpeedColor = value.ConsoleColor;
                     OnPropertyChanged(nameof(CurrentSpeedColor));
                 }
             }
@@ -45,11 +179,11 @@ namespace NTMiner.Vms {
 
         public ConsoleColorItem CurrentTFPColor {
             get {
-                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.TFPColor);
+                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == TFPColor);
             }
             set {
-                if (MinerProfile.TFPColor != value.ConsoleColor) {
-                    MinerProfile.TFPColor = value.ConsoleColor;
+                if (TFPColor != value.ConsoleColor) {
+                    TFPColor = value.ConsoleColor;
                     OnPropertyChanged(nameof(CurrentTFPColor));
                 }
             }
@@ -57,11 +191,11 @@ namespace NTMiner.Vms {
 
         public ConsoleColorItem CurrentSuccessColor {
             get {
-                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.SuccessColor);
+                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == SuccessColor);
             }
             set {
-                if (MinerProfile.SuccessColor != value.ConsoleColor) {
-                    MinerProfile.SuccessColor = value.ConsoleColor;
+                if (SuccessColor != value.ConsoleColor) {
+                    SuccessColor = value.ConsoleColor;
                     OnPropertyChanged(nameof(CurrentSuccessColor));
                 }
             }
@@ -69,11 +203,11 @@ namespace NTMiner.Vms {
 
         public ConsoleColorItem CurrentFailColor {
             get {
-                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.FailColor);
+                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == FailColor);
             }
             set {
-                if (MinerProfile.FailColor != value.ConsoleColor) {
-                    MinerProfile.FailColor = value.ConsoleColor;
+                if (FailColor != value.ConsoleColor) {
+                    FailColor = value.ConsoleColor;
                     OnPropertyChanged(nameof(CurrentFailColor));
                 }
             }
@@ -81,11 +215,11 @@ namespace NTMiner.Vms {
 
         public ConsoleColorItem CurrentErrorColor {
             get {
-                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.ErrorColor);
+                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == ErrorColor);
             }
             set {
-                if (MinerProfile.ErrorColor != value.ConsoleColor) {
-                    MinerProfile.ErrorColor = value.ConsoleColor;
+                if (ErrorColor != value.ConsoleColor) {
+                    ErrorColor = value.ConsoleColor;
                     OnPropertyChanged(nameof(CurrentErrorColor));
                 }
             }
@@ -93,11 +227,11 @@ namespace NTMiner.Vms {
 
         public ConsoleColorItem CurrentInfoColor {
             get {
-                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == MinerProfile.InfoColor);
+                return ConsoleColorItems.FirstOrDefault(a => a.ConsoleColor == InfoColor);
             }
             set {
-                if (MinerProfile.InfoColor != value.ConsoleColor) {
-                    MinerProfile.InfoColor = value.ConsoleColor;
+                if (InfoColor != value.ConsoleColor) {
+                    InfoColor = value.ConsoleColor;
                     OnPropertyChanged(nameof(CurrentInfoColor));
                 }
             }
