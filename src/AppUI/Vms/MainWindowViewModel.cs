@@ -101,6 +101,15 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsNotReadOnly {
+            get {
+                if (WorkId == Guid.Empty) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public INotificationMessageManager Manager {
             get {
                 if (_manager == null) {
