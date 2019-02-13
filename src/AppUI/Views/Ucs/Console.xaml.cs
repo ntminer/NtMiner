@@ -7,9 +7,9 @@ using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class Console : UserControl {
-        private MinerProfileViewModel Vm {
+        private ConsoleViewModel Vm {
             get {
-                return (MinerProfileViewModel)this.DataContext;
+                return (ConsoleViewModel)this.DataContext;
             }
         }
 

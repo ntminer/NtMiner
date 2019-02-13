@@ -4,45 +4,45 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-		DataContext="{x:Static vm:MinerProfileViewModel.Current}"
+		DataContext="{x:Static vm:ConsoleViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="408" d:DesignWidth="408">
-    <UserControl.Resources>
-        <sys:String x:Key="AnnouncementContent">
-            AnnouncementContent
-        </sys:String>
-        <sys:String x:Key="AnnouncementContentTooltip">
-            AnnouncementContentTooltip
-        </sys:String>
-        <sys:String x:Key="IsShowCommandLine">
-            IsShowCommandLine
-        </sys:String>
-        <sys:String x:Key="IsShowCommandLineTooltip">
-            IsShowCommandLineTooltip
-        </sys:String>
-        <sys:String x:Key="AutoScrollToEnd">
-            AutoScrollToEnd
-        </sys:String>
-        <sys:String x:Key="KernelNotice">
-            KernelNotice
-        </sys:String>
-    </UserControl.Resources>
+	<UserControl.Resources>
+		<sys:String x:Key="AnnouncementContent">
+			AnnouncementContent
+		</sys:String>
+		<sys:String x:Key="AnnouncementContentTooltip">
+			AnnouncementContentTooltip
+		</sys:String>
+		<sys:String x:Key="IsShowCommandLine">
+			IsShowCommandLine
+		</sys:String>
+		<sys:String x:Key="IsShowCommandLineTooltip">
+			IsShowCommandLineTooltip
+		</sys:String>
+		<sys:String x:Key="AutoScrollToEnd">
+			AutoScrollToEnd
+		</sys:String>
+		<sys:String x:Key="KernelNotice">
+			KernelNotice
+		</sys:String>
+	</UserControl.Resources>
 	<Grid Background="Black">
 		<Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"></RowDefinition>
+				<RowDefinition Height="Auto"></RowDefinition>
+			</Grid.RowDefinitions>
 			<TextBox 
-                Text="{DynamicResource AnnouncementContent}"
-                ToolTip="{DynamicResource AnnouncementContentTooltip}"
+				Text="{DynamicResource AnnouncementContent}"
+				ToolTip="{DynamicResource AnnouncementContentTooltip}"
 				BorderThickness="0" AcceptsReturn="True" 
 				TextWrapping="Wrap" IsReadOnly="True" 
 				Padding="4 0" Foreground="White">
@@ -51,26 +51,26 @@
 				Margin="0 0 14 0"
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
-                <controls:KbButton
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                    ToolTip="Console translate"
-                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                    CommandParameter="Console"
-                    Padding="8 0"
-                    Background="Transparent">
-                    <WrapPanel>
-                        <Path
-                            Width="14"
-                            Height="14"
-                            Data="{StaticResource Icon_Translate}"
-                            Fill="Red"
-                            Stretch="Fill" />
-                    </WrapPanel>
-                </controls:KbButton>
-                <controls:KbCheckBox 
+				<controls:KbButton
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					ToolTip="Console translate"
+					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+					CommandParameter="Console"
+					Padding="8 0"
+					Background="Transparent">
+					<WrapPanel>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Translate}"
+							Fill="Red"
+							Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbCheckBox 
 					ToolTip="{DynamicResource IsShowCommandLine}"
 					IconColor="{StaticResource IconFillColor}"
-					IsChecked="{Binding IsShowCommandLine}" />
+					IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
 				<controls:KbButton 
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 					ToolTip="自定义主题"
@@ -85,66 +85,66 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 			</WrapPanel>
-            <TextBox 
-                Grid.Row="1"
-                Padding="4 2"
-                ToolTip="{DynamicResource IsShowCommandLineTooltip}"
-                TextWrapping="Wrap"
-                AcceptsReturn="True"
-                BorderThickness="0"
-                Foreground="LightGray"
-                Visibility="{Binding IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}"
-                IsReadOnly="True" 
-                Text="{Binding ArgsAssembly, Mode=OneWay}"></TextBox>
-        </Grid>
-        <Path
-            Grid.Row="1"
-            Margin="4 2 0 0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Visibility="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-            Width="14"
-            Height="14"
-            Data="{StaticResource Icon_Notice}"
-            Fill="Yellow"
-            Stretch="Fill" />
-        <TextBox 
-            Grid.Row="1"
-            ToolTip="{DynamicResource KernelNotice}"
-            Visibility="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-            Text="{Binding CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
+			<TextBox 
+				Grid.Row="1"
+				Padding="4 2"
+				ToolTip="{DynamicResource IsShowCommandLineTooltip}"
+				TextWrapping="Wrap"
+				AcceptsReturn="True"
+				BorderThickness="0"
+				Foreground="LightGray"
+				Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True" 
+				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></TextBox>
+		</Grid>
+		<Path
+			Grid.Row="1"
+			Margin="4 2 0 0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Top"
+			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+			Width="14"
+			Height="14"
+			Data="{StaticResource Icon_Notice}"
+			Fill="Yellow"
+			Stretch="Fill" />
+		<TextBox 
+			Grid.Row="1"
+			ToolTip="{DynamicResource KernelNotice}"
+			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+			Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
 			Padding="4 2" Foreground="Yellow">
-        </TextBox>
-        <Path 
-            Grid.Row="2"
-            Visibility="{Binding IsWatermarkVisible}"
-            Margin="50 0 50 50"
-            Data="{StaticResource Icon_Logo}"
-            Fill="#0FFFFFFF"
-            Stretch="Fill" />
-        <RichTextBox 
-            Grid.Row="2"
+		</TextBox>
+		<Path 
+			Grid.Row="2"
+			Visibility="{Binding IsWatermarkVisible}"
+			Margin="50 0 50 50"
+			Data="{StaticResource Icon_Logo}"
+			Fill="#0FFFFFFF"
+			Stretch="Fill" />
+		<RichTextBox 
+			Grid.Row="2"
 			VerticalScrollBarVisibility="Auto"
 			x:Name="RichTextBox" 
-            BorderThickness="0" 
-            SpellCheck.IsEnabled="False"
+			BorderThickness="0" 
+			SpellCheck.IsEnabled="False"
 			IsReadOnly="True" FontSize="12"
 			Padding="0 0 0 4" Background="Transparent" Foreground="White">
-            <FlowDocument>
-                <Paragraph x:Name="ConsoleParagraph" LineHeight="14">
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-        <controls:KbCheckBox 
-            Grid.Row="2"
-            Margin="0 -2 14 0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
+			<FlowDocument>
+				<Paragraph x:Name="ConsoleParagraph" LineHeight="14">
+				</Paragraph>
+			</FlowDocument>
+		</RichTextBox>
+		<controls:KbCheckBox 
+			Grid.Row="2"
+			Margin="0 -2 14 0"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Top"
 			x:Name="ChkbIsConsoleAutoScrollToEnd"
 			ToolTip="{DynamicResource AutoScrollToEnd}"
 			IconColor="{StaticResource IconFillColor}"
 			IsChecked="True" />
-    </Grid>
+	</Grid>
 </UserControl>

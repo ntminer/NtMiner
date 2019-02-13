@@ -1,11 +1,9 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
-using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -15,16 +13,11 @@ namespace NTMiner.Vms {
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private double _logoRotateTransformAngle;
-        private Visibility _isWatermarkVisible = Visibility.Visible;
 
-        public ICommand CustomTheme { get; private set; }
         private MinerProfileViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this.CustomTheme = new DelegateCommand(() => {
-                LogColor.ShowWindow();
-            });
             VirtualRoot.Access<Per1SecondEvent>(
                 Guid.Parse("479A35A1-5A5A-48AF-B184-F1EC568BE181"),
                 "挖矿计时秒表",
@@ -58,7 +51,6 @@ namespace NTMiner.Vms {
                 LogEnum.Console,
                 action: message => {
                     this.OnPropertyChanged(nameof(this.IsMining));
-                    this.IsWatermarkVisible = Visibility.Collapsed;
                 });
             VirtualRoot.Access<MineStopedEvent>(
                 Guid.Parse("C4C1308A-1C04-4094-91A2-D11993C626A0"),
@@ -103,18 +95,6 @@ namespace NTMiner.Vms {
         public IMineWork MineWork {
             get {
                 return NTMinerRoot.Current.MinerProfile.MineWork;
-            }
-        }
-
-        public Visibility IsWatermarkVisible {
-            get {
-                return _isWatermarkVisible;
-            }
-            set {
-                if (_isWatermarkVisible != value) {
-                    _isWatermarkVisible = value;
-                    OnPropertyChanged(nameof(IsWatermarkVisible));
-                }
             }
         }
 

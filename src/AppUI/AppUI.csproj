@@ -257,6 +257,7 @@
     <Compile Include="Vms\CoinGroupViewModel.cs" />
     <Compile Include="Vms\CoinGroupViewModels.cs" />
     <Compile Include="Vms\CoinProfileViewModels.cs" />
+    <Compile Include="Vms\ConsoleViewModel.cs" />
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\GroupViewModels.cs" />
