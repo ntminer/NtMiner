@@ -6,7 +6,6 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.SysDics;
 using NTMiner.MinerServer;
-using NTMiner.Profile;
 using NTMiner.User;
 using System;
 
@@ -38,7 +37,7 @@ namespace NTMiner {
 
         IMineWork MineWork { get; }
 
-        IMinerProfile MinerProfile { get; }
+        IWorkMinerProfile MinerProfile { get; }
 
         IMineWorkSet MineWorkSet { get; }
 
@@ -64,8 +63,6 @@ namespace NTMiner {
 
         ICalcConfigSet CalcConfigSet { get; }
 
-        IWalletSet WalletSet { get; }
-
         IPoolSet PoolSet { get; }
 
         ICoinKernelSet CoinKernelSet { get; }
@@ -88,15 +85,9 @@ namespace NTMiner {
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
 
-        ICoinProfileSet CoinProfileSet { get; }
-
-        IPoolProfileSet PoolProfileSet { get; }
-
-        ICoinKernelProfileSet CoinKernelProfileSet { get; }
+        object GetMineWorkProperty(string propertyName);
 
         void SetMinerProfileProperty(string propertyName, object value);
-
-        object GetMineWorkProperty(string propertyName);
 
         void SetCoinProfileProperty(Guid coinId, string propertyName, object value);
 

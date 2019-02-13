@@ -5,12 +5,15 @@ using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Kernels.Impl;
+using NTMiner.Core.MinerServer;
+using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
-using NTMiner.Data.Impl;
 using NTMiner.Daemon;
+using NTMiner.Data.Impl;
+using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using NTMiner.User.Impl;
@@ -25,9 +28,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 using System.Windows;
-using NTMiner.Core.MinerServer;
-using NTMiner.Core.MinerServer.Impl;
-using NTMiner.MinerServer;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
@@ -133,11 +133,7 @@ namespace NTMiner {
             this.CoinShareSet = new CoinShareSet(this);
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
-            this.WalletSet = new WalletSet(this, CommandLineArgs.WorkId);
             this._minerProfile = new MinerProfile(this, CommandLineArgs.WorkId);
-            this.CoinProfileSet = new CoinProfileSet(this, CommandLineArgs.WorkId);
-            this.PoolProfileSet = new PoolProfileSet(this, CommandLineArgs.WorkId);
-            this.CoinKernelProfileSet = new CoinKernelProfileSet(this, CommandLineArgs.WorkId);
             if (CommandLineArgs.WorkId != Guid.Empty) {
                 MineWork = Server.ProfileService.GetMineWork(CommandLineArgs.WorkId);
             }
@@ -500,13 +496,13 @@ namespace NTMiner {
                     Application.Current.MainWindow.Close();
                     return;
                 }
-                IMinerProfile minerProfile = this.MinerProfile;
+                IWorkMinerProfile minerProfile = this.MinerProfile;
                 ICoin mainCoin;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
                     Logger.ErrorWriteLine("没有选择主挖币种。");
                     return;
                 }
-                ICoinProfile coinProfile = this.CoinProfileSet.GetCoinProfile(minerProfile.CoinId);
+                ICoinProfile coinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
                 IPool mainCoinPool;
                 if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
                     Logger.ErrorWriteLine("没有选择主币矿池。");
@@ -535,7 +531,7 @@ namespace NTMiner {
                     coinProfile.Wallet = mainCoin.TestWallet;
                 }
                 if (mainCoinPool.IsUserMode) {
-                    IPoolProfile poolProfile = PoolProfileSet.GetPoolProfile(mainCoinPool.GetId());
+                    IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
                     string userName = poolProfile.UserName;
                     if (string.IsNullOrEmpty(userName)) {
                         Logger.ErrorWriteLine("没有填写矿池用户名。");
@@ -550,7 +546,7 @@ namespace NTMiner {
                         minerProfile.MinerName,
                         mainCoin, mainCoinPool, kernel, coinKernel,
                         coinProfile.Wallet);
-                ICoinKernelProfile coinKernelProfile = this.CoinKernelProfileSet.GetCoinKernelProfile(coinKernel.GetId());
+                ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(coinKernel.GetId());
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     ICoin dualCoin;
                     if (!this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
@@ -558,7 +554,7 @@ namespace NTMiner {
                         return;
                     }
                     IPool dualCoinPool;
-                    coinProfile = this.CoinProfileSet.GetCoinProfile(coinKernelProfile.DualCoinId);
+                    coinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
                     if (!this.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
                         Logger.ErrorWriteLine("没有选择双挖矿池。");
                         return;
@@ -633,7 +629,7 @@ namespace NTMiner {
 
         public IMineWork MineWork { get; private set; }
 
-        public IMinerProfile MinerProfile {
+        public IWorkMinerProfile MinerProfile {
             get { return _minerProfile; }
         }
 
@@ -654,7 +650,7 @@ namespace NTMiner {
             string coinCode = "意外的币种";
             ICoin coin;
             if (this.CoinSet.TryGetCoin(coinId, out coin)) {
-                this.CoinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
+                this.MinerProfile.SetCoinProfileProperty(coinId, propertyName, value);
                 coinCode = coin.Code;
             }
             Logger.InfoDebugLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
@@ -669,7 +665,7 @@ namespace NTMiner {
                     Write.DevLine("不是用户名密码模式矿池", ConsoleColor.Green);
                     return;
                 }
-                this.PoolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
+                this.MinerProfile.SetPoolProfileProperty(poolId, propertyName, value);
             }
             Logger.InfoDebugLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
         }
@@ -687,7 +683,7 @@ namespace NTMiner {
                 if (this.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
                     kernelName = kernel.FullName;
                 }
-                this.CoinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
+                this.MinerProfile.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             }
             Logger.InfoDebugLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
         }
@@ -765,8 +761,6 @@ namespace NTMiner {
 
         public ISysDicItemSet SysDicItemSet { get; private set; }
 
-        public IWalletSet WalletSet { get; private set; }
-
         public IPoolSet PoolSet { get; private set; }
 
         public ICoinKernelSet CoinKernelSet { get; private set; }
@@ -788,12 +782,6 @@ namespace NTMiner {
         public IKernelOutputFilterSet KernelOutputFilterSet { get; private set; }
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
-
-        public ICoinProfileSet CoinProfileSet { get; private set; }
-
-        public IPoolProfileSet PoolProfileSet { get; private set; }
-
-        public ICoinKernelProfileSet CoinKernelProfileSet { get; private set; }
 
         public IMineContext CreateMineContext(
             string minerName,

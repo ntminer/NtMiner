@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
             if (_poolProfileDicById.ContainsKey(poolId)) {
                 return _poolProfileDicById[poolId];
             }
-            PoolProfileViewModel poolProfile = new PoolProfileViewModel(NTMinerRoot.Current.PoolProfileSet.GetPoolProfile(poolId));
+            PoolProfileViewModel poolProfile = new PoolProfileViewModel(NTMinerRoot.Current.MinerProfile.GetPoolProfile(poolId));
             _poolProfileDicById.Add(poolId, poolProfile);
             return poolProfile;
         }

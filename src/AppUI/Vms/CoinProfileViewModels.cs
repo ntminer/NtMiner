@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
             if (_coinProfileDicById.ContainsKey(coinId)) {
                 return _coinProfileDicById[coinId];
             }
-            CoinProfileViewModel coinProfile = new CoinProfileViewModel(NTMinerRoot.Current.CoinProfileSet.GetCoinProfile(coinId));
+            CoinProfileViewModel coinProfile = new CoinProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinProfile(coinId));
             _coinProfileDicById.Add(coinId, coinProfile);
             return coinProfile;
         }
@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
             if (_coinKernelProfileDicById.ContainsKey(coinKernelId)) {
                 return _coinKernelProfileDicById[coinKernelId];
             }
-            CoinKernelProfileViewModel coinKernelProfileViewModel = new CoinKernelProfileViewModel(NTMinerRoot.Current.CoinKernelProfileSet.GetCoinKernelProfile(coinKernelId));
+            CoinKernelProfileViewModel coinKernelProfileViewModel = new CoinKernelProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinKernelProfile(coinKernelId));
             _coinKernelProfileDicById.Add(coinKernelId, coinKernelProfileViewModel);
             return coinKernelProfileViewModel;
         }

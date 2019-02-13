@@ -12,7 +12,7 @@ namespace NTMiner {
             if (!CoinSet.TryGetCoin(this.MinerProfile.CoinId, out mainCoin)) {
                 return string.Empty;
             }
-            ICoinProfile coinProfile = this.CoinProfileSet.GetCoinProfile(mainCoin.GetId());
+            ICoinProfile coinProfile = this.MinerProfile.GetCoinProfile(mainCoin.GetId());
             IPool mainCoinPool;
             if (!PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
                 return string.Empty;
@@ -32,7 +32,7 @@ namespace NTMiner {
             if (!KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
                 return string.Empty;
             }
-            ICoinKernelProfile coinKernelProfile = this.CoinKernelProfileSet.GetCoinKernelProfile(coinProfile.CoinKernelId);
+            ICoinKernelProfile coinKernelProfile = this.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
             string wallet = coinProfile.Wallet;
             string pool = mainCoinPool.Server;
             string poolKernelArgs = string.Empty;
@@ -40,7 +40,7 @@ namespace NTMiner {
             if (poolKernel != null) {
                 poolKernelArgs = poolKernel.Args;
             }
-            IPoolProfile poolProfile = PoolProfileSet.GetPoolProfile(mainCoinPool.GetId());
+            IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
             string userName = poolProfile.UserName;
             string password = poolProfile.Password;
             string kernelArgs = kernelInput.Args;
@@ -65,12 +65,12 @@ namespace NTMiner {
                 if (dualCoinGroupId != Guid.Empty) {
                     ICoin dualCoin;
                     if (this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                        ICoinProfile dualCoinProfile = this.CoinProfileSet.GetCoinProfile(dualCoin.GetId());
+                        ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
                         IPool dualCoinPool;
                         if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
                             string dualWallet = dualCoinProfile.DualCoinWallet;
                             string dualPool = dualCoinPool.Server;
-                            IPoolProfile dualPoolProfile = PoolProfileSet.GetPoolProfile(dualCoinPool.GetId());
+                            IPoolProfile dualPoolProfile = MinerProfile.GetPoolProfile(dualCoinPool.GetId());
                             string dualUserName = dualPoolProfile.UserName;
                             string dualPassword = dualPoolProfile.Password;
                             argsDic.Add("dualCoin", dualCoin.Code);

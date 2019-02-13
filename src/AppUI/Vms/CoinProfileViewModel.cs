@@ -70,7 +70,7 @@ namespace NTMiner.Vms {
                         SortNumber = sortNumber
                     }.Edit.Execute(null);
                     IWallet wallet;
-                    if (NTMinerRoot.Current.WalletSet.TryGetWallet(id, out wallet)) {
+                    if (NTMinerRoot.Current.MinerProfile.TryGetWallet(id, out wallet)) {
                         this.SelectedWallet = WalletViewModels.Current.WalletList.FirstOrDefault(a => a.Id == id);
                     }
                 }
@@ -87,7 +87,7 @@ namespace NTMiner.Vms {
                         SortNumber = sortNumber
                     }.Edit.Execute(null);
                     IWallet wallet;
-                    if (NTMinerRoot.Current.WalletSet.TryGetWallet(id, out wallet)) {
+                    if (NTMinerRoot.Current.MinerProfile.TryGetWallet(id, out wallet)) {
                         this.SelectedDualCoinWallet = WalletViewModels.Current.WalletList.FirstOrDefault(a => a.Id == id);
                     }
                 }

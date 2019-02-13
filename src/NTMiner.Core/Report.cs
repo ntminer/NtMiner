@@ -75,7 +75,7 @@ namespace NTMiner {
             string mainCoinWallet = null;
             bool isMainCoinPoolIsUserMode = false;
             string mainCoinPoolUserName = null;
-            ICoinProfile mainCoinProfile = root.CoinProfileSet.GetCoinProfile(mainCoin.GetId());
+            ICoinProfile mainCoinProfile = root.MinerProfile.GetCoinProfile(mainCoin.GetId());
             IPool mainCoinPoolModel;
             if (!root.PoolSet.TryGetPool(mainCoinProfile.PoolId, out mainCoinPoolModel)) {
                 return null;
@@ -84,7 +84,7 @@ namespace NTMiner {
             mainCoinWallet = mainCoinProfile.Wallet;
             isMainCoinPoolIsUserMode = mainCoinPoolModel.IsUserMode;
             mainCoinPoolUserName = mainCoinPoolModel.UserName;
-            ICoinKernelProfile coinKernelProfile = root.CoinKernelProfileSet.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
+            ICoinKernelProfile coinKernelProfile = root.MinerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
             isDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
             if (isDualCoinEnabled) {
                 ICoin dualCoin;
@@ -94,7 +94,7 @@ namespace NTMiner {
                 dualCoinCode = dualCoin.Code;
                 isAutoDualWeight = coinKernelProfile.IsAutoDualWeight;
                 dualCoinWeight = coinKernelProfile.DualCoinWeight;
-                ICoinProfile dualCoinProfile = root.CoinProfileSet.GetCoinProfile(coinKernelProfile.DualCoinId);
+                ICoinProfile dualCoinProfile = root.MinerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
                 IPool dualCoinPoolModel;
                 if (!root.PoolSet.TryGetPool(dualCoinProfile.PoolId, out dualCoinPoolModel)) {
                     return null;
@@ -172,7 +172,7 @@ namespace NTMiner {
             ICoin mainCoin;
             if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out mainCoin)) {
                 data.MainCoinCode = mainCoin.Code;
-                ICoinProfile coinProfile = root.CoinProfileSet.GetCoinProfile(mainCoin.GetId());
+                ICoinProfile coinProfile = root.MinerProfile.GetCoinProfile(mainCoin.GetId());
                 IPool mainCoinPool;
                 if (root.PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
                     data.MainCoinPool = mainCoinPool.Server;
@@ -186,13 +186,13 @@ namespace NTMiner {
                     IKernel kernel;
                     if (root.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
                         data.Kernel = kernel.FullName;
-                        ICoinKernelProfile coinKernelProfile = root.CoinKernelProfileSet.GetCoinKernelProfile(coinProfile.CoinKernelId);
+                        ICoinKernelProfile coinKernelProfile = root.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
                         data.IsDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
                         if (coinKernelProfile.IsDualCoinEnabled) {
                             ICoin dualCoin;
                             if (root.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
                                 data.DualCoinCode = dualCoin.Code;
-                                ICoinProfile dualCoinProfile = root.CoinProfileSet.GetCoinProfile(dualCoin.GetId());
+                                ICoinProfile dualCoinProfile = root.MinerProfile.GetCoinProfile(dualCoin.GetId());
                                 data.DualCoinWallet = dualCoinProfile.DualCoinWallet;
                                 IPool dualCoinPool;
                                 if (root.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {

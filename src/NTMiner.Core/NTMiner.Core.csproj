@@ -147,18 +147,12 @@
     <Compile Include="Core\Kernels\IPackageDownloader.cs" />
     <Compile Include="Core\Kernels\IPoolKernel.cs" />
     <Compile Include="Core\Kernels\IPoolKernelSet.cs" />
-    <Compile Include="Core\Profiles\ICoinKernelProfileSet.cs" />
     <Compile Include="Core\MinerServer\IMineWorkSet.cs" />
-    <Compile Include="Core\Profiles\ICoinProfileSet.cs" />
     <Compile Include="Core\Profiles\IKernelProfile.cs" />
     <Compile Include="Core\Profiles\IKernelProfileSet.cs" />
-    <Compile Include="Core\Profiles\Impl\CoinKernelProfileSet.cs" />
     <Compile Include="Core\MinerServer\Impl\MineWorkSet.cs" />
     <Compile Include="Core\Impl\PoolData.cs" />
-    <Compile Include="Core\Profiles\Impl\CoinProfileSet.cs" />
     <Compile Include="Core\Profiles\Impl\KernelProfileSet.cs" />
-    <Compile Include="Core\Profiles\Impl\PoolProfileSet.cs" />
-    <Compile Include="Core\Profiles\IPoolProfileSet.cs" />
     <Compile Include="Core\PublishStatus.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicData.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicItemData.cs" />
@@ -184,7 +178,6 @@
     <Compile Include="Core\Profiles\MinerProfile.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicItemSet.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicSet.cs" />
-    <Compile Include="Core\Profiles\Impl\WalletSet.cs" />
     <Compile Include="Core\Impl\Speed.cs" />
     <Compile Include="Core\Kernels\IKernelOutputFilter.cs" />
     <Compile Include="Core\Kernels\IKernelOutputFilterSet.cs" />
@@ -193,7 +186,6 @@
     <Compile Include="Core\SysDics\ISysDic.cs" />
     <Compile Include="Core\SysDics\ISysDicItem.cs" />
     <Compile Include="Core\SysDics\ISysDicItemSet.cs" />
-    <Compile Include="Core\Profiles\IWalletSet.cs" />
     <Compile Include="Core\SysDics\ISysDicSet.cs" />
     <Compile Include="Core\Gpus\SupportedGpu.cs" />
     <Compile Include="Core\Gpus\Nvml\NvmlNativeMethods.cs" />
