@@ -17,7 +17,7 @@ namespace NTMiner.Data.Impl {
         }
 
         #region 元数据
-        public static Dictionary<string, PropertyInfo> GetProperties<T>() {
+        private static Dictionary<string, PropertyInfo> GetProperties<T>() {
             var result = new Dictionary<string, PropertyInfo>();
             foreach (var propertyInfo in typeof(T).GetProperties()) {
                 result.Add(propertyInfo.Name, propertyInfo);
