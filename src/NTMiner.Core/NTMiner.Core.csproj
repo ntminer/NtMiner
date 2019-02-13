@@ -133,6 +133,7 @@
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />
     <Compile Include="Core\Kernels\Impl\CoinKernelData.cs" />
     <Compile Include="Core\Profiles\IWorkProfile.cs" />
+    <Compile Include="HttpServer.cs" />
     <Compile Include="MinerClientController.cs" />
     <Compile Include="Core\Kernels\Impl\KernelData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelInputData.cs" />

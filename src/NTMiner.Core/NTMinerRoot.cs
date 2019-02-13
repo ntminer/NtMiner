@@ -107,6 +107,7 @@ namespace NTMiner {
             }
         }
 
+        private MinerProfile _minerProfile;
         public void DoInit(string rawNTMinerJson, string rawLangJson, Action callback) {
             ServerJson.Instance.Init(rawNTMinerJson);
             Language.Impl.LangJson.Instance.Init(rawLangJson);
@@ -138,16 +139,9 @@ namespace NTMiner {
         }
         #endregion
 
-        private MinerProfile _minerProfile;
-        private HttpSelfHostServer _httpServer;
         #region Start
         public void Start() {
-            var config = new HttpSelfHostConfiguration("http://localhost:3336");
-            config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
-            config.Routes.MapHttpRoute(
-                "API Default", "api/{controller}/{action}");
-            _httpServer = new HttpSelfHostServer(config);
-            _httpServer.OpenAsync().Wait();
+            HttpServer.Start("http://localhost:3336");
             Server.TimeService.GetTimeAsync((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < VirtualRoot.DesyncSeconds) {
                     Logger.OkDebugLine("时间同步");
@@ -430,9 +424,7 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
-            if (_httpServer != null) {
-                _httpServer.Dispose();
-            }
+            HttpServer.Stop();
             if (_currentMineContext != null) {
                 StopMineAsync();
             }

@@ -76,6 +76,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\NTMiner.Core\HttpServer.cs">
+      <Link>HttpServer.cs</Link>
+    </Compile>
     <Compile Include="..\NTMiner.Core\Windows\Power.cs">
       <Link>Windows\Power.cs</Link>
     </Compile>
