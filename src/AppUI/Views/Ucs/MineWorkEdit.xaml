@@ -54,7 +54,7 @@
 			BorderThickness="0 1 0 0"
 			AcceptsReturn="True" TextWrapping="Wrap" 
 			VerticalContentAlignment="Top"
-			Text="{Binding ArgsAssembly, Mode=OneWay}">
+			Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}">
 		</TextBox>
 		<WrapPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 2" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 			<Label>名称:</Label>

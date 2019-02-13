@@ -49,6 +49,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
+                VirtualRoot.Execute(new SwichMinerProfileCommand(this.Id));
                 MineWorkEdit.ShowEditWindow(new MineWorkViewModel(this));
             });
             this.Remove = new DelegateCommand(() => {
@@ -100,9 +101,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string ArgsAssembly {
+        public MinerProfileViewModel MinerProfile {
             get {
-                return NTMinerRoot.Current.BuildAssembleArgs();
+                return MinerProfileViewModel.Current;
             }
         }
 

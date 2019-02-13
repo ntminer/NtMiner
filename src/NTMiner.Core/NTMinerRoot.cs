@@ -134,7 +134,6 @@ namespace NTMiner {
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
             this._minerProfile = new MinerProfile(this, CommandLineArgs.WorkId);
-
             callback?.Invoke();
         }
         #endregion

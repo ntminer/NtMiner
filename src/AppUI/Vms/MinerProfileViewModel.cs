@@ -34,6 +34,15 @@ namespace NTMiner.Vms {
                 action: cmd => {
                     this.OnPropertyChanged(nameof(this.ArgsAssembly));
                 });
+            VirtualRoot.Access<MinerProfileSwichedEvent>(
+                Guid.Parse("850661EC-EA76-4E2B-B2CD-FD0C796DB85B"),
+                "MinerProfile切换后刷新Vm内存",
+                LogEnum.Console,
+                action: message => {
+                    foreach (var propertyInfo in this.GetType().GetProperties()) {
+                        this.OnPropertyChanged(propertyInfo.Name);
+                    }
+                });
         }
 
         public IMineWork MineWork {

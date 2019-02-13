@@ -3,6 +3,21 @@ using NTMiner.Core;
 using System;
 
 namespace NTMiner {
+    [MessageType(messageType: typeof(SwichMinerProfileCommand), description: "切换MinerProfile命令")]
+    public class SwichMinerProfileCommand : Cmd {
+        public SwichMinerProfileCommand(Guid workId) {
+            this.WorkId = workId;
+        }
+
+        public Guid WorkId { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(MinerProfileSwichedEvent), description: "MinerProfile切换后事件")]
+    public class MinerProfileSwichedEvent : EventBase {
+        public MinerProfileSwichedEvent() {
+        }
+    }
+
     [MessageType(messageType: typeof(RefreshArgsAssemblyCommand), description: "刷新参数总成命令")]
     public class RefreshArgsAssemblyCommand : Cmd {
         public RefreshArgsAssemblyCommand() { }

@@ -14,27 +14,61 @@ namespace NTMiner.Core.Profiles {
         private readonly INTMinerRoot _root;
 
         private MinerProfileData _data;
-        private readonly Guid _workId;
-        private readonly CoinKernelProfileSet _coinKernelProfileSet;
-        private readonly CoinProfileSet _coinProfileSet;
-        private readonly PoolProfileSet _poolProfileSet;
-        private readonly WalletSet _walletSet;
+        private Guid _workId;
+        private CoinKernelProfileSet _coinKernelProfileSet;
+        private CoinProfileSet _coinProfileSet;
+        private PoolProfileSet _poolProfileSet;
+        private WalletSet _walletSet;
 
         public MinerProfile(INTMinerRoot root, Guid workId) {
             _root = root;
+            Init(root, workId);
+            VirtualRoot.Access<SwichMinerProfileCommand>(
+                Guid.Parse("8F3AF9E1-72E5-443F-99F2-20A89D1618C7"),
+                "处理切换MinerProfile命令",
+                LogEnum.Console,
+                action: message => {
+                    Init(root, message.WorkId);
+                    VirtualRoot.Happened(new MinerProfileSwichedEvent());
+                });
+        }
+
+        private void Init(INTMinerRoot root, Guid workId) {
             _workId = workId;
-            _coinKernelProfileSet = new CoinKernelProfileSet(root, workId);
-            _coinProfileSet = new CoinProfileSet(root, workId);
-            _poolProfileSet = new PoolProfileSet(root, workId);
-            _walletSet = new WalletSet(root, workId);
+            if (_coinKernelProfileSet == null) {
+                _coinKernelProfileSet = new CoinKernelProfileSet(root, workId);
+            }
+            else {
+                _coinKernelProfileSet.Refresh(workId);
+            }
+            if (_coinProfileSet == null) {
+                _coinProfileSet = new CoinProfileSet(root, workId);
+            }
+            else {
+                _coinProfileSet.Refresh(workId);
+            }
+            if (_poolProfileSet == null) {
+                _poolProfileSet = new PoolProfileSet(root, workId);
+            }
+            else {
+                _poolProfileSet.Refresh(workId);
+            }
+            if (_walletSet == null) {
+                _walletSet = new WalletSet(root, workId);
+            }
+            else {
+                _walletSet.Refresh(workId);
+            }
             if (workId != Guid.Empty) {
                 MineWork = Server.ProfileService.GetMineWork(workId);
             }
+            _data = null;
             _data = GetMinerProfileData();
             if (_data == null) {
                 throw new ValidationException("未获取到MinerProfileData数据，请重试");
             }
         }
+
         private MinerProfileData GetMinerProfileData() {
             if (_workId != Guid.Empty) {
                 return Server.ProfileService.GetMinerProfile(_workId);
@@ -305,16 +339,21 @@ namespace NTMiner.Core.Profiles {
         }
 
         #region CoinKernelProfileSet
-        public class CoinKernelProfileSet {
+        private class CoinKernelProfileSet {
             private readonly Dictionary<Guid, CoinKernelProfile> _dicById = new Dictionary<Guid, CoinKernelProfile>();
 
             private readonly INTMinerRoot _root;
             private readonly object _locker = new object();
 
-            private readonly Guid _workId;
+            private Guid _workId;
             public CoinKernelProfileSet(INTMinerRoot root, Guid workId) {
                 _root = root;
                 _workId = workId;
+            }
+
+            public void Refresh(Guid workId) {
+                _workId = workId;
+                _dicById.Clear();
             }
 
             public ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId) {
@@ -474,14 +513,19 @@ namespace NTMiner.Core.Profiles {
         #endregion
 
         #region CoinProfileSet
-        public class CoinProfileSet {
+        private class CoinProfileSet {
             private readonly Dictionary<Guid, CoinProfile> _dicById = new Dictionary<Guid, CoinProfile>();
             private readonly INTMinerRoot _root;
             private readonly object _locker = new object();
-            private readonly Guid _workId;
+            private Guid _workId;
             public CoinProfileSet(INTMinerRoot root, Guid workId) {
                 _root = root;
                 _workId = workId;
+            }
+
+            public void Refresh(Guid workId) {
+                _workId = workId;
+                _dicById.Clear();
             }
 
             public ICoinProfile GetCoinProfile(Guid coinId) {
@@ -658,15 +702,20 @@ namespace NTMiner.Core.Profiles {
         #endregion
 
         #region PoolProfileSet
-        public class PoolProfileSet {
+        private class PoolProfileSet {
             private readonly Dictionary<Guid, PoolProfile> _dicById = new Dictionary<Guid, PoolProfile>();
             private readonly INTMinerRoot _root;
             private readonly object _locker = new object();
 
-            private readonly Guid _workId;
+            private Guid _workId;
             public PoolProfileSet(INTMinerRoot root, Guid workId) {
                 _root = root;
                 _workId = workId;
+            }
+
+            public void Refresh(Guid workId) {
+                _workId = workId;
+                _dicById.Clear();
             }
 
             public IPoolProfile GetPoolProfile(Guid poolId) {
@@ -804,7 +853,7 @@ namespace NTMiner.Core.Profiles {
         #endregion
 
         #region WalletSet
-        internal class WalletSet {
+        private class WalletSet {
             private readonly INTMinerRoot _root;
             private readonly Dictionary<Guid, WalletData> _dicById = new Dictionary<Guid, WalletData>();
 
@@ -844,7 +893,7 @@ namespace NTMiner.Core.Profiles {
                 }
             }
 
-            private readonly Guid _workId;
+            private Guid _workId;
             public WalletSet(INTMinerRoot root, Guid workId) {
                 _root = root;
                 _workId = workId;
@@ -917,6 +966,12 @@ namespace NTMiner.Core.Profiles {
 
                         VirtualRoot.Happened(new WalletRemovedEvent(entity));
                     });
+            }
+
+            public void Refresh(Guid workId) {
+                _workId = workId;
+                _dicById.Clear();
+                _isInited = false;
             }
 
             private bool _isInited = false;
