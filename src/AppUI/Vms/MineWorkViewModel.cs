@@ -21,7 +21,6 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
-        public ICommand Config { get; private set; }
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
@@ -59,9 +58,6 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定删除吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
                 }, icon: "Icon_Confirm");
-            });
-            this.Config = new DelegateCommand(() => {
-                Windows.Cmd.RunClose(NTMinerRegistry.GetLocation(), $"--controlcenter workid={this.Id}");
             });
         }
 

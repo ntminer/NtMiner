@@ -48,20 +48,6 @@
                         <DataTemplate>
                             <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
                                 <controls:KbButton 
-                                    ToolTip="配置作业"
-                                    Command="{Binding Config}" Background="Transparent" BorderThickness="0"
-                                    Margin="2 0"
-                                    CornerRadius="2">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="18"
-                                            Height="18"
-                                            Data="{StaticResource Icon_MinerProfile}"
-                                            Fill="{StaticResource IconFillColor}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                                <controls:KbButton 
                                     Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
                                     Margin="2 0"
                                     CornerRadius="2">

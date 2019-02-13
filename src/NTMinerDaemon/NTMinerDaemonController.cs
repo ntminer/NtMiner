@@ -59,22 +59,15 @@ namespace NTMiner {
                     if (!string.IsNullOrEmpty(arguments)) {
                         string[] parts = arguments.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         int workIdIndex = -1;
-                        int controlCenterIndex = -1;
                         for (int i = 0; i < parts.Length; i++) {
                             string item = parts[i];
                             if (item.StartsWith("workid=")) {
                                 workIdIndex = i;
                             }
-                            else if (item.StartsWith("--controlcenter")) {
-                                controlCenterIndex = i;
-                            }
                         }
                         if (request.WorkId == Guid.Empty) {
                             if (workIdIndex != -1) {
                                 parts[workIdIndex] = string.Empty;
-                            }
-                            if (controlCenterIndex != -1) {
-                                parts[controlCenterIndex] = string.Empty;
                             }
                         }
                         else {
