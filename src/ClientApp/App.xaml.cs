@@ -121,7 +121,7 @@ namespace NTMiner {
                             }
                         }
                         if (message.MineWorkId != Guid.Empty) {
-                            if (!CommandLineArgs.IsWorker) {
+                            if (CommandLineArgs.WorkId == Guid.Empty) {
                                 args.Add("workid=" + message.MineWorkId.ToString());
                             }
                             else {
@@ -134,7 +134,7 @@ namespace NTMiner {
                             }
                         }
                         else {
-                            if (CommandLineArgs.IsWorker) {
+                            if (CommandLineArgs.WorkId != Guid.Empty) {
                                 int workIdIndex = -1;
                                 for (int i = 0; i < args.Count; i++) {
                                     if (args[i].ToLower().Contains("workid=")) {

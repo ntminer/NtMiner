@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
 
         private bool UseRemoteWalletList {
             get {
-                return CommandLineArgs.IsWorker || CommandLineArgs.IsControlCenter;
+                return CommandLineArgs.WorkId != Guid.Empty || CommandLineArgs.IsControlCenter;
             }
         }
 

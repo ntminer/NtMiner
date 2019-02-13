@@ -206,7 +206,7 @@ namespace NTMiner.Vms {
                 if (CommandLineArgs.IsWorkEdit) {
                     return false;
                 }
-                if (CommandLineArgs.IsWorker) {
+                if (CommandLineArgs.WorkId != Guid.Empty) {
                     return true;
                 }
                 return false;

@@ -13,7 +13,7 @@ namespace NTMiner.Core.Profiles {
         private MinerProfileData _data;
 
         private MinerProfileData GetMinerProfileData() {
-            if (CommandLineArgs.IsWorker) {
+            if (CommandLineArgs.WorkId != Guid.Empty) {
                 return Server.ProfileService.GetMinerProfile(CommandLineArgs.WorkId);
             }
             else {
@@ -205,7 +205,7 @@ namespace NTMiner.Core.Profiles {
                         value = DictionaryExtensions.ConvertToGuid(value);
                     }
                     propertyInfo.SetValue(this, value, null);
-                    if (CommandLineArgs.IsWorker) {
+                    if (CommandLineArgs.WorkId != Guid.Empty) {
                         if (CommandLineArgs.IsControlCenter) {
                             Server.ControlCenterService.SetMinerProfilePropertyAsync(CommandLineArgs.WorkId, propertyName, value, isSuccess => {
                                 VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));

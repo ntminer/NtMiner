@@ -55,7 +55,7 @@ namespace NTMiner.Core.Profiles.Impl {
             }
 
             private PoolProfileData GetPoolProfileData(Guid poolId) {
-                if (CommandLineArgs.IsWorker) {
+                if (CommandLineArgs.WorkId != Guid.Empty) {
                     return Server.ProfileService.GetPoolProfile(CommandLineArgs.WorkId, poolId);
                 }
                 else {
@@ -129,7 +129,7 @@ namespace NTMiner.Core.Profiles.Impl {
                             value = DictionaryExtensions.ConvertToGuid(value);
                         }
                         propertyInfo.SetValue(this, value, null);
-                        if (CommandLineArgs.IsWorker) {
+                        if (CommandLineArgs.WorkId != Guid.Empty) {
                             if (CommandLineArgs.IsControlCenter) {
                                 Server.ControlCenterService.SetPoolProfilePropertyAsync(CommandLineArgs.WorkId, PoolId, propertyName, value, isSuccess => {
                                     VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));

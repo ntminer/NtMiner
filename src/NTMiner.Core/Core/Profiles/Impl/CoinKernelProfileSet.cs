@@ -56,7 +56,7 @@ namespace NTMiner.Core.Profiles.Impl {
             }
 
             private CoinKernelProfileData GetCoinKernelProfileData(Guid coinKernelId) {
-                if (CommandLineArgs.IsWorker) {
+                if (CommandLineArgs.WorkId != Guid.Empty) {
                     return Server.ProfileService.GetCoinKernelProfile(CommandLineArgs.WorkId, coinKernelId);
                 }
                 else {
@@ -152,7 +152,7 @@ namespace NTMiner.Core.Profiles.Impl {
                             value = DictionaryExtensions.ConvertToGuid(value);
                         }
                         propertyInfo.SetValue(this, value, null);
-                        if (CommandLineArgs.IsWorker) {
+                        if (CommandLineArgs.WorkId != Guid.Empty) {
                             if (CommandLineArgs.IsControlCenter) {
                                 Server.ControlCenterService.SetCoinKernelProfilePropertyAsync(CommandLineArgs.WorkId, CoinKernelId, propertyName, value, isSuccess => {
                                     VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));

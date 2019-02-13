@@ -6,7 +6,6 @@ namespace NTMiner {
         /// <summary>
         /// 是否是工人。工人被雇佣，受中控管理，非工人则是自由的。
         /// </summary>
-        public static readonly bool IsWorker;
         public static readonly Guid WorkId = Guid.Empty;
         public static readonly bool IsControlCenter;
         public static readonly bool JustClientWorker;
@@ -23,10 +22,10 @@ namespace NTMiner {
             Upgrade = PickArgument("upgrade=");
             string workId = PickArgument("workid=");
             Guid.TryParse(workId, out WorkId);
-            IsWorker = WorkId != Guid.Empty;
-            IsWorkEdit = IsControlCenter && IsWorker;
-            JustClientWorker = !IsControlCenter && IsWorker;
-            IsFreeClient = !IsControlCenter && !IsWorker;
+            bool isWorker = WorkId != Guid.Empty;
+            IsWorkEdit = IsControlCenter && isWorker;
+            JustClientWorker = !IsControlCenter && isWorker;
+            IsFreeClient = !IsControlCenter && !isWorker;
         }
     }
 }

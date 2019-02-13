@@ -138,7 +138,7 @@ namespace NTMiner {
             this.CoinProfileSet = new CoinProfileSet(this);
             this.PoolProfileSet = new PoolProfileSet(this);
             this.CoinKernelProfileSet = new CoinKernelProfileSet(this);
-            if (CommandLineArgs.IsWorker) {
+            if (CommandLineArgs.WorkId != Guid.Empty) {
                 MineWork = Server.ProfileService.GetMineWork(CommandLineArgs.WorkId);
             }
 
@@ -482,7 +482,7 @@ namespace NTMiner {
             try {
                 if (workId != CommandLineArgs.WorkId) {
                     List<string> args = CommandLineArgs.Args;
-                    if (CommandLineArgs.IsWorker) {
+                    if (CommandLineArgs.WorkId != Guid.Empty) {
                         for (int i = 0; i < args.Count; i++) {
                             if (args[i].StartsWith("workid=", StringComparison.OrdinalIgnoreCase)) {
                                 args[i] = "workid=" + workId.ToString();
