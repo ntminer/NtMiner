@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Profiles {
-    public interface IWorkMinerProfile : IMinerProfile {
+    public interface IWorkProfile : IMinerProfile {
+        IMineWork MineWork { get; }
+
         ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId);
         void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value);
         ICoinProfile GetCoinProfile(Guid coinId);

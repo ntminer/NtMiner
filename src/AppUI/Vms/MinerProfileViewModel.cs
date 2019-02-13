@@ -103,7 +103,7 @@ namespace NTMiner.Vms {
 
         public IMineWork MineWork {
             get {
-                return NTMinerRoot.Current.MineWork;
+                return NTMinerRoot.Current.MinerProfile.MineWork;
             }
         }
 

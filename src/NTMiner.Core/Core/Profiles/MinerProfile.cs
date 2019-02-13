@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 
 namespace NTMiner.Core.Profiles {
-    internal class MinerProfile : IWorkMinerProfile {
+    internal class MinerProfile : IWorkProfile {
         private readonly INTMinerRoot _root;
 
         private MinerProfileData _data;
@@ -25,6 +25,9 @@ namespace NTMiner.Core.Profiles {
             _coinProfileSet = new CoinProfileSet(root, workId);
             _poolProfileSet = new PoolProfileSet(root, workId);
             _walletSet = new WalletSet(root, workId);
+            if (workId != Guid.Empty) {
+                MineWork = Server.ProfileService.GetMineWork(workId);
+            }
             _data = GetMinerProfileData();
             if (_data == null) {
                 throw new ValidationException("未获取到MinerProfileData数据，请重试");
@@ -243,6 +246,8 @@ namespace NTMiner.Core.Profiles {
             return null;
         }
         #endregion
+
+        public IMineWork MineWork { get; private set; }
 
         public ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId) {
             return _coinKernelProfileSet.GetCoinKernelProfile(coinKernelId);

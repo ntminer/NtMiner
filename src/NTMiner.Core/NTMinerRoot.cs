@@ -13,7 +13,6 @@ using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.Daemon;
 using NTMiner.Data.Impl;
-using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using NTMiner.User.Impl;
@@ -134,9 +133,6 @@ namespace NTMiner {
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
             this._minerProfile = new MinerProfile(this, CommandLineArgs.WorkId);
-            if (CommandLineArgs.WorkId != Guid.Empty) {
-                MineWork = Server.ProfileService.GetMineWork(CommandLineArgs.WorkId);
-            }
 
             callback?.Invoke();
         }
@@ -496,7 +492,7 @@ namespace NTMiner {
                     Application.Current.MainWindow.Close();
                     return;
                 }
-                IWorkMinerProfile minerProfile = this.MinerProfile;
+                IWorkProfile minerProfile = this.MinerProfile;
                 ICoin mainCoin;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
                     Logger.ErrorWriteLine("没有选择主挖币种。");
@@ -627,9 +623,7 @@ namespace NTMiner {
             }
         }
 
-        public IMineWork MineWork { get; private set; }
-
-        public IWorkMinerProfile MinerProfile {
+        public IWorkProfile MinerProfile {
             get { return _minerProfile; }
         }
 
