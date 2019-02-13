@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerServer;
+using NTMiner.Profile;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,11 @@ using System.Linq;
 namespace NTMiner.Core.MinerServer.Impl {
     public class MineWorkSet : IMineWorkSet {
         private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
-
+        private readonly Dictionary<Guid, IMinerProfile> _minerProfileDic = new Dictionary<Guid, IMinerProfile>();
+        private readonly Dictionary<Guid, Dictionary<Guid, ICoinProfile>> _coinProfileDic = new Dictionary<Guid, Dictionary<Guid, ICoinProfile>>();
+        private readonly Dictionary<Guid, Dictionary<Guid, IPoolProfile>> _poolProfileDic = new Dictionary<Guid, Dictionary<Guid, IPoolProfile>>();
+        private readonly Dictionary<Guid, Dictionary<Guid, ICoinKernelProfile>> _coinKernelProfileDic = new Dictionary<Guid, Dictionary<Guid, ICoinKernelProfile>>();
+        
         private readonly INTMinerRoot _root;
         public MineWorkSet(INTMinerRoot root) {
             _root = root;
