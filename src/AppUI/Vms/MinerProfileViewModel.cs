@@ -85,12 +85,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinViewModels CoinVms {
-            get {
-                return CoinViewModels.Current;
-            }
-        }
-
         public string ArgsAssembly {
             get {
                 return NTMinerRoot.Current.BuildAssembleArgs();
