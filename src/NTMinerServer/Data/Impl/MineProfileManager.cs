@@ -1,5 +1,4 @@
 ﻿using LiteDB;
-using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
@@ -18,14 +17,19 @@ namespace NTMiner.Data.Impl {
         }
 
         #region 元数据
+        public static Dictionary<string, PropertyInfo> GetProperties<T>() {
+            var result = new Dictionary<string, PropertyInfo>();
+            foreach (var propertyInfo in typeof(T).GetProperties()) {
+                result.Add(propertyInfo.Name, propertyInfo);
+            }
+            return result;
+        }
+
         private static Dictionary<string, PropertyInfo> _minerProfileProperties;
         private static Dictionary<string, PropertyInfo> MinerProfileProperties {
             get {
                 if (_minerProfileProperties == null) {
-                    _minerProfileProperties = new Dictionary<string, PropertyInfo>();
-                    foreach (var item in typeof(MinerProfileData).GetProperties()) {
-                        _minerProfileProperties.Add(item.Name, item);
-                    }
+                    _minerProfileProperties = GetProperties<MinerProfileData>();
                 }
                 return _minerProfileProperties;
             }
@@ -35,10 +39,7 @@ namespace NTMiner.Data.Impl {
         private static Dictionary<string, PropertyInfo> CoinProfileProperties {
             get {
                 if (_coinProfileProperties == null) {
-                    _coinProfileProperties = new Dictionary<string, PropertyInfo>();
-                    foreach (var item in typeof(CoinProfileData).GetProperties()) {
-                        _coinProfileProperties.Add(item.Name, item);
-                    }
+                    _coinProfileProperties = GetProperties<CoinProfileData>();
                 }
                 return _coinProfileProperties;
             }
@@ -48,10 +49,7 @@ namespace NTMiner.Data.Impl {
         private static Dictionary<string, PropertyInfo> PoolProfileProperties {
             get {
                 if (_poolProfileProperties == null) {
-                    _poolProfileProperties = new Dictionary<string, PropertyInfo>();
-                    foreach (var item in typeof(PoolProfileData).GetProperties()) {
-                        _poolProfileProperties.Add(item.Name, item);
-                    }
+                    _poolProfileProperties = GetProperties<PoolProfileData>();
                 }
                 return _poolProfileProperties;
             }
@@ -61,10 +59,7 @@ namespace NTMiner.Data.Impl {
         private static Dictionary<string, PropertyInfo> CoinKernelProfileProperties {
             get {
                 if (_coinKernelProfileProperties == null) {
-                    _coinKernelProfileProperties = new Dictionary<string, PropertyInfo>();
-                    foreach (var item in typeof(CoinKernelProfileData).GetProperties()) {
-                        _coinKernelProfileProperties.Add(item.Name, item);
-                    }
+                    _coinKernelProfileProperties = GetProperties<CoinKernelProfileData>();
                 }
                 return _coinKernelProfileProperties;
             }

@@ -9,6 +9,8 @@ using System.Reflection;
 
 namespace NTMiner.Core.Profiles {
     internal class MinerProfile : IWorkProfile {
+        public class IgnoreReflectionSetAttribute : Attribute { }
+
         private readonly INTMinerRoot _root;
 
         private MinerProfileData _data;
@@ -50,11 +52,15 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        [IgnoreReflectionSet]
+        public IMineWork MineWork { get; private set; }
+
         #region IMinerProfile
         public Guid GetId() {
             return this.Id;
         }
 
+        [IgnoreReflectionSet]
         public Guid Id {
             get { return _data.Id; }
             private set {
@@ -200,19 +206,27 @@ namespace NTMiner.Core.Profiles {
         }
 
         private static Dictionary<string, PropertyInfo> _properties;
+        [IgnoreReflectionSet]
         private static Dictionary<string, PropertyInfo> Properties {
             get {
                 if (_properties == null) {
-                    _properties = new Dictionary<string, PropertyInfo>();
-                    foreach (var item in typeof(MinerProfile).GetProperties()) {
-                        _properties.Add(item.Name, item);
-                    }
+                    _properties = GetPropertiesCanSet<MinerProfile>();
                 }
                 return _properties;
             }
         }
 
-        public int WalletCount => throw new NotImplementedException();
+        private static Dictionary<string, PropertyInfo> GetPropertiesCanSet<T>() {
+            var properties = new Dictionary<string, PropertyInfo>();
+            Type attrubuteType = typeof(IgnoreReflectionSetAttribute);
+            foreach (var propertyInfo in typeof(T).GetProperties().Where(a => a.CanWrite)) {
+                if (propertyInfo.GetCustomAttributes(attrubuteType, inherit: false).Length > 0) {
+                    continue;
+                }
+                _properties.Add(propertyInfo.Name, propertyInfo);
+            }
+            return properties;
+        }
 
         public void SetValue(string propertyName, object value) {
             if (Properties.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
@@ -247,8 +261,6 @@ namespace NTMiner.Core.Profiles {
         }
         #endregion
 
-        public IMineWork MineWork { get; private set; }
-
         public ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId) {
             return _coinKernelProfileSet.GetCoinKernelProfile(coinKernelId);
         }
@@ -271,6 +283,13 @@ namespace NTMiner.Core.Profiles {
 
         public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
             _poolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
+        }
+
+        [IgnoreReflectionSet]
+        public int WalletCount {
+            get {
+                return _walletSet.WalletCount;
+            }
         }
 
         public bool ContainsWallet(Guid walletId) {
@@ -363,6 +382,7 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
+                [IgnoreReflectionSet]
                 public Guid CoinKernelId {
                     get => _data.CoinKernelId;
                     private set {
@@ -417,13 +437,11 @@ namespace NTMiner.Core.Profiles {
                 }
 
                 private static Dictionary<string, PropertyInfo> _properties;
+                [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
                     get {
                         if (_properties == null) {
-                            _properties = new Dictionary<string, PropertyInfo>();
-                            foreach (var item in typeof(CoinKernelProfile).GetProperties()) {
-                                _properties.Add(item.Name, item);
-                            }
+                            _properties = GetPropertiesCanSet<CoinKernelProfile>();
                         }
                         return _properties;
                     }
@@ -530,6 +548,7 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
+                [IgnoreReflectionSet]
                 public Guid CoinId {
                     get => _data.CoinId;
                     private set {
@@ -602,14 +621,11 @@ namespace NTMiner.Core.Profiles {
                 }
 
                 private static Dictionary<string, PropertyInfo> _properties;
-
+                [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
                     get {
                         if (_properties == null) {
-                            _properties = new Dictionary<string, PropertyInfo>();
-                            foreach (var item in typeof(CoinProfile).GetProperties()) {
-                                _properties.Add(item.Name, item);
-                            }
+                            _properties = GetPropertiesCanSet<CoinProfile>();
                         }
                         return _properties;
                     }
@@ -722,6 +738,7 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
+                [IgnoreReflectionSet]
                 public Guid PoolId {
                     get => _data.PoolId;
                     private set {
@@ -750,14 +767,11 @@ namespace NTMiner.Core.Profiles {
                 }
 
                 private static Dictionary<string, PropertyInfo> _properties;
-
+                [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
                     get {
                         if (_properties == null) {
-                            _properties = new Dictionary<string, PropertyInfo>();
-                            foreach (var item in typeof(PoolProfile).GetProperties()) {
-                                _properties.Add(item.Name, item);
-                            }
+                            _properties = GetPropertiesCanSet<PoolProfile>();
                         }
                         return _properties;
                     }
