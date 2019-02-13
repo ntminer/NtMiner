@@ -8,6 +8,12 @@
             }
         }
 
+        public CoinViewModels CoinVms {
+            get {
+                return CoinViewModels.Current;
+            }
+        }
+
         public MinerProfileViewModel MinerProfile {
             get {
                 return MinerProfileViewModel.Current;

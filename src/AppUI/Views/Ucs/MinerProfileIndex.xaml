@@ -157,7 +157,7 @@
 						Height="30"
 						Width="136" 
 						DropDownOpened="KbComboBox_DropDownOpened"
-						ItemsSource="{Binding MinerProfile.CoinVms.MainCoins}" 
+						ItemsSource="{Binding CoinVms.MainCoins}" 
 						DisplayMemberPath="CodeAlgo"
 						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
 						SelectedItem="{Binding MinerProfile.CoinVm}">

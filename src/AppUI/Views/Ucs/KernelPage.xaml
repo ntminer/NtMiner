@@ -120,7 +120,7 @@
                         Padding="4 1"
                         Height="20"
                         MinWidth="66"
-                        ItemsSource="{Binding MinerProfile.CoinVms.PleaseSelect}" 
+                        ItemsSource="{Binding CoinVms.PleaseSelect}" 
 						SelectedValuePath="Code"
                         DisplayMemberPath="Code"
                         SelectedItem="{Binding SelectedCoinVm}">

@@ -188,7 +188,7 @@
 						</Grid.RowDefinitions>
 						<Border
 							Grid.Column="0" Grid.Row="0"
-							BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 1"
+							BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"
 							IsEnabled="{Binding IsReadOnly, Converter={StaticResource BooleanInvertConverter}}">
 							<uc:MinerProfileIndex />
 						</Border>
@@ -323,7 +323,7 @@
 						</TabControl>
 
 						<!--下状态栏-->
-						<uc:StateBar Grid.Row="1" Grid.ColumnSpan="2" Background="#EBF2F9">
+						<uc:StateBar Grid.Row="1" Grid.ColumnSpan="2" Background="#EBF2F9" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 						</uc:StateBar>
 					</Grid>
 				</TabItem>
