@@ -101,9 +101,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsNotReadOnly {
+        public bool IsReadOnly {
             get {
-                if (WorkId == Guid.Empty) {
+                if (WorkId != Guid.Empty) {
                     return true;
                 }
                 return false;

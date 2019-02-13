@@ -450,7 +450,7 @@
                                 <DataGridTemplateColumn.Header>
                                     <WrapPanel>
                                         <TextBlock Text="{DynamicResource Wallet}"></TextBlock>
-                                        <TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentCoin.Wallets.Count, Source={StaticResource proxy}}"></TextBlock>
+                                        <TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentCoin.Wallets.WalletCount, Source={StaticResource proxy}}"></TextBlock>
                                     </WrapPanel>
                                 </DataGridTemplateColumn.Header>
                             </DataGridTemplateColumn>

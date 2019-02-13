@@ -122,7 +122,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private bool _isInited = false;
         private object _locker = new object();
 
-        public int Count {
+        public int WalletCount {
             get {
                 InitOnece();
                 return _dicById.Count;
@@ -169,7 +169,7 @@ namespace NTMiner.Core.Profiles.Impl {
             }
         }
 
-        public bool Contains(Guid walletId) {
+        public bool ContainsWallet(Guid walletId) {
             InitOnece();
             return _dicById.ContainsKey(walletId);
         }
