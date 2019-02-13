@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MinerProfileViewModel : ViewModelBase, IMinerProfile {
-        public static readonly MinerProfileViewModel Current = new MinerProfileViewModel();
+        public static readonly MinerProfileViewModel Current = new MinerProfileViewModel(Guid.Empty);
 
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
@@ -19,11 +19,12 @@ namespace NTMiner.Vms {
         private Visibility _isWatermarkVisible = Visibility.Visible;
 
         public ICommand CustomTheme { get; private set; }
-
-        private MinerProfileViewModel() {
+        private readonly Guid _workId;
+        private MinerProfileViewModel(Guid workId) {
             if (Design.IsInDesignMode) {
                 return;
             }
+            _workId = workId;
             this.CustomTheme = new DelegateCommand(() => {
                 LogColor.ShowWindow();
             });
@@ -203,10 +204,7 @@ namespace NTMiner.Vms {
 
         public bool IsReadOnly {
             get {
-                if (CommandLineArgs.IsWorkEdit) {
-                    return false;
-                }
-                if (CommandLineArgs.WorkId != Guid.Empty) {
+                if (_workId != Guid.Empty) {
                     return true;
                 }
                 return false;

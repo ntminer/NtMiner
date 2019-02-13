@@ -1,5 +1,4 @@
-﻿using NTMiner.MinerServer;
-using NTMiner.Profile;
+﻿using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,10 +10,10 @@ namespace NTMiner.Core.Profiles {
         private readonly INTMinerRoot _root;
 
         private MinerProfileData _data;
-
+        private readonly Guid _workId;
         private MinerProfileData GetMinerProfileData() {
-            if (CommandLineArgs.WorkId != Guid.Empty) {
-                return Server.ProfileService.GetMinerProfile(CommandLineArgs.WorkId);
+            if (_workId != Guid.Empty) {
+                return Server.ProfileService.GetMinerProfile(_workId);
             }
             else {
                 IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
@@ -29,8 +28,9 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        public MinerProfile(INTMinerRoot root) {
+        public MinerProfile(INTMinerRoot root, Guid workId) {
             _root = root;
+            _workId = workId;
             _data = GetMinerProfileData();
             if (_data == null) {
                 throw new ValidationException("未获取到MinerProfileData数据，请重试");
@@ -205,9 +205,9 @@ namespace NTMiner.Core.Profiles {
                         value = DictionaryExtensions.ConvertToGuid(value);
                     }
                     propertyInfo.SetValue(this, value, null);
-                    if (CommandLineArgs.WorkId != Guid.Empty) {
+                    if (_workId != Guid.Empty) {
                         if (CommandLineArgs.IsControlCenter) {
-                            Server.ControlCenterService.SetMinerProfilePropertyAsync(CommandLineArgs.WorkId, propertyName, value, isSuccess => {
+                            Server.ControlCenterService.SetMinerProfilePropertyAsync(_workId, propertyName, value, isSuccess => {
                                 VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                             });
                         }
