@@ -197,7 +197,7 @@
 								Width="134"
 								Height="40"
 								Command="{Binding StartMine}" 
-								Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+								Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
 								Background="#00CA72">
 								<WrapPanel>
 									<Path
@@ -216,7 +216,7 @@
 							</controls:KbButton>
 							<Button                        
 								Command="{Binding StopMine}" 
-								Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+								Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
 								<Button.Template>
 									<ControlTemplate>
 										<Border x:Name="Content"
@@ -231,7 +231,7 @@
 													Fill="White"
 													Stretch="Fill">
 													<Path.RenderTransform>
-														<RotateTransform Angle="{Binding MinerProfile.LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
+														<RotateTransform Angle="{Binding StateBarVm.LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
 													</Path.RenderTransform>
 												</Path>
 												<Label

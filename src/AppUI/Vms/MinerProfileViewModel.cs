@@ -26,20 +26,6 @@ namespace NTMiner.Vms {
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });
-            VirtualRoot.Access<MineStartedEvent>(
-                Guid.Parse("36B6B69F-37E3-44BE-9CA9-20D6764E7058"),
-                "挖矿开始后刷新MinerProfileVM的IsMinig属性",
-                LogEnum.Console,
-                action: message => {
-                    this.OnPropertyChanged(nameof(this.IsMining));
-                });
-            VirtualRoot.Access<MineStopedEvent>(
-                Guid.Parse("C4C1308A-1C04-4094-91A2-D11993C626A0"),
-                "挖矿停止后刷新MinerProfileVM的IsMinig属性",
-                LogEnum.Console,
-                action: message => {
-                    this.OnPropertyChanged(nameof(this.IsMining));
-                });
 
             VirtualRoot.Access<RefreshArgsAssemblyCommand>(
                 Guid.Parse("4931C5C3-178F-4867-B615-215F0744C1EB"),
@@ -102,12 +88,6 @@ namespace NTMiner.Vms {
         public CoinViewModels CoinVms {
             get {
                 return CoinViewModels.Current;
-            }
-        }
-
-        public bool IsMining {
-            get {
-                return NTMinerRoot.Current.IsMining;
             }
         }
 

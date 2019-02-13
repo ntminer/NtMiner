@@ -43,6 +43,7 @@ namespace NTMiner.Vms {
                 LogEnum.Console,
                 action: message => {
                     t.Start();
+                    this.OnPropertyChanged(nameof(this.IsMining));
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
             VirtualRoot.Access<MineStopedEvent>(
@@ -51,8 +52,15 @@ namespace NTMiner.Vms {
                 LogEnum.Console,
                 action: message => {
                     t.Stop();
+                    this.OnPropertyChanged(nameof(this.IsMining));
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
+        }
+
+        public bool IsMining {
+            get {
+                return NTMinerRoot.Current.IsMining;
+            }
         }
 
         public GpuSpeedViewModels GpuSpeedVms {

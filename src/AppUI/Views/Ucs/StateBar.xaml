@@ -226,13 +226,13 @@
 					<WrapPanel>
 						<TextBlock 
 							Text="{DynamicResource TbUnMining}" 
-							Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+							Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
 							FontWeight="Bold" 
 							Foreground="{StaticResource LableColor}"
 							VerticalAlignment="Center"></TextBlock>
 						<TextBlock 
 							Text="{DynamicResource TbMining}" 
-							Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}" 
+							Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}" 
 							FontWeight="Bold" 
 							VerticalAlignment="Center"></TextBlock>
 						<TextBlock 

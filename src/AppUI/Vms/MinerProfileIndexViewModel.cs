@@ -13,5 +13,11 @@
                 return MinerProfileViewModel.Current;
             }
         }
+
+        public StateBarViewModel StateBarVm {
+            get {
+                return StateBarViewModel.Current;
+            }
+        }
     }
 }

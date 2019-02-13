@@ -95,6 +95,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public StateBarViewModel StateBarVm {
+            get {
+                return StateBarViewModel.Current;
+            }
+        }
+
         public Guid WorkId {
             get {
                 return CommandLineArgs.WorkId;
