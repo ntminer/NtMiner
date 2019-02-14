@@ -12,9 +12,11 @@ namespace NTMiner {
     public class HostRoot : IHostRoot {
         static void Main(string[] args) {
             string baseAddress = "http://localhost:3339";
+            Console.Title = baseAddress + " Enter exit to quit.";
             HttpServer.Start(baseAddress);
-            Console.WriteLine(baseAddress);
-            Console.WriteLine("Enter exit to quit.");
+            new Windows.ConsoleHandler(() => {
+                HttpServer.Stop();
+            }).Handle();
             string line = Console.ReadLine();
             while (line != "exit") {
                 line = Console.ReadLine();

@@ -109,6 +109,7 @@
     <Compile Include="User\Impl\UserSet.cs" />
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
+    <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\Registry.cs" />
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />
