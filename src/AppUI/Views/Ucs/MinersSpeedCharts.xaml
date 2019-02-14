@@ -15,11 +15,7 @@
 		<vm:MinersSpeedChartsViewModel></vm:MinersSpeedChartsViewModel>
 	</UserControl.DataContext>
 	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
-		</Grid.RowDefinitions>
-		<WrapPanel Margin="4 0 0 0">
+		<WrapPanel Margin="4 -3 0 0">
 			<TextBlock 
 				VerticalAlignment="Center" 
 				Text="{Binding TotalMiningCount}" 
@@ -28,12 +24,9 @@
 				FontSize="16" FontWeight="Bold"></TextBlock>
 			<TextBlock VerticalAlignment="Center" Text="/" FontSize="16" FontWeight="Bold"></TextBlock>
 			<TextBlock VerticalAlignment="Center" Text="{Binding TotalOnlineCount}" ToolTip="总在线数" FontSize="16" FontWeight="Bold"></TextBlock>
-			<TextBlock VerticalAlignment="Center" Margin="10 0 0 0">刷新周期：每</TextBlock>
-			<TextBlock VerticalAlignment="Center" Margin="4 0" Foreground="Red">2</TextBlock>
-			<TextBlock VerticalAlignment="Center">分钟</TextBlock>
 		</WrapPanel>
 		<ScrollViewer 
-			Grid.Row="1"						
+			Padding="0 10 0 0"
 			VerticalScrollBarVisibility="Auto"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
 			<ScrollViewer.Resources>
