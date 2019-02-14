@@ -124,9 +124,14 @@
 					</controls:KbButton>
 				</WrapPanel>
 			</WrapPanel>
-			<DataGrid Grid.Row="1" Margin="0" ItemsSource="{Binding List}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
-				  SelectedItem="{Binding CurrentCoin}" RowHeight="36" AutoGenerateColumns="False"
-				  MouseDoubleClick="DataGrid_MouseDoubleClick">
+			<DataGrid 
+				Grid.Row="1" Margin="0" 
+				ItemsSource="{Binding List}" 
+				BorderThickness="0 0 1 0" 
+				CanUserResizeColumns="True"
+				BorderBrush="{StaticResource LineColor}"
+				SelectedItem="{Binding CurrentCoin}" RowHeight="36" AutoGenerateColumns="False"
+				MouseDoubleClick="DataGrid_MouseDoubleClick">
 				<DataGrid.Resources>
 					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
@@ -209,7 +214,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn MaxWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn Width="110" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="{DynamicResource Name}"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -232,7 +237,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn MinWidth="70" Binding="{Binding CodeAlgo}" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn Width="100" Binding="{Binding CodeAlgo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock Text="{DynamicResource Coin}"></TextBlock>
@@ -285,12 +290,13 @@
 					<DataGrid 
 						BorderThickness="0"
 						ItemsSource="{Binding CurrentCoin.Pools}" Padding="0"
+						CanUserResizeColumns="True"
 						MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36">
 						<DataGrid.Resources>
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTemplateColumn Width="140" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="140" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="{DynamicResource Pool}"></TextBlock>
@@ -312,7 +318,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="300" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource PoolServer}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -338,7 +344,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<controls:KbButton 
 										Command="{Binding Data.CurrentCoin.AddPool, Source={StaticResource proxy}}" 
@@ -441,12 +447,13 @@
 					<DataGrid 
 						BorderThickness="0"
 						ItemsSource="{Binding CurrentCoin.Wallets}" RowHeight="36"
+						CanUserResizeColumns="True"
 						MouseDoubleClick="WalletDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTemplateColumn Width="*" CellTemplate="{StaticResource WalletAddressDataTemplate}" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="420" CellTemplate="{StaticResource WalletAddressDataTemplate}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="{DynamicResource Wallet}"></TextBlock>
@@ -572,20 +579,16 @@
 					</Border>
 				</TabItem.Header>
 				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="23*"/>
-						<ColumnDefinition Width="25*"/>
-						<ColumnDefinition Width="683*"/>
-					</Grid.ColumnDefinitions>
 					<DataGrid 
 						BorderThickness="0"
 						ItemsSource="{Binding CurrentCoin.CoinKernels}"
+						CanUserResizeColumns="True"
 						MouseDoubleClick="KernelDataGrid_MouseDoubleClick" Grid.ColumnSpan="3">
 						<DataGrid.Resources>
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTextColumn MinWidth="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
+							<DataGridTextColumn Width="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
 								<DataGridTextColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="{DynamicResource Kernel}"></TextBlock>
@@ -593,7 +596,7 @@
 									</WrapPanel>
 								</DataGridTextColumn.Header>
 							</DataGridTextColumn>
-							<DataGridTemplateColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="70" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource SupportedGpu}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -622,7 +625,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="160" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="160" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource DualCoinGroup}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -645,7 +648,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource Args}"></TextBlock>
 								</DataGridTemplateColumn.Header>

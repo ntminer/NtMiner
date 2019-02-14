@@ -34,13 +34,16 @@
         </sys:String>
     </UserControl.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding GpuSpeedVms}" Background="Transparent" ColumnHeaderHeight="32"
-                  MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
+        <DataGrid 
+            ItemsSource="{Binding GpuSpeedVms}" 
+            Background="Transparent" ColumnHeaderHeight="32"
+            CanUserResizeColumns="True"
+            MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
             <DataGrid.Resources>
                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="Auto" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="Auto" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{DynamicResource DghGpuIndex}"></TextBlock>
@@ -52,7 +55,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="*" MinWidth="120" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -82,7 +85,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="84" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="84" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
                             <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
@@ -96,7 +99,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn 
-                    Width="84" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"
+                    Width="84" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"
                     Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
@@ -110,7 +113,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{DynamicResource DghGpuTemperature}"></TextBlock>
@@ -122,7 +125,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{DynamicResource DghGpuFan}"></TextBlock>
@@ -134,7 +137,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
