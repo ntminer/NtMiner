@@ -30,6 +30,10 @@ namespace NTMiner.Views {
                 return;
             }
             DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
             if (dg.SelectedItem != null) {
                 ((NTMinerFileViewModel)dg.SelectedItem).Edit.Execute(null);
             }

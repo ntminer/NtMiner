@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -33,6 +34,10 @@ namespace NTMiner.Views.Ucs {
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
             if (Vm.CurrentCoin != null) {
                 Vm.CurrentCoin.Edit.Execute(null);
             }
@@ -40,6 +45,10 @@ namespace NTMiner.Views.Ucs {
 
         private void WalletDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
             if (dg.SelectedItem != null) {
                 WalletViewModel walletVm = (WalletViewModel)dg.SelectedItem;
                 walletVm.Edit.Execute(null);
@@ -48,6 +57,10 @@ namespace NTMiner.Views.Ucs {
 
         private void PoolDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
             if (dg.SelectedItem != null) {
                 PoolViewModel poolVm = (PoolViewModel)dg.SelectedItem;
                 poolVm.Edit.Execute(null);
@@ -56,6 +69,10 @@ namespace NTMiner.Views.Ucs {
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
             if (dg.SelectedItem != null) {
                 CoinKernelViewModel kernelVm = (CoinKernelViewModel)dg.SelectedItem;
                 kernelVm.Edit.Execute(null);

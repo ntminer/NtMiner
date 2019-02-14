@@ -1,4 +1,5 @@
 ﻿using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -38,6 +39,10 @@ namespace NTMiner.Views.Ucs {
 
         private void KernelOutputFilterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
             if (dg.SelectedItem != null) {
                 KernelOutputFilterViewModel kernelOutputFilterVm = (KernelOutputFilterViewModel)dg.SelectedItem;
                 kernelOutputFilterVm.Edit.Execute(null);
@@ -46,6 +51,10 @@ namespace NTMiner.Views.Ucs {
 
         private void KernelOutputTranslaterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
             if (dg.SelectedItem != null) {
                 KernelOutputTranslaterViewModel kernelOutputTranslaterVm = (KernelOutputTranslaterViewModel)dg.SelectedItem;
                 kernelOutputTranslaterVm.Edit.Execute(null);

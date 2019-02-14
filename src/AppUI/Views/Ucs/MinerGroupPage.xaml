@@ -15,16 +15,18 @@
         </sys:String>
     </UserControl.Resources>
     <Grid>
-        <DataGrid Margin="0" ItemsSource="{Binding MinerGroupVms.List}" 
-                  BorderThickness="0" RowHeight="40"
-                  MouseDoubleClick="DataGrid_MouseDoubleClick">
+        <DataGrid 
+            Margin="0" ItemsSource="{Binding MinerGroupVms.List}" 
+            CanUserResizeColumns="True"
+            BorderThickness="0" RowHeight="40"
+            MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Resources>
                 <vm:BindingProxy x:Key="proxy" Data="{Binding MinerGroupVms}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="Auto" MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
+                <DataGridTextColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="说明" Binding="{Binding Description}">
+                <DataGridTextColumn Width="300" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="说明" Binding="{Binding Description}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
                     MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"

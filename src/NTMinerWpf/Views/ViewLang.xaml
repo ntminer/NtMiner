@@ -43,13 +43,15 @@
                     KbSystemButtonForeground="#385263" />
             </WrapPanel>
         </DockPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding LangViewItemVms}" 
-                  BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
-                  MouseDoubleClick="LangViewItemDataGrid_MouseDoubleClick">
+        <DataGrid 
+            Grid.Row="1" ItemsSource="{Binding LangViewItemVms}" 
+            CanUserResizeColumns="True"
+            BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
+            MouseDoubleClick="LangViewItemDataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="200" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="键" Binding="{Binding Key}">
+                <DataGridTextColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="键" Binding="{Binding Key}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
+                <DataGridTextColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
                     Width="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
