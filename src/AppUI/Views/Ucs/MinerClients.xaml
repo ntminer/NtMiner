@@ -327,267 +327,13 @@
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="作业"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding ClientDataVm.SelectedMineWork.Name, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="矿工名"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
-								<TextBox 
-									MouseDoubleClick="MinerName_MouseDoubleClick"
-									Tag="{Binding}"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding ClientDataVm.MinerName, Mode=OneWay}" 
-									Visibility="{Binding IsReNameVisible, Converter={StaticResource VisibilityInvertConverter}}" 
-									Width="120"></TextBox>
-								<TextBox 
-									BorderThickness="0"
-									Background="White"
-									Text="{Binding ClientDataVm.MinerNameCopy}"
-									Visibility="{Binding IsReNameVisible}" Width="110"></TextBox>
-								<controls:KbButton 
-									Margin="4 0 0 0"
-									ToolTip="确定" Command="{Binding ReName}"
-									Visibility="{Binding IsReNameVisible}">
-									<Path
-										Width="12"
-										Height="12"
-										Data="{StaticResource Icon_Ok}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
-								<controls:KbButton 
-									Margin="4 0 0 0"
-									ToolTip="取消" Command="{Binding CancelReName}"
-									Visibility="{Binding IsReNameVisible}">
-									<Path
-										Width="12"
-										Height="12"
-										Data="{StaticResource Icon_Close}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="所属组"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									MouseDoubleClick="MinerGroup_MouseDoubleClick"
-									Tag="{Binding}"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding ClientDataVm.SelectedMinerGroup.Name, Mode=OneWay}" 
-									Visibility="{Binding IsChangeGroupVisible, Converter={StaticResource VisibilityInvertConverter}}" 
-									Width="120"></TextBox>
-								<controls:KbComboBox 
-									Width="110"
-									Visibility="{Binding IsChangeGroupVisible}" 
-									VerticalAlignment="Center" 
-									ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
-									DisplayMemberPath="Name"
-									SelectedItem="{Binding ClientDataVm.SelectedMinerGroupCopy}">
-								</controls:KbComboBox>
-								<controls:KbButton 
-									Margin="4 0 0 0"
-									ToolTip="确定" Command="{Binding ChangeGroup}"
-									Visibility="{Binding IsChangeGroupVisible}">
-									<Path
-										Width="12"
-										Height="12"
-										Data="{StaticResource Icon_Ok}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
-								<controls:KbButton 
-									Margin="4 0 0 0"
-									ToolTip="取消" Command="{Binding CancelChangeGroup}"
-									Visibility="{Binding IsChangeGroupVisible}">
-									<Path
-										Width="12"
-										Height="12"
-										Data="{StaticResource Icon_Close}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="IP"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									FontSize="12" 
-									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="主币"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBlock FontSize="12" Text="{Binding ClientDataVm.MainCoinCode}" ToolTip="{Binding ClientDataVm.MainCoinWallet}"></TextBlock>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="矿池"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									Width="130"
-									ToolTip="{Binding ClientDataVm.MainCoinPool}"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									FontSize="12" 
-									Text="{Binding ClientDataVm.MainCoinPool, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="内核"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									FontSize="12" 
-									Text="{Binding ClientDataVm.Kernel, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="双挖钱包"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									FontSize="12" 
-									Text="{Binding ClientDataVm.DualCoinCode, Mode=OneWay}" 
-									ToolTip="{Binding ClientDataVm.DualCoinWallet}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="双挖矿池"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									Width="130"
-									ToolTip="{Binding ClientDataVm.DualCoinPool}"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									FontSize="12" 
-									Text="{Binding ClientDataVm.DualCoinPool, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="显卡"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									Width="146"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									FontSize="12" 
-									ToolTip="{Binding ClientDataVm.GpuInfo}"
-									Text="{Binding ClientDataVm.GpuInfo, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="刷新时间"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock FontSize="12" Text="{Binding ClientDataVm.ModifiedOnText}" Margin="4 0 0 0"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="客户端版本"></TextBlock>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock FontSize="12" Text="{Binding ClientDataVm.Version}" Margin="8 0 0 0"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="110" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="操作"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel Margin="2 0 0 2">
+							<WrapPanel>
 								<controls:KbButton 
 									Command="{Binding StartMine}" 
 									Visibility="{Binding ClientDataVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
@@ -646,6 +392,7 @@
 									</Button.Template>
 								</Button>
 								<Menu 
+									Margin="6 0 0 0"
 									Background="Transparent" 
 									Width="24" Height="16" 
 									Padding="0">
@@ -733,6 +480,255 @@
 									</MenuItem>
 								</Menu>
 							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="作业"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									Text="{Binding ClientDataVm.SelectedMineWork.Name, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="矿工名"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+								<TextBox 
+									MouseDoubleClick="MinerName_MouseDoubleClick"
+									Tag="{Binding}"
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									Text="{Binding ClientDataVm.MinerName, Mode=OneWay}" 
+									Visibility="{Binding IsReNameVisible, Converter={StaticResource VisibilityInvertConverter}}"></TextBox>
+								<TextBox 
+									BorderThickness="0"
+									Background="White"
+									Text="{Binding ClientDataVm.MinerNameCopy}"
+									Visibility="{Binding IsReNameVisible}" Width="80"></TextBox>
+								<controls:KbButton 
+									Margin="4 0 0 0"
+									ToolTip="确定" Command="{Binding ReName}"
+									Visibility="{Binding IsReNameVisible}">
+									<Path
+										Width="12"
+										Height="12"
+										Data="{StaticResource Icon_Ok}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+								</controls:KbButton>
+								<controls:KbButton 
+									Margin="4 0 0 0"
+									ToolTip="取消" Command="{Binding CancelReName}"
+									Visibility="{Binding IsReNameVisible}">
+									<Path
+										Width="12"
+										Height="12"
+										Data="{StaticResource Icon_Close}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+								</controls:KbButton>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="所属组"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBox 
+									MouseDoubleClick="MinerGroup_MouseDoubleClick"
+									Tag="{Binding}"
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									Text="{Binding ClientDataVm.SelectedMinerGroup.Name, Mode=OneWay}" 
+									Visibility="{Binding IsChangeGroupVisible, Converter={StaticResource VisibilityInvertConverter}}"></TextBox>
+								<controls:KbComboBox 
+									Width="80"
+									Visibility="{Binding IsChangeGroupVisible}" 
+									VerticalAlignment="Center" 
+									ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
+									DisplayMemberPath="Name"
+									SelectedItem="{Binding ClientDataVm.SelectedMinerGroupCopy}">
+								</controls:KbComboBox>
+								<controls:KbButton 
+									Margin="4 0 0 0"
+									ToolTip="确定" Command="{Binding ChangeGroup}"
+									Visibility="{Binding IsChangeGroupVisible}">
+									<Path
+										Width="12"
+										Height="12"
+										Data="{StaticResource Icon_Ok}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+								</controls:KbButton>
+								<controls:KbButton 
+									Margin="4 0 0 0"
+									ToolTip="取消" Command="{Binding CancelChangeGroup}"
+									Visibility="{Binding IsChangeGroupVisible}">
+									<Path
+										Width="12"
+										Height="12"
+										Data="{StaticResource Icon_Close}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+								</controls:KbButton>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="IP"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="主币"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock FontSize="12" Text="{Binding ClientDataVm.MainCoinCode}" ToolTip="{Binding ClientDataVm.MainCoinWallet}"></TextBlock>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="矿池"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBox 
+									ToolTip="{Binding ClientDataVm.MainCoinPool}"
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									Text="{Binding ClientDataVm.MainCoinPool, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="内核"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									Text="{Binding ClientDataVm.Kernel, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="双挖钱包"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									Text="{Binding ClientDataVm.DualCoinCode, Mode=OneWay}" 
+									ToolTip="{Binding ClientDataVm.DualCoinWallet}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="双挖矿池"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBox 
+									ToolTip="{Binding ClientDataVm.DualCoinPool}"
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									Text="{Binding ClientDataVm.DualCoinPool, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="显卡"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									ToolTip="{Binding ClientDataVm.GpuInfo}"
+									Text="{Binding ClientDataVm.GpuInfo, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="刷新时间"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock FontSize="12" Text="{Binding ClientDataVm.ModifiedOnText}" Margin="4 0 0 0"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="客户端版本"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock FontSize="12" Text="{Binding ClientDataVm.Version}" Margin="8 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
