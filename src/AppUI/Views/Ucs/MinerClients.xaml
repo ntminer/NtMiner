@@ -594,31 +594,26 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="IP"></TextBlock>
+						<TextBlock Text="主挖币种"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									FontSize="12" 
-									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
+								<TextBlock FontSize="12" Text="{Binding ClientDataVm.MainCoinCode}"></TextBlock>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<TextBlock Text="主币"></TextBlock>
+						<TextBlock Text="主币钱包"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBlock FontSize="12" Text="{Binding ClientDataVm.MainCoinCode}" ToolTip="{Binding ClientDataVm.MainCoinWallet}"></TextBlock>
+								<TextBlock FontSize="12" Text="{Binding ClientDataVm.MainCoinWallet}"></TextBlock>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -660,6 +655,23 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
+						<TextBlock Text="双挖币种"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									Text="{Binding ClientDataVm.DualCoinCode, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
 						<TextBlock Text="双挖钱包"></TextBlock>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
@@ -670,8 +682,7 @@
 									Background="Transparent"
 									IsReadOnly="True"
 									FontSize="12" 
-									Text="{Binding ClientDataVm.DualCoinCode, Mode=OneWay}" 
-									ToolTip="{Binding ClientDataVm.DualCoinWallet}"></TextBox>
+									Text="{Binding ClientDataVm.DualCoinWallet, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -690,6 +701,23 @@
 									IsReadOnly="True"
 									FontSize="12" 
 									Text="{Binding ClientDataVm.DualCoinPool, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="IP"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
