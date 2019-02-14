@@ -19,7 +19,7 @@ namespace NTMiner {
                 return;
             }
 
-            VirtualRoot.Access<HasBoot2SecondEvent>(
+            VirtualRoot.Access<HasBoot5SecondEvent>(
                 Guid.Parse("b4efba26-1f02-42f2-822a-dd38cffd466d"),
                 "登录服务器并报告一次0算力",
                 LogEnum.Console,

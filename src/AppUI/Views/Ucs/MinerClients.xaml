@@ -327,10 +327,7 @@
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="110" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="操作"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn Width="110" Header="操作" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -483,10 +480,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="作业"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="80" Header="作业" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
@@ -499,10 +493,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="矿工名"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="80" Header="矿工名" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
@@ -545,10 +536,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="所属组"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="80" Header="所属组" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -594,10 +582,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="主挖币种"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="60" Header="主挖币种" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -606,10 +591,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="主币钱包"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="60" Header="主币钱包" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -618,10 +600,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="矿池"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="80" Header="矿池" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -636,10 +615,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="内核"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="80" Header="内核" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -653,10 +629,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="双挖币种"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="60" Header="双挖币种" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -670,10 +643,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="双挖钱包"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="60" Header="双挖钱包" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -687,10 +657,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="双挖矿池"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="80" Header="双挖矿池" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -705,10 +672,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="IP"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="80" Header="IP" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -722,10 +686,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="显卡"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="120" Header="显卡" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -740,20 +701,14 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="刷新时间"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="80" Header="刷新时间" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock FontSize="12" Text="{Binding ClientDataVm.ModifiedOnText}" Margin="4 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<TextBlock Text="客户端版本"></TextBlock>
-					</DataGridTemplateColumn.Header>
+				<DataGridTemplateColumn MinWidth="60" Header="客户端版本" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock FontSize="12" Text="{Binding ClientDataVm.Version}" Margin="8 0 0 0"></TextBlock>
