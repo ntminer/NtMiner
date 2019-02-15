@@ -19,10 +19,10 @@ namespace NTMiner.Bus {
                     var tMessageHandler = (DelegateHandler<TMessage>)messageHandler;
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Log) {
-                        Logger.InfoDebugLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                        Logger.InfoDebugLine($"({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                     }
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Console) {
-                        Write.DevLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                        Write.DevLine($"({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                     }
                     this.Dispatching?.Invoke(this, evtArgs);
                     try {

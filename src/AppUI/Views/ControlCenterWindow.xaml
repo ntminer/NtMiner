@@ -33,9 +33,9 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="450"></ColumnDefinition>
-			<ColumnDefinition Width="*"></ColumnDefinition>
-		</Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="450"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 		<!--上标题栏-->
 		<Grid Grid.ColumnSpan="2">
 			<Grid.ColumnDefinitions>
@@ -115,19 +115,19 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<Viewbox Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Stretch="Fill">
+		<Viewbox Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Stretch="Fill">
 			<uc:MinersSpeedCharts Width="960" Height="720">
 			</uc:MinersSpeedCharts>
 		</Viewbox>
 		<notification:NotificationMessageContainer 
 			Grid.Row="1"
-			Grid.Column="1"
+			Grid.Column="0"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Top"
 			MaxWidth="500"
 			Manager="{Binding Manager}" />
 
-		<Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="0">
+		<Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
