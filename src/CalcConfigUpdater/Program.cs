@@ -165,6 +165,9 @@ namespace NTMiner {
                     CoinCode = match.Groups["coinCode"].Value,
                     SpeedUnit = match.Groups["speedUnit"].Value
                 };
+                if (incomeItem.DataCode == "grin-31") {
+                    incomeItem.CoinCode = "grin2";
+                }
                 double speed = 0;
                 double.TryParse(match.Groups["speed"].Value, out speed);
                 incomeItem.Speed = speed;
