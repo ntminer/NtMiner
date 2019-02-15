@@ -96,7 +96,7 @@ namespace NTMiner.Vms {
                             string arguments = NTMinerRegistry.GetArguments();
                             Process.Start(location, arguments);
                             this.IsDownloading = false;
-                            Execute.OnUIThread(() => {
+                            UIThread.Execute(() => {
                                 Application.Current.MainWindow.Close();
                             });
                         });

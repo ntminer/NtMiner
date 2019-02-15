@@ -54,7 +54,7 @@ namespace NTMiner.Views.Ucs {
                 "显卡算力变更后刷新算力图界面",
                 LogEnum.Console,
                 action: (message) => {
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         if (mainCoinId != NTMinerRoot.Current.MinerProfile.CoinId) {
                             mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
                             foreach (var speedChartVm in Vm.SpeedChartVms) {

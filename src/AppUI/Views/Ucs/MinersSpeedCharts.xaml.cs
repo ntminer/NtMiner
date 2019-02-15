@@ -31,7 +31,7 @@ namespace NTMiner.Views.Ucs {
                 LogEnum.Console,
                 action: message => {
                     RefreshTotalSpeedChart(limit: 1);
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         foreach (var item in Vm.TotalVms) {
                             item.SetAxisLimits(message.Timestamp);
                         }
@@ -54,7 +54,7 @@ namespace NTMiner.Views.Ucs {
                     if (response == null) {
                         return;
                     }
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         bool isOnlyOne = limit == 1;
                         Vm.TotalMiningCount = response.TotalMiningCount;
                         Vm.TotalOnlineCount = response.TotalOnlineCount;

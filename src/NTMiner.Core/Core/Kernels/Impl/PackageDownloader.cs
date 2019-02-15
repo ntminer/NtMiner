@@ -23,12 +23,12 @@ namespace NTMiner.Core.Kernels.Impl {
                     webClient.CancelAsync();
                 };
                 webClient.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) => {
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         progressChanged?.Invoke(e.ProgressPercentage);
                     });
                 };
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         bool isSuccess = !e.Cancelled && e.Error == null;
                         if (isSuccess) {
                             Logger.OkDebugLine(package + "下载成功");

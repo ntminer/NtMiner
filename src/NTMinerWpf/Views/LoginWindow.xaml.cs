@@ -27,12 +27,12 @@ namespace NTMiner.Views {
         private void KbButtonLogin_Click(object sender, RoutedEventArgs e) {
             string passwordSha1 = HashUtil.Sha1(TxtPassword.Password);
             Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, response => {
-                Execute.OnUIThread(() => {
+                UIThread.Execute(() => {
                     if (response == null) {
                         Vm.Message = "服务器忙";
                         Vm.MessageVisible = Visibility.Visible;
                         TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            Execute.OnUIThread(() => {
+                            UIThread.Execute(() => {
                                 Vm.MessageVisible = Visibility.Collapsed;
                             });
                         });
@@ -48,7 +48,7 @@ namespace NTMiner.Views {
                         Vm.Message = response.Description;
                         Vm.MessageVisible = Visibility.Visible;
                         TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            Execute.OnUIThread(() => {
+                            UIThread.Execute(() => {
                                 Vm.MessageVisible = Visibility.Collapsed;
                             });
                         });

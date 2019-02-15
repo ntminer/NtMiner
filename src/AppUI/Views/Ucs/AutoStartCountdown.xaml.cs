@@ -35,7 +35,7 @@ namespace NTMiner.Views.Ucs {
                     t.Stop();
                     return;
                 }
-                Execute.OnUIThread(() => {
+                UIThread.Execute(() => {
                     Vm.Seconds = Vm.Seconds - 1;
                     if (Vm.Seconds <= 0) {
                         CloseWindow();

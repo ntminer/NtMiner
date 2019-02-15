@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
                         Key = ServerJsonFileName,
                         Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                     }, response => {
-                        Execute.OnUIThread(() => {
+                        UIThread.Execute(() => {
                             if (response.IsSuccess()) {
                                 ControlCenterWindowViewModel.Current.Manager.CreateMessage()
                                     .Accent("#1751C3")
@@ -232,7 +232,7 @@ namespace NTMiner.Vms {
                                         callback?.Invoke();
                                     }
                                     else {
-                                        Execute.OnUIThread(() => {
+                                        UIThread.Execute(() => {
                                             ControlCenterWindowViewModel.Current.Manager.CreateMessage()
                                                 .Accent("#1751C3")
                                                 .Background("Red")

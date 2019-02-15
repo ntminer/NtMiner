@@ -81,7 +81,7 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DelegateCommand`1.cs" />
     <Compile Include="Design.cs" />
-    <Compile Include="Execute.cs" />
+    <Compile Include="UIThread.cs" />
     <Compile Include="Notifications\ContentLocation.cs" />
     <Compile Include="Notifications\Controls\NotificationMessage.cs" />
     <Compile Include="Notifications\Controls\NotificationMessageButton.cs" />

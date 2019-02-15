@@ -30,7 +30,7 @@ namespace NTMiner {
                 e.Handled = true;
             };
 
-            Execute.InitializeWithDispatcher();
+            UIThread.InitializeWithDispatcher();
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
         }
         #endregion
@@ -40,7 +40,7 @@ namespace NTMiner {
             try {
                 MinerClientService.Instance.ShowMainWindowAsync("localhost", isSuccess=> {
                     RestartNTMiner();
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         app.Shutdown();
                     });
                 });

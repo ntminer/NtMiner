@@ -278,7 +278,7 @@ namespace NTMiner {
                     LogEnum.Console,
                     action: (message) => {
                         if ((this.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsAutoStartCanceled && !this.IsMining) {
-                            Execute.OnUIThread(() => {
+                            UIThread.Execute(() => {
                                 this.StartMine(CommandLineArgs.WorkId);
                             });
                         }
@@ -368,7 +368,7 @@ namespace NTMiner {
                                         JsonFileVersion = value;
                                         ServerJson.Instance.ReInit(rawNTMinerJson);
                                         Logger.InfoDebugLine("ServerJson数据集刷新完成");
-                                        Execute.OnUIThread(() => {
+                                        UIThread.Execute(() => {
                                             var refreshCommands = RefreshCommand.CreateRefreshCommands();
                                             foreach (var refreshCommand in refreshCommands) {
                                                 VirtualRoot.Execute(refreshCommand);

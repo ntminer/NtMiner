@@ -33,7 +33,7 @@ namespace NTMiner.Views.Ucs {
                 "周期刷新在线客户端列表",
                 LogEnum.Console,
                 action: message => {
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         Vm.LoadClients();
                     });
                 });

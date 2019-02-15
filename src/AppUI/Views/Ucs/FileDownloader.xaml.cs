@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
             string downloadFileUrl, string fileTitle,
             // window, isSuccess, message, saveFileFullName, etagValue
             Action<ContainerWindow, bool, string, string> downloadComplete) {
-            Execute.OnUIThread(() => {
+            UIThread.Execute(() => {
                 ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                     IconName = "Icon_Download",
                     CloseVisible = System.Windows.Visibility.Visible,

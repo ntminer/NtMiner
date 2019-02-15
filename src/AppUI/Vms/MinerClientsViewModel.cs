@@ -207,7 +207,7 @@ namespace NTMiner.Vms {
                 dualCoin, dualCoinPool, dualCoinWallet,
                 this.Version, this.Kernel, (response) => {
                     if (response != null) {
-                        Execute.OnUIThread(() => {
+                        UIThread.Execute(() => {
                             this.MinerClients = response.Data.Select(a => new MinerClientViewModel(a)).ToList();
                             OnPropertyChanged(nameof(MinerClientTotal));
                             OnPropertyChanged(nameof(MinerClientPageCount));
@@ -221,7 +221,7 @@ namespace NTMiner.Vms {
 
         public void LoadClients() {
             Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.ClientDataVm.Id).ToList(), (response) => {
-                Execute.OnUIThread(() => {
+                UIThread.Execute(() => {
                     if (response != null) {
                         foreach (var item in this.MinerClients) {
                             ClientData data = response.Data.FirstOrDefault(a => a.Id == item.ClientDataVm.Id);

@@ -44,7 +44,7 @@ namespace NTMiner {
                 splashWindow.Show();
                 NTMinerRoot.Current.Init(() => {
                     NTMinerRoot.KernelDownloader = new KernelDownloader();
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         bool? result = true;
                         if (string.IsNullOrEmpty(Server.LoginName) || string.IsNullOrEmpty(Server.PasswordSha1)) {
                             LoginWindow loginWindow = new LoginWindow();
@@ -67,7 +67,7 @@ namespace NTMiner {
                                 "处理显示主界面命令",
                                 LogEnum.None,
                                 action: message => {
-                                    Execute.OnUIThread(() => {
+                                    UIThread.Execute(() => {
                                         Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
                                     });
                                 });

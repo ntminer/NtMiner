@@ -70,7 +70,7 @@ namespace NTMiner {
         private void OnNTMinerRootInited() {
             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Access();
             NTMinerRoot.KernelDownloader = new KernelDownloader();
-            Execute.OnUIThread(() => {
+            UIThread.Execute(() => {
                 Window splashWindow = MainWindow;
                 MainWindow window = new MainWindow();
                 IMainWindow mainWindow = window;
@@ -85,7 +85,7 @@ namespace NTMiner {
                     "处理显示主界面命令",
                     LogEnum.None,
                     action: message => {
-                        Execute.OnUIThread(() => {
+                        UIThread.Execute(() => {
                             Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
                         });
                     });

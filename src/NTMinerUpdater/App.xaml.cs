@@ -29,7 +29,7 @@ namespace NTMiner {
                 e.Handled = true;
             };
 
-            Execute.InitializeWithDispatcher();
+            UIThread.InitializeWithDispatcher();
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
             Logger.InfoDebugLine("App.InitializeComponent start");
             InitializeComponent();

@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
                     Server.FileUrlService.AddOrUpdateNTMinerFileAsync(new NTMinerFileData().Update(this), response => {
                         if (response.IsSuccess()) {
                             MainWindowViewModel.Current.Refresh();
-                            Execute.OnUIThread(() => {
+                            UIThread.Execute(() => {
                                 TopWindow.GetTopWindow()?.Close();
                             });
                         }

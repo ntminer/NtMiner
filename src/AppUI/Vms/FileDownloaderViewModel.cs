@@ -103,7 +103,7 @@ namespace NTMiner.Vms {
                     this.BtnCancelVisible = Visibility.Collapsed;
                     string etagValue = webClient.ResponseHeaders.Get("ETag").Trim('"');
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                        Execute.OnUIThread(() => {
+                        UIThread.Execute(() => {
                             downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                         });
                     });

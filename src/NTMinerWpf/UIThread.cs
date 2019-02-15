@@ -2,7 +2,7 @@
 using System.Windows.Threading;
 
 namespace NTMiner {
-    public static class Execute {
+    public static class UIThread {
         private static Action<Action> executor = action => action();
 
         public static void InitializeWithDispatcher() {
@@ -14,7 +14,7 @@ namespace NTMiner {
             };
         }
 
-        public static void OnUIThread(this Action action) {
+        public static void Execute(this Action action) {
             executor(action);
         }
     }
