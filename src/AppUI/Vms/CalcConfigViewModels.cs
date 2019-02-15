@@ -12,6 +12,9 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public CalcConfigViewModels() {
+            if (!Design.IsInDesignMode) {
+                return;
+            }
             this.Save = new DelegateCommand(() => {
                 NTMinerRoot.Current.CalcConfigSet.SaveCalcConfigs(this.CalcConfigVms.Select(a => new CalcConfigData(a)).ToList());
                 CloseWindow?.Invoke();
