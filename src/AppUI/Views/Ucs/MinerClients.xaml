@@ -98,7 +98,7 @@
 				<Label Margin="8 0 0 0">内核</Label>
 				<TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding Kernel}" Background="Transparent"></TextBox>
 			</WrapPanel>
-			<StackPanel Visibility="{Binding IsMineWorkSelected, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+			<StackPanel IsEnabled="{Binding IsMineWorkSelected}">
 				<WrapPanel>
 					<controls:KbLinkButton 
 						KbDisplayLine="False"
@@ -126,7 +126,7 @@
 						SelectedItem="{Binding MainCoin}"></controls:KbComboBox>
 					<WrapPanel 
 						Margin="20 0 0 0" 
-						Visibility="{Binding IsMainCoinSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+						IsEnabled="{Binding IsMainCoinSelected}">
 						<controls:KbLinkButton 
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent" 
@@ -154,7 +154,7 @@
 							SelectedValuePath="Server"
 							SelectedItem="{Binding MainCoinPool}"></controls:KbComboBox>
 					</WrapPanel>
-					<WrapPanel Visibility="{Binding IsMainCoinSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+					<WrapPanel IsEnabled="{Binding IsMainCoinSelected}">
 						<controls:KbLinkButton 
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent" 
@@ -210,7 +210,7 @@
 						SelectedItem="{Binding DualCoin}"></controls:KbComboBox>
 					<WrapPanel 
 						Margin="20 0 0 0" 
-						Visibility="{Binding IsDualCoinSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+						IsEnabled="{Binding IsDualCoinSelected}">
 						<controls:KbLinkButton 
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent" 
@@ -238,7 +238,7 @@
 							SelectedValuePath="Server"
 							SelectedItem="{Binding DualCoinPool}"></controls:KbComboBox>
 					</WrapPanel>
-					<WrapPanel Visibility="{Binding IsDualCoinSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+					<WrapPanel IsEnabled="{Binding IsDualCoinSelected}">
 						<controls:KbLinkButton 
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent" 
@@ -482,7 +482,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Header="作业" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="作业" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
@@ -495,7 +495,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Header="矿工名" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="矿工名" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
@@ -537,8 +537,22 @@
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" Header="所属组" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="IP" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="组队" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -584,7 +598,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" Header="主挖币种" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="主挖币种" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -592,8 +606,17 @@
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" Header="主币钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="主币算力" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock FontSize="12" Text="{Binding ClientDataVm.MainCoinSpeedText}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="主币钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -602,7 +625,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Header="矿池" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="主币矿池" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -617,7 +640,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Header="内核" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="内核" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -631,7 +654,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" Header="双挖币种" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="双挖币种" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -644,8 +667,22 @@
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" Header="双挖钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="双挖算力" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									FontSize="12" 
+									Text="{Binding ClientDataVm.DualCoinSpeedText, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="双挖钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -659,7 +696,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Header="双挖矿池" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="双挖矿池" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -674,21 +711,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Header="IP" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									FontSize="12" 
-									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="120" Header="显卡" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="显卡" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -703,14 +726,14 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="80" Header="刷新时间" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="刷新时间" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock FontSize="12" Text="{Binding ClientDataVm.ModifiedOnText}" Margin="4 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" Header="客户端版本" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="客户端版本" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock FontSize="12" Text="{Binding ClientDataVm.Version}" Margin="8 0 0 0"></TextBlock>

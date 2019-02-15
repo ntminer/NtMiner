@@ -176,6 +176,9 @@ namespace NTMiner.Vms {
         }
 
         private string _minerNameCopy;
+        private long _mainCoinSpeed;
+        private long _dualCoinSpeed;
+
         public string MinerNameCopy {
             get => _minerNameCopy;
             set {
@@ -211,6 +214,21 @@ namespace NTMiner.Vms {
                 CoinViewModel coinVm;
                 CoinViewModels.Current.TryGetCoinVm(this.MainCoinCode, out coinVm);
                 return coinVm;
+            }
+        }
+
+        public long MainCoinSpeed {
+            get => _mainCoinSpeed;
+            set {
+                _mainCoinSpeed = value;
+                OnPropertyChanged(nameof(MainCoinSpeed));
+                OnPropertyChanged(nameof(MainCoinSpeedText));
+            }
+        }
+
+        public string MainCoinSpeedText {
+            get {
+                return this.MainCoinSpeed.ToUnitSpeedText();
             }
         }
 
@@ -269,6 +287,21 @@ namespace NTMiner.Vms {
                 CoinViewModel coinVm;
                 CoinViewModels.Current.TryGetCoinVm(this.DualCoinCode, out coinVm);
                 return coinVm;
+            }
+        }
+
+        public long DualCoinSpeed {
+            get => _dualCoinSpeed;
+            set {
+                _dualCoinSpeed = value;
+                OnPropertyChanged(nameof(DualCoinSpeed));
+                OnPropertyChanged(nameof(DualCoinSpeedText));
+            }
+        }
+
+        public string DualCoinSpeedText {
+            get {
+                return this.DualCoinSpeed.ToUnitSpeedText();
             }
         }
 
