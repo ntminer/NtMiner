@@ -7,7 +7,8 @@ namespace NTMiner.MinerServer {
         public string LoginName { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
-        public Guid? MineWorkId { get; set; }
+        public Guid? GroupId { get; set; }
+        public Guid? WorkId { get; set; }
         public string MinerIp { get; set; }
         public string MinerName { get; set; }
         public MineStatus MineState { get; set; }
@@ -31,7 +32,8 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(PageIndex)).Append(PageIndex)
                 .Append(nameof(PageSize)).Append(PageSize)
-                .Append(nameof(MineWorkId)).Append(MineWorkId)
+                .Append(nameof(GroupId)).Append(GroupId)
+                .Append(nameof(WorkId)).Append(WorkId)
                 .Append(nameof(MinerIp)).Append(MinerIp)
                 .Append(nameof(MinerName)).Append(MinerName)
                 .Append(nameof(MineState)).Append(MineState)

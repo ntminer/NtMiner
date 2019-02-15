@@ -124,7 +124,8 @@ namespace NTMiner.Data.Impl {
         public List<ClientData> QueryClients(
             int pageIndex,
             int pageSize,
-            Guid? mineWorkId,
+            Guid? groupId,
+            Guid? workId,
             string minerIp,
             string minerName,
             MineStatus mineState,
@@ -140,12 +141,15 @@ namespace NTMiner.Data.Impl {
             InitOnece();
             lock (_locker) {
                 IQueryable<ClientData> query = _dicById.Values.AsQueryable();
-                if (mineWorkId != null && mineWorkId.Value != Guid.Empty) {
-                    query = query.Where(a => a.WorkId == mineWorkId.Value);
+                if (groupId != null && groupId.Value != Guid.Empty) {
+                    query = query.Where(a => a.GroupId == groupId.Value);
+                }
+                if (workId != null && workId.Value != Guid.Empty) {
+                    query = query.Where(a => a.WorkId == workId.Value);
                 }
                 else {
-                    if (mineWorkId != null) {
-                        query = query.Where(a => a.WorkId == mineWorkId.Value);
+                    if (workId != null) {
+                        query = query.Where(a => a.WorkId == workId.Value);
                     }
                     if (!string.IsNullOrEmpty(mainCoin)) {
                         query = query.Where(a => a.MainCoinCode == mainCoin);

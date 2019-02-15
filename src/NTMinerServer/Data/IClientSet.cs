@@ -23,7 +23,8 @@ namespace NTMiner.Data {
         List<ClientData> QueryClients(
             int pageIndex,
             int pageSize,
-            Guid? mineWorkId,
+            Guid? groupId,
+            Guid? workId,
             string minerIp,
             string minerName,
             MineStatus mineState,

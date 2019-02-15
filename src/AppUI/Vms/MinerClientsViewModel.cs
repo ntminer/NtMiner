@@ -164,9 +164,13 @@ namespace NTMiner.Vms {
 
         public void QueryMinerClients() {
             int total = _minerClientTotal;
-            Guid? mineWorkId = null;
+            Guid? groupId = null;
+            if (SelectedMinerGroup != MinerGroupViewModel.PleaseSelect) {
+                groupId = SelectedMinerGroup.Id;
+            }
+            Guid? workId = null;
             if (SelectedMineWork != MineWorkViewModel.PleaseSelect) {
-                mineWorkId = SelectedMineWork.Id;
+                workId = SelectedMineWork.Id;
             }
             string mainCoin = string.Empty;
             string dualCoin = string.Empty;
@@ -174,7 +178,7 @@ namespace NTMiner.Vms {
             string dualCoinPool = string.Empty;
             string mainCoinWallet = string.Empty;
             string dualCoinWallet = string.Empty;
-            if (mineWorkId == null || mineWorkId.Value == Guid.Empty) {
+            if (workId == null || workId.Value == Guid.Empty) {
                 if (this.MainCoin != CoinViewModel.PleaseSelect) {
                     mainCoin = this.MainCoin.Code;
                     if (this.MainCoinPool != null) {
@@ -200,11 +204,17 @@ namespace NTMiner.Vms {
             Server.ControlCenterService.QueryClientsAsync(
                 this.MinerClientPageIndex,
                 this.MinerClientPageSize,
-                mineWorkId,
-                this.MinerIp, this.MinerName,
+                groupId,
+                workId,
+                this.MinerIp, 
+                this.MinerName,
                 this.MineStatusEnumItem.Value,
-                mainCoin, mainCoinPool, mainCoinWallet,
-                dualCoin, dualCoinPool, dualCoinWallet,
+                mainCoin, 
+                mainCoinPool, 
+                mainCoinWallet,
+                dualCoin, 
+                dualCoinPool, 
+                dualCoinWallet,
                 this.Version, this.Kernel, (response) => {
                     if (response != null) {
                         UIThread.Execute(() => {
@@ -467,6 +477,7 @@ namespace NTMiner.Vms {
             set {
                 _selectedMinerGroup = value;
                 OnPropertyChanged(nameof(SelectedMinerGroup));
+                QueryMinerClients();
             }
         }
 

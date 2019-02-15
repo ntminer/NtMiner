@@ -63,11 +63,22 @@ namespace NTMiner.Controllers {
                 }
                 int total;
                 var data = HostRoot.Current.ClientSet.QueryClients(
-                    request.PageIndex, request.PageSize, request.MineWorkId,
-                    request.MinerIp, request.MinerName, request.MineState,
-                    request.MainCoin, request.MainCoinPool, request.MainCoinWallet,
-                    request.DualCoin, request.DualCoinPool, request.DualCoinWallet,
-                    request.Version, request.Kernel, out total) ?? new List<ClientData>();
+                    request.PageIndex, 
+                    request.PageSize, 
+                    request.GroupId, 
+                    request.WorkId,
+                    request.MinerIp, 
+                    request.MinerName, 
+                    request.MineState,
+                    request.MainCoin, 
+                    request.MainCoinPool, 
+                    request.MainCoinWallet,
+                    request.DualCoin, 
+                    request.DualCoinPool, 
+                    request.DualCoinWallet,
+                    request.Version, 
+                    request.Kernel, 
+                    out total) ?? new List<ClientData>();
                 return QueryClientsResponse.Ok(request.MessageId, data, total);
             }
             catch (Exception e) {
