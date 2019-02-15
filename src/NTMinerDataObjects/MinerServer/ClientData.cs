@@ -28,6 +28,8 @@ namespace NTMiner.MinerServer {
             set => _mainCoinCode = value;
         }
 
+        public long MainCoinSpeed { get; set; }
+
         public string MainCoinPool { get; set; }
 
         public string MainCoinWallet { get; set; }
@@ -40,6 +42,8 @@ namespace NTMiner.MinerServer {
             get => _dualCoinCode ?? string.Empty;
             set => _dualCoinCode = value;
         }
+
+        public long DualCoinSpeed { get; set; }
 
         public string DualCoinPool { get; set; }
 

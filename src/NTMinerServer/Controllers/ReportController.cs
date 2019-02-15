@@ -25,6 +25,7 @@ namespace NTMiner.Controllers {
                         CreatedOn = DateTime.Now,
                         ModifiedOn = DateTime.Now,
                         MainCoinCode = message.MainCoinCode,
+                        MainCoinSpeed = message.MainCoinSpeed,
                         MainCoinPool = message.MainCoinPool,
                         MainCoinWallet = message.MainCoinWallet,
                         Kernel = message.Kernel,
@@ -32,6 +33,7 @@ namespace NTMiner.Controllers {
                         DualCoinPool = message.DualCoinPool,
                         DualCoinWallet = message.DualCoinWallet,
                         DualCoinCode = message.DualCoinCode,
+                        DualCoinSpeed = message.DualCoinSpeed,
                         IsMining = message.IsMining
                     };
                     HostRoot.Current.ClientSet.Add(clientData);
@@ -44,6 +46,7 @@ namespace NTMiner.Controllers {
                     clientData.MinerName = message.MinerName;
                     clientData.ModifiedOn = DateTime.Now;
                     clientData.MainCoinCode = message.MainCoinCode;
+                    clientData.MainCoinSpeed = message.MainCoinSpeed;
                     clientData.MainCoinPool = message.MainCoinPool;
                     clientData.MainCoinWallet = message.MainCoinWallet;
                     clientData.Kernel = message.Kernel;
@@ -51,6 +54,7 @@ namespace NTMiner.Controllers {
                     clientData.DualCoinPool = message.DualCoinPool;
                     clientData.DualCoinWallet = message.DualCoinWallet;
                     clientData.DualCoinCode = message.DualCoinCode;
+                    clientData.DualCoinSpeed = message.DualCoinSpeed;
                     clientData.IsMining = message.IsMining;
                 }
                 bool isMainCoin = !string.IsNullOrEmpty(message.MainCoinCode);
