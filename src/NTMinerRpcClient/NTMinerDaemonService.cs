@@ -1,19 +1,24 @@
 ﻿using NTMiner.Daemon;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public class NTMinerClientDaemon {
-        public static readonly NTMinerClientDaemon Instance = new NTMinerClientDaemon();
+    public class NTMinerDaemonService {
+        public static readonly NTMinerDaemonService Instance = new NTMinerDaemonService();
 
-        private NTMinerClientDaemon() { }
+        private NTMinerDaemonService() { }
 
-        public void GetDaemonVersionAsync(string clientHost, int clientPort, Action<string> callback) {
+        public void GetDaemonVersionAsync(Action<string> callback) {
+            Process[] processes = Process.GetProcessesByName("NTMinerDaemon");
+            if (processes.Length == 0) {
+                callback?.Invoke(string.Empty);
+            }
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/GetDaemonVersion", null);
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:3337/api/NTMinerDaemon/GetDaemonVersion", null);
                         string response = message.Result.Content.ReadAsAsync<string>().Result;
                         callback?.Invoke(response);
                     }

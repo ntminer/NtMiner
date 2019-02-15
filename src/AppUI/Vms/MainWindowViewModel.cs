@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                     "在开发者调试区展示守护进程的运行状态",
                     LogEnum.None,
                     action: message => {
-                        NTMinerClientDaemon.Instance.GetDaemonVersionAsync(VirtualRoot.Localhost, 3337, thatVersion => {
+                        NTMinerDaemonService.Instance.GetDaemonVersionAsync(thatVersion => {
                             this.IsDaemonRunning = !string.IsNullOrEmpty(thatVersion);
                         });
                     });

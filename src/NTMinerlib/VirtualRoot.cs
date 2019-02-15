@@ -14,8 +14,6 @@ namespace NTMiner {
         public static bool IsPublishHandlerIdAddedEvent = false;
         public static bool IsControlCenter = false;
 
-        public const string Localhost = "localhost";
-
         private static ILang _lang = null;
         public static ILang Lang {
             get {
