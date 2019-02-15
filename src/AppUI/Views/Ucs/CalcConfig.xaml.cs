@@ -19,7 +19,7 @@ namespace NTMiner.Views.Ucs {
                     }
                 };
                 return uc;
-            }, fixedSize: false);
+            }, fixedSize: true);
         }
 
         public CalcConfigViewModels Vm {
