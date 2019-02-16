@@ -63,6 +63,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string GpuSetInfo {
+            get {
+                return NTMinerRoot.Current.GpuSetInfo;
+            }
+        }
+
         public string GpuCountText {
             get {
                 return $"({NTMinerRoot.Current.GpuSet.Count} GPU)";

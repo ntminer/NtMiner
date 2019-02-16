@@ -252,7 +252,7 @@
 							Fill="{Binding GpuStatusBarVm.IconFill}"
 							Stretch="Fill">
 						</Path>
-						<TextBlock Text="{Binding GpuStatusBarVm.GpuCountText}" Width="80"></TextBlock>
+                        <TextBlock Text="{Binding GpuStatusBarVm.GpuCountText}" ToolTip="{Binding GpuStatusBarVm.GpuSetInfo}" Width="80"></TextBlock>
 						<Path
 							Margin="0 0 2 0"
 							Width="8"
@@ -310,6 +310,7 @@
 									</TextBlock>
 									<TextBlock 
 										Text="{Binding MinerProfile.CoinVm.Code}" 
+                                        Margin="2 0 0 0"
 										Padding="0"
 										Foreground="{StaticResource LableColor}"
 										FontWeight="Bold" 
@@ -323,6 +324,7 @@
 									</TextBlock>
 									<TextBlock 
 										Text="USD" 
+                                        Margin="2 0 0 0"
 										Padding="0"
 										Foreground="{StaticResource LableColor}"
 										VerticalAlignment="Center"></TextBlock>
@@ -335,6 +337,7 @@
 									</TextBlock>
 									<TextBlock 
 										Text="CNY" 
+                                        Margin="2 0 0 0"
 										Padding="0"
 										Foreground="{StaticResource LableColor}"
 										VerticalAlignment="Center"></TextBlock>
@@ -381,6 +384,7 @@
 										</TextBlock>
 										<TextBlock 
 											Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" 
+                                        Margin="2 0 0 0"
 											Padding="0"
 											FontWeight="Bold" 
 											Foreground="{StaticResource LableColor}"
@@ -394,6 +398,7 @@
 										</TextBlock>
 										<TextBlock 
 											Text="USD" 
+                                            Margin="2 0 0 0"
 											Padding="0"
 											Foreground="{StaticResource LableColor}"
 											VerticalAlignment="Center"></TextBlock>
@@ -406,6 +411,7 @@
 										</TextBlock>
 										<TextBlock 
 											Text="CNY" 
+                                            Margin="2 0 0 0"
 											Padding="0"
 											Foreground="{StaticResource LableColor}"
 											VerticalAlignment="Center"></TextBlock>
