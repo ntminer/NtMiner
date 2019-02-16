@@ -44,10 +44,11 @@
         </WrapPanel>
         <TextBlock Text="{Binding Seconds}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"></TextBlock>
         <WrapPanel HorizontalAlignment="Center" Margin="4">
-            <controls:KbButton Padding="8 0"
-                               Click="KbCancelButton_Click"
-                               VerticalAlignment="Center"
-                               CornerRadius="2">
+            <controls:KbButton 
+                Padding="8 0"
+                Click="KbCancelButton_Click"
+                VerticalAlignment="Center"
+                CornerRadius="2">
                 <WrapPanel>
                     <Path
                         Width="14"
@@ -55,9 +56,10 @@
                         Data="{StaticResource Icon_Close}"
                         Fill="{StaticResource IconFillColor}"
                         Stretch="Fill" />
-                    <Label
+                    <TextBlock
                         VerticalAlignment="Center"
-                        Content="{DynamicResource BtnCancel}" />
+                        FontSize="14"
+                        Text="{DynamicResource BtnCancel}" />
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>
