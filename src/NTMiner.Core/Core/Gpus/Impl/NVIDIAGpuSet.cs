@@ -55,7 +55,6 @@ namespace NTMiner.Core.Gpus.Impl {
                 NvmlNativeMethods.nvmlSystemGetNVMLVersion(out nvmlVersion);
                 this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
                 this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML version", nvmlVersion));
-
             }
             VirtualRoot.Access<Per5SecondEvent>(
                 Guid.Parse("7C379223-D494-4213-9659-A086FFDE36DF"),

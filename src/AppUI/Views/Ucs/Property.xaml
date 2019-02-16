@@ -184,34 +184,21 @@
         </StackPanel>
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="200"></RowDefinition>
             </Grid.RowDefinitions>
-            <ItemsControl
-                ItemsSource="{Binding GpuSetProperties}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Background="Transparent">
-                        </WrapPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel>
-                            <Label Content="{Binding Name}"></Label>
-                            <TextBlock Text="{Binding Value}" VerticalAlignment="Center" Width="90"></TextBlock>
-                        </WrapPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <Grid Grid.Row="1">
-                <DataGrid ItemsSource="{Binding GpuVms}" Background="Transparent" BorderBrush="{StaticResource LineColor}">
+            <Grid Grid.Row="0">
+                <DataGrid 
+                    MinHeight="200"
+                    ItemsSource="{Binding GpuVms}" 
+                    CanUserResizeColumns="True"
+                    Background="Transparent" 
+                    BorderBrush="{StaticResource LineColor}">
                     <DataGrid.Resources>
                         <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource LblGpuIndex}"></TextBlock>
                             </DataGridTemplateColumn.Header>
@@ -221,7 +208,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource LblGpuName}"></TextBlock>
                             </DataGridTemplateColumn.Header>
@@ -231,7 +218,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource LblGpuTemp}"></TextBlock>
                             </DataGridTemplateColumn.Header>
@@ -241,7 +228,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="40" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn Width="40" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource LblGpuFan}"></TextBlock>
                             </DataGridTemplateColumn.Header>
@@ -251,7 +238,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="50" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource LblGpuPower}"></TextBlock>
                             </DataGridTemplateColumn.Header>
@@ -265,6 +252,32 @@
                 </DataGrid>
                 <TextBlock Visibility="{Binding GpuVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
             </Grid>
+            <DataGrid 
+                Grid.Row="1"
+                ItemsSource="{Binding GpuSetProperties}" 
+                CanUserResizeColumns="True"
+                Background="Transparent" 
+                GridLinesVisibility="None"
+                HeadersVisibility="None"
+                VerticalScrollBarVisibility="Auto"
+                BorderThickness="0">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="Auto" MinWidth="130" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Value}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>
