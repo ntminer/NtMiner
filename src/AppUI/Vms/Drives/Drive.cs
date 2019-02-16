@@ -21,7 +21,6 @@ namespace NTMiner.Vms {
                 else {
                     VirtualMemory.MaxSizeMb = (int)(Math.Pow(2.0, i) * 1024);
                 }
-                VirtualMemorySet.Instance.SetVirtualMemoryOfDrive();
             });
         }
 

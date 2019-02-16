@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class DriveSet : ViewModelBase {
@@ -8,10 +9,15 @@ namespace NTMiner.Vms {
 
         private readonly List<Drive> _drives = new List<Drive>();
 
+        public ICommand Apply { get; private set; }
+
         public DriveSet() {
             foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
                 _drives.Add(new Drive(item));
             }
+            this.Apply = new DelegateCommand(() => {
+                VirtualMemorySet.Instance.SetVirtualMemoryOfDrive();
+            });
         }
 
         public List<Drive> Drives {

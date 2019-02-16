@@ -25,8 +25,8 @@ namespace NTMiner.Vms {
 
         public bool IsStateChanged {
             get {
-                foreach (var item in _dic) {
-                    if (!_initialVms.ContainsKey(item.Key)) {
+                foreach (var item in _dic.Values.Where(a => a.MaxSizeMb != 0)) {
+                    if (!_initialVms.ContainsKey(item.DriveName)) {
                         return true;
                     }
                 }
