@@ -24,7 +24,6 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(AvailableFreeSpace));
             OnPropertyChanged(nameof(TotalSize));
             OnPropertyChanged(nameof(HasUsedSpacePercent));
-            OnPropertyChanged(nameof(VirtualMemoryPercent));
             OnPropertyChanged(nameof(VolumeLabel));
             OnPropertyChanged(nameof(IsSystemDisk));
         }
@@ -60,13 +59,7 @@ namespace NTMiner.Vms {
 
         public double HasUsedSpacePercent {
             get {
-                return 1 - (double)(AvailableFreeSpace + VirtualMemory.MaxSizeB) / TotalSize;
-            }
-        }
-
-        public double VirtualMemoryPercent {
-            get {
-                return (double)VirtualMemory.MaxSizeB / TotalSize;
+                return 1 - (double)(AvailableFreeSpace) / TotalSize;
             }
         }
 

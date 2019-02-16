@@ -56,11 +56,6 @@
                                             <Rectangle 
                                                 Height="20" Width="{Binding HasUsedSpacePercent, ConverterParameter=250, Converter={StaticResource PercentToLengthConverter}}" 
                                                 HorizontalAlignment="Left" Fill="#26A0DA"></Rectangle>
-                                            <Rectangle 
-                                                Height="20" 
-                                                ToolTip="虚拟内存"
-                                                Width="{Binding VirtualMemoryPercent, ConverterParameter=150, Converter={StaticResource PercentToLengthConverter}}" 
-                                                HorizontalAlignment="Left" Fill="{StaticResource IconFillColor}"></Rectangle>
                                         </WrapPanel>
                                     </Border>
                                     <WrapPanel>
