@@ -8,7 +8,7 @@
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
         DataContext="{x:Static vm:DrivesViewModel.Current}"
-        mc:Ignorable="d" Height="220" Width="520">
+        mc:Ignorable="d" Height="320" Width="720">
     <UserControl.Resources>
         <sys:String x:Key="WindowTitle">
             虚拟内存
@@ -32,11 +32,11 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="200" Margin="30 5" Orientation="Horizontal">
+                    <StackPanel Width="300" Margin="30 15" Orientation="Horizontal">
                         <Path 
                             VerticalAlignment="Top"
                             Margin="4 4 6 0" 
-                            Width="30" Height="30"
+                            Width="40" Height="40"
                             Data="{StaticResource Icon_Windows}"
                             Fill="{StaticResource IconFillColor}"
                             Stretch="Fill"
@@ -44,7 +44,7 @@
                         </Path>
                         <StackPanel>
                             <WrapPanel Margin="0">
-                                <StackPanel Width="150">
+                                <StackPanel Width="250">
                                     <WrapPanel>
                                         <TextBlock Text="{Binding VolumeLabel}"></TextBlock>
                                         <TextBlock>(</TextBlock>
@@ -54,10 +54,10 @@
                                     <Border x:Name="BorderTotalSpace" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
                                         <WrapPanel>
                                             <Rectangle 
-                                                Height="10" Width="{Binding HasUsedSpacePercent, ConverterParameter=150, Converter={StaticResource PercentToLengthConverter}}" 
+                                                Height="20" Width="{Binding HasUsedSpacePercent, ConverterParameter=250, Converter={StaticResource PercentToLengthConverter}}" 
                                                 HorizontalAlignment="Left" Fill="#26A0DA"></Rectangle>
                                             <Rectangle 
-                                                Height="10" 
+                                                Height="20" 
                                                 ToolTip="虚拟内存"
                                                 Width="{Binding VirtualMemoryPercent, ConverterParameter=150, Converter={StaticResource PercentToLengthConverter}}" 
                                                 HorizontalAlignment="Left" Fill="{StaticResource IconFillColor}"></Rectangle>
@@ -70,17 +70,8 @@
                                     </WrapPanel>
                                 </StackPanel>
                             </WrapPanel>
-                            <WrapPanel Margin="-38 0 0 0">
-                                <controls:KbButton
-					                Command="{Binding ClearVirtualMemory}" 
-                                    Content="清除"
-                                    Padding="4 0"
-					                Visibility="{Binding HasVirtualMemory, Converter={StaticResource BoolToHiddenConverter}}" 
-                                    Foreground="White"
-					                Background="{StaticResource IconFillColor}">
-                                </controls:KbButton>
+                            <WrapPanel>
                                 <ItemsControl 
-                                    Margin="4 0 0 0"
                                     BorderThickness="0" Background="Transparent"
                                     ItemsSource="{Binding OptionalVirtualMemories.List}">
                                     <ItemsControl.ItemsPanel>

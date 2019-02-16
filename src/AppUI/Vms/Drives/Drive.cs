@@ -1,21 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class Drive : ViewModelBase {
         private DriveInfo _driveInfo;
-
-        public ICommand ClearVirtualMemory { get; private set; }
 
         public Drive(DriveInfo driveInfo) {
             _driveInfo = driveInfo;
             if (driveInfo.DriveType != DriveType.Fixed) {
                 throw new InvalidProgramException();
             }
-            this.ClearVirtualMemory = new DelegateCommand(() => {
-                VirtualMemory.ClearVirtualMemory(this);
-            });
         }
 
         public void Refresh(DriveInfo driveInfo) {

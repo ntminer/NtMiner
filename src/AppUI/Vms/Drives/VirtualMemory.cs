@@ -123,28 +123,33 @@ namespace NTMiner.Vms {
 
         private const string MemoryManagementSubKey = @"SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management";
         public static void SetVirtualMemoryOfDrive(Drive drive, int sizeMb) {
-            List<VirtualMemory> list = GetPagingFiles();
-            VirtualMemory exist = list.FirstOrDefault(a => a.DriveName == drive.Name);
-            if (exist != null) {
-                exist.MinSizeMb = sizeMb;
-                exist.MaxSizeMb = sizeMb;
+            if (sizeMb != 0) {
+                List<VirtualMemory> list = GetPagingFiles();
+                VirtualMemory exist = list.FirstOrDefault(a => a.DriveName == drive.Name);
+                if (exist != null) {
+                    exist.MinSizeMb = sizeMb;
+                    exist.MaxSizeMb = sizeMb;
+                }
+                else {
+                    list.Add(new VirtualMemory() {
+                        DriveName = drive.Name,
+                        MinSizeMb = sizeMb,
+                        MaxSizeMb = sizeMb
+                    });
+                }
+                string[] value = list.Select(a => a.ToString()).ToArray();
+
+                Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
+                DriveSet.Current.Refresh();
+                DrivesViewModel.Current.IsNeedRestartWindows = IsStateChanged;
+                drive.OptionalVirtualMemories.OnPropertyChanged(nameof(drive.OptionalVirtualMemories.List));
             }
             else {
-                list.Add(new VirtualMemory() {
-                    DriveName = drive.Name,
-                    MinSizeMb = sizeMb,
-                    MaxSizeMb = sizeMb
-                });
+                ClearVirtualMemory(drive);
             }
-            string[] value = list.Select(a => a.ToString()).ToArray();
-
-            Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
-            DriveSet.Current.Refresh();
-            DrivesViewModel.Current.IsNeedRestartWindows = VirtualMemory.IsStateChanged;
-            drive.OptionalVirtualMemories.OnPropertyChanged(nameof(drive.OptionalVirtualMemories.List));
         }
 
-        public static void ClearVirtualMemory(Drive drive) {
+        private static void ClearVirtualMemory(Drive drive) {
             List<VirtualMemory> list = GetPagingFiles();
             VirtualMemory exist = list.FirstOrDefault(a => a.DriveName == drive.Name);
             if (exist == null) {
@@ -155,7 +160,7 @@ namespace NTMiner.Vms {
 
             Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
             DriveSet.Current.Refresh();
-            DrivesViewModel.Current.IsNeedRestartWindows = VirtualMemory.IsStateChanged;
+            DrivesViewModel.Current.IsNeedRestartWindows = IsStateChanged;
             drive.OptionalVirtualMemories.OnPropertyChanged(nameof(drive.OptionalVirtualMemories.List));
         }
 
