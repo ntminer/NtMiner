@@ -1,4 +1,6 @@
 ﻿using NTMiner.Vms;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -23,6 +25,13 @@ namespace NTMiner.Views.Ucs {
         public VirtualMemory() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+        }
+
+        private void OpenDrive_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (e.ClickCount == 2) {
+                Drive drive = (Drive)((FrameworkElement)sender).Tag;
+                Process.Start(drive.Name);
+            }
         }
     }
 }

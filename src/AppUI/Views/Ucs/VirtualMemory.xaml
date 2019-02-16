@@ -52,7 +52,7 @@
 							Visibility="{Binding IsSystemDisk, Converter={StaticResource BoolToHiddenConverter}}">
 						</Path>
 						<StackPanel>
-							<WrapPanel Margin="0">
+							<WrapPanel Margin="0" MouseDown="OpenDrive_MouseDown" Tag="{Binding}">
 								<StackPanel Width="250">
 									<WrapPanel>
 										<TextBlock Text="{Binding VolumeLabel}"></TextBlock>
