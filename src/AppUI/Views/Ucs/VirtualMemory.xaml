@@ -14,7 +14,7 @@
 			虚拟内存
 		</sys:String>
 	</UserControl.Resources>
-	<Grid>
+	<Grid Margin="10 0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
@@ -41,7 +41,7 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Margin="20" Orientation="Horizontal">
+					<StackPanel Margin="0 10" Orientation="Horizontal">
 						<Path 
 							VerticalAlignment="Top"
 							Margin="4 4 6 0" 
