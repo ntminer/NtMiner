@@ -259,6 +259,7 @@
     <Compile Include="Vms\CoinProfileViewModels.cs" />
     <Compile Include="Vms\ConsoleViewModel.cs" />
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
+    <Compile Include="Vms\Drives\VirtualMemories.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\GroupViewModels.cs" />
     <Compile Include="Vms\KernelInputViewModel.cs" />
