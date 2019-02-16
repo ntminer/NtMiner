@@ -17,16 +17,43 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <WrapPanel HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center">共设置了</TextBlock>
             <TextBlock FontSize="16" Margin="4 0" VerticalAlignment="Center" Text="{Binding DriveSet.TotalVirtualMemoryGbText}"></TextBlock>
             <TextBlock VerticalAlignment="Center">虚拟内存</TextBlock>
         </WrapPanel>
-        <ItemsControl 
+        <WrapPanel
             Grid.Row="1"
+            HorizontalAlignment="Center" Margin="4"
+            Visibility="{Binding IsNeedRestartWindows, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock VerticalAlignment="Center" Foreground="Red">虚拟内存已设置，重启电脑后生效</TextBlock>
+            <controls:KbButton 
+                Margin="8 0 0 0"
+                Width="80"
+                Background="{StaticResource MainColor}"
+                Command="{x:Static vm:AppStatic.ShowRestartWindows}"
+                VerticalAlignment="Center"
+                CornerRadius="2">
+                <WrapPanel>
+                    <Path
+                        Width="14"
+                        Height="14"
+                        Data="{StaticResource Icon_Restart}"
+                        Fill="{StaticResource IconFillColor}"
+                        Stretch="Fill" />
+                    <Label 
+                        Width="60"
+                        Foreground="Red"
+                        VerticalAlignment="Center"
+                        Content="立即重启" />
+                </WrapPanel>
+            </controls:KbButton>
+        </WrapPanel>
+        <ItemsControl 
+            Grid.Row="2"
             Background="Transparent"
             ItemsSource="{Binding DriveSet.Drives}"
             BorderThickness="0"
@@ -110,32 +137,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <WrapPanel
-            Grid.Row="2"
-            HorizontalAlignment="Center" Margin="4"
-            Visibility="{Binding IsNeedRestartWindows, Converter={StaticResource BoolToVisibilityConverter}}">
-            <TextBlock VerticalAlignment="Center" Foreground="Red">虚拟内存已设置，重启电脑后生效</TextBlock>
-            <controls:KbButton 
-                Margin="8 0 0 0"
-                Width="80"
-                Background="{StaticResource MainColor}"
-                Command="{x:Static vm:AppStatic.ShowRestartWindows}"
-                VerticalAlignment="Center"
-                CornerRadius="2">
-                <WrapPanel>
-                    <Path
-                        Width="14"
-                        Height="14"
-                        Data="{StaticResource Icon_Restart}"
-                        Fill="{StaticResource IconFillColor}"
-                        Stretch="Fill" />
-                    <Label 
-                        Width="60"
-                        Foreground="Red"
-                        VerticalAlignment="Center"
-                        Content="立即重启" />
-                </WrapPanel>
-            </controls:KbButton>
-        </WrapPanel>
     </Grid>
 </UserControl>

@@ -23,7 +23,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void VirtualMemorySlider_LostFocus(object sender, System.Windows.RoutedEventArgs e) {
-
+            Vms.VirtualMemory.SetVirtualMemoryOfDrive();
         }
     }
 }

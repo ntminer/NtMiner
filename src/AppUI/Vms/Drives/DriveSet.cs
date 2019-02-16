@@ -15,12 +15,6 @@ namespace NTMiner.Vms {
         }
 
         public void Refresh() {
-            VirtualMemory.RefreshVirtualMemories();
-            foreach (var driveInfo in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
-                Drive drive = _drives.FirstOrDefault(a => a.Name == driveInfo.Name);
-                drive?.Refresh(driveInfo);
-            }
-            OnPropertyChanged(nameof(Drives));
             OnPropertyChanged(nameof(TotalVirtualMemoryGb));
             OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
         }

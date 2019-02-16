@@ -21,23 +21,8 @@ namespace NTMiner.Vms {
                 else {
                     VirtualMemory.MaxSizeMb = (int)(Math.Pow(2.0, i) * 1024);
                 }
+                VirtualMemory.SetVirtualMemoryOfDrive();
             });
-        }
-
-        public void Refresh(DriveInfo driveInfo) {
-            _driveInfo = driveInfo;
-            if (driveInfo.DriveType != DriveType.Fixed) {
-                throw new InvalidProgramException();
-            }
-            OnPropertyChanged(nameof(Name));
-            OnPropertyChanged(nameof(VirtualMemory));
-            OnPropertyChanged(nameof(HasVirtualMemory));
-            OnPropertyChanged(nameof(DriveFormat));
-            OnPropertyChanged(nameof(AvailableFreeSpace));
-            OnPropertyChanged(nameof(TotalSize));
-            OnPropertyChanged(nameof(HasUsedSpacePercent));
-            OnPropertyChanged(nameof(VolumeLabel));
-            OnPropertyChanged(nameof(IsSystemDisk));
         }
 
         public string Name {
@@ -50,12 +35,6 @@ namespace NTMiner.Vms {
                     return VirtualMemories.Instance[this.Name];
                 }
                 return VirtualMemory.Empty;
-            }
-        }
-
-        public bool HasVirtualMemory {
-            get {
-                return this.VirtualMemory != null && this.VirtualMemory != VirtualMemory.Empty;
             }
         }
 

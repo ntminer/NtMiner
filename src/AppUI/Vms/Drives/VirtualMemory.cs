@@ -52,15 +52,15 @@ namespace NTMiner.Vms {
             foreach (var item in GetPagingFiles()) {
                 _initialVms.Add(item.DriveName, item);
             }
-            foreach (var item in GetPagingFiles()) {
-                VirtualMemories.Instance.Add(item.DriveName, item);
+            foreach (var drive in DriveSet.Current.Drives) {
+                VirtualMemories.Instance.Add(drive.Name, new VirtualMemory {
+                    DriveName = drive.Name,
+                    _maxSizeMb = 0
+                });
             }
-        }
-
-        public static void RefreshVirtualMemories() {
-            VirtualMemories.Instance.Clear();
             foreach (var item in GetPagingFiles()) {
-                VirtualMemories.Instance.Add(item.DriveName, item);
+                VirtualMemory virtualMemory = VirtualMemories.Instance[item.DriveName];
+                virtualMemory.MaxSizeMb = item.MaxSizeMb;
             }
         }
 
@@ -93,12 +93,14 @@ namespace NTMiner.Vms {
         public int MaxSizeMb {
             get => _maxSizeMb;
             set {
-                _maxSizeMb = value;
-                OnPropertyChanged(nameof(MaxSizeMb));
-                OnPropertyChanged(nameof(MaxSizeB));
-                OnPropertyChanged(nameof(MaxSizeGb));
-                OnPropertyChanged(nameof(MaxSizeGbText));
-                OnPropertyChanged(nameof(MaxSizeLog2));
+                if (_maxSizeMb != value) {
+                    _maxSizeMb = value;
+                    OnPropertyChanged(nameof(MaxSizeMb));
+                    OnPropertyChanged(nameof(MaxSizeB));
+                    OnPropertyChanged(nameof(MaxSizeGb));
+                    OnPropertyChanged(nameof(MaxSizeGbText));
+                    OnPropertyChanged(nameof(MaxSizeLog2));
+                }
             }
         }
 
@@ -143,38 +145,9 @@ namespace NTMiner.Vms {
         }
 
         private const string MemoryManagementSubKey = @"SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management";
-        public static void SetVirtualMemoryOfDrive(Drive drive, int sizeMb) {
-            if (sizeMb != 0) {
-                List<VirtualMemory> list = GetPagingFiles();
-                VirtualMemory exist = list.FirstOrDefault(a => a.DriveName == drive.Name);
-                if (exist != null) {
-                    exist.MaxSizeMb = sizeMb;
-                }
-                else {
-                    list.Add(new VirtualMemory() {
-                        DriveName = drive.Name,
-                        MaxSizeMb = sizeMb
-                    });
-                }
-                string[] value = list.Select(a => a.ToString()).ToArray();
-
-                Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
-                DriveSet.Current.Refresh();
-                DrivesViewModel.Current.IsNeedRestartWindows = IsStateChanged;
-            }
-            else {
-                ClearVirtualMemory(drive);
-            }
-        }
-
-        private static void ClearVirtualMemory(Drive drive) {
-            List<VirtualMemory> list = GetPagingFiles();
-            VirtualMemory exist = list.FirstOrDefault(a => a.DriveName == drive.Name);
-            if (exist == null) {
-                return;
-            }
-            list.Remove(exist);
-            string[] value = list.Select(a => a.ToString()).ToArray();
+        public static void SetVirtualMemoryOfDrive() {
+            List<VirtualMemory> virtualMemories = VirtualMemories.Instance.Where(a => a.MaxSizeMb != 0).ToList();
+            string[] value = virtualMemories.Select(a => a.ToString()).ToArray();
 
             Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
             DriveSet.Current.Refresh();
