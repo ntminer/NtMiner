@@ -17,6 +17,11 @@ namespace UnitTestProject1 {
         }
 
         [TestMethod]
+        public void MathTest() {
+            Assert.AreEqual(8, Math.Pow(2, 3));
+        }
+
+        [TestMethod]
         public void GetFileNameTest() {
             Assert.AreEqual("a", Path.GetFileNameWithoutExtension("a.txt"));
             Assert.AreEqual("a", Path.GetFileNameWithoutExtension("a"));

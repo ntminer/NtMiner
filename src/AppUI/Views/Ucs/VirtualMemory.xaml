@@ -8,22 +8,30 @@
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
         DataContext="{x:Static vm:DrivesViewModel.Current}"
-        mc:Ignorable="d" Height="320" Width="720">
+        mc:Ignorable="d" Height="320" Width="800">
     <UserControl.Resources>
         <sys:String x:Key="WindowTitle">
             虚拟内存
         </sys:String>
     </UserControl.Resources>
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
         <WrapPanel HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center">共设置了</TextBlock>
             <TextBlock FontSize="16" Margin="4 0" VerticalAlignment="Center" Text="{Binding DriveSet.TotalVirtualMemoryGbText}"></TextBlock>
             <TextBlock VerticalAlignment="Center">虚拟内存</TextBlock>
         </WrapPanel>
-        <ItemsControl Grid.Row="1" Background="Transparent"
-                  ItemsSource="{Binding DriveSet.Drives}"
-                  BorderThickness="0"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ItemsControl 
+            Grid.Row="1"
+            Background="Transparent"
+            ItemsSource="{Binding DriveSet.Drives}"
+            BorderThickness="0"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel>
@@ -32,11 +40,11 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="300" Margin="30 15" Orientation="Horizontal">
+                    <StackPanel Width="340" Margin="20 30" Orientation="Horizontal">
                         <Path 
                             VerticalAlignment="Top"
                             Margin="4 4 6 0" 
-                            Width="40" Height="40"
+                            Width="50" Height="50"
                             Data="{StaticResource Icon_Windows}"
                             Fill="{StaticResource IconFillColor}"
                             Stretch="Fill"
@@ -51,7 +59,7 @@
                                         <TextBlock Text="{Binding Name}"></TextBlock>
                                         <TextBlock>)</TextBlock>
                                     </WrapPanel>
-                                    <Border x:Name="BorderTotalSpace" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+                                    <Border x:Name="BorderTotalSpace" Background="#E6E6E6" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
                                         <WrapPanel>
                                             <Rectangle 
                                                 Height="20" Width="{Binding HasUsedSpacePercent, ConverterParameter=250, Converter={StaticResource PercentToLengthConverter}}" 
@@ -65,16 +73,43 @@
                                     </WrapPanel>
                                 </StackPanel>
                             </WrapPanel>
-                            <WrapPanel>
-                                
-                            </WrapPanel>
+                            <Canvas>
+                                <Slider 
+									Minimum="0" 
+									Maximum="7" 
+									Width="250"
+                                    TickFrequency="1"
+                                    TickPlacement="BottomRight"
+									LostFocus="VirtualMemorySlider_LostFocus"
+									Value="{Binding VirtualMemory.MaxSizeLog2}"></Slider>
+                                <WrapPanel Canvas.Top="24" Canvas.Left="-8">
+                                    <WrapPanel.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Width" Value="34"></Setter>
+                                            <Setter Property="TextAlignment" Value="Center"></Setter>
+                                        </Style>
+                                    </WrapPanel.Resources>
+                                    <TextBlock TextAlignment="Center">0G</TextBlock>
+                                    <TextBlock TextAlignment="Center">2G</TextBlock>
+                                    <TextBlock TextAlignment="Center">4G</TextBlock>
+                                    <TextBlock TextAlignment="Center">8G</TextBlock>
+                                    <TextBlock TextAlignment="Center">16G</TextBlock>
+                                    <TextBlock TextAlignment="Center">32G</TextBlock>
+                                    <TextBlock TextAlignment="Center">64G</TextBlock>
+                                    <TextBlock TextAlignment="Center">128G</TextBlock>
+                                </WrapPanel>
+                                <TextBox Canvas.Left="250" Width="48" Background="White" Text="{Binding VirtualMemory.MaxSizeMb}"></TextBox>
+                                <TextBlock Canvas.Left="300">Mb</TextBlock>
+                            </Canvas>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <WrapPanel HorizontalAlignment="Center" Margin="4"
-                   Visibility="{Binding IsNeedRestartWindows, Converter={StaticResource BoolToVisibilityConverter}}">
+        <WrapPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center" Margin="4"
+            Visibility="{Binding IsNeedRestartWindows, Converter={StaticResource BoolToVisibilityConverter}}">
             <TextBlock VerticalAlignment="Center" Foreground="Red">虚拟内存已设置，重启电脑后生效</TextBlock>
             <controls:KbButton 
                 Margin="8 0 0 0"
@@ -98,5 +133,5 @@
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>
-    </StackPanel>
+    </Grid>
 </UserControl>

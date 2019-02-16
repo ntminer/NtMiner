@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_VirtualMemory",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed
-            }, ucFactory: (window) => new VirtualMemory(), fixedSize: true);
+            }, ucFactory: (window) => new VirtualMemory(), fixedSize: false);
         }
 
         private PropertyViewModel Vm {
@@ -20,6 +20,10 @@ namespace NTMiner.Views.Ucs {
         public VirtualMemory() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+        }
+
+        private void VirtualMemorySlider_LostFocus(object sender, System.Windows.RoutedEventArgs e) {
+
         }
     }
 }
