@@ -88,7 +88,7 @@
                 <DataGridTemplateColumn Width="84" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
-                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}"></TextBlock>
                             <TextBlock Text="{Binding Data.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
@@ -103,7 +103,7 @@
                     Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
-                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}"></TextBlock>
                             <TextBlock Text="{Binding Data.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
@@ -141,7 +141,7 @@
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{DynamicResource DghGpuTotalPower}" FontSize="12"></TextBlock>
+                                <TextBlock Text="{DynamicResource DghGpuTotalPower}"></TextBlock>
                                 <TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                             </StackPanel>
                         </DataTemplate>

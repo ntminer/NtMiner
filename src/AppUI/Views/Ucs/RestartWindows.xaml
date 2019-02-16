@@ -27,7 +27,6 @@
             <controls:KbButton Margin="0"
                                Click="KbCancelButton_Click"
                                Width="80"
-                               FontSize="12"
                                VerticalAlignment="Center"
                                CornerRadius="2">
                 <WrapPanel>

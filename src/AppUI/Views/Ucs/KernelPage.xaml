@@ -69,7 +69,6 @@
 										    Padding="0"
 										    VerticalAlignment="Center"
 										    Foreground="{Binding ItemForeground}"
-										    FontSize="12"
 										    Content="{Binding Name}" />
                                     </StackPanel>
                                 </Border>

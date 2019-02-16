@@ -130,7 +130,7 @@
 			x:Name="RichTextBox" 
 			BorderThickness="0" 
 			SpellCheck.IsEnabled="False"
-			IsReadOnly="True" FontSize="12"
+			IsReadOnly="True"
 			Padding="0 0 0 4" Background="Transparent" Foreground="White">
 			<FlowDocument>
 				<Paragraph x:Name="ConsoleParagraph" LineHeight="14">

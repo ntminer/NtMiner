@@ -13,7 +13,6 @@
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
 		Background="#EBEBEB"
-		FontSize="12"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
@@ -137,7 +136,7 @@
 				x:Name="RichTextBoxDebug" 
 				BorderThickness="0" 
 				SpellCheck.IsEnabled="False"
-				IsReadOnly="True" FontSize="12"
+				IsReadOnly="True"
 				Padding="0 0 0 4" Background="Black" Foreground="White">
 				<RichTextBox.Resources>
 					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
@@ -154,7 +153,7 @@
 				x:Name="RichTextBox" 
 				BorderThickness="0" 
 				SpellCheck.IsEnabled="False"
-				IsReadOnly="True" FontSize="12"
+				IsReadOnly="True"
 				Padding="0 0 0 4" Background="Black" Foreground="White">
 				<RichTextBox.Resources>
 					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>

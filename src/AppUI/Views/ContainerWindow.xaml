@@ -10,7 +10,6 @@
         UseNoneWindowStyle="True"
         BorderBrush="{StaticResource IconFillColor}"
 		d:DataContext="{d:DesignData Source=Design/ContainerWindowViewModel.xaml}"
-        FontSize="12"
         Background="{StaticResource MainColor}"
         WindowStartupLocation="CenterScreen"
         TextOptions.TextFormattingMode="Display"

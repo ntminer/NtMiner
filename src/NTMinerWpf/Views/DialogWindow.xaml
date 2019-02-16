@@ -67,7 +67,6 @@
             <controls:KbButton Padding="4" Width="80" Margin="10 0"
                 x:Name="BtnOk"
                 Click="KbOkButton_Click"
-                FontSize="12"
                 Background="{StaticResource IconFillColor}"
                 VerticalAlignment="Center"
                 CornerRadius="2">
@@ -88,7 +87,6 @@
             <controls:KbButton Padding="4" Width="80" Margin="10 0"
                 x:Name="BtnYes"
                 Click="KbYesButton_Click"
-                FontSize="12"
                 Background="{StaticResource IconFillColor}"
                 VerticalAlignment="Center"
                 CornerRadius="2">
@@ -109,7 +107,6 @@
             <controls:KbButton Padding="4" Width="80" Margin="10 0"
                 x:Name="BtnNo"
                 Click="KbNoButton_Click"
-                FontSize="12"
                 Background="Red"
                 VerticalAlignment="Center"
                 CornerRadius="2">

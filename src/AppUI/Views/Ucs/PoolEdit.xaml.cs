@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Pool",
                 IsDialogWindow = true,
-                Width = 540,
+                Width = 580,
                 Height = 400,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>

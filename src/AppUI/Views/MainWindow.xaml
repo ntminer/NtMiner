@@ -11,12 +11,11 @@
 		Title="开源矿工"
 		Width="{Binding Width}"
 		Height="{Binding Height}"
-		MinHeight="520"
+		MinHeight="420"
 		MinWidth="800"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
 		Background="{StaticResource MainColor}"
-		FontSize="12"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MainWindowViewModel.Current}"
@@ -373,7 +372,7 @@
 				Background="Transparent"
 				VerticalScrollBarVisibility="Auto"
 				x:Name="RichTextBoxDebug" BorderThickness="0" 
-				IsReadOnly="True" FontSize="12"
+				IsReadOnly="True"
 				Padding="0 0 0 4" Foreground="White">
 				<FlowDocument>
 					<Paragraph x:Name="ConsoleParagraphDebug" LineHeight="14">

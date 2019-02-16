@@ -546,7 +546,6 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									FontSize="12" 
 									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
                             </WrapPanel>
                         </DataTemplate>
@@ -602,7 +601,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBlock FontSize="12" Text="{Binding ClientDataVm.MainCoinCode}"></TextBlock>
+								<TextBlock Text="{Binding ClientDataVm.MainCoinCode}"></TextBlock>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -611,7 +610,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <TextBlock FontSize="12" Text="{Binding ClientDataVm.MainCoinSpeedText}"></TextBlock>
+                                <TextBlock Text="{Binding ClientDataVm.MainCoinSpeedText}"></TextBlock>
                             </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -620,7 +619,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBlock FontSize="12" Text="{Binding ClientDataVm.MainCoinWallet}"></TextBlock>
+								<TextBlock Text="{Binding ClientDataVm.MainCoinWallet}"></TextBlock>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -634,7 +633,6 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									FontSize="12" 
 									Text="{Binding ClientDataVm.MainCoinPool, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
@@ -648,7 +646,6 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									FontSize="12" 
 									Text="{Binding ClientDataVm.Kernel, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
@@ -662,7 +659,6 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									FontSize="12" 
 									Text="{Binding ClientDataVm.DualCoinCode, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
@@ -676,7 +672,6 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									FontSize="12" 
 									Text="{Binding ClientDataVm.DualCoinSpeedText, Mode=OneWay}"></TextBox>
                             </WrapPanel>
                         </DataTemplate>
@@ -690,7 +685,6 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									FontSize="12" 
 									Text="{Binding ClientDataVm.DualCoinWallet, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
@@ -705,7 +699,6 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									FontSize="12" 
 									Text="{Binding ClientDataVm.DualCoinPool, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
@@ -719,7 +712,6 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									FontSize="12" 
 									ToolTip="{Binding ClientDataVm.GpuInfo}"
 									Text="{Binding ClientDataVm.GpuInfo, Mode=OneWay}"></TextBox>
 							</WrapPanel>
@@ -729,14 +721,14 @@
 				<DataGridTemplateColumn Header="刷新时间" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock FontSize="12" Text="{Binding ClientDataVm.ModifiedOnText}" Margin="4 0 0 0"></TextBlock>
+							<TextBlock Text="{Binding ClientDataVm.ModifiedOnText}" Margin="4 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="客户端版本" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock FontSize="12" Text="{Binding ClientDataVm.Version}" Margin="8 0 0 0"></TextBlock>
+							<TextBlock Text="{Binding ClientDataVm.Version}" Margin="8 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

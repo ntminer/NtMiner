@@ -9,7 +9,6 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms"
-	FontSize="12"
 	mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="560">
 	<UserControl.DataContext>
 		<vm:CalcConfigViewModels></vm:CalcConfigViewModels>
