@@ -17,8 +17,9 @@
 				<ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<Style TargetType="Label">
-				<Setter Property="Width" Value="84"></Setter>
-				<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+                <Setter Property="Width" Value="84"></Setter>
+                <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+                <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
 			</Style>
 			<sys:String x:Key="WindowTitle">
 				WindowTitle
