@@ -78,7 +78,7 @@
 								<Slider 
 									Minimum="0" 
 									Maximum="7" 
-									Width="250"
+									Width="254"
 									TickFrequency="1"
 									TickPlacement="BottomRight"
 									Value="{Binding VirtualMemory.MaxSizeLog2}"></Slider>
@@ -86,7 +86,7 @@
 									<WrapPanel.Resources>
 										<Style TargetType="Button">
 											<Setter Property="Cursor" Value="Hand"></Setter>
-											<Setter Property="Width" Value="32"></Setter>
+											<Setter Property="Width" Value="33"></Setter>
 											<Setter Property="Margin" Value="1 0"></Setter>
 											<Setter Property="Padding" Value="0"></Setter>
 											<Setter Property="BorderThickness" Value="0"></Setter>
@@ -102,7 +102,7 @@
 									<Button Command="{Binding Set}" CommandParameter="6">64G</Button>
 									<Button Command="{Binding Set}" CommandParameter="7">128G</Button>
 								</WrapPanel>
-								<TextBox Canvas.Left="250" Width="48" Background="White" Text="{Binding VirtualMemory.MaxSizeMb}"></TextBox>
+								<TextBox Canvas.Left="252" Width="48" Background="White" Text="{Binding VirtualMemory.MaxSizeMb}"></TextBox>
 								<TextBlock Canvas.Left="300">Mb</TextBlock>
 							</Canvas>
 						</StackPanel>
