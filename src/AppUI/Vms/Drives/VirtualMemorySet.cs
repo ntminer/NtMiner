@@ -60,7 +60,7 @@ namespace NTMiner.Vms {
             Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
             OnPropertyChanged(nameof(TotalVirtualMemoryGb));
             OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
-            DrivesViewModel.Current.IsNeedRestartWindows = IsStateChanged;
+            OnPropertyChanged(nameof(IsStateChanged));
         }
 
         private List<VirtualMemory> GetPagingFiles() {

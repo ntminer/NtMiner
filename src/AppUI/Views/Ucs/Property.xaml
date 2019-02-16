@@ -117,7 +117,7 @@
             </WrapPanel>
             <WrapPanel Margin="4 0">
                 <Label Content="{DynamicResource LblVirtualMemory}" ToolTip="{DynamicResource LblVirtualMemory}"></Label>
-                <TextBlock Text="{Binding DrivesVm.DriveSet.VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
+                <TextBlock Text="{Binding DriveSet.VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
                 <controls:KbButton 
                     Margin="8 0 0 0"
                     Padding="6 0"
