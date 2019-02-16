@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_VirtualMemory",
                 CloseVisible = System.Windows.Visibility.Visible
-            }, ucFactory: (window) => new VirtualMemory(), fixedSize: true);
+            }, ucFactory: (window) => new VirtualMemory(), fixedSize: false);
         }
 
         private DriveSet Vm {
