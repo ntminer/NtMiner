@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
                 else {
                     VirtualMemory.MaxSizeMb = (int)(Math.Pow(2.0, i) * 1024);
                 }
-                VirtualMemories.Instance.SetVirtualMemoryOfDrive();
+                VirtualMemorySet.Instance.SetVirtualMemoryOfDrive();
             });
         }
 
@@ -31,8 +31,8 @@ namespace NTMiner.Vms {
 
         public VirtualMemory VirtualMemory {
             get {
-                if (VirtualMemories.Instance.Contains(this.Name)) {
-                    return VirtualMemories.Instance[this.Name];
+                if (VirtualMemorySet.Instance.Contains(this.Name)) {
+                    return VirtualMemorySet.Instance[this.Name];
                 }
                 return VirtualMemory.Empty;
             }

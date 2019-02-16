@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
-    public class VirtualMemories : ViewModelBase, IEnumerable<VirtualMemory> {
-        public static readonly VirtualMemories Instance = new VirtualMemories();
+    public class VirtualMemorySet : ViewModelBase, IEnumerable<VirtualMemory> {
+        public static readonly VirtualMemorySet Instance = new VirtualMemorySet();
 
         private readonly Dictionary<string, VirtualMemory> _dic = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
 
         private readonly Dictionary<string, VirtualMemory> _initialVms = new Dictionary<string, VirtualMemory>();
-        private VirtualMemories() {
+        private VirtualMemorySet() {
             foreach (var item in GetPagingFiles()) {
                 _initialVms.Add(item.DriveName, item);
             }
@@ -110,10 +110,6 @@ namespace NTMiner.Vms {
                 Logger.ErrorDebugLine(e);
             }
             return list;
-        }
-
-        public void Clear() {
-            _dic.Clear();
         }
 
         public VirtualMemory this[string driveName] {

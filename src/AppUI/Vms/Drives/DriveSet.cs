@@ -20,9 +20,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public VirtualMemories VirtualMemorySet {
+        public VirtualMemorySet VirtualMemorySet {
             get {
-                return VirtualMemories.Instance;
+                return VirtualMemorySet.Instance;
             }
         }
     }
