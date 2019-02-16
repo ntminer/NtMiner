@@ -67,6 +67,8 @@
 				<RowDefinition Height="*"></RowDefinition>
 			</Grid.RowDefinitions>
 			<controls:KbButton
+                Margin="4 0 0 0"
+                HorizontalAlignment="Left"
 				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 				ToolTip="KernelOutputPage translate"
 				Command="{x:Static vm:AppStatic.ShowLangViewItems}"
