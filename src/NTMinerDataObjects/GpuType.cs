@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace NTMiner.Core.Gpus {
+namespace NTMiner {
     public enum GpuType {
         Empty,
         [Description("N卡")]

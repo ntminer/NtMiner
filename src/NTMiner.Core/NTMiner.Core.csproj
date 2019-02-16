@@ -203,7 +203,6 @@
     <Compile Include="Core\Kernels\IKernel.cs" />
     <Compile Include="Core\Kernels\IKernelSet.cs" />
     <Compile Include="Core\Messages.cs" />
-    <Compile Include="Core\Gpus\GpuType.cs" />
     <Compile Include="Core\ICoinSet.cs" />
     <Compile Include="Core\Kernels\ICoinKernelSet.cs" />
     <Compile Include="Core\IPoolSet.cs" />

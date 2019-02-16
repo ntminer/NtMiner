@@ -23,12 +23,20 @@ namespace NTMiner.MinerServer {
 
         public string MinerIp { get; set; }
 
+        public int BootSeconds { get; set; }
+
+        public int MineSeconds { get; set; }
+
         public string MainCoinCode {
             get => _mainCoinCode ?? string.Empty;
             set => _mainCoinCode = value;
         }
 
         public long MainCoinSpeed { get; set; }
+
+        public int RejectCount { get; set; }
+
+        public int TotalShareCount { get; set; }
 
         public string MainCoinPool { get; set; }
 
@@ -45,9 +53,21 @@ namespace NTMiner.MinerServer {
 
         public long DualCoinSpeed { get; set; }
 
+        public int DualRejectCount { get; set; }
+
+        public int DualTotalShareCount { get; set; }
+
         public string DualCoinPool { get; set; }
 
         public string DualCoinWallet { get; set; }
+
+        public string OSName { get; set; }
+
+        public int OSVirtualMemory { get; set; }
+
+        public GpuType GpuType { get; set; }
+
+        public string GpuDriver { get; set; }
 
         public string GpuInfo { get; set; }
 

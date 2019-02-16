@@ -7,10 +7,10 @@ namespace NTMiner.Core {
                 if (coinKernel.SupportedGpu == Gpus.SupportedGpu.Both) {
                     return true;
                 }
-                if (coinKernel.SupportedGpu == Gpus.SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == Gpus.GpuType.NVIDIA) {
+                if (coinKernel.SupportedGpu == Gpus.SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
                     return true;
                 }
-                if (coinKernel.SupportedGpu == Gpus.SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == Gpus.GpuType.AMD) {
+                if (coinKernel.SupportedGpu == Gpus.SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
                     return true;
                 }
             }

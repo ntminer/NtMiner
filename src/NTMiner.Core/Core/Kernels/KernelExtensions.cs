@@ -59,10 +59,10 @@ namespace NTMiner.Core.Kernels {
                 if (item.SupportedGpu == Gpus.SupportedGpu.Both) {
                     return true;
                 }
-                if (item.SupportedGpu == Gpus.SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == Gpus.GpuType.NVIDIA) {
+                if (item.SupportedGpu == Gpus.SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
                     return true;
                 }
-                if (item.SupportedGpu == Gpus.SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == Gpus.GpuType.AMD) {
+                if (item.SupportedGpu == Gpus.SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
                     return true;
                 }
             }

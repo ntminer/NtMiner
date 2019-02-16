@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangePasswordRequest.cs" />
+    <Compile Include="GpuType.cs" />
     <Compile Include="Hashrate\GpuSpeedData.cs" />
     <Compile Include="MinerClient\AddUserRequest.cs" />
     <Compile Include="MinerClient\ProfileData.cs" />

@@ -19,13 +19,13 @@ namespace NTMiner.Vms {
                 if (_icon == null) {
                     string iconName;
                     switch (NTMinerRoot.Current.GpuSet.GpuType) {
-                        case Core.Gpus.GpuType.NVIDIA:
+                        case GpuType.NVIDIA:
                             iconName = "Icon_Nvidia";
                             break;
-                        case Core.Gpus.GpuType.AMD:
+                        case GpuType.AMD:
                             iconName = "Icon_AMD";
                             break;
-                        case Core.Gpus.GpuType.Empty:
+                        case GpuType.Empty:
                             iconName = "Icom_GpuEmpty";
                             break;
                         default:
@@ -41,13 +41,13 @@ namespace NTMiner.Vms {
             get {
                 string iconFill;
                 switch (NTMinerRoot.Current.GpuSet.GpuType) {
-                    case Core.Gpus.GpuType.NVIDIA:
+                    case GpuType.NVIDIA:
                         iconFill = "Green";
                         break;
-                    case Core.Gpus.GpuType.AMD:
+                    case GpuType.AMD:
                         iconFill = "Red";
                         break;
-                    case Core.Gpus.GpuType.Empty:
+                    case GpuType.Empty:
                         iconFill = "Gray";
                         break;
                     default:
