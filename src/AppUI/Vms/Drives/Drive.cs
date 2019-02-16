@@ -73,18 +73,5 @@ namespace NTMiner.Vms {
                 return systemFolder.StartsWith(this.Name);
             }
         }
-
-        private const long _m = 1024 * 1024;
-        private const long _g = _m * 1024;
-        private OptionalVirtualMemories _optionalVirtualMemories;
-        public OptionalVirtualMemories OptionalVirtualMemories {
-            get {
-                if (_optionalVirtualMemories == null) {
-                    long value = this.AvailableFreeSpace + VirtualMemory.MaxSizeMb * _m - _g;
-                    _optionalVirtualMemories = new OptionalVirtualMemories(this, value, this.VirtualMemory);
-                }
-                return _optionalVirtualMemories;
-            }
-        }
     }
 }

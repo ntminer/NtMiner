@@ -281,8 +281,6 @@
     <Compile Include="Vms\KernelOutputTranslaterViewModel.cs" />
     <Compile Include="Vms\Drives\DriveSet.cs" />
     <Compile Include="Vms\Drives\DrivesViewModel.cs" />
-    <Compile Include="Vms\Drives\OptionalVirtualMemories.cs" />
-    <Compile Include="Vms\Drives\OptionalVirtualMemory.cs" />
     <Compile Include="Vms\GpuViewModels.cs" />
     <Compile Include="Vms\KernelOutputTranslaterViewModels.cs" />
     <Compile Include="Vms\KernelProfileViewModel.cs" />

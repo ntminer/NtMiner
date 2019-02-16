@@ -142,7 +142,6 @@ namespace NTMiner.Vms {
                 Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
                 DriveSet.Current.Refresh();
                 DrivesViewModel.Current.IsNeedRestartWindows = IsStateChanged;
-                drive.OptionalVirtualMemories.OnPropertyChanged(nameof(drive.OptionalVirtualMemories.List));
             }
             else {
                 ClearVirtualMemory(drive);
@@ -161,7 +160,6 @@ namespace NTMiner.Vms {
             Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
             DriveSet.Current.Refresh();
             DrivesViewModel.Current.IsNeedRestartWindows = IsStateChanged;
-            drive.OptionalVirtualMemories.OnPropertyChanged(nameof(drive.OptionalVirtualMemories.List));
         }
 
         private static List<VirtualMemory> GetPagingFiles() {
