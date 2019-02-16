@@ -14,26 +14,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public void Refresh() {
-            OnPropertyChanged(nameof(TotalVirtualMemoryGb));
-            OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
-        }
-
         public List<Drive> Drives {
             get {
                 return _drives;
             }
         }
 
-        public int TotalVirtualMemoryGb {
+        public VirtualMemories VirtualMemorySet {
             get {
-                return _drives.Sum(a => a.VirtualMemory.MaxSizeGb);
-            }
-        }
-
-        public string TotalVirtualMemoryGbText {
-            get {
-                return TotalVirtualMemoryGb + " G";
+                return VirtualMemories.Instance;
             }
         }
     }

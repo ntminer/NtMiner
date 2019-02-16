@@ -1,23 +1,119 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Vms {
-    public class VirtualMemories : IEnumerable<VirtualMemory> {
+    public class VirtualMemories : ViewModelBase, IEnumerable<VirtualMemory> {
         public static readonly VirtualMemories Instance = new VirtualMemories();
 
         private readonly Dictionary<string, VirtualMemory> _dic = new Dictionary<string, VirtualMemory>(StringComparer.OrdinalIgnoreCase);
 
-        private VirtualMemories() { }
+        private readonly Dictionary<string, VirtualMemory> _initialVms = new Dictionary<string, VirtualMemory>();
+        private VirtualMemories() {
+            foreach (var item in GetPagingFiles()) {
+                _initialVms.Add(item.DriveName, item);
+            }
+            foreach (var drive in DriveSet.Current.Drives) {
+                _dic.Add(drive.Name, new VirtualMemory(drive.Name, 0));
+            }
+            foreach (var item in GetPagingFiles()) {
+                VirtualMemory virtualMemory = _dic[item.DriveName];
+                virtualMemory.MaxSizeMb = item.MaxSizeMb;
+            }
+        }
+
+        public bool IsStateChanged {
+            get {
+                foreach (var item in _dic) {
+                    if (!_initialVms.ContainsKey(item.Key)) {
+                        return true;
+                    }
+                }
+                foreach (var item in _initialVms) {
+                    if (_dic[item.Key].MaxSizeB != item.Value.MaxSizeB) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+
+        public int TotalVirtualMemoryGb {
+            get {
+                return _dic.Values.Sum(a => a.MaxSizeGb);
+            }
+        }
+
+        public string TotalVirtualMemoryGbText {
+            get {
+                return TotalVirtualMemoryGb + " G";
+            }
+        }
+
+        private const string MemoryManagementSubKey = @"SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management";
+        public void SetVirtualMemoryOfDrive() {
+            List<VirtualMemory> virtualMemories = _dic.Values.Where(a => a.MaxSizeMb != 0).ToList();
+            string[] value = virtualMemories.Select(a => a.ToString()).ToArray();
+
+            Windows.Registry.SetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
+            OnPropertyChanged(nameof(TotalVirtualMemoryGb));
+            OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
+            DrivesViewModel.Current.IsNeedRestartWindows = IsStateChanged;
+        }
+
+        private List<VirtualMemory> GetPagingFiles() {
+            object value = Windows.Registry.GetValue(Microsoft.Win32.Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles");
+            // REG_SZ or REG_MULTI_SZ
+            List<VirtualMemory> list;
+            if (value is string[]) {
+                list = Parse((string[])value);
+            }
+            else {
+                list = new List<VirtualMemory>();
+            }
+            return list;
+        }
+
+        private VirtualMemory Parse(string vmReg) {
+            string driveName;
+            int minsize = 0;
+            int maxsize = 0;
+            try {
+                string[] strarr = vmReg.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                if (strarr.Length == 3) {
+                    driveName = strarr[0].Substring(0, 3);
+                    minsize = Convert.ToInt32(strarr[1]);
+                    maxsize = Convert.ToInt32(strarr[2]);
+                    return new VirtualMemory(driveName, maxsize);
+                }
+                return null;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return null;
+            }
+        }
+
+        private List<VirtualMemory> Parse(string[] vmReg) {
+            List<VirtualMemory> list = new List<VirtualMemory>();
+            try {
+                foreach (string item in vmReg) {
+                    VirtualMemory vm = Parse(item);
+                    if (vm != null) {
+                        list.Add(vm);
+                    }
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+            return list;
+        }
 
         public void Clear() {
             _dic.Clear();
-        }
-
-        public void Add(string driveName, VirtualMemory item) {
-            if (!_dic.ContainsKey(driveName)) {
-                _dic.Add(driveName, item);
-            }
         }
 
         public VirtualMemory this[string driveName] {

@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <WrapPanel HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center">共设置了</TextBlock>
-            <TextBlock FontSize="16" Margin="4 0" VerticalAlignment="Center" Text="{Binding DriveSet.TotalVirtualMemoryGbText}"></TextBlock>
+            <TextBlock FontSize="16" Margin="4 0" VerticalAlignment="Center" Text="{Binding DriveSet.VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
             <TextBlock VerticalAlignment="Center">虚拟内存</TextBlock>
         </WrapPanel>
         <WrapPanel
