@@ -102,7 +102,6 @@
 			Margin="4 2 0 0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"
-			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 			Width="14"
 			Height="14"
 			Data="{StaticResource Icon_Notice}"
@@ -111,7 +110,6 @@
 		<TextBox 
 			Grid.Row="1"
 			ToolTip="{DynamicResource KernelNotice}"
-			Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 			Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
