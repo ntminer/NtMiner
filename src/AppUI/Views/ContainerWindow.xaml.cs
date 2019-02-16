@@ -115,6 +115,9 @@ namespace NTMiner.Views {
                     this.MinWidth = vm.Width / 2;
                 }
             }
+            if (vm.MinHeight != 0) {
+                this.MinHeight = vm.MinHeight;
+            }
 
             InitializeComponent();
 

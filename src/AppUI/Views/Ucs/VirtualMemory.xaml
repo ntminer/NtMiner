@@ -8,7 +8,7 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
 		DataContext="{x:Static vm:DriveSet.Current}"
-		mc:Ignorable="d" Height="420" Width="800">
+		mc:Ignorable="d" Width="800">
 	<UserControl.Resources>
 		<sys:String x:Key="WindowTitle">
 			虚拟内存
@@ -27,6 +27,7 @@
 		</WrapPanel>
 		<ItemsControl 
 			Grid.Row="1"
+			Height="300"
 			Background="Transparent"
 			ItemsSource="{Binding Drives}"
 			BorderThickness="0"
@@ -34,13 +35,13 @@
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<WrapPanel>
-					</WrapPanel>
+					<UniformGrid Columns="2">
+					</UniformGrid>
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Width="340" Margin="20 30" Orientation="Horizontal">
+					<StackPanel Margin="20" Orientation="Horizontal">
 						<Path 
 							VerticalAlignment="Top"
 							Margin="4 4 6 0" 

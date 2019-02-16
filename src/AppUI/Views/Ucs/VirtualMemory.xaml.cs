@@ -6,7 +6,8 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_VirtualMemory",
-                CloseVisible = System.Windows.Visibility.Visible
+                CloseVisible = System.Windows.Visibility.Visible,
+                MinHeight = 420
             }, ucFactory: (window) => new VirtualMemory(), fixedSize: false);
         }
 

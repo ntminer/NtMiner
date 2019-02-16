@@ -94,6 +94,8 @@ namespace NTMiner.Vms {
             }
         }
         private ImageSource _iconImageSource = null;
+        private double _minHeight;
+
         public ImageSource IconImageSource {
             get {
                 return _iconImageSource;
@@ -131,6 +133,13 @@ namespace NTMiner.Vms {
                     _height = value;
                     OnPropertyChanged(nameof(Height));
                 }
+            }
+        }
+        public double MinHeight {
+            get => _minHeight;
+            set {
+                _minHeight = value;
+                OnPropertyChanged(nameof(MinHeight));
             }
         }
         public Visibility MinVisible {
