@@ -8,7 +8,7 @@
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:vm="clr-namespace:NTMiner.Vms" Background="White"
         DataContext="{x:Static vm:DrivesViewModel.Current}"
-        mc:Ignorable="d" Height="320" Width="800">
+        mc:Ignorable="d" Height="360" Width="800">
     <UserControl.Resources>
         <sys:String x:Key="WindowTitle">
             虚拟内存
@@ -82,21 +82,25 @@
                                     TickPlacement="BottomRight"
 									LostFocus="VirtualMemorySlider_LostFocus"
 									Value="{Binding VirtualMemory.MaxSizeLog2}"></Slider>
-                                <WrapPanel Canvas.Top="24" Canvas.Left="-8">
+                                <WrapPanel Canvas.Top="24" Canvas.Left="-11">
                                     <WrapPanel.Resources>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Width" Value="34"></Setter>
-                                            <Setter Property="TextAlignment" Value="Center"></Setter>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Cursor" Value="Hand"></Setter>
+                                            <Setter Property="Width" Value="32"></Setter>
+                                            <Setter Property="Margin" Value="1 0"></Setter>
+                                            <Setter Property="Padding" Value="0"></Setter>
+                                            <Setter Property="BorderThickness" Value="0"></Setter>
+                                            <Setter Property="Background" Value="Transparent"></Setter>
                                         </Style>
                                     </WrapPanel.Resources>
-                                    <TextBlock TextAlignment="Center">0G</TextBlock>
-                                    <TextBlock TextAlignment="Center">2G</TextBlock>
-                                    <TextBlock TextAlignment="Center">4G</TextBlock>
-                                    <TextBlock TextAlignment="Center">8G</TextBlock>
-                                    <TextBlock TextAlignment="Center">16G</TextBlock>
-                                    <TextBlock TextAlignment="Center">32G</TextBlock>
-                                    <TextBlock TextAlignment="Center">64G</TextBlock>
-                                    <TextBlock TextAlignment="Center">128G</TextBlock>
+                                    <Button Command="{Binding Set}" CommandParameter="0">0G</Button>
+                                    <Button Command="{Binding Set}" CommandParameter="1">2G</Button>
+                                    <Button Command="{Binding Set}" CommandParameter="2">4G</Button>
+                                    <Button Command="{Binding Set}" CommandParameter="3">8G</Button>
+                                    <Button Command="{Binding Set}" CommandParameter="4">16G</Button>
+                                    <Button Command="{Binding Set}" CommandParameter="5">32G</Button>
+                                    <Button Command="{Binding Set}" CommandParameter="6">64G</Button>
+                                    <Button Command="{Binding Set}" CommandParameter="7">128G</Button>
                                 </WrapPanel>
                                 <TextBox Canvas.Left="250" Width="48" Background="White" Text="{Binding VirtualMemory.MaxSizeMb}"></TextBox>
                                 <TextBlock Canvas.Left="300">Mb</TextBlock>

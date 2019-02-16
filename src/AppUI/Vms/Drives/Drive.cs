@@ -1,15 +1,27 @@
 ﻿using System;
 using System.IO;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class Drive : ViewModelBase {
         private DriveInfo _driveInfo;
+
+        public ICommand Set { get; private set; }
 
         public Drive(DriveInfo driveInfo) {
             _driveInfo = driveInfo;
             if (driveInfo.DriveType != DriveType.Fixed) {
                 throw new InvalidProgramException();
             }
+            this.Set = new DelegateCommand<string>(parameter => {
+                double i = double.Parse(parameter);
+                if (i == 0) {
+                    VirtualMemory.MaxSizeMb = 0;
+                }
+                else {
+                    VirtualMemory.MaxSizeMb = (int)(Math.Pow(2.0, i) * 1024);
+                }
+            });
         }
 
         public void Refresh(DriveInfo driveInfo) {
