@@ -2,6 +2,7 @@
 
 namespace NTMiner {
     public static class Timestamp {
+        public const int DesyncSeconds = 180;
         public static readonly DateTime UnixBaseTime = new DateTime(1970, 1, 1);
 
         public static ulong GetTimestamp() {

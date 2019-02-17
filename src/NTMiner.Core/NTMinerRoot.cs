@@ -142,7 +142,7 @@ namespace NTMiner {
         public void Start() {
             HttpServer.Start("http://localhost:3336");
             Server.TimeService.GetTimeAsync((remoteTime) => {
-                if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < VirtualRoot.DesyncSeconds) {
+                if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
                     Logger.OkDebugLine("时间同步");
                 }
                 else {

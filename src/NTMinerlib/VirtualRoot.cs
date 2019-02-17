@@ -11,7 +11,6 @@ using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
-        public const int DesyncSeconds = 180;
         public static bool IsPublishHandlerIdAddedEvent = false;
         public static bool IsControlCenter = false;
         public static IRemoteDesktop RemoteDesktop = EmptyRemoteDesktop.Instance;
