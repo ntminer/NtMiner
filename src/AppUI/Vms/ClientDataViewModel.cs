@@ -83,6 +83,7 @@ namespace NTMiner.Vms {
                     _data.ModifiedOn = value;
                     OnPropertyChanged(nameof(ModifiedOn));
                     OnPropertyChanged(nameof(ModifiedOnText));
+                    OnPropertyChanged(nameof(LastActivedOnText));
                     OnPropertyChanged(nameof(IsClientOnline));
                     OnPropertyChanged(nameof(IsMining));
                 }
