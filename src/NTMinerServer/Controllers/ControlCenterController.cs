@@ -464,6 +464,54 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region RestartWindows
+        [HttpPost]
+        public ResponseBase RestartWindows([FromBody]RestartWindowsRequest request) {
+            // TODO:
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region ShutdownWindows
+        [HttpPost]
+        public ResponseBase ShutdownWindows([FromBody]ShutdownWindowsRequest request) {
+            // TODO:
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region OpenNTMiner
+        [HttpPost]
+        public ResponseBase OpenNTMiner([FromBody]OpenNTMinerRequest request) {
+            // TODO:
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region RestartNTMiner
+        [HttpPost]
+        public ResponseBase RestartNTMiner([FromBody]RestartNTMinerRequest request) {
+            // TODO:
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region UpgradeNTMiner
+        [HttpPost]
+        public ResponseBase UpgradeNTMiner([FromBody]UpgradeNTMinerRequest request) {
+            // TODO:
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region CloseNTMiner
+        [HttpPost]
+        public ResponseBase CloseNTMiner([FromBody]CloseNTMinerRequest request) {
+            // TODO:
+            throw new NotImplementedException();
+        }
+        #endregion
+
         #region StartMine
         [HttpPost]
         public ResponseBase StartMine([FromBody]StartMineRequest request) {
@@ -475,6 +523,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
+                // TODO:
                 throw new NotImplementedException();
             }
             catch (Exception e) {
@@ -495,6 +544,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
+                // TODO:更新挖矿状态和算力
                 throw new NotImplementedException();
             }
             catch (Exception e) {

@@ -31,15 +31,18 @@ namespace NTMiner.Vms {
             });
             this.RestartWindows = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定重启{this.ClientDataVm.MinerName}电脑吗？", title: "确认", onYes: () => {
+                    // TODO:通过中控调用
                     NTMinerDaemonService.Instance.RestartWindowsAsync(this.ClientDataVm.MinerIp, 3337, null);
                 }, icon: "Icon_Confirm");
             });
             this.ShutdownWindows = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定关机{this.ClientDataVm.MinerName}电脑吗？", title: "确认", onYes: () => {
+                    // TODO:通过中控调用
                     NTMinerDaemonService.Instance.ShutdownWindowsAsync(this.ClientDataVm.MinerIp, 3337, null);
                 }, icon: "Icon_Confirm");
             });
             this.StartNTMiner = new DelegateCommand(() => {
+                // TODO:通过中控调用
                 NTMinerDaemonService.Instance.OpenNTMinerAsync(this.ClientDataVm.MinerIp, 3337, this.ClientDataVm.WorkId, null);
             });
             this.RestartNTMiner = new DelegateCommand(() => {
@@ -47,6 +50,7 @@ namespace NTMiner.Vms {
             });
             this.CloseNTMiner = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定关闭{this.ClientDataVm.MinerName}挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
+                    // TODO:通过中控调用
                     NTMinerDaemonService.Instance.CloseNTMinerAsync(this.ClientDataVm.MinerIp, 3337, null);
                 }, icon: "Icon_Confirm");
             });

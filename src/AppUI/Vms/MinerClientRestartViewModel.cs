@@ -12,6 +12,7 @@ namespace NTMiner.Vms {
 
         public MinerClientRestartViewModel(MinerClientViewModel minerClientVm) {
             this.Save = new DelegateCommand(() => {
+                // TODO:通过中控调用
                 NTMinerDaemonService.Instance.RestartNTMinerAsync(minerClientVm.ClientDataVm.MinerIp, 3337, this.SelectedMineWork.Id, null);
                 CloseWindow?.Invoke();
             });

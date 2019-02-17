@@ -60,7 +60,13 @@
     <Compile Include="MinerServer\CalcConfigData.cs" />
     <Compile Include="MinerServer\CalcConfigsRequest.cs" />
     <Compile Include="MinerServer\ClientData.cs" />
+    <Compile Include="MinerServer\CloseNTMinerRequest.cs" />
+    <Compile Include="MinerServer\OpenNTMinerRequest.cs" />
+    <Compile Include="MinerServer\RestartNTMinerRequest.cs" />
+    <Compile Include="MinerServer\RestartWindowsRequest.cs" />
+    <Compile Include="MinerServer\ShutdownWindowsRequest.cs" />
     <Compile Include="MinerServer\UpdateClientPropertiesRequest.cs" />
+    <Compile Include="MinerServer\UpgradeNTMinerRequest.cs" />
     <Compile Include="Profile\CoinKernelProfileData.cs" />
     <Compile Include="Profile\CoinKernelProfileRequest.cs" />
     <Compile Include="Profile\CoinProfileData.cs" />

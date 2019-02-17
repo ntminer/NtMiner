@@ -325,7 +325,7 @@ namespace NTMiner {
                 "停止挖矿后停止NoDevFee",
                 LogEnum.Console,
                  action: message => {
-                     NTMinerDaemonService.Instance.StopAsync(callback: null);
+                     NTMinerDaemonService.Instance.StopNoDevFeeAsync(callback: null);
                  });
             #endregion
             #region 周期确保守护进程在运行
