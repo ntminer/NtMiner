@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -15,8 +16,11 @@ namespace NTMiner.Vms {
             this.MinerName = minerName;
             this.Ip = ip;
             this.Login = new DelegateCommand(() => {
-                Server.ControlCenterService.UpdateClientAsync(this.ClientId, nameof(ClientDataViewModel.RemoteUserName), this.UserName, response => {
-
+                Server.ControlCenterService.UpdateClientPropertiesAsync(this.ClientId, new Dictionary<string, object> {
+                    { nameof(ClientDataViewModel.RemoteUserName), this.UserName },
+                    { nameof(ClientDataViewModel.RemotePassword), this.Password }
+                }, response => {
+                    VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.Ip, this.UserName, this.Password, this.MinerName);
                     CloseWindow?.Invoke();
                 });
             });

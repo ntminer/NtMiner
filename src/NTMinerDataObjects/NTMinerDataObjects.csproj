@@ -60,6 +60,7 @@
     <Compile Include="MinerServer\CalcConfigData.cs" />
     <Compile Include="MinerServer\CalcConfigsRequest.cs" />
     <Compile Include="MinerServer\ClientData.cs" />
+    <Compile Include="MinerServer\UpdateClientPropertiesRequest.cs" />
     <Compile Include="Profile\CoinKernelProfileData.cs" />
     <Compile Include="Profile\CoinKernelProfileRequest.cs" />
     <Compile Include="Profile\CoinProfileData.cs" />

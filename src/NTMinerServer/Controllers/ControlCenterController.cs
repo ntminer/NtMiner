@@ -157,6 +157,27 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region UpdateClientProperties
+        [HttpPost]
+        public ResponseBase UpdateClientProperties([FromBody]UpdateClientPropertiesRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                HostRoot.Current.ClientSet.UpdateClientProperties(request.ClientId, request.Values);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
         #region MinerGroups
         [HttpPost]
         public GetMinerGroupsResponse MinerGroups([FromBody]MinerGroupsRequest request) {

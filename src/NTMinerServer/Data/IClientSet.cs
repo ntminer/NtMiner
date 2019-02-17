@@ -20,6 +20,8 @@ namespace NTMiner.Data {
 
         void UpdateClient(Guid clientId, string propertyName, object value);
 
+        void UpdateClientProperties(Guid clientId, Dictionary<string, object> values);
+
         List<ClientData> QueryClients(
             int pageIndex,
             int pageSize,

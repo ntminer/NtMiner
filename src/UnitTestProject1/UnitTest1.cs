@@ -113,5 +113,11 @@ namespace UnitTestProject1 {
             string location = NTMiner.NTMinerRegistry.GetLocation();
             NTMiner.Windows.Cmd.RunClose(location, string.Empty);
         }
+
+        [TestMethod]
+        public void StringJoinTest() {
+            object[] values = new object[] { "tsss", 1, null, (UnitTest1)null };
+            Console.WriteLine(string.Join(",", values));
+        }
     }
 }

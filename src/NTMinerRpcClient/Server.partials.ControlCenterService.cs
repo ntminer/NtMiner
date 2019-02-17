@@ -168,7 +168,30 @@ namespace NTMiner {
                             Timestamp = DateTime.Now
                         };
                         request.SignIt(PasswordSha1);
-                        QueryClientsResponse response = Request<QueryClientsResponse>("ControlCenter", "UpdateClient", request);
+                        ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateClient", request);
+                        callback?.Invoke(response);
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+            #endregion
+
+            #region UpdateClientPropertiesAsync
+            public void UpdateClientPropertiesAsync(Guid clientId, Dictionary<string, object> values, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        UpdateClientPropertiesRequest request = new UpdateClientPropertiesRequest {
+                            MessageId = Guid.NewGuid(),
+                            LoginName = LoginName,
+                            ClientId = clientId,
+                            Values = values,
+                            Timestamp = DateTime.Now
+                        };
+                        request.SignIt(PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateClientProperties", request);
                         callback?.Invoke(response);
                     }
                     catch (Exception e) {

@@ -244,5 +244,23 @@ namespace NTMiner.Data.Impl {
                 }
             }
         }
+
+        public void UpdateClientProperties(Guid clientId, Dictionary<string, object> values) {
+            InitOnece();
+            ClientData clientData = LoadClient(clientId);
+            if (clientData != null) {
+                foreach (var kv in values) {
+                    object value = kv.Value;
+                    PropertyInfo propertyInfo = typeof(ClientData).GetProperty(kv.Key);
+                    if (propertyInfo != null) {
+                        if (propertyInfo.PropertyType == typeof(Guid)) {
+                            value = DictionaryExtensions.ConvertToGuid(value);
+                        }
+                        propertyInfo.SetValue(clientData, value, null);
+                    }
+                }
+                clientData.ModifiedOn = DateTime.Now;
+            }
+        }
     }
 }
