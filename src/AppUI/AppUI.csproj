@@ -130,6 +130,9 @@
     <Compile Include="Views\Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\RemoteLogin.xaml.cs">
+      <DependentUpon>RemoteLogin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\NTMinerUpdaterConfig.xaml.cs">
       <DependentUpon>NTMinerUpdaterConfig.xaml</DependentUpon>
     </Compile>
@@ -304,6 +307,7 @@
     <Compile Include="Vms\PoolKernelViewModels.cs" />
     <Compile Include="Vms\PoolProfileViewModel.cs" />
     <Compile Include="Vms\PoolProfileViewModels.cs" />
+    <Compile Include="Vms\RemoteLoginViewModel.cs" />
     <Compile Include="Vms\ShareViewModel.cs" />
     <Compile Include="Vms\ShareViewModels.cs" />
     <Compile Include="Vms\CoinSnapshotDataViewModel.cs" />
@@ -403,6 +407,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Ucs\Calc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\RemoteLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

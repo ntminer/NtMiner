@@ -2,25 +2,25 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class MinerGroupEdit : UserControl {
-        public static void ShowEditWindow(MinerGroupViewModel source) {
+    public partial class RemoteLogin : UserControl {
+        public static void ShowEditWindow(RemoteLoginViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
-                IconName = "Icon_MinerGroup"
+                IconName = "Icon_RemoteDesktop"
             }, ucFactory: (window) => {
-                MinerGroupViewModel vm = new MinerGroupViewModel(source);
+                RemoteLoginViewModel vm = source;
                 vm.CloseWindow = () => window.Close();
-                return new MinerGroupEdit(vm);
+                return new RemoteLogin(vm);
             }, fixedSize: true);
         }
 
-        private MinerGroupViewModel Vm {
+        private RemoteLoginViewModel Vm {
             get {
-                return (MinerGroupViewModel)this.DataContext;
+                return (RemoteLoginViewModel)this.DataContext;
             }
         }
-        public MinerGroupEdit(MinerGroupViewModel vm) {
+        public RemoteLogin(RemoteLoginViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);

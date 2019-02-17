@@ -19,7 +19,15 @@ namespace NTMiner.Vms {
         public MinerClientViewModel(ClientData clientData) {
             this.ClientDataVm = new ClientDataViewModel(clientData);
             this.RemoteDesktop = new DelegateCommand(() => {
-                VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.ClientDataVm.MinerIp, this.ClientDataVm.RemoteUserName, this.ClientDataVm.RemotePassword, this.ClientDataVm.MinerName);
+                if (string.IsNullOrEmpty(this.ClientDataVm.RemoteUserName) || string.IsNullOrEmpty(this.ClientDataVm.RemotePassword)) {
+                    RemoteLogin.ShowEditWindow(new RemoteLoginViewModel(this.ClientDataVm.Id, this.ClientDataVm.MinerName, this.ClientDataVm.MinerIp) {
+                        UserName = this.ClientDataVm.RemoteUserName,
+                        Password = this.ClientDataVm.RemotePassword
+                    });
+                }
+                else {
+                    VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.ClientDataVm.MinerIp, this.ClientDataVm.RemoteUserName, this.ClientDataVm.RemotePassword, this.ClientDataVm.MinerName);
+                }
             });
             this.RestartWindows = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定重启{this.ClientDataVm.MinerName}电脑吗？", title: "确认", onYes: () => {
