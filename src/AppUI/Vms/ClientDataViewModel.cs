@@ -140,11 +140,17 @@ namespace NTMiner.Vms {
                     var old = _data.MinerName;
                     _data.MinerName = value;
                     OnPropertyChanged(nameof(MinerName));
-                    MinerClientService.Instance.SetMinerProfilePropertyAsync(
-                    this.MinerIp, nameof(MinerName), value, response => {
-                        if (!response.IsSuccess()) {
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, response1 => {
+                        if (response1.IsSuccess()) {
+                            MinerClientService.Instance.SetMinerProfilePropertyAsync(this.MinerIp, nameof(MinerName), value, response2 => {
+                                if (!response2.IsSuccess()) {
+                                    _data.MinerName = old;
+                                    Write.UserLine($"{this.MinerIp} {response2?.Description}", ConsoleColor.Red);
+                                }
+                            });
+                        }
+                        else {
                             _data.MinerName = old;
-                            Write.UserLine($"{this.MinerIp} {response?.Description}", ConsoleColor.Red);
                         }
                     });
                 }
