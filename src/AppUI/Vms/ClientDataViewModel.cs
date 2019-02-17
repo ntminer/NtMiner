@@ -139,13 +139,15 @@ namespace NTMiner.Vms {
                 if (_data.MinerName != value) {
                     var old = _data.MinerName;
                     _data.MinerName = value;
-                    OnPropertyChanged(nameof(MinerName));
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, response1 => {
                         if (response1.IsSuccess()) {
                             MinerClientService.Instance.SetMinerProfilePropertyAsync(this.MinerIp, nameof(MinerName), value, response2 => {
                                 if (!response2.IsSuccess()) {
                                     _data.MinerName = old;
                                     Write.UserLine($"{this.MinerIp} {response2?.Description}", ConsoleColor.Red);
+                                }
+                                else {
+                                    OnPropertyChanged(nameof(MinerName));
                                 }
                             });
                         }
@@ -212,6 +214,42 @@ namespace NTMiner.Vms {
                 if (_data.MinerIp != value) {
                     _data.MinerIp = value;
                     OnPropertyChanged(nameof(MinerIp));
+                }
+            }
+        }
+
+        public string RemoteUserName {
+            get { return _data.RemoteUserName; }
+            set {
+                if (_data.RemoteUserName != value) {
+                    var old = _data.RemoteUserName;
+                    _data.RemoteUserName = value;
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(RemoteUserName), value, response => {
+                        if (!response.IsSuccess()) {
+                            _data.RemoteUserName = old;
+                        }
+                        else {
+                            OnPropertyChanged(nameof(RemoteUserName));
+                        }
+                    });
+                }
+            }
+        }
+
+        public string RemotePassword {
+            get { return _data.RemotePassword; }
+            set {
+                if (_data.RemotePassword != value) {
+                    var old = _data.RemotePassword;
+                    _data.RemotePassword = value;
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(RemotePassword), value, response => {
+                        if (!response.IsSuccess()) {
+                            _data.RemotePassword = old;
+                        }
+                        else {
+                            OnPropertyChanged(nameof(RemotePassword));
+                        }
+                    });
                 }
             }
         }

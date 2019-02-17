@@ -23,6 +23,10 @@ namespace NTMiner.MinerServer {
 
         public string MinerIp { get; set; }
 
+        public string RemoteUserName { get; set; }
+
+        public string RemotePassword { get; set; }
+
         public int BootSeconds { get; set; }
 
         public int MineSeconds { get; set; }
