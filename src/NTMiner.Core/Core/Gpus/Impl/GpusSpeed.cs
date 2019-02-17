@@ -134,11 +134,14 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         private Guid _mainCoinId;
-        public void SetCurrentSpeed(IGpuSpeed gpuSpeed) {
+        public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
+            IGpuSpeed gpuSpeed = _currentGpuSpeed.Values.First(a => a.Gpu.Index == gpuIndex);
+            if (gpuSpeed == null) {
+                return;
+            }
             Guid mainCoinId = _root.MinerProfile.CoinId;
             if (_mainCoinId != mainCoinId) {
                 _mainCoinId = mainCoinId;
-                DateTime now = DateTime.Now;
                 foreach (var item in _gpuSpeedHistory) {
                     item.Value.Clear();
                 }
@@ -153,7 +156,26 @@ namespace NTMiner.Core.Gpus.Impl {
                 _currentGpuSpeed[gpuSpeed.Gpu.Index].Update(gpuSpeed);
             }
             if (_gpuSpeedHistory.ContainsKey(gpuSpeed.Gpu.Index)) {
-                _gpuSpeedHistory[gpuSpeed.Gpu.Index].Add(gpuSpeed);
+                _gpuSpeedHistory[gpuSpeed.Gpu.Index].Add(gpuSpeed.Clone());
+            }
+            bool isChanged = false;
+            // 如果变化幅度大于等于百分之一
+            if (isDual) {
+                isChanged = gpuSpeed.DualCoinSpeed.SpeedOn.AddSeconds(10) < now || gpuSpeed.DualCoinSpeed.Value.IsChange(speed, 0.01);
+                if (isChanged) {
+                    gpuSpeed.DualCoinSpeed.Value = speed;
+                    gpuSpeed.DualCoinSpeed.SpeedOn = now;                    
+                }
+            }
+            else {
+                isChanged = gpuSpeed.MainCoinSpeed.SpeedOn.AddSeconds(10) < now || gpuSpeed.MainCoinSpeed.Value.IsChange(speed, 0.01);
+                if (isChanged) {
+                    gpuSpeed.MainCoinSpeed.Value = speed;
+                    gpuSpeed.MainCoinSpeed.SpeedOn = now;
+                }
+            }
+            if (isChanged) {
+                VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: gpuSpeed));
             }
         }
 

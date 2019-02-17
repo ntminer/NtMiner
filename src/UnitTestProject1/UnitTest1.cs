@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NTMiner;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -118,6 +119,11 @@ namespace UnitTestProject1 {
         public void StringJoinTest() {
             object[] values = new object[] { "tsss", 1, null, (UnitTest1)null };
             Console.WriteLine(string.Join(",", values));
+        }
+
+        [TestMethod]
+        public void SpeedChangeTest() {
+            Assert.IsFalse(28.1.IsChange(28, 0.1));
         }
     }
 }

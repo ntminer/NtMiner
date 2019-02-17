@@ -202,17 +202,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     double totalSpeedL = totalSpeed.FromUnitSpeed(totalSpeedUnit);
                     var now = DateTime.Now;
                     GpusSpeed gpuSpeeds = (GpusSpeed)NTMinerRoot.Current.GpusSpeed;
-                    IGpuSpeed totalGpuSpeed = gpuSpeeds.First(a => a.Gpu.Index == NTMinerRoot.GpuAllId);
-                    gpuSpeeds.SetCurrentSpeed(totalGpuSpeed.Clone());
-                    if (isDual) {
-                        totalGpuSpeed.DualCoinSpeed.Value = totalSpeedL;
-                        totalGpuSpeed.DualCoinSpeed.SpeedOn = now;
-                    }
-                    else {
-                        totalGpuSpeed.MainCoinSpeed.Value = totalSpeedL;
-                        totalGpuSpeed.MainCoinSpeed.SpeedOn = now;
-                    }
-                    VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: totalGpuSpeed));
+                    gpuSpeeds.SetCurrentSpeed(NTMinerRoot.GpuAllId, totalSpeedL, isDual, now);
                     string gpuSpeedPattern = kernelOutput.GpuSpeedPattern;
                     if (isDual) {
                         gpuSpeedPattern = kernelOutput.DualGpuSpeedPattern;
@@ -222,16 +212,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         double gpuSpeedL = totalSpeedL / root.GpuSet.Count;
                         foreach (var item in gpuSpeeds) {
                             if (item.Gpu.Index != NTMinerRoot.GpuAllId) {
-                                gpuSpeeds.SetCurrentSpeed(item.Clone());
-                                if (isDual) {
-                                    item.DualCoinSpeed.Value = gpuSpeedL;
-                                    item.DualCoinSpeed.SpeedOn = now;
-                                }
-                                else {
-                                    item.MainCoinSpeed.Value = gpuSpeedL;
-                                    item.MainCoinSpeed.SpeedOn = now;
-                                }
-                                VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: item));
+                                gpuSpeeds.SetCurrentSpeed(item.Gpu.Index, gpuSpeedL, isDual, now);
                             }
                         }
                     }
@@ -268,17 +249,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     double gpuSpeed;
                     if (double.TryParse(gpuSpeedText, out gpuSpeed)) {
                         double gpuSpeedL = gpuSpeed.FromUnitSpeed(gpuSpeedUnit);
-                        IGpuSpeed gpuSpeedItem = gpuSpeeds.First(a => a.Gpu.Index == gpu);
-                        gpuSpeeds.SetCurrentSpeed(gpuSpeedItem.Clone());
-                        if (isDual) {
-                            gpuSpeedItem.DualCoinSpeed.Value = gpuSpeedL;
-                            gpuSpeedItem.DualCoinSpeed.SpeedOn = now;
-                        }
-                        else {
-                            gpuSpeedItem.MainCoinSpeed.Value = gpuSpeedL;
-                            gpuSpeedItem.MainCoinSpeed.SpeedOn = now;
-                        }
-                        VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: gpuSpeedItem));
+                        gpuSpeeds.SetCurrentSpeed(gpu, gpuSpeedL, isDual, now);
                     }
                 }
                 string totalSpeedPattern = kernelOutput.DualTotalSpeedPattern;
@@ -288,16 +259,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (string.IsNullOrEmpty(totalSpeedPattern)) {
                     // 求和分算力
                     IGpuSpeed totalGpuSpeed = gpuSpeeds.First(a => a.Gpu.Index == NTMinerRoot.GpuAllId);
-                    gpuSpeeds.SetCurrentSpeed(totalGpuSpeed.Clone());
-                    if (isDual) {
-                        totalGpuSpeed.DualCoinSpeed.Value = gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.DualCoinSpeed.Value);
-                        totalGpuSpeed.DualCoinSpeed.SpeedOn = now;
-                    }
-                    else {
-                        totalGpuSpeed.MainCoinSpeed.Value = gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.MainCoinSpeed.Value); ;
-                        totalGpuSpeed.MainCoinSpeed.SpeedOn = now;
-                    }
-                    VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: totalGpuSpeed));
+                    double speed = isDual? gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.DualCoinSpeed.Value) 
+                                         : gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.MainCoinSpeed.Value);
+                    gpuSpeeds.SetCurrentSpeed(NTMinerRoot.GpuAllId, speed, isDual, now);
                 }
             }
         }
