@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public RemoteLoginViewModel(Guid clientId, string minerName, string ip) {
+        public RemoteLoginViewModel(Guid clientId, string minerName, string ip, MinerClientViewModel minerClientVm) {
             this.ClientId = clientId;
             this.MinerName = minerName;
             this.Ip = ip;
@@ -28,6 +28,8 @@ namespace NTMiner.Vms {
                     { nameof(ClientDataViewModel.RemotePassword), this.Password }
                 }, response => {
                     if (response.IsSuccess()) {
+                        minerClientVm.ClientDataVm.RemoteUserName = this.UserName;
+                        minerClientVm.ClientDataVm.RemotePassword = this.Password;
                         VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.Ip, this.UserName, this.Password, this.MinerName);
                         UIThread.Execute(() => {
                             CloseWindow?.Invoke();

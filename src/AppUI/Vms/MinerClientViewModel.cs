@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
             this.ClientDataVm = new ClientDataViewModel(clientData);
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.ClientDataVm.RemoteUserName) || string.IsNullOrEmpty(this.ClientDataVm.RemotePassword)) {
-                    RemoteLogin.ShowEditWindow(new RemoteLoginViewModel(this.ClientDataVm.Id, this.ClientDataVm.MinerName, this.ClientDataVm.MinerIp) {
+                    RemoteLogin.ShowEditWindow(new RemoteLoginViewModel(this.ClientDataVm.Id, this.ClientDataVm.MinerName, this.ClientDataVm.MinerIp, this) {
                         UserName = this.ClientDataVm.RemoteUserName,
                         Password = this.ClientDataVm.RemotePassword
                     });
