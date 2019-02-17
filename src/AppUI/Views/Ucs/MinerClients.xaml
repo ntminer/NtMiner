@@ -5,6 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:notification="clr-namespace:NTMiner.Notifications.Controls;assembly=NTMinerWpf"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:view="clr-namespace:NTMiner.Views"
@@ -323,6 +324,11 @@
 				</WrapPanel>
 			</Grid>
 		</StackPanel>
+		<notification:NotificationMessageContainer 
+			HorizontalAlignment="Center"
+			VerticalAlignment="Top"
+			MaxWidth="500"
+			Manager="{Binding Manager}" />
 		<DataGrid 
 			Grid.Row="1" Margin="0" 
 			IsReadOnly="False"

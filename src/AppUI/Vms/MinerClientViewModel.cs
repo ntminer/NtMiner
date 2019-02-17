@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerServer;
+using NTMiner.Notifications;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -45,22 +46,44 @@ namespace NTMiner.Vms {
                 ClientDataVm.IsMining = true;
                 MinerClientService.Instance.StartMineAsync(this.ClientDataVm.MinerIp, ClientDataVm.WorkId, response=> {
                     if (!response.IsSuccess()) {
-                        Write.UserLine($"{this.ClientDataVm.MinerIp} {response?.Description}", ConsoleColor.Red);
+                        string message = $"{this.ClientDataVm.MinerIp} {response?.Description}";
+                        Write.UserLine(message, ConsoleColor.Red);
+                        MinerClientsViewModel.Current.Manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage(message)
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
                     }
-                });
-                TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                    Refresh();
+                    else {
+                        TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
+                            Refresh();
+                        });
+                    }
                 });
             });
             this.StopMine = new DelegateCommand(() => {
                 ClientDataVm.IsMining = false;
                 MinerClientService.Instance.StopMineAsync(this.ClientDataVm.MinerIp, response => {
                     if (!response.IsSuccess()) {
-                        Write.UserLine($"{this.ClientDataVm.MinerIp} {response?.Description}", ConsoleColor.Red);
+                        string message = $"{this.ClientDataVm.MinerIp} {response?.Description}";
+                        Write.UserLine(message, ConsoleColor.Red);
+                        MinerClientsViewModel.Current.Manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage(message)
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
                     }
-                });
-                TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                    Refresh();
+                    else {
+                        TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
+                            Refresh();
+                        });
+                    }
                 });
             });
         }

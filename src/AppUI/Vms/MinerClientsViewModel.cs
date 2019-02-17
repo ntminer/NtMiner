@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerServer;
+using NTMiner.Notifications;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
@@ -108,6 +109,16 @@ namespace NTMiner.Vms {
                 this.LogoRotateTransformAngle += 50;
             };
             t.Start();
+        }
+
+        private INotificationMessageManager _manager;
+        public INotificationMessageManager Manager {
+            get {
+                if (_manager == null) {
+                    _manager = new NotificationMessageManager();
+                }
+                return _manager;
+            }
         }
 
         public List<MinuteItem> MinuteItems {
