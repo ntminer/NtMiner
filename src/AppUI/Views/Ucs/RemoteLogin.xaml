@@ -7,6 +7,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		mc:Ignorable="d"
+		d:DataContext="{d:DesignData Source=Design/RemoteLoginViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
 		<Style TargetType="Label">
@@ -35,27 +36,31 @@
 			<TextBox Width="200" VerticalContentAlignment="Center" Text="{Binding Password, ValidatesOnExceptions=True}">
 			</TextBox>
 		</WrapPanel>
-		<controls:KbButton
-			Command="{Binding Login}" 
-			Margin="0 10 0 0"
-			Width="70" 
-			Height="30"
-			Background="{StaticResource IconFillColor}"
-			Foreground="White"
-			CornerRadius="2">
-			<WrapPanel>
-				<Path
-					Width="12"
-					Height="12"
-					Data="{StaticResource Icon_Ok}"
-					Fill="White"
-					Stretch="Fill" />
-				<TextBlock
-					Padding="4"
-					VerticalAlignment="Center"
-					Foreground="White"
-					Text="连接" />
-			</WrapPanel>
-		</controls:KbButton>
+		<WrapPanel Margin="0 10 0 0">
+			<controls:KbButton
+				Command="{Binding Login}" 
+				Margin="70 0 0 0"
+				HorizontalAlignment="Left"
+				Width="70" 
+				Height="30"
+				Background="{StaticResource IconFillColor}"
+				Foreground="White"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Ok}"
+						Fill="White"
+						Stretch="Fill" />
+					<TextBlock
+						Padding="4"
+						VerticalAlignment="Center"
+						Foreground="White"
+						Text="连接" />
+				</WrapPanel>
+			</controls:KbButton>
+			<TextBlock Foreground="Red" Text="{Binding Message}"></TextBlock>
+		</WrapPanel>
 	</StackPanel>
 </UserControl>

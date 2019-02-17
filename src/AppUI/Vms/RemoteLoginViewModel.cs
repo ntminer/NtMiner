@@ -6,10 +6,17 @@ namespace NTMiner.Vms {
     public class RemoteLoginViewModel : ViewModelBase {
         private string _userName;
         private string _password;
+        private string _message;
 
         public ICommand Login { get; private set; }
 
         public Action CloseWindow { get; set; }
+
+        public RemoteLoginViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
 
         public RemoteLoginViewModel(Guid clientId, string minerName, string ip) {
             this.ClientId = clientId;
@@ -20,10 +27,20 @@ namespace NTMiner.Vms {
                     { nameof(ClientDataViewModel.RemoteUserName), this.UserName },
                     { nameof(ClientDataViewModel.RemotePassword), this.Password }
                 }, response => {
-                    VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.Ip, this.UserName, this.Password, this.MinerName);
-                    UIThread.Execute(() => {
-                        CloseWindow?.Invoke();
-                    });
+                    if (response.IsSuccess()) {
+                        VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.Ip, this.UserName, this.Password, this.MinerName);
+                        UIThread.Execute(() => {
+                            CloseWindow?.Invoke();
+                        });
+                    }
+                    else {
+                        if (response != null) {
+                            this.Message = response.Description;
+                            TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
+                                this.Message = string.Empty;
+                            });
+                        }
+                    }
                 });
             });
         }
@@ -33,6 +50,14 @@ namespace NTMiner.Vms {
         public string MinerName { get; private set; }
 
         public string Ip { get; private set; }
+
+        public string Message {
+            get => _message;
+            set {
+                _message = value;
+                OnPropertyChanged(nameof(Message));
+            }
+        }
 
         public string UserName {
             get => _userName;
