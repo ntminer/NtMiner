@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace NTMiner {
     public static class RemoteDesktop {
-        private static List<string> axMsRdpcArray = new List<string>();
+        private static readonly Dictionary<string, Form> axMsRdpcArray = new Dictionary<string, Form>();
         /// <summary>
         /// 创建远程桌面连接
         /// </summary>
@@ -22,8 +22,8 @@ namespace NTMiner {
             AxMsRdpClient7NotSafeForScripting axMsRdpc = null;
             // 给axMsRdpc取个名字
             string axMsRdpcName = $"axMsRdpc_{id}";
-            if (axMsRdpcArray.Contains(axMsRdpcName)) {
-                Form form = Application.OpenForms[formName];
+            if (axMsRdpcArray.ContainsKey(formName)) {
+                Form form = axMsRdpcArray[formName];
                 form.Show();
                 form.Activate();
                 return;
@@ -43,7 +43,9 @@ namespace NTMiner {
                     // 找到当前打开窗口下面的远程桌面
                     if (ctrl.GetType().Name == nameof(AxMsRdpClient7NotSafeForScripting)) {
                         // 释放缓存
-                        if (axMsRdpcArray.Contains(ctrl.Name)) axMsRdpcArray.Remove(ctrl.Name);
+                        if (axMsRdpcArray.ContainsKey(frm.Name)) {
+                            axMsRdpcArray.Remove(frm.Name);
+                        }
                         // 断开连接
                         var _axMsRdp = ctrl as AxMsRdpClient7NotSafeForScripting;
                         if (_axMsRdp.Connected != 0) {
@@ -54,7 +56,7 @@ namespace NTMiner {
                 }
             };
             // 添加到当前缓存
-            axMsRdpcArray.Add(axMsRdpcName);
+            axMsRdpcArray.Add(formName, axMsRdpcForm);
 
             ((System.ComponentModel.ISupportInitialize)(axMsRdpc)).BeginInit();
             axMsRdpc.Dock = DockStyle.Fill;
