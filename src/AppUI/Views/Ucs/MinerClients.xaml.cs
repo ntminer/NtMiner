@@ -48,7 +48,7 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private void TbIp_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+        private void TbIp_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {
             MinerClientViewModel vm = (MinerClientViewModel)((FrameworkElement)sender).Tag;
             vm.RemoteDesktop.Execute(null);
             e.Handled = true;

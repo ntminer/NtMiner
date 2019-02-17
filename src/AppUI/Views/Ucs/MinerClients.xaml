@@ -505,7 +505,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBox 
-								MouseDoubleClick="TbIp_MouseDoubleClick"
+								PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
 								Tag="{Binding}"
 								BorderThickness="0"
 								Background="Transparent"
