@@ -671,13 +671,18 @@
 				</DataGridTextColumn>
 				<DataGridTextColumn 
 					Header="远程桌面密码" 
-					Binding="{Binding ClientDataVm.RemotePassword, UpdateSourceTrigger=LostFocus}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="False">
+					<DataGridTextColumn.ElementStyle>
+						<Style TargetType="TextBlock">
+							<Setter Property="Text" Value="{Binding ClientDataVm.RemotePasswordStar, UpdateSourceTrigger=LostFocus}"></Setter>
+						</Style>
+					</DataGridTextColumn.ElementStyle>
 					<DataGridTextColumn.EditingElementStyle>
 						<Style TargetType="TextBox">
+							<Setter Property="Text" Value="{Binding ClientDataVm.RemotePassword, UpdateSourceTrigger=LostFocus}"></Setter>
 							<Setter Property="Background" Value="White"></Setter>
 							<Setter Property="Width" Value="70"></Setter>
 						</Style>

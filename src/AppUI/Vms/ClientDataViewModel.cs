@@ -248,9 +248,19 @@ namespace NTMiner.Vms {
                         }
                         else {
                             OnPropertyChanged(nameof(RemotePassword));
+                            OnPropertyChanged(nameof(RemotePasswordStar));
                         }
                     });
                 }
+            }
+        }
+
+        public string RemotePasswordStar {
+            get {
+                if (string.IsNullOrEmpty(this.RemotePassword)) {
+                    return string.Empty;
+                }
+                return new string('*', this.RemotePassword.Length);
             }
         }
 
