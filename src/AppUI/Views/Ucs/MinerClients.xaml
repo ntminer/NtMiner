@@ -504,13 +504,13 @@
 				<DataGridTemplateColumn Header="IP" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
-							</WrapPanel>
+							<TextBox 
+								MouseDoubleClick="TbIp_MouseDoubleClick"
+								Tag="{Binding}"
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

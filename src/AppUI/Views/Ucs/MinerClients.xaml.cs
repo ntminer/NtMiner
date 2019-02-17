@@ -47,5 +47,11 @@ namespace NTMiner.Views.Ucs {
                 _window?.DragMove();
             }
         }
+
+        private void TbIp_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            MinerClientViewModel vm = (MinerClientViewModel)((FrameworkElement)sender).Tag;
+            vm.RemoteDesktop.Execute(null);
+            e.Handled = true;
+        }
     }
 }
