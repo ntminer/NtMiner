@@ -48,14 +48,16 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         string message = $"{this.ClientDataVm.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
-                        MinerClientsViewModel.Current.Manager.CreateMessage()
-                            .Accent("#1751C3")
-                            .Background("Red")
-                            .HasBadge("Error")
-                            .HasMessage(message)
-                            .Dismiss()
-                            .WithDelay(TimeSpan.FromSeconds(2))
-                            .Queue();
+                        UIThread.Execute(() => {
+                            MinerClientsViewModel.Current.Manager.CreateMessage()
+                                .Accent("#1751C3")
+                                .Background("Red")
+                                .HasBadge("Error")
+                                .HasMessage(message)
+                                .Dismiss()
+                                .WithDelay(TimeSpan.FromSeconds(2))
+                                .Queue();
+                        });
                     }
                     else {
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
@@ -70,14 +72,16 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         string message = $"{this.ClientDataVm.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
-                        MinerClientsViewModel.Current.Manager.CreateMessage()
-                            .Accent("#1751C3")
-                            .Background("Red")
-                            .HasBadge("Error")
-                            .HasMessage(message)
-                            .Dismiss()
-                            .WithDelay(TimeSpan.FromSeconds(2))
-                            .Queue();
+                        UIThread.Execute(() => {
+                            MinerClientsViewModel.Current.Manager.CreateMessage()
+                                .Accent("#1751C3")
+                                .Background("Red")
+                                .HasBadge("Error")
+                                .HasMessage(message)
+                                .Dismiss()
+                                .WithDelay(TimeSpan.FromSeconds(2))
+                                .Queue();
+                        });
                     }
                     else {
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {

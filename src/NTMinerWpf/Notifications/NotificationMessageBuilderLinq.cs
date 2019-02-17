@@ -124,8 +124,7 @@ namespace NTMiner.Notifications {
         /// </summary>
         /// <param name="manager">The manager.</param>
         /// <returns>Returns the notification message builder.</returns>
-        public static NotificationMessageBuilder CreateMessage(
-            this INotificationMessageManager manager) {
+        public static NotificationMessageBuilder CreateMessage(this INotificationMessageManager manager) {
             var builder = NotificationMessageBuilder.CreateMessage();
             builder.Manager = manager;
             builder.Message = manager.Factory.GetMessage();
