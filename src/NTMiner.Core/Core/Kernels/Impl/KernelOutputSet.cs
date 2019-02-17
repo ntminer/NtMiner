@@ -316,9 +316,12 @@ namespace NTMiner.Core.Kernels.Impl {
                 int totalShare;
                 if (int.TryParse(totalShareText, out totalShare)) {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
+                    int old = share.AcceptShareCount;
                     share.AcceptShareCount = totalShare - share.RejectCount;
                     share.ShareOn = DateTime.Now;
-                    VirtualRoot.Happened(new ShareChangedEvent(share));
+                    if (old != share.AcceptShareCount) {
+                        VirtualRoot.Happened(new ShareChangedEvent(share));
+                    }
                 }
             }
         }
@@ -337,9 +340,12 @@ namespace NTMiner.Core.Kernels.Impl {
                 int acceptShare;
                 if (int.TryParse(acceptShareText, out acceptShare)) {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
+                    int old = share.AcceptShareCount;
                     share.AcceptShareCount = acceptShare;
                     share.ShareOn = DateTime.Now;
-                    VirtualRoot.Happened(new ShareChangedEvent(share));
+                    if (old != share.AcceptShareCount) {
+                        VirtualRoot.Happened(new ShareChangedEvent(share));
+                    }
                 }
             }
         }
@@ -355,9 +361,12 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = Regex.Match(input, acceptOneShare);
             if (match.Success) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
+                int old = share.AcceptShareCount;
                 share.AcceptShareCount = share.AcceptShareCount + 1;
                 share.ShareOn = DateTime.Now;
-                VirtualRoot.Happened(new ShareChangedEvent(share));
+                if (old != share.AcceptShareCount) {
+                    VirtualRoot.Happened(new ShareChangedEvent(share));
+                }
             }
         }
 
@@ -376,9 +385,12 @@ namespace NTMiner.Core.Kernels.Impl {
                 int rejectShare;
                 if (int.TryParse(rejectShareText, out rejectShare)) {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
+                    int old = share.RejectCount;
                     share.RejectCount = rejectShare;
                     share.ShareOn = DateTime.Now;
-                    VirtualRoot.Happened(new ShareChangedEvent(share));
+                    if (old != share.RejectCount) {
+                        VirtualRoot.Happened(new ShareChangedEvent(share));
+                    }
                 }
             }
         }
@@ -394,9 +406,12 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = Regex.Match(input, rejectOneShare);
             if (match.Success) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
+                int old = share.RejectCount;
                 share.RejectCount = share.RejectCount + 1;
                 share.ShareOn = DateTime.Now;
-                VirtualRoot.Happened(new ShareChangedEvent(share));
+                if (old != share.RejectCount) {
+                    VirtualRoot.Happened(new ShareChangedEvent(share));
+                }
             }
         }
 
@@ -413,9 +428,12 @@ namespace NTMiner.Core.Kernels.Impl {
             double rejectPercent;
             if (double.TryParse(rejectPercentText, out rejectPercent)) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
+                int old = share.RejectCount;
                 share.RejectCount = (int)(share.TotalShareCount * rejectPercent);
                 share.ShareOn = DateTime.Now;
-                VirtualRoot.Happened(new ShareChangedEvent(share));
+                if (old != share.RejectCount) {
+                    VirtualRoot.Happened(new ShareChangedEvent(share));
+                }
             }
         }
         #endregion
