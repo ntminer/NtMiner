@@ -8,7 +8,6 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class MinerClientViewModel : ViewModelBase {
         private Visibility _isReNameVisible = Visibility.Collapsed;
-        private Visibility _isChangeGroupVisible = Visibility.Collapsed;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -18,9 +17,6 @@ namespace NTMiner.Vms {
         public ICommand ShowReName { get; private set; }
         public ICommand CancelReName { get; private set; }
         public ICommand ReName { get; private set; }
-        public ICommand ShowChangeGroup { get; private set; }
-        public ICommand ChangeGroup { get; private set; }
-        public ICommand CancelChangeGroup { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
 
@@ -66,32 +62,6 @@ namespace NTMiner.Vms {
             this.CancelReName = new DelegateCommand(() => {
                 this.IsReNameVisible = Visibility.Collapsed;
             });
-            this.ShowChangeGroup = new DelegateCommand(() => {
-                this.IsChangeGroupVisible = Visibility.Visible;
-            });
-            this.ChangeGroup = new DelegateCommand(() => {
-                try {
-                    Server.ControlCenterService.UpdateClientAsync(
-                        this.ClientDataVm.Id, nameof(ClientDataVm.GroupId), this.ClientDataVm.SelectedMinerGroupCopy.Id, response => {
-                            if (!response.IsSuccess()) {
-                                Write.UserLine($"{this.ClientDataVm.MinerIp} {response?.Description}", ConsoleColor.Red);
-                            }
-                            else {
-                                this.ClientDataVm.GroupId = this.ClientDataVm.SelectedMinerGroupCopy.Id;
-                            }
-                        });                    
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                        Refresh();
-                    });
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                }
-                this.IsChangeGroupVisible = Visibility.Collapsed;
-            });
-            this.CancelChangeGroup = new DelegateCommand(() => {
-                this.IsChangeGroupVisible = Visibility.Collapsed;
-            });
             this.StartMine = new DelegateCommand(() => {
                 ClientDataVm.IsMining = true;
                 MinerClientService.Instance.StartMineAsync(this.ClientDataVm.MinerIp, ClientDataVm.WorkId, response=> {
@@ -130,16 +100,6 @@ namespace NTMiner.Vms {
                 if (_isReNameVisible != value) {
                     _isReNameVisible = value;
                     OnPropertyChanged(nameof(IsReNameVisible));
-                }
-            }
-        }
-
-        public Visibility IsChangeGroupVisible {
-            get { return _isChangeGroupVisible; }
-            set {
-                if (_isChangeGroupVisible != value) {
-                    _isChangeGroupVisible = value;
-                    OnPropertyChanged(nameof(IsChangeGroupVisible));
                 }
             }
         }

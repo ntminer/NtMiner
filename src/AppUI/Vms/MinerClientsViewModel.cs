@@ -7,9 +7,34 @@ using System.Net;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
+    public class MinuteItem {
+        public MinuteItem(int minutes) {
+            this.Minutes = minutes;
+        }
+
+        public int Minutes { get; set; }
+        public string Text {
+            get {
+                if (this.Minutes == 0) {
+                    return "不限";
+                }
+                return this.Minutes + "分钟内";
+            }
+        }
+    }
+
     public class MinerClientsViewModel : ViewModelBase {
         public static readonly MinerClientsViewModel Current = new MinerClientsViewModel();
 
+        private readonly List<MinuteItem> _minuteItems = new List<MinuteItem> {
+            new MinuteItem(0),
+            new MinuteItem(1),
+            new MinuteItem(2),
+            new MinuteItem(5),
+            new MinuteItem(10),
+            new MinuteItem(20)
+        };
+        private MinuteItem _lastActivedOn;
         private List<MinerClientViewModel> _minerClients = new List<MinerClientViewModel>();
         private int _minerClientPageIndex = 1;
         private int _minerClientPageSize = 20;
@@ -28,6 +53,7 @@ namespace NTMiner.Vms {
         private PoolViewModel _dualCoinPool;
         private MineWorkViewModel _selectedMineWork;
         private MinerGroupViewModel _selectedMinerGroup;
+
         public ICommand PageUp { get; private set; }
         public ICommand PageDown { get; private set; }
         public ICommand PageFirst { get; private set; }
@@ -38,6 +64,7 @@ namespace NTMiner.Vms {
         public ICommand ManageWallet { get; private set; }
 
         private MinerClientsViewModel() {
+            this._lastActivedOn = _minuteItems[3];
             this._mineStatusEnumItem = this.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._mainCoin = CoinViewModel.PleaseSelect;
             this._dualCoin = CoinViewModel.PleaseSelect;
@@ -82,10 +109,17 @@ namespace NTMiner.Vms {
             };
             t.Start();
         }
-        
-        public int MinerClientRefreshPeriod {
+
+        public List<MinuteItem> MinuteItems {
             get {
-                return 120;
+                return _minuteItems;
+            }
+        }
+        public MinuteItem LastActivedOn {
+            get => _lastActivedOn;
+            set {
+                _lastActivedOn = value;
+                OnPropertyChanged(nameof(LastActivedOn));
             }
         }
 
@@ -206,14 +240,14 @@ namespace NTMiner.Vms {
                 this.MinerClientPageSize,
                 groupId,
                 workId,
-                this.MinerIp, 
+                this.MinerIp,
                 this.MinerName,
                 this.MineStatusEnumItem.Value,
-                mainCoin, 
-                mainCoinPool, 
+                mainCoin,
+                mainCoinPool,
                 mainCoinWallet,
-                dualCoin, 
-                dualCoinPool, 
+                dualCoin,
+                dualCoinPool,
                 dualCoinWallet,
                 this.Version, this.Kernel, (response) => {
                     if (response != null) {

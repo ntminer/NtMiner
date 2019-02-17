@@ -101,6 +101,22 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string LastActivedOnText {
+            get {
+                TimeSpan timeSpan = DateTime.Now - ModifiedOn;
+                if (timeSpan.Days >= 1) {
+                    return "一天前";
+                }
+                if (timeSpan.Hours > 0) {
+                    return timeSpan.Hours + "小时前";
+                }
+                if (timeSpan.Minutes > 0) {
+                    return timeSpan.Minutes + "分钟前";
+                }
+                return timeSpan.Seconds + "秒前";
+            }
+        }
+
         public bool IsMining {
             get {
                 if (!IsClientOnline) {
@@ -150,27 +166,24 @@ namespace NTMiner.Vms {
             }
             set {
                 if (_selectedMinerGroup != value) {
+                    var old = _selectedMinerGroup;
                     _selectedMinerGroup = value;
-                    OnPropertyChanged(nameof(SelectedMinerGroup));
-                }
-            }
-        }
-
-        private MinerGroupViewModel _selectedMinerGroupCopy;
-        public MinerGroupViewModel SelectedMinerGroupCopy {
-            get {
-                if (_selectedMinerGroupCopy == null) {
-                    MinerGroupViewModels.Current.TryGetMineWorkVm(GroupId, out _selectedMinerGroupCopy);
-                    if (_selectedMinerGroupCopy == null) {
-                        _selectedMinerGroupCopy = MinerGroupViewModel.PleaseSelect;
+                    try {
+                        Server.ControlCenterService.UpdateClientAsync(
+                            this.Id, nameof(GroupId), value.Id, response => {
+                                if (!response.IsSuccess()) {
+                                    this.GroupId = old.Id;
+                                    Write.UserLine($"{this.MinerIp} {response?.Description}", ConsoleColor.Red);
+                                }
+                                else {
+                                    this.GroupId = value.Id;
+                                    OnPropertyChanged(nameof(SelectedMinerGroup));
+                                }
+                            });
                     }
-                }
-                return _selectedMinerGroupCopy;
-            }
-            set {
-                if (_selectedMinerGroupCopy != value) {
-                    _selectedMinerGroupCopy = value;
-                    OnPropertyChanged(nameof(SelectedMinerGroupCopy));
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
                 }
             }
         }

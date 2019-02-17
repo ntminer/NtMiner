@@ -89,16 +89,18 @@
 					DisplayMemberPath="Description"
 					SelectedItem="{Binding MineStatusEnumItem}">
 				</controls:KbComboBox>
-				<Label Width="50" HorizontalContentAlignment="Right">IP</Label>
-				<TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="Transparent"></TextBox>
-				<Label Margin="8 0 0 0">矿工名</Label>
-				<TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding MinerName}" Background="Transparent"></TextBox>
-				<Label Margin="8 0 0 0">版本号</Label>
-				<TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding Version}" Background="Transparent"></TextBox>
-				<Label Margin="8 0 0 0">内核</Label>
-				<TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding Kernel}" Background="Transparent"></TextBox>
+				<WrapPanel>
+					<Label Width="50" HorizontalContentAlignment="Right">IP</Label>
+					<TextBox VerticalAlignment="Center" Width="90" Height="20" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="Transparent"></TextBox>
+					<Label Margin="8 0 0 0">矿工名</Label>
+					<TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding MinerName}" Background="Transparent"></TextBox>
+					<Label Margin="8 0 0 0">版本号</Label>
+					<TextBox VerticalAlignment="Center" Width="80" Height="20" Text="{Binding Version}" Background="Transparent"></TextBox>
+					<Label Margin="8 0 0 0">内核</Label>
+					<TextBox VerticalAlignment="Center" Width="100" Height="20" Text="{Binding Kernel}" Background="Transparent"></TextBox>
+				</WrapPanel>
 			</WrapPanel>
-			<StackPanel IsEnabled="{Binding IsMineWorkSelected}">
+			<StackPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BooleanInvertConverter}}">
 				<WrapPanel>
 					<controls:KbLinkButton 
 						KbDisplayLine="False"
@@ -115,7 +117,7 @@
 								Stretch="Fill" />
 							<Label
 								VerticalAlignment="Center"
-								Content="主挖"
+								Content="主币"
 								Foreground="Black" />
 						</WrapPanel>
 					</controls:KbLinkButton>
@@ -182,94 +184,94 @@
 							DisplayMemberPath="Name">
 						</controls:KbComboBox>
 					</WrapPanel>
-				</WrapPanel>
-				<WrapPanel>
-					<controls:KbLinkButton 
-						KbDisplayLine="False"
-						KbSystemButtonHoverBackground="Transparent" 
-						Background="Transparent"
-						Margin="0" Command="{Binding ManageCoin}">
-						<WrapPanel>
-							<Path 
-								Margin="4 0 0 0"
-								Width="14"
-								Height="14"
-								Data="{StaticResource Icon_Coin}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-							<Label
-								VerticalAlignment="Center"
-								Content="双挖"
-								Foreground="Black" />
+					<WrapPanel Margin="10 0 0 0">
+						<controls:KbLinkButton 
+							KbDisplayLine="False"
+							KbSystemButtonHoverBackground="Transparent" 
+							Background="Transparent"
+							Margin="0" Command="{Binding ManageCoin}">
+							<WrapPanel>
+								<Path 
+									Margin="4 0 0 0"
+									Width="14"
+									Height="14"
+									Data="{StaticResource Icon_Coin}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+								<Label
+									VerticalAlignment="Center"
+									Content="双挖币"
+									Foreground="Black" />
+							</WrapPanel>
+						</controls:KbLinkButton>
+						<controls:KbComboBox 
+							VerticalAlignment="Center" Width="100"
+							ItemsSource="{Binding MineCoinVms.DualPleaseSelect}"
+							DisplayMemberPath="Code"
+							SelectedItem="{Binding DualCoin}"></controls:KbComboBox>
+						<WrapPanel 
+							Margin="20 0 0 0" 
+							IsEnabled="{Binding IsDualCoinSelected}">
+							<controls:KbLinkButton 
+								KbDisplayLine="False"
+								KbSystemButtonHoverBackground="Transparent" 
+								Background="Transparent"
+								Command="{Binding ManagePool}"
+								CommandParameter="{Binding DualCoin}">
+								<WrapPanel>
+									<Path 
+										Margin="4 0 0 0"
+										Width="14"
+										Height="14"
+										Data="{StaticResource Icon_Pool}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+									<Label
+										VerticalAlignment="Center"
+										Content="矿池"
+										Foreground="Black" />
+								</WrapPanel>
+							</controls:KbLinkButton>
+							<controls:KbComboBox 
+								VerticalAlignment="Center" Width="120"
+								ItemsSource="{Binding DualCoin.OptionPools}"
+								DisplayMemberPath="Name"
+								SelectedValuePath="Server"
+								SelectedItem="{Binding DualCoinPool}"></controls:KbComboBox>
 						</WrapPanel>
-					</controls:KbLinkButton>
-					<controls:KbComboBox 
-						VerticalAlignment="Center" Width="100"
-						ItemsSource="{Binding MineCoinVms.DualPleaseSelect}"
-						DisplayMemberPath="Code"
-						SelectedItem="{Binding DualCoin}"></controls:KbComboBox>
-					<WrapPanel 
-						Margin="20 0 0 0" 
-						IsEnabled="{Binding IsDualCoinSelected}">
-						<controls:KbLinkButton 
-							KbDisplayLine="False"
-							KbSystemButtonHoverBackground="Transparent" 
-							Background="Transparent"
-							Command="{Binding ManagePool}"
-							CommandParameter="{Binding DualCoin}">
-							<WrapPanel>
-								<Path 
-									Margin="4 0 0 0"
-									Width="14"
-									Height="14"
-									Data="{StaticResource Icon_Pool}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-								<Label
-									VerticalAlignment="Center"
-									Content="矿池"
-									Foreground="Black" />
-							</WrapPanel>
-						</controls:KbLinkButton>
-						<controls:KbComboBox 
-							VerticalAlignment="Center" Width="120"
-							ItemsSource="{Binding DualCoin.OptionPools}"
-							DisplayMemberPath="Name"
-							SelectedValuePath="Server"
-							SelectedItem="{Binding DualCoinPool}"></controls:KbComboBox>
-					</WrapPanel>
-					<WrapPanel IsEnabled="{Binding IsDualCoinSelected}">
-						<controls:KbLinkButton 
-							KbDisplayLine="False"
-							KbSystemButtonHoverBackground="Transparent" 
-							Background="Transparent"
-							Margin="12 0 0 0" Command="{Binding ManageWallet}">
-							<WrapPanel>
-								<Path 
-									Margin="4 0 0 0"
-									Width="14"
-									Height="14"
-									Data="{StaticResource Icon_Wallet}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-								<Label
-									VerticalAlignment="Center"
-									Content="钱包"
-									Foreground="Black" />
-							</WrapPanel>
-						</controls:KbLinkButton>
-						<controls:KbComboBox 
-							ItemsSource="{Binding DualCoin.WalletItems}"
-							VerticalAlignment="Center" Width="160"
-							IsEditable="False"
-							SelectedItem="{Binding DualCoinWallet}"
-							DisplayMemberPath="Name">
-						</controls:KbComboBox>
+						<WrapPanel IsEnabled="{Binding IsDualCoinSelected}">
+							<controls:KbLinkButton 
+								KbDisplayLine="False"
+								KbSystemButtonHoverBackground="Transparent" 
+								Background="Transparent"
+								Margin="12 0 0 0" Command="{Binding ManageWallet}">
+								<WrapPanel>
+									<Path 
+										Margin="4 0 0 0"
+										Width="14"
+										Height="14"
+										Data="{StaticResource Icon_Wallet}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+									<Label
+										VerticalAlignment="Center"
+										Content="钱包"
+										Foreground="Black" />
+								</WrapPanel>
+							</controls:KbLinkButton>
+							<controls:KbComboBox 
+								ItemsSource="{Binding DualCoin.WalletItems}"
+								VerticalAlignment="Center" Width="160"
+								IsEditable="False"
+								SelectedItem="{Binding DualCoinWallet}"
+								DisplayMemberPath="Name">
+							</controls:KbComboBox>
+						</WrapPanel>
 					</WrapPanel>
 				</WrapPanel>
 			</StackPanel>
-			<WrapPanel ToolTip="仅列出4分钟内活跃过的机器">
-				<WrapPanel VerticalAlignment="Center">
+			<Grid>
+				<WrapPanel>
 					<Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
 					<Button
 						Width="20" Margin="4 0 0 0"
@@ -297,8 +299,6 @@
 							Data="{StaticResource Icon_Refresh}"></Path>
 					</Button>
 					<Button Command="{Binding PageLast}" IsEnabled="{Binding IsPageDownEnabled}" Margin="4 0 0 0">尾页</Button>
-				</WrapPanel>
-				<WrapPanel>
 					<Label>第</Label>
 					<TextBox VerticalAlignment="Center" Text="{Binding MinerClientPageIndex}"></TextBox>
 					<Label>/</Label>
@@ -309,19 +309,23 @@
 					<Label>条，共</Label>
 					<TextBlock VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
 					<Label>条</Label>
-				</WrapPanel>
-				<WrapPanel>
-					<Label>刷新周期：每</Label>
-					<Label Content="{Binding MinerClientRefreshPeriod}" Padding="2 0" Foreground="Red"></Label>
-					<Label>秒钟</Label>
-				</WrapPanel>
-				<WrapPanel>
 					<Label Foreground="Red">对矿机的操作仅内网有效</Label>
 				</WrapPanel>
-			</WrapPanel>
+				<WrapPanel HorizontalAlignment="Right">
+					<Label>最后更新</Label>
+					<controls:KbComboBox 
+						Width="80"
+						VerticalAlignment="Center" 
+						ItemsSource="{Binding MinuteItems}"
+						DisplayMemberPath="Text"
+						SelectedItem="{Binding LastActivedOn}">
+					</controls:KbComboBox>
+				</WrapPanel>
+			</Grid>
 		</StackPanel>
 		<DataGrid 
 			Grid.Row="1" Margin="0" 
+			IsReadOnly="False"
 			CanUserResizeColumns="True"
 			ItemsSource="{Binding MinerClients}"
 			AutoGenerateColumns="False">
@@ -446,16 +450,6 @@
 													Stretch="Fill" />
 											</MenuItem.Icon>
 										</MenuItem>
-										<MenuItem Header="加入组" Command="{Binding ShowChangeGroup}">
-											<MenuItem.Icon>
-												<Path
-													Width="16"
-													Height="16"
-													Data="{StaticResource Icon_MinerGroup}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</MenuItem.Icon>
-										</MenuItem>
 										<MenuItem Header="重启电脑" Command="{Binding RestartWindows}">
 											<MenuItem.Icon>
 												<Path
@@ -537,66 +531,26 @@
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="IP" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <WrapPanel>
-                                <TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
-                            </WrapPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="组队" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="IP" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
 								<TextBox 
-									MouseDoubleClick="MinerGroup_MouseDoubleClick"
-									Tag="{Binding}"
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									Text="{Binding ClientDataVm.SelectedMinerGroup.Name, Mode=OneWay}" 
-									Visibility="{Binding IsChangeGroupVisible, Converter={StaticResource VisibilityInvertConverter}}"></TextBox>
-								<controls:KbComboBox 
-									Width="80"
-									Visibility="{Binding IsChangeGroupVisible}" 
-									VerticalAlignment="Center" 
-									ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
-									DisplayMemberPath="Name"
-									SelectedItem="{Binding ClientDataVm.SelectedMinerGroupCopy}">
-								</controls:KbComboBox>
-								<controls:KbButton 
-									Margin="4 0 0 0"
-									ToolTip="确定" Command="{Binding ChangeGroup}"
-									Visibility="{Binding IsChangeGroupVisible}">
-									<Path
-										Width="12"
-										Height="12"
-										Data="{StaticResource Icon_Ok}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
-								<controls:KbButton 
-									Margin="4 0 0 0"
-									ToolTip="取消" Command="{Binding CancelChangeGroup}"
-									Visibility="{Binding IsChangeGroupVisible}">
-									<Path
-										Width="12"
-										Height="12"
-										Data="{StaticResource Icon_Close}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
+									Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<DataGridComboBoxColumn 
+					Header="组队" 
+					ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
+					DisplayMemberPath="Name" SelectedItemBinding="{Binding ClientDataVm.SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
+					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="False">
+				</DataGridComboBoxColumn>
 				<DataGridTemplateColumn Header="主挖币种" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -605,17 +559,17 @@
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="主币算力" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <WrapPanel>
-                                <TextBlock Text="{Binding ClientDataVm.MainCoinSpeedText}"></TextBlock>
-                            </WrapPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="主币钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="主币算力" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock Text="{Binding ClientDataVm.MainCoinSpeedText}"></TextBlock>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="主币钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -663,21 +617,21 @@
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="双挖算力" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBox 
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="双挖算力" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+								<TextBox 
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
 									Text="{Binding ClientDataVm.DualCoinSpeedText, Mode=OneWay}"></TextBox>
-                            </WrapPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="双挖钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="双挖钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -718,10 +672,10 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="刷新时间" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Header="最后更新" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ClientDataVm.ModifiedOnText}" Margin="4 0 0 0"></TextBlock>
+							<TextBlock Text="{Binding ClientDataVm.LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

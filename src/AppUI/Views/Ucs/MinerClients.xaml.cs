@@ -47,11 +47,6 @@ namespace NTMiner.Views.Ucs {
             minerClientVm.ShowReName.Execute(null);
         }
 
-        private void MinerGroup_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            MinerClientViewModel minerClientVm = (MinerClientViewModel)((FrameworkElement)sender).Tag;
-            minerClientVm.ShowChangeGroup.Execute(null);
-        }
-
         private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 _window?.DragMove();
