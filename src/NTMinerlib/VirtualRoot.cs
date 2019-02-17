@@ -2,6 +2,7 @@
 using NTMiner.Bus.DirectBus;
 using NTMiner.Ip;
 using NTMiner.Language;
+using NTMiner.RemoteDesktop;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
@@ -13,6 +14,7 @@ namespace NTMiner {
         public const int DesyncSeconds = 180;
         public static bool IsPublishHandlerIdAddedEvent = false;
         public static bool IsControlCenter = false;
+        public static IRemoteDesktop RemoteDesktop = EmptyRemoteDesktop.Instance;
 
         private static ILang _lang = null;
         public static ILang Lang {

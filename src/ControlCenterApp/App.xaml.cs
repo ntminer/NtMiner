@@ -74,6 +74,7 @@ namespace NTMiner {
                             #endregion
                         }
                         splashWindow?.Close();
+                        VirtualRoot.RemoteDesktop = new MsRdpRemoteDesktop();
                     });
                 });
             }

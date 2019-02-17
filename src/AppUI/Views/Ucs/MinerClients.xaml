@@ -408,6 +408,16 @@
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
 										</MenuItem.Icon>
+										<MenuItem Header="远程桌面" Command="{Binding RemoteDesktop}">
+											<MenuItem.Icon>
+												<Path
+													Width="16"
+													Height="16"
+													Data="{StaticResource Icon_RemoteDesktop}"
+													Fill="{StaticResource IconFillColor}"
+													Stretch="Fill" />
+											</MenuItem.Icon>
+										</MenuItem>
 										<MenuItem Header="启动客户端" Command="{Binding StartNTMiner}">
 											<MenuItem.Icon>
 												<Path

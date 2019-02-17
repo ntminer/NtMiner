@@ -8,6 +8,7 @@ namespace NTMiner.Vms {
     public class MinerClientViewModel : ViewModelBase {
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
+        public ICommand RemoteDesktop { get; private set; }
         public ICommand StartNTMiner { get; private set; }
         public ICommand RestartNTMiner { get; private set; }
         public ICommand CloseNTMiner { get; private set; }
@@ -16,6 +17,9 @@ namespace NTMiner.Vms {
 
         public MinerClientViewModel(ClientData clientData) {
             this.ClientDataVm = new ClientDataViewModel(clientData);
+            this.RemoteDesktop = new DelegateCommand(() => {
+                VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.ClientDataVm.MinerIp, this.ClientDataVm.RemoteUserName, this.ClientDataVm.RemotePassword, this.ClientDataVm.MinerName);
+            });
             this.RestartWindows = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定重启{this.ClientDataVm.MinerName}电脑吗？", title: "确认", onYes: () => {
                     NTMinerDaemonService.Instance.RestartWindowsAsync(this.ClientDataVm.MinerIp, 3337, null);
