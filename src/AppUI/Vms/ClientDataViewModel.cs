@@ -137,8 +137,16 @@ namespace NTMiner.Vms {
             get => _data.MinerName;
             set {
                 if (_data.MinerName != value) {
+                    var old = _data.MinerName;
                     _data.MinerName = value;
                     OnPropertyChanged(nameof(MinerName));
+                    MinerClientService.Instance.SetMinerProfilePropertyAsync(
+                    this.MinerIp, nameof(MinerName), value, response => {
+                        if (!response.IsSuccess()) {
+                            _data.MinerName = old;
+                            Write.UserLine($"{this.MinerIp} {response?.Description}", ConsoleColor.Red);
+                        }
+                    });
                 }
             }
         }
@@ -189,19 +197,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        private string _minerNameCopy;
         private long _mainCoinSpeed;
         private long _dualCoinSpeed;
-
-        public string MinerNameCopy {
-            get => _minerNameCopy;
-            set {
-                if (_minerNameCopy != value) {
-                    _minerNameCopy = value;
-                    OnPropertyChanged(nameof(MinerNameCopy));
-                }
-            }
-        }
 
         public string MinerIp {
             get => _data.MinerIp;

@@ -489,49 +489,14 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="矿工名" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
-								<TextBox 
-									MouseDoubleClick="MinerName_MouseDoubleClick"
-									Tag="{Binding}"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding ClientDataVm.MinerName, Mode=OneWay}" 
-									Visibility="{Binding IsReNameVisible, Converter={StaticResource VisibilityInvertConverter}}"></TextBox>
-								<TextBox 
-									BorderThickness="0"
-									Background="White"
-									Text="{Binding ClientDataVm.MinerNameCopy}"
-									Visibility="{Binding IsReNameVisible}" Width="80"></TextBox>
-								<controls:KbButton 
-									Margin="4 0 0 0"
-									ToolTip="确定" Command="{Binding ReName}"
-									Visibility="{Binding IsReNameVisible}">
-									<Path
-										Width="12"
-										Height="12"
-										Data="{StaticResource Icon_Ok}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
-								<controls:KbButton 
-									Margin="4 0 0 0"
-									ToolTip="取消" Command="{Binding CancelReName}"
-									Visibility="{Binding IsReNameVisible}">
-									<Path
-										Width="12"
-										Height="12"
-										Data="{StaticResource Icon_Close}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
+				<DataGridTextColumn 
+					Header="矿工名" 
+					Binding="{Binding ClientDataVm.MinerName, UpdateSourceTrigger=LostFocus}" 
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="False">
+				</DataGridTextColumn>
 				<DataGridTemplateColumn Header="IP" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
