@@ -21,7 +21,9 @@ namespace NTMiner.Vms {
                     { nameof(ClientDataViewModel.RemotePassword), this.Password }
                 }, response => {
                     VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.Ip, this.UserName, this.Password, this.MinerName);
-                    CloseWindow?.Invoke();
+                    UIThread.Execute(() => {
+                        CloseWindow?.Invoke();
+                    });
                 });
             });
         }
