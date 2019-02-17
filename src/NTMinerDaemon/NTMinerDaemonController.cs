@@ -127,11 +127,13 @@ namespace NTMiner {
 
         [HttpPost]
         public void StartNoDevFee([FromBody]StartNoDevFeeRequest request) {
+            // TODO:返回值
             NoDevFee.NoDevFeeUtil.StartAsync(request.ContextId, request.MinerName, request.Coin, request.OurWallet, request.TestWallet, request.KernelName);
         }
 
         [HttpPost]
         public void StopNoDevFee() {
+            // TODO:返回值
             NoDevFee.NoDevFeeUtil.Stop();
         }
     }

@@ -15,35 +15,35 @@ namespace NTMiner.NoDevFee {
             string testWallet,
             string kernelFullName) {
             CoinKernelId coinKernelId;
+            if (contextId == 0) {
+                return;
+            }
+            if (contextId == _contextId) {
+                return;
+            }
+            if (string.IsNullOrEmpty(coin)) {
+                return;
+            }
             if (!IsMatch(coin, kernelFullName, out coinKernelId)) {
                 return;
             }
+            if (minerName == null) {
+                minerName = string.Empty;
+            }
+            if (string.IsNullOrEmpty(ourWallet)) {
+                Logger.WarnDebugLine("没有ourWallet，NoDevFee结束");
+                return;
+            }
+            if (string.IsNullOrEmpty(testWallet)) {
+                Logger.WarnDebugLine("没有testWallet，NoDevFee结束");
+                return;
+            }
+            if (testWallet.Length != ourWallet.Length) {
+                Logger.WarnDebugLine("测试钱包地址也目标钱包地址长度不同，NoDevFee结束");
+                return;
+            }
+            _contextId = contextId;
             Task.Factory.StartNew(() => {
-                if (contextId == 0) {
-                    return;
-                }
-                if (contextId == _contextId) {
-                    return;
-                }
-                if (string.IsNullOrEmpty(coin)) {
-                    return;
-                }
-                if (minerName == null) {
-                    minerName = string.Empty;
-                }
-                if (string.IsNullOrEmpty(ourWallet)) {
-                    Logger.WarnDebugLine("没有ourWallet，NoDevFee结束");
-                    return;
-                }
-                if (string.IsNullOrEmpty(testWallet)) {
-                    Logger.WarnDebugLine("没有testWallet，NoDevFee结束");
-                    return;
-                }
-                if (testWallet.Length != ourWallet.Length) {
-                    Logger.WarnDebugLine("测试钱包地址也目标钱包地址长度不同，NoDevFee结束");
-                    return;
-                }
-                _contextId = contextId;
                 WinDivertExtract.Extract();
                 int counter = 0;
                 bool ranOnce = false;
