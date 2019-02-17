@@ -655,40 +655,35 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-			<DataGridTextColumn 
+				<DataGridTextColumn 
 				Header="远程桌面用户名" 
-				Binding="{Binding ClientDataVm.RemoteUserName, UpdateSourceTrigger=LostFocus}" 
+				Binding="{Binding ClientDataVm.RemoteUserName, UpdateSourceTrigger=LostFocus}"
 				CanUserResize="True" 
 				CanUserReorder="False" 
 				CanUserSort="False" 
 				IsReadOnly="False">
-				<DataGridTextColumn.EditingElementStyle>
-					<Style TargetType="TextBox">
-						<Setter Property="Background" Value="White"></Setter>
-						<Setter Property="Width" Value="70"></Setter>
-					</Style>
-				</DataGridTextColumn.EditingElementStyle>
-			</DataGridTextColumn>
-			<DataGridTextColumn 
-				Header="远程桌面密码" 
-				CanUserResize="True" 
-				CanUserReorder="False" 
-				CanUserSort="False" 
-				IsReadOnly="False">
-				<DataGridTextColumn.ElementStyle>
-					<Style TargetType="TextBox">
-						<Setter Property="Text" Value="x"></Setter>
-					</Style>
-				</DataGridTextColumn.ElementStyle>
-				<DataGridTextColumn.EditingElementStyle>
-					<Style TargetType="TextBox">
-						<Setter Property="Text" Value="{Binding ClientDataVm.RemotePassword, UpdateSourceTrigger=LostFocus}"></Setter>
-						<Setter Property="Background" Value="White"></Setter>
-						<Setter Property="Width" Value="70"></Setter>
-					</Style>
-				</DataGridTextColumn.EditingElementStyle>
-			</DataGridTextColumn>
+					<DataGridTextColumn.EditingElementStyle>
+						<Style TargetType="TextBox">
+							<Setter Property="Background" Value="White"></Setter>
+							<Setter Property="Width" Value="70"></Setter>
+						</Style>
+					</DataGridTextColumn.EditingElementStyle>
+				</DataGridTextColumn>
+				<DataGridTextColumn 
+					Header="远程桌面密码" 
+					Binding="{Binding ClientDataVm.RemotePassword, UpdateSourceTrigger=LostFocus}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="False">
+					<DataGridTextColumn.EditingElementStyle>
+						<Style TargetType="TextBox">
+							<Setter Property="Background" Value="White"></Setter>
+							<Setter Property="Width" Value="70"></Setter>
+						</Style>
+					</DataGridTextColumn.EditingElementStyle>
+				</DataGridTextColumn>
+			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>
 </UserControl>
