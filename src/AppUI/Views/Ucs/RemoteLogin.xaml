@@ -18,12 +18,12 @@
 			远程桌面
 		</sys:String>
 	</UserControl.Resources>
-	<StackPanel Margin="10">
+	<StackPanel Margin="10 10 30 10">
 		<WrapPanel Margin="0 2">
 			<Label>矿工名:</Label>
-			<TextBlock Text="{Binding MinerName}"></TextBlock>
+			<TextBlock Text="{Binding MinerName}" VerticalAlignment="Center"></TextBlock>
 			<Label>IP:</Label>
-			<TextBlock Text="{Binding Ip}"></TextBlock>
+			<TextBlock Text="{Binding Ip}" VerticalAlignment="Center"></TextBlock>
 		</WrapPanel>
 		<WrapPanel Margin="0 2">
 			<Label>登录名:</Label>
