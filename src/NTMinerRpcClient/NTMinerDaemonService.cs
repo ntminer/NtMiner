@@ -140,7 +140,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3337/api/NTMinerDaemon/StartNoDevFee", request);
-                        Write.DevLine("StartNoDevFeeAsync" + message.Result.ReasonPhrase);
+                        Write.DevLine("StartNoDevFeeAsync " + message.Result.ReasonPhrase);
                         callback?.Invoke();
                     }
                 }
