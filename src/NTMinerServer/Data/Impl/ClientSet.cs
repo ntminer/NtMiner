@@ -13,7 +13,7 @@ namespace NTMiner.Data.Impl {
         private readonly IHostRoot _root;
         internal ClientSet(IHostRoot root) {
             _root = root;
-            VirtualRoot.Access<Per10SecondEvent>(
+            VirtualRoot.Access<Per20SecondEvent>(
                 Guid.Parse("ea795e07-7f4b-4284-aa72-aa00c17c89d8"),
                 "周期性将内存中的ClientData列表刷入磁盘",
                 LogEnum.Console,
@@ -21,13 +21,16 @@ namespace NTMiner.Data.Impl {
                     InitOnece();
                     lock (_locker) {
                         DateTime time = message.Timestamp.AddMinutes(-20);
+                        // 移除20分钟内未活跃的客户端缓存
                         List<Guid> toRemoves = _dicById.Where(a => a.Value.ModifiedOn < time).Select(a => a.Key).ToList();
                         foreach (var clientId in toRemoves) {
                             _dicById.Remove(clientId);
                         }
+                        time = message.Timestamp.AddSeconds(-message.Seconds);
                         using (LiteDatabase db = HostRoot.CreateReportDb()) {
                             var col = db.GetCollection<ClientData>();
-                            col.Upsert(_dicById.Values);
+                            // 更新一个周期内活跃的客户端
+                            col.Upsert(_dicById.Values.Where(a => a.ModifiedOn > time));
                         }
                     }
                 });
@@ -62,6 +65,7 @@ namespace NTMiner.Data.Impl {
             get {
                 InitOnece();
                 lock (_locker) {
+                    // 因为客户端每120秒上报一次数据所以将140秒内活跃的客户端视为在线
                     DateTime time = DateTime.Now.AddSeconds(-140);
                     return _dicById.Values.Count(a => a.ModifiedOn > time);
                 }
