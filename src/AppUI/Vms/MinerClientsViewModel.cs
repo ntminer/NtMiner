@@ -29,6 +29,8 @@ namespace NTMiner.Vms {
         private bool _minerName = true;
         private bool _minerIp = true;
         private bool _minerGroup = true;
+        private bool _mainCoinCode = true;
+        private bool _mainCoinSpeed = true;
 
         public bool Work {
             get => _work;
@@ -59,6 +61,24 @@ namespace NTMiner.Vms {
             set {
                 _minerGroup = value;
                 OnPropertyChanged(nameof(MinerGroup));
+            }
+        }
+
+        public bool MainCoinCode {
+            get {
+                return _mainCoinCode;
+            }
+            set {
+                _mainCoinCode = value;
+                OnPropertyChanged(nameof(MainCoinCode));
+            }
+        }
+
+        public bool MainCoinSpeed {
+            get { return _mainCoinSpeed; }
+            set {
+                _mainCoinSpeed = value;
+                OnPropertyChanged(nameof(MainCoinSpeed));
             }
         }
     }

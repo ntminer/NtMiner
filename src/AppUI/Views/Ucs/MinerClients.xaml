@@ -328,6 +328,8 @@
 				<CheckBox IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">矿工名</CheckBox>
 				<CheckBox IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">IP</CheckBox>
 				<CheckBox IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="6 0 0 0">主挖币种</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.MainCoinSpeed}" Margin="6 0 0 0">主币算力</CheckBox>
 			</WrapPanel>
 		</StackPanel>
 		<notification:NotificationMessageContainer 
@@ -547,7 +549,13 @@
 					DisplayMemberPath="Name" SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
 					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="False">
 				</DataGridComboBoxColumn>
-				<DataGridTemplateColumn Header="主挖币种" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="主挖币种" 
+					Visibility="{Binding Data.ColumnsShow.MainCoinCode, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -556,7 +564,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="主币算力" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="主币算力" 
+					Visibility="{Binding Data.ColumnsShow.MainCoinSpeed,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
