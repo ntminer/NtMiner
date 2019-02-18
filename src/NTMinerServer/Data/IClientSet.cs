@@ -6,13 +6,7 @@ namespace NTMiner.Data {
     public interface IClientSet {
         ClientCount Count();
 
-        int CountMainCoinOnline(string coinCode);
-
-        int CountDualCoinOnline(string coinCode);
-
-        int CountMainCoinMining(string coinCode);
-
-        int CountDualCoinMining(string coinCode);
+        ClientCoinCount Count(string coinCode);
 
         void Add(ClientData clientData);
 

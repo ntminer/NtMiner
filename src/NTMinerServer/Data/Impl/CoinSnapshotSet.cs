@@ -121,13 +121,14 @@ namespace NTMiner.Data.Impl {
                     }
                     long speed = dic.Values.Sum(a => a.Speed);
                     int shareDelta = dic.Values.Sum(a => a.ShareDelta);
+                    ClientCoinCount count = _root.ClientSet.Count(item.Key);
                     CoinSnapshotData snapshotdData = new CoinSnapshotData {
                         Id = ObjectId.NewObjectId(),
                         CoinCode = item.Key,
-                        MainCoinMiningCount = _root.ClientSet.CountMainCoinMining(item.Key),
-                        MainCoinOnlineCount = _root.ClientSet.CountMainCoinOnline(item.Key),
-                        DualCoinMiningCount = _root.ClientSet.CountDualCoinMining(item.Key),
-                        DualCoinOnlineCount = _root.ClientSet.CountDualCoinOnline(item.Key),
+                        MainCoinMiningCount = count.MainCoinMiningCount,
+                        MainCoinOnlineCount = count.MainCoinOnlineCount,
+                        DualCoinMiningCount = count.DualCoinMiningCount,
+                        DualCoinOnlineCount = count.DualCoinOnlineCount,
                         Timestamp = timestamp,
                         ShareDelta = shareDelta,
                         Speed = speed

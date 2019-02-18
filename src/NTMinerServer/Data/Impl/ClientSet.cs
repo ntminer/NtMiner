@@ -83,36 +83,37 @@ namespace NTMiner.Data.Impl {
             };
         }
 
-        public int CountMainCoinOnline(string coinCode) {
+        public ClientCoinCount Count(string coinCode) {
             InitOnece();
+            DateTime time = DateTime.Now.AddSeconds(-140);
+            int mainCoinOnlineCount = 0;
+            int mainCoinMiningCount = 0;
+            int dualCoinOnlineCount = 0;
+            int dualCoinMiningCount = 0;
             lock (_locker) {
-                DateTime time = DateTime.Now.AddSeconds(-140);
-                return _dicById.Values.Where(a => a.MainCoinCode == coinCode).Count(a => a.ModifiedOn > time);
+                foreach (var clientData in _dicById.Values) {
+                    if (clientData.ModifiedOn > time) {
+                        if (clientData.MainCoinCode == coinCode) {
+                            mainCoinOnlineCount++;
+                            if (clientData.IsMining) {
+                                mainCoinMiningCount++;
+                            }
+                        }
+                        if (clientData.DualCoinCode == coinCode) {
+                            dualCoinOnlineCount++;
+                            if (clientData.IsMining) {
+                                dualCoinMiningCount++;
+                            }
+                        }
+                    }
+                }
             }
-        }
-
-        public int CountMainCoinMining(string coinCode) {
-            InitOnece();
-            lock (_locker) {
-                DateTime time = DateTime.Now.AddSeconds(-140);
-                return _dicById.Values.Where(a => a.MainCoinCode == coinCode).Count(a => a.ModifiedOn > time && a.IsMining);
-            }
-        }
-
-        public int CountDualCoinOnline(string coinCode) {
-            InitOnece();
-            lock (_locker) {
-                DateTime time = DateTime.Now.AddSeconds(-140);
-                return _dicById.Values.Where(a => a.DualCoinCode == coinCode).Count(a => a.ModifiedOn > time);
-            }
-        }
-
-        public int CountDualCoinMining(string coinCode) {
-            InitOnece();
-            lock (_locker) {
-                DateTime time = DateTime.Now.AddSeconds(-140);
-                return _dicById.Values.Where(a => a.DualCoinCode == coinCode).Count(a => a.ModifiedOn > time && a.IsMining);
-            }
+            return new ClientCoinCount {
+                MainCoinOnlineCount = mainCoinOnlineCount,
+                MainCoinMiningCount = mainCoinMiningCount,
+                DualCoinOnlineCount = dualCoinOnlineCount,
+                DualCoinMiningCount = dualCoinMiningCount
+            };
         }
 
         public void Add(ClientData clientData) {
