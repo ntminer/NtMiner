@@ -24,6 +24,45 @@ namespace NTMiner.Vms {
         }
     }
 
+    public class ColumnsShow : ViewModelBase {
+        private bool _work = true;
+        private bool _minerName = true;
+        private bool _minerIp = true;
+        private bool _minerGroup = true;
+
+        public bool Work {
+            get => _work;
+            set {
+                _work = value;
+                OnPropertyChanged(nameof(Work));
+            }
+        }
+
+        public bool MinerName {
+            get { return _minerName; }
+            set {
+                _minerName = value;
+                OnPropertyChanged(nameof(MinerName));
+            }
+        }
+
+        public bool MinerIp {
+            get { return _minerIp; }
+            set {
+                _minerIp = value;
+                OnPropertyChanged(nameof(MinerIp));
+            }
+        }
+
+        public bool MinerGroup {
+            get { return _minerGroup; }
+            set {
+                _minerGroup = value;
+                OnPropertyChanged(nameof(MinerGroup));
+            }
+        }
+    }
+
     public class MinerClientsViewModel : ViewModelBase {
         public static readonly MinerClientsViewModel Current = new MinerClientsViewModel();
 
@@ -35,6 +74,7 @@ namespace NTMiner.Vms {
             new MinuteItem(10),
             new MinuteItem(20)
         };
+        private readonly ColumnsShow _columnsShow = new ColumnsShow();
         private int _countDown;
         private MinuteItem _lastActivedOn;
         private List<MinerClientViewModel> _minerClients = new List<MinerClientViewModel>();
@@ -132,6 +172,12 @@ namespace NTMiner.Vms {
                     _manager = new NotificationMessageManager();
                 }
                 return _manager;
+            }
+        }
+
+        public ColumnsShow ColumnsShow {
+            get {
+                return _columnsShow;
             }
         }
 

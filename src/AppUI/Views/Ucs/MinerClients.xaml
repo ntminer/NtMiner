@@ -323,6 +323,12 @@
 					</controls:KbComboBox>
 				</WrapPanel>
 			</Grid>
+			<WrapPanel>
+				<CheckBox IsChecked="{Binding ColumnsShow.Work}">作业</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">矿工名</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">IP</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
+			</WrapPanel>
 		</StackPanel>
 		<notification:NotificationMessageContainer 
 			HorizontalAlignment="Center"
@@ -480,7 +486,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="作业" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="作业" 
+					Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BooleanInvertConverter}}">
@@ -495,6 +507,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn 
 					Header="矿工名" 
+					Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 					Binding="{Binding MinerName, UpdateSourceTrigger=LostFocus}" 
 					CanUserResize="True" 
 					CanUserReorder="False" 
@@ -507,10 +520,17 @@
 						</Style>
 					</DataGridTextColumn.EditingElementStyle>
 				</DataGridTextColumn>
-				<DataGridTemplateColumn Header="IP" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="IP" 
+					Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBox 
+								ToolTip="双击打开远程桌面"
 								PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
 								Tag="{Binding}"
 								BorderThickness="0"
@@ -522,6 +542,7 @@
 				</DataGridTemplateColumn>
 				<DataGridComboBoxColumn 
 					Header="组队" 
+					Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
 					DisplayMemberPath="Name" SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
 					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="False">
