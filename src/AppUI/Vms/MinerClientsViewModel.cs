@@ -135,6 +135,7 @@ namespace NTMiner.Vms {
             set {
                 _lastActivedOn = value;
                 OnPropertyChanged(nameof(LastActivedOn));
+                QueryMinerClients();
             }
         }
 
