@@ -24,12 +24,12 @@ namespace NTMiner.Vms {
             this.Ip = ip;
             this.Login = new DelegateCommand(() => {
                 Server.ControlCenterService.UpdateClientPropertiesAsync(this.ClientId, new Dictionary<string, object> {
-                    { nameof(ClientDataViewModel.RemoteUserName), this.UserName },
-                    { nameof(ClientDataViewModel.RemotePassword), this.Password }
+                    { nameof(MinerClientViewModel.RemoteUserName), this.UserName },
+                    { nameof(MinerClientViewModel.RemotePassword), this.Password }
                 }, response => {
                     if (response.IsSuccess()) {
-                        minerClientVm.ClientDataVm.RemoteUserName = this.UserName;
-                        minerClientVm.ClientDataVm.RemotePassword = this.Password;
+                        minerClientVm.RemoteUserName = this.UserName;
+                        minerClientVm.RemotePassword = this.Password;
                         VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.Ip, this.UserName, this.Password, this.MinerName);
                         UIThread.Execute(() => {
                             CloseWindow?.Invoke();

@@ -345,7 +345,7 @@
 							<WrapPanel>
 								<controls:KbButton 
 									Command="{Binding StartMine}" 
-									Visibility="{Binding ClientDataVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+									Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
 									Background="#00CA72">
 									<WrapPanel>
 										<Path
@@ -364,7 +364,7 @@
 								</controls:KbButton>
 								<Button
 									Command="{Binding StopMine}" 
-									Visibility="{Binding ClientDataVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+									Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
 									<Button.Template>
 										<ControlTemplate>
 											<Border 
@@ -483,19 +483,19 @@
 				<DataGridTemplateColumn Header="作业" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel IsEnabled="{Binding ClientDataVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+							<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BooleanInvertConverter}}">
 								<TextBox 
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									Text="{Binding ClientDataVm.SelectedMineWork.Name, Mode=OneWay}"></TextBox>
+									Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn 
 					Header="矿工名" 
-					Binding="{Binding ClientDataVm.MinerName, UpdateSourceTrigger=LostFocus}" 
+					Binding="{Binding MinerName, UpdateSourceTrigger=LostFocus}" 
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
@@ -516,21 +516,21 @@
 								BorderThickness="0"
 								Background="Transparent"
 								IsReadOnly="True"
-								Text="{Binding ClientDataVm.MinerIp, Mode=OneWay}"></TextBox>
+								Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridComboBoxColumn 
 					Header="组队" 
 					ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
-					DisplayMemberPath="Name" SelectedItemBinding="{Binding ClientDataVm.SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
+					DisplayMemberPath="Name" SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
 					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="False">
 				</DataGridComboBoxColumn>
 				<DataGridTemplateColumn Header="主挖币种" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBlock Text="{Binding ClientDataVm.MainCoinCode}"></TextBlock>
+								<TextBlock Text="{Binding MainCoinCode}"></TextBlock>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -539,7 +539,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBlock Text="{Binding ClientDataVm.MainCoinSpeedText}"></TextBlock>
+								<TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -548,7 +548,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBlock Text="{Binding ClientDataVm.MainCoinWallet}"></TextBlock>
+								<TextBlock Text="{Binding MainCoinWallet}"></TextBlock>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -558,11 +558,11 @@
 						<DataTemplate>
 							<WrapPanel>
 								<TextBox 
-									ToolTip="{Binding ClientDataVm.MainCoinPool}"
+									ToolTip="{Binding MainCoinPool}"
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									Text="{Binding ClientDataVm.MainCoinPool, Mode=OneWay}"></TextBox>
+									Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -575,7 +575,7 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									Text="{Binding ClientDataVm.Kernel, Mode=OneWay}"></TextBox>
+									Text="{Binding Kernel, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -583,12 +583,12 @@
 				<DataGridTemplateColumn Header="双挖币种" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 								<TextBox 
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									Text="{Binding ClientDataVm.DualCoinCode, Mode=OneWay}"></TextBox>
+									Text="{Binding DualCoinCode, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -596,12 +596,12 @@
 				<DataGridTemplateColumn Header="双挖算力" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 								<TextBox 
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									Text="{Binding ClientDataVm.DualCoinSpeedText, Mode=OneWay}"></TextBox>
+									Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -609,12 +609,12 @@
 				<DataGridTemplateColumn Header="双挖钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel Visibility="{Binding ClientDataVm.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 								<TextBox 
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									Text="{Binding ClientDataVm.DualCoinWallet, Mode=OneWay}"></TextBox>
+									Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -624,11 +624,11 @@
 						<DataTemplate>
 							<WrapPanel>
 								<TextBox 
-									ToolTip="{Binding ClientDataVm.DualCoinPool}"
+									ToolTip="{Binding DualCoinPool}"
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									Text="{Binding ClientDataVm.DualCoinPool, Mode=OneWay}"></TextBox>
+									Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -641,8 +641,8 @@
 									BorderThickness="0"
 									Background="Transparent"
 									IsReadOnly="True"
-									ToolTip="{Binding ClientDataVm.GpuInfo}"
-									Text="{Binding ClientDataVm.GpuInfo, Mode=OneWay}"></TextBox>
+									ToolTip="{Binding GpuInfo}"
+									Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -650,24 +650,24 @@
 				<DataGridTemplateColumn Header="最后更新" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ClientDataVm.LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
+							<TextBlock Text="{Binding LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="客户端版本" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ClientDataVm.Version}" Margin="8 0 0 0"></TextBlock>
+							<TextBlock Text="{Binding Version}" Margin="8 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn 
-				Header="远程桌面用户名" 
-				Binding="{Binding ClientDataVm.RemoteUserName, UpdateSourceTrigger=LostFocus}"
-				CanUserResize="True" 
-				CanUserReorder="False" 
-				CanUserSort="False" 
-				IsReadOnly="False">
+				    Header="远程桌面用户名" 
+				    Binding="{Binding RemoteUserName, UpdateSourceTrigger=LostFocus}"
+				    CanUserResize="True" 
+				    CanUserReorder="False" 
+				    CanUserSort="False" 
+				    IsReadOnly="False">
 					<DataGridTextColumn.EditingElementStyle>
 						<Style TargetType="TextBox">
 							<Setter Property="Background" Value="White"></Setter>
@@ -683,12 +683,12 @@
 					IsReadOnly="False">
 					<DataGridTextColumn.ElementStyle>
 						<Style TargetType="TextBlock">
-							<Setter Property="Text" Value="{Binding ClientDataVm.RemotePasswordStar, UpdateSourceTrigger=LostFocus}"></Setter>
+							<Setter Property="Text" Value="{Binding RemotePasswordStar, UpdateSourceTrigger=LostFocus}"></Setter>
 						</Style>
 					</DataGridTextColumn.ElementStyle>
 					<DataGridTextColumn.EditingElementStyle>
 						<Style TargetType="TextBox">
-							<Setter Property="Text" Value="{Binding ClientDataVm.RemotePassword, UpdateSourceTrigger=LostFocus}"></Setter>
+							<Setter Property="Text" Value="{Binding RemotePassword, UpdateSourceTrigger=LostFocus}"></Setter>
 							<Setter Property="Background" Value="White"></Setter>
 							<Setter Property="Width" Value="70"></Setter>
 						</Style>

@@ -13,11 +13,11 @@ namespace NTMiner.Vms {
         public MinerClientRestartViewModel(MinerClientViewModel minerClientVm) {
             this.Save = new DelegateCommand(() => {
                 // TODO:通过中控调用
-                NTMinerDaemonService.Instance.RestartNTMinerAsync(minerClientVm.ClientDataVm.MinerIp, this.SelectedMineWork.Id, null);
+                NTMinerDaemonService.Instance.RestartNTMinerAsync(minerClientVm.MinerIp, this.SelectedMineWork.Id, null);
                 CloseWindow?.Invoke();
             });
             _minerClientVm = minerClientVm;
-            _selectedMineWork = MineWorkVms.MineWorkItems.FirstOrDefault(a => a.Id == minerClientVm.ClientDataVm.WorkId);
+            _selectedMineWork = MineWorkVms.MineWorkItems.FirstOrDefault(a => a.Id == minerClientVm.WorkId);
         }
 
         public MinerClientViewModel MinerClientVm {

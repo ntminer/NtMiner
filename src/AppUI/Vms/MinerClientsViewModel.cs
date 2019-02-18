@@ -275,13 +275,13 @@ namespace NTMiner.Vms {
         }
 
         public void LoadClients() {
-            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.ClientDataVm.Id).ToList(), (response) => {
+            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.Id).ToList(), (response) => {
                 UIThread.Execute(() => {
                     if (response != null) {
                         foreach (var item in this.MinerClients) {
-                            ClientData data = response.Data.FirstOrDefault(a => a.Id == item.ClientDataVm.Id);
+                            ClientData data = response.Data.FirstOrDefault(a => a.Id == item.Id);
                             if (data != null) {
-                                item.ClientDataVm.Update(data);
+                                item.Update(data);
                             }
                         }
                     }
