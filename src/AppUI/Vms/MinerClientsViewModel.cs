@@ -66,6 +66,10 @@ namespace NTMiner.Vms {
 
         private MinerClientsViewModel() {
             this._lastActivedOn = _minuteItems[3];
+            if (Server.MinerServerHost.ToLower().Contains("ntminer.com")) {
+                // 官网的服务不支持FindAll
+                _minuteItems.RemoveAt(0);
+            }
             this._mineStatusEnumItem = this.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._mainCoin = CoinViewModel.PleaseSelect;
             this._dualCoin = CoinViewModel.PleaseSelect;
@@ -246,9 +250,14 @@ namespace NTMiner.Vms {
                     dualCoinWallet = this.DualCoinWallet.Address;
                 }
             }
+            DateTime? timeLimit = null;
+            if (this.LastActivedOn.Minutes != 0) {
+                timeLimit = DateTime.Now.AddMinutes(-this.LastActivedOn.Minutes);
+            }
             Server.ControlCenterService.QueryClientsAsync(
                 this.MinerClientPageIndex,
                 this.MinerClientPageSize,
+                timeLimit,
                 groupId,
                 workId,
                 this.MinerIp,

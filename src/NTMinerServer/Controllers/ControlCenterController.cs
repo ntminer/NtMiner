@@ -65,6 +65,7 @@ namespace NTMiner.Controllers {
                 var data = HostRoot.Current.ClientSet.QueryClients(
                     request.PageIndex, 
                     request.PageSize, 
+                    request.TimeLimit,
                     request.GroupId, 
                     request.WorkId,
                     request.MinerIp, 

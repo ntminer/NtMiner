@@ -99,6 +99,7 @@ namespace NTMiner {
             public void QueryClientsAsync(
                 int pageIndex,
                 int pageSize,
+                DateTime? timeLimit,
                 Guid? groupId,
                 Guid? workId,
                 string minerIp,
@@ -119,6 +120,7 @@ namespace NTMiner {
                             LoginName = LoginName,
                             PageIndex = pageIndex,
                             PageSize = pageSize,
+                            TimeLimit = timeLimit,
                             GroupId = groupId,
                             WorkId = workId,
                             MinerIp = minerIp,

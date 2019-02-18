@@ -130,6 +130,7 @@ namespace NTMiner.Data.Impl {
         public List<ClientData> QueryClients(
             int pageIndex,
             int pageSize,
+            DateTime? timeLimit,
             Guid? groupId,
             Guid? workId,
             string minerIp,
@@ -146,7 +147,19 @@ namespace NTMiner.Data.Impl {
             out int total) {
             InitOnece();
             lock (_locker) {
-                IQueryable<ClientData> query = _dicById.Values.AsQueryable();
+                IQueryable<ClientData> query;
+                if (timeLimit.HasValue && timeLimit.Value.AddSeconds(20 * 60 + Timestamp.DesyncSeconds) > DateTime.Now) {
+                    query = _dicById.Values.AsQueryable();
+                }
+                else {
+                    using (LiteDatabase db = HostRoot.CreateReportDb()) {
+                        var col = db.GetCollection<ClientData>();
+                        query = col.FindAll().AsQueryable();
+                    }
+                }
+                if (timeLimit.HasValue) {
+                    query = query.Where(a => a.ModifiedOn > timeLimit.Value);
+                }
                 if (groupId != null && groupId.Value != Guid.Empty) {
                     query = query.Where(a => a.GroupId == groupId.Value);
                 }
