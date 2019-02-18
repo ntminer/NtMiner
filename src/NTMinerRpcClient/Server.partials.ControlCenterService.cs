@@ -17,9 +17,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         LoginControlCenterRequest request = new LoginControlCenterRequest {
-                            MessageId = Guid.NewGuid(),
-                            LoginName = loginName,
-                            Timestamp = DateTime.Now
+                            LoginName = loginName
                         };
                         request.SignIt(password);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "LoginControlCenter", request);
@@ -38,10 +36,8 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         LoadClientsRequest request = new LoadClientsRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
-                            ClientIds = clientIds,
-                            Timestamp = DateTime.Now
+                            ClientIds = clientIds
                         };
                         request.SignIt(PasswordSha1);
                         LoadClientsResponse response = Request<LoadClientsResponse>("ControlCenter", "LoadClients", request);
@@ -63,11 +59,9 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
                             Limit = limit,
-                            CoinCodes = coinCodes,
-                            Timestamp = DateTime.Now
+                            CoinCodes = coinCodes
                         };
                         request.SignIt(PasswordSha1);
                         GetCoinSnapshotsResponse response = Request<GetCoinSnapshotsResponse>("ControlCenter", "LatestSnapshots", request);
@@ -86,10 +80,8 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         LoadClientRequest request = new LoadClientRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
-                            ClientId = clientId,
-                            Timestamp = DateTime.Now
+                            ClientId = clientId
                         };
                         request.SignIt(PasswordSha1);
                         LoadClientResponse response = Request<LoadClientResponse>("ControlCenter", "LoadClient", request);
@@ -124,7 +116,6 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         var request = new QueryClientsRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
                             PageIndex = pageIndex,
                             PageSize = pageSize,
@@ -140,8 +131,7 @@ namespace NTMiner {
                             DualCoinPool = dualCoinPool,
                             DualCoinWallet = dualCoinWallet,
                             Version = version,
-                            Kernel = kernel,
-                            Timestamp = DateTime.Now
+                            Kernel = kernel
                         };
                         request.SignIt(PasswordSha1);
                         QueryClientsResponse response = Request<QueryClientsResponse>("ControlCenter", "QueryClients", request);
@@ -160,12 +150,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         UpdateClientRequest request = new UpdateClientRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
                             ClientId = clientId,
                             PropertyName = propertyName,
-                            Value = value,
-                            Timestamp = DateTime.Now
+                            Value = value
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateClient", request);
@@ -184,11 +172,9 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         UpdateClientPropertiesRequest request = new UpdateClientPropertiesRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
                             ClientId = clientId,
-                            Values = values,
-                            Timestamp = DateTime.Now
+                            Values = values
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateClientProperties", request);
@@ -229,10 +215,8 @@ namespace NTMiner {
                     try {
                         entity.ModifiedOn = DateTime.Now;
                         AddOrUpdateMinerGroupRequest request = new AddOrUpdateMinerGroupRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
-                            Data = entity,
-                            Timestamp = DateTime.Now
+                            Data = entity
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateMinerGroup", request);
@@ -251,9 +235,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveMinerGroupRequest request = new RemoveMinerGroupRequest() {
-                            MessageId = Guid.NewGuid(),
-                            LoginName = LoginName,
-                            Timestamp = DateTime.Now
+                            LoginName = LoginName
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveMinerGroup", request);
@@ -273,9 +255,7 @@ namespace NTMiner {
                     try {
                         entity.ModifiedOn = DateTime.Now;
                         AddOrUpdateMineWorkRequest request = new AddOrUpdateMineWorkRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
-                            Timestamp = DateTime.Now,
                             Data = entity
                         };
                         request.SignIt(PasswordSha1);
@@ -295,9 +275,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveMineWorkRequest request = new RemoveMineWorkRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
-                            Timestamp = DateTime.Now,
                             MineWorkId = id
                         };
                         request.SignIt(PasswordSha1);
@@ -317,11 +295,9 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest() {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
                             PropertyName = propertyName,
                             Value = value,
-                            Timestamp = DateTime.Now,
                             WorkId = workId
                         };
                         request.SignIt(PasswordSha1);
@@ -341,13 +317,11 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         SetCoinProfilePropertyRequest request = new SetCoinProfilePropertyRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
                             CoinId = coinId,
                             WorkId = workId,
                             PropertyName = propertyName,
-                            Value = value,
-                            Timestamp = DateTime.Now
+                            Value = value
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "SetCoinProfileProperty", request);
@@ -366,13 +340,11 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         SetPoolProfilePropertyRequest request = new SetPoolProfilePropertyRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
                             PoolId = poolId,
                             WorkId = workId,
                             PropertyName = propertyName,
-                            Value = value,
-                            Timestamp = DateTime.Now
+                            Value = value
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "SetPoolProfileProperty", request);
@@ -391,12 +363,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         SetCoinKernelProfilePropertyRequest request = new SetCoinKernelProfilePropertyRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
                             CoinKernelId = coinKernelId,
                             PropertyName = propertyName,
                             Value = value,
-                            Timestamp = DateTime.Now,
                             WorkId = workId
                         };
                         request.SignIt(PasswordSha1);
@@ -438,8 +408,6 @@ namespace NTMiner {
                         entity.ModifiedOn = DateTime.Now;
                         AddOrUpdateWalletRequest request = new AddOrUpdateWalletRequest {
                             LoginName = LoginName,
-                            MessageId = Guid.NewGuid(),
-                            Timestamp = DateTime.Now,
                             Data = entity
                         };
                         request.SignIt(PasswordSha1);
@@ -459,9 +427,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveWalletRequest request = new RemoveWalletRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = LoginName,
-                            Timestamp = DateTime.Now,
                             WalletId = id
                         };
                         request.SignIt(PasswordSha1);
@@ -505,9 +471,7 @@ namespace NTMiner {
                         }
                         SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
                             Data = configs,
-                            LoginName = LoginName,
-                            MessageId = Guid.NewGuid(),
-                            Timestamp = DateTime.Now
+                            LoginName = LoginName
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "SaveCalcConfigs", request);

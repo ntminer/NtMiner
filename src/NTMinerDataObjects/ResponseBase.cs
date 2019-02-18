@@ -14,12 +14,12 @@ namespace NTMiner {
             return InvalidInput<ResponseBase>(messageId, description);
         }
 
-        public static ResponseBase Ok(Guid messageId) {
+        public static ResponseBase Ok(Guid messageId, string message = null) {
             return new ResponseBase() {
                 MessageId = messageId,
                 StateCode = 200,
                 ReasonPhrase = "Ok",
-                Description = "成功"
+                Description = message ?? "成功"
             };
         }
 

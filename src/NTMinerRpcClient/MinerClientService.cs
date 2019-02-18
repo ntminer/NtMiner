@@ -16,11 +16,9 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         AddUserRequest request = new AddUserRequest() {
-                            MessageId = Guid.NewGuid(),
                             LoginName = loginName,
                             Password = password,
-                            Description = description,
-                            Timestamp = DateTime.Now
+                            Description = description
                         };
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/AddUser", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
@@ -54,10 +52,8 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         StartMineRequest request = new StartMineRequest() {
-                            MessageId = Guid.NewGuid(),
                             LoginName = Server.LoginName,
-                            WorkId = workId,
-                            Timestamp = DateTime.Now
+                            WorkId = workId
                         };
                         request.SignIt(Server.PasswordSha1Sha1);
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StartMine", request);
@@ -77,9 +73,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         StopMineRequest request = new StopMineRequest() {
-                            MessageId = Guid.NewGuid(),
-                            LoginName = Server.LoginName,
-                            Timestamp = DateTime.Now
+                            LoginName = Server.LoginName
                         };
                         request.SignIt(Server.PasswordSha1Sha1);
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StopMine", request);
@@ -99,11 +93,9 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest {
-                            MessageId = Guid.NewGuid(),
                             LoginName = Server.LoginName,
                             PropertyName = propertyName,
-                            Value = value,
-                            Timestamp = DateTime.Now
+                            Value = value
                         };
                         request.SignIt(Server.PasswordSha1Sha1);
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/SetMinerProfileProperty", request);

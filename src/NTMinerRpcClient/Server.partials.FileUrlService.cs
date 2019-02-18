@@ -35,10 +35,8 @@ namespace NTMiner {
             public void AddOrUpdateNTMinerFileAsync(NTMinerFileData entity, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     AddOrUpdateNTMinerFileRequest request = new AddOrUpdateNTMinerFileRequest() {
-                        MessageId = Guid.NewGuid(),
                         Data = entity,
-                        LoginName = LoginName,
-                        Timestamp = DateTime.Now
+                        LoginName = LoginName
                     };
                     request.SignIt(PasswordSha1);
                     ResponseBase response = Request<ResponseBase>("FileUrl", "AddOrUpdateNTMinerFile", request);
@@ -51,10 +49,8 @@ namespace NTMiner {
             public void RemoveNTMinerFileAsync(Guid id, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     RemoveNTMinerFileRequest request = new RemoveNTMinerFileRequest {
-                        MessageId = Guid.NewGuid(),
                         LoginName = LoginName,
-                        NTMinerId = id,
-                        Timestamp = DateTime.Now
+                        NTMinerId = id
                     };
                     request.SignIt(PasswordSha1);
                     ResponseBase response = Request<ResponseBase>("FileUrl", "RemoveNTMinerFile", request);

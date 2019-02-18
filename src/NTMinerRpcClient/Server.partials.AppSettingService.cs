@@ -50,10 +50,8 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         SetAppSettingRequest request = new SetAppSettingRequest() {
-                            MessageId = Guid.NewGuid(),
                             Data = entity,
-                            LoginName = LoginName,
-                            Timestamp = DateTime.Now
+                            LoginName = LoginName
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("AppSetting", "SetAppSetting", request);

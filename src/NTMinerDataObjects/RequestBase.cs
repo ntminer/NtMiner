@@ -4,6 +4,7 @@ namespace NTMiner {
     public class RequestBase {
         public RequestBase() {
             this.MessageId = Guid.NewGuid();
+            this.Timestamp = DateTime.Now;
         }
 
         /// <summary>

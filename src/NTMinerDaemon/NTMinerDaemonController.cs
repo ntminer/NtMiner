@@ -22,17 +22,32 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public void RestartWindows() {
-            Windows.Power.Restart();
+        public ResponseBase RestartWindows([FromBody]RequestBase request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty);
+            }
+            TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                Windows.Power.Restart();
+            });
+            return ResponseBase.Ok(request.MessageId);
         }
 
         [HttpPost]
-        public void ShutdownWindows() {
-            Windows.Power.Shutdown();
+        public ResponseBase ShutdownWindows([FromBody]RequestBase request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty);
+            }
+            TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                Windows.Power.Shutdown();
+            });
+            return ResponseBase.Ok(request.MessageId);
         }
 
         [HttpPost]
-        public void OpenNTMiner([FromBody]OpenNTMinerRequest request) {
+        public ResponseBase OpenNTMiner([FromBody]OpenNTMinerRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty);
+            }
             try {
                 string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
@@ -42,19 +57,27 @@ namespace NTMiner {
                     }
                     Windows.Cmd.RunClose(location, arguments);
                 }
+                return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
 
         [HttpPost]
-        public void RestartNTMiner([FromBody]RestartNTMinerRequest request) {
+        public ResponseBase RestartNTMiner([FromBody]RestartNTMinerRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty);
+            }
             Task.Factory.StartNew(() => {
                 try {
-                    CloseNTMiner();
-                    System.Threading.Thread.Sleep(1000);
                     string location = NTMinerRegistry.GetLocation();
+                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                        string processName = Path.GetFileNameWithoutExtension(location);
+                        Windows.TaskKill.Kill(processName);
+                    }
+                    System.Threading.Thread.Sleep(1000);
                     string arguments = NTMinerRegistry.GetArguments();
                     if (!string.IsNullOrEmpty(arguments)) {
                         string[] parts = arguments.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -92,49 +115,60 @@ namespace NTMiner {
                     Logger.ErrorDebugLine(e.Message, e);
                 }
             });
+            return ResponseBase.Ok(request.MessageId);
         }
 
         [HttpPost]
-        public void CloseNTMiner() {
-            try {
-                string location = NTMinerRegistry.GetLocation();
-                if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                    string processName = Path.GetFileNameWithoutExtension(location);
-                    Windows.TaskKill.Kill(processName);
+        public ResponseBase CloseNTMiner([FromBody]RequestBase request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty);
+            }
+            Task.Factory.StartNew(() => {
+                try {
+                    string location = NTMinerRegistry.GetLocation();
+                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                        string processName = Path.GetFileNameWithoutExtension(location);
+                        Windows.TaskKill.Kill(processName);
+                    }
                 }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
-        }
-
-        [HttpPost]
-        public void UpgradeNTMiner([FromBody]UpgradeNTMinerRequest request) {
-            try {
-                if (string.IsNullOrEmpty(request.NTMinerFileName)) {
-                    return;
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
-                string location = NTMinerRegistry.GetLocation();
-                if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                    string arguments = "upgrade=" + request.NTMinerFileName;
-                    Windows.Cmd.RunClose(location, arguments);
+            });
+            return ResponseBase.Ok(request.MessageId);
+        }
+
+        [HttpPost]
+        public ResponseBase UpgradeNTMiner([FromBody]UpgradeNTMinerRequest request) {
+            if (request == null || string.IsNullOrEmpty(request.NTMinerFileName)) {
+                return ResponseBase.InvalidInput(Guid.Empty);
+            }
+            Task.Factory.StartNew(() => {
+                try {
+                    string location = NTMinerRegistry.GetLocation();
+                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                        string arguments = "upgrade=" + request.NTMinerFileName;
+                        Windows.Cmd.RunClose(location, arguments);
+                    }
                 }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                }
+            });
+            return ResponseBase.Ok(request.MessageId);
         }
 
         [HttpPost]
-        public void StartNoDevFee([FromBody]StartNoDevFeeRequest request) {
-            // TODO:返回值
-            NoDevFee.NoDevFeeUtil.StartAsync(request.ContextId, request.MinerName, request.Coin, request.OurWallet, request.TestWallet, request.KernelName);
+        public ResponseBase StartNoDevFee([FromBody]StartNoDevFeeRequest request) {
+            string message;
+            NoDevFee.NoDevFeeUtil.StartAsync(request.ContextId, request.MinerName, request.Coin, request.OurWallet, request.TestWallet, request.KernelName, out message);
+            return ResponseBase.Ok(request.MessageId, message);
         }
 
         [HttpPost]
-        public void StopNoDevFee() {
-            // TODO:返回值
+        public ResponseBase StopNoDevFee([FromBody]RequestBase request) {
             NoDevFee.NoDevFeeUtil.Stop();
+            return ResponseBase.Ok(request.MessageId);
         }
     }
 }

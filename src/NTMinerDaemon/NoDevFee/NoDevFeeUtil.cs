@@ -13,35 +13,44 @@ namespace NTMiner.NoDevFee {
             string coin, 
             string ourWallet,
             string testWallet,
-            string kernelFullName) {
+            string kernelFullName,
+            out string message) {
             CoinKernelId coinKernelId;
             if (contextId == 0) {
+                message = "非法的输入：" + nameof(contextId);
                 return;
             }
             if (contextId == _contextId) {
+                message = "NoDevFee已经在运行中，无需再次启动";
                 return;
             }
             if (string.IsNullOrEmpty(coin)) {
+                message = "非法的输入：" + nameof(coin);
                 return;
             }
             if (!IsMatch(coin, kernelFullName, out coinKernelId)) {
+                message = $"不支持{coin} {kernelFullName}";
                 return;
             }
             if (minerName == null) {
                 minerName = string.Empty;
             }
             if (string.IsNullOrEmpty(ourWallet)) {
-                Logger.WarnDebugLine("没有ourWallet，NoDevFee结束");
+                message = "没有ourWallet";
+                Logger.WarnDebugLine(message);
                 return;
             }
             if (string.IsNullOrEmpty(testWallet)) {
-                Logger.WarnDebugLine("没有testWallet，NoDevFee结束");
+                message = "没有testWallet";
+                Logger.WarnDebugLine(message);
                 return;
             }
             if (testWallet.Length != ourWallet.Length) {
-                Logger.WarnDebugLine("测试钱包地址也目标钱包地址长度不同，NoDevFee结束");
+                message = "测试钱包地址也目标钱包地址长度不同";
+                Logger.WarnDebugLine(message);
                 return;
             }
+            message = "ok";
             _contextId = contextId;
             Task.Factory.StartNew(() => {
                 WinDivertExtract.Extract();
