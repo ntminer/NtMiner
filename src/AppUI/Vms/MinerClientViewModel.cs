@@ -312,9 +312,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private long _mainCoinSpeed;
-        private long _dualCoinSpeed;
-
         public string MinerIp {
             get => _data.MinerIp;
             set {
@@ -390,9 +387,9 @@ namespace NTMiner.Vms {
         }
 
         public long MainCoinSpeed {
-            get => _mainCoinSpeed;
+            get => _data.MainCoinSpeed;
             set {
-                _mainCoinSpeed = value;
+                _data.MainCoinSpeed = value;
                 OnPropertyChanged(nameof(MainCoinSpeed));
                 OnPropertyChanged(nameof(MainCoinSpeedText));
             }
@@ -463,9 +460,9 @@ namespace NTMiner.Vms {
         }
 
         public long DualCoinSpeed {
-            get => _dualCoinSpeed;
+            get => _data.DualCoinSpeed;
             set {
-                _dualCoinSpeed = value;
+                _data.DualCoinSpeed = value;
                 OnPropertyChanged(nameof(DualCoinSpeed));
                 OnPropertyChanged(nameof(DualCoinSpeedText));
             }
