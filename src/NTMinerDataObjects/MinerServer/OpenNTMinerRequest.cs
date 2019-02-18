@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class OpenNTMinerRequest {
+    public class OpenNTMinerRequest : RequestBase {
     }
 }

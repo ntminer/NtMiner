@@ -30,12 +30,12 @@ namespace NTMiner {
             });
         }
 
-        public void RestartWindowsAsync(string clientHost, int clientPort, Action<ResponseBase> callback) {
+        public void RestartWindowsAsync(string clientHost, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         RequestBase request = new RequestBase();
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/RestartWindows", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/RestartWindows", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -47,12 +47,12 @@ namespace NTMiner {
             });
         }
 
-        public void ShutdownWindowsAsync(string clientHost, int clientPort, Action<ResponseBase> callback) {
+        public void ShutdownWindowsAsync(string clientHost, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         RequestBase request = new RequestBase();
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/ShutdownWindows", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/ShutdownWindows", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -64,14 +64,14 @@ namespace NTMiner {
             });
         }
 
-        public void OpenNTMinerAsync(string clientHost, int clientPort, Guid workId, Action<ResponseBase> callback) {
+        public void OpenNTMinerAsync(string clientHost, Guid workId, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         OpenNTMinerRequest request = new OpenNTMinerRequest {
                             WorkId = workId
                         };
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/OpenNTMiner", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/OpenNTMiner", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -83,14 +83,14 @@ namespace NTMiner {
             });
         }
 
-        public void RestartNTMinerAsync(string clientHost, int clientPort, Guid workId, Action<ResponseBase> callback) {
+        public void RestartNTMinerAsync(string clientHost, Guid workId, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         RestartNTMinerRequest request = new RestartNTMinerRequest {
                             WorkId = workId
                         };
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/RestartNTMiner", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/RestartNTMiner", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -102,14 +102,14 @@ namespace NTMiner {
             });
         }
 
-        public void UpgradeNTMinerAsync(string clientHost, int clientPort, string ntminerFileName, Action<ResponseBase> callback) {
+        public void UpgradeNTMinerAsync(string clientHost, string ntminerFileName, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         UpgradeNTMinerRequest request = new UpgradeNTMinerRequest {
                             NTMinerFileName = ntminerFileName
                         };
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/UpgradeNTMiner", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/UpgradeNTMiner", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -121,12 +121,12 @@ namespace NTMiner {
             });
         }
 
-        public void CloseNTMinerAsync(string clientHost, int clientPort, Action<ResponseBase> callback) {
+        public void CloseNTMinerAsync(string clientHost, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         RequestBase request = new RequestBase();
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:{clientPort}/api/NTMinerDaemon/CloseNTMiner", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/CloseNTMiner", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }

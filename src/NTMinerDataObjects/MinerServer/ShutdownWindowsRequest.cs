@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class ShutdownWindowsRequest {
+    public class ShutdownWindowsRequest : RequestBase {
     }
 }

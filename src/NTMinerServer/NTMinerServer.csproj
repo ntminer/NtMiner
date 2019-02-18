@@ -79,6 +79,7 @@
     <Compile Include="Controllers\AppSettingController.cs" />
     <Compile Include="Controllers\ControlCenterController.cs" />
     <Compile Include="Controllers\FileUrlController.cs" />
+    <Compile Include="Controllers\MinerClientController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TimeController.cs" />

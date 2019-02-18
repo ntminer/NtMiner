@@ -11,7 +11,7 @@ namespace NTMiner {
         private MinerClientService() {
         }
 
-        public void AddUserAsync(string host, string loginName, string password, string description, Action<ResponseBase> callback) {
+        public void AddUserAsync(string clientHost, string loginName, string password, string description, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
@@ -20,7 +20,7 @@ namespace NTMiner {
                             Password = password,
                             Description = description
                         };
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/AddUser", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/AddUser", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -31,11 +31,11 @@ namespace NTMiner {
             });
         }
 
-        public void ShowMainWindowAsync(string host, Action<bool> callback) {
+        public void ShowMainWindowAsync(string clientHost, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsync($"http://{host}:3336/api/MinerClient/ShowMainWindow", null);
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:3336/api/MinerClient/ShowMainWindow", null);
                         bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                         callback?.Invoke(response);
                     }
@@ -47,7 +47,7 @@ namespace NTMiner {
             });
         }
 
-        public void StartMineAsync(string host, Guid workId, Action<ResponseBase> callback) {
+        public void StartMineAsync(string clientHost, Guid workId, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
@@ -56,7 +56,7 @@ namespace NTMiner {
                             WorkId = workId
                         };
                         request.SignIt(Server.PasswordSha1Sha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StartMine", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/StartMine", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -68,7 +68,7 @@ namespace NTMiner {
             });
         }
 
-        public void StopMineAsync(string host, Action<ResponseBase> callback) {
+        public void StopMineAsync(string clientHost, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
@@ -76,7 +76,7 @@ namespace NTMiner {
                             LoginName = Server.LoginName
                         };
                         request.SignIt(Server.PasswordSha1Sha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/StopMine", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/StopMine", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -88,7 +88,7 @@ namespace NTMiner {
             });
         }
 
-        public void SetMinerProfilePropertyAsync(string host, string propertyName, object value, Action<ResponseBase> callback) {
+        public void SetMinerProfilePropertyAsync(string clientHost, string propertyName, object value, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
@@ -98,7 +98,7 @@ namespace NTMiner {
                             Value = value
                         };
                         request.SignIt(Server.PasswordSha1Sha1);
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:3336/api/MinerClient/SetMinerProfileProperty", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/SetMinerProfileProperty", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -110,11 +110,11 @@ namespace NTMiner {
             });
         }
 
-        public void GetProfile(string host, Action<ProfileData> callback) {
+        public void GetProfile(string clientHost, Action<ProfileData> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsync($"http://{host}:3336/api/MinerClient/GetProfile", null);
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:3336/api/MinerClient/GetProfile", null);
                         ProfileData data = message.Result.Content.ReadAsAsync<ProfileData>().Result;
                         callback?.Invoke(data);
                     }
@@ -126,11 +126,11 @@ namespace NTMiner {
             });
         }
 
-        public void GetSpeed(string host, Action<SpeedData> callback) {
+        public void GetSpeed(string clientHost, Action<SpeedData> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsync($"http://{host}:3336/api/MinerClient/GetSpeed", null);
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:3336/api/MinerClient/GetSpeed", null);
                         SpeedData data = message.Result.Content.ReadAsAsync<SpeedData>().Result;
                         callback?.Invoke(data);
                     }
