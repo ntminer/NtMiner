@@ -190,10 +190,10 @@ namespace NTMiner.Vms {
                     _data.ModifiedOn = value;
                     OnPropertyChanged(nameof(ModifiedOn));
                     OnPropertyChanged(nameof(ModifiedOnText));
-                    OnPropertyChanged(nameof(LastActivedOnText));
-                    OnPropertyChanged(nameof(IsClientOnline));
-                    OnPropertyChanged(nameof(IsMining));
                 }
+                OnPropertyChanged(nameof(IsClientOnline));
+                OnPropertyChanged(nameof(IsMining));
+                OnPropertyChanged(nameof(LastActivedOnText));
             }
         }
 
@@ -218,10 +218,10 @@ namespace NTMiner.Vms {
                 if (timeSpan.Hours > 0) {
                     return timeSpan.Hours + "小时前";
                 }
-                if (timeSpan.Minutes > 0) {
+                if (timeSpan.Minutes > 2) {
                     return timeSpan.Minutes + "分钟前";
                 }
-                return timeSpan.Seconds + "秒前";
+                return (int)timeSpan.TotalSeconds + "秒前";
             }
         }
 

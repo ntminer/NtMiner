@@ -35,6 +35,7 @@ namespace NTMiner.Vms {
             new MinuteItem(10),
             new MinuteItem(20)
         };
+        private int _countDown;
         private MinuteItem _lastActivedOn;
         private List<MinerClientViewModel> _minerClients = new List<MinerClientViewModel>();
         private int _minerClientPageIndex = 1;
@@ -70,6 +71,15 @@ namespace NTMiner.Vms {
                 // 官网的服务不支持FindAll
                 _minuteItems.RemoveAt(0);
             }
+            VirtualRoot.Access<Per1SecondEvent>(
+                Guid.Parse("D792D3A6-79DE-450E-AE3A-F9532E7AB9B0"),
+                "刷新倒计时秒表",
+                LogEnum.None,
+                action: message => {
+                    if (this.CountDown > 0) {
+                        this.CountDown = this.CountDown - 1;
+                    }
+                });
             this._mineStatusEnumItem = this.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._mainCoin = CoinViewModel.PleaseSelect;
             this._dualCoin = CoinViewModel.PleaseSelect;
@@ -122,6 +132,14 @@ namespace NTMiner.Vms {
                     _manager = new NotificationMessageManager();
                 }
                 return _manager;
+            }
+        }
+
+        public int CountDown {
+            get { return _countDown; }
+            set {
+                _countDown = value;
+                OnPropertyChanged(nameof(CountDown));
             }
         }
 
@@ -286,6 +304,7 @@ namespace NTMiner.Vms {
 
         public void LoadClients() {
             Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.Id).ToList(), (response) => {
+                this.CountDown = 10;
                 UIThread.Execute(() => {
                     if (response != null) {
                         foreach (var item in this.MinerClients) {

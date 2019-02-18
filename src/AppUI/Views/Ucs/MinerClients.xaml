@@ -647,7 +647,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="最后更新" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock Text="最后更新"></TextBlock>
+							<TextBlock Text="{Binding Data.CountDown, Source={StaticResource proxy}}" FontWeight="Normal"></TextBlock>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
@@ -662,12 +668,12 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn 
-				    Header="远程桌面用户名" 
-				    Binding="{Binding RemoteUserName, UpdateSourceTrigger=LostFocus}"
-				    CanUserResize="True" 
-				    CanUserReorder="False" 
-				    CanUserSort="False" 
-				    IsReadOnly="False">
+					Header="远程桌面用户名" 
+					Binding="{Binding RemoteUserName, UpdateSourceTrigger=LostFocus}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="False">
 					<DataGridTextColumn.EditingElementStyle>
 						<Style TargetType="TextBox">
 							<Setter Property="Background" Value="White"></Setter>
