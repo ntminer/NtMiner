@@ -4,9 +4,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Data {
     public interface IClientSet {
-        int OnlineCount { get; }
-
-        int MiningCount { get; }
+        ClientCount Count();
 
         int CountMainCoinOnline(string coinCode);
 

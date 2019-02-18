@@ -61,25 +61,26 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public int OnlineCount {
-            get {
-                InitOnece();
-                lock (_locker) {
-                    // 因为客户端每120秒上报一次数据所以将140秒内活跃的客户端视为在线
-                    DateTime time = DateTime.Now.AddSeconds(-140);
-                    return _dicById.Values.Count(a => a.ModifiedOn > time);
+        public ClientCount Count() {
+            InitOnece();
+            // 因为客户端每120秒上报一次数据所以将140秒内活跃的客户端视为在线
+            DateTime time = DateTime.Now.AddSeconds(-140);
+            int onlineCount = 0;
+            int miningCount = 0;
+            lock (_locker) {
+                foreach (var clientData in _dicById.Values) {
+                    if (clientData.ModifiedOn > time) {
+                        onlineCount++;
+                        if (clientData.IsMining) {
+                            miningCount++;
+                        }
+                    }
                 }
             }
-        }
-
-        public int MiningCount {
-            get {
-                InitOnece();
-                lock (_locker) {
-                    DateTime time = DateTime.Now.AddSeconds(-140);
-                    return _dicById.Values.Count(a => a.ModifiedOn > time && a.IsMining);
-                }
-            }
+            return new ClientCount {
+                OnlineCount = onlineCount,
+                MiningCount = miningCount
+            };
         }
 
         public int CountMainCoinOnline(string coinCode) {

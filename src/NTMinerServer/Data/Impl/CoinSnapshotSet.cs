@@ -172,8 +172,9 @@ namespace NTMiner.Data.Impl {
             out int totalMiningCount,
             out int totalOnlineCount) {
             InitOnece();
-            totalMiningCount = HostRoot.Current.ClientSet.MiningCount;
-            totalOnlineCount = HostRoot.Current.ClientSet.OnlineCount;
+            ClientCount count = HostRoot.Current.ClientSet.Count();
+            totalMiningCount = count.MiningCount;
+            totalOnlineCount = count.OnlineCount;
             List<CoinSnapshotData> results = new List<CoinSnapshotData>();
             DateTime rightTime = DateTime.Now;
             DateTime leftTime = rightTime.AddSeconds(-limit * 10 - 10);

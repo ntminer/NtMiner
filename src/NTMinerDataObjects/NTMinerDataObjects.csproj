@@ -59,6 +59,7 @@
     <Compile Include="MinerServer\AppSettingsRequest.cs" />
     <Compile Include="MinerServer\CalcConfigData.cs" />
     <Compile Include="MinerServer\CalcConfigsRequest.cs" />
+    <Compile Include="MinerServer\ClientCount.cs" />
     <Compile Include="MinerServer\ClientData.cs" />
     <Compile Include="MinerServer\CloseNTMinerRequest.cs" />
     <Compile Include="MinerServer\OpenNTMinerRequest.cs" />
