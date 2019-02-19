@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Data.Impl {
-    public class MineWorkSet : IMineWorkSet {
-        private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
+    public class ColumnsShowSet : IColumnsShowSet {
+        private readonly Dictionary<Guid, ColumnsShowData> _dicById = new Dictionary<Guid, ColumnsShowData>();
 
         private readonly IHostRoot _root;
-        public MineWorkSet(IHostRoot root) {
+        public ColumnsShowSet(IHostRoot root) {
             _root = root;
         }
 
@@ -27,7 +27,7 @@ namespace NTMiner.Data.Impl {
             lock (_locker) {
                 if (!_isInited) {
                     using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                        var col = db.GetCollection<MineWorkData>();
+                        var col = db.GetCollection<ColumnsShowData>();
                         foreach (var item in col.FindAll()) {
                             _dicById.Add(item.Id, item);
                         }
@@ -37,36 +37,34 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public bool Contains(Guid workId) {
+        public bool Contains(Guid id) {
             InitOnece();
-            return _dicById.ContainsKey(workId);
+            return _dicById.ContainsKey(id);
         }
 
-        public MineWorkData GetMineWork(Guid workId) {
+        public ColumnsShowData GetColumnsShow(Guid id) {
             InitOnece();
-            if (_dicById.ContainsKey(workId)) {
-                return _dicById[workId];
+            if (_dicById.ContainsKey(id)) {
+                return _dicById[id];
             }
             return null;
         }
 
-        public List<MineWorkData> GetMineWorks() {
+        public List<ColumnsShowData> GetColumnsShows() {
             InitOnece();
             return _dicById.Values.ToList();
         }
 
-        public void AddOrUpdate(MineWorkData data) {
+        public void AddOrUpdate(ColumnsShowData data) {
             InitOnece();
             lock (_locker) {
                 using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                    var col = db.GetCollection<MineWorkData>();
+                    var col = db.GetCollection<ColumnsShowData>();
                     if (_dicById.ContainsKey(data.Id)) {
-                        data.ModifiedOn = DateTime.Now;
                         _dicById[data.Id].Update(data);
                         col.Update(_dicById[data.Id]);
                     }
                     else {
-                        data.CreatedOn = DateTime.Now;
                         _dicById.Add(data.Id, data);
                         col.Insert(data);
                     }
@@ -80,7 +78,7 @@ namespace NTMiner.Data.Impl {
                 if (_dicById.ContainsKey(id)) {
                     _dicById.Remove(id);
                     using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                        var col = db.GetCollection<MineWorkData>();
+                        var col = db.GetCollection<ColumnsShowData>();
                         col.Delete(id);
                     }
                 }

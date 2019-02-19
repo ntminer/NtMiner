@@ -259,6 +259,7 @@
     <Compile Include="Vms\CoinGroupViewModel.cs" />
     <Compile Include="Vms\CoinGroupViewModels.cs" />
     <Compile Include="Vms\CoinProfileViewModels.cs" />
+    <Compile Include="Vms\ColumnsShowViewModel.cs" />
     <Compile Include="Vms\ConsoleViewModel.cs" />
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\Drives\VirtualMemorySet.cs" />
@@ -300,6 +301,7 @@
     <Compile Include="Vms\MineWorkPageViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModels.cs" />
+    <Compile Include="Vms\MinuteItem.cs" />
     <Compile Include="Vms\NTMinerUpdaterConfigViewModel.cs" />
     <Compile Include="Vms\OpenedWindowsViewModel.cs" />
     <Compile Include="Vms\PoolKernelViewModel.cs" />

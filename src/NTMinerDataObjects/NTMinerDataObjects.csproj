@@ -62,6 +62,8 @@
     <Compile Include="MinerServer\ClientCount.cs" />
     <Compile Include="MinerServer\ClientData.cs" />
     <Compile Include="MinerServer\CloseNTMinerRequest.cs" />
+    <Compile Include="MinerServer\ColumnsShowData.cs" />
+    <Compile Include="MinerServer\IColumnsShow.cs" />
     <Compile Include="MinerServer\OpenNTMinerRequest.cs" />
     <Compile Include="MinerServer\RestartNTMinerRequest.cs" />
     <Compile Include="MinerServer\RestartWindowsRequest.cs" />

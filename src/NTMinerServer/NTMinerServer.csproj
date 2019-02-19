@@ -88,6 +88,7 @@
     <Compile Include="Data\IClientCoinSnapshotSet.cs" />
     <Compile Include="Data\IClientSet.cs" />
     <Compile Include="Data\ICoinSnapshotSet.cs" />
+    <Compile Include="Data\IColumnsShowSet.cs" />
     <Compile Include="Data\IMineProfileManager.cs" />
     <Compile Include="Data\IMinerGroupSet.cs" />
     <Compile Include="Data\IMineWorkSet.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Data\Impl\ClientCoinSnapshotSet.cs" />
     <Compile Include="Data\Impl\ClientSet.cs" />
     <Compile Include="Data\Impl\CoinSnapshotSet.cs" />
+    <Compile Include="Data\Impl\ColumnsShowSet.cs" />
     <Compile Include="Data\Impl\HostConfigData.cs" />
     <Compile Include="Data\Impl\MineProfileManager.cs" />
     <Compile Include="Data\Impl\MinerGroupSet.cs" />

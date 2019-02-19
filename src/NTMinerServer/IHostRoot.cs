@@ -16,6 +16,7 @@ namespace NTMiner {
         IAppSettingSet AppSettingSet { get; }
         ICalcConfigSet CalcConfigSet { get; }
         IClientCoinSnapshotSet ClientCoinSnapshotSet { get; }
+        IColumnsShowSet ColumnsShowSet { get; }
         IClientSet ClientSet { get; }
         ICoinSnapshotSet CoinSnapshotSet { get; }
         IMineWorkSet MineWorkSet { get; }
