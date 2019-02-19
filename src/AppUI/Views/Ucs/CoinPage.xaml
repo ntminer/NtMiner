@@ -184,32 +184,6 @@
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
-									<controls:KbButton 
-										Margin="2 0"
-										Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
-										CornerRadius="2" ToolTip="上移">
-										<WrapPanel>
-											<Path
-												Width="18"
-												Height="18"
-												Data="{StaticResource Icon_SortUp}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
-									<controls:KbButton 
-										Margin="2 0"
-										Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
-										CornerRadius="2" ToolTip="下移">
-										<WrapPanel>
-											<Path
-												Width="18"
-												Height="18"
-												Data="{StaticResource Icon_SortDown}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
@@ -245,21 +219,6 @@
 							</WrapPanel>
 						</DataGridTextColumn.Header>
 					</DataGridTextColumn>
-					<DataGridTemplateColumn 
-						Width="40" CanUserResize="False" CanUserReorder="False" 
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-						CanUserSort="False" IsReadOnly="True">
-						<DataGridTemplateColumn.Header>
-							<WrapPanel>
-								<TextBlock Text="{DynamicResource Sort}"></TextBlock>
-							</WrapPanel>
-						</DataGridTemplateColumn.Header>
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding SortNumber}"></TextBlock>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
 			<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding List, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>

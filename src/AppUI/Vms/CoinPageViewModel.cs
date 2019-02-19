@@ -17,10 +17,7 @@ namespace NTMiner.Vms {
 
         private CoinPageViewModel() {
             this.Add = new DelegateCommand(() => {
-                int sortNumber = NTMinerRoot.Current.CoinSet.Count == 0 ? 1 : NTMinerRoot.Current.CoinSet.Max(a => a.SortNumber) + 1;
-                new CoinViewModel(Guid.NewGuid()) {
-                    SortNumber = sortNumber
-                }.Edit.Execute(null);
+                new CoinViewModel(Guid.NewGuid()).Edit.Execute(null);
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 this.CoinKeyword = string.Empty;
@@ -69,10 +66,10 @@ namespace NTMiner.Vms {
                     list = CoinViewModels.Current.AllCoins.
                         Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.Algo) && a.Algo.ToLower().Contains(keyword))
-                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.ToLower().Contains(keyword))).OrderBy(a => a.SortNumber).ToList();
+                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.ToLower().Contains(keyword))).OrderBy(a => a.Code).ToList();
                 }
                 else {
-                    list = CoinViewModels.Current.AllCoins.OrderBy(a => a.SortNumber).ToList();
+                    list = CoinViewModels.Current.AllCoins.OrderBy(a => a.Code).ToList();
                 }
                 if (list.Count == 1) {
                     CurrentCoin = list.FirstOrDefault();

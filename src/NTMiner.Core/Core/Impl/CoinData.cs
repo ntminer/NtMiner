@@ -8,7 +8,6 @@ namespace NTMiner.Core.Impl {
             EnName = string.Empty,
             CnName = string.Empty,
             Algo = string.Empty,
-            SortNumber = 0,
             TestWallet = string.Empty,
             WalletRegexPattern = string.Empty,
             JustAsDualCoin = false
@@ -30,8 +29,6 @@ namespace NTMiner.Core.Impl {
         public string CnName { get; set; }
 
         public string Algo { get; set; }
-
-        public int SortNumber { get; set; }
 
         public string TestWallet { get; set; }
 

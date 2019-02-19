@@ -6,7 +6,6 @@ namespace NTMiner.Core {
         string EnName { get; }
         string CnName { get; }
         string Algo { get; }
-        int SortNumber { get; }
         string TestWallet { get; }
         string WalletRegexPattern { get; }
         bool JustAsDualCoin { get; }

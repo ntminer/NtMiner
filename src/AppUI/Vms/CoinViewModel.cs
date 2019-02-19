@@ -17,7 +17,6 @@ namespace NTMiner.Vms {
             _cnName = string.Empty,
             _id = Guid.Empty,
             _testWallet = string.Empty,
-            _sortNumber = 0,
             _justAsDualCoin = false,
             _isCurrentCoin = false,
             _walletRegexPattern = string.Empty
@@ -31,7 +30,6 @@ namespace NTMiner.Vms {
 
         private Guid _id;
         private string _code;
-        private int _sortNumber;
         private string _algo;
         private string _testWallet;
         private string _enName;
@@ -47,8 +45,6 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
-        public ICommand SortUp { get; private set; }
-        public ICommand SortDown { get; private set; }
         public ICommand AddPool { get; private set; }
         public ICommand AddWallet { get; private set; }
         public ICommand AddCoinKernel { get; private set; }
@@ -65,7 +61,6 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(ICoin data) : this(data.GetId()) {
             _code = data.Code;
-            _sortNumber = data.SortNumber;
             _algo = data.Algo;
             _testWallet = data.TestWallet;
             _enName = data.EnName;
@@ -104,32 +99,6 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Code}币种吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinCommand(this.Id));
                 }, icon: "Icon_Confirm");
-            });
-            this.SortUp = new DelegateCommand(() => {
-                CoinViewModel upOne = CoinViewModels.Current.AllCoins.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
-                if (upOne != null) {
-                    int sortNumber = upOne.SortNumber;
-                    upOne.SortNumber = this.SortNumber;
-                    VirtualRoot.Execute(new UpdateCoinCommand(upOne));
-                    this.SortNumber = sortNumber;
-                    VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
-                }
-            });
-            this.SortDown = new DelegateCommand(() => {
-                CoinViewModel nextOne = CoinViewModels.Current.AllCoins.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
-                if (nextOne != null) {
-                    int sortNumber = nextOne.SortNumber;
-                    nextOne.SortNumber = this.SortNumber;
-                    VirtualRoot.Execute(new UpdateCoinCommand(nextOne));
-                    this.SortNumber = sortNumber;
-                    VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
-                    CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
-                }
             });
 
             this.AddPool = new DelegateCommand(() => {
@@ -254,16 +223,6 @@ namespace NTMiner.Vms {
                     _algo = value;
                     OnPropertyChanged(nameof(Algo));
                     OnPropertyChanged(nameof(CodeAlgo));
-                }
-            }
-        }
-
-        public int SortNumber {
-            get => _sortNumber;
-            set {
-                if (_sortNumber != value) {
-                    _sortNumber = value;
-                    OnPropertyChanged(nameof(SortNumber));
                 }
             }
         }
