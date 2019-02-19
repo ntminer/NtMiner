@@ -128,5 +128,11 @@ namespace NTMiner.Vms {
                 }
             }
         }
+
+        public string GpuSetInfo {
+            get {
+                return NTMinerRoot.Current.GpuSetInfo;
+            }
+        }
     }
 }
