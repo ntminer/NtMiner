@@ -10,6 +10,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:view="clr-namespace:NTMiner.Views"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
+		Background="White"
 		DataContext="{x:Static vm:MinerClientsViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="1800">
 	<UserControl.Resources>
