@@ -501,12 +501,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="作业" 
 					Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>作业</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Work">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BooleanInvertConverter}}">
@@ -520,13 +530,23 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn 
-					Header="矿工名" 
 					Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 					Binding="{Binding MinerName, UpdateSourceTrigger=LostFocus}" 
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="False">
+					<DataGridTextColumn.Header>
+						<WrapPanel>
+							<TextBlock>矿工名</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerName">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTextColumn.Header>
 					<DataGridTextColumn.EditingElementStyle>
 						<Style TargetType="TextBox">
 							<Setter Property="Background" Value="White"></Setter>
@@ -535,12 +555,22 @@
 					</DataGridTextColumn.EditingElementStyle>
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
-					Header="IP" 
 					Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>IP</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerIp">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBox 
@@ -555,19 +585,39 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridComboBoxColumn 
-					Header="组队" 
 					Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
 					DisplayMemberPath="Name" SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
 					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="False">
+					<DataGridComboBoxColumn.Header>
+						<WrapPanel>
+							<TextBlock>组队</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerGroup">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridComboBoxColumn.Header>
 				</DataGridComboBoxColumn>
 				<DataGridTemplateColumn 
-					Header="主挖币种" 
 					Visibility="{Binding Data.ColumnsShow.MainCoinCode, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>主挖币种</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinCode">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -577,12 +627,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="主币算力" 
 					Visibility="{Binding Data.ColumnsShow.MainCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>主币算力</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinSpeedText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -592,12 +652,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="主币钱包" 
 					Visibility="{Binding Data.ColumnsShow.MainCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>主币钱包</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinWallet">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -607,12 +677,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="主币矿池" 
 					Visibility="{Binding Data.ColumnsShow.MainCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>主币矿池</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinPool">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -627,12 +707,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="内核" 
 					Visibility="{Binding Data.ColumnsShow.Kernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>内核</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Kernel">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -646,12 +736,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="双挖币种" 
 					Visibility="{Binding Data.ColumnsShow.DualCoinCode,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>双挖币种</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinCode">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -665,12 +765,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="双挖算力" 
 					Visibility="{Binding Data.ColumnsShow.DualCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>双挖算力</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinSpeedText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -684,12 +794,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="双挖钱包" 
 					Visibility="{Binding Data.ColumnsShow.DualCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>双挖钱包</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinWallet">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -703,12 +823,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="双挖矿池" 
 					Visibility="{Binding Data.ColumnsShow.DualCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>双挖矿池</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinPool">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -732,6 +862,12 @@
 						<WrapPanel>
 							<TextBlock Text="最后更新"></TextBlock>
 							<TextBlock Text="{Binding Data.CountDown, Source={StaticResource proxy}}" FontWeight="Normal"></TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="LastActivedOnText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
 						</WrapPanel>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
@@ -741,12 +877,22 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					Header="客户端版本" 
 					Visibility="{Binding Data.ColumnsShow.Version,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="False" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>客户端版本</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Version">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Version}" Margin="8 0 0 0"></TextBlock>
@@ -754,13 +900,23 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn 
-					Header="远程桌面用户名" 
 					Visibility="{Binding Data.ColumnsShow.RemoteUserName,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					Binding="{Binding RemoteUserName, UpdateSourceTrigger=LostFocus}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="False">
+					<DataGridTextColumn.Header>
+						<WrapPanel>
+							<TextBlock>远程桌面用户名</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteUserName">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTextColumn.Header>
 					<DataGridTextColumn.EditingElementStyle>
 						<Style TargetType="TextBox">
 							<Setter Property="Background" Value="White"></Setter>
@@ -769,12 +925,22 @@
 					</DataGridTextColumn.EditingElementStyle>
 				</DataGridTextColumn>
 				<DataGridTextColumn 
-					Header="远程桌面密码" 
 					Visibility="{Binding Data.ColumnsShow.RemotePassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="False">
+					<DataGridTextColumn.Header>
+						<WrapPanel>
+							<TextBlock>远程桌面密码</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemotePassword">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTextColumn.Header>
 					<DataGridTextColumn.ElementStyle>
 						<Style TargetType="TextBlock">
 							<Setter Property="Text" Value="{Binding RemotePasswordStar, UpdateSourceTrigger=LostFocus}"></Setter>
@@ -789,12 +955,22 @@
 					</DataGridTextColumn.EditingElementStyle>
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
-					Header="显卡" 
 					Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>显卡</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuInfo">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>

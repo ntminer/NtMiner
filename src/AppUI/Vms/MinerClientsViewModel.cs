@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -43,6 +44,17 @@ namespace NTMiner.Vms {
         private bool _remoteUserName = true;
         private bool _remotePassword = true;
         private bool _gpuInfo = true;
+
+        public ICommand Hide { get; private set; }
+
+        public ColumnsShow() {
+            this.Hide = new DelegateCommand<string>((propertyName) => {
+                PropertyInfo propertyInfo = this.GetType().GetProperty(propertyName);
+                if (propertyInfo != null) {
+                    propertyInfo.SetValue(this, false, null);
+                }
+            });
+        }
 
         public bool Work {
             get => _work;
