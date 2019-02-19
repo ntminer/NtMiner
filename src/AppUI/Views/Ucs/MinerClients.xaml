@@ -329,7 +329,19 @@
 				<CheckBox IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">IP</CheckBox>
 				<CheckBox IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
 				<CheckBox IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="6 0 0 0">主挖币种</CheckBox>
-				<CheckBox IsChecked="{Binding ColumnsShow.MainCoinSpeed}" Margin="6 0 0 0">主币算力</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="6 0 0 0">主币算力</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.MainCoinWallet}" Margin="6 0 0 0">主币钱包</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.MainCoinPool}" Margin="6 0 0 0">主币矿池</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.Kernel}" Margin="6 0 0 0">内核</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.DualCoinCode}" Margin="6 0 0 0">双挖币种</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.DualCoinSpeedText}" Margin="6 0 0 0">双挖算力</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.DualCoinWallet}" Margin="6 0 0 0">双挖钱包</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.DualCoinPool}" Margin="6 0 0 0">双挖矿池</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.LastActivedOnText}" Margin="6 0 0 0">最后更新</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.Version}" Margin="6 0 0 0">客户端版本</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.RemoteUserName}" Margin="6 0 0 0">远程桌面用户名</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.RemotePassword}" Margin="6 0 0 0">远程桌面密码</CheckBox>
+				<CheckBox IsChecked="{Binding ColumnsShow.GpuInfo}" Margin="6 0 0 0">显卡</CheckBox>
 			</WrapPanel>
 		</StackPanel>
 		<notification:NotificationMessageContainer 
@@ -566,7 +578,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					Header="主币算力" 
-					Visibility="{Binding Data.ColumnsShow.MainCoinSpeed,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					Visibility="{Binding Data.ColumnsShow.MainCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
@@ -579,7 +591,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="主币钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="主币钱包" 
+					Visibility="{Binding Data.ColumnsShow.MainCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -588,7 +606,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="主币矿池" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="主币矿池" 
+					Visibility="{Binding Data.ColumnsShow.MainCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -602,7 +626,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="内核" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="内核" 
+					Visibility="{Binding Data.ColumnsShow.Kernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -615,7 +645,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="双挖币种" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="双挖币种" 
+					Visibility="{Binding Data.ColumnsShow.DualCoinCode,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -628,7 +664,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="双挖算力" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="双挖算力" 
+					Visibility="{Binding Data.ColumnsShow.DualCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -641,7 +683,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="双挖钱包" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="双挖钱包" 
+					Visibility="{Binding Data.ColumnsShow.DualCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -654,7 +702,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="双挖矿池" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="双挖矿池" 
+					Visibility="{Binding Data.ColumnsShow.DualCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -668,21 +722,12 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="显卡" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									ToolTip="{Binding GpuInfo}"
-									Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="False" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
 							<TextBlock Text="最后更新"></TextBlock>
@@ -695,7 +740,13 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="客户端版本" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn 
+					Header="客户端版本" 
+					Visibility="{Binding Data.ColumnsShow.Version,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="False" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Version}" Margin="8 0 0 0"></TextBlock>
@@ -704,6 +755,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn 
 					Header="远程桌面用户名" 
+					Visibility="{Binding Data.ColumnsShow.RemoteUserName,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					Binding="{Binding RemoteUserName, UpdateSourceTrigger=LostFocus}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
@@ -718,6 +770,7 @@
 				</DataGridTextColumn>
 				<DataGridTextColumn 
 					Header="远程桌面密码" 
+					Visibility="{Binding Data.ColumnsShow.RemotePassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
@@ -735,6 +788,26 @@
 						</Style>
 					</DataGridTextColumn.EditingElementStyle>
 				</DataGridTextColumn>
+				<DataGridTemplateColumn 
+					Header="显卡" 
+					Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									ToolTip="{Binding GpuInfo}"
+									Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>
