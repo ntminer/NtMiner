@@ -46,20 +46,8 @@
                 <DataGridTemplateColumn Width="Auto" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{DynamicResource DghGpuIndex}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding GpuVm.IndexText}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" MinWidth="120" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
                             <WrapPanel>
-                                <TextBlock Text="{DynamicResource DghGpuName}"></TextBlock>
+                                <TextBlock Text="{DynamicResource DghGpuIndex}"></TextBlock>
                                 <controls:KbButton
                                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                                     ToolTip="SpeedTable translate"
@@ -81,7 +69,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" ToolTip="{Binding GpuVm.Name}" Text="{Binding GpuVm.Name}"></TextBlock>
+                            <TextBlock Text="{Binding GpuVm.IndexText}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
