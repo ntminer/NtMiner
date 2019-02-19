@@ -40,7 +40,6 @@ namespace NTMiner.Vms {
                 action: message => {
                     CoinViewModel coinVm = _dicById[message.Source.GetId()];
                     bool justAsDualCoin = coinVm.JustAsDualCoin;
-                    string oldCoin = coinVm.Code;
                     coinVm.Update(message.Source);
                     coinVm.TestWalletVm.Address = message.Source.TestWallet;
                     coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
@@ -54,14 +53,8 @@ namespace NTMiner.Vms {
                         && coinKernelVm.CoinKernelProfile.SelectedDualCoin.GetId() == message.Source.GetId()) {
                         coinKernelVm.CoinKernelProfile.OnPropertyChanged(nameof(coinKernelVm.CoinKernelProfile.SelectedDualCoin));
                     }
-                    if (justAsDualCoin != coinVm.JustAsDualCoin || oldCoin != coinVm.Code) {
+                    if (justAsDualCoin != coinVm.JustAsDualCoin) {
                         OnPropertyChanged(nameof(MainCoins));
-                    }
-                    if (oldCoin != coinVm.Code) {
-                        CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
-                        OnPropertyChanged(nameof(AllCoins));
-                        OnPropertyChanged(nameof(PleaseSelect));
-                        OnPropertyChanged(nameof(DualPleaseSelect));
                     }
                 });
             Init();
@@ -101,7 +94,7 @@ namespace NTMiner.Vms {
 
         public List<CoinViewModel> AllCoins {
             get {
-                return _dicById.Values.OrderBy(a => a.Code).ToList();
+                return _dicById.Values.OrderBy(a => a.SortNumber).ToList();
             }
         }
 
@@ -134,7 +127,7 @@ namespace NTMiner.Vms {
         }
         public List<CoinViewModel> DualPleaseSelect {
             get {
-                return GetDualPleaseSelect().Distinct().OrderBy(a => a.Code).ToList();
+                return GetDualPleaseSelect().Distinct().OrderBy(a => a.SortNumber).ToList();
             }
         }
     }

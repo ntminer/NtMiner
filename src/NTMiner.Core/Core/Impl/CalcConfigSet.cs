@@ -21,7 +21,7 @@ namespace NTMiner.Core.Impl {
             if (_initedOn.AddMinutes(10) < now) {
                 lock (_locker) {
                     if (_initedOn.AddMinutes(10) < now) {
-                        var list = _root.CoinSet.Select(a => new CalcConfigData {
+                        var list = _root.CoinSet.OrderBy(a => a.SortNumber).Select(a => new CalcConfigData {
                             CoinCode = a.Code,
                             CreatedOn = DateTime.Now,
                             IncomePerDay = 0,

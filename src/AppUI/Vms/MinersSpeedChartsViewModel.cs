@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
             get {
                 if (_totalVms == null) {
                     _totalVms = new List<ControlCenterChartViewModel>();
-                    foreach (var coinVm in MinerClientsViewModel.Current.MineCoinVms.AllCoins.OrderBy(a => a.Code)) {
+                    foreach (var coinVm in MinerClientsViewModel.Current.MineCoinVms.AllCoins.OrderBy(a => a.SortNumber)) {
                         _totalVms.Add(new ControlCenterChartViewModel(coinVm));
                     }
                 }

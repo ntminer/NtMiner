@@ -281,7 +281,7 @@ namespace NTMiner.Vms {
                         list.Add(item);
                     }
                 }
-                return list.OrderBy(a => a.Code).ToList();
+                return list.OrderBy(a => a.SortNumber).ToList();
             }
         }
 
