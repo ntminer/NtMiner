@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
         private static readonly SolidColorBrush transparent = new SolidColorBrush(Colors.Transparent);
         private static readonly SolidColorBrush black = new SolidColorBrush(Colors.Black);
         private static readonly SolidColorBrush green = new SolidColorBrush(Colors.Green);
+        private static readonly SolidColorBrush AxisForeground = new SolidColorBrush(Color.FromRgb(0x38, 0x52, 0x63));
 
         private readonly CoinViewModel _coinVm;
 
@@ -37,14 +38,14 @@ namespace NTMiner.Vms {
                 LabelFormatter = speedFormatter,
                 MinValue = 0,
                 Separator = new Separator(),
-                Foreground = black,
+                Foreground = AxisForeground,
                 FontSize = 13,
                 Position = AxisPosition.RightTop
             };
             var axisYOnlineCount = new Axis() {
                 LabelFormatter = value => Math.Round(value, 0).ToString(),
                 Separator = new Separator(),
-                Foreground = black,
+                Foreground = AxisForeground,
                 MinValue = 0,
                 FontSize = 13
             };
@@ -61,7 +62,7 @@ namespace NTMiner.Vms {
                     Separator = new Separator() {
                         Step = axisStep
                     },
-                    Foreground = black,
+                    Foreground = AxisForeground,
                     FontSize = 12,
                 }
             };
