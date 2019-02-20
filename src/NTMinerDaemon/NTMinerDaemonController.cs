@@ -1,7 +1,9 @@
 ﻿using NTMiner.Daemon;
+using NTMiner.MinerClient;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -72,11 +74,7 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 try {
-                    string location = NTMinerRegistry.GetLocation();
-                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string processName = Path.GetFileNameWithoutExtension(location);
-                        Windows.TaskKill.Kill(processName);
-                    }
+                    CloseNTMiner(request);
                     System.Threading.Thread.Sleep(1000);
                     string arguments = NTMinerRegistry.GetArguments();
                     if (!string.IsNullOrEmpty(arguments)) {
@@ -107,6 +105,7 @@ namespace NTMiner {
                     else if (request.WorkId != Guid.Empty) {
                         arguments = "workid=" + request.WorkId;
                     }
+                    string location = NTMinerRegistry.GetLocation();
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                         Windows.Cmd.RunClose(location, arguments);
                     }
@@ -124,15 +123,28 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty);
             }
             Task.Factory.StartNew(() => {
+                bool isClosed = false;
                 try {
-                    string location = NTMinerRegistry.GetLocation();
-                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string processName = Path.GetFileNameWithoutExtension(location);
-                        Windows.TaskKill.Kill(processName);
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3336/api/MinerClient/CloseNTMiner", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        isClosed = response.IsSuccess();
                     }
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
+                }
+                if (!isClosed) {
+                    try {
+                        string location = NTMinerRegistry.GetLocation();
+                        if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                            string processName = Path.GetFileNameWithoutExtension(location);
+                            Windows.TaskKill.Kill(processName);
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
                 }
             });
             return ResponseBase.Ok(request.MessageId);

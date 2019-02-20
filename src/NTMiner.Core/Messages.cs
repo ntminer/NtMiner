@@ -41,6 +41,9 @@ namespace NTMiner {
 
     [MessageType(messageType: typeof(ShowMainWindowCommand), description: "显式主界面")]
     public class ShowMainWindowCommand : Cmd {
+    }
 
+    [MessageType(messageType: typeof(CloseNTMinerCommand), description: "关闭NTMiner客户端")]
+    public class CloseNTMinerCommand : Cmd {
     }
 }

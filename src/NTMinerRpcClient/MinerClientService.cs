@@ -47,6 +47,23 @@ namespace NTMiner {
             });
         }
 
+        public void CloseNTMinerAsync(string clientHost, Action<ResponseBase> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        RequestBase request = new RequestBase();
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/CloseNTMiner", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    callback?.Invoke(null);
+                }
+            });
+        }
+
         public void StartMineAsync(string clientHost, Guid workId, Action<ResponseBase> callback) {
             Task.Factory.StartNew(() => {
                 try {

@@ -69,6 +69,21 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
+        public ResponseBase CloseNTMiner([FromBody]RequestBase request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                VirtualRoot.Execute(new CloseNTMinerCommand());
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+
+        [HttpPost]
         public ResponseBase StartMine([FromBody]StartMineRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");

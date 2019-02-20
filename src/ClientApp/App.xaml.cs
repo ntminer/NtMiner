@@ -47,6 +47,19 @@ namespace NTMiner {
                     SplashWindow splashWindow = new SplashWindow();
                     splashWindow.Show();
                     NTMinerRoot.Current.Init(OnNTMinerRootInited);
+                    VirtualRoot.Access<CloseNTMinerCommand>(
+                        Guid.Parse("47966213-0279-4189-B5DE-5E6A21938EF0"),
+                        "处理关闭NTMiner客户端命令",
+                        LogEnum.Console,
+                        action: message => {
+                            if (MainWindow != null) {
+                                MainWindow.Close();
+                            }
+                            else {
+                                Shutdown();
+                                Environment.Exit(0);
+                            }
+                        });
                 }
                 else {
                     try {
