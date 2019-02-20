@@ -27,7 +27,16 @@ namespace NTMiner.Vms {
                     });
                 }
                 else {
-                    VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.MinerIp, this.RemoteUserName, this.RemotePassword, this.MinerName);
+                    VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.MinerIp, this.RemoteUserName, this.RemotePassword, this.MinerName, onDisconnected: message=> {
+                        MinerClientsViewModel.Current.Manager.CreateMessage()
+                                .Accent("#1751C3")
+                                .Background("Red")
+                                .HasBadge("Error")
+                                .HasMessage(message)
+                                .Dismiss()
+                                .WithDelay(TimeSpan.FromSeconds(5))
+                                .Queue();
+                    });
                 }
             });
             this.RestartWindows = new DelegateCommand(() => {
@@ -68,7 +77,7 @@ namespace NTMiner.Vms {
                                 .HasBadge("Error")
                                 .HasMessage(message)
                                 .Dismiss()
-                                .WithDelay(TimeSpan.FromSeconds(2))
+                                .WithDelay(TimeSpan.FromSeconds(4))
                                 .Queue();
                         });
                     }
@@ -92,7 +101,7 @@ namespace NTMiner.Vms {
                                 .HasBadge("Error")
                                 .HasMessage(message)
                                 .Dismiss()
-                                .WithDelay(TimeSpan.FromSeconds(2))
+                                .WithDelay(TimeSpan.FromSeconds(4))
                                 .Queue();
                         });
                     }

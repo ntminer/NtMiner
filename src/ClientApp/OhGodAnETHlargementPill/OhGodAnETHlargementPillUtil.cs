@@ -42,7 +42,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
                                  .HasBadge("Info")
                                  .HasMessage("小药丸启动成功")
                                  .Dismiss()
-                                 .WithDelay(TimeSpan.FromSeconds(2))
+                                 .WithDelay(TimeSpan.FromSeconds(4))
                                  .Queue();
                         }
                     }

@@ -45,7 +45,7 @@ namespace NTMiner.Vms {
                     .HasBadge("Info")
                     .HasMessage($"导出成功：{fileName}")
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(2))
+                    .WithDelay(TimeSpan.FromSeconds(4))
                     .Queue();
             }
             catch (Exception e) {
@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
                     .HasBadge("Info")
                     .HasMessage($"导出成功：{fileName}")
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(2))
+                    .WithDelay(TimeSpan.FromSeconds(4))
                     .Queue();
             }
             catch (Exception e) {
@@ -87,7 +87,7 @@ namespace NTMiner.Vms {
                                     .HasBadge("Info")
                                     .HasMessage($"刷新成功")
                                     .Dismiss()
-                                    .WithDelay(TimeSpan.FromSeconds(2))
+                                    .WithDelay(TimeSpan.FromSeconds(4))
                                     .Queue();
                             }
                             else {
@@ -97,7 +97,7 @@ namespace NTMiner.Vms {
                                     .HasBadge("Error")
                                     .HasMessage($"刷新失败")
                                     .Dismiss()
-                                    .WithDelay(TimeSpan.FromSeconds(2))
+                                    .WithDelay(TimeSpan.FromSeconds(4))
                                     .Queue();
                             }
                         });
@@ -239,7 +239,7 @@ namespace NTMiner.Vms {
                                                 .HasBadge("Error")
                                                 .HasMessage(message)
                                                 .Dismiss()
-                                                .WithDelay(TimeSpan.FromSeconds(2))
+                                                .WithDelay(TimeSpan.FromSeconds(4))
                                                 .Queue();
                                         });
                                         callback?.Invoke();

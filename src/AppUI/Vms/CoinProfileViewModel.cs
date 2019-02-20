@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                     .HasBadge("Info")
                     .HasMessage("复制成功：" + wallet)
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(2))
+                    .WithDelay(TimeSpan.FromSeconds(4))
                     .Queue();
             });
             this.CopyDualCoinWallet = new DelegateCommand(() =>
@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                     .HasBadge("Info")
                     .HasMessage("复制成功：" + wallet)
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(2))
+                    .WithDelay(TimeSpan.FromSeconds(4))
                     .Queue();
             });
             this.HideWallet = new DelegateCommand(() => {

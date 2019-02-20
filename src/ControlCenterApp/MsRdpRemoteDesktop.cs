@@ -12,7 +12,7 @@ namespace NTMiner {
         /// 打开远程桌面窗口连接给定ip的windows主机
         /// </summary>
         /// <param name="serverIp">serverIp可带端口或不带端口，不带短则则使用远程桌面默认的3389</param>
-        public void OpenRemoteDesktop(string serverIp, string userName, string password, string description) {
+        public void OpenRemoteDesktop(string serverIp, string userName, string password, string description, Action<string> onDisconnected) {
             UIThread.Execute(() => {
                 string[] serverIps = serverIp.Split(':');
                 serverIp = serverIps[0];
@@ -74,7 +74,7 @@ namespace NTMiner {
                     _axMsRdp.DisconnectedText = disconnectedText;
                     _axMsRdp.FindForm().Close();
                     Write.UserLine(disconnectedText, ConsoleColor.Red);
-                    MessageBox.Show(disconnectedText, "远程连接");
+                    onDisconnected?.Invoke(disconnectedText);
                 };
 
                 axMsRdpcForm.Controls.Add(axMsRdpc);
