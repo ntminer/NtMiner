@@ -225,44 +225,49 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int BootSeconds {
-            get { return _data.BootSeconds; }
+        public DateTime BootOn {
+            get { return _data.BootOn; }
             set {
-                _data.BootSeconds = value;
-                OnPropertyChanged(nameof(BootSeconds));
+                _data.BootOn = value;
+                OnPropertyChanged(nameof(BootOn));
                 OnPropertyChanged(nameof(BootTimeSpanText));
             }
         }
 
         public string BootTimeSpanText {
             get {
-                TimeSpan time = TimeSpan.FromSeconds(BootSeconds);
+                TimeSpan time = DateTime.Now - BootOn;
+                TimeSpan time1 = new TimeSpan(time.Hours, time.Minutes, time.Seconds);
                 if (time.Days > 0) {
-                    return $"{time.Days}天{time.ToString()}";
+                    return $"{time.Days}天{time1.ToString()}";
                 }
                 else {
-                    return time.ToString();
+                    return time1.ToString();
                 }
             }
         }
 
-        public int MineSeconds {
-            get { return _data.MineSeconds; }
+        public DateTime? MineStartedOn {
+            get { return _data.MineStartedOn; }
             set {
-                _data.MineSeconds = value;
-                OnPropertyChanged(nameof(MineSeconds));
+                _data.MineStartedOn = value;
+                OnPropertyChanged(nameof(MineStartedOn));
                 OnPropertyChanged(nameof(MineTimeSpanText));
             }
         }
 
         public string MineTimeSpanText {
             get {
-                TimeSpan time = TimeSpan.FromSeconds(MineSeconds);
+                if (!MineStartedOn.HasValue || MineStartedOn.Value <= Timestamp.UnixBaseTime) {
+                    return string.Empty;
+                }
+                TimeSpan time = DateTime.Now - MineStartedOn.Value;
+                TimeSpan time1 = new TimeSpan(time.Hours, time.Minutes, time.Seconds);
                 if (time.Days > 0) {
-                    return $"{time.Days}天{time.ToString()}";
+                    return $"{time1.Days}天{time1.ToString()}";
                 }
                 else {
-                    return time.ToString();
+                    return time1.ToString();
                 }
             }
         }

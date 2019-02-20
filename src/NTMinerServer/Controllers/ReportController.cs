@@ -19,8 +19,8 @@ namespace NTMiner.Controllers {
                         Id = message.ClientId,
                         WorkId = message.WorkId,
                         Version = message.Version,
-                        BootSeconds = message.BootSeconds,
-                        MineSeconds = message.MineSeconds,
+                        BootOn = message.BootOn,
+                        MineStartedOn = message.MineStartedOn,
                         IsMining = message.IsMining,
                         MinerIp = minerIp,
                         GpuInfo = message.GpuInfo,
@@ -48,8 +48,8 @@ namespace NTMiner.Controllers {
                     clientData.WorkId = message.WorkId;
                     clientData.Version = message.Version;
                     clientData.IsMining = message.IsMining;
-                    clientData.BootSeconds = message.BootSeconds;
-                    clientData.MineSeconds = message.MineSeconds;
+                    clientData.BootOn = message.BootOn;
+                    clientData.MineStartedOn = message.MineStartedOn;
                     clientData.MinerIp = minerIp;
                     clientData.GpuInfo = message.GpuInfo;
                     clientData.MinerName = message.MinerName;

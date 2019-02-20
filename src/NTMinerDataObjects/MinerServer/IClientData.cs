@@ -8,6 +8,10 @@ namespace NTMiner.MinerServer {
 
         bool IsMining { get; }
 
+        DateTime BootOn { get; }
+
+        DateTime? MineStartedOn { get; }
+
         string MinerName { get; }
 
         Guid GroupId { get; }

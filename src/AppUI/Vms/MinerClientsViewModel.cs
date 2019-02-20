@@ -64,12 +64,6 @@ namespace NTMiner.Vms {
                     if (this.CountDown > 0) {
                         this.CountDown = this.CountDown - 1;
                     }
-                    foreach (var minerClientVm in MinerClients) {
-                        if (minerClientVm.IsMining) {
-                            minerClientVm.MineSeconds = minerClientVm.MineSeconds + 1;
-                            minerClientVm.BootSeconds = minerClientVm.BootSeconds + 1;
-                        }
-                    }
                 });
             this._mineStatusEnumItem = this.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._mainCoin = CoinViewModel.PleaseSelect;

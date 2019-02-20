@@ -1030,5 +1030,6 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
+		<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
 	</Grid>
 </UserControl>

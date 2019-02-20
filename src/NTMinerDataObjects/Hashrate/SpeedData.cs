@@ -12,9 +12,9 @@ namespace NTMiner.Hashrate {
 
         public string Version { get; set; }
 
-        public int BootSeconds { get; set; }
+        public DateTime BootOn { get; set; }
 
-        public int MineSeconds { get; set; }
+        public DateTime? MineStartedOn { get; set; }
 
         public bool IsMining { get; set; }
 

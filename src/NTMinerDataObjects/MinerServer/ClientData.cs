@@ -27,9 +27,9 @@ namespace NTMiner.MinerServer {
 
         public string RemotePassword { get; set; }
 
-        public int BootSeconds { get; set; }
+        public DateTime BootOn { get; set; }
 
-        public int MineSeconds { get; set; }
+        public DateTime? MineStartedOn { get; set; }
 
         public string MainCoinCode {
             get => _mainCoinCode ?? string.Empty;
