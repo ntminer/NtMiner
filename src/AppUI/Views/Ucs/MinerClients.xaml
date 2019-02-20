@@ -731,7 +731,9 @@
 					<DataGridTemplateColumn.Header>
 						<WrapPanel ToolTip="客户端每2分钟上报一次算力">
 							<TextBlock Text="最后更新"></TextBlock>
+							<TextBlock FontWeight="Normal" Text="("></TextBlock>
 							<TextBlock Text="{Binding Data.CountDown, Source={StaticResource proxy}}" FontWeight="Normal"></TextBlock>
+							<TextBlock FontWeight="Normal" Text=")"></TextBlock>
 							<WrapPanel.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="LastActivedOnText">
@@ -766,7 +768,11 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBlock Text="{Binding MainCoinWallet}"></TextBlock>
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									Text="{Binding MainCoinWallet, Mode=OneWay}" 
+									IsReadOnly="True"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
