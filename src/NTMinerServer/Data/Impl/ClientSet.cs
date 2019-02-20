@@ -215,15 +215,30 @@ namespace NTMiner.Data.Impl {
                     query = query.Where(a => a.Kernel != null && a.Kernel.StartsWith(kernel, StringComparison.OrdinalIgnoreCase));
                 }
                 total = query.Count();
-                return query.OrderBy(a => a.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                var result = query.OrderBy(a => a.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                DateTime time = DateTime.Now.AddMinutes(-3);
+                // 3分钟未上报算力视为0算力
+                foreach (var clientData in result) {
+                    if (clientData.ModifiedOn < time) {
+                        clientData.DualCoinSpeed = 0;
+                        clientData.MainCoinSpeed = 0;
+                    }
+                }
+                return result;
             }
         }
 
         public List<ClientData> LoadClients(IEnumerable<Guid> clientIds) {
             InitOnece();
             List<ClientData> results = new List<ClientData>();
+            DateTime time = DateTime.Now.AddMinutes(-3);
             foreach (var clientId in clientIds) {
                 ClientData clientData = LoadClient(clientId);
+                // 3分钟未上报算力视为0算力
+                if (clientData.ModifiedOn < time) {
+                    clientData.DualCoinSpeed = 0;
+                    clientData.MainCoinSpeed = 0;
+                }
                 if (clientData != null) {
                     results.Add(clientData);
                 }
@@ -235,18 +250,24 @@ namespace NTMiner.Data.Impl {
             InitOnece();
             ClientData clientData = null;
             lock (_locker) {
-                if (_dicById.TryGetValue(clientId, out clientData)) {
-                    return clientData;
+                _dicById.TryGetValue(clientId, out clientData);
+            }
+            if (clientData == null) {
+                using (LiteDatabase db = HostRoot.CreateReportDb()) {
+                    var col = db.GetCollection<ClientData>();
+                    clientData = col.FindById(clientId);
+                    if (clientData != null) {
+                        Add(clientData);
+                    }
                 }
             }
-            using (LiteDatabase db = HostRoot.CreateReportDb()) {
-                var col = db.GetCollection<ClientData>();
-                clientData = col.FindById(clientId);
-                if (clientData != null) {
-                    Add(clientData);
-                }
-                return clientData;
+            DateTime time = DateTime.Now.AddMinutes(-3);
+            // 3分钟未上报算力视为0算力
+            if (clientData != null && clientData.ModifiedOn < time) {
+                clientData.DualCoinSpeed = 0;
+                clientData.MainCoinSpeed = 0;
             }
+            return clientData;
         }
 
         public void UpdateClient(Guid clientId, string propertyName, object value) {
