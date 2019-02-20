@@ -15,8 +15,7 @@
         bool DualCoinPool  { get; }
         bool LastActivedOnText  { get; }
         bool Version  { get; }
-        bool RemoteUserName  { get; }
-        bool RemotePassword  { get; }
+        bool RemoteDesktop  { get; }
         bool GpuInfo  { get; }
     }
 }

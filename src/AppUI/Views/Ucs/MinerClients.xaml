@@ -276,6 +276,7 @@
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}">作业</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">矿工名</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="6 0 0 0">IP</CheckBox>
+					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemoteDesktop, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemoteDesktop}" Margin="6 0 0 0">远程桌面</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="6 0 0 0">主挖币种</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="6 0 0 0">主币算力</CheckBox>
@@ -290,8 +291,6 @@
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinWallet}" Margin="6 0 0 0">双挖钱包</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinPool}" Margin="6 0 0 0">双挖矿池</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Version, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Version}" Margin="6 0 0 0">客户端版本</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemoteUserName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemoteUserName}" Margin="6 0 0 0">远程桌面用户名</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemotePassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemotePassword}" Margin="6 0 0 0">远程桌面密码</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuInfo, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuInfo}" Margin="6 0 0 0">显卡</CheckBox>
 				</WrapPanel>
 			</WrapPanel>
@@ -386,16 +385,6 @@
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
 										</MenuItem.Icon>
-										<MenuItem Header="远程桌面" Command="{Binding RemoteDesktop}">
-											<MenuItem.Icon>
-												<Path
-													Width="16"
-													Height="16"
-													Data="{StaticResource Icon_RemoteDesktop}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</MenuItem.Icon>
-										</MenuItem>
 										<MenuItem Header="启动客户端" Command="{Binding StartNTMiner}">
 											<MenuItem.Icon>
 												<Path
@@ -525,16 +514,84 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBox 
-								ToolTip="双击打开远程桌面"
-								PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
-								Tag="{Binding}"
-								BorderThickness="0"
-								Background="Transparent"
-								IsReadOnly="True"
-								Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
+							<WrapPanel>
+								<TextBox 
+									ToolTip="双击打开远程桌面"
+									PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
+									Tag="{Binding}"
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
+								<controls:KbButton
+									BorderThickness="0"
+									Margin="4 0 0 0"
+									Background="Transparent"
+									Command="{Binding RemoteDesktop}"
+									CornerRadius="2">
+									<Path
+										Width="14"
+										Height="14"
+										Data="{StaticResource Icon_RemoteDesktop}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+								</controls:KbButton>
+							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn 
+					Visibility="{Binding Data.ColumnsShow.RemoteDesktop,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					Binding="{Binding RemoteUserName, UpdateSourceTrigger=LostFocus}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="False">
+					<DataGridTextColumn.Header>
+						<WrapPanel>
+							<TextBlock>远程桌面用户名</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteDesktop">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTextColumn.Header>
+					<DataGridTextColumn.EditingElementStyle>
+						<Style TargetType="TextBox">
+							<Setter Property="Background" Value="White"></Setter>
+							<Setter Property="Width" Value="70"></Setter>
+						</Style>
+					</DataGridTextColumn.EditingElementStyle>
+				</DataGridTextColumn>
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.RemoteDesktop,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="False">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>远程桌面密码</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteDesktop">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding RemotePasswordStar}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+					<DataGridTemplateColumn.CellEditingTemplate>
+						<DataTemplate>
+							<PasswordBox Width="70" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding RemotePassword, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
 				<DataGridComboBoxColumn 
 					Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
@@ -906,59 +963,6 @@
 							<TextBlock Text="{Binding Version}" Margin="8 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTextColumn 
-					Visibility="{Binding Data.ColumnsShow.RemoteUserName,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					Binding="{Binding RemoteUserName, UpdateSourceTrigger=LostFocus}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="False">
-					<DataGridTextColumn.Header>
-						<WrapPanel>
-							<TextBlock>远程桌面用户名</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteUserName">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTextColumn.Header>
-					<DataGridTextColumn.EditingElementStyle>
-						<Style TargetType="TextBox">
-							<Setter Property="Background" Value="White"></Setter>
-							<Setter Property="Width" Value="70"></Setter>
-						</Style>
-					</DataGridTextColumn.EditingElementStyle>
-				</DataGridTextColumn>
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.RemotePassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="False">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>远程桌面密码</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemotePassword">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding RemotePasswordStar}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-					<DataGridTemplateColumn.CellEditingTemplate>
-						<DataTemplate>
-							<TextBox Width="70" Background="White" Text="{Binding RemotePassword, UpdateSourceTrigger=LostFocus}"></TextBox>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"

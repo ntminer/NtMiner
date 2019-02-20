@@ -26,8 +26,10 @@ namespace NTMiner {
         public static string JsonFileVersion {
             get { return _jsonFileVersion; }
             set {
-                _jsonFileVersion = value;
-                VirtualRoot.Happened(new ServerJsonVersionChangedEvent());
+                if (_jsonFileVersion != value && !string.IsNullOrEmpty(_jsonFileVersion)) {
+                    _jsonFileVersion = value;
+                    VirtualRoot.Happened(new ServerJsonVersionChangedEvent());
+                }
             }
         }
 

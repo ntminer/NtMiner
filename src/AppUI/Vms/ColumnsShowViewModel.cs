@@ -19,8 +19,7 @@ namespace NTMiner.Vms {
         private bool _dualCoinPool = true;
         private bool _lastActivedOnText = true;
         private bool _version = true;
-        private bool _remoteUserName = true;
-        private bool _remotePassword = true;
+        private bool _remoteDesktop = true;
         private bool _gpuInfo = true;
         private bool _mainCoinRejectPercentText = true;
         private bool _dualCoinRejectPercentText = true;
@@ -173,19 +172,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool RemoteUserName {
-            get => _remoteUserName;
+        public bool RemoteDesktop {
+            get => _remoteDesktop;
             set {
-                _remoteUserName = value;
-                OnPropertyChanged(nameof(RemoteUserName));
-            }
-        }
-
-        public bool RemotePassword {
-            get => _remotePassword;
-            set {
-                _remotePassword = value;
-                OnPropertyChanged(nameof(RemotePassword));
+                _remoteDesktop = value;
+                OnPropertyChanged(nameof(RemoteDesktop));
             }
         }
 

@@ -364,7 +364,7 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.RemotePassword)) {
                     return string.Empty;
                 }
-                return new string('*', this.RemotePassword.Length);
+                return new string('●', this.RemotePassword.Length);
             }
         }
 
