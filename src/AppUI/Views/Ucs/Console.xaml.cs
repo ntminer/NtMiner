@@ -19,6 +19,13 @@ namespace NTMiner.Views.Ucs {
             Write.WriteUserLineMethod = WriteLine;
         }
 
+        protected override void OnRender(DrawingContext drawingContext) {
+            base.OnRender(drawingContext);
+            if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
+                this.RichTextBox.ScrollToEnd();
+            }
+        }
+
         private void InnerWrite(string text, ConsoleColor foreground) {
             InlineCollection list = this.ConsoleParagraph.Inlines;
             // 满1000行删除500行
