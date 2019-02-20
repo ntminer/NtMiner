@@ -12,6 +12,12 @@ namespace NTMiner.Hashrate {
 
         public string Version { get; set; }
 
+        public int RunningSeconds { get; set; }
+
+        public int MiningSeconds { get; set; }
+
+        public bool IsMining { get; set; }
+
         public string MinerIp { get; set; }
 
         public string GpuInfo { get; set; }
@@ -38,6 +44,8 @@ namespace NTMiner.Hashrate {
 
         public int MainCoinShareDelta { get; set; }
 
+        public int MainCoinRejectShareDelta { get; set; }
+
         public bool IsDualCoinEnabled { get; set; }
 
         public int DualCoinTotalShare { get; set; }
@@ -46,7 +54,7 @@ namespace NTMiner.Hashrate {
 
         public int DualCoinShareDelta { get; set; }
 
-        public bool IsMining { get; set; }
+        public int DualCoinRejectShareDelta { get; set; }
 
         public double MainCoinSpeed { get; set; }
 
