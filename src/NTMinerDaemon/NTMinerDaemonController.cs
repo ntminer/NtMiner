@@ -73,7 +73,7 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 try {
-                    CloseNTMiner(request);
+                    DoCloseNTMiner();
                     System.Threading.Thread.Sleep(1000);
                     string arguments = NTMinerRegistry.GetArguments();
                     if (!string.IsNullOrEmpty(arguments)) {
@@ -122,43 +122,47 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty);
             }
             Task.Factory.StartNew(() => {
-                bool isClosed = false;
-                try {
-                    using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3336/api/MinerClient/CloseNTMiner", request);
-                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                        isClosed = response.IsSuccess();
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                }
-                if (!isClosed) {
-                    try {
-                        string location = NTMinerRegistry.GetLocation();
-                        if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                            string processName = Path.GetFileNameWithoutExtension(location);
-                            Windows.TaskKill.Kill(processName);
-                        }
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
-                }
-                try {
-                    using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetMinerServerHost()}:3339/api/Report/ReportState", new MinerServer.ReportStateRequest {
-                            ClientId = NTMinerRegistry.GetClientId(),
-                            IsMining = false
-                        });
-                        Write.DevLine("ReportStateAsync " + message.Result.ReasonPhrase);
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                }
+                DoCloseNTMiner();
             });
             return ResponseBase.Ok(request.MessageId);
+        }
+
+        private void DoCloseNTMiner() {
+            bool isClosed = false;
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3336/api/MinerClient/CloseNTMiner", new RequestBase());
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    isClosed = response.IsSuccess();
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+            if (!isClosed) {
+                try {
+                    string location = NTMinerRegistry.GetLocation();
+                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                        string processName = Path.GetFileNameWithoutExtension(location);
+                        Windows.TaskKill.Kill(processName);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                }
+            }
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetMinerServerHost()}:3339/api/Report/ReportState", new MinerServer.ReportStateRequest {
+                        ClientId = NTMinerRegistry.GetClientId(),
+                        IsMining = false
+                    });
+                    Write.DevLine("ReportStateAsync " + message.Result.ReasonPhrase);
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
         }
 
         [HttpPost]
