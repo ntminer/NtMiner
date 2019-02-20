@@ -464,5 +464,61 @@ namespace NTMiner.Controllers {
             }
         }
         #endregion
+
+        #region ColumnsShows
+        [HttpPost]
+        public GetColumnsShowsResponse ColumnsShows([FromBody]ColumnsShowsRequest request) {
+            try {
+                var data = HostRoot.Current.ColumnsShowSet.GetColumnsShows();
+                return GetColumnsShowsResponse.Ok(request.MessageId, data);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError<GetColumnsShowsResponse>(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region AddOrUpdateColumnsShow
+        [HttpPost]
+        public ResponseBase AddOrUpdateColumnsShow([FromBody]AddOrUpdateColumnsShowRequest request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                HostRoot.Current.ColumnsShowSet.AddOrUpdate(request.Data);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region RemoveColumnsShow
+        [HttpPost]
+        public ResponseBase RemoveColumnsShow([FromBody]RemoveColumnsShowRequest request) {
+            if (request == null || request.ColumnsShowId == Guid.Empty) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                HostRoot.Current.ColumnsShowSet.Remove(request.ColumnsShowId);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
     }
 }

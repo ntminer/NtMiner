@@ -249,6 +249,44 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    #region ColumnsShow Messages
+    [MessageType(messageType: typeof(AddColumnsShowCommand), description: "添加矿工组")]
+    public class AddColumnsShowCommand : AddEntityCommand<IColumnsShow> {
+        public AddColumnsShowCommand(IColumnsShow input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(UpdateColumnsShowCommand), description: "更新列显")]
+    public class UpdateColumnsShowCommand : UpdateEntityCommand<IColumnsShow> {
+        public UpdateColumnsShowCommand(IColumnsShow input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(RemoveColumnsShowCommand), description: "删除列显")]
+    public class RemoveColumnsShowCommand : RemoveEntityCommand {
+        public RemoveColumnsShowCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(messageType: typeof(ColumnsShowAddedEvent), description: "添加列显后")]
+    public class ColumnsShowAddedEvent : DomainEvent<IColumnsShow> {
+        public ColumnsShowAddedEvent(IColumnsShow source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(ColumnsShowUpdatedEvent), description: "更新列显后")]
+    public class ColumnsShowUpdatedEvent : DomainEvent<IColumnsShow> {
+        public ColumnsShowUpdatedEvent(IColumnsShow source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(ColumnsShowRemovedEvent), description: "删除列显后")]
+    public class ColumnsShowRemovedEvent : DomainEvent<IColumnsShow> {
+        public ColumnsShowRemovedEvent(IColumnsShow source) : base(source) {
+        }
+    }
+    #endregion
+
     #region speed and share
     [MessageType(messageType: typeof(GpuSpeedChangedEvent), description: "显卡算力变更事件")]
     public class GpuSpeedChangedEvent : DomainEvent<IGpuSpeed> {

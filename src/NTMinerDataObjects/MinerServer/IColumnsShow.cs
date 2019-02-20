@@ -1,5 +1,7 @@
-﻿namespace NTMiner.MinerServer {
-    public interface IColumnsShow {
+﻿using System;
+
+namespace NTMiner.MinerServer {
+    public interface IColumnsShow : IEntity<Guid> {
         bool Work { get; }
         bool MinerName { get; }
         bool MinerIp  { get; }

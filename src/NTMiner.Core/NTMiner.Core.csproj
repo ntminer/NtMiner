@@ -117,11 +117,13 @@
     <Compile Include="Core\Impl\CoinGroupData.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
+    <Compile Include="Core\MinerServer\IColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />
     <Compile Include="Core\Impl\GroupData.cs" />
     <Compile Include="Core\Impl\GroupSet.cs" />
     <Compile Include="Core\Impl\KeyData.cs" />
     <Compile Include="Core\Impl\KeySet.cs" />
+    <Compile Include="Core\MinerServer\Impl\ColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\Impl\MinerGroupSet.cs" />
     <Compile Include="Core\Impl\ReadOnlyServerRepository`1.cs" />
     <Compile Include="Core\Impl\ServerJson.cs" />

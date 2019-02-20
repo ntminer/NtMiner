@@ -486,6 +486,66 @@ namespace NTMiner {
                 });
             }
             #endregion
+
+            #region GetColumnsShows
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <param name="messageId"></param>
+            /// <returns></returns>
+            public GetColumnsShowsResponse GetColumnsShows(Guid messageId) {
+                try {
+                    ColumnsShowsRequest request = new ColumnsShowsRequest {
+                        MessageId = Guid.NewGuid()
+                    };
+                    GetColumnsShowsResponse response = Request<GetColumnsShowsResponse>("ControlCenter", "ColumnsShows", request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
+            }
+            #endregion
+
+            #region AddOrUpdateColumnsShowAsync
+            public void AddOrUpdateColumnsShowAsync(ColumnsShowData entity, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        AddOrUpdateColumnsShowRequest request = new AddOrUpdateColumnsShowRequest {
+                            LoginName = LoginName,
+                            Data = entity
+                        };
+                        request.SignIt(PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateColumnsShow", request);
+                        callback?.Invoke(response);
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+            #endregion
+
+            #region RemoveColumnsShowAsync
+            public void RemoveColumnsShowAsync(Guid id, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        RemoveColumnsShowRequest request = new RemoveColumnsShowRequest() {
+                            LoginName = LoginName
+                        };
+                        request.SignIt(PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveColumnsShow", request);
+                        callback?.Invoke(response);
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+            #endregion
         }
     }
 }

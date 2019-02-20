@@ -6,6 +6,6 @@ namespace NTMiner.Core.MinerServer {
     public interface IMinerGroupSet : IEnumerable<IMinerGroup> {
         int Count { get; }
         bool Contains(Guid id);
-        bool TryGetCoin(Guid id, out IMinerGroup group);
+        bool TryGetMinerGroup(Guid id, out IMinerGroup group);
     }
 }

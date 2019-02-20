@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerServer;
+using System;
 using System.Reflection;
 using System.Windows.Input;
 
@@ -25,6 +26,7 @@ namespace NTMiner.Vms {
         private bool _dualCoinRejectPercentText = true;
         private bool _bootTimeSpanText = true;
         private bool _mineTimeSpanText = true;
+        private Guid _id;
 
         public ICommand Hide { get; private set; }
 
@@ -35,6 +37,18 @@ namespace NTMiner.Vms {
                     propertyInfo.SetValue(this, false, null);
                 }
             });
+        }
+
+        public Guid GetId() {
+            return this.Id;
+        }
+
+        public Guid Id {
+            get => _id;
+            set {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
         }
 
         public bool BootTimeSpanText {

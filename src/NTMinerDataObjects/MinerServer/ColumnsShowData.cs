@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace NTMiner.MinerServer {
     public class ColumnsShowData : IDbEntity<Guid>, IColumnsShow {
@@ -43,5 +44,29 @@ namespace NTMiner.MinerServer {
         public bool RemotePassword{ get; set; }
 
         public bool GpuInfo{ get; set; }
+
+        public string GetSignData() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(nameof(Id)).Append(Id)
+                .Append(nameof(Work)).Append(Work)
+                .Append(nameof(MinerName)).Append(MinerName)
+                .Append(nameof(MinerIp)).Append(MinerIp)
+                .Append(nameof(MinerIp)).Append(MinerGroup)
+                .Append(nameof(MinerIp)).Append(MainCoinCode)
+                .Append(nameof(MinerIp)).Append(MainCoinSpeedText)
+                .Append(nameof(MinerIp)).Append(MainCoinWallet)
+                .Append(nameof(MinerIp)).Append(MainCoinPool)
+                .Append(nameof(MinerIp)).Append(Kernel)
+                .Append(nameof(MinerIp)).Append(DualCoinCode)
+                .Append(nameof(MinerIp)).Append(DualCoinSpeedText)
+                .Append(nameof(MinerIp)).Append(DualCoinWallet)
+                .Append(nameof(MinerIp)).Append(DualCoinPool)
+                .Append(nameof(MinerIp)).Append(LastActivedOnText)
+                .Append(nameof(MinerIp)).Append(Version)
+                .Append(nameof(MinerIp)).Append(RemoteUserNameAndPassword)
+                .Append(nameof(MinerIp)).Append(RemotePassword)
+                .Append(nameof(MinerIp)).Append(GpuInfo);
+            return sb.ToString();
+        }
     }
 }

@@ -50,6 +50,7 @@
     <Compile Include="MinerClient\ProfileData.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="MinerClient\StopMineRequest.cs" />
+    <Compile Include="MinerServer\AddOrUpdateColumnsShowRequest.cs" />
     <Compile Include="MinerServer\AddOrUpdateMinerGroupRequest.cs" />
     <Compile Include="MinerServer\AddOrUpdateMineWorkRequest.cs" />
     <Compile Include="MinerServer\AddOrUpdateNTMinerFileRequest.cs" />
@@ -63,8 +64,11 @@
     <Compile Include="MinerServer\ClientData.cs" />
     <Compile Include="MinerServer\CloseNTMinerRequest.cs" />
     <Compile Include="MinerServer\ColumnsShowData.cs" />
+    <Compile Include="MinerServer\ColumnsShowsRequest.cs" />
+    <Compile Include="MinerServer\GetColumnsShowsResponse.cs" />
     <Compile Include="MinerServer\IColumnsShow.cs" />
     <Compile Include="MinerServer\OpenNTMinerRequest.cs" />
+    <Compile Include="MinerServer\RemoveColumnsShowRequest.cs" />
     <Compile Include="MinerServer\RestartNTMinerRequest.cs" />
     <Compile Include="MinerServer\RestartWindowsRequest.cs" />
     <Compile Include="MinerServer\ShutdownWindowsRequest.cs" />
