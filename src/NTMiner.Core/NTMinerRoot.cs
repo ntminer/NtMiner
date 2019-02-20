@@ -421,10 +421,11 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
-            HttpServer.Stop();
             if (_currentMineContext != null) {
+                VirtualRoot.Happened(new MineStopedEvent(_currentMineContext));
                 StopMineAsync();
             }
+            HttpServer.Stop();
         }
         #endregion
 

@@ -273,6 +273,7 @@
 						ItemsSource="{Binding MineCoinVms.PleaseSelect}"
 						DisplayMemberPath="Code"
 						SelectedItem="{Binding MainCoin}"></controls:KbComboBox>
+					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.LastActivedOnText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.LastActivedOnText}" Margin="6 0 0 0">最后更新</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}">作业</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.BootTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.BootTimeSpanText}" Margin="6 0 0 0">运行时长</CheckBox>
@@ -283,7 +284,6 @@
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="6 0 0 0">主挖币种</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="6 0 0 0">主币算力</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinRejectPercentText}" Margin="6 0 0 0">主币拒绝率</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.LastActivedOnText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.LastActivedOnText}" Margin="6 0 0 0">最后更新</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinWallet}" Margin="6 0 0 0">主币钱包</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinPool}" Margin="6 0 0 0">主币矿池</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Kernel, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Kernel}" Margin="6 0 0 0">内核</CheckBox>
@@ -440,6 +440,32 @@
 									</MenuItem>
 								</Menu>
 							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="False" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel ToolTip="客户端每2分钟上报一次算力">
+							<TextBlock Text="最后更新"></TextBlock>
+							<TextBlock FontWeight="Normal" Text="("></TextBlock>
+							<TextBlock Text="{Binding Data.CountDown, Source={StaticResource proxy}}" FontWeight="Normal"></TextBlock>
+							<TextBlock FontWeight="Normal" Text=")"></TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="LastActivedOnText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -719,32 +745,6 @@
 								<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
 								<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}"></TextBlock>
 							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="False" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel ToolTip="客户端每2分钟上报一次算力">
-							<TextBlock Text="最后更新"></TextBlock>
-							<TextBlock FontWeight="Normal" Text="("></TextBlock>
-							<TextBlock Text="{Binding Data.CountDown, Source={StaticResource proxy}}" FontWeight="Normal"></TextBlock>
-							<TextBlock FontWeight="Normal" Text=")"></TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="LastActivedOnText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

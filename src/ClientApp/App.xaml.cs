@@ -52,13 +52,15 @@ namespace NTMiner {
                         "处理关闭NTMiner客户端命令",
                         LogEnum.Console,
                         action: message => {
-                            if (MainWindow != null) {
-                                MainWindow.Close();
-                            }
-                            else {
-                                Shutdown();
-                                Environment.Exit(0);
-                            }
+                            UIThread.Execute(() => {
+                                if (MainWindow != null) {
+                                    MainWindow.Close();
+                                }
+                                else {
+                                    Shutdown();
+                                    Environment.Exit(0);
+                                }
+                            });
                         });
                 }
                 else {
