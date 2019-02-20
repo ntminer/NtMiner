@@ -91,13 +91,13 @@
             <TextBox Grid.Row="1" Grid.Column="1" Margin="0 2" Text="{Binding LoginName}" Background="White" VerticalContentAlignment="Center"></TextBox>
 
             <Label Grid.Row="2" Grid.Column="0" Margin="0 2" Content="{DynamicResource LblPassword}" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
-            <PasswordBox Grid.Row="2" Grid.Column="1" Margin="0 2" x:Name="TxtPassword" Background="White" VerticalContentAlignment="Center"></PasswordBox>
-
+            <PasswordBox Grid.Row="2" Grid.Column="1" Margin="0 2" x:Name="PbPassword" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            
             <WrapPanel Grid.Row="3" Grid.Column="2" Margin="0 8 0 0">
                 <controls:KbButton
                     IsDefault="True"
                     Padding="4 0"
-                    Click="KbButtonLogin_Click"
+                    Command="{Binding Login}"
                     Background="{StaticResource IconFillColor}"
                     Foreground="White"
                     CornerRadius="2">

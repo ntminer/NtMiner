@@ -33,11 +33,11 @@
 		</WrapPanel>
 		<WrapPanel Margin="0 2">
 			<Label>密码:</Label>
-			<TextBox Width="200" VerticalContentAlignment="Center" Text="{Binding Password, ValidatesOnExceptions=True}">
-			</TextBox>
+			<PasswordBox Width="200" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 		</WrapPanel>
 		<WrapPanel Margin="0 10 0 0">
 			<controls:KbButton
+				IsDefault="True"
 				Command="{Binding Login}" 
 				Margin="70 0 0 0"
 				HorizontalAlignment="Left"

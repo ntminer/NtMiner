@@ -1,7 +1,5 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
-using System;
-using System.Windows;
 
 namespace NTMiner.Views {
     public partial class LoginWindow : MetroWindow {
@@ -13,49 +11,14 @@ namespace NTMiner.Views {
 
         public LoginWindow() {
             InitializeComponent();
+            this.PbPassword.Focus();
             UILanguageInit();
-
-            this.TxtPassword.Focus();
         }
 
         private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
                 this.DragMove();
             }
-        }
-
-        private void KbButtonLogin_Click(object sender, RoutedEventArgs e) {
-            string passwordSha1 = HashUtil.Sha1(TxtPassword.Password);
-            Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, response => {
-                UIThread.Execute(() => {
-                    if (response == null) {
-                        Vm.Message = "服务器忙";
-                        Vm.MessageVisible = Visibility.Visible;
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            UIThread.Execute(() => {
-                                Vm.MessageVisible = Visibility.Collapsed;
-                            });
-                        });
-                        return;
-                    }
-                    if (response.IsSuccess()) {
-                        Server.LoginName = Vm.LoginName;
-                        Server.PasswordSha1 = passwordSha1;
-                        this.DialogResult = true;
-                        this.Close();
-                    }
-                    else {
-                        Vm.Message = response.Description;
-                        Vm.MessageVisible = Visibility.Visible;
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            UIThread.Execute(() => {
-                                Vm.MessageVisible = Visibility.Collapsed;
-                            });
-                        });
-                        return;
-                    }
-                });
-            });
         }
 
         private void CbLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
