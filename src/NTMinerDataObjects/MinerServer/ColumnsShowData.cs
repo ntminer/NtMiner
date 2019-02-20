@@ -38,7 +38,7 @@ namespace NTMiner.MinerServer {
 
         public bool Version{ get; set; }
 
-        public bool RemoteDesktop{ get; set; }
+        public bool RemoteUserNameAndPassword{ get; set; }
 
         public bool RemotePassword{ get; set; }
 

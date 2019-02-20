@@ -276,7 +276,7 @@
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}">作业</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">矿工名</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="6 0 0 0">IP</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemoteDesktop, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemoteDesktop}" Margin="6 0 0 0">远程桌面</CheckBox>
+					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemoteUserNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemoteUserNameAndPassword}" Margin="6 0 0 0">远程桌面用户名密码</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="6 0 0 0">主挖币种</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="6 0 0 0">主币算力</CheckBox>
@@ -541,7 +541,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn 
-					Visibility="{Binding Data.ColumnsShow.RemoteDesktop,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					Visibility="{Binding Data.ColumnsShow.RemoteUserNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					Binding="{Binding RemoteUserName, UpdateSourceTrigger=LostFocus}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
@@ -552,7 +552,7 @@
 							<TextBlock>远程桌面用户名</TextBlock>
 							<WrapPanel.ContextMenu>
 								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteDesktop">
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteUserNameAndPassword">
 									</MenuItem>
 								</ContextMenu>
 							</WrapPanel.ContextMenu>
@@ -566,7 +566,7 @@
 					</DataGridTextColumn.EditingElementStyle>
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.RemoteDesktop,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					Visibility="{Binding Data.ColumnsShow.RemoteUserNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
@@ -576,7 +576,7 @@
 							<TextBlock>远程桌面密码</TextBlock>
 							<WrapPanel.ContextMenu>
 								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteDesktop">
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteUserNameAndPassword">
 									</MenuItem>
 								</ContextMenu>
 							</WrapPanel.ContextMenu>
