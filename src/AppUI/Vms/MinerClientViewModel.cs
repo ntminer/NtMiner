@@ -225,6 +225,22 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int RunningSeconds {
+            get { return _data.RunningSeconds; }
+            set {
+                _data.RunningSeconds = value;
+                OnPropertyChanged(nameof(RunningSeconds));
+            }
+        }
+
+        public int MiningSeconds {
+            get { return _data.MiningSeconds; }
+            set {
+                _data.MiningSeconds = value;
+                OnPropertyChanged(nameof(MiningSeconds));
+            }
+        }
+
         public bool IsMining {
             get {
                 if (!IsClientOnline) {
