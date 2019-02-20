@@ -386,7 +386,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public long MainCoinSpeed {
+        public double MainCoinSpeed {
             get => _data.MainCoinSpeed;
             set {
                 _data.MainCoinSpeed = value;
@@ -459,7 +459,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public long DualCoinSpeed {
+        public double DualCoinSpeed {
             get => _data.DualCoinSpeed;
             set {
                 _data.DualCoinSpeed = value;

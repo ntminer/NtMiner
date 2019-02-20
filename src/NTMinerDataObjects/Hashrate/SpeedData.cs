@@ -40,9 +40,9 @@ namespace NTMiner.Hashrate {
 
         public bool IsMining { get; set; }
 
-        public long MainCoinSpeed { get; set; }
+        public double MainCoinSpeed { get; set; }
 
-        public long DualCoinSpeed { get; set; }
+        public double DualCoinSpeed { get; set; }
 
         public GpuSpeedData[] GpuSpeeds { get; set; }
     }

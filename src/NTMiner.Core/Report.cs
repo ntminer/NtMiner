@@ -161,8 +161,8 @@ namespace NTMiner {
             if (withGpuSpeeds) {
                 data.GpuSpeeds = root.GpusSpeed.Select(a => new GpuSpeedData {
                     Index = a.Gpu.Index,
-                    MainCoinSpeed = (long)a.MainCoinSpeed.Value,
-                    DualCoinSpeed = (long)a.DualCoinSpeed.Value,
+                    MainCoinSpeed = a.MainCoinSpeed.Value,
+                    DualCoinSpeed = a.DualCoinSpeed.Value,
                     FanSpeed = a.Gpu.FanSpeed,
                     Temperature = a.Gpu.Temperature,
                     PowerUsage = a.Gpu.PowerUsage
@@ -224,7 +224,7 @@ namespace NTMiner {
                     Guid coinId = root.CurrentMineContext.MainCoin.GetId();
                     IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
                     IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
-                    data.MainCoinSpeed = (int)totalSpeed.MainCoinSpeed.Value;
+                    data.MainCoinSpeed = totalSpeed.MainCoinSpeed.Value;
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
                     if (!_coinShareDic.TryGetValue(coinId, out preCoinShare)) {
                         preCoinShare = new CoinShareData() {
@@ -248,7 +248,7 @@ namespace NTMiner {
                         Guid coinId = dualMineContext.DualCoin.GetId();
                         IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
                         IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
-                        data.DualCoinSpeed = (int)totalSpeed.DualCoinSpeed.Value;
+                        data.DualCoinSpeed = totalSpeed.DualCoinSpeed.Value;
                         ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
                         if (!_coinShareDic.TryGetValue(coinId, out preCoinShare)) {
                             preCoinShare = new CoinShareData() {

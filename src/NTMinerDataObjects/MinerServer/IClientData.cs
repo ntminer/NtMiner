@@ -20,7 +20,7 @@ namespace NTMiner.MinerServer {
 
         string MainCoinCode { get; }
 
-        long MainCoinSpeed { get; }
+        double MainCoinSpeed { get; }
 
         string MainCoinPool { get; }
 
@@ -32,7 +32,7 @@ namespace NTMiner.MinerServer {
 
         string DualCoinCode { get; }
 
-        long DualCoinSpeed { get; }
+        double DualCoinSpeed { get; }
 
         string DualCoinPool { get; }
 

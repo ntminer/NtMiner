@@ -49,7 +49,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Write.DevLine(e.Message + e.StackTrace);
+                Write.DevLine(e.Message + e.StackTrace, ConsoleColor.Red);
                 return default(T);
             }
         }

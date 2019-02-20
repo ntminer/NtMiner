@@ -36,7 +36,7 @@ namespace NTMiner.MinerServer {
             set => _mainCoinCode = value;
         }
 
-        public long MainCoinSpeed { get; set; }
+        public double MainCoinSpeed { get; set; }
 
         public int RejectCount { get; set; }
 
@@ -55,7 +55,7 @@ namespace NTMiner.MinerServer {
             set => _dualCoinCode = value;
         }
 
-        public long DualCoinSpeed { get; set; }
+        public double DualCoinSpeed { get; set; }
 
         public int DualRejectCount { get; set; }
 

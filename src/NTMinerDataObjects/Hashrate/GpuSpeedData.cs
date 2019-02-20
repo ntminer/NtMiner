@@ -2,9 +2,9 @@
     public class GpuSpeedData {
         public int Index { get; set; }
 
-        public long MainCoinSpeed { get; set; }
+        public double MainCoinSpeed { get; set; }
 
-        public long DualCoinSpeed { get; set; }
+        public double DualCoinSpeed { get; set; }
 
         public uint Temperature { get; set; }
 

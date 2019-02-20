@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
                 }
             }
         }
-        public long Speed {
+        public double Speed {
             get => _data.Speed;
             set {
                 if (_data.Speed != value) {

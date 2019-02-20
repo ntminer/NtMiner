@@ -13,7 +13,7 @@ namespace NTMiner.Data {
             get => _coinCode ?? string.Empty;
             set => _coinCode = value;
         }
-        public long Speed { get; set; }
+        public double Speed { get; set; }
         public int ShareDelta { get; set; }
         public DateTime Timestamp { get; set; }
     }

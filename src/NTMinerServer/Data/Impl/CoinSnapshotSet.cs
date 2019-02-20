@@ -119,7 +119,7 @@ namespace NTMiner.Data.Impl {
                             dic[clientCoinSnapshotData.ClientId] = clientCoinSnapshotData;
                         }
                     }
-                    long speed = dic.Values.Sum(a => a.Speed);
+                    double speed = dic.Values.Sum(a => a.Speed);
                     int shareDelta = dic.Values.Sum(a => a.ShareDelta);
                     ClientCoinCount count = _root.ClientSet.Count(item.Key);
                     CoinSnapshotData snapshotdData = new CoinSnapshotData {
