@@ -40,6 +40,8 @@ namespace NTMiner {
 
         IMinerGroupSet MinerGroupSet { get; }
 
+        IColumnsShowSet ColumnsShowSet { get; }
+
         string QQGroup { get; }
 
         int SpeedHistoryLengthByMinute { get; }
