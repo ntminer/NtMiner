@@ -1,9 +1,8 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
-using NTMiner.MinerClient;
-using NTMiner.Profile;
 using NTMiner.Hashrate;
+using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,86 +50,6 @@ namespace NTMiner {
                 action: message => {
                     ReportState();
                 });
-        }
-
-        public static ProfileData CreateProfileData() {
-            INTMinerRoot root = NTMinerRoot.Current;
-            IMinerProfile minerProfile = root.MinerProfile;
-            if (minerProfile == null) {
-                return null;
-            }
-            ICoin mainCoin;
-            if (!root.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
-                return null;
-            }
-            string dualCoinCode = null;
-            string dualCoinPool = null;
-            string dualCoinWallet = null;
-            bool isDualCoinPoolIsUserMode = false;
-            string dualCoinPoolUserName = null;
-            double dualCoinWeight = 0;
-            bool isAutoDualWeight = true;
-            bool isDualCoinEnabled = false;
-            string mainCoinPool = null;
-            string mainCoinWallet = null;
-            bool isMainCoinPoolIsUserMode = false;
-            string mainCoinPoolUserName = null;
-            ICoinProfile mainCoinProfile = root.MinerProfile.GetCoinProfile(mainCoin.GetId());
-            IPool mainCoinPoolModel;
-            if (!root.PoolSet.TryGetPool(mainCoinProfile.PoolId, out mainCoinPoolModel)) {
-                return null;
-            }
-            mainCoinPool = mainCoinPoolModel.Server;
-            mainCoinWallet = mainCoinProfile.Wallet;
-            isMainCoinPoolIsUserMode = mainCoinPoolModel.IsUserMode;
-            mainCoinPoolUserName = mainCoinPoolModel.UserName;
-            ICoinKernelProfile coinKernelProfile = root.MinerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
-            isDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
-            if (isDualCoinEnabled) {
-                ICoin dualCoin;
-                if (!root.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                    return null;
-                }
-                dualCoinCode = dualCoin.Code;
-                isAutoDualWeight = coinKernelProfile.IsAutoDualWeight;
-                dualCoinWeight = coinKernelProfile.DualCoinWeight;
-                ICoinProfile dualCoinProfile = root.MinerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
-                IPool dualCoinPoolModel;
-                if (!root.PoolSet.TryGetPool(dualCoinProfile.PoolId, out dualCoinPoolModel)) {
-                    return null;
-                }
-                dualCoinPool = dualCoinPoolModel.Server;
-                dualCoinWallet = dualCoinProfile.Wallet;
-                isDualCoinPoolIsUserMode = dualCoinPoolModel.IsUserMode;
-                dualCoinPoolUserName = dualCoinPoolModel.UserName;
-            }
-            ProfileData data = new ProfileData {
-                CoinCode = mainCoin.Code,
-                DualCoinCode = dualCoinCode,
-                DualCoinPool = dualCoinPool,
-                DualCoinWallet = dualCoinWallet,
-                IsDualCoinPoolIsUserMode = isDualCoinPoolIsUserMode,
-                DualCoinPoolUserName = dualCoinPoolUserName,
-                DualCoinWeight = dualCoinWeight,
-                IsAutoBoot = minerProfile.IsAutoBoot,
-                IsAutoDualWeight = isAutoDualWeight,
-                IsAutoRestartKernel = minerProfile.IsAutoRestartKernel,
-                IsAutoStart = minerProfile.IsAutoStart,
-                IsAutoThisPCName = minerProfile.IsAutoThisPCName,
-                IsDualCoinEnabled = isDualCoinEnabled,
-                IsNoShareRestartKernel = minerProfile.IsNoShareRestartKernel,
-                IsPeriodicRestartComputer = minerProfile.IsPeriodicRestartComputer,
-                IsPeriodicRestartKernel = minerProfile.IsPeriodicRestartKernel,
-                MainCoinPool = mainCoinPool,
-                MainCoinWallet = mainCoinWallet,
-                IsMainCoinPoolIsUserMode = isMainCoinPoolIsUserMode,
-                MainCoinPoolUserName = mainCoinPoolUserName,
-                MinerName = minerProfile.MinerName,
-                NoShareRestartKernelMinutes = minerProfile.NoShareRestartKernelMinutes,
-                PeriodicRestartComputerHours = minerProfile.PeriodicRestartComputerHours,
-                PeriodicRestartKernelHours = minerProfile.PeriodicRestartKernelHours
-            };
-            return data;
         }
 
         private static readonly Dictionary<Guid, CoinShareData> _coinShareDic = new Dictionary<Guid, CoinShareData>();
