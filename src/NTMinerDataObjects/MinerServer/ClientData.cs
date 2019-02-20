@@ -38,9 +38,9 @@ namespace NTMiner.MinerServer {
 
         public double MainCoinSpeed { get; set; }
 
-        public int RejectShareCount { get; set; }
+        public int MainCoinRejectShare { get; set; }
 
-        public int TotalShareCount { get; set; }
+        public int MainCoinTotalShare { get; set; }
 
         public string MainCoinPool { get; set; }
 
@@ -57,9 +57,9 @@ namespace NTMiner.MinerServer {
 
         public double DualCoinSpeed { get; set; }
 
-        public int DualRejectShareCount { get; set; }
+        public int DualCoinRejectShare { get; set; }
 
-        public int DualTotalShareCount { get; set; }
+        public int DualCoinTotalShare { get; set; }
 
         public string DualCoinPool { get; set; }
 

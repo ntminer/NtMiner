@@ -32,9 +32,17 @@ namespace NTMiner.Hashrate {
 
         public string DualCoinWallet { get; set; }
 
+        public int MainCoinTotalShare { get; set; }
+
+        public int MainCoinRejectShare { get; set; }
+
         public int MainCoinShareDelta { get; set; }
 
         public bool IsDualCoinEnabled { get; set; }
+
+        public int DualCoinTotalShare { get; set; }
+
+        public int DualCoinRejectShare { get; set; }
 
         public int DualCoinShareDelta { get; set; }
 

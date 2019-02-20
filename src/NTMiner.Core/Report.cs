@@ -65,9 +65,13 @@ namespace NTMiner {
                 ClientId = ClientId.Id,
                 MainCoinCode = string.Empty,
                 MainCoinWallet = string.Empty,
+                MainCoinTotalShare = 0,
+                MainCoinRejectShare = 0,
                 MainCoinShareDelta = 0,
                 MainCoinSpeed = 0,
                 DualCoinCode = string.Empty,
+                DualCoinTotalShare = 0,
+                DualCoinRejectShare = 0,
                 DualCoinShareDelta = 0,
                 DualCoinSpeed = 0,
                 IsMining = root.IsMining,
@@ -145,6 +149,8 @@ namespace NTMiner {
                     IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
                     data.MainCoinSpeed = totalSpeed.MainCoinSpeed.Value;
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
+                    data.MainCoinTotalShare = share.TotalShareCount;
+                    data.MainCoinRejectShare = share.RejectShareCount;
                     if (!_coinShareDic.TryGetValue(coinId, out preCoinShare)) {
                         preCoinShare = new CoinShareData() {
                             TotalShareCount = share.TotalShareCount
@@ -169,6 +175,8 @@ namespace NTMiner {
                         IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
                         data.DualCoinSpeed = totalSpeed.DualCoinSpeed.Value;
                         ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
+                        data.DualCoinTotalShare = share.TotalShareCount;
+                        data.DualCoinRejectShare = share.RejectShareCount;
                         if (!_coinShareDic.TryGetValue(coinId, out preCoinShare)) {
                             preCoinShare = new CoinShareData() {
                                 TotalShareCount = share.TotalShareCount

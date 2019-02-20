@@ -25,6 +25,8 @@ namespace NTMiner.Controllers {
                         CreatedOn = DateTime.Now,
                         ModifiedOn = DateTime.Now,
                         MainCoinCode = message.MainCoinCode,
+                        MainCoinTotalShare = message.MainCoinTotalShare,
+                        MainCoinRejectShare = message.MainCoinRejectShare,
                         MainCoinSpeed = message.MainCoinSpeed,
                         MainCoinPool = message.MainCoinPool,
                         MainCoinWallet = message.MainCoinWallet,
@@ -33,6 +35,8 @@ namespace NTMiner.Controllers {
                         DualCoinPool = message.DualCoinPool,
                         DualCoinWallet = message.DualCoinWallet,
                         DualCoinCode = message.DualCoinCode,
+                        DualCoinTotalShare = message.DualCoinTotalShare,
+                        DualCoinRejectShare = message.DualCoinRejectShare,
                         DualCoinSpeed = message.DualCoinSpeed,
                         IsMining = message.IsMining
                     };
@@ -46,6 +50,8 @@ namespace NTMiner.Controllers {
                     clientData.MinerName = message.MinerName;
                     clientData.ModifiedOn = DateTime.Now;
                     clientData.MainCoinCode = message.MainCoinCode;
+                    clientData.MainCoinTotalShare = message.MainCoinTotalShare;
+                    clientData.MainCoinRejectShare = message.MainCoinRejectShare;
                     clientData.MainCoinSpeed = message.MainCoinSpeed;
                     clientData.MainCoinPool = message.MainCoinPool;
                     clientData.MainCoinWallet = message.MainCoinWallet;
@@ -54,6 +60,8 @@ namespace NTMiner.Controllers {
                     clientData.DualCoinPool = message.DualCoinPool;
                     clientData.DualCoinWallet = message.DualCoinWallet;
                     clientData.DualCoinCode = message.DualCoinCode;
+                    clientData.DualCoinTotalShare = message.DualCoinTotalShare;
+                    clientData.DualCoinRejectShare = message.DualCoinRejectShare;
                     clientData.DualCoinSpeed = message.DualCoinSpeed;
                     clientData.IsMining = message.IsMining;
                 }
