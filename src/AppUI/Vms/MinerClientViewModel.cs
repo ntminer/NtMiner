@@ -230,6 +230,7 @@ namespace NTMiner.Vms {
             set {
                 _data.BootSeconds = value;
                 OnPropertyChanged(nameof(BootSeconds));
+                OnPropertyChanged(nameof(BootTimeSpanText));
             }
         }
 
@@ -250,6 +251,7 @@ namespace NTMiner.Vms {
             set {
                 _data.MineSeconds = value;
                 OnPropertyChanged(nameof(MineSeconds));
+                OnPropertyChanged(nameof(MineTimeSpanText));
             }
         }
 
