@@ -129,7 +129,7 @@
 			BorderThickness="0" 
 			SpellCheck.IsEnabled="False"
 			IsReadOnly="True"
-			Padding="0 0 0 4" Background="Transparent" Foreground="White">
+			Padding="0 0 0 16" Background="Transparent" Foreground="White">
 			<FlowDocument>
 				<Paragraph x:Name="ConsoleParagraph" LineHeight="14">
 				</Paragraph>
