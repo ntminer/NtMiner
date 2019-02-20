@@ -246,7 +246,7 @@
 					<Button
 						Width="20" Margin="4 0 0 0"
 						Command="{Binding PageRefresh}" 
-						ToolTip="刷新">
+						ToolTip="手动刷新">
 						<Path 
 							Width="14"
 							Height="14"
@@ -450,7 +450,7 @@
 					CanUserSort="False" 
 					IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<WrapPanel ToolTip="客户端每2分钟上报一次算力">
+						<WrapPanel ToolTip="自动刷新仅刷新当前列表展示出的记录">
 							<TextBlock Text="最后更新"></TextBlock>
 							<TextBlock FontWeight="Normal" Text="("></TextBlock>
 							<TextBlock Text="{Binding Data.CountDown, Source={StaticResource proxy}}" FontWeight="Normal"></TextBlock>
