@@ -11,7 +11,7 @@
 		Title="开源矿工"
 		Width="{Binding Width}"
 		Height="{Binding Height}"
-		MinHeight="420"
+		MinHeight="480"
 		MinWidth="800"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
@@ -77,7 +77,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"/>
-			<RowDefinition Height="*" MinHeight="491" />
+			<RowDefinition Height="*" MinHeight="452" />
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<!--上标题栏-->
@@ -165,7 +165,7 @@
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="47"/>
-				<RowDefinition Height="*" MinHeight="444" />
+				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 			<TabControl 
 				Name="tab" Grid.RowSpan="2" BorderThickness="0"

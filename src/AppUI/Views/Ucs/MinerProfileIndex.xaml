@@ -147,7 +147,7 @@
 			</WrapPanel>
 
 			<StackPanel>
-				<WrapPanel Margin="0 3">
+				<WrapPanel Margin="0 2">
 					<TextBlock
 						Style="{StaticResource LblTb}"
 						ToolTip="{DynamicResource MainCoin}"
@@ -235,7 +235,7 @@
 					</controls:KbComboBox>
 				</WrapPanel>
 
-				<Grid Margin="0 3"
+				<Grid Margin="0 2"
 					  Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 					<WrapPanel>
 						<TextBlock
@@ -358,7 +358,7 @@
 				</Grid>
 
 				<WrapPanel 
-					Margin="0 3" 
+					Margin="0 2" 
 					Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource UserName}"></TextBlock>
 					<Grid>
@@ -434,7 +434,7 @@
 					</Grid>
 				</WrapPanel>
 				
-				<WrapPanel Margin="0 3">
+				<WrapPanel Margin="0 2">
 					<TextBlock
 						Style="{StaticResource LblTb}"
 						ToolTip="{DynamicResource Kernel}"
@@ -543,7 +543,7 @@
 					<StackPanel
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 						<WrapPanel 
-							Margin="0 3"
+							Margin="0 2"
 							VerticalAlignment="Center"
 							Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 							<TextBlock
@@ -576,7 +576,7 @@
 								<TextBlock Text="%"></TextBlock>
 							</WrapPanel>
 						</WrapPanel>
-						<WrapPanel Margin="0 3">
+						<WrapPanel Margin="0 2">
 							<TextBlock
 								Style="{StaticResource LblTb}"
 								ToolTip="{DynamicResource DualCoin}"
@@ -661,7 +661,7 @@
 								</controls:KbComboBox>
 							</DockPanel>
 						</WrapPanel>
-						<Grid Margin="0 3"
+						<Grid Margin="0 2"
 							  Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 							<WrapPanel>
 								<WrapPanel>
@@ -785,7 +785,7 @@
 							</WrapPanel>
 						</Grid>
 						<WrapPanel 
-							Margin="0 3" 
+							Margin="0 2" 
 							Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
 							<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource UserName}"></TextBlock>
 							<Grid>
@@ -863,7 +863,7 @@
 					</StackPanel>
 				</WrapPanel>
 
-				<WrapPanel Margin="0 3" VerticalAlignment="Center">
+				<WrapPanel Margin="0 2" VerticalAlignment="Center">
 					<TextBlock
 						Style="{StaticResource LblTb}"
 						ToolTip="{DynamicResource CustomArgs}"
