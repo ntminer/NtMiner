@@ -22,6 +22,8 @@ namespace NTMiner.Vms {
         private bool _remoteUserName = true;
         private bool _remotePassword = true;
         private bool _gpuInfo = true;
+        private bool _mainCoinRejectPercentText = true;
+        private bool _dualCoinRejectPercentText = true;
 
         public ICommand Hide { get; private set; }
 
@@ -84,6 +86,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool MainCoinRejectPercentText {
+            get => _mainCoinRejectPercentText;
+            set {
+                _mainCoinRejectPercentText = value;
+                OnPropertyChanged(nameof(MainCoinRejectPercentText));
+            }
+        }
+
         public bool MainCoinWallet {
             get => _mainCoinWallet;
             set {
@@ -120,6 +130,14 @@ namespace NTMiner.Vms {
             set {
                 _dualCoinSpeedText = value;
                 OnPropertyChanged(nameof(DualCoinSpeedText));
+            }
+        }
+
+        public bool DualCoinRejectPercentText {
+            get => _dualCoinRejectPercentText;
+            set {
+                _dualCoinRejectPercentText = value;
+                OnPropertyChanged(nameof(DualCoinRejectPercentText));
             }
         }
 

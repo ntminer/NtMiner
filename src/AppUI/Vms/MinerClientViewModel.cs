@@ -57,7 +57,7 @@ namespace NTMiner.Vms {
             });
             this.StartMine = new DelegateCommand(() => {
                 IsMining = true;
-                MinerClientService.Instance.StartMineAsync(this.MinerIp, WorkId, response=> {
+                MinerClientService.Instance.StartMineAsync(this.MinerIp, WorkId, response => {
                     if (!response.IsSuccess()) {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
@@ -213,15 +213,15 @@ namespace NTMiner.Vms {
             get {
                 TimeSpan timeSpan = DateTime.Now - ModifiedOn;
                 if (timeSpan.Days >= 1) {
-                    return "一天前";
+                    return timeSpan.Days + " 天前";
                 }
                 if (timeSpan.Hours > 0) {
-                    return timeSpan.Hours + "小时前";
+                    return timeSpan.Hours + " 小时前";
                 }
                 if (timeSpan.Minutes > 2) {
-                    return timeSpan.Minutes + "分钟前";
+                    return timeSpan.Minutes + " 分钟前";
                 }
-                return (int)timeSpan.TotalSeconds + "秒前";
+                return (int)timeSpan.TotalSeconds + " 秒前";
             }
         }
 
@@ -401,6 +401,33 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int MainCoinTotalShare {
+            get { return _data.MainCoinTotalShare; }
+            set {
+                _data.MainCoinTotalShare = value;
+                OnPropertyChanged(nameof(MainCoinTotalShare));
+                OnPropertyChanged(nameof(MainCoinRejectPercentText));
+            }
+        }
+
+        public int MainCoinRejectShare {
+            get { return _data.MainCoinRejectShare; }
+            set {
+                _data.MainCoinRejectShare = value;
+                OnPropertyChanged(nameof(MainCoinRejectShare));
+                OnPropertyChanged(nameof(MainCoinRejectPercentText));
+            }
+        }
+
+        public string MainCoinRejectPercentText {
+            get {
+                if (MainCoinTotalShare == 0) {
+                    return "0%";
+                }
+                return (MainCoinRejectShare * 100.0 / MainCoinTotalShare).ToString("f1") + "%";
+            }
+        }
+
         public string MainCoinPool {
             get => _data.MainCoinPool;
             set {
@@ -471,6 +498,33 @@ namespace NTMiner.Vms {
         public string DualCoinSpeedText {
             get {
                 return this.DualCoinSpeed.ToUnitSpeedText();
+            }
+        }
+
+        public int DualCoinTotalShare {
+            get { return _data.DualCoinTotalShare; }
+            set {
+                _data.DualCoinTotalShare = value;
+                OnPropertyChanged(nameof(DualCoinTotalShare));
+                OnPropertyChanged(nameof(DualCoinRejectPercentText));
+            }
+        }
+
+        public int DualCoinRejectShare {
+            get { return _data.DualCoinRejectShare; }
+            set {
+                _data.DualCoinRejectShare = value;
+                OnPropertyChanged(nameof(DualCoinRejectShare));
+                OnPropertyChanged(nameof(DualCoinRejectPercentText));
+            }
+        }
+
+        public string DualCoinRejectPercentText {
+            get {
+                if (DualCoinTotalShare == 0) {
+                    return "0%";
+                }
+                return (DualCoinRejectShare * 100.0 / DualCoinTotalShare).ToString("f1") + "%";
             }
         }
 

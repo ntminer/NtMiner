@@ -20,6 +20,10 @@ namespace NTMiner.MinerServer {
 
         string MainCoinCode { get; }
 
+        int MainCoinTotalShare { get; }
+
+        int MainCoinRejectShare { get; }
+
         double MainCoinSpeed { get; }
 
         string MainCoinPool { get; }
@@ -31,6 +35,10 @@ namespace NTMiner.MinerServer {
         bool IsDualCoinEnabled { get; }
 
         string DualCoinCode { get; }
+
+        int DualCoinTotalShare { get; }
+
+        int DualCoinRejectShare { get; }
 
         double DualCoinSpeed { get; }
 
