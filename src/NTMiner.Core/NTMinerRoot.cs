@@ -421,8 +421,8 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
+            Server.ReportService.ReportStateAsync(ClientId.Id, isMining: false);
             if (_currentMineContext != null) {
-                VirtualRoot.Happened(new MineStopedEvent(_currentMineContext));
                 StopMineAsync();
             }
             HttpServer.Stop();

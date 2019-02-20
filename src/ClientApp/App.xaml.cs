@@ -52,6 +52,7 @@ namespace NTMiner {
                         "处理关闭NTMiner客户端命令",
                         LogEnum.Console,
                         action: message => {
+                            Write.DevLine("关闭客NTMiner客户端");
                             UIThread.Execute(() => {
                                 if (MainWindow != null) {
                                     MainWindow.Close();

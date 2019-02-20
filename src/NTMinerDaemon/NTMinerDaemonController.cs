@@ -1,5 +1,4 @@
 ﻿using NTMiner.Daemon;
-using NTMiner.MinerClient;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -145,6 +144,18 @@ namespace NTMiner {
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
                     }
+                }
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetMinerServerHost()}:3339/api/Report/ReportState", new MinerServer.ReportStateRequest {
+                            ClientId = NTMinerRegistry.GetClientId(),
+                            IsMining = false
+                        });
+                        Write.DevLine("ReportStateAsync " + message.Result.ReasonPhrase);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
             });
             return ResponseBase.Ok(request.MessageId);

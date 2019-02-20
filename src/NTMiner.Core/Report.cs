@@ -50,7 +50,12 @@ namespace NTMiner {
                 "停止挖矿后报告状态",
                 LogEnum.Console,
                 action: message => {
-                    ReportState();
+                    try {
+                        Server.ReportService.ReportStateAsync(ClientId.Id, isMining: false);
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
                 });
         }
 
@@ -216,15 +221,6 @@ namespace NTMiner {
             try {
                 SpeedData data = CreateSpeedData();
                 Server.ReportService.ReportSpeedAsync(data);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
-        }
-
-        private static void ReportState() {
-            try {
-                Server.ReportService.ReportStateAsync(ClientId.Id, NTMinerRoot.Current.IsMining);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
