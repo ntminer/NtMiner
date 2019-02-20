@@ -19,6 +19,9 @@ namespace NTMiner.Controllers {
                         Id = message.ClientId,
                         WorkId = message.WorkId,
                         Version = message.Version,
+                        BootSeconds = message.BootSeconds,
+                        MineSeconds = message.MineSeconds,
+                        IsMining = message.IsMining,
                         MinerIp = minerIp,
                         GpuInfo = message.GpuInfo,
                         MinerName = message.MinerName,
@@ -37,14 +40,16 @@ namespace NTMiner.Controllers {
                         DualCoinCode = message.DualCoinCode,
                         DualCoinTotalShare = message.DualCoinTotalShare,
                         DualCoinRejectShare = message.DualCoinRejectShare,
-                        DualCoinSpeed = message.DualCoinSpeed,
-                        IsMining = message.IsMining
+                        DualCoinSpeed = message.DualCoinSpeed
                     };
                     HostRoot.Current.ClientSet.Add(clientData);
                 }
                 else {
                     clientData.WorkId = message.WorkId;
                     clientData.Version = message.Version;
+                    clientData.IsMining = message.IsMining;
+                    clientData.BootSeconds = message.BootSeconds;
+                    clientData.MineSeconds = message.MineSeconds;
                     clientData.MinerIp = minerIp;
                     clientData.GpuInfo = message.GpuInfo;
                     clientData.MinerName = message.MinerName;
@@ -63,7 +68,6 @@ namespace NTMiner.Controllers {
                     clientData.DualCoinTotalShare = message.DualCoinTotalShare;
                     clientData.DualCoinRejectShare = message.DualCoinRejectShare;
                     clientData.DualCoinSpeed = message.DualCoinSpeed;
-                    clientData.IsMining = message.IsMining;
                 }
                 bool isMainCoin = !string.IsNullOrEmpty(message.MainCoinCode);
                 // 认为双挖币不能和主挖币相同

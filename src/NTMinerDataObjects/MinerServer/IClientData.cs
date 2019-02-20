@@ -6,10 +6,6 @@ namespace NTMiner.MinerServer {
 
         string Version { get; }
 
-        int RunningSeconds { get; }
-
-        int MiningSeconds { get; }
-
         bool IsMining { get; }
 
         string MinerName { get; }

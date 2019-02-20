@@ -23,6 +23,8 @@ namespace NTMiner.Vms {
         private bool _gpuInfo = true;
         private bool _mainCoinRejectPercentText = true;
         private bool _dualCoinRejectPercentText = true;
+        private bool _bootTimeSpanText = true;
+        private bool _mineTimeSpanText = true;
 
         public ICommand Hide { get; private set; }
 
@@ -33,6 +35,22 @@ namespace NTMiner.Vms {
                     propertyInfo.SetValue(this, false, null);
                 }
             });
+        }
+
+        public bool BootTimeSpanText {
+            get { return _bootTimeSpanText; }
+            set {
+                _bootTimeSpanText = value;
+                OnPropertyChanged(nameof(BootTimeSpanText));
+            }
+        }
+
+        public bool MineTimeSpanText {
+            get { return _mineTimeSpanText; }
+            set {
+                _mineTimeSpanText = value;
+                OnPropertyChanged(nameof(MineTimeSpanText));
+            }
         }
 
         public bool Work {

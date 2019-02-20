@@ -225,19 +225,43 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int RunningSeconds {
-            get { return _data.RunningSeconds; }
+        public int BootSeconds {
+            get { return _data.BootSeconds; }
             set {
-                _data.RunningSeconds = value;
-                OnPropertyChanged(nameof(RunningSeconds));
+                _data.BootSeconds = value;
+                OnPropertyChanged(nameof(BootSeconds));
             }
         }
 
-        public int MiningSeconds {
-            get { return _data.MiningSeconds; }
+        public string BootTimeSpanText {
+            get {
+                TimeSpan time = TimeSpan.FromSeconds(BootSeconds);
+                if (time.Days > 0) {
+                    return $"{time.Days}天{time.ToString()}";
+                }
+                else {
+                    return time.ToString();
+                }
+            }
+        }
+
+        public int MineSeconds {
+            get { return _data.MineSeconds; }
             set {
-                _data.MiningSeconds = value;
-                OnPropertyChanged(nameof(MiningSeconds));
+                _data.MineSeconds = value;
+                OnPropertyChanged(nameof(MineSeconds));
+            }
+        }
+
+        public string MineTimeSpanText {
+            get {
+                TimeSpan time = TimeSpan.FromSeconds(MineSeconds);
+                if (time.Days > 0) {
+                    return $"{time.Days}天{time.ToString()}";
+                }
+                else {
+                    return time.ToString();
+                }
             }
         }
 

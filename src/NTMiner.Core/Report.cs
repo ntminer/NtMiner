@@ -62,8 +62,8 @@ namespace NTMiner {
             SpeedData data = new SpeedData {
                 WorkId = CommandLineArgs.WorkId,
                 Version = NTMinerRoot.CurrentVersion.ToString(4),
-                RunningSeconds = 0,
-                MiningSeconds = 0,
+                BootSeconds = (int)((DateTime.Now - root.CreatedOn).TotalSeconds),
+                MineSeconds = 0,
                 IsMining = root.IsMining,
                 MinerName = root.MinerProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
@@ -146,10 +146,9 @@ namespace NTMiner {
             #endregion
 
             if (root.IsMining) {
-                data.RunningSeconds = (int)((DateTime.Now - root.CreatedOn).TotalSeconds);
                 var mineContext = root.CurrentMineContext;
                 if (mineContext != null) {
-                    data.MiningSeconds = (int)((DateTime.Now - mineContext.CreatedOn).TotalSeconds);
+                    data.MineSeconds = (int)((DateTime.Now - mineContext.CreatedOn).TotalSeconds);
                 }
                 // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
                 if (_lastSpeedMainCoin == null || _lastSpeedMainCoin == root.CurrentMineContext.MainCoin) {
