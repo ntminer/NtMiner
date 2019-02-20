@@ -3,7 +3,7 @@ using System;
 
 namespace NTMiner.Vms {
     public class ShareViewModel : ViewModelBase, ICoinShare {
-        private int _rejectCount;
+        private int _rejectShareCount;
         private int _acceptShareCount;
         private DateTime _shareOn;
 
@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
 
         public int TotalShareCount {
             get {
-                return AcceptShareCount + RejectCount;
+                return AcceptShareCount + RejectShareCount;
             }
         }
 
@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
                 if (TotalShareCount == 0) {
                     return 0;
                 }
-                return ((double)RejectCount / TotalShareCount) * 100;
+                return ((double)RejectShareCount / TotalShareCount) * 100;
             }
         }
 
@@ -47,12 +47,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int RejectCount {
-            get => _rejectCount;
+        public int RejectShareCount {
+            get => _rejectShareCount;
             set {
-                if (_rejectCount != value) {
-                    _rejectCount = value;
-                    OnPropertyChanged(nameof(RejectCount));
+                if (_rejectShareCount != value) {
+                    _rejectShareCount = value;
+                    OnPropertyChanged(nameof(RejectShareCount));
                     OnPropertyChanged(nameof(RejectPercent));
                     OnPropertyChanged(nameof(TotalShareCount));
                     OnPropertyChanged(nameof(RejectPercentText));

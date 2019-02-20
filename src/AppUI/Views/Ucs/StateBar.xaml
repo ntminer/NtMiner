@@ -36,11 +36,11 @@
 			<sys:String x:Key="LblReject">
 				LblReject
 			</sys:String>
-			<sys:String x:Key="LblRejectCount">
-				LblRejectCount
+			<sys:String x:Key="LblRejectShareCount">
+				LblRejectShareCount
 			</sys:String>
-			<sys:String x:Key="LblRequestCount">
-				LblRequestCount
+			<sys:String x:Key="LblSubmitShareRequestCount">
+				LblSubmitShareRequestCount
 			</sys:String>
 			<sys:String x:Key="LblTotalSpeed">
 				LblTotalSpeed
@@ -252,7 +252,7 @@
 							Fill="{Binding GpuStatusBarVm.IconFill}"
 							Stretch="Fill">
 						</Path>
-                        <TextBlock Text="{Binding GpuStatusBarVm.GpuCountText}" ToolTip="{Binding GpuStatusBarVm.GpuSetInfo}" Width="80"></TextBlock>
+						<TextBlock Text="{Binding GpuStatusBarVm.GpuCountText}" ToolTip="{Binding GpuStatusBarVm.GpuSetInfo}" Width="80"></TextBlock>
 						<Path
 							Margin="0 0 2 0"
 							Width="8"
@@ -310,7 +310,7 @@
 									</TextBlock>
 									<TextBlock 
 										Text="{Binding MinerProfile.CoinVm.Code}" 
-                                        Margin="2 0 0 0"
+										Margin="2 0 0 0"
 										Padding="0"
 										Foreground="{StaticResource LableColor}"
 										FontWeight="Bold" 
@@ -324,7 +324,7 @@
 									</TextBlock>
 									<TextBlock 
 										Text="USD" 
-                                        Margin="2 0 0 0"
+										Margin="2 0 0 0"
 										Padding="0"
 										Foreground="{StaticResource LableColor}"
 										VerticalAlignment="Center"></TextBlock>
@@ -337,7 +337,7 @@
 									</TextBlock>
 									<TextBlock 
 										Text="CNY" 
-                                        Margin="2 0 0 0"
+										Margin="2 0 0 0"
 										Padding="0"
 										Foreground="{StaticResource LableColor}"
 										VerticalAlignment="Center"></TextBlock>
@@ -348,9 +348,9 @@
 						</WrapPanel>
 						<WrapPanel Width="140" Margin="0 2">
 							<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
-							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
+							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />
 							<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
+							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitShareRequestCount}" />
 							<TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
 						</WrapPanel>
 						<WrapPanel Width="130" Margin="0 2">
@@ -384,7 +384,7 @@
 										</TextBlock>
 										<TextBlock 
 											Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" 
-                                        Margin="2 0 0 0"
+										Margin="2 0 0 0"
 											Padding="0"
 											FontWeight="Bold" 
 											Foreground="{StaticResource LableColor}"
@@ -398,7 +398,7 @@
 										</TextBlock>
 										<TextBlock 
 											Text="USD" 
-                                            Margin="2 0 0 0"
+											Margin="2 0 0 0"
 											Padding="0"
 											Foreground="{StaticResource LableColor}"
 											VerticalAlignment="Center"></TextBlock>
@@ -411,7 +411,7 @@
 										</TextBlock>
 										<TextBlock 
 											Text="CNY" 
-                                            Margin="2 0 0 0"
+											Margin="2 0 0 0"
 											Padding="0"
 											Foreground="{StaticResource LableColor}"
 											VerticalAlignment="Center"></TextBlock>
@@ -422,9 +422,9 @@
 							</WrapPanel>
 							<WrapPanel Width="140" Margin="0 2">
 								<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
-								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectCount}" ToolTip="{DynamicResource LblRejectCount}" />
+								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />
 								<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblRequestCount}" />
+								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitShareRequestCount}" />
 								<TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
 							</WrapPanel>
 							<WrapPanel Width="130" Margin="0 2">

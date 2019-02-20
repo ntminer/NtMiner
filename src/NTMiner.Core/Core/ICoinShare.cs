@@ -6,7 +6,7 @@ namespace NTMiner.Core {
         int TotalShareCount { get; }
         int AcceptShareCount { get; set; }
         double RejectPercent { get; }
-        int RejectCount { get; set; }
+        int RejectShareCount { get; set; }
         DateTime ShareOn { get; set; }
     }
 }

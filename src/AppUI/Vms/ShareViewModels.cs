@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
                     ShareViewModel shareVm;
                     if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {
                         shareVm.AcceptShareCount = message.Source.AcceptShareCount;
-                        shareVm.RejectCount = message.Source.RejectCount;
+                        shareVm.RejectShareCount = message.Source.RejectShareCount;
                         shareVm.ShareOn = message.Source.ShareOn;
                     }
                 });

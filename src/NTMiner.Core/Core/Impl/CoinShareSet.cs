@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
             if (!_root.CoinSet.Contains(coinId)) {
                 return new CoinShare() {
                     CoinId = coinId,
-                    RejectCount = 0,
+                    RejectShareCount = 0,
                     RejectPercent = 0,
                     ShareOn = DateTime.Now,
                     AcceptShareCount = 0
@@ -25,7 +25,7 @@ namespace NTMiner.Core.Impl {
             }
             CoinShare share = new CoinShare {
                 CoinId = coinId,
-                RejectCount = 0,
+                RejectShareCount = 0,
                 RejectPercent = 0,
                 ShareOn = DateTime.Now,
                 AcceptShareCount = 0

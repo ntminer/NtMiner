@@ -79,7 +79,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     var now = DateTime.Now;
                     ICoinShare share = _root.CoinShareSet.GetOrCreate(message.MineContext.MainCoin.GetId());
                     share.AcceptShareCount = 0;
-                    share.RejectCount = 0;
+                    share.RejectShareCount = 0;
                     share.ShareOn = now;
                     VirtualRoot.Happened(new ShareChangedEvent(share));
                     foreach (var gpu in _root.GpuSet) {
@@ -97,7 +97,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (message.MineContext is IDualMineContext dualMineContext) {
                         share = _root.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
                         share.AcceptShareCount = 0;
-                        share.RejectCount = 0;
+                        share.RejectShareCount = 0;
                         share.ShareOn = now;
                         VirtualRoot.Happened(new ShareChangedEvent(share));
                         foreach (var gpu in _root.GpuSet) {
