@@ -9,6 +9,8 @@ namespace NTMiner.MinerServer {
 
         public Guid Id { get; set; }
 
+        public string ColumnsShowName { get; set; }
+
         public bool Work { get; set; }
 
         public bool MinerName{ get; set; }

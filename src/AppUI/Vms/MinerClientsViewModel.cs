@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
             new MinuteItem(10),
             new MinuteItem(20)
         };
-        private readonly ColumnsShowViewModel _columnsShow = new ColumnsShowViewModel();
+        private ColumnsShowViewModel _columnsShow = ColumnsShowViewModel.PleaseSelect;
         private int _countDown;
         private MinuteItem _lastActivedOn;
         private List<MinerClientViewModel> _minerClients = new List<MinerClientViewModel>();
@@ -123,6 +123,16 @@ namespace NTMiner.Vms {
         public ColumnsShowViewModel ColumnsShow {
             get {
                 return _columnsShow;
+            }
+            set {
+                _columnsShow = value;
+                OnPropertyChanged(nameof(ColumnsShow));
+            }
+        }
+
+        public ColumnsShowViewModels ColumnsShows {
+            get {
+                return ColumnsShowViewModels.Current;
             }
         }
 

@@ -267,12 +267,12 @@
 					<Label>条</Label>
 				</WrapPanel>
 				<WrapPanel VerticalAlignment="Center">
-					<Label Width="70" HorizontalContentAlignment="Right">视图模板</Label>
+					<Label Width="70" HorizontalContentAlignment="Right">列显</Label>
 					<controls:KbComboBox 
 						VerticalAlignment="Center"
-						ItemsSource="{Binding MineCoinVms.PleaseSelect}"
-						DisplayMemberPath="Code"
-						SelectedItem="{Binding MainCoin}"></controls:KbComboBox>
+						ItemsSource="{Binding ColumnsShows.ColumnsShowVms}"
+						DisplayMemberPath="ColumnsShowName"
+						SelectedItem="{Binding ColumnsShow}"></controls:KbComboBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.LastActivedOnText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.LastActivedOnText}" Margin="6 0 0 0">最后更新</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.BootTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.BootTimeSpanText}" Margin="6 0 0 0">运行时长</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="6 0 0 0">挖矿时长</CheckBox>

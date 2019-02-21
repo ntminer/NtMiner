@@ -5,6 +5,12 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ColumnsShowViewModel : ViewModelBase, IColumnsShow {
+        public static readonly ColumnsShowViewModel PleaseSelect = new ColumnsShowViewModel(Guid.Empty) {
+            ColumnsShowName = "请选择"
+        };
+
+        private Guid _id;
+        private string _columnsShowName;
         private bool _work = true;
         private bool _minerName = true;
         private bool _minerIp = true;
@@ -26,17 +32,38 @@ namespace NTMiner.Vms {
         private bool _dualCoinRejectPercentText = true;
         private bool _bootTimeSpanText = true;
         private bool _mineTimeSpanText = true;
-        private Guid _id;
 
         public ICommand Hide { get; private set; }
 
-        public ColumnsShowViewModel() {
+        public ColumnsShowViewModel(Guid id) {
+            this.Id = id;
             this.Hide = new DelegateCommand<string>((propertyName) => {
                 PropertyInfo propertyInfo = this.GetType().GetProperty(propertyName);
                 if (propertyInfo != null) {
                     propertyInfo.SetValue(this, false, null);
                 }
             });
+        }
+
+        public ColumnsShowViewModel(IColumnsShow data) : this(data.GetId()) {
+            _columnsShowName = data.ColumnsShowName;
+            _work = data.Work;
+            _minerName = data.MinerName;
+            _minerIp = data.MinerIp;
+            _minerGroup = data.MinerGroup;
+            _mainCoinCode = data.MainCoinCode;
+            _mainCoinSpeedText = data.MainCoinSpeedText;
+            _mainCoinWallet = data.MainCoinWallet;
+            _mainCoinPool = data.MainCoinPool;
+            _kernel = data.Kernel;
+            _dualCoinCode = data.DualCoinCode;
+            _dualCoinSpeedText = data.DualCoinSpeedText;
+            _dualCoinWallet = data.DualCoinWallet;
+            _dualCoinPool = data.DualCoinPool;
+            _lastActivedOnText = data.LastActivedOnText;
+            _version = data.Version;
+            _remoteUserNameAndPassword = data.RemoteUserNameAndPassword;
+            _gpuInfo = data.GpuInfo;
         }
 
         public Guid GetId() {
@@ -48,6 +75,14 @@ namespace NTMiner.Vms {
             set {
                 _id = value;
                 OnPropertyChanged(nameof(Id));
+            }
+        }
+
+        public string ColumnsShowName {
+            get { return _columnsShowName; }
+            set {
+                _columnsShowName = value;
+                OnPropertyChanged(nameof(ColumnsShowName));
             }
         }
 
