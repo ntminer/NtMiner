@@ -164,7 +164,8 @@ namespace NTMiner {
         private static DelegateHandler<TMessage> Path<TMessage>(
             Guid id, string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
-            Type location = ss.GetFrame(1).GetMethod().DeclaringType;
+            // 0是Path，1是Accpt或On，2是当地
+            Type location = ss.GetFrame(2).GetMethod().DeclaringType;
             IHandlerId handlerId = HandlerId.Create(typeof(TMessage), location, id, description, logType);
             return MessageDispatcher.Register(handlerId, action);
         }
