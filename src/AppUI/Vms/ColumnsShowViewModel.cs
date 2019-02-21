@@ -8,11 +8,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ColumnsShowViewModel : ViewModelBase, IColumnsShow {
-        // 默认列显，可编辑
-        public static readonly ColumnsShowViewModel PleaseSelect = new ColumnsShowViewModel(Guid.Empty) {
-            ColumnsShowName = "请选择"
-        };
-
         private Guid _id;
         private string _columnsShowName;
         private bool _work = true;
@@ -105,7 +100,7 @@ namespace NTMiner.Vms {
 
         public bool IsPleaseSelect {
             get {
-                return this.Id == Guid.Empty;
+                return this.Id == ColumnsShowData.PleaseSelectId;
             }
         }
 

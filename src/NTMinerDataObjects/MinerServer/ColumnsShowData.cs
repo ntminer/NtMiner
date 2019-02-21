@@ -3,6 +3,8 @@ using System.Text;
 
 namespace NTMiner.MinerServer {
     public class ColumnsShowData : IDbEntity<Guid>, IColumnsShow {
+        public static readonly Guid PleaseSelectId = Guid.Parse("197f19e8-0c1b-4018-875d-2f5e56a02491");
+
         public Guid GetId() {
             return this.Id;
         }

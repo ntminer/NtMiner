@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
             new MinuteItem(10),
             new MinuteItem(20)
         };
-        private ColumnsShowViewModel _columnsShow = ColumnsShowViewModel.PleaseSelect;
+        private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private MinuteItem _lastActivedOn;
         private List<MinerClientViewModel> _minerClients = new List<MinerClientViewModel>();
@@ -64,6 +64,10 @@ namespace NTMiner.Vms {
                         this.CountDown = this.CountDown - 1;
                     }
                 });
+            this._columnsShow = this.ColumnsShows.List.FirstOrDefault(a => a.Id == ColumnsShowData.PleaseSelectId);
+            if (this._columnsShow == null) {
+                this._columnsShow = this.ColumnsShows.List.FirstOrDefault();
+            }
             this._mineStatusEnumItem = this.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._mainCoin = CoinViewModel.PleaseSelect;
             this._dualCoin = CoinViewModel.PleaseSelect;

@@ -17,7 +17,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 LogEnum.Console,
                 action: (message) => {
                     InitOnece();
-                    if (message == null || message.Input == null) {
+                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty || message.Input.GetId() == ColumnsShowData.PleaseSelectId) {
                         throw new ArgumentNullException();
                     }
                     if (_dicById.ContainsKey(message.Input.GetId())) {
@@ -34,7 +34,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 LogEnum.Console,
                 action: (message) => {
                     InitOnece();
-                    if (message == null || message.Input == null) {
+                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
@@ -51,7 +51,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 LogEnum.Console,
                 action: (message) => {
                     InitOnece();
-                    if (message == null || message.EntityId == Guid.Empty) {
+                    if (message == null || message.EntityId == Guid.Empty || message.EntityId == Guid.Empty || message.EntityId == ColumnsShowData.PleaseSelectId) {
                         throw new ArgumentNullException();
                     }
                     if (!_dicById.ContainsKey(message.EntityId)) {
@@ -87,6 +87,18 @@ namespace NTMiner.Core.MinerServer.Impl {
                                     _dicById.Add(item.GetId(), item);
                                 }
                             }
+                        }
+                        if (!_dicById.ContainsKey(ColumnsShowData.PleaseSelectId)) {
+                            var entity = new ColumnsShowData {
+                                ColumnsShowName = "请选择",
+                                Id = ColumnsShowData.PleaseSelectId
+                            };
+                            _dicById.Add(ColumnsShowData.PleaseSelectId, entity);
+                            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, respon => {
+                                if (!respon.IsSuccess()) {
+                                    Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + respon.Description);
+                                }
+                            });
                         }
                         _isInited = true;
                     }

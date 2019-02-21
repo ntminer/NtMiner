@@ -17,9 +17,6 @@ namespace NTMiner.Vms {
             foreach (var item in NTMinerRoot.Current.ColumnsShowSet) {
                 _dicById.Add(item.GetId(), new ColumnsShowViewModel(item));
             }
-            if (!_dicById.ContainsKey(ColumnsShowViewModel.PleaseSelect.Id)) {
-                _dicById.Add(ColumnsShowViewModel.PleaseSelect.Id, ColumnsShowViewModel.PleaseSelect);
-            }
         }
 
         public List<ColumnsShowViewModel> List {
