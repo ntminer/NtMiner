@@ -8,6 +8,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ColumnsShowViewModel : ViewModelBase, IColumnsShow {
+        // 默认列显，可编辑
         public static readonly ColumnsShowViewModel PleaseSelect = new ColumnsShowViewModel(Guid.Empty) {
             ColumnsShowName = "请选择"
         };
@@ -71,9 +72,6 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
-                if (this.Id == Guid.Empty) {
-                    return;
-                }
                 ColumnsShowEdit.ShowEditWindow(this);
             });
             this.Remove = new DelegateCommand(() => {

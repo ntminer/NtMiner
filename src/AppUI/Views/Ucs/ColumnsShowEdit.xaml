@@ -20,6 +20,31 @@
 		</sys:String>
 	</UserControl.Resources>
 	<StackPanel Margin="10">
+		<WrapPanel>
+			<TextBlock>名称：</TextBlock>
+			<TextBox Width="120" Text="{Binding ColumnsShowName}"></TextBox>
+		</WrapPanel>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding LastActivedOnText}">最后更新</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding BootTimeSpanText}">运行时长</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MineTimeSpanText}">挖矿时长</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding Work}">作业</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MinerGroup}">组队</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MinerName}">矿工名</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MinerIp}">IP</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding RemoteUserNameAndPassword}">远程桌面用户名密码</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinCode}">主挖币种</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinSpeedText}">主币算力</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinRejectPercentText}">主币拒绝率</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinWallet}">主币钱包</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinPool}">主币矿池</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding Kernel}">内核</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding DualCoinCode}">双挖币种</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding DualCoinSpeedText}">双挖算力</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding DualCoinRejectPercentText}">双挖币拒绝率</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding DualCoinWallet}">双挖钱包</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding DualCoinPool}">双挖矿池</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding Version}">客户端版本</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding GpuInfo}">显卡</CheckBox>
 		<controls:KbButton
 			Command="{Binding Save}" 
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
