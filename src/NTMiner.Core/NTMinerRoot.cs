@@ -24,8 +24,6 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.SelfHost;
 using System.Windows;
 
 namespace NTMiner {
@@ -60,7 +58,6 @@ namespace NTMiner {
                         if (CommandLineArgs.IsSkipDownloadJson) {
                             DoInit(rawNTMinerJson, rawLangJson, callback);
                             VirtualRoot.On<HasBoot5SecondEvent>(
-                                Guid.Parse("546CCF96-D87E-4436-B236-0A9416DFE28D"),
                                 "Debug打印",
                                 LogEnum.Log,
                                 action: (message) => {
@@ -161,7 +158,6 @@ namespace NTMiner {
             DateTime shareOn = DateTime.Now;
             #region 挖矿开始时将无份额内核重启份额计数置0
             VirtualRoot.On<MineStartedEvent>(
-                Guid.Parse("e69e8729-868b-4b5d-b120-2914fffddf90"),
                 "挖矿开始后将无份额内核重启份额计数置0，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel",
                 LogEnum.Console,
                 action: message => {
@@ -191,7 +187,6 @@ namespace NTMiner {
             #endregion
             #region 每10秒钟检查是否需要重启
             VirtualRoot.On<Per10SecondEvent>(
-                Guid.Parse("16b3b7b4-5e6c-46b0-97a4-90e085614b78"),
                 "每10秒钟检查是否需要重启",
                 LogEnum.None,
                 action: message => {
@@ -256,7 +251,6 @@ namespace NTMiner {
             #endregion
             #region 启动5秒钟后优化windows环境
             VirtualRoot.On<HasBoot5SecondEvent>(
-                Guid.Parse("32c49476-8232-4130-bd81-52443ed4ab4e"),
                 "启动5秒钟后优化windows环境",
                 LogEnum.Console,
                 action: message => {
@@ -273,7 +267,6 @@ namespace NTMiner {
             #endregion
             #region 每50分钟执行一次过期日志清理工作
             VirtualRoot.On<Per50MinuteEvent>(
-                Guid.Parse("d27419f4-7eda-4dbf-bf25-e8c5f1efacb5"),
                 "每50分钟执行一次过期日志清理工作",
                 LogEnum.Console,
                 action: message => {
@@ -285,7 +278,6 @@ namespace NTMiner {
             #region 启动10秒钟后自动开始挖矿
             if (this.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) {
                 VirtualRoot.On<HasBoot10SecondEvent>(
-                    Guid.Parse("53004081-ee0f-44a2-b848-95668e63aa8c"),
                     "启动10秒钟后自动开始挖矿",
                     LogEnum.Console,
                     action: (message) => {
@@ -302,7 +294,6 @@ namespace NTMiner {
             #endregion
             #region 停止挖矿后停止NoDevFee
             VirtualRoot.On<MineStopedEvent>(
-                 Guid.Parse("D693A381-0AAD-4768-BC6F-2EEDD9F321BC"),
                 "停止挖矿后停止NoDevFee",
                 LogEnum.Console,
                  action: message => {
@@ -312,7 +303,6 @@ namespace NTMiner {
             #region 周期确保守护进程在运行
             Daemon.DaemonUtil.RunNTMinerDaemon();
             VirtualRoot.On<Per20SecondEvent>(
-                    Guid.Parse("F11D42E1-CEBA-4C7E-BB2E-3AC1EBB03F14"),
                     "周期确保守护进程在运行",
                     LogEnum.None,
                     action: message => {
@@ -333,7 +323,6 @@ namespace NTMiner {
             #endregion
             #region 发生了用户活动时检查serverJson是否有新版本
             VirtualRoot.On<UserActionEvent>(
-                    Guid.Parse("C7FA9D54-4D16-47F5-AA81-4C76384F95B9"),
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.Console,
                     action: message => {

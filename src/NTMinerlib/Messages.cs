@@ -57,9 +57,12 @@ namespace NTMiner {
     }
 
     [MessageType(messageType: typeof(UpdateHandlerIdCommand), description: "更新处理器日志配置")]
-    public class UpdateHandlerIdCommand : UpdateEntityCommand<IHandlerId> {
-        public UpdateHandlerIdCommand(IHandlerId input) : base(input) {
+    public class UpdateHandlerIdCommand : Cmd {
+        public UpdateHandlerIdCommand(IHandlerId input) {
+            this.Input = input;
         }
+
+        public IHandlerId Input { get; private set; }
     }
 
     [MessageType(messageType: typeof(HandlerIdAddedEvent), description: "新的处理器标识出现后")]

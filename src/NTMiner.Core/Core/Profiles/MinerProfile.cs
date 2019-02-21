@@ -24,7 +24,6 @@ namespace NTMiner.Core.Profiles {
             _root = root;
             Init(root, workId);
             VirtualRoot.Accept<SwichMinerProfileCommand>(
-                Guid.Parse("8F3AF9E1-72E5-443F-99F2-20A89D1618C7"),
                 "处理切换MinerProfile命令",
                 LogEnum.Console,
                 action: message => {
@@ -891,7 +890,6 @@ namespace NTMiner.Core.Profiles {
                 _root = root;
                 _workId = workId;
                 VirtualRoot.Accept<AddWalletCommand>(
-                    Guid.Parse("d050de9d-7356-471b-b9c7-19d685aa770a"),
                     "添加钱包",
                     LogEnum.Console,
                     action: message => {
@@ -915,7 +913,6 @@ namespace NTMiner.Core.Profiles {
                         VirtualRoot.Happened(new WalletAddedEvent(entity));
                     });
                 VirtualRoot.Accept<UpdateWalletCommand>(
-                    Guid.Parse("658f0e61-8c86-493f-a147-d66da2ed194d"),
                     "更新钱包",
                     LogEnum.Console,
                     action: message => {
@@ -942,7 +939,6 @@ namespace NTMiner.Core.Profiles {
                         VirtualRoot.Happened(new WalletUpdatedEvent(entity));
                     });
                 VirtualRoot.Accept<RemoveWalletCommand>(
-                    Guid.Parse("bd70fe34-7575-43d0-a8e5-d8e9566d8d56"),
                     "移除钱包",
                     LogEnum.Console,
                     action: (message) => {

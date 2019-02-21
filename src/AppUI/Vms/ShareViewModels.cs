@@ -10,7 +10,6 @@ namespace NTMiner.Vms {
 
         private ShareViewModels() {
             VirtualRoot.On<ShareChangedEvent>(
-                Guid.Parse("7430a1b0-0ba1-487d-9d39-84211b0bde07"),
                 "收益变更后调整VM内存",
                 LogEnum.Console,
                 action: message => {

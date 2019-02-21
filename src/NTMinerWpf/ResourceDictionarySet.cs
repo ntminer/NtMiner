@@ -12,7 +12,6 @@ namespace NTMiner {
 
         private ResourceDictionarySet() {
             VirtualRoot.On<LangViewItemUpdatedEvent>(
-                Guid.Parse("E537F225-11C6-4B0D-B2B3-BC111E4EFFEA"),
                 "更新了语言视图项后刷新WPF动态资源集",
                 LogEnum.None,
                 action: message => {
@@ -24,7 +23,6 @@ namespace NTMiner {
                     }
                 });
             VirtualRoot.On<GlobalLangChangedEvent>(
-                Guid.Parse("732B9E09-1F97-4A1D-80E4-094DFD2CCC9D"),
                 "切换语言后刷新视图语言资源",
                 LogEnum.None,
                 action: message => {
@@ -33,7 +31,6 @@ namespace NTMiner {
                     }
                 });
             VirtualRoot.On<LangViewItemSetRefreshedEvent>(
-                Guid.Parse("50508740-61ED-4B09-A29A-97A7769896A6"),
                 "语言项数据集变更后刷新WPF资源集",
                 LogEnum.None,
                 action: message => {

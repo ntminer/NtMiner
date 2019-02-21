@@ -9,7 +9,6 @@ namespace NTMiner.Vms {
 
         private PoolProfileViewModels() {
             VirtualRoot.On<PoolProfilePropertyChangedEvent>(
-                Guid.Parse("EC4B0EAE-E8BA-48DA-B6FA-749A5346A669"),
                 "矿池设置变更后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
@@ -18,7 +17,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<MinerProfileSwichedEvent>(
-                Guid.Parse("AE442E71-BB88-4A13-AA3F-E0C65429EC49"),
                 "MinerProfile切换后刷新Vm内存",
                 LogEnum.Console,
                 action: message => {

@@ -2,7 +2,6 @@
 
 namespace NTMiner.Vms {
     public class HandlerIdViewModel : ViewModelBase, IHandlerId {
-        private Guid _id;
         private Type _messageType;
         private Type _location;
         private LogEnum _logType;
@@ -10,7 +9,6 @@ namespace NTMiner.Vms {
         private string _handlerPath;
 
         public HandlerIdViewModel(IHandlerId data) {
-            _id = data.Id;
             _messageType = data.MessageType;
             _location = data.Location;
             _handlerPath = data.HandlerPath;
@@ -23,20 +21,6 @@ namespace NTMiner.Vms {
             this.Description = data.Description;
             this.LogType = data.LogType;
             this.Location = data.Location;
-        }
-
-        public Guid GetId() {
-            return this.Id;
-        }
-
-        public Guid Id {
-            get => _id;
-            set {
-                if (_id != value) {
-                    _id = value;
-                    OnPropertyChanged(nameof(Id));
-                }
-            }
         }
 
         public Type MessageType {

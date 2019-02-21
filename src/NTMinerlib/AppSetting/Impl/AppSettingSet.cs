@@ -13,7 +13,6 @@ namespace NTMiner.Data.Impl {
         public AppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
             VirtualRoot.Accept<SetAppSettingCommand>(
-                Guid.Parse("21205872-1601-4097-B058-891386FB8125"),
                 "处理设置AppSetting命令",
                 LogEnum.Console,
                 action: message => {

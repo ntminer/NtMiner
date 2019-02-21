@@ -13,7 +13,6 @@ namespace NTMiner.Vms {
                 LogColor.ShowWindow();
             });
             VirtualRoot.On<MineStartedEvent>(
-                Guid.Parse("47BA4DAB-5EDD-4BDF-A40B-B5B339DB0B78"),
                 "挖矿开始后因此日志窗口的水印",
                 LogEnum.Console,
                 action: message => {

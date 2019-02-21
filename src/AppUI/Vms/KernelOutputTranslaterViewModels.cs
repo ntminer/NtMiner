@@ -12,7 +12,6 @@ namespace NTMiner.Vms {
 
         private KernelOutputTranslaterViewModels() {
             VirtualRoot.On<KernelOutputTranslaterAddedEvent>(
-                Guid.Parse("70f5bc18-3536-4306-9af7-256f323c9313"),
                 "添加了内核输出翻译器后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
@@ -28,7 +27,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<KernelOutputTranslaterUpdatedEvent>(
-                Guid.Parse("eef26e4b-af61-436b-9f24-9e128d614598"),
                 "更新了内核输出翻译器后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
@@ -40,7 +38,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<KernelOutputTranslaterRemovedEvent>(
-                Guid.Parse("d77c3aaa-be1f-41b2-9e9f-495fa6a076bf"),
                 "移除了内核输出翻译器后刷新VM内存",
                 LogEnum.Console,
                 action: message => {

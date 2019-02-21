@@ -29,7 +29,6 @@ namespace NTMiner.Vms {
             }
             _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
             VirtualRoot.On<GpuSpeedChangedEvent>(
-                Guid.Parse("acb2e5fd-a3ed-4ed6-b8c7-583eafd5e579"),
                 "显卡算力变更后刷新VM内存",
                 LogEnum.Console,
                 action: (message) => {

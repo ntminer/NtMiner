@@ -11,7 +11,6 @@ namespace NTMiner.Vms {
 
         private KernelViewModels() {
             VirtualRoot.On<KernelAddedEvent>(
-                Guid.Parse("35917be2-7373-440d-b083-8edc1050f2cc"),
                 "添加了内核后调整VM内存",
                 LogEnum.Console,
                 action: (message) => {
@@ -23,7 +22,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<KernelRemovedEvent>(
-                Guid.Parse("c8a5fdca-85c3-40ae-8c79-41af2aa1d4da"),
                 "删除了内核后调整VM内存",
                 LogEnum.Console,
                 action: message => {
@@ -35,7 +33,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<KernelUpdatedEvent>(
-                Guid.Parse("98b29a2f-fbcf-466d-81a4-ddbbc4594225"),
                 "更新了内核后调整VM内存",
                 LogEnum.Console,
                 action: message => {

@@ -13,7 +13,6 @@ namespace NTMiner.Core.SysDics.Impl {
         public SysDicSet(INTMinerRoot root) {
             _root = root;
             VirtualRoot.Accept<RefreshSysDicSetCommand>(
-                Guid.Parse("9BFB2BEC-2103-4F69-B9E8-19CAFE12920E"),
                 "处理刷新系统字典数据集命令",
                 LogEnum.Console,
                 action: message => {
@@ -28,7 +27,6 @@ namespace NTMiner.Core.SysDics.Impl {
                     }
                 });
             VirtualRoot.Accept<AddSysDicCommand>(
-                Guid.Parse("9353be1f-707f-455f-ade5-07e081141d47"),
                 "添加系统字典",
                 LogEnum.Console,
                 action: message => {
@@ -54,7 +52,6 @@ namespace NTMiner.Core.SysDics.Impl {
                     VirtualRoot.Happened(new SysDicAddedEvent(entity));
                 });
             VirtualRoot.Accept<UpdateSysDicCommand>(
-                Guid.Parse("b37df2da-ab45-416e-ba58-d703667f300b"),
                 "更新系统字典",
                 LogEnum.Console,
                 action: message => {
@@ -79,7 +76,6 @@ namespace NTMiner.Core.SysDics.Impl {
                     VirtualRoot.Happened(new SysDicUpdatedEvent(entity));
                 });
             VirtualRoot.Accept<RemoveSysDicCommand>(
-                Guid.Parse("ac6af880-89a1-47a4-9596-55e33714db45"),
                 "移除系统字典",
                 LogEnum.Console,
                 action: message => {

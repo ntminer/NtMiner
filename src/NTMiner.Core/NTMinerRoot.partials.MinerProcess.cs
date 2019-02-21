@@ -64,7 +64,6 @@ namespace NTMiner {
                 string processName = mineContext.Kernel.GetProcessName();
                 Bus.DelegateHandler<Per1MinuteEvent> daemon = null;
                 daemon = VirtualRoot.On<Per1MinuteEvent>(
-                    Guid.Parse("a4761e90-dc3c-4483-b055-546084863640"),
                     "周期性检查挖矿内核是否消失，如果消失尝试重启",
                     LogEnum.Console,
                     action: message => {
@@ -233,7 +232,6 @@ namespace NTMiner {
                             VirtualRoot.UnPath(closeHandle);
                         });
                         closeHandle = VirtualRoot.On<MineStopedEvent>(
-                            Guid.Parse("91642027-fd28-4bdd-a05a-31caac6609b1"),
                             "挖矿停止后关闭非托管的日志句柄",
                             LogEnum.Console,
                             action: message => {

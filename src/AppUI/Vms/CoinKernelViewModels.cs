@@ -9,7 +9,6 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
         private CoinKernelViewModels() {
             VirtualRoot.On<CoinKernelAddedEvent>(
-                Guid.Parse("b3d7280d-3107-4730-a111-f34dd5cf4ede"),
                 "添加了币种内核后刷新VM内存",
                 LogEnum.Console,
                 action: (message) => {
@@ -31,7 +30,6 @@ namespace NTMiner.Vms {
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoins));
                 });
             VirtualRoot.On<CoinKernelUpdatedEvent>(
-                Guid.Parse("48afedd3-5005-46a2-ae23-3f6f99a77683"),
                 "更新了币种内核后刷新VM内存",
                 LogEnum.Console,
                 action: (message) => {
@@ -65,7 +63,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<CoinKernelRemovedEvent>(
-                Guid.Parse("0a2937bc-bb9c-4369-92b1-3c41eeb170ce"),
                 "移除了币种内核后刷新VM内存",
                 LogEnum.Console,
                 action: (message) => {

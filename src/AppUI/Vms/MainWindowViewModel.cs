@@ -26,7 +26,6 @@ namespace NTMiner.Vms {
             });
             if (DevMode.IsDevMode) {
                 VirtualRoot.On<Per10SecondEvent>(
-                    Guid.Parse("868658E4-B281-4E55-BE0F-0E2B66777D6C"),
                     "在开发者调试区展示守护进程的运行状态",
                     LogEnum.None,
                     action: message => {
@@ -35,7 +34,6 @@ namespace NTMiner.Vms {
                         });
                     });
                 VirtualRoot.On<ServerJsonVersionChangedEvent>(
-                    Guid.Parse("064BD3E0-0E79-4D12-A1B0-51F4751AD846"),
                     "在开发者调试区展示ServerJsonVersion",
                     LogEnum.Console,
                     action: message => {

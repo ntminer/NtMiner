@@ -13,7 +13,6 @@ namespace NTMiner.OhGodAnETHlargementPill {
         private static string fileFullName = Path.Combine(tempDir, processName + ".exe");
         public static void Access() {
             VirtualRoot.On<MineStartedEvent>(
-                Guid.Parse("BBA02B60-9C4C-4DFC-B397-DB08611440E9"),
                 "开始挖矿后启动1080ti小药丸",
                 LogEnum.Console,
                 action: message => {
@@ -51,7 +50,6 @@ namespace NTMiner.OhGodAnETHlargementPill {
                     }
                 });
             VirtualRoot.On<MineStartedEvent>(
-                Guid.Parse("0E9ED543-64F2-4A14-9CB4-CE839531BF2D"),
                 "停止挖矿后停止1080ti小药丸",
                 LogEnum.Console,
                 action: message => {

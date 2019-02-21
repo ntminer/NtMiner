@@ -11,7 +11,6 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModels() {
             VirtualRoot.On<SysDicItemAddedEvent>(
-                Guid.Parse("3527e754-9b63-4931-8b14-5b5cada26165"),
                 "添加了系统字典项后调整VM内存",
                 LogEnum.Console,
                 action: (message) => {
@@ -27,7 +26,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<SysDicItemUpdatedEvent>(
-                Guid.Parse("9146e461-dc8f-4aba-9254-6b81fe79389e"),
                 "更新了系统字典项后调整VM内存",
                 LogEnum.Console,
                 action: (message) => {
@@ -45,7 +43,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<SysDicItemRemovedEvent>(
-                Guid.Parse("767cf0bd-f645-43f6-984d-0bde96786837"),
                 "删除了系统字典项后调整VM内存",
                 LogEnum.Console,
                 action: (message) => {

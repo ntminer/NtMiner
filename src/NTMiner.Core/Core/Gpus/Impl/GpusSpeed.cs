@@ -32,7 +32,6 @@ namespace NTMiner.Core.Gpus.Impl {
                 _gpuSpeedHistory.Add(item.Key, new List<IGpuSpeed>());
             }
             VirtualRoot.On<Per10MinuteEvent>(
-                Guid.Parse("9A17AE73-34B8-4EBA-BE91-22BBD163A3E8"),
                 "周期清除过期的历史算力",
                 LogEnum.Console,
                 action: message => {
@@ -40,7 +39,6 @@ namespace NTMiner.Core.Gpus.Impl {
                 });
 
             VirtualRoot.On<MineStopedEvent>(
-                Guid.Parse("1C79954C-0311-4C94-B001-09B39FC11DC6"),
                 "停止挖矿后产生一次0算力",
                 LogEnum.Console,
                 action: message => {
@@ -72,7 +70,6 @@ namespace NTMiner.Core.Gpus.Impl {
                 });
 
             VirtualRoot.On<MineStartedEvent>(
-                Guid.Parse("997bc22f-9bee-4fd6-afe8-eec7eb664daf"),
                 "挖矿开始时产生一次0算力0份额",
                 LogEnum.Console,
                 action: message => {

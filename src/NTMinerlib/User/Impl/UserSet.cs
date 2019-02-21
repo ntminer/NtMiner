@@ -11,7 +11,6 @@ namespace NTMiner.User.Impl {
         public UserSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
             VirtualRoot.Accept<AddUserCommand>(
-                Guid.Parse("0E117810-6472-4688-B782-0AA9520B2DE6"),
                 "处理添加用户命令",
                 LogEnum.Console,
                 action: message => {
@@ -26,7 +25,6 @@ namespace NTMiner.User.Impl {
                     }
                 });
             VirtualRoot.Accept<UpdateUserCommand>(
-                Guid.Parse("5800AE7E-D6FB-490A-AD86-CD585875D87E"),
                 "处理修改用户命令",
                 LogEnum.Console,
                 action: message => {
@@ -41,7 +39,6 @@ namespace NTMiner.User.Impl {
                     }
                 });
             VirtualRoot.Accept<RemoveUserCommand>(
-                Guid.Parse("73FB4937-7CBE-4C72-8B3F-4003D2A2A321"),
                 "处理删除用户命令",
                 LogEnum.Console,
                 action: message => {

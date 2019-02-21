@@ -63,7 +63,6 @@ namespace NTMiner {
                             notifyIcon.Init();
                             #region 处理显示主界面命令
                             VirtualRoot.Accept<ShowMainWindowCommand>(
-                                Guid.Parse("01f3c467-f494-42b8-bcb5-848050df59f3"),
                                 "处理显示主界面命令",
                                 LogEnum.None,
                                 action: message => {

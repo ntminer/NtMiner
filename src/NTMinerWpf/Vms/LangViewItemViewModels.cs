@@ -12,7 +12,6 @@ namespace NTMiner.Vms {
 
         private LangViewItemViewModels() {
             VirtualRoot.On<LangViewItemAddedEvent>(
-                Guid.Parse("60FD738F-F260-4EF2-A60A-66B04EC6B243"),
                 "添加了语言项后刷新VM内存",
                 LogEnum.None,
                 action: message => {
@@ -38,7 +37,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<LangViewItemUpdatedEvent>(
-                Guid.Parse("A4DCFEE0-FA36-4D84-9D98-0D4455BE1EA7"),
                 "更新了语言项后刷新VM内存",
                 LogEnum.None,
                 action: message => {
@@ -48,7 +46,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<LangViewItemRemovedEvent>(
-                Guid.Parse("4AA8EA72-7BD9-45D8-B798-EF505C665572"),
                 "删除了语言项后刷新VM内存",
                 LogEnum.None,
                 action: message => {

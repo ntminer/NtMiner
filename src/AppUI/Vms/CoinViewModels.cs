@@ -14,7 +14,6 @@ namespace NTMiner.Vms {
                 return;
             }
             VirtualRoot.On<CoinAddedEvent>(
-                Guid.Parse("1ee6e72d-d98f-42ab-8732-dcee2e42f4b8"),
                 "添加了币种后刷新VM内存",
                 LogEnum.Console,
                 action: (message) => {
@@ -24,7 +23,6 @@ namespace NTMiner.Vms {
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                 });
             VirtualRoot.On<CoinRemovedEvent>(
-                Guid.Parse("6c966862-6dfa-4473-94b5-1133a16180a1"),
                 "移除了币种后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
@@ -34,7 +32,6 @@ namespace NTMiner.Vms {
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                 });
             VirtualRoot.On<CoinUpdatedEvent>(
-                Guid.Parse("114c90e5-6a0a-4aa4-9ba8-5ed603286c51"),
                 "更新了币种后刷新VM内存",
                 LogEnum.Console,
                 action: message => {

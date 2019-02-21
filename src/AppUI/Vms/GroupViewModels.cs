@@ -17,7 +17,6 @@ namespace NTMiner.Vms {
                 }.Edit.Execute(null);
             });
             VirtualRoot.On<GroupAddedEvent>(
-                Guid.Parse("285077b7-b6ce-4b2a-8033-29650ea701ec"),
                 "添加了组后调整VM内存",
                 LogEnum.Console,
                 action: (message) => {
@@ -28,7 +27,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<GroupUpdatedEvent>(
-                Guid.Parse("cc692b24-3771-4e86-bbd8-0af452452456"),
                 "更新了组后调整VM内存",
                 LogEnum.Console,
                 action: (message) => {
@@ -43,7 +41,6 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<GroupRemovedEvent>(
-                Guid.Parse("9ae5c909-9d4f-4082-be86-a5003e7c6f7e"),
                 "删除了组后调整VM内存",
                 LogEnum.Console,
                 action: (message) => {

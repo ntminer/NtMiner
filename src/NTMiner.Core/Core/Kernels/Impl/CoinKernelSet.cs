@@ -11,7 +11,6 @@ namespace NTMiner.Core.Kernels.Impl {
         public CoinKernelSet(INTMinerRoot root) {
             _root = root;
             VirtualRoot.Accept<RefreshCoinKernelSetCommand>(
-                Guid.Parse("47F9B343-3A55-43AF-A92F-9500A1BA1924"),
                 "处理刷新币种内核数据集命令",
                 LogEnum.Console,
                 action: message => {
@@ -26,7 +25,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                 });
             VirtualRoot.Accept<AddCoinKernelCommand>(
-                Guid.Parse("6345c411-4860-433b-ad5e-3a743bcebfa8"),
                 "添加币种内核",
                 LogEnum.Console,
                 action: (message) => {
@@ -67,7 +65,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                 });
             VirtualRoot.Accept<UpdateCoinKernelCommand>(
-                Guid.Parse("b3dfdf09-f732-4b3b-aeeb-25de7b83d30c"),
                 "更新币种内核",
                 LogEnum.Console,
                 action: (message) => {
@@ -92,7 +89,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
                 });
             VirtualRoot.Accept<RemoveCoinKernelCommand>(
-                Guid.Parse("ee34113f-e616-421d-adcc-c2e810723035"),
                 "移除币种内核",
                 LogEnum.Console,
                 action: (message) => {

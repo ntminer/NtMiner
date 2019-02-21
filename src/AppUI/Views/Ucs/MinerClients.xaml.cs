@@ -1,6 +1,5 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Vms;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -29,7 +28,6 @@ namespace NTMiner.Views.Ucs {
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Vm.QueryMinerClients();
             DelegateHandler<Per10SecondEvent> refreshMinerClients = VirtualRoot.On<Per10SecondEvent>(
-                Guid.Parse("D0B01F1E-764A-4B83-B115-F7FC496CEB0A"),
                 "周期刷新在线客户端列表",
                 LogEnum.Console,
                 action: message => {

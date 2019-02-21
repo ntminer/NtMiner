@@ -13,7 +13,6 @@ namespace NTMiner.Language {
 
         private LangSet() {
             VirtualRoot.Accept<RefreshLangSetCommand>(
-                Guid.Parse("8AFAE1AE-349A-4138-9297-6CC17A13F29E"),
                 "处理刷新语言命令",
                 LogEnum.Console,
                 action: message => {
@@ -22,7 +21,6 @@ namespace NTMiner.Language {
                 });
 
             VirtualRoot.Accept<AddLangCommand>(
-                Guid.Parse("75818F82-D124-48B0-8138-D150D77EC557"),
                 "处理添加语言命令",
                 LogEnum.Console,
                 action: message => {
@@ -36,7 +34,6 @@ namespace NTMiner.Language {
                     }
                 });
             VirtualRoot.Accept<UpdateLangCommand>(
-                Guid.Parse("C6D2436E-C255-433F-8FAF-4E1D00570BF1"),
                 "处理修改语言命令",
                 LogEnum.Console,
                 action: message => {
@@ -50,7 +47,6 @@ namespace NTMiner.Language {
                     }
                 });
             VirtualRoot.Accept<RemoveLangCommand>(
-                Guid.Parse("8C421769-23EB-4FF0-A634-A5C2DC58CD92"),
                 "处理删除语言命令",
                 LogEnum.Console,
                 action: message => {

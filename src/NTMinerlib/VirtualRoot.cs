@@ -161,22 +161,22 @@ namespace NTMiner {
             CommandBus.Commit();
         }
 
-        private static DelegateHandler<TMessage> Path<TMessage>(Guid id, string description, LogEnum logType, Action<TMessage> action) {
+        private static DelegateHandler<TMessage> Path<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
             // 0是Path，1是Accpt或On，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            IHandlerId handlerId = HandlerId.Create(typeof(TMessage), location, id, description, logType);
+            IHandlerId handlerId = HandlerId.Create(typeof(TMessage), location, description, logType);
             return MessageDispatcher.Register(handlerId, action);
         }
 
-        public static DelegateHandler<TCmd> Accept<TCmd>(Guid id, string description, LogEnum logType, Action<TCmd> action)
+        public static DelegateHandler<TCmd> Accept<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            return Path(id, description, logType, action);
+            return Path(description, logType, action);
         }
 
-        public static DelegateHandler<TEvent> On<TEvent>(Guid id, string description, LogEnum logType, Action<TEvent> action)
+        public static DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            return Path(id, description, logType, action);
+            return Path(description, logType, action);
         }
 
         public static void UnPath<TMessage>(DelegateHandler<TMessage> handler) {

@@ -50,7 +50,6 @@ namespace NTMiner.Views.Ucs {
             }
             Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
             DelegateHandler<GpuSpeedChangedEvent> gpuSpeedChangedEventHandler = VirtualRoot.On<GpuSpeedChangedEvent>(
-                Guid.Parse("2cb8adb2-1e7e-433e-8904-ae71d9563c20"),
                 "显卡算力变更后刷新算力图界面",
                 LogEnum.Console,
                 action: (message) => {

@@ -57,7 +57,6 @@ namespace NTMiner.Vms {
                 _minuteItems.RemoveAt(0);
             }
             VirtualRoot.On<Per1SecondEvent>(
-                Guid.Parse("D792D3A6-79DE-450E-AE3A-F9532E7AB9B0"),
                 "刷新倒计时秒表",
                 LogEnum.None,
                 action: message => {
