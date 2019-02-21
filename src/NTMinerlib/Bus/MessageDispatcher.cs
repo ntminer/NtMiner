@@ -25,16 +25,7 @@ namespace NTMiner.Bus {
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Console) {
                         Write.DevLine($"({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                     }
-                    this.Dispatching?.Invoke(this, evtArgs);
-                    try {
-                        tMessageHandler.Handle(message);
-                        this.Dispatched?.Invoke(this, evtArgs);
-                    }
-                    catch (Exception e) {
-                        this.DispatchFailed?.Invoke(this, evtArgs);
-                        Logger.ErrorDebugLine(tMessageHandler.GetType().FullName + ":" + messageType.FullName + ":" + e.Message, e);
-                        throw;
-                    }
+                    tMessageHandler.Handle(message);
                 }
             }
             else if (!messageTypeDescription.IsCanNoHandler) {
@@ -89,12 +80,6 @@ namespace NTMiner.Bus {
                 _handlers[keyType].Remove(handler);
             }
         }
-
-        public event EventHandler<MessageDispatchEventArgs> Dispatching;
-
-        public event EventHandler<MessageDispatchEventArgs> DispatchFailed;
-
-        public event EventHandler<MessageDispatchEventArgs> Dispatched;
         #endregion
     }
 }

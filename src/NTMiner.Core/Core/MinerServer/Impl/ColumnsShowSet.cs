@@ -17,7 +17,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 LogEnum.Console,
                 action: (message) => {
                     InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    if (message == null || message.Input == null) {
                         throw new ArgumentNullException();
                     }
                     if (_dicById.ContainsKey(message.Input.GetId())) {
@@ -34,7 +34,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 LogEnum.Console,
                 action: (message) => {
                     InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
+                    if (message == null || message.Input == null) {
                         throw new ArgumentNullException();
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {

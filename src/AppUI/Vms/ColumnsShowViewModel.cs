@@ -60,9 +60,6 @@ namespace NTMiner.Vms {
                 }
             });
             this.Save = new DelegateCommand(() => {
-                if (this.Id == Guid.Empty) {
-                    return;
-                }
                 if (NTMinerRoot.Current.ColumnsShowSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateColumnsShowCommand(this));
                 }
@@ -76,6 +73,7 @@ namespace NTMiner.Vms {
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
+                    DialogWindow.ShowDialog(message: "该项不能删除", title: "警告", icon: "Icon_Error");
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.ColumnsShowName}吗？", title: "确认", onYes: () => {
@@ -103,6 +101,12 @@ namespace NTMiner.Vms {
             _version = data.Version;
             _remoteUserNameAndPassword = data.RemoteUserNameAndPassword;
             _gpuInfo = data.GpuInfo;
+        }
+
+        public bool IsPleaseSelect {
+            get {
+                return this.Id == Guid.Empty;
+            }
         }
 
         public Guid GetId() {

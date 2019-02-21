@@ -172,9 +172,12 @@ namespace NTMiner.Views {
                 if (this.Owner != null) {
                     double ownerOpacity = this.Owner.Opacity;
                     this.Owner.Opacity = 0.6;
+                    this.ShowDialog();
                     this.Owner.Opacity = ownerOpacity;
                 }
-                this.ShowDialog();
+                else {
+                    this.ShowDialog();
+                }
             }
             else {
                 this.ShowActivated = true;

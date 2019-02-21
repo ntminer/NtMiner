@@ -12,7 +12,13 @@ namespace NTMiner.Bus {
         }
 
         public void Handle(TMessage message) {
-            _action?.Invoke(message);
+            try {
+                _action?.Invoke(message);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(HandlerId.HandlerPath + ":" + e.Message, e);
+                throw;
+            }
         }
     }
 }
