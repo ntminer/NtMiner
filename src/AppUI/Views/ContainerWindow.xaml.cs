@@ -167,13 +167,15 @@ namespace NTMiner.Views {
                 this.ShowInTaskbar = false;
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 var owner = TopWindow.GetTopWindow();
-                if (this != owner) {
+                if (this != owner && owner != null) {
                     this.Owner = owner;
                 }
-                double ownerOpacity = this.Owner.Opacity;
-                this.Owner.Opacity = 0.6;
+                if (this.Owner != null) {
+                    double ownerOpacity = this.Owner.Opacity;
+                    this.Owner.Opacity = 0.6;
+                    this.Owner.Opacity = ownerOpacity;
+                }
                 this.ShowDialog();
-                this.Owner.Opacity = ownerOpacity;
             }
             else {
                 this.ShowActivated = true;
