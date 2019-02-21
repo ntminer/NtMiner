@@ -28,7 +28,7 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<StackPanel>
+		<StackPanel Background="#EBF2F9">
 			<StackPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BooleanInvertConverter}}">
 				<WrapPanel>
 					<controls:KbLinkButton 
@@ -199,16 +199,16 @@
 				</controls:KbComboBox>
 				<WrapPanel>
 					<Label Width="46" HorizontalContentAlignment="Right">IP</Label>
-					<TextBox VerticalAlignment="Center" Width="80" Height="20" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="Transparent"></TextBox>
+					<TextBox VerticalAlignment="Center" Width="80" Height="20" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
 					<Label Margin="8 0 0 0">矿工名</Label>
-					<TextBox VerticalAlignment="Center" Width="80" Height="20" Text="{Binding MinerName}" Background="Transparent"></TextBox>
+					<TextBox VerticalAlignment="Center" Width="80" Height="20" Text="{Binding MinerName}" Background="White"></TextBox>
 					<Label Margin="8 0 0 0">内核</Label>
-					<TextBox VerticalAlignment="Center" ToolTip="内核名以次开头的内核" Width="80" Height="20" Text="{Binding Kernel}" Background="Transparent"></TextBox>
+					<TextBox VerticalAlignment="Center" ToolTip="内核名以次开头的内核" Width="80" Height="20" Text="{Binding Kernel}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
 					<Label Margin="8 0 0 0">客户端版本</Label>
-					<TextBox VerticalAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="80" Height="20" Text="{Binding Version}" Background="Transparent"></TextBox>
-					<Label Margin="30 0 0 0">状态</Label>
+					<TextBox VerticalAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="77" Height="20" Text="{Binding Version}" Background="White"></TextBox>
+					<Label Margin="10 0 0 0">状态</Label>
 					<controls:KbComboBox 
 						Width="80"
 						VerticalAlignment="Center" 
@@ -218,7 +218,7 @@
 					</controls:KbComboBox>
 					<Label Margin="10 0 0 0">最后更新</Label>
 					<controls:KbComboBox 
-						Width="80"
+						Width="60"
 						VerticalAlignment="Center" 
 						ItemsSource="{Binding MinuteItems}"
 						DisplayMemberPath="Text"
@@ -267,7 +267,7 @@
 					<Label>条</Label>
 				</WrapPanel>
 				<WrapPanel VerticalAlignment="Center">
-					<Label Width="70" HorizontalContentAlignment="Right">列显</Label>
+					<Label HorizontalContentAlignment="Right">列显</Label>
 					<controls:KbComboBox 
 						VerticalAlignment="Center"
 						ItemsSource="{Binding ColumnsShows.List}"

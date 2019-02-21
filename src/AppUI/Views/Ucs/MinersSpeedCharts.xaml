@@ -9,7 +9,6 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:view="clr-namespace:NTMiner.Views"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-		Background="#EBEBEB"
 		mc:Ignorable="d" d:DesignHeight="730" d:DesignWidth="940">
 	<UserControl.DataContext>
 		<vm:MinersSpeedChartsViewModel></vm:MinersSpeedChartsViewModel>
