@@ -41,6 +41,7 @@
 				<RowDefinition Height="Auto"></RowDefinition>
 			</Grid.RowDefinitions>
 			<TextBox 
+				FontFamily="Courier New"
 				Text="{DynamicResource AnnouncementContent}"
 				ToolTip="{DynamicResource AnnouncementContentTooltip}"
 				BorderThickness="0" AcceptsReturn="True" 
@@ -87,6 +88,7 @@
 			</WrapPanel>
 			<TextBox 
 				Grid.Row="1"
+				FontFamily="Courier New"
 				Padding="4 2"
 				ToolTip="{DynamicResource IsShowCommandLineTooltip}"
 				TextWrapping="Wrap"
@@ -109,6 +111,7 @@
 			Stretch="Fill" />
 		<TextBox 
 			Grid.Row="1"
+			FontFamily="Courier New"
 			ToolTip="{DynamicResource KernelNotice}"
 			Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
@@ -124,6 +127,8 @@
 			Stretch="Fill" />
 		<RichTextBox 
 			Grid.Row="2"
+			AcceptsReturn="False"
+			FontFamily="Courier New"
 			VerticalScrollBarVisibility="Auto"
 			x:Name="RichTextBox" 
 			BorderThickness="0" 
@@ -131,7 +136,7 @@
 			IsReadOnly="True"
 			Padding="0 0 0 16" Background="Transparent" Foreground="White">
 			<FlowDocument>
-				<Paragraph x:Name="ConsoleParagraph" LineHeight="14">
+				<Paragraph x:Name="ConsoleParagraph">
 				</Paragraph>
 			</FlowDocument>
 		</RichTextBox>

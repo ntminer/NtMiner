@@ -375,13 +375,14 @@
 
 		<Grid Grid.Row="2" Background="Black" Height="300" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
 			<RichTextBox 
+				FontFamily="Courier New"
 				Background="Transparent"
 				VerticalScrollBarVisibility="Auto"
 				x:Name="RichTextBoxDebug" BorderThickness="0" 
 				IsReadOnly="True"
 				Padding="0 0 0 4" Foreground="White">
 				<FlowDocument>
-					<Paragraph x:Name="ConsoleParagraphDebug" LineHeight="14">
+					<Paragraph x:Name="ConsoleParagraphDebug">
 					</Paragraph>
 				</FlowDocument>
 			</RichTextBox>

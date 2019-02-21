@@ -132,6 +132,7 @@
 				<RowDefinition Height="*"></RowDefinition>
 			</Grid.RowDefinitions>
 			<RichTextBox 
+				FontFamily="Courier New"
 				VerticalScrollBarVisibility="Auto"
 				x:Name="RichTextBoxDebug" 
 				BorderThickness="0" 
@@ -143,12 +144,13 @@
 					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
 				</RichTextBox.Resources>
 				<FlowDocument>
-					<Paragraph x:Name="ConsoleParagraphDebug" LineHeight="14">
+					<Paragraph x:Name="ConsoleParagraphDebug">
 					</Paragraph>
 				</FlowDocument>
 			</RichTextBox>
 			<RichTextBox 
 				Grid.Row="1"
+			    FontFamily="Courier New"
 				VerticalScrollBarVisibility="Auto"
 				x:Name="RichTextBox" 
 				BorderThickness="0" 
@@ -160,7 +162,7 @@
 					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
 				</RichTextBox.Resources>
 				<FlowDocument>
-					<Paragraph x:Name="ConsoleParagraph" LineHeight="14">
+					<Paragraph x:Name="ConsoleParagraph">
 					</Paragraph>
 				</FlowDocument>
 			</RichTextBox>

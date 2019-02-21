@@ -5,6 +5,7 @@ namespace NTMiner.Bus {
 
     public class MessageDispatcher : IMessageDispatcher {
         private readonly Dictionary<Type, List<object>> _handlers = new Dictionary<Type, List<object>>();
+        private readonly HashSet<string> _paths = new HashSet<string>();
 
         #region IMessageDispatcher Members
         public void DispatchMessage<TMessage>(TMessage message) {
@@ -47,6 +48,13 @@ namespace NTMiner.Bus {
             }
             var keyType = typeof(TMessage);
 
+            var handlerId = handler.HandlerId;
+            if (!_paths.Contains(handlerId.HandlerPath)) {
+                _paths.Add(handlerId.HandlerPath);
+            }
+            else {
+                Write.DevLine($"重复的路径:{handlerId.HandlerPath}", ConsoleColor.Red);
+            }
             if (_handlers.ContainsKey(keyType)) {
                 if (typeof(ICmd).IsAssignableFrom(keyType)) {
                     throw new Exception($"one {typeof(TMessage).Name} cmd can be handle and only be handle by one handler");
@@ -71,6 +79,8 @@ namespace NTMiner.Bus {
             if (handler == null) {
                 return;
             }
+            var handlerId = handler.HandlerId;
+            _paths.Remove(handlerId.HandlerPath);
             var keyType = typeof(TMessage);
             if (_handlers.ContainsKey(keyType) &&
                 _handlers[keyType] != null &&
