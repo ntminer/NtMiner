@@ -270,9 +270,32 @@
 					<Label Width="70" HorizontalContentAlignment="Right">列显</Label>
 					<controls:KbComboBox 
 						VerticalAlignment="Center"
-						ItemsSource="{Binding ColumnsShows.ColumnsShowVms}"
+						ItemsSource="{Binding ColumnsShows.List}"
 						DisplayMemberPath="ColumnsShowName"
-						SelectedItem="{Binding ColumnsShow}"></controls:KbComboBox>
+						SelectedItem="{Binding ColumnsShow}">
+						<controls:KbComboBox.Toolbar>
+							<WrapPanel HorizontalAlignment="Right">
+								<controls:KbButton
+									Margin="4 2"
+									BorderThickness="0"
+									Height="24"
+									Padding="4 0"
+									Background="{StaticResource IconFillColor}"
+									Command="{x:Static vm:AppStatic.ManageColumnsShows}"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="14"
+											Height="14"
+											Data="{StaticResource Icon_Pool}"
+											Fill="White"
+											Stretch="Fill" />
+										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+						</controls:KbComboBox.Toolbar>
+					</controls:KbComboBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.LastActivedOnText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.LastActivedOnText}" Margin="6 0 0 0">最后更新</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.BootTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.BootTimeSpanText}" Margin="6 0 0 0">运行时长</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="6 0 0 0">挖矿时长</CheckBox>

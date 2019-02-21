@@ -1,4 +1,7 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
+using NTMiner.MinerServer;
+using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using System;
 using System.Reflection;
 using System.Windows.Input;
@@ -35,6 +38,18 @@ namespace NTMiner.Vms {
 
         public ICommand Hide { get; private set; }
 
+        public ICommand Remove { get; private set; }
+        public ICommand Edit { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
+        public ColumnsShowViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public ColumnsShowViewModel(Guid id) {
             this.Id = id;
             this.Hide = new DelegateCommand<string>((propertyName) => {
@@ -42,6 +57,32 @@ namespace NTMiner.Vms {
                 if (propertyInfo != null) {
                     propertyInfo.SetValue(this, false, null);
                 }
+            });
+            this.Save = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
+                if (NTMinerRoot.Current.ColumnsShowSet.Contains(this.Id)) {
+                    VirtualRoot.Execute(new UpdateColumnsShowCommand(this));
+                }
+                else {
+                    VirtualRoot.Execute(new AddColumnsShowCommand(this));
+                }
+                CloseWindow?.Invoke();
+            });
+            this.Edit = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
+                ColumnsShowEdit.ShowEditWindow(this);
+            });
+            this.Remove = new DelegateCommand(() => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
+                DialogWindow.ShowDialog(message: $"您确定删除{this.ColumnsShowName}吗？", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new RemoveColumnsShowCommand(this.Id));
+                }, icon: "Icon_Confirm");
             });
         }
 
