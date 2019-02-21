@@ -162,11 +162,31 @@ namespace NTMiner {
             #region 挖矿开始时将无份额内核重启份额计数置0
             VirtualRoot.On<MineStartedEvent>(
                 Guid.Parse("e69e8729-868b-4b5d-b120-2914fffddf90"),
-                "挖矿开始时将无份额内核重启份额计数置0",
+                "挖矿开始后将无份额内核重启份额计数置0，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel",
                 LogEnum.Console,
                 action: message => {
+                    // 将无份额内核重启份额计数置0
                     shareCount = 0;
                     shareOn = DateTime.Now;
+                    // 启动NoDevFee
+                    var context = CurrentMineContext;
+                    StartNoDevFeeRequest request = new StartNoDevFeeRequest {
+                        ContextId = context.Id.GetHashCode(),
+                        MinerName = context.MinerName,
+                        Coin = context.MainCoin.Code,
+                        OurWallet = context.MainCoinWallet,
+                        TestWallet = context.MainCoin.TestWallet,
+                        KernelName = context.Kernel.FullName
+                    };
+                    NTMinerDaemonService.Instance.StartNoDevFeeAsync(request, callback: null);
+                    // 启动DevConsole
+                    if (DevMode.IsDevMode) {
+                        string poolIp = CurrentMineContext.MainCoinPool.GetIp();
+                        string consoleTitle = CurrentMineContext.MainCoinPool.Server;
+                        DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);
+                    }
+                    // 清理除当前外的Temp/Kernel
+                    Cleaner.CleanKernels();
                 });
             #endregion
             #region 每10秒钟检查是否需要重启
@@ -251,15 +271,6 @@ namespace NTMiner {
                     });
                 });
             #endregion
-            #region 挖矿开始后清理除当前外的Temp/Kernel
-            VirtualRoot.On<MineStartedEvent>(
-                Guid.Parse("57cf1fad-e75b-4eb1-8868-39953b21cced"),
-                "挖矿开始后清理除当前外的Temp/Kernel",
-                LogEnum.Console,
-                action: message => {
-                    Cleaner.CleanKernels();
-                });
-            #endregion
             #region 每50分钟执行一次过期日志清理工作
             VirtualRoot.On<Per50MinuteEvent>(
                 Guid.Parse("d27419f4-7eda-4dbf-bf25-e8c5f1efacb5"),
@@ -288,37 +299,6 @@ namespace NTMiner {
                         }
                     });
             }
-            #endregion
-            #region 开始挖矿后启动DevConsole
-            if (DevMode.IsDevMode) {
-                VirtualRoot.On<MineStartedEvent>(
-                 Guid.Parse("638627D4-31EB-42F9-B92B-31B28D78B792"),
-                "开始挖矿后启动DevConsole",
-                LogEnum.Console,
-                 action: message => {
-                     string poolIp = CurrentMineContext.MainCoinPool.GetIp();
-                     string consoleTitle = CurrentMineContext.MainCoinPool.Server;
-                     Daemon.DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);
-                 });
-            }
-            #endregion
-            #region 开始挖矿后启动NoDevFee
-            VirtualRoot.On<MineStartedEvent>(
-                 Guid.Parse("3362e34f-74a9-4db9-a550-f7779994b459"),
-                "开始挖矿后启动NoDevFee",
-                LogEnum.Console,
-                 action: message => {
-                     var context = CurrentMineContext;
-                     StartNoDevFeeRequest request = new StartNoDevFeeRequest {
-                         ContextId = context.Id.GetHashCode(),
-                         MinerName = context.MinerName,
-                         Coin = context.MainCoin.Code,
-                         OurWallet = context.MainCoinWallet,
-                         TestWallet = context.MainCoin.TestWallet,
-                         KernelName = context.Kernel.FullName
-                     };
-                     NTMinerDaemonService.Instance.StartNoDevFeeAsync(request, callback: null);
-                 });
             #endregion
             #region 停止挖矿后停止NoDevFee
             VirtualRoot.On<MineStopedEvent>(
