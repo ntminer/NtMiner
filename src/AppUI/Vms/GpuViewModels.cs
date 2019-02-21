@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
             if (_gpuVms.ContainsKey(NTMinerRoot.GpuAllId)) {
                 _totalGpuVm = _gpuVms[NTMinerRoot.GpuAllId];
             }
-            VirtualRoot.Access<GpuStateChangedEvent>(
+            VirtualRoot.On<GpuStateChangedEvent>(
                 Guid.Parse("57a0dc71-08ca-4cde-9e7e-214ed3cfaf04"),
                 "显卡状态变更后刷新VM内存",
                 LogEnum.None,

@@ -13,7 +13,7 @@ namespace NTMiner.Language {
         private readonly Dictionary<Guid, LangViewItem> _dicById = new Dictionary<Guid, LangViewItem>();
 
         private LangViewItemSet() {
-            VirtualRoot.Access<RefreshLangViewItemSetCommand>(
+            VirtualRoot.Accept<RefreshLangViewItemSetCommand>(
                 Guid.Parse("90E8BC51-65FA-4192-BB94-F08BFADBC78E"),
                 "处理刷新语言项命令",
                 LogEnum.Console,
@@ -21,7 +21,7 @@ namespace NTMiner.Language {
                     _isInited = false;
                     VirtualRoot.Happened(new LangViewItemSetRefreshedEvent());
                 });
-            VirtualRoot.Access<AddLangViewItemCommand>(
+            VirtualRoot.Accept<AddLangViewItemCommand>(
                 Guid.Parse("07AC4BE6-AB09-48D2-A3D7-8653EE52CC43"),
                 "处理添加语言项命令",
                 LogEnum.Console,
@@ -47,7 +47,7 @@ namespace NTMiner.Language {
                         VirtualRoot.Happened(new LangViewItemAddedEvent(entity));
                     }
                 });
-            VirtualRoot.Access<UpdateLangViewItemCommand>(
+            VirtualRoot.Accept<UpdateLangViewItemCommand>(
                 Guid.Parse("CEC2EFC5-4F92-4226-ADCE-BE36D8968B9E"),
                 "处理修改语言项命令",
                 LogEnum.Console,
@@ -61,7 +61,7 @@ namespace NTMiner.Language {
                         VirtualRoot.Happened(new LangViewItemUpdatedEvent(entity));
                     }
                 });
-            VirtualRoot.Access<RemoveLangViewItemCommand>(
+            VirtualRoot.Accept<RemoveLangViewItemCommand>(
                 Guid.Parse("3827E59B-872D-45E6-8512-7EC22E1BE6E3"),
                 "处理删除语言项命令",
                 LogEnum.Console,

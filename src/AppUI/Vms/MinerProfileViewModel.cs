@@ -12,14 +12,14 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            VirtualRoot.Access<MinerProfilePropertyChangedEvent>(
+            VirtualRoot.On<MinerProfilePropertyChangedEvent>(
                 Guid.Parse("00F1C9F7-ADC8-438D-8B7E-942F6EE5F9A4"),
                 "MinerProfile设置变更后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });
-            VirtualRoot.Access<MineWorkPropertyChangedEvent>(
+            VirtualRoot.On<MineWorkPropertyChangedEvent>(
                 Guid.Parse("7F96F755-E292-4146-9390-75635D150A4B"),
                 "MineWork设置变更后刷新VM内存",
                 LogEnum.Console,
@@ -27,14 +27,14 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(message.PropertyName);
                 });
 
-            VirtualRoot.Access<RefreshArgsAssemblyCommand>(
+            VirtualRoot.Accept<RefreshArgsAssemblyCommand>(
                 Guid.Parse("4931C5C3-178F-4867-B615-215F0744C1EB"),
                 "刷新参数总成",
                 LogEnum.Console,
                 action: cmd => {
                     this.OnPropertyChanged(nameof(this.ArgsAssembly));
                 });
-            VirtualRoot.Access<MinerProfileSwichedEvent>(
+            VirtualRoot.On<MinerProfileSwichedEvent>(
                 Guid.Parse("850661EC-EA76-4E2B-B2CD-FD0C796DB85B"),
                 "MinerProfile切换后刷新Vm内存",
                 LogEnum.Console,

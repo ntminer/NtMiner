@@ -6,7 +6,7 @@ namespace NTMiner {
         private static readonly Dictionary<Guid, HandlerId> _dicById = new Dictionary<Guid, HandlerId>();
 
         static HandlerId() {
-            VirtualRoot.Access<UpdateHandlerIdCommand>(
+            VirtualRoot.Accept<UpdateHandlerIdCommand>(
                 Guid.Parse("77acf9fd-5e2f-464e-be81-5095d830962b"),
                 "更新处理器日志配置",
                 LogEnum.Console,

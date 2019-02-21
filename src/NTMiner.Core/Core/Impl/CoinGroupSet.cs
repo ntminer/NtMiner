@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         public CoinGroupSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Access<RefreshCoinGroupSetCommand>(
+            VirtualRoot.Accept<RefreshCoinGroupSetCommand>(
                 Guid.Parse("6597A41B-A7C9-402E-A4F9-7642FA185313"),
                 "处理刷新币组数据集命令",
                 LogEnum.Console,
@@ -25,7 +25,7 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 });
-            VirtualRoot.Access<AddCoinGroupCommand>(
+            VirtualRoot.Accept<AddCoinGroupCommand>(
                 Guid.Parse("2dd8f7e9-c79d-4621-954f-9fc45b0207dd"),
                 "添加币组",
                 LogEnum.Console,
@@ -47,7 +47,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new CoinGroupAddedEvent(entity));
                 });
-            VirtualRoot.Access<RemoveCoinGroupCommand>(
+            VirtualRoot.Accept<RemoveCoinGroupCommand>(
                 Guid.Parse("e52874f4-37d8-4d49-a637-5b95aa89367e"),
                 "移除币组",
                 LogEnum.Console,

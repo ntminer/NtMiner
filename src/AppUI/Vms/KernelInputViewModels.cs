@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelInputViewModel> _dicById = new Dictionary<Guid, KernelInputViewModel>();
 
         private KernelInputViewModels() {
-            VirtualRoot.Access<KernelInputAddedEvent>(
+            VirtualRoot.On<KernelInputAddedEvent>(
                 Guid.Parse("7BB2CAD5-333F-4BDD-B6FF-3F0AA50724EA"),
                 "添加了内核输入后刷新VM内存",
                 LogEnum.Console,
@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
                     _dicById.Add(message.Source.GetId(), vm);
                     OnPropertyChangeds();
                 });
-            VirtualRoot.Access<KernelInputUpdatedEvent>(
+            VirtualRoot.On<KernelInputUpdatedEvent>(
                 Guid.Parse("A85F4699-F884-43A3-B6F1-3E7CBCA7D7D6"),
                 "更新了内核输入后刷新VM内存",
                 LogEnum.Console,
@@ -46,7 +46,7 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
-            VirtualRoot.Access<KernelInputRemovedEvent>(
+            VirtualRoot.On<KernelInputRemovedEvent>(
                 Guid.Parse("4E0CFBAF-443F-4C09-B86B-3DBC7D7AF875"),
                 "移除了内核输入后刷新VM内存",
                 LogEnum.Console,

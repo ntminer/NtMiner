@@ -11,7 +11,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Access<RefreshKernelSetCommand>(
+            VirtualRoot.Accept<RefreshKernelSetCommand>(
                 Guid.Parse("3FE50ED8-1E60-4C3C-8486-DE478BBF9308"),
                 "处理刷新内核数据集命令",
                 LogEnum.Console,
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 });
-            VirtualRoot.Access<AddKernelCommand>(
+            VirtualRoot.Accept<AddKernelCommand>(
                 Guid.Parse("331be370-2d4f-488f-9dd8-3709e3ff63af"),
                 "添加内核",
                 LogEnum.Console,
@@ -48,7 +48,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelAddedEvent(entity));
                 });
-            VirtualRoot.Access<UpdateKernelCommand>(
+            VirtualRoot.Accept<UpdateKernelCommand>(
                 Guid.Parse("f23c801a-afbe-4e59-93c2-3eaecf3c7d8e"),
                 "更新内核",
                 LogEnum.Console,
@@ -73,7 +73,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelUpdatedEvent(entity));
                 });
-            VirtualRoot.Access<RemoveKernelCommand>(
+            VirtualRoot.Accept<RemoveKernelCommand>(
                 Guid.Parse("b90d68ba-2af2-48db-8bf3-5b2795667e8c"),
                 "移除内核",
                 LogEnum.Console,

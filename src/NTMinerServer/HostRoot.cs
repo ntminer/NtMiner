@@ -87,7 +87,7 @@ namespace NTMiner {
             this.WalletSet = new WalletSet(this);
             this.MineProfileManager = new MineProfileManager(this);
             this.NTMinerFileSet = new NTMinerFileSet(this);
-            VirtualRoot.Access<UserLoginedEvent>(
+            VirtualRoot.On<UserLoginedEvent>(
                 Guid.Parse("F7D804F7-2E0B-4EE3-8485-23B6503D0153"),
                 "用户登录成功后广播",
                 LogEnum.Console,

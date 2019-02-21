@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
             this.ConfigMinerServerHost = new DelegateCommand(() => {
                 MinerServerHostConfig.ShowWindow();
             });
-            VirtualRoot.Access<Per1SecondEvent>(
+            VirtualRoot.On<Per1SecondEvent>(
                 Guid.Parse("479A35A1-5A5A-48AF-B184-F1EC568BE181"),
                 "挖矿计时秒表",
                 LogEnum.None,
@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
                 }
                 this.LogoRotateTransformAngle += 50;
             };
-            VirtualRoot.Access<MineStartedEvent>(
+            VirtualRoot.On<MineStartedEvent>(
                 Guid.Parse("D8CC83D6-B9B5-4739-BD66-0F772A22BBF8"),
                 "挖矿开始后将风扇转起来",
                 LogEnum.Console,
@@ -46,7 +46,7 @@ namespace NTMiner.Vms {
                     this.OnPropertyChanged(nameof(this.IsMining));
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
-            VirtualRoot.Access<MineStopedEvent>(
+            VirtualRoot.On<MineStopedEvent>(
                 Guid.Parse("0BB360E4-92A6-4629-861F-B3E4C9BE1203"),
                 "挖矿停止后将风扇停转",
                 LogEnum.Console,

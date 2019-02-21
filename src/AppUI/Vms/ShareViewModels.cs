@@ -9,7 +9,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, ShareViewModel> _dicByCoinId = new Dictionary<Guid, ShareViewModel>();
 
         private ShareViewModels() {
-            VirtualRoot.Access<ShareChangedEvent>(
+            VirtualRoot.On<ShareChangedEvent>(
                 Guid.Parse("7430a1b0-0ba1-487d-9d39-84211b0bde07"),
                 "收益变更后调整VM内存",
                 LogEnum.Console,

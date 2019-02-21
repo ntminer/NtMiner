@@ -10,7 +10,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelInputSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Access<RefreshKernelInputSetCommand>(
+            VirtualRoot.Accept<RefreshKernelInputSetCommand>(
                 Guid.Parse("AD17471F-02D2-4ABF-B3AE-B66F7BD16FA4"),
                 "处理刷新内核输入数据集命令",
                 LogEnum.Console,
@@ -25,7 +25,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 });
-            VirtualRoot.Access<AddKernelInputCommand>(
+            VirtualRoot.Accept<AddKernelInputCommand>(
                 Guid.Parse("62D0B345-26F8-42BA-B7CD-E547C2B298C9"),
                 "添加内核输入组",
                 LogEnum.Console,
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelInputAddedEvent(entity));
                 });
-            VirtualRoot.Access<UpdateKernelInputCommand>(
+            VirtualRoot.Accept<UpdateKernelInputCommand>(
                 Guid.Parse("FED12C08-7BD7-4A8E-BD0B-A19075F4E8C4"),
                 "更新内核输入组",
                 LogEnum.Console,
@@ -69,7 +69,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelInputUpdatedEvent(entity));
                 });
-            VirtualRoot.Access<RemoveKernelInputCommand>(
+            VirtualRoot.Accept<RemoveKernelInputCommand>(
                 Guid.Parse("2227F6B9-5A2A-42AB-8147-05E245E2872F"),
                 "移除内核输入组",
                 LogEnum.Console,

@@ -28,7 +28,7 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Vm.QueryMinerClients();
-            DelegateHandler<Per10SecondEvent> refreshMinerClients = VirtualRoot.Access<Per10SecondEvent>(
+            DelegateHandler<Per10SecondEvent> refreshMinerClients = VirtualRoot.On<Per10SecondEvent>(
                 Guid.Parse("D0B01F1E-764A-4B83-B115-F7FC496CEB0A"),
                 "周期刷新在线客户端列表",
                 LogEnum.Console,
@@ -38,7 +38,7 @@ namespace NTMiner.Views.Ucs {
                     });
                 });
             this.Unloaded += (object sender, RoutedEventArgs e) => {
-                VirtualRoot.UnAccess(refreshMinerClients);
+                VirtualRoot.UnPath(refreshMinerClients);
             };
         }
 

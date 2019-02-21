@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, CoinProfileViewModel> _coinProfileDicById = new Dictionary<Guid, CoinProfileViewModel>();
 
         private CoinProfileViewModels() {
-            VirtualRoot.Access<CoinKernelProfilePropertyChangedEvent>(
+            VirtualRoot.On<CoinKernelProfilePropertyChangedEvent>(
                 Guid.Parse("78C01B0B-4569-496B-92E7-009E577FE695"),
                 "币种内核设置变更后刷新VM内存",
                 LogEnum.Console,
@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
                         _coinKernelProfileDicById[message.CoinKernelId].OnPropertyChanged(message.PropertyName);
                     }
                 });
-            VirtualRoot.Access<CoinProfilePropertyChangedEvent>(
+            VirtualRoot.On<CoinProfilePropertyChangedEvent>(
                 Guid.Parse("5784E496-14B4-49BD-9234-D2793CB679A5"),
                 "币种设置变更后刷新VM内存",
                 LogEnum.Console,
@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
                         _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                     }
                 });
-            VirtualRoot.Access<MinerProfileSwichedEvent>(
+            VirtualRoot.On<MinerProfileSwichedEvent>(
                 Guid.Parse("AA8CC3C3-A110-4F8D-AAB3-97EE29968B3A"),
                 "MinerProfile切换后刷新Vm内存",
                 LogEnum.Console,

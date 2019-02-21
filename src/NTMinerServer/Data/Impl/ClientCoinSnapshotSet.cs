@@ -11,7 +11,7 @@ namespace NTMiner.Data.Impl {
         private readonly IHostRoot _root;
         internal ClientCoinSnapshotSet(IHostRoot root) {
             _root = root;
-            VirtualRoot.Access<Per10SecondEvent>(
+            VirtualRoot.On<Per10SecondEvent>(
                 Guid.Parse("e093f476-e79d-45ba-b527-95ca71c3b737"),
                 "周期性将内存中的CientCoinSpeedData列表刷到磁盘",
                 LogEnum.Console,
@@ -40,7 +40,7 @@ namespace NTMiner.Data.Impl {
                         Write.DevLine("刷了" + values.Length + "条");
                     }
                 });
-            VirtualRoot.Access<Per2MinuteEvent>(
+            VirtualRoot.On<Per2MinuteEvent>(
                 Guid.Parse("033f4391-6b37-4232-abf4-c12117b4716b"),
                 "周期性清除已经拍过快照的CientCoinSpeedData源数据",
                 LogEnum.Console,

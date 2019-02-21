@@ -9,7 +9,7 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         public GroupSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Access<RefreshGroupSetCommand>(
+            VirtualRoot.Accept<RefreshGroupSetCommand>(
                 Guid.Parse("CE28E5E9-8908-433E-BF0A-43BC7E5B60E1"),
                 "处理刷新组数据集命令",
                 LogEnum.Console,
@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 });
-            VirtualRoot.Access<AddGroupCommand>(
+            VirtualRoot.Accept<AddGroupCommand>(
                 Guid.Parse("e0c313ff-2550-41f8-9403-8575638c7faf"),
                 "添加组",
                 LogEnum.Console,
@@ -43,7 +43,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new GroupAddedEvent(entity));
                 });
-            VirtualRoot.Access<UpdateGroupCommand>(
+            VirtualRoot.Accept<UpdateGroupCommand>(
                 Guid.Parse("b2d190dd-b60d-41f9-8e93-65902c318a78"),
                 "更新组",
                 LogEnum.Console,
@@ -68,7 +68,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new GroupUpdatedEvent(entity));
                 });
-            VirtualRoot.Access<RemoveGroupCommand>(
+            VirtualRoot.Accept<RemoveGroupCommand>(
                 Guid.Parse("7dede0b5-be81-4fc1-bee1-cdeb6afa7b72"),
                 "移除组",
                 LogEnum.Console,

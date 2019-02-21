@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public MinerGroupSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Access<AddMinerGroupCommand>(
+            VirtualRoot.Accept<AddMinerGroupCommand>(
                 Guid.Parse("051DE144-1C91-4633-B826-EDFBE951B450"),
                 "添加矿工组",
                 LogEnum.Console,
@@ -37,7 +37,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
 
                 });
-            VirtualRoot.Access<UpdateMinerGroupCommand>(
+            VirtualRoot.Accept<UpdateMinerGroupCommand>(
                 Guid.Parse("BC6ADC0E-E57C-4313-8C85-D866E2068913"),
                 "更新矿工组",
                 LogEnum.Console,
@@ -58,7 +58,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
                     });
                 });
-            VirtualRoot.Access<RemoveMinerGroupCommand>(
+            VirtualRoot.Accept<RemoveMinerGroupCommand>(
                 Guid.Parse("3083F1E6-0932-484E-AD2F-BDEA2790FD44"),
                 "移除矿工组",
                 LogEnum.Console,

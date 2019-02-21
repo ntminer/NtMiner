@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
             foreach (var item in HandlerId.GetHandlerIds()) {
                 _dicById.Add(item.Id, new HandlerIdViewModel(item));
             }
-            VirtualRoot.Access<HandlerIdAddedEvent>(
+            VirtualRoot.On<HandlerIdAddedEvent>(
                 Guid.Parse("b4dfdf20-d4f3-4a71-b42b-d33c142b7f15"),
                 "新的处理器标识出现后更新VM内存数据",
                 LogEnum.Console,
@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(List));
                     }
                 });
-            VirtualRoot.Access<HandlerIdUpdatedEvent>(
+            VirtualRoot.On<HandlerIdUpdatedEvent>(
                 Guid.Parse("7fed4d98-12ca-4291-be07-42e75fe87ad1"),
                 "处理器标识信息更新后更新VM内存数据",
                 LogEnum.Console,

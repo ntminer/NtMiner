@@ -12,7 +12,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         public ColumnsShowSet(INTMinerRoot root) {
             _root = root;
             ICoin coin = root.CoinSet.FirstOrDefault();
-            VirtualRoot.Access<AddColumnsShowCommand>(
+            VirtualRoot.Accept<AddColumnsShowCommand>(
                 Guid.Parse("A626192D-6C59-4D80-889A-809CC6D6B19A"),
                 "添加列显",
                 LogEnum.Console,
@@ -30,7 +30,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.Happened(new ColumnsShowAddedEvent(entity));
                     });
                 });
-            VirtualRoot.Access<UpdateColumnsShowCommand>(
+            VirtualRoot.Accept<UpdateColumnsShowCommand>(
                 Guid.Parse("9134E386-60E0-47FC-944B-8D95B083E45A"),
                 "更新列显",
                 LogEnum.Console,
@@ -48,7 +48,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
                     });
                 });
-            VirtualRoot.Access<RemoveColumnsShowCommand>(
+            VirtualRoot.Accept<RemoveColumnsShowCommand>(
                 Guid.Parse("FC0BDDF0-2308-4862-82A8-205B3404BFBD"),
                 "移除列显",
                 LogEnum.Console,

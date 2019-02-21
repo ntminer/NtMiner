@@ -161,7 +161,7 @@ namespace NTMiner {
             CommandBus.Commit();
         }
 
-        public static DelegateHandler<TMessage> Access<TMessage>(
+        private static DelegateHandler<TMessage> Path<TMessage>(
             Guid id, string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
             Type location = ss.GetFrame(1).GetMethod().DeclaringType;
@@ -169,7 +169,17 @@ namespace NTMiner {
             return MessageDispatcher.Register(handlerId, action);
         }
 
-        public static void UnAccess<TMessage>(DelegateHandler<TMessage> handler) {
+        public static DelegateHandler<TCmd> Accept<TCmd>(Guid id, string description, LogEnum logType, Action<TCmd> action)
+            where TCmd : ICmd {
+            return Path(id, description, logType, action);
+        }
+
+        public static DelegateHandler<TEvent> On<TEvent>(Guid id, string description, LogEnum logType, Action<TEvent> action)
+            where TEvent : IEvent {
+            return Path(id, description, logType, action);
+        }
+
+        public static void UnPath<TMessage>(DelegateHandler<TMessage> handler) {
             MessageDispatcher.UnRegister(handler);
         }
     }

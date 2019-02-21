@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
             this.Add = new DelegateCommand(() => {
                 new MinerGroupViewModel(Guid.NewGuid()).Edit.Execute(null);
             });
-            VirtualRoot.Access<MinerGroupAddedEvent>(
+            VirtualRoot.On<MinerGroupAddedEvent>(
                 Guid.Parse("d5673d55-4920-42a7-8f2c-f81f474ff83c"),
                 "添加矿工组后刷新VM内存",
                 LogEnum.Console,
@@ -34,14 +34,14 @@ namespace NTMiner.Vms {
                         MinerClientsViewModel.Current.OnPropertyChanged(nameof(MinerClientsViewModel.SelectedMinerGroup));
                     }
                 });
-            VirtualRoot.Access<MinerGroupUpdatedEvent>(
+            VirtualRoot.On<MinerGroupUpdatedEvent>(
                 Guid.Parse("bfb4f809-bb5d-48ce-8c75-1dffaf771e7e"),
                 "更新矿工组后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 });
-            VirtualRoot.Access<MinerGroupRemovedEvent>(
+            VirtualRoot.On<MinerGroupRemovedEvent>(
                 Guid.Parse("0b412543-bfb0-47c7-85c9-320819bb5ada"),
                 "删除矿工组后刷新VM内存",
                 LogEnum.Console,

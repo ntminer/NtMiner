@@ -56,7 +56,7 @@ namespace NTMiner.Vms {
                 // 官网的服务不支持FindAll
                 _minuteItems.RemoveAt(0);
             }
-            VirtualRoot.Access<Per1SecondEvent>(
+            VirtualRoot.On<Per1SecondEvent>(
                 Guid.Parse("D792D3A6-79DE-450E-AE3A-F9532E7AB9B0"),
                 "刷新倒计时秒表",
                 LogEnum.None,

@@ -63,7 +63,7 @@ namespace NTMiner {
             private static void Daemon(IMineContext mineContext, Action clear) {
                 string processName = mineContext.Kernel.GetProcessName();
                 Bus.DelegateHandler<Per1MinuteEvent> daemon = null;
-                daemon = VirtualRoot.Access<Per1MinuteEvent>(
+                daemon = VirtualRoot.On<Per1MinuteEvent>(
                     Guid.Parse("a4761e90-dc3c-4483-b055-546084863640"),
                     "周期性检查挖矿内核是否消失，如果消失尝试重启",
                     LogEnum.Console,
@@ -82,13 +82,13 @@ namespace NTMiner {
                                     else {
                                         Current.StopMineAsync();
                                     }
-                                    VirtualRoot.UnAccess(daemon);
+                                    VirtualRoot.UnPath(daemon);
                                     clear?.Invoke();
                                 }
                             }
                         }
                         else {
-                            VirtualRoot.UnAccess(daemon);
+                            VirtualRoot.UnPath(daemon);
                             clear?.Invoke();
                         }
                     });
@@ -230,9 +230,9 @@ namespace NTMiner {
                                 CloseHandle(hWriteOut);
                                 isHWriteOutHasClosed = true;
                             }
-                            VirtualRoot.UnAccess(closeHandle);
+                            VirtualRoot.UnPath(closeHandle);
                         });
-                        closeHandle = VirtualRoot.Access<MineStopedEvent>(
+                        closeHandle = VirtualRoot.On<MineStopedEvent>(
                             Guid.Parse("91642027-fd28-4bdd-a05a-31caac6609b1"),
                             "挖矿停止后关闭非托管的日志句柄",
                             LogEnum.Console,
@@ -241,7 +241,7 @@ namespace NTMiner {
                                     CloseHandle(hWriteOut);
                                     isHWriteOutHasClosed = true;
                                 }
-                                VirtualRoot.UnAccess(closeHandle);
+                                VirtualRoot.UnPath(closeHandle);
                             });
                         string pipLogFileFullName = Path.Combine(SpecialPath.LogsDirFullName, mineContext.PipeFileName);
                         Task.Factory.StartNew(() => {

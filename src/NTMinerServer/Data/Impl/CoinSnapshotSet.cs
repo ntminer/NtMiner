@@ -14,7 +14,7 @@ namespace NTMiner.Data.Impl {
         private bool _historyDataSnapshotOver = false;
         internal CoinSnapshotSet(IHostRoot root) {
             _root = root;
-            VirtualRoot.Access<Per10SecondEvent>(Guid.Parse(
+            VirtualRoot.On<Per10SecondEvent>(Guid.Parse(
                 "ab0526fc-01ce-4b8a-942d-d998d0a71a3b"),
                 "周期性拍摄快照",
                 LogEnum.Console,

@@ -13,7 +13,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelOutputTranslaterSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Access<RefreshKernelOutputTranslaterSetCommand>(
+            VirtualRoot.Accept<RefreshKernelOutputTranslaterSetCommand>(
                 Guid.Parse("86FF7BB1-2747-443C-BAF9-478FE46C1CCE"),
                 "处理刷新内核输出翻译器数据集命令",
                 LogEnum.Console,
@@ -28,7 +28,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 });
-            VirtualRoot.Access<AddKernelOutputTranslaterCommand>(
+            VirtualRoot.Accept<AddKernelOutputTranslaterCommand>(
                 Guid.Parse("d9da43ad-8fb7-4d6b-a8c7-ac0c1bbc4dd3"),
                 "添加内核输出翻译器",
                 LogEnum.Console,
@@ -54,7 +54,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterAddedEvent(entity));
                 });
-            VirtualRoot.Access<UpdateKernelOutputTranslaterCommand>(
+            VirtualRoot.Accept<UpdateKernelOutputTranslaterCommand>(
                 Guid.Parse("9e22fc7d-41da-4291-8dde-d8282f81d188"),
                 "更新内核输出翻译器",
                 LogEnum.Console,
@@ -88,7 +88,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterUpdatedEvent(entity));
                 });
-            VirtualRoot.Access<RemoveKernelOutputTranslaterCommand>(
+            VirtualRoot.Accept<RemoveKernelOutputTranslaterCommand>(
                 Guid.Parse("7e76b569-aa52-492a-ae41-f2e0a22ffa9b"),
                 "移除内核输出翻译器",
                 LogEnum.Console,
@@ -111,7 +111,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterRemovedEvent(entity));
                 });
-            VirtualRoot.Access<SysDicItemUpdatedEvent>(
+            VirtualRoot.On<SysDicItemUpdatedEvent>(
                 Guid.Parse("de662262-bd05-4cae-ba6e-843f18541966"),
                 "LogColor字典项更新后刷新翻译器内存",
                 LogEnum.Console,

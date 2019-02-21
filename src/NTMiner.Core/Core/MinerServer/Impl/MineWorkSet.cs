@@ -12,7 +12,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         public MineWorkSet(INTMinerRoot root) {
             _root = root;
             ICoin coin = root.CoinSet.FirstOrDefault();
-            VirtualRoot.Access<AddMineWorkCommand>(
+            VirtualRoot.Accept<AddMineWorkCommand>(
                 Guid.Parse("2ce02224-8ddf-4499-9d1d-7439ba5ca2fc"),
                 "添加工作",
                 LogEnum.Console,
@@ -30,7 +30,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.Happened(new MineWorkAddedEvent(entity));
                     });
                 });
-            VirtualRoot.Access<UpdateMineWorkCommand>(
+            VirtualRoot.Accept<UpdateMineWorkCommand>(
                 Guid.Parse("21140dbe-c9be-48d6-ae92-4d0ebc666a25"),
                 "更新工作",
                 LogEnum.Console,
@@ -48,7 +48,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
                     });
                 });
-            VirtualRoot.Access<RemoveMineWorkCommand>(
+            VirtualRoot.Accept<RemoveMineWorkCommand>(
                 Guid.Parse("cec3ccf4-9700-4e38-b786-8ceefe5209fb"),
                 "移除工作",
                 LogEnum.Console,

@@ -12,7 +12,7 @@ namespace NTMiner.Core.Impl {
 
         public PoolSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Access<RefreshPoolSetCommand>(
+            VirtualRoot.Accept<RefreshPoolSetCommand>(
                 Guid.Parse("14E998D3-0512-4D74-AEEC-BE88EE0F89E9"),
                 "处理刷新矿池数据集命令",
                 LogEnum.Console,
@@ -27,7 +27,7 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 });
-            VirtualRoot.Access<AddPoolCommand>(
+            VirtualRoot.Accept<AddPoolCommand>(
                 Guid.Parse("5ee1b14b-4b9e-445f-b6fe-433f6fe44b18"),
                 "添加矿池",
                 LogEnum.Console,
@@ -68,7 +68,7 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 });
-            VirtualRoot.Access<UpdatePoolCommand>(
+            VirtualRoot.Accept<UpdatePoolCommand>(
                 Guid.Parse("62d847f6-2b1f-4891-990b-3beb4c1dc5b0"),
                 "更新矿池",
                 LogEnum.Console,
@@ -99,7 +99,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new PoolUpdatedEvent(entity));
                 });
-            VirtualRoot.Access<RemovePoolCommand>(
+            VirtualRoot.Accept<RemovePoolCommand>(
                 Guid.Parse("c5ce3c6c-78c4-4e76-81e3-2feeac5d5ced"),
                 "移除矿池",
                 LogEnum.Console,

@@ -10,14 +10,14 @@ namespace NTMiner.Vms {
         private readonly List<LangViewModel> _langVms = new List<LangViewModel>();
 
         private LangViewModels() {
-            VirtualRoot.Access<LangSetRefreshedEvent>(
+            VirtualRoot.On<LangSetRefreshedEvent>(
                 Guid.Parse("04FACAED-5122-45E2-914C-E2DFD845AED8"),
                 "刷新语言后刷新VM数据集",
                 LogEnum.None,
                 action: message => {
                     Init();
                 });
-            VirtualRoot.Access<LangAddedEvent>(
+            VirtualRoot.On<LangAddedEvent>(
                 Guid.Parse("F0417261-877F-4310-895F-2B14099B2ABF"),
                 "添加了语言后刷新VM内存",
                 LogEnum.None,
@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
                     _langVms.Add(new LangViewModel(message.Source));
                     OnPropertyChanged(nameof(LangVms));
                 });
-            VirtualRoot.Access<LangUpdatedEvent>(
+            VirtualRoot.On<LangUpdatedEvent>(
                 Guid.Parse("646181E6-044D-4D2F-B357-A3B376DAE680"),
                 "修改了语言后刷新VM内存",
                 LogEnum.None,
@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                         langVm.Update(message.Source);
                     }
                 });
-            VirtualRoot.Access<LangRemovedEvent>(
+            VirtualRoot.On<LangRemovedEvent>(
                 Guid.Parse("3684144A-26C8-47B9-881D-E66930A6E87D"),
                 "删除了语言后刷新VM内存",
                 LogEnum.None,
