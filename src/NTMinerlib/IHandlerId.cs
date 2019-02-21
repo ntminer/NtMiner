@@ -5,6 +5,7 @@ namespace NTMiner {
         Guid Id { get; }
         Type MessageType { get; }
         Type Location { get; }
+        string HandlerPath { get; }
         LogEnum LogType { get; }
         string Description { get; }
     }

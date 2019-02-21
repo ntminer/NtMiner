@@ -7,11 +7,13 @@ namespace NTMiner.Vms {
         private Type _location;
         private LogEnum _logType;
         private string _description;
+        private string _handlerPath;
 
         public HandlerIdViewModel(IHandlerId data) {
             _id = data.Id;
             _messageType = data.MessageType;
             _location = data.Location;
+            _handlerPath = data.HandlerPath;
             _logType = data.LogType;
             _description = data.Description;
         }
@@ -86,6 +88,14 @@ namespace NTMiner.Vms {
                     _description = value;
                     OnPropertyChanged(nameof(Description));
                 }
+            }
+        }
+
+        public string HandlerPath {
+            get => _handlerPath;
+            set {
+                _handlerPath = value;
+                OnPropertyChanged(nameof(HandlerPath));
             }
         }
     }

@@ -21,11 +21,13 @@ namespace NTMiner {
         }
 
         public static IHandlerId Create(Type messageType, Type location, Guid id, string description, LogEnum logType) {
+            string path = $"{location.FullName}[{messageType.FullName}]";
             if (_dicById.ContainsKey(id)) {
                 var item = _dicById[id];
                 item.MessageType = messageType;
                 item.Location = location;
                 item.Description = description;
+                item.HandlerPath = path;
                 VirtualRoot.Happened(new HandlerIdUpdatedEvent(item));
                 return item;
             }
@@ -33,6 +35,7 @@ namespace NTMiner {
                 var item = new HandlerId {
                     MessageType = messageType,
                     Location = location,
+                    HandlerPath = path,
                     Id = id,
                     Description = description,
                     LogType = logType
@@ -60,6 +63,7 @@ namespace NTMiner {
         public Type MessageType { get; set; }
         [LiteDB.BsonIgnore]
         public Type Location { get; set; }
+        public string HandlerPath { get; set; }
         public LogEnum LogType { get; set; }
         public string Description { get; set; }
     }

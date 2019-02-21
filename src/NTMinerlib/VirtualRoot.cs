@@ -5,7 +5,6 @@ using NTMiner.Language;
 using NTMiner.RemoteDesktop;
 using NTMiner.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Timers;
@@ -162,19 +161,10 @@ namespace NTMiner {
             CommandBus.Commit();
         }
 
-        private static HashSet<string> _paths = new HashSet<string>();
-        private static DelegateHandler<TMessage> Path<TMessage>(
-            Guid id, string description, LogEnum logType, Action<TMessage> action) {
+        private static DelegateHandler<TMessage> Path<TMessage>(Guid id, string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
             // 0是Path，1是Accpt或On，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            string path = $"{location.FullName}[{typeof(TMessage).FullName}]";
-            if (!_paths.Contains(path)) {
-                _paths.Add(path);
-            }
-            else {
-                Write.DevLine($"重复的路径:{path}", ConsoleColor.Red);
-            }
             IHandlerId handlerId = HandlerId.Create(typeof(TMessage), location, id, description, logType);
             return MessageDispatcher.Register(handlerId, action);
         }
