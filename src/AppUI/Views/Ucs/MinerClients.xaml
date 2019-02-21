@@ -274,10 +274,10 @@
 						DisplayMemberPath="Code"
 						SelectedItem="{Binding MainCoin}"></controls:KbComboBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.LastActivedOnText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.LastActivedOnText}" Margin="6 0 0 0">最后更新</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}">作业</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.BootTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.BootTimeSpanText}" Margin="6 0 0 0">运行时长</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="6 0 0 0">挖矿时长</CheckBox>
+					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}">作业</CheckBox>
+					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">矿工名</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="6 0 0 0">IP</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemoteUserNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemoteUserNameAndPassword}" Margin="6 0 0 0">远程桌面用户名密码</CheckBox>
@@ -469,6 +469,38 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<DataGridTextColumn 
+					Binding="{Binding BootTimeSpanText}"
+					Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn.Header>
+						<WrapPanel>
+							<TextBlock>运行时长</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="BootTimeSpanText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTextColumn.Header>
+				</DataGridTextColumn>
+				<DataGridTextColumn 
+					Binding="{Binding MineTimeSpanText}"
+					Visibility="{Binding Data.ColumnsShow.MineTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn.Header>
+						<WrapPanel>
+							<TextBlock>挖矿时长</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MineTimeSpanText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTextColumn.Header>
+				</DataGridTextColumn>
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
 					CanUserResize="True" 
@@ -515,38 +547,6 @@
 						</WrapPanel>
 					</DataGridComboBoxColumn.Header>
 				</DataGridComboBoxColumn>
-				<DataGridTextColumn 
-					Binding="{Binding BootTimeSpanText}"
-					Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTextColumn.Header>
-						<WrapPanel>
-							<TextBlock>运行时长</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="BootTimeSpanText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTextColumn.Header>
-				</DataGridTextColumn>
-				<DataGridTextColumn 
-					Binding="{Binding MineTimeSpanText}"
-					Visibility="{Binding Data.ColumnsShow.MineTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTextColumn.Header>
-						<WrapPanel>
-							<TextBlock>挖矿时长</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MineTimeSpanText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTextColumn.Header>
-				</DataGridTextColumn>
 				<DataGridTextColumn 
 					Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 					Binding="{Binding MinerName, UpdateSourceTrigger=LostFocus}" 
