@@ -19,19 +19,27 @@ namespace NTMiner.Vms {
                 "添加了列显后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
-
+                    if (!_dicById.ContainsKey(message.Source.GetId())) {
+                        ColumnsShowViewModel vm = new ColumnsShowViewModel(message.Source);
+                        _dicById.Add(message.Source.GetId(), vm);
+                        OnPropertyChanged(nameof(List));
+                    }
                 });
             VirtualRoot.On<ColumnsShowUpdatedEvent>(
                 "更新了列显后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
-
+                    if (_dicById.ContainsKey(message.Source.GetId())) {
+                        ColumnsShowViewModel entity = _dicById[message.Source.GetId()];
+                        entity.Update(message.Source);
+                    }
                 });
             VirtualRoot.On<ColumnsShowRemovedEvent>(
                 "移除了列显后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
-
+                    _dicById.Remove(message.Source.GetId());
+                    OnPropertyChanged(nameof(List));
                 });
             foreach (var item in NTMinerRoot.Current.ColumnsShowSet) {
                 _dicById.Add(item.GetId(), new ColumnsShowViewModel(item));

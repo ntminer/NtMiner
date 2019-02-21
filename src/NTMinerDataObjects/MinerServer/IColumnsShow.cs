@@ -20,5 +20,9 @@ namespace NTMiner.MinerServer {
         bool Version  { get; }
         bool RemoteUserNameAndPassword  { get; }
         bool GpuInfo  { get; }
+        bool MainCoinRejectPercentText { get; }
+        bool DualCoinRejectPercentText { get; }
+        bool BootTimeSpanText { get; }
+        bool MineTimeSpanText { get; }
     }
 }

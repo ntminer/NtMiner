@@ -49,27 +49,39 @@ namespace NTMiner.MinerServer {
 
         public bool GpuInfo{ get; set; }
 
+        public bool MainCoinRejectPercentText { get; set; }
+
+        public bool DualCoinRejectPercentText { get; set; }
+
+        public bool BootTimeSpanText { get; set; }
+
+        public bool MineTimeSpanText { get; set; }
+
         public string GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(Work)).Append(Work)
                 .Append(nameof(MinerName)).Append(MinerName)
                 .Append(nameof(MinerIp)).Append(MinerIp)
-                .Append(nameof(MinerIp)).Append(MinerGroup)
-                .Append(nameof(MinerIp)).Append(MainCoinCode)
-                .Append(nameof(MinerIp)).Append(MainCoinSpeedText)
-                .Append(nameof(MinerIp)).Append(MainCoinWallet)
-                .Append(nameof(MinerIp)).Append(MainCoinPool)
-                .Append(nameof(MinerIp)).Append(Kernel)
-                .Append(nameof(MinerIp)).Append(DualCoinCode)
-                .Append(nameof(MinerIp)).Append(DualCoinSpeedText)
-                .Append(nameof(MinerIp)).Append(DualCoinWallet)
-                .Append(nameof(MinerIp)).Append(DualCoinPool)
-                .Append(nameof(MinerIp)).Append(LastActivedOnText)
-                .Append(nameof(MinerIp)).Append(Version)
-                .Append(nameof(MinerIp)).Append(RemoteUserNameAndPassword)
-                .Append(nameof(MinerIp)).Append(RemotePassword)
-                .Append(nameof(MinerIp)).Append(GpuInfo);
+                .Append(nameof(MinerGroup)).Append(MinerGroup)
+                .Append(nameof(MainCoinCode)).Append(MainCoinCode)
+                .Append(nameof(MainCoinSpeedText)).Append(MainCoinSpeedText)
+                .Append(nameof(MainCoinWallet)).Append(MainCoinWallet)
+                .Append(nameof(MainCoinPool)).Append(MainCoinPool)
+                .Append(nameof(Kernel)).Append(Kernel)
+                .Append(nameof(DualCoinCode)).Append(DualCoinCode)
+                .Append(nameof(DualCoinSpeedText)).Append(DualCoinSpeedText)
+                .Append(nameof(DualCoinWallet)).Append(DualCoinWallet)
+                .Append(nameof(DualCoinPool)).Append(DualCoinPool)
+                .Append(nameof(LastActivedOnText)).Append(LastActivedOnText)
+                .Append(nameof(Version)).Append(Version)
+                .Append(nameof(RemoteUserNameAndPassword)).Append(RemoteUserNameAndPassword)
+                .Append(nameof(RemotePassword)).Append(RemotePassword)
+                .Append(nameof(GpuInfo)).Append(GpuInfo)
+                .Append(nameof(MainCoinRejectPercentText)).Append(MainCoinRejectPercentText)
+                .Append(nameof(DualCoinRejectPercentText)).Append(DualCoinRejectPercentText)
+                .Append(nameof(BootTimeSpanText)).Append(BootTimeSpanText)
+                .Append(nameof(MineTimeSpanText)).Append(MineTimeSpanText);
             return sb.ToString();
         }
     }

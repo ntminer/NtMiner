@@ -96,6 +96,10 @@ namespace NTMiner.Vms {
             _version = data.Version;
             _remoteUserNameAndPassword = data.RemoteUserNameAndPassword;
             _gpuInfo = data.GpuInfo;
+            _mainCoinRejectPercentText = data.MainCoinRejectPercentText;
+            _dualCoinRejectPercentText = data.DualCoinRejectPercentText;
+            _bootTimeSpanText = data.BootTimeSpanText;
+            _mineTimeSpanText = data.MineTimeSpanText;
         }
 
         public bool IsPleaseSelect {
