@@ -19,9 +19,9 @@ namespace NTMiner.Views {
             window.Activate();
         }
 
-        public MinerClientsViewModel Vm {
+        public MinerClientsWindowViewModel Vm {
             get {
-                return (MinerClientsViewModel)this.DataContext;
+                return (MinerClientsWindowViewModel)this.DataContext;
             }
         }
 

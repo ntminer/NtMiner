@@ -29,8 +29,8 @@ namespace NTMiner.Vms {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Add(message.Source.GetId(), new MinerGroupViewModel(message.Source));
                         OnPropertyChanged(nameof(List));
-                        MinerClientsViewModel.Current.OnPropertyChanged(nameof(MinerClientsViewModel.MinerGroupVmItems));
-                        MinerClientsViewModel.Current.OnPropertyChanged(nameof(MinerClientsViewModel.SelectedMinerGroup));
+                        MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.MinerGroupVmItems));
+                        MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                     }
                 });
             VirtualRoot.On<MinerGroupUpdatedEvent>(
@@ -45,8 +45,8 @@ namespace NTMiner.Vms {
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(List));
-                    MinerClientsViewModel.Current.OnPropertyChanged(nameof(MinerClientsViewModel.MinerGroupVmItems));
-                    MinerClientsViewModel.Current.OnPropertyChanged(nameof(MinerClientsViewModel.SelectedMinerGroup));
+                    MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.MinerGroupVmItems));
+                    MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                 });
         }
 

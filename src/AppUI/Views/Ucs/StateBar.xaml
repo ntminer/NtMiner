@@ -270,7 +270,7 @@
 							Fill="{Binding GpuStateColor}"
 							Stretch="Fill">
 							<Path.RenderTransform>
-								<RotateTransform Angle="{Binding LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
+								<RotateTransform Angle="{Binding LogoRotateTransformAngle}" CenterX="7" CenterY="7"></RotateTransform>
 							</Path.RenderTransform>
 						</Path>
 						<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.FanSpeedText}" Width="78" Padding="0" HorizontalAlignment="Left" />

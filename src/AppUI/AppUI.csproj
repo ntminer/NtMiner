@@ -280,7 +280,7 @@
     <Compile Include="Vms\KernelOutputViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModels.cs" />
     <Compile Include="Vms\LogColorViewModel.cs" />
-    <Compile Include="Vms\MinerClientsViewModel.cs" />
+    <Compile Include="Vms\MinerClientsWindowViewModel.cs" />
     <Compile Include="Vms\KernelSelectViewModel.cs" />
     <Compile Include="Vms\FileDownloaderViewModel.cs" />
     <Compile Include="Vms\GpuStatusBarViewModel.cs" />

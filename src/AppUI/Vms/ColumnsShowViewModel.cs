@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.ColumnsShowSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateColumnsShowCommand(this));
-                    MinerClientsViewModel.Current.Manager.CreateMessage()
+                    MinerClientsWindowViewModel.Current.Manager.CreateMessage()
                         .Accent("#1751C3")
                         .Background("#333")
                         .HasBadge("Info")

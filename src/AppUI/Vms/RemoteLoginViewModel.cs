@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                         minerClientVm.RemoteUserName = this.UserName;
                         minerClientVm.RemotePassword = this.Password;
                         VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.Ip, this.UserName, this.Password, this.MinerName, onDisconnected: message=> {
-                            MinerClientsViewModel.Current.Manager.CreateMessage()
+                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("Red")
                                 .HasBadge("Error")

@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.MinerIp, this.RemoteUserName, this.RemotePassword, this.MinerName, onDisconnected: message => {
-                        MinerClientsViewModel.Current.Manager.CreateMessage()
+                        MinerClientsWindowViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("Red")
                                 .HasBadge("Error")
@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
                         UIThread.Execute(() => {
-                            MinerClientsViewModel.Current.Manager.CreateMessage()
+                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("Red")
                                 .HasBadge("Error")
@@ -97,7 +97,7 @@ namespace NTMiner.Vms {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
                         UIThread.Execute(() => {
-                            MinerClientsViewModel.Current.Manager.CreateMessage()
+                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("Red")
                                 .HasBadge("Error")

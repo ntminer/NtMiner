@@ -8,8 +8,8 @@ using System.Net;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class MinerClientsViewModel : ViewModelBase {
-        public static readonly MinerClientsViewModel Current = new MinerClientsViewModel();
+    public class MinerClientsWindowViewModel : ViewModelBase {
+        public static readonly MinerClientsWindowViewModel Current = new MinerClientsWindowViewModel();
 
         private readonly List<MinuteItem> _minuteItems = new List<MinuteItem> {
             new MinuteItem(0),
@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
         public ICommand ManagePool { get; private set; }
         public ICommand ManageWallet { get; private set; }
 
-        private MinerClientsViewModel() {
+        private MinerClientsWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }

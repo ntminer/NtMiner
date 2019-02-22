@@ -15,7 +15,7 @@
 		Background="{StaticResource MainColor}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
-		DataContext="{x:Static vm:MinerClientsViewModel.Current}"
+		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="2200">
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
