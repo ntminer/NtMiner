@@ -164,5 +164,11 @@ namespace NTMiner.Vms {
                 return GpuStatusBarViewModel.Current;
             }
         }
+
+        public string GpuSetInfo {
+            get {
+                return NTMinerRoot.Current.GpuSetInfo;
+            }
+        }
     }
 }

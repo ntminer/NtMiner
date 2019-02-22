@@ -102,6 +102,42 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</controls:KbButton>
+
+					<WrapPanel Margin="4 0 0 0">
+						<controls:KbLinkButton
+							Foreground="#0072C1"
+							Command="{x:Static vm:AppStatic.OpenOfficialSite}"
+							Background="Transparent"
+							KbSystemButtonHoverBackground="Transparent"
+							KbDisplayLine="False">
+							<WrapPanel>
+								<TextBlock Text="{DynamicResource Github}"></TextBlock>
+								<Path 
+									Width="14"
+									Height="14"
+									Data="{StaticResource Icon_Github}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</WrapPanel>
+						</controls:KbLinkButton>
+						<controls:KbLinkButton
+							Margin="8 0 0 0"
+							Foreground="#0072C1"
+							Command="{x:Static vm:AppStatic.OpenDiscussSite}"
+							Background="Transparent"
+							KbSystemButtonHoverBackground="Transparent"
+							KbDisplayLine="False">
+							<WrapPanel>
+								<TextBlock Text="{DynamicResource Discuss}"></TextBlock>
+								<Path 
+									Width="14"
+									Height="14"
+									Data="{StaticResource Icon_Discuss}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</WrapPanel>
+						</controls:KbLinkButton>
+					</WrapPanel>
 				</WrapPanel>
 				<WrapPanel Margin="0 2">
 					<TextBlock
@@ -162,41 +198,6 @@
 							Stretch="Fill" />
 					</controls:KbButton>
 				</WrapPanel>
-				<WrapPanel Margin="0 2">
-					<controls:KbLinkButton
-						Foreground="#0072C1"
-						Command="{x:Static vm:AppStatic.OpenOfficialSite}"
-						Background="Transparent"
-						KbSystemButtonHoverBackground="Transparent"
-						KbDisplayLine="False">
-						<WrapPanel>
-							<TextBlock Text="{DynamicResource Github}"></TextBlock>
-							<Path 
-								Width="14"
-								Height="14"
-								Data="{StaticResource Icon_Github}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbLinkButton>
-					<controls:KbLinkButton
-						Margin="8 0 0 0"
-						Foreground="#0072C1"
-						Command="{x:Static vm:AppStatic.OpenDiscussSite}"
-						Background="Transparent"
-						KbSystemButtonHoverBackground="Transparent"
-						KbDisplayLine="False">
-						<WrapPanel>
-							<TextBlock Text="{DynamicResource Discuss}"></TextBlock>
-							<Path 
-								Width="14"
-								Height="14"
-								Data="{StaticResource Icon_Discuss}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbLinkButton>
-				</WrapPanel>
 			</StackPanel>
 			<StackPanel Grid.Column="1">
 				<WrapPanel HorizontalAlignment="Right">
@@ -245,8 +246,8 @@
 					<WrapPanel VerticalAlignment="Center">
 						<Path
 							Margin="0 0 2 0"
-							Width="18"
-							Height="16"
+							Width="16"
+							Height="14"
 							ToolTip="{Binding GpuStatusBarVm.GpuSetName}"
 							Data="{Binding GpuStatusBarVm.Icon}"
 							Fill="{Binding GpuStatusBarVm.IconFill}"
@@ -255,16 +256,16 @@
 						<TextBlock Text="{Binding GpuStatusBarVm.GpuCountText}" ToolTip="{Binding GpuStatusBarVm.GpuSetInfo}" Width="80"></TextBlock>
 						<Path
 							Margin="0 0 2 0"
-							Width="8"
-							Height="16"
+							Width="7"
+							Height="14"
 							Data="{StaticResource Icon_Temperature}"
 							Fill="{Binding GpuStateColor}"
 							Stretch="Fill" />
 						<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.TemperatureText}" Width="82" Padding="0" HorizontalAlignment="Left" />
 						<Path
 							Margin="0 0 2 0"
-							Width="16"
-							Height="16"
+							Width="14"
+							Height="14"
 							Data="{StaticResource Icon_Fan}"
 							Fill="{Binding GpuStateColor}"
 							Stretch="Fill">
@@ -275,8 +276,8 @@
 						<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.FanSpeedText}" Width="78" Padding="0" HorizontalAlignment="Left" />
 						<WrapPanel Width="70">
 							<Path
-								Width="12"
-								Height="16"
+								Width="11"
+								Height="14"
 								Data="{StaticResource Icon_Power}"
 								Fill="{Binding GpuStateColor}"
 								Stretch="Fill" />
@@ -295,7 +296,7 @@
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
 							Background="Transparent" />
-						<WrapPanel Width="284" Margin="0 2">
+						<WrapPanel Width="284">
 							<controls:KbButton 
 								Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 								Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -346,14 +347,14 @@
 								</WrapPanel>
 							</controls:KbButton>
 						</WrapPanel>
-						<WrapPanel Width="140" Margin="0 2">
+						<WrapPanel Width="140">
 							<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
 							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />
 							<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
 							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitShareRequestCount}" />
 							<TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
 						</WrapPanel>
-						<WrapPanel Width="130" Margin="0 2">
+						<WrapPanel Width="130">
 							<Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
 							<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
 						</WrapPanel>
@@ -369,7 +370,7 @@
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent" />
-							<WrapPanel Width="284" Margin="0 2">
+							<WrapPanel Width="284">
 								<controls:KbButton 
 									Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 									Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -420,20 +421,25 @@
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
-							<WrapPanel Width="140" Margin="0 2">
+							<WrapPanel Width="140">
 								<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
 								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />
 								<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
 								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitShareRequestCount}" />
 								<TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
 							</WrapPanel>
-							<WrapPanel Width="130" Margin="0 2">
+							<WrapPanel Width="130">
 								<Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
 								<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
 							</WrapPanel>
 						</WrapPanel>
 					</WrapPanel>
 				</StackPanel>
+				<WrapPanel HorizontalAlignment="Right">
+					<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{Binding GpuSetInfo}" Margin="0 0 30 0" Foreground="{StaticResource LableColor}"></TextBlock>
+				</WrapPanel>
 			</StackPanel>
 		</Grid>
 	</Border>
