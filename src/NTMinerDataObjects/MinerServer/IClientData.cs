@@ -53,6 +53,14 @@ namespace NTMiner.MinerServer {
 
         string GpuInfo { get; }
 
+        string OSName { get; }
+
+        double OSVirtualMemory { get; }
+
+        GpuType GpuType { get; }
+
+        string GpuDriver { get; }
+
         GpuSpeedData[] GpuSpeeds { get; }
     }
 }

@@ -60,6 +60,17 @@ namespace NTMiner.Hashrate {
 
         public double DualCoinSpeed { get; set; }
 
+        public string GpuDriver { get; set; }
+
+        public GpuType GpuType { get; set; }
+
+        public string OSName { get; set; }
+
+        /// <summary>
+        /// Gb
+        /// </summary>
+        public double OSVirtualMemory { get; set; }
+
         public GpuSpeedData[] GpuSpeeds { get; set; }
     }
 }

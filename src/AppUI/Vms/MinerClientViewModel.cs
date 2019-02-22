@@ -335,8 +335,6 @@ namespace NTMiner.Vms {
         }
 
         private MinerGroupViewModel _selectedMinerGroup;
-        private GpuSpeedData[] _gpuSpeeds;
-
         public MinerGroupViewModel SelectedMinerGroup {
             get {
                 if (_selectedMinerGroup == null || _selectedMinerGroup.Id != GroupId) {
@@ -617,10 +615,42 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GpuSpeedData[] GpuSpeeds {
-            get => _gpuSpeeds;
+        public string OSName {
+            get { return _data.OSName; }
             set {
-                _gpuSpeeds = value;
+                _data.OSName = value;
+                OnPropertyChanged(nameof(OSName));
+            }
+        }
+
+        public double OSVirtualMemory {
+            get => _data.OSVirtualMemory;
+            set {
+                _data.OSVirtualMemory = value;
+                OnPropertyChanged(nameof(OSVirtualMemory));
+            }
+        }
+
+        public GpuType GpuType {
+            get => _data.GpuType;
+            set {
+                _data.GpuType = value;
+                OnPropertyChanged(nameof(GpuType));
+            }
+        }
+
+        public string GpuDriver {
+            get => _data.GpuDriver;
+            set {
+                _data.GpuDriver = value;
+                OnPropertyChanged(nameof(GpuDriver));
+            }
+        }
+
+        public GpuSpeedData[] GpuSpeeds {
+            get => _data.GpuSpeeds;
+            set {
+                _data.GpuSpeeds = value;
                 OnPropertyChanged(nameof(GpuSpeeds));
             }
         }

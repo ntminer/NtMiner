@@ -40,7 +40,12 @@ namespace NTMiner.Controllers {
                         DualCoinCode = message.DualCoinCode,
                         DualCoinTotalShare = message.DualCoinTotalShare,
                         DualCoinRejectShare = message.DualCoinRejectShare,
-                        DualCoinSpeed = message.DualCoinSpeed
+                        DualCoinSpeed = message.DualCoinSpeed,
+                        GpuSpeeds = message.GpuSpeeds,
+                        GpuDriver = message.GpuDriver,
+                        GpuType = message.GpuType,
+                        OSName = message.OSName,
+                        OSVirtualMemory = message.OSVirtualMemory
                     };
                     HostRoot.Current.ClientSet.Add(clientData);
                 }
@@ -68,6 +73,10 @@ namespace NTMiner.Controllers {
                     clientData.DualCoinTotalShare = message.DualCoinTotalShare;
                     clientData.DualCoinRejectShare = message.DualCoinRejectShare;
                     clientData.DualCoinSpeed = message.DualCoinSpeed;
+                    clientData.GpuDriver = message.GpuDriver;
+                    clientData.GpuType = message.GpuType;
+                    clientData.OSName = message.OSName;
+                    clientData.OSVirtualMemory = message.OSVirtualMemory;
                 }
                 bool isMainCoin = !string.IsNullOrEmpty(message.MainCoinCode);
                 // 认为双挖币不能和主挖币相同
