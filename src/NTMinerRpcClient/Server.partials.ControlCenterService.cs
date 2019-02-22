@@ -237,7 +237,8 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveMinerGroupRequest request = new RemoveMinerGroupRequest() {
-                            LoginName = LoginName
+                            LoginName = LoginName,
+                            MinerGroupId = id
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveMinerGroup", request);
