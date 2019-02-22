@@ -3,7 +3,7 @@
 namespace NTMiner.Hashrate {
     public class SpeedData {
         public SpeedData() {
-            GpuSpeeds = new GpuSpeedData[0];
+            GpuTable = new GpuSpeedData[0];
         }
 
         public Guid ClientId { get; set; }
@@ -71,6 +71,6 @@ namespace NTMiner.Hashrate {
         /// </summary>
         public double OSVirtualMemory { get; set; }
 
-        public GpuSpeedData[] GpuSpeeds { get; set; }
+        public GpuSpeedData[] GpuTable { get; set; }
     }
 }

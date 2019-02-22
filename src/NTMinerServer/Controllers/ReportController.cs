@@ -19,9 +19,9 @@ namespace NTMiner.Controllers {
                         Id = message.ClientId,
                         WorkId = message.WorkId,
                         Version = message.Version,
+                        IsMining = message.IsMining,
                         BootOn = message.BootOn,
                         MineStartedOn = message.MineStartedOn,
-                        IsMining = message.IsMining,
                         MinerIp = minerIp,
                         GpuInfo = message.GpuInfo,
                         MinerName = message.MinerName,
@@ -41,7 +41,7 @@ namespace NTMiner.Controllers {
                         DualCoinTotalShare = message.DualCoinTotalShare,
                         DualCoinRejectShare = message.DualCoinRejectShare,
                         DualCoinSpeed = message.DualCoinSpeed,
-                        GpuTable = message.GpuSpeeds,
+                        GpuTable = message.GpuTable,
                         GpuDriver = message.GpuDriver,
                         GpuType = message.GpuType,
                         OSName = message.OSName,
@@ -73,6 +73,7 @@ namespace NTMiner.Controllers {
                     clientData.DualCoinTotalShare = message.DualCoinTotalShare;
                     clientData.DualCoinRejectShare = message.DualCoinRejectShare;
                     clientData.DualCoinSpeed = message.DualCoinSpeed;
+                    clientData.GpuTable = message.GpuTable;
                     clientData.GpuDriver = message.GpuDriver;
                     clientData.GpuType = message.GpuType;
                     clientData.OSName = message.OSName;
