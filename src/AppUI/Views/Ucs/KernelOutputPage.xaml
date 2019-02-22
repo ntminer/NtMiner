@@ -86,7 +86,7 @@
 			<DataGrid 
 				Grid.Row="1" Margin="0" ItemsSource="{Binding KernelOutputVms.AllKernelOutputVms}" 
 				BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
-				SelectedItem="{Binding CurrentKernelOutputVm}" RowHeight="36" AutoGenerateColumns="False"
+				SelectedItem="{Binding CurrentKernelOutputVm}" AutoGenerateColumns="False"
 				MouseDoubleClick="DataGrid_MouseDoubleClick">
 				<DataGrid.Resources>
 					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />

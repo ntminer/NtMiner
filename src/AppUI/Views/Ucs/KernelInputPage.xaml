@@ -32,7 +32,7 @@
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding KernelInputVms.AllKernelInputVms}" 
 			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
-			RowHeight="36" AutoGenerateColumns="False"
+			AutoGenerateColumns="False"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />

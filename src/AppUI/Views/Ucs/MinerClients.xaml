@@ -334,6 +334,25 @@
 			AutoGenerateColumns="False">
 			<DataGrid.Resources>
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+				<Style TargetType="DataGridCell">
+					<Setter Property="VerticalAlignment" Value="Stretch" />
+					<Setter Property="Foreground" Value="#FF5A5A5A" />
+					<Setter Property="Background" Value="Transparent"></Setter>
+					<Setter Property="FontSize" Value="12" />
+					<Setter Property="Margin" Value="4 0 0 0" />
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="DataGridCell">
+								<Grid>
+									<TextBlock />
+									<ContentPresenter
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top" />
+								</Grid>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="110" Header="操作" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">

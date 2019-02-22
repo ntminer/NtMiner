@@ -35,7 +35,6 @@
         <Setter Property="Foreground" Value="#FF5A5A5A" />
         <Setter Property="Background" Value="#F5F4F5"></Setter>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Padding" Value="5 0 0 0"></Setter>
         <Setter Property="FontWeight" Value="Bold"></Setter>
         <Setter Property="Focusable" Value="False"></Setter>
         <Setter Property="Control.VerticalContentAlignment">
@@ -75,13 +74,13 @@
         <Setter Property="Foreground" Value="#FF5A5A5A" />
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="FontSize" Value="12" />
+        <Setter Property="Margin" Value="4 0 0 0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridCell">
                     <Grid>
                         <TextBlock />
                         <ContentPresenter
-                            Margin="5,0,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center" />
                     </Grid>

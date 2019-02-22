@@ -129,7 +129,7 @@
 				ItemsSource="{Binding List}" 
 				BorderThickness="0 0 1 0" 
 				BorderBrush="{StaticResource LineColor}"
-				SelectedItem="{Binding CurrentCoin}" RowHeight="36" AutoGenerateColumns="False"
+				SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False"
 				MouseDoubleClick="DataGrid_MouseDoubleClick">
 				<DataGrid.Resources>
 					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -289,7 +289,7 @@
 					<DataGrid 
 						BorderThickness="0"
 						ItemsSource="{Binding CurrentCoin.Pools}" Padding="0"
-						MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36">
+						MouseDoubleClick="PoolDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
@@ -330,7 +330,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								Width="40" CanUserResize="False" CanUserReorder="False" 
+								CanUserResize="False" CanUserReorder="False" 
 								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 								CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
@@ -342,7 +342,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<controls:KbButton 
 										Command="{Binding Data.CurrentCoin.AddPool, Source={StaticResource proxy}}" 
@@ -444,7 +444,7 @@
 				<Grid>
 					<DataGrid 
 						BorderThickness="0"
-						ItemsSource="{Binding CurrentCoin.Wallets}" RowHeight="36"
+						ItemsSource="{Binding CurrentCoin.Wallets}"
 						MouseDoubleClick="WalletDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
