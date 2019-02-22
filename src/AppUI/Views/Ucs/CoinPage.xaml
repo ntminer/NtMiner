@@ -588,7 +588,7 @@
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTextColumn Width="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
+							<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
 								<DataGridTextColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="{DynamicResource Kernel}"></TextBlock>
@@ -596,7 +596,7 @@
 									</WrapPanel>
 								</DataGridTextColumn.Header>
 							</DataGridTextColumn>
-							<DataGridTemplateColumn Width="70" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource SupportedGpu}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -625,7 +625,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="160" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource DualCoinGroup}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -636,7 +636,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-									Width="40" CanUserResize="False" CanUserReorder="False" 
+									CanUserResize="False" CanUserReorder="False" 
 									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 									CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
@@ -648,7 +648,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource Args}"></TextBlock>
 								</DataGridTemplateColumn.Header>
