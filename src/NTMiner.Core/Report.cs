@@ -215,7 +215,11 @@ namespace NTMiner {
 
         private static void ReportSpeed() {
             try {
-                SpeedData data = CreateSpeedData();
+                bool withGpuSpeeds = false;
+                if (DevMode.IsDebugMode) {
+                    withGpuSpeeds = true;
+                }
+                SpeedData data = CreateSpeedData(withGpuSpeeds);
                 Server.ReportService.ReportSpeedAsync(data);
             }
             catch (Exception e) {
