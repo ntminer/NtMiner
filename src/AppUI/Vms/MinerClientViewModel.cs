@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Hashrate;
+using NTMiner.MinerServer;
 using NTMiner.Notifications;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -27,7 +28,7 @@ namespace NTMiner.Vms {
                     });
                 }
                 else {
-                    VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.MinerIp, this.RemoteUserName, this.RemotePassword, this.MinerName, onDisconnected: message=> {
+                    VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.MinerIp, this.RemoteUserName, this.RemotePassword, this.MinerName, onDisconnected: message => {
                         MinerClientsViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("Red")
@@ -334,6 +335,8 @@ namespace NTMiner.Vms {
         }
 
         private MinerGroupViewModel _selectedMinerGroup;
+        private GpuSpeedData[] _gpuSpeeds;
+
         public MinerGroupViewModel SelectedMinerGroup {
             get {
                 if (_selectedMinerGroup == null || _selectedMinerGroup.Id != GroupId) {
@@ -611,6 +614,14 @@ namespace NTMiner.Vms {
                     _data.GpuInfo = value;
                     OnPropertyChanged(nameof(GpuInfo));
                 }
+            }
+        }
+
+        public GpuSpeedData[] GpuSpeeds {
+            get => _gpuSpeeds;
+            set {
+                _gpuSpeeds = value;
+                OnPropertyChanged(nameof(GpuSpeeds));
             }
         }
         #endregion IClientData

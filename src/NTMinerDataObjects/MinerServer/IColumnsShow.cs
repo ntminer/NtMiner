@@ -9,6 +9,7 @@ namespace NTMiner.MinerServer {
         bool MinerGroup  { get; }
         bool MainCoinCode  { get; }
         bool MainCoinSpeedText  { get; }
+        bool GpuTable { get; }
         bool MainCoinWallet  { get; }
         bool MainCoinPool  { get; }
         bool Kernel  { get; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Hashrate;
+using System;
 
 namespace NTMiner.MinerServer {
     public interface IClientData : IEntity<Guid> {
@@ -51,5 +52,7 @@ namespace NTMiner.MinerServer {
         string DualCoinWallet { get; }
 
         string GpuInfo { get; }
+
+        GpuSpeedData[] GpuSpeeds { get; }
     }
 }

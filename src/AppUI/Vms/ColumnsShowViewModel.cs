@@ -16,6 +16,7 @@ namespace NTMiner.Vms {
         private bool _minerGroup = true;
         private bool _mainCoinCode = true;
         private bool _mainCoinSpeedText = true;
+        private bool _gpuTable = true;
         private bool _mainCoinWallet = true;
         private bool _mainCoinPool = true;
         private bool _kernel = true;
@@ -85,6 +86,7 @@ namespace NTMiner.Vms {
             _minerGroup = data.MinerGroup;
             _mainCoinCode = data.MainCoinCode;
             _mainCoinSpeedText = data.MainCoinSpeedText;
+            _gpuTable = data.GpuTable;
             _mainCoinWallet = data.MainCoinWallet;
             _mainCoinPool = data.MainCoinPool;
             _kernel = data.Kernel;
@@ -199,6 +201,14 @@ namespace NTMiner.Vms {
             set {
                 _mainCoinRejectPercentText = value;
                 OnPropertyChanged(nameof(MainCoinRejectPercentText));
+            }
+        }
+
+        public bool GpuTable {
+            get { return _gpuTable; }
+            set {
+                _gpuTable = value;
+                OnPropertyChanged(nameof(GpuTable));
             }
         }
 
