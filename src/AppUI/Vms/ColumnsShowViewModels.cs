@@ -39,9 +39,9 @@ namespace NTMiner.Vms {
                 "移除了列显后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
+                    MinerClientsViewModel.Current.ColumnsShow = _dicById.Values.FirstOrDefault();
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(List));
-                    MinerClientsViewModel.Current.ColumnsShow = _dicById.Values.FirstOrDefault();
                 });
             foreach (var item in NTMinerRoot.Current.ColumnsShowSet) {
                 _dicById.Add(item.GetId(), new ColumnsShowViewModel(item));
