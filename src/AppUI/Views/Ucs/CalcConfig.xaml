@@ -9,7 +9,7 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms"
-	mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="560">
+	mc:Ignorable="d">
 	<UserControl.DataContext>
 		<vm:CalcConfigViewModels></vm:CalcConfigViewModels>
 	</UserControl.DataContext>
@@ -27,13 +27,18 @@
 			TbDay
 		</sys:String>
 	</UserControl.Resources>
-	<Grid>
-		<ScrollViewer 
-			Padding="0 0 0 30"
-			Background="White"
-			VerticalScrollBarVisibility="Auto">
+	<Grid Background="White">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+		<ScrollViewer VerticalScrollBarVisibility="Auto">
 			<ItemsControl 
-				HorizontalAlignment="Center"
+				Padding="70 0 0 0"
+				Width="600"
+				Height="600"
+				HorizontalContentAlignment="Center"
 				x:Name="ItemsControl"
 				Background="White"
 				ItemsSource="{Binding CalcConfigVms}"
@@ -64,9 +69,10 @@
 					<DataTemplate>
 						<WrapPanel Margin="0 4">
 							<Label Content="{DynamicResource LblSpeed}"></Label>
-							<TextBox Text="{Binding Speed, ValidatesOnExceptions=True}">
+							<TextBox Text="{Binding Speed, ValidatesOnExceptions=True}" IsReadOnly="True">
 							</TextBox>
 							<controls:KbComboBox 
+								IsReadOnly="True"
 								Height="30"
 								Width="60"
 								VerticalAlignment="Center"
@@ -82,7 +88,7 @@
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill"/>
 							<Label Content="{DynamicResource LblIncome}"></Label>
-							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}"></TextBox>
+							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}" IsReadOnly="True"></TextBox>
 							<Label>
 								<WrapPanel>
 									<TextBlock Text="{Binding CoinCode}"></TextBlock>
@@ -113,7 +119,10 @@
 					Stretch="Fill" />
 			</WrapPanel>
 		</controls:KbButton>
+		<TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="数据来自鱼池首页，每10分钟自动刷新一次" Foreground="Red"></TextBlock>
 		<controls:KbButton
+			Grid.Row="2"
+			IsEnabled="False"
 			Command="{Binding Save}" 
 			VerticalAlignment="Bottom"
 			Margin="0 10 0 0"

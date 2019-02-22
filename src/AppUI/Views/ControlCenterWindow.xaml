@@ -12,7 +12,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
-		Background="#EBF2F9"
+		Background="{StaticResource MainColor}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
@@ -115,7 +115,7 @@
 			</WrapPanel>
 		</Grid>
 		<Viewbox Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Stretch="Fill">
-			<uc:MinersSpeedCharts Width="960" Height="720">
+			<uc:MinersSpeedCharts Width="960" Height="720" Background="#EBF2F9">
 			</uc:MinersSpeedCharts>
 		</Viewbox>
 		<notification:NotificationMessageContainer 
@@ -150,7 +150,7 @@
 			</RichTextBox>
 			<RichTextBox 
 				Grid.Row="1"
-			    FontFamily="Courier New"
+				FontFamily="Courier New"
 				VerticalScrollBarVisibility="Auto"
 				x:Name="RichTextBox" 
 				BorderThickness="0" 

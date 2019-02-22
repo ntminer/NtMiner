@@ -20,9 +20,9 @@
 				Text="{Binding TotalMiningCount}" 
 				ToolTip="总挖矿数" 
 				Foreground="Green"
-				FontSize="16" FontWeight="Bold"></TextBlock>
-			<TextBlock VerticalAlignment="Center" Text="/" FontSize="16" FontWeight="Bold"></TextBlock>
-			<TextBlock VerticalAlignment="Center" Text="{Binding TotalOnlineCount}" ToolTip="总在线数" FontSize="16" FontWeight="Bold"></TextBlock>
+				FontSize="14" FontWeight="Bold"></TextBlock>
+			<TextBlock VerticalAlignment="Center" Text="/" FontSize="14" FontWeight="Bold"></TextBlock>
+			<TextBlock VerticalAlignment="Center" Text="{Binding TotalOnlineCount}" ToolTip="总在线数" FontSize="14" FontWeight="Bold"></TextBlock>
 		</WrapPanel>
 		<ScrollViewer 
 			Padding="0 10 0 0"
@@ -45,9 +45,9 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Grid Height="130" Width="420" Margin="30 0 0 10">
-							<lvc:CartesianChart 
-								Background="Transparent"
+						<Grid Height="130" Width="428" Margin="30 0 0 10" Background="White">
+							<lvc:CartesianChart
+								Margin="0 0 4 0"
 								DisableAnimations="True"                                            
 								Hoverable="False" 
 								DataTooltip="{x:Null}"
@@ -62,10 +62,10 @@
 								</Grid.ColumnDefinitions>
 								<WrapPanel>
 									<WrapPanel Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-										<TextBlock FontSize="16" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}" Margin="4 0 0 0"></TextBlock>
-										<TextBlock FontSize="16" FontWeight="Bold">/</TextBlock>
+										<TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}" Margin="4 0 0 0"></TextBlock>
+										<TextBlock FontSize="14" FontWeight="Bold">/</TextBlock>
 										<TextBlock 
-											FontSize="16" FontWeight="Bold" 
+											FontSize="14" FontWeight="Bold" 
 											Foreground="{Binding OnlineColor}"
 											ToolTip="在线数" 
 											Text="{Binding SnapshotDataVm.MainCoinOnlineCount}">
@@ -73,8 +73,8 @@
 									</WrapPanel>
 
 									<WrapPanel Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
-										<TextBlock FontSize="16" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}" Margin="4 0 0 0"></TextBlock>
-										<TextBlock FontSize="16" FontWeight="Bold">/</TextBlock>
+										<TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}" Margin="4 0 0 0"></TextBlock>
+										<TextBlock FontSize="14" FontWeight="Bold">/</TextBlock>
 										<TextBlock 
 											FontSize="16" FontWeight="Bold" 
 											Foreground="{Binding OnlineColor}"
@@ -84,8 +84,8 @@
 									</WrapPanel>
 								</WrapPanel>
 								<WrapPanel Grid.Column="1">
-									<TextBlock FontSize="16" FontWeight="Bold" Text="{Binding CoinVm.Code}" Margin="4 0 0 0"></TextBlock>
-									<TextBlock FontSize="16" FontWeight="Bold" ToolTip="当前算力" Text="{Binding SnapshotDataVm.SpeedText}" Margin="8 0 0 0"></TextBlock>
+									<TextBlock FontSize="14" FontWeight="Bold" Text="{Binding CoinVm.Code}" Margin="4 0 0 0"></TextBlock>
+									<TextBlock FontSize="14" FontWeight="Bold" ToolTip="当前算力" Text="{Binding SnapshotDataVm.SpeedText}" Margin="8 0 0 0"></TextBlock>
 								</WrapPanel>
 							</Grid>
 						</Grid>
