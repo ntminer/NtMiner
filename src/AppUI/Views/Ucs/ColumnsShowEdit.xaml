@@ -35,7 +35,7 @@
 		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinCode}">主挖币种</CheckBox>
 		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinSpeedText}">主币算力</CheckBox>
 		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinRejectPercentText}">主币拒绝率</CheckBox>
-		<CheckBox VerticalAlignment="Center" IsChecked="{Binding GpuTable}">显卡表格</CheckBox>
+		<CheckBox VerticalAlignment="Center" IsChecked="{Binding GpuTableTrs}">显卡表格</CheckBox>
 		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinWallet}">主币钱包</CheckBox>
 		<CheckBox VerticalAlignment="Center" IsChecked="{Binding MainCoinPool}">主币矿池</CheckBox>
 		<CheckBox VerticalAlignment="Center" IsChecked="{Binding Kernel}">内核</CheckBox>

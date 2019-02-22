@@ -343,7 +343,7 @@
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="DataGridCell">
-								<Grid>
+								<Grid Margin="0 4 0 0">
 									<TextBlock />
 									<ContentPresenter
 										HorizontalAlignment="Left"
@@ -787,6 +787,22 @@
 								Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 								ItemsSource="{Binding GpuTableTrs}">
 								<DataGrid.Resources>
+									<Style TargetType="DataGridColumnHeader">
+										<Style.Resources>
+											<ResourceDictionary />
+										</Style.Resources>
+										<Setter Property="UseLayoutRounding" Value="True" />
+										<Setter Property="Foreground" Value="#FF5A5A5A" />
+										<Setter Property="Background" Value="Transparent"></Setter>
+										<Setter Property="FontSize" Value="14" />
+										<Setter Property="Focusable" Value="False"></Setter>
+										<Setter Property="Control.VerticalContentAlignment">
+											<Setter.Value>
+												<x:Static Member="VerticalAlignment.Center" />
+											</Setter.Value>
+										</Setter>
+									</Style>
+
 									<Style TargetType="DataGridRow">
 										<Setter Property="Foreground" Value="#FF666666" />
 										<Setter Property="Background" Value="Transparent"></Setter>
@@ -799,18 +815,18 @@
 								</DataGrid.Resources>
 								<DataGrid.Columns>
 									<DataGridTextColumn Binding="{Binding RowHeader}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu0" Binding="{Binding Gpu0}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu1" Binding="{Binding Gpu1}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu2" Binding="{Binding Gpu2}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu3" Binding="{Binding Gpu3}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu4" Binding="{Binding Gpu4}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu5" Binding="{Binding Gpu5}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu6" Binding="{Binding Gpu6}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu7" Binding="{Binding Gpu7}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu8" Binding="{Binding Gpu8}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu9" Binding="{Binding Gpu9}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu10" Binding="{Binding Gpu10}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									<DataGridTextColumn Header="Gpu11" Binding="{Binding Gpu11}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="0" Binding="{Binding Gpu0}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="1" Binding="{Binding Gpu1}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="2" Binding="{Binding Gpu2}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="3" Binding="{Binding Gpu3}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="4" Binding="{Binding Gpu4}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="5" Binding="{Binding Gpu5}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="6" Binding="{Binding Gpu6}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="7" Binding="{Binding Gpu7}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="8" Binding="{Binding Gpu8}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="9" Binding="{Binding Gpu9}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="10" Binding="{Binding Gpu10}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="11" Binding="{Binding Gpu11}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
 								</DataGrid.Columns>
 							</DataGrid>
 						</DataTemplate>
