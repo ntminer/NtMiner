@@ -23,6 +23,7 @@ namespace NTMiner.Vms {
                         ColumnsShowViewModel vm = new ColumnsShowViewModel(message.Source);
                         _dicById.Add(message.Source.GetId(), vm);
                         OnPropertyChanged(nameof(List));
+                        MinerClientsViewModel.Current.ColumnsShow = vm;
                     }
                 });
             VirtualRoot.On<ColumnsShowUpdatedEvent>(
@@ -40,6 +41,7 @@ namespace NTMiner.Vms {
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(List));
+                    MinerClientsViewModel.Current.ColumnsShow = _dicById.Values.FirstOrDefault();
                 });
             foreach (var item in NTMinerRoot.Current.ColumnsShowSet) {
                 _dicById.Add(item.GetId(), new ColumnsShowViewModel(item));

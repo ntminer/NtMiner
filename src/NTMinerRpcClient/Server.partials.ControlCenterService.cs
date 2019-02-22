@@ -533,7 +533,8 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveColumnsShowRequest request = new RemoveColumnsShowRequest() {
-                            LoginName = LoginName
+                            LoginName = LoginName,
+                            ColumnsShowId = id
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveColumnsShow", request);

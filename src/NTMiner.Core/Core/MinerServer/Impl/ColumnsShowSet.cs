@@ -51,7 +51,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 LogEnum.Console,
                 action: (message) => {
                     InitOnece();
-                    if (message == null || message.EntityId == Guid.Empty || message.EntityId == Guid.Empty || message.EntityId == ColumnsShowData.PleaseSelectId) {
+                    if (message == null || message.EntityId == Guid.Empty || message.EntityId == ColumnsShowData.PleaseSelectId) {
                         throw new ArgumentNullException();
                     }
                     if (!_dicById.ContainsKey(message.EntityId)) {
