@@ -13,7 +13,7 @@
         <Setter Property="ColumnHeaderHeight" Value="28"></Setter>
         <Setter Property="AutoGenerateColumns" Value="False"></Setter>
         <Setter Property="IsReadOnly" Value="True"></Setter>
-        <Setter Property="MinRowHeight" Value="26"></Setter>
+        <Setter Property="MinRowHeight" Value="28"></Setter>
         <Setter Property="AlternatingRowBackground" Value="White"></Setter>
         <Setter Property="EnableRowVirtualization" Value="False"></Setter>
         <Setter Property="HorizontalGridLinesBrush">
@@ -50,6 +50,7 @@
     <!--  背景色改变必须先设置cellStyle 因为cellStyle会覆盖rowStyle样式  -->
     <Style TargetType="DataGridRow">
         <Setter Property="Foreground" Value="#FF666666" />
+        <Setter Property="Background" Value="Transparent"></Setter>
         <Style.Triggers>
             <!--  隔行换色  -->
             <Trigger Property="AlternationIndex" Value="0">
@@ -73,6 +74,7 @@
     <Style TargetType="DataGridCell">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="#FF5A5A5A" />
+        <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Template">
             <Setter.Value>

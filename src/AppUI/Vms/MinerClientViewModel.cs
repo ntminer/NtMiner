@@ -4,6 +4,7 @@ using NTMiner.Notifications;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -652,14 +653,33 @@ namespace NTMiner.Vms {
             set {
                 _data.GpuTable = value;
                 OnPropertyChanged(nameof(GpuTable));
+                OnPropertyChanged(nameof(GpuTableTrs));
             }
         }
 
-        public GpuSpeedData[] GpuTableTrs {
-            get => _data.GpuTable;
-            set {
-                _data.GpuTable = value;
-                OnPropertyChanged(nameof(GpuTableTrs));
+        public GpuRowData[] GpuTableTrs {
+            get {
+                List<GpuRowData> list = new List<GpuRowData> {
+                    new GpuRowData {
+                        RowHeader = "主币算力"
+                    },
+                    new GpuRowData {
+                        RowHeader = "双挖币算力"
+                    },
+                    new GpuRowData {
+                        RowHeader = "温度"
+                    },
+                    new GpuRowData {
+                        RowHeader = "风扇"
+                    },
+                    new GpuRowData {
+                        RowHeader = "功耗"
+                    }
+                };
+                for (int i = 0; i <= GpuTable.Length; i++) {
+                    
+                }
+                return list.ToArray();
             }
         }
         #endregion IClientData
