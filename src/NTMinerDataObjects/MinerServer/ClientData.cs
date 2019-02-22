@@ -4,7 +4,7 @@ using NTMiner.Hashrate;
 namespace NTMiner.MinerServer {
     public class ClientData : IClientData, IDbEntity<Guid>, ITimestampEntity<Guid> {
         public ClientData() {
-            this.GpuSpeeds = new GpuSpeedData[0];
+            this.GpuTable = new GpuSpeedData[0];
         }
 
         public Guid GetId() {
@@ -83,6 +83,6 @@ namespace NTMiner.MinerServer {
 
         public Guid GroupId { get; set; }
 
-        public GpuSpeedData[] GpuSpeeds { get; set; }
+        public GpuSpeedData[] GpuTable { get; set; }
     }
 }

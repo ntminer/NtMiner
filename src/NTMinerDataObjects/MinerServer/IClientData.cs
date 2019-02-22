@@ -61,6 +61,6 @@ namespace NTMiner.MinerServer {
 
         string GpuDriver { get; }
 
-        GpuSpeedData[] GpuSpeeds { get; }
+        GpuSpeedData[] GpuTable { get; }
     }
 }

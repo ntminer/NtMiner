@@ -647,11 +647,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GpuSpeedData[] GpuSpeeds {
-            get => _data.GpuSpeeds;
+        public GpuSpeedData[] GpuTable {
+            get => _data.GpuTable;
             set {
-                _data.GpuSpeeds = value;
-                OnPropertyChanged(nameof(GpuSpeeds));
+                _data.GpuTable = value;
+                OnPropertyChanged(nameof(GpuTable));
             }
         }
         #endregion IClientData

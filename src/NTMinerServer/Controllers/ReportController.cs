@@ -41,7 +41,7 @@ namespace NTMiner.Controllers {
                         DualCoinTotalShare = message.DualCoinTotalShare,
                         DualCoinRejectShare = message.DualCoinRejectShare,
                         DualCoinSpeed = message.DualCoinSpeed,
-                        GpuSpeeds = message.GpuSpeeds,
+                        GpuTable = message.GpuSpeeds,
                         GpuDriver = message.GpuDriver,
                         GpuType = message.GpuType,
                         OSName = message.OSName,
