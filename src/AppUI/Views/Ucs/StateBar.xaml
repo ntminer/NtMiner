@@ -65,8 +65,8 @@
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<StackPanel Grid.Column='0'>
-				<WrapPanel Margin="0 2">
+			<StackPanel Grid.Column="0">
+				<WrapPanel>
 					<controls:KbLinkButton
 						Foreground="#0072C1"
 						ToolTip="点击加入QQ群"
@@ -139,7 +139,7 @@
 						</controls:KbLinkButton>
 					</WrapPanel>
 				</WrapPanel>
-				<WrapPanel Margin="0 2">
+				<WrapPanel>
 					<TextBlock
 						Margin="2 0 0 0"
 						Foreground="{StaticResource LableColor}"

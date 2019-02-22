@@ -23,7 +23,7 @@
 			</sys:String>
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Grid Margin="10 0">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>

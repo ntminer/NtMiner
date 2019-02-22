@@ -51,6 +51,9 @@ namespace NTMiner.Vms {
         public ICommand ManageWallet { get; private set; }
 
         private MinerClientsViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this._lastActivedOn = _minuteItems[3];
             if (Server.MinerServerHost.ToLower().Contains("ntminer.com")) {
                 // 官网的服务不支持FindAll
