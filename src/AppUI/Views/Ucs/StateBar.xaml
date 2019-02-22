@@ -352,7 +352,7 @@
 							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />
 							<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
 							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitShareRequestCount}" />
-							<TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
+							<TextBlock Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectPercentText}" />
 						</WrapPanel>
 						<WrapPanel Width="130">
 							<Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
@@ -426,7 +426,7 @@
 								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />
 								<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
 								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="{DynamicResource LblSubmitShareRequestCount}" />
-								<TextBlock Margin="8 0 0 0" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
+								<TextBlock Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
 							</WrapPanel>
 							<WrapPanel Width="130">
 								<Label Padding="0" Content="{DynamicResource LblTotalSpeed}" Style="{StaticResource Lbl}" />
@@ -436,13 +436,17 @@
 					</WrapPanel>
 				</StackPanel>
 				<WrapPanel HorizontalAlignment="Right">
-					<TextBlock Text="{Binding WindowsEdition}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{Binding WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-					<TextBlock Text="{Binding TotalVirtualMemoryGbText}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{Binding TotalVirtualMemoryGbText}" ToolTip="虚拟内存" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-					<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<WrapPanel Visibility="{Binding DriverVersion, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+						<TextBlock Text="{Binding DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
+						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+					</WrapPanel>
+					<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}" ToolTip="内核" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-					<TextBlock Text="{Binding GpuSetInfo}" Margin="0 0 30 0" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{Binding GpuSetInfo}" ToolTip="{Binding GpuSetInfo}" Margin="0 0 30 0" Foreground="{StaticResource LableColor}"></TextBlock>
 				</WrapPanel>
 			</StackPanel>
 		</Grid>

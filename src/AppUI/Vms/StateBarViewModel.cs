@@ -1,5 +1,6 @@
 ﻿using NTMiner.Views.Ucs;
 using System;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -180,6 +181,16 @@ namespace NTMiner.Vms {
         public string GpuSetInfo {
             get {
                 return NTMinerRoot.Current.GpuSetInfo;
+            }
+        }
+
+        public string DriverVersion {
+            get {
+                var driverVersion = NTMinerRoot.Current.GpuSet.Properties.FirstOrDefault(a => a.Code == "DriverVersion");
+                if (driverVersion == null || driverVersion.Value == null) {
+                    return string.Empty;
+                }
+                return driverVersion.Value.ToString();
             }
         }
     }
