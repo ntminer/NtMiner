@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
+using NTMiner.Notifications;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -58,6 +59,14 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.ColumnsShowSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateColumnsShowCommand(this));
+                    MinerClientsViewModel.Current.Manager.CreateMessage()
+                        .Accent("#1751C3")
+                        .Background("#333")
+                        .HasBadge("Info")
+                        .HasMessage($"保存成功")
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(4))
+                        .Queue();
                 }
                 else {
                     VirtualRoot.Execute(new AddColumnsShowCommand(this));
