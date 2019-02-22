@@ -1,18 +1,22 @@
-﻿using NTMiner.Bus;
+﻿using MahApps.Metro.Controls;
+using NTMiner.Bus;
 using NTMiner.Vms;
+using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NTMiner.Views.Ucs {
-    public partial class MinerClients : UserControl {
+namespace NTMiner.Views {
+    public partial class MinerClientsWindow : MetroWindow {
+        private static MinerClientsWindow window = null;
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                IconName = "Icon_Miner",
-                Width = SystemParameters.FullPrimaryScreenWidth * 0.9,
-                Height = SystemParameters.FullPrimaryScreenHeight * 0.8,
-                CloseVisible = Visibility.Visible
-            }, ucFactory: (window) => new MinerClients(window), fixedSize: false);
+            if (window == null) {
+                window = new MinerClientsWindow();
+            }
+            window.Show();
+            if (window.WindowState == WindowState.Minimized) {
+                window.WindowState = WindowState.Normal;
+            }
+            window.Activate();
         }
 
         public MinerClientsViewModel Vm {
@@ -21,10 +25,10 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private readonly ContainerWindow _window;
-        private MinerClients(ContainerWindow window) {
-            _window = window;
+        private MinerClientsWindow() {
             InitializeComponent();
+            Width = SystemParameters.FullPrimaryScreenWidth * 0.9;
+            Height = SystemParameters.FullPrimaryScreenHeight * 0.8;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Vm.QueryMinerClients();
             DelegateHandler<Per10SecondEvent> refreshMinerClients = VirtualRoot.On<Per10SecondEvent>(
@@ -40,9 +44,14 @@ namespace NTMiner.Views.Ucs {
             };
         }
 
+        protected override void OnClosed(EventArgs e) {
+            window = null;
+            base.OnClosed(e);
+        }
+
         private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
-                _window?.DragMove();
+                this?.DragMove();
             }
         }
 
@@ -50,6 +59,12 @@ namespace NTMiner.Views.Ucs {
             MinerClientViewModel vm = (MinerClientViewModel)((FrameworkElement)sender).Tag;
             vm.RemoteDesktop.Execute(null);
             e.Handled = true;
+        }
+
+        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
         }
     }
 }

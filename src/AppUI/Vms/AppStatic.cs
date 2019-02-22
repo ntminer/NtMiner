@@ -277,7 +277,7 @@ namespace NTMiner.Vms {
             MineWorkPage.ShowWindow();
         });
         public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
-            MinerClients.ShowWindow();
+            MinerClientsWindow.ShowWindow();
         });
         public static ICommand ShowCalcConfig { get; private set; } = new DelegateCommand(() => {
             CalcConfig.ShowWindow();

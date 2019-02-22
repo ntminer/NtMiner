@@ -163,8 +163,8 @@
     <Compile Include="Views\Ucs\MinersSpeedCharts.xaml.cs">
       <DependentUpon>MinersSpeedCharts.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\MinerClients.xaml.cs">
-      <DependentUpon>MinerClients.xaml</DependentUpon>
+    <Compile Include="Views\MinerClientsWindow.xaml.cs">
+      <DependentUpon>MinerClientsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\OpenedWindows.xaml.cs">
       <DependentUpon>OpenedWindows.xaml</DependentUpon>
@@ -491,7 +491,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\MinerClients.xaml">
+    <Page Include="Views\MinerClientsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
