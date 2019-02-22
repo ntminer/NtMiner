@@ -296,7 +296,7 @@
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
 							Background="Transparent" />
-						<WrapPanel Width="284">
+						<WrapPanel Width="284" ToolTip="数据来自鱼池首页">
 							<controls:KbButton 
 								Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 								Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -370,7 +370,7 @@
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent" />
-							<WrapPanel Width="284">
+							<WrapPanel Width="284" ToolTip="数据来自鱼池首页">
 								<controls:KbButton 
 									Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 									Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -436,6 +436,10 @@
 					</WrapPanel>
 				</StackPanel>
 				<WrapPanel HorizontalAlignment="Right">
+					<TextBlock Text="{Binding WindowsEdition}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{Binding TotalVirtualMemoryGbText}" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text="{Binding GpuSetInfo}" Margin="0 0 30 0" Foreground="{StaticResource LableColor}"></TextBlock>

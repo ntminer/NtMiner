@@ -165,6 +165,18 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string WindowsEdition {
+            get {
+                return Windows.OS.Current.WindowsEdition;
+            }
+        }
+
+        public string TotalVirtualMemoryGbText {
+            get {
+                return DriveSet.Current.VirtualMemorySet.TotalVirtualMemoryGbText;
+            }
+        }
+
         public string GpuSetInfo {
             get {
                 return NTMinerRoot.Current.GpuSetInfo;
