@@ -352,7 +352,6 @@
 					<DataGrid
 						Grid.Row="1"
 						ItemsSource="{Binding KernelVmSingleInstance.CoinKernels}" 
-						CanUserResizeColumns="True"
 						BorderThickness="0" BorderBrush="{StaticResource LineColor}"
 						MouseDoubleClick="CoinKernelDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>

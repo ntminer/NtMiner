@@ -17,7 +17,6 @@
     <Grid>
         <DataGrid 
             Margin="0" ItemsSource="{Binding MineWorkVms.List}" 
-            CanUserResizeColumns="True"
             BorderThickness="0" RowHeight="40"
             MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Resources>

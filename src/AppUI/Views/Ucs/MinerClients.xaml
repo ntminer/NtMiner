@@ -329,7 +329,6 @@
 		<DataGrid 
 			Grid.Row="1" Margin="0" 
 			IsReadOnly="False"
-			CanUserResizeColumns="True"
 			ItemsSource="{Binding MinerClients}"
 			CanUserResizeRows="True"
 			AutoGenerateColumns="False">
@@ -767,16 +766,8 @@
 								IsReadOnly="True"
 								Background="Transparent"
 								Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-								ItemsSource="{Binding GpuTableTrs}" CanUserResizeColumns="True">
+								ItemsSource="{Binding GpuTableTrs}">
 								<DataGrid.Resources>
-									<Style TargetType="DataGridColumnHeader">
-										<Style.Resources>
-											<ResourceDictionary />
-										</Style.Resources>
-										<Setter Property="Foreground" Value="#FF5A5A5A" />
-										<Setter Property="Background" Value="Transparent"></Setter>
-									</Style>
-
 									<Style TargetType="DataGridRow">
 										<Setter Property="Foreground" Value="#FF666666" />
 										<Setter Property="Background" Value="Transparent"></Setter>

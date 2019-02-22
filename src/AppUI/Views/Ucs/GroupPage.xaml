@@ -62,7 +62,6 @@
 		<DataGrid 
 			Grid.Row="1" Grid.Column="0" ItemsSource="{Binding GroupVms.List}"
 			SelectedItem="{Binding CurrentGroup}" 
-			CanUserResizeColumns="True"
 			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
@@ -206,7 +205,6 @@
 		<Grid Grid.Row="1" Grid.Column="2">
 			<DataGrid 
 				ItemsSource="{Binding CurrentGroup.CoinGroupVms}" 
-				CanUserResizeColumns="True"
 				BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}">
 				<DataGrid.Resources>
 					<vm:BindingProxy x:Key="proxy" Data="{Binding CurrentGroup}" />

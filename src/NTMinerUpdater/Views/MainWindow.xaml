@@ -70,9 +70,7 @@
 			<Grid Visibility="{Binding IsHistoryVisible}" Background="White">
 				<DataGrid  
 					BorderThickness="0"
-					AutoGenerateColumns="False"
 					ItemsSource="{Binding NTMinerFiles}"
-					CanUserResizeColumns="True"
 					SelectedItem="{Binding SelectedNTMinerFile}"
 					MouseDoubleClick="DataGrid_MouseDoubleClick">
 					<DataGrid.Resources>

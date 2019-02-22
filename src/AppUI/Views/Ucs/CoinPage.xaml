@@ -128,7 +128,6 @@
 				Grid.Row="1" Margin="0" 
 				ItemsSource="{Binding List}" 
 				BorderThickness="0 0 1 0" 
-				CanUserResizeColumns="True"
 				BorderBrush="{StaticResource LineColor}"
 				SelectedItem="{Binding CurrentCoin}" RowHeight="36" AutoGenerateColumns="False"
 				MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -290,7 +289,6 @@
 					<DataGrid 
 						BorderThickness="0"
 						ItemsSource="{Binding CurrentCoin.Pools}" Padding="0"
-						CanUserResizeColumns="True"
 						MouseDoubleClick="PoolDataGrid_MouseDoubleClick" RowHeight="36">
 						<DataGrid.Resources>
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -447,7 +445,6 @@
 					<DataGrid 
 						BorderThickness="0"
 						ItemsSource="{Binding CurrentCoin.Wallets}" RowHeight="36"
-						CanUserResizeColumns="True"
 						MouseDoubleClick="WalletDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -582,7 +579,6 @@
 					<DataGrid 
 						BorderThickness="0"
 						ItemsSource="{Binding CurrentCoin.CoinKernels}"
-						CanUserResizeColumns="True"
 						MouseDoubleClick="KernelDataGrid_MouseDoubleClick" Grid.ColumnSpan="3">
 						<DataGrid.Resources>
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />

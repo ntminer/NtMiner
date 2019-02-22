@@ -45,7 +45,6 @@
         </DockPanel>
         <DataGrid 
             Grid.Row="1" ItemsSource="{Binding LangViewItemVms}" 
-            CanUserResizeColumns="True"
             BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
             MouseDoubleClick="LangViewItemDataGrid_MouseDoubleClick">
             <DataGrid.Columns>

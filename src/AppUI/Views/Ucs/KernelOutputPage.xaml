@@ -67,8 +67,8 @@
 				<RowDefinition Height="*"></RowDefinition>
 			</Grid.RowDefinitions>
 			<controls:KbButton
-                Margin="4 0 0 0"
-                HorizontalAlignment="Left"
+				Margin="4 0 0 0"
+				HorizontalAlignment="Left"
 				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 				ToolTip="KernelOutputPage translate"
 				Command="{x:Static vm:AppStatic.ShowLangViewItems}"
@@ -85,7 +85,6 @@
 			</controls:KbButton>
 			<DataGrid 
 				Grid.Row="1" Margin="0" ItemsSource="{Binding KernelOutputVms.AllKernelOutputVms}" 
-				CanUserResizeColumns="True"
 				BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
 				SelectedItem="{Binding CurrentKernelOutputVm}" RowHeight="36" AutoGenerateColumns="False"
 				MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -213,7 +212,6 @@
 						<DataGrid
 							Grid.Row="1"
 							ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputTranslaters}" 
-							CanUserResizeColumns="True"
 							BorderThickness="1 0 0 0"
 							MouseDoubleClick="KernelOutputTranslaterDataGrid_MouseDoubleClick">
 							<DataGrid.Resources>
@@ -399,7 +397,6 @@
 					<Grid>
 						<DataGrid 
 							ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputFilters}" 
-							CanUserResizeColumns="True"
 							BorderThickness="1 0 0 0"
 							MouseDoubleClick="KernelOutputFilterDataGrid_MouseDoubleClick">
 							<DataGrid.Resources>

@@ -191,7 +191,6 @@
                 <DataGrid 
                     MinHeight="200"
                     ItemsSource="{Binding GpuVms}" 
-                    CanUserResizeColumns="True"
                     Background="Transparent" 
                     BorderBrush="{StaticResource LineColor}">
                     <DataGrid.Resources>
@@ -255,7 +254,6 @@
             <DataGrid 
                 Grid.Row="1"
                 ItemsSource="{Binding GpuSetProperties}" 
-                CanUserResizeColumns="True"
                 Background="Transparent" 
                 GridLinesVisibility="None"
                 HeadersVisibility="None"
