@@ -793,7 +793,7 @@
 						<DataTemplate>
 							<DataGrid ItemsSource="{Binding GpuTable}" CanUserResizeColumns="True">
 								<DataGrid.Columns>
-									<DataGridTextColumn Binding="{Binding Index}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									<DataGridTextColumn Header="序号" Binding="{Binding Index}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
 								</DataGrid.Columns>
 							</DataGrid>
 						</DataTemplate>
