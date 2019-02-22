@@ -25,7 +25,7 @@ namespace NTMiner.MinerServer {
 
         public bool MainCoinSpeedText{ get; set; }
 
-        public bool GpuTable { get; set; }
+        public bool GpuTableTrs { get; set; }
 
         public bool MainCoinWallet{ get; set; }
 

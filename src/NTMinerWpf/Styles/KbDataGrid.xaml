@@ -10,11 +10,10 @@
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="HeadersVisibility" Value="Column"></Setter>
         <Setter Property="CanUserReorderColumns" Value="False"></Setter>
-        <Setter Property="CanUserResizeColumns" Value="False"></Setter>
         <Setter Property="ColumnHeaderHeight" Value="28"></Setter>
         <Setter Property="AutoGenerateColumns" Value="False"></Setter>
         <Setter Property="IsReadOnly" Value="True"></Setter>
-        <Setter Property="RowHeight" Value="28"></Setter>
+        <Setter Property="MinRowHeight" Value="26"></Setter>
         <Setter Property="AlternatingRowBackground" Value="White"></Setter>
         <Setter Property="EnableRowVirtualization" Value="False"></Setter>
         <Setter Property="HorizontalGridLinesBrush">

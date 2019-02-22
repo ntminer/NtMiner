@@ -89,7 +89,7 @@ namespace NTMiner {
                 MainCoinPool = string.Empty
             };
             if (withGpuSpeeds) {
-                data.GpuTable = root.GpusSpeed.Select(a => new GpuSpeedData {
+                data.GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
                     Index = a.Gpu.Index,
                     MainCoinSpeed = a.MainCoinSpeed.Value,
                     DualCoinSpeed = a.DualCoinSpeed.Value,

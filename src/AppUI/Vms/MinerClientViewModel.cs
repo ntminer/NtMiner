@@ -654,6 +654,14 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuTable));
             }
         }
+
+        public GpuSpeedData[] GpuTableTrs {
+            get => _data.GpuTable;
+            set {
+                _data.GpuTable = value;
+                OnPropertyChanged(nameof(GpuTableTrs));
+            }
+        }
         #endregion IClientData
     }
 }

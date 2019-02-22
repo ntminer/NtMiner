@@ -307,7 +307,7 @@
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="6 0 0 0">主挖币种</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="6 0 0 0">主币算力</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinRejectPercentText}" Margin="6 0 0 0">主币拒绝率</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuTable, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuTable}" Margin="6 0 0 0">显卡表格</CheckBox>
+					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuTableTrs, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuTableTrs}" Margin="6 0 0 0">显卡表格</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinWallet}" Margin="6 0 0 0">主币钱包</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinPool}" Margin="6 0 0 0">主币矿池</CheckBox>
 					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Kernel, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Kernel}" Margin="6 0 0 0">内核</CheckBox>
@@ -331,6 +331,7 @@
 			IsReadOnly="False"
 			CanUserResizeColumns="True"
 			ItemsSource="{Binding MinerClients}"
+			CanUserResizeRows="True"
 			AutoGenerateColumns="False">
 			<DataGrid.Resources>
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -740,6 +741,13 @@
 						<DataTemplate>
 							<WrapPanel>
 								<TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
+								<DataGrid 
+									Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+									Height="100" ItemsSource="{Binding GpuTableTrs}" CanUserResizeColumns="True">
+									<DataGrid.Columns>
+										<DataGridTextColumn Header="序号" Binding="{Binding Index}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+									</DataGrid.Columns>
+								</DataGrid>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -769,33 +777,6 @@
 								<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
 								<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}"></TextBlock>
 							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.GpuTable,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>显卡表格</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuTable">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<DataGrid ItemsSource="{Binding GpuTable}" CanUserResizeColumns="True">
-								<DataGrid.Columns>
-									<DataGridTextColumn Header="序号" Binding="{Binding Index}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-								</DataGrid.Columns>
-							</DataGrid>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
