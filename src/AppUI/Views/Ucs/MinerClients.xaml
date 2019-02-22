@@ -990,7 +990,7 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel>
+							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 								<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
 								<TextBlock Text="/"></TextBlock>
 								<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>

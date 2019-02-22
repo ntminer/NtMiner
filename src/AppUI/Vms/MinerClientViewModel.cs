@@ -676,8 +676,16 @@ namespace NTMiner.Vms {
                         RowHeader = "功耗"
                     }
                 };
-                for (int i = 0; i <= GpuTable.Length; i++) {
-                    
+                for (int i = 0; i < GpuTable.Length; i++) {
+                    GpuSpeedData gpuSpeedData = GpuTable[i];
+                    GpuRowData.GpuProperties[i].SetValue(list[0], gpuSpeedData.MainCoinSpeed.ToUnitSpeedText(), null);
+                    GpuRowData.GpuProperties[i].SetValue(list[1], gpuSpeedData.DualCoinSpeed.ToUnitSpeedText(), null);
+                    GpuRowData.GpuProperties[i].SetValue(list[2], gpuSpeedData.Temperature.ToString("f0") + "℃", null);
+                    GpuRowData.GpuProperties[i].SetValue(list[3], gpuSpeedData.FanSpeed.ToString("f0") + "%", null);
+                    GpuRowData.GpuProperties[i].SetValue(list[4], gpuSpeedData.PowerUsage.ToString("f0") + "W", null);
+                }
+                if (!IsDualCoinEnabled) {
+                    list.RemoveAt(1);
                 }
                 return list.ToArray();
             }

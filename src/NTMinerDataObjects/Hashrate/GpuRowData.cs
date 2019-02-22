@@ -1,5 +1,17 @@
-﻿namespace NTMiner.Hashrate {
+﻿using System;
+using System.Reflection;
+
+namespace NTMiner.Hashrate {
     public class GpuRowData {
+        public static readonly PropertyInfo[] GpuProperties = new PropertyInfo[12];
+
+        static GpuRowData() {
+            Type t = typeof(GpuRowData);
+            for (int i = 0; i < 12; i++) {
+                GpuProperties[i] = t.GetProperty("Gpu" + i);
+            }
+        }
+
         public string RowHeader { get; set; }
         public string Gpu0 { get; set; }
         public string Gpu1 { get; set; }
