@@ -14,8 +14,13 @@
 		<vm:MinersSpeedChartsViewModel></vm:MinersSpeedChartsViewModel>
 	</UserControl.DataContext>
 	<Grid>
-		<WrapPanel Margin="4 -3 0 0">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<WrapPanel>
 			<TextBlock 
+				Margin="4 0 0 0"
 				VerticalAlignment="Center" 
 				Text="{Binding TotalMiningCount}" 
 				ToolTip="总挖矿数" 
@@ -25,7 +30,7 @@
 			<TextBlock VerticalAlignment="Center" Text="{Binding TotalOnlineCount}" ToolTip="总在线数" FontSize="14" FontWeight="Bold"></TextBlock>
 		</WrapPanel>
 		<ScrollViewer 
-			Padding="0 10 0 0"
+			Grid.Row="1"
 			VerticalScrollBarVisibility="Auto"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
 			<ScrollViewer.Resources>
@@ -33,19 +38,20 @@
 				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
 			</ScrollViewer.Resources>
 			<ItemsControl 
+				Padding="5 0"
 				MouseDown="ItemsControl_MouseDown"
 				ItemsSource="{Binding TotalVms}"
 				BorderThickness="0"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<WrapPanel>
-						</WrapPanel>
+						<UniformGrid Columns="2">
+						</UniformGrid>
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Grid Height="130" Width="428" Margin="30 0 0 10" Background="White">
+						<Grid Height="140" Width="460" Margin="5 0 5 10" Background="White">
 							<lvc:CartesianChart
 								Margin="0 0 4 0"
 								DisableAnimations="True"                                            
