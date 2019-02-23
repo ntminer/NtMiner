@@ -15,8 +15,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RestartWindowsRequest request = new RestartWindowsRequest {
+                            LoginName = LoginName,
                             ClientIp = clientIp
                         };
+                        request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "RestartWindows", request);
                         callback?.Invoke(response);
                     }
@@ -31,8 +33,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         ShutdownWindowsRequest request = new ShutdownWindowsRequest {
+                            LoginName = LoginName,
                             ClientIp = clientIp
                         };
+                        request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "ShutdownWindows", request);
                         callback?.Invoke(response);
                     }
@@ -47,9 +51,11 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         OpenNTMinerRequest request = new OpenNTMinerRequest {
+                            LoginName = LoginName,
                             ClientIp = clientIp,
                             WorkId = workId
                         };
+                        request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "OpenNTMiner", request);
                         callback?.Invoke(response);
                     }
@@ -64,9 +70,11 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RestartNTMinerRequest request = new RestartNTMinerRequest {
+                            LoginName = LoginName,
                             ClientIp = clientIp,
                             WorkId = workId
                         };
+                        request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "RestartNTMiner", request);
                         callback?.Invoke(response);
                     }
@@ -81,9 +89,11 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         UpgradeNTMinerRequest request = new UpgradeNTMinerRequest {
+                            LoginName = LoginName,
                             ClientIp = clientIp,
                             NTMinerFileName = ntminerFileName
                         };
+                        request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "UpgradeNTMiner", request);
                         callback?.Invoke(response);
                     }
@@ -98,8 +108,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         CloseNTMinerRequest request = new CloseNTMinerRequest {
+                            LoginName = LoginName,
                             ClientIp = clientIp
                         };
+                        request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "CloseNTMiner", request);
                         callback?.Invoke(response);
                     }
