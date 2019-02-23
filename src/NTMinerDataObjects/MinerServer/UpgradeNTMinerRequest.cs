@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NTMiner.MinerServer {
+﻿namespace NTMiner.MinerServer {
     public class UpgradeNTMinerRequest : RequestBase {
+        public string ClientIp { get; set; }
+        public string NTMinerFileName { get; set; }
     }
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NTMiner.MinerServer {
+﻿namespace NTMiner.MinerServer {
     public class RestartWindowsRequest : RequestBase {
+        public string ClientIp { get; set; }
     }
 }
