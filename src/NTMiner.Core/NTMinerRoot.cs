@@ -138,7 +138,6 @@ namespace NTMiner {
 
         #region Start
         public void Start() {
-            HttpServer.Start("http://localhost:3336");
             Server.TimeService.GetTimeAsync((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
                     Logger.OkDebugLine("时间同步");
@@ -395,7 +394,6 @@ namespace NTMiner {
             if (_currentMineContext != null) {
                 StopMineAsync();
             }
-            HttpServer.Stop();
         }
         #endregion
 

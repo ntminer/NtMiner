@@ -31,11 +31,11 @@ namespace NTMiner {
             });
         }
 
-        public void ShowMainWindowAsync(string clientHost, Action<bool> callback) {
+        public void ShowMainWindowAsync(string clientHost, int port, Action<bool> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:3336/api/MinerClient/ShowMainWindow", null);
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{port}/api/MinerClient/ShowMainWindow", null);
                         bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                         callback?.Invoke(response);
                     }

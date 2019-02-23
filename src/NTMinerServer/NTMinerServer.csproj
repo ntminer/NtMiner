@@ -73,7 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NTMiner.Core\HttpServer.cs">
+    <Compile Include="..\ClientAppSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
     </Compile>
     <Compile Include="Controllers\AppSettingController.cs" />

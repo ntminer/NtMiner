@@ -165,6 +165,10 @@
       <Project>{b3667589-d9b1-489e-ab4f-d1ec06a40a9d}</Project>
       <Name>AppUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ControlCenterAppSelfHost\ControlCenterAppSelfHost.csproj">
+      <Project>{526c022a-3c86-4998-a8f1-f5860f183c7c}</Project>
+      <Name>ControlCenterAppSelfHost</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NTMiner.Core\NTMiner.Core.csproj">
       <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
       <Name>NTMiner.Core</Name>
