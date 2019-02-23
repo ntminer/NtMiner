@@ -110,7 +110,6 @@ namespace NTMiner {
                 if (!string.IsNullOrEmpty(incomeItem.SpeedUnit)) {
                     incomeItem.SpeedUnit = incomeItem.SpeedUnit.ToLower();
                     incomeItem.SpeedUnit = incomeItem.SpeedUnit.Replace("sol/s", "h/s");
-                    incomeItem.SpeedUnit = incomeItem.SpeedUnit.Replace("graph/s", "h/s");
                 }
             }
         }
@@ -165,8 +164,13 @@ namespace NTMiner {
                     CoinCode = match.Groups["coinCode"].Value,
                     SpeedUnit = match.Groups["speedUnit"].Value
                 };
-                if (incomeItem.DataCode == "grin-31") {
+                if (incomeItem.DataCode == "grin-29") {
+                    incomeItem.CoinCode = "grin";
+                    incomeItem.SpeedUnit = "h/s";
+                }
+                else if (incomeItem.DataCode == "grin-31") {
                     incomeItem.CoinCode = "grin2";
+                    incomeItem.SpeedUnit = "h/s";
                 }
                 double speed = 0;
                 double.TryParse(match.Groups["speed"].Value, out speed);
