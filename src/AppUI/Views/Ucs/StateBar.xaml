@@ -446,7 +446,7 @@
 					</WrapPanel>
 					<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}" ToolTip="内核" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-					<TextBlock Text="{Binding GpuSetInfo}" MaxWidth="200" ToolTip="{Binding GpuSetInfo}" Margin="0 0 30 0" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{Binding GpuSetInfo}" MaxWidth="260" ToolTip="{Binding GpuSetInfo}" Margin="0 0 30 0" Foreground="{StaticResource LableColor}"></TextBlock>
 				</WrapPanel>
 			</StackPanel>
 		</Grid>
