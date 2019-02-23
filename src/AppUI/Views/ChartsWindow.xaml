@@ -141,15 +141,21 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Border Width="100" Background="White" BorderThickness="1 0" BorderBrush="{StaticResource LineColor}">
+						<Border Background="White" Padding="8 4" BorderThickness="1 0" BorderBrush="{StaticResource LineColor}">
 							<StackPanel>
-								<TextBlock HorizontalAlignment="Center" Text="{Binding CoinVm.Code}" FontWeight="Bold" FontSize="16"></TextBlock>
-								
+								<CheckBox 
+									FontSize="16"
+									FontWeight="Bold"
+									HorizontalAlignment="Center" 
+									IsChecked="{Binding IsShow}" 
+									ToolTip="显示算力图" VerticalAlignment="Center" 
+									Content="{Binding CoinVm.Code}"></CheckBox>
+
 								<WrapPanel HorizontalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-									<TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}"></TextBlock>
-									<TextBlock FontSize="14" FontWeight="Bold">/</TextBlock>
+									<TextBlock FontSize="16" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}"></TextBlock>
+									<TextBlock FontSize="16" FontWeight="Bold">/</TextBlock>
 									<TextBlock 
-										FontSize="14" FontWeight="Bold" 
+										FontSize="16" FontWeight="Bold" 
 										Foreground="{Binding OnlineColor}"
 										ToolTip="在线数" 
 										Text="{Binding SnapshotDataVm.MainCoinOnlineCount}">
@@ -157,10 +163,10 @@
 								</WrapPanel>
 
 								<WrapPanel HorizontalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
-									<TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}"></TextBlock>
-									<TextBlock FontSize="14" FontWeight="Bold">/</TextBlock>
+									<TextBlock FontSize="16" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}"></TextBlock>
+									<TextBlock FontSize="16" FontWeight="Bold">/</TextBlock>
 									<TextBlock 
-										FontSize="14" FontWeight="Bold" 
+										FontSize="16" FontWeight="Bold" 
 										Foreground="{Binding OnlineColor}"
 										ToolTip="在线数" 
 										Text="{Binding SnapshotDataVm.DualCoinOnlineCount}">
@@ -171,28 +177,37 @@
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
-			<ScrollViewer Grid.Row="1"
+			<ScrollViewer 
+				Grid.Row="1"
+				Background="White"
 				VerticalScrollBarVisibility="Auto"
 				xmlns:sys="clr-namespace:System;assembly=mscorlib">
 				<ScrollViewer.Resources>
 					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
 					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
 				</ScrollViewer.Resources>
-				<Viewbox Stretch="Fill">
+				<Viewbox Stretch="Uniform" VerticalAlignment="Top">
 					<ItemsControl 
+						Width="960"						
 						MouseDown="ItemsControl_MouseDown"
 						ItemsSource="{Binding ChartVms}"
 						BorderThickness="0"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
-								<UniformGrid Columns="2">
-								</UniformGrid>
+								<WrapPanel>
+								</WrapPanel>
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<Border Height="150" Width="470" Background="White">
+								<Border Height="154" Width="480" Background="White" Visibility="{Binding IsShow, Converter={StaticResource BoolToVisibilityConverter}}">
+									<Border.ContextMenu>
+										<ContextMenu>
+											<MenuItem Header="不展示" Command="{Binding Hide}">
+											</MenuItem>
+										</ContextMenu>
+									</Border.ContextMenu>
 									<Grid Margin="5 0 5 10">
 										<lvc:CartesianChart									
 											DisableAnimations="True"                                            

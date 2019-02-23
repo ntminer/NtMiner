@@ -2,6 +2,7 @@
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using System;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -9,6 +10,7 @@ namespace NTMiner.Vms {
         private SeriesCollection _series;
         private AxesCollection _axisY;
         private AxesCollection _axisX;
+        private bool _isShow = true;
         private static readonly SolidColorBrush transparent = new SolidColorBrush(Colors.Transparent);
         private static readonly SolidColorBrush black = new SolidColorBrush(Colors.Black);
         private static readonly SolidColorBrush green = new SolidColorBrush(Colors.Green);
@@ -16,7 +18,12 @@ namespace NTMiner.Vms {
 
         private readonly CoinViewModel _coinVm;
 
+        public ICommand Hide { get; private set; }
+
         public ChartViewModel(CoinViewModel coinVm) {
+            this.Hide = new DelegateCommand(() => {
+                this.IsShow = false;
+            });
             _coinVm = coinVm;
             var mapper = Mappers.Xy<MeasureModel>()
                 .X(model => model.DateTime.Ticks)   //use DateTime.Ticks as X
@@ -95,6 +102,14 @@ namespace NTMiner.Vms {
             this._series = new SeriesCollection() {
                 mainCoinSpeedLs, onlineCountLs, miningCountLs
             };
+        }
+
+        public bool IsShow {
+            get { return _isShow; }
+            set {
+                _isShow = value;
+                OnPropertyChanged(nameof(IsShow));
+            }
         }
 
         private CoinSnapshotDataViewModel _snapshotDataVm;
