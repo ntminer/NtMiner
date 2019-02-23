@@ -1,8 +1,6 @@
-﻿using LiteDB;
-using LiveCharts;
+﻿using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
-using NTMiner.MinerServer;
 using System;
 using System.Windows.Media;
 
@@ -103,17 +101,7 @@ namespace NTMiner.Vms {
         public CoinSnapshotDataViewModel SnapshotDataVm {
             get {
                 if (_snapshotDataVm == null) {
-                    _snapshotDataVm = new CoinSnapshotDataViewModel(new CoinSnapshotData {
-                        Id = ObjectId.Empty,
-                        CoinCode = CoinVm.Code,
-                        MainCoinMiningCount = 0,
-                        MainCoinOnlineCount = 0,
-                        DualCoinMiningCount = 0,
-                        DualCoinOnlineCount = 0,
-                        ShareDelta = 0,
-                        Speed = 0,
-                        Timestamp = DateTime.MinValue
-                    });
+                    CoinSnapshotDataViewModels.Current.TryGetSnapshotDataVm(CoinVm.Code, out _snapshotDataVm);
                 }
                 return _snapshotDataVm;
             }
