@@ -1,7 +1,6 @@
 ﻿using NTMiner.Views;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
@@ -11,7 +10,6 @@ using System.Windows.Threading;
 namespace NTMiner {
     public partial class App : Application {
         public App() {
-            Logging.LogDir.SetDir(Path.Combine(ClientId.GlobalDirFullName, "Logs"));
             AppHelper.Init(this);
             InitializeComponent();
         }

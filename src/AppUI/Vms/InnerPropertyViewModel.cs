@@ -8,17 +8,15 @@ namespace NTMiner.Vms {
         private string _appName;
         private DateTime _bootOn;
         private string _globalDir;
-        private string _langDbFileFullName;
         private string _serverDbFileFullName;
         private string _localDbFileFullName;
 
         public InnerPropertyViewModel() {
             _appName = NTMinerRoot.AppName;
             _bootOn = NTMinerRoot.Current.CreatedOn;
-            _globalDir = ClientId.GlobalDirFullName;
-            _langDbFileFullName = Path.Combine(ClientId.GlobalDirFullName, "lang.litedb");
-            _serverDbFileFullName = Path.Combine(ClientId.GlobalDirFullName, "server.litedb");
-            _localDbFileFullName = Path.Combine(ClientId.GlobalDirFullName, "local.litedb");
+            _globalDir = VirtualRoot.GlobalDirFullName;
+            _serverDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "server.litedb");
+            _localDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.litedb");
         }
 
         public string AppName {
@@ -46,11 +44,7 @@ namespace NTMiner.Vms {
             }
         }
         public string LangDbFileFullName {
-            get => _langDbFileFullName;
-            set {
-                _langDbFileFullName = value;
-                OnPropertyChanged(nameof(LangDbFileFullName));
-            }
+            get => ClientId.LangDbFileFullName;
         }
         public string ServerDbFileFullName {
             get => _serverDbFileFullName;

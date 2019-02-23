@@ -210,7 +210,7 @@ namespace NTMiner.Vms {
         });
         public static void Upgrade(string ntminerFileName, Action callback) {
             try {
-                string updaterDirFullName = Path.Combine(ClientId.GlobalDirFullName, "Updater");
+                string updaterDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Updater");
                 if (!Directory.Exists(updaterDirFullName)) {
                     Directory.CreateDirectory(updaterDirFullName);
                 }
@@ -287,7 +287,7 @@ namespace NTMiner.Vms {
             CalcConfig.ShowWindow();
         });
         public static ICommand ShowGlobalDir { get; private set; } = new DelegateCommand(() => {
-            Process.Start(ClientId.GlobalDirFullName);
+            Process.Start(VirtualRoot.GlobalDirFullName);
         });
         public static ICommand OpenLangLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(ClientId.LangDbFileFullName);
@@ -300,7 +300,7 @@ namespace NTMiner.Vms {
         });
 
         private static void OpenLiteDb(string dbFileFullName) {
-            string liteDbExplorerDir = Path.Combine(ClientId.GlobalDirFullName, "LiteDBExplorerPortable");
+            string liteDbExplorerDir = Path.Combine(VirtualRoot.GlobalDirFullName, "LiteDBExplorerPortable");
             string liteDbExplorerFileFullName = Path.Combine(liteDbExplorerDir, "LiteDbExplorer.exe");
             if (!Directory.Exists(liteDbExplorerDir)) {
                 Directory.CreateDirectory(liteDbExplorerDir);

@@ -3,23 +3,23 @@
 namespace NTMiner {
     public static class SpecialPath {
         static SpecialPath() {
-            string daemonDirFullName = Path.Combine(ClientId.GlobalDirFullName, "Daemon");
+            string daemonDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Daemon");
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
             DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
-            TempDirFullName = Path.Combine(ClientId.GlobalDirFullName, "Temp");
+            TempDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Temp");
             if (!Directory.Exists(TempDirFullName)) {
                 Directory.CreateDirectory(TempDirFullName);
             }
             ServerDbFileName = "server.litedb";
-            ServerDbFileFullName = Path.Combine(ClientId.GlobalDirFullName, ServerDbFileName);
+            ServerDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, ServerDbFileName);
             ServerJsonFileName = "server.json";
-            ServerJsonFileFullName = Path.Combine(ClientId.GlobalDirFullName, ServerJsonFileName);
+            ServerJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, ServerJsonFileName);
 
-            LocalDbFileFullName = Path.Combine(ClientId.GlobalDirFullName, "local.litedb");
+            LocalDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.litedb");
         }
 
         public static string LocalDbFileFullName { get; private set; }
@@ -38,7 +38,7 @@ namespace NTMiner {
         private static bool _isFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {
-                string dirFullName = Path.Combine(ClientId.GlobalDirFullName, "Packages");
+                string dirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Packages");
                 if (_isFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -97,7 +97,7 @@ namespace NTMiner {
         private static bool _isFirstCallPicturesDirFullName = true;
         public static string PicturesDirFullName {
             get {
-                string dirFullName = Path.Combine(ClientId.GlobalDirFullName, "Pictures");
+                string dirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Pictures");
                 if (_isFirstCallPicturesDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);

@@ -7,8 +7,8 @@ namespace NTMiner {
         public const string Tag = "谜麟";
         public static readonly string ServerJsonFileName = $"server{VERSION}.json";
         public static readonly string LangJsonFileName = $"lang{VERSION}.json";
-        public static string ServerJsonFileFullName = Path.Combine(ClientId.GlobalDirFullName, ServerJsonFileName);
-        public static readonly string LangJsonFileFullName = Path.Combine(ClientId.GlobalDirFullName, LangJsonFileName);
+        public static string ServerJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, ServerJsonFileName);
+        public static readonly string LangJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, LangJsonFileName);
 
         public static readonly string ServerJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + ServerJsonFileName;
         public static readonly string LangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + LangJsonFileName;
