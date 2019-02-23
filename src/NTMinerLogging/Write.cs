@@ -28,7 +28,7 @@ namespace NTMiner {
             if (!DevMode.IsDevMode) {
                 return;
             }
-            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}    {text}";
+            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {text}";
             WriteDevLineMethod?.Invoke(text, ConsoleColor.White);
         }
 
@@ -36,7 +36,7 @@ namespace NTMiner {
             if (!DevMode.IsDevMode) {
                 return;
             }
-            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}    {text}";
+            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {text}";
             WriteDevLineMethod?.Invoke(text, foreground);
         }
     }

@@ -59,9 +59,9 @@
 						Text="{Binding TotalMiningCount}" 
 						ToolTip="总挖矿数" 
 						Foreground="Green"
-						FontSize="14" FontWeight="Bold"></TextBlock>
-					<TextBlock VerticalAlignment="Center" Text="/" FontSize="14" FontWeight="Bold"></TextBlock>
-					<TextBlock VerticalAlignment="Center" Text="{Binding TotalOnlineCount}" ToolTip="总在线数" FontSize="14" FontWeight="Bold"></TextBlock>
+						FontSize="16" FontWeight="Bold"></TextBlock>
+					<TextBlock VerticalAlignment="Center" Text="/" FontSize="16" FontWeight="Bold"></TextBlock>
+					<TextBlock VerticalAlignment="Center" Text="{Binding TotalOnlineCount}" ToolTip="总在线数" FontSize="16" FontWeight="Bold"></TextBlock>
 				</WrapPanel>
 				<uc:OpenedWindows>
 				</uc:OpenedWindows>
@@ -125,16 +125,14 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<Viewbox Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Stretch="Fill">
-			<ScrollViewer 
-				Width="960"
-				Height="720"
+		<ScrollViewer  Grid.Row="1" Grid.RowSpan="2" Grid.Column="0"
 				VerticalScrollBarVisibility="Auto"
 				xmlns:sys="clr-namespace:System;assembly=mscorlib">
-				<ScrollViewer.Resources>
-					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
-					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
-				</ScrollViewer.Resources>
+			<ScrollViewer.Resources>
+				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
+				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
+			</ScrollViewer.Resources>
+			<Viewbox Stretch="Fill">
 				<ItemsControl 
 					MouseDown="ItemsControl_MouseDown"
 					ItemsSource="{Binding TotalVms}"
@@ -196,8 +194,8 @@
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
-			</ScrollViewer>
-		</Viewbox>
+			</Viewbox>
+		</ScrollViewer>
 		<notification:NotificationMessageContainer 
 			Grid.Row="1"
 			Grid.Column="0"
