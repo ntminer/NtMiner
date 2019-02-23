@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
 
         public MinerClientRestartViewModel(MinerClientViewModel minerClientVm) {
             this.Ok = new DelegateCommand(() => {
-                Server.MinerClientService.RestartNTMinerAsync(minerClientVm.MinerIp, minerClientVm.WorkId, response => {
+                Server.MinerClientService.RestartNTMinerAsync(minerClientVm.MinerIp, SelectedMineWork.Id, response => {
                     if (!response.IsSuccess()) {
                         if (response != null) {
                             Write.UserLine(response.Description, ConsoleColor.Red);
