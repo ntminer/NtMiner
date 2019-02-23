@@ -1,28 +1,34 @@
 ﻿using LiveCharts;
+using MahApps.Metro.Controls;
 using NTMiner.Bus;
 using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
-namespace NTMiner.Views.Ucs {
-    public partial class MinersSpeedCharts : UserControl {
-        public MinersSpeedChartsViewModel Vm {
+namespace NTMiner.Views {
+    public partial class ChartsWindow : MetroWindow, IMainWindow {
+        public ChartsWindowViewModel Vm {
             get {
-                return (MinersSpeedChartsViewModel)this.DataContext;
+                return (ChartsWindowViewModel)this.DataContext;
             }
         }
 
-        public MinersSpeedCharts() {
+        public ChartsWindow() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-
-            if (Design.IsInDesignMode) {
-                return;
-            }
+            Write.WriteUserLineMethod = (text, foreground)=> {
+                WriteLine(this.RichTextBox, this.ConsoleParagraph, text, foreground);
+            };
+            Write.WriteDevLineMethod = (text, foreground) => {
+                WriteLine(this.RichTextBoxDebug, this.ConsoleParagraphDebug, text, foreground);
+            };
             #region 总算力
             RefreshTotalSpeedChart(limit: 60);
             DelegateHandler<Per10SecondEvent> refeshTotalSpeedChart = VirtualRoot.On<Per10SecondEvent>(
@@ -42,6 +48,12 @@ namespace NTMiner.Views.Ucs {
             #endregion
         }
 
+        public void ShowThisWindow() {
+            this.Show();
+            this.WindowState = WindowState.Normal;
+            this.Activate();
+        }
+
         #region 刷新总算力图表
         private void RefreshTotalSpeedChart(int limit) {
             //NTMinerRoot.Current.DebugLine($"获取总算力数据，范围{leftTime} - {rightTime}");
@@ -49,7 +61,7 @@ namespace NTMiner.Views.Ucs {
             Server.ControlCenterService.GetLatestSnapshotsAsync(
                 limit,
                 coinCodes,
-                (response)=> {
+                (response) => {
                     if (response == null) {
                         return;
                     }
@@ -137,6 +149,40 @@ namespace NTMiner.Views.Ucs {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 Window.GetWindow(this)?.DragMove();
             }
+        }
+
+        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
+
+        private void InnerWrite(RichTextBox rtb, Paragraph p, string text, ConsoleColor foreground) {
+            InlineCollection list = p.Inlines;
+            // 满1000行删除500行
+            if (list.Count > 1000) {
+                int delLines = 500;
+                while (delLines-- > 0) {
+                    ((IList)list).RemoveAt(0);
+                }
+            }
+            Run run = new Run(text) {
+                Foreground = new SolidColorBrush(foreground.ToMediaColor())
+            };
+            list.Add(run);
+
+            if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
+                rtb.ScrollToEnd();
+            }
+        }
+
+        public void WriteLine(RichTextBox rtb, Paragraph p, string text, ConsoleColor foreground) {
+            Dispatcher.Invoke((Action)(() => {
+                if (p.Inlines.Count > 0) {
+                    text = "\n" + text;
+                }
+                InnerWrite(rtb, p, text, foreground);
+            }));
         }
     }
 }

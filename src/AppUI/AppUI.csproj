@@ -114,8 +114,8 @@
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ControlCenterWindow.xaml.cs">
-      <DependentUpon>ControlCenterWindow.xaml</DependentUpon>
+    <Compile Include="Views\ChartsWindow.xaml.cs">
+      <DependentUpon>ChartsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
@@ -159,9 +159,6 @@
     </Compile>
     <Compile Include="Views\Ucs\QQGroupQrCode.xaml.cs">
       <DependentUpon>QQGroupQrCode.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Ucs\MinersSpeedCharts.xaml.cs">
-      <DependentUpon>MinersSpeedCharts.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MinerClientsWindow.xaml.cs">
       <DependentUpon>MinerClientsWindow.xaml</DependentUpon>
@@ -299,13 +296,12 @@
     <Compile Include="Vms\MeasureModel.cs" />
     <Compile Include="Vms\MinerClientRestartViewModel.cs" />
     <Compile Include="Vms\MinerClientViewModel.cs" />
-    <Compile Include="Vms\ControlCenterChartViewModel.cs" />
-    <Compile Include="Vms\ControlCenterWindowViewModel.cs" />
+    <Compile Include="Vms\ChartViewModel.cs" />
+    <Compile Include="Vms\ChartsWindowViewModel.cs" />
     <Compile Include="Vms\MinerGroupPageViewModel.cs" />
     <Compile Include="Vms\MinerGroupViewModel.cs" />
     <Compile Include="Vms\MinerGroupViewModels.cs" />
     <Compile Include="Vms\MinerServerHostConfigViewModel.cs" />
-    <Compile Include="Vms\MinersSpeedChartsViewModel.cs" />
     <Compile Include="Vms\MineWorkPageViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModels.cs" />
@@ -395,7 +391,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ControlCenterWindow.xaml">
+    <Page Include="Views\ChartsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -484,10 +480,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Design\CoinViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\MinersSpeedCharts.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

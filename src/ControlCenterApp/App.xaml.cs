@@ -53,7 +53,7 @@ namespace NTMiner {
                         }
                         if (result.HasValue && result.Value) {
                             Logger.InfoDebugLine("new MainWindow");
-                            ControlCenterWindow window = new ControlCenterWindow();
+                            ChartsWindow window = new ChartsWindow();
                             IMainWindow mainWindow = window;
                             this.MainWindow = window;
                             this.MainWindow.Show();

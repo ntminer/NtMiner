@@ -7,7 +7,7 @@ using System;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class ControlCenterChartViewModel : ViewModelBase {
+    public class ChartViewModel : ViewModelBase {
         private SeriesCollection _series;
         private AxesCollection _axisY;
         private AxesCollection _axisX;
@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
 
         private readonly CoinViewModel _coinVm;
 
-        public ControlCenterChartViewModel(CoinViewModel coinVm) {
+        public ChartViewModel(CoinViewModel coinVm) {
             _coinVm = coinVm;
             var mapper = Mappers.Xy<MeasureModel>()
                 .X(model => model.DateTime.Ticks)   //use DateTime.Ticks as X

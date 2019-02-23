@@ -81,7 +81,7 @@ namespace NTMiner.Vms {
                     }, response => {
                         UIThread.Execute(() => {
                             if (response.IsSuccess()) {
-                                ControlCenterWindowViewModel.Current.Manager.CreateMessage()
+                                ChartsWindowViewModel.Current.Manager.CreateMessage()
                                     .Accent("#1751C3")
                                     .Background("#333")
                                     .HasBadge("Info")
@@ -91,7 +91,7 @@ namespace NTMiner.Vms {
                                     .Queue();
                             }
                             else {
-                                ControlCenterWindowViewModel.Current.Manager.CreateMessage()
+                                ChartsWindowViewModel.Current.Manager.CreateMessage()
                                     .Accent("#1751C3")
                                     .Background("Red")
                                     .HasBadge("Error")
@@ -236,7 +236,7 @@ namespace NTMiner.Vms {
                                     }
                                     else {
                                         UIThread.Execute(() => {
-                                            ControlCenterWindowViewModel.Current.Manager.CreateMessage()
+                                            ChartsWindowViewModel.Current.Manager.CreateMessage()
                                                 .Accent("#1751C3")
                                                 .Background("Red")
                                                 .HasBadge("Error")
