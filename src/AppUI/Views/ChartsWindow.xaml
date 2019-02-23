@@ -177,7 +177,7 @@
 												<TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}" Margin="4 0 0 0"></TextBlock>
 												<TextBlock FontSize="14" FontWeight="Bold">/</TextBlock>
 												<TextBlock 
-													FontSize="16" FontWeight="Bold" 
+													FontSize="14" FontWeight="Bold" 
 													Foreground="{Binding OnlineColor}"
 													ToolTip="在线数" 
 													Text="{Binding SnapshotDataVm.DualCoinOnlineCount}">
