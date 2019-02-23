@@ -43,27 +43,79 @@ namespace NTMiner.Vms {
             });
             this.RestartWindows = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定重启{this.MinerName}电脑吗？", title: "确认", onYes: () => {
-                    // TODO:通过中控调用
-                    NTMinerDaemonService.Instance.RestartWindowsAsync(this.MinerIp, null);
+                    Server.MinerClientService.RestartWindowsAsync(this.MinerIp, response => {
+                        if (!response.IsSuccess()) {
+                            if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                                MinerClientsWindowViewModel.Current.Manager.CreateMessage()
+                                     .Accent("#1751C3")
+                                     .Background("Red")
+                                     .HasBadge("Error")
+                                     .HasMessage(response.Description)
+                                     .Dismiss()
+                                     .WithDelay(TimeSpan.FromSeconds(5))
+                                     .Queue();
+                            }
+                        }
+                    });
                 }, icon: "Icon_Confirm");
             });
             this.ShutdownWindows = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定关机{this.MinerName}电脑吗？", title: "确认", onYes: () => {
-                    // TODO:通过中控调用
-                    NTMinerDaemonService.Instance.ShutdownWindowsAsync(this.MinerIp, null);
+                    Server.MinerClientService.ShutdownWindowsAsync(this.MinerIp, response => {
+                        if (!response.IsSuccess()) {
+                            if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                                MinerClientsWindowViewModel.Current.Manager.CreateMessage()
+                                     .Accent("#1751C3")
+                                     .Background("Red")
+                                     .HasBadge("Error")
+                                     .HasMessage(response.Description)
+                                     .Dismiss()
+                                     .WithDelay(TimeSpan.FromSeconds(5))
+                                     .Queue();
+                            }
+                        }
+                    });
                 }, icon: "Icon_Confirm");
             });
             this.StartNTMiner = new DelegateCommand(() => {
-                // TODO:通过中控调用
-                NTMinerDaemonService.Instance.OpenNTMinerAsync(this.MinerIp, this.WorkId, null);
+                Server.MinerClientService.OpenNTMinerAsync(this.MinerIp, this.WorkId, response => {
+                    if (!response.IsSuccess()) {
+                        if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
+                                 .Accent("#1751C3")
+                                 .Background("Red")
+                                 .HasBadge("Error")
+                                 .HasMessage(response.Description)
+                                 .Dismiss()
+                                 .WithDelay(TimeSpan.FromSeconds(5))
+                                 .Queue();
+                        }
+                    }
+                });
             });
             this.RestartNTMiner = new DelegateCommand(() => {
                 MinerClientRestart.ShowWindow(this);
             });
             this.CloseNTMiner = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定关闭{this.MinerName}挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
-                    // TODO:通过中控调用
-                    NTMinerDaemonService.Instance.CloseNTMinerAsync(this.MinerIp, null);
+                    Server.MinerClientService.CloseNTMinerAsync(this.MinerIp, response => {
+                        if (!response.IsSuccess()) {
+                            if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                                MinerClientsWindowViewModel.Current.Manager.CreateMessage()
+                                     .Accent("#1751C3")
+                                     .Background("Red")
+                                     .HasBadge("Error")
+                                     .HasMessage(response.Description)
+                                     .Dismiss()
+                                     .WithDelay(TimeSpan.FromSeconds(5))
+                                     .Queue();
+                            }
+                        }
+                    });
                 }, icon: "Icon_Confirm");
             });
             this.StartMine = new DelegateCommand(() => {
