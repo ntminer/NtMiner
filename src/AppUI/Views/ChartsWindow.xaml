@@ -29,6 +29,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -124,140 +125,138 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<Grid Grid.Row="1">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"></RowDefinition>
-				<RowDefinition Height="*"></RowDefinition>
-			</Grid.RowDefinitions>
-			<ItemsControl
-				ItemsSource="{Binding ChartVms}"
-				BorderThickness="0"
-				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-				<ItemsControl.ItemsPanel>
-					<ItemsPanelTemplate>
-						<WrapPanel>
-						</WrapPanel>
-					</ItemsPanelTemplate>
-				</ItemsControl.ItemsPanel>
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Border Background="White" Padding="8 4" BorderThickness="1 0" BorderBrush="{StaticResource LineColor}">
-							<StackPanel>
-								<CheckBox 
-									FontSize="16"
-									FontWeight="Bold"
-									HorizontalAlignment="Center" 
-									IsChecked="{Binding IsShow}" 
-									ToolTip="显示算力图" VerticalAlignment="Center" 
-									Content="{Binding CoinVm.Code}"></CheckBox>
+		<ItemsControl
+			Grid.Row="1"
+			VerticalContentAlignment="Center"
+			ItemsSource="{Binding ChartVms}"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel>
+					</WrapPanel>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Border Background="White" Padding="14 2">
+						<StackPanel>
+							<WrapPanel HorizontalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+								<TextBlock FontSize="16" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}"></TextBlock>
+								<TextBlock FontSize="16" FontWeight="Bold">/</TextBlock>
+								<TextBlock 
+									FontSize="16" FontWeight="Bold" 
+									Foreground="{Binding OnlineColor}"
+									ToolTip="在线数" 
+									Text="{Binding SnapshotDataVm.MainCoinOnlineCount}">
+								</TextBlock>
+							</WrapPanel>
 
-								<WrapPanel HorizontalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-									<TextBlock FontSize="16" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}"></TextBlock>
-									<TextBlock FontSize="16" FontWeight="Bold">/</TextBlock>
-									<TextBlock 
-										FontSize="16" FontWeight="Bold" 
-										Foreground="{Binding OnlineColor}"
-										ToolTip="在线数" 
-										Text="{Binding SnapshotDataVm.MainCoinOnlineCount}">
-									</TextBlock>
-								</WrapPanel>
+							<WrapPanel HorizontalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
+								<TextBlock FontSize="16" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}"></TextBlock>
+								<TextBlock FontSize="16" FontWeight="Bold">/</TextBlock>
+								<TextBlock 
+									FontSize="16" FontWeight="Bold" 
+									Foreground="{Binding OnlineColor}"
+									ToolTip="在线数" 
+									Text="{Binding SnapshotDataVm.DualCoinOnlineCount}">
+								</TextBlock>
+							</WrapPanel>
 
-								<WrapPanel HorizontalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
-									<TextBlock FontSize="16" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}"></TextBlock>
-									<TextBlock FontSize="16" FontWeight="Bold">/</TextBlock>
-									<TextBlock 
-										FontSize="16" FontWeight="Bold" 
-										Foreground="{Binding OnlineColor}"
-										ToolTip="在线数" 
-										Text="{Binding SnapshotDataVm.DualCoinOnlineCount}">
-									</TextBlock>
-								</WrapPanel>
-							</StackPanel>
-						</Border>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-			<ScrollViewer 
-				Grid.Row="1"
-				Background="White"
-				VerticalScrollBarVisibility="Auto"
-				xmlns:sys="clr-namespace:System;assembly=mscorlib">
-				<ScrollViewer.Resources>
-					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
-					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
-				</ScrollViewer.Resources>
-				<Viewbox Stretch="Uniform" VerticalAlignment="Top">
-					<ItemsControl 
-						Width="960"						
-						MouseDown="ItemsControl_MouseDown"
-						ItemsSource="{Binding ChartVms}"
-						BorderThickness="0"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<Border Height="154" Width="480" Background="White" Visibility="{Binding IsShow, Converter={StaticResource BoolToVisibilityConverter}}">
-									<Border.ContextMenu>
-										<ContextMenu>
-											<MenuItem Header="不展示" Command="{Binding Hide}">
-											</MenuItem>
-										</ContextMenu>
-									</Border.ContextMenu>
-									<Grid Margin="5 0 5 10">
-										<lvc:CartesianChart									
-											DisableAnimations="True"                                            
-											Hoverable="False" 
-											DataTooltip="{x:Null}"
-											Series="{Binding Series}"
-											AxisY="{Binding AxisY}"
-											AxisX="{Binding AxisX}">
-										</lvc:CartesianChart>
-										<Grid Margin="40 9 70 0">
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="*"></ColumnDefinition>
-												<ColumnDefinition Width="Auto"></ColumnDefinition>
-											</Grid.ColumnDefinitions>
-											<StackPanel>
-												<WrapPanel Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-													<TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}" Margin="4 0 0 0"></TextBlock>
-													<TextBlock FontSize="14" FontWeight="Bold">/</TextBlock>
-													<TextBlock 
-														FontSize="14" FontWeight="Bold" 
-														Foreground="{Binding OnlineColor}"
-														ToolTip="在线数" 
-														Text="{Binding SnapshotDataVm.MainCoinOnlineCount}">
-													</TextBlock>
-												</WrapPanel>
-
-												<WrapPanel Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
-													<TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}" Margin="4 0 0 0"></TextBlock>
-													<TextBlock FontSize="14" FontWeight="Bold">/</TextBlock>
-													<TextBlock 
-														FontSize="14" FontWeight="Bold" 
-														Foreground="{Binding OnlineColor}"
-														ToolTip="在线数" 
-														Text="{Binding SnapshotDataVm.DualCoinOnlineCount}">
-													</TextBlock>
-												</WrapPanel>
-											</StackPanel>
-											<WrapPanel Grid.Column="1">
-												<TextBlock FontSize="14" FontWeight="Bold" Text="{Binding CoinVm.Code}" Margin="4 0 0 0"></TextBlock>
-												<TextBlock FontSize="14" FontWeight="Bold" ToolTip="当前算力" Text="{Binding SnapshotDataVm.SpeedText}" Margin="8 0 0 0"></TextBlock>
+							<controls:KbCheckBox 
+								Padding="0" 
+								FontSize="16"
+								FontWeight="Bold"
+								HorizontalAlignment="Center" 
+								IconColor="{StaticResource IconFillColor}"
+								IsChecked="{Binding IsShow}" 
+								ToolTip="显示算力图" 
+								VerticalAlignment="Center" 
+								Content="{Binding CoinVm.Code}"></controls:KbCheckBox>
+						</StackPanel>
+					</Border>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+		<ScrollViewer 
+			Grid.Row="2"
+			Background="White"
+			VerticalScrollBarVisibility="Auto"
+			xmlns:sys="clr-namespace:System;assembly=mscorlib">
+			<ScrollViewer.Resources>
+				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
+				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
+			</ScrollViewer.Resources>
+			<Viewbox Stretch="Uniform" VerticalAlignment="Top">
+				<ItemsControl 
+					Width="960"						
+					MouseDown="ItemsControl_MouseDown"
+					ItemsSource="{Binding ChartVms}"
+					BorderThickness="0"
+					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel>
+							</WrapPanel>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Border Height="154" Width="480" Background="White" Visibility="{Binding IsShow, Converter={StaticResource BoolToVisibilityConverter}}">
+								<Border.ContextMenu>
+									<ContextMenu>
+										<MenuItem Header="不展示" Command="{Binding Hide}">
+										</MenuItem>
+									</ContextMenu>
+								</Border.ContextMenu>
+								<Grid Margin="5 0 5 10">
+									<lvc:CartesianChart									
+										DisableAnimations="True"                                            
+										Hoverable="False" 
+										DataTooltip="{x:Null}"
+										Series="{Binding Series}"
+										AxisY="{Binding AxisY}"
+										AxisX="{Binding AxisX}">
+									</lvc:CartesianChart>
+									<Grid Margin="40 9 70 0">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+											<ColumnDefinition Width="Auto"></ColumnDefinition>
+										</Grid.ColumnDefinitions>
+										<StackPanel>
+											<WrapPanel Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+												<TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}" Margin="4 0 0 0"></TextBlock>
+												<TextBlock FontSize="14" FontWeight="Bold">/</TextBlock>
+												<TextBlock 
+													FontSize="14" FontWeight="Bold" 
+													Foreground="{Binding OnlineColor}"
+													ToolTip="在线数" 
+													Text="{Binding SnapshotDataVm.MainCoinOnlineCount}">
+												</TextBlock>
 											</WrapPanel>
-										</Grid>
+
+											<WrapPanel Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
+												<TextBlock FontSize="14" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}" Margin="4 0 0 0"></TextBlock>
+												<TextBlock FontSize="14" FontWeight="Bold">/</TextBlock>
+												<TextBlock 
+													FontSize="14" FontWeight="Bold" 
+													Foreground="{Binding OnlineColor}"
+													ToolTip="在线数" 
+													Text="{Binding SnapshotDataVm.DualCoinOnlineCount}">
+												</TextBlock>
+											</WrapPanel>
+										</StackPanel>
+										<WrapPanel Grid.Column="1">
+											<TextBlock FontSize="14" FontWeight="Bold" Text="{Binding CoinVm.Code}" Margin="4 0 0 0"></TextBlock>
+											<TextBlock FontSize="14" FontWeight="Bold" ToolTip="当前算力" Text="{Binding SnapshotDataVm.SpeedText}" Margin="8 0 0 0"></TextBlock>
+										</WrapPanel>
 									</Grid>
-								</Border>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-				</Viewbox>
-			</ScrollViewer>
-		</Grid>
+								</Grid>
+							</Border>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</Viewbox>
+		</ScrollViewer>
 		<notification:NotificationMessageContainer 
 			Grid.Row="1"
 			Grid.Column="0"
@@ -266,7 +265,7 @@
 			MaxWidth="500"
 			Manager="{Binding Manager}" />
 
-		<Grid Grid.Row="1" Grid.Column="1">
+		<Grid Grid.Row="2" Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
