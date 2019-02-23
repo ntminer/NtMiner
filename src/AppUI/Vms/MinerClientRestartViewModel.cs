@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Notifications;
+using System;
 using System.Linq;
 using System.Windows.Input;
 
@@ -6,14 +7,27 @@ namespace NTMiner.Vms {
     public class MinerClientRestartViewModel : ViewModelBase {
         private MinerClientViewModel _minerClientVm;
         private MineWorkViewModel _selectedMineWork;
-        public ICommand Save { get; private set; }
+        public ICommand Ok { get; private set; }
 
         public Action CloseWindow { get; set; }
 
         public MinerClientRestartViewModel(MinerClientViewModel minerClientVm) {
-            this.Save = new DelegateCommand(() => {
-                // TODO:通过中控调用
-                NTMinerDaemonService.Instance.RestartNTMinerAsync(minerClientVm.MinerIp, this.SelectedMineWork.Id, null);
+            this.Ok = new DelegateCommand(() => {
+                Server.MinerClientService.RestartNTMinerAsync(minerClientVm.MinerIp, minerClientVm.WorkId, response => {
+                    if (!response.IsSuccess()) {
+                        if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
+                                 .Accent("#1751C3")
+                                 .Background("Red")
+                                 .HasBadge("Error")
+                                 .HasMessage(response.Description)
+                                 .Dismiss()
+                                 .WithDelay(TimeSpan.FromSeconds(5))
+                                 .Queue();
+                        }
+                    }
+                });
                 CloseWindow?.Invoke();
             });
             _minerClientVm = minerClientVm;

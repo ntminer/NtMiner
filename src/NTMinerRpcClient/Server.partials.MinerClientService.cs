@@ -11,7 +11,7 @@ namespace NTMiner {
             private MinerClientServiceFace() {
             }
 
-            public static void RestartWindowsAsync(string clientIp, Action<ResponseBase> callback) {
+            public void RestartWindowsAsync(string clientIp, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         RestartWindowsRequest request = new RestartWindowsRequest {
@@ -29,7 +29,7 @@ namespace NTMiner {
                 });
             }
 
-            public static void ShutdownWindowsAsync(string clientIp, Action<ResponseBase> callback) {
+            public void ShutdownWindowsAsync(string clientIp, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         ShutdownWindowsRequest request = new ShutdownWindowsRequest {
@@ -47,7 +47,7 @@ namespace NTMiner {
                 });
             }
 
-            public static void OpenNTMinerAsync(string clientIp, Guid workId, Action<ResponseBase> callback) {
+            public void OpenNTMinerAsync(string clientIp, Guid workId, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         OpenNTMinerRequest request = new OpenNTMinerRequest {
@@ -66,7 +66,7 @@ namespace NTMiner {
                 });
             }
 
-            public static void RestartNTMinerAsync(string clientIp, Guid workId, Action<ResponseBase> callback) {
+            public void RestartNTMinerAsync(string clientIp, Guid workId, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         RestartNTMinerRequest request = new RestartNTMinerRequest {
@@ -85,7 +85,7 @@ namespace NTMiner {
                 });
             }
 
-            public static void UpgradeNTMinerAsync(string clientIp, string ntminerFileName, Action<ResponseBase> callback) {
+            public void UpgradeNTMinerAsync(string clientIp, string ntminerFileName, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         UpgradeNTMinerRequest request = new UpgradeNTMinerRequest {
@@ -104,7 +104,7 @@ namespace NTMiner {
                 });
             }
 
-            public static void CloseNTMinerAsync(string clientIp, Action<ResponseBase> callback) {
+            public void CloseNTMinerAsync(string clientIp, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         CloseNTMinerRequest request = new CloseNTMinerRequest {
@@ -122,7 +122,7 @@ namespace NTMiner {
                 });
             }
 
-            public static void StartMineAsync(string clientIp, Guid workId, Action<ResponseBase> callback) {
+            public void StartMineAsync(string clientIp, Guid workId, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         StartMineRequest request = new StartMineRequest {
@@ -141,7 +141,7 @@ namespace NTMiner {
                 });
             }
 
-            public static void StopMineAsync(string clientIp, Action<ResponseBase> callback) {
+            public void StopMineAsync(string clientIp, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         StopMineRequest request = new StopMineRequest {
@@ -159,7 +159,7 @@ namespace NTMiner {
                 });
             }
 
-            public static void SetClientMinerProfilePropertyAsync(string clientIp, string propertyName, object value, Action<ResponseBase> callback) {
+            public void SetClientMinerProfilePropertyAsync(string clientIp, string propertyName, object value, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         SetClientMinerProfilePropertyRequest request = new SetClientMinerProfilePropertyRequest {
