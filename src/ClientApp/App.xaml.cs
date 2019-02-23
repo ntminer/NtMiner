@@ -45,7 +45,41 @@ namespace NTMiner {
                     SplashWindow splashWindow = new SplashWindow();
                     splashWindow.Show();
                     NTMinerRoot.AppName = "开源矿工挖矿客户端";
-                    NTMinerRoot.Current.Init(OnNTMinerRootInited);
+                    NTMinerRoot.Current.Init(()=> {
+                        OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Access();
+                        NTMinerRoot.KernelDownloader = new KernelDownloader();
+                        UIThread.Execute(() => {
+                            MainWindow window = new MainWindow();
+                            IMainWindow mainWindow = window;
+                            this.MainWindow = window;
+                            this.MainWindow.Show();
+                            this.MainWindow.Activate();
+                            notifyIcon = new ExtendedNotifyIcon("pack://application:,,,/NTMiner;component/logo.ico");
+                            notifyIcon.Init();
+                            #region 处理显示主界面命令
+                            VirtualRoot.Accept<ShowMainWindowCommand>(
+                                "处理显示主界面命令",
+                                LogEnum.None,
+                                action: message => {
+                                    UIThread.Execute(() => {
+                                        Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
+                                    });
+                                });
+                            #endregion
+                            try {
+                                HttpServer.Start("http://localhost:3336");
+                                NTMinerRoot.Current.Start();
+                            }
+                            catch (Exception ex) {
+                                Logger.ErrorDebugLine(ex.Message, ex);
+                            }
+                            splashWindow?.Close();
+                            if (NTMinerRoot.Current.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) {
+                                Logger.InfoDebugLine("自动开始挖矿倒计时");
+                                Views.Ucs.AutoStartCountdown.ShowDialog();
+                            }
+                        });
+                    });
                     VirtualRoot.Accept<CloseNTMinerCommand>(
                         "处理关闭NTMiner客户端命令",
                         LogEnum.Console,
@@ -79,43 +113,6 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
-        }
-
-        private void OnNTMinerRootInited() {
-            OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Access();
-            NTMinerRoot.KernelDownloader = new KernelDownloader();
-            UIThread.Execute(() => {
-                Window splashWindow = MainWindow;
-                MainWindow window = new MainWindow();
-                IMainWindow mainWindow = window;
-                this.MainWindow = window;
-                this.MainWindow.Show();
-                this.MainWindow.Activate();
-                notifyIcon = new ExtendedNotifyIcon("pack://application:,,,/NTMiner;component/logo.ico");
-                notifyIcon.Init();
-                #region 处理显示主界面命令
-                VirtualRoot.Accept<ShowMainWindowCommand>(
-                    "处理显示主界面命令",
-                    LogEnum.None,
-                    action: message => {
-                        UIThread.Execute(() => {
-                            Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
-                        });
-                    });
-                #endregion
-                try {
-                    HttpServer.Start("http://localhost:3336");
-                    NTMinerRoot.Current.Start();
-                }
-                catch (Exception ex) {
-                    Logger.ErrorDebugLine(ex.Message, ex);
-                }
-                splashWindow?.Close();
-                if (NTMinerRoot.Current.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) {
-                    Logger.InfoDebugLine("自动开始挖矿倒计时");
-                    Views.Ucs.AutoStartCountdown.ShowDialog();
-                }
-            });
         }
     }
 }
