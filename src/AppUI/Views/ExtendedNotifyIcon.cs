@@ -28,7 +28,6 @@ namespace NTMiner.Views {
             _targetNotifyIcon.MouseMove += (object sender, MouseEventArgs e)=> {
                 if (t.AddSeconds(2) < DateTime.Now) {
                     t = DateTime.Now;
-                    // TODO:显示基本信息
                     _targetNotifyIcon.Text = "NTMiner";
                 }
             };

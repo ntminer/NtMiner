@@ -224,7 +224,6 @@
     <Compile Include="Windows\UAC.cs" />
     <Compile Include="Windows\WAU.cs" />
     <Compile Include="Windows\Bios.cs" />
-    <Compile Include="Windows\ExtensionMethods.cs" />
     <Compile Include="Windows\DiskSpaceFlags.cs" />
     <Compile Include="Windows\HardDisk.cs" />
     <Compile Include="Windows\OS.cs" />

@@ -1,7 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 
-// TODO: Possibly clean this class up a little ?
-
 namespace NTMiner.Windows {
     /// <summary>
     /// Class for getting info for HardDisks

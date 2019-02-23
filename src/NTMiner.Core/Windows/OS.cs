@@ -10,7 +10,6 @@ namespace NTMiner.Windows {
 
         #region Properties
 
-        // TODO: Add much more properties related to retrieving information, this is way too small
         // for a class related to an OS. There are multiple possibilities here.
 
         /// <summary>

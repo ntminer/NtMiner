@@ -15,21 +15,6 @@ namespace NTMiner.Windows {
 
         #region Properties
 
-        // TODO: Methods To implement still, but WITHOUT using System.Management or WMI:
-        // Getting Data Width
-        // Getting Address Width
-        // Getting Current Voltage
-        // Getting L2 and L3 Cache sizes
-        // Getting Load percentage.
-        // Getting processor revision
-        // Getting Socket type
-        // Getting FSB speed
-        // Getting supported instruction sets
-        // Getting current temperature
-        //
-        // More to come...
-
-
         /// <summary>
         /// Gets the name of the processor.
         /// </summary>
@@ -122,8 +107,6 @@ namespace NTMiner.Windows {
 
             return false;
         }
-
-        // TODO: Find a way to make it possible so that other logical cores can be selected with this method 
 
         /// <summary>
         /// Gets processor info depending on what logical processor is chosen

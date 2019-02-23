@@ -9,9 +9,6 @@ namespace NTMiner.Windows {
 
         #region Properties
 
-        // TODO: Add more properties for retrieving information, this is somewhat lacking.
-        // Also, DO IT WITHOUT WMI.
-
         /// <summary>
         /// Gets the name of the manufacturer of the motherboard the BIOS is in
         /// </summary>
