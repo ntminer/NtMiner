@@ -12,6 +12,10 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 NTMinerDaemonService.Instance.RestartWindowsAsync(request.ClientIp, null);
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -29,6 +33,10 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 NTMinerDaemonService.Instance.ShutdownWindowsAsync(request.ClientIp, null);
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -46,6 +54,10 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 NTMinerDaemonService.Instance.OpenNTMinerAsync(request.ClientIp, request.WorkId, null);
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -63,6 +75,10 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 NTMinerDaemonService.Instance.RestartNTMinerAsync(request.ClientIp, request.WorkId, null);
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -80,6 +96,10 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 NTMinerDaemonService.Instance.UpgradeNTMinerAsync(request.ClientIp, request.NTMinerFileName, null);
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -97,6 +117,10 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 NTMinerDaemonService.Instance.CloseNTMinerAsync(request.ClientIp, null);
                 return ResponseBase.Ok(request.MessageId);
             }
