@@ -135,7 +135,7 @@
 			<Viewbox Stretch="Fill">
 				<ItemsControl 
 					MouseDown="ItemsControl_MouseDown"
-					ItemsSource="{Binding TotalVms}"
+					ItemsSource="{Binding ChartVms}"
 					BorderThickness="0"
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 					<ItemsControl.ItemsPanel>

@@ -37,7 +37,7 @@ namespace NTMiner.Views {
                 action: message => {
                     RefreshTotalSpeedChart(limit: 1);
                     UIThread.Execute(() => {
-                        foreach (var item in Vm.TotalVms) {
+                        foreach (var item in Vm.ChartVms) {
                             item.SetAxisLimits(message.Timestamp);
                         }
                     });
@@ -70,7 +70,7 @@ namespace NTMiner.Views {
                         Vm.TotalMiningCount = response.TotalMiningCount;
                         Vm.TotalOnlineCount = response.TotalOnlineCount;
                         //NTMinerRoot.Current.DebugLine($"获取了{data.Count}条");
-                        foreach (var chartVm in Vm.TotalVms) {
+                        foreach (var chartVm in Vm.ChartVms) {
                             var list = response.Data.Where(a => a.CoinCode == chartVm.CoinVm.Code).ToList();
                             if (list.Count != 0) {
                                 list = list.OrderBy(a => a.Timestamp).ToList();

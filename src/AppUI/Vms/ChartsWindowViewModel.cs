@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         private INotificationMessageManager _manager;
         private double _height;
         private double _width;
-        private List<ChartViewModel> _totalVms;
+        private List<ChartViewModel> _chartVms;
         private int _totalMiningCount;
         private int _totalOnlineCount;
 
@@ -71,15 +71,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<ChartViewModel> TotalVms {
+        public List<ChartViewModel> ChartVms {
             get {
-                if (_totalVms == null) {
-                    _totalVms = new List<ChartViewModel>();
+                if (_chartVms == null) {
+                    _chartVms = new List<ChartViewModel>();
                     foreach (var coinVm in MinerClientsWindowViewModel.Current.MineCoinVms.AllCoins.OrderBy(a => a.SortNumber)) {
-                        _totalVms.Add(new ChartViewModel(coinVm));
+                        _chartVms.Add(new ChartViewModel(coinVm));
                     }
                 }
-                return _totalVms;
+                return _chartVms;
             }
         }
     }
