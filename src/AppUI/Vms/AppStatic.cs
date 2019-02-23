@@ -133,6 +133,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(() => {
+            InnerProperty.ShowWindow();
+        });
+
         public static ICommand ShowLangViewItems { get; private set; } = new DelegateCommand<string>((viewId) => {
             ViewLang.ShowWindow(new ViewLangViewModel(viewId));
         });

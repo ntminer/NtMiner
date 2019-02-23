@@ -9,6 +9,7 @@ using System.Reflection;
 namespace NTMiner {
     public partial class NTMinerRoot {
         public static IKernelDownloader KernelDownloader;
+        public static string AppName;
 
         public static readonly int GpuAllId = -1;
 

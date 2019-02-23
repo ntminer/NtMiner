@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.InnerProperty"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		DataContext="{x:Static vm:InnerPropertyViewModel.Current}"
+		Background="White"
+		mc:Ignorable="d" Height="320" Width="660">
+	<UserControl.Resources>
+		<Style TargetType="Label">
+			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+		</Style>
+		<Style TargetType="TextBlock">
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+		</Style>
+		<sys:String x:Key="WindowTitle">
+			InnerProperty
+		</sys:String>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Label Grid.Row="0" Grid.Column="0" Content="AppName"></Label>
+		<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding AppName}"></TextBlock>
+
+		<Label Grid.Row="1" Grid.Column="0" Content="BootOn"></Label>
+		<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding BootOn}"></TextBlock>
+
+		<Label Grid.Row="2" Grid.Column="0" Content="CurrentLangVm"></Label>
+		<controls:KbComboBox 
+			Grid.Row="2" Grid.Column="1"
+			Width="100"
+			Height="26"
+			HorizontalAlignment="Left"
+			Background="{StaticResource MainColor}"
+			ItemsSource="{Binding LangVms.LangVms}"
+			DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
+		</controls:KbComboBox>
+
+		<Label Grid.Row="3" Grid.Column="0" Content="GlobalDir"></Label>
+		<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding GlobalDir}"></TextBlock>
+
+		<Label Grid.Row="4" Grid.Column="0" Content="LangDbFileFullName"></Label>
+		<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding LangDbFileFullName}"></TextBlock>
+
+		<Label Grid.Row="5" Grid.Column="0" Content="ServerDbFileFullName"></Label>
+		<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ServerDbFileFullName}"></TextBlock>
+
+		<Label Grid.Row="6" Grid.Column="0" Content="LocalDbFileFullName"></Label>
+		<TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding LocalDbFileFullName}"></TextBlock>
+	</Grid>
+</UserControl>

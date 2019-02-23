@@ -75,7 +75,7 @@
 			</WrapPanel>
 		</controls:KbButton>
 		<Menu Background="Transparent" VerticalAlignment="Center">
-			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientDevVisible}">
+			<MenuItem Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -145,7 +145,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientDevVisible}">
+			<MenuItem Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -154,6 +154,16 @@
 						Fill="#385263"
 						Stretch="Fill" />
 				</MenuItem.Icon>
+				<MenuItem Header="InnerProperty" Command="{x:Static vm:AppStatic.ShowInnerProperty}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Property}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<MenuItem Header="kernel input" Command="{x:Static vm:AppStatic.ShowKernelInputs}">
 					<MenuItem.Icon>
 						<Path
