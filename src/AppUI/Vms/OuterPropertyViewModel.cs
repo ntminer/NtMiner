@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
-    public class PropertyViewModel : ViewModelBase {
-        public static readonly PropertyViewModel Current = new PropertyViewModel();
+    public class OuterPropertyViewModel : ViewModelBase {
+        public static readonly OuterPropertyViewModel Current = new OuterPropertyViewModel();
 
-        private PropertyViewModel() {
+        private OuterPropertyViewModel() {
 
         }
 

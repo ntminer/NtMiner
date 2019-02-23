@@ -324,7 +324,7 @@
 				</TabItem>
 				<TabItem Header="{DynamicResource HProperty}" Style="{DynamicResource TabItemStyle}">
 					<Border BorderThickness="0" BorderBrush="{StaticResource LineColor}" Padding="14 0" Background="White">
-						<uc:Property />
+						<uc:OuterProperty />
 					</Border>
 				</TabItem>
 			</TabControl>

@@ -2,21 +2,21 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class Property : UserControl {
+    public partial class OuterProperty : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Property",
                 CloseVisible = System.Windows.Visibility.Visible
-            }, ucFactory: (window) => new Property(), fixedSize: true);
+            }, ucFactory: (window) => new OuterProperty(), fixedSize: true);
         }
 
-        private PropertyViewModel Vm {
+        private OuterPropertyViewModel Vm {
             get {
-                return (PropertyViewModel)this.DataContext;
+                return (OuterPropertyViewModel)this.DataContext;
             }
         }
 
-        public Property() {
+        public OuterProperty() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }

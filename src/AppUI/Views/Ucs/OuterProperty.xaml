@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.Property"
+﻿<UserControl x:Class="NTMiner.Views.Ucs.OuterProperty"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
         xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms"
-        DataContext="{x:Static vm:PropertyViewModel.Current}"
+        DataContext="{x:Static vm:OuterPropertyViewModel.Current}"
         Background="White"
         mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
     <UserControl.Resources>
