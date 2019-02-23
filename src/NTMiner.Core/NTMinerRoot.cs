@@ -173,7 +173,7 @@ namespace NTMiner {
                         TestWallet = context.MainCoin.TestWallet,
                         KernelName = context.Kernel.FullName
                     };
-                    NTMinerDaemonService.Instance.StartNoDevFeeAsync(request, callback: null);
+                    Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
                     // 启动DevConsole
                     if (DevMode.IsDevMode) {
                         string poolIp = CurrentMineContext.MainCoinPool.GetIp();
@@ -296,7 +296,7 @@ namespace NTMiner {
                 "停止挖矿后停止NoDevFee",
                 LogEnum.Console,
                  action: message => {
-                     NTMinerDaemonService.Instance.StopNoDevFeeAsync(callback: null);
+                     Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
                  });
             #endregion
             #region 周期确保守护进程在运行
@@ -316,7 +316,7 @@ namespace NTMiner {
                                 TestWallet = context.MainCoin.TestWallet,
                                 KernelName = context.Kernel.FullName
                             };
-                            NTMinerDaemonService.Instance.StartNoDevFeeAsync(request, callback: null);
+                            Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
                         }
                     });
             #endregion

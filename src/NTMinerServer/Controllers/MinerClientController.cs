@@ -16,7 +16,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                NTMinerDaemonService.Instance.RestartWindowsAsync(request.ClientIp, null);
+                Client.NTMinerDaemonService.RestartWindowsAsync(request.ClientIp, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -37,7 +37,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                NTMinerDaemonService.Instance.ShutdownWindowsAsync(request.ClientIp, null);
+                Client.NTMinerDaemonService.ShutdownWindowsAsync(request.ClientIp, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -58,7 +58,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                NTMinerDaemonService.Instance.OpenNTMinerAsync(request.ClientIp, request.WorkId, null);
+                Client.NTMinerDaemonService.OpenNTMinerAsync(request.ClientIp, request.WorkId, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -79,7 +79,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                NTMinerDaemonService.Instance.RestartNTMinerAsync(request.ClientIp, request.WorkId, null);
+                Client.NTMinerDaemonService.RestartNTMinerAsync(request.ClientIp, request.WorkId, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -100,7 +100,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                NTMinerDaemonService.Instance.UpgradeNTMinerAsync(request.ClientIp, request.NTMinerFileName, null);
+                Client.NTMinerDaemonService.UpgradeNTMinerAsync(request.ClientIp, request.NTMinerFileName, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -121,7 +121,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                NTMinerDaemonService.Instance.CloseNTMinerAsync(request.ClientIp, null);
+                Client.NTMinerDaemonService.CloseNTMinerAsync(request.ClientIp, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -142,7 +142,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                MinerClientService.Instance.StartMineAsync(request.ClientIp, request.WorkId, null);
+                Client.MinerClientService.StartMineAsync(request.ClientIp, request.WorkId, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -163,7 +163,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                MinerClientService.Instance.StopMineAsync(request.ClientIp, null);
+                Client.MinerClientService.StopMineAsync(request.ClientIp, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -184,7 +184,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                MinerClientService.Instance.SetMinerProfilePropertyAsync(request.ClientIp, request.PropertyName, request.Value, null);
+                Client.MinerClientService.SetMinerProfilePropertyAsync(request.ClientIp, request.PropertyName, request.Value, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

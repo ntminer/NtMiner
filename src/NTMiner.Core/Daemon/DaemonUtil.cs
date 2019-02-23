@@ -10,7 +10,7 @@ namespace NTMiner.Daemon {
             string processName = "NTMinerDaemon";
             Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
-                NTMinerDaemonService.Instance.GetDaemonVersionAsync(thatVersion => {
+                Client.NTMinerDaemonService.GetDaemonVersionAsync(thatVersion => {
                     try {
                         string thisVersion = ThisNTMinerDaemonFileVersion;
                         if (thatVersion != thisVersion) {

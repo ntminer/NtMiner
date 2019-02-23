@@ -120,7 +120,7 @@ namespace NTMiner.Vms {
             });
             this.StartMine = new DelegateCommand(() => {
                 IsMining = true;
-                MinerClientService.Instance.StartMineAsync(this.MinerIp, WorkId, response => {
+                Client.MinerClientService.StartMineAsync(this.MinerIp, WorkId, response => {
                     if (!response.IsSuccess()) {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
@@ -144,7 +144,7 @@ namespace NTMiner.Vms {
             });
             this.StopMine = new DelegateCommand(() => {
                 IsMining = false;
-                MinerClientService.Instance.StopMineAsync(this.MinerIp, response => {
+                Client.MinerClientService.StopMineAsync(this.MinerIp, response => {
                     if (!response.IsSuccess()) {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
@@ -358,7 +358,7 @@ namespace NTMiner.Vms {
                     _data.MinerName = value;
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, response1 => {
                         if (response1.IsSuccess()) {
-                            MinerClientService.Instance.SetMinerProfilePropertyAsync(this.MinerIp, nameof(MinerName), value, response2 => {
+                            Client.MinerClientService.SetMinerProfilePropertyAsync(this.MinerIp, nameof(MinerName), value, response2 => {
                                 if (!response2.IsSuccess()) {
                                     _data.MinerName = old;
                                     Write.UserLine($"{this.MinerIp} {response2?.Description}", ConsoleColor.Red);
