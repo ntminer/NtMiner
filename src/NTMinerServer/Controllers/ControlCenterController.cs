@@ -104,7 +104,6 @@ namespace NTMiner.Controllers {
                 int totalOnlineCount;
                 List<CoinSnapshotData> data = HostRoot.Current.CoinSnapshotSet.GetLatestSnapshots(
                     request.Limit,
-                    request.CoinCodes,
                     out totalMiningCount,
                     out totalOnlineCount) ?? new List<CoinSnapshotData>();
                 return GetCoinSnapshotsResponse.Ok(request.MessageId, data, totalMiningCount, totalOnlineCount);

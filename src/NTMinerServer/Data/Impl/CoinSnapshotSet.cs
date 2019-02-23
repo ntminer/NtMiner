@@ -168,7 +168,6 @@ namespace NTMiner.Data.Impl {
 
         public List<CoinSnapshotData> GetLatestSnapshots(
             int limit,
-            List<string> coinCodes,
             out int totalMiningCount,
             out int totalOnlineCount) {
             InitOnece();
@@ -192,31 +191,7 @@ namespace NTMiner.Data.Impl {
                             Query.LTE(nameof(CoinSnapshotData.Timestamp), rightTime))).OrderByDescending(a => a.Timestamp).ToList();
                 }
             }
-            List<CoinSnapshotData> list = new List<CoinSnapshotData>(limit * coinCodes.Count);
-            for (int i = 1; i <= limit; i++) {
-                DateTime time = rightTime.AddSeconds(-10 * i - 10);
-                DateTime time2 = rightTime.AddSeconds(-10 * i + 10);
-                foreach (var coinCode in coinCodes) {
-                    var dataItem = results.FirstOrDefault(a => a.Timestamp > time && a.Timestamp <= time2 && a.CoinCode == coinCode);
-                    if (dataItem != null) {
-                        list.Add(dataItem);
-                    }
-                    else {
-                        list.Add(new CoinSnapshotData {
-                            Id = ObjectId.NewObjectId(),
-                            CoinCode = coinCode,
-                            MainCoinMiningCount = 0,
-                            MainCoinOnlineCount = 0,
-                            DualCoinMiningCount = 0,
-                            DualCoinOnlineCount = 0,
-                            ShareDelta = 0,
-                            Speed = 0,
-                            Timestamp = time2
-                        });
-                    }
-                }
-            }
-            return list;
+            return results;
         }
     }
 }

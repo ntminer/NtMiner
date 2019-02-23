@@ -60,8 +60,7 @@ namespace NTMiner {
                     try {
                         GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
                             LoginName = LoginName,
-                            Limit = limit,
-                            CoinCodes = coinCodes
+                            Limit = limit
                         };
                         request.SignIt(PasswordSha1);
                         GetCoinSnapshotsResponse response = Request<GetCoinSnapshotsResponse>("ControlCenter", "LatestSnapshots", request);
