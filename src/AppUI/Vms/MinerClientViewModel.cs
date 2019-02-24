@@ -713,10 +713,10 @@ namespace NTMiner.Vms {
             get {
                 List<GpuRowData> list = new List<GpuRowData> {
                     new GpuRowData {
-                        RowHeader = $"{MainCoinCode} {MainCoinSpeedText}"
+                        RowHeader = $"{MainCoinCode}"
                     },
                     new GpuRowData {
-                        RowHeader = $"{DualCoinCode} {DualCoinSpeedText}"
+                        RowHeader = $"{DualCoinCode}"
                     },
                     new GpuRowData {
                         RowHeader = "温度"

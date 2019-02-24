@@ -1079,6 +1079,15 @@
 										<Style TargetType="DataGridCell">
 											<Setter Property="Foreground" Value="#FF5A5A5A" />
 											<Setter Property="Background" Value="Transparent"></Setter>
+											<Setter Property="Template">
+												<Setter.Value>
+													<ControlTemplate TargetType="DataGridCell">
+														<ContentPresenter
+															HorizontalAlignment="Left"
+															VerticalAlignment="Center" />
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
 										</Style>
 									</DataGrid.Resources>
 									<DataGrid.Columns>
