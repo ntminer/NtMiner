@@ -244,14 +244,14 @@
 								</controls:KbButton>
 							</WrapPanel>
 						</controls:KbComboBox.Toolbar>
-						<controls:KbComboBox.ContextMenu>
+						<controls:KbComboBox.ContextMenuEx>
 							<ContextMenu>
 								<MenuItem Header="{DynamicResource Add}" Command="{Binding MinerProfile.CoinVm.AddPool}">
 								</MenuItem>
 								<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ManagePools}">
 								</MenuItem>
 							</ContextMenu>
-						</controls:KbComboBox.ContextMenu>
+						</controls:KbComboBox.ContextMenuEx>
 					</controls:KbComboBox>
 				</WrapPanel>
 
