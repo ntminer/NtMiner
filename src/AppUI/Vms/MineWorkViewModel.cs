@@ -25,6 +25,12 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public MineWorkViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public MineWorkViewModel(IMineWork mineWork) : this(mineWork.GetId()) {
             _name = mineWork.Name;
             _description = mineWork.Description;
@@ -34,6 +40,9 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.Name)) {
                     return;
                 }
                 if (NTMinerRoot.Current.MineWorkSet.Contains(this.Id)) {

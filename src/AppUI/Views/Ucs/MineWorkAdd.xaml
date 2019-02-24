@@ -7,6 +7,8 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+		mc:Ignorable="d"
+		d:DataContext="{d:DesignData Source=Design/MineWorkViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
 		<Style TargetType="Label">
@@ -25,7 +27,11 @@
 		</Grid.RowDefinitions>
 		<WrapPanel Grid.Row="0">
 			<Label>名称:</Label>
-			<TextBox Width="320" VerticalContentAlignment="Center" Background="White" Text="{Binding Name, ValidatesOnExceptions=True}">
+			<TextBox 
+				Width="320" 
+				VerticalContentAlignment="Center" 
+				Background="White" 
+				Text="{Binding Name, ValidatesOnExceptions=True}">
 			</TextBox>
 			<Label>备注:</Label>
 			<TextBox Width="420" Background="White" Padding="0 4"
