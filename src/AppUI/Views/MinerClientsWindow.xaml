@@ -1277,7 +1277,7 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Version}" Margin="8 0 0 0"></TextBlock>
+							<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding Version, Mode=OneWay}"></TextBox>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
