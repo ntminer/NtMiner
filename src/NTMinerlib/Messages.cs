@@ -50,9 +50,9 @@ namespace NTMiner {
     }
     #endregion
 
-    [MessageType(messageType: typeof(SetAppSettingCommand), description: "设置AppSetting")]
-    public class SetAppSettingCommand : Cmd {
-        public SetAppSettingCommand(IAppSetting appSetting) {
+    [MessageType(messageType: typeof(ChangeAppSettingCommand), description: "设置AppSetting")]
+    public class ChangeAppSettingCommand : Cmd {
+        public ChangeAppSettingCommand(IAppSetting appSetting) {
             this.AppSetting = appSetting;
         }
 

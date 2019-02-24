@@ -8,7 +8,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public AppSettingSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Accept<SetAppSettingCommand>(
+            VirtualRoot.Accept<ChangeAppSettingCommand>(
                 "处理设置AppSetting命令",
                 LogEnum.Console,
                 action: message => {
