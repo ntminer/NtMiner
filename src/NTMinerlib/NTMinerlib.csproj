@@ -54,8 +54,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Ip\IIpSet.cs" />
     <Compile Include="Ip\Impl\IpSet.cs" />
-    <Compile Include="RemoteDesktop\EmptyRemoteDesktop.cs" />
-    <Compile Include="RemoteDesktop\IRemoteDesktop.cs" />
     <Compile Include="ISortable.cs" />
     <Compile Include="SignatureRequestExtension.cs" />
     <Compile Include="TimeSpanExtensions.cs" />

@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                     if (response.IsSuccess()) {
                         minerClientVm.RemoteUserName = this.UserName;
                         minerClientVm.RemotePassword = this.Password;
-                        VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.Ip, this.UserName, this.Password, this.MinerName, onDisconnected: message=> {
+                        AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.Ip, this.UserName, this.Password, this.MinerName, message => {
                             MinerClientsWindowViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("Red")
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
                                 .Dismiss()
                                 .WithDelay(TimeSpan.FromSeconds(5))
                                 .Queue();
-                        });
+                        }));
                         UIThread.Execute(() => {
                             CloseWindow?.Invoke();
                         });

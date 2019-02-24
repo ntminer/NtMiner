@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
                     });
                 }
                 else {
-                    VirtualRoot.RemoteDesktop.OpenRemoteDesktop(this.MinerIp, this.RemoteUserName, this.RemotePassword, this.MinerName, onDisconnected: message => {
+                    AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.RemoteUserName, this.RemotePassword, this.MinerName, message => {
                         MinerClientsWindowViewModel.Current.Manager.CreateMessage()
                                 .Accent("#1751C3")
                                 .Background("Red")
@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
                                 .Dismiss()
                                 .WithDelay(TimeSpan.FromSeconds(5))
                                 .Queue();
-                    });
+                    }));
                 }
             });
             this.RestartWindows = new DelegateCommand(() => {

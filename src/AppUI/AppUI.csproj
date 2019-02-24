@@ -111,6 +111,7 @@
     <Compile Include="AppHelper.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="KernelDownloader.cs" />
+    <Compile Include="RemoteDesktopInput.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
     </Compile>

@@ -2,7 +2,6 @@
 using NTMiner.Bus.DirectBus;
 using NTMiner.Ip;
 using NTMiner.Language;
-using NTMiner.RemoteDesktop;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
@@ -26,7 +25,6 @@ namespace NTMiner {
                 }
             }
         }
-        public static IRemoteDesktop RemoteDesktop = EmptyRemoteDesktop.Instance;
 
         public static ILang Lang {
             get {

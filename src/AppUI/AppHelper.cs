@@ -7,6 +7,8 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public static class AppHelper {
+        public static Action<RemoteDesktopInput> RemoteDesktop;
+
         public static void RunAsAdministrator() {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = ClientId.AppFileFullName;

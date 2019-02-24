@@ -1,19 +1,23 @@
 ﻿using AxMSTSCLib;
-using NTMiner.RemoteDesktop;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace NTMiner {
-    public class MsRdpRemoteDesktop : IRemoteDesktop {
+    public static class MsRdpRemoteDesktop {
         private static readonly Dictionary<string, Form> _formsByName = new Dictionary<string, Form>();
         /// <summary>
         /// 打开远程桌面窗口连接给定ip的windows主机
         /// </summary>
         /// <param name="serverIp">serverIp可带端口或不带端口，不带短则则使用远程桌面默认的3389</param>
-        public void OpenRemoteDesktop(string serverIp, string userName, string password, string description, Action<string> onDisconnected) {
+        public static void OpenRemoteDesktop(RemoteDesktopInput input) {
             UIThread.Execute(() => {
+                string serverIp = input.ServerIp;
+                string userName = input.UserName;
+                string password = input.Password;
+                string description = input.Description;
+                Action< string > onDisconnected = input.OnDisconnected;
                 string[] serverIps = serverIp.Split(':');
                 serverIp = serverIps[0];
                 string id = serverIp.Replace(".", "");

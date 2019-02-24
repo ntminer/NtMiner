@@ -76,7 +76,7 @@ namespace NTMiner {
                         }
                         HttpServer.Start("http://localhost:3338");
                         splashWindow?.Close();
-                        VirtualRoot.RemoteDesktop = new MsRdpRemoteDesktop();
+                        AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                     });
                 });
             }
