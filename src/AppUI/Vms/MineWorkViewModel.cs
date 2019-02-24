@@ -50,6 +50,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     VirtualRoot.Execute(new AddMineWorkCommand(this));
+                    MineWorkEdit.ShowWindow(new MineWorkViewModel(this));
                 }
                 CloseWindow?.Invoke();
             });
