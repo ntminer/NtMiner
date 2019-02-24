@@ -123,6 +123,7 @@
     <Compile Include="Core\Impl\GroupSet.cs" />
     <Compile Include="Core\Impl\KeyData.cs" />
     <Compile Include="Core\Impl\KeySet.cs" />
+    <Compile Include="Core\MinerServer\Impl\AppSettingSet.cs" />
     <Compile Include="Core\MinerServer\Impl\ColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\Impl\MinerGroupSet.cs" />
     <Compile Include="Core\Impl\ReadOnlyServerRepository`1.cs" />

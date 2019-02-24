@@ -1,5 +1,4 @@
-﻿using NTMiner.AppSetting;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.MinerServer;

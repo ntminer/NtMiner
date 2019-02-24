@@ -44,9 +44,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppSetting\IAppSettingSet.cs" />
-    <Compile Include="AppSetting\Impl\AppSettingSet.cs" />
-    <Compile Include="AppSetting\Messages.cs" />
+    <Compile Include="IAppSettingSet.cs" />
     <Compile Include="Bus\Cmd.cs" />
     <Compile Include="Bus\DelegateHandler`1.cs" />
     <Compile Include="Bus\DirectBus\DirectBus.cs" />

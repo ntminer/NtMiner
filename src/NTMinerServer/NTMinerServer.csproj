@@ -92,6 +92,7 @@
     <Compile Include="Data\IMineProfileManager.cs" />
     <Compile Include="Data\IMinerGroupSet.cs" />
     <Compile Include="Data\IMineWorkSet.cs" />
+    <Compile Include="Data\Impl\AppSettingSet.cs" />
     <Compile Include="Data\Impl\CalcConfigSet.cs" />
     <Compile Include="Data\Impl\ClientCoinSnapshotSet.cs" />
     <Compile Include="Data\Impl\ClientSet.cs" />

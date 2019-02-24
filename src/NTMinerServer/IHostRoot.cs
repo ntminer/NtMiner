@@ -1,5 +1,4 @@
 ﻿using Aliyun.OSS;
-using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.User;
 using System;

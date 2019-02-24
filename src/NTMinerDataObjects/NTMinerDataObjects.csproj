@@ -89,7 +89,7 @@
     <Compile Include="MinerServer\GetMinerGroupsResponse.cs" />
     <Compile Include="MinerServer\GetWalletsResponse.cs" />
     <Compile Include="HashUtil.cs" />
-    <Compile Include="MinerServer\IAppSetting.cs" />
+    <Compile Include="IAppSetting.cs" />
     <Compile Include="MinerServer\ICalcConfig.cs" />
     <Compile Include="MinerServer\IClientData.cs" />
     <Compile Include="Profile\ICoinKernelProfile.cs" />

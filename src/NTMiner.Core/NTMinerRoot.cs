@@ -1,5 +1,4 @@
-﻿using NTMiner.AppSetting;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
@@ -12,7 +11,6 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.Daemon;
-using NTMiner.Data.Impl;
 using NTMiner.Profile;
 using NTMiner.User;
 using NTMiner.User.Impl;
@@ -110,7 +108,7 @@ namespace NTMiner {
             Language.Impl.LangJson.Instance.Init(rawLangJson);
             this.PackageDownloader = new PackageDownloader(this);
             this.SysDicSet = new SysDicSet(this);
-            this.AppSettingSet = new AppSettingSet(SpecialPath.LocalDbFileFullName);
+            this.AppSettingSet = new AppSettingSet(this);
             this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
             this.SysDicItemSet = new SysDicItemSet(this);
             this.CoinSet = new CoinSet(this);

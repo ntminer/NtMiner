@@ -259,6 +259,8 @@
     <Compile Include="Views\Ucs\MinerProfileOption.xaml.cs">
       <DependentUpon>MinerProfileOption.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\AppSettingViewModel.cs" />
+    <Compile Include="Vms\AppSettingViewModels.cs" />
     <Compile Include="Vms\CalcConfigViewModel.cs" />
     <Compile Include="Vms\CalcConfigViewModels.cs" />
     <Compile Include="Vms\CalcViewModel.cs" />

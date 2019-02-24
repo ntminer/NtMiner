@@ -1,5 +1,6 @@
 ﻿using NTMiner.MinerServer;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -28,20 +29,18 @@ namespace NTMiner {
             #endregion
 
             #region GetAppSettingsAsync
-            public void GetAppSettingsAsync(Action<GetAppSettingsResponse> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        AppSettingsRequest request = new AppSettingsRequest {
-                            MessageId = Guid.NewGuid()
-                        };
-                        GetAppSettingsResponse response = Request<GetAppSettingsResponse>("AppSetting", "AppSettings", request);
-                        callback?.Invoke(response);
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
-                    }
-                });
+            public List<AppSettingData> GetAppSettings() {
+                try {
+                    AppSettingsRequest request = new AppSettingsRequest {
+                        MessageId = Guid.NewGuid()
+                    };
+                    GetAppSettingsResponse response = Request<GetAppSettingsResponse>("AppSetting", "AppSettings", request);
+                    return response.Data;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return new List<AppSettingData>();
+                }
             }
             #endregion
 

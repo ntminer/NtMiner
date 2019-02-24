@@ -1,6 +1,5 @@
 ﻿using Aliyun.OSS;
 using LiteDB;
-using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.User;

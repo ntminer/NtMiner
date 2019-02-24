@@ -50,6 +50,23 @@ namespace NTMiner {
     }
     #endregion
 
+    [MessageType(messageType: typeof(SetAppSettingCommand), description: "设置AppSetting")]
+    public class SetAppSettingCommand : Cmd {
+        public SetAppSettingCommand(IAppSetting appSetting) {
+            this.AppSetting = appSetting;
+        }
+
+        public IAppSetting AppSetting {
+            get; private set;
+        }
+    }
+
+    [MessageType(messageType: typeof(AppSettingChangedEvent), description: "AppSetting变更后")]
+    public class AppSettingChangedEvent : DomainEvent<IAppSetting> {
+        public AppSettingChangedEvent(IAppSetting source) : base(source) {
+        }
+    }
+
     [MessageType(messageType: typeof(UserActionEvent), description: "发生了用户活动后")]
     public class UserActionEvent : EventBase {
         public UserActionEvent() {
