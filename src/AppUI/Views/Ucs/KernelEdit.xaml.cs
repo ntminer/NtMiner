@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelEdit : UserControl {
-        public static void ShowEditWindow(KernelViewModel source) {
+        public static void ShowWindow(KernelViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,

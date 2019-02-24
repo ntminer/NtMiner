@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class SysDicItemEdit : UserControl {
-        public static void ShowEditWindow(SysDicItemViewModel source) {
+        public static void ShowWindow(SysDicItemViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

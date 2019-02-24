@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class UserEdit : UserControl {
-        public static void ShowEditWindow(UserViewModel source) {
+        public static void ShowWindow(UserViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

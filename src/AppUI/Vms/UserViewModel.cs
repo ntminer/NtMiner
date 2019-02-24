@@ -45,7 +45,7 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
                 }
-                UserEdit.ShowEditWindow(this);
+                UserEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.LoginName)) {

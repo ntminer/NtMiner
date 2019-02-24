@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelOutputTranslaterEdit : UserControl {
-        public static void ShowEditWindow(KernelOutputTranslaterViewModel source) {
+        public static void ShowWindow(KernelOutputTranslaterViewModel source) {
             int sortNumber = source.SortNumber;
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,

@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class PoolKernelEdit : UserControl {
-        public static void ShowEditWindow(PoolKernelViewModel source) {
+        public static void ShowWindow(PoolKernelViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",

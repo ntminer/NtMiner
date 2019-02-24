@@ -140,6 +140,9 @@
     <Compile Include="Views\Ucs\InnerProperty.xaml.cs">
       <DependentUpon>InnerProperty.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\MineWorkAdd.xaml.cs">
+      <DependentUpon>MineWorkAdd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\RemoteLogin.xaml.cs">
       <DependentUpon>RemoteLogin.xaml</DependentUpon>
     </Compile>
@@ -440,6 +443,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\InnerProperty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\MineWorkAdd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

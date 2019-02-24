@@ -74,7 +74,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
-                ColumnsShowEdit.ShowEditWindow(this);
+                ColumnsShowEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

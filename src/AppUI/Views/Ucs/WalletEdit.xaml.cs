@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class WalletEdit : UserControl {
-        public static void ShowEditWindow(WalletViewModel source) {
+        public static void ShowWindow(WalletViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Wallet",
                 IsDialogWindow = true,

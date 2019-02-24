@@ -95,7 +95,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                CoinEdit.ShowEditWindow(this);
+                CoinEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
             _data = clientData;
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.RemoteUserName) || string.IsNullOrEmpty(this.RemotePassword)) {
-                    RemoteLogin.ShowEditWindow(new RemoteLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
+                    RemoteLogin.ShowWindow(new RemoteLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
                         UserName = this.RemoteUserName,
                         Password = this.RemotePassword
                     });

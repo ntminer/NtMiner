@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
                 }.Edit.Execute(null);
             });
             this.Edit = new DelegateCommand(() => {
-                SysDicEdit.ShowEditWindow(this);
+                SysDicEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

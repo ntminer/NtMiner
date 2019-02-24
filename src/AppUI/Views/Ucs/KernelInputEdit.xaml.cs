@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelInputEdit : UserControl {
-        public static void ShowEditWindow(KernelInputViewModel source) {
+        public static void ShowWindow(KernelInputViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_KernelInput",
                 IsDialogWindow = true,

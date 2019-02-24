@@ -48,8 +48,14 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new SwichMinerProfileCommand(this.Id));
-                MineWorkEdit.ShowEditWindow(new MineWorkViewModel(this));
+                MineWorkViewModel mineWorkVm;
+                if (!MineWorkViewModels.Current.TryGetMineWorkVm(this.Id, out mineWorkVm)) {
+                    MineWorkAdd.ShowWindow(new MineWorkViewModel(this));
+                }
+                else {
+                    VirtualRoot.Execute(new SwichMinerProfileCommand(this.Id));
+                    MineWorkEdit.ShowWindow(new MineWorkViewModel(this));
+                }
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

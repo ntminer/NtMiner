@@ -2,26 +2,27 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class KernelOutputFilterEdit : UserControl {
-        public static void ShowWindow(KernelOutputFilterViewModel source) {
+    public partial class MineWorkAdd : UserControl {
+        public static void ShowWindow(MineWorkViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
-                IconName = "Icon_Coin"
+                FooterVisible = System.Windows.Visibility.Collapsed,
+                IconName = "Icon_MineWork"
             }, ucFactory: (window) =>
             {
-                KernelOutputFilterViewModel vm = new KernelOutputFilterViewModel(source);
+                MineWorkViewModel vm = new MineWorkViewModel(source);
                 vm.CloseWindow = () => window.Close();
-                return new KernelOutputFilterEdit(vm);
+                return new MineWorkAdd(vm);
             }, fixedSize: true);
         }
 
-        private KernelOutputFilterViewModel Vm {
+        private MineWorkViewModel Vm {
             get {
-                return (KernelOutputFilterViewModel)this.DataContext;
+                return (MineWorkViewModel)this.DataContext;
             }
         }
-        public KernelOutputFilterEdit(KernelOutputFilterViewModel vm) {
+        public MineWorkAdd(MineWorkViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);

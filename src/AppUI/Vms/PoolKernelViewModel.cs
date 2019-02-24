@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
-                PoolKernelEdit.ShowEditWindow(this);
+                PoolKernelEdit.ShowWindow(this);
             });
         }
 

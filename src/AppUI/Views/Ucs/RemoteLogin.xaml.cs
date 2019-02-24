@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class RemoteLogin : UserControl {
-        public static void ShowEditWindow(RemoteLoginViewModel source) {
+        public static void ShowWindow(RemoteLoginViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,

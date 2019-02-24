@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class CoinKernelEdit : UserControl {
-        public static void ShowEditWindow(CoinKernelViewModel source) {
+        public static void ShowWindow(CoinKernelViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",

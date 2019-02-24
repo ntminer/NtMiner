@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
-                KernelOutputTranslaterEdit.ShowEditWindow(this);
+                KernelOutputTranslaterEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
