@@ -119,24 +119,5 @@ namespace NTMiner.Vms {
                 }
             }
         }
-
-
-        public void SwitchToPoolTab() {
-            this.IsWalletTabSelected = false;
-            this.IsKernelTabSelected = false;
-            this.IsPoolTabSelected = true;
-        }
-
-        public void SwitchToWalletTab() {
-            this.IsPoolTabSelected = false;
-            this.IsKernelTabSelected = false;
-            this.IsWalletTabSelected = true;
-        }
-
-        public void SwitchToKernelTab() {
-            this.IsPoolTabSelected = false;
-            this.IsWalletTabSelected = false;
-            this.IsKernelTabSelected = true;
-        }
     }
 }

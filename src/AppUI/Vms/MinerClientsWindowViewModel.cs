@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerServer;
 using NTMiner.Notifications;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +31,8 @@ namespace NTMiner.Vms {
         private double _logoRotateTransformAngle;
         private string _version;
         private string _kernel;
-        private WalletViewModel _mainCoinWallet;
-        private WalletViewModel _dualCoinWallet;
+        private string _mainCoinWallet;
+        private string _dualCoinWallet;
         private CoinViewModel _mainCoin;
         private CoinViewModel _dualCoin;
         private PoolViewModel _mainCoinPool;
@@ -46,9 +45,6 @@ namespace NTMiner.Vms {
         public ICommand PageFirst { get; private set; }
         public ICommand PageLast { get; private set; }
         public ICommand PageRefresh { get; private set; }
-        public ICommand ManageCoin { get; private set; }
-        public ICommand ManagePool { get; private set; }
-        public ICommand ManageWallet { get; private set; }
 
         private MinerClientsWindowViewModel() {
             if (Design.IsInDesignMode) {
@@ -78,8 +74,8 @@ namespace NTMiner.Vms {
             this._selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
             this._mainCoinPool = _mainCoin.OptionPools.First();
             this._dualCoinPool = _dualCoin.OptionPools.First();
-            this._mainCoinWallet = WalletViewModel.PleaseSelect;
-            this._dualCoinWallet = WalletViewModel.PleaseSelect;
+            this._mainCoinWallet = string.Empty;
+            this._dualCoinWallet = string.Empty;
             this.PageUp = new DelegateCommand(() => {
                 this.MinerClientPageIndex = this.MinerClientPageIndex - 1;
             });
@@ -94,17 +90,6 @@ namespace NTMiner.Vms {
             });
             this.PageRefresh = new DelegateCommand(() => {
                 QueryMinerClients();
-            });
-            this.ManageCoin = new DelegateCommand<CoinViewModel>((coinVm) => {
-                CoinPage.ShowWindow(coinVm);
-            });
-            this.ManagePool = new DelegateCommand<CoinViewModel>((coinVm) => {
-                this.ManageCoin.Execute(coinVm);
-                CoinPageViewModel.Current.SwitchToPoolTab();
-            });
-            this.ManageWallet = new DelegateCommand<CoinViewModel>((coinVm) => {
-                this.ManageCoin.Execute(coinVm);
-                CoinPageViewModel.Current.SwitchToWalletTab();
             });
             System.Timers.Timer t = new System.Timers.Timer(50);
             t.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
@@ -269,11 +254,11 @@ namespace NTMiner.Vms {
                         dualCoinPool = this.DualCoinPool.Server;
                     }
                 }
-                if (this.MainCoinWallet != null && this.MainCoinWallet != WalletViewModel.PleaseSelect) {
-                    mainCoinWallet = this.MainCoinWallet.Address;
+                if (!string.IsNullOrEmpty(this.MainCoinWallet)) {
+                    mainCoinWallet = this.MainCoinWallet;
                 }
-                if (this.DualCoinWallet != null && this.DualCoinWallet != WalletViewModel.PleaseSelect) {
-                    dualCoinWallet = this.DualCoinWallet.Address;
+                if (!string.IsNullOrEmpty(DualCoinWallet)) {
+                    dualCoinWallet = this.DualCoinWallet;
                 }
             }
             DateTime? timeLimit = null;
@@ -381,10 +366,18 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(MainCoin));
                     OnPropertyChanged(nameof(MainCoinPool));
                     this.MainCoinPool = PoolViewModel.PleaseSelect;
-                    this.MainCoinWallet = WalletViewModel.PleaseSelect;
+                    this.MainCoinWallet = string.Empty;
                     OnPropertyChanged(nameof(IsMainCoinSelected));
                     QueryMinerClients();
                 }
+            }
+        }
+
+        public string MainCoinWallet {
+            get { return _mainCoinWallet; }
+            set {
+                _mainCoinWallet = value;
+                OnPropertyChanged(nameof(MainCoinWallet));
             }
         }
 
@@ -407,19 +400,8 @@ namespace NTMiner.Vms {
                 }
             }
         }
-
-        public WalletViewModel MainCoinWallet {
-            get => _mainCoinWallet;
-            set {
-                if (_mainCoinWallet != value) {
-                    _mainCoinWallet = value;
-                    OnPropertyChanged(nameof(MainCoinWallet));
-                    QueryMinerClients();
-                }
-            }
-        }
-
-        public WalletViewModel DualCoinWallet {
+        
+        public string DualCoinWallet {
             get => _dualCoinWallet;
             set {
                 if (_dualCoinWallet != value) {
@@ -439,7 +421,7 @@ namespace NTMiner.Vms {
                     _dualCoin = value;
                     OnPropertyChanged(nameof(DualCoin));
                     this.DualCoinPool = PoolViewModel.PleaseSelect;
-                    this.DualCoinWallet = WalletViewModel.PleaseSelect;
+                    this.DualCoinWallet = string.Empty;
                     OnPropertyChanged(nameof(IsDualCoinSelected));
                     QueryMinerClients();
                 }

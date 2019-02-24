@@ -173,8 +173,8 @@ namespace NTMiner.Vms {
         public static ICommand ShowGroups { get; private set; } = new DelegateCommand(() => {
             GroupPage.ShowWindow();
         });
-        public static ICommand ShowCoins { get; private set; } = new DelegateCommand(() => {
-            CoinPage.ShowWindow(null);
+        public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin) => {
+            CoinPage.ShowWindow(currentCoin);
         });
         public static ICommand ManageColumnsShows { get; private set; } = new DelegateCommand(() => {
             ColumnsShowPage.ShowWindow();
