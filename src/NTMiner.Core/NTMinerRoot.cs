@@ -390,7 +390,7 @@ namespace NTMiner {
         public void Exit() {
             Server.ReportService.ReportStateAsync(ClientId.Id, isMining: false);
             if (_currentMineContext != null) {
-                StopMineAsync();
+                StopMine();
             }
         }
         #endregion
@@ -398,21 +398,24 @@ namespace NTMiner {
         #region StopMine
         public void StopMineAsync(Action callback = null) {
             Task.Factory.StartNew(() => {
-                try {
-                    if (_currentMineContext != null && _currentMineContext.Kernel != null) {
-                        string processName = _currentMineContext.Kernel.GetProcessName();
-                        Windows.TaskKill.Kill(processName);
-                    }
-                    Logger.WarnWriteLine("挖矿停止");
-                    var mineContext = _currentMineContext;
-                    _currentMineContext = null;
-                    VirtualRoot.Happened(new MineStopedEvent(mineContext));
-                    callback?.Invoke();
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                }
+                StopMine();
+                callback?.Invoke();
             });
+        }
+        private void StopMine() {
+            try {
+                if (_currentMineContext != null && _currentMineContext.Kernel != null) {
+                    string processName = _currentMineContext.Kernel.GetProcessName();
+                    Windows.TaskKill.Kill(processName);
+                }
+                Logger.WarnWriteLine("挖矿停止");
+                var mineContext = _currentMineContext;
+                _currentMineContext = null;
+                VirtualRoot.Happened(new MineStopedEvent(mineContext));
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
         }
         #endregion
 
@@ -521,7 +524,7 @@ namespace NTMiner {
                     mineContext = this.CreateDualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
                 }
                 if (_currentMineContext != null) {
-                    this.StopMineAsync();
+                    this.StopMine();
                 }
                 // kill上一个上下文的进程，上一个上下文进程名不一定和下一个相同
                 if (_currentMineContext != null && _currentMineContext.Kernel != null) {
@@ -530,7 +533,7 @@ namespace NTMiner {
                 }
                 if (string.IsNullOrEmpty(kernel.Package)) {
                     Logger.ErrorWriteLine(kernel.FullName + "没有内核包");
-                    this.StopMineAsync();
+                    this.StopMine();
                     return;
                 }
                 if (string.IsNullOrEmpty(kernelInput.Args)) {
