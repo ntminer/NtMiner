@@ -243,12 +243,12 @@
 							</controls:KbButton>
 						</WrapPanel>
 					</controls:KbComboBox.Toolbar>
-					<controls:KbComboBox.ContextMenu>
+					<controls:KbComboBox.ContextMenuEx>
 						<ContextMenu>
 							<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManageMinerGroup}">
 							</MenuItem>
 						</ContextMenu>
-					</controls:KbComboBox.ContextMenu>
+					</controls:KbComboBox.ContextMenuEx>
 				</controls:KbComboBox>
 				<controls:KbLinkButton 
 					Margin="20 0 0 0"

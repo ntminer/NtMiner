@@ -195,12 +195,12 @@
 								</controls:KbButton>
 							</WrapPanel>
 						</controls:KbComboBox.Toolbar>
-						<controls:KbComboBox.ContextMenu>
+						<controls:KbComboBox.ContextMenuEx>
 							<ContextMenu Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 								<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ShowCoins}">
 								</MenuItem>
 							</ContextMenu>
-						</controls:KbComboBox.ContextMenu>
+						</controls:KbComboBox.ContextMenuEx>
 					</controls:KbComboBox>
 					<TextBlock 
 						Margin="2 0 0 0"
@@ -318,14 +318,14 @@
 									</controls:KbButton>
 								</WrapPanel>
 							</controls:KbComboBox.Toolbar>
-							<controls:KbComboBox.ContextMenu>
+							<controls:KbComboBox.ContextMenuEx>
 								<ContextMenu>
 									<MenuItem Header="{DynamicResource AddWallet}" Command="{Binding MinerProfile.CoinVm.CoinProfile.AddWallet}">
 									</MenuItem>
 									<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ManageWallet}">
 									</MenuItem>
 								</ContextMenu>
-							</controls:KbComboBox.ContextMenu>
+							</controls:KbComboBox.ContextMenuEx>
 						</controls:KbComboBox>
 						<Path
 							Width="308"
@@ -536,14 +536,14 @@
 								</controls:KbButton>
 							</WrapPanel>
 						</controls:KbComboBox.Toolbar>
-						<controls:KbComboBox.ContextMenu>
+						<controls:KbComboBox.ContextMenuEx>
 							<ContextMenu Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 								<MenuItem Header="{DynamicResource Edit}" Command="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Edit}">
 								</MenuItem>
 								<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ShowKernels}">
 								</MenuItem>
 							</ContextMenu>
-						</controls:KbComboBox.ContextMenu>
+						</controls:KbComboBox.ContextMenuEx>
 					</controls:KbComboBox>
 					<WrapPanel 
 						Margin="4 0 0 0"
@@ -633,12 +633,12 @@
 											</controls:KbButton>
 										</WrapPanel>
 									</controls:KbComboBox.Toolbar>
-									<controls:KbComboBox.ContextMenu>
+									<controls:KbComboBox.ContextMenuEx>
 										<ContextMenu Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 											<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ShowCoins}">
 											</MenuItem>
 										</ContextMenu>
-									</controls:KbComboBox.ContextMenu>
+									</controls:KbComboBox.ContextMenuEx>
 								</controls:KbComboBox>
 							</DockPanel>
 							<TextBlock
@@ -684,14 +684,14 @@
 											</controls:KbButton>
 										</WrapPanel>
 									</controls:KbComboBox.Toolbar>
-									<controls:KbComboBox.ContextMenu>
+									<controls:KbComboBox.ContextMenuEx>
 										<ContextMenu>
 											<MenuItem Header="{DynamicResource Add}" Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.AddPool}">
 											</MenuItem>
 											<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ManagePools}">
 											</MenuItem>
 										</ContextMenu>
-									</controls:KbComboBox.ContextMenu>
+									</controls:KbComboBox.ContextMenuEx>
 								</controls:KbComboBox>
 							</DockPanel>
 						</WrapPanel>
@@ -758,14 +758,14 @@
 													</controls:KbButton>
 												</WrapPanel>
 											</controls:KbComboBox.Toolbar>
-											<controls:KbComboBox.ContextMenu>
+											<controls:KbComboBox.ContextMenuEx>
 												<ContextMenu>
 													<MenuItem Header="{DynamicResource AddWallet}" Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.AddDualCoinWallet}">
 													</MenuItem>
 													<MenuItem Header="{DynamicResource Manage}" Command="{x:Static vm:AppStatic.ManageWallet}">
 													</MenuItem>
 												</ContextMenu>
-											</controls:KbComboBox.ContextMenu>
+											</controls:KbComboBox.ContextMenuEx>
 										</controls:KbComboBox>
 									</DockPanel>
 								</WrapPanel>
