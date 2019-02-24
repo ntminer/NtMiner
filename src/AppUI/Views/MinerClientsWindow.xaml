@@ -831,6 +831,34 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>主币拒绝率</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
+								<TextBlock Text="/"></TextBlock>
+								<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
+								<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}"></TextBlock>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
@@ -898,34 +926,6 @@
 									<DataGridTextColumn Header="11" Binding="{Binding Gpu11}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
 								</DataGrid.Columns>
 							</DataGrid>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>主币拒绝率</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
-								<TextBlock Text="/"></TextBlock>
-								<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
-								<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}"></TextBlock>
-							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
