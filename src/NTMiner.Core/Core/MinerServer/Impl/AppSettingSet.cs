@@ -1,6 +1,6 @@
 ﻿using NTMiner.MinerServer;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner.Core.MinerServer.Impl {
     public class AppSettingSet : IAppSettingSet {
@@ -56,16 +56,27 @@ namespace NTMiner.Core.MinerServer.Impl {
             }
         }
 
-        public IAppSetting GetAppSetting(string key) {
-            InitOnece();
-            AppSettingData data;
-            _dicByKey.TryGetValue(key, out data);
-            return data;
+        public IAppSetting this[string key] {
+            get {
+                InitOnece();
+                AppSettingData data;
+                _dicByKey.TryGetValue(key, out data);
+                return data;
+            }
         }
 
-        public List<IAppSetting> GetAppSettings() {
+        public IEnumerator<IAppSetting> GetEnumerator() {
             InitOnece();
-            return _dicByKey.Values.Cast<IAppSetting>().ToList();
+            foreach (var item in _dicByKey.Values) {
+                yield return item;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            InitOnece();
+            foreach (var item in _dicByKey.Values) {
+                yield return item;
+            }
         }
     }
 }

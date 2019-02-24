@@ -1,10 +1,7 @@
-﻿using NTMiner.MinerServer;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace NTMiner {
-    public interface IAppSettingSet {
-        IAppSetting GetAppSetting(string key);
-
-        List<IAppSetting> GetAppSettings();
+    public interface IAppSettingSet : IEnumerable<IAppSetting> {
+        IAppSetting this[string key] { get; }
     }
 }

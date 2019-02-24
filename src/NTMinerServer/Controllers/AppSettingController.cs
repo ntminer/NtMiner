@@ -8,7 +8,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public GetAppSettingResponse AppSetting([FromBody]AppSettingRequest request) {
             try {
-                IAppSetting data = HostRoot.Current.AppSettingSet.GetAppSetting(request.Key);
+                IAppSetting data = HostRoot.Current.AppSettingSet[request.Key];
                 return GetAppSettingResponse.Ok(request.MessageId, AppSettingData.Create(data));
             }
             catch (Exception e) {
@@ -20,7 +20,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public GetAppSettingsResponse AppSettings([FromBody]AppSettingsRequest request) {
             try {
-                var data = HostRoot.Current.AppSettingSet.GetAppSettings();
+                var data = HostRoot.Current.AppSettingSet;
                 return GetAppSettingsResponse.Ok(request.MessageId, data.Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {
