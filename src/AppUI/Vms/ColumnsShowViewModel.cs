@@ -33,6 +33,8 @@ namespace NTMiner.Vms {
         private bool _dualCoinRejectPercentText = true;
         private bool _bootTimeSpanText = true;
         private bool _mineTimeSpanText = true;
+        private bool _incomeMainCoinPerDayText = true;
+        private bool _incomeDualCoinPerDayText = true;
 
         public ICommand Hide { get; private set; }
 
@@ -111,6 +113,8 @@ namespace NTMiner.Vms {
             _dualCoinRejectPercentText = data.DualCoinRejectPercentText;
             _bootTimeSpanText = data.BootTimeSpanText;
             _mineTimeSpanText = data.MineTimeSpanText;
+            _incomeMainCoinPerDayText = data.IncomeMainCoinPerDayText;
+            _incomeDualCoinPerDayText = data.IncomeDualCoinPerDayText;
         }
 
         public bool IsPleaseSelect {
@@ -265,6 +269,22 @@ namespace NTMiner.Vms {
             set {
                 _dualCoinRejectPercentText = value;
                 OnPropertyChanged(nameof(DualCoinRejectPercentText));
+            }
+        }
+
+        public bool IncomeMainCoinPerDayText {
+            get => _incomeMainCoinPerDayText;
+            set {
+                _incomeMainCoinPerDayText = value;
+                OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+            }
+        }
+
+        public bool IncomeDualCoinPerDayText {
+            get => _incomeDualCoinPerDayText;
+            set {
+                _incomeDualCoinPerDayText = value;
+                OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
             }
         }
 

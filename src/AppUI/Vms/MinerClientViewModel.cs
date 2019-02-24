@@ -1,4 +1,5 @@
-﻿using NTMiner.Hashrate;
+﻿using NTMiner.Core;
+using NTMiner.Hashrate;
 using NTMiner.MinerServer;
 using NTMiner.Notifications;
 using NTMiner.Views;
@@ -9,6 +10,12 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientViewModel : ViewModelBase, IClientData {
+        private double _incomeMainCoinPerDay;
+        private double _incomeMainCoinUsdPerDay;
+        private double _incomeMainCoinCnyPerDay;
+        private double _incomeDualCoinPerDay;
+        private double _incomeDualCoinUsdPerDay;
+        private double _incomeDualCoinCnyPerDay;
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
         public ICommand RemoteDesktop { get; private set; }
@@ -21,6 +28,8 @@ namespace NTMiner.Vms {
         private readonly ClientData _data;
         public MinerClientViewModel(ClientData clientData) {
             _data = clientData;
+            RefreshMainCoinIncome();
+            RefreshDualCoinIncome();
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.RemoteUserName) || string.IsNullOrEmpty(this.RemotePassword)) {
                     RemoteLogin.ShowWindow(new RemoteLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
@@ -135,11 +144,6 @@ namespace NTMiner.Vms {
                                 .Queue();
                         });
                     }
-                    else {
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                            Refresh();
-                        });
-                    }
                 });
             });
             this.StopMine = new DelegateCommand(() => {
@@ -159,20 +163,7 @@ namespace NTMiner.Vms {
                                 .Queue();
                         });
                     }
-                    else {
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                            Refresh();
-                        });
-                    }
                 });
-            });
-        }
-
-        private void Refresh() {
-            Server.ControlCenterService.LoadClientAsync(this.GetId(), data => {
-                if (data != null) {
-                    this.Update(data);
-                }
             });
         }
 
@@ -499,10 +490,20 @@ namespace NTMiner.Vms {
         public double MainCoinSpeed {
             get => _data.MainCoinSpeed;
             set {
-                _data.MainCoinSpeed = value;
-                OnPropertyChanged(nameof(MainCoinSpeed));
-                OnPropertyChanged(nameof(MainCoinSpeedText));
+                if (_data.MainCoinSpeed != value) {
+                    _data.MainCoinSpeed = value;
+                    OnPropertyChanged(nameof(MainCoinSpeed));
+                    OnPropertyChanged(nameof(MainCoinSpeedText));
+                    RefreshMainCoinIncome();
+                }
             }
+        }
+
+        private void RefreshMainCoinIncome() {
+            IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(this.MainCoinCode);
+            IncomeMainCoinPerDay = MainCoinSpeed * incomePerDay.IncomeCoin;
+            IncomeMainCoinUsdPerDay = MainCoinSpeed * incomePerDay.IncomeUsd;
+            IncomeMainCoinCnyPerDay = MainCoinSpeed * incomePerDay.IncomeCny;
         }
 
         public string MainCoinSpeedText {
@@ -535,6 +536,96 @@ namespace NTMiner.Vms {
                     return "0%";
                 }
                 return (MainCoinRejectShare * 100.0 / MainCoinTotalShare).ToString("f1") + "%";
+            }
+        }
+
+        public double IncomeMainCoinPerDay {
+            get => _incomeMainCoinPerDay;
+            set {
+                _incomeMainCoinPerDay = value;
+                OnPropertyChanged(nameof(IncomeMainCoinPerDay));
+                OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+            }
+        }
+
+        public string IncomeMainCoinPerDayText {
+            get {
+                return IncomeMainCoinPerDay.ToString("f7");
+            }
+        }
+
+        public double IncomeMainCoinUsdPerDay {
+            get { return _incomeMainCoinUsdPerDay; }
+            set {
+                _incomeMainCoinUsdPerDay = value;
+                OnPropertyChanged(nameof(IncomeMainCoinUsdPerDay));
+                OnPropertyChanged(nameof(IncomeMainCoinUsdPerDayText));
+            }
+        }
+
+        public string IncomeMainCoinUsdPerDayText {
+            get {
+                return IncomeMainCoinUsdPerDay.ToString("f2");
+            }
+        }
+
+        public double IncomeMainCoinCnyPerDay {
+            get { return _incomeMainCoinCnyPerDay; }
+            set {
+                _incomeMainCoinCnyPerDay = value;
+                OnPropertyChanged(nameof(IncomeMainCoinCnyPerDay));
+                OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
+            }
+        }
+
+        public string IncomeMainCoinCnyPerDayText {
+            get {
+                return IncomeMainCoinCnyPerDay.ToString("f2");
+            }
+        }
+
+        public double IncomeDualCoinPerDay {
+            get => _incomeDualCoinPerDay;
+            set {
+                _incomeDualCoinPerDay = value;
+                OnPropertyChanged(nameof(IncomeDualCoinPerDay));
+                OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
+            }
+        }
+
+        public string IncomeDualCoinPerDayText {
+            get {
+                return IncomeDualCoinPerDay.ToString("f7");
+            }
+        }
+
+        public double IncomeDualCoinUsdPerDay {
+            get { return _incomeDualCoinUsdPerDay; }
+            set {
+                _incomeDualCoinUsdPerDay = value;
+                OnPropertyChanged(nameof(IncomeDualCoinUsdPerDay));
+                OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
+            }
+        }
+
+        public string IncomeDualCoinUsdPerDayText {
+            get {
+                return IncomeDualCoinUsdPerDay.ToString("f2");
+            }
+        }
+
+        public double IncomeDualCoinCnyPerDay {
+            get { return _incomeDualCoinCnyPerDay; }
+            set {
+                _incomeDualCoinCnyPerDay = value;
+                OnPropertyChanged(nameof(IncomeDualCoinCnyPerDay));
+                OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
+            }
+        }
+
+        public string IncomeDualCoinCnyPerDayText {
+            get {
+                return IncomeDualCoinCnyPerDay.ToString("f2");
             }
         }
 
@@ -602,7 +693,15 @@ namespace NTMiner.Vms {
                 _data.DualCoinSpeed = value;
                 OnPropertyChanged(nameof(DualCoinSpeed));
                 OnPropertyChanged(nameof(DualCoinSpeedText));
+                RefreshDualCoinIncome();
             }
+        }
+
+        private void RefreshDualCoinIncome() {
+            IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(this.DualCoinCode);
+            IncomeDualCoinPerDay = DualCoinSpeed * incomePerDay.IncomeCoin;
+            IncomeDualCoinUsdPerDay = DualCoinSpeed * incomePerDay.IncomeUsd;
+            IncomeDualCoinCnyPerDay = DualCoinSpeed * incomePerDay.IncomeCny;
         }
 
         public string DualCoinSpeedText {
