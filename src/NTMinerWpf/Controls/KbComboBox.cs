@@ -19,7 +19,7 @@ namespace NTMiner.Controls {
             DependencyProperty.Register("ContextMenuEx", typeof(ContextMenu), typeof(KbComboBox), new PropertyMetadata(null));
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e) {
-            if (e.GetPosition(this).Y < this.Height) {
+            if (e.GetPosition(this).Y < this.ActualHeight) {
                 this.IsDropDownOpen = false;
             }
             base.OnPreviewMouseRightButtonDown(e);
