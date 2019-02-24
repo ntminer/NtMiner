@@ -6,6 +6,7 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -812,10 +813,10 @@ namespace NTMiner.Vms {
             get {
                 List<GpuRowData> list = new List<GpuRowData> {
                     new GpuRowData {
-                        RowHeader = $"{MainCoinCode}"
+                        RowHeader = $"{MainCoinCode} {MainCoinSpeedText}"
                     },
                     new GpuRowData {
-                        RowHeader = $"{DualCoinCode}"
+                        RowHeader = $"{DualCoinCode} {DualCoinSpeedText}"
                     },
                     new GpuRowData {
                         RowHeader = "温度"
@@ -824,7 +825,7 @@ namespace NTMiner.Vms {
                         RowHeader = "风扇"
                     },
                     new GpuRowData {
-                        RowHeader = "功耗"
+                        RowHeader = $"功耗 {GpuTable.Sum(a=>a.PowerUsage).ToString("f0")}W"
                     }
                 };
                 for (int i = 0; i < GpuTable.Length; i++) {
