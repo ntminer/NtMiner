@@ -55,7 +55,7 @@ namespace NTMiner.Vms {
             get {
                 if (_incomeCoinVm == null || this.SelectedCoinVm != _incomeCoinVm) {
                     _incomeCoinVm = SelectedCoinVm;
-                    _incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(_incomeCoinVm);
+                    _incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(_incomeCoinVm.Code);
                 }
                 return _incomePerDay;
             }

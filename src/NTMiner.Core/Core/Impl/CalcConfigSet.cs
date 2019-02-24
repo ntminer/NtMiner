@@ -55,12 +55,12 @@ namespace NTMiner.Core.Impl {
             return true;
         }
 
-        public IncomePerDay GetIncomePerHashPerDay(ICoin coin) {
+        public IncomePerDay GetIncomePerHashPerDay(string coinCode) {
             Init();
-            if (!_dicByCoinCode.ContainsKey(coin.Code)) {
+            if (!_dicByCoinCode.ContainsKey(coinCode)) {
                 return IncomePerDay.Zero;
             }
-            CalcConfigData item = _dicByCoinCode[coin.Code];
+            CalcConfigData item = _dicByCoinCode[coinCode];
             if (item.Speed == 0) {
                 return IncomePerDay.Zero;
             }
