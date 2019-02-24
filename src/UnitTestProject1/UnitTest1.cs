@@ -2,7 +2,6 @@
 using NTMiner;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
@@ -125,11 +124,6 @@ namespace UnitTestProject1 {
         [TestMethod]
         public void SpeedChangeTest() {
             Assert.IsFalse(28.1.IsChange(28, 0.1));
-        }
-
-        [TestMethod]
-        public void ProcessTest() {
-            Process[] processes = Process.GetProcessesByName("NTMinerServer");
         }
     }
 }
