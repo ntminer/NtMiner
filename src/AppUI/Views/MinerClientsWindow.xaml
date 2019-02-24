@@ -833,7 +833,7 @@
 					<DataGridTextColumn.EditingElementStyle>
 						<Style TargetType="TextBox">
 							<Setter Property="Background" Value="White"></Setter>
-							<Setter Property="Width" Value="70"></Setter>
+							<Setter Property="Width" Value="90"></Setter>
 						</Style>
 					</DataGridTextColumn.EditingElementStyle>
 				</DataGridTextColumn>
@@ -861,7 +861,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 					<DataGridTemplateColumn.CellEditingTemplate>
 						<DataTemplate>
-							<PasswordBox Width="70" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding RemotePassword, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+							<PasswordBox Width="78" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding RemotePassword, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
