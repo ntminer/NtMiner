@@ -63,6 +63,7 @@ namespace NTMiner.Vms {
                     MineWorkAdd.ShowWindow(new MineWorkViewModel(this));
                 }
                 else {
+                    // 编辑作业前切换上下文
                     VirtualRoot.Execute(new SwichMinerProfileCommand(this.Id));
                     MineWorkEdit.ShowWindow(new MineWorkViewModel(this));
                 }
