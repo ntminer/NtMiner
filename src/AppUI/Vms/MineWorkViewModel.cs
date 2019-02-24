@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (string.IsNullOrEmpty(this.Name)) {
-                    return;
+                    throw new ValidationException("作业名称是必须的");
                 }
                 if (NTMinerRoot.Current.MineWorkSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateMineWorkCommand(this));
