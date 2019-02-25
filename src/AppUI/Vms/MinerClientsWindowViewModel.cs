@@ -87,30 +87,88 @@ namespace NTMiner.Vms {
             this._mainCoinWallet = string.Empty;
             this._dualCoinWallet = string.Empty;
             this.RestartWindows = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"您确定重启选中的电脑吗？", title: "确认", onYes: () => {
-                    foreach (var item in MinerClients) {
-                        Server.MinerClientService.RestartWindowsAsync(item.MinerIp, response => {
-                            if (!response.IsSuccess()) {
-                                if (response != null) {
-                                    Write.UserLine(response.Description, ConsoleColor.Red);
-                                    Manager.CreateMessage()
-                                         .Accent("#1751C3")
-                                         .Background("Red")
-                                         .HasBadge("Error")
-                                         .HasMessage(response.Description)
-                                         .Dismiss()
-                                         .WithDelay(TimeSpan.FromSeconds(5))
-                                         .Queue();
+                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
+                if (checkedItems.Length == 0) {
+                    Manager.CreateMessage()
+                        .Accent("#1751C3")
+                        .Background("Red")
+                        .HasBadge("Error")
+                        .HasMessage("没有选中记录")
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(2))
+                        .Queue();
+                }
+                else {
+                    DialogWindow.ShowDialog(message: $"您确定重启选中的电脑吗？", title: "确认", onYes: () => {
+                        foreach (var item in checkedItems) {
+                            Server.MinerClientService.RestartWindowsAsync(item.MinerIp, response => {
+                                if (!response.IsSuccess()) {
+                                    if (response != null) {
+                                        Write.UserLine(response.Description, ConsoleColor.Red);
+                                        Manager.CreateMessage()
+                                             .Accent("#1751C3")
+                                             .Background("Red")
+                                             .HasBadge("Error")
+                                             .HasMessage(response.Description)
+                                             .Dismiss()
+                                             .WithDelay(TimeSpan.FromSeconds(5))
+                                             .Queue();
+                                    }
                                 }
-                            }
-                        });
-                    }
-                }, icon: "Icon_Confirm");
+                            });
+                        }
+                    }, icon: "Icon_Confirm");
+                }
             });
             this.ShutdownWindows = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"您确定关机选中的电脑吗？", title: "确认", onYes: () => {
-                    foreach (var item in MinerClients) {
-                        Server.MinerClientService.ShutdownWindowsAsync(item.MinerIp, response => {
+                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
+                if (checkedItems.Length == 0) {
+                    Manager.CreateMessage()
+                        .Accent("#1751C3")
+                        .Background("Red")
+                        .HasBadge("Error")
+                        .HasMessage("没有选中记录")
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(2))
+                        .Queue();
+                }
+                else {
+                    DialogWindow.ShowDialog(message: $"您确定关机选中的电脑吗？", title: "确认", onYes: () => {
+                        foreach (var item in checkedItems) {
+                            Server.MinerClientService.ShutdownWindowsAsync(item.MinerIp, response => {
+                                if (!response.IsSuccess()) {
+                                    if (response != null) {
+                                        Write.UserLine(response.Description, ConsoleColor.Red);
+                                        Manager.CreateMessage()
+                                             .Accent("#1751C3")
+                                             .Background("Red")
+                                             .HasBadge("Error")
+                                             .HasMessage(response.Description)
+                                             .Dismiss()
+                                             .WithDelay(TimeSpan.FromSeconds(5))
+                                             .Queue();
+                                    }
+                                }
+                            });
+                        }
+                    }, icon: "Icon_Confirm");
+                }
+            });
+            this.StartNTMiner = new DelegateCommand(() => {
+                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
+                if (checkedItems.Length == 0) {
+                    Manager.CreateMessage()
+                        .Accent("#1751C3")
+                        .Background("Red")
+                        .HasBadge("Error")
+                        .HasMessage("没有选中记录")
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(2))
+                        .Queue();
+                }
+                else {
+                    foreach (var item in checkedItems) {
+                        Server.MinerClientService.OpenNTMinerAsync(item.MinerIp, item.WorkId, response => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
@@ -126,89 +184,124 @@ namespace NTMiner.Vms {
                             }
                         });
                     }
-                }, icon: "Icon_Confirm");
-            });
-            this.StartNTMiner = new DelegateCommand(() => {
-                foreach (var item in MinerClients) {
-                    Server.MinerClientService.OpenNTMinerAsync(item.MinerIp, item.WorkId, response => {
-                        if (!response.IsSuccess()) {
-                            if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                                Manager.CreateMessage()
-                                     .Accent("#1751C3")
-                                     .Background("Red")
-                                     .HasBadge("Error")
-                                     .HasMessage(response.Description)
-                                     .Dismiss()
-                                     .WithDelay(TimeSpan.FromSeconds(5))
-                                     .Queue();
-                            }
-                        }
-                    });
                 }
             });
             this.RestartNTMiner = new DelegateCommand(() => {
+                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
+                if (checkedItems.Length == 0) {
+                    Manager.CreateMessage()
+                        .Accent("#1751C3")
+                        .Background("Red")
+                        .HasBadge("Error")
+                        .HasMessage("没有选中记录")
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(2))
+                        .Queue();
+                }
+                else {
+                    foreach (var item in checkedItems) {
 
+                    }
+                }
             });
             this.CloseNTMiner = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"您确定关闭选中的挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
-                    foreach (var item in MinerClients) {
-                        Server.MinerClientService.CloseNTMinerAsync(item.MinerIp, response => {
-                            if (!response.IsSuccess()) {
-                                if (response != null) {
-                                    Write.UserLine(response.Description, ConsoleColor.Red);
-                                    Manager.CreateMessage()
-                                         .Accent("#1751C3")
-                                         .Background("Red")
-                                         .HasBadge("Error")
-                                         .HasMessage(response.Description)
-                                         .Dismiss()
-                                         .WithDelay(TimeSpan.FromSeconds(5))
-                                         .Queue();
+                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
+                if (checkedItems.Length == 0) {
+                    Manager.CreateMessage()
+                        .Accent("#1751C3")
+                        .Background("Red")
+                        .HasBadge("Error")
+                        .HasMessage("没有选中记录")
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(2))
+                        .Queue();
+                }
+                else {
+                    DialogWindow.ShowDialog(message: $"您确定关闭选中的挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
+                        foreach (var item in checkedItems) {
+                            Server.MinerClientService.CloseNTMinerAsync(item.MinerIp, response => {
+                                if (!response.IsSuccess()) {
+                                    if (response != null) {
+                                        Write.UserLine(response.Description, ConsoleColor.Red);
+                                        Manager.CreateMessage()
+                                             .Accent("#1751C3")
+                                             .Background("Red")
+                                             .HasBadge("Error")
+                                             .HasMessage(response.Description)
+                                             .Dismiss()
+                                             .WithDelay(TimeSpan.FromSeconds(5))
+                                             .Queue();
+                                    }
                                 }
+                            });
+                        }
+                    }, icon: "Icon_Confirm");
+                }
+            });
+            this.StartMine = new DelegateCommand(() => {
+                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
+                if (checkedItems.Length == 0) {
+                    Manager.CreateMessage()
+                        .Accent("#1751C3")
+                        .Background("Red")
+                        .HasBadge("Error")
+                        .HasMessage("没有选中记录")
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(2))
+                        .Queue();
+                }
+                else {
+                    foreach (var item in checkedItems) {
+                        Client.MinerClientService.StartMineAsync(item.MinerIp, item.WorkId, response => {
+                            if (!response.IsSuccess()) {
+                                string message = $"{item.MinerIp} {response?.Description}";
+                                Write.UserLine(message, ConsoleColor.Red);
+                                UIThread.Execute(() => {
+                                    Manager.CreateMessage()
+                                        .Accent("#1751C3")
+                                        .Background("Red")
+                                        .HasBadge("Error")
+                                        .HasMessage(message)
+                                        .Dismiss()
+                                        .WithDelay(TimeSpan.FromSeconds(4))
+                                        .Queue();
+                                });
                             }
                         });
                     }
-                }, icon: "Icon_Confirm");
-            });
-            this.StartMine = new DelegateCommand(() => {
-                foreach (var item in MinerClients) {
-                    Client.MinerClientService.StartMineAsync(item.MinerIp, item.WorkId, response => {
-                        if (!response.IsSuccess()) {
-                            string message = $"{item.MinerIp} {response?.Description}";
-                            Write.UserLine(message, ConsoleColor.Red);
-                            UIThread.Execute(() => {
-                                Manager.CreateMessage()
-                                    .Accent("#1751C3")
-                                    .Background("Red")
-                                    .HasBadge("Error")
-                                    .HasMessage(message)
-                                    .Dismiss()
-                                    .WithDelay(TimeSpan.FromSeconds(4))
-                                    .Queue();
-                            });
-                        }
-                    });
                 }
             });
             this.StopMine = new DelegateCommand(() => {
-                foreach (var item in MinerClients) {
-                    Client.MinerClientService.StopMineAsync(item.MinerIp, response => {
-                        if (!response.IsSuccess()) {
-                            string message = $"{item.MinerIp} {response?.Description}";
-                            Write.UserLine(message, ConsoleColor.Red);
-                            UIThread.Execute(() => {
-                                Manager.CreateMessage()
-                                    .Accent("#1751C3")
-                                    .Background("Red")
-                                    .HasBadge("Error")
-                                    .HasMessage(message)
-                                    .Dismiss()
-                                    .WithDelay(TimeSpan.FromSeconds(4))
-                                    .Queue();
-                            });
-                        }
-                    });
+                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
+                if (checkedItems.Length == 0) {
+                    Manager.CreateMessage()
+                        .Accent("#1751C3")
+                        .Background("Red")
+                        .HasBadge("Error")
+                        .HasMessage("没有选中记录")
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(2))
+                        .Queue();
+                }
+                else {
+                    foreach (var item in checkedItems) {
+                        Client.MinerClientService.StopMineAsync(item.MinerIp, response => {
+                            if (!response.IsSuccess()) {
+                                string message = $"{item.MinerIp} {response?.Description}";
+                                Write.UserLine(message, ConsoleColor.Red);
+                                UIThread.Execute(() => {
+                                    Manager.CreateMessage()
+                                        .Accent("#1751C3")
+                                        .Background("Red")
+                                        .HasBadge("Error")
+                                        .HasMessage(message)
+                                        .Dismiss()
+                                        .WithDelay(TimeSpan.FromSeconds(4))
+                                        .Queue();
+                                });
+                            }
+                        });
+                    }
                 }
             });
             this.PageUp = new DelegateCommand(() => {
