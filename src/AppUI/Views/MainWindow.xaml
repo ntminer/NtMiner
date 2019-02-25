@@ -362,9 +362,6 @@
 					</controls:KbButton>
 				</Border>
 			</WrapPanel>
-			<notification:NotificationMessageContainer 
-				MaxWidth="500" HorizontalAlignment="Center" 
-				Manager="{Binding Manager}" />
 		</Grid>
 
 		<Grid Grid.Row="2" Background="Black" Height="300" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
@@ -414,5 +411,12 @@
 				Foreground="Red"
 				Background="Black"></TextBlock>
 		</Grid>
+		
+		<notification:NotificationMessageContainer 
+			Margin="0 4 0 0"
+			Grid.RowSpan="3"
+			MaxWidth="500" 
+			HorizontalAlignment="Center" 
+			Manager="{Binding Manager}" />
 	</Grid>
 </metro:MetroWindow>

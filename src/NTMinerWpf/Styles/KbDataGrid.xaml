@@ -35,6 +35,7 @@
         <Setter Property="Foreground" Value="#FF5A5A5A" />
         <Setter Property="Background" Value="#F5F4F5"></Setter>
         <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="4 0" />
         <Setter Property="FontWeight" Value="Bold"></Setter>
         <Setter Property="Focusable" Value="False"></Setter>
         <Setter Property="Control.VerticalContentAlignment">

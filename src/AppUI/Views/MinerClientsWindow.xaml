@@ -12,7 +12,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
-		Background="{StaticResource MainColor}"
+		Background="#EBF2F9"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
@@ -30,6 +30,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
@@ -73,8 +74,8 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<StackPanel Grid.Row="1" Background="#EBF2F9">
-			<StackPanel Margin="0 2 0 0" IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BooleanInvertConverter}}">
+		<StackPanel Grid.Row="1">
+			<StackPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BooleanInvertConverter}}">
 				<WrapPanel>
 					<Label
 						Content="主币"
@@ -356,133 +357,127 @@
 					</controls:KbComboBox>
 				</WrapPanel>
 			</WrapPanel>
-			<WrapPanel Margin="0 2 0 0">
-				<WrapPanel Margin="2 0 0 0">
-					<Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
-					<Button
-						Width="20" Margin="4 0 0 0"
-						Command="{Binding PageUp}" 
-						IsEnabled="{Binding IsPageUpEnabled}" 
-						Content="&lt;"
-						ToolTip="上一页">
-					</Button>
-					<Button
-						Width="20" Margin="4 0 0 0"
-						Command="{Binding PageDown}" 
-						IsEnabled="{Binding IsPageDownEnabled}" 
-						Content="&gt;"
-						ToolTip="下一页">
-					</Button>
-					<Button
-						Width="20" Margin="4 0 0 0"
-						Command="{Binding PageRefresh}" 
-						ToolTip="手动刷新">
-						<Path 
-							Width="14"
-							Height="14"
-							Stretch="Fill"
-							Fill="{StaticResource IconFillColor}"
-							Data="{StaticResource Icon_Refresh}"></Path>
-					</Button>
-					<Button Command="{Binding PageLast}" IsEnabled="{Binding IsPageDownEnabled}" Margin="4 0 0 0">尾页</Button>
-					<Label>第</Label>
-					<TextBox VerticalContentAlignment="Center" Text="{Binding MinerClientPageIndex}"></TextBox>
-					<Label>/</Label>
-					<TextBlock VerticalAlignment="Center" Text="{Binding MinerClientPageCount}"></TextBlock>
-					<Label>页，每页</Label>
-					<controls:KbComboBox ItemsSource="{Binding PageSizeItems}" SelectedItem="{Binding MinerClientPageSize}">
-					</controls:KbComboBox>
-					<Label>条，共</Label>
-					<TextBlock VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
-					<Label>条</Label>
-				</WrapPanel>
-				<WrapPanel>
-					<Label HorizontalContentAlignment="Right">列显</Label>
-					<controls:KbComboBox 
-						ItemsSource="{Binding ColumnsShows.List}"
-						DisplayMemberPath="ColumnsShowName"
-						SelectedItem="{Binding ColumnsShow}">
-					</controls:KbComboBox>
-					<controls:KbButton
-						ToolTip="添加列显"
-						Command="{Binding ColumnsShows.Add}" 
-						Background="Transparent" BorderThickness="0"
-						Margin="2 0"
-						CornerRadius="2">
-						<WrapPanel>
-							<Path
-								Width="18"
-								Height="18"
-								Data="{StaticResource Icon_Add}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
-					<controls:KbButton
-						ToolTip="删除列显"
-						IsEnabled="{Binding ColumnsShow.IsPleaseSelect, Converter={StaticResource BooleanInvertConverter}}"
-						Command="{Binding ColumnsShow.Remove}" Background="Transparent" BorderThickness="0"
-						Margin="2 0"
-						CornerRadius="2">
-						<WrapPanel>
-							<Path
-								Width="18"
-								Height="18"
-								Data="{StaticResource Icon_Delete}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
-					<controls:KbButton 
-						ToolTip="保存列显"
-						Command="{Binding ColumnsShow.Save}" Background="Transparent" BorderThickness="0"
-						Margin="2 0"
-						CornerRadius="2">
-						<WrapPanel>
-							<Path
-								Width="18"
-								Height="18"
-								Data="{StaticResource Icon_Ok}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.LastActivedOnText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.LastActivedOnText}">最后更新</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.BootTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.BootTimeSpanText}" Margin="6 0 0 0">运行时长</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="6 0 0 0">挖矿时长</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}" Margin="6 0 0 0">作业</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">矿工名</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="6 0 0 0">IP</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemoteUserNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemoteUserNameAndPassword}" Margin="6 0 0 0">远程桌面用户名密码</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="6 0 0 0">主挖币种</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="6 0 0 0">主币算力</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinRejectPercentText}" Margin="6 0 0 0">主币拒绝率</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinCode}" Margin="6 0 0 0">双挖币种</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinSpeedText}" Margin="6 0 0 0">双挖算力</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinRejectPercentText}" Margin="6 0 0 0">双挖币拒绝率</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.IncomeMainCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeMainCoinPerDayText}" Margin="6 0 0 0">双挖币拒绝率</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.IncomeDualCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeDualCoinPerDayText}" Margin="6 0 0 0">双挖币拒绝率</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuTableTrs, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuTableTrs}" Margin="6 0 0 0">显卡表格</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinWallet}" Margin="6 0 0 0">主币钱包</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinPool}" Margin="6 0 0 0">主币矿池</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Kernel, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Kernel}" Margin="6 0 0 0">内核</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinWallet}" Margin="6 0 0 0">双挖钱包</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinPool}" Margin="6 0 0 0">双挖矿池</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Version, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Version}" Margin="6 0 0 0">客户端版本</CheckBox>
-					<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuInfo, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuInfo}" Margin="6 0 0 0">显卡</CheckBox>
-				</WrapPanel>
-			</WrapPanel>
 		</StackPanel>
-		<notification:NotificationMessageContainer 
-			Grid.Row="1"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Top"
-			MaxWidth="500"
-			Manager="{Binding Manager}" />
+		<WrapPanel Grid.Row="2" Margin="0 2 0 0" Background="#EBF2F9">
+			<WrapPanel Margin="2 0 0 0">
+				<Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
+				<Button
+					Width="20" Margin="4 0 0 0"
+					Command="{Binding PageUp}" 
+					IsEnabled="{Binding IsPageUpEnabled}" 
+					Content="&lt;"
+					ToolTip="上一页">
+				</Button>
+				<Button
+					Width="20" Margin="4 0 0 0"
+					Command="{Binding PageDown}" 
+					IsEnabled="{Binding IsPageDownEnabled}" 
+					Content="&gt;"
+					ToolTip="下一页">
+				</Button>
+				<Button
+					Width="20" Margin="4 0 0 0"
+					Command="{Binding PageRefresh}" 
+					ToolTip="手动刷新">
+					<Path 
+						Width="14"
+						Height="14"
+						Stretch="Fill"
+						Fill="{StaticResource IconFillColor}"
+						Data="{StaticResource Icon_Refresh}"></Path>
+				</Button>
+				<Button Command="{Binding PageLast}" IsEnabled="{Binding IsPageDownEnabled}" Margin="4 0 0 0">尾页</Button>
+				<Label>第</Label>
+				<TextBox VerticalContentAlignment="Center" Text="{Binding MinerClientPageIndex}"></TextBox>
+				<Label>/</Label>
+				<TextBlock VerticalAlignment="Center" Text="{Binding MinerClientPageCount}"></TextBlock>
+				<Label>页，每页</Label>
+				<controls:KbComboBox ItemsSource="{Binding PageSizeItems}" SelectedItem="{Binding MinerClientPageSize}">
+				</controls:KbComboBox>
+				<Label>条，共</Label>
+				<TextBlock VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
+				<Label>条</Label>
+			</WrapPanel>
+			<WrapPanel>
+				<Label HorizontalContentAlignment="Right">列显</Label>
+				<controls:KbComboBox 
+					ItemsSource="{Binding ColumnsShows.List}"
+					DisplayMemberPath="ColumnsShowName"
+					SelectedItem="{Binding ColumnsShow}">
+				</controls:KbComboBox>
+				<controls:KbButton
+					ToolTip="添加列显"
+					Command="{Binding ColumnsShows.Add}" 
+					Background="Transparent" BorderThickness="0"
+					Margin="2 0"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="18"
+							Height="18"
+							Data="{StaticResource Icon_Add}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton
+					ToolTip="删除列显"
+					IsEnabled="{Binding ColumnsShow.IsPleaseSelect, Converter={StaticResource BooleanInvertConverter}}"
+					Command="{Binding ColumnsShow.Remove}" Background="Transparent" BorderThickness="0"
+					Margin="2 0"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="18"
+							Height="18"
+							Data="{StaticResource Icon_Delete}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton 
+					ToolTip="保存列显"
+					Command="{Binding ColumnsShow.Save}" Background="Transparent" BorderThickness="0"
+					Margin="2 0"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="18"
+							Height="18"
+							Data="{StaticResource Icon_Ok}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.LastActivedOnText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.LastActivedOnText}">最后更新</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.BootTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.BootTimeSpanText}" Margin="6 0 0 0">运行时长</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="6 0 0 0">挖矿时长</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}" Margin="6 0 0 0">作业</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">矿工名</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="6 0 0 0">IP</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemoteUserNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemoteUserNameAndPassword}" Margin="6 0 0 0">远程桌面用户名密码</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="6 0 0 0">主挖币种</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="6 0 0 0">主币算力</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinRejectPercentText}" Margin="6 0 0 0">主币拒绝</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinCode}" Margin="6 0 0 0">双挖币种</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinSpeedText}" Margin="6 0 0 0">双挖币算力</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinRejectPercentText}" Margin="6 0 0 0">双挖币拒绝</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.IncomeMainCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeMainCoinPerDayText}" Margin="6 0 0 0">主币预期收益</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.IncomeDualCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeDualCoinPerDayText}" Margin="6 0 0 0">双挖币预期收益</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuTableTrs, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuTableTrs}" Margin="6 0 0 0">显卡表格</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinWallet}" Margin="6 0 0 0">主币钱包</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinPool}" Margin="6 0 0 0">主币矿池</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Kernel, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Kernel}" Margin="6 0 0 0">内核</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinWallet}" Margin="6 0 0 0">双挖币钱包</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinPool}" Margin="6 0 0 0">双挖币矿池</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Version, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Version}" Margin="6 0 0 0">客户端版本</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuInfo, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuInfo}" Margin="6 0 0 0">显卡</CheckBox>
+			</WrapPanel>
+		</WrapPanel>
 		<DataGrid 
 			BorderThickness="0"
-			Grid.Row="2" Margin="0" 
+			Grid.Row="3" Margin="0" 
 			IsReadOnly="False"
 			ItemsSource="{Binding MinerClients}"
 			CanUserResizeRows="True"
@@ -1457,6 +1452,14 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
+		<TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
+		<notification:NotificationMessageContainer 
+			Margin="0 4 0 0"
+			Grid.Row="0"
+			Grid.RowSpan="4"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Top"
+			MaxWidth="500"
+			Manager="{Binding Manager}" />
 	</Grid>
 </metro:MetroWindow>
