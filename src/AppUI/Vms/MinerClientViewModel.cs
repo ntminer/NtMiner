@@ -534,7 +534,7 @@ namespace NTMiner.Vms {
         public string MainCoinRejectPercentText {
             get {
                 if (MainCoinTotalShare == 0) {
-                    return "0%";
+                    return string.Empty;
                 }
                 return (MainCoinRejectShare * 100.0 / MainCoinTotalShare).ToString("f1") + "%";
             }
@@ -732,7 +732,7 @@ namespace NTMiner.Vms {
         public string DualCoinRejectPercentText {
             get {
                 if (DualCoinTotalShare == 0) {
-                    return "0%";
+                    return string.Empty;
                 }
                 return (DualCoinRejectShare * 100.0 / DualCoinTotalShare).ToString("f1") + "%";
             }

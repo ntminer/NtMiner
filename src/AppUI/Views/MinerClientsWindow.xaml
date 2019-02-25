@@ -490,6 +490,7 @@
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 				<Style TargetType="DataGridCell">
 					<Setter Property="VerticalAlignment" Value="Stretch" />
+					<Setter Property="HorizontalAlignment" Value="Stretch" />
 					<Setter Property="Foreground" Value="#FF5A5A5A" />
 					<Setter Property="Background" Value="Transparent"></Setter>
 					<Setter Property="FontSize" Value="12" />
@@ -497,12 +498,10 @@
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="DataGridCell">
-								<Grid Margin="0 4 0 0">
-									<TextBlock />
-									<ContentPresenter
-										HorizontalAlignment="Left"
-										VerticalAlignment="Top" />
-								</Grid>
+								<ContentPresenter
+									Margin="0 6 0 0"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Top" />
 							</ControlTemplate>
 						</Setter.Value>
 					</Setter>
@@ -923,7 +922,7 @@
 					IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
-							<TextBlock>主币拒绝率</TextBlock>
+							<TextBlock>拒绝次数</TextBlock>
 							<WrapPanel.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
@@ -934,12 +933,34 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel HorizontalAlignment="Right">
+							<WrapPanel>
 								<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
 								<TextBlock Text="/"></TextBlock>
 								<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
-								<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}"></TextBlock>
 							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>拒绝率</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding MainCoinRejectPercentText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -1009,7 +1030,7 @@
 					IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
-							<TextBlock>双挖币拒绝率</TextBlock>
+							<TextBlock>拒绝次数</TextBlock>
 							<WrapPanel.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinRejectPercentText">
@@ -1024,8 +1045,30 @@
 								<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
 								<TextBlock Text="/"></TextBlock>
 								<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
-								<TextBlock Margin="10 0 0 0" Text="{Binding DualCoinRejectPercentText}"></TextBlock>
 							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>拒绝率</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinRejectPercentText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding DualCoinRejectPercentText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
