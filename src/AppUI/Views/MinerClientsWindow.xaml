@@ -74,12 +74,13 @@
 			</WrapPanel>
 		</Grid>
 		<StackPanel Grid.Row="1" Background="#EBF2F9">
-			<StackPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BooleanInvertConverter}}">
+			<StackPanel Margin="0 2 0 0" IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BooleanInvertConverter}}">
 				<WrapPanel>
 					<Label
 						Content="主币"
 						Foreground="Black" />
 					<controls:KbComboBox 
+						Margin="0 0 20 0"
 						Width="100"
 						ItemsSource="{Binding MineCoinVms.PleaseSelect}"
 						DisplayMemberPath="Code"
@@ -114,7 +115,7 @@
 							</ContextMenu>
 						</controls:KbComboBox.ContextMenuEx>
 					</controls:KbComboBox>
-					<WrapPanel Margin="20 0 0 0">
+					<WrapPanel Margin="0 0 20 0">
 						<Label
 							Content="主币矿池"
 							Foreground="Black" />
@@ -155,18 +156,18 @@
 							</controls:KbComboBox.ContextMenuEx>
 						</controls:KbComboBox>
 					</WrapPanel>
-					<WrapPanel>
+					<WrapPanel Margin="0 0 40 0">
 						<Label
-							Margin="20 0 0 0" 
 							Content="主币钱包"
 							Foreground="Black" />
 						<TextBox VerticalContentAlignment="Center" Text="{Binding MainCoinWallet}" Width="160" Background="White"></TextBox>
 					</WrapPanel>
-					<WrapPanel Margin="40 0 0 0">
+					<WrapPanel>
 						<Label
 							Content="双挖币"
 							Foreground="Black" />
 						<controls:KbComboBox 
+							Margin="0 0 20 0"
 							Width="100"
 							ItemsSource="{Binding MineCoinVms.DualPleaseSelect}"
 							DisplayMemberPath="Code"
@@ -201,7 +202,7 @@
 								</ContextMenu>
 							</controls:KbComboBox.ContextMenuEx>
 						</controls:KbComboBox>
-						<WrapPanel Margin="20 0 0 0">
+						<WrapPanel Margin="0 0 20 0">
 							<Label
 								Content="双挖币矿池"
 								Foreground="Black" />
@@ -244,7 +245,6 @@
 						</WrapPanel>
 						<WrapPanel>
 							<Label
-								Margin="20 0 0 0" 
 								Content="双挖币钱包"
 								Foreground="Black" />
 							<TextBox VerticalContentAlignment="Center" Text="{Binding DualCoinWallet}" Width="160" Background="White"></TextBox>
@@ -252,11 +252,12 @@
 					</WrapPanel>
 				</WrapPanel>
 			</StackPanel>
-			<WrapPanel Margin="0 2">
+			<WrapPanel Margin="0 2 0 0">
 				<Label
 					Content="组队"
 					Foreground="Black" />
 				<controls:KbComboBox 
+					Margin="0 0 20 0"
 					Width="100"
 					ItemsSource="{Binding MinerGroupVmItems}"
 					DisplayMemberPath="Name"
@@ -291,10 +292,10 @@
 					</controls:KbComboBox.ContextMenuEx>
 				</controls:KbComboBox>
 				<Label
-					Margin="20 0 0 0"
 					Content="作业"
 					Foreground="Black" />
 				<controls:KbComboBox 
+					Margin="0 0 26 0"
 					Width="120"
 					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
 					DisplayMemberPath="Name"
@@ -329,7 +330,7 @@
 					</controls:KbComboBox.ContextMenuEx>
 				</controls:KbComboBox>
 				<WrapPanel>
-					<Label Width="46" HorizontalContentAlignment="Right">IP</Label>
+					<Label HorizontalContentAlignment="Right">IP</Label>
 					<TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
 					<Label Margin="8 0 0 0">矿工名</Label>
 					<TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerName}" Background="White"></TextBox>
@@ -355,8 +356,8 @@
 					</controls:KbComboBox>
 				</WrapPanel>
 			</WrapPanel>
-			<WrapPanel>
-				<WrapPanel>
+			<WrapPanel Margin="0 2 0 0">
+				<WrapPanel Margin="2 0 0 0">
 					<Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
 					<Button
 						Width="20" Margin="4 0 0 0"
