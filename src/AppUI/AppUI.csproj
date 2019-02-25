@@ -128,6 +128,9 @@
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedNotifyIcon.cs" />
+    <Compile Include="Views\Ucs\GpusOverClock.xaml.cs">
+      <DependentUpon>GpusOverClock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\Calc.xaml.cs">
       <DependentUpon>Calc.xaml</DependentUpon>
     </Compile>
@@ -280,6 +283,7 @@
     <Compile Include="Vms\Drives\VirtualMemorySet.cs" />
     <Compile Include="Vms\GpuOverClockDataViewModel.cs" />
     <Compile Include="Vms\GpuOverClockDataViewModels.cs" />
+    <Compile Include="Vms\GpusOverClockViewModel.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\GroupViewModels.cs" />
     <Compile Include="Vms\InnerPropertyViewModel.cs" />
@@ -423,6 +427,10 @@
     <Page Include="Views\SplashWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Ucs\GpusOverClock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Calc.xaml">
       <Generator>MSBuild:Compile</Generator>
