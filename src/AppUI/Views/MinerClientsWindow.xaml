@@ -537,7 +537,7 @@
 											<Path
 												Width="16"
 												Height="16"
-												Data="{StaticResource Icon_Start}"
+												Data="{StaticResource Icon_Entry}"
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
 										</MenuItem.Icon>
@@ -685,7 +685,7 @@
 												<Path
 													Width="16"
 													Height="16"
-													Data="{StaticResource Icon_Start}"
+													Data="{StaticResource Icon_Entry}"
 													Fill="{StaticResource IconFillColor}"
 													Stretch="Fill" />
 											</MenuItem.Icon>
