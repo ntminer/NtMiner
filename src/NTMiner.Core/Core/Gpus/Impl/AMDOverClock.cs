@@ -6,10 +6,6 @@
             _gpuIndex = gpuIndex;
         }
 
-        public void SetCool(int value) {
-            // 暂不支持A卡超频
-        }
-
         public void SetCoreClock(int deltaValue) {
             // 暂不支持A卡超频
         }
@@ -18,7 +14,11 @@
             // 暂不支持A卡超频
         }
 
-        public void SetPowerCapacity(int value) {
+        public void SetPowerCapacity(int nn) {
+            // 暂不支持A卡超频
+        }
+
+        public void SetCool(int nn) {
             // 暂不支持A卡超频
         }
     }

@@ -6,20 +6,20 @@
             _gpuIndex = gpuIndex;
         }
 
-        public void SetCool(int value) {
-            
-        }
-
         public void SetCoreClock(int deltaValue) {
-            
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{_gpuIndex} gclk:{deltaValue}");
         }
 
         public void SetMemoryClock(int deltaValue) {
-            
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{_gpuIndex} mclk:{deltaValue}");
         }
 
-        public void SetPowerCapacity(int value) {
-            
+        public void SetPowerCapacity(int nn) {
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{_gpuIndex} pcap:{nn}");
+        }
+
+        public void SetCool(int nn) {
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{_gpuIndex} cool:{nn}");
         }
     }
 }
