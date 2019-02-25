@@ -1,6 +1,7 @@
 ﻿using NTMiner.MinerServer;
 using NTMiner.Notifications;
 using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,8 +111,7 @@ namespace NTMiner.Vms {
                                              .Background("Red")
                                              .HasBadge("Error")
                                              .HasMessage(response.Description)
-                                             .Dismiss()
-                                             .WithDelay(TimeSpan.FromSeconds(5))
+                                             .Dismiss().WithButton("忽略", null)
                                              .Queue();
                                     }
                                 }
@@ -144,8 +144,7 @@ namespace NTMiner.Vms {
                                              .Background("Red")
                                              .HasBadge("Error")
                                              .HasMessage(response.Description)
-                                             .Dismiss()
-                                             .WithDelay(TimeSpan.FromSeconds(5))
+                                             .Dismiss().WithButton("忽略", null)
                                              .Queue();
                                     }
                                 }
@@ -177,8 +176,7 @@ namespace NTMiner.Vms {
                                          .Background("Red")
                                          .HasBadge("Error")
                                          .HasMessage(response.Description)
-                                         .Dismiss()
-                                         .WithDelay(TimeSpan.FromSeconds(5))
+                                         .Dismiss().WithButton("忽略", null)
                                          .Queue();
                                 }
                             }
@@ -187,8 +185,8 @@ namespace NTMiner.Vms {
                 }
             });
             this.RestartNTMiner = new DelegateCommand(() => {
-                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
-                if (checkedItems.Length == 0) {
+                var checkedItems = MinerClients.Where(a => a.IsChecked).ToList();
+                if (checkedItems.Count == 0) {
                     Manager.CreateMessage()
                         .Accent("#1751C3")
                         .Background("Red")
@@ -199,9 +197,7 @@ namespace NTMiner.Vms {
                         .Queue();
                 }
                 else {
-                    foreach (var item in checkedItems) {
-
-                    }
+                    MinerClientRestart.ShowWindow(checkedItems);
                 }
             });
             this.CloseNTMiner = new DelegateCommand(() => {
@@ -228,8 +224,7 @@ namespace NTMiner.Vms {
                                              .Background("Red")
                                              .HasBadge("Error")
                                              .HasMessage(response.Description)
-                                             .Dismiss()
-                                             .WithDelay(TimeSpan.FromSeconds(5))
+                                             .Dismiss().WithButton("忽略", null)
                                              .Queue();
                                     }
                                 }
@@ -262,8 +257,7 @@ namespace NTMiner.Vms {
                                         .Background("Red")
                                         .HasBadge("Error")
                                         .HasMessage(message)
-                                        .Dismiss()
-                                        .WithDelay(TimeSpan.FromSeconds(4))
+                                        .Dismiss().WithButton("忽略", null)
                                         .Queue();
                                 });
                             }
@@ -295,8 +289,7 @@ namespace NTMiner.Vms {
                                         .Background("Red")
                                         .HasBadge("Error")
                                         .HasMessage(message)
-                                        .Dismiss()
-                                        .WithDelay(TimeSpan.FromSeconds(4))
+                                        .Dismiss().WithButton("忽略", null)
                                         .Queue();
                                 });
                             }

@@ -16,9 +16,7 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<WrapPanel HorizontalAlignment="Center" Margin="0 10 0 0">
-			<TextBlock FontSize="16">您确定重启</TextBlock>
-			<TextBlock FontSize="16" Margin="4 0" Text="{Binding MinerClientVm.MinerName}"></TextBlock>
-			<TextBlock FontSize="16">吗？</TextBlock>
+			<TextBlock FontSize="16" Text="{Binding Title}"></TextBlock>
 		</WrapPanel>
 		<WrapPanel Margin="0 10 0 0">
 			<Label Width="100" HorizontalContentAlignment="Right">切换作业：</Label>

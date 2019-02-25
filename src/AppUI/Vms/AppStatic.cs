@@ -96,8 +96,7 @@ namespace NTMiner.Vms {
                                     .Background("Red")
                                     .HasBadge("Error")
                                     .HasMessage($"刷新失败")
-                                    .Dismiss()
-                                    .WithDelay(TimeSpan.FromSeconds(4))
+                                    .Dismiss().WithButton("忽略", null)
                                     .Queue();
                             }
                         });
@@ -245,8 +244,7 @@ namespace NTMiner.Vms {
                                                 .Background("Red")
                                                 .HasBadge("Error")
                                                 .HasMessage(message)
-                                                .Dismiss()
-                                                .WithDelay(TimeSpan.FromSeconds(4))
+                                                .Dismiss().WithButton("忽略", null)
                                                 .Queue();
                                         });
                                         callback?.Invoke();

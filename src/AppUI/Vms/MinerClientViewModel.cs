@@ -46,8 +46,7 @@ namespace NTMiner.Vms {
                                 .Background("Red")
                                 .HasBadge("Error")
                                 .HasMessage(message)
-                                .Dismiss()
-                                .WithDelay(TimeSpan.FromSeconds(5))
+                                .Dismiss().WithButton("忽略", null)
                                 .Queue();
                     }));
                 }
@@ -63,8 +62,7 @@ namespace NTMiner.Vms {
                                      .Background("Red")
                                      .HasBadge("Error")
                                      .HasMessage(response.Description)
-                                     .Dismiss()
-                                     .WithDelay(TimeSpan.FromSeconds(5))
+                                     .Dismiss().WithButton("忽略", null)
                                      .Queue();
                             }
                         }
@@ -82,8 +80,7 @@ namespace NTMiner.Vms {
                                      .Background("Red")
                                      .HasBadge("Error")
                                      .HasMessage(response.Description)
-                                     .Dismiss()
-                                     .WithDelay(TimeSpan.FromSeconds(5))
+                                     .Dismiss().WithButton("忽略", null)
                                      .Queue();
                             }
                         }
@@ -100,15 +97,14 @@ namespace NTMiner.Vms {
                                  .Background("Red")
                                  .HasBadge("Error")
                                  .HasMessage(response.Description)
-                                 .Dismiss()
-                                 .WithDelay(TimeSpan.FromSeconds(5))
+                                 .Dismiss().WithButton("忽略", null)
                                  .Queue();
                         }
                     }
                 });
             });
             this.RestartNTMiner = new DelegateCommand(() => {
-                MinerClientRestart.ShowWindow(this);
+                MinerClientRestart.ShowWindow(new List<MinerClientViewModel> { this });
             });
             this.CloseNTMiner = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定关闭{this.MinerName}({this.MinerIp})挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
@@ -141,8 +137,7 @@ namespace NTMiner.Vms {
                                 .Background("Red")
                                 .HasBadge("Error")
                                 .HasMessage(message)
-                                .Dismiss()
-                                .WithDelay(TimeSpan.FromSeconds(4))
+                                .Dismiss().WithButton("忽略", null)
                                 .Queue();
                         });
                     }
@@ -160,8 +155,7 @@ namespace NTMiner.Vms {
                                 .Background("Red")
                                 .HasBadge("Error")
                                 .HasMessage(message)
-                                .Dismiss()
-                                .WithDelay(TimeSpan.FromSeconds(4))
+                                .Dismiss().WithButton("忽略", null)
                                 .Queue();
                         });
                     }

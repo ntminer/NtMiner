@@ -5,42 +5,25 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientRestartViewModel : ViewModelBase {
-        private MinerClientViewModel _minerClientVm;
+        private string _title;
         private MineWorkViewModel _selectedMineWork;
         public ICommand Ok { get; private set; }
 
         public Action CloseWindow { get; set; }
 
-        public MinerClientRestartViewModel(MinerClientViewModel minerClientVm) {
+        public MinerClientRestartViewModel(string title, Guid workId, Action onOk) {
             this.Ok = new DelegateCommand(() => {
-                Server.MinerClientService.RestartNTMinerAsync(minerClientVm.MinerIp, SelectedMineWork.Id, response => {
-                    if (!response.IsSuccess()) {
-                        if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
-                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                                 .Accent("#1751C3")
-                                 .Background("Red")
-                                 .HasBadge("Error")
-                                 .HasMessage(response.Description)
-                                 .Dismiss()
-                                 .WithDelay(TimeSpan.FromSeconds(5))
-                                 .Queue();
-                        }
-                    }
-                });
-                CloseWindow?.Invoke();
+                onOk?.Invoke();
             });
-            _minerClientVm = minerClientVm;
-            _selectedMineWork = MineWorkVms.MineWorkItems.FirstOrDefault(a => a.Id == minerClientVm.WorkId);
+            _title = title;
+            _selectedMineWork = MineWorkVms.MineWorkItems.FirstOrDefault(a => a.Id == workId);
         }
 
-        public MinerClientViewModel MinerClientVm {
-            get => _minerClientVm;
+        public string Title {
+            get { return _title; }
             set {
-                if (_minerClientVm != value) {
-                    _minerClientVm = value;
-                    OnPropertyChanged(nameof(MinerClientVm));
-                }
+                _title = value;
+                OnPropertyChanged(nameof(Title));
             }
         }
 

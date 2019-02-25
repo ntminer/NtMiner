@@ -37,8 +37,7 @@ namespace NTMiner.Vms {
                                 .Background("Red")
                                 .HasBadge("Error")
                                 .HasMessage(message)
-                                .Dismiss()
-                                .WithDelay(TimeSpan.FromSeconds(5))
+                                .Dismiss().WithButton("忽略", null)
                                 .Queue();
                         }));
                         UIThread.Execute(() => {
