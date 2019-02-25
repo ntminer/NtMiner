@@ -25,9 +25,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                     MineWorkData entity = new MineWorkData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, isSuccess=> {
-                        VirtualRoot.Happened(new MineWorkAddedEvent(entity));
+                    Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, response=> {
+                        if (!response.IsSuccess()) {
+                            _dicById.Remove(entity.Id);
+                            VirtualRoot.Happened(new MineWorkRemovedEvent(entity));
+                        }
                     });
+                    VirtualRoot.Happened(new MineWorkAddedEvent(entity));
                 });
             VirtualRoot.Accept<UpdateMineWorkCommand>(
                 "更新工作",

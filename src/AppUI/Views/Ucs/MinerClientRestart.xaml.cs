@@ -19,10 +19,11 @@ namespace NTMiner.Views.Ucs {
                     workId = minerClientVm.WorkId;
                     title = $"你确定重启 {minerClientVm.MinerName}({minerClientVm.MinerIp}) 吗？";
                 }
-                var vm = new MinerClientRestartViewModel(title, workId, ()=> {
+                MinerClientRestartViewModel vm = null;
+                vm = new MinerClientRestartViewModel(title, workId, ()=> {
                     if (minerClients.Count == 1) {
                         var minerClientVm = minerClients[0];
-                        Server.MinerClientService.RestartNTMinerAsync(minerClientVm.MinerIp, minerClientVm.WorkId, response => {
+                        Server.MinerClientService.RestartNTMinerAsync(minerClientVm.MinerIp, vm.SelectedMineWork.Id, response => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
@@ -40,7 +41,7 @@ namespace NTMiner.Views.Ucs {
                     }
                     else {
                         foreach (var item in minerClients) {
-                            Server.MinerClientService.RestartNTMinerAsync(item.MinerIp, item.WorkId, response => {
+                            Server.MinerClientService.RestartNTMinerAsync(item.MinerIp, vm.SelectedMineWork.Id, response => {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
@@ -55,6 +56,7 @@ namespace NTMiner.Views.Ucs {
                                 }
                             });
                         }
+                        window.Close();
                     }
                 });
                 vm.CloseWindow = () => window.Close();

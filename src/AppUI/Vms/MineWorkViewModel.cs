@@ -47,12 +47,13 @@ namespace NTMiner.Vms {
                 }
                 if (NTMinerRoot.Current.MineWorkSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateMineWorkCommand(this));
+                    CloseWindow?.Invoke();
                 }
                 else {
                     VirtualRoot.Execute(new AddMineWorkCommand(this));
+                    CloseWindow?.Invoke();
                     this.Edit.Execute(null);
                 }
-                CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
