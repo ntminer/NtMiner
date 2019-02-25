@@ -298,7 +298,7 @@
 					<MenuItem.Icon>
 						<Path
 							Width="16"
-							Height="16"
+							Height="18"
 							Data="{StaticResource Icon_Exit}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
@@ -433,7 +433,7 @@
 					<MenuItem.Icon>
 						<Path
 							Width="16"
-							Height="16"
+							Height="18"
 							Data="{StaticResource Icon_Exit}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
