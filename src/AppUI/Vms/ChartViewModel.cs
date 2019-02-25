@@ -1,6 +1,7 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
+using NTMiner.MinerServer;
 using System;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -10,7 +11,6 @@ namespace NTMiner.Vms {
         private SeriesCollection _series;
         private AxesCollection _axisY;
         private AxesCollection _axisX;
-        private bool _isShow = true;
         private static readonly SolidColorBrush transparent = new SolidColorBrush(Colors.Transparent);
         private static readonly SolidColorBrush black = new SolidColorBrush(Colors.Black);
         private static readonly SolidColorBrush green = new SolidColorBrush(Colors.Green);
@@ -105,9 +105,22 @@ namespace NTMiner.Vms {
         }
 
         public bool IsShow {
-            get { return _isShow; }
+            get {
+                string key = $"ChartVm.IsShow.{this.CoinVm.Code}";
+                AppSettingViewModel appSettingVm;
+                if (AppSettingViewModels.Current.TryGetAppSettingVm(key, out appSettingVm)) {
+                    return (bool)appSettingVm.Value;
+                }
+                else {
+                    return true;
+                }
+            }
             set {
-                _isShow = value;
+                string key = $"ChartVm.IsShow.{this.CoinVm.Code}";
+                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
+                    Key = key,
+                    Value = value
+                }));
                 OnPropertyChanged(nameof(IsShow));
             }
         }

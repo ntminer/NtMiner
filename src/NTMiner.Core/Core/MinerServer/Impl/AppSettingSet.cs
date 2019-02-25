@@ -25,12 +25,12 @@ namespace NTMiner.Core.MinerServer.Impl {
                             else {
                                 _dicByKey.Add(message.AppSetting.Key, entity);
                             }
-                            VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                         }
                         else if (response != null) {
                             Write.UserLine(response.Description, System.ConsoleColor.Red);
                         }
                     });
+                    VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                 });
         }
 

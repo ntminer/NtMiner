@@ -504,7 +504,85 @@
 				</Style>
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="110" Header="操作" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridCheckBoxColumn Binding="{Binding IsChecked}">
+					<DataGridCheckBoxColumn.Header>
+						<WrapPanel>
+							<CheckBox IsChecked="{Binding Data.IsChecked,Source={StaticResource proxy}}"></CheckBox>
+						</WrapPanel>
+					</DataGridCheckBoxColumn.Header>
+				</DataGridCheckBoxColumn>
+				<DataGridTemplateColumn Width="110" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>操作</TextBlock>
+							<Menu 
+								Margin="4 0 0 0"
+								Background="Transparent" 
+								Width="24" Height="16" 
+								Padding="0">
+								<MenuItem>
+									<MenuItem.Icon>
+										<Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Menu}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</MenuItem.Icon>
+									<MenuItem Header="启动客户端" Command="{Binding Data.StartNTMiner,Source={StaticResource proxy}}">
+										<MenuItem.Icon>
+											<Path
+												Width="16"
+												Height="16"
+												Data="{StaticResource Icon_Start}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</MenuItem.Icon>
+									</MenuItem>
+									<MenuItem Header="重启客户端" Command="{Binding Data.RestartNTMiner,Source={StaticResource proxy}}">
+										<MenuItem.Icon>
+											<Path
+												Width="16"
+												Height="16"
+												Data="{StaticResource Icon_Restart}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</MenuItem.Icon>
+									</MenuItem>
+									<MenuItem Header="关闭客户端" Command="{Binding Data.CloseNTMiner,Source={StaticResource proxy}}">
+										<MenuItem.Icon>
+											<Path
+												Width="16"
+												Height="16"
+												Data="{StaticResource Icon_Close}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</MenuItem.Icon>
+									</MenuItem>
+									<MenuItem Header="重启电脑" Command="{Binding Data.RestartWindows,Source={StaticResource proxy}}">
+										<MenuItem.Icon>
+											<Path
+												Width="16"
+												Height="16"
+												Data="{StaticResource Icon_Restart2}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</MenuItem.Icon>
+									</MenuItem>
+									<MenuItem Header="关闭电脑" Command="{Binding Data.ShutdownWindows,Source={StaticResource proxy}}">
+										<MenuItem.Icon>
+											<Path
+												Width="16"
+												Height="16"
+												Data="{StaticResource Icon_Shutdown}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</MenuItem.Icon>
+									</MenuItem>
+								</MenuItem>
+							</Menu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -566,7 +644,7 @@
 									</Button.Template>
 								</Button>
 								<Menu 
-									Margin="6 0 0 0"
+									Margin="4 0 0 0"
 									Background="Transparent" 
 									Width="24" Height="16" 
 									Padding="0">

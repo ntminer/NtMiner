@@ -18,6 +18,7 @@ namespace NTMiner.Vms {
             new MinuteItem(10),
             new MinuteItem(20)
         };
+        private bool _isChecked = false;
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private MinuteItem _lastActivedOn;
@@ -39,6 +40,15 @@ namespace NTMiner.Vms {
         private PoolViewModel _dualCoinPool;
         private MineWorkViewModel _selectedMineWork;
         private MinerGroupViewModel _selectedMinerGroup;
+
+        public ICommand RestartWindows { get; private set; }
+        public ICommand ShutdownWindows { get; private set; }
+        public ICommand RemoteDesktop { get; private set; }
+        public ICommand StartNTMiner { get; private set; }
+        public ICommand RestartNTMiner { get; private set; }
+        public ICommand CloseNTMiner { get; private set; }
+        public ICommand StartMine { get; private set; }
+        public ICommand StopMine { get; private set; }
 
         public ICommand PageUp { get; private set; }
         public ICommand PageDown { get; private set; }
@@ -76,6 +86,30 @@ namespace NTMiner.Vms {
             this._dualCoinPool = _dualCoin.OptionPools.First();
             this._mainCoinWallet = string.Empty;
             this._dualCoinWallet = string.Empty;
+            this.RestartWindows = new DelegateCommand(() => {
+
+            });
+            this.ShutdownWindows = new DelegateCommand(() => {
+
+            });
+            this.RemoteDesktop = new DelegateCommand(() => {
+
+            });
+            this.StartNTMiner = new DelegateCommand(() => {
+
+            });
+            this.RestartNTMiner = new DelegateCommand(() => {
+
+            });
+            this.CloseNTMiner = new DelegateCommand(() => {
+
+            });
+            this.StartMine = new DelegateCommand(() => {
+
+            });
+            this.StopMine = new DelegateCommand(() => {
+
+            });
             this.PageUp = new DelegateCommand(() => {
                 this.MinerClientPageIndex = this.MinerClientPageIndex - 1;
             });
@@ -99,6 +133,19 @@ namespace NTMiner.Vms {
                 this.LogoRotateTransformAngle += 50;
             };
             t.Start();
+        }
+
+        public bool IsChecked {
+            get { return _isChecked; }
+            set {
+                if (_isChecked != value) {
+                    foreach (var item in MinerClients) {
+                        item.IsChecked = value;
+                    }
+                    _isChecked = value;
+                    OnPropertyChanged(nameof(IsChecked));
+                }
+            }
         }
 
         private INotificationMessageManager _manager;

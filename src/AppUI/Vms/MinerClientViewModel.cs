@@ -11,6 +11,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientViewModel : ViewModelBase, IClientData {
+        private bool _isChecked = false;
         private double _incomeMainCoinPerDay;
         private double _incomeMainCoinUsdPerDay;
         private double _incomeMainCoinCnyPerDay;
@@ -169,6 +170,14 @@ namespace NTMiner.Vms {
         }
 
         #region IClientData
+
+        public bool IsChecked {
+            get { return _isChecked; }
+            set {
+                _isChecked = value;
+                OnPropertyChanged(nameof(IsChecked));
+            }
+        }
 
         public Guid GetId() {
             return this.Id;
