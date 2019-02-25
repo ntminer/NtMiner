@@ -10,7 +10,7 @@ using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
-        private static ILang s__lang = null;
+        private static ILang s_lang = null;
         private static bool s_isControlCenter;
 
         public static string GlobalDirFullName { get; private set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
@@ -28,19 +28,19 @@ namespace NTMiner {
 
         public static ILang Lang {
             get {
-                if (s__lang == null) {
+                if (s_lang == null) {
                     string langCode = NTMinerRegistry.GetLanguage();
-                    s__lang = LangSet.Instance.GetLangByCode(langCode);
-                    if (s__lang == null) {
+                    s_lang = LangSet.Instance.GetLangByCode(langCode);
+                    if (s_lang == null) {
                         // 默认是排序在第一个的语言
-                        s__lang = LangSet.Instance.First();
+                        s_lang = LangSet.Instance.First();
                     }
                 }
-                return s__lang;
+                return s_lang;
             }
             set {
-                if (s__lang != value && value != null) {
-                    s__lang = LangSet.Instance.GetLangByCode(value.Code);
+                if (s_lang != value && value != null) {
+                    s_lang = LangSet.Instance.GetLangByCode(value.Code);
                     NTMinerRegistry.SetLanguage(value.Code);
                     Happened(new GlobalLangChangedEvent(value));
                 }

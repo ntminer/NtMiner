@@ -102,9 +102,13 @@
     <Compile Include="Core\Gpus\Adl\AdlTypes.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
+    <Compile Include="Core\Gpus\IGpuOverClockData.cs" />
+    <Compile Include="Core\Gpus\IGpuOverClockDataSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
-    <Compile Include="Core\Gpus\Impl\EmptyOverClock.cs" />
+    <Compile Include="Core\Gpus\Impl\GpuAllOverClock.cs" />
+    <Compile Include="Core\Gpus\Impl\GpuOverClockData.cs" />
+    <Compile Include="Core\Gpus\Impl\GpuOverClockDataSet.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />

@@ -1,25 +1,25 @@
 ﻿namespace NTMiner.Core.Gpus.Impl {
     public class NVIDIAOverClock : IOverClock {
-        private readonly int _gpuIndex;
+        public IGpuOverClockData Data { get; private set; }
 
-        public NVIDIAOverClock(int gpuIndex) {
-            _gpuIndex = gpuIndex;
+        public NVIDIAOverClock(IGpuOverClockData data) {
+            this.Data = data;
         }
 
-        public void SetCoreClock(int deltaValue) {
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{_gpuIndex} gclk:{deltaValue}");
+        public void SetCoreClock() {
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{this.Data.Index} gclk:{this.Data.CoreClockDelta}");
         }
 
-        public void SetMemoryClock(int deltaValue) {
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{_gpuIndex} mclk:{deltaValue}");
+        public void SetMemoryClock() {
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{this.Data.Index} mclk:{this.Data.MemoryClockDelta}");
         }
 
-        public void SetPowerCapacity(int nn) {
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{_gpuIndex} pcap:{nn}");
+        public void SetPowerCapacity() {
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{this.Data.Index} pcap:{this.Data.PowerCapacity}");
         }
 
-        public void SetCool(int nn) {
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{_gpuIndex} cool:{nn}");
+        public void SetCool() {
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{this.Data.Index} cool:{this.Data.Cool}");
         }
     }
 }

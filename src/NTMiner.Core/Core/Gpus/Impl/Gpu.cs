@@ -6,7 +6,7 @@
             Temperature = 0,
             FanSpeed = 0,
             PowerUsage = 0,
-            OverClock = new EmptyOverClock()
+            OverClock = new GpuAllOverClock(GpuOverClockData.GpuAllData)
         };
 
         public Gpu() {

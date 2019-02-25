@@ -31,13 +31,14 @@ namespace NTMiner.Core.Gpus.Impl {
             int deviceCount = 0;
             deviceCount = adlHelper.GpuCount;
             for (int i = 0; i < deviceCount; i++) {
+                IGpuOverClockData overClockData = root.GpuOverClockDataSet.GetGpuOverClockData(i);
                 _gpus.Add(i, new Gpu {
                     Index = i,
                     Name = adlHelper.GetGpuName(i),
                     Temperature = 0,
                     PowerUsage = 0,
                     FanSpeed = 0,
-                    OverClock = new AMDOverClock(i)
+                    OverClock = new AMDOverClock(overClockData)
                 });
             }
             string[] keys = new string[]{

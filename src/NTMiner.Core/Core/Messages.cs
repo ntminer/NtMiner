@@ -287,6 +287,26 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    #region gpu overclock
+    [MessageType(messageType: typeof(AddOrUpdateGpuOverClockDataCommand), description: "添加或更新Gpu超频数据")]
+    public class AddOrUpdateGpuOverClockDataCommand : Cmd {
+        public AddOrUpdateGpuOverClockDataCommand(IGpuOverClockData input) {
+            this.Input = input;
+        }
+
+        public IGpuOverClockData Input { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(AddOrUpdateGpuOverClockDataCommand), description: "Gpu超频数据添加或更新后")]
+    public class GpuOverClockDataAddedOrUpdatedEvent : EventBase {
+        public GpuOverClockDataAddedOrUpdatedEvent(IGpuOverClockData source) {
+            this.Source = source;
+        }
+
+        public IGpuOverClockData Source { get; private set; }
+    }
+    #endregion
+
     #region speed and share
     [MessageType(messageType: typeof(GpuSpeedChangedEvent), description: "显卡算力变更事件")]
     public class GpuSpeedChangedEvent : DomainEvent<IGpuSpeed> {

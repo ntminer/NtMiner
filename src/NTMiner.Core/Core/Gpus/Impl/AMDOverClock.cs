@@ -1,24 +1,24 @@
 ﻿namespace NTMiner.Core.Gpus.Impl {
     public class AMDOverClock : IOverClock {
-        private readonly int _gpuIndex;
+        public IGpuOverClockData Data { get; private set; }
 
-        public AMDOverClock(int gpuIndex) {
-            _gpuIndex = gpuIndex;
+        public AMDOverClock(IGpuOverClockData data) {
+            this.Data = data;
         }
 
-        public void SetCoreClock(int deltaValue) {
+        public void SetCoreClock() {
             // 暂不支持A卡超频
         }
 
-        public void SetMemoryClock(int deltaValue) {
+        public void SetMemoryClock() {
             // 暂不支持A卡超频
         }
 
-        public void SetPowerCapacity(int nn) {
+        public void SetPowerCapacity() {
             // 暂不支持A卡超频
         }
 
-        public void SetCool(int nn) {
+        public void SetCool() {
             // 暂不支持A卡超频
         }
     }
