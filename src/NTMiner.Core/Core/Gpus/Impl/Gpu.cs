@@ -5,11 +5,14 @@
             Name = "全部显卡",
             Temperature = 0,
             FanSpeed = 0,
-            PowerUsage = 0
+            PowerUsage = 0,
+            OverClock = new EmptyOverClock()
         };
 
         public Gpu() {
         }
+
+        public IOverClock OverClock { get; set; }
 
         public int Index { get; set; }
 

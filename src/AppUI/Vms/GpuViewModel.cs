@@ -8,6 +8,12 @@ namespace NTMiner.Vms {
             _gpu = gpu;
         }
 
+        public IOverClock OverClock {
+            get {
+                return _gpu.OverClock;
+            }
+        }
+
         public int Index {
             get => _gpu.Index;
         }

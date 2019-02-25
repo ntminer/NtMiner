@@ -36,7 +36,8 @@ namespace NTMiner.Core.Gpus.Impl {
                     Name = adlHelper.GetGpuName(i),
                     Temperature = 0,
                     PowerUsage = 0,
-                    FanSpeed = 0
+                    FanSpeed = 0,
+                    OverClock = new AMDOverClock(i)
                 });
             }
             string[] keys = new string[]{

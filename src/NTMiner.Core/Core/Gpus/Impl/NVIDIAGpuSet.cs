@@ -46,7 +46,11 @@ namespace NTMiner.Core.Gpus.Impl {
                     NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(_nvmlDevices[i], nvmlClockType.Mem, ref mClock);
                     _gpus.Add(i, new Gpu {
                         Index = i,
-                        Name = name
+                        Name = name,
+                        Temperature = 0,
+                        PowerUsage = 0,
+                        FanSpeed = 0,
+                        OverClock = new NVIDIAOverClock(i)
                     });
                 }
                 string driverVersion;
