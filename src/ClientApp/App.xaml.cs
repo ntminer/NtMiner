@@ -1,4 +1,5 @@
-﻿using NTMiner.Views;
+﻿using NTMiner.OverClock;
+using NTMiner.Views;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -46,7 +47,6 @@ namespace NTMiner {
                     splashWindow.Show();
                     NTMinerRoot.AppName = "开源矿工挖矿客户端";
                     NTMinerRoot.Current.Init(()=> {
-                        OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Access();
                         NTMinerRoot.KernelDownloader = new KernelDownloader();
                         UIThread.Execute(() => {
                             MainWindow window = new MainWindow();
@@ -95,6 +95,19 @@ namespace NTMiner {
                                 }
                             });
                         });
+                    VirtualRoot.On<MineStartedEvent>(
+                        "开始挖矿后启动1080ti小药丸",
+                        LogEnum.Console,
+                        action: message => {
+                            OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
+                        });
+                    VirtualRoot.On<MineStopedEvent>(
+                        "停止挖矿后停止1080ti小药丸",
+                        LogEnum.Console,
+                        action: message => {
+                            OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
+                        });
+                    NTMinerOverClockUtil.ExtractResource();
                 }
                 else {
                     try {

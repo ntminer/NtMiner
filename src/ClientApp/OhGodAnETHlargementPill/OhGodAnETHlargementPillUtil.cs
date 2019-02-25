@@ -5,67 +5,61 @@ using System.Linq;
 using System.Reflection;
 
 namespace NTMiner.OhGodAnETHlargementPill {
-    public class OhGodAnETHlargementPillUtil {
+    public static class OhGodAnETHlargementPillUtil {
         private static string processName = "OhGodAnETHlargementPill-r2";
         private static string tempDir = SpecialPath.TempDirFullName;
         private static string fileFullName = Path.Combine(tempDir, processName + ".exe");
-        public static void Access() {
-            VirtualRoot.On<MineStartedEvent>(
-                "开始挖矿后启动1080ti小药丸",
-                LogEnum.Console,
-                action: message => {
-                    try {
-                        if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
-                            ExtractResource();
-                            Process[] processes = Process.GetProcessesByName(processName);
-                            if (processes == null || processes.Length == 0) {
-                                try {
-                                    using (Process proc = new Process()) {
-                                        proc.StartInfo.CreateNoWindow = true;
-                                        proc.StartInfo.UseShellExecute = false;
-                                        proc.StartInfo.FileName = fileFullName;
-                                        proc.Start();
-                                    }
-                                }
-                                catch (Exception e) {
-                                    Logger.ErrorDebugLine(e.Message, e);
-                                }
-                                Logger.OkWriteLine("小药丸启动成功");
+
+        public static void Start() {
+            try {
+                if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
+                    ExtractResource();
+                    Process[] processes = Process.GetProcessesByName(processName);
+                    if (processes == null || processes.Length == 0) {
+                        try {
+                            using (Process proc = new Process()) {
+                                proc.StartInfo.CreateNoWindow = true;
+                                proc.StartInfo.UseShellExecute = false;
+                                proc.StartInfo.FileName = fileFullName;
+                                proc.Start();
                             }
                         }
-                        else {
-                            Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e.Message, e);
                         }
+                        Logger.OkWriteLine("小药丸启动成功");
                     }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
-                });
-            VirtualRoot.On<MineStopedEvent>(
-                "停止挖矿后停止1080ti小药丸",
-                LogEnum.Console,
-                action: message => {
-                    try {
-                        if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
-                            Process[] processes = Process.GetProcessesByName(processName);
-                            if (processes != null && processes.Length != 0) {
-                                try {
-                                    Windows.TaskKill.Kill(processName);
-                                }
-                                catch (Exception e) {
-                                    Logger.ErrorDebugLine(e.Message, e);
-                                }
-                                Logger.OkWriteLine("成功停止小药丸");
-                            }
+                }
+                else {
+                    Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+        }
+
+        public static void Stop() {
+            try {
+                if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
+                    Process[] processes = Process.GetProcessesByName(processName);
+                    if (processes != null && processes.Length != 0) {
+                        try {
+                            Windows.TaskKill.Kill(processName);
                         }
-                        else {
-                            Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e.Message, e);
                         }
+                        Logger.OkWriteLine("成功停止小药丸");
                     }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
-                });
+                }
+                else {
+                    Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
         }
 
         private static void ExtractResource() {
