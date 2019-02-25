@@ -163,6 +163,11 @@ namespace NTMiner.Vms {
         public static ICommand ShowVirtualMemory { get; private set; } = new DelegateCommand(() => {
             Views.Ucs.VirtualMemory.ShowWindow();
         });
+
+        public static ICommand ShowOverClock { get; private set; } = new DelegateCommand(() => {
+            GpusOverClock.ShowWindow();
+        });
+
         public static ICommand ViewEvent { get; private set; } = new DelegateCommand(() => {
             EventPage.ShowWindow();
         });

@@ -24,7 +24,9 @@ namespace NTMiner.Vms {
                 });
             foreach (var gpu in NTMinerRoot.Current.GpuSet) {
                 IGpuOverClockData data = NTMinerRoot.Current.GpuOverClockDataSet.GetGpuOverClockData(gpu.Index);
-                _dicByIndex.Add(data.Index, new GpuOverClockDataViewModel(data));
+                _dicByIndex.Add(data.Index, new GpuOverClockDataViewModel(data) {
+                    Name = gpu.Name
+                });
             }
         }
 

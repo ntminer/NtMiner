@@ -18,6 +18,9 @@ namespace NTMiner.Views.Ucs {
 
         public OuterProperty() {
             InitializeComponent();
+            if (Design.IsInDesignMode) {
+                return;
+            }
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }

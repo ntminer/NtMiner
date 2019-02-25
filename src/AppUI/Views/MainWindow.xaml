@@ -333,6 +333,21 @@
 			<WrapPanel x:Name="IconButtons" Margin="0 4 8 4" HorizontalAlignment="Right">
 				<Border Style="{StaticResource IconButtonBg}">
 					<controls:KbButton 
+						ToolTip="超频"
+						Background="Transparent" BorderThickness="0"
+						Command="{x:Static vm:AppStatic.ShowOverClock}">
+						<WrapPanel>
+							<Path 
+								Height="20"
+								Width="20"
+								Data="{StaticResource Icon_OverClock}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
+				</Border>
+				<Border Style="{StaticResource IconButtonBg}" Margin="8 0 0 0">
+					<controls:KbButton 
 						ToolTip="算力图"
 						Background="Transparent" BorderThickness="0"
 						Command="{x:Static vm:AppStatic.ShowSpeedChart}">

@@ -3,12 +3,12 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class GpusOverClock : UserControl {
-        public static void ShowWindow(string appType) {
+        public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                IconName = "Icon_GpuOverClock",
+                IconName = "Icon_OverClock",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed
-            }, ucFactory: (window) => new GpusOverClock(appType), fixedSize: true);
+            }, ucFactory: (window) => new GpusOverClock(), fixedSize: true);
         }
 
         public GpusOverClockViewModel Vm {
@@ -17,7 +17,7 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public GpusOverClock(string appType) {
+        public GpusOverClock() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
