@@ -40,8 +40,8 @@
 
         public void SetCool(IGpuOverClockData data) {
             int value = data.Cool;
-            if (value < 30) {
-                value = 30;
+            if (value < 38) {
+                value = 38;
             }
             else if (value > 100) {
                 value = 100;
