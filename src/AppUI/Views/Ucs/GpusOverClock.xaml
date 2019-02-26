@@ -9,18 +9,47 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:GpusOverClockViewModel.Current}"
-		mc:Ignorable="d" MaxHeight="400" MaxWidth="800">
+		mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="800">
 	<UserControl.Resources>
 		<sys:String x:Key="WindowTitle">
 			超频
 		</sys:String>
 	</UserControl.Resources>
-	<Grid Margin="10 6">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
+		<Grid Grid.RowSpan="3">
+			<DataGrid 
+				Grid.Row="1" Margin="0" 
+				ItemsSource="{Binding CoinVms.MainCoins}" 
+				BorderThickness="0 0 1 0" 
+				BorderBrush="{StaticResource LineColor}"
+				SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False">
+				<DataGrid.Resources>
+					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+				</DataGrid.Resources>
+				<DataGrid.Columns>
+					<DataGridTextColumn Binding="{Binding CodeAlgo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						<DataGridTextColumn.Header>
+							<WrapPanel>
+								<TextBlock Text="币种"></TextBlock>
+								<TextBlock Margin="4 0 0 0" Text="{Binding Data.List.Count, Source={StaticResource proxy}}"></TextBlock>
+							</WrapPanel>
+						</DataGridTextColumn.Header>
+					</DataGridTextColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+			<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding CoinVms.MainCoins, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
+		</Grid>
 		<ItemsControl 
+			Grid.Column="1"
 			Visibility="{Binding GpuAllOverClockDataVm.IsEnabled, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 			BorderThickness="0"
 			ItemsSource="{Binding GpuOverClockVms.List}" 
@@ -88,7 +117,7 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<Grid Width="160" Margin="4" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top">
+		<Grid Grid.Column="1" Width="160" Margin="4" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top">
 			<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1">
 				<GroupBox.Header>
 					<WrapPanel>
@@ -122,7 +151,7 @@
 				</StackPanel>
 			</GroupBox>
 		</Grid>
-		<StackPanel Visibility="Collapsed">
+		<StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Top">
 			<WrapPanel Height="40">
 				<TextBlock Width="60" TextAlignment="Right">超核心</TextBlock>
 				<Slider 
@@ -165,8 +194,9 @@
 			</WrapPanel>
 		</StackPanel>
 		<controls:KbButton
-			Grid.Row="1"
-			Margin="0 0 4 0"
+			Grid.Column="1"
+			Grid.Row="2"
+			Margin="0 0 10 10"
 			ToolTip="应用选中的项"
 			HorizontalAlignment="Right"
 			Command="{Binding Apply}" 

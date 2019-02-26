@@ -20,6 +20,12 @@ namespace NTMiner.Vms {
             _currentGpuOverClockDataVm = GpuOverClockVms.List.FirstOrDefault();
         }
 
+        public CoinViewModels CoinVms {
+            get {
+                return CoinViewModels.Current;
+            }
+        }
+
         public GpuOverClockDataViewModel CurrentGpuOverClockDataVm {
             get => _currentGpuOverClockDataVm;
             set {
