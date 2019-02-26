@@ -22,6 +22,7 @@ namespace NTMiner.Vms {
             _id = id;
             this.Apply = new DelegateCommand(() => {
                 VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
+                VirtualRoot.Execute(new OverClockCommand(this));
             });
         }
 
