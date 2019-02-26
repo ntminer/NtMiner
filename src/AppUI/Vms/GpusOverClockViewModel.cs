@@ -1,14 +1,22 @@
 ﻿using System.Linq;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class GpusOverClockViewModel : ViewModelBase {
         public static readonly GpusOverClockViewModel Current = new GpusOverClockViewModel();
         private GpuOverClockDataViewModel _currentGpuOverClockDataVm;
+        private GpuOverClockDataViewModel _gpuAllOverClockDataVm;
+
+        public ICommand Apply { get; private set; }
 
         private GpusOverClockViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
+            this.Apply = new DelegateCommand(() => {
+
+            });
+            _gpuAllOverClockDataVm = GpuOverClockVms.GpuAllVm;
             _currentGpuOverClockDataVm = GpuOverClockVms.List.FirstOrDefault();
         }
 
@@ -17,6 +25,14 @@ namespace NTMiner.Vms {
             set {
                 _currentGpuOverClockDataVm = value;
                 OnPropertyChanged(nameof(CurrentGpuOverClockDataVm));
+            }
+        }
+
+        public GpuOverClockDataViewModel GpuAllOverClockDataVm {
+            get => _gpuAllOverClockDataVm;
+            set {
+                _gpuAllOverClockDataVm = value;
+                OnPropertyChanged(nameof(GpuAllOverClockDataVm));
             }
         }
 

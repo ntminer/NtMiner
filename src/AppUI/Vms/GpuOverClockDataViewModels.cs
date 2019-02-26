@@ -27,7 +27,12 @@ namespace NTMiner.Vms {
                 _dicByIndex.Add(data.Index, new GpuOverClockDataViewModel(data) {
                     Name = gpu.Name
                 });
+                GpuAllVm = _dicByIndex[NTMinerRoot.GpuAllId];
             }
+        }
+
+        public GpuOverClockDataViewModel GpuAllVm {
+            get; private set;
         }
 
         public List<GpuOverClockDataViewModel> List {

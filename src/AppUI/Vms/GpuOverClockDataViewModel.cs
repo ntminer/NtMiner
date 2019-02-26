@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class GpuOverClockDataViewModel : ViewModelBase, IGpuOverClockData {
@@ -8,9 +9,18 @@ namespace NTMiner.Vms {
         private int _memoryClockDelta;
         private int _powerCapacity;
         private int _cool;
+        private bool _isEnabled = true;
 
-        public GpuOverClockDataViewModel(IGpuOverClockData data) {
-            _index = data.Index;
+        public ICommand Apply { get; private set; }
+
+        public GpuOverClockDataViewModel(int index) {
+            _index = index;
+            this.Apply = new DelegateCommand(() => {
+
+            });
+        }
+
+        public GpuOverClockDataViewModel(IGpuOverClockData data) : this(data.Index) {
             _name = data.Name;
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
@@ -31,6 +41,24 @@ namespace NTMiner.Vms {
             set {
                 _index = value;
                 OnPropertyChanged(nameof(Index));
+                OnPropertyChanged(nameof(IndexText));
+            }
+        }
+
+        public bool IsEnabled {
+            get => _isEnabled;
+            set {
+                _isEnabled = value;
+                OnPropertyChanged(nameof(IsEnabled));
+            }
+        }
+
+        public string IndexText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    return "统一超";
+                }
+                return $"GPU{Index}";
             }
         }
 

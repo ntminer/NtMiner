@@ -9,14 +9,19 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:GpusOverClockViewModel.Current}"
-		mc:Ignorable="d" Height="324" Width="800">
+		mc:Ignorable="d" MaxHeight="400" MaxWidth="800">
 	<UserControl.Resources>
 		<sys:String x:Key="WindowTitle">
 			超频
 		</sys:String>
 	</UserControl.Resources>
-	<Grid>
+	<Grid Margin="10 6">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
 		<ItemsControl 
+			Visibility="{Binding GpuAllOverClockDataVm.IsEnabled, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 			BorderThickness="0"
 			ItemsSource="{Binding GpuOverClockVms.List}" 
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -30,35 +35,93 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Border Width="140" Padding="4" Margin="4" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
-						<StackPanel>
+					<Grid Width="160" Margin="4">
+						<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+							<GroupBox.Header>
+								<WrapPanel>
+									<CheckBox IsChecked="{Binding IsEnabled}" Content="{Binding IndexText}"></CheckBox>
+								</WrapPanel>
+							</GroupBox.Header>
+							<StackPanel>
+								<WrapPanel>
+									<TextBlock Margin="4 0 0 0" Text="{Binding Name}"></TextBlock>
+								</WrapPanel>
+								<WrapPanel>
+									<TextBlock Width="40" TextAlignment="Right">超核心</TextBlock>
+									<TextBox Margin="4 0 0 0" Text="{Binding CoreClockDelta}" Width="70"></TextBox>
+									<TextBlock>M</TextBlock>
+								</WrapPanel>
+								<WrapPanel>
+									<TextBlock Width="40" TextAlignment="Right">超显存</TextBlock>
+									<TextBox Margin="4 0 0 0" Text="{Binding MemoryClockDelta}" Width="70"></TextBox>
+									<TextBlock>M</TextBlock>
+								</WrapPanel>
+								<WrapPanel>
+									<TextBlock Width="40" TextAlignment="Right">功耗</TextBlock>
+									<TextBox Margin="4 0 0 0" Text="{Binding PowerCapacity}" Width="50"></TextBox>
+									<TextBlock>%</TextBlock>
+								</WrapPanel>
+								<WrapPanel>
+									<TextBlock Width="40" TextAlignment="Right">风扇</TextBlock>
+									<TextBox Margin="4 0 0 0" Text="{Binding Cool}" Width="50"></TextBox>
+									<TextBlock>%</TextBlock>
+								</WrapPanel>
+							</StackPanel>
+						</GroupBox>
+						<controls:KbButton
+							ToolTip="应用该项"
+							HorizontalAlignment="Right" VerticalAlignment="Top"
+							Command="{Binding Apply}" 
+							Background="{StaticResource IconFillColor}"
+							Foreground="White"
+							CornerRadius="2">
 							<WrapPanel>
-								<TextBlock Text="{Binding Index}"></TextBlock>
-								<TextBlock Margin="4 0 0 0" Text="{Binding Name}"></TextBlock>
+								<Path
+									Width="14"
+									Height="14"
+									Data="{StaticResource Icon_Save}"
+									Fill="White"
+									Stretch="Fill" />
 							</WrapPanel>
-							<WrapPanel>
-								<TextBlock Width="40" TextAlignment="Right">超核心</TextBlock>
-								<TextBox Margin="4 0 0 0" Text="{Binding CoreClockDelta}" Width="70"></TextBox>
-							</WrapPanel>
-							<WrapPanel>
-								<TextBlock Width="40" TextAlignment="Right">超显存</TextBlock>
-								<TextBox Margin="4 0 0 0" Text="{Binding MemoryClockDelta}" Width="70"></TextBox>
-							</WrapPanel>
-							<WrapPanel>
-								<TextBlock Width="40" TextAlignment="Right">功耗</TextBlock>
-								<TextBox Margin="4 0 0 0" Text="{Binding PowerCapacity}" Width="50"></TextBox>
-								<TextBlock>%</TextBlock>
-							</WrapPanel>
-							<WrapPanel>
-								<TextBlock Width="40" TextAlignment="Right">风扇</TextBlock>
-								<TextBox Margin="4 0 0 0" Text="{Binding Cool}" Width="50"></TextBox>
-								<TextBlock>%</TextBlock>
-							</WrapPanel>
-						</StackPanel>
-					</Border>
+						</controls:KbButton>
+					</Grid>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
+		<Grid Width="160" Margin="4" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top">
+			<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+				<GroupBox.Header>
+					<WrapPanel>
+						<CheckBox IsChecked="{Binding GpuAllOverClockDataVm.IsEnabled}" Content="{Binding GpuAllOverClockDataVm.IndexText}"></CheckBox>
+					</WrapPanel>
+				</GroupBox.Header>
+				<StackPanel>
+					<WrapPanel>
+						<TextBlock Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.Name}"></TextBlock>
+					</WrapPanel>
+					<WrapPanel>
+						<TextBlock Width="40" TextAlignment="Right">超核心</TextBlock>
+						<TextBox Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.CoreClockDelta}" Width="70"></TextBox>
+						<TextBlock>M</TextBlock>
+					</WrapPanel>
+					<WrapPanel>
+						<TextBlock Width="40" TextAlignment="Right">超显存</TextBlock>
+						<TextBox Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.MemoryClockDelta}" Width="70"></TextBox>
+						<TextBlock>M</TextBlock>
+					</WrapPanel>
+					<WrapPanel>
+						<TextBlock Width="40" TextAlignment="Right">功耗</TextBlock>
+						<TextBox Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.PowerCapacity}" Width="50"></TextBox>
+						<TextBlock>%</TextBlock>
+					</WrapPanel>
+					<WrapPanel>
+						<TextBlock Width="40" TextAlignment="Right">风扇</TextBlock>
+						<TextBox Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.Cool}" Width="50"></TextBox>
+						<TextBlock>%</TextBlock>
+					</WrapPanel>
+				</StackPanel>
+			</GroupBox>
+		</Grid>
 		<StackPanel Visibility="Collapsed">
 			<WrapPanel Height="40">
 				<TextBlock Width="60" TextAlignment="Right">超核心</TextBlock>
@@ -101,5 +164,29 @@
 					Value="{Binding CurrentGpuOverClockDataVm.Cool}"></Slider>
 			</WrapPanel>
 		</StackPanel>
+		<controls:KbButton
+			Grid.Row="1"
+			Margin="0 0 4 0"
+			ToolTip="应用选中的项"
+			HorizontalAlignment="Right"
+			Command="{Binding Apply}" 
+			Width="60" 
+			Background="{StaticResource IconFillColor}"
+			Foreground="White"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Save}"
+					Fill="White"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Foreground="White"
+					Text="应用" />
+			</WrapPanel>
+		</controls:KbButton>
 	</Grid>
 </UserControl>
