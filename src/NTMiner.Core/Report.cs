@@ -58,7 +58,7 @@ namespace NTMiner {
         private static readonly Dictionary<Guid, CoinShareData> _coinShareDic = new Dictionary<Guid, CoinShareData>();
         private static ICoin _lastSpeedMainCoin;
         private static ICoin _lastSpeedDualCoin;
-        public static SpeedData CreateSpeedData(bool withGpuSpeeds = false) {
+        public static SpeedData CreateSpeedData() {
             INTMinerRoot root = NTMinerRoot.Current;
             SpeedData data = new SpeedData {
                 WorkId = CommandLineArgs.WorkId,
@@ -88,16 +88,14 @@ namespace NTMiner {
                 Kernel = string.Empty,
                 MainCoinPool = string.Empty
             };
-            if (withGpuSpeeds) {
-                data.GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
-                    Index = a.Gpu.Index,
-                    MainCoinSpeed = a.MainCoinSpeed.Value,
-                    DualCoinSpeed = a.DualCoinSpeed.Value,
-                    FanSpeed = a.Gpu.FanSpeed,
-                    Temperature = a.Gpu.Temperature,
-                    PowerUsage = a.Gpu.PowerUsage
-                }).ToArray();
-            }
+            data.GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
+                Index = a.Gpu.Index,
+                MainCoinSpeed = a.MainCoinSpeed.Value,
+                DualCoinSpeed = a.DualCoinSpeed.Value,
+                FanSpeed = a.Gpu.FanSpeed,
+                Temperature = a.Gpu.Temperature,
+                PowerUsage = a.Gpu.PowerUsage
+            }).ToArray();
             #region 当前选中的币种是什么
             ICoin mainCoin;
             if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out mainCoin)) {
@@ -215,11 +213,7 @@ namespace NTMiner {
 
         private static void ReportSpeed() {
             try {
-                bool withGpuSpeeds = false;
-                if (DevMode.IsDebugMode) {
-                    withGpuSpeeds = true;
-                }
-                SpeedData data = CreateSpeedData(withGpuSpeeds);
+                SpeedData data = CreateSpeedData();
                 Server.ReportService.ReportSpeedAsync(data);
             }
             catch (Exception e) {

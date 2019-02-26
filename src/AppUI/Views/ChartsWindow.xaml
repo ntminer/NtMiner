@@ -178,7 +178,7 @@
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 		<ScrollViewer 
-			Grid.Row="2"
+			Grid.Row="2"		
 			Background="White"
 			VerticalScrollBarVisibility="Auto"
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown"
@@ -192,6 +192,7 @@
 					Width="960"
 					ItemsSource="{Binding ChartVms}"
 					BorderThickness="0"
+					MouseDown="MetroWindow_MouseDown"
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
