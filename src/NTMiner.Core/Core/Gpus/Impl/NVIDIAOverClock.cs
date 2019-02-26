@@ -11,6 +11,7 @@
             else if (value > 400) {
                 value = 400;
             }
+            value = 1000 * value;
             Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} gclk:{value}");
         }
 
@@ -22,6 +23,7 @@
             else if (value > 1000) {
                 value = 1000;
             }
+            value = 1000 * value;
             Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} mclk:{value}");
         }
 

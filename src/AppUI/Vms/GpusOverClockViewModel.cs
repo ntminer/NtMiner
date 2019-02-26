@@ -15,7 +15,8 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Apply = new DelegateCommand(() => {
-                foreach (var item in GpuOverClockVms) {
+                var list = GpuOverClockVms.ToArray();
+                foreach (var item in list) {
                     VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(item));
                 }
                 if (GpuAllOverClockDataVm.IsEnabled) {
@@ -23,7 +24,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     foreach (var item in GpuOverClockVms) {
-                        if (item.IsEnabled) {
+                        if (item.IsEnabled && item.Index != NTMinerRoot.GpuAllId) {
                             VirtualRoot.Execute(new OverClockCommand(item));
                         }
                     }
