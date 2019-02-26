@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.Core;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
@@ -14,7 +15,16 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Apply = new DelegateCommand(() => {
-
+                if (GpuAllOverClockDataVm.IsEnabled) {
+                    VirtualRoot.Execute(new OverClockCommand(GpuAllOverClockDataVm));
+                }
+                else {
+                    foreach (var item in GpuOverClockVms) {
+                        if (item.IsEnabled) {
+                            VirtualRoot.Execute(new OverClockCommand(item));
+                        }
+                    }
+                }
             });
             _currentCoin = MinerProfileViewModel.Current.CoinVm;
             if (_currentCoin == null) {

@@ -34,8 +34,23 @@ namespace NTMiner.Core.Gpus.Impl {
                                 col.Insert(data);
                             }
                         }
-                        message.Input.OverClock(gpu.OverClock);
                         VirtualRoot.Happened(new GpuOverClockDataAddedOrUpdatedEvent(data));
+                    }
+                });
+            VirtualRoot.Accept<OverClockCommand>(
+                "处理超频命令",
+                LogEnum.Console,
+                action: message => {
+                    if (message.Input.Index == NTMinerRoot.GpuAllId) {
+                        foreach (var gpu in root.GpuSet) {
+                            message.Input.OverClock(gpu.OverClock);
+                        }
+                    }
+                    else {
+                        IGpu gpu;
+                        if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
+                            message.Input.OverClock(gpu.OverClock);
+                        }
                     }
                 });
         }

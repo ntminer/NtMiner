@@ -297,6 +297,15 @@ namespace NTMiner.Core {
         public IGpuOverClockData Input { get; private set; }
     }
 
+    [MessageType(messageType: typeof(OverClockCommand), description: "超频")]
+    public class OverClockCommand : Cmd {
+        public OverClockCommand(IGpuOverClockData input) {
+            this.Input = input;
+        }
+
+        public IGpuOverClockData Input { get; private set; }
+    }
+
     [MessageType(messageType: typeof(AddOrUpdateGpuOverClockDataCommand), description: "Gpu超频数据添加或更新后")]
     public class GpuOverClockDataAddedOrUpdatedEvent : DomainEvent<IGpuOverClockData> {
         public GpuOverClockDataAddedOrUpdatedEvent(IGpuOverClockData source) : base(source) {
