@@ -18,7 +18,7 @@
 		</sys:String>
 	</UserControl.Resources>
 	<Grid>
-		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl
 				ItemsSource="{Binding HandlerIdVms.List}"
 				BorderThickness="0"

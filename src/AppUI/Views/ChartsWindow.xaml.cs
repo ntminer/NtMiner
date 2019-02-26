@@ -145,12 +145,6 @@ namespace NTMiner.Views {
         }
         #endregion
 
-        private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                Window.GetWindow(this)?.DragMove();
-            }
-        }
-
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
@@ -183,6 +177,13 @@ namespace NTMiner.Views {
                 }
                 InnerWrite(rtb, p, text, foreground);
             }));
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
+                Window.GetWindow(this).DragMove();
+                e.Handled = true;
+            }
         }
     }
 }

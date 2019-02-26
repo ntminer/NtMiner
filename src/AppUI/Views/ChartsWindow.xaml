@@ -181,6 +181,7 @@
 			Grid.Row="2"
 			Background="White"
 			VerticalScrollBarVisibility="Auto"
+			PreviewMouseDown="ScrollViewer_PreviewMouseDown"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
 			<ScrollViewer.Resources>
 				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
@@ -188,8 +189,7 @@
 			</ScrollViewer.Resources>
 			<Viewbox Stretch="Uniform" VerticalAlignment="Top">
 				<ItemsControl 
-					Width="960"						
-					MouseDown="ItemsControl_MouseDown"
+					Width="960"
 					ItemsSource="{Binding ChartVms}"
 					BorderThickness="0"
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">

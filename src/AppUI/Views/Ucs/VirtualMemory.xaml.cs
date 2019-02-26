@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class VirtualMemory : UserControl {
@@ -10,9 +11,9 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_VirtualMemory",
                 CloseVisible = System.Windows.Visibility.Visible,
                 Width = 800,
-                MinWidth = 800,
+                MinWidth = 450,
                 Height = 360,
-                MinHeight = 420
+                MinHeight = 360
             }, ucFactory: (window) => new VirtualMemory(), fixedSize: false);
         }
 
@@ -27,10 +28,17 @@ namespace NTMiner.Views.Ucs {
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
-        private void OpenDrive_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void OpenDrive_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
                 Drive drive = (Drive)((FrameworkElement)sender).Tag;
                 Process.Start(drive.Name);
+            }
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
+                Window.GetWindow(this).DragMove();
+                e.Handled = true;
             }
         }
     }

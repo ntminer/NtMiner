@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
@@ -203,6 +204,13 @@ namespace NTMiner.Views.Ucs {
                     }
                     speedChartVm.SetAxisLimits(now);
                 }
+            }
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
+                Window.GetWindow(this).DragMove();
+                e.Handled = true;
             }
         }
     }

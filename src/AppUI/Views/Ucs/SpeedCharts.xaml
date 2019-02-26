@@ -24,7 +24,7 @@
             <ColumnDefinition Width="Auto" MinWidth="220"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
             <ItemsControl 
                 x:Name="LvGpus"
                 BorderThickness="0"
