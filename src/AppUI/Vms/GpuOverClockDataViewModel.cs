@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Gpus;
+﻿using NTMiner.Core;
+using NTMiner.Core.Gpus;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -20,7 +21,7 @@ namespace NTMiner.Vms {
         public GpuOverClockDataViewModel(Guid id) {
             _id = id;
             this.Apply = new DelegateCommand(() => {
-
+                VirtualRoot.Execute(new ApplyGpuOverClockCommand(this));
             });
         }
 

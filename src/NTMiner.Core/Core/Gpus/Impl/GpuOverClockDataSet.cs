@@ -15,8 +15,9 @@ namespace NTMiner.Core.Gpus.Impl {
                 "处理添加或更新Gpu超频数据命令",
                 LogEnum.Console,
                 action: message => {
+                    GpuOverClockData data;
                     if (_dicById.ContainsKey(message.Input.GetId())) {
-                        GpuOverClockData data = _dicById[message.Input.GetId()];
+                        data = _dicById[message.Input.GetId()];
                         data.Update(message.Input);
                         using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
                             var col = db.GetCollection<GpuOverClockData>();
@@ -24,13 +25,14 @@ namespace NTMiner.Core.Gpus.Impl {
                         }
                     }
                     else {
-                        GpuOverClockData data = new GpuOverClockData(message.Input);
+                        data = new GpuOverClockData(message.Input);
                         _dicById.Add(data.Id, data);
                         using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
                             var col = db.GetCollection<GpuOverClockData>();
                             col.Insert(data);
                         }
                     }
+                    VirtualRoot.Happened(new GpuOverClockDataAddedOrUpdatedEvent(data));
                 });
         }
 

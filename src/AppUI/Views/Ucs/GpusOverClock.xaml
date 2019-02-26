@@ -96,7 +96,7 @@
 									</StackPanel>
 								</GroupBox>
 								<controls:KbButton
-									ToolTip="应用该项"
+									ToolTip="超该卡"
 									Visibility="{Binding IsGpuAllVm, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 									HorizontalAlignment="Right" VerticalAlignment="Top"
 									Command="{Binding Apply}" 
@@ -124,7 +124,7 @@
 		<WrapPanel Grid.Column="1" Grid.Row="1" Margin="0 0 0 10" HorizontalAlignment="Right">
 			<TextBlock VerticalAlignment="Center">超频有风险，操作请谨慎。</TextBlock>
 			<controls:KbButton
-				ToolTip="应用选中的项"				
+				ToolTip="超选中的卡"				
 				Command="{Binding Apply}" 
 				Width="60" 
 				Background="{StaticResource IconFillColor}"
