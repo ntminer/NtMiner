@@ -43,18 +43,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 action: message => {
                     IGpu gpu;
                     if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
-                        if (gpu.Index == NTMinerRoot.GpuAllId) {
-                            var input = new GpuOverClockData(message.Input);
-                            foreach (var gpuItem in root.GpuSet) {
-                                if (gpuItem.Index != NTMinerRoot.GpuAllId) {
-                                    input.Index = gpuItem.Index;
-                                    VirtualRoot.Execute(new OverClockCommand(input));
-                                }
-                            }
-                        }
-                        else {
-                            message.Input.OverClock(gpu.OverClock);
-                        }
+                        message.Input.OverClock(gpu.OverClock);
                     }
                 });
         }
