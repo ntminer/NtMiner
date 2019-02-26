@@ -2,6 +2,10 @@
 
 namespace NTMiner.Core.Gpus.Impl {
     public class GpuOverClockData : IGpuOverClockData {
+        public GpuOverClockData() {
+
+        }
+
         public GpuOverClockData(Guid id, Guid coinId, int index) {
             this.Id = id;
             this.CoinId = coinId;

@@ -4,19 +4,47 @@
         }
 
         public void SetCoreClock(IGpuOverClockData data) {
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} gclk:{data.CoreClockDelta}");
+            int value = data.CoreClockDelta;
+            if (value < -400) {
+                value = -400;
+            }
+            else if (value > 400) {
+                value = 400;
+            }
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} gclk:{value}");
         }
 
         public void SetMemoryClock(IGpuOverClockData data) {
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} mclk:{data.MemoryClockDelta}");
+            int value = data.MemoryClockDelta;
+            if (value < -1000) {
+                value = -1000;
+            }
+            else if (value > 1000) {
+                value = 1000;
+            }
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} mclk:{value}");
         }
 
         public void SetPowerCapacity(IGpuOverClockData data) {
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} pcap:{data.PowerCapacity}");
+            int value = data.PowerCapacity;
+            if (value < 50) {
+                value = 50;
+            }
+            else if (value > 110) {
+                value = 110;
+            }
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} pcap:{value}");
         }
 
         public void SetCool(IGpuOverClockData data) {
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} cool:{data.Cool}");
+            int value = data.Cool;
+            if (value < 30) {
+                value = 30;
+            }
+            else if (value > 100) {
+                value = 100;
+            }
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} cool:{30}");
         }
     }
 }
