@@ -41,14 +41,18 @@ namespace NTMiner.Core.Gpus.Impl {
                 "处理超频命令",
                 LogEnum.Console,
                 action: message => {
-                    if (message.Input.Index == NTMinerRoot.GpuAllId) {
-                        foreach (var gpu in root.GpuSet) {
-                            message.Input.OverClock(gpu.OverClock);
+                    IGpu gpu;
+                    if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
+                        if (gpu.Index == NTMinerRoot.GpuAllId) {
+                            var input = new GpuOverClockData(message.Input);
+                            foreach (var gpuItem in root.GpuSet) {
+                                if (gpuItem.Index != NTMinerRoot.GpuAllId) {
+                                    input.Index = gpuItem.Index;
+                                    VirtualRoot.Execute(new OverClockCommand(input));
+                                }
+                            }
                         }
-                    }
-                    else {
-                        IGpu gpu;
-                        if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
+                        else {
                             message.Input.OverClock(gpu.OverClock);
                         }
                     }
