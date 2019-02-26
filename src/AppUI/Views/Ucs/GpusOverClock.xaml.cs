@@ -8,11 +8,9 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_OverClock",
-                CloseVisible = System.Windows.Visibility.Visible,
-                FooterVisible = System.Windows.Visibility.Collapsed,
-                Height = 430,
-                Width = 800
-            }, ucFactory: (window) => new GpusOverClock(), fixedSize: false);
+                CloseVisible = Visibility.Visible,
+                FooterVisible = Visibility.Collapsed,
+            }, ucFactory: (window) => new GpusOverClock(), fixedSize: true);
         }
 
         public GpusOverClockViewModel Vm {
