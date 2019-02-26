@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -50,6 +51,26 @@ namespace NTMiner.Vms {
             set {
                 _isEnabled = value;
                 OnPropertyChanged(nameof(IsEnabled));
+                if (this == GpuOverClockDataViewModels.Current.GpuAllVm) {
+                    foreach (var item in GpuOverClockDataViewModels.Current.List) {
+                        item.OnPropertyChanged(nameof(IsVisible));
+                    }
+                }
+            }
+        }
+
+        public Visibility IsVisible {
+            get {
+                if (this == GpuOverClockDataViewModels.Current.GpuAllVm) {
+                    return Visibility.Visible;
+                }
+                return GpuOverClockDataViewModels.Current.GpuAllVm.IsEnabled ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        public bool IsGpuAllVm {
+            get {
+                return this == GpuOverClockDataViewModels.Current.GpuAllVm;
             }
         }
 

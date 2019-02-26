@@ -47,5 +47,11 @@ namespace NTMiner.Vms {
                 return GpuOverClockDataViewModels.Current;
             }
         }
+
+        public MinerProfileViewModel MinerProfile {
+            get {
+                return MinerProfileViewModel.Current;
+            }
+        }
     }
 }

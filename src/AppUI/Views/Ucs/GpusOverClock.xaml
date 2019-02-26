@@ -31,7 +31,7 @@
 				ItemsSource="{Binding CoinVms.MainCoins}" 
 				BorderThickness="0 0 1 0" 
 				BorderBrush="{StaticResource LineColor}"
-				SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False">
+				SelectedItem="{Binding MinerProfile.CoinVm}" AutoGenerateColumns="False">
 				<DataGrid.Resources>
 					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
@@ -50,7 +50,6 @@
 		</Grid>
 		<ItemsControl 
 			Grid.Column="1"
-			Visibility="{Binding GpuAllOverClockDataVm.IsEnabled, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 			BorderThickness="0"
 			ItemsSource="{Binding GpuOverClockVms.List}" 
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -64,7 +63,7 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Grid Width="160" Margin="4">
+					<Grid Width="160" Margin="4" Visibility="{Binding IsVisible}">
 						<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1">
 							<GroupBox.Header>
 								<WrapPanel>
@@ -99,6 +98,7 @@
 						</GroupBox>
 						<controls:KbButton
 							ToolTip="应用该项"
+							Visibility="{Binding IsGpuAllVm, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 							HorizontalAlignment="Right" VerticalAlignment="Top"
 							Command="{Binding Apply}" 
 							Background="{StaticResource IconFillColor}"
@@ -117,40 +117,6 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<Grid Grid.Column="1" Width="160" Margin="4" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top">
-			<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1">
-				<GroupBox.Header>
-					<WrapPanel>
-						<CheckBox IsChecked="{Binding GpuAllOverClockDataVm.IsEnabled}" Content="{Binding GpuAllOverClockDataVm.IndexText}"></CheckBox>
-					</WrapPanel>
-				</GroupBox.Header>
-				<StackPanel>
-					<WrapPanel>
-						<TextBlock Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.Name}"></TextBlock>
-					</WrapPanel>
-					<WrapPanel>
-						<TextBlock Width="40" TextAlignment="Right">超核心</TextBlock>
-						<TextBox Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.CoreClockDelta}" Width="70"></TextBox>
-						<TextBlock>M</TextBlock>
-					</WrapPanel>
-					<WrapPanel>
-						<TextBlock Width="40" TextAlignment="Right">超显存</TextBlock>
-						<TextBox Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.MemoryClockDelta}" Width="70"></TextBox>
-						<TextBlock>M</TextBlock>
-					</WrapPanel>
-					<WrapPanel>
-						<TextBlock Width="40" TextAlignment="Right">功耗</TextBlock>
-						<TextBox Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.PowerCapacity}" Width="50"></TextBox>
-						<TextBlock>%</TextBlock>
-					</WrapPanel>
-					<WrapPanel>
-						<TextBlock Width="40" TextAlignment="Right">风扇</TextBlock>
-						<TextBox Margin="4 0 0 0" Text="{Binding GpuAllOverClockDataVm.Cool}" Width="50"></TextBox>
-						<TextBlock>%</TextBlock>
-					</WrapPanel>
-				</StackPanel>
-			</GroupBox>
-		</Grid>
 		<StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Top">
 			<WrapPanel Height="40">
 				<TextBlock Width="60" TextAlignment="Right">超核心</TextBlock>
