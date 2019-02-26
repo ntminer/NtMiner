@@ -75,7 +75,7 @@
 			</WrapPanel>
 		</controls:KbButton>
 		<Menu Background="Transparent" VerticalAlignment="Center">
-			<MenuItem Width="26" Height="30">
+			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -145,7 +145,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Width="26" Height="30">
+			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
