@@ -1,11 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class GpusOverClockViewModel : ViewModelBase {
         public static readonly GpusOverClockViewModel Current = new GpusOverClockViewModel();
-        private GpuOverClockDataViewModel _currentGpuOverClockDataVm;
-        private GpuOverClockDataViewModel _gpuAllOverClockDataVm;
         private CoinViewModel _currentCoin;
 
         public ICommand Apply { get; private set; }
@@ -17,9 +16,10 @@ namespace NTMiner.Vms {
             this.Apply = new DelegateCommand(() => {
 
             });
-            _gpuAllOverClockDataVm = GpuOverClockVms.GpuAllVm;
-            _currentGpuOverClockDataVm = GpuOverClockVms.List.FirstOrDefault();
             _currentCoin = MinerProfileViewModel.Current.CoinVm;
+            if (_currentCoin == null) {
+                _currentCoin = CoinViewModels.Current.MainCoins.FirstOrDefault();
+            }
         }
 
         public CoinViewModels CoinVms {
@@ -33,28 +33,26 @@ namespace NTMiner.Vms {
             set {
                 _currentCoin = value;
                 OnPropertyChanged(nameof(CurrentCoin));
-            }
-        }
-
-        public GpuOverClockDataViewModel CurrentGpuOverClockDataVm {
-            get => _currentGpuOverClockDataVm;
-            set {
-                _currentGpuOverClockDataVm = value;
-                OnPropertyChanged(nameof(CurrentGpuOverClockDataVm));
+                OnPropertyChanged(nameof(GpuAllOverClockDataVm));
+                OnPropertyChanged(nameof(GpuOverClockVms));
             }
         }
 
         public GpuOverClockDataViewModel GpuAllOverClockDataVm {
-            get => _gpuAllOverClockDataVm;
-            set {
-                _gpuAllOverClockDataVm = value;
-                OnPropertyChanged(nameof(GpuAllOverClockDataVm));
+            get {
+                if (CurrentCoin == null) {
+                    return null;
+                }
+                return GpuOverClockDataViewModels.Current.GpuAllVm(CurrentCoin.Id);
             }
         }
 
-        public GpuOverClockDataViewModels GpuOverClockVms {
+        public List<GpuOverClockDataViewModel> GpuOverClockVms {
             get {
-                return GpuOverClockDataViewModels.Current;
+                if (CurrentCoin == null) {
+                    return null;
+                }
+                return GpuOverClockDataViewModels.Current.List(CurrentCoin.Id);
             }
         }
     }

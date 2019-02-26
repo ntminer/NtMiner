@@ -1,9 +1,8 @@
 ﻿namespace NTMiner.Core.Gpus {
     public interface IOverClock {
-        IGpuOverClockData Data { get; }
-        void SetCoreClock();
-        void SetMemoryClock();
-        void SetPowerCapacity();
-        void SetCool();
+        void SetCoreClock(IGpuOverClockData data);
+        void SetMemoryClock(IGpuOverClockData data);
+        void SetPowerCapacity(IGpuOverClockData data);
+        void SetCool(IGpuOverClockData data);
     }
 }

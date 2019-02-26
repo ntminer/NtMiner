@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,17 +12,20 @@ namespace NTMiner.Vms {
         private int _powerCapacity;
         private int _cool;
         private bool _isEnabled = true;
+        private Guid _id;
+        private Guid _coinId;
 
         public ICommand Apply { get; private set; }
 
-        public GpuOverClockDataViewModel(int index) {
-            _index = index;
+        public GpuOverClockDataViewModel(Guid id) {
+            _id = id;
             this.Apply = new DelegateCommand(() => {
 
             });
         }
 
-        public GpuOverClockDataViewModel(IGpuOverClockData data) : this(data.Index) {
+        public GpuOverClockDataViewModel(IGpuOverClockData data) : this(data.CoinId) {
+            _coinId = data.CoinId;
             _name = data.Name;
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
@@ -30,11 +34,32 @@ namespace NTMiner.Vms {
         }
 
         public void Update(IGpuOverClockData data) {
+            this.CoinId = data.CoinId;
             this.Name = data.Name;
             this.CoreClockDelta = data.CoreClockDelta;
             this.MemoryClockDelta = data.MemoryClockDelta;
             this.PowerCapacity = data.PowerCapacity;
             this.Cool = data.Cool;
+        }
+
+        public Guid GetId() {
+            return this.Id;
+        }
+
+        public Guid Id {
+            get => _id;
+            set {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
+
+        public Guid CoinId {
+            get => _coinId;
+            set {
+                _coinId = value;
+                OnPropertyChanged(nameof(CoinId));
+            }
         }
 
         public int Index {
@@ -51,8 +76,8 @@ namespace NTMiner.Vms {
             set {
                 _isEnabled = value;
                 OnPropertyChanged(nameof(IsEnabled));
-                if (this == GpuOverClockDataViewModels.Current.GpuAllVm) {
-                    foreach (var item in GpuOverClockDataViewModels.Current.List) {
+                if (this == GpuOverClockDataViewModels.Current.GpuAllVm(CoinId)) {
+                    foreach (var item in GpuOverClockDataViewModels.Current.List(CoinId)) {
                         item.OnPropertyChanged(nameof(IsVisible));
                     }
                 }
@@ -61,16 +86,16 @@ namespace NTMiner.Vms {
 
         public Visibility IsVisible {
             get {
-                if (this == GpuOverClockDataViewModels.Current.GpuAllVm) {
+                if (this == GpuOverClockDataViewModels.Current.GpuAllVm(CoinId)) {
                     return Visibility.Visible;
                 }
-                return GpuOverClockDataViewModels.Current.GpuAllVm.IsEnabled ? Visibility.Collapsed : Visibility.Visible;
+                return GpuOverClockDataViewModels.Current.GpuAllVm(CoinId).IsEnabled ? Visibility.Collapsed : Visibility.Visible;
             }
         }
 
         public bool IsGpuAllVm {
             get {
-                return this == GpuOverClockDataViewModels.Current.GpuAllVm;
+                return this == GpuOverClockDataViewModels.Current.GpuAllVm(CoinId);
             }
         }
 

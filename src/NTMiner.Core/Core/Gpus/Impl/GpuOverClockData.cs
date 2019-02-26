@@ -1,8 +1,10 @@
-﻿namespace NTMiner.Core.Gpus.Impl {
-    public class GpuOverClockData : IGpuOverClockData {
-        public static readonly GpuOverClockData GpuAllData = new GpuOverClockData(NTMinerRoot.GpuAllId);
+﻿using System;
 
-        public GpuOverClockData(int index) {
+namespace NTMiner.Core.Gpus.Impl {
+    public class GpuOverClockData : IGpuOverClockData {
+        public GpuOverClockData(Guid id, Guid coinId, int index) {
+            this.Id = id;
+            this.CoinId = coinId;
             this.Index = index;
             this.Cool = 0;
             this.CoreClockDelta = 0;
@@ -12,6 +14,8 @@
         }
 
         public GpuOverClockData(IGpuOverClockData data) {
+            this.Id = data.CoinId;
+            this.CoinId = data.CoinId;
             this.Index = data.Index;
             this.Name = data.Name;
             this.CoreClockDelta = data.CoreClockDelta;
@@ -21,6 +25,8 @@
         }
 
         public void Update(IGpuOverClockData data) {
+            this.CoinId = data.CoinId;
+            this.Index = data.Index;
             this.Name = data.Name;
             this.CoreClockDelta = data.CoreClockDelta;
             this.MemoryClockDelta = data.MemoryClockDelta;
@@ -28,7 +34,14 @@
             this.Cool = data.Cool;
         }
 
-        [LiteDB.BsonId]
+        public Guid GetId() {
+            return this.Id;
+        }
+
+        public Guid Id { get; set; }
+
+        public Guid CoinId { get; set; }
+
         public int Index { get; set; }
 
         public string Name { get; set; }

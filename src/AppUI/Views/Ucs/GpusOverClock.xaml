@@ -39,7 +39,6 @@
 						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock Text="币种"></TextBlock>
-								<TextBlock Margin="4 0 0 0" Text="{Binding Data.List.Count, Source={StaticResource proxy}}"></TextBlock>
 							</WrapPanel>
 						</DataGridTextColumn.Header>
 					</DataGridTextColumn>
@@ -51,7 +50,7 @@
 			<StackPanel>
 				<ItemsControl 
 					BorderThickness="0"
-					ItemsSource="{Binding GpuOverClockVms.List}" 
+					ItemsSource="{Binding GpuOverClockVms}" 
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 					<ItemsControl.Resources>
 						<vm:BindingProxy x:Key="proxy" Data="{Binding}" />

@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +8,8 @@ namespace NTMiner.Vms {
     public class GpuOverClockDataViewModels : ViewModelBase {
         public static readonly GpuOverClockDataViewModels Current = new GpuOverClockDataViewModels();
 
-        private readonly Dictionary<int, GpuOverClockDataViewModel> _dicByIndex = new Dictionary<int, GpuOverClockDataViewModel>();
+        private readonly Dictionary<Guid, GpuOverClockDataViewModel> _dicById = new Dictionary<Guid, GpuOverClockDataViewModel>();
+        private readonly Dictionary<Guid, GpuOverClockDataViewModel> _gpuAllVmDicByCoinId = new Dictionary<Guid, GpuOverClockDataViewModel>();
 
         private GpuOverClockDataViewModels() {
             VirtualRoot.On<GpuOverClockDataAddedOrUpdatedEvent>(
@@ -15,36 +17,34 @@ namespace NTMiner.Vms {
                 LogEnum.Console,
                 action: message => {
                     GpuOverClockDataViewModel vm;
-                    if (_dicByIndex.TryGetValue(message.Source.Index, out vm)) {
+                    if (_dicById.TryGetValue(message.Source.GetId(), out vm)) {
                         vm.Update(message.Source);
                     }
                     else {
-                        _dicByIndex.Add(message.Source.Index, new GpuOverClockDataViewModel(message.Source));
+                        _dicById.Add(message.Source.GetId(), new GpuOverClockDataViewModel(message.Source));
                     }
                 });
-            foreach (var gpu in NTMinerRoot.Current.GpuSet) {
-                IGpuOverClockData data = NTMinerRoot.Current.GpuOverClockDataSet.GetGpuOverClockData(gpu.Index);
-                _dicByIndex.Add(data.Index, new GpuOverClockDataViewModel(data) {
-                    Name = gpu.Name
-                });
-                GpuAllVm = _dicByIndex[NTMinerRoot.GpuAllId];
-            }
-            for (int i = 2; i < 13; i++) {
-                IGpuOverClockData data = NTMinerRoot.Current.GpuOverClockDataSet.GetGpuOverClockData(i);
-                _dicByIndex.Add(data.Index, new GpuOverClockDataViewModel(data) {
-                    Name = "Gpu" + i
-                });
+            foreach (var coin in NTMinerRoot.Current.CoinSet) {
+                Guid coinId = coin.GetId();
+                foreach (var gpu in NTMinerRoot.Current.GpuSet) {
+                    IGpuOverClockData data = NTMinerRoot.Current.GpuOverClockDataSet.GetGpuOverClockData(coinId, gpu.Index);
+                    var vm = new GpuOverClockDataViewModel(data) {
+                        Name = gpu.Name
+                    };
+                    _dicById.Add(data.GetId(), vm);
+                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                        _gpuAllVmDicByCoinId.Add(coinId, vm);
+                    }
+                }
             }
         }
 
-        public GpuOverClockDataViewModel GpuAllVm {
-            get; private set;
+        public GpuOverClockDataViewModel GpuAllVm(Guid coinId) {
+            return _gpuAllVmDicByCoinId[coinId];
         }
 
-        public List<GpuOverClockDataViewModel> List {
-            get {
-                return _dicByIndex.Values.ToList();
-            }
+        public List<GpuOverClockDataViewModel> List(Guid coinId) {
+            return _dicById.Values.Where(a => a.CoinId == coinId).OrderBy(a => a.Index).ToList();
         }
     }
 }

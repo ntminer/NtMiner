@@ -1,9 +1,11 @@
 ﻿using LiteDB;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class GpuOverClockDataSet : IGpuOverClockDataSet {
-        private readonly Dictionary<int, GpuOverClockData> _dicByIndex = new Dictionary<int, GpuOverClockData>();
+        private readonly Dictionary<Guid, GpuOverClockData> _dicById = new Dictionary<Guid, GpuOverClockData>();
 
         private readonly INTMinerRoot _root;
 
@@ -13,8 +15,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 "处理添加或更新Gpu超频数据命令",
                 LogEnum.Console,
                 action: message => {
-                    if (_dicByIndex.ContainsKey(message.Input.Index)) {
-                        GpuOverClockData data = _dicByIndex[message.Input.Index];
+                    if (_dicById.ContainsKey(message.Input.GetId())) {
+                        GpuOverClockData data = _dicById[message.Input.GetId()];
                         data.Update(message.Input);
                         using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
                             var col = db.GetCollection<GpuOverClockData>();
@@ -23,7 +25,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                     else {
                         GpuOverClockData data = new GpuOverClockData(message.Input);
-                        _dicByIndex.Add(data.Index, data);
+                        _dicById.Add(data.Id, data);
                         using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
                             var col = db.GetCollection<GpuOverClockData>();
                             col.Insert(data);
@@ -47,14 +49,8 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (!_isInited) {
                     using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
                         var col = db.GetCollection<GpuOverClockData>();
-                        foreach (var item in col.FindAll()) {                            
-                            if (item.Index == GpuOverClockData.GpuAllData.Index) {
-                                GpuOverClockData.GpuAllData.Update(item);
-                                _dicByIndex.Add(GpuOverClockData.GpuAllData.Index, GpuOverClockData.GpuAllData);
-                            }
-                            else {
-                                _dicByIndex.Add(item.Index, item);
-                            }
+                        foreach (var item in col.FindAll()) {
+                            _dicById.Add(item.Id, item);
                         }
                     }
                     _isInited = true;
@@ -62,11 +58,11 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public IGpuOverClockData GetGpuOverClockData(int index) {
+        public IGpuOverClockData GetGpuOverClockData(Guid coinId, int index) {
             InitOnece();
-            GpuOverClockData data;
-            if (!_dicByIndex.TryGetValue(index, out data)) {
-                return new GpuOverClockData(index);
+            GpuOverClockData data = _dicById.Values.FirstOrDefault(a=>a.CoinId == coinId && a.Index == index);
+            if (data == null) {
+                return new GpuOverClockData(Guid.NewGuid(), coinId, index);
             }
             return data;
         }

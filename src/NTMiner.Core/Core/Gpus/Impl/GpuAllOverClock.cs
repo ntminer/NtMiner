@@ -1,24 +1,21 @@
 ﻿namespace NTMiner.Core.Gpus.Impl {
     public class GpuAllOverClock : IOverClock {
-        public GpuAllOverClock(IGpuOverClockData data) {
-            this.Data = data;
+        public GpuAllOverClock() {
         }
 
-        public IGpuOverClockData Data { get; private set; }
-
-        public void SetCool() {
+        public void SetCool(IGpuOverClockData data) {
             
         }
 
-        public void SetCoreClock() {
+        public void SetCoreClock(IGpuOverClockData data) {
             
         }
 
-        public void SetMemoryClock() {
+        public void SetMemoryClock(IGpuOverClockData data) {
             
         }
 
-        public void SetPowerCapacity() {
+        public void SetPowerCapacity(IGpuOverClockData data) {
             
         }
     }
