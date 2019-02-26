@@ -9,7 +9,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:GpusOverClockViewModel.Current}"
-		mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="800">
+		mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="800">
 	<UserControl.Resources>
 		<sys:String x:Key="WindowTitle">
 			超频
@@ -21,17 +21,16 @@
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
-		<Grid Grid.RowSpan="3">
+		<Grid Grid.RowSpan="2">
 			<DataGrid 
 				Grid.Row="1" Margin="0" 
 				ItemsSource="{Binding CoinVms.MainCoins}" 
 				BorderThickness="0 0 1 0" 
 				BorderBrush="{StaticResource LineColor}"
-				SelectedItem="{Binding MinerProfile.CoinVm}" AutoGenerateColumns="False">
+				SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False">
 				<DataGrid.Resources>
 					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
@@ -63,7 +62,7 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Grid Width="160" Margin="4" Visibility="{Binding IsVisible}">
+					<Grid Width="130" Margin="2 2 0 0" Visibility="{Binding IsVisible}">
 						<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1">
 							<GroupBox.Header>
 								<WrapPanel>
@@ -75,22 +74,22 @@
 									<TextBlock Margin="4 0 0 0" Text="{Binding Name}"></TextBlock>
 								</WrapPanel>
 								<WrapPanel>
-									<TextBlock Width="40" TextAlignment="Right">超核心</TextBlock>
+									<TextBlock Width="30" TextAlignment="Right">核心</TextBlock>
 									<TextBox Margin="4 0 0 0" Text="{Binding CoreClockDelta}" Width="70"></TextBox>
 									<TextBlock>M</TextBlock>
 								</WrapPanel>
 								<WrapPanel>
-									<TextBlock Width="40" TextAlignment="Right">超显存</TextBlock>
+									<TextBlock Width="30" TextAlignment="Right">显存</TextBlock>
 									<TextBox Margin="4 0 0 0" Text="{Binding MemoryClockDelta}" Width="70"></TextBox>
 									<TextBlock>M</TextBlock>
 								</WrapPanel>
 								<WrapPanel>
-									<TextBlock Width="40" TextAlignment="Right">功耗</TextBlock>
+									<TextBlock Width="30" TextAlignment="Right">功耗</TextBlock>
 									<TextBox Margin="4 0 0 0" Text="{Binding PowerCapacity}" Width="50"></TextBox>
 									<TextBlock>%</TextBlock>
 								</WrapPanel>
 								<WrapPanel>
-									<TextBlock Width="40" TextAlignment="Right">风扇</TextBlock>
+									<TextBlock Width="30" TextAlignment="Right">风扇</TextBlock>
 									<TextBox Margin="4 0 0 0" Text="{Binding Cool}" Width="50"></TextBox>
 									<TextBlock>%</TextBlock>
 								</WrapPanel>
@@ -117,51 +116,9 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Top">
-			<WrapPanel Height="40">
-				<TextBlock Width="60" TextAlignment="Right">超核心</TextBlock>
-				<Slider 
-					Margin="4 0 0 0"
-					Minimum="-400" 
-					Maximum="400" 
-					Width="500"
-					TickFrequency="1"
-					Value="{Binding CurrentGpuOverClockDataVm.CoreClockDelta}"></Slider>
-			</WrapPanel>
-			<WrapPanel Height="40">
-				<TextBlock Width="60" TextAlignment="Right">超显存</TextBlock>
-				<Slider 
-					Margin="4 0 0 0"
-					Minimum="-1000" 
-					Maximum="1000" 
-					Width="500"
-					TickFrequency="1"
-					Value="{Binding CurrentGpuOverClockDataVm.MemoryClockDelta}"></Slider>
-			</WrapPanel>
-			<WrapPanel Height="40">
-				<TextBlock Width="60" TextAlignment="Right">功耗</TextBlock>
-				<Slider 
-					Margin="4 0 0 0"
-					Minimum="30" 
-					Maximum="110" 
-					Width="500"
-					TickFrequency="1"
-					Value="{Binding CurrentGpuOverClockDataVm.PowerCapacity}"></Slider>
-			</WrapPanel>
-			<WrapPanel Height="40">
-				<TextBlock Width="60" TextAlignment="Right">风扇</TextBlock>
-				<Slider 
-					Margin="4 0 0 0"
-					Minimum="30" 
-					Maximum="100" 
-					Width="500"
-					TickFrequency="1"
-					Value="{Binding CurrentGpuOverClockDataVm.Cool}"></Slider>
-			</WrapPanel>
-		</StackPanel>
 		<controls:KbButton
 			Grid.Column="1"
-			Grid.Row="2"
+			Grid.Row="1"
 			Margin="0 0 10 10"
 			ToolTip="应用选中的项"
 			HorizontalAlignment="Right"

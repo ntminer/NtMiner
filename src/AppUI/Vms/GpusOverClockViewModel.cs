@@ -6,6 +6,7 @@ namespace NTMiner.Vms {
         public static readonly GpusOverClockViewModel Current = new GpusOverClockViewModel();
         private GpuOverClockDataViewModel _currentGpuOverClockDataVm;
         private GpuOverClockDataViewModel _gpuAllOverClockDataVm;
+        private CoinViewModel _currentCoin;
 
         public ICommand Apply { get; private set; }
 
@@ -18,11 +19,20 @@ namespace NTMiner.Vms {
             });
             _gpuAllOverClockDataVm = GpuOverClockVms.GpuAllVm;
             _currentGpuOverClockDataVm = GpuOverClockVms.List.FirstOrDefault();
+            _currentCoin = MinerProfileViewModel.Current.CoinVm;
         }
 
         public CoinViewModels CoinVms {
             get {
                 return CoinViewModels.Current;
+            }
+        }
+
+        public CoinViewModel CurrentCoin {
+            get => _currentCoin;
+            set {
+                _currentCoin = value;
+                OnPropertyChanged(nameof(CurrentCoin));
             }
         }
 
@@ -45,12 +55,6 @@ namespace NTMiner.Vms {
         public GpuOverClockDataViewModels GpuOverClockVms {
             get {
                 return GpuOverClockDataViewModels.Current;
-            }
-        }
-
-        public MinerProfileViewModel MinerProfile {
-            get {
-                return MinerProfileViewModel.Current;
             }
         }
     }

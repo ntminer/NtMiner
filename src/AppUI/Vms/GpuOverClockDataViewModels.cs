@@ -29,6 +29,12 @@ namespace NTMiner.Vms {
                 });
                 GpuAllVm = _dicByIndex[NTMinerRoot.GpuAllId];
             }
+            for (int i = 2; i < 13; i++) {
+                IGpuOverClockData data = NTMinerRoot.Current.GpuOverClockDataSet.GetGpuOverClockData(i);
+                _dicByIndex.Add(data.Index, new GpuOverClockDataViewModel(data) {
+                    Name = "Gpu" + i
+                });
+            }
         }
 
         public GpuOverClockDataViewModel GpuAllVm {

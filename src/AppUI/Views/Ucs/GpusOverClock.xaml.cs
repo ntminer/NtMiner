@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_OverClock",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Height = 400,
+                Height = 430,
                 Width = 800
             }, ucFactory: (window) => new GpusOverClock(), fixedSize: false);
         }
