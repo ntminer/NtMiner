@@ -108,6 +108,7 @@
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\GpuAllOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\GpuOverClockData.cs" />
+    <Compile Include="Core\Gpus\Impl\GpuOverClockDataExtension.cs" />
     <Compile Include="Core\Gpus\Impl\GpuOverClockDataSet.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />

@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
         public GpuOverClockDataViewModel(Guid id) {
             _id = id;
             this.Apply = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ApplyGpuOverClockCommand(this));
+                VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
             });
         }
 

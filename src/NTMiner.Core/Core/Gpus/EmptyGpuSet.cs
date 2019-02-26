@@ -32,6 +32,11 @@ namespace NTMiner.Core.Gpus {
             }
         }
 
+        public bool TryGetGpu(int index, out IGpu gpu) {
+            gpu = null;
+            return false;
+        }
+
         public List<GpuSetProperty> Properties { get; private set; } = new List<GpuSetProperty>();
 
         public IEnumerator<IGpu> GetEnumerator() {

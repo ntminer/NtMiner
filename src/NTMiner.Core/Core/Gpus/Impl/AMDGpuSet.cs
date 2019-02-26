@@ -93,6 +93,10 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
+        public bool TryGetGpu(int index, out IGpu gpu) {
+            return _gpus.TryGetValue(index, out gpu);
+        }
+
         public List<GpuSetProperty> Properties { get; private set; }
 
         public IEnumerator<IGpu> GetEnumerator() {
