@@ -46,7 +46,7 @@
             else if (value > 100) {
                 value = 100;
             }
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} cool:{30}");
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} cool:{value}");
         }
     }
 }
