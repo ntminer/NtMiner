@@ -120,16 +120,32 @@ namespace NTMiner.Vms {
         public int CoreClockDelta {
             get => _coreClockDelta;
             set {
-                _coreClockDelta = value;
-                OnPropertyChanged(nameof(CoreClockDelta));
+                if (_coreClockDelta != value) {
+                    _coreClockDelta = value;
+                    OnPropertyChanged(nameof(CoreClockDelta));
+                    if (value < -400) {
+                        throw new ValidationException("取值范围-400至400");
+                    }
+                    else if (value > 400) {
+                        throw new ValidationException("取值范围-400至400");
+                    }
+                }
             }
         }
 
         public int MemoryClockDelta {
             get => _memoryClockDelta;
             set {
-                _memoryClockDelta = value;
-                OnPropertyChanged(nameof(MemoryClockDelta));
+                if (_memoryClockDelta != value) {
+                    _memoryClockDelta = value;
+                    OnPropertyChanged(nameof(MemoryClockDelta));
+                    if (value < -1000) {
+                        throw new ValidationException("取值范围-1000至1000");
+                    }
+                    else if (value > 1000) {
+                        throw new ValidationException("取值范围-1000至1000");
+                    }
+                }
             }
         }
 
