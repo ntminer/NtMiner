@@ -3,22 +3,22 @@
 namespace NTMiner.Core.Gpus.Impl {
     public class GpuOverClockData : IGpuOverClockData {
         public GpuOverClockData() {
-
         }
 
         public GpuOverClockData(Guid id, Guid coinId, int index) {
             this.Id = id;
             this.CoinId = coinId;
             this.Index = index;
-            this.Cool = 0;
+            this.Name = "Gpu" + index;
             this.CoreClockDelta = 0;
             this.MemoryClockDelta = 0;
             this.PowerCapacity = 0;
-            this.Name = "Gpu" + index;
+            this.Cool = 0;
+            this.IsEnabled = true;
         }
 
         public GpuOverClockData(IGpuOverClockData data) {
-            this.Id = data.CoinId;
+            this.Id = data.GetId();
             this.CoinId = data.CoinId;
             this.Index = data.Index;
             this.Name = data.Name;
@@ -26,6 +26,7 @@ namespace NTMiner.Core.Gpus.Impl {
             this.MemoryClockDelta = data.MemoryClockDelta;
             this.PowerCapacity = data.PowerCapacity;
             this.Cool = data.Cool;
+            this.IsEnabled = data.IsEnabled;
         }
 
         public void Update(IGpuOverClockData data) {
@@ -36,6 +37,7 @@ namespace NTMiner.Core.Gpus.Impl {
             this.MemoryClockDelta = data.MemoryClockDelta;
             this.PowerCapacity = data.PowerCapacity;
             this.Cool = data.Cool;
+            this.IsEnabled = data.IsEnabled;
         }
 
         public Guid GetId() {
@@ -57,5 +59,7 @@ namespace NTMiner.Core.Gpus.Impl {
         public int PowerCapacity { get; set; }
 
         public int Cool { get; set; }
+
+        public bool IsEnabled { get; set; }
     }
 }

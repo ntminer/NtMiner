@@ -13,5 +13,7 @@ namespace NTMiner.Core.Gpus {
         int PowerCapacity { get; }
 
         int Cool { get; }
+
+        bool IsEnabled { get; }
     }
 }

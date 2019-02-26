@@ -6,6 +6,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class GpuOverClockDataViewModel : ViewModelBase, IGpuOverClockData {
+        private Guid _id;
+        private Guid _coinId;
         private int _index;
         private string _name;
         private int _coreClockDelta;
@@ -13,8 +15,6 @@ namespace NTMiner.Vms {
         private int _powerCapacity;
         private int _cool;
         private bool _isEnabled = true;
-        private Guid _id;
-        private Guid _coinId;
 
         public ICommand Apply { get; private set; }
 
@@ -26,22 +26,26 @@ namespace NTMiner.Vms {
             });
         }
 
-        public GpuOverClockDataViewModel(IGpuOverClockData data) : this(data.CoinId) {
+        public GpuOverClockDataViewModel(IGpuOverClockData data) : this(data.GetId()) {
             _coinId = data.CoinId;
+            _index = data.Index;
             _name = data.Name;
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
             _cool = data.Cool;
+            _isEnabled = data.IsEnabled;
         }
 
         public void Update(IGpuOverClockData data) {
             this.CoinId = data.CoinId;
+            this.Index = data.Index;
             this.Name = data.Name;
             this.CoreClockDelta = data.CoreClockDelta;
             this.MemoryClockDelta = data.MemoryClockDelta;
             this.PowerCapacity = data.PowerCapacity;
             this.Cool = data.Cool;
+            this.IsEnabled = data.IsEnabled;
         }
 
         public Guid GetId() {
