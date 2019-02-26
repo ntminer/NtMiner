@@ -13,16 +13,14 @@ namespace NTMiner {
         private static ILang s_lang = null;
         private static bool s_isControlCenter;
 
-        public static string GlobalDirFullName { get; private set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+        public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         public static bool IsPublishHandlerIdAddedEvent = false;
         public static bool IsControlCenter {
             get => s_isControlCenter;
             set {
                 s_isControlCenter = value;
-                if (value) {
-                    GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
-                    Logging.LogDir.SetDir(System.IO.Path.Combine(GlobalDirFullName, "Logs"));
-                }
+                GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
+                Logging.LogDir.SetDir(System.IO.Path.Combine(GlobalDirFullName, "Logs"));
             }
         }
 

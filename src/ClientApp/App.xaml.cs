@@ -11,6 +11,7 @@ using System.Windows.Threading;
 namespace NTMiner {
     public partial class App : Application {
         public App() {
+            Logging.LogDir.SetDir(System.IO.Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
             AppHelper.Init(this);
             InitializeComponent();
         }
