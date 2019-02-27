@@ -107,7 +107,7 @@ namespace NTMiner.Core.Profiles {
                 if (string.IsNullOrEmpty(value)) {
                     value = GetThisPcName();
                 }
-                value = new string(value.ToCharArray().Where(a => !s_invalidChars.Contains(a)).ToArray());
+                value = new string(value.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
                 if (_data.MinerName != value) {
                     _data.MinerName = value;
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
@@ -115,10 +115,9 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        private static readonly char[] s_invalidChars = { '.', ' ', '-', '_' };
         public string GetThisPcName() {
             string value = Environment.MachineName.ToLower();
-            value = new string(value.ToCharArray().Where(a => !s_invalidChars.Contains(a)).ToArray());
+            value = new string(value.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
             return value;
         }
 

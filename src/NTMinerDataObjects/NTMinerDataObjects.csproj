@@ -51,6 +51,7 @@
     <Compile Include="MinerClient\ProfileData.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="MinerClient\StopMineRequest.cs" />
+    <Compile Include="MinerNameConst.cs" />
     <Compile Include="MinerServer\AddOrUpdateColumnsShowRequest.cs" />
     <Compile Include="MinerServer\AddOrUpdateMinerGroupRequest.cs" />
     <Compile Include="MinerServer\AddOrUpdateMineWorkRequest.cs" />
