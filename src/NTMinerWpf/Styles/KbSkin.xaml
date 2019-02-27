@@ -11,6 +11,7 @@
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:BoolToVisibilityInvertConverter x:Key="BoolToVisibilityInvertConverter" />
     <converters:BoolToHiddenConverter x:Key="BoolToHiddenConverter" />
+    <converters:BoolToHiddenInvertConverter x:Key="BoolToHiddenInvertConverter" />
     <converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
     <converters:StringLenConverter x:Key="StringLenConverter" />
     <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />

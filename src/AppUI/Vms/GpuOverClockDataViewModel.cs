@@ -92,10 +92,19 @@ namespace NTMiner.Vms {
 
         public Visibility IsVisible {
             get {
-                if (this == GpuOverClockDataViewModels.Current.GpuAllVm(CoinId)) {
-                    return Visibility.Visible;
+                var gpuAllVm = GpuOverClockDataViewModels.Current.GpuAllVm(CoinId);
+                if (gpuAllVm.IsEnabled) {
+                    if (this == gpuAllVm) {
+                        return Visibility.Visible;
+                    }
+                    else {
+                        return Visibility.Collapsed;
+                    }
                 }
-                return GpuOverClockDataViewModels.Current.GpuAllVm(CoinId).IsEnabled ? Visibility.Collapsed : Visibility.Visible;
+                if (this == gpuAllVm) {
+                    return Visibility.Collapsed;
+                }
+                return Visibility.Visible;
             }
         }
 
@@ -108,7 +117,7 @@ namespace NTMiner.Vms {
         public string IndexText {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
-                    return "统一超";
+                    return "统一超频";
                 }
                 return $"GPU{Index}";
             }
