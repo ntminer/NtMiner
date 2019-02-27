@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Gpus.Impl {
@@ -34,22 +35,23 @@ namespace NTMiner.Core.Gpus.Impl {
                         int exitCode = -1;
                         string output;
                         Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out output);
+                        int coreClockDeltaMin = 0;
+                        int coreClockDeltaMax = 0;
+                        int memoryClockDeltaMin = 0;
+                        int memoryClockDeltaMax = 0;
                         if (exitCode == 0) {
                             Match match = Regex.Match(output, coreClockDeltaMinMaxPattern);
                             if (match.Success) {
-                                int coreClockDeltaMin;
-                                int coreClockDeltaMax;
                                 int.TryParse(match.Groups[1].Value, out coreClockDeltaMin);
                                 int.TryParse(match.Groups[2].Value, out coreClockDeltaMax);
                             }
                             match = Regex.Match(output, memoryClockDeltaMinMaxPattern);
                             if (match.Success) {
-                                int memoryClockDeltaMin;
-                                int memoryClockDeltaMax;
                                 int.TryParse(match.Groups[1].Value, out memoryClockDeltaMin);
                                 int.TryParse(match.Groups[2].Value, out memoryClockDeltaMax);
                             }
                         }
+                        _dicByGpuIndex.Add(gpu.Index, new GpuClockDelta(coreClockDeltaMin, coreClockDeltaMax, memoryClockDeltaMin, memoryClockDeltaMax));
                     }
                     _isInited = true;
                 }
@@ -62,6 +64,16 @@ namespace NTMiner.Core.Gpus.Impl {
             bool result = _dicByGpuIndex.TryGetValue(gpuIndex, out value);
             data = value;
             return result;
+        }
+
+        public IEnumerator<IGpuClockDelta> GetEnumerator() {
+            InitOnece();
+            return _dicByGpuIndex.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            InitOnece();
+            return _dicByGpuIndex.Values.GetEnumerator();
         }
     }
 }

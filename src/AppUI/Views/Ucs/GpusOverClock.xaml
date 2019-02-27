@@ -98,13 +98,13 @@
 									</Grid.RowDefinitions>
 									<TextBlock Grid.Row="0" Style="{StaticResource LblTb}">核心</TextBlock>
 									<WrapPanel Grid.Row="0" Grid.Column="1">
-										<TextBox ToolTip="{Binding GpuVm.GpuClockDeltaVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBox ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 										<TextBlock>M</TextBlock>
 										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
 									</WrapPanel>
 									<TextBlock Grid.Row="1" Style="{StaticResource LblTb}">显存</TextBlock>
 									<WrapPanel Grid.Row="1" Grid.Column="1">
-										<TextBox ToolTip="{Binding GpuVm.GpuClockDeltaVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBox ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 										<TextBlock>M</TextBlock>
 										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
 									</WrapPanel>

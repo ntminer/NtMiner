@@ -1,5 +1,7 @@
-﻿namespace NTMiner.Core.Gpus {
-    public interface IGpuClockDeltaSet {
+﻿using System.Collections.Generic;
+
+namespace NTMiner.Core.Gpus {
+    public interface IGpuClockDeltaSet : IEnumerable<IGpuClockDelta> {
         bool TryGetValue(int gpuIndex, out IGpuClockDelta data);
     }
 }

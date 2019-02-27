@@ -152,14 +152,14 @@ namespace NTMiner.Vms {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
-                        if (item.GpuClockDeltaVm.CoreClockDeltaMax > max) {
-                            max = item.GpuClockDeltaVm.CoreClockDeltaMax;
+                        if (item.CoreClockDelta > max) {
+                            max = item.CoreClockDelta;
                         }
-                        if (item.GpuClockDeltaVm.CoreClockDeltaMin < min) {
-                            min = item.GpuClockDeltaVm.CoreClockDeltaMin;
+                        if (item.CoreClockDelta < min) {
+                            min = item.CoreClockDelta;
                         }
                     }
-                    return $"{min/1000} - {max/1000}M";
+                    return $"{min / 1000} - {max / 1000}M";
                 }
                 return (this.CoreClockDelta / 1000).ToString();
             }
@@ -185,16 +185,34 @@ namespace NTMiner.Vms {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
-                        if (item.GpuClockDeltaVm.MemoryClockDeltaMax > max) {
-                            max = item.GpuClockDeltaVm.MemoryClockDeltaMax;
+                        if (item.MemoryClockDelta > max) {
+                            max = item.MemoryClockDelta;
                         }
-                        if (item.GpuClockDeltaVm.MemoryClockDeltaMin < min) {
-                            min = item.GpuClockDeltaVm.MemoryClockDeltaMin;
+                        if (item.MemoryClockDelta < min) {
+                            min = item.MemoryClockDelta;
                         }
                     }
                     return $"{min / 1000} - {max / 1000}M";
                 }
                 return (this.MemoryClockDelta / 1000).ToString();
+            }
+        }
+
+        public string CoreClockDeltaMinMaxMText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
+                    return $"{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Max(a => a.CoreClockDeltaMin) / 1000}至{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Min(a => a.CoreClockDeltaMax) / 1000}";
+                }
+                return $"{GpuClockDeltaVm.CoreClockDeltaMinMText} - {GpuClockDeltaVm.CoreClockDeltaMaxMText}";
+            }
+        }
+
+        public string MemoryClockDeltaMinMaxMText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
+                    return $"{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Max(a => a.MemoryClockDeltaMin) / 1000}至{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Min(a => a.MemoryClockDeltaMax) / 1000}";
+                }
+                return $"{GpuClockDeltaVm.MemoryClockDeltaMinMText} - {GpuClockDeltaVm.MemoryClockDeltaMaxMText}";
             }
         }
 
