@@ -90,14 +90,16 @@ namespace NTMiner.Vms {
             this.RestartWindows = new DelegateCommand(() => {
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
-                    Manager.CreateMessage()
-                        .Accent("#1751C3")
-                        .Background("Red")
-                        .HasBadge("Error")
-                        .HasMessage("没有选中记录")
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(2))
-                        .Queue();
+                    foreach (var manager in AppStatic.Managers) {
+                        manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage("没有选中记录")
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
+                    }
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"您确定重启选中的电脑吗？", title: "确认", onYes: () => {
@@ -106,13 +108,15 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        Manager.CreateMessage()
-                                             .Accent("#1751C3")
-                                             .Background("Red")
-                                             .HasBadge("Error")
-                                             .HasMessage(response.Description)
-                                             .Dismiss().WithButton("忽略", null)
-                                             .Queue();
+                                        foreach (var manager in AppStatic.Managers) {
+                                            manager.CreateMessage()
+                                                 .Accent("#1751C3")
+                                                 .Background("Red")
+                                                 .HasBadge("Error")
+                                                 .HasMessage(response.Description)
+                                                 .Dismiss().WithButton("忽略", null)
+                                                 .Queue();
+                                        }
                                     }
                                 }
                             });
@@ -123,14 +127,16 @@ namespace NTMiner.Vms {
             this.ShutdownWindows = new DelegateCommand(() => {
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
-                    Manager.CreateMessage()
-                        .Accent("#1751C3")
-                        .Background("Red")
-                        .HasBadge("Error")
-                        .HasMessage("没有选中记录")
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(2))
-                        .Queue();
+                    foreach (var manager in AppStatic.Managers) {
+                        manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage("没有选中记录")
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
+                    }
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"您确定关机选中的电脑吗？", title: "确认", onYes: () => {
@@ -139,13 +145,15 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        Manager.CreateMessage()
-                                             .Accent("#1751C3")
-                                             .Background("Red")
-                                             .HasBadge("Error")
-                                             .HasMessage(response.Description)
-                                             .Dismiss().WithButton("忽略", null)
-                                             .Queue();
+                                        foreach (var manager in AppStatic.Managers) {
+                                            manager.CreateMessage()
+                                                .Accent("#1751C3")
+                                                .Background("Red")
+                                                .HasBadge("Error")
+                                                .HasMessage(response.Description)
+                                                .Dismiss().WithButton("忽略", null)
+                                                .Queue();
+                                        }
                                     }
                                 }
                             });
@@ -156,14 +164,16 @@ namespace NTMiner.Vms {
             this.StartNTMiner = new DelegateCommand(() => {
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
-                    Manager.CreateMessage()
-                        .Accent("#1751C3")
-                        .Background("Red")
-                        .HasBadge("Error")
-                        .HasMessage("没有选中记录")
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(2))
-                        .Queue();
+                    foreach (var manager in AppStatic.Managers) {
+                        manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage("没有选中记录")
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
+                    }
                 }
                 else {
                     foreach (var item in checkedItems) {
@@ -171,13 +181,15 @@ namespace NTMiner.Vms {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
-                                    Manager.CreateMessage()
-                                         .Accent("#1751C3")
-                                         .Background("Red")
-                                         .HasBadge("Error")
-                                         .HasMessage(response.Description)
-                                         .Dismiss().WithButton("忽略", null)
-                                         .Queue();
+                                    foreach (var manager in AppStatic.Managers) {
+                                        manager.CreateMessage()
+                                             .Accent("#1751C3")
+                                             .Background("Red")
+                                             .HasBadge("Error")
+                                             .HasMessage(response.Description)
+                                             .Dismiss().WithButton("忽略", null)
+                                             .Queue();
+                                    }
                                 }
                             }
                         });
@@ -187,14 +199,16 @@ namespace NTMiner.Vms {
             this.RestartNTMiner = new DelegateCommand(() => {
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToList();
                 if (checkedItems.Count == 0) {
-                    Manager.CreateMessage()
-                        .Accent("#1751C3")
-                        .Background("Red")
-                        .HasBadge("Error")
-                        .HasMessage("没有选中记录")
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(2))
-                        .Queue();
+                    foreach (var manager in AppStatic.Managers) {
+                        manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage("没有选中记录")
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
+                    }
                 }
                 else {
                     MinerClientRestart.ShowWindow(checkedItems);
@@ -203,14 +217,16 @@ namespace NTMiner.Vms {
             this.CloseNTMiner = new DelegateCommand(() => {
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
-                    Manager.CreateMessage()
-                        .Accent("#1751C3")
-                        .Background("Red")
-                        .HasBadge("Error")
-                        .HasMessage("没有选中记录")
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(2))
-                        .Queue();
+                    foreach (var manager in AppStatic.Managers) {
+                        manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage("没有选中记录")
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
+                    }
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"您确定关闭选中的挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
@@ -219,13 +235,15 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        Manager.CreateMessage()
-                                             .Accent("#1751C3")
-                                             .Background("Red")
-                                             .HasBadge("Error")
-                                             .HasMessage(response.Description)
-                                             .Dismiss().WithButton("忽略", null)
-                                             .Queue();
+                                        foreach (var manager in AppStatic.Managers) {
+                                            manager.CreateMessage()
+                                                 .Accent("#1751C3")
+                                                 .Background("Red")
+                                                 .HasBadge("Error")
+                                                 .HasMessage(response.Description)
+                                                 .Dismiss().WithButton("忽略", null)
+                                                 .Queue();
+                                        }
                                     }
                                 }
                             });
@@ -236,14 +254,16 @@ namespace NTMiner.Vms {
             this.StartMine = new DelegateCommand(() => {
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
-                    Manager.CreateMessage()
-                        .Accent("#1751C3")
-                        .Background("Red")
-                        .HasBadge("Error")
-                        .HasMessage("没有选中记录")
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(2))
-                        .Queue();
+                    foreach (var manager in AppStatic.Managers) {
+                        manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage("没有选中记录")
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
+                    }
                 }
                 else {
                     foreach (var item in checkedItems) {
@@ -252,13 +272,15 @@ namespace NTMiner.Vms {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);
                                 UIThread.Execute(() => {
-                                    Manager.CreateMessage()
-                                        .Accent("#1751C3")
-                                        .Background("Red")
-                                        .HasBadge("Error")
-                                        .HasMessage(message)
-                                        .Dismiss().WithButton("忽略", null)
-                                        .Queue();
+                                    foreach (var manager in AppStatic.Managers) {
+                                        manager.CreateMessage()
+                                            .Accent("#1751C3")
+                                            .Background("Red")
+                                            .HasBadge("Error")
+                                            .HasMessage(message)
+                                            .Dismiss().WithButton("忽略", null)
+                                            .Queue();
+                                    }
                                 });
                             }
                         });
@@ -268,14 +290,16 @@ namespace NTMiner.Vms {
             this.StopMine = new DelegateCommand(() => {
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
-                    Manager.CreateMessage()
-                        .Accent("#1751C3")
-                        .Background("Red")
-                        .HasBadge("Error")
-                        .HasMessage("没有选中记录")
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(2))
-                        .Queue();
+                    foreach (var manager in AppStatic.Managers) {
+                        manager.CreateMessage()
+                            .Accent("#1751C3")
+                            .Background("Red")
+                            .HasBadge("Error")
+                            .HasMessage("没有选中记录")
+                            .Dismiss()
+                            .WithDelay(TimeSpan.FromSeconds(2))
+                            .Queue();
+                    }
                 }
                 else {
                     foreach (var item in checkedItems) {
@@ -284,13 +308,15 @@ namespace NTMiner.Vms {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);
                                 UIThread.Execute(() => {
-                                    Manager.CreateMessage()
-                                        .Accent("#1751C3")
-                                        .Background("Red")
-                                        .HasBadge("Error")
-                                        .HasMessage(message)
-                                        .Dismiss().WithButton("忽略", null)
-                                        .Queue();
+                                    foreach (var manager in AppStatic.Managers) {
+                                        manager.CreateMessage()
+                                            .Accent("#1751C3")
+                                            .Background("Red")
+                                            .HasBadge("Error")
+                                            .HasMessage(message)
+                                            .Dismiss().WithButton("忽略", null)
+                                            .Queue();
+                                    }
                                 });
                             }
                         });
@@ -322,6 +348,17 @@ namespace NTMiner.Vms {
             t.Start();
         }
 
+        private INotificationMessageManager _manager;
+        public INotificationMessageManager Manager {
+            get {
+                if (_manager == null) {
+                    _manager = new NotificationMessageManager();
+                    AppStatic.Managers.AddManager(_manager);
+                }
+                return _manager;
+            }
+        }
+
         public bool IsChecked {
             get { return _isChecked; }
             set {
@@ -332,16 +369,6 @@ namespace NTMiner.Vms {
                     _isChecked = value;
                     OnPropertyChanged(nameof(IsChecked));
                 }
-            }
-        }
-
-        private INotificationMessageManager _manager;
-        public INotificationMessageManager Manager {
-            get {
-                if (_manager == null) {
-                    _manager = new NotificationMessageManager();
-                }
-                return _manager;
             }
         }
 
@@ -634,7 +661,7 @@ namespace NTMiner.Vms {
                 }
             }
         }
-        
+
         public string DualCoinWallet {
             get => _dualCoinWallet;
             set {

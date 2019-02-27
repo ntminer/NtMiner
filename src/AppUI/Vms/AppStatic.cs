@@ -12,6 +12,16 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
+        private static NotificationMessageManagers _manager;
+        public static NotificationMessageManagers Managers {
+            get {
+                if (_manager == null) {
+                    _manager = new NotificationMessageManagers();
+                }
+                return _manager;
+            }
+        }
+
         public static double MainWindowHeight {
             get {
                 if (DevMode.IsDevMode) {
@@ -81,23 +91,27 @@ namespace NTMiner.Vms {
                     }, response => {
                         UIThread.Execute(() => {
                             if (response.IsSuccess()) {
-                                ChartsWindowViewModel.Current.Manager.CreateMessage()
-                                    .Accent("#1751C3")
-                                    .Background("#333")
-                                    .HasBadge("Info")
-                                    .HasMessage($"刷新成功")
-                                    .Dismiss()
-                                    .WithDelay(TimeSpan.FromSeconds(4))
-                                    .Queue();
+                                foreach (var manager in Managers) {
+                                    manager.CreateMessage()
+                                        .Accent("#1751C3")
+                                        .Background("#333")
+                                        .HasBadge("Info")
+                                        .HasMessage($"刷新成功")
+                                        .Dismiss()
+                                        .WithDelay(TimeSpan.FromSeconds(4))
+                                        .Queue();
+                                }
                             }
                             else {
-                                ChartsWindowViewModel.Current.Manager.CreateMessage()
-                                    .Accent("#1751C3")
-                                    .Background("Red")
-                                    .HasBadge("Error")
-                                    .HasMessage($"刷新失败")
-                                    .Dismiss().WithButton("忽略", null)
-                                    .Queue();
+                                foreach (var manager in Managers) {
+                                    manager.CreateMessage()
+                                        .Accent("#1751C3")
+                                        .Background("Red")
+                                        .HasBadge("Error")
+                                        .HasMessage($"刷新失败")
+                                        .Dismiss().WithButton("忽略", null)
+                                        .Queue();
+                                }
                             }
                         });
                     });
@@ -248,13 +262,15 @@ namespace NTMiner.Vms {
                                     }
                                     else {
                                         UIThread.Execute(() => {
-                                            ChartsWindowViewModel.Current.Manager.CreateMessage()
-                                                .Accent("#1751C3")
-                                                .Background("Red")
-                                                .HasBadge("Error")
-                                                .HasMessage(message)
-                                                .Dismiss().WithButton("忽略", null)
-                                                .Queue();
+                                            foreach (var manager in Managers) {
+                                                manager.CreateMessage()
+                                                    .Accent("#1751C3")
+                                                    .Background("Red")
+                                                    .HasBadge("Error")
+                                                    .HasMessage(message)
+                                                    .Dismiss().WithButton("忽略", null)
+                                                    .Queue();
+                                            }
                                         });
                                         callback?.Invoke();
                                     }

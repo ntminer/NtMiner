@@ -7,9 +7,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ChartsWindowViewModel : ViewModelBase {
-        public static readonly ChartsWindowViewModel Current = new ChartsWindowViewModel();
-
-        private INotificationMessageManager _manager;
         private double _height;
         private double _width;
         private List<ChartViewModel> _chartVms;
@@ -18,12 +15,23 @@ namespace NTMiner.Vms {
 
         public ICommand ConfigMinerServerHost { get; private set; }
 
-        private ChartsWindowViewModel() {
-            this.Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
-            this.Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
+        public ChartsWindowViewModel() {
+            _width = SystemParameters.FullPrimaryScreenWidth * 0.95;
+            _height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             this.ConfigMinerServerHost = new DelegateCommand(() => {
                 MinerServerHostConfig.ShowWindow();
             });
+        }
+
+        private INotificationMessageManager _manager;
+        public INotificationMessageManager Manager {
+            get {
+                if (_manager == null) {
+                    _manager = new NotificationMessageManager();
+                    AppStatic.Managers.AddManager(_manager);
+                }
+                return _manager;
+            }
         }
 
         public double Height {
@@ -39,15 +47,6 @@ namespace NTMiner.Vms {
         public LangViewModels LangVms {
             get {
                 return LangViewModels.Current;
-            }
-        }
-
-        public INotificationMessageManager Manager {
-            get {
-                if (_manager == null) {
-                    _manager = new NotificationMessageManager();
-                }
-                return _manager;
             }
         }
 

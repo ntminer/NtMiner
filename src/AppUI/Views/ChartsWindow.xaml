@@ -18,8 +18,10 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
-		DataContext="{x:Static vm:ChartsWindowViewModel.Current}"
 		Title="{DynamicResource Title}" Height="{Binding Height}" Width="{Binding Width}">
+	<metro:MetroWindow.DataContext>
+		<vm:ChartsWindowViewModel></vm:ChartsWindowViewModel>
+	</metro:MetroWindow.DataContext>
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
 			<sys:String x:Key="Title">

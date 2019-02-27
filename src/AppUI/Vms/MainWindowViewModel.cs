@@ -9,7 +9,6 @@ namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         public static readonly MainWindowViewModel Current = new MainWindowViewModel();
 
-        private INotificationMessageManager _manager;
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private bool _isDaemonRunning = true;
         private string _serverJsonVersion;
@@ -108,6 +107,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        private INotificationMessageManager _manager;
         public INotificationMessageManager Manager {
             get {
                 if (_manager == null) {

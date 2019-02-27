@@ -27,13 +27,15 @@ namespace NTMiner.Views.Ucs {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
-                                    MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                                         .Accent("#1751C3")
-                                         .Background("Red")
-                                         .HasBadge("Error")
-                                         .HasMessage(response.Description)
-                                         .Dismiss().WithButton("忽略", null)
-                                         .Queue();
+                                    foreach (var manager in AppStatic.Managers) {
+                                        manager.CreateMessage()
+                                             .Accent("#1751C3")
+                                             .Background("Red")
+                                             .HasBadge("Error")
+                                             .HasMessage(response.Description)
+                                             .Dismiss().WithButton("忽略", null)
+                                             .Queue();
+                                    }
                                 }
                             }
                         });
@@ -45,13 +47,15 @@ namespace NTMiner.Views.Ucs {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                                             .Accent("#1751C3")
-                                             .Background("Red")
-                                             .HasBadge("Error")
-                                             .HasMessage($"{item.MinerName}({item.MinerIp}) {response.Description}")
-                                             .Dismiss().WithButton("忽略", null)
-                                             .Queue();
+                                        foreach (var manager in AppStatic.Managers) {
+                                            manager.CreateMessage()
+                                                 .Accent("#1751C3")
+                                                 .Background("Red")
+                                                 .HasBadge("Error")
+                                                 .HasMessage($"{item.MinerName}({item.MinerIp}) {response.Description}")
+                                                 .Dismiss().WithButton("忽略", null)
+                                                 .Queue();
+                                        }
                                     }
                                 }
                             });

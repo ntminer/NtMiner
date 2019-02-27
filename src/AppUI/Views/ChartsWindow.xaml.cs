@@ -78,6 +78,7 @@ namespace NTMiner.Views {
 
         protected override void OnClosed(EventArgs e) {
             s_window = null;
+            AppStatic.Managers.RemoveManager(Vm.Manager);
             base.OnClosed(e);
             if (!MinerClientsWindow.IsOpened) {
                 Application.Current.Shutdown();
