@@ -6,17 +6,21 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
-    public partial class MinerClientsWindow : MetroWindow {
+    public partial class MinerClientsWindow : MetroWindow, IMainWindow {
         private static MinerClientsWindow s_window = null;
-        public static void ShowWindow() {
+        public static MinerClientsWindow ShowWindow() {
             if (s_window == null) {
                 s_window = new MinerClientsWindow();
+                if (Application.Current.MainWindow == null || Application.Current.MainWindow.GetType() == typeof(SplashWindow)) {
+                    Application.Current.MainWindow = s_window;
+                }
             }
             s_window.Show();
             if (s_window.WindowState == WindowState.Minimized) {
                 s_window.WindowState = WindowState.Normal;
             }
             s_window.Activate();
+            return s_window;
         }
 
         public MinerClientsWindowViewModel Vm {
@@ -42,6 +46,12 @@ namespace NTMiner.Views {
             this.Unloaded += (object sender, RoutedEventArgs e) => {
                 VirtualRoot.UnPath(refreshMinerClients);
             };
+        }
+
+        public void ShowThisWindow() {
+            this.Show();
+            this.WindowState = WindowState.Normal;
+            this.Activate();
         }
 
         protected override void OnClosed(EventArgs e) {

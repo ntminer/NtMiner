@@ -14,13 +14,29 @@ using System.Windows.Media;
 
 namespace NTMiner.Views {
     public partial class ChartsWindow : MetroWindow, IMainWindow {
+        private static ChartsWindow s_window = null;
+        public static ChartsWindow ShowWindow() {
+            if (s_window == null) {
+                s_window = new ChartsWindow();
+                if (Application.Current.MainWindow == null || Application.Current.MainWindow.GetType() == typeof(SplashWindow)) {
+                    Application.Current.MainWindow = s_window;
+                }
+            }
+            s_window.Show();
+            if (s_window.WindowState == WindowState.Minimized) {
+                s_window.WindowState = WindowState.Normal;
+            }
+            s_window.Activate();
+            return s_window;
+        }
+
         public ChartsWindowViewModel Vm {
             get {
                 return (ChartsWindowViewModel)this.DataContext;
             }
         }
 
-        public ChartsWindow() {
+        private ChartsWindow() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Write.WriteUserLineMethod = (text, foreground)=> {

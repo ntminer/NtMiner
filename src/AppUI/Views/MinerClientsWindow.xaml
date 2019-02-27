@@ -13,6 +13,7 @@
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
 		Background="#EBF2F9"
+		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
@@ -55,8 +56,15 @@
 				</TextBlock>
 			</WrapPanel>
 			<WrapPanel Grid.Column="2">
-				<WrapPanel Margin="0"
-					VerticalAlignment="Top">
+				<WrapPanel Margin="0" VerticalAlignment="Top">
+					<controls:KbButton 
+						ToolTip="算力图"
+						Command="{x:Static vm:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
+						Margin="2 0"
+						CornerRadius="2">
+						<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+						</Image>
+					</controls:KbButton>
 					<local:MainMenu>
 					</local:MainMenu>
 					<controls:KbSystemMinButton

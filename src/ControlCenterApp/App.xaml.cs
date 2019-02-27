@@ -55,11 +55,7 @@ namespace NTMiner {
                         }
                         if (result.HasValue && result.Value) {
                             Logger.InfoDebugLine("new MainWindow");
-                            ChartsWindow window = new ChartsWindow();
-                            IMainWindow mainWindow = window;
-                            this.MainWindow = window;
-                            this.MainWindow.Show();
-                            this.MainWindow.Activate();
+                            ChartsWindow window = ChartsWindow.ShowWindow();
                             Logger.InfoDebugLine("MainWindow showed");
                             notifyIcon = new ExtendedNotifyIcon("pack://application:,,,/ControlCenterApp;component/logo.ico");
                             notifyIcon.Init();
@@ -69,7 +65,7 @@ namespace NTMiner {
                                 LogEnum.None,
                                 action: message => {
                                     UIThread.Execute(() => {
-                                        Dispatcher.Invoke((ThreadStart)mainWindow.ShowThisWindow);
+                                        Dispatcher.Invoke((ThreadStart)window.ShowThisWindow);
                                     });
                                 });
                             #endregion

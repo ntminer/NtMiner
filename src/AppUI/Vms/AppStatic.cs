@@ -132,6 +132,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public static ICommand ShowChartsWindow { get; private set; } = new DelegateCommand(() => {
+            ChartsWindow.ShowWindow();
+        });
+
         public static ICommand ShowInnerProperty { get; private set; } = new DelegateCommand(() => {
             InnerProperty.ShowWindow();
         });
