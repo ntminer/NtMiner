@@ -108,22 +108,22 @@
 										</WrapPanel>
 										<WrapPanel>
 											<TextBlock Width="40" TextAlignment="Right">核心</TextBlock>
-											<TextBox Margin="4 0 0 0" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="70"></TextBox>
+											<TextBox Margin="4 0 0 0" ToolTip="-400至400" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="70"></TextBox>
 											<TextBlock>M</TextBlock>
 										</WrapPanel>
 										<WrapPanel>
 											<TextBlock Width="40" TextAlignment="Right">显存</TextBlock>
-											<TextBox Margin="4 0 0 0" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="70"></TextBox>
+											<TextBox Margin="4 0 0 0" ToolTip="-1000至1000" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="70"></TextBox>
 											<TextBlock>M</TextBlock>
 										</WrapPanel>
 										<WrapPanel>
 											<TextBlock Width="40" TextAlignment="Right">功耗</TextBlock>
-											<TextBox Margin="4 0 0 0" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="70"></TextBox>
+											<TextBox Margin="4 0 0 0" ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="70"></TextBox>
 											<TextBlock>%</TextBlock>
 										</WrapPanel>
 										<WrapPanel>
 											<TextBlock Width="40" TextAlignment="Right">风扇</TextBlock>
-											<TextBox Margin="4 0 0 0" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="70"></TextBox>
+											<TextBox Margin="4 0 0 0" ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="70"></TextBox>
 											<TextBlock>%</TextBlock>
 										</WrapPanel>
 									</StackPanel>

@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -30,10 +29,6 @@ namespace NTMiner.Vms {
                     }
                 }
             });
-            _currentCoin = MinerProfileViewModel.Current.CoinVm;
-            if (_currentCoin == null) {
-                _currentCoin = CoinViewModels.Current.MainCoins.FirstOrDefault();
-            }
         }
 
         public CoinViewModels CoinVms {
