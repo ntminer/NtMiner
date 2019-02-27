@@ -48,14 +48,34 @@ namespace NTMiner.Core.Gpus.Impl {
                     if (!string.IsNullOrEmpty(name)) {
                         name = name.Replace("GeForce ", string.Empty);
                     }
-                    _gpus.Add(i, new Gpu {
+                    Gpu gpu = new Gpu {
                         Index = i,
                         Name = name,
                         Temperature = 0,
                         PowerUsage = 0,
                         FanSpeed = 0,
                         OverClock = new NVIDIAOverClock()
-                    });
+                    };
+                    _gpus.Add(i, gpu);
+                    const string coreClockDeltaPatter = @"c\[0\]\.freqDelta     = (\d+) kHz";
+                    const string memoryClockDeltaPatter = @"c\[1\]\.freqDelta     = (\d+) kHz";
+                    int exitCode = -1;
+                    string output;
+                    Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{i} ps20e", ref exitCode, out output);
+                    if (exitCode == 0) {
+                        Match match = Regex.Match(output, coreClockDeltaPatter);
+                        if (match.Success) {
+                            int coreClockDelta;
+                            int.TryParse(match.Groups[1].Value, out coreClockDelta);
+                            gpu.CoreClockDelta = coreClockDelta;
+                        }
+                        match = Regex.Match(output, memoryClockDeltaPatter);
+                        if (match.Success) {
+                            int memoryClockDelta;
+                            int.TryParse(match.Groups[1].Value, out memoryClockDelta);
+                            gpu.MemoryClockDelta = memoryClockDelta;
+                        }
+                    }
                 }
                 string driverVersion;
                 NvmlNativeMethods.nvmlSystemGetDriverVersion(out driverVersion);
