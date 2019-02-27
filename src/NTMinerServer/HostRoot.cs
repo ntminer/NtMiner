@@ -5,18 +5,18 @@ using NTMiner.Data.Impl;
 using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
         static void Main(string[] args) {
             string baseAddress = "http://localhost:3339";
-            Console.Title = baseAddress + " Enter exit to quit.";
+            Console.Title = baseAddress + " Enter exit or ctrl+c to quit.";
             HttpServer.Start(baseAddress);
-            new Windows.ConsoleHandler(() => {
+            Logger.InfoDebugLine("启动成功");
+            Windows.ConsoleHandler.Register(() => {
                 HttpServer.Stop();
-            }).Handle();
+            });
             string line = Console.ReadLine();
             while (line != "exit") {
                 line = Console.ReadLine();
@@ -37,11 +37,11 @@ namespace NTMiner {
 
         #region OSSClientInit
         private DateTime _ossClientOn = DateTime.MinValue;
-        private readonly object ossClientLocker = new object();
+        private readonly object _ossClientLocker = new object();
         private void OSSClientInit() {
             DateTime now = DateTime.Now;
             if (_ossClientOn.AddMinutes(10) < now) {
-                lock (ossClientLocker) {
+                lock (_ossClientLocker) {
                     if (_ossClientOn.AddMinutes(10) < now) {
                         HostConfigData hostConfigData;
                         using (LiteDatabase db = CreateLocalDb()) {

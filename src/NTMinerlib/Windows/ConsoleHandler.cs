@@ -20,13 +20,14 @@ namespace NTMiner.Windows {
         }
 
         private readonly Action _onClose;
-        public ConsoleHandler(Action onClose) {
+        private ConsoleHandler(Action onClose) {
             _onClose = onClose;
-        }
-
-        public void Handle() {
             ControlCtrlDelegate cancelHandler = new ControlCtrlDelegate(HandlerRoutine);
             SetConsoleCtrlHandler(cancelHandler, true);
+        }
+
+        public static void Register(Action onClose) {
+            new ConsoleHandler(onClose);
         }
     }
 }
