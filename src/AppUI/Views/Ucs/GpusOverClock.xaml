@@ -62,6 +62,7 @@
 			<StackPanel>
 				<ItemsControl 
 					BorderThickness="0"
+					MouseDown="ItemsControl_MouseDown"
 					ItemsSource="{Binding MinerProfile.CoinVm.GpuOverClockVms}" 
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 					<ItemsControl.ItemsPanel>
