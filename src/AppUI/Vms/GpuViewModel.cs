@@ -152,11 +152,11 @@ namespace NTMiner.Vms {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
-                        if (item.CoreClockDelta > max) {
-                            max = item.CoreClockDelta;
+                        if (item.GpuClockDeltaVm.CoreClockDeltaMax > max) {
+                            max = item.GpuClockDeltaVm.CoreClockDeltaMax;
                         }
-                        if (item.CoreClockDelta < min) {
-                            min = item.CoreClockDelta;
+                        if (item.GpuClockDeltaVm.CoreClockDeltaMin < min) {
+                            min = item.GpuClockDeltaVm.CoreClockDeltaMin;
                         }
                     }
                     return $"{min/1000} - {max/1000}M";
@@ -185,11 +185,11 @@ namespace NTMiner.Vms {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
-                        if (item.MemoryClockDelta > max) {
-                            max = item.MemoryClockDelta;
+                        if (item.GpuClockDeltaVm.MemoryClockDeltaMax > max) {
+                            max = item.GpuClockDeltaVm.MemoryClockDeltaMax;
                         }
-                        if (item.MemoryClockDelta < min) {
-                            min = item.MemoryClockDelta;
+                        if (item.GpuClockDeltaVm.MemoryClockDeltaMin < min) {
+                            min = item.GpuClockDeltaVm.MemoryClockDeltaMin;
                         }
                     }
                     return $"{min / 1000} - {max / 1000}M";
