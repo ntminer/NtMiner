@@ -223,7 +223,7 @@ namespace NTMiner.Core.Profiles {
 
         public bool IsShowCommandLine {
             get { return _data.IsShowCommandLine; }
-            set {
+            private set {
                 _data.IsShowCommandLine = value;
             }
         }
@@ -604,7 +604,7 @@ namespace NTMiner.Core.Profiles {
 
                 public string Wallet {
                     get => _data.Wallet;
-                    set {
+                    private set {
                         if (_data.Wallet != value) {
                             _data.Wallet = value;
                         }
@@ -639,7 +639,7 @@ namespace NTMiner.Core.Profiles {
 
                 public string DualCoinWallet {
                     get => _data.DualCoinWallet;
-                    set {
+                    private set {
                         if (_data.DualCoinWallet != value) {
                             _data.DualCoinWallet = value;
                         }

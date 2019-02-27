@@ -484,7 +484,7 @@ namespace NTMiner {
                     return;
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
-                    coinProfile.Wallet = mainCoin.TestWallet;
+                    SetCoinProfileProperty(mainCoin.GetId(), nameof(coinProfile.Wallet), mainCoin.TestWallet);
                 }
                 if (mainCoinPool.IsUserMode) {
                     IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
@@ -516,7 +516,7 @@ namespace NTMiner {
                         return;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
-                        coinProfile.DualCoinWallet = dualCoin.TestWallet;
+                        SetCoinProfileProperty(dualCoin.GetId(), nameof(coinProfile.DualCoinWallet), dualCoin.TestWallet);
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
                         Logger.ErrorWriteLine("没有填写双挖钱包。");
