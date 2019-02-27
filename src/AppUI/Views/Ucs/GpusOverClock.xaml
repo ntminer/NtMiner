@@ -27,6 +27,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
@@ -42,7 +43,7 @@
 			<WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
 				<TextBlock>超频有风险，操作请谨慎。</TextBlock>
 				<controls:KbButton
-					ToolTip="超选中的卡"
+					ToolTip="应用"
 					Command="{Binding MinerProfile.CoinVm.ApplyOverClock}" 
 					Background="{StaticResource IconFillColor}"
 					Foreground="White"
@@ -58,87 +59,87 @@
 				</controls:KbButton>
 			</WrapPanel>
 		</Grid>
-		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
-			<StackPanel>
-				<ItemsControl 
-					BorderThickness="0"
-					MouseDown="ItemsControl_MouseDown"
-					ItemsSource="{Binding MinerProfile.CoinVm.GpuOverClockVms}" 
-					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel></WrapPanel>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Grid Width="180" Margin="0 0 6 6" Visibility="{Binding IsVisible}">
-								<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="0 0 0 4">
-									<GroupBox.Header>
-										<WrapPanel>
-											<CheckBox 
-												Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityInvertConverter}}"
-												IsChecked="{Binding IsEnabled}" 
-												Content="{Binding IndexText}"></CheckBox>
-											<TextBlock Text="GPU All" Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
-										</WrapPanel>
-									</GroupBox.Header>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="Auto"></ColumnDefinition>
-											<ColumnDefinition Width="*"></ColumnDefinition>
-										</Grid.ColumnDefinitions>
-										<Grid.RowDefinitions>
-											<RowDefinition Height="Auto"></RowDefinition>
-											<RowDefinition Height="Auto"></RowDefinition>
-											<RowDefinition Height="Auto"></RowDefinition>
-											<RowDefinition Height="Auto"></RowDefinition>
-										</Grid.RowDefinitions>
-										<TextBlock Grid.Row="0" Style="{StaticResource LblTb}">核心</TextBlock>
-										<WrapPanel Grid.Row="0" Grid.Column="1">
-											<TextBox ToolTip="-400至400" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="100"></TextBox>
-											<TextBlock>M</TextBlock>
-										</WrapPanel>
-										<TextBlock Grid.Row="1" Style="{StaticResource LblTb}">显存</TextBlock>
-										<WrapPanel Grid.Row="1" Grid.Column="1">
-											<TextBox ToolTip="-1000至1000" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="100"></TextBox>
-											<TextBlock>M</TextBlock>
-										</WrapPanel>
-										<TextBlock Grid.Row="2" Style="{StaticResource LblTb}">功耗</TextBlock>
-										<WrapPanel Grid.Row="2" Grid.Column="1">
-											<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="100"></TextBox>
-											<TextBlock>%</TextBlock>
-										</WrapPanel>
-										<TextBlock Grid.Row="3" Style="{StaticResource LblTb}">风扇</TextBlock>
-										<WrapPanel Grid.Row="3" Grid.Column="1">
-											<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="100"></TextBox>
-											<TextBlock>%</TextBlock>
-										</WrapPanel>
-									</Grid>
-								</GroupBox>
-								<controls:KbButton
-									ToolTip="超该卡"
-									Visibility="{Binding IsGpuAllVm, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-									HorizontalAlignment="Right" VerticalAlignment="Top"
-									Command="{Binding Apply}" 
-									Background="{StaticResource IconFillColor}"
-									Foreground="White"
-									CornerRadius="2">
+		<WrapPanel Grid.Row="1" Visibility="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled,Converter={StaticResource BoolToVisibilityConverter}}">
+			<TextBlock>TODO://超频建议</TextBlock>
+		</WrapPanel>
+		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+			<ItemsControl 
+				BorderThickness="0"
+				MouseDown="ItemsControl_MouseDown"
+				ItemsSource="{Binding MinerProfile.CoinVm.GpuOverClockVms}" 
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel></WrapPanel>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Grid Width="180" Margin="0 0 6 6" Visibility="{Binding IsVisible}">
+							<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="0 0 0 4">
+								<GroupBox.Header>
 									<WrapPanel>
-										<Path
-											Width="14"
-											Height="14"
-											Data="{StaticResource Icon_Save}"
-											Fill="White"
-											Stretch="Fill" />
+										<CheckBox 
+											Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+											IsChecked="{Binding IsEnabled}" 
+											Content="{Binding IndexText}"></CheckBox>
+										<TextBlock Text="GPU All" Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
 									</WrapPanel>
-								</controls:KbButton>
-							</Grid>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-				<TextBlock Visibility="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled,Converter={StaticResource BoolToVisibilityConverter}}">TODO://超频建议</TextBlock>
-			</StackPanel>
+								</GroupBox.Header>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto"></ColumnDefinition>
+										<ColumnDefinition Width="*"></ColumnDefinition>
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto"></RowDefinition>
+										<RowDefinition Height="Auto"></RowDefinition>
+										<RowDefinition Height="Auto"></RowDefinition>
+										<RowDefinition Height="Auto"></RowDefinition>
+									</Grid.RowDefinitions>
+									<TextBlock Grid.Row="0" Style="{StaticResource LblTb}">核心</TextBlock>
+									<WrapPanel Grid.Row="0" Grid.Column="1">
+										<TextBox ToolTip="-400至400" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="100"></TextBox>
+										<TextBlock>M</TextBlock>
+									</WrapPanel>
+									<TextBlock Grid.Row="1" Style="{StaticResource LblTb}">显存</TextBlock>
+									<WrapPanel Grid.Row="1" Grid.Column="1">
+										<TextBox ToolTip="-1000至1000" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="100"></TextBox>
+										<TextBlock>M</TextBlock>
+									</WrapPanel>
+									<TextBlock Grid.Row="2" Style="{StaticResource LblTb}">功耗</TextBlock>
+									<WrapPanel Grid.Row="2" Grid.Column="1">
+										<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="100"></TextBox>
+										<TextBlock>%</TextBlock>
+									</WrapPanel>
+									<TextBlock Grid.Row="3" Style="{StaticResource LblTb}">风扇</TextBlock>
+									<WrapPanel Grid.Row="3" Grid.Column="1">
+										<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="100"></TextBox>
+										<TextBlock>%</TextBlock>
+									</WrapPanel>
+								</Grid>
+							</GroupBox>
+							<controls:KbButton
+								ToolTip="应用"
+								Visibility="{Binding IsGpuAllVm, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+								HorizontalAlignment="Right" VerticalAlignment="Top"
+								Command="{Binding Apply}" 
+								Background="{StaticResource IconFillColor}"
+								Foreground="White"
+								CornerRadius="2">
+								<WrapPanel>
+									<Path
+										Width="14"
+										Height="14"
+										Data="{StaticResource Icon_Save}"
+										Fill="White"
+										Stretch="Fill" />
+								</WrapPanel>
+							</controls:KbButton>
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
 		</ScrollViewer>
 	</Grid>
 </UserControl>
