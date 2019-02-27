@@ -211,10 +211,7 @@ namespace NTMiner.Views {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
-                Window.GetWindow(this).DragMove();
-                e.Handled = true;
-            }
+            AppHelper.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

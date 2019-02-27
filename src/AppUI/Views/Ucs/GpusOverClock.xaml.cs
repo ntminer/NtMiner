@@ -17,17 +17,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
-                ScrollViewer scrollViewer = (ScrollViewer)sender;
-                if (scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible) {
-                    Point p = e.GetPosition(scrollViewer);
-                    if (p.X > scrollViewer.ActualWidth - SystemParameters.ScrollWidth) {
-                        return;
-                    }
-                }
-                Window.GetWindow(this).DragMove();
-                e.Handled = true;
-            }
+            AppHelper.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
