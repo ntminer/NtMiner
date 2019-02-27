@@ -29,6 +29,9 @@
 
         public void SetPowerCapacity(IGpuOverClockData data) {
             int value = data.PowerCapacity;
+            if (value == 0) {
+                return;
+            }
             if (value < 50) {
                 value = 50;
             }
@@ -40,6 +43,9 @@
 
         public void SetCool(IGpuOverClockData data) {
             int value = data.Cool;
+            if (value == 0) {
+                return;
+            }
             if (value < 38) {
                 value = 38;
             }
