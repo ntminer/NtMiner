@@ -25,8 +25,8 @@ namespace NTMiner.Core.Gpus.Impl {
             lock (_locker) {
                 if (!_isInited) {
                     string commandLine = $"{SpecialPath.NTMinerOverClockFileFullName} gpu:{{0}} ps20e";
-                    const string coreClockDeltaPattern = @"c\[0\]\.freqDelta     = \d+ kHz \[(-?\d+) .. (\d+)\]";
-                    const string memoryClockDeltaPattern = @"c\[1\]\.freqDelta     = \d+ kHz \[(-?\d+) .. (\d+)\]";
+                    const string coreClockDeltaMinMaxPattern = @"c\[0\]\.freqDelta     = \d+ kHz \[(-?\d+) .. (\d+)\]";
+                    const string memoryClockDeltaMinMaxPattern = @"c\[1\]\.freqDelta     = \d+ kHz \[(-?\d+) .. (\d+)\]";
                     foreach (var gpu in _root.GpuSet) {
                         if (gpu.Index == NTMinerRoot.GpuAllId) {
                             continue;
@@ -35,14 +35,14 @@ namespace NTMiner.Core.Gpus.Impl {
                         string output;
                         Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out output);
                         if (exitCode == 0) {
-                            Match match = Regex.Match(output, coreClockDeltaPattern);
+                            Match match = Regex.Match(output, coreClockDeltaMinMaxPattern);
                             if (match.Success) {
                                 int coreClockDeltaMin;
                                 int coreClockDeltaMax;
                                 int.TryParse(match.Groups[1].Value, out coreClockDeltaMin);
                                 int.TryParse(match.Groups[2].Value, out coreClockDeltaMax);
                             }
-                            match = Regex.Match(output, memoryClockDeltaPattern);
+                            match = Regex.Match(output, memoryClockDeltaMinMaxPattern);
                             if (match.Success) {
                                 int memoryClockDeltaMin;
                                 int memoryClockDeltaMax;

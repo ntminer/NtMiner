@@ -28,6 +28,8 @@ namespace NTMiner.Vms {
                         vm.Temperature = message.Source.Temperature;
                         vm.FanSpeed = message.Source.FanSpeed;
                         vm.PowerUsage = message.Source.PowerUsage;
+                        vm.CoreClockDelta = message.Source.CoreClockDelta;
+                        vm.MemoryClockDelta = message.Source.MemoryClockDelta;
                         if (_totalGpuVm != null) {
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.TemperatureText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.FanSpeedText));
