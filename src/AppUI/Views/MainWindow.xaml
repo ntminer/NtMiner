@@ -268,7 +268,7 @@
 							BorderBrush="{StaticResource LineColor}" BorderThickness="1 1 1 0">
 							<TabItem>
 								<TabItem.Header>
-									<Border Padding="10 0">
+									<Border Padding="6 0">
 										<WrapPanel>
 											<Path 
 												Width="14"
@@ -283,10 +283,9 @@
 								<uc:Console BorderBrush="{StaticResource MainColor}" BorderThickness="0 1 0 0" Margin="0 -1 0 0">
 								</uc:Console>
 							</TabItem>
-
 							<TabItem>
 								<TabItem.Header>
-									<Border Padding="10 0">
+									<Border Padding="6 0">
 										<WrapPanel>
 											<Path 
 												Width="14"
@@ -303,7 +302,7 @@
 							</TabItem>
 							<TabItem>
 								<TabItem.Header>
-									<Border Padding="10 0">
+									<Border Padding="6 0">
 										<WrapPanel>
 											<Path 
 												Width="14"
@@ -318,9 +317,9 @@
 								<uc:MinerProfileOption>
 								</uc:MinerProfileOption>
 							</TabItem>
-							<TabItem>
+							<TabItem Visibility="{Binding IsOverClockVisible}">
 								<TabItem.Header>
-									<Border Padding="10 0">
+									<Border Padding="6 0">
 										<WrapPanel>
 											<Path 
 												Width="14"

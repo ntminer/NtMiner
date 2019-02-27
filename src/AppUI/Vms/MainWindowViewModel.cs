@@ -126,5 +126,17 @@ namespace NTMiner.Vms {
                 }
             }
         }
+
+        public Visibility IsOverClockVisible {
+            get {
+                if (Design.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
     }
 }
