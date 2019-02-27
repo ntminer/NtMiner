@@ -138,15 +138,10 @@ namespace NTMiner.Vms {
                 if (_gpuClockDeltaVm == null) {
                     IGpuClockDelta delta;
                     if (NTMinerRoot.Current.GpuClockDeltaSet.TryGetValue(this.Index, out delta)) {
-                        _gpuClockDeltaVm = new GpuClockDeltaViewModel {
-                            CoreClockDeltaMax = delta.CoreClockDeltaMax,
-                            CoreClockDeltaMin = delta.CoreClockDeltaMin,
-                            MemoryClockDeltaMax = delta.MemoryClockDeltaMax,
-                            MemoryClockDeltaMin = delta.MemoryClockDeltaMin
-                        };
+                        _gpuClockDeltaVm = new GpuClockDeltaViewModel(delta);
                     }
                     else {
-                        _gpuClockDeltaVm = new GpuClockDeltaViewModel();
+                        _gpuClockDeltaVm = GpuClockDeltaViewModel.Empty;
                     }
                 }
                 return _gpuClockDeltaVm;

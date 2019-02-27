@@ -2,10 +2,21 @@
 
 namespace NTMiner.Vms {
     public class GpuClockDeltaViewModel : ViewModelBase, IGpuClockDelta {
+        public static readonly GpuClockDeltaViewModel Empty = new GpuClockDeltaViewModel();
+
         private int _coreClockDeltaMin;
         private int _coreClockDeltaMax;
         private int _memoryClockDeltaMin;
         private int _memoryClockDeltaMax;
+
+        private GpuClockDeltaViewModel() { }
+
+        public GpuClockDeltaViewModel(IGpuClockDelta data) {
+            _coreClockDeltaMin = data.CoreClockDeltaMin;
+            _coreClockDeltaMax = data.CoreClockDeltaMax;
+            _memoryClockDeltaMin = data.MemoryClockDeltaMin;
+            _memoryClockDeltaMax = data.MemoryClockDeltaMax;
+        }
 
         public int CoreClockDeltaMin {
             get => _coreClockDeltaMin;
