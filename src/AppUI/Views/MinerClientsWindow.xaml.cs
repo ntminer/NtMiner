@@ -23,6 +23,12 @@ namespace NTMiner.Views {
             return s_window;
         }
 
+        public static bool IsOpened {
+            get {
+                return s_window != null;
+            }
+        }
+
         public MinerClientsWindowViewModel Vm {
             get {
                 return (MinerClientsWindowViewModel)this.DataContext;
@@ -57,6 +63,9 @@ namespace NTMiner.Views {
         protected override void OnClosed(EventArgs e) {
             s_window = null;
             base.OnClosed(e);
+            if (!ChartsWindow.IsOpened) {
+                Application.Current.Shutdown();
+            }
         }
 
         private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {

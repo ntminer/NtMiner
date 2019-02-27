@@ -30,6 +30,12 @@ namespace NTMiner.Views {
             return s_window;
         }
 
+        public static bool IsOpened {
+            get {
+                return s_window != null;
+            }
+        }
+
         public ChartsWindowViewModel Vm {
             get {
                 return (ChartsWindowViewModel)this.DataContext;
@@ -68,6 +74,14 @@ namespace NTMiner.Views {
             this.Show();
             this.WindowState = WindowState.Normal;
             this.Activate();
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            s_window = null;
+            base.OnClosed(e);
+            if (!MinerClientsWindow.IsOpened) {
+                Application.Current.Shutdown();
+            }
         }
 
         #region 刷新总算力图表
