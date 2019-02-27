@@ -72,9 +72,6 @@
 			<sys:String x:Key="ChkIsAutoStart">
 				ChkIsAutoStart
 			</sys:String>
-			<sys:String x:Key="IsOverClockEnabled">
-				IsOverClockEnabled
-			</sys:String>
 		</ResourceDictionary>
 	</metro:MetroWindow.Resources>
 	<Grid>
@@ -260,10 +257,6 @@
 								Content="{DynamicResource ChkIsAutoStart}"
 								IconColor="{StaticResource IconFillColor}"
 								IsChecked="{Binding MinerProfile.IsAutoStart}" />
-							<controls:KbCheckBox Margin="10 0 0 0"
-								Content="{DynamicResource IsOverClockEnabled}"
-								IconColor="{StaticResource IconFillColor}"
-								IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockEnabled}" />
 						</WrapPanel>
 						<TabControl
 							Grid.Column="1" Grid.Row="0" 
