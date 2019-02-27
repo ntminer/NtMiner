@@ -24,6 +24,7 @@ namespace NTMiner.Vms {
                 _coreClockDeltaMin = value;
                 OnPropertyChanged(nameof(CoreClockDeltaMin));
                 OnPropertyChanged(nameof(CoreClockDeltaMinMText));
+                OnPropertyChanged(nameof(CoreClockDeltaMinMaxMText));
             }
         }
 
@@ -39,6 +40,7 @@ namespace NTMiner.Vms {
                 _coreClockDeltaMax = value;
                 OnPropertyChanged(nameof(CoreClockDeltaMax));
                 OnPropertyChanged(nameof(CoreClockDeltaMaxMText));
+                OnPropertyChanged(nameof(CoreClockDeltaMinMaxMText));
             }
         }
 
@@ -48,12 +50,19 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string CoreClockDeltaMinMaxMText {
+            get {
+                return $"{CoreClockDeltaMinMText} - {CoreClockDeltaMaxMText}";
+            }
+        }
+
         public int MemoryClockDeltaMin {
             get => _memoryClockDeltaMin;
             set {
                 _memoryClockDeltaMin = value;
                 OnPropertyChanged(nameof(MemoryClockDeltaMin));
                 OnPropertyChanged(nameof(MemoryClockDeltaMinMText));
+                OnPropertyChanged(nameof(MemoryClockDeltaMinMaxMText));
             }
         }
 
@@ -69,12 +78,19 @@ namespace NTMiner.Vms {
                 _memoryClockDeltaMax = value;
                 OnPropertyChanged(nameof(MemoryClockDeltaMax));
                 OnPropertyChanged(nameof(MemoryClockDeltaMaxMText));
+                OnPropertyChanged(nameof(MemoryClockDeltaMinMaxMText));
             }
         }
 
         public string MemoryClockDeltaMaxMText {
             get {
                 return (this.MemoryClockDeltaMax / 1000).ToString();
+            }
+        }
+
+        public string MemoryClockDeltaMinMaxMText {
+            get {
+                return $"{MemoryClockDeltaMinMText} - {MemoryClockDeltaMaxMText}";
             }
         }
     }

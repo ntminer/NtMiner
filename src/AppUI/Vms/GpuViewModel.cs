@@ -125,7 +125,7 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0W";
                 }
-                if (this.Index == NTMinerRoot.GpuAllId) {
+                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     return $"{(GpuViewModels.Current.Sum(a => a.PowerUsage)).ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
@@ -143,6 +143,24 @@ namespace NTMiner.Vms {
 
         public string CoreClockDeltaMText {
             get {
+                if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
+                    return "0M";
+                }
+                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
+                    int min = int.MaxValue, max = int.MinValue;
+                    foreach (var item in GpuViewModels.Current) {
+                        if (item.Index == NTMinerRoot.GpuAllId) {
+                            continue;
+                        }
+                        if (item.CoreClockDelta > max) {
+                            max = item.CoreClockDelta;
+                        }
+                        if (item.CoreClockDelta < min) {
+                            min = item.CoreClockDelta;
+                        }
+                    }
+                    return $"{min/1000} - {max/1000}M";
+                }
                 return (this.CoreClockDelta / 1000).ToString();
             }
         }
@@ -158,6 +176,24 @@ namespace NTMiner.Vms {
 
         public string MemoryClockDeltaMText {
             get {
+                if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
+                    return "0M";
+                }
+                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
+                    int min = int.MaxValue, max = int.MinValue;
+                    foreach (var item in GpuViewModels.Current) {
+                        if (item.Index == NTMinerRoot.GpuAllId) {
+                            continue;
+                        }
+                        if (item.MemoryClockDelta > max) {
+                            max = item.MemoryClockDelta;
+                        }
+                        if (item.MemoryClockDelta < min) {
+                            min = item.MemoryClockDelta;
+                        }
+                    }
+                    return $"{min / 1000} - {max / 1000}M";
+                }
                 return (this.MemoryClockDelta / 1000).ToString();
             }
         }

@@ -178,5 +178,15 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(Cool));
             }
         }
+
+        private GpuViewModel _gpuVm;
+        public GpuViewModel GpuVm {
+            get {
+                if (_gpuVm == null) {
+                    GpuViewModels.Current.TryGetGpuVm(Index, out _gpuVm);
+                }
+                return _gpuVm;
+            }
+        }
     }
 }

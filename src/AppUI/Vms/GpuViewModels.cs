@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -34,6 +33,8 @@ namespace NTMiner.Vms {
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.TemperatureText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.FanSpeedText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.PowerUsageWText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoreClockDeltaMText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMText));
                         }
                     }
                 });
@@ -46,6 +47,10 @@ namespace NTMiner.Vms {
                 }
                 return _gpuVms.Count;
             }
+        }
+
+        public bool TryGetGpuVm(int index, out GpuViewModel gpuVm) {
+            return _gpuVms.TryGetValue(index, out gpuVm);
         }
 
         public IEnumerator<GpuViewModel> GetEnumerator() {
