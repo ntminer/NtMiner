@@ -15,6 +15,7 @@ namespace NTMiner.Profile {
                 DualCoinPoolId = Guid.Empty,
                 DualCoinWallet = string.Empty,
                 IsDualCoinHideWallet = false,
+                IsOverClockEnabled = false,
                 CreatedOn = DateTime.Now,
                 ModifiedOn = Timestamp.UnixBaseTime
             };
@@ -34,6 +35,8 @@ namespace NTMiner.Profile {
         public Guid DualCoinPoolId { get; set; }
         public string DualCoinWallet { get; set; }
         public bool IsDualCoinHideWallet { get; set; }
+
+        public bool IsOverClockEnabled { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
