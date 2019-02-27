@@ -55,6 +55,8 @@ namespace NTMiner.Vms {
         public ICommand ViewCoinInfo { get; private set; }
         public ICommand Save { get; private set; }
 
+        public ICommand ApplyOverClock { get; private set; }
+
         public Action CloseWindow { get; set; }
 
         public CoinViewModel() {
@@ -76,6 +78,22 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(Guid id) {
             _id = id;
+            this.ApplyOverClock = new DelegateCommand(() => {
+                var list = GpuOverClockVms.ToArray();
+                foreach (var item in list) {
+                    VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(item));
+                }
+                if (GpuAllOverClockDataVm.IsEnabled) {
+                    VirtualRoot.Execute(new OverClockCommand(GpuAllOverClockDataVm));
+                }
+                else {
+                    foreach (var item in GpuOverClockVms) {
+                        if (item.IsEnabled && item.Index != NTMinerRoot.GpuAllId) {
+                            VirtualRoot.Execute(new OverClockCommand(item));
+                        }
+                    }
+                }
+            });
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
@@ -149,6 +167,18 @@ namespace NTMiner.Vms {
             this.AddCoinKernel = new DelegateCommand(() => {
                 KernelSelect.ShowWindow(this);
             });
+        }
+
+        public GpuOverClockDataViewModel GpuAllOverClockDataVm {
+            get {
+                return GpuOverClockDataViewModels.Current.GpuAllVm(this.Id);
+            }
+        }
+
+        public List<GpuOverClockDataViewModel> GpuOverClockVms {
+            get {
+                return GpuOverClockDataViewModels.Current.List(this.Id);
+            }
         }
 
         public ShareViewModel ShareVm {

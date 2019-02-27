@@ -182,10 +182,6 @@ namespace NTMiner.Vms {
             Views.Ucs.VirtualMemory.ShowWindow();
         });
 
-        public static ICommand ShowOverClock { get; private set; } = new DelegateCommand<CoinViewModel>((coinVm) => {
-            GpusOverClock.ShowWindow(coinVm);
-        });
-
         public static ICommand ViewEvent { get; private set; } = new DelegateCommand(() => {
             EventPage.ShowWindow();
         });

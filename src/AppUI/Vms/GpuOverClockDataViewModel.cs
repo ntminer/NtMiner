@@ -117,9 +117,9 @@ namespace NTMiner.Vms {
         public string IndexText {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
-                    return "统一超频";
+                    return "all#统一超频";
                 }
-                return $"GPU{Index}";
+                return $"{Index}#{Name}";
             }
         }
 

@@ -11,56 +11,39 @@
 		DataContext="{x:Static vm:GpusOverClockViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="800">
 	<UserControl.Resources>
+		<Style x:Key="LblTb" TargetType="TextBlock">
+			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="Width" Value="40"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="TextAlignment" Value="Right"></Setter>
+			<Setter Property="TextWrapping" Value="Wrap"></Setter>
+		</Style>
 		<sys:String x:Key="WindowTitle">
 			超频
 		</sys:String>
 	</UserControl.Resources>
-	<Grid Margin="0 0 10 0">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"></ColumnDefinition>
-			<ColumnDefinition Width="*" MaxWidth="700" MinWidth="300"></ColumnDefinition>
-		</Grid.ColumnDefinitions>
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*" MaxHeight="400"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<Grid Grid.RowSpan="2">
-			<DataGrid 
-				Grid.Row="1" Margin="0" 
-				ItemsSource="{Binding CoinVms.MainCoins}" 
-				BorderThickness="0 0 1 0" 
-				BorderBrush="{StaticResource LineColor}"
-				SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False">
-				<DataGrid.Resources>
-					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
-				</DataGrid.Resources>
-				<DataGrid.Columns>
-					<DataGridTextColumn Binding="{Binding CodeAlgo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-						<DataGridTextColumn.Header>
-							<WrapPanel>
-								<TextBlock Text="币种"></TextBlock>
-							</WrapPanel>
-						</DataGridTextColumn.Header>
-					</DataGridTextColumn>
-				</DataGrid.Columns>
-			</DataGrid>
-			<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding CoinVms.MainCoins, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
-		</Grid>
-		<Grid Grid.Row="0" Grid.Column="1" Margin="4 4 0 4">
+		<Grid Grid.Row="0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<WrapPanel VerticalAlignment="Center">
+			<WrapPanel VerticalAlignment="Center" Margin="0 4">
 				<CheckBox 
-					IsChecked="{Binding GpuAllOverClockDataVm.IsEnabled}" 
+					IsChecked="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled}" 
 					Content="统一超频"></CheckBox>
 			</WrapPanel>
 			<WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
 				<TextBlock>超频有风险，操作请谨慎。</TextBlock>
 				<controls:KbButton
 					ToolTip="超选中的卡"
-					Command="{Binding Apply}" 
+					Command="{Binding MinerProfile.CoinVm.ApplyOverClock}" 
 					Background="{StaticResource IconFillColor}"
 					Foreground="White"
 					CornerRadius="2">
@@ -75,15 +58,12 @@
 				</controls:KbButton>
 			</WrapPanel>
 		</Grid>
-		<ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
-			<StackPanel Margin="4 0 0 10">
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+			<StackPanel>
 				<ItemsControl 
 					BorderThickness="0"
-					ItemsSource="{Binding GpuOverClockVms}" 
+					ItemsSource="{Binding MinerProfile.CoinVm.GpuOverClockVms}" 
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-					<ItemsControl.Resources>
-						<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
-					</ItemsControl.Resources>
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<WrapPanel></WrapPanel>
@@ -91,8 +71,8 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<Grid Width="160" Margin="2 2 0 0" Visibility="{Binding IsVisible}">
-								<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="4 0 4 4">
+							<Grid Width="180" Margin="0 0 6 6" Visibility="{Binding IsVisible}">
+								<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="0 0 0 4">
 									<GroupBox.Header>
 										<WrapPanel>
 											<CheckBox 
@@ -102,31 +82,38 @@
 											<TextBlock Text="GPU All" Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
 										</WrapPanel>
 									</GroupBox.Header>
-									<StackPanel>
-										<WrapPanel HorizontalAlignment="Center">
-											<TextBlock Text="{Binding Name}"></TextBlock>
-										</WrapPanel>
-										<WrapPanel>
-											<TextBlock Width="40" TextAlignment="Right">核心</TextBlock>
-											<TextBox Margin="4 0 0 0" ToolTip="-400至400" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="70"></TextBox>
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto"></ColumnDefinition>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+										</Grid.ColumnDefinitions>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto"></RowDefinition>
+											<RowDefinition Height="Auto"></RowDefinition>
+											<RowDefinition Height="Auto"></RowDefinition>
+											<RowDefinition Height="Auto"></RowDefinition>
+										</Grid.RowDefinitions>
+										<TextBlock Grid.Row="0" Style="{StaticResource LblTb}">核心</TextBlock>
+										<WrapPanel Grid.Row="0" Grid.Column="1">
+											<TextBox ToolTip="-400至400" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="100"></TextBox>
 											<TextBlock>M</TextBlock>
 										</WrapPanel>
-										<WrapPanel>
-											<TextBlock Width="40" TextAlignment="Right">显存</TextBlock>
-											<TextBox Margin="4 0 0 0" ToolTip="-1000至1000" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="70"></TextBox>
+										<TextBlock Grid.Row="1" Style="{StaticResource LblTb}">显存</TextBlock>
+										<WrapPanel Grid.Row="1" Grid.Column="1">
+											<TextBox ToolTip="-1000至1000" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="100"></TextBox>
 											<TextBlock>M</TextBlock>
 										</WrapPanel>
-										<WrapPanel>
-											<TextBlock Width="40" TextAlignment="Right">功耗</TextBlock>
-											<TextBox Margin="4 0 0 0" ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="70"></TextBox>
+										<TextBlock Grid.Row="2" Style="{StaticResource LblTb}">功耗</TextBlock>
+										<WrapPanel Grid.Row="2" Grid.Column="1">
+											<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="100"></TextBox>
 											<TextBlock>%</TextBlock>
 										</WrapPanel>
-										<WrapPanel>
-											<TextBlock Width="40" TextAlignment="Right">风扇</TextBlock>
-											<TextBox Margin="4 0 0 0" ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="70"></TextBox>
+										<TextBlock Grid.Row="3" Style="{StaticResource LblTb}">风扇</TextBlock>
+										<WrapPanel Grid.Row="3" Grid.Column="1">
+											<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="100"></TextBox>
 											<TextBlock>%</TextBlock>
 										</WrapPanel>
-									</StackPanel>
+									</Grid>
 								</GroupBox>
 								<controls:KbButton
 									ToolTip="超该卡"
@@ -149,7 +136,7 @@
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
-				<TextBlock Visibility="{Binding GpuAllOverClockDataVm.IsEnabled,Converter={StaticResource BoolToVisibilityConverter}}">TODO://超频建议</TextBlock>
+				<TextBlock Visibility="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled,Converter={StaticResource BoolToVisibilityConverter}}">TODO://超频建议</TextBlock>
 			</StackPanel>
 		</ScrollViewer>
 	</Grid>

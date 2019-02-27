@@ -57,6 +57,9 @@
 			<sys:String x:Key="HOption">
 				HOption
 			</sys:String>
+			<sys:String x:Key="HOverClock">
+				HOverClock
+			</sys:String>
 			<sys:String x:Key="BtnStartMine">
 				BtnStartMine
 			</sys:String>
@@ -315,6 +318,23 @@
 								<uc:MinerProfileOption>
 								</uc:MinerProfileOption>
 							</TabItem>
+							<TabItem>
+								<TabItem.Header>
+									<Border Padding="10 0">
+										<WrapPanel>
+											<Path 
+												Width="14"
+												Height="14"
+												Stretch="Fill"
+												Fill="{StaticResource IconFillColor}"
+												Data="{StaticResource Icon_OverClock}"></Path>
+											<TextBlock Padding="4 0 0 0" Text="{DynamicResource HOverClock}"></TextBlock>
+										</WrapPanel>
+									</Border>
+								</TabItem.Header>
+								<uc:GpusOverClock Margin="4 0 0 0">
+								</uc:GpusOverClock>
+							</TabItem>
 						</TabControl>
 
 						<!--下状态栏-->
@@ -331,22 +351,6 @@
 			<uc:OpenedWindows VerticalAlignment="Top" Margin="8 0 0 0">
 			</uc:OpenedWindows>
 			<WrapPanel x:Name="IconButtons" Margin="0 4 8 4" HorizontalAlignment="Right">
-				<Border Style="{StaticResource IconButtonBg}">
-					<controls:KbButton 
-						ToolTip="超频"
-						Background="Transparent" BorderThickness="0"
-						Command="{x:Static vm:AppStatic.ShowOverClock}"
-						CommandParameter="{Binding MinerProfile.CoinVm}">
-						<WrapPanel>
-							<Path 
-								Height="20"
-								Width="20"
-								Data="{StaticResource Icon_OverClock}"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
-				</Border>
 				<Border Style="{StaticResource IconButtonBg}" Margin="8 0 0 0">
 					<controls:KbButton 
 						ToolTip="算力图"
