@@ -46,6 +46,9 @@
 			<sys:String x:Key="Miner">
 				Miner
 			</sys:String>
+			<sys:String x:Key="Charts">
+				Charts
+			</sys:String>
 			<sys:String x:Key="MinerGroup">
 				MinerGroup
 			</sys:String>
@@ -322,6 +325,12 @@
 							Data="{StaticResource Icon_Miner}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Charts}" Command="{x:Static vm:AppStatic.ShowChartsWindow}">
+					<MenuItem.Icon>
+						<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+						</Image>
 					</MenuItem.Icon>
 				</MenuItem>
 				<MenuItem Header="{DynamicResource MinerGroup}" Command="{x:Static vm:AppStatic.ManageMinerGroup}">
