@@ -6,5 +6,7 @@
         uint Temperature { get; set; }
         uint FanSpeed { get; set; }
         uint PowerUsage { get; set; }
+        int CoreClockDelta { get; set; }
+        int MemoryClockDelta { get; set; }
     }
 }

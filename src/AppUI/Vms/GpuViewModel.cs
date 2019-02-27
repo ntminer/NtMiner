@@ -132,6 +132,36 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int CoreClockDelta {
+            get { return _gpu.CoreClockDelta; }
+            set {
+                _gpu.CoreClockDelta = value;
+                OnPropertyChanged(nameof(CoreClockDelta));
+                OnPropertyChanged(nameof(CoreClockDeltaMText));
+            }
+        }
+
+        public string CoreClockDeltaMText {
+            get {
+                return (this.CoreClockDelta / 1000).ToString();
+            }
+        }
+
+        public int MemoryClockDelta {
+            get { return _gpu.MemoryClockDelta; }
+            set {
+                _gpu.MemoryClockDelta = value;
+                OnPropertyChanged(nameof(MemoryClockDelta));
+                OnPropertyChanged(nameof(MemoryClockDeltaMText));
+            }
+        }
+
+        public string MemoryClockDeltaMText {
+            get {
+                return (this.MemoryClockDelta / 1000).ToString();
+            }
+        }
+
         private GpuClockDeltaViewModel _gpuClockDeltaVm;
         public GpuClockDeltaViewModel GpuClockDeltaVm {
             get {

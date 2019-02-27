@@ -6,6 +6,8 @@
             Temperature = 0,
             FanSpeed = 0,
             PowerUsage = 0,
+            CoreClockDelta = 0,
+            MemoryClockDelta = 0,
             GpuClockDelta = new GpuClockDelta(0, 0, 0, 0),
             OverClock = new GpuAllOverClock()
         };
@@ -24,6 +26,8 @@
         public uint FanSpeed { get; set; }
 
         public uint PowerUsage { get; set; }
+        public int CoreClockDelta { get; set; }
+        public int MemoryClockDelta { get; set; }
 
         public GpuClockDelta GpuClockDelta { get; set; }
     }
