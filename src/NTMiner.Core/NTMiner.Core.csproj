@@ -102,6 +102,8 @@
     <Compile Include="Core\Gpus\Adl\AdlTypes.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
     <Compile Include="Core\Gpus\IGpuClockDeltaSet.cs" />
+    <Compile Include="Core\Gpus\Impl\EmptyClockDeltaSet.cs" />
+    <Compile Include="Core\Gpus\Impl\AMDClockDeltaSet.cs" />
     <Compile Include="Core\Gpus\Impl\GpuClockDelta.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\IGpuClockDelta.cs" />
@@ -110,7 +112,7 @@
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\GpuAllOverClock.cs" />
-    <Compile Include="Core\Gpus\Impl\GpuClockDeltaSet.cs" />
+    <Compile Include="Core\Gpus\Impl\NVIDIAClockDeltaSet.cs" />
     <Compile Include="Core\Gpus\Impl\GpuOverClockData.cs" />
     <Compile Include="Core\Gpus\Impl\GpuOverClockDataExtension.cs" />
     <Compile Include="Core\Gpus\Impl\GpuOverClockDataSet.cs" />

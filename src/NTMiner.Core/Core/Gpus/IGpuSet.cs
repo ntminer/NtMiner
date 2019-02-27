@@ -6,6 +6,8 @@ namespace NTMiner.Core.Gpus {
         int Count { get; }
         IGpu this[int index] { get; }
 
+        IGpuClockDeltaSet GpuClockDeltaSet { get; }
+
         bool TryGetGpu(int index, out IGpu gpu);
 
         List<GpuSetProperty> Properties { get; }

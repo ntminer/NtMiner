@@ -137,7 +137,7 @@ namespace NTMiner.Vms {
             get {
                 if (_gpuClockDeltaVm == null) {
                     IGpuClockDelta delta;
-                    if (NTMinerRoot.Current.GpuClockDeltaSet.TryGetValue(this.Index, out delta)) {
+                    if (NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.TryGetValue(this.Index, out delta)) {
                         _gpuClockDeltaVm = new GpuClockDeltaViewModel(delta);
                     }
                     else {

@@ -14,6 +14,16 @@ namespace NTMiner.Core.Gpus {
 
         }
 
+        private IGpuClockDeltaSet _gpuClockDeltaSet;
+        public IGpuClockDeltaSet GpuClockDeltaSet {
+            get {
+                if (_gpuClockDeltaSet == null) {
+                    _gpuClockDeltaSet = new EmptyClockDeltaSet(NTMinerRoot.Current);
+                }
+                return _gpuClockDeltaSet;
+            }
+        }
+
         public IGpu this[int index] {
             get {
                 return Impl.Gpu.Total;

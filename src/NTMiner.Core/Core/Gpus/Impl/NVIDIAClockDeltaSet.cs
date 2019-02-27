@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus.Impl {
-    public class GpuClockDeltaSet : IGpuClockDeltaSet {
+    public class NVIDIAClockDeltaSet : IGpuClockDeltaSet {
         private readonly Dictionary<int, GpuClockDelta> _dicByGpuIndex = new Dictionary<int, GpuClockDelta>();
 
         private readonly INTMinerRoot _root;
 
-        public GpuClockDeltaSet(INTMinerRoot root) {
+        public NVIDIAClockDeltaSet(INTMinerRoot root) {
             _root = root;
         }
 
