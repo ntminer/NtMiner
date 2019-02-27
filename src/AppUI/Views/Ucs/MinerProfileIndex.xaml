@@ -117,7 +117,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid Background="#EBF2F9">
-		<StackPanel Margin="2 8 8 8">
+		<StackPanel Margin="2 6 8 8">
 			<WrapPanel Margin="0">
 				<StackPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
 					<WrapPanel VerticalAlignment="Center">
