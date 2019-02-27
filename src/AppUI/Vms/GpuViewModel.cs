@@ -132,35 +132,24 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int CoreClockDeltaMin {
-            get => _gpu.CoreClockDeltaMin;
-            set {
-                _gpu.CoreClockDeltaMin = value;
-                OnPropertyChanged(nameof(CoreClockDeltaMin));
-            }
-        }
-
-        public int CoreClockDeltaMax {
-            get => _gpu.CoreClockDeltaMax;
-            set {
-                _gpu.CoreClockDeltaMax = value;
-                OnPropertyChanged(nameof(CoreClockDeltaMax));
-            }
-        }
-
-        public int MemoryClockDeltaMin {
-            get => _gpu.MemoryClockDeltaMin;
-            set {
-                _gpu.MemoryClockDeltaMin = value;
-                OnPropertyChanged(nameof(MemoryClockDeltaMin));
-            }
-        }
-
-        public int MemoryClockDeltaMax {
-            get => _gpu.MemoryClockDeltaMax;
-            set {
-                _gpu.MemoryClockDeltaMax = value;
-                OnPropertyChanged(nameof(MemoryClockDeltaMax));
+        private GpuClockDeltaViewModel _gpuClockDeltaVm;
+        public GpuClockDeltaViewModel GpuClockDeltaVm {
+            get {
+                if (_gpuClockDeltaVm == null) {
+                    IGpuClockDelta delta;
+                    if (NTMinerRoot.Current.GpuClockDeltaSet.TryGetValue(this.Index, out delta)) {
+                        _gpuClockDeltaVm = new GpuClockDeltaViewModel {
+                            CoreClockDeltaMax = delta.CoreClockDeltaMax,
+                            CoreClockDeltaMin = delta.CoreClockDeltaMin,
+                            MemoryClockDeltaMax = delta.MemoryClockDeltaMax,
+                            MemoryClockDeltaMin = delta.MemoryClockDeltaMin
+                        };
+                    }
+                    else {
+                        _gpuClockDeltaVm = new GpuClockDeltaViewModel();
+                    }
+                }
+                return _gpuClockDeltaVm;
             }
         }
     }

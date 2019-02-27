@@ -49,6 +49,8 @@ namespace NTMiner {
 
         IGpuSet GpuSet { get; }
 
+        IGpuClockDeltaSet GpuClockDeltaSet { get; }
+
         IGpuOverClockDataSet GpuOverClockDataSet { get; }
 
         ISysDicSet SysDicSet { get; }
