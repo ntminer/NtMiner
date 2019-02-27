@@ -36,16 +36,6 @@ namespace NTMiner.Vms {
                         _gpuAllVmDicByCoinId.Add(coinId, vm);
                     }
                 }
-                for (int i = 1; i < 12; i++) {
-                    IGpuOverClockData data = NTMinerRoot.Current.GpuOverClockDataSet.GetGpuOverClockData(coinId, i);
-                    var vm = new GpuOverClockDataViewModel(data) {
-                        Name = "GPU"+ i
-                    };
-                    _dicById.Add(data.GetId(), vm);
-                    if (i == NTMinerRoot.GpuAllId) {
-                        _gpuAllVmDicByCoinId.Add(coinId, vm);
-                    }
-                }
             }
         }
 

@@ -120,9 +120,10 @@
 								</Grid>
 							</GroupBox>
 							<controls:KbButton
+								Margin="0 0 2 2"
 								ToolTip="应用"
 								Visibility="{Binding IsGpuAllVm, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-								HorizontalAlignment="Right" VerticalAlignment="Top"
+								HorizontalAlignment="Right" VerticalAlignment="Bottom"
 								Command="{Binding Apply}" 
 								Background="{StaticResource IconFillColor}"
 								Foreground="White"
