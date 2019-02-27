@@ -6,6 +6,10 @@
             Temperature = 0,
             FanSpeed = 0,
             PowerUsage = 0,
+            CoreClockDeltaMin = 0,
+            CoreClockDeltaMax = 0,
+            MemoryClockDeltaMin = 0,
+            MemoryClockDeltaMax = 0,
             OverClock = new GpuAllOverClock()
         };
 
@@ -23,5 +27,13 @@
         public uint FanSpeed { get; set; }
 
         public uint PowerUsage { get; set; }
+
+        public int CoreClockDeltaMin { get; set; }
+
+        public int CoreClockDeltaMax { get; set; }
+
+        public int MemoryClockDeltaMin { get; set; }
+
+        public int MemoryClockDeltaMax { get; set; }
     }
 }

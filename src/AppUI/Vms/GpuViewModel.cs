@@ -4,6 +4,7 @@ using System.Linq;
 namespace NTMiner.Vms {
     public class GpuViewModel : ViewModelBase, IGpu {
         private readonly IGpu _gpu;
+
         public GpuViewModel(IGpu gpu) {
             _gpu = gpu;
         }
@@ -128,6 +129,38 @@ namespace NTMiner.Vms {
                     return $"{(GpuViewModels.Current.Sum(a => a.PowerUsage)).ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
+            }
+        }
+
+        public int CoreClockDeltaMin {
+            get => _gpu.CoreClockDeltaMin;
+            set {
+                _gpu.CoreClockDeltaMin = value;
+                OnPropertyChanged(nameof(CoreClockDeltaMin));
+            }
+        }
+
+        public int CoreClockDeltaMax {
+            get => _gpu.CoreClockDeltaMax;
+            set {
+                _gpu.CoreClockDeltaMax = value;
+                OnPropertyChanged(nameof(CoreClockDeltaMax));
+            }
+        }
+
+        public int MemoryClockDeltaMin {
+            get => _gpu.MemoryClockDeltaMin;
+            set {
+                _gpu.MemoryClockDeltaMin = value;
+                OnPropertyChanged(nameof(MemoryClockDeltaMin));
+            }
+        }
+
+        public int MemoryClockDeltaMax {
+            get => _gpu.MemoryClockDeltaMax;
+            set {
+                _gpu.MemoryClockDeltaMax = value;
+                OnPropertyChanged(nameof(MemoryClockDeltaMax));
             }
         }
     }

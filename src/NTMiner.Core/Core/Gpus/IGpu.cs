@@ -5,6 +5,10 @@
         string Name { get; }
         uint Temperature { get; set; }
         uint FanSpeed { get; set; }
-        uint PowerUsage { get; set; }        
+        uint PowerUsage { get; set; }     
+        int CoreClockDeltaMin { get; set; }
+        int CoreClockDeltaMax { get; set; }
+        int MemoryClockDeltaMin { get; set; }
+        int MemoryClockDeltaMax { get; set; }
     }
 }
