@@ -25,43 +25,43 @@ namespace NTMiner.Data.Impl {
             return result;
         }
 
-        private static Dictionary<string, PropertyInfo> _minerProfileProperties;
+        private static Dictionary<string, PropertyInfo> s_minerProfileProperties;
         private static Dictionary<string, PropertyInfo> MinerProfileProperties {
             get {
-                if (_minerProfileProperties == null) {
-                    _minerProfileProperties = GetProperties<MinerProfileData>();
+                if (s_minerProfileProperties == null) {
+                    s_minerProfileProperties = GetProperties<MinerProfileData>();
                 }
-                return _minerProfileProperties;
+                return s_minerProfileProperties;
             }
         }
 
-        private static Dictionary<string, PropertyInfo> _coinProfileProperties;
+        private static Dictionary<string, PropertyInfo> s_coinProfileProperties;
         private static Dictionary<string, PropertyInfo> CoinProfileProperties {
             get {
-                if (_coinProfileProperties == null) {
-                    _coinProfileProperties = GetProperties<CoinProfileData>();
+                if (s_coinProfileProperties == null) {
+                    s_coinProfileProperties = GetProperties<CoinProfileData>();
                 }
-                return _coinProfileProperties;
+                return s_coinProfileProperties;
             }
         }
 
-        private static Dictionary<string, PropertyInfo> _poolProfileProperties;
+        private static Dictionary<string, PropertyInfo> s_poolProfileProperties;
         private static Dictionary<string, PropertyInfo> PoolProfileProperties {
             get {
-                if (_poolProfileProperties == null) {
-                    _poolProfileProperties = GetProperties<PoolProfileData>();
+                if (s_poolProfileProperties == null) {
+                    s_poolProfileProperties = GetProperties<PoolProfileData>();
                 }
-                return _poolProfileProperties;
+                return s_poolProfileProperties;
             }
         }
 
-        private static Dictionary<string, PropertyInfo> _coinKernelProfileProperties;
+        private static Dictionary<string, PropertyInfo> s_coinKernelProfileProperties;
         private static Dictionary<string, PropertyInfo> CoinKernelProfileProperties {
             get {
-                if (_coinKernelProfileProperties == null) {
-                    _coinKernelProfileProperties = GetProperties<CoinKernelProfileData>();
+                if (s_coinKernelProfileProperties == null) {
+                    s_coinKernelProfileProperties = GetProperties<CoinKernelProfileData>();
                 }
-                return _coinKernelProfileProperties;
+                return s_coinKernelProfileProperties;
             }
         }
         #endregion

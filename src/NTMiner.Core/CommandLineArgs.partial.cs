@@ -13,8 +13,8 @@ namespace NTMiner {
         public static readonly string Upgrade;
 
         static CommandLineArgs() {
-            IsSkipDownloadJson = _commandLineArgs.Contains("--skipDownloadJson", StringComparer.OrdinalIgnoreCase);
-            IsAutoStart = _commandLineArgs.Contains("--AutoStart", StringComparer.OrdinalIgnoreCase);
+            IsSkipDownloadJson = s_commandLineArgs.Contains("--skipDownloadJson", StringComparer.OrdinalIgnoreCase);
+            IsAutoStart = s_commandLineArgs.Contains("--AutoStart", StringComparer.OrdinalIgnoreCase);
             Upgrade = PickArgument("upgrade=");
             string workId = PickArgument("workid=");
             Guid.TryParse(workId, out WorkId);

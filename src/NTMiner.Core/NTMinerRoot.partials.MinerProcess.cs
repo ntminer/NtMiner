@@ -60,15 +60,15 @@ namespace NTMiner {
             #endregion
 
             #region Daemon
-            private static Bus.DelegateHandler<Per1MinuteEvent> _daemon = null;
+            private static Bus.DelegateHandler<Per1MinuteEvent> s_daemon = null;
             private static void Daemon(IMineContext mineContext, Action clear) {
-                if (_daemon != null) {
-                    VirtualRoot.UnPath(_daemon);
-                    _daemon = null;
+                if (s_daemon != null) {
+                    VirtualRoot.UnPath(s_daemon);
+                    s_daemon = null;
                     clear?.Invoke();
                 }
                 string processName = mineContext.Kernel.GetProcessName();
-                _daemon = VirtualRoot.On<Per1MinuteEvent>(
+                s_daemon = VirtualRoot.On<Per1MinuteEvent>(
                     "周期性检查挖矿内核是否消失，如果消失尝试重启",
                     LogEnum.Console,
                     action: message => {
@@ -86,16 +86,16 @@ namespace NTMiner {
                                     else {
                                         Current.StopMineAsync();
                                     }
-                                    if (_daemon != null) {
-                                        VirtualRoot.UnPath(_daemon);
+                                    if (s_daemon != null) {
+                                        VirtualRoot.UnPath(s_daemon);
                                         clear?.Invoke();
                                     }
                                 }
                             }
                         }
                         else {
-                            if (_daemon != null) {
-                                VirtualRoot.UnPath(_daemon);
+                            if (s_daemon != null) {
+                                VirtualRoot.UnPath(s_daemon);
                                 clear?.Invoke();
                             }
                         }
@@ -245,9 +245,9 @@ namespace NTMiner {
                             LogEnum.Console,
                             action: message => {
                                 // 挖矿停止后摘除挖矿内核进程守护器
-                                if (_daemon != null) {
-                                    VirtualRoot.UnPath(_daemon);
-                                    _daemon = null;
+                                if (s_daemon != null) {
+                                    VirtualRoot.UnPath(s_daemon);
+                                    s_daemon = null;
                                 }
                                 if (!isHWriteOutHasClosed) {
                                     CloseHandle(hWriteOut);

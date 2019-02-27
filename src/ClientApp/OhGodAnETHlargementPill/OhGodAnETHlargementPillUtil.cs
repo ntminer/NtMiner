@@ -6,21 +6,21 @@ using System.Reflection;
 
 namespace NTMiner.OhGodAnETHlargementPill {
     public static class OhGodAnETHlargementPillUtil {
-        private static string processName = "OhGodAnETHlargementPill-r2";
-        private static string tempDir = SpecialPath.TempDirFullName;
-        private static string fileFullName = Path.Combine(tempDir, processName + ".exe");
+        private static string s_processName = "OhGodAnETHlargementPill-r2";
+        private static string s_tempDir = SpecialPath.TempDirFullName;
+        private static string s_fileFullName = Path.Combine(s_tempDir, s_processName + ".exe");
 
         public static void Start() {
             try {
                 if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
                     ExtractResource();
-                    Process[] processes = Process.GetProcessesByName(processName);
+                    Process[] processes = Process.GetProcessesByName(s_processName);
                     if (processes == null || processes.Length == 0) {
                         try {
                             using (Process proc = new Process()) {
                                 proc.StartInfo.CreateNoWindow = true;
                                 proc.StartInfo.UseShellExecute = false;
-                                proc.StartInfo.FileName = fileFullName;
+                                proc.StartInfo.FileName = s_fileFullName;
                                 proc.Start();
                             }
                         }
@@ -42,10 +42,10 @@ namespace NTMiner.OhGodAnETHlargementPill {
         public static void Stop() {
             try {
                 if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
-                    Process[] processes = Process.GetProcessesByName(processName);
+                    Process[] processes = Process.GetProcessesByName(s_processName);
                     if (processes != null && processes.Length != 0) {
                         try {
-                            Windows.TaskKill.Kill(processName);
+                            Windows.TaskKill.Kill(s_processName);
                         }
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e.Message, e);
@@ -64,15 +64,15 @@ namespace NTMiner.OhGodAnETHlargementPill {
 
         private static void ExtractResource() {
             try {
-                if (File.Exists(fileFullName)) {
+                if (File.Exists(s_fileFullName)) {
                     return;
                 }
                 Type type = typeof(OhGodAnETHlargementPillUtil);
                 Assembly assembly = type.Assembly;
-                using (var stream = assembly.GetManifestResourceStream(type, processName + ".exe")) {
+                using (var stream = assembly.GetManifestResourceStream(type, s_processName + ".exe")) {
                     byte[] data = new byte[stream.Length];
                     stream.Read(data, 0, data.Length);
-                    File.WriteAllBytes(fileFullName, data);
+                    File.WriteAllBytes(s_fileFullName, data);
                 }
             }
             catch (Exception e) {

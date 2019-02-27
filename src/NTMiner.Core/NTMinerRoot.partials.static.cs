@@ -19,16 +19,16 @@ namespace NTMiner {
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
         }
 
-        private static readonly NTMinerRoot _current = new NTMinerRoot();
-        public static readonly INTMinerRoot Current = _current;
+        private static readonly NTMinerRoot s_current = new NTMinerRoot();
+        public static readonly INTMinerRoot Current = s_current;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
-        private static string _jsonFileVersion;
+        private static string s_jsonFileVersion;
         public static string JsonFileVersion {
-            get { return _jsonFileVersion; }
+            get { return s_jsonFileVersion; }
             set {
-                if (_jsonFileVersion != value && !string.IsNullOrEmpty(_jsonFileVersion)) {
-                    _jsonFileVersion = value;
+                if (s_jsonFileVersion != value && !string.IsNullOrEmpty(s_jsonFileVersion)) {
+                    s_jsonFileVersion = value;
                     VirtualRoot.Happened(new ServerJsonVersionChangedEvent());
                 }
             }

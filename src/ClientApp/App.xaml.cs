@@ -18,7 +18,7 @@ namespace NTMiner {
 
         private bool createdNew;
         private Mutex appMutex;
-        private static string _appPipName = "ntminerclient";
+        private static string s_appPipName = "ntminerclient";
         ExtendedNotifyIcon notifyIcon;
 
         protected override void OnExit(ExitEventArgs e) {
@@ -37,7 +37,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    appMutex = new Mutex(true, _appPipName, out createdNew);
+                    appMutex = new Mutex(true, s_appPipName, out createdNew);
                 }
                 catch (Exception) {
                     createdNew = false;

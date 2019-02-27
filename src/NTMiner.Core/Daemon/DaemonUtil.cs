@@ -80,10 +80,10 @@ namespace NTMiner.Daemon {
             }
         }
 
-        private static string _thisDevConsoleFileVersion;
+        private static string s_thisDevConsoleFileVersion;
         private static string ThisDevConsoleFileVersion {
             get {
-                if (_thisDevConsoleFileVersion == null) {
+                if (s_thisDevConsoleFileVersion == null) {
                     try {
                         string name = "DevConsole.exe";
                         Type type = typeof(DaemonUtil);
@@ -91,22 +91,22 @@ namespace NTMiner.Daemon {
                         using (var stream = assembly.GetManifestResourceStream(type, name)) {
                             byte[] data = new byte[stream.Length];
                             stream.Read(data, 0, data.Length);
-                            _thisDevConsoleFileVersion = HashUtil.Sha1(data);
+                            s_thisDevConsoleFileVersion = HashUtil.Sha1(data);
                         }
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
-                        _thisDevConsoleFileVersion = string.Empty;
+                        s_thisDevConsoleFileVersion = string.Empty;
                     }
                 }
-                return _thisDevConsoleFileVersion;
+                return s_thisDevConsoleFileVersion;
             }
         }
 
-        private static string _thisNTMinerDaemonFileVersion;
+        private static string s_thisNTMinerDaemonFileVersion;
         private static string ThisNTMinerDaemonFileVersion {
             get {
-                if (_thisNTMinerDaemonFileVersion == null) {
+                if (s_thisNTMinerDaemonFileVersion == null) {
                     try {
                         string name = "NTMinerDaemon.exe";
                         Type type = typeof(DaemonUtil);
@@ -114,15 +114,15 @@ namespace NTMiner.Daemon {
                         using (var stream = assembly.GetManifestResourceStream(type, name)) {
                             byte[] data = new byte[stream.Length];
                             stream.Read(data, 0, data.Length);
-                            _thisNTMinerDaemonFileVersion = HashUtil.Sha1(data);
+                            s_thisNTMinerDaemonFileVersion = HashUtil.Sha1(data);
                         }
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
-                        _thisNTMinerDaemonFileVersion = string.Empty;
+                        s_thisNTMinerDaemonFileVersion = string.Empty;
                     }
                 }
-                return _thisNTMinerDaemonFileVersion;
+                return s_thisNTMinerDaemonFileVersion;
             }
         }
     }

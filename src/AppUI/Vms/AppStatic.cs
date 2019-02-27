@@ -377,13 +377,13 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static bool _isMinerClient;
+        private static bool s_isMinerClient;
         public static bool IsMinerClient {
             get {
-                return _isMinerClient;
+                return s_isMinerClient;
             }
             set {
-                _isMinerClient = value;
+                s_isMinerClient = value;
                 if (value) {
                     IsMinerClientVisible = Visibility.Visible;
                     IsMinerClientDevVisible = DevMode.IsDebugMode ? Visibility.Visible : Visibility.Collapsed;

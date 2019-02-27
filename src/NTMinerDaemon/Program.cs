@@ -4,13 +4,13 @@ using System.Threading;
 
 namespace NTMiner {
     class Program {
-        private static Mutex mutexApp;
+        private static Mutex s_mutexApp;
 
         static void Main(string[] args) {
             try {
                 bool mutexCreated;
                 try {
-                    mutexApp = new Mutex(true, "NTMinerDaemonAppMutex", out mutexCreated);
+                    s_mutexApp = new Mutex(true, "NTMinerDaemonAppMutex", out mutexCreated);
                 }
                 catch {
                     mutexCreated = false;

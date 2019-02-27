@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace NTMiner {
     public static class MsRdpRemoteDesktop {
-        private static readonly Dictionary<string, Form> _formsByName = new Dictionary<string, Form>();
+        private static readonly Dictionary<string, Form> s_formsByName = new Dictionary<string, Form>();
         /// <summary>
         /// 打开远程桌面窗口连接给定ip的windows主机
         /// </summary>
@@ -25,8 +25,8 @@ namespace NTMiner {
                 string formText = $"开源矿工远程桌面 - {description} ({serverIp})";
                 AxMsRdpClient7NotSafeForScripting axMsRdpc = null;
                 string axMsRdpcName = $"axMsRdpc_{id}";
-                if (_formsByName.ContainsKey(formName)) {
-                    Form form = _formsByName[formName];
+                if (s_formsByName.ContainsKey(formName)) {
+                    Form form = s_formsByName[formName];
                     form.Show();
                     if (form.WindowState == FormWindowState.Minimized) {
                         form.WindowState = FormWindowState.Normal;
@@ -50,8 +50,8 @@ namespace NTMiner {
                     Form frm = (Form)sender;
                     foreach (Control ctrl in frm.Controls) {
                         if (ctrl.GetType().Name == nameof(AxMsRdpClient7NotSafeForScripting)) {
-                            if (_formsByName.ContainsKey(frm.Name)) {
-                                _formsByName.Remove(frm.Name);
+                            if (s_formsByName.ContainsKey(frm.Name)) {
+                                s_formsByName.Remove(frm.Name);
                             }
                             var _axMsRdp = (AxMsRdpClient7NotSafeForScripting)ctrl;
                             if (_axMsRdp != null && _axMsRdp.Connected != 0) {
@@ -61,7 +61,7 @@ namespace NTMiner {
                         }
                     }
                 };
-                _formsByName.Add(formName, axMsRdpcForm);
+                s_formsByName.Add(formName, axMsRdpcForm);
 
                 ((System.ComponentModel.ISupportInitialize)(axMsRdpc)).BeginInit();
                 axMsRdpc.Dock = DockStyle.Fill;

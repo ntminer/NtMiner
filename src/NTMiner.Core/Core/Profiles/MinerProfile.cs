@@ -107,7 +107,7 @@ namespace NTMiner.Core.Profiles {
                 if (string.IsNullOrEmpty(value)) {
                     value = GetThisPcName();
                 }
-                value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
+                value = new string(value.ToCharArray().Where(a => !s_invalidChars.Contains(a)).ToArray());
                 if (_data.MinerName != value) {
                     _data.MinerName = value;
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
@@ -115,10 +115,10 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        private static readonly char[] invalidChars = { '.', ' ', '-', '_' };
+        private static readonly char[] s_invalidChars = { '.', ' ', '-', '_' };
         public string GetThisPcName() {
             string value = Environment.MachineName.ToLower();
-            value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
+            value = new string(value.ToCharArray().Where(a => !s_invalidChars.Contains(a)).ToArray());
             return value;
         }
 
@@ -238,14 +238,14 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        private static Dictionary<string, PropertyInfo> _properties;
+        private static Dictionary<string, PropertyInfo> s_properties;
         [IgnoreReflectionSet]
         private static Dictionary<string, PropertyInfo> Properties {
             get {
-                if (_properties == null) {
-                    _properties = GetPropertiesCanSet<MinerProfile>();
+                if (s_properties == null) {
+                    s_properties = GetPropertiesCanSet<MinerProfile>();
                 }
-                return _properties;
+                return s_properties;
             }
         }
 
@@ -467,14 +467,14 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private static Dictionary<string, PropertyInfo> _properties;
+                private static Dictionary<string, PropertyInfo> s_properties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
                     get {
-                        if (_properties == null) {
-                            _properties = GetPropertiesCanSet<CoinKernelProfile>();
+                        if (s_properties == null) {
+                            s_properties = GetPropertiesCanSet<CoinKernelProfile>();
                         }
-                        return _properties;
+                        return s_properties;
                     }
                 }
 
@@ -656,14 +656,14 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private static Dictionary<string, PropertyInfo> _properties;
+                private static Dictionary<string, PropertyInfo> s_properties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
                     get {
-                        if (_properties == null) {
-                            _properties = GetPropertiesCanSet<CoinProfile>();
+                        if (s_properties == null) {
+                            s_properties = GetPropertiesCanSet<CoinProfile>();
                         }
-                        return _properties;
+                        return s_properties;
                     }
                 }
 
@@ -807,14 +807,14 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private static Dictionary<string, PropertyInfo> _properties;
+                private static Dictionary<string, PropertyInfo> s_properties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
                     get {
-                        if (_properties == null) {
-                            _properties = GetPropertiesCanSet<PoolProfile>();
+                        if (s_properties == null) {
+                            s_properties = GetPropertiesCanSet<PoolProfile>();
                         }
-                        return _properties;
+                        return s_properties;
                     }
                 }
 

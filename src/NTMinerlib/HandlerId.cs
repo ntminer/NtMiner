@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public class HandlerId : IHandlerId {
-        private static readonly Dictionary<string, HandlerId> _dicById = new Dictionary<string, HandlerId>();
+        private static readonly Dictionary<string, HandlerId> s_dicById = new Dictionary<string, HandlerId>();
 
         static HandlerId() {
             VirtualRoot.Accept<UpdateHandlerIdCommand>(
                 "更新处理器日志配置",
                 LogEnum.Console,
                 action: message => {
-                    if (_dicById.ContainsKey(message.Input.HandlerPath)) {
-                        _dicById[message.Input.HandlerPath].LogType = message.Input.LogType;
+                    if (s_dicById.ContainsKey(message.Input.HandlerPath)) {
+                        s_dicById[message.Input.HandlerPath].LogType = message.Input.LogType;
                     }
                     else {
                         Create(typeof(UpdateHandlerIdCommand), typeof(HandlerId), message.Input.Description, message.Input.LogType);
@@ -21,8 +21,8 @@ namespace NTMiner {
 
         public static IHandlerId Create(Type messageType, Type location, string description, LogEnum logType) {
             string path = $"{location.FullName}[{messageType.FullName}]";
-            if (_dicById.ContainsKey(path)) {
-                var item = _dicById[path];
+            if (s_dicById.ContainsKey(path)) {
+                var item = s_dicById[path];
                 item.MessageType = messageType;
                 item.Location = location;
                 item.Description = description;
@@ -38,7 +38,7 @@ namespace NTMiner {
                     Description = description,
                     LogType = logType
                 };
-                _dicById.Add(path, item);
+                s_dicById.Add(path, item);
                 if (VirtualRoot.IsPublishHandlerIdAddedEvent) {
                     VirtualRoot.Happened(new HandlerIdAddedEvent(item));
                 }
@@ -47,7 +47,7 @@ namespace NTMiner {
         }
 
         public static IEnumerable<IHandlerId> GetHandlerIds() {
-            return _dicById.Values;
+            return s_dicById.Values;
         }
 
         private HandlerId() {

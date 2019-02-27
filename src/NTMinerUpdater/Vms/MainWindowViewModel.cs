@@ -26,21 +26,21 @@ namespace NTMiner.Vms {
         private string _downloadMessage;
         private Visibility _btnCancelVisible = Visibility.Visible;
 
-        private static readonly string _ntminerDirFullName;
-        private static readonly string _downloadDirFullName;
+        private static readonly string s_ntminerDirFullName;
+        private static readonly string s_downloadDirFullName;
 
         static MainWindowViewModel() {
-            _ntminerDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-            if (!Directory.Exists(_ntminerDirFullName)) {
-                Directory.CreateDirectory(_ntminerDirFullName);
+            s_ntminerDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+            if (!Directory.Exists(s_ntminerDirFullName)) {
+                Directory.CreateDirectory(s_ntminerDirFullName);
             }
-            string tempDirFullName = Path.Combine(_ntminerDirFullName, "Temp");
+            string tempDirFullName = Path.Combine(s_ntminerDirFullName, "Temp");
             if (!Directory.Exists(tempDirFullName)) {
                 Directory.CreateDirectory(tempDirFullName);
             }
-            _downloadDirFullName = Path.Combine(tempDirFullName, "Download");
-            if (!Directory.Exists(_downloadDirFullName)) {
-                Directory.CreateDirectory(_downloadDirFullName);
+            s_downloadDirFullName = Path.Combine(tempDirFullName, "Download");
+            if (!Directory.Exists(s_downloadDirFullName)) {
+                Directory.CreateDirectory(s_downloadDirFullName);
             }
         }
 
@@ -129,7 +129,7 @@ namespace NTMiner.Vms {
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
             Logger.InfoDebugLine("下载：" + fileName);
-            string saveFileFullName = Path.Combine(_downloadDirFullName, "NTMiner" + version);
+            string saveFileFullName = Path.Combine(s_downloadDirFullName, "NTMiner" + version);
             progressChanged?.Invoke(0);
             using (WebClient webClient = new WebClient()) {
                 cancel = () => {

@@ -393,10 +393,10 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly List<int> _pageSizeItems = new List<int>() { 10, 20, 30, 40 };
+        private static readonly List<int> s_pageSizeItems = new List<int>() { 10, 20, 30, 40 };
         public List<int> PageSizeItems {
             get {
-                return _pageSizeItems;
+                return s_pageSizeItems;
             }
         }
 

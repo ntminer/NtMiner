@@ -13,11 +13,11 @@ namespace NTMiner {
         public static readonly MinerClientServiceFace MinerClientService = MinerClientServiceFace.Instance;
         public static string LoginName { get; set; }
 
-        private static string _passwordSha1;
+        private static string s_passwordSha1;
         public static string PasswordSha1 {
-            get { return _passwordSha1; }
+            get { return s_passwordSha1; }
             set {
-                _passwordSha1 = value;
+                s_passwordSha1 = value;
                 PasswordSha1Sha1 = HashUtil.Sha1(value);
             }
         }
@@ -39,11 +39,11 @@ namespace NTMiner {
             }
         }
 
-        private static readonly string baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api";
+        private static readonly string s_baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api";
         public static T Request<T>(string controller, string action, object param) {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{controller}/{action}", param);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{s_baseUrl}/{controller}/{action}", param);
                     T response = message.Result.Content.ReadAsAsync<T>().Result;
                     return response;
                 }

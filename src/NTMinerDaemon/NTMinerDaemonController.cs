@@ -8,13 +8,13 @@ using System.Web.Http;
 
 namespace NTMiner {
     public class NTMinerDaemonController : ApiController {
-        private static string _sha1 = null;
+        private static string s_sha1 = null;
         public static string Sha1 {
             get {
-                if (_sha1 == null) {
-                    _sha1 = HashUtil.Sha1(File.ReadAllBytes(Process.GetCurrentProcess().MainModule.FileName));
+                if (s_sha1 == null) {
+                    s_sha1 = HashUtil.Sha1(File.ReadAllBytes(Process.GetCurrentProcess().MainModule.FileName));
                 }
-                return _sha1;
+                return s_sha1;
             }
         }
         [HttpPost]

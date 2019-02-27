@@ -348,21 +348,21 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly Dictionary<Guid, WalletViewModel> _testWallets = new Dictionary<Guid, WalletViewModel>();
+        private static readonly Dictionary<Guid, WalletViewModel> s_testWallets = new Dictionary<Guid, WalletViewModel>();
         public WalletViewModel TestWalletVm {
             get {
                 if (string.IsNullOrEmpty(this.TestWallet)) {
                     return WalletViewModel.CreateEmptyWallet(this.Id);
                 }
-                if (!_testWallets.ContainsKey(this.GetId())) {
-                    _testWallets.Add(this.GetId(), new WalletViewModel(this.GetId()) {
+                if (!s_testWallets.ContainsKey(this.GetId())) {
+                    s_testWallets.Add(this.GetId(), new WalletViewModel(this.GetId()) {
                         Address = this.TestWallet,
                         CoinId = this.GetId(),
                         Name = this.Code + "测试地址",
                         SortNumber = 0
                     });
                 }
-                return _testWallets[this.GetId()];
+                return s_testWallets[this.GetId()];
             }
         }
 

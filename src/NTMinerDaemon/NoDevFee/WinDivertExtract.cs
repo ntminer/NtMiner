@@ -4,12 +4,12 @@ using System.Reflection;
 
 namespace NTMiner.NoDevFee {
     public static class WinDivertExtract {
-        private static bool _extracted = false;
+        private static bool s_extracted = false;
         public static void Extract() {
-            if (_extracted) {
+            if (s_extracted) {
                 return;
             }
-            _extracted = true;
+            s_extracted = true;
             try {
                 Type type = typeof(WinDivertExtract);
                 Assembly assembly = type.Assembly;

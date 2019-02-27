@@ -4,19 +4,19 @@ using System.Web.Http.SelfHost;
 
 namespace NTMiner {
     public static class HttpServer {
-        private static HttpSelfHostServer _httpServer;
+        private static HttpSelfHostServer s_httpServer;
         public static void Start(string baseAddress) {
             var config = new HttpSelfHostConfiguration(baseAddress);
             config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             config.Routes.MapHttpRoute("API Default", "api/{controller}/{action}");
-            _httpServer = new HttpSelfHostServer(config);
-            _httpServer.OpenAsync().Wait();
+            s_httpServer = new HttpSelfHostServer(config);
+            s_httpServer.OpenAsync().Wait();
         }
 
         public static void Stop() {
-            var tmp = _httpServer;
+            var tmp = s_httpServer;
             if (tmp != null) {
-                _httpServer = null;
+                s_httpServer = null;
                 tmp.Dispose();
             }
         }

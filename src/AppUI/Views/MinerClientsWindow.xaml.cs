@@ -7,16 +7,16 @@ using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class MinerClientsWindow : MetroWindow {
-        private static MinerClientsWindow window = null;
+        private static MinerClientsWindow s_window = null;
         public static void ShowWindow() {
-            if (window == null) {
-                window = new MinerClientsWindow();
+            if (s_window == null) {
+                s_window = new MinerClientsWindow();
             }
-            window.Show();
-            if (window.WindowState == WindowState.Minimized) {
-                window.WindowState = WindowState.Normal;
+            s_window.Show();
+            if (s_window.WindowState == WindowState.Minimized) {
+                s_window.WindowState = WindowState.Normal;
             }
-            window.Activate();
+            s_window.Activate();
         }
 
         public MinerClientsWindowViewModel Vm {
@@ -45,7 +45,7 @@ namespace NTMiner.Views {
         }
 
         protected override void OnClosed(EventArgs e) {
-            window = null;
+            s_window = null;
             base.OnClosed(e);
         }
 

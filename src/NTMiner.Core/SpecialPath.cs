@@ -38,89 +38,89 @@ namespace NTMiner {
 
         public static string TempDirFullName { get; private set; }
 
-        private static bool _isFirstCallPackageDirFullName = true;
+        private static bool s_isFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {
                 string dirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Packages");
-                if (_isFirstCallPackageDirFullName) {
+                if (s_isFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    _isFirstCallPackageDirFullName = false;
+                    s_isFirstCallPackageDirFullName = false;
                 }
 
                 return dirFullName;
             }
         }
 
-        private static bool _isFirstCallDownloadDirFullName = true;
+        private static bool s_isFirstCallDownloadDirFullName = true;
         public static string DownloadDirFullName {
             get {
                 string dirFullName = Path.Combine(TempDirFullName, "Download");
-                if (_isFirstCallDownloadDirFullName) {
+                if (s_isFirstCallDownloadDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    _isFirstCallDownloadDirFullName = false;
+                    s_isFirstCallDownloadDirFullName = false;
                 }
 
                 return dirFullName;
             }
         }
 
-        private static bool _isFirstCallKernelsDirFullName = true;
+        private static bool s_isFirstCallKernelsDirFullName = true;
         public static string KernelsDirFullName {
             get {
                 string dirFullName = Path.Combine(TempDirFullName, "Kernels");
-                if (_isFirstCallKernelsDirFullName) {
+                if (s_isFirstCallKernelsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    _isFirstCallKernelsDirFullName = false;
+                    s_isFirstCallKernelsDirFullName = false;
                 }
 
                 return dirFullName;
             }
         }
 
-        private static bool _isFirstCallLogsDirFullName = true;
+        private static bool s_isFirstCallLogsDirFullName = true;
         public static string LogsDirFullName {
             get {
                 string dirFullName = Path.Combine(TempDirFullName, "logs");
-                if (_isFirstCallLogsDirFullName) {
+                if (s_isFirstCallLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    _isFirstCallLogsDirFullName = false;
+                    s_isFirstCallLogsDirFullName = false;
                 }
 
                 return dirFullName;
             }
         }
-        private static bool _isFirstCallPicturesDirFullName = true;
+        private static bool s_isFirstCallPicturesDirFullName = true;
         public static string PicturesDirFullName {
             get {
                 string dirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Pictures");
-                if (_isFirstCallPicturesDirFullName) {
+                if (s_isFirstCallPicturesDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    _isFirstCallPicturesDirFullName = false;
+                    s_isFirstCallPicturesDirFullName = false;
                 }
 
                 return dirFullName;
             }
         }
 
-        private static bool _isFirstCallScreenshotsDirFullName = true;
+        private static bool s_isFirstCallScreenshotsDirFullName = true;
         public static string ScreenshotsDirFullName {
             get {
                 string dirFullName = Path.Combine(PicturesDirFullName, "Screenshots");
-                if (_isFirstCallScreenshotsDirFullName) {
+                if (s_isFirstCallScreenshotsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    _isFirstCallScreenshotsDirFullName = false;
+                    s_isFirstCallScreenshotsDirFullName = false;
                 }
 
                 return dirFullName;

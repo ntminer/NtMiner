@@ -11,10 +11,10 @@ namespace NTMiner.Vms {
         private SeriesCollection _series;
         private AxesCollection _axisY;
         private AxesCollection _axisX;
-        private static readonly SolidColorBrush transparent = new SolidColorBrush(Colors.Transparent);
-        private static readonly SolidColorBrush black = new SolidColorBrush(Colors.Black);
-        private static readonly SolidColorBrush green = new SolidColorBrush(Colors.Green);
-        private static readonly SolidColorBrush AxisForeground = new SolidColorBrush(Color.FromRgb(0x38, 0x52, 0x63));
+        private static readonly SolidColorBrush s_transparent = new SolidColorBrush(Colors.Transparent);
+        private static readonly SolidColorBrush s_black = new SolidColorBrush(Colors.Black);
+        private static readonly SolidColorBrush s_green = new SolidColorBrush(Colors.Green);
+        private static readonly SolidColorBrush s_AxisForeground = new SolidColorBrush(Color.FromRgb(0x38, 0x52, 0x63));
 
         private readonly CoinViewModel _coinVm;
 
@@ -43,14 +43,14 @@ namespace NTMiner.Vms {
                 LabelFormatter = speedFormatter,
                 MinValue = 0,
                 Separator = new Separator(),
-                Foreground = AxisForeground,
+                Foreground = s_AxisForeground,
                 FontSize = 13,
                 Position = AxisPosition.RightTop
             };
             var axisYOnlineCount = new Axis() {
                 LabelFormatter = value => Math.Round(value, 0).ToString(),
                 Separator = new Separator(),
-                Foreground = AxisForeground,
+                Foreground = s_AxisForeground,
                 MinValue = 0,
                 FontSize = 13
             };
@@ -67,7 +67,7 @@ namespace NTMiner.Vms {
                     Separator = new Separator() {
                         Step = axisStep
                     },
-                    Foreground = AxisForeground,
+                    Foreground = s_AxisForeground,
                     FontSize = 12,
                 }
             };
@@ -85,7 +85,7 @@ namespace NTMiner.Vms {
                 PointGeometrySize = 0,
                 StrokeThickness = 1,
                 ScalesYAt = 0,
-                Fill = transparent,
+                Fill = s_transparent,
                 Stroke = OnlineColor,
                 Values = new ChartValues<MeasureModel>()
             };
@@ -95,7 +95,7 @@ namespace NTMiner.Vms {
                 PointGeometrySize = 0,
                 StrokeThickness = 1,
                 ScalesYAt = 0,
-                Fill = transparent,
+                Fill = s_transparent,
                 Stroke = MiningColor,
                 Values = new ChartValues<MeasureModel>()
             };
@@ -137,13 +137,13 @@ namespace NTMiner.Vms {
 
         public SolidColorBrush MiningColor {
             get {
-                return green;
+                return s_green;
             }
         }
 
         public SolidColorBrush OnlineColor {
             get {
-                return black;
+                return s_black;
             }
         }
 

@@ -27,10 +27,10 @@ namespace NTMiner.Profile {
 
         public MinerProfileData() { }
 
-        private static readonly char[] invalidChars = { '.', ' ', '-', '_' };
+        private static readonly char[] s_invalidChars = { '.', ' ', '-', '_' };
         public static string GetThisPcName() {
             string value = Environment.MachineName.ToLower();
-            value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
+            value = new string(value.ToCharArray().Where(a => !s_invalidChars.Contains(a)).ToArray());
             return value;
         }
 

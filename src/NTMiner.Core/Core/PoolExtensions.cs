@@ -19,13 +19,13 @@ namespace NTMiner.Core {
             return poolServer;
         }
 
-        private static readonly Dictionary<IPool, string> _ipDic = new Dictionary<IPool, string>();
+        private static readonly Dictionary<IPool, string> s_ipDic = new Dictionary<IPool, string>();
         public static string GetIp(this IPool pool) {
             if (string.IsNullOrEmpty(pool.Server)) {
                 return string.Empty;
             }
-            if (_ipDic.ContainsKey(pool)) {
-                return _ipDic[pool];
+            if (s_ipDic.ContainsKey(pool)) {
+                return s_ipDic[pool];
             }
             try {
                 string hostNameOrAddress = GetHost(pool);
@@ -37,7 +37,7 @@ namespace NTMiner.Core {
                 else {
                     ip = string.Empty;
                 }
-                _ipDic.Add(pool, ip);
+                s_ipDic.Add(pool, ip);
                 return ip;
             }
             catch (Exception e) {

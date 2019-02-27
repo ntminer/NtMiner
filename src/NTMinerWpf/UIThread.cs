@@ -3,11 +3,11 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public static class UIThread {
-        private static Action<Action> executor = action => action();
+        private static Action<Action> s_executor = action => action();
 
         public static void InitializeWithDispatcher() {
             var dispatcher = Dispatcher.CurrentDispatcher;
-            executor = action => {
+            s_executor = action => {
                 if (dispatcher.CheckAccess())
                     action();
                 else dispatcher.BeginInvoke(action);
@@ -15,7 +15,7 @@ namespace NTMiner {
         }
 
         public static void Execute(this Action action) {
-            executor(action);
+            s_executor(action);
         }
     }
 }

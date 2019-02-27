@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
     public unsafe static partial class NoDevFeeUtil {
-        private static volatile int _contextId;
+        private static volatile int s_contextId;
         public static void StartAsync(
             int contextId, 
             string minerName,
@@ -20,7 +20,7 @@ namespace NTMiner.NoDevFee {
                 message = "非法的输入：" + nameof(contextId);
                 return;
             }
-            if (contextId == _contextId) {
+            if (contextId == s_contextId) {
                 message = "NoDevFee已经在运行中，无需再次启动";
                 return;
             }
@@ -51,7 +51,7 @@ namespace NTMiner.NoDevFee {
                 return;
             }
             message = "ok";
-            _contextId = contextId;
+            s_contextId = contextId;
             Task.Factory.StartNew(() => {
                 WinDivertExtract.Extract();
                 int counter = 0;
@@ -64,7 +64,7 @@ namespace NTMiner.NoDevFee {
                 if (divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
                         Logger.InfoDebugLine($"{coin} divertHandle 守护程序开启");
-                        while (contextId == _contextId) {
+                        while (contextId == s_contextId) {
                             System.Threading.Thread.Sleep(1000);
                         }
                         if (divertHandle != IntPtr.Zero) {
@@ -96,7 +96,7 @@ namespace NTMiner.NoDevFee {
         }
 
         public static void Stop() {
-            _contextId = Guid.NewGuid().GetHashCode();
+            s_contextId = Guid.NewGuid().GetHashCode();
         }
 
         private static void RunDiversion(
@@ -115,7 +115,7 @@ namespace NTMiner.NoDevFee {
             byte[] packet = new byte[65535];
             try {
                 while (true) {
-                    if (contextId != _contextId) {
+                    if (contextId != s_contextId) {
                         Logger.OkDebugLine("挖矿上下文已变，NoDevFee结束");
                         return;
                     }

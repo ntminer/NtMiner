@@ -67,14 +67,14 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush Gray = new SolidColorBrush(Colors.Gray);
-        private static readonly SolidColorBrush MiningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
+        private static readonly SolidColorBrush s_gray = new SolidColorBrush(Colors.Gray);
+        private static readonly SolidColorBrush s_miningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
         public SolidColorBrush GpuStateColor {
             get {
                 if (NTMinerRoot.Current.IsMining) {
-                    return MiningColor;
+                    return s_miningColor;
                 }
-                return Gray;
+                return s_gray;
             }
         }
 

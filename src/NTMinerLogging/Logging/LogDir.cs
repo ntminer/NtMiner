@@ -1,12 +1,12 @@
 ﻿namespace NTMiner.Logging {
     public static class LogDir {
-        private static string _logDir;
+        private static string s_logDir;
         public static string Dir {
-            get { return _logDir; }
+            get { return s_logDir; }
         }
 
         public static void SetDir(string fullPath) {
-            _logDir = fullPath;
+            s_logDir = fullPath;
         }
     }
 }

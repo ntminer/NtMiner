@@ -19,7 +19,7 @@
             算力图表
         </sys:String>
     </UserControl.Resources>
-    <Grid Background="{x:Static vm:SpeedChartViewModel.Background}">
+    <Grid Background="{x:Static vm:SpeedChartViewModel.s_background}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="220"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>

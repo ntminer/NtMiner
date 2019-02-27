@@ -19,7 +19,7 @@ namespace NTMiner {
 
         private bool createdNew;
         private Mutex appMutex;
-        private static string _appPipName = "ntminercontrol";
+        private static string s_appPipName = "ntminercontrol";
         ExtendedNotifyIcon notifyIcon;
 
         protected override void OnExit(ExitEventArgs e) {
@@ -33,7 +33,7 @@ namespace NTMiner {
             Logger.InfoDebugLine("App.OnStartup start");
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             try {
-                appMutex = new Mutex(true, _appPipName, out createdNew);
+                appMutex = new Mutex(true, s_appPipName, out createdNew);
             }
             catch (Exception){
                 createdNew = false;

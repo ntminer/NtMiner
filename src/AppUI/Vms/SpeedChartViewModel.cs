@@ -173,9 +173,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public static readonly SolidColorBrush Background = new SolidColorBrush(Color.FromRgb(0xEB, 0xEB, 0xEB));
-        private static readonly SolidColorBrush SelectedColor = new SolidColorBrush(Colors.White);
-        private SolidColorBrush _itemBackground = Background;
+        public static readonly SolidColorBrush s_background = new SolidColorBrush(Color.FromRgb(0xEB, 0xEB, 0xEB));
+        private static readonly SolidColorBrush s_selectedColor = new SolidColorBrush(Colors.White);
+        private SolidColorBrush _itemBackground = s_background;
         public SolidColorBrush ItemBackground {
             get {
                 return _itemBackground;
@@ -189,11 +189,11 @@ namespace NTMiner.Vms {
         }
 
         public void SetSelectedBackground() {
-            ItemBackground = SelectedColor;
+            ItemBackground = s_selectedColor;
         }
 
         public void SetDefaultBackground() {
-            ItemBackground = Background;
+            ItemBackground = s_background;
         }
 
         public void SetAxisLimits(DateTime now) {

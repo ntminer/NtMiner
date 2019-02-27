@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     internal unsafe class Program {
-        public static volatile bool running = true;
-        public static string poolIp;
-        public static int counter = 0;
-        public static bool ranOnce = false;
+        private static bool s_running = true;
+        private static string s_poolIp;
+        private static bool s_ranOnce = false;
 
         private static void Main(string[] args) {
-            Console.CancelKeyPress += delegate { running = false; };
+            Console.CancelKeyPress += delegate { s_running = false; };
 
             if (args.Length >= 1) {
-                poolIp = args[0];
+                s_poolIp = args[0];
             }
             else {
                 Console.WriteLine("ERROR: No poolIp argument was found.");
@@ -32,13 +31,13 @@ namespace NTMiner {
 
             WinDivertExtract.Extract();
 
-            string filter = $"ip && (ip.DstAddr = {poolIp} || ip.SrcAddr = {poolIp}) && tcp && tcp.PayloadLength > 100";
+            string filter = $"ip && (ip.DstAddr = {s_poolIp} || ip.SrcAddr = {s_poolIp}) && tcp && tcp.PayloadLength > 100";
             Console.WriteLine(filter);
             var divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
 
             try {
                 if (divertHandle != IntPtr.Zero) {
-                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), x => RunDiversion(divertHandle));
+                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), x => RunDiversion(divertHandle, ref s_ranOnce, ref s_poolIp, ref s_running));
                 }
             }
             catch (Exception e) {
@@ -49,7 +48,7 @@ namespace NTMiner {
             }
         }
 
-        private static void RunDiversion(IntPtr handle) {
+        private static void RunDiversion(IntPtr handle, ref bool ranOnce, ref string poolIp, ref bool running) {
             byte[] packet = new byte[65535];
             try {
                 while (running) {

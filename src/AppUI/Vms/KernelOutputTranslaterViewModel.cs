@@ -156,16 +156,16 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush White = new SolidColorBrush(Colors.White);
+        private static readonly SolidColorBrush s_white = new SolidColorBrush(Colors.White);
         public SolidColorBrush ColorBrush {
             get {
                 if (string.IsNullOrEmpty(this.Color)) {
-                    return White;
+                    return s_white;
                 }
                 if (ColorDicItem != null && ColorDicItem.Value.TryParse(out ConsoleColor consoleColor)) {
                     return new SolidColorBrush(consoleColor.ToMediaColor());
                 }
-                return White;
+                return s_white;
             }
         }
 
