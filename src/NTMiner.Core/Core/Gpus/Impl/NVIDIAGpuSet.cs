@@ -45,6 +45,9 @@ namespace NTMiner.Core.Gpus.Impl {
                     NvmlNativeMethods.nvmlDeviceGetName(_nvmlDevices[i], out name);
                     NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(_nvmlDevices[i], nvmlClockType.Graphics, ref gClock);
                     NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(_nvmlDevices[i], nvmlClockType.Mem, ref mClock);
+                    if (!string.IsNullOrEmpty(name)) {
+                        name = name.Replace("GeForce ", string.Empty);
+                    }
                     _gpus.Add(i, new Gpu {
                         Index = i,
                         Name = name,
@@ -92,25 +95,6 @@ namespace NTMiner.Core.Gpus.Impl {
                     gpu.Temperature = temp;
                     gpu.PowerUsage = power;
                     gpu.FanSpeed = speed;
-                    const string coreClockDeltaPatter = @"c\[0\]\.freqDelta     = (\d+) kHz";
-                    const string memoryClockDeltaPatter = @"c\[1\]\.freqDelta     = (\d+) kHz";
-                    int exitCode = -1;
-                    string output;
-                    Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out output);
-                    if (exitCode == 0) {
-                        Match match = Regex.Match(output, coreClockDeltaPatter);
-                        if (match.Success) {
-                            int coreClockDelta;
-                            int.TryParse(match.Groups[1].Value, out coreClockDelta);
-                            gpu.CoreClockDelta = coreClockDelta;
-                        }
-                        match = Regex.Match(output, memoryClockDeltaPatter);
-                        if (match.Success) {
-                            int memoryClockDelta;
-                            int.TryParse(match.Groups[1].Value, out memoryClockDelta);
-                            gpu.MemoryClockDelta = memoryClockDelta;
-                        }
-                    }
 
                     if (isChanged) {
                         VirtualRoot.Happened(new GpuStateChangedEvent(gpu));

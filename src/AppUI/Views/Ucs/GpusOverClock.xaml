@@ -74,7 +74,7 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Grid Width="180" Margin="0 0 6 6" Visibility="{Binding IsVisible}">
+						<Grid Width="186" Margin="0 0 6 6" Visibility="{Binding IsVisible}">
 							<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="0 0 0 4">
 								<GroupBox.Header>
 									<WrapPanel>
