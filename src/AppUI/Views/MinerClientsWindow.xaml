@@ -263,7 +263,7 @@
 			</StackPanel>
 			<WrapPanel Margin="0 2 0 0">
 				<Label
-					Content="组队"
+					Content="分组"
 					Foreground="Black" />
 				<controls:KbComboBox 
 					Margin="0 0 20 0"
@@ -461,7 +461,7 @@
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.BootTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.BootTimeSpanText}" Margin="6 0 0 0">运行时长</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="6 0 0 0">挖矿时长</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}" Margin="6 0 0 0">作业</CheckBox>
-				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">组队</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">分组</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">矿工名</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="6 0 0 0">IP</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemoteUserNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemoteUserNameAndPassword}" Margin="6 0 0 0">远程桌面用户名密码</CheckBox>
@@ -858,7 +858,7 @@
 					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="False">
 					<DataGridComboBoxColumn.Header>
 						<WrapPanel>
-							<TextBlock>组队</TextBlock>
+							<TextBlock>分组</TextBlock>
 							<WrapPanel.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerGroup">

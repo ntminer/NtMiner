@@ -212,37 +212,37 @@ namespace NTMiner.Core {
     #endregion
 
     #region MinerGroup Messages
-    [MessageType(messageType: typeof(AddMinerGroupCommand), description: "添加矿工组")]
+    [MessageType(messageType: typeof(AddMinerGroupCommand), description: "添加矿工分组")]
     public class AddMinerGroupCommand : AddEntityCommand<IMinerGroup> {
         public AddMinerGroupCommand(IMinerGroup input) : base(input) {
         }
     }
 
-    [MessageType(messageType: typeof(UpdateMinerGroupCommand), description: "更新矿工组")]
+    [MessageType(messageType: typeof(UpdateMinerGroupCommand), description: "更新矿工分组")]
     public class UpdateMinerGroupCommand : UpdateEntityCommand<IMinerGroup> {
         public UpdateMinerGroupCommand(IMinerGroup input) : base(input) {
         }
     }
 
-    [MessageType(messageType: typeof(RemoveMinerGroupCommand), description: "删除矿工组")]
+    [MessageType(messageType: typeof(RemoveMinerGroupCommand), description: "删除矿工分组")]
     public class RemoveMinerGroupCommand : RemoveEntityCommand {
         public RemoveMinerGroupCommand(Guid entityId) : base(entityId) {
         }
     }
 
-    [MessageType(messageType: typeof(MinerGroupAddedEvent), description: "添加矿工组后")]
+    [MessageType(messageType: typeof(MinerGroupAddedEvent), description: "添加矿工分组后")]
     public class MinerGroupAddedEvent : DomainEvent<IMinerGroup> {
         public MinerGroupAddedEvent(IMinerGroup source) : base(source) {
         }
     }
 
-    [MessageType(messageType: typeof(MinerGroupUpdatedEvent), description: "更新矿工组后")]
+    [MessageType(messageType: typeof(MinerGroupUpdatedEvent), description: "更新矿工分组后")]
     public class MinerGroupUpdatedEvent : DomainEvent<IMinerGroup> {
         public MinerGroupUpdatedEvent(IMinerGroup source) : base(source) {
         }
     }
 
-    [MessageType(messageType: typeof(MinerGroupRemovedEvent), description: "删除矿工组后")]
+    [MessageType(messageType: typeof(MinerGroupRemovedEvent), description: "删除矿工分组后")]
     public class MinerGroupRemovedEvent : DomainEvent<IMinerGroup> {
         public MinerGroupRemovedEvent(IMinerGroup source) : base(source) {
         }
@@ -250,7 +250,7 @@ namespace NTMiner.Core {
     #endregion
 
     #region ColumnsShow Messages
-    [MessageType(messageType: typeof(AddColumnsShowCommand), description: "添加矿工组")]
+    [MessageType(messageType: typeof(AddColumnsShowCommand), description: "添加矿工分组")]
     public class AddColumnsShowCommand : AddEntityCommand<IColumnsShow> {
         public AddColumnsShowCommand(IColumnsShow input) : base(input) {
         }
