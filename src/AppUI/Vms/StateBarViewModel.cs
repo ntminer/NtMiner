@@ -180,7 +180,7 @@ namespace NTMiner.Vms {
 
         public string GpuSetInfo {
             get {
-                return NTMinerRoot.Current.GpuSetInfo.Replace("GeForce GTX ", string.Empty);
+                return NTMinerRoot.Current.GpuSetInfo;
             }
         }
 
