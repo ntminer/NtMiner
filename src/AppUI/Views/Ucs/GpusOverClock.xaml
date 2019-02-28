@@ -35,22 +35,22 @@
 				Content="统一超频"></CheckBox>
 			<WrapPanel VerticalAlignment="Center">
 				<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
-				<TextBox ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 				<TextBlock>M</TextBlock>
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
-				<TextBox ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 				<TextBlock>M</TextBlock>
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
-				<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBox ToolTip="50至110" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
 				<TextBlock>%</TextBlock>
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-				<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBox ToolTip="38至100" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
 				<TextBlock>%</TextBlock>
 			</WrapPanel>
 		</WrapPanel>
