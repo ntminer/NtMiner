@@ -11,6 +11,7 @@ namespace NTMiner {
         public static readonly ProfileServiceFace ProfileService = ProfileServiceFace.Instance;
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
         public static readonly MinerClientServiceFace MinerClientService = MinerClientServiceFace.Instance;
+        public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
         public static string LoginName { get; set; }
 
         private static string s_passwordSha1;

@@ -26,7 +26,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                     OverClockData entity = new OverClockData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    Server.ControlCenterService.AddOrUpdateOverClockDataAsync(entity, response => {
+                    Server.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, response => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Happened(new OverClockDataAddedEvent(entity));
                         }
@@ -51,7 +51,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                     OverClockData entity = _dicById[message.Input.GetId()];
                     entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateOverClockDataAsync(entity, isSuccess => {
+                    Server.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, isSuccess => {
                         VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
                     });
                 });
@@ -68,7 +68,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                     OverClockData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    Server.ControlCenterService.RemoveOverClockDataAsync(entity.Id, isSuccess => {
+                    Server.OverClockDataService.RemoveOverClockDataAsync(entity.Id, isSuccess => {
                         VirtualRoot.Happened(new OverClockDataRemovedEvent(entity));
                     });
                 });
@@ -89,7 +89,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 lock (_locker) {
                     if (!_isInited) {
                         Guid messageId = Guid.NewGuid();
-                        var response = Server.ControlCenterService.GetOverClockDatas(messageId);
+                        var response = Server.OverClockDataService.GetOverClockDatas(messageId);
                         if (response != null) {
                             foreach (var item in response.Data) {
                                 if (!_dicById.ContainsKey(item.GetId())) {

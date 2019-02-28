@@ -59,6 +59,7 @@
     <Compile Include="Client.partials.NTMinerDaemonService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Server.partials.OverClockDataService.cs" />
     <Compile Include="Server.partials.AppSettingService.cs" />
     <Compile Include="Server.partials.ControlCenterService.cs" />
     <Compile Include="Server.partials.FileUrlService.cs" />
