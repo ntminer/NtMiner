@@ -19,7 +19,7 @@ namespace NTMiner {
                     OverClockDatasRequest request = new OverClockDatasRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    GetOverClockDatasResponse response = Request<GetOverClockDatasResponse>("ControlCenter", "OverClockDatas", request);
+                    GetOverClockDatasResponse response = Request<GetOverClockDatasResponse>("OverClockData", "OverClockDatas", request);
                     return response;
                 }
                 catch (Exception e) {
@@ -38,7 +38,7 @@ namespace NTMiner {
                             Data = entity
                         };
                         request.SignIt(PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateOverClockData", request);
+                        ResponseBase response = Request<ResponseBase>("OverClockData", "AddOrUpdateOverClockData", request);
                         callback?.Invoke(response);
                     }
                     catch (Exception e) {
@@ -58,7 +58,7 @@ namespace NTMiner {
                             OverClockDataId = id
                         };
                         request.SignIt(PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveOverClockData", request);
+                        ResponseBase response = Request<ResponseBase>("OverClockData", "RemoveOverClockData", request);
                         callback?.Invoke(response);
                     }
                     catch (Exception e) {
