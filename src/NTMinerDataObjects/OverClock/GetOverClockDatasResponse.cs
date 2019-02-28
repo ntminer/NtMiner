@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 
 namespace NTMiner.OverClock {
-    public class OverClockDatasResponse : ResponseBase {
-        public OverClockDatasResponse() {
+    public class GetOverClockDatasResponse : ResponseBase {
+        public GetOverClockDatasResponse() {
             this.Data = new List<OverClockData>();
         }
 
-        public static OverClockDatasResponse Ok(Guid messageId, List<OverClockData> data) {
-            return new OverClockDatasResponse {
+        public static GetOverClockDatasResponse Ok(Guid messageId, List<OverClockData> data) {
+            return new GetOverClockDatasResponse {
                 MessageId = messageId,
                 StateCode = 200,
                 ReasonPhrase = "Ok",

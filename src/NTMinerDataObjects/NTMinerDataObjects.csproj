@@ -74,7 +74,7 @@
     <Compile Include="MinerServer\OpenNTMinerRequest.cs" />
     <Compile Include="OverClock\OverClockData.cs" />
     <Compile Include="OverClock\OverClockDatasRequest.cs" />
-    <Compile Include="OverClock\OverClockDatasResponse.cs" />
+    <Compile Include="OverClock\GetOverClockDatasResponse.cs" />
     <Compile Include="MinerServer\RemoveColumnsShowRequest.cs" />
     <Compile Include="MinerServer\RestartNTMinerRequest.cs" />
     <Compile Include="MinerServer\RestartWindowsRequest.cs" />

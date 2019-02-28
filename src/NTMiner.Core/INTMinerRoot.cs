@@ -41,6 +41,8 @@ namespace NTMiner {
 
         IColumnsShowSet ColumnsShowSet { get; }
 
+        IOverClockDataSet OverClockDataSet { get; }
+
         string QQGroup { get; }
 
         int SpeedHistoryLengthByMinute { get; }

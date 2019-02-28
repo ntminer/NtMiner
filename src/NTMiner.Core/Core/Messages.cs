@@ -3,6 +3,7 @@ using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.SysDics;
 using NTMiner.MinerServer;
+using NTMiner.OverClock;
 using System;
 using System.Linq;
 
@@ -245,6 +246,44 @@ namespace NTMiner.Core {
     [MessageType(messageType: typeof(MinerGroupRemovedEvent), description: "删除矿工分组后")]
     public class MinerGroupRemovedEvent : DomainEvent<IMinerGroup> {
         public MinerGroupRemovedEvent(IMinerGroup source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region OverClockData Messages
+    [MessageType(messageType: typeof(AddOverClockDataCommand), description: "添加超频建议")]
+    public class AddOverClockDataCommand : AddEntityCommand<IOverClockData> {
+        public AddOverClockDataCommand(IOverClockData input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(UpdateOverClockDataCommand), description: "更新超频建议")]
+    public class UpdateOverClockDataCommand : UpdateEntityCommand<IOverClockData> {
+        public UpdateOverClockDataCommand(IOverClockData input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(RemoveOverClockDataCommand), description: "删除超频建议")]
+    public class RemoveOverClockDataCommand : RemoveEntityCommand {
+        public RemoveOverClockDataCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(messageType: typeof(OverClockDataAddedEvent), description: "添加超频建议后")]
+    public class OverClockDataAddedEvent : DomainEvent<IOverClockData> {
+        public OverClockDataAddedEvent(IOverClockData source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(OverClockDataUpdatedEvent), description: "更新超频建议后")]
+    public class OverClockDataUpdatedEvent : DomainEvent<IOverClockData> {
+        public OverClockDataUpdatedEvent(IOverClockData source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(OverClockDataRemovedEvent), description: "删除超频建议后")]
+    public class OverClockDataRemovedEvent : DomainEvent<IOverClockData> {
+        public OverClockDataRemovedEvent(IOverClockData source) : base(source) {
         }
     }
     #endregion

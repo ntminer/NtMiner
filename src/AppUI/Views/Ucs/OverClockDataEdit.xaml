@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.OverClockDataEdit"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		mc:Ignorable="d"
+		d:DataContext="{d:DesignData Source=Design/OverClockDataViewModel.xaml}"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+	<UserControl.Resources>
+		<Style TargetType="Label">
+			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+		</Style>
+		<sys:String x:Key="WindowTitle">
+			矿工分组
+		</sys:String>
+	</UserControl.Resources>
+	<StackPanel Margin="20 10">
+		<WrapPanel Margin="0 2">
+			<Label>名称</Label>
+			<TextBox Width="302" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+			</TextBox>
+		</WrapPanel>
+		
+		<WrapPanel Margin="0 2">
+			<Label>核心</Label>
+			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}">
+			</TextBox>
+			<Label>显存</Label>
+			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}">
+			</TextBox>
+			<Label>功耗</Label>
+			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}">
+			</TextBox>
+			<Label>风扇</Label>
+			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding Cool, ValidatesOnExceptions=True}">
+			</TextBox>
+		</WrapPanel>
+
+		<controls:KbButton
+			Command="{Binding Save}" 
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			Margin="0 10 0 0"
+			Width="70" 
+			Height="30"
+			Background="{StaticResource IconFillColor}"
+			Foreground="White"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="White"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Foreground="White"
+					Text="确定" />
+			</WrapPanel>
+		</controls:KbButton>
+	</StackPanel>
+</UserControl>

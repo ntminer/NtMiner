@@ -1,17 +1,17 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.OverClock;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.MinerServer.Impl {
-    public class MinerGroupSet : IMinerGroupSet {
-        private readonly Dictionary<Guid, MinerGroupData> _dicById = new Dictionary<Guid, MinerGroupData>();
+    public class OverClockDataSet : IOverClockDataSet {
+        private readonly Dictionary<Guid, OverClockData> _dicById = new Dictionary<Guid, OverClockData>();
         private readonly INTMinerRoot _root;
 
-        public MinerGroupSet(INTMinerRoot root) {
+        public OverClockDataSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Accept<AddMinerGroupCommand>(
-                "添加矿工分组",
+            VirtualRoot.Accept<AddOverClockDataCommand>(
+                "添加超频建议",
                 LogEnum.Console,
                 action: (message) => {
                     InitOnece();
@@ -19,25 +19,25 @@ namespace NTMiner.Core.MinerServer.Impl {
                         throw new ArgumentNullException();
                     }
                     if (string.IsNullOrEmpty(message.Input.Name)) {
-                        throw new ValidationException("minerGroup name can't be null or empty");
+                        throw new ValidationException("OverClockData name can't be null or empty");
                     }
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    MinerGroupData entity = new MinerGroupData().Update(message.Input);
+                    OverClockData entity = new OverClockData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, response => {
+                    Server.ControlCenterService.AddOrUpdateOverClockDataAsync(entity, response => {
                         if (response.IsSuccess()) {
-                            VirtualRoot.Happened(new MinerGroupAddedEvent(entity));
+                            VirtualRoot.Happened(new OverClockDataAddedEvent(entity));
                         }
                         else {
-                            Write.UserLine("新建或更新矿工分组失败", ConsoleColor.Red);
+                            Write.UserLine("新建或更新超频建议失败", ConsoleColor.Red);
                         }
                     });
 
                 });
-            VirtualRoot.Accept<UpdateMinerGroupCommand>(
-                "更新矿工分组",
+            VirtualRoot.Accept<UpdateOverClockDataCommand>(
+                "更新超频建议",
                 LogEnum.Console,
                 action: (message) => {
                     InitOnece();
@@ -50,14 +50,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    MinerGroupData entity = _dicById[message.Input.GetId()];
+                    OverClockData entity = _dicById[message.Input.GetId()];
                     entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, isSuccess=> {
-                        VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
+                    Server.ControlCenterService.AddOrUpdateOverClockDataAsync(entity, isSuccess => {
+                        VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
                     });
                 });
-            VirtualRoot.Accept<RemoveMinerGroupCommand>(
-                "移除矿工分组",
+            VirtualRoot.Accept<RemoveOverClockDataCommand>(
+                "移除超频建议",
                 LogEnum.Console,
                 action: (message) => {
                     InitOnece();
@@ -67,10 +67,10 @@ namespace NTMiner.Core.MinerServer.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    MinerGroupData entity = _dicById[message.EntityId];
+                    OverClockData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    Server.ControlCenterService.RemoveMinerGroupAsync(entity.Id, isSuccess=> {
-                        VirtualRoot.Happened(new MinerGroupRemovedEvent(entity));
+                    Server.ControlCenterService.RemoveOverClockDataAsync(entity.Id, isSuccess => {
+                        VirtualRoot.Happened(new OverClockDataRemovedEvent(entity));
                     });
                 });
         }
@@ -90,7 +90,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 lock (_locker) {
                     if (!_isInited) {
                         Guid messageId = Guid.NewGuid();
-                        var response = Server.ControlCenterService.GetMinerGroups(messageId);
+                        var response = Server.ControlCenterService.GetOverClockDatas(messageId);
                         if (response != null) {
                             foreach (var item in response.Data) {
                                 if (!_dicById.ContainsKey(item.GetId())) {
@@ -104,15 +104,15 @@ namespace NTMiner.Core.MinerServer.Impl {
             }
         }
 
-        public bool TryGetMinerGroup(Guid id, out IMinerGroup group) {
+        public bool TryGetOverClockData(Guid id, out IOverClockData group) {
             InitOnece();
-            MinerGroupData g;
+            OverClockData g;
             var r = _dicById.TryGetValue(id, out g);
             group = g;
             return r;
         }
 
-        public IEnumerator<IMinerGroup> GetEnumerator() {
+        public IEnumerator<IOverClockData> GetEnumerator() {
             InitOnece();
             return _dicById.Values.GetEnumerator();
         }

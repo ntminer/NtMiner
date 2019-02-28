@@ -48,14 +48,14 @@ namespace NTMiner.Controllers {
 
         #region OverClockDatas
         [HttpPost]
-        public OverClockDatasResponse OverClockDatas([FromBody]OverClockDatasRequest request) {
+        public GetOverClockDatasResponse OverClockDatas([FromBody]OverClockDatasRequest request) {
             try {
                 var data = HostRoot.Current.OverClockDataSet.GetAll();
-                return OverClockDatasResponse.Ok(request.MessageId, data);
+                return GetOverClockDatasResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<OverClockDatasResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<GetOverClockDatasResponse>(request.MessageId, e.Message);
             }
         }
         #endregion

@@ -150,6 +150,8 @@
     <Compile Include="Core\Kernels\IKernelOutput.cs" />
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />
     <Compile Include="Core\Kernels\Impl\CoinKernelData.cs" />
+    <Compile Include="Core\MinerServer\Impl\OverClockDataSet.cs" />
+    <Compile Include="Core\MinerServer\IOverClockDataSet.cs" />
     <Compile Include="Core\Profiles\IWorkProfile.cs" />
     <Compile Include="Core\Kernels\Impl\KernelData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelInputData.cs" />

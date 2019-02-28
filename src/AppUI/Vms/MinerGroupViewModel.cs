@@ -34,7 +34,8 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Current.MinerGroupSet.Contains(this.Id)) {
+                IMinerGroup group;
+                if (NTMinerRoot.Current.MinerGroupSet.TryGetMinerGroup(this.Id, out group)) {
                     VirtualRoot.Execute(new UpdateMinerGroupCommand(this));
                 }
                 else {

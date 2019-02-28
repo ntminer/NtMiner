@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerServer;
+using NTMiner.OverClock;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
@@ -241,6 +242,67 @@ namespace NTMiner {
                         };
                         request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveMinerGroup", request);
+                        callback?.Invoke(response);
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+            #endregion
+
+            #region GetOverClockDatas
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <param name="messageId"></param>
+            /// <returns></returns>
+            public GetOverClockDatasResponse GetOverClockDatas(Guid messageId) {
+                try {
+                    OverClockDatasRequest request = new OverClockDatasRequest {
+                        MessageId = Guid.NewGuid()
+                    };
+                    GetOverClockDatasResponse response = Request<GetOverClockDatasResponse>("ControlCenter", "OverClockDatas", request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
+            }
+            #endregion
+
+            #region AddOrUpdateOverClockDataAsync
+            public void AddOrUpdateOverClockDataAsync(OverClockData entity, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        AddOrUpdateOverClockDataRequest request = new AddOrUpdateOverClockDataRequest {
+                            LoginName = LoginName,
+                            Data = entity
+                        };
+                        request.SignIt(PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateOverClockData", request);
+                        callback?.Invoke(response);
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+            #endregion
+
+            #region RemoveOverClockDataAsync
+            public void RemoveOverClockDataAsync(Guid id, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        RemoveOverClockDataRequest request = new RemoveOverClockDataRequest() {
+                            LoginName = LoginName,
+                            OverClockDataId = id
+                        };
+                        request.SignIt(PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveOverClockData", request);
                         callback?.Invoke(response);
                     }
                     catch (Exception e) {

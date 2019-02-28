@@ -129,6 +129,7 @@ namespace NTMiner {
             this.CoinShareSet = new CoinShareSet(this);
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
+            this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
             this._minerProfile = new MinerProfile(this, CommandLineArgs.WorkId);
             callback?.Invoke();
@@ -592,6 +593,8 @@ namespace NTMiner {
         public IMinerGroupSet MinerGroupSet { get; private set; }
 
         public IColumnsShowSet ColumnsShowSet { get; private set; }
+
+        public IOverClockDataSet OverClockDataSet { get; private set; }
 
         public void SetMinerProfileProperty(string propertyName, object value) {
             _minerProfile.SetValue(propertyName, value);
