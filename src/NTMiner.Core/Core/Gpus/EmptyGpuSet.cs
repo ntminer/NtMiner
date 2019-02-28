@@ -7,7 +7,17 @@ namespace NTMiner.Core.Gpus {
         public static readonly EmptyGpuSet Instance = new EmptyGpuSet();
 
         private List<IGpu> _list = new List<IGpu> {
-            Gpu.Total
+            new Gpu {
+                Index = NTMinerRoot.GpuAllId,
+                Name = "全部显卡",
+                Temperature = 0,
+                FanSpeed = 0,
+                PowerUsage = 0,
+                CoreClockDelta = 0,
+                MemoryClockDelta = 0,
+                GpuClockDelta = new GpuClockDelta(0, 0, 0, 0),
+                OverClock = new EmptyOverClock()
+            }
         };
 
         private EmptyGpuSet() {
@@ -26,7 +36,7 @@ namespace NTMiner.Core.Gpus {
 
         public IGpu this[int index] {
             get {
-                return Impl.Gpu.Total;
+                return _list[0];
             }
         }
 

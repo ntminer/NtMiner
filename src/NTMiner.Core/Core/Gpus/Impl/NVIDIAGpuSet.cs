@@ -9,7 +9,19 @@ using System.Threading.Tasks;
 namespace NTMiner.Core.Gpus.Impl {
     internal class NVIDIAGpuSet : IGpuSet {
         private readonly Dictionary<int, IGpu> _gpus = new Dictionary<int, IGpu>() {
-            { Gpu.Total.Index, Gpu.Total }
+            {
+                NTMinerRoot.GpuAllId, new Gpu{
+                    Index = NTMinerRoot.GpuAllId,
+                    Name = "全部显卡",
+                    Temperature = 0,
+                    FanSpeed = 0,
+                    PowerUsage = 0,
+                    CoreClockDelta = 0,
+                    MemoryClockDelta = 0,
+                    GpuClockDelta = new GpuClockDelta(0, 0, 0, 0),
+                    OverClock = new NVIDIAOverClock()
+                }
+            }
         };
         private readonly nvmlDevice[] _nvmlDevices = new nvmlDevice[0];
 
@@ -126,15 +138,6 @@ namespace NTMiner.Core.Gpus.Impl {
         public GpuType GpuType {
             get {
                 return GpuType.NVIDIA;
-            }
-        }
-
-        public IGpu this[int index] {
-            get {
-                if (!_gpus.ContainsKey(index)) {
-                    return Gpu.Total;
-                }
-                return _gpus[index];
             }
         }
 

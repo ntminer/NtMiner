@@ -2,7 +2,17 @@
 
 namespace NTMiner.Core.Gpus.Impl {
     internal class GpuSpeed : IGpuSpeed {
-        public static readonly GpuSpeed Empty = new GpuSpeed(Impl.Gpu.Total) {
+        public static readonly GpuSpeed Empty = new GpuSpeed(new Gpu {
+            Index = NTMinerRoot.GpuAllId,
+            Name = "全部显卡",
+            Temperature = 0,
+            FanSpeed = 0,
+            PowerUsage = 0,
+            CoreClockDelta = 0,
+            MemoryClockDelta = 0,
+            GpuClockDelta = new GpuClockDelta(0, 0, 0, 0),
+            OverClock = new EmptyOverClock()
+        }) {
             MainCoinSpeed = new Speed(),
             DualCoinSpeed = new Speed()
         };

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class GpuOverClockDataSet : IGpuOverClockDataSet {
@@ -45,27 +44,6 @@ namespace NTMiner.Core.Gpus.Impl {
                     IGpu gpu;
                     if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
                         message.Input.OverClock(gpu.OverClock);
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            const string coreClockDeltaPatter = @"c\[0\]\.freqDelta     = (\d+) kHz";
-                            const string memoryClockDeltaPatter = @"c\[1\]\.freqDelta     = (\d+) kHz";
-                            int exitCode = -1;
-                            string output;
-                            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out output);
-                            if (exitCode == 0) {
-                                Match match = Regex.Match(output, coreClockDeltaPatter);
-                                if (match.Success) {
-                                    int coreClockDelta;
-                                    int.TryParse(match.Groups[1].Value, out coreClockDelta);
-                                    gpu.CoreClockDelta = coreClockDelta;
-                                }
-                                match = Regex.Match(output, memoryClockDeltaPatter);
-                                if (match.Success) {
-                                    int memoryClockDelta;
-                                    int.TryParse(match.Groups[1].Value, out memoryClockDelta);
-                                    gpu.MemoryClockDelta = memoryClockDelta;
-                                }
-                            }
-                        });
                     }
                 });
         }

@@ -4,5 +4,6 @@
         void SetMemoryClock(IGpuOverClockData data);
         void SetPowerCapacity(IGpuOverClockData data);
         void SetCool(IGpuOverClockData data);
+        void RefreshGpuState(int gpuIndex);
     }
 }

@@ -26,5 +26,9 @@
             }
             // 暂不支持A卡超频
         }
+
+        public void RefreshGpuState(int gpuIndex) {
+            
+        }
     }
 }
