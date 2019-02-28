@@ -456,32 +456,32 @@ namespace NTMiner {
                 IWorkProfile minerProfile = this.MinerProfile;
                 ICoin mainCoin;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
-                    Logger.ErrorWriteLine("没有选择主挖币种。");
+                    Write.UserLine("没有选择主挖币种。", ConsoleColor.Red);
                     return;
                 }
                 ICoinProfile coinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
                 IPool mainCoinPool;
                 if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
-                    Logger.ErrorWriteLine("没有选择主币矿池。");
+                    Write.UserLine("没有选择主币矿池。", ConsoleColor.Red);
                     return;
                 }
                 ICoinKernel coinKernel;
                 if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
-                    Logger.ErrorWriteLine("没有选择挖矿内核。");
+                    Write.UserLine("没有选择挖矿内核。", ConsoleColor.Red);
                     return;
                 }
                 IKernel kernel;
                 if (!this.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
-                    Logger.ErrorWriteLine("无效的挖矿内核。");
+                    Write.UserLine("无效的挖矿内核。", ConsoleColor.Red);
                     return;
                 }
                 if (!kernel.IsSupported()) {
-                    Logger.ErrorWriteLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。");
+                    Write.UserLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。", ConsoleColor.Red);
                     return;
                 }
                 IKernelInput kernelInput;
                 if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
-                    Logger.ErrorWriteLine("未设置内核输入");
+                    Write.UserLine("未设置内核输入", ConsoleColor.Red);
                     return;
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
@@ -491,12 +491,12 @@ namespace NTMiner {
                     IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
                     string userName = poolProfile.UserName;
                     if (string.IsNullOrEmpty(userName)) {
-                        Logger.ErrorWriteLine("没有填写矿池用户名。");
+                        Write.UserLine("没有填写矿池用户名。", ConsoleColor.Red);
                         return;
                     }
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet) && !mainCoinPool.IsUserMode) {
-                    Logger.ErrorWriteLine("没有填写钱包地址。");
+                    Write.UserLine("没有填写钱包地址。", ConsoleColor.Red);
                     return;
                 }
                 IMineContext mineContext = this.CreateMineContext(
@@ -507,20 +507,20 @@ namespace NTMiner {
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     ICoin dualCoin;
                     if (!this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                        Logger.ErrorWriteLine("没有选择双挖币种。");
+                        Write.UserLine("没有选择双挖币种。", ConsoleColor.Red);
                         return;
                     }
                     IPool dualCoinPool;
                     coinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
                     if (!this.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
-                        Logger.ErrorWriteLine("没有选择双挖矿池。");
+                        Write.UserLine("没有选择双挖矿池。", ConsoleColor.Red);
                         return;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
                         SetCoinProfileProperty(dualCoin.GetId(), nameof(coinProfile.DualCoinWallet), dualCoin.TestWallet);
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
-                        Logger.ErrorWriteLine("没有填写双挖钱包。");
+                        Write.UserLine("没有填写双挖钱包。", ConsoleColor.Red);
                         return;
                     }
                     mineContext = this.CreateDualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
@@ -534,12 +534,12 @@ namespace NTMiner {
                     Windows.TaskKill.Kill(processName);
                 }
                 if (string.IsNullOrEmpty(kernel.Package)) {
-                    Logger.ErrorWriteLine(kernel.FullName + "没有内核包");
+                    Write.UserLine(kernel.FullName + "没有内核包", ConsoleColor.Red);
                     this.StopMine();
                     return;
                 }
                 if (string.IsNullOrEmpty(kernelInput.Args)) {
-                    Logger.ErrorWriteLine(kernel.FullName + "没有配置运行参数");
+                    Write.UserLine(kernel.FullName + "没有配置运行参数", ConsoleColor.Red);
                     return;
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
@@ -598,7 +598,7 @@ namespace NTMiner {
 
         public void SetMinerProfileProperty(string propertyName, object value) {
             _minerProfile.SetValue(propertyName, value);
-            Logger.InfoDebugLine($"SetMinerProfileProperty({propertyName}, {value})");
+            Write.DevLine($"SetMinerProfileProperty({propertyName}, {value})");
         }
 
         public object GetMineWorkProperty(string propertyName) {
@@ -612,7 +612,7 @@ namespace NTMiner {
                 this.MinerProfile.SetCoinProfileProperty(coinId, propertyName, value);
                 coinCode = coin.Code;
             }
-            Logger.InfoDebugLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
+            Write.DevLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
         }
 
         public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
@@ -626,7 +626,7 @@ namespace NTMiner {
                 }
                 this.MinerProfile.SetPoolProfileProperty(poolId, propertyName, value);
             }
-            Logger.InfoDebugLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
+            Write.DevLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
         }
 
         public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
@@ -644,7 +644,7 @@ namespace NTMiner {
                 }
                 this.MinerProfile.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             }
-            Logger.InfoDebugLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
+            Write.DevLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
         }
 
         public string QQGroup {
