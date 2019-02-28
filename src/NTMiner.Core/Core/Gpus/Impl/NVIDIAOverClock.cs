@@ -7,12 +7,6 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetCoreClock(IGpuOverClockData data) {
             int value = data.CoreClockDelta;
-            if (value < -400) {
-                value = -400;
-            }
-            else if (value > 400) {
-                value = 400;
-            }
             value = 1000 * value;
             if (data.Index == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Current.GpuSet) {
@@ -29,12 +23,6 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetMemoryClock(IGpuOverClockData data) {
             int value = data.MemoryClockDelta;
-            if (value < -1000) {
-                value = -1000;
-            }
-            else if (value > 1000) {
-                value = 1000;
-            }
             value = 1000 * value;
             if (data.Index == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Current.GpuSet) {
@@ -54,12 +42,6 @@ namespace NTMiner.Core.Gpus.Impl {
             if (value == 0) {
                 return;
             }
-            if (value < 50) {
-                value = 50;
-            }
-            else if (value > 110) {
-                value = 110;
-            }
             if (data.Index == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Current.GpuSet) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
@@ -77,12 +59,6 @@ namespace NTMiner.Core.Gpus.Impl {
             int value = data.Cool;
             if (value == 0) {
                 return;
-            }
-            if (value < 38) {
-                value = 38;
-            }
-            else if (value > 100) {
-                value = 100;
             }
             if (data.Index == NTMinerRoot.GpuAllId) {
                 foreach (var gpu in NTMinerRoot.Current.GpuSet) {

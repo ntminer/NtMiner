@@ -70,7 +70,7 @@
 						Stretch="Fill" />
 				</WrapPanel>
 			</controls:KbButton>
-			<TextBlock Margin="4 0 0 0">超频有风险，操作请谨慎。</TextBlock>
+			<TextBlock Margin="4 0 0 0">超频有风险，操作需谨慎。</TextBlock>
 			<TextBlock>TODO://超频建议</TextBlock>
 		</WrapPanel>
 		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
