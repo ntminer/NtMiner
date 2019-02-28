@@ -31,7 +31,7 @@
 		<WrapPanel Margin="0 4">
 			<CheckBox 
 				VerticalAlignment="Center"
-				IsChecked="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled}" 
+				IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll}" 
 				Content="统一超频"></CheckBox>
 			<WrapPanel VerticalAlignment="Center">
 				<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
@@ -75,7 +75,7 @@
 		</WrapPanel>
 		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
-				IsEnabled="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled,Converter={StaticResource BooleanInvertConverter}}"
+				IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll,Converter={StaticResource BooleanInvertConverter}}"
 				BorderThickness="0"
 				MouseDown="ItemsControl_MouseDown"
 				ItemsSource="{Binding MinerProfile.CoinVm.GpuOverClockVms}" 
