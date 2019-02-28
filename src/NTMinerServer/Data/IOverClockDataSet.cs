@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.OverClock;
 using System;
 using System.Collections.Generic;
 

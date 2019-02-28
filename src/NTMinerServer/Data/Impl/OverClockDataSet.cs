@@ -1,5 +1,5 @@
 ﻿using LiteDB;
-using NTMiner.MinerServer;
+using NTMiner.OverClock;
 using System;
 using System.Collections.Generic;
 using System.Linq;
