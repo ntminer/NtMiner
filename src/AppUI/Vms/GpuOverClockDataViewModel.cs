@@ -82,29 +82,6 @@ namespace NTMiner.Vms {
             set {
                 _isEnabled = value;
                 OnPropertyChanged(nameof(IsEnabled));
-                if (this == GpuOverClockDataViewModels.Current.GpuAllVm(CoinId)) {
-                    foreach (var item in GpuOverClockDataViewModels.Current.List(CoinId)) {
-                        item.OnPropertyChanged(nameof(IsVisible));
-                    }
-                }
-            }
-        }
-
-        public Visibility IsVisible {
-            get {
-                var gpuAllVm = GpuOverClockDataViewModels.Current.GpuAllVm(CoinId);
-                if (gpuAllVm.IsEnabled) {
-                    if (this == gpuAllVm) {
-                        return Visibility.Visible;
-                    }
-                    else {
-                        return Visibility.Collapsed;
-                    }
-                }
-                if (this == gpuAllVm) {
-                    return Visibility.Collapsed;
-                }
-                return Visibility.Visible;
             }
         }
 

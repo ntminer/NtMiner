@@ -12,9 +12,8 @@
 		mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="800">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock">
-			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-			<Setter Property="FontSize" Value="12"></Setter>
 			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="Width" Value="40"></Setter>
 			<Setter Property="VerticalAlignment" Value="Center"></Setter>
 			<Setter Property="TextAlignment" Value="Right"></Setter>
 			<Setter Property="TextWrapping" Value="Wrap"></Setter>
@@ -29,40 +28,54 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<Grid Grid.Row="0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="Auto"></ColumnDefinition>
-			</Grid.ColumnDefinitions>
-			<WrapPanel VerticalAlignment="Center" Margin="0 4">
-				<CheckBox 
-					IsChecked="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled}" 
-					Content="统一超频"></CheckBox>
+		<WrapPanel Margin="0 4">
+			<CheckBox 
+				VerticalAlignment="Center"
+				IsChecked="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled}" 
+				Content="统一超频"></CheckBox>
+			<WrapPanel VerticalAlignment="Center">
+				<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
+				<TextBox ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBlock>M</TextBlock>
 			</WrapPanel>
-			<WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
-				<TextBlock>超频有风险，操作请谨慎。</TextBlock>
-				<controls:KbButton
-					ToolTip="应用"
-					Command="{Binding MinerProfile.CoinVm.ApplyOverClock}" 
-					Background="{StaticResource IconFillColor}"
-					Foreground="White"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Save}"
-							Fill="White"
-							Stretch="Fill" />
-					</WrapPanel>
-				</controls:KbButton>
+			<WrapPanel>
+				<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
+				<TextBox ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBlock>M</TextBlock>
 			</WrapPanel>
-		</Grid>
-		<WrapPanel Grid.Row="1" Visibility="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled,Converter={StaticResource BoolToVisibilityConverter}}">
+			<WrapPanel>
+				<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
+				<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBlock>%</TextBlock>
+			</WrapPanel>
+			<WrapPanel>
+				<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+				<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBlock>%</TextBlock>
+			</WrapPanel>
+		</WrapPanel>
+		<WrapPanel Grid.Row="1" VerticalAlignment="Center">
+			<controls:KbButton
+				ToolTip="应用"
+				Command="{Binding MinerProfile.CoinVm.ApplyOverClock}" 
+				Background="{StaticResource IconFillColor}"
+				Foreground="White"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Save}"
+						Fill="White"
+						Stretch="Fill" />
+				</WrapPanel>
+			</controls:KbButton>
+			<TextBlock Margin="4 0 0 0">超频有风险，操作请谨慎。</TextBlock>
 			<TextBlock>TODO://超频建议</TextBlock>
 		</WrapPanel>
 		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
+				IsEnabled="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.IsEnabled,Converter={StaticResource BooleanInvertConverter}}"
 				BorderThickness="0"
 				MouseDown="ItemsControl_MouseDown"
 				ItemsSource="{Binding MinerProfile.CoinVm.GpuOverClockVms}" 
@@ -74,7 +87,7 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Grid Width="186" Margin="0 0 6 6" Visibility="{Binding IsVisible}">
+						<Grid Width="186" Margin="0 0 4 2" Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityInvertConverter}}">
 							<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="0 0 0 4">
 								<GroupBox.Header>
 									<WrapPanel>
