@@ -29,10 +29,51 @@
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<WrapPanel Margin="0 4">
-			<CheckBox 
+			<controls:KbButton
+				ToolTip="应用"
 				VerticalAlignment="Center"
+				Command="{Binding MinerProfile.CoinVm.ApplyOverClock}" 
+				Background="Transparent"
+				Foreground="White"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Save}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+				</WrapPanel>
+			</controls:KbButton>
+			<TextBlock VerticalAlignment="Center" Margin="4 0 0 0">超频有风险，操作需谨慎。</TextBlock>
+			<ItemsControl
+				BorderThickness="0"
+				MouseDown="ItemsControl_MouseDown"
+				ItemsSource="{Binding MinerProfile.CoinVm.OverClockDatas}" 
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel></WrapPanel>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<controls:KbButton
+							Margin="10 0"
+							Padding="6 2"
+							CornerRadius="2">
+							<TextBlock Text="{Binding Name}"></TextBlock>
+						</controls:KbButton>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</WrapPanel>
+		<WrapPanel Grid.Row="1" Margin="0 4">
+			<controls:KbCheckBox 
+				VerticalAlignment="Center"
+				IconColor="{StaticResource IconFillColor}"
 				IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll}" 
-				Content="统一超频"></CheckBox>
+				Content="统一超频"></controls:KbCheckBox>
 			<WrapPanel VerticalAlignment="Center">
 				<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
 				<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
@@ -54,25 +95,6 @@
 				<TextBlock>%</TextBlock>
 			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="1" VerticalAlignment="Center">
-			<controls:KbButton
-				ToolTip="应用"
-				Command="{Binding MinerProfile.CoinVm.ApplyOverClock}" 
-				Background="{StaticResource IconFillColor}"
-				Foreground="White"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Save}"
-						Fill="White"
-						Stretch="Fill" />
-				</WrapPanel>
-			</controls:KbButton>
-			<TextBlock Margin="4 0 0 0">超频有风险，操作需谨慎。</TextBlock>
-			<TextBlock>TODO://超频建议</TextBlock>
-		</WrapPanel>
 		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
 				IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll,Converter={StaticResource BooleanInvertConverter}}"
@@ -91,10 +113,11 @@
 							<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="0 0 0 4">
 								<GroupBox.Header>
 									<WrapPanel>
-										<CheckBox 
+										<controls:KbCheckBox 
 											Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityInvertConverter}}"
 											IsChecked="{Binding IsEnabled}" 
-											Content="{Binding IndexText}"></CheckBox>
+				                            IconColor="{StaticResource IconFillColor}"
+											Content="{Binding IndexText}"></controls:KbCheckBox>
 										<TextBlock Text="GPU All" Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
 									</WrapPanel>
 								</GroupBox.Header>
@@ -141,15 +164,13 @@
 								Visibility="{Binding IsGpuAllVm, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 								HorizontalAlignment="Right" VerticalAlignment="Bottom"
 								Command="{Binding Apply}" 
-								Background="{StaticResource IconFillColor}"
-								Foreground="White"
 								CornerRadius="2">
 								<WrapPanel>
 									<Path
-										Width="14"
-										Height="14"
+										Width="16"
+										Height="16"
 										Data="{StaticResource Icon_Save}"
-										Fill="White"
+										Fill="{StaticResource IconFillColor}"
 										Stretch="Fill" />
 								</WrapPanel>
 							</controls:KbButton>

@@ -159,11 +159,13 @@ namespace NTMiner.Vms {
             set {
                 _powerCapacity = value;
                 OnPropertyChanged(nameof(PowerCapacity));
-                int minValue = 50;
-                int maxValue = 110;
-                string msg = $"取值范围{minValue}至{maxValue}";
-                if (value < minValue || value > maxValue) {
-                    throw new ValidationException(msg);
+                if (value != 0) {
+                    int minValue = 50;
+                    int maxValue = 110;
+                    string msg = $"取值范围{minValue}至{maxValue}";
+                    if (value < minValue || value > maxValue) {
+                        throw new ValidationException(msg);
+                    }
                 }
             }
         }
@@ -173,11 +175,13 @@ namespace NTMiner.Vms {
             set {
                 _cool = value;
                 OnPropertyChanged(nameof(Cool));
-                int minValue = 38;
-                int maxValue = 100;
-                string msg = $"取值范围{minValue}至{maxValue}";
-                if (value < minValue || value > maxValue) {
-                    throw new ValidationException(msg);
+                if (value != 0) {
+                    int minValue = 38;
+                    int maxValue = 100;
+                    string msg = $"取值范围{minValue}至{maxValue}";
+                    if (value < minValue || value > maxValue) {
+                        throw new ValidationException(msg);
+                    }
                 }
             }
         }
