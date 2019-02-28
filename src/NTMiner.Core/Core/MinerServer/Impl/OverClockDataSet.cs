@@ -34,7 +34,6 @@ namespace NTMiner.Core.MinerServer.Impl {
                             Write.UserLine("新建或更新超频建议失败", ConsoleColor.Red);
                         }
                     });
-
                 });
             VirtualRoot.Accept<UpdateOverClockDataCommand>(
                 "更新超频建议",

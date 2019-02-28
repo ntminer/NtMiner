@@ -34,7 +34,6 @@ namespace NTMiner.Core.MinerServer.Impl {
                             Write.UserLine("新建或更新矿工分组失败", ConsoleColor.Red);
                         }
                     });
-
                 });
             VirtualRoot.Accept<UpdateMinerGroupCommand>(
                 "更新矿工分组",
