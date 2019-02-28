@@ -328,7 +328,11 @@
 												Fill="{StaticResource IconFillColor}"
 												Data="{StaticResource Icon_OverClock}"></Path>
 											<TextBlock Padding="4 0 0 0" Text="{DynamicResource HOverClock}"></TextBlock>
-											<CheckBox Margin="4 1 0 0" ToolTip="开始挖矿时自动应用超频" IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockEnabled}"></CheckBox>
+											<controls:KbCheckBox 
+												Margin="4 1 0 0" 
+												IconColor="{StaticResource IconFillColor}"
+												ToolTip="开始挖矿时自动应用超频" 
+												IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockEnabled}"></controls:KbCheckBox>
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>

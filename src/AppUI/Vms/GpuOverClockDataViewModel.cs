@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
+using NTMiner.OverClock;
 using System;
 using System.Windows.Input;
 
@@ -46,6 +47,13 @@ namespace NTMiner.Vms {
             this.PowerCapacity = data.PowerCapacity;
             this.Cool = data.Cool;
             this.IsEnabled = data.IsEnabled;
+        }
+
+        public void Update(IOverClockData data) {
+            this.CoreClockDelta = data.CoreClockDelta;
+            this.MemoryClockDelta = data.MemoryClockDelta;
+            this.PowerCapacity = data.PowerCapacity;
+            this.Cool = data.Cool;
         }
 
         public Guid GetId() {
@@ -114,19 +122,6 @@ namespace NTMiner.Vms {
                 if (_coreClockDelta != value) {
                     _coreClockDelta = value;
                     OnPropertyChanged(nameof(CoreClockDelta));
-                    int minValue = -400;
-                    int maxValue = 400;
-                    if (GpuVm != null) {
-                        minValue = GpuVm.GpuClockDeltaVm.CoreClockDeltaMin;
-                        maxValue = GpuVm.GpuClockDeltaVm.CoreClockDeltaMax;
-                    }
-                    string msg = $"取值范围{minValue}至{maxValue}";
-                    if (value < minValue) {
-                        throw new ValidationException(msg);
-                    }
-                    else if (value > maxValue) {
-                        throw new ValidationException(msg);
-                    }
                 }
             }
         }
@@ -137,19 +132,6 @@ namespace NTMiner.Vms {
                 if (_memoryClockDelta != value) {
                     _memoryClockDelta = value;
                     OnPropertyChanged(nameof(MemoryClockDelta));
-                    int minValue = -1000;
-                    int maxValue = 1000;
-                    if (GpuVm != null) {
-                        minValue = GpuVm.GpuClockDeltaVm.MemoryClockDeltaMin;
-                        maxValue = GpuVm.GpuClockDeltaVm.MemoryClockDeltaMax;
-                    }
-                    string msg = $"取值范围{minValue}至{maxValue}";
-                    if (value < -1000) {
-                        throw new ValidationException(msg);
-                    }
-                    else if (value > 1000) {
-                        throw new ValidationException(msg);
-                    }
                 }
             }
         }
@@ -159,14 +141,6 @@ namespace NTMiner.Vms {
             set {
                 _powerCapacity = value;
                 OnPropertyChanged(nameof(PowerCapacity));
-                if (value != 0) {
-                    int minValue = 50;
-                    int maxValue = 110;
-                    string msg = $"取值范围{minValue}至{maxValue}";
-                    if (value < minValue || value > maxValue) {
-                        throw new ValidationException(msg);
-                    }
-                }
             }
         }
 
@@ -175,14 +149,6 @@ namespace NTMiner.Vms {
             set {
                 _cool = value;
                 OnPropertyChanged(nameof(Cool));
-                if (value != 0) {
-                    int minValue = 38;
-                    int maxValue = 100;
-                    string msg = $"取值范围{minValue}至{maxValue}";
-                    if (value < minValue || value > maxValue) {
-                        throw new ValidationException(msg);
-                    }
-                }
             }
         }
 
