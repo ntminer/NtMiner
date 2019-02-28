@@ -3,20 +3,45 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class GpuViewModel : ViewModelBase, IGpu {
-        private readonly IGpu _gpu;
+        private GpuClockDeltaViewModel _gpuClockDeltaVm;
+        private IOverClock _overClock;
+        private int _index;
+        private string _name;
+        private uint _temperature;
+        private uint _fanSpeed;
+        private uint _powerUsage;
+        private int _coreClockDelta;
+        private int _memoryClockDelta;
 
-        public GpuViewModel(IGpu gpu) {
-            _gpu = gpu;
+        public GpuViewModel(IGpu data) {
+            _overClock = data.OverClock;
+            _index = data.Index;
+            _name = data.Name;
+            _temperature = data.Temperature;
+            _fanSpeed = data.FanSpeed;
+            _powerUsage = data.PowerUsage;
+            _coreClockDelta = data.CoreClockDelta;
+            _memoryClockDelta = data.MemoryClockDelta;
         }
 
         public IOverClock OverClock {
-            get {
-                return _gpu.OverClock;
+            get => _overClock;
+            set {
+                if (_overClock != value) {
+                    _overClock = value;
+                    OnPropertyChanged(nameof(OverClock));
+                }
             }
         }
 
         public int Index {
-            get => _gpu.Index;
+            get => _index;
+            set {
+                if (_index != value) {
+                    _index = value;
+                    OnPropertyChanged(nameof(Index));
+                }
+            }
         }
 
         public string IndexText {
@@ -29,14 +54,20 @@ namespace NTMiner.Vms {
         }
 
         public string Name {
-            get => _gpu.Name;
+            get => _name;
+            set {
+                if (_name != value) {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
+            }
         }
 
         public uint Temperature {
-            get => _gpu.Temperature;
+            get => _temperature;
             set {
-                if (_gpu.Temperature != value) {
-                    _gpu.Temperature = value;
+                if (_temperature != value) {
+                    _temperature = value;
                     OnPropertyChanged(nameof(Temperature));
                     OnPropertyChanged(nameof(TemperatureText));
                 }
@@ -68,10 +99,10 @@ namespace NTMiner.Vms {
         }
 
         public uint FanSpeed {
-            get => _gpu.FanSpeed;
+            get => _fanSpeed;
             set {
-                if (_gpu.FanSpeed != value) {
-                    _gpu.FanSpeed = value;
+                if (_fanSpeed != value) {
+                    _fanSpeed = value;
                     OnPropertyChanged(nameof(FanSpeed));
                     OnPropertyChanged(nameof(FanSpeedText));
                 }
@@ -103,10 +134,10 @@ namespace NTMiner.Vms {
         }
 
         public uint PowerUsage {
-            get => _gpu.PowerUsage;
+            get => _powerUsage;
             set {
-                if (_gpu.PowerUsage != value) {
-                    _gpu.PowerUsage = value;
+                if (_powerUsage != value) {
+                    _powerUsage = value;
                     OnPropertyChanged(nameof(PowerUsage));
                     OnPropertyChanged(nameof(PowerUsageW));
                     OnPropertyChanged(nameof(PowerUsageWText));
@@ -133,11 +164,13 @@ namespace NTMiner.Vms {
         }
 
         public int CoreClockDelta {
-            get { return _gpu.CoreClockDelta; }
+            get { return _coreClockDelta; }
             set {
-                _gpu.CoreClockDelta = value;
-                OnPropertyChanged(nameof(CoreClockDelta));
-                OnPropertyChanged(nameof(CoreClockDeltaMText));
+                if (_coreClockDelta != value) {
+                    _coreClockDelta = value;
+                    OnPropertyChanged(nameof(CoreClockDelta));
+                    OnPropertyChanged(nameof(CoreClockDeltaMText));
+                }
             }
         }
 
@@ -166,11 +199,13 @@ namespace NTMiner.Vms {
         }
 
         public int MemoryClockDelta {
-            get { return _gpu.MemoryClockDelta; }
+            get { return _memoryClockDelta; }
             set {
-                _gpu.MemoryClockDelta = value;
-                OnPropertyChanged(nameof(MemoryClockDelta));
-                OnPropertyChanged(nameof(MemoryClockDeltaMText));
+                if (_memoryClockDelta != value) {
+                    _memoryClockDelta = value;
+                    OnPropertyChanged(nameof(MemoryClockDelta));
+                    OnPropertyChanged(nameof(MemoryClockDeltaMText));
+                }
             }
         }
 
@@ -216,7 +251,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private GpuClockDeltaViewModel _gpuClockDeltaVm;
         public GpuClockDeltaViewModel GpuClockDeltaVm {
             get {
                 if (_gpuClockDeltaVm == null) {

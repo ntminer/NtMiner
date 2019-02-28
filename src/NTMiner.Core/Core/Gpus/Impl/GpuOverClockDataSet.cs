@@ -45,7 +45,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     IGpu gpu;
                     if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
                         message.Input.OverClock(gpu.OverClock);
-                        TimeSpan.FromSeconds(5).Delay().ContinueWith(t => {
+                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                             const string coreClockDeltaPatter = @"c\[0\]\.freqDelta     = (\d+) kHz";
                             const string memoryClockDeltaPatter = @"c\[1\]\.freqDelta     = (\d+) kHz";
                             int exitCode = -1;
