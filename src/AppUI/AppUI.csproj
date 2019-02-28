@@ -143,6 +143,9 @@
     <Compile Include="Views\Ucs\InnerProperty.xaml.cs">
       <DependentUpon>InnerProperty.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\OverClockDataPage.xaml.cs">
+      <DependentUpon>OverClockDataPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\OverClockDataEdit.xaml.cs">
       <DependentUpon>OverClockDataEdit.xaml</DependentUpon>
     </Compile>
@@ -329,6 +332,7 @@
     <Compile Include="Vms\MinuteItem.cs" />
     <Compile Include="Vms\NTMinerUpdaterConfigViewModel.cs" />
     <Compile Include="Vms\OpenedWindowsViewModel.cs" />
+    <Compile Include="Vms\OverClockDataPageViewModel.cs" />
     <Compile Include="Vms\OverClockDataViewModel.cs" />
     <Compile Include="Vms\OverClockDataViewModels.cs" />
     <Compile Include="Vms\PoolKernelViewModel.cs" />
@@ -467,6 +471,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\InnerProperty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\OverClockDataPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

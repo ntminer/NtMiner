@@ -55,6 +55,9 @@
 			<sys:String x:Key="MineWork">
 				MineWork
 			</sys:String>
+			<sys:String x:Key="OverClock">
+				OverClock
+			</sys:String>
 			<sys:String x:Key="CalcConfig">
 				CalcConfig
 			</sys:String>
@@ -349,6 +352,16 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_MineWork}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource OverClock}" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_OverClock}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>

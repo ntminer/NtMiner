@@ -15,7 +15,7 @@
 			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
 		</Style>
 		<sys:String x:Key="WindowTitle">
-			矿工分组
+			超频建议
 		</sys:String>
 	</UserControl.Resources>
 	<StackPanel Margin="20 10">
