@@ -11,5 +11,6 @@ namespace NTMiner.Profile {
         string DualCoinWallet { get; }
         bool IsDualCoinHideWallet { get; }
         bool IsOverClockEnabled { get; }
+        bool IsOverClockGpuAll { get; }
     }
 }

@@ -3,7 +3,9 @@ using System;
 
 namespace NTMiner.Profile {
     public class CoinProfileData : ICoinProfile, IDbEntity<Guid>, ITimestampEntity<Guid> {
-        public CoinProfileData() { }
+        public CoinProfileData() {
+            this.IsOverClockGpuAll = true;
+        }
 
         public static CoinProfileData CreateDefaultData(Guid coinId) {
             return new CoinProfileData() {
@@ -16,6 +18,7 @@ namespace NTMiner.Profile {
                 DualCoinWallet = string.Empty,
                 IsDualCoinHideWallet = false,
                 IsOverClockEnabled = false,
+                IsOverClockGpuAll = true,
                 CreatedOn = DateTime.Now,
                 ModifiedOn = Timestamp.UnixBaseTime
             };
@@ -37,6 +40,8 @@ namespace NTMiner.Profile {
         public bool IsDualCoinHideWallet { get; set; }
 
         public bool IsOverClockEnabled { get; set; }
+
+        public bool IsOverClockGpuAll { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

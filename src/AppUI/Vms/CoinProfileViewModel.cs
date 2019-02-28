@@ -263,6 +263,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsOverClockGpuAll {
+            get { return _inner.IsOverClockGpuAll; }
+            set {
+                NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(IsOverClockGpuAll), value);
+                OnPropertyChanged(nameof(IsOverClockGpuAll));
+            }
+        }
+
         public PoolViewModel DualCoinPool {
             get {
                 var dualCoinPools = CoinViewModels.Current[this.CoinId].Pools;

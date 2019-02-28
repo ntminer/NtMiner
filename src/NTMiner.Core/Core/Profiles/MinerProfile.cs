@@ -662,6 +662,13 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
+                public bool IsOverClockGpuAll {
+                    get { return _data.IsOverClockGpuAll; }
+                    private set {
+                        _data.IsOverClockGpuAll = value;
+                    }
+                }
+
                 private static Dictionary<string, PropertyInfo> s_properties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
