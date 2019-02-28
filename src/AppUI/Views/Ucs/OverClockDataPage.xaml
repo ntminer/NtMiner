@@ -36,7 +36,7 @@
 
 		<DataGrid 
 			Grid.Column="1"
-			Margin="0" ItemsSource="{Binding OverClockDataVms.List}" 
+			Margin="0" ItemsSource="{Binding CurrentCoin.OverClockDatas}" 
 			BorderThickness="0"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
@@ -107,6 +107,6 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Column="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding OverClockDataVms.List, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+		<TextBlock Grid.Column="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentCoin.OverClockDatas, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
 	</Grid>
 </UserControl>

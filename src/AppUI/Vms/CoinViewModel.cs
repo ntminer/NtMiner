@@ -403,6 +403,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public List<OverClockDataViewModel> OverClockDatas {
+            get {
+                return OverClockDataViewModels.Current.Where(a => a.CoinId == this.Id).ToList();
+            }
+        }
+
         private IEnumerable<WalletViewModel> GetWallets() {
             if (!string.IsNullOrEmpty(TestWallet)) {
                 yield return TestWalletVm;
