@@ -126,5 +126,17 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(Cool));
             }
         }
+
+        private CoinViewModel _coinVm;
+        public CoinViewModel CoinVm {
+            get {
+                if (_coinVm == null) {
+                    if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out _coinVm)) {
+                        _coinVm = CoinViewModel.Empty;
+                    }
+                }
+                return _coinVm;
+            }
+        }
     }
 }

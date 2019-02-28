@@ -3,15 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class OverClockDataViewModels : ViewModelBase, IEnumerable<OverClockDataViewModel> {
         public static readonly OverClockDataViewModels Current = new OverClockDataViewModels();
 
         private readonly Dictionary<Guid, OverClockDataViewModel> _dicById = new Dictionary<Guid, OverClockDataViewModel>();
-
-        public ICommand Add { get; private set; }
 
         private OverClockDataViewModels() {
             if (Design.IsInDesignMode) {
@@ -20,9 +17,6 @@ namespace NTMiner.Vms {
             foreach (var item in NTMinerRoot.Current.OverClockDataSet) {
                 _dicById.Add(item.GetId(), new OverClockDataViewModel(item));
             }
-            this.Add = new DelegateCommand(() => {
-                new OverClockDataViewModel(Guid.NewGuid()).Edit.Execute(null);
-            });
             VirtualRoot.On<OverClockDataAddedEvent>(
                 "添加超频建议后刷新VM内存",
                 LogEnum.Console,

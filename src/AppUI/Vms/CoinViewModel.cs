@@ -55,6 +55,8 @@ namespace NTMiner.Vms {
         public ICommand ViewCoinInfo { get; private set; }
         public ICommand Save { get; private set; }
 
+        public ICommand AddOverClockData { get; private set; }
+
         public ICommand ApplyOverClock { get; private set; }
 
         public Action CloseWindow { get; set; }
@@ -78,6 +80,11 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(Guid id) {
             _id = id;
+            this.AddOverClockData = new DelegateCommand(() => {
+                new OverClockDataViewModel(Guid.NewGuid()) {
+                    CoinId = this.Id
+                }.Edit.Execute(null);
+            });
             this.ApplyOverClock = new DelegateCommand(() => {
                 var list = GpuOverClockVms.ToArray();
                 foreach (var item in list) {

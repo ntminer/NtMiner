@@ -1,92 +1,112 @@
 ﻿<UserControl x:Class="NTMiner.Views.Ucs.OverClockDataPage"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-        xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-        xmlns:vm="clr-namespace:NTMiner.Vms"
-        DataContext="{x:Static vm:OverClockDataPageViewModel.Current}"
-        mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="600">
-    <UserControl.Resources>
-        <sys:String x:Key="WindowTitle">
-            超频建议
-        </sys:String>
-    </UserControl.Resources>
-    <Grid>
-        <DataGrid 
-            Margin="0" ItemsSource="{Binding OverClockDataVms.List}" 
-            BorderThickness="0"
-            MouseDoubleClick="DataGrid_MouseDoubleClick">
-            <DataGrid.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding OverClockDataVms}" />
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
-                </DataGridTextColumn>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="主频" Binding="{Binding CoreClockDelta}">
-                </DataGridTextColumn>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="显存" Binding="{Binding MemoryClockDelta}">
-                </DataGridTextColumn>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="功耗" Binding="{Binding PowerCapacity}">
-                </DataGridTextColumn>
-                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="风扇" Binding="{Binding Cool}">
-                </DataGridTextColumn>
-                <DataGridTemplateColumn 
-                    MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
-                    <DataGridTemplateColumn.Header>
-                        <controls:KbButton  
-                            Command="{Binding Data.Add, Source={StaticResource proxy}}" 
-                            Background="Transparent" BorderThickness="0"
-                            Margin="2 0"
-                            CornerRadius="2" ToolTip="添加">
-                            <WrapPanel>
-                                <Path
-                                    Width="18"
-                                    Height="18"
-                                    Data="{StaticResource Icon_Add}"
-                                    Fill="{StaticResource IconFillColor}"
-                                    Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
-                                <controls:KbButton 
-                                    Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
-                                    Margin="2 0"
-                                    CornerRadius="2">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="18"
-                                            Height="18"
-                                            Data="{StaticResource Icon_Edit}"
-                                            Fill="{StaticResource IconFillColor}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                                <controls:KbButton 
-                                    Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
-                                    Margin="2 0"
-                                    CornerRadius="2">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="18"
-                                            Height="18"
-                                            Data="{StaticResource Icon_Delete}"
-                                            Fill="{StaticResource IconFillColor}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <TextBlock Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding OverClockDataVms.List, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
-    </Grid>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		DataContext="{x:Static vm:OverClockDataPageViewModel.Current}"
+		mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="600">
+	<UserControl.Resources>
+		<sys:String x:Key="WindowTitle">
+			超频建议
+		</sys:String>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<DataGrid 
+			Margin="0" 
+			ItemsSource="{Binding CoinVms.MainCoins}" 
+			BorderThickness="0 0 1 0" 
+			BorderBrush="{StaticResource LineColor}"
+			SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="币种" Binding="{Binding Code}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				</DataGridTextColumn>
+				<DataGridTextColumn Header="算法" Binding="{Binding CodeAlgo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				</DataGridTextColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding CoinVms.MainCoins, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
+
+		<DataGrid 
+			Grid.Column="1"
+			Margin="0" ItemsSource="{Binding OverClockDataVms.List}" 
+			BorderThickness="0"
+			MouseDoubleClick="DataGrid_MouseDoubleClick">
+			<DataGrid.Resources>
+				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+			</DataGrid.Resources>
+			<DataGrid.Columns>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
+				</DataGridTextColumn>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="主频" Binding="{Binding CoreClockDelta}">
+				</DataGridTextColumn>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="显存" Binding="{Binding MemoryClockDelta}">
+				</DataGridTextColumn>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="功耗" Binding="{Binding PowerCapacity}">
+				</DataGridTextColumn>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="风扇" Binding="{Binding Cool}">
+				</DataGridTextColumn>
+				<DataGridTemplateColumn 
+					MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+					<DataGridTemplateColumn.Header>
+						<controls:KbButton  
+							Command="{Binding Data.CurrentCoin.AddOverClockData, Source={StaticResource proxy}}" 
+							Background="Transparent" BorderThickness="0"
+							Margin="2 0"
+							CornerRadius="2" ToolTip="添加">
+							<WrapPanel>
+								<Path
+									Width="18"
+									Height="18"
+									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</WrapPanel>
+						</controls:KbButton>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+								<controls:KbButton 
+									Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+									Margin="2 0"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Edit}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+								<controls:KbButton 
+									Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
+									Margin="2 0"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Delete}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<TextBlock Grid.Column="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding OverClockDataVms.List, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+	</Grid>
 </UserControl>
