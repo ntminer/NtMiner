@@ -35,12 +35,12 @@
 				Content="统一超频"></CheckBox>
 			<WrapPanel VerticalAlignment="Center">
 				<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
-				<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 				<TextBlock>M</TextBlock>
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
-				<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+				<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 				<TextBlock>M</TextBlock>
 			</WrapPanel>
 			<WrapPanel>

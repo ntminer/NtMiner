@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using System;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -35,6 +34,7 @@ namespace NTMiner.Vms {
             _powerCapacity = data.PowerCapacity;
             _cool = data.Cool;
             _isEnabled = data.IsEnabled;
+            GpuViewModels.Current.TryGetGpuVm(Index, out _gpuVm);
         }
 
         public void Update(IGpuOverClockData data) {
