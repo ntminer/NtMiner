@@ -8,6 +8,6 @@ namespace NTMiner.Data {
         void AddOrUpdate(MineWorkData data);
         void Remove(Guid id);
         MineWorkData GetMineWork(Guid workId);
-        List<MineWorkData> GetMineWorks();
+        List<MineWorkData> GetAll();
     }
 }

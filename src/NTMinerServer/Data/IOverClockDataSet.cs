@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Data {
-    public interface IMinerGroupSet {
-        void AddOrUpdate(MinerGroupData data);
+    public interface IOverClockDataSet {
+        void AddOrUpdate(OverClockData data);
         void Remove(Guid id);
-        List<MinerGroupData> GetAll();
+        List<OverClockData> GetAll();
     }
 }

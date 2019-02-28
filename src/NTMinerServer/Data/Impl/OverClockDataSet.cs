@@ -5,12 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Data.Impl {
-    public class WalletSet : IWalletSet {
-        private readonly Dictionary<Guid, WalletData> _dicById = new Dictionary<Guid, WalletData>();
+    public class OverClockDataSet : IOverClockDataSet {
+        private readonly Dictionary<Guid, OverClockData> _dicById = new Dictionary<Guid, OverClockData>();
 
         private readonly IHostRoot _root;
-
-        public WalletSet(IHostRoot root) {
+        public OverClockDataSet(IHostRoot root) {
             _root = root;
         }
 
@@ -28,7 +27,7 @@ namespace NTMiner.Data.Impl {
             lock (_locker) {
                 if (!_isInited) {
                     using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                        var col = db.GetCollection<WalletData>();
+                        var col = db.GetCollection<OverClockData>();
                         foreach (var item in col.FindAll()) {
                             _dicById.Add(item.Id, item);
                         }
@@ -38,11 +37,11 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public void AddOrUpdate(WalletData data) {
+        public void AddOrUpdate(OverClockData data) {
             InitOnece();
             lock (_locker) {
                 using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                    var col = db.GetCollection<WalletData>();
+                    var col = db.GetCollection<OverClockData>();
                     if (_dicById.ContainsKey(data.Id)) {
                         _dicById[data.Id].Update(data);
                         col.Update(_dicById[data.Id]);
@@ -55,7 +54,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public List<WalletData> GetAll() {
+        public List<OverClockData> GetAll() {
             InitOnece();
             return _dicById.Values.ToList();
         }
@@ -66,7 +65,7 @@ namespace NTMiner.Data.Impl {
                 if (_dicById.ContainsKey(id)) {
                     _dicById.Remove(id);
                     using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                        var col = db.GetCollection<WalletData>();
+                        var col = db.GetCollection<OverClockData>();
                         col.Delete(id);
                     }
                 }

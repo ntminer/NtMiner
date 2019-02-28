@@ -6,6 +6,6 @@ namespace NTMiner.Data {
     public interface INTMinerFileSet {
         void AddOrUpdate(NTMinerFileData data);
         void Remove(Guid id);
-        List<NTMinerFileData> GetNTMinerFiles();
+        List<NTMinerFileData> GetAll();
     }
 }

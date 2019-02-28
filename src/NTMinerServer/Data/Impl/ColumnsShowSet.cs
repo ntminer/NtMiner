@@ -50,7 +50,7 @@ namespace NTMiner.Data.Impl {
             return null;
         }
 
-        public List<ColumnsShowData> GetColumnsShows() {
+        public List<ColumnsShowData> GetAll() {
             InitOnece();
             return _dicById.Values.ToList();
         }

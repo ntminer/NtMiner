@@ -103,8 +103,10 @@
     <Compile Include="Data\Impl\MinerGroupSet.cs" />
     <Compile Include="Data\Impl\MineWorkSet.cs" />
     <Compile Include="Data\Impl\NTMinerFileSet.cs" />
+    <Compile Include="Data\Impl\OverClockDataSet.cs" />
     <Compile Include="Data\Impl\WalletSet.cs" />
     <Compile Include="Data\INTMinerFileSet.cs" />
+    <Compile Include="Data\IOverClockDataSet.cs" />
     <Compile Include="Data\IWalletSet.cs" />
     <Compile Include="Data\SnapshotTimestamp.cs" />
     <Compile Include="HostRoot.cs" />

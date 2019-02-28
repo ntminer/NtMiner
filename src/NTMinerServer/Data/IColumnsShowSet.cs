@@ -8,6 +8,6 @@ namespace NTMiner.Data {
         void AddOrUpdate(ColumnsShowData data);
         void Remove(Guid id);
         ColumnsShowData GetColumnsShow(Guid id);
-        List<ColumnsShowData> GetColumnsShows();
+        List<ColumnsShowData> GetAll();
     }
 }

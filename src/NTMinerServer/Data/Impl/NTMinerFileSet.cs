@@ -55,7 +55,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public List<NTMinerFileData> GetNTMinerFiles() {
+        public List<NTMinerFileData> GetAll() {
             InitOnece();
             return _dicById.Values.ToList();
         }

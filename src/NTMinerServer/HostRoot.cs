@@ -24,6 +24,8 @@ namespace NTMiner {
             HttpServer.Stop();
         }
 
+        public DateTime StartedOn { get; private set; } = DateTime.Now;
+
         public static readonly IHostRoot Current = new HostRoot();
 
         private OssClient _ossClient = null;
@@ -87,6 +89,7 @@ namespace NTMiner {
             this.WalletSet = new WalletSet(this);
             this.MineProfileManager = new MineProfileManager(this);
             this.NTMinerFileSet = new NTMinerFileSet(this);
+            this.OverClockDataSet = new OverClockDataSet(this);
             VirtualRoot.On<UserLoginedEvent>(
                 "用户登录成功后广播",
                 LogEnum.Console,
@@ -135,8 +138,8 @@ namespace NTMiner {
 
         public INTMinerFileSet NTMinerFileSet { get; private set; }
 
-        public DateTime StartedOn { get; private set; } = DateTime.Now;
-
         public IHostConfig HostConfig { get; private set; }
+
+        public IOverClockDataSet OverClockDataSet { get; private set; }
     }
 }

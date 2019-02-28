@@ -182,7 +182,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public GetMinerGroupsResponse MinerGroups([FromBody]MinerGroupsRequest request) {
             try {
-                var data = HostRoot.Current.MinerGroupSet.GetMinerGroups();
+                var data = HostRoot.Current.MinerGroupSet.GetAll();
                 return GetMinerGroupsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
@@ -376,7 +376,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public GetWalletsResponse Wallets([FromBody]WalletsRequest request) {
             try {
-                var data = HostRoot.Current.WalletSet.GetWallets();
+                var data = HostRoot.Current.WalletSet.GetAll();
                 return GetWalletsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
@@ -432,7 +432,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public GetCalcConfigsResponse CalcConfigs([FromBody]CalcConfigsRequest request) {
             try {
-                var data = HostRoot.Current.CalcConfigSet.GetCalcConfigs();
+                var data = HostRoot.Current.CalcConfigSet.GetAll();
                 return GetCalcConfigsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
@@ -468,7 +468,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public GetColumnsShowsResponse ColumnsShows([FromBody]ColumnsShowsRequest request) {
             try {
-                var data = HostRoot.Current.ColumnsShowSet.GetColumnsShows();
+                var data = HostRoot.Current.ColumnsShowSet.GetAll();
                 return GetColumnsShowsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {

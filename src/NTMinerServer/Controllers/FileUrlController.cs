@@ -36,7 +36,7 @@ namespace NTMiner.Controllers {
 
         [HttpPost]
         public List<NTMinerFileData> NTMinerFiles() {
-            var list = HostRoot.Current.NTMinerFileSet.GetNTMinerFiles();
+            var list = HostRoot.Current.NTMinerFileSet.GetAll();
             return list;
         }
 

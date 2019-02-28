@@ -20,7 +20,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public List<MineWorkData> MineWorks() {
             try {
-                return HostRoot.Current.MineWorkSet.GetMineWorks();
+                return HostRoot.Current.MineWorkSet.GetAll();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

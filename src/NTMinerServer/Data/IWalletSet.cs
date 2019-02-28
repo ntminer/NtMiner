@@ -6,6 +6,6 @@ namespace NTMiner.Data {
     public interface IWalletSet {
         void AddOrUpdate(WalletData data);
         void Remove(Guid id);
-        List<WalletData> GetWallets();
+        List<WalletData> GetAll();
     }
 }

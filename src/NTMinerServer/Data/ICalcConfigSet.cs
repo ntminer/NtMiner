@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Data {
     public interface ICalcConfigSet {
-        List<CalcConfigData> GetCalcConfigs();
+        List<CalcConfigData> GetAll();
         void SaveCalcConfigs(List<CalcConfigData> data);
     }
 }

@@ -23,5 +23,6 @@ namespace NTMiner {
         IWalletSet WalletSet { get; }
         IMineProfileManager MineProfileManager { get; }
         INTMinerFileSet NTMinerFileSet { get; }
+        IOverClockDataSet OverClockDataSet { get; }
     }
 }

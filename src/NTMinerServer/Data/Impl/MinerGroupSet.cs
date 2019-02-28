@@ -56,7 +56,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public List<MinerGroupData> GetMinerGroups() {
+        public List<MinerGroupData> GetAll() {
             InitOnece();
             return _dicById.Values.ToList();
         }

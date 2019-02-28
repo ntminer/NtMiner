@@ -51,7 +51,7 @@ namespace NTMiner.Data.Impl {
             return null;
         }
 
-        public List<MineWorkData> GetMineWorks() {
+        public List<MineWorkData> GetAll() {
             InitOnece();
             return _dicById.Values.ToList();
         }

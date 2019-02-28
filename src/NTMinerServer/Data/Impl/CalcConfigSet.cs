@@ -37,7 +37,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public List<CalcConfigData> GetCalcConfigs() {
+        public List<CalcConfigData> GetAll() {
             InitOnece();
             return _dicByCode.Values.ToList();
         }
