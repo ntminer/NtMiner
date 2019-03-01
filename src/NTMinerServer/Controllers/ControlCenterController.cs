@@ -3,6 +3,7 @@ using NTMiner.Profile;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -26,6 +27,27 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region Users
+        [HttpPost]
+        public GetUsersResponse Users([FromBody]UsersRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<GetUsersResponse>(Guid.Empty, "参数错误");
+            }
+            try {
+                GetUsersResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                var data = HostRoot.Current.UserSet.Cast<UserData>().ToList();
+                return GetUsersResponse.Ok(request.MessageId, data);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError<GetUsersResponse>(request.MessageId, e.Message);
             }
         }
         #endregion

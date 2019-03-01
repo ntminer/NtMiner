@@ -31,6 +31,29 @@ namespace NTMiner {
             }
             #endregion
 
+            #region GetUsers
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <param name="messageId"></param>
+            /// <returns></returns>
+            public GetUsersResponse GetUsers(Guid messageId) {
+                try {
+                    UsersRequest request = new UsersRequest {
+                        LoginName = LoginName,
+                        MessageId = Guid.NewGuid()
+                    };
+                    request.SignIt(PasswordSha1);
+                    GetUsersResponse response = Request<GetUsersResponse>("ControlCenter", "Users", request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
+            }
+            #endregion
+
             #region AddUserAsync
             public void AddUserAsync(UserData userData, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
@@ -39,6 +62,7 @@ namespace NTMiner {
                             LoginName = LoginName,
                             Data = userData
                         };
+                        request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "AddUser", request);
                         callback?.Invoke(response);
                     }
@@ -57,6 +81,7 @@ namespace NTMiner {
                             LoginName = LoginName,
                             Data = userData
                         };
+                        request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateUser", request);
                         callback?.Invoke(response);
                     }
@@ -75,6 +100,7 @@ namespace NTMiner {
                             LoginName = LoginName,
                             Data = loginName
                         };
+                        request.SignIt(PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveUser", request);
                         callback?.Invoke(response);
                     }

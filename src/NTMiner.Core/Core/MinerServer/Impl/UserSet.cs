@@ -85,9 +85,9 @@ namespace NTMiner.Core.MinerServer.Impl {
             if (_lastInitOn.AddMinutes(10) < now) {
                 lock (_locker) {
                     if (_lastInitOn.AddMinutes(10) < now) {
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<UserData>();
-                            _dicByLoginName = col.FindAll().ToDictionary(a => a.LoginName, a => a);
+                        var response = Server.ControlCenterService.GetUsers(Guid.NewGuid());
+                        if (response != null) {
+                            _dicByLoginName = response.Data.ToDictionary(a => a.LoginName, a => a);
                         }
                         _lastInitOn = DateTime.Now;
                     }

@@ -68,9 +68,11 @@
     <Compile Include="MinerServer\ColumnsShowData.cs" />
     <Compile Include="MinerServer\ColumnsShowsRequest.cs" />
     <Compile Include="MinerServer\GetColumnsShowsResponse.cs" />
+    <Compile Include="MinerServer\GetUsersResponse.cs" />
     <Compile Include="MinerServer\IColumnsShow.cs" />
     <Compile Include="MinerServer\RemoveUserRequest.cs" />
     <Compile Include="MinerServer\UpdateUserRequest.cs" />
+    <Compile Include="MinerServer\UsersRequest.cs" />
     <Compile Include="OverClock\AddOrUpdateOverClockDataRequest.cs" />
     <Compile Include="OverClock\IOverClockData.cs" />
     <Compile Include="MinerServer\OpenNTMinerRequest.cs" />
