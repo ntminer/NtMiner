@@ -5,6 +5,7 @@ using NTMiner.Data.Impl;
 using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -72,7 +73,8 @@ namespace NTMiner {
         }
 
         public static LiteDatabase CreateReportDb() {
-            return new LiteDatabase($"filename={SpecialPath.ReportDbFileFullName};journal=false");
+            string dbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"report{DateTime.Now.ToString("yyyy-MM-dd")}.litedb");
+            return new LiteDatabase($"filename={dbFileFullName};journal=false");
         }
 
         private HostRoot() {

@@ -9,7 +9,6 @@ namespace NTMiner {
                 Directory.CreateDirectory(MineWorksDirFullName);
             }
             LocalDbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "local.litedb");
-            ReportDbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "report.litedb");
         }
 
         public static string GetMineWorkDbFileFullName(Guid workId) {
@@ -17,6 +16,5 @@ namespace NTMiner {
         }
         public static string MineWorksDirFullName { get; private set; }
         public static string LocalDbFileFullName { get; private set; }
-        public static string ReportDbFileFullName { get; private set; }
     }
 }
