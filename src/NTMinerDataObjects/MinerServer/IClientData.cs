@@ -19,9 +19,9 @@ namespace NTMiner.MinerServer {
 
         string MinerIp { get; }
 
-        string RemoteUserName { get; }
+        string WindowsLoginName { get; }
 
-        string RemotePassword { get; }
+        string WindowsPassword { get; }
 
         string MainCoinCode { get; }
 

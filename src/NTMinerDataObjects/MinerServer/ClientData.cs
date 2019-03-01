@@ -25,9 +25,9 @@ namespace NTMiner.MinerServer {
 
         public string MinerIp { get; set; }
 
-        public string RemoteUserName { get; set; }
+        public string WindowsLoginName { get; set; }
 
-        public string RemotePassword { get; set; }
+        public string WindowsPassword { get; set; }
 
         public DateTime BootOn { get; set; }
 

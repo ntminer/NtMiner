@@ -464,7 +464,7 @@
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="6 0 0 0">分组</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="6 0 0 0">矿工名</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="6 0 0 0">IP</CheckBox>
-				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.RemoteUserNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.RemoteUserNameAndPassword}" Margin="6 0 0 0">远程桌面用户名密码</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.WindowsLoginNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.WindowsLoginNameAndPassword}" Margin="6 0 0 0">远程桌面用户名密码</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="6 0 0 0">主挖币种</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="6 0 0 0">主币算力</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.MainCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinRejectPercentText}" Margin="6 0 0 0">主币拒绝</CheckBox>
@@ -939,8 +939,8 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn 
-					Visibility="{Binding Data.ColumnsShow.RemoteUserNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					Binding="{Binding RemoteUserName, UpdateSourceTrigger=LostFocus}"
+					Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					Binding="{Binding WindowsLoginName, UpdateSourceTrigger=LostFocus}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
@@ -950,7 +950,7 @@
 							<TextBlock>远程桌面用户名</TextBlock>
 							<WrapPanel.ContextMenu>
 								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteUserNameAndPassword">
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="WindowsLoginNameAndPassword">
 									</MenuItem>
 								</ContextMenu>
 							</WrapPanel.ContextMenu>
@@ -964,7 +964,7 @@
 					</DataGridTextColumn.EditingElementStyle>
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.RemoteUserNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
@@ -974,7 +974,7 @@
 							<TextBlock>远程桌面密码</TextBlock>
 							<WrapPanel.ContextMenu>
 								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="RemoteUserNameAndPassword">
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="WindowsLoginNameAndPassword">
 									</MenuItem>
 								</ContextMenu>
 							</WrapPanel.ContextMenu>
@@ -982,12 +982,12 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding RemotePasswordStar}"></TextBlock>
+							<TextBlock Text="{Binding WindowsPasswordStar}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 					<DataGridTemplateColumn.CellEditingTemplate>
 						<DataTemplate>
-							<PasswordBox Width="78" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding RemotePassword, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+							<PasswordBox Width="78" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>

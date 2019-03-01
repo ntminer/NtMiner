@@ -25,12 +25,12 @@ namespace NTMiner.Vms {
             this.Ip = ip;
             this.Login = new DelegateCommand(() => {
                 Server.ControlCenterService.UpdateClientPropertiesAsync(this.ClientId, new Dictionary<string, object> {
-                    { nameof(MinerClientViewModel.RemoteUserName), this.UserName },
-                    { nameof(MinerClientViewModel.RemotePassword), this.Password }
+                    { nameof(MinerClientViewModel.WindowsLoginName), this.UserName },
+                    { nameof(MinerClientViewModel.WindowsPassword), this.Password }
                 }, response => {
                     if (response.IsSuccess()) {
-                        minerClientVm.RemoteUserName = this.UserName;
-                        minerClientVm.RemotePassword = this.Password;
+                        minerClientVm.WindowsLoginName = this.UserName;
+                        minerClientVm.WindowsPassword = this.Password;
                         AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.Ip, this.UserName, this.Password, this.MinerName, message => {
                             foreach (var manager in AppStatic.Managers) {
                                 manager.CreateMessage()

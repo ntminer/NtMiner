@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
         private bool _dualCoinPool = true;
         private bool _lastActivedOnText = true;
         private bool _version = true;
-        private bool _remoteUserNameAndPassword = true;
+        private bool _windowsLoginNameAndPassword = true;
         private bool _gpuInfo = true;
         private bool _mainCoinRejectPercentText = true;
         private bool _dualCoinRejectPercentText = true;
@@ -109,7 +109,7 @@ namespace NTMiner.Vms {
             _dualCoinPool = data.DualCoinPool;
             _lastActivedOnText = data.LastActivedOnText;
             _version = data.Version;
-            _remoteUserNameAndPassword = data.RemoteUserNameAndPassword;
+            _windowsLoginNameAndPassword = data.WindowsLoginNameAndPassword;
             _gpuInfo = data.GpuInfo;
             _mainCoinRejectPercentText = data.MainCoinRejectPercentText;
             _dualCoinRejectPercentText = data.DualCoinRejectPercentText;
@@ -322,11 +322,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool RemoteUserNameAndPassword {
-            get => _remoteUserNameAndPassword;
+        public bool WindowsLoginNameAndPassword {
+            get => _windowsLoginNameAndPassword;
             set {
-                _remoteUserNameAndPassword = value;
-                OnPropertyChanged(nameof(RemoteUserNameAndPassword));
+                _windowsLoginNameAndPassword = value;
+                OnPropertyChanged(nameof(WindowsLoginNameAndPassword));
             }
         }
 

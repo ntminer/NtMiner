@@ -33,14 +33,14 @@ namespace NTMiner.Vms {
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
             this.RemoteDesktop = new DelegateCommand(() => {
-                if (string.IsNullOrEmpty(this.RemoteUserName) || string.IsNullOrEmpty(this.RemotePassword)) {
+                if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
                     RemoteLogin.ShowWindow(new RemoteLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
-                        UserName = this.RemoteUserName,
-                        Password = this.RemotePassword
+                        UserName = this.WindowsLoginName,
+                        Password = this.WindowsPassword
                     });
                 }
                 else {
-                    AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.RemoteUserName, this.RemotePassword, this.MinerName, message => {
+                    AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
                         foreach (var manager in AppStatic.Managers) {
                             manager.CreateMessage()
                                 .Accent("#1751C3")
@@ -441,49 +441,49 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string RemoteUserName {
-            get { return _data.RemoteUserName; }
+        public string WindowsLoginName {
+            get { return _data.WindowsLoginName; }
             set {
-                if (_data.RemoteUserName != value) {
-                    var old = _data.RemoteUserName;
-                    _data.RemoteUserName = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(RemoteUserName), value, response => {
+                if (_data.WindowsLoginName != value) {
+                    var old = _data.WindowsLoginName;
+                    _data.WindowsLoginName = value;
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, response => {
                         if (!response.IsSuccess()) {
-                            _data.RemoteUserName = old;
+                            _data.WindowsLoginName = old;
                         }
                         else {
-                            OnPropertyChanged(nameof(RemoteUserName));
+                            OnPropertyChanged(nameof(WindowsLoginName));
                         }
                     });
                 }
             }
         }
 
-        public string RemotePassword {
-            get { return _data.RemotePassword; }
+        public string WindowsPassword {
+            get { return _data.WindowsPassword; }
             set {
-                if (_data.RemotePassword != value) {
-                    var old = _data.RemotePassword;
-                    _data.RemotePassword = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(RemotePassword), value, response => {
+                if (_data.WindowsPassword != value) {
+                    var old = _data.WindowsPassword;
+                    _data.WindowsPassword = value;
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, response => {
                         if (!response.IsSuccess()) {
-                            _data.RemotePassword = old;
+                            _data.WindowsPassword = old;
                         }
                         else {
-                            OnPropertyChanged(nameof(RemotePassword));
-                            OnPropertyChanged(nameof(RemotePasswordStar));
+                            OnPropertyChanged(nameof(WindowsPassword));
+                            OnPropertyChanged(nameof(WindowsPasswordStar));
                         }
                     });
                 }
             }
         }
 
-        public string RemotePasswordStar {
+        public string WindowsPasswordStar {
             get {
-                if (string.IsNullOrEmpty(this.RemotePassword)) {
+                if (string.IsNullOrEmpty(this.WindowsPassword)) {
                     return string.Empty;
                 }
-                return new string('●', this.RemotePassword.Length);
+                return new string('●', this.WindowsPassword.Length);
             }
         }
 

@@ -19,7 +19,7 @@ namespace NTMiner.MinerServer {
         bool DualCoinPool  { get; }
         bool LastActivedOnText  { get; }
         bool Version  { get; }
-        bool RemoteUserNameAndPassword  { get; }
+        bool WindowsLoginNameAndPassword  { get; }
         bool GpuInfo  { get; }
         bool MainCoinRejectPercentText { get; }
         bool DualCoinRejectPercentText { get; }

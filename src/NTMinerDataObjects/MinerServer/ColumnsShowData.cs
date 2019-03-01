@@ -45,9 +45,9 @@ namespace NTMiner.MinerServer {
 
         public bool Version{ get; set; }
 
-        public bool RemoteUserNameAndPassword{ get; set; }
+        public bool WindowsLoginNameAndPassword{ get; set; }
 
-        public bool RemotePassword{ get; set; }
+        public bool WindowsPassword{ get; set; }
 
         public bool GpuInfo{ get; set; }
 
@@ -81,8 +81,8 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(DualCoinPool)).Append(DualCoinPool)
                 .Append(nameof(LastActivedOnText)).Append(LastActivedOnText)
                 .Append(nameof(Version)).Append(Version)
-                .Append(nameof(RemoteUserNameAndPassword)).Append(RemoteUserNameAndPassword)
-                .Append(nameof(RemotePassword)).Append(RemotePassword)
+                .Append(nameof(WindowsLoginNameAndPassword)).Append(WindowsLoginNameAndPassword)
+                .Append(nameof(WindowsPassword)).Append(WindowsPassword)
                 .Append(nameof(GpuInfo)).Append(GpuInfo)
                 .Append(nameof(MainCoinRejectPercentText)).Append(MainCoinRejectPercentText)
                 .Append(nameof(DualCoinRejectPercentText)).Append(DualCoinRejectPercentText)
