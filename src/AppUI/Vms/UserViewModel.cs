@@ -43,6 +43,9 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
                 }
+                if (VirtualRoot.IsControlCenter && this.LoginName == Server.LoginName) {
+                    throw new ValidationException("不能删除自己");
+                }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveUserCommand(this.LoginName));
                 }, icon: "Icon_Confirm");
