@@ -92,7 +92,7 @@
 								IsEnabled="{Binding IsReadOnly, Converter={StaticResource BooleanInvertConverter}}"
 								IconColor="{StaticResource IconFillColor}"
 								IsChecked="{Binding IsUserMode}" />
-							<WrapPanel Visibility="{Binding IsUserMode,Converter={StaticResource BoolToVisibilityConverter}}">
+							<WrapPanel Visibility="{Binding IsUserMode,Converter={StaticResource BoolToHiddenConverter}}">
 								<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">测试用户名</TextBlock>
 								<TextBox Width="180" Height="26" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding UserName}">
 								</TextBox>
@@ -101,7 +101,7 @@
 								</TextBox>
 							</WrapPanel>
 						</WrapPanel>
-						<TextBlock Foreground="Red" Text="请根据已有矿池判断是否需要填写矿池级参数"></TextBlock>
+						<TextBlock Margin="0 2" HorizontalAlignment="Center" Foreground="Red" Text="请根据已有矿池判断是否需要填写矿池级参数"></TextBlock>
 					</StackPanel>
 					
 					<controls:KbButton
