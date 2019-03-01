@@ -25,7 +25,7 @@ namespace NTMiner.Views {
 
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
-            if (!this.DialogResult.HasValue || !this.DialogResult.Value) {
+            if ((!this.DialogResult.HasValue || !this.DialogResult.Value) && Application.Current.ShutdownMode != ShutdownMode.OnMainWindowClose) {
                 Application.Current.Shutdown();
             }
         }
