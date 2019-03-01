@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.Core.Impl {
+namespace NTMiner.Core.MinerServer.Impl {
     public class UserSet : IUserSet {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
