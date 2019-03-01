@@ -10,6 +10,9 @@
 			 mc:Ignorable="d">
 	<UserControl.Resources>
 		<ResourceDictionary>
+			<sys:String x:Key="User">
+				User
+			</sys:String>
 			<sys:String x:Key="Option">
 				Option
 			</sys:String>
@@ -230,6 +233,16 @@
 						Fill="#385263"
 						Stretch="Fill" />
 				</MenuItem.Icon>
+				<MenuItem Header="{DynamicResource User}" Command="{x:Static vm:AppStatic.ShowUsers}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_User}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<MenuItem Header="{DynamicResource Coin}" Command="{x:Static vm:AppStatic.ShowCoins}">
 					<MenuItem.Icon>
 						<Path
@@ -320,6 +333,16 @@
 						Fill="#385263"
 						Stretch="Fill" />
 				</MenuItem.Icon>
+				<MenuItem Header="{DynamicResource User}" Command="{x:Static vm:AppStatic.ShowUsers}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_User}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<MenuItem Header="{DynamicResource Miner}" Command="{x:Static vm:AppStatic.ShowMinerClients}">
 					<MenuItem.Icon>
 						<Path

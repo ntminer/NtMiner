@@ -146,6 +146,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public static ICommand ShowUsers { get; private set; } = new DelegateCommand(() => {
+            UserPage.ShowWindow();
+        });
+
         public static ICommand ShowOverClockDatas { get; private set; } = new DelegateCommand(() => {
             OverClockDataPage.ShowWindow();
         });

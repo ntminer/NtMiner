@@ -22,11 +22,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public void Update(IUser data) {
-            this.Password = data.Password;
-            this.Description = data.Description;
-        }
-
         public UserViewModel(IUser data) : this(data.LoginName) {
             _password = data.Password;
             _description = data.Description;
@@ -62,11 +57,25 @@ namespace NTMiner.Vms {
             });
         }
 
+        public void Update(IUser data) {
+            this.Password = data.Password;
+            this.Description = data.Description;
+        }
+
         public string LoginName {
             get => _loginName;
             set {
                 _loginName = value;
                 OnPropertyChanged(nameof(LoginName));
+                if (string.IsNullOrEmpty(value)) {
+                    throw new ValidationException("登录名不能为空");
+                }
+            }
+        }
+
+        public bool IsReadOnly {
+            get {
+                return !string.IsNullOrEmpty(this.LoginName);
             }
         }
 
@@ -75,6 +84,15 @@ namespace NTMiner.Vms {
             set {
                 _password = value;
                 OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        public string PasswordStar {
+            get {
+                if (string.IsNullOrEmpty(this.Password)) {
+                    return string.Empty;
+                }
+                return new string('●', this.Password.Length);
             }
         }
 

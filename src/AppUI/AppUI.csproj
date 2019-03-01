@@ -143,6 +143,9 @@
     <Compile Include="Views\Ucs\InnerProperty.xaml.cs">
       <DependentUpon>InnerProperty.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\OverClockDataPage.xaml.cs">
       <DependentUpon>OverClockDataPage.xaml</DependentUpon>
     </Compile>
@@ -389,6 +392,7 @@
     <Compile Include="Vms\SysDicPageViewModel.cs" />
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\SysDicViewModel.cs" />
+    <Compile Include="Vms\UserPageViewModel.cs" />
     <Compile Include="Vms\UserViewModel.cs" />
     <Compile Include="Vms\UserViewModels.cs" />
     <Compile Include="Vms\WalletViewModels.cs" />
@@ -438,6 +442,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Ucs\Design\UserViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Ucs\Design\OverClockDataViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -471,6 +479,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\InnerProperty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\UserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

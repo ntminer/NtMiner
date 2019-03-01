@@ -1,6 +1,7 @@
 ﻿using NTMiner.User;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class UserViewModels : ViewModelBase {
@@ -8,7 +9,12 @@ namespace NTMiner.Vms {
 
         private readonly Dictionary<string, UserViewModel> _dicByLoginName = new Dictionary<string, UserViewModel>();
 
+        public ICommand Add { get; private set; }
+
         private UserViewModels() {
+            this.Add = new DelegateCommand(() => {
+                new UserViewModel().Edit.Execute(null);
+            });
             VirtualRoot.On<UserAddedEvent>(
                 "添加了用户后",
                 LogEnum.Console,
@@ -27,7 +33,7 @@ namespace NTMiner.Vms {
                         vm.Update(message.Source);
                     }
                 });
-            VirtualRoot.On<UserAddedEvent>(
+            VirtualRoot.On<UserRemovedEvent>(
                 "移除了用户后",
                 LogEnum.Console,
                 action: message => {
