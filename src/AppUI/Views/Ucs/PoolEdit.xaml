@@ -101,7 +101,6 @@
 								</TextBox>
 							</WrapPanel>
 						</WrapPanel>
-						<TextBlock Margin="0 2" HorizontalAlignment="Center" Foreground="Red" Text="请根据已有矿池判断是否需要填写矿池级参数"></TextBlock>
 					</StackPanel>
 					
 					<controls:KbButton
@@ -192,6 +191,7 @@
 			</TabItem>
 			<!--end矿池级参数-->
 		</TabControl>
+		<TextBlock Margin="4" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Red" Text="请根据已有矿池判断是否需要填写矿池级参数"></TextBlock>
 		<controls:KbButton
 			Margin="4"
 			VerticalAlignment="Top"
