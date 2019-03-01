@@ -29,6 +29,14 @@
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
+			<Label></Label>
+			<controls:KbCheckBox 
+				Content="启用"
+				IconColor="{StaticResource IconFillColor}"
+				IsChecked="{Binding IsEnabled}" />
+		</WrapPanel>
+		
+		<WrapPanel Margin="0 2">
 			<Label>说明:</Label>
 			<TextBox Width="420" Background="Transparent" Padding="0 4"
 					 AcceptsReturn="True" TextWrapping="Wrap" 

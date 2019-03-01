@@ -14,6 +14,8 @@ namespace NTMiner.Vms {
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
+        public ICommand Enable { get; private set; }
+        public ICommand Disable { get; private set; }
 
         public Action CloseWindow { get; set; }
 
@@ -41,8 +43,26 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.LoginName}矿池吗？", title: "确认", onYes: () => {
+                DialogWindow.ShowDialog(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveUserCommand(this.LoginName));
+                }, icon: "Icon_Confirm");
+            });
+            this.Enable = new DelegateCommand(() => {
+                if (this.IsEnabled) {
+                    return;
+                }
+                DialogWindow.ShowDialog(message: $"您确定启用{this.LoginName}吗？", title: "确认", onYes: () => {
+                    this.IsEnabled = true;
+                    VirtualRoot.Execute(new UpdateUserCommand(this));
+                }, icon: "Icon_Confirm");
+            });
+            this.Disable = new DelegateCommand(() => {
+                if (!this.IsEnabled) {
+                    return;
+                }
+                DialogWindow.ShowDialog(message: $"您确定禁用{this.LoginName}吗？", title: "确认", onYes: () => {
+                    this.IsEnabled = false;
+                    VirtualRoot.Execute(new UpdateUserCommand(this));
                 }, icon: "Icon_Confirm");
             });
         }
@@ -110,6 +130,13 @@ namespace NTMiner.Vms {
             set {
                 _isEnabled = value;
                 OnPropertyChanged(nameof(IsEnabled));
+                OnPropertyChanged(nameof(IsEnabledText));
+            }
+        }
+
+        public string IsEnabledText {
+            get {
+                return this.IsEnabled ? "已启用" : "已禁用";
             }
         }
 
