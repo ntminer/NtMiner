@@ -1,5 +1,4 @@
 ﻿using NTMiner.User;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,19 +13,26 @@ namespace NTMiner.Vms {
                 "添加了用户后",
                 LogEnum.Console,
                 action: message => {
-
+                    if (!_dicByLoginName.ContainsKey(message.Source.LoginName)) {
+                        _dicByLoginName.Add(message.Source.LoginName, new UserViewModel(message.Source));
+                        OnPropertyChanged(nameof(List));
+                    }
                 });
             VirtualRoot.On<UserUpdatedEvent>(
                 "更新了用户后",
                 LogEnum.Console,
                 action: message => {
-
+                    UserViewModel vm;
+                    if (_dicByLoginName.TryGetValue(message.Source.LoginName, out vm)) {
+                        vm.Update(message.Source);
+                    }
                 });
             VirtualRoot.On<UserAddedEvent>(
                 "移除了用户后",
                 LogEnum.Console,
                 action: message => {
-
+                    _dicByLoginName.Remove(message.Source.LoginName);
+                    OnPropertyChanged(nameof(List));
                 });
         }
 

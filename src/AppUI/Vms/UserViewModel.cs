@@ -22,6 +22,11 @@ namespace NTMiner.Vms {
             }
         }
 
+        public void Update(IUser data) {
+            this.Password = data.Password;
+            this.Description = data.Description;
+        }
+
         public UserViewModel(IUser data) : this(data.LoginName) {
             _password = data.Password;
             _description = data.Description;
