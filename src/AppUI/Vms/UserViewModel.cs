@@ -16,16 +16,11 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
-        public UserViewModel() {
-        }
-
-        public UserViewModel(IUser data) : this(data.LoginName) {
-            _password = data.Password;
-            _description = data.Description;
-        }
-
-        public UserViewModel(string loginName) {
+        public UserViewModel(string loginName) : this() {
             _loginName = loginName;
+        }
+
+        public UserViewModel() {
             this.Save = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
@@ -39,9 +34,6 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand(() => {
-                if (string.IsNullOrEmpty(this.LoginName)) {
-                    return;
-                }
                 UserEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {
@@ -52,6 +44,11 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new RemoveUserCommand(this.LoginName));
                 }, icon: "Icon_Confirm");
             });
+        }
+
+        public UserViewModel(IUser data) : this(data.LoginName) {
+            _password = data.Password;
+            _description = data.Description;
         }
 
         public void Update(IUser data) {
