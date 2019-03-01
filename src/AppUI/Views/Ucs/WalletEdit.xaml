@@ -38,7 +38,7 @@
             <Label>钱包地址:</Label>
             <TextBox 
                 ToolTip="钱包地址保存后不可修改"
-                IsReadOnly="{Binding IsAddressEditable, Converter={StaticResource BooleanInvertConverter}}"
+                IsReadOnly="{Binding IsAddressEditable, Converter={StaticResource BoolInvertConverter}}"
                 x:Name="TbAddress" Width="380"
                 VerticalContentAlignment="Center" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
             </TextBox>

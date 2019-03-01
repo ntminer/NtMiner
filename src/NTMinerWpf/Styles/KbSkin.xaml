@@ -14,7 +14,7 @@
     <converters:BoolToHiddenInvertConverter x:Key="BoolToHiddenInvertConverter" />
     <converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
     <converters:StringLenConverter x:Key="StringLenConverter" />
-    <converters:BooleanInvertConverter x:Key="BooleanInvertConverter" />
+    <converters:BoolInvertConverter x:Key="BoolInvertConverter" />
     <converters:ByteToGbConverter x:Key="ByteToGbConverter" />
     <converters:ByteToMbConverter x:Key="ByteToMbConverter" />
     <converters:ConsoleColorToMediaColorConverter x:Key="ConsoleColorToMediaColorConverter" />

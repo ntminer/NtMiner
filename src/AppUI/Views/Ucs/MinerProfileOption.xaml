@@ -100,7 +100,7 @@
             <StackPanel>
                 <WrapPanel Margin="0 2">
                     <controls:KbCheckBox 
-                            IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BooleanInvertConverter}}"
+                            IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BoolInvertConverter}}"
                             IconColor="{StaticResource IconFillColor}">
                     </controls:KbCheckBox>
                     <TextBlock VerticalAlignment="Center" Text="{DynamicResource LblIsShowInTaskbar}"></TextBlock>

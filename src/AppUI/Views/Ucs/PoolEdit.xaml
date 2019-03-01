@@ -89,7 +89,7 @@
 						<WrapPanel Margin="0 2" HorizontalAlignment="Right" Height="26">
 							<controls:KbCheckBox
 								Content="用户名密码模式"
-								IsEnabled="{Binding IsReadOnly, Converter={StaticResource BooleanInvertConverter}}"
+								IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
 								IconColor="{StaticResource IconFillColor}"
 								IsChecked="{Binding IsUserMode}" />
 							<WrapPanel Visibility="{Binding IsUserMode,Converter={StaticResource BoolToHiddenConverter}}">

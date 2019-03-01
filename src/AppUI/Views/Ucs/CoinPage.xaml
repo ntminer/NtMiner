@@ -362,7 +362,7 @@
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel 
-											IsEnabled="{Binding IsReadOnly, Converter={StaticResource BooleanInvertConverter}}"
+											IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
 											HorizontalAlignment="Right" 
 											Background="Transparent" 
 											VerticalAlignment="Center" 
@@ -492,7 +492,7 @@
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel 
-											IsEnabled="{Binding IsTestWallet, Converter={StaticResource BooleanInvertConverter}}"
+											IsEnabled="{Binding IsTestWallet, Converter={StaticResource BoolInvertConverter}}"
 											HorizontalAlignment="Right" 
 											Background="Transparent" 
 											VerticalAlignment="Center" 

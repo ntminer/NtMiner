@@ -113,7 +113,7 @@
 		</WrapPanel>
 		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
-				IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll,Converter={StaticResource BooleanInvertConverter}}"
+				IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll,Converter={StaticResource BoolInvertConverter}}"
 				BorderThickness="0"
 				MouseDown="ItemsControl_MouseDown"
 				ItemsSource="{Binding MinerProfile.CoinVm.GpuOverClockVms}" 

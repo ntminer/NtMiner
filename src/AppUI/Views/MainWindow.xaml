@@ -187,7 +187,7 @@
 						<Border
 							Grid.Column="0" Grid.Row="0"
 							BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"
-							IsEnabled="{Binding IsReadOnly, Converter={StaticResource BooleanInvertConverter}}">
+							IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}">
 							<uc:MinerProfileIndex />
 						</Border>
 						<WrapPanel Grid.Column="0" Grid.Row="0" Margin="0 8 10 0" HorizontalAlignment="Right" VerticalAlignment="Top">

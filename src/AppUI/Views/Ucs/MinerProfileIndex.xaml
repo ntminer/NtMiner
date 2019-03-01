@@ -119,7 +119,7 @@
 	<Grid Background="#EBF2F9">
 		<StackPanel Margin="2 6 8 8">
 			<WrapPanel Margin="0">
-				<StackPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+				<StackPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 					<WrapPanel VerticalAlignment="Center">
 						<TextBlock 
 							Style="{StaticResource LblTb}"
@@ -165,7 +165,7 @@
 						DropDownOpened="KbComboBox_DropDownOpened"
 						ItemsSource="{Binding CoinVms.MainCoins}" 
 						DisplayMemberPath="CodeAlgo"
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 						SelectedItem="{Binding MinerProfile.CoinVm}">
 						<controls:KbComboBox.ItemContainerStyle>
 							<Style TargetType="ComboBoxItem">
@@ -214,7 +214,7 @@
 						DropDownOpened="KbComboBox_DropDownOpened"
 						ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
 						ItemsSource="{Binding MinerProfile.CoinVm.Pools}" 
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 						SelectedItem="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool}">
 						<controls:KbComboBox.ItemTemplate>
 							<DataTemplate>
@@ -272,7 +272,7 @@
 							ItemsSource="{Binding MinerProfile.CoinVm.Wallets}"
 							VerticalContentAlignment="Center" Width="330"
 							IsEditable="False"
-							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 							ItemTemplate="{StaticResource WalletAddressDataTemplate}"
 							ItemContainerStyle="{StaticResource WalletItemContainerStyle}"
 							SelectedItem="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}">
@@ -286,7 +286,7 @@
 										Background="{StaticResource IconFillColor}"
 										CornerRadius="2"
 										Command="{Binding MinerProfile.CoinVm.CoinProfile.AddWallet}"
-										IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+										IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 										<WrapPanel>
 											<Path
 												Width="14"
@@ -395,7 +395,7 @@
 							Width="136"
 							Background="White"
 							ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
-							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 							VerticalContentAlignment="Center" 
 							Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.UserName}">
 						</TextBox>
@@ -418,7 +418,7 @@
 							Width="114"
 							Background="White"
 							ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
-							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 							VerticalContentAlignment="Center" 
 							Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.PoolProfileVm.Password}">
 						</TextBox>
@@ -473,7 +473,7 @@
 						Height="30"
 						DropDownOpened="KbComboBox_DropDownOpened"
 						ItemsSource="{Binding MinerProfile.CoinVm.CoinKernels}" 
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 						SelectedItem="{Binding MinerProfile.CoinVm.CoinKernel}">
 						<controls:KbComboBox.ItemContainerStyle>
 							<Style TargetType="ComboBoxItem">
@@ -548,7 +548,7 @@
 					<WrapPanel 
 						Margin="4 0 0 0"
 						VerticalAlignment="Center"
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}" 
+						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}" 
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
 						<controls:KbCheckBox
 							Content="{DynamicResource IsDualCoinEnabled}"
@@ -573,7 +573,7 @@
 							<controls:KbCheckBox
 								Content="{DynamicResource IsAutoDualWeight}"
 								IconColor="{StaticResource IconFillColor}"
-								IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+								IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 								Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
 								IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
 							<WrapPanel 
@@ -589,7 +589,7 @@
 									ToolTip="{DynamicResource DualWeightWarning}"
 									LostFocus="DualCoinWeightSlider_LostFocus"
 									Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
-									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"></Slider>
+									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"></Slider>
 								<TextBox 
 									Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
 									LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
@@ -601,7 +601,7 @@
 								Style="{StaticResource LblTb}"
 								ToolTip="{DynamicResource DualCoin}"
 								Text="{DynamicResource DualCoin}" />
-							<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+							<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 								<controls:KbComboBox 
 									BorderThickness="0"
 									Height="30"
@@ -646,7 +646,7 @@
 								Style="{StaticResource LblTb}"
 								ToolTip="{DynamicResource DualPool}"
 								Text="{DynamicResource DualPool}" />
-							<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+							<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 								<controls:KbComboBox 
 									BorderThickness="0"
 									Height="30"
@@ -703,7 +703,7 @@
 										Style="{StaticResource LblTb}"
 										ToolTip="{DynamicResource DualWallet}"
 										Text="{DynamicResource DualWallet}" />
-									<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+									<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 										<TextBox Visibility="Collapsed" Text="{Binding ElementName=CbDualCoinWallet, Path=Text}" TextChanged="TbDualCoinWallet_TextChanged"></TextBox>
 										<controls:KbComboBox 
 											Height="40"
@@ -726,7 +726,7 @@
 														Background="{StaticResource IconFillColor}"
 														CornerRadius="2"
 														Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.AddDualCoinWallet}"
-														IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}">
+														IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 														<WrapPanel>
 															<Path
 																Width="14"
@@ -836,7 +836,7 @@
 									Width="136"
 									Background="White"
 									ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
-									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 									VerticalContentAlignment="Center" 
 									Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.UserName}">
 								</TextBox>
@@ -859,7 +859,7 @@
 									Width="114"
 									Background="White"
 									ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
-									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 									VerticalContentAlignment="Center" 
 									Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.PoolProfileVm.Password}">
 								</TextBox>
@@ -915,7 +915,7 @@
 						Width="330"
 						VerticalContentAlignment="Center"
 						Background="White"
-						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BooleanInvertConverter}}"
+						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 						VerticalScrollBarVisibility="Auto"
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.CustomArgs, Mode=TwoWay}">
 						<TextBox.ToolTip>

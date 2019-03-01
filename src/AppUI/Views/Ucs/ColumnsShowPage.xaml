@@ -60,7 +60,7 @@
                                     </WrapPanel>
                                 </controls:KbButton>
                                 <controls:KbButton 
-                                    IsEnabled="{Binding IsPleaseSelect, Converter={StaticResource BooleanInvertConverter}}"
+                                    IsEnabled="{Binding IsPleaseSelect, Converter={StaticResource BoolInvertConverter}}"
                                     Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
                                     Margin="2 0"
                                     CornerRadius="2">

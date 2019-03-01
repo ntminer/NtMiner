@@ -83,7 +83,7 @@
 			</WrapPanel>
 		</Grid>
 		<StackPanel Grid.Row="1">
-			<StackPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BooleanInvertConverter}}">
+			<StackPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
 				<WrapPanel>
 					<Label
 						Content="主币"
@@ -430,7 +430,7 @@
 				</controls:KbButton>
 				<controls:KbButton
 					ToolTip="删除列显"
-					IsEnabled="{Binding ColumnsShow.IsPleaseSelect, Converter={StaticResource BooleanInvertConverter}}"
+					IsEnabled="{Binding ColumnsShow.IsPleaseSelect, Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding ColumnsShow.Remove}" Background="Transparent" BorderThickness="0"
 					Margin="2 0"
 					CornerRadius="2">
@@ -841,7 +841,7 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BooleanInvertConverter}}">
+							<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}">
 								<TextBox 
 									BorderThickness="0"
 									Background="Transparent"

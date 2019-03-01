@@ -22,7 +22,7 @@
 	<StackPanel Margin="10">
 		<WrapPanel>
 			<TextBlock>名称：</TextBlock>
-			<TextBox Width="160" Text="{Binding ColumnsShowName}" IsEnabled="{Binding IsPleaseSelect,Converter={StaticResource BooleanInvertConverter}}"></TextBox>
+			<TextBox Width="160" Text="{Binding ColumnsShowName}" IsEnabled="{Binding IsPleaseSelect,Converter={StaticResource BoolInvertConverter}}"></TextBox>
 		</WrapPanel>
 		<controls:KbButton
 			Command="{Binding Save}" 
