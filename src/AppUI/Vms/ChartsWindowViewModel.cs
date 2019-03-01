@@ -2,13 +2,10 @@
 using NTMiner.Views.Ucs;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ChartsWindowViewModel : ViewModelBase {
-        private double _height;
-        private double _width;
         private List<ChartViewModel> _chartVms;
         private int _totalMiningCount;
         private int _totalOnlineCount;
@@ -16,8 +13,6 @@ namespace NTMiner.Vms {
         public ICommand ConfigMinerServerHost { get; private set; }
 
         public ChartsWindowViewModel() {
-            _width = SystemParameters.FullPrimaryScreenWidth * 0.95;
-            _height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             this.ConfigMinerServerHost = new DelegateCommand(() => {
                 MinerServerHostConfig.ShowWindow();
             });
@@ -32,16 +27,6 @@ namespace NTMiner.Vms {
                 }
                 return _manager;
             }
-        }
-
-        public double Height {
-            get => _height;
-            set => _height = value;
-        }
-
-        public double Width {
-            get => _width;
-            set => _width = value;
         }
 
         public LangViewModels LangVms {

@@ -43,6 +43,8 @@ namespace NTMiner.Views {
         }
 
         private ChartsWindow() {
+            Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
+            Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Write.WriteUserLineMethod = (text, foreground)=> {

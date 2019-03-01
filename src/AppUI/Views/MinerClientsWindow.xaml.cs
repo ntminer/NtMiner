@@ -36,9 +36,9 @@ namespace NTMiner.Views {
         }
 
         private MinerClientsWindow() {
+            Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
+            Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
-            Width = SystemParameters.FullPrimaryScreenWidth * 0.9;
-            Height = SystemParameters.FullPrimaryScreenHeight * 0.8;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Vm.QueryMinerClients();
             DelegateHandler<Per10SecondEvent> refreshMinerClients = VirtualRoot.On<Per10SecondEvent>(

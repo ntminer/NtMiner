@@ -18,7 +18,7 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		mc:Ignorable="d"
-		Title="{DynamicResource Title}" Height="{Binding Height}" Width="{Binding Width}">
+		Title="{DynamicResource Title}" d:DesignHeight="900" d:DesignWidth="1720">
 	<metro:MetroWindow.DataContext>
 		<vm:ChartsWindowViewModel></vm:ChartsWindowViewModel>
 	</metro:MetroWindow.DataContext>
