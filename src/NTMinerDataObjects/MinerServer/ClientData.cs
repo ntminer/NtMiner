@@ -1,5 +1,5 @@
-﻿using System;
-using NTMiner.Hashrate;
+﻿using NTMiner.Hashrate;
+using System;
 
 namespace NTMiner.MinerServer {
     public class ClientData : IClientData, IDbEntity<Guid>, ITimestampEntity<Guid> {

@@ -1,6 +1,4 @@
-﻿using NTMiner.MinerServer;
-
-namespace NTMiner.Vms {
+﻿namespace NTMiner.Vms {
     public class AppSettingViewModel : ViewModelBase {
         private string _key;
         private object _value;

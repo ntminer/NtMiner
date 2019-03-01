@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace NTMiner.MinerServer {
     public class StopMineRequest : RequestBase, ISignatureRequest {

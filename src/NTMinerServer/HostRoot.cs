@@ -6,7 +6,6 @@ using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
