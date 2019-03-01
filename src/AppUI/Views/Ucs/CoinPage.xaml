@@ -136,7 +136,7 @@
 				</DataGrid.Resources>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn 
-						CanUserResize="False" IsReadOnly="True"
+						CanUserResize="True" IsReadOnly="True"
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 						<DataGridTemplateColumn.Header>
 							<controls:KbButton  
@@ -213,7 +213,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="110" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="{DynamicResource Name}"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -236,7 +236,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Width="100" Binding="{Binding CodeAlgo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTextColumn Binding="{Binding CodeAlgo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock Text="{DynamicResource Coin}"></TextBlock>
@@ -245,7 +245,7 @@
 						</DataGridTextColumn.Header>
 					</DataGridTextColumn>
 					<DataGridTemplateColumn 
-						Width="40" CanUserResize="False" CanUserReorder="False" 
+						CanUserResize="True" CanUserReorder="False" 
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 						CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
@@ -294,7 +294,7 @@
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTemplateColumn Width="140" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="{DynamicResource Pool}"></TextBlock>
@@ -316,7 +316,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="300" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource PoolServer}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -330,7 +330,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								CanUserResize="False" CanUserReorder="False" 
+								CanUserResize="True" CanUserReorder="False" 
 								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 								CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
@@ -342,7 +342,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn CanUserResize="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<controls:KbButton 
 										Command="{Binding Data.CurrentCoin.AddPool, Source={StaticResource proxy}}" 
@@ -450,7 +450,7 @@
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTemplateColumn Width="420" CellTemplate="{StaticResource WalletAddressDataTemplate}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CellTemplate="{StaticResource WalletAddressDataTemplate}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="{DynamicResource Wallet}"></TextBlock>
@@ -459,7 +459,7 @@
 								</DataGridTemplateColumn.Header>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								Width="40" CanUserResize="False" CanUserReorder="False" 
+								CanUserResize="True" CanUserReorder="False" 
 								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 								CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
@@ -471,7 +471,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn MinWidth="80" CanUserResize="False" IsReadOnly="True">
+							<DataGridTemplateColumn MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<controls:KbButton 
 										Command="{Binding Data.CurrentCoin.AddWallet, Source={StaticResource proxy}}" 
@@ -592,7 +592,7 @@
 									</WrapPanel>
 								</DataGridTextColumn.Header>
 							</DataGridTextColumn>
-							<DataGridTemplateColumn CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource SupportedGpu}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -632,7 +632,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-									CanUserResize="False" CanUserReorder="False" 
+									CanUserResize="True" CanUserReorder="False" 
 									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 									CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
@@ -655,7 +655,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-									MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
+									MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True"
 									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 								<DataGridTemplateColumn.Header>
 									<controls:KbButton 

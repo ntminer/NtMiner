@@ -6,7 +6,7 @@
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		DataContext="{x:Static vm:KernelPageViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="800">
@@ -42,9 +42,9 @@
 							<Grid>
 								<TextBlock />
 								<ContentPresenter
-							        Margin="5,0,0,0"
-							        HorizontalAlignment="Left"
-							        VerticalAlignment="Center" />
+									Margin="5,0,0,0"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center" />
 							</Grid>
 						</ControlTemplate>
 					</Setter.Value>
@@ -54,217 +54,218 @@
 						<Setter Property="Background" Value="White" />
 					</Trigger>
 				</Style.Triggers>
-            </Style>
-            <sys:String x:Key="WindowTitle">
-                WindowTitle
-            </sys:String>
-            <sys:String x:Key="TbNoRecord">
-                TbNoRecord
-            </sys:String>
-            <sys:String x:Key="Code">
-                Code
-            </sys:String>
-            <sys:String x:Key="SupportedGpus">
-                SupportedGpus
-            </sys:String>
-            <sys:String x:Key="SupportedCoins">
-                SupportedCoins
-            </sys:String>
-            <sys:String x:Key="Size">
-                Size
-            </sys:String>
-            <sys:String x:Key="PublishOn">
-                PublishOn
-            </sys:String>
-            <sys:String x:Key="UnPublished">
-                UnPublished
-            </sys:String>
-            <sys:String x:Key="Version">
-                Version
-            </sys:String>
-            <sys:String x:Key="KernelInput">
-                KernelInput
-            </sys:String>
-            <sys:String x:Key="KernelOutput">
-                KernelOutput
-            </sys:String>
-            <sys:String x:Key="IsSupportDualMine">
-                IsSupportDualMine
-            </sys:String>
-            <sys:String x:Key="Install">
-                Install
-            </sys:String>
-            <sys:String x:Key="UnInstall">
-                UnInstall
-            </sys:String>
-            <sys:String x:Key="Installed">
-                Installed
-            </sys:String>
-            <sys:String x:Key="Publish">
-                Publish
-            </sys:String>
-            <sys:String x:Key="CancelPublish">
-                CancelPublish
-            </sys:String>
-            <sys:String x:Key="Upgrade">
-                Upgrade
-            </sys:String>
-        </ResourceDictionary>
+			</Style>
+			<sys:String x:Key="WindowTitle">
+				WindowTitle
+			</sys:String>
+			<sys:String x:Key="TbNoRecord">
+				TbNoRecord
+			</sys:String>
+			<sys:String x:Key="Code">
+				Code
+			</sys:String>
+			<sys:String x:Key="SupportedGpus">
+				SupportedGpus
+			</sys:String>
+			<sys:String x:Key="SupportedCoins">
+				SupportedCoins
+			</sys:String>
+			<sys:String x:Key="Size">
+				Size
+			</sys:String>
+			<sys:String x:Key="PublishOn">
+				PublishOn
+			</sys:String>
+			<sys:String x:Key="UnPublished">
+				UnPublished
+			</sys:String>
+			<sys:String x:Key="Version">
+				Version
+			</sys:String>
+			<sys:String x:Key="KernelInput">
+				KernelInput
+			</sys:String>
+			<sys:String x:Key="KernelOutput">
+				KernelOutput
+			</sys:String>
+			<sys:String x:Key="IsSupportDualMine">
+				IsSupportDualMine
+			</sys:String>
+			<sys:String x:Key="Install">
+				Install
+			</sys:String>
+			<sys:String x:Key="UnInstall">
+				UnInstall
+			</sys:String>
+			<sys:String x:Key="Installed">
+				Installed
+			</sys:String>
+			<sys:String x:Key="Publish">
+				Publish
+			</sys:String>
+			<sys:String x:Key="CancelPublish">
+				CancelPublish
+			</sys:String>
+			<sys:String x:Key="Upgrade">
+				Upgrade
+			</sys:String>
+		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding QueryResults}" 
 			Background="#F5F4F5"
 			ColumnHeaderHeight="0"
+			CanUserResizeColumns="True"
 			BorderThickness="0" RowHeight="40"
-            PreviewMouseDown="DataGrid_PreviewMouseDown"
+			PreviewMouseDown="DataGrid_PreviewMouseDown"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn 
-                    Width="50" CanUserResize="False" CanUserReorder="False" 
-                    CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource SupportedGpus}"></TextBlock>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <WrapPanel>
-                                    <Path
-                                        Margin="4 0 0 0"
-				                        Width="18"
-				                        Height="14"
-                                        ToolTip="NVIDIA"
-                                        Visibility="{Binding IsNvidiaIconVisible}"
-				                        Data="{StaticResource Icon_Nvidia}"
-				                        Fill="Green"
-				                        Stretch="Fill" />
-                                    <Path
-                                        Margin="4 0 0 0"
-				                        Width="16"
-				                        Height="14"
-                                        ToolTip="AMD"
-                                        Visibility="{Binding IsAMDIconVisible}"
-				                        Data="{StaticResource Icon_AMD}"
-				                        Fill="Red"
-				                        Stretch="Fill" />
-                                </WrapPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn 
+					MinWidth="50" CanUserResize="True" CanUserReorder="False" 
+					CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource SupportedGpus}"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<WrapPanel>
+									<Path
+										Margin="4 0 0 0"
+										Width="18"
+										Height="14"
+										ToolTip="NVIDIA"
+										Visibility="{Binding IsNvidiaIconVisible}"
+										Data="{StaticResource Icon_Nvidia}"
+										Fill="Green"
+										Stretch="Fill" />
+									<Path
+										Margin="4 0 0 0"
+										Width="16"
+										Height="14"
+										ToolTip="AMD"
+										Visibility="{Binding IsAMDIconVisible}"
+										Data="{StaticResource Icon_AMD}"
+										Fill="Red"
+										Stretch="Fill" />
+								</WrapPanel>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="100" Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
-                            <TextBlock Text="{DynamicResource Code}"></TextBlock>
+							<TextBlock Text="{DynamicResource Code}"></TextBlock>
 							<TextBlock Margin="4 0 0 0" Text="{Binding Data.QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
 						</WrapPanel>
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <StackPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-                                    <WrapPanel Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
-                                        <Path
-                                            Margin="4 0 0 0"
-                                            Visibility="{Binding Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-                                            Width="14"
-                                            Height="14"
-                                            Data="{StaticResource Icon_Notice}"
-                                            Fill="{StaticResource IconFillColor}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </WrapPanel>
-                                <TextBlock Text="{Binding SupportedCoins}" ToolTip="{DynamicResource SupportedCoins}"></TextBlock>
-                            </StackPanel>
+							<StackPanel>
+								<WrapPanel>
+									<TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
+									<WrapPanel Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+										<Path
+											Margin="4 0 0 0"
+											Visibility="{Binding Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+											Width="14"
+											Height="14"
+											Data="{StaticResource Icon_Notice}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</WrapPanel>
+								<TextBlock Text="{Binding SupportedCoins}" ToolTip="{DynamicResource SupportedCoins}"></TextBlock>
+							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource Version}"></TextBlock>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <WrapPanel>
-                                <TextBlock Text="v"></TextBlock>
-                                <TextBlock Text="{Binding Version}"></TextBlock>
-                            </WrapPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="170" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource PublishOn}"></TextBlock>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel HorizontalAlignment="Center">
-                                <WrapPanel Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBlock Text="{DynamicResource PublishOn}" Margin="0 0 4 0"></TextBlock>
-                                    <TextBlock Text="{Binding PublishOnText}"></TextBlock>
-                                </WrapPanel>
-                                <TextBlock Text="{DynamicResource UnPublished}" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding SizeMbText}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock Text="{DynamicResource Size}"></TextBlock>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
-                <DataGridTemplateColumn 
-                    Width="100" CanUserResize="False" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                    CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource KernelInput}" HorizontalAlignment="Center"></TextBlock>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock 
-                                Text="{Binding KernelInputVm.Name}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn 
-                    Width="100" CanUserResize="False" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                    CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource KernelOutput}" HorizontalAlignment="Center"></TextBlock>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock 
-                                Text="{Binding KernelOutputVm.Name}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn 
-                    Width="70" CanUserResize="False" CanUserReorder="False" 
-                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                    CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource IsSupportDualMine}" HorizontalAlignment="Center"></TextBlock>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock 
-                                Text="{DynamicResource IsSupportDualMine}" 
-                                Visibility="{Binding KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource Install}"></TextBlock>
-                    </DataGridTemplateColumn.Header>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="80" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource Version}"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock Text="v"></TextBlock>
+								<TextBlock Text="{Binding Version}"></TextBlock>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="170" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource PublishOn}"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel HorizontalAlignment="Center">
+								<WrapPanel Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityConverter}}">
+									<TextBlock Text="{DynamicResource PublishOn}" Margin="0 0 4 0"></TextBlock>
+									<TextBlock Text="{Binding PublishOnText}"></TextBlock>
+								</WrapPanel>
+								<TextBlock Text="{DynamicResource UnPublished}" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn MinWidth="80" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding SizeMbText}">
+					<DataGridTextColumn.Header>
+						<TextBlock Text="{DynamicResource Size}"></TextBlock>
+					</DataGridTextColumn.Header>
+				</DataGridTextColumn>
+				<DataGridTemplateColumn 
+					MinWidth="100" CanUserResize="True" CanUserReorder="False" 
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource KernelInput}" HorizontalAlignment="Center"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock 
+								Text="{Binding KernelInputVm.Name}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn 
+					MinWidth="100" CanUserResize="True" CanUserReorder="False" 
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource KernelOutput}" HorizontalAlignment="Center"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock 
+								Text="{Binding KernelOutputVm.Name}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn 
+					MinWidth="70" CanUserResize="True" CanUserReorder="False" 
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource IsSupportDualMine}" HorizontalAlignment="Center"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock 
+								Text="{DynamicResource IsSupportDualMine}" 
+								Visibility="{Binding KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn  MaxWidth="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource Install}"></TextBlock>
+					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Grid>
@@ -274,9 +275,9 @@
 								<WrapPanel Margin="6 0 0 0">
 									<WrapPanel
 										Visibility="{Binding Data.IsBtnUnInstallVisible, Source={StaticResource proxy}, Converter={StaticResource VisibilityInvertConverter}}">
-                                        <WrapPanel Visibility="{Binding KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-                                            <controls:KbButton 
-                                                Visibility="{Binding KernelProfileVm.BtnInstallVisible}"
+										<WrapPanel Visibility="{Binding KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+											<controls:KbButton 
+												Visibility="{Binding KernelProfileVm.BtnInstallVisible}"
 												Height="26"
 												Width="78"
 												Padding="8 4"
@@ -284,9 +285,9 @@
 												Content="{DynamicResource Install}"
 												Foreground="White"
 												Background="#05c400">
-                                            </controls:KbButton>
-                                            <controls:KbButton 
-                                                Visibility="{Binding KernelProfileVm.BtnUpdateVisible}"
+											</controls:KbButton>
+											<controls:KbButton 
+												Visibility="{Binding KernelProfileVm.BtnUpdateVisible}"
 												Height="26"
 												Width="78"
 												Padding="8 4"
@@ -294,9 +295,9 @@
 												Content="{DynamicResource Upgrade}"
 												Foreground="White"
 												Background="#edac3a">
-                                            </controls:KbButton>
-                                            <TextBlock 
-                                                Visibility="{Binding KernelProfileVm.BtnInstalledVisible}"
+											</controls:KbButton>
+											<TextBlock 
+												Visibility="{Binding KernelProfileVm.BtnInstalledVisible}"
 												TextAlignment="Center"
 												Height="26"
 												Width="78"
@@ -326,124 +327,124 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"
+					MinWidth="100" CanUserResize="True" IsReadOnly="True"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <StackPanel>
-                                <WrapPanel>
-                                    <controls:KbButton 
-									    ToolTip="{DynamicResource Publish}"
-									    Command="{Binding Publish}" 
-									    Background="Transparent" BorderThickness="0"
-									    Visibility="{Binding IsBtnPublishVisible}"
-									    Margin="2 0"
-									    CornerRadius="2">
-                                        <WrapPanel>
-                                            <Path
-											    Width="18"
-											    Height="18"
-											    Data="{StaticResource Icon_Publish}"
-											    Fill="{StaticResource IconFillColor}"
-											    Stretch="Fill" />
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                    <controls:KbButton 
-									    ToolTip="{DynamicResource CancelPublish}"
-									    Command="{Binding UnPublish}" 
-									    Background="Transparent" BorderThickness="0"
-									    Visibility="{Binding IsBtnPublishVisible, Converter={StaticResource VisibilityInvertConverter}}"
-									    Margin="2 0"
-									    CornerRadius="2">
-                                        <WrapPanel>
-                                            <Path
-											    Width="18"
-											    Height="18"
-											    Data="{StaticResource Icon_UnPublish}"
-											    Fill="{StaticResource IconFillColor}"
-											    Stretch="Fill" />
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                    <controls:KbButton 
-									    Command="{Binding Edit}" 
-									    Background="Transparent" BorderThickness="0"
-									    Margin="2 0"
-									    CornerRadius="2">
-                                        <WrapPanel>
-                                            <Path
-											    Width="18"
-											    Height="18"
-											    Data="{StaticResource Icon_Edit}"
-											    Fill="{StaticResource IconFillColor}"
-											    Stretch="Fill" />
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                    <controls:KbButton 
-									    Command="{Binding Remove}" 
-									    Background="Transparent" BorderThickness="0"
-									    Margin="2 0"
-									    CornerRadius="2">
-                                        <WrapPanel>
-                                            <Path
-											    Width="18"
-											    Height="18"
-											    Data="{StaticResource Icon_Delete}"
-											    Fill="{StaticResource IconFillColor}"
-											    Stretch="Fill" />
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                    <controls:KbButton 
-									    Margin="2 0"
-									    Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
-									    CornerRadius="2" ToolTip="上移">
-                                        <WrapPanel>
-                                            <Path
-											    Width="18"
-											    Height="18"
-											    Data="{StaticResource Icon_SortUp}"
-											    Fill="{StaticResource IconFillColor}"
-											    Stretch="Fill" />
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                    <controls:KbButton 
-									    Margin="2 0"
-									    Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
-									    CornerRadius="2" ToolTip="下移">
-                                        <WrapPanel>
-                                            <Path
-											    Width="18"
-											    Height="18"
-											    Data="{StaticResource Icon_SortDown}"
-											    Fill="{StaticResource IconFillColor}"
-											    Stretch="Fill" />
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                </WrapPanel>
-                                <TextBlock Text="{Binding Package}" Margin="4 0 0 0" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
+							<StackPanel>
+								<WrapPanel>
+									<controls:KbButton 
+										ToolTip="{DynamicResource Publish}"
+										Command="{Binding Publish}" 
+										Background="Transparent" BorderThickness="0"
+										Visibility="{Binding IsBtnPublishVisible}"
+										Margin="2 0"
+										CornerRadius="2">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_Publish}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+									<controls:KbButton 
+										ToolTip="{DynamicResource CancelPublish}"
+										Command="{Binding UnPublish}" 
+										Background="Transparent" BorderThickness="0"
+										Visibility="{Binding IsBtnPublishVisible, Converter={StaticResource VisibilityInvertConverter}}"
+										Margin="2 0"
+										CornerRadius="2">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_UnPublish}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+									<controls:KbButton 
+										Command="{Binding Edit}" 
+										Background="Transparent" BorderThickness="0"
+										Margin="2 0"
+										CornerRadius="2">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_Edit}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+									<controls:KbButton 
+										Command="{Binding Remove}" 
+										Background="Transparent" BorderThickness="0"
+										Margin="2 0"
+										CornerRadius="2">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_Delete}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+									<controls:KbButton 
+										Margin="2 0"
+										Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
+										CornerRadius="2" ToolTip="上移">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_SortUp}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+									<controls:KbButton 
+										Margin="2 0"
+										Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
+										CornerRadius="2" ToolTip="下移">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_SortDown}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+								</WrapPanel>
+								<TextBlock Text="{Binding Package}" Margin="4 0 0 0" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
+							</StackPanel>
+						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-        <TextBlock Visibility="{Binding QueryResults, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
-        <controls:KbButton
-            Margin="0 4 20 0"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Right"
-            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-            ToolTip="KernelGrid translate"
-            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-            CommandParameter="KernelGrid"
-            Background="Transparent">
-            <WrapPanel>
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="{StaticResource Icon_Translate}"
-                    Fill="Red"
-                    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
+		<TextBlock Visibility="{Binding QueryResults, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
+		<controls:KbButton
+			Margin="0 4 20 0"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Right"
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			ToolTip="KernelGrid translate"
+			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+			CommandParameter="KernelGrid"
+			Background="Transparent">
+			<WrapPanel>
+				<Path
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Translate}"
+					Fill="Red"
+					Stretch="Fill" />
+			</WrapPanel>
+		</controls:KbButton>
 	</Grid>
 </UserControl>

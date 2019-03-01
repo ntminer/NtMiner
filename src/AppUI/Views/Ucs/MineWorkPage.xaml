@@ -23,12 +23,12 @@
                 <vm:BindingProxy x:Key="proxy" Data="{Binding MineWorkVms}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="300" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True">
+                    MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.Add, Source={StaticResource proxy}}" 

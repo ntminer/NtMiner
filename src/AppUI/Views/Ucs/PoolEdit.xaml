@@ -145,14 +145,14 @@
 							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
-							<DataGridTextColumn MinWidth="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
+							<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
 								<DataGridTextColumn.Header>
 									<WrapPanel>
 										<TextBlock Text="{DynamicResource Kernel}"></TextBlock>
 									</WrapPanel>
 								</DataGridTextColumn.Header>
 							</DataGridTextColumn>
-							<DataGridTemplateColumn Width="360" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource Args}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -163,7 +163,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								MinWidth="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
+								CanUserResize="True" CanUserSort="False" IsReadOnly="True"
 								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>

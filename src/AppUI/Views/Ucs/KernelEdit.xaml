@@ -359,7 +359,7 @@
 						</DataGrid.Resources>
 						<DataGrid.Columns>
 							<DataGridTemplateColumn 
-								MinWidth="100" CanUserResize="True" CanUserReorder="False"
+								CanUserResize="True" CanUserReorder="False"
 								CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource Coin}"></TextBlock>
@@ -374,7 +374,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="70" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource SupportedGpus}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -403,7 +403,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="160" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource DualCoinGroup}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -413,7 +413,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="{DynamicResource CoinKernelArgs}"></TextBlock>
 								</DataGridTemplateColumn.Header>
@@ -424,7 +424,7 @@
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn 
-								MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
+								MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True"
 								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>

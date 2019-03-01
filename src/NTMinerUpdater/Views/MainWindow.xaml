@@ -77,7 +77,7 @@
 						<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 					</DataGrid.Resources>
 					<DataGrid.Columns>
-						<DataGridTemplateColumn Width="100" CanUserSort="True" CanUserReorder="False" CanUserResize="False" IsReadOnly="True" Header="版本号">
+						<DataGridTemplateColumn CanUserSort="False" CanUserReorder="False" CanUserResize="True" IsReadOnly="True" Header="版本号">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<WrapPanel VerticalAlignment="Center">
@@ -89,9 +89,9 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTextColumn Width="140" CanUserResize="False" CanUserReorder="False" CanUserSort="True" IsReadOnly="True" Header="时间" Binding="{Binding PublishOnText}"></DataGridTextColumn>
+						<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="时间" Binding="{Binding PublishOnText}"></DataGridTextColumn>
 						<DataGridTemplateColumn 
-							MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"
+							MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True"
 							Visibility="{Binding Data.IsDebugModeVisible, Source={StaticResource proxy}}">
 							<DataGridTemplateColumn.Header>
 								<controls:KbButton  

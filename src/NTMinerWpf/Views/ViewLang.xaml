@@ -48,12 +48,12 @@
             BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
             MouseDoubleClick="LangViewItemDataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="键" Binding="{Binding Key}">
+                <DataGridTextColumn MinWidth="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="键" Binding="{Binding Key}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
+                <DataGridTextColumn MinWidth="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    Width="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
+                    MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <controls:KbButton 

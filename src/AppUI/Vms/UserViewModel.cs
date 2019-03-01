@@ -86,7 +86,7 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.Password)) {
                     return string.Empty;
                 }
-                return new string('●', this.Password.Length);
+                return new string('●', 10);
             }
         }
 

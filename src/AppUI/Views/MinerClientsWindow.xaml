@@ -522,7 +522,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="110" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn Width="110" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
 							<TextBlock>操作</TextBlock>
@@ -766,7 +766,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="False" 
+					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">
@@ -1528,7 +1528,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.Version,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="False" 
+					CanUserResize="True" 
 					CanUserReorder="False" 
 					CanUserSort="False" 
 					IsReadOnly="True">

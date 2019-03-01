@@ -23,10 +23,10 @@
                 <vm:BindingProxy x:Key="proxy" Data="{Binding ColumnsShowVms}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding ColumnsShowName}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding ColumnsShowName}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"
+                    MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True"
                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  

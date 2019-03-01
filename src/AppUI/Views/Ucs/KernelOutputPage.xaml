@@ -93,7 +93,7 @@
 				</DataGrid.Resources>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn 
-						CanUserResize="False" IsReadOnly="True"
+						CanUserResize="True" IsReadOnly="True"
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 						<DataGridTemplateColumn.Header>
 							<controls:KbButton  
@@ -144,7 +144,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="80" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<TextBlock Text="{DynamicResource Name}"></TextBlock>
 						</DataGridTemplateColumn.Header>
@@ -261,7 +261,7 @@
 								<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 							</DataGrid.Resources>
 							<DataGrid.Columns>
-								<DataGridTextColumn Width="300" CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
+								<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
 									<DataGridTextColumn.Header>
 										<WrapPanel>
 											<TextBlock Text="{DynamicResource RegexPattern}"></TextBlock>
@@ -269,7 +269,7 @@
 										</WrapPanel>
 									</DataGridTextColumn.Header>
 								</DataGridTextColumn>
-								<DataGridTemplateColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<TextBlock Text="{DynamicResource Replacement}"></TextBlock>
 									</DataGridTemplateColumn.Header>
@@ -279,7 +279,7 @@
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
-								<DataGridTemplateColumn Width="80" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<TextBlock Text="{DynamicResource Color}"></TextBlock>
 									</DataGridTemplateColumn.Header>
@@ -289,7 +289,7 @@
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
-								<DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<TextBlock Text="{DynamicResource IsPre}"></TextBlock>
 									</DataGridTemplateColumn.Header>
@@ -299,12 +299,12 @@
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
-								<DataGridTextColumn Width="36" CanUserResize="False" CanUserReorder="False" CanUserSort="False" Binding="{Binding SortNumber}" IsReadOnly="True">
+								<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding SortNumber}" IsReadOnly="True">
 									<DataGridTextColumn.Header>
 										<TextBlock Text="{DynamicResource Sort}"></TextBlock>
 									</DataGridTextColumn.Header>
 								</DataGridTextColumn>
-								<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<controls:KbButton 
 											Command="{Binding Data.CurrentKernelOutputVm.AddKernelOutputTranslater, Source={StaticResource proxy}}" 
@@ -403,7 +403,7 @@
 								<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 							</DataGrid.Resources>
 							<DataGrid.Columns>
-								<DataGridTextColumn Width="400" CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
+								<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
 									<DataGridTextColumn.Header>
 										<WrapPanel>
 											<TextBlock Text="{DynamicResource RegexPattern}"></TextBlock>
@@ -411,7 +411,7 @@
 										</WrapPanel>
 									</DataGridTextColumn.Header>
 								</DataGridTextColumn>
-								<DataGridTemplateColumn MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
 									<DataGridTemplateColumn.Header>
 										<controls:KbButton 
 											Command="{Binding Data.CurrentKernelOutputVm.AddKernelOutputFilter, Source={StaticResource proxy}}" 

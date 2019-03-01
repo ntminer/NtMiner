@@ -33,7 +33,7 @@
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
-                    MinWidth="80" CanUserResize="False" IsReadOnly="True"
+                    MinWidth="100" CanUserResize="True" IsReadOnly="True"
                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
@@ -118,12 +118,12 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="120" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
                 </DataGridTextColumn>
                 <DataGridTextColumn 
-                        Width="40" CanUserResize="False" CanUserReorder="False" 
+                        CanUserResize="True" CanUserReorder="False" 
                         Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
@@ -140,19 +140,19 @@
                 <vm:BindingProxy x:Key="proxy" Data="{Binding CurrentSysDic}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
                 </DataGridTextColumn>
                 <DataGridTextColumn 
-                        Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                        CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
+                    CanUserResize="True" CanUserReorder="False" 
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                    CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
+                    MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True"
                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton 

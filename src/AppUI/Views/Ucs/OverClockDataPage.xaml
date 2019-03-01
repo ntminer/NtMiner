@@ -54,7 +54,7 @@
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="风扇" Binding="{Binding Cool}">
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
-					MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"
+					MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  

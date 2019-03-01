@@ -23,12 +23,12 @@
                 <vm:BindingProxy x:Key="proxy" Data="{Binding MinerGroupVms}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="300" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="说明" Binding="{Binding Description}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="说明" Binding="{Binding Description}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    MinWidth="40" Width="Auto" CanUserResize="False" IsReadOnly="True"
+                    MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True"
                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  

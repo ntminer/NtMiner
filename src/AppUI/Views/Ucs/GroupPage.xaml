@@ -69,7 +69,7 @@
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
-					MinWidth="80" CanUserResize="False" IsReadOnly="True"
+					CanUserResize="True" IsReadOnly="True"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
@@ -154,7 +154,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="200" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="{DynamicResource Name}"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -165,7 +165,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-						Width="40" CanUserResize="False" CanUserReorder="False" 
+						CanUserResize="True" CanUserReorder="False" 
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 						CanUserSort="False" IsReadOnly="True" >
 					<DataGridTemplateColumn.Header>
@@ -221,7 +221,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
-						CanUserResize="False" CanUserReorder="False" 
+						CanUserResize="True" CanUserReorder="False" 
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 						CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
@@ -234,7 +234,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
-						MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
+						MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True"
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
