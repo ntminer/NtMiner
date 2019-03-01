@@ -17,13 +17,22 @@ namespace NTMiner.Core.MinerServer.Impl {
                 LogEnum.Console,
                 action: message => {
                     if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
-                        UserData entity = new UserData(message.User);
-                        _dicByLoginName.Add(message.User.LoginName, entity);
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<UserData>();
-                            col.Insert(entity);
-                        }
-                        VirtualRoot.Happened(new UserAddedEvent(entity));
+                        Server.ControlCenterService.AddUserAsync(new UserData {
+                            Id = ObjectId.NewObjectId(),
+                            LoginName = message.User.LoginName,
+                            Password = message.User.Password,
+                            IsEnabled = message.User.IsEnabled,
+                            Description = message.User.Description
+                        }, response => {
+                            if (response.IsSuccess()) {
+                                UserData entity = new UserData(message.User);
+                                _dicByLoginName.Add(message.User.LoginName, entity);
+                                VirtualRoot.Happened(new UserAddedEvent(entity));
+                            }
+                            else if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                            }
+                        });
                     }
                 });
             VirtualRoot.Accept<UpdateUserCommand>(
@@ -32,12 +41,21 @@ namespace NTMiner.Core.MinerServer.Impl {
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
                         UserData entity = _dicByLoginName[message.User.LoginName];
-                        entity.Update(message.User);
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<UserData>();
-                            col.Update(entity);
-                        }
-                        VirtualRoot.Happened(new UserUpdatedEvent(entity));
+                        Server.ControlCenterService.UpdateUserAsync(new UserData {
+                            Id = ObjectId.NewObjectId(),
+                            LoginName = message.User.LoginName,
+                            Password = message.User.Password,
+                            IsEnabled = message.User.IsEnabled,
+                            Description = message.User.Description
+                        }, response => {
+                            if (response.IsSuccess()) {
+                                entity.Update(message.User);
+                                VirtualRoot.Happened(new UserUpdatedEvent(entity));
+                            }
+                            else if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                            }
+                        });
                     }
                 });
             VirtualRoot.Accept<RemoveUserCommand>(
@@ -46,12 +64,15 @@ namespace NTMiner.Core.MinerServer.Impl {
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.LoginName)) {
                         UserData entity = _dicByLoginName[message.LoginName];
-                        _dicByLoginName.Remove(entity.LoginName);
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<UserData>();
-                            col.Delete(entity.Id);
-                        }
-                        VirtualRoot.Happened(new UserRemovedEvent(entity));
+                        Server.ControlCenterService.RemoveUserAsync(message.LoginName, response => {
+                            if (response.IsSuccess()) {
+                                _dicByLoginName.Remove(entity.LoginName);
+                                VirtualRoot.Happened(new UserRemovedEvent(entity));
+                            }
+                            else if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                            }
+                        });
                     }
                 });
         }

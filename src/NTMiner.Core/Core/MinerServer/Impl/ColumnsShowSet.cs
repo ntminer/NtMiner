@@ -24,9 +24,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     ColumnsShowData entity = new ColumnsShowData().Update(message.Input);
-                    _dicById.Add(entity.Id, entity);
-                    Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, isSuccess => {
-                        VirtualRoot.Happened(new ColumnsShowAddedEvent(entity));
+                    Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, response => {
+                        if (response.IsSuccess()) {
+                            _dicById.Add(entity.Id, entity);
+                            VirtualRoot.Happened(new ColumnsShowAddedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        }
                     });
                 });
             VirtualRoot.Accept<UpdateColumnsShowCommand>(
@@ -41,9 +46,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     ColumnsShowData entity = _dicById[message.Input.GetId()];
-                    entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, isSuccess => {
-                        VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
+                    Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, response => {
+                        if (response.IsSuccess()) {
+                            entity.Update(message.Input);
+                            VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        }
                     });
                 });
             VirtualRoot.Accept<RemoveColumnsShowCommand>(
@@ -58,9 +68,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     ColumnsShowData entity = _dicById[message.EntityId];
-                    _dicById.Remove(entity.Id);
-                    Server.ControlCenterService.RemoveColumnsShowAsync(entity.Id, isSuccess => {
-                        VirtualRoot.Happened(new ColumnsShowRemovedEvent(entity));
+                    Server.ControlCenterService.RemoveColumnsShowAsync(entity.Id, response => {
+                        if (response.IsSuccess()) {
+                            _dicById.Remove(entity.Id);
+                            VirtualRoot.Happened(new ColumnsShowRemovedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        }
                     });
                 });
         }

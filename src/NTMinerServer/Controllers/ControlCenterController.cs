@@ -33,20 +33,57 @@ namespace NTMiner.Controllers {
         #region AddUser
         [HttpPost]
         public ResponseBase AddUser([FromBody]AddUserRequest request) {
-            if (request == null || string.IsNullOrEmpty(request.LoginName) || string.IsNullOrEmpty(request.Password)) {
+            if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                IUser user;
-                if (HostRoot.Current.UserSet.TryGetKey(request.LoginName, out user)) {
-                    if (user.Password == request.Password) {
-                        return ResponseBase.Ok(request.MessageId);
-                    }
-                    else {
-                        return ResponseBase.ClientError(request.MessageId, $"密码错误");
-                    }
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
                 }
-                VirtualRoot.Execute(new AddUserCommand(request));
+                VirtualRoot.Execute(new AddUserCommand(request.Data));
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region UpdateUser
+        [HttpPost]
+        public ResponseBase UpdateUser([FromBody]UpdateUserRequest request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                VirtualRoot.Execute(new UpdateUserCommand(request.Data));
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region RemoveUser
+        [HttpPost]
+        public ResponseBase RemoveUser([FromBody]RemoveUserRequest request) {
+            if (request == null || string.IsNullOrEmpty(request.Data)) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                VirtualRoot.Execute(new RemoveUserCommand(request.Data));
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

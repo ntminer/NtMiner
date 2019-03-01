@@ -25,13 +25,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MinerGroupData entity = new MinerGroupData().Update(message.Input);
-                    _dicById.Add(entity.Id, entity);
                     Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, response => {
                         if (response.IsSuccess()) {
+                            _dicById.Add(entity.Id, entity);
                             VirtualRoot.Happened(new MinerGroupAddedEvent(entity));
                         }
-                        else {
-                            Write.UserLine("新建或更新矿工分组失败", ConsoleColor.Red);
+                        else if(response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
                         }
                     });
                 });
@@ -50,9 +50,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MinerGroupData entity = _dicById[message.Input.GetId()];
-                    entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, isSuccess=> {
-                        VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
+                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, response => {
+                        if (response.IsSuccess()) {
+                            entity.Update(message.Input);
+                            VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        }
                     });
                 });
             VirtualRoot.Accept<RemoveMinerGroupCommand>(
@@ -67,9 +72,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MinerGroupData entity = _dicById[message.EntityId];
-                    _dicById.Remove(entity.Id);
-                    Server.ControlCenterService.RemoveMinerGroupAsync(entity.Id, isSuccess=> {
-                        VirtualRoot.Happened(new MinerGroupRemovedEvent(entity));
+                    Server.ControlCenterService.RemoveMinerGroupAsync(entity.Id, response => {
+                        if (response.IsSuccess()) {
+                            _dicById.Remove(entity.Id);
+                            VirtualRoot.Happened(new MinerGroupRemovedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        }
                     });
                 });
         }

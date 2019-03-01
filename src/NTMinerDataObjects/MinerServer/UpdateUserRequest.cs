@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class AddUserRequest : RequestBase, ISignatureRequest {
-        public AddUserRequest() { }
+    public class UpdateUserRequest : RequestBase, ISignatureRequest {
+        public UpdateUserRequest() { }
         public string LoginName { get; set; }
         public UserData Data { get; set; }
         public string Sign { get; set; }

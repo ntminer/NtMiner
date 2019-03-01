@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using System.Text;
 
 namespace NTMiner {
     public class UserData : IUser {
@@ -27,5 +28,15 @@ namespace NTMiner {
         public bool IsEnabled { get; set; }
 
         public string Description { get; set; }
+
+        public string GetSignData() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(nameof(Id)).Append(Id)
+                .Append(nameof(LoginName)).Append(LoginName)
+                .Append(nameof(Password)).Append(Password)
+                .Append(nameof(IsEnabled)).Append(IsEnabled)
+                .Append(nameof(Description)).Append(Description);
+            return sb.ToString();
+        }
     }
 }

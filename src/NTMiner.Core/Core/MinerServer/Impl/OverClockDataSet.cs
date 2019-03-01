@@ -25,13 +25,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     OverClockData entity = new OverClockData().Update(message.Input);
-                    _dicById.Add(entity.Id, entity);
                     Server.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, response => {
                         if (response.IsSuccess()) {
+                            _dicById.Add(entity.Id, entity);
                             VirtualRoot.Happened(new OverClockDataAddedEvent(entity));
                         }
-                        else {
-                            Write.UserLine("新建或更新超频建议失败", ConsoleColor.Red);
+                        else if(response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
                         }
                     });
                 });
@@ -50,9 +50,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     OverClockData entity = _dicById[message.Input.GetId()];
-                    entity.Update(message.Input);
-                    Server.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, isSuccess => {
-                        VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
+                    Server.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, response => {
+                        if (response.IsSuccess()) {
+                            entity.Update(message.Input);
+                            VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        }
                     });
                 });
             VirtualRoot.Accept<RemoveOverClockDataCommand>(
@@ -67,9 +72,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     OverClockData entity = _dicById[message.EntityId];
-                    _dicById.Remove(entity.Id);
-                    Server.OverClockDataService.RemoveOverClockDataAsync(entity.Id, isSuccess => {
-                        VirtualRoot.Happened(new OverClockDataRemovedEvent(entity));
+                    Server.OverClockDataService.RemoveOverClockDataAsync(entity.Id, response => {
+                        if (response.IsSuccess()) {
+                            _dicById.Remove(entity.Id);
+                            VirtualRoot.Happened(new OverClockDataRemovedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        }
                     });
                 });
         }

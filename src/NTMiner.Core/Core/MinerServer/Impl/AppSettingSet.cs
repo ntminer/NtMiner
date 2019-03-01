@@ -29,6 +29,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         else if (response != null) {
                             Write.UserLine(response.Description, System.ConsoleColor.Red);
                         }
+                        VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                     });
                     VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                 });

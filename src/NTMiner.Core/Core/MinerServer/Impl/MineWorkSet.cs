@@ -24,14 +24,15 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MineWorkData entity = new MineWorkData().Update(message.Input);
-                    _dicById.Add(entity.Id, entity);
                     Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, response=> {
-                        if (!response.IsSuccess()) {
-                            _dicById.Remove(entity.Id);
-                            VirtualRoot.Happened(new MineWorkRemovedEvent(entity));
+                        if (response.IsSuccess()) {
+                            _dicById.Add(entity.Id, entity);
+                            VirtualRoot.Happened(new MineWorkAddedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
                         }
                     });
-                    VirtualRoot.Happened(new MineWorkAddedEvent(entity));
                 });
             VirtualRoot.Accept<UpdateMineWorkCommand>(
                 "更新工作",
@@ -45,9 +46,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MineWorkData entity = _dicById[message.Input.GetId()];
-                    entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, isSuccess=> {
-                        VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
+                    Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, response => {
+                        if (response.IsSuccess()) {
+                            entity.Update(message.Input);
+                            VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        }
                     });
                 });
             VirtualRoot.Accept<RemoveMineWorkCommand>(
@@ -62,9 +68,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MineWorkData entity = _dicById[message.EntityId];
-                    _dicById.Remove(entity.Id);
-                    Server.ControlCenterService.RemoveMineWorkAsync(entity.Id, isSuccess=> {
-                        VirtualRoot.Happened(new MineWorkRemovedEvent(entity));
+                    Server.ControlCenterService.RemoveMineWorkAsync(entity.Id, response => {
+                        if (response.IsSuccess()) {
+                            _dicById.Remove(entity.Id);
+                            VirtualRoot.Happened(new MineWorkRemovedEvent(entity));
+                        }
+                        else if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                        }
                     });
                 });
         }

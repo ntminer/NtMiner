@@ -32,15 +32,50 @@ namespace NTMiner {
             #endregion
 
             #region AddUserAsync
-            public void AddUserAsync(string clientHost, string loginName, string password, string description, Action<ResponseBase> callback) {
+            public void AddUserAsync(UserData userData, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         AddUserRequest request = new AddUserRequest() {
-                            LoginName = loginName,
-                            Password = password,
-                            Description = description
+                            LoginName = LoginName,
+                            Data = userData
                         };
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "AddUser", request);
+                        callback?.Invoke(response);
+                    }
+                    catch {
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+            #endregion
+
+            #region UpdateUserAsync
+            public void UpdateUserAsync(UserData userData, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        UpdateUserRequest request = new UpdateUserRequest() {
+                            LoginName = LoginName,
+                            Data = userData
+                        };
+                        ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateUser", request);
+                        callback?.Invoke(response);
+                    }
+                    catch {
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+            #endregion
+
+            #region RemoveUserAsync
+            public void RemoveUserAsync(string loginName, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        RemoveUserRequest request = new RemoveUserRequest() {
+                            LoginName = LoginName,
+                            Data = loginName
+                        };
+                        ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveUser", request);
                         callback?.Invoke(response);
                     }
                     catch {
