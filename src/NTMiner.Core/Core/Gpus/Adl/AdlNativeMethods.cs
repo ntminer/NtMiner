@@ -64,6 +64,8 @@ namespace NTMiner.Core.Gpus.Adl {
 
     internal delegate int ADL2_Main_Control_Refresh(IntPtr hHandle);
 
+    internal delegate int ADL_Graphics_Versions_Get(ref ADLVersionsInfo outVersionInfo);
+
     #endregion Export Delegates
 
     #region ADL Class
@@ -136,6 +138,9 @@ namespace NTMiner.Core.Gpus.Adl {
 
             [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
             public static extern int ADL2_Main_Control_Refresh(IntPtr hHandle);
+
+            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int ADL_Graphics_Versions_Get(ref ADLVersionsInfo outVersionInfo);
 
             #endregion DLLImport
         }
@@ -397,6 +402,25 @@ namespace NTMiner.Core.Gpus.Adl {
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Display_DisplayInfo_Get_Check = false;
         #endregion ADL_Display_DisplayInfo_Get
+
+        #region ADL_Graphics_Versions_Get
+        /// <summary> ADL_Graphics_Versions_Get Delegates</summary>
+        internal static ADL_Graphics_Versions_Get ADL_Graphics_Versions_Get {
+            get {
+                if (!ADL_Graphics_Versions_Get_Check && null == ADL_Graphics_Versions_Get_) {
+                    ADL_Graphics_Versions_Get_Check = true;
+                    if (ADLCheckLibrary.IsFunctionValid("ADL_Graphics_Versions_Get")) {
+                        ADL_Graphics_Versions_Get_ = ADLImport.ADL_Graphics_Versions_Get;
+                    }
+                }
+                return ADL_Graphics_Versions_Get_;
+            }
+        }
+        /// <summary> Private Delegate</summary>
+        private static ADL_Graphics_Versions_Get ADL_Graphics_Versions_Get_ = null;
+        /// <summary> check flag to indicate the delegate has been checked</summary>
+        private static bool ADL_Graphics_Versions_Get_Check = false;
+        #endregion ADL_Graphics_Versions_Get
 
         internal static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get {
             get {

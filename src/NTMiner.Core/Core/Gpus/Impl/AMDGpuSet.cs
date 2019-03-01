@@ -52,6 +52,8 @@ namespace NTMiner.Core.Gpus.Impl {
                     OverClock = new AMDOverClock()
                 });
             }
+            string driverVersion = adlHelper.GetDriverVersion();
+            this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
             string[] keys = new string[]{
                 "GPU_FORCE_64BIT_PTR",
                 "GPU_MAX_HEAP_SIZE",
