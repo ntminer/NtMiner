@@ -33,26 +33,9 @@
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<WrapPanel>
-				<controls:KbButton
-					Height="22"
-					ToolTip="应用"
-					Command="{Binding MinerProfile.CoinVm.ApplyOverClock}" 
-					Background="Transparent"
-					Foreground="{StaticResource IconFillColor}"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Save}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock Padding="2 0 0 0">应用</TextBlock>
-					</WrapPanel>
-				</controls:KbButton>
+			<WrapPanel VerticalAlignment="Center">
+				<TextBlock Style="{StaticResource LblTb}" Width="Auto">推荐</TextBlock>
 				<ItemsControl
-					Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll,Converter={StaticResource BoolToVisibilityConverter}}"
 					BorderThickness="0"
 					MouseDown="ItemsControl_MouseDown"
 					ItemsSource="{Binding MinerProfile.CoinVm.OverClockDatas}" 
@@ -70,7 +53,7 @@
 							<controls:KbButton
 								Command="{Binding Data.FillForm,Source={StaticResource proxy}}"
 								CommandParameter="{Binding}"
-								Margin="20 0 0 0"
+								Margin="0 0 20 0"
 								Padding="6 2"
 								CornerRadius="2">
 								<TextBlock Text="{Binding Name}"></TextBlock>
@@ -79,7 +62,25 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</WrapPanel>
-			<TextBlock Grid.Column="1">超频有风险，操作需谨慎。</TextBlock>
+			<WrapPanel Grid.Column="1">
+				<TextBlock Foreground="Red" VerticalAlignment="Center">超频有风险，操作需谨慎。</TextBlock>
+				<controls:KbButton
+					Height="22"
+					ToolTip="点击应用超频设置"
+					Command="{Binding MinerProfile.CoinVm.ApplyOverClock}" 
+					Background="Transparent"
+					Foreground="{StaticResource IconFillColor}"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Save}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+			</WrapPanel>
 		</Grid>
 		<WrapPanel Grid.Row="1" Margin="0 4">
 			<controls:KbCheckBox 
@@ -87,25 +88,27 @@
 				IconColor="{StaticResource IconFillColor}"
 				IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll}" 
 				Content="统一超频"></controls:KbCheckBox>
-			<WrapPanel VerticalAlignment="Center">
-				<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
-				<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
-				<TextBlock>M</TextBlock>
-			</WrapPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
-				<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
-				<TextBlock>M</TextBlock>
-			</WrapPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
-				<TextBox ToolTip="50至110" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
-				<TextBlock>%</TextBlock>
-			</WrapPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-				<TextBox ToolTip="38至100" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
-				<TextBlock>%</TextBlock>
+			<WrapPanel IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll}">
+				<WrapPanel VerticalAlignment="Center">
+					<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
+					<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock>M</TextBlock>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
+					<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock>M</TextBlock>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
+					<TextBox ToolTip="50至110" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock>%</TextBlock>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+					<TextBox ToolTip="38至100" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock>%</TextBlock>
+				</WrapPanel>
 			</WrapPanel>
 		</WrapPanel>
 		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
@@ -173,7 +176,7 @@
 							</GroupBox>
 							<controls:KbButton
 								Margin="0 0 2 2"
-								ToolTip="应用"
+								ToolTip="点击应用该卡超频设置"
 								Visibility="{Binding IsGpuAllVm, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 								HorizontalAlignment="Right" VerticalAlignment="Bottom"
 								Command="{Binding Apply}" 

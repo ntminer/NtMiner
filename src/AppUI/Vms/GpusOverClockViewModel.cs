@@ -11,7 +11,17 @@ namespace NTMiner.Vms {
                 return;
             }
             this.FillForm = new DelegateCommand<OverClockDataViewModel>((data) => {
-                data.CoinVm.GpuAllOverClockDataVm.Update(data);
+                if (data.CoinVm.CoinProfile.IsOverClockGpuAll) {
+                    data.CoinVm.GpuAllOverClockDataVm.Update(data);
+                }
+                else {
+                    foreach (var item in data.CoinVm.GpuOverClockVms) {
+                        if (item.Index == NTMinerRoot.GpuAllId) {
+                            continue;
+                        }
+                        item.Update(data);
+                    }
+                }
             });
         }
 
