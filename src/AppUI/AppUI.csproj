@@ -155,8 +155,8 @@
     <Compile Include="Views\Ucs\MineWorkAdd.xaml.cs">
       <DependentUpon>MineWorkAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\RemoteLogin.xaml.cs">
-      <DependentUpon>RemoteLogin.xaml</DependentUpon>
+    <Compile Include="Views\Ucs\WindowsLogin.xaml.cs">
+      <DependentUpon>WindowsLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\NTMinerUpdaterConfig.xaml.cs">
       <DependentUpon>NTMinerUpdaterConfig.xaml</DependentUpon>
@@ -342,7 +342,7 @@
     <Compile Include="Vms\PoolKernelViewModels.cs" />
     <Compile Include="Vms\PoolProfileViewModel.cs" />
     <Compile Include="Vms\PoolProfileViewModels.cs" />
-    <Compile Include="Vms\RemoteLoginViewModel.cs" />
+    <Compile Include="Vms\WindowsLoginViewModel.cs" />
     <Compile Include="Vms\ShareViewModel.cs" />
     <Compile Include="Vms\ShareViewModels.cs" />
     <Compile Include="Vms\CoinSnapshotDataViewModel.cs" />
@@ -470,7 +470,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\RemoteLoginViewModel.xaml">
+    <Page Include="Views\Ucs\Design\WindowsLoginViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -498,7 +498,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\RemoteLogin.xaml">
+    <Page Include="Views\Ucs\WindowsLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

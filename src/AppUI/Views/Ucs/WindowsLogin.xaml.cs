@@ -2,25 +2,25 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class RemoteLogin : UserControl {
-        public static void ShowWindow(RemoteLoginViewModel source) {
+    public partial class WindowsLogin : UserControl {
+        public static void ShowWindow(WindowsLoginViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_RemoteDesktop"
             }, ucFactory: (window) => {
-                RemoteLoginViewModel vm = source;
+                WindowsLoginViewModel vm = source;
                 vm.CloseWindow = () => window.Close();
-                return new RemoteLogin(vm);
+                return new WindowsLogin(vm);
             }, fixedSize: true);
         }
 
-        private RemoteLoginViewModel Vm {
+        private WindowsLoginViewModel Vm {
             get {
-                return (RemoteLoginViewModel)this.DataContext;
+                return (WindowsLoginViewModel)this.DataContext;
             }
         }
-        public RemoteLogin(RemoteLoginViewModel vm) {
+        public WindowsLogin(WindowsLoginViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);

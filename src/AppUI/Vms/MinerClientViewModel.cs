@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
             RefreshDualCoinIncome();
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
-                    RemoteLogin.ShowWindow(new RemoteLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
+                    WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
                         UserName = this.WindowsLoginName,
                         Password = this.WindowsPassword
                     });

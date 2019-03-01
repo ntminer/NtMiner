@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class RemoteLoginViewModel : ViewModelBase {
+    public class WindowsLoginViewModel : ViewModelBase {
         private string _userName;
         private string _password;
         private string _message;
@@ -13,13 +13,13 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
-        public RemoteLoginViewModel() {
+        public WindowsLoginViewModel() {
             if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
 
-        public RemoteLoginViewModel(Guid clientId, string minerName, string ip, MinerClientViewModel minerClientVm) {
+        public WindowsLoginViewModel(Guid clientId, string minerName, string ip, MinerClientViewModel minerClientVm) {
             this.ClientId = clientId;
             this.MinerName = minerName;
             this.Ip = ip;
