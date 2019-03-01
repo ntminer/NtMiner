@@ -8,6 +8,7 @@
     <converters:NotNullOrEmptyVisibilityInvertConverter x:Key="NotNullOrEmptyVisibilityInvertConverter" />
     <converters:NotNullOrEmptyBooleanConverter x:Key="NotNullOrEmptyBooleanConverter" />
     <converters:PercentToLengthConverter x:Key="PercentToLengthConverter" />
+    <converters:BoolToBrushConverter x:Key="BoolToBrushConverter"></converters:BoolToBrushConverter>
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:BoolToVisibilityInvertConverter x:Key="BoolToVisibilityInvertConverter" />
     <converters:BoolToHiddenConverter x:Key="BoolToHiddenConverter" />

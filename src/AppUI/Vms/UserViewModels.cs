@@ -12,6 +12,9 @@ namespace NTMiner.Vms {
         public ICommand Add { get; private set; }
 
         private UserViewModels() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.Add = new DelegateCommand(() => {
                 new UserViewModel().Edit.Execute(null);
             });
