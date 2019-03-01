@@ -7,12 +7,14 @@ namespace NTMiner {
         public UserData(IUser data) {
             this.LoginName = data.LoginName;
             this.Password = data.Password;
+            this.IsEnabled = data.IsEnabled;
             this.Description = data.Description;
         }
 
         public void Update(IUser data) {
             this.LoginName = data.LoginName;
             this.Password = data.Password;
+            this.IsEnabled = data.IsEnabled;
             this.Description = data.Description;
         }
 
@@ -21,6 +23,8 @@ namespace NTMiner {
         public string LoginName { get; set; }
 
         public string Password { get; set; }
+
+        public bool IsEnabled { get; set; }
 
         public string Description { get; set; }
     }

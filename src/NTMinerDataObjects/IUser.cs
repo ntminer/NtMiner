@@ -7,6 +7,8 @@
         /// </summary>
         string Password { get; }
 
+        bool IsEnabled { get; }
+
         string Description { get; }
     }
 }

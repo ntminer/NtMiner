@@ -8,6 +8,7 @@ namespace NTMiner.Vms {
     public class UserViewModel : ViewModelBase, IUser, IEditableViewModel {
         private string _loginName;
         private string _password;
+        private bool _isEnabled;
         private string _description;
 
         public ICommand Remove { get; private set; }
@@ -48,11 +49,13 @@ namespace NTMiner.Vms {
 
         public UserViewModel(IUser data) : this(data.LoginName) {
             _password = data.Password;
+            _isEnabled = data.IsEnabled;
             _description = data.Description;
         }
 
         public void Update(IUser data) {
             this.Password = data.Password;
+            this.IsEnabled = data.IsEnabled;
             this.Description = data.Description;
         }
 
@@ -99,6 +102,14 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(PasswordStar));
                     this.Password = HashUtil.Sha1(HashUtil.Sha1(value));
                 }
+            }
+        }
+
+        public bool IsEnabled {
+            get { return _isEnabled; }
+            set {
+                _isEnabled = value;
+                OnPropertyChanged(nameof(IsEnabled));
             }
         }
 
