@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
 namespace NTMiner.Converters {
-    [ValueConversion(typeof(bool), typeof(Visibility))]
+    [ValueConversion(typeof(bool), typeof(Brush))]
     public class BoolToBrushConverter : IValueConverter {
         private static readonly SolidColorBrush s_green = new SolidColorBrush(Colors.Green);
         private static readonly SolidColorBrush s_red = new SolidColorBrush(Colors.Red);

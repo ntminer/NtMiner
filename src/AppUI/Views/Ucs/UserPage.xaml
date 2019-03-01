@@ -27,8 +27,13 @@
 				</DataGridTextColumn>
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="密码" Binding="{Binding PasswordStar}">
 				</DataGridTextColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="状态" Foreground="{Binding IsEnabled,Converter={StaticResource BoolToBrushConverter}}" Binding="{Binding IsEnabledText}">
-				</DataGridTextColumn>
+				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="状态">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Foreground="{Binding IsEnabled,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding IsEnabledText}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
