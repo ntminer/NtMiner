@@ -190,6 +190,13 @@ namespace NTMiner.Vms {
                 if (driverVersion == null || driverVersion.Value == null) {
                     return string.Empty;
                 }
+                if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
+                    string v = driverVersion.Value.ToString();
+                    int index = v.IndexOf('-');
+                    if (index != -1) {
+                        return v.Substring(0, index);
+                    }
+                }
                 return driverVersion.Value.ToString();
             }
         }
