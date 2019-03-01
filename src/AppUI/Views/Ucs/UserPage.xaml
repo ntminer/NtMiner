@@ -11,7 +11,7 @@
         mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="600">
     <UserControl.Resources>
         <sys:String x:Key="WindowTitle">
-            用户
+            远程用户
         </sys:String>
     </UserControl.Resources>
     <Grid>

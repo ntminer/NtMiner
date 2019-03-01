@@ -81,12 +81,24 @@ namespace NTMiner.Vms {
             }
         }
 
+        private const string _stars = "●●●●●●●●●●";
+        private string _passwordStar;
         public string PasswordStar {
             get {
                 if (string.IsNullOrEmpty(this.Password)) {
                     return string.Empty;
                 }
-                return new string('●', 10);
+                if (string.IsNullOrEmpty(_passwordStar)) {
+                    return _stars;
+                }
+                return _passwordStar;
+            }
+            set {
+                if (_passwordStar != value) {
+                    _passwordStar = value;
+                    OnPropertyChanged(nameof(PasswordStar));
+                    this.Password = HashUtil.Sha1(HashUtil.Sha1(value));
+                }
             }
         }
 

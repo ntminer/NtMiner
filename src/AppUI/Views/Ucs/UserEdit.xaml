@@ -16,7 +16,7 @@
 			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
 		</Style>
 		<sys:String x:Key="WindowTitle">
-			用户
+			远程用户
 		</sys:String>
 	</UserControl.Resources>
 	<StackPanel Margin="10">
@@ -25,8 +25,7 @@
 			<TextBox Width="180" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding LoginName, ValidatesOnExceptions=True}">
 			</TextBox>
 			<Label>密码:</Label>
-			<TextBox Width="180" VerticalContentAlignment="Center" Text="{Binding Password, ValidatesOnExceptions=True}">
-			</TextBox>
+			<PasswordBox Width="180" Background="White" VerticalContentAlignment="Center" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding PasswordStar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
