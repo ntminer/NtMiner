@@ -31,8 +31,7 @@ namespace NTMiner {
 
         public string GetSignData() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(Id)).Append(Id)
-                .Append(nameof(LoginName)).Append(LoginName)
+            sb.Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(Password)).Append(Password)
                 .Append(nameof(IsEnabled)).Append(IsEnabled)
                 .Append(nameof(Description)).Append(Description);
