@@ -234,11 +234,11 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn 
-						MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True"
-						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+						MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel 
+									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 									HorizontalAlignment="Right" 
 									Background="Transparent" 
 									VerticalAlignment="Center" 

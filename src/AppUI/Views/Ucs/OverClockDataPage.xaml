@@ -54,8 +54,7 @@
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="风扇" Binding="{Binding Cool}">
 				</DataGridTextColumn>
 				<DataGridTemplateColumn 
-					MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True"
-					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+					MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
 							Command="{Binding Data.CurrentCoin.AddOverClockData, Source={StaticResource proxy}}" 
