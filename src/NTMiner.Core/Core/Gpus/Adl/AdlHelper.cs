@@ -107,12 +107,11 @@ namespace NTMiner.Core.Gpus.Adl {
         public string GetDriverVersion() {
             ADLVersionsInfo versioninfo = default(ADLVersionsInfo);
             try {
-                if (AdlNativeMethods.ADL_Graphics_Versions_Get(ref versioninfo) == 0) {
-                    return versioninfo.strCatalystVersion;
+                if (AdlNativeMethods.ADL_Graphics_Versions_Get(ref versioninfo) >= 0) {
+                    return versioninfo.strDriverVer;
                 }
             }
-            catch(Exception e) {
-                throw;
+            catch {
             }
             return "0.0";
         }

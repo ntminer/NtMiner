@@ -66,6 +66,8 @@ namespace NTMiner.Core.Gpus.Adl {
 
     internal delegate int ADL_Graphics_Versions_Get(ref ADLVersionsInfo outVersionInfo);
 
+    internal delegate int ADL2_Graphics_Versions_Get(IntPtr hHandle, ref ADLVersionsInfo outVersionInfo);
+
     #endregion Export Delegates
 
     #region ADL Class
@@ -141,6 +143,9 @@ namespace NTMiner.Core.Gpus.Adl {
 
             [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
             public static extern int ADL_Graphics_Versions_Get(ref ADLVersionsInfo outVersionInfo);
+
+            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int ADL2_Graphics_Versions_Get(IntPtr hHandle, ref ADLVersionsInfo outVersionInfo);
 
             #endregion DLLImport
         }
@@ -421,6 +426,25 @@ namespace NTMiner.Core.Gpus.Adl {
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Graphics_Versions_Get_Check = false;
         #endregion ADL_Graphics_Versions_Get
+
+        #region ADL2_Graphics_Versions_Get
+        /// <summary> ADL2_Graphics_Versions_Get Delegates</summary>
+        internal static ADL2_Graphics_Versions_Get ADL2_Graphics_Versions_Get {
+            get {
+                if (!ADL2_Graphics_Versions_Get_Check && null == ADL2_Graphics_Versions_Get_) {
+                    ADL2_Graphics_Versions_Get_Check = true;
+                    if (ADLCheckLibrary.IsFunctionValid("ADL2_Graphics_Versions_Get")) {
+                        ADL2_Graphics_Versions_Get_ = ADLImport.ADL2_Graphics_Versions_Get;
+                    }
+                }
+                return ADL2_Graphics_Versions_Get_;
+            }
+        }
+        /// <summary> Private Delegate</summary>
+        private static ADL2_Graphics_Versions_Get ADL2_Graphics_Versions_Get_ = null;
+        /// <summary> check flag to indicate the delegate has been checked</summary>
+        private static bool ADL2_Graphics_Versions_Get_Check = false;
+        #endregion ADL2_Graphics_Versions_Get
 
         internal static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get {
             get {
