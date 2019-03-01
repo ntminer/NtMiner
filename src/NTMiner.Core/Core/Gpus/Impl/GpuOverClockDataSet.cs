@@ -44,6 +44,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     IGpu gpu;
                     if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
                         message.Input.OverClock(gpu.OverClock);
+                        gpu.OverClock.RefreshGpuState(message.Input.Index);
                     }
                 });
         }

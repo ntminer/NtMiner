@@ -25,9 +25,8 @@ namespace NTMiner.Core.Gpus.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    string commandLine = $"{SpecialPath.NTMinerOverClockFileFullName} gpu:{{0}} ps20e";
-                    const string coreClockDeltaMinMaxPattern = @"c\[0\]\.freqDelta     = \d+ kHz \[(-?\d+) .. (\d+)\]";
-                    const string memoryClockDeltaMinMaxPattern = @"c\[1\]\.freqDelta     = \d+ kHz \[(-?\d+) .. (\d+)\]";
+                    const string coreClockDeltaMinMaxPattern = @"c\[0\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
+                    const string memoryClockDeltaMinMaxPattern = @"c\[1\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
                     foreach (var gpu in _root.GpuSet) {
                         if (gpu.Index == NTMinerRoot.GpuAllId) {
                             continue;
@@ -35,6 +34,8 @@ namespace NTMiner.Core.Gpus.Impl {
                         int exitCode = -1;
                         string output;
                         Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out output);
+                        int coreClockDelta;
+                        int memoryClockDelta;
                         int coreClockDeltaMin = 0;
                         int coreClockDeltaMax = 0;
                         int memoryClockDeltaMin = 0;
@@ -42,14 +43,19 @@ namespace NTMiner.Core.Gpus.Impl {
                         if (exitCode == 0) {
                             Match match = Regex.Match(output, coreClockDeltaMinMaxPattern);
                             if (match.Success) {
-                                int.TryParse(match.Groups[1].Value, out coreClockDeltaMin);
-                                int.TryParse(match.Groups[2].Value, out coreClockDeltaMax);
+                                int.TryParse(match.Groups[1].Value, out coreClockDelta);
+                                gpu.CoreClockDelta = coreClockDelta;
+                                int.TryParse(match.Groups[2].Value, out coreClockDeltaMin);
+                                int.TryParse(match.Groups[3].Value, out coreClockDeltaMax);
                             }
                             match = Regex.Match(output, memoryClockDeltaMinMaxPattern);
                             if (match.Success) {
-                                int.TryParse(match.Groups[1].Value, out memoryClockDeltaMin);
-                                int.TryParse(match.Groups[2].Value, out memoryClockDeltaMax);
+                                int.TryParse(match.Groups[1].Value, out memoryClockDelta);
+                                gpu.MemoryClockDelta = memoryClockDelta;
+                                int.TryParse(match.Groups[2].Value, out memoryClockDeltaMin);
+                                int.TryParse(match.Groups[3].Value, out memoryClockDeltaMax);
                             }
+                            VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
                         }
                         _dicByGpuIndex.Add(gpu.Index, new GpuClockDelta(coreClockDeltaMin, coreClockDeltaMax, memoryClockDeltaMin, memoryClockDeltaMax));
                     }

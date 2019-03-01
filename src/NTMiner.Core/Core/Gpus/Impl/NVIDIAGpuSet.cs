@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Gpus.Impl {
@@ -69,25 +68,6 @@ namespace NTMiner.Core.Gpus.Impl {
                         OverClock = new NVIDIAOverClock()
                     };
                     _gpus.Add(i, gpu);
-                    const string coreClockDeltaPatter = @"c\[0\]\.freqDelta     = (\d+) kHz";
-                    const string memoryClockDeltaPatter = @"c\[1\]\.freqDelta     = (\d+) kHz";
-                    int exitCode = -1;
-                    string output;
-                    Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{i} ps20e", ref exitCode, out output);
-                    if (exitCode == 0) {
-                        Match match = Regex.Match(output, coreClockDeltaPatter);
-                        if (match.Success) {
-                            int coreClockDelta;
-                            int.TryParse(match.Groups[1].Value, out coreClockDelta);
-                            gpu.CoreClockDelta = coreClockDelta;
-                        }
-                        match = Regex.Match(output, memoryClockDeltaPatter);
-                        if (match.Success) {
-                            int memoryClockDelta;
-                            int.TryParse(match.Groups[1].Value, out memoryClockDelta);
-                            gpu.MemoryClockDelta = memoryClockDelta;
-                        }
-                    }
                 }
                 string driverVersion;
                 NvmlNativeMethods.nvmlSystemGetDriverVersion(out driverVersion);

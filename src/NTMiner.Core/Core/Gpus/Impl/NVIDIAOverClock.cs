@@ -18,7 +18,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             else {
                 Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{data.Index} gclk:{value}");
-            }            
+            }
         }
 
         public void SetMemoryClock(IGpuOverClockData data) {
@@ -109,6 +109,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     int.TryParse(match.Groups[1].Value, out memoryClockDelta);
                     gpu.MemoryClockDelta = memoryClockDelta;
                 }
+                VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
             }
         }
     }
