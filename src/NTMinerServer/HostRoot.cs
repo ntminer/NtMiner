@@ -3,7 +3,6 @@ using LiteDB;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.User;
-using NTMiner.User.Impl;
 using System;
 using System.IO;
 

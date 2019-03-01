@@ -1,10 +1,11 @@
 ﻿using LiteDB;
+using NTMiner.User;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.User.Impl {
+namespace NTMiner.Core.Impl {
     public class UserSet : IUserSet {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 

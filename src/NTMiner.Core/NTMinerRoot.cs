@@ -13,7 +13,6 @@ using NTMiner.Core.SysDics.Impl;
 using NTMiner.Daemon;
 using NTMiner.Profile;
 using NTMiner.User;
-using NTMiner.User.Impl;
 using System;
 using System.Collections.Generic;
 using System.IO;
