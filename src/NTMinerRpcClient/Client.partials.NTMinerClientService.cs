@@ -12,26 +12,6 @@ namespace NTMiner {
             private MinerClientServiceFace() {
             }
 
-            public void AddUserAsync(string clientHost, string loginName, string password, string description, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            AddUserRequest request = new AddUserRequest() {
-                                LoginName = loginName,
-                                Password = password,
-                                Description = description
-                            };
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/AddUser", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response);
-                        }
-                    }
-                    catch {
-                        callback?.Invoke(null);
-                    }
-                });
-            }
-
             public void ShowMainWindowAsync(string clientHost, int clientPort, Action<bool> callback) {
                 Task.Factory.StartNew(() => {
                     try {

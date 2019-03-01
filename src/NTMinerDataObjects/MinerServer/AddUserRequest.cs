@@ -1,4 +1,4 @@
-﻿namespace NTMiner.MinerClient {
+﻿namespace NTMiner.MinerServer {
     public class AddUserRequest : RequestBase, IUser {
         public AddUserRequest() { }
         public string LoginName { get; set; }

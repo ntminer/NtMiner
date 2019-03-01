@@ -1,5 +1,6 @@
 ﻿using NTMiner.MinerServer;
 using NTMiner.Profile;
+using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -20,6 +21,59 @@ namespace NTMiner.Controllers {
                 }
                 Write.DevLine($"{request.LoginName}登录");
                 VirtualRoot.Happened(new UserLoginedEvent(user));
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region AddUser
+        [HttpPost]
+        public ResponseBase AddUser([FromBody]AddUserRequest request) {
+            if (request == null || string.IsNullOrEmpty(request.LoginName) || string.IsNullOrEmpty(request.Password)) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                IUser user;
+                if (HostRoot.Current.UserSet.TryGetKey(request.LoginName, out user)) {
+                    if (user.Password == request.Password) {
+                        return ResponseBase.Ok(request.MessageId);
+                    }
+                    else {
+                        return ResponseBase.ClientError(request.MessageId, $"密码错误");
+                    }
+                }
+                VirtualRoot.Execute(new AddUserCommand(request));
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region ChangePassword
+        [HttpPost]
+        public ResponseBase ChangePassword([FromBody]ChangePasswordRequest request) {
+            if (request == null || string.IsNullOrEmpty(request.LoginName) || string.IsNullOrEmpty(request.OldPassword) || string.IsNullOrEmpty(request.NewPassword)) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                IUser user;
+                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out user)) {
+                    return ResponseBase.ClientError(request.MessageId, $"登录名不存在");
+                }
+                if (user.Password == request.NewPassword) {
+                    return ResponseBase.Ok(request.MessageId);
+                }
+                if (user.Password != request.OldPassword) {
+                    return ResponseBase.ClientError(request.MessageId, $"旧密码不正确");
+                }
+                VirtualRoot.Execute(new ChangePasswordCommand(request.LoginName, request.OldPassword, request.NewPassword, request.Description));
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

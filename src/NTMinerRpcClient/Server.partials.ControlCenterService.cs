@@ -31,6 +31,25 @@ namespace NTMiner {
             }
             #endregion
 
+            #region AddUserAsync
+            public void AddUserAsync(string clientHost, string loginName, string password, string description, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        AddUserRequest request = new AddUserRequest() {
+                            LoginName = loginName,
+                            Password = password,
+                            Description = description
+                        };
+                        ResponseBase response = Request<ResponseBase>("ControlCenter", "AddUser", request);
+                        callback?.Invoke(response);
+                    }
+                    catch {
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+            #endregion
+
             #region LoadClientsAsync
             public void LoadClientsAsync(List<Guid> clientIds, Action<LoadClientsResponse> callback) {
                 Task.Factory.StartNew(() => {

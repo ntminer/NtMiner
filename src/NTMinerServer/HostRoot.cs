@@ -92,28 +92,6 @@ namespace NTMiner {
             this.MineProfileManager = new MineProfileManager(this);
             this.NTMinerFileSet = new NTMinerFileSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
-            VirtualRoot.On<UserLoginedEvent>(
-                "用户登录成功后广播",
-                LogEnum.Console,
-                action: message => {
-                    Task.Factory.StartNew(() => {
-                        Parallel.ForEach(VirtualRoot.IpSet, (ip, state, i) => {
-                            try {
-                                Client.MinerClientService.AddUserAsync(ip.ToString(), message.User.LoginName, HashUtil.Sha1(message.User.Password), message.User.Description, response=> {
-                                    if (response.IsSuccess()) {
-                                        Write.DevLine($"向{ip.ToString()}广播登录成功成功", ConsoleColor.Green);
-                                    }
-                                    else {
-                                        Write.DevLine($"向{ip.ToString()}广播登录成功失败：{response?.Description}", ConsoleColor.Red);
-                                    }
-                                });
-                            }
-                            catch (Exception e) {
-                                Write.DevLine(e.Message);
-                            }
-                        });
-                    });
-                });
         }
 
         public IUserSet UserSet { get; private set; }
