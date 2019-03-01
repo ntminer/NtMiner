@@ -1,4 +1,6 @@
-﻿using MahApps.Metro.Controls;
+﻿using System;
+using System.Windows;
+using MahApps.Metro.Controls;
 using NTMiner.Vms;
 
 namespace NTMiner.Views {
@@ -18,6 +20,13 @@ namespace NTMiner.Views {
         private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
                 this.DragMove();
+            }
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            base.OnClosed(e);
+            if (!this.DialogResult.HasValue || !this.DialogResult.Value) {
+                Application.Current.Shutdown();
             }
         }
 
