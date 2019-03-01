@@ -26,7 +26,7 @@ namespace NTMiner.Data.Impl {
                             _dicById.Remove(clientId);
                         }
                         time = message.Timestamp.AddSeconds(-message.Seconds);
-                        using (LiteDatabase db = HostRoot.CreateReportDb()) {
+                        using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                             var col = db.GetCollection<ClientData>();
                             // 更新一个周期内活跃的客户端
                             col.Upsert(_dicById.Values.Where(a => a.ModifiedOn > time));
@@ -48,7 +48,7 @@ namespace NTMiner.Data.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = HostRoot.CreateReportDb()) {
+                    using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                         var col = db.GetCollection<ClientData>();
                         DateTime time = DateTime.Now.AddMinutes(-20);
                         foreach (var item in col.Find(Query.GT(nameof(ClientData.ModifiedOn), time))) {
@@ -151,7 +151,7 @@ namespace NTMiner.Data.Impl {
                     query = _dicById.Values.AsQueryable();
                 }
                 else {
-                    using (LiteDatabase db = HostRoot.CreateReportDb()) {
+                    using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                         var col = db.GetCollection<ClientData>();
                         query = col.FindAll().AsQueryable();
                     }
@@ -252,7 +252,7 @@ namespace NTMiner.Data.Impl {
                 _dicById.TryGetValue(clientId, out clientData);
             }
             if (clientData == null) {
-                using (LiteDatabase db = HostRoot.CreateReportDb()) {
+                using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                     var col = db.GetCollection<ClientData>();
                     clientData = col.FindById(clientId);
                     if (clientData != null) {
