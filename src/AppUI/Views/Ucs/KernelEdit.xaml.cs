@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -33,15 +32,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void CoinKernelDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                CoinKernelViewModel kernelVm = (CoinKernelViewModel)dg.SelectedItem;
-                kernelVm.Edit.Execute(null);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
         }
     }
 }

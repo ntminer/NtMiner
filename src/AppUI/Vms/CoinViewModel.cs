@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class CoinViewModel : ViewModelBase, ICoin {
+    public class CoinViewModel : ViewModelBase, ICoin, IEditableViewModel {
         public static readonly CoinViewModel Empty = new CoinViewModel(Guid.Empty) {
             _algo = string.Empty,
             _code = string.Empty,

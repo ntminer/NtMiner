@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelInputViewModel : ViewModelBase, IKernelInput {
+    public class KernelInputViewModel : ViewModelBase, IKernelInput, IEditableViewModel {
         public static readonly KernelInputViewModel PleaseSelect = new KernelInputViewModel(Guid.Empty) {
             _name = "请选择"
         };

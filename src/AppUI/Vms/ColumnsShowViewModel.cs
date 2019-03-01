@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class ColumnsShowViewModel : ViewModelBase, IColumnsShow {
+    public class ColumnsShowViewModel : ViewModelBase, IColumnsShow, IEditableViewModel {
         private Guid _id;
         private string _columnsShowName;
         private bool _work = true;

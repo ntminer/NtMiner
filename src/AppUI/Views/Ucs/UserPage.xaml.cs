@@ -26,14 +26,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                ((MineWorkViewModel)dg.SelectedItem).Edit.Execute(null);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<UserViewModel>(sender, e);
         }
     }
 }

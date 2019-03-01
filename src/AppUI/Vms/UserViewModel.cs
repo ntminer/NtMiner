@@ -5,7 +5,7 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class UserViewModel : ViewModelBase, IUser {
+    public class UserViewModel : ViewModelBase, IUser, IEditableViewModel {
         private string _loginName;
         private string _password;
         private string _description;
@@ -17,9 +17,6 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public UserViewModel() {
-            if (!Design.IsInDesignMode) {
-                throw new InvalidProgramException();
-            }
         }
 
         public UserViewModel(IUser data) : this(data.LoginName) {

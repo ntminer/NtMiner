@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class PoolKernelViewModel : ViewModelBase, IPoolKernel {
+    public class PoolKernelViewModel : ViewModelBase, IPoolKernel, IEditableViewModel {
         private Guid _id;
         private Guid _poolId;
         private Guid _kernelId;

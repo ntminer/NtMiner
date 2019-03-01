@@ -4,7 +4,7 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class LangViewItemViewModel : ViewModelBase, ILangViewItem {
+    public class LangViewItemViewModel : ViewModelBase, ILangViewItem, IEditableViewModel {
         private Guid _id;
         private Guid _langId;
         private string _viewId;

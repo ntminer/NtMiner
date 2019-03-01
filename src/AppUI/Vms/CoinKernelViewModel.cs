@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class CoinKernelViewModel : ViewModelBase, ICoinKernel {
+    public class CoinKernelViewModel : ViewModelBase, ICoinKernel, IEditableViewModel {
         private Guid _id;
         private Guid _coinId;
         private Guid _kernelId;

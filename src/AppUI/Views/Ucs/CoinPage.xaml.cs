@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -33,50 +32,19 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (Vm.CurrentCoin != null) {
-                Vm.CurrentCoin.Edit.Execute(null);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<CoinViewModel>(sender, e);
         }
 
         private void WalletDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                WalletViewModel walletVm = (WalletViewModel)dg.SelectedItem;
-                walletVm.Edit.Execute(null);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<WalletViewModel>(sender, e);
         }
 
         private void PoolDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                PoolViewModel poolVm = (PoolViewModel)dg.SelectedItem;
-                poolVm.Edit.Execute(null);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<PoolViewModel>(sender, e);
         }
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                CoinKernelViewModel kernelVm = (CoinKernelViewModel)dg.SelectedItem;
-                kernelVm.Edit.Execute(null);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
         }
     }
 }

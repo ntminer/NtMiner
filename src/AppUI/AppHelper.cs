@@ -3,8 +3,6 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace NTMiner {
@@ -85,19 +83,5 @@ namespace NTMiner {
             }
         }
         #endregion
-
-        public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
-                ScrollViewer scrollViewer = (ScrollViewer)sender;
-                if (scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible) {
-                    Point p = e.GetPosition(scrollViewer);
-                    if (p.X > scrollViewer.ActualWidth - SystemParameters.ScrollWidth) {
-                        return;
-                    }
-                }
-                Window.GetWindow(scrollViewer).DragMove();
-                e.Handled = true;
-            }
-        }
     }
 }

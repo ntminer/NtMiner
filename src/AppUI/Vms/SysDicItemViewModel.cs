@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class SysDicItemViewModel : ViewModelBase, ISysDicItem {
+    public class SysDicItemViewModel : ViewModelBase, ISysDicItem, IEditableViewModel {
         public static readonly SysDicItemViewModel PleaseSelect = new SysDicItemViewModel(Guid.Empty) {
             _code = string.Empty,
             _value = "请选择",

@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class NTMinerFileViewModel : ViewModelBase, INTMinerFile {
+    public class NTMinerFileViewModel : ViewModelBase, INTMinerFile, IEditableViewModel {
         private Version _versionData;
         private string _fileName;
         private string _version;

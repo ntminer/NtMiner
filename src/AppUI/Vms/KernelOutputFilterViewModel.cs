@@ -6,7 +6,7 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelOutputFilterViewModel : ViewModelBase, IKernelOutputFilter {
+    public class KernelOutputFilterViewModel : ViewModelBase, IKernelOutputFilter, IEditableViewModel {
         private string _regexPattern;
         private Guid _id;
 

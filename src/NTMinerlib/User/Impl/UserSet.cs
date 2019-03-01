@@ -1,5 +1,6 @@
 ﻿using LiteDB;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -83,6 +84,16 @@ namespace NTMiner.User.Impl {
             bool result = _dicByLoginName.TryGetValue(loginName, out userData);
             user = userData;
             return result;
+        }
+
+        public IEnumerator<IUser> GetEnumerator() {
+            InitOnece();
+            return _dicByLoginName.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            InitOnece();
+            return _dicByLoginName.Values.GetEnumerator();
         }
     }
 }

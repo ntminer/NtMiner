@@ -6,7 +6,7 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class OverClockDataViewModel : ViewModelBase, IOverClockData {
+    public class OverClockDataViewModel : ViewModelBase, IOverClockData, IEditableViewModel {
         private Guid _id;
         private Guid _coinId;
         private string _name;

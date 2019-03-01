@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -32,15 +31,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                PoolKernelViewModel kernelVm = (PoolKernelViewModel)dg.SelectedItem;
-                kernelVm.Edit.Execute(null);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<PoolKernelViewModel>(sender, e);
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class SysDicViewModel : ViewModelBase, ISysDic {
+    public class SysDicViewModel : ViewModelBase, ISysDic, IEditableViewModel {
         private Guid _id;
         private string _code;
         private string _name;

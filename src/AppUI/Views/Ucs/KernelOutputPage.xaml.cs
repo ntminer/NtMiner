@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -30,35 +29,16 @@ namespace NTMiner.Views.Ucs {
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
-        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            if (Vm.CurrentKernelOutputVm != null) {
-                Vm.CurrentKernelOutputVm.Edit.Execute(null);
-            }
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            WpfUtil.DataGrid_MouseDoubleClick<KernelOutputViewModel>(sender, e);
         }
 
         private void KernelOutputFilterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                KernelOutputFilterViewModel kernelOutputFilterVm = (KernelOutputFilterViewModel)dg.SelectedItem;
-                kernelOutputFilterVm.Edit.Execute(null);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<KernelOutputFilterViewModel>(sender, e);
         }
 
         private void KernelOutputTranslaterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                KernelOutputTranslaterViewModel kernelOutputTranslaterVm = (KernelOutputTranslaterViewModel)dg.SelectedItem;
-                kernelOutputTranslaterVm.Edit.Execute(null);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<KernelOutputTranslaterViewModel>(sender, e);
         }
     }
 }

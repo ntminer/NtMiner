@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class MineWorkViewModel : ViewModelBase, IMineWork {
+    public class MineWorkViewModel : ViewModelBase, IMineWork, IEditableViewModel {
         public static readonly MineWorkViewModel PleaseSelect = new MineWorkViewModel(Guid.Empty) {
             _name = "请选择"
         };

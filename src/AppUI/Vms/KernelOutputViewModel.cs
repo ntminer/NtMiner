@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelOutputViewModel : ViewModelBase, IKernelOutput {
+    public class KernelOutputViewModel : ViewModelBase, IKernelOutput, IEditableViewModel {
         public static readonly KernelOutputViewModel PleaseSelect = new KernelOutputViewModel(Guid.Empty) {
             _name = "请选择"
         };

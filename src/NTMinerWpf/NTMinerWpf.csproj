@@ -112,6 +112,7 @@
     <Compile Include="Views\ViewLang.xaml.cs">
       <DependentUpon>ViewLang.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\IEditableViewModel.cs" />
     <Compile Include="Vms\LangViewItemViewModel.cs" />
     <Compile Include="Vms\LangViewItemViewModels.cs" />
     <Compile Include="Vms\LangViewModel.cs" />
@@ -126,6 +127,7 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowExtensions.cs" />
+    <Compile Include="WpfUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Notifications\Themes\Generic.xaml">

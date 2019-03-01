@@ -8,7 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class KernelOutputTranslaterViewModel : ViewModelBase, IKernelOutputTranslater {
+    public class KernelOutputTranslaterViewModel : ViewModelBase, IKernelOutputTranslater, IEditableViewModel {
         private string _regexPattern;
         private Guid _id;
         private string _replacement;

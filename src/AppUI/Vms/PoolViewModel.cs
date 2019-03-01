@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class PoolViewModel : ViewModelBase, IPool {
+    public class PoolViewModel : ViewModelBase, IPool, IEditableViewModel {
         public static readonly PoolViewModel Empty = new PoolViewModel(Guid.Empty) {
             _coinId = Guid.Empty,
             _name = "无"
