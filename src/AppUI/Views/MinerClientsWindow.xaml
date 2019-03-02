@@ -1569,6 +1569,60 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.IsAutoBoot,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>开机自动启动</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IsAutoBoot">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock 
+									Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
+									Text="是"></TextBlock>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.IsAutoStart,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>启动后自动开始挖矿</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IsAutoStart">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock 
+									Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
+									Text="是"></TextBlock>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
 					CanUserReorder="False" 
