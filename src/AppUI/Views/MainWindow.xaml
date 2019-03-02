@@ -243,18 +243,16 @@
 												Height="14">
 											</TextBlock>
 											<controls:KbButton 
-												Padding="4 0"
-												Height="20"
+												ToolTip="{DynamicResource UseThisPcName}"
 												Command="{Binding UseThisPcName}"
-												Background="{StaticResource IconFillColor}"
+												Background="Transparent"
 												CornerRadius="2">
-												<WrapPanel>
-													<TextBlock
-														Padding="2 0"
-														VerticalAlignment="Center"
-														Foreground="White"
-														Text="{DynamicResource UseThisPcName}" />
-												</WrapPanel>
+												<Path
+													Width="16"
+													Height="14"
+													Data="{StaticResource Icon_WindowsOS}"
+													Fill="{StaticResource IconFillColor}"
+													Stretch="Fill" />
 											</controls:KbButton>
 										</WrapPanel>
 									</StackPanel>
