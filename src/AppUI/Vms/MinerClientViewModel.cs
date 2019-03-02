@@ -367,7 +367,7 @@ namespace NTMiner.Vms {
                     _data.MinerName = value;
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, response1 => {
                         if (response1.IsSuccess()) {
-                            Client.MinerClientService.SetMinerProfilePropertyAsync(this.MinerIp, nameof(MinerName), value, response2 => {
+                            Client.MinerClientService.SetMinerNameAsync(this.MinerIp, value, response2 => {
                                 if (!response2.IsSuccess()) {
                                     _data.MinerName = old;
                                     Write.UserLine($"{this.MinerIp} {response2?.Description}", ConsoleColor.Red);
