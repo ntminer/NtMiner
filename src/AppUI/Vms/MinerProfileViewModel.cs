@@ -240,5 +240,11 @@ namespace NTMiner.Vms {
                 }
             }
         }
+
+        public bool IsWorker {
+            get {
+                return CommandLineArgs.WorkId != Guid.Empty;
+            }
+        }
     }
 }

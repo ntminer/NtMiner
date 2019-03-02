@@ -191,9 +191,38 @@
 						</Grid.RowDefinitions>
 						<Border
 							Grid.Column="0" Grid.Row="0"
-							BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"
-							IsEnabled="{Binding IsWorker, Converter={StaticResource BoolInvertConverter}}">
+							IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"
+							BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 							<uc:MinerProfileIndex />
+						</Border>
+						<WrapPanel 
+							Grid.Column="0" Grid.Row="0" 
+							IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"
+							Margin="10 0 8 2" VerticalAlignment="Bottom">
+							<controls:KbCheckBox 								
+								Content="{DynamicResource ChkIsAutoBoot}"
+								IconColor="{StaticResource IconFillColor}"
+								IsChecked="{Binding MinerProfile.IsAutoBoot}" />
+							<controls:KbCheckBox Margin="10 0 0 0"
+								Content="{DynamicResource ChkIsAutoStart}"
+								IconColor="{StaticResource IconFillColor}"
+								IsChecked="{Binding MinerProfile.IsAutoStart}" />
+						</WrapPanel>
+						<Border
+							Grid.Column="0" Grid.Row="0"
+							Width="200"
+							Height="200"
+							Background="#55000000"
+							HorizontalAlignment="Center" 
+							VerticalAlignment="Center" 
+							CornerRadius="100"
+							Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock 
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Foreground="{StaticResource IconFillColor}" 
+								FontSize="30" 
+								Text="由中控管理"></TextBlock>
 						</Border>
 						<WrapPanel Grid.Column="0" Grid.Row="0" Margin="0 8 10 0" HorizontalAlignment="Right" VerticalAlignment="Top">
 							<controls:KbButton 
@@ -255,18 +284,6 @@
 									</ControlTemplate>
 								</Button.Template>
 							</Button>
-						</WrapPanel>
-						<WrapPanel 
-							Grid.Column="0" Grid.Row="0" Margin="10 0 8 2" VerticalAlignment="Bottom"
-							IsEnabled="{Binding IsWorker, Converter={StaticResource BoolInvertConverter}}">
-							<controls:KbCheckBox 								
-								Content="{DynamicResource ChkIsAutoBoot}"
-								IconColor="{StaticResource IconFillColor}"
-								IsChecked="{Binding MinerProfile.IsAutoBoot}" />
-							<controls:KbCheckBox Margin="10 0 0 0"
-								Content="{DynamicResource ChkIsAutoStart}"
-								IconColor="{StaticResource IconFillColor}"
-								IsChecked="{Binding MinerProfile.IsAutoStart}" />
 						</WrapPanel>
 						<TabControl
 							Grid.Column="1" Grid.Row="0" 

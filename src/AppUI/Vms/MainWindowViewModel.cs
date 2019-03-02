@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Notifications;
-using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -97,21 +96,6 @@ namespace NTMiner.Vms {
         public StateBarViewModel StateBarVm {
             get {
                 return StateBarViewModel.Current;
-            }
-        }
-
-        public Guid WorkId {
-            get {
-                return CommandLineArgs.WorkId;
-            }
-        }
-
-        public bool IsWorker {
-            get {
-                if (WorkId != Guid.Empty) {
-                    return true;
-                }
-                return false;
             }
         }
 
