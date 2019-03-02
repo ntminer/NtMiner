@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
                 }
-                if (VirtualRoot.IsControlCenter && this.LoginName == Server.LoginName) {
+                if (VirtualRoot.IsControlCenter && this.LoginName == SingleUser.LoginName) {
                     throw new ValidationException("不能删除自己");
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {

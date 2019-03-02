@@ -50,10 +50,10 @@ namespace NTMiner {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             StartMineRequest request = new StartMineRequest() {
-                                LoginName = Server.LoginName,
+                                LoginName = SingleUser.LoginName,
                                 WorkId = workId
                             };
-                            request.SignIt(Server.PasswordSha1Sha1);
+                            request.SignIt(SingleUser.PasswordSha1Sha1);
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/StartMine", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
@@ -71,9 +71,9 @@ namespace NTMiner {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             StopMineRequest request = new StopMineRequest() {
-                                LoginName = Server.LoginName
+                                LoginName = SingleUser.LoginName
                             };
-                            request.SignIt(Server.PasswordSha1Sha1);
+                            request.SignIt(SingleUser.PasswordSha1Sha1);
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/StopMine", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
@@ -91,10 +91,10 @@ namespace NTMiner {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             SetMinerNameRequest request = new SetMinerNameRequest() {
-                                LoginName = Server.LoginName,
+                                LoginName = SingleUser.LoginName,
                                 MinerName = minerName
                             };
-                            request.SignIt(Server.PasswordSha1Sha1);
+                            request.SignIt(SingleUser.PasswordSha1Sha1);
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/SetMinerName", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
@@ -112,11 +112,11 @@ namespace NTMiner {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest {
-                                LoginName = Server.LoginName,
+                                LoginName = SingleUser.LoginName,
                                 PropertyName = propertyName,
                                 Value = value
                             };
-                            request.SignIt(Server.PasswordSha1Sha1);
+                            request.SignIt(SingleUser.PasswordSha1Sha1);
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/SetMinerProfileProperty", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);

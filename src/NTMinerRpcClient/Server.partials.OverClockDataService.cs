@@ -34,10 +34,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         AddOrUpdateOverClockDataRequest request = new AddOrUpdateOverClockDataRequest {
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             Data = entity
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("OverClockData", "AddOrUpdateOverClockData", request);
                         callback?.Invoke(response);
                     }
@@ -54,10 +54,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveOverClockDataRequest request = new RemoveOverClockDataRequest() {
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             OverClockDataId = id
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("OverClockData", "RemoveOverClockData", request);
                         callback?.Invoke(response);
                     }

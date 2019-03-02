@@ -50,9 +50,9 @@ namespace NTMiner {
                     try {
                         SetAppSettingRequest request = new SetAppSettingRequest() {
                             Data = entity,
-                            LoginName = LoginName
+                            LoginName = SingleUser.LoginName
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("AppSetting", "SetAppSetting", request);
                         callback?.Invoke(response);
                     }

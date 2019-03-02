@@ -15,10 +15,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RestartWindowsRequest request = new RestartWindowsRequest {
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             ClientIp = clientIp
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "RestartWindows", request);
                         callback?.Invoke(response);
                     }
@@ -33,10 +33,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         ShutdownWindowsRequest request = new ShutdownWindowsRequest {
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             ClientIp = clientIp
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "ShutdownWindows", request);
                         callback?.Invoke(response);
                     }
@@ -51,11 +51,11 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         OpenNTMinerRequest request = new OpenNTMinerRequest {
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             ClientIp = clientIp,
                             WorkId = workId
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "OpenNTMiner", request);
                         callback?.Invoke(response);
                     }
@@ -70,11 +70,11 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         RestartNTMinerRequest request = new RestartNTMinerRequest {
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             ClientIp = clientIp,
                             WorkId = workId
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "RestartNTMiner", request);
                         callback?.Invoke(response);
                     }
@@ -89,11 +89,11 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         UpgradeNTMinerRequest request = new UpgradeNTMinerRequest {
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             ClientIp = clientIp,
                             NTMinerFileName = ntminerFileName
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "UpgradeNTMiner", request);
                         callback?.Invoke(response);
                     }
@@ -108,10 +108,10 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         CloseNTMinerRequest request = new CloseNTMinerRequest {
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             ClientIp = clientIp
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "CloseNTMiner", request);
                         callback?.Invoke(response);
                     }
@@ -127,10 +127,10 @@ namespace NTMiner {
                     try {
                         StartMineRequest request = new StartMineRequest {
                             ClientIp = clientIp,
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             WorkId = workId
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "StartMine", request);
                         callback?.Invoke(response);
                     }
@@ -146,9 +146,9 @@ namespace NTMiner {
                     try {
                         StopMineRequest request = new StopMineRequest {
                             ClientIp = clientIp,
-                            LoginName = LoginName
+                            LoginName = SingleUser.LoginName
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "StopMine", request);
                         callback?.Invoke(response);
                     }
@@ -164,11 +164,11 @@ namespace NTMiner {
                     try {
                         SetClientMinerProfilePropertyRequest request = new SetClientMinerProfilePropertyRequest {
                             ClientIp = clientIp,
-                            LoginName = LoginName,
+                            LoginName = SingleUser.LoginName,
                             PropertyName = propertyName,
                             Value = value
                         };
-                        request.SignIt(PasswordSha1);
+                        request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("MinerClient", "SetClientMinerProfileProperty", request);
                         callback?.Invoke(response);
                     }

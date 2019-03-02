@@ -48,7 +48,7 @@ namespace NTMiner {
                     NTMinerRoot.KernelDownloader = new KernelDownloader();
                     UIThread.Execute(() => {
                         bool? result = true;
-                        if (string.IsNullOrEmpty(Server.LoginName) || string.IsNullOrEmpty(Server.PasswordSha1)) {
+                        if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
                             LoginWindow loginWindow = new LoginWindow();
                             splashWindow.Hide();
                             result = loginWindow.ShowDialog();

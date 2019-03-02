@@ -35,8 +35,8 @@ namespace NTMiner.Vms {
                             return;
                         }
                         if (response.IsSuccess()) {
-                            Server.LoginName = LoginName;
-                            Server.PasswordSha1 = passwordSha1;
+                            SingleUser.LoginName = LoginName;
+                            SingleUser.PasswordSha1 = passwordSha1;
                             Window window = TopWindow.GetTopWindow();
                             if (window != null && window.GetType() == typeof(LoginWindow)) {
                                 window.DialogResult = true;

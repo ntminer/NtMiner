@@ -67,6 +67,7 @@
     <Compile Include="Server.partials.ProfileService.cs" />
     <Compile Include="Server.partials.ReportService.cs" />
     <Compile Include="Server.partials.TimeService.cs" />
+    <Compile Include="SingleUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">

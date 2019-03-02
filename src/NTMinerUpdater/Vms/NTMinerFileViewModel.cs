@@ -58,7 +58,7 @@ namespace NTMiner.Vms {
         }
 
         private bool Login() {
-            if (string.IsNullOrEmpty(Server.LoginName) || string.IsNullOrEmpty(Server.PasswordSha1)) {
+            if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
                 LoginWindow window = new LoginWindow() {
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
                     Owner = TopWindow.GetTopWindow()

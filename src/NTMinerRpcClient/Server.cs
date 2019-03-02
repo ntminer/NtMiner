@@ -12,20 +12,6 @@ namespace NTMiner {
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
         public static readonly MinerClientServiceFace MinerClientService = MinerClientServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
-        public static string LoginName { get; set; }
-
-        private static string s_passwordSha1;
-        public static string PasswordSha1 {
-            get { return s_passwordSha1; }
-            set {
-                s_passwordSha1 = value;
-                PasswordSha1Sha1 = HashUtil.Sha1(value);
-            }
-        }
-
-        public static string PasswordSha1Sha1 {
-            get; private set;
-        }
 
         public static string MinerServerHost {
             get { return NTMinerRegistry.GetMinerServerHost(); }
