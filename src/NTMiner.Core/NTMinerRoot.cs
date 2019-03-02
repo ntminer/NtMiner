@@ -504,7 +504,7 @@ namespace NTMiner {
                     return;
                 }
                 IMineContext mineContext = this.CreateMineContext(
-                        minerProfile.MinerName,
+                        GetMinerName(),
                         mainCoin, mainCoinPool, kernel, coinKernel,
                         coinProfile.Wallet);
                 ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(coinKernel.GetId());

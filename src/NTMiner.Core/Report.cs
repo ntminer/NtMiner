@@ -66,7 +66,7 @@ namespace NTMiner {
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,
                 IsMining = root.IsMining,
-                MinerName = root.MinerProfile.MinerName,
+                MinerName = NTMinerRoot.GetMinerName(),
                 GpuInfo = root.GpuSetInfo,
                 ClientId = ClientId.Id,
                 MainCoinCode = string.Empty,

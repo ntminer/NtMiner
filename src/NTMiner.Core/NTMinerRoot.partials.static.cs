@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using Microsoft.Win32;
+using NTMiner.Core;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.Repositories;
@@ -59,5 +60,70 @@ namespace NTMiner {
         public static IRepository<T> CreateCompositeRepository<T>() where T : class, ILevelEntity<Guid> {
             return new CompositeRepository<T>(CreateServerRepository<T>(), CreateLocalRepository<T>());
         }
+
+        public static string GetThisPcName() {
+            string value = Environment.MachineName.ToLower();
+            value = new string(value.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
+            return value;
+        }
+
+        #region MinerName
+        public static string GetMinerName() {
+            object locationValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
+            string result = string.Empty;
+            if (locationValue != null) {
+                result =(string)locationValue;
+            }
+            if (string.IsNullOrEmpty(result)) {
+                result = GetThisPcName();
+            }
+            return result;
+        }
+
+        public static void SetMinerName(string minerName) {
+            if (string.IsNullOrEmpty(minerName)) {
+                minerName = GetThisPcName();
+            }
+            else {
+                minerName = new string(minerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
+            }
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", minerName);
+            VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+        }
+        #endregion
+
+        #region IsAutoThisPCName
+        public static bool GetIsAutoThisPCName() {
+            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoThisPCName");
+            return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
+        }
+
+        public static void SetIsAutoThisPCName(bool value) {
+            SetMinerName(GetThisPcName());
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoThisPCName", value);
+        }
+        #endregion
+
+        #region IsShowInTaskbar
+        public static bool GetIsShowInTaskbar() {
+            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowInTaskbar");
+            return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
+        }
+
+        public static void SetIsShowInTaskbar(bool value) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowInTaskbar", value);
+        }
+        #endregion
+
+        #region IsShowCommandLine
+        public static bool GetIsShowCommandLine() {
+            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine");
+            return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
+        }
+
+        public static void SetIsShowCommandLine(bool value) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine", value);
+        }
+        #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace NTMiner {
             }
         }
 
-        private const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
+        public const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
 
         #region Location
         public static string GetLocation() {

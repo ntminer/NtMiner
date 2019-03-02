@@ -80,9 +80,6 @@ namespace NTMiner.Core.Profiles {
             if (result == null) {
                 result = MinerProfileData.CreateDefaultData();
             }
-            else if (result.IsAutoThisPCName) {
-                result.MinerName = MinerProfileData.GetThisPcName();
-            }
             return result;
         }
 
@@ -99,41 +96,6 @@ namespace NTMiner.Core.Profiles {
             get { return _data.Id; }
             private set {
                 _data.Id = value;
-            }
-        }
-
-        public string MinerName {
-            get => _data.MinerName;
-            private set {
-                if (string.IsNullOrEmpty(value)) {
-                    value = MinerProfileData.GetThisPcName();
-                }
-                value = new string(value.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
-                if (_data.MinerName != value) {
-                    _data.MinerName = value;
-                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
-                }
-            }
-        }
-
-        public bool IsAutoThisPCName {
-            get { return _data.IsAutoThisPCName; }
-            private set {
-                if (_data.IsAutoThisPCName != value) {
-                    _data.IsAutoThisPCName = value;
-                    if (value) {
-                        this.MinerName = string.Empty;
-                    }
-                }
-            }
-        }
-
-        public bool IsShowInTaskbar {
-            get { return _data.IsShowInTaskbar; }
-            private set {
-                if (_data.IsShowInTaskbar != value) {
-                    _data.IsShowInTaskbar = value;
-                }
             }
         }
 
@@ -213,13 +175,6 @@ namespace NTMiner.Core.Profiles {
                 if (_data.IsAutoRestartKernel != value) {
                     _data.IsAutoRestartKernel = value;
                 }
-            }
-        }
-
-        public bool IsShowCommandLine {
-            get { return _data.IsShowCommandLine; }
-            private set {
-                _data.IsShowCommandLine = value;
             }
         }
 

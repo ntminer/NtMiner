@@ -55,7 +55,7 @@ namespace NTMiner {
                 {"host", mainCoinPool.GetHost() },
                 {"port", mainCoinPool.GetPort().ToString() },
                 {"pool", pool },
-                {"worker", this.MinerProfile.MinerName }
+                {"worker", GetMinerName() }
             };// 这里不要考虑{logfile}，{logfile}往后推迟
             if (coinKernelProfile.IsDualCoinEnabled) {
                 Guid dualCoinGroupId = coinKernel.DualCoinGroupId;

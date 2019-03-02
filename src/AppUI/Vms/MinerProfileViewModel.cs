@@ -56,10 +56,10 @@ namespace NTMiner.Vms {
         }
 
         public string MinerName {
-            get => NTMinerRoot.Current.MinerProfile.MinerName;
+            get => NTMinerRoot.GetMinerName();
             set {
-                if (NTMinerRoot.Current.MinerProfile.MinerName != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(MinerName), value);
+                if (NTMinerRoot.GetMinerName() != value) {
+                    NTMinerRoot.SetMinerName(value);
                     OnPropertyChanged(nameof(MinerName));
                 }
             }
@@ -67,11 +67,11 @@ namespace NTMiner.Vms {
 
         public bool IsAutoThisPCName {
             get {
-                return NTMinerRoot.Current.MinerProfile.IsAutoThisPCName;
+                return NTMinerRoot.GetIsAutoThisPCName();
             }
             set {
-                if (NTMinerRoot.Current.MinerProfile.IsAutoThisPCName != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsAutoThisPCName), value);
+                if (NTMinerRoot.GetIsAutoThisPCName() != value) {
+                    NTMinerRoot.SetIsAutoThisPCName(value);
                     OnPropertyChanged(nameof(IsAutoThisPCName));
                     if (value) {
                         OnPropertyChanged(nameof(MinerName));
@@ -81,10 +81,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsShowInTaskbar {
-            get => NTMinerRoot.Current.MinerProfile.IsShowInTaskbar;
+            get => NTMinerRoot.GetIsShowInTaskbar();
             set {
-                if (NTMinerRoot.Current.MinerProfile.IsShowInTaskbar != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsShowInTaskbar), value);
+                if (NTMinerRoot.GetIsShowInTaskbar() != value) {
+                    NTMinerRoot.SetIsShowInTaskbar(value);
                     OnPropertyChanged(nameof(IsShowInTaskbar));
                 }
             }
@@ -196,10 +196,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsShowCommandLine {
-            get { return NTMinerRoot.Current.MinerProfile.IsShowCommandLine; }
+            get { return NTMinerRoot.GetIsShowCommandLine(); }
             set {
-                if (NTMinerRoot.Current.MinerProfile.IsShowCommandLine != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsShowCommandLine), value);
+                if (NTMinerRoot.GetIsShowCommandLine() != value) {
+                    NTMinerRoot.SetIsShowCommandLine(value);
                     OnPropertyChanged(nameof(IsShowCommandLine));
                 }
             }

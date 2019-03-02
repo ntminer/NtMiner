@@ -155,7 +155,7 @@ namespace NTMiner.Controllers {
                     IsAutoDualWeight = isAutoDualWeight,
                     IsAutoRestartKernel = minerProfile.IsAutoRestartKernel,
                     IsAutoStart = minerProfile.IsAutoStart,
-                    IsAutoThisPCName = minerProfile.IsAutoThisPCName,
+                    IsAutoThisPCName = NTMinerRoot.GetIsAutoThisPCName(),
                     IsDualCoinEnabled = isDualCoinEnabled,
                     IsNoShareRestartKernel = minerProfile.IsNoShareRestartKernel,
                     IsPeriodicRestartComputer = minerProfile.IsPeriodicRestartComputer,
@@ -164,7 +164,7 @@ namespace NTMiner.Controllers {
                     MainCoinWallet = mainCoinWallet,
                     IsMainCoinPoolIsUserMode = isMainCoinPoolIsUserMode,
                     MainCoinPoolUserName = mainCoinPoolUserName,
-                    MinerName = minerProfile.MinerName,
+                    MinerName = NTMinerRoot.GetMinerName(),
                     NoShareRestartKernelMinutes = minerProfile.NoShareRestartKernelMinutes,
                     PeriodicRestartComputerHours = minerProfile.PeriodicRestartComputerHours,
                     PeriodicRestartKernelHours = minerProfile.PeriodicRestartKernelHours

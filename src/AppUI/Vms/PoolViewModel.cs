@@ -126,12 +126,11 @@ namespace NTMiner.Vms {
                     string url = this.Url;
                     if (this.IsUserMode) {
                         url = url.Replace("{userName}", this.PoolProfileVm.UserName);
-                        url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
                     }
                     else {
                         url = url.Replace("{wallet}", wallet.Address);
-                        url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
                     }
+                    url = url.Replace("{worker}", NTMinerRoot.GetMinerName());
                     Process.Start(url);
                 }
             });

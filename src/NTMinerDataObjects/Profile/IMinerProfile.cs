@@ -2,9 +2,6 @@
 
 namespace NTMiner.Profile {
     public interface IMinerProfile : IEntity<Guid> {
-        string MinerName { get; }
-        bool IsAutoThisPCName { get; }
-        bool IsShowInTaskbar { get; }
         Guid CoinId { get; }
         bool IsAutoBoot { get; }
         bool IsAutoStart { get; }
@@ -19,7 +16,5 @@ namespace NTMiner.Profile {
         int PeriodicRestartComputerHours { get; }
 
         bool IsAutoRestartKernel { get; }
-
-        bool IsShowCommandLine { get; }
     }
 }
