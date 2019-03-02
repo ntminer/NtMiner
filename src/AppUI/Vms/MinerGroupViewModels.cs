@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
                 _dicById.Add(item.GetId(), new MinerGroupViewModel(item));
             }
             this.Add = new DelegateCommand(() => {
-                new MinerGroupViewModel(Guid.NewGuid()).Edit.Execute(null);
+                new MinerGroupViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
             VirtualRoot.On<MinerGroupAddedEvent>(
                 "添加矿工分组后刷新VM内存",

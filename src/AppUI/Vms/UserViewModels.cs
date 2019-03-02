@@ -16,7 +16,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Add = new DelegateCommand(() => {
-                new UserViewModel().Edit.Execute(null);
+                new UserViewModel().Edit.Execute(FormType.Add);
             });
             VirtualRoot.On<UserAddedEvent>(
                 "添加了用户后",

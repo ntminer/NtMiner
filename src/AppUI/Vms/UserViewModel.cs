@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType>((formType) => {
                 UserEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {

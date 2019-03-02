@@ -89,7 +89,7 @@ namespace NTMiner.Vms {
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
@@ -106,14 +106,14 @@ namespace NTMiner.Vms {
             this.AddKernelOutputFilter = new DelegateCommand(() => {
                 new KernelOutputFilterViewModel(Guid.NewGuid()) {
                     KernelOutputId = this.Id
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             this.AddKernelOutputTranslater = new DelegateCommand(() => {
                 int sortNumber = this.KernelOutputTranslaters.Count == 0 ? 1 : this.KernelOutputTranslaters.Count + 1;
                 new KernelOutputTranslaterViewModel(Guid.NewGuid()) {
                     KernelOutputId = this.Id,
                     SortNumber = sortNumber
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             this.ClearTranslaterKeyword = new DelegateCommand(() => {
                 this.TranslaterKeyword = string.Empty;

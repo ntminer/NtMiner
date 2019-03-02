@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType>((formType) => {
                 CoinKernelEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {

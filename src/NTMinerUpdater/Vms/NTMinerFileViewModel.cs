@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
                     });
                 }
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType>((formType) => {
                 NTMinerFileEdit window = new NTMinerFileEdit("编辑", "Icon_Edit", new NTMinerFileViewModel(this));
                 window.ShowDialogEx();
             });

@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
             this.Add = new DelegateCommand(() => {
                 new GroupViewModel(Guid.NewGuid()) {
                     SortNumber = Count + 1
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             VirtualRoot.On<GroupAddedEvent>(
                 "添加了组后调整VM内存",

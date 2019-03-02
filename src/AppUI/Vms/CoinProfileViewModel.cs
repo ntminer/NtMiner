@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
                     new WalletViewModel(id) {
                         CoinId = CoinId,
                         SortNumber = sortNumber
-                    }.Edit.Execute(null);
+                    }.Edit.Execute(FormType.Add);
                     IWallet wallet;
                     if (NTMinerRoot.Current.MinerProfile.TryGetWallet(id, out wallet)) {
                         this.SelectedWallet = WalletViewModels.Current.WalletList.FirstOrDefault(a => a.Id == id);
@@ -85,7 +85,7 @@ namespace NTMiner.Vms {
                     new WalletViewModel(id) {
                         CoinId = CoinId,
                         SortNumber = sortNumber
-                    }.Edit.Execute(null);
+                    }.Edit.Execute(FormType.Add);
                     IWallet wallet;
                     if (NTMinerRoot.Current.MinerProfile.TryGetWallet(id, out wallet)) {
                         this.SelectedDualCoinWallet = WalletViewModels.Current.WalletList.FirstOrDefault(a => a.Id == id);

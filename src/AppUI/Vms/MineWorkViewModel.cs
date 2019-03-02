@@ -52,10 +52,10 @@ namespace NTMiner.Vms {
                 else {
                     VirtualRoot.Execute(new AddMineWorkCommand(this));
                     CloseWindow?.Invoke();
-                    this.Edit.Execute(null);
+                    this.Edit.Execute(FormType.Edit);
                 }
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }

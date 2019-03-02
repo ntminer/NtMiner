@@ -16,7 +16,7 @@ namespace NTMiner.Vms {
 
         public LangViewItemViewModel(Guid id) {
             _id = id;
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType>((formType) => {
                 LangViewItemEdit.ShowWindow(new LangViewItemViewModel(this));
             });
             this.Save = new DelegateCommand(() => {

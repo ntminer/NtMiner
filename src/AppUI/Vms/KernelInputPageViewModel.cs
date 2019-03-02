@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Add = new DelegateCommand(() => {
-                new KernelInputViewModel(Guid.NewGuid()).Edit.Execute(null);
+                new KernelInputViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
         }
 

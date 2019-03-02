@@ -83,7 +83,7 @@ namespace NTMiner.Vms {
             this.AddOverClockData = new DelegateCommand(() => {
                 new OverClockDataViewModel(Guid.NewGuid()) {
                     CoinId = this.Id
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             this.ApplyOverClock = new DelegateCommand(() => {
                 var list = GpuOverClockVms.ToArray();
@@ -116,7 +116,7 @@ namespace NTMiner.Vms {
             this.ViewCoinInfo = new DelegateCommand(() => {
                 Process.Start("https://www.feixiaohao.com/currencies/" + this.EnName + "/");
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
@@ -162,14 +162,14 @@ namespace NTMiner.Vms {
                 new PoolViewModel(Guid.NewGuid()) {
                     CoinId = Id,
                     SortNumber = sortNumber
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             this.AddWallet = new DelegateCommand(() => {
                 int sortNumber = this.Wallets.Count == 0 ? 1 : this.Wallets.Max(a => a.SortNumber) + 1;
                 new WalletViewModel(Guid.NewGuid()) {
                     CoinId = Id,
                     SortNumber = sortNumber
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             this.AddCoinKernel = new DelegateCommand(() => {
                 KernelSelect.ShowWindow(this);

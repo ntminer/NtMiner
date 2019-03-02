@@ -26,7 +26,7 @@ namespace NTMiner {
                 return;
             }
             if (dg.SelectedItem != null) {
-                ((T)dg.SelectedItem).Edit.Execute(null);
+                ((T)dg.SelectedItem).Edit.Execute(FormType.Edit);
             }
         }
     }

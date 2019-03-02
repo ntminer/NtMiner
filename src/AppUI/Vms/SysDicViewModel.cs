@@ -49,9 +49,9 @@ namespace NTMiner.Vms {
                 new SysDicItemViewModel(Guid.NewGuid()) {
                     DicId = id,
                     SortNumber = this.SysDicItems.Count + 1
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType>((formType) => {
                 SysDicEdit.ShowWindow(this);
             });
             this.Remove = new DelegateCommand(() => {

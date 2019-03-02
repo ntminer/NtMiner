@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
 
         private ColumnsShowViewModels() {
             this.Add = new DelegateCommand(() => {
-                new ColumnsShowViewModel(Guid.NewGuid()).Edit.Execute(null);
+                new ColumnsShowViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
             VirtualRoot.On<ColumnsShowAddedEvent>(
                 "添加了列显后刷新VM内存",

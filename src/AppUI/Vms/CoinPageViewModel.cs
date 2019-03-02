@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
                 int sortNumber = NTMinerRoot.Current.CoinSet.Count == 0 ? 1 : NTMinerRoot.Current.CoinSet.Max(a => a.SortNumber) + 1;
                 new CoinViewModel(Guid.NewGuid()) {
                     SortNumber = sortNumber
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 this.CoinKeyword = string.Empty;

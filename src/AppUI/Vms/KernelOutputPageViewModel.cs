@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Add = new DelegateCommand(() => {
-                new KernelOutputViewModel(Guid.NewGuid()).Edit.Execute(null);
+                new KernelOutputViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
             _currentKernelOutputVm = KernelOutputViewModels.Current.AllKernelOutputVms.FirstOrDefault();
         }
