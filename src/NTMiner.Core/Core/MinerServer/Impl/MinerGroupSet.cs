@@ -50,15 +50,18 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MinerGroupData entity = _dicById[message.Input.GetId()];
+                    MinerGroupData oldValue = new MinerGroupData().Update(entity);
+                    entity.Update(message.Input);
                     Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, response => {
-                        if (response.IsSuccess()) {
-                            entity.Update(message.Input);
+                        if (!response.IsSuccess()) {
+                            entity.Update(oldValue);
                             VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
-                        }
-                        else if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
+                            if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                            }
                         }
                     });
+                    VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
                 });
             VirtualRoot.Accept<RemoveMinerGroupCommand>(
                 "移除矿工分组",

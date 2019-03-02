@@ -46,15 +46,18 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     ColumnsShowData entity = _dicById[message.Input.GetId()];
+                    ColumnsShowData oldValue = new ColumnsShowData().Update(entity);
+                    entity.Update(message.Input);
                     Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, response => {
-                        if (response.IsSuccess()) {
-                            entity.Update(message.Input);
+                        if (!response.IsSuccess()) {
+                            entity.Update(oldValue);
                             VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
-                        }
-                        else if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
+                            if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                            }
                         }
                     });
+                    VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
                 });
             VirtualRoot.Accept<RemoveColumnsShowCommand>(
                 "移除列显",

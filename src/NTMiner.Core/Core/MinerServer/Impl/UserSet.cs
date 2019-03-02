@@ -41,6 +41,8 @@ namespace NTMiner.Core.MinerServer.Impl {
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
                         UserData entity = _dicByLoginName[message.User.LoginName];
+                        UserData oldValue = new UserData(entity);
+                        entity.Update(message.User);
                         Server.ControlCenterService.UpdateUserAsync(new UserData {
                             Id = ObjectId.NewObjectId(),
                             LoginName = message.User.LoginName,
@@ -48,14 +50,15 @@ namespace NTMiner.Core.MinerServer.Impl {
                             IsEnabled = message.User.IsEnabled,
                             Description = message.User.Description
                         }, response => {
-                            if (response.IsSuccess()) {
-                                entity.Update(message.User);
+                            if (!response.IsSuccess()) {
+                                entity.Update(oldValue);
                                 VirtualRoot.Happened(new UserUpdatedEvent(entity));
-                            }
-                            else if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
+                                if (response != null) {
+                                    Write.UserLine(response.Description, ConsoleColor.Red);
+                                }
                             }
                         });
+                        VirtualRoot.Happened(new UserUpdatedEvent(entity));
                     }
                 });
             VirtualRoot.Accept<RemoveUserCommand>(

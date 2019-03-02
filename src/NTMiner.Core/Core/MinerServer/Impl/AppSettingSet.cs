@@ -15,21 +15,33 @@ namespace NTMiner.Core.MinerServer.Impl {
                     if (message.AppSetting == null) {
                         return;
                     }
-                    AppSettingData entity = AppSettingData.Create(message.AppSetting);
+                    AppSettingData entity;
+                    AppSettingData oldValue;
+                    if (_dicByKey.TryGetValue(message.AppSetting.Key, out entity)) {
+                        oldValue = new AppSettingData {
+                            Key = entity.Key,
+                            Value = entity.Value
+                        };
+                        entity.Value = message.AppSetting.Value;
+                    }
+                    else {
+                        entity = AppSettingData.Create(message.AppSetting);
+                        oldValue = null;
+                        _dicByKey.Add(message.AppSetting.Key, entity);
+                    }
                     Server.AppSettingService.SetAppSettingAsync(entity, response => {
-                        if (response.IsSuccess()) {
-                            AppSettingData item;
-                            if (_dicByKey.TryGetValue(message.AppSetting.Key, out item)) {
-                                item.Value = message.AppSetting.Value;
+                        if (!response.IsSuccess()) {
+                            if (oldValue == null) {
+                                _dicByKey.Remove(message.AppSetting.Key);
                             }
                             else {
-                                _dicByKey.Add(message.AppSetting.Key, entity);
+                                entity.Value = oldValue.Value;
                             }
+                            if (response != null) {
+                                Write.UserLine(response.Description, System.ConsoleColor.Red);
+                            }
+                            VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                         }
-                        else if (response != null) {
-                            Write.UserLine(response.Description, System.ConsoleColor.Red);
-                        }
-                        VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                     });
                     VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                 });

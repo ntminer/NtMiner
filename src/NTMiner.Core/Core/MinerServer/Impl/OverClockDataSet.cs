@@ -50,15 +50,18 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     OverClockData entity = _dicById[message.Input.GetId()];
+                    OverClockData oldValue = new OverClockData().Update(entity);
+                    entity.Update(message.Input);
                     Server.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, response => {
-                        if (response.IsSuccess()) {
-                            entity.Update(message.Input);
+                        if (!response.IsSuccess()) {
+                            entity.Update(oldValue);
                             VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
-                        }
-                        else if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
+                            if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                            }
                         }
                     });
+                    VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
                 });
             VirtualRoot.Accept<RemoveOverClockDataCommand>(
                 "移除超频建议",
