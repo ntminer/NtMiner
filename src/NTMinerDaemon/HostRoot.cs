@@ -12,8 +12,14 @@ namespace NTMiner {
 
         public IUserSet UserSet { get; private set; }
 
+        private readonly UserSet _userSet;
         private HostRoot() {
-            this.UserSet = new UserSet(this);
+            _userSet = new UserSet(SpecialPath.NTMinerLocalDbFileFullName);
+            this.UserSet = _userSet;
+        }
+
+        public void RefreshUserSet() {
+            _userSet.ReInit();
         }
 
         private static Mutex s_mutexApp;
