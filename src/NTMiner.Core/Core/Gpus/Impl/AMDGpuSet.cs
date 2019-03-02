@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Gpus.Impl {
@@ -30,12 +31,13 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        private AMDGpuSet() { }
+        private AMDGpuSet() {
+            this.Properties = new List<GpuSetProperty>();
+        }
 
         private AdlHelper adlHelper = new AdlHelper();
-        public AMDGpuSet(INTMinerRoot root) {
+        public AMDGpuSet(INTMinerRoot root) : this() {
             _root = root;
-            this.Properties = new List<GpuSetProperty>();
             if (Design.IsInDesignMode) {
                 return;
             }
@@ -113,6 +115,14 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public List<GpuSetProperty> Properties { get; private set; }
+
+        public string GetProperty(string key) {
+            GpuSetProperty item = this.Properties.FirstOrDefault(a => a.Code == key);
+            if (item == null || item.Value == null) {
+                return string.Empty;
+            }
+            return item.Value.ToString();
+        }
 
         public IEnumerator<IGpu> GetEnumerator() {
             return _gpus.Values.GetEnumerator();

@@ -10,5 +10,7 @@ namespace NTMiner.Core.Gpus {
         bool TryGetGpu(int index, out IGpu gpu);
 
         List<GpuSetProperty> Properties { get; }
+
+        string GetProperty(string key);
     }
 }

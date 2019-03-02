@@ -73,7 +73,7 @@ namespace NTMiner.MinerServer {
 
         public string OSName { get; set; }
 
-        public double OSVirtualMemory { get; set; }
+        public int OSVirtualMemoryMb { get; set; }
 
         public GpuType GpuType { get; set; }
 

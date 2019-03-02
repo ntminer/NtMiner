@@ -12,6 +12,7 @@ namespace NTMiner {
         public static IKernelDownloader KernelDownloader;
         public static string AppName;
         public static bool IsUseDevConsole = false;
+        public static int OSVirtualMemoryMb;
 
         public static readonly int GpuAllId = -1;
 

@@ -808,11 +808,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public double OSVirtualMemory {
-            get => _data.OSVirtualMemory;
+        public int OSVirtualMemoryMb {
+            get => _data.OSVirtualMemoryMb;
             set {
-                _data.OSVirtualMemory = value;
-                OnPropertyChanged(nameof(OSVirtualMemory));
+                _data.OSVirtualMemoryMb = value;
+                OnPropertyChanged(nameof(OSVirtualMemoryMb));
             }
         }
 

@@ -47,7 +47,7 @@ namespace NTMiner.Controllers {
                         GpuDriver = message.GpuDriver,
                         GpuType = message.GpuType,
                         OSName = message.OSName,
-                        OSVirtualMemory = message.OSVirtualMemory
+                        OSVirtualMemoryMb = message.OSVirtualMemoryMb
                     };
                     HostRoot.Current.ClientSet.Add(clientData);
                 }
@@ -81,7 +81,7 @@ namespace NTMiner.Controllers {
                     clientData.GpuDriver = message.GpuDriver;
                     clientData.GpuType = message.GpuType;
                     clientData.OSName = message.OSName;
-                    clientData.OSVirtualMemory = message.OSVirtualMemory;
+                    clientData.OSVirtualMemoryMb = message.OSVirtualMemoryMb;
                 }
                 bool isMainCoin = !string.IsNullOrEmpty(message.MainCoinCode);
                 // 认为双挖币不能和主挖币相同

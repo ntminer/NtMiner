@@ -73,7 +73,7 @@ namespace NTMiner.Hashrate {
         /// <summary>
         /// Gb
         /// </summary>
-        public double OSVirtualMemory { get; set; }
+        public int OSVirtualMemoryMb { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }

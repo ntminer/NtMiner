@@ -88,16 +88,20 @@ namespace NTMiner {
                 DualCoinWallet = string.Empty,
                 IsDualCoinEnabled = false,
                 Kernel = string.Empty,
-                MainCoinPool = string.Empty
+                MainCoinPool = string.Empty,
+                OSName = Windows.OS.Current.WindowsEdition,
+                GpuDriver = root.GpuSet.GetProperty("DriverVersion"),
+                GpuType = root.GpuSet.GpuType,
+                OSVirtualMemoryMb = NTMinerRoot.OSVirtualMemoryMb,
+                GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
+                    Index = a.Gpu.Index,
+                    MainCoinSpeed = a.MainCoinSpeed.Value,
+                    DualCoinSpeed = a.DualCoinSpeed.Value,
+                    FanSpeed = a.Gpu.FanSpeed,
+                    Temperature = a.Gpu.Temperature,
+                    PowerUsage = a.Gpu.PowerUsage
+                }).ToArray()
             };
-            data.GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
-                Index = a.Gpu.Index,
-                MainCoinSpeed = a.MainCoinSpeed.Value,
-                DualCoinSpeed = a.DualCoinSpeed.Value,
-                FanSpeed = a.Gpu.FanSpeed,
-                Temperature = a.Gpu.Temperature,
-                PowerUsage = a.Gpu.PowerUsage
-            }).ToArray();
             #region 当前选中的币种是什么
             ICoin mainCoin;
             if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out mainCoin)) {
