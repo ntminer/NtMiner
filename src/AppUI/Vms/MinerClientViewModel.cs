@@ -21,6 +21,7 @@ namespace NTMiner.Vms {
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
         public ICommand RemoteDesktop { get; private set; }
+        public ICommand RemoteLogin { get; private set; }
         public ICommand StartNTMiner { get; private set; }
         public ICommand RestartNTMiner { get; private set; }
         public ICommand CloseNTMiner { get; private set; }
@@ -32,6 +33,12 @@ namespace NTMiner.Vms {
             _data = clientData;
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
+            this.RemoteLogin = new DelegateCommand(() => {
+                WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
+                    UserName = this.WindowsLoginName,
+                    Password = this.WindowsPassword
+                });
+            });
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
                     WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {

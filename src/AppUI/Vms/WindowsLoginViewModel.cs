@@ -11,6 +11,8 @@ namespace NTMiner.Vms {
 
         public ICommand Login { get; private set; }
 
+        public ICommand Save { get; private set; }
+
         public Action CloseWindow { get; set; }
 
         public WindowsLoginViewModel() {
@@ -23,6 +25,26 @@ namespace NTMiner.Vms {
             this.ClientId = clientId;
             this.MinerName = minerName;
             this.Ip = ip;
+            this.Save = new DelegateCommand(() => {
+                Server.ControlCenterService.UpdateClientPropertiesAsync(this.ClientId, new Dictionary<string, object> {
+                    { nameof(MinerClientViewModel.WindowsLoginName), this.UserName },
+                    { nameof(MinerClientViewModel.WindowsPassword), this.Password }
+                }, response => {
+                    if (response.IsSuccess()) {
+                        UIThread.Execute(() => {
+                            CloseWindow?.Invoke();
+                        });
+                    }
+                    else {
+                        if (response != null) {
+                            this.Message = response.Description;
+                            TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
+                                this.Message = string.Empty;
+                            });
+                        }
+                    }
+                });
+            });
             this.Login = new DelegateCommand(() => {
                 Server.ControlCenterService.UpdateClientPropertiesAsync(this.ClientId, new Dictionary<string, object> {
                     { nameof(MinerClientViewModel.WindowsLoginName), this.UserName },

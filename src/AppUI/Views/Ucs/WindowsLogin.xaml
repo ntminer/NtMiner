@@ -50,7 +50,7 @@
 					<Path
 						Width="12"
 						Height="12"
-						Data="{StaticResource Icon_Ok}"
+						Data="{StaticResource Icon_Pool}"
 						Fill="White"
 						Stretch="Fill" />
 					<TextBlock
@@ -58,6 +58,30 @@
 						VerticalAlignment="Center"
 						Foreground="White"
 						Text="连接" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				IsDefault="True"
+				Command="{Binding Save}" 
+				Margin="30 0 0 0"
+				HorizontalAlignment="Left"
+				Width="70" 
+				Height="30"
+				Background="{StaticResource IconFillColor}"
+				Foreground="White"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Save}"
+						Fill="White"
+						Stretch="Fill" />
+					<TextBlock
+						Padding="4"
+						VerticalAlignment="Center"
+						Foreground="White"
+						Text="保存" />
 				</WrapPanel>
 			</controls:KbButton>
 			<TextBlock Foreground="Red" Text="{Binding Message}"></TextBlock>
