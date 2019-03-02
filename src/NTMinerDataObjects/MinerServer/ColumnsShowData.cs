@@ -63,6 +63,10 @@ namespace NTMiner.MinerServer {
 
         public bool IncomeDualCoinPerDayText { get; set; }
 
+        public bool IsAutoBoot { get; set; }
+
+        public bool IsAutoStart { get; set; }
+
         public string GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
@@ -89,7 +93,9 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(BootTimeSpanText)).Append(BootTimeSpanText)
                 .Append(nameof(MineTimeSpanText)).Append(MineTimeSpanText)
                 .Append(nameof(IncomeMainCoinPerDayText)).Append(IncomeMainCoinPerDayText)
-                .Append(nameof(IncomeDualCoinPerDayText)).Append(IncomeDualCoinPerDayText);
+                .Append(nameof(IncomeDualCoinPerDayText)).Append(IncomeDualCoinPerDayText)
+                .Append(nameof(IsAutoBoot)).Append(IsAutoBoot)
+                .Append(nameof(IsAutoStart)).Append(IsAutoStart);
             return sb.ToString();
         }
     }

@@ -15,6 +15,10 @@ namespace NTMiner.MinerServer {
         private string _dualCoinCode;
         public Guid Id { get; set; }
 
+        public bool IsAutoBoot { get; set; }
+
+        public bool IsAutoStart { get; set; }
+
         public Guid WorkId { get; set; }
 
         public string Version { get; set; }

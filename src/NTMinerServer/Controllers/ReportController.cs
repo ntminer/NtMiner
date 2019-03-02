@@ -17,6 +17,8 @@ namespace NTMiner.Controllers {
                 if (clientData == null) {
                     clientData = new ClientData() {
                         Id = message.ClientId,
+                        IsAutoBoot = message.IsAutoBoot,
+                        IsAutoStart = message.IsAutoStart,
                         WorkId = message.WorkId,
                         Version = message.Version,
                         IsMining = message.IsMining,
@@ -50,6 +52,8 @@ namespace NTMiner.Controllers {
                     HostRoot.Current.ClientSet.Add(clientData);
                 }
                 else {
+                    clientData.IsAutoBoot = message.IsAutoBoot;
+                    clientData.IsAutoStart = message.IsAutoStart;
                     clientData.WorkId = message.WorkId;
                     clientData.Version = message.Version;
                     clientData.IsMining = message.IsMining;

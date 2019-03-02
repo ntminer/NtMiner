@@ -35,6 +35,8 @@ namespace NTMiner.Vms {
         private bool _mineTimeSpanText = true;
         private bool _incomeMainCoinPerDayText = true;
         private bool _incomeDualCoinPerDayText = true;
+        private bool _isAutoBoot = true;
+        private bool _isAutoStart = true;
 
         public ICommand Hide { get; private set; }
 
@@ -115,6 +117,8 @@ namespace NTMiner.Vms {
             _mineTimeSpanText = data.MineTimeSpanText;
             _incomeMainCoinPerDayText = data.IncomeMainCoinPerDayText;
             _incomeDualCoinPerDayText = data.IncomeDualCoinPerDayText;
+            _isAutoBoot = data.IsAutoBoot;
+            _isAutoStart = data.IsAutoStart;
         }
 
         public bool IsPleaseSelect {
@@ -317,6 +321,22 @@ namespace NTMiner.Vms {
             set {
                 _version = value;
                 OnPropertyChanged(nameof(Version));
+            }
+        }
+
+        public bool IsAutoBoot {
+            get => _isAutoBoot;
+            set {
+                _isAutoBoot = value;
+                OnPropertyChanged(nameof(IsAutoBoot));
+            }
+        }
+
+        public bool IsAutoStart {
+            get => _isAutoStart;
+            set {
+                _isAutoStart = value;
+                OnPropertyChanged(nameof(IsAutoStart));
             }
         }
 

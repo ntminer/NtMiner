@@ -194,6 +194,22 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsAutoBoot {
+            get { return _data.IsAutoBoot; }
+            set {
+                _data.IsAutoBoot = value;
+                OnPropertyChanged(nameof(IsAutoBoot));
+            }
+        }
+
+        public bool IsAutoStart {
+            get { return _data.IsAutoStart; }
+            set {
+                _data.IsAutoStart = value;
+                OnPropertyChanged(nameof(IsAutoStart));
+            }
+        }
+
         public Guid WorkId {
             get => _data.WorkId;
             set {

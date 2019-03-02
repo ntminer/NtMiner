@@ -6,6 +6,10 @@ namespace NTMiner.Hashrate {
             GpuTable = new GpuSpeedData[0];
         }
 
+        public bool IsAutoBoot { get; set; }
+
+        public bool IsAutoStart { get; set; }
+
         public Guid ClientId { get; set; }
 
         public Guid WorkId { get; set; }

@@ -3,6 +3,10 @@ using System;
 
 namespace NTMiner.MinerServer {
     public interface IClientData : IEntity<Guid> {
+        bool IsAutoBoot { get; }
+
+        bool IsAutoStart { get; }
+
         Guid WorkId { get; }
 
         string Version { get; }

@@ -27,5 +27,7 @@ namespace NTMiner.MinerServer {
         bool MineTimeSpanText { get; }
         bool IncomeMainCoinPerDayText { get; }
         bool IncomeDualCoinPerDayText { get; }
+        bool IsAutoBoot { get; }
+        bool IsAutoStart { get; }
     }
 }
