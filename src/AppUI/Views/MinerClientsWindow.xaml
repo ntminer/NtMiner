@@ -976,7 +976,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 					<DataGridTemplateColumn.CellEditingTemplate>
 						<DataTemplate>
-							<TextBox Text="{Binding WindowsLoginName, UpdateSourceTrigger=LostFocus}" Background="White" Width="90"></TextBox>
+							<TextBox Text="{Binding WindowsLoginName, UpdateSourceTrigger=LostFocus}" Background="White" Width="96"></TextBox>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
