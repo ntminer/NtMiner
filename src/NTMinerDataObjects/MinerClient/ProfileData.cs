@@ -2,7 +2,6 @@
     public class ProfileData {
         public ProfileData() { }
         public string MinerName { get; set; }
-        public bool IsAutoThisPCName { get; set; }
         public bool IsAutoBoot { get; set; }
         public bool IsAutoStart { get; set; }
         public bool IsAutoRestartKernel { get; set; }

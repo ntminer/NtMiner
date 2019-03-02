@@ -221,7 +221,6 @@
 												Text="{DynamicResource MinerName}"></TextBlock>
 											<TextBox 
 												Height="30"
-												IsReadOnly="{Binding ElementName=ChkbAutoThisPCName, Path=IsChecked}"
 												Width="136" Background="White"
 												Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
 												VerticalContentAlignment="Center">
@@ -243,13 +242,20 @@
 												TextWrapping="Wrap"
 												Height="14">
 											</TextBlock>
-											<controls:KbCheckBox 
-												Padding="0" 
-												x:Name="ChkbAutoThisPCName" 
-												IconColor="{StaticResource IconFillColor}"
-												IsChecked="{Binding MinerProfile.IsAutoThisPCName}" 
-												VerticalAlignment="Center"
-												Content="{DynamicResource UseThisPcName}"></controls:KbCheckBox>
+											<controls:KbButton 
+												Padding="4 0"
+												Height="20"
+												Command="{Binding UseThisPcName}"
+												Background="{StaticResource IconFillColor}"
+												CornerRadius="2">
+												<WrapPanel>
+													<TextBlock
+														Padding="2 0"
+														VerticalAlignment="Center"
+														Foreground="White"
+														Text="{DynamicResource UseThisPcName}" />
+												</WrapPanel>
+											</controls:KbButton>
 										</WrapPanel>
 									</StackPanel>
 									<WrapPanel Grid.Column="1" Margin="0 0 12 0" VerticalAlignment="Center" HorizontalAlignment="Right">

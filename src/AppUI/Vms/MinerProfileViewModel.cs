@@ -65,21 +65,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsAutoThisPCName {
-            get {
-                return NTMinerRoot.GetIsAutoThisPCName();
-            }
-            set {
-                if (NTMinerRoot.GetIsAutoThisPCName() != value) {
-                    NTMinerRoot.SetIsAutoThisPCName(value);
-                    OnPropertyChanged(nameof(IsAutoThisPCName));
-                    if (value) {
-                        OnPropertyChanged(nameof(MinerName));
-                    }
-                }
-            }
-        }
-
         public bool IsShowInTaskbar {
             get => NTMinerRoot.GetIsShowInTaskbar();
             set {

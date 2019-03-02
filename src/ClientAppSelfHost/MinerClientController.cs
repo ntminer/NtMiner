@@ -174,7 +174,6 @@ namespace NTMiner.Controllers {
                     IsAutoDualWeight = isAutoDualWeight,
                     IsAutoRestartKernel = minerProfile.IsAutoRestartKernel,
                     IsAutoStart = minerProfile.IsAutoStart,
-                    IsAutoThisPCName = NTMinerRoot.GetIsAutoThisPCName(),
                     IsDualCoinEnabled = isDualCoinEnabled,
                     IsNoShareRestartKernel = minerProfile.IsNoShareRestartKernel,
                     IsPeriodicRestartComputer = minerProfile.IsPeriodicRestartComputer,

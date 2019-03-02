@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
 
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
+        public ICommand UseThisPcName { get; private set; }
 
         private MainWindowViewModel() {
             this.StartMine = new DelegateCommand(() => {
@@ -21,6 +22,9 @@ namespace NTMiner.Vms {
             });
             this.StopMine = new DelegateCommand(() => {
                 NTMinerRoot.Current.StopMineAsync();
+            });
+            this.UseThisPcName = new DelegateCommand(() => {
+                MinerProfile.MinerName = NTMinerRoot.GetThisPcName();
             });
             if (DevMode.IsDevMode) {
                 VirtualRoot.On<Per10SecondEvent>(

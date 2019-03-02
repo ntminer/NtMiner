@@ -81,26 +81,11 @@ namespace NTMiner {
         }
 
         public static void SetMinerName(string minerName) {
-            if (string.IsNullOrEmpty(minerName)) {
-                minerName = GetThisPcName();
-            }
-            else {
+            if (!string.IsNullOrEmpty(minerName)) {
                 minerName = new string(minerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", minerName);
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", minerName ?? string.Empty);
             VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
-        }
-        #endregion
-
-        #region IsAutoThisPCName
-        public static bool GetIsAutoThisPCName() {
-            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoThisPCName");
-            return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
-        }
-
-        public static void SetIsAutoThisPCName(bool value) {
-            SetMinerName(GetThisPcName());
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsAutoThisPCName", value);
         }
         #endregion
 
