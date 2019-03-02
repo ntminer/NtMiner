@@ -157,6 +157,7 @@ namespace NTMiner {
 
             Report.Init(this);
 
+            #region 处理设置矿工名命令
             VirtualRoot.Accept<SetMinerNameCommand>(
                 "处理设置矿工名命令",
                 LogEnum.Console,
@@ -164,10 +165,30 @@ namespace NTMiner {
                     SetMinerName(message.MinerName);
                     VirtualRoot.Happened(new MinerNameSetedEvent());
                 });
-
+            #endregion
+            #region 增删改了用户后刷新守护进程的用户集
+            VirtualRoot.On<UserAddedEvent>(
+                "添加了新用户后刷新守护进程的用户集",
+                LogEnum.Console,
+                action: message => {
+                    Client.NTMinerDaemonService.RefreshUserSetAsync();
+                });
+            VirtualRoot.On<UserUpdatedEvent>(
+                "更新了新用户后刷新守护进程的用户集",
+                LogEnum.Console,
+                action: message => {
+                    Client.NTMinerDaemonService.RefreshUserSetAsync();
+                });
+            VirtualRoot.On<UserRemovedEvent>(
+                "移除了新用户后刷新守护进程的用户集",
+                LogEnum.Console,
+                action: message => {
+                    Client.NTMinerDaemonService.RefreshUserSetAsync();
+                });
+            #endregion
+            #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            #region 挖矿开始时将无份额内核重启份额计数置0
             VirtualRoot.On<MineStartedEvent>(
                 "挖矿开始后将无份额内核重启份额计数置0，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel",
                 LogEnum.Console,
