@@ -1,4 +1,5 @@
 ﻿using NTMiner.User;
+using NTMiner.User.Impl;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -12,7 +13,7 @@ namespace NTMiner {
         public IUserSet UserSet { get; private set; }
 
         private HostRoot() {
-
+            this.UserSet = new UserSet(this);
         }
 
         private static Mutex s_mutexApp;

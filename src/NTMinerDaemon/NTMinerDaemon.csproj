@@ -108,6 +108,7 @@
     <Compile Include="NoDevFee\WinDivertExtract.cs" />
     <Compile Include="NTMinerDaemonController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User\Impl\UserSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NoDevFee\WinDivert.lib" />

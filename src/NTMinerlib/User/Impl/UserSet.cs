@@ -1,5 +1,4 @@
 ﻿using LiteDB;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,20 +54,24 @@ namespace NTMiner.User.Impl {
                 });
         }
 
+        private bool _isInited = false;
         private object _locker = new object();
-        private DateTime _lastInitOn = DateTime.MinValue;
 
         private void InitOnece() {
-            DateTime now = DateTime.Now;
-            if (_lastInitOn.AddMinutes(10) < now) {
-                lock (_locker) {
-                    if (_lastInitOn.AddMinutes(10) < now) {
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<UserData>();
-                            _dicByLoginName = col.FindAll().ToDictionary(a => a.LoginName, a => a);
-                        }
-                        _lastInitOn = DateTime.Now;
+            if (_isInited) {
+                return;
+            }
+            Init();
+        }
+
+        private void Init() {
+            lock (_locker) {
+                if (!_isInited) {
+                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                        var col = db.GetCollection<UserData>();
+                        _dicByLoginName = col.FindAll().ToDictionary(a => a.LoginName, a => a);
                     }
+                    _isInited = true;
                 }
             }
         }
