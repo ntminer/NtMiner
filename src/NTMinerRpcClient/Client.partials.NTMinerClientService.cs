@@ -86,6 +86,27 @@ namespace NTMiner {
                 });
             }
 
+            public void SetMinerNameAsync(string clientHost, string minerName, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            SetMinerNameRequest request = new SetMinerNameRequest() {
+                                LoginName = Server.LoginName,
+                                MinerName = minerName
+                            };
+                            request.SignIt(Server.PasswordSha1Sha1);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/SetMinerName", request);
+                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                            callback?.Invoke(response);
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+
             public void SetMinerProfilePropertyAsync(string clientHost, string propertyName, object value, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {

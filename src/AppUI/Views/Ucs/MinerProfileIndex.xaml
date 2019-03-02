@@ -108,7 +108,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
-		<StackPanel Margin="2 6 8 8">
+		<StackPanel>
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<TextBlock

@@ -47,6 +47,7 @@
     <Compile Include="GpuType.cs" />
     <Compile Include="Hashrate\GpuRowData.cs" />
     <Compile Include="Hashrate\GpuSpeedData.cs" />
+    <Compile Include="MinerClient\SetMinerNameRequest.cs" />
     <Compile Include="MinerServer\AddUserRequest.cs" />
     <Compile Include="MinerClient\ProfileData.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />

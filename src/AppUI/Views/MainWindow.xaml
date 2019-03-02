@@ -199,7 +199,7 @@
 							<RowDefinition Height="Auto"></RowDefinition>
 						</Grid.RowDefinitions>
 						<Border
-							Grid.Column="0" Grid.Row="0"
+							Grid.Column="0" Grid.Row="0" Padding="0 6 0 0"
 							BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 							<StackPanel>
 								<Grid>
@@ -252,7 +252,7 @@
 												Content="{DynamicResource UseThisPcName}"></controls:KbCheckBox>
 										</WrapPanel>
 									</StackPanel>
-									<WrapPanel Grid.Column="1" Margin="0 0 10 0" VerticalAlignment="Center" HorizontalAlignment="Right">
+									<WrapPanel Grid.Column="1" Margin="0 0 12 0" VerticalAlignment="Center" HorizontalAlignment="Right">
 										<controls:KbButton 
 											Width="134"
 											Height="40"
