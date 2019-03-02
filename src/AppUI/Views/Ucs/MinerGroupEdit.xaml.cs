@@ -3,8 +3,9 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerGroupEdit : UserControl {
-        public static void ShowWindow(MinerGroupViewModel source) {
+        public static void ShowWindow(FormType formType, MinerGroupViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_MinerGroup"

@@ -3,8 +3,9 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class PoolEdit : UserControl {
-        public static void ShowWindow(PoolViewModel source) {
+        public static void ShowWindow(FormType formType, PoolViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IconName = "Icon_Pool",
                 IsDialogWindow = true,
                 Width = 580,

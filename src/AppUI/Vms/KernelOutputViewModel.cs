@@ -89,11 +89,11 @@ namespace NTMiner.Vms {
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand<FormType>((formType) => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                KernelOutputEdit.ShowWindow(this);
+                KernelOutputEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

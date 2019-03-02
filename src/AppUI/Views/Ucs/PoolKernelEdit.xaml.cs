@@ -3,8 +3,9 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class PoolKernelEdit : UserControl {
-        public static void ShowWindow(PoolKernelViewModel source) {
+        public static void ShowWindow(FormType formType, PoolKernelViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",
                 CloseVisible = System.Windows.Visibility.Visible

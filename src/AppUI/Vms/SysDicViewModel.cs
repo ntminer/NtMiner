@@ -51,8 +51,8 @@ namespace NTMiner.Vms {
                     SortNumber = this.SysDicItems.Count + 1
                 }.Edit.Execute(FormType.Add);
             });
-            this.Edit = new DelegateCommand<FormType>((formType) => {
-                SysDicEdit.ShowWindow(this);
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
+                SysDicEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

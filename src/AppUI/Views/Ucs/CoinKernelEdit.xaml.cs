@@ -3,8 +3,9 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class CoinKernelEdit : UserControl {
-        public static void ShowWindow(CoinKernelViewModel source) {
+        public static void ShowWindow(FormType formType, CoinKernelViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 IconName = "Icon_Kernel",
                 CloseVisible = System.Windows.Visibility.Visible

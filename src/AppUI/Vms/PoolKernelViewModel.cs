@@ -32,8 +32,8 @@ namespace NTMiner.Vms {
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand<FormType>((formType) => {
-                PoolKernelEdit.ShowWindow(this);
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
+                PoolKernelEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
         }
 

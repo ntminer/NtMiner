@@ -3,8 +3,9 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class ColumnsShowEdit : UserControl {
-        public static void ShowWindow(ColumnsShowViewModel source) {
+        public static void ShowWindow(FormType formType, ColumnsShowViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_ColumnsShow",

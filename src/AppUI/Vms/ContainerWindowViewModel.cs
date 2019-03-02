@@ -55,6 +55,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public FormType FormType {
+            get => _formType;
+            set {
+                _formType = value;
+                OnPropertyChanged(nameof(FormType));
+            }
+        }
+
         private string _iconName;
         private string _iconImage;
 
@@ -96,6 +104,7 @@ namespace NTMiner.Vms {
         private ImageSource _iconImageSource = null;
         private double _minHeight;
         private double _minWidth;
+        private FormType _formType;
 
         public ImageSource IconImageSource {
             get {

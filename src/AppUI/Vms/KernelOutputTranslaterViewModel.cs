@@ -61,8 +61,8 @@ namespace NTMiner.Vms {
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand<FormType>((formType) => {
-                KernelOutputTranslaterEdit.ShowWindow(this);
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
+                KernelOutputTranslaterEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

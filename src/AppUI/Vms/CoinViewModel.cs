@@ -116,11 +116,11 @@ namespace NTMiner.Vms {
             this.ViewCoinInfo = new DelegateCommand(() => {
                 Process.Start("https://www.feixiaohao.com/currencies/" + this.EnName + "/");
             });
-            this.Edit = new DelegateCommand<FormType>((formType) => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                CoinEdit.ShowWindow(this);
+                CoinEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

@@ -3,8 +3,9 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class OverClockDataEdit : UserControl {
-        public static void ShowWindow(OverClockDataViewModel source) {
+        public static void ShowWindow(FormType formType, OverClockDataViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_OverClock"

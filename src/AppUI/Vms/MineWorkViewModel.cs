@@ -55,18 +55,18 @@ namespace NTMiner.Vms {
                     this.Edit.Execute(FormType.Edit);
                 }
             });
-            this.Edit = new DelegateCommand<FormType>((formType) => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 MineWorkViewModel mineWorkVm;
                 if (!MineWorkViewModels.Current.TryGetMineWorkVm(this.Id, out mineWorkVm)) {
-                    MineWorkAdd.ShowWindow(new MineWorkViewModel(this));
+                    MineWorkAdd.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
                 }
                 else {
                     // 编辑作业前切换上下文
                     VirtualRoot.Execute(new SwichMinerProfileCommand(this.Id));
-                    MineWorkEdit.ShowWindow(new MineWorkViewModel(this));
+                    MineWorkEdit.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
                 }
             });
             this.Remove = new DelegateCommand(() => {
