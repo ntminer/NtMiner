@@ -268,9 +268,9 @@
 						</WrapPanel>
 						<TabControl
 							Grid.Column="1" Grid.Row="0" 
-							Margin="0 -23 0 0" 
+							Margin="0 -24 0 0" 
 							Padding="0"
-							BorderBrush="{StaticResource LineColor}" BorderThickness="1 1 1 0">
+							BorderBrush="{StaticResource LineColor}" BorderThickness="1 1 0 0">
 							<TabItem>
 								<TabItem.Header>
 									<Border Padding="6 0">
