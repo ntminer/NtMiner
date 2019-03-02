@@ -268,7 +268,7 @@
 									Height="40"
 									Command="{Binding StartMine}" 
 									Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-									Background="#00CA72">
+									Background="{StaticResource IconFillColor}">
 									<WrapPanel>
 										<Path
 											Width="16"
