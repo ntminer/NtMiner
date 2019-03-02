@@ -139,9 +139,13 @@
 				</WrapPanel>
 			</WrapPanel>
 			<WrapPanel HorizontalAlignment="Right">
-				<WrapPanel Margin="0" HorizontalAlignment="Right" 
-					VerticalAlignment="Top">
+				<WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
+					<controls:KbCheckBox 
+						Content="使用DevConsole"
+						IconColor="{StaticResource IconFillColor}"
+						IsChecked="{Binding IsUseDevConsole}" />
 					<controls:KbComboBox 
+						Margin="4 0 0 0"
 						Height="26"
 						Background="{StaticResource MainColor}"
 						ItemsSource="{Binding LangVms.LangVms}"

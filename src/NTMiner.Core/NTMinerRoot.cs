@@ -179,7 +179,7 @@ namespace NTMiner {
                     };
                     Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
                     // 启动DevConsole
-                    if (DevMode.IsDevMode) {
+                    if (IsUseDevConsole) {
                         string poolIp = CurrentMineContext.MainCoinPool.GetIp();
                         string consoleTitle = CurrentMineContext.MainCoinPool.Server;
                         DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);

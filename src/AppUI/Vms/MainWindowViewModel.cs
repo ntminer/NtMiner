@@ -42,6 +42,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsUseDevConsole {
+            get { return NTMinerRoot.IsUseDevConsole; }
+            set {
+                NTMinerRoot.IsUseDevConsole = value;
+                OnPropertyChanged(nameof(IsUseDevConsole));
+            }
+        }
+
         public double Height {
             get {
                 return AppStatic.MainWindowHeight;

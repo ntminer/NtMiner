@@ -10,6 +10,7 @@ namespace NTMiner {
     public partial class NTMinerRoot {
         public static IKernelDownloader KernelDownloader;
         public static string AppName;
+        public static bool IsUseDevConsole = false;
 
         public static readonly int GpuAllId = -1;
 
