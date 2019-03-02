@@ -19,11 +19,15 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]RequestBase request) {
+        public ResponseBase CloseNTMiner([FromBody]CloseNTMinerRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
+                ResponseBase response;
+                if (!request.IsValid(NTMinerRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 VirtualRoot.Execute(new CloseNTMinerCommand());
                 return ResponseBase.Ok(request.MessageId);
             }

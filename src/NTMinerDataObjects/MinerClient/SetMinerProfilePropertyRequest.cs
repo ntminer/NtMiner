@@ -4,6 +4,7 @@ namespace NTMiner.MinerClient {
     public class SetMinerProfilePropertyRequest : RequestBase, ISignatureRequest {
         public SetMinerProfilePropertyRequest() { }
         public string LoginName { get; set; }
+        public string ClientIp { get; set; }
         public string PropertyName { get; set; }
         public object Value { get; set; }
         public string Sign { get; set; }
@@ -16,6 +17,7 @@ namespace NTMiner.MinerClient {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
+                .Append(nameof(ClientIp)).Append(ClientIp)
                 .Append(nameof(PropertyName)).Append(PropertyName)
                 .Append(nameof(Value)).Append(Value)
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())

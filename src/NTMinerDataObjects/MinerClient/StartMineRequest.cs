@@ -5,6 +5,7 @@ namespace NTMiner.MinerClient {
     public class StartMineRequest : RequestBase, ISignatureRequest {
         public StartMineRequest() { }
         public string LoginName { get; set; }
+        public string ClientIp { get; set; }
         public Guid WorkId { get; set; }
         public string Sign { get; set; }
 
@@ -16,6 +17,7 @@ namespace NTMiner.MinerClient {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
+                .Append(nameof(ClientIp)).Append(ClientIp)
                 .Append(nameof(WorkId)).Append(WorkId)
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(UserData.Password)).Append(password);

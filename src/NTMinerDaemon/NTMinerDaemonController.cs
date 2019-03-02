@@ -1,7 +1,9 @@
-﻿using NTMiner.Daemon;
+﻿using Microsoft.Win32;
+using NTMiner.Daemon;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -21,6 +23,47 @@ namespace NTMiner {
         [HttpPost]
         public string GetDaemonVersion() {
             return Sha1;
+        }
+
+        [HttpPost]
+        public ResponseBase SetMinerName([FromBody]MinerClient.SetMinerNameRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                SetMinerNameAsync(request, response1 => {
+                    if (!response1.IsSuccess()) {
+                        ResponseBase response;
+                        if (request.IsValid(HostRoot.Current.UserSet, out response)) {
+                            if (!string.IsNullOrEmpty(request.MinerName)) {
+                                request.MinerName = new string(request.MinerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
+                            }
+                            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", request.MinerName ?? string.Empty);
+                        }
+                    }
+                });
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+
+        private static void SetMinerNameAsync(MinerClient.SetMinerNameRequest request, Action<ResponseBase> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3336/api/MinerClient/SetMinerName", request);
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        callback?.Invoke(response);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    callback?.Invoke(null);
+                }
+            });
         }
 
         [HttpPost]
@@ -151,7 +194,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]CloseNTMinerRequest request) {
+        public ResponseBase CloseNTMiner([FromBody]MinerClient.CloseNTMinerRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }

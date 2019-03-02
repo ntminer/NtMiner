@@ -28,12 +28,11 @@ namespace NTMiner {
                 });
             }
 
-            public void CloseNTMinerAsync(string clientHost, Action<ResponseBase> callback) {
+            public void CloseNTMinerAsync(CloseNTMinerRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            RequestBase request = new RequestBase();
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/CloseNTMiner", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/CloseNTMiner", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }
@@ -45,16 +44,11 @@ namespace NTMiner {
                 });
             }
 
-            public void StartMineAsync(string clientHost, Guid workId, Action<ResponseBase> callback) {
+            public void StartMineAsync(StartMineRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            StartMineRequest request = new StartMineRequest() {
-                                LoginName = SingleUser.LoginName,
-                                WorkId = workId
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/StartMine", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/StartMine", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }
@@ -66,15 +60,11 @@ namespace NTMiner {
                 });
             }
 
-            public void StopMineAsync(string clientHost, Action<ResponseBase> callback) {
+            public void StopMineAsync(StopMineRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            StopMineRequest request = new StopMineRequest() {
-                                LoginName = SingleUser.LoginName
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/StopMine", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/StopMine", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }
@@ -86,38 +76,11 @@ namespace NTMiner {
                 });
             }
 
-            public void SetMinerNameAsync(string clientHost, string minerName, Action<ResponseBase> callback) {
+            public void SetMinerProfilePropertyAsync(Profile.SetClientMinerProfilePropertyRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            SetMinerNameRequest request = new SetMinerNameRequest() {
-                                LoginName = SingleUser.LoginName,
-                                MinerName = minerName
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/SetMinerName", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response);
-                        }
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
-                    }
-                });
-            }
-
-            public void SetMinerProfilePropertyAsync(string clientHost, string propertyName, object value, Action<ResponseBase> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest {
-                                LoginName = SingleUser.LoginName,
-                                PropertyName = propertyName,
-                                Value = value
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3336/api/MinerClient/SetMinerProfileProperty", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/SetMinerProfileProperty", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }

@@ -247,7 +247,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     foreach (var item in checkedItems) {
-                        Client.MinerClientService.StartMineAsync(item.MinerIp, item.WorkId, response => {
+                        Server.MinerClientService.StartMineAsync(item.MinerIp, item.WorkId, response => {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);
@@ -279,7 +279,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     foreach (var item in checkedItems) {
-                        Client.MinerClientService.StopMineAsync(item.MinerIp, response => {
+                        Server.MinerClientService.StopMineAsync(item.MinerIp, response => {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);

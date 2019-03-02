@@ -31,6 +31,22 @@ namespace NTMiner {
                 });
             }
 
+            public void SetMinerNameAsync(MinerClient.SetMinerNameRequest request, Action<ResponseBase> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/SetMinerName", request);
+                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                            callback?.Invoke(response);
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        callback?.Invoke(null);
+                    }
+                });
+            }
+
             public void RefreshUserSetAsync() {
                 Task.Factory.StartNew(() => {
                     try {
@@ -45,15 +61,11 @@ namespace NTMiner {
                 });
             }
 
-            public void RestartWindowsAsync(string clientHost, Action<ResponseBase> callback) {
+            public void RestartWindowsAsync(RestartWindowsRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            RestartWindowsRequest request = new RestartWindowsRequest {
-                                LoginName = SingleUser.LoginName
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/RestartWindows", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/RestartWindows", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }
@@ -65,15 +77,11 @@ namespace NTMiner {
                 });
             }
 
-            public void ShutdownWindowsAsync(string clientHost, Action<ResponseBase> callback) {
+            public void ShutdownWindowsAsync(ShutdownWindowsRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            ShutdownWindowsRequest request = new ShutdownWindowsRequest {
-                                LoginName = SingleUser.LoginName
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/ShutdownWindows", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/ShutdownWindows", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }
@@ -85,16 +93,11 @@ namespace NTMiner {
                 });
             }
 
-            public void OpenNTMinerAsync(string clientHost, Guid workId, Action<ResponseBase> callback) {
+            public void OpenNTMinerAsync(OpenNTMinerRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            OpenNTMinerRequest request = new OpenNTMinerRequest {
-                                LoginName = SingleUser.LoginName,
-                                WorkId = workId
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/OpenNTMiner", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/OpenNTMiner", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }
@@ -106,16 +109,11 @@ namespace NTMiner {
                 });
             }
 
-            public void RestartNTMinerAsync(string clientHost, Guid workId, Action<ResponseBase> callback) {
+            public void RestartNTMinerAsync(RestartNTMinerRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            RestartNTMinerRequest request = new RestartNTMinerRequest {
-                                LoginName = SingleUser.LoginName,
-                                WorkId = workId
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/RestartNTMiner", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/RestartNTMiner", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }
@@ -127,16 +125,11 @@ namespace NTMiner {
                 });
             }
 
-            public void UpgradeNTMinerAsync(string clientHost, string ntminerFileName, Action<ResponseBase> callback) {
+            public void UpgradeNTMinerAsync(UpgradeNTMinerRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            UpgradeNTMinerRequest request = new UpgradeNTMinerRequest {
-                                LoginName = SingleUser.LoginName,
-                                NTMinerFileName = ntminerFileName
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/UpgradeNTMiner", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/UpgradeNTMiner", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }
@@ -148,15 +141,11 @@ namespace NTMiner {
                 });
             }
 
-            public void CloseNTMinerAsync(string clientHost, Action<ResponseBase> callback) {
+            public void CloseNTMinerAsync(MinerClient.CloseNTMinerRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            CloseNTMinerRequest request = new CloseNTMinerRequest {
-                                LoginName = SingleUser.LoginName
-                            };
-                            request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientHost}:3337/api/NTMinerDaemon/CloseNTMiner", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/CloseNTMiner", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response);
                         }

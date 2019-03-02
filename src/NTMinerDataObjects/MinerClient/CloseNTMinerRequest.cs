@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
-namespace NTMiner.MinerServer {
-    public class ShutdownWindowsRequest : RequestBase, ISignatureRequest {
+namespace NTMiner.MinerClient {
+    public class CloseNTMinerRequest : RequestBase, ISignatureRequest {
         public string ClientIp { get; set; }
         public string LoginName { get; set; }
         public string Sign { get; set; }

@@ -134,7 +134,7 @@ namespace NTMiner.Vms {
             });
             this.StartMine = new DelegateCommand(() => {
                 IsMining = true;
-                Client.MinerClientService.StartMineAsync(this.MinerIp, WorkId, response => {
+                Server.MinerClientService.StartMineAsync(this.MinerIp, WorkId, response => {
                     if (!response.IsSuccess()) {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
@@ -152,7 +152,7 @@ namespace NTMiner.Vms {
             });
             this.StopMine = new DelegateCommand(() => {
                 IsMining = false;
-                Client.MinerClientService.StopMineAsync(this.MinerIp, response => {
+                Server.MinerClientService.StopMineAsync(this.MinerIp, response => {
                     if (!response.IsSuccess()) {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
@@ -360,7 +360,13 @@ namespace NTMiner.Vms {
                     _data.MinerName = value;
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, response1 => {
                         if (response1.IsSuccess()) {
-                            Client.MinerClientService.SetMinerNameAsync(this.MinerIp, value, response2 => {
+                            var request = new MinerClient.SetMinerNameRequest {
+                                ClientIp = this.MinerIp,
+                                LoginName = SingleUser.LoginName,
+                                MinerName = value
+                            };
+                            request.SignIt(SingleUser.PasswordSha1Sha1);
+                            Client.NTMinerDaemonService.SetMinerNameAsync(request, response2 => {
                                 if (!response2.IsSuccess()) {
                                     _data.MinerName = old;
                                     Write.UserLine($"{this.MinerIp} {response2?.Description}", ConsoleColor.Red);
