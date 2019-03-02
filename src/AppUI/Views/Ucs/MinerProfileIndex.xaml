@@ -862,7 +862,7 @@
 					</StackPanel>
 				</WrapPanel>
 
-				<WrapPanel Margin="0 2" VerticalAlignment="Center">
+				<WrapPanel Margin="0 2 0 0" VerticalAlignment="Center">
 					<TextBlock
 						Style="{StaticResource LblTb}"
 						ToolTip="{DynamicResource CustomArgs}"

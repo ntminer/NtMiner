@@ -204,8 +204,8 @@
 								<RowDefinition Height="*"></RowDefinition>
 							</Grid.RowDefinitions>
 							<Border
-							Grid.Column="0" Grid.Row="0" Padding="0 2 0 0"
-							BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
+							    Grid.Column="0" Grid.Row="0" Padding="0 2 0 0"
+							    BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 								<StackPanel>
 									<WrapPanel>
 										<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
@@ -262,13 +262,13 @@
 								</StackPanel>
 							</Border>
 
-							<WrapPanel Grid.Row="1" Margin="0 0 0 4" VerticalAlignment="Center" HorizontalAlignment="Center">
+							<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
 								<controls:KbButton 
 									Width="134"
 									Height="40"
 									Command="{Binding StartMine}" 
 									Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-									Background="{StaticResource IconFillColor}">
+									Background="#00CA72">
 									<WrapPanel>
 										<Path
 											Width="16"
