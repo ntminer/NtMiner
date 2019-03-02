@@ -61,6 +61,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(TotalVirtualMemoryGb));
             OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
             OnPropertyChanged(nameof(IsStateChanged));
+            NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
         }
 
         private List<VirtualMemory> GetPagingFiles() {
