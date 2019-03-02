@@ -66,6 +66,7 @@
     <Compile Include="Controls\PasswordBoxHelper.cs" />
     <Compile Include="Converters\BoolToBrushConverter.cs" />
     <Compile Include="Converters\BoolToHiddenInvertConverter.cs" />
+    <Compile Include="Converters\NoRecordInvertVisibilityConverter.cs" />
     <Compile Include="Converters\TextIndentConverter.cs" />
     <Compile Include="Converters\BoolInvertConverter.cs" />
     <Compile Include="Converters\BoolToHiddenConverter.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Converters\ByteToGbConverter.cs" />
     <Compile Include="Converters\ByteToMbConverter.cs" />
     <Compile Include="Converters\ConsoleColorToMediaColorConverter.cs" />
-    <Compile Include="Converters\NoRecordConverter.cs" />
+    <Compile Include="Converters\NoRecordVisibilityConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyBooleanConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyVisibilityConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyVisibilityInvertConverter.cs" />

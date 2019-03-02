@@ -6,10 +6,10 @@ using System.Windows.Data;
 
 namespace NTMiner.Converters {
     [ValueConversion(typeof(object), typeof(Visibility))]
-    public class NoRecordConverter : IValueConverter {
+    public class NoRecordInvertVisibilityConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value == null) {
-                return Visibility.Visible;
+                return Visibility.Collapsed;
             }
             if (value is IEnumerable enumerable) {
                 int i = 0;
@@ -18,10 +18,10 @@ namespace NTMiner.Converters {
                     break;
                 }
                 if (i == 0) {
-                    return Visibility.Visible;
+                    return Visibility.Collapsed;
                 }
             }
-            return Visibility.Collapsed;
+            return Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

@@ -63,6 +63,24 @@ namespace NTMiner.Vms {
             }
         }
 
+        public Visibility IsIconEditVisible {
+            get {
+                if (FormType == FormType.Edit) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public Visibility IsIconAddVisible {
+            get {
+                if (FormType == FormType.Add) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
         private string _iconName;
         private string _iconImage;
 

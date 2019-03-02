@@ -459,7 +459,7 @@
 							</DataGridTemplateColumn>
 						</DataGrid.Columns>
 					</DataGrid>
-					<TextBlock Grid.Row="1" Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}" Grid.Column="1" Margin="271,209,293,246"></TextBlock>
+					<TextBlock Grid.Row="1" Visibility="{Binding KernelVmSingleInstance.CoinKernels, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}" Grid.Column="1" Margin="271,209,293,246"></TextBlock>
 				</Grid>
 			</TabItem>
 			<!--end支持币种-->

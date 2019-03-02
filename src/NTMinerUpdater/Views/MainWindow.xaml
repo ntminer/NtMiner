@@ -146,7 +146,7 @@
 						</DataGridTemplateColumn>
 					</DataGrid.Columns>
 				</DataGrid>
-				<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding NTMinerFiles, Converter={StaticResource NoRecordConverter}}" Grid.Column="1">没有记录</TextBlock>
+				<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding NTMinerFiles, Converter={StaticResource NoRecordVisibilityConverter}}" Grid.Column="1">没有记录</TextBlock>
 			</Grid>
 			<!--end历史版本列表-->
 			

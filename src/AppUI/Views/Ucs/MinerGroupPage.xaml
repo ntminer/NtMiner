@@ -81,6 +81,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding MinerGroupVms.List, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+        <TextBlock Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding MinerGroupVms.List, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
     </Grid>
 </UserControl>

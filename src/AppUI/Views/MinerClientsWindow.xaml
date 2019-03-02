@@ -1581,7 +1581,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
+		<TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
 		<notification:NotificationMessageContainer 
 			Margin="0 4 0 0"
 			Grid.Row="0"

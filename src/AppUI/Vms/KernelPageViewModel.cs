@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
             this._kernelMenus.Add(_updateKernelMenu);
             this._kernelMenus.Add(_uninstallKernelMenu);
             this.Add = new DelegateCommand(() => {
-                new KernelViewModel(Guid.NewGuid()).Edit.Execute(null);
+                new KernelViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 Keyword = string.Empty;

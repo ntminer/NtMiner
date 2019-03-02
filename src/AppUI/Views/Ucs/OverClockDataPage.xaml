@@ -32,7 +32,7 @@
 				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding CoinVms.MainCoins, Converter={StaticResource NoRecordConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
+		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding CoinVms.MainCoins, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
 
 		<DataGrid 
 			Grid.Column="1"
@@ -106,6 +106,6 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Column="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentCoin.OverClockDatas, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+		<TextBlock Grid.Column="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentCoin.OverClockDatas, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
 	</Grid>
 </UserControl>

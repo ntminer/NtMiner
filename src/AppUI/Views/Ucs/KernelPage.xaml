@@ -83,7 +83,7 @@
 					<WrapPanel>
 						<Path 
 							x:Name="DownloadingCount"
-							Visibility="{Binding DownloadingVms, Converter={StaticResource NoRecordConverter}}"
+							Visibility="{Binding DownloadingVms, Converter={StaticResource NoRecordVisibilityConverter}}"
 							Width="24"
 							Height="24"
 							Data="{StaticResource Icon_Download}"

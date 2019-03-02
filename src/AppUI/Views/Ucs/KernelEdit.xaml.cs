@@ -4,8 +4,9 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelEdit : UserControl {
-        public static void ShowWindow(KernelViewModel source) {
+        public static void ShowWindow(FormType formType, KernelViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
                 Width = 620,

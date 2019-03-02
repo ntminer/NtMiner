@@ -17,7 +17,7 @@ namespace NTMiner.Views.Ucs {
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             DataGrid dg = (DataGrid)sender;
             if (dg.SelectedItem != null) {
-                ((KernelViewModel)dg.SelectedItem).Edit.Execute(null);
+                ((KernelViewModel)dg.SelectedItem).Edit.Execute(FormType.Edit);
             }
         }
 

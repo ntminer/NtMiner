@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:NTMiner.Converters">
-    <converters:NoRecordConverter x:Key="NoRecordConverter" />
+    <converters:NoRecordVisibilityConverter x:Key="NoRecordVisibilityConverter" />
+    <converters:NoRecordInvertVisibilityConverter x:Key="NoRecordInvertVisibilityConverter"></converters:NoRecordInvertVisibilityConverter>
     <converters:TextIndentConverter x:Key="TextIndentConverter" />
     <converters:NotNullOrEmptyVisibilityConverter x:Key="NotNullOrEmptyVisibilityConverter" />
     <converters:NotNullOrEmptyVisibilityInvertConverter x:Key="NotNullOrEmptyVisibilityInvertConverter" />

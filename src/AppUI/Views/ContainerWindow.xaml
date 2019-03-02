@@ -39,6 +39,22 @@
 						Data="{Binding Icon}"
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill"/>
+					<Path
+						Margin="4 0 0 0"
+						Visibility="{Binding IsIconAddVisible}"
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Add}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill"/>
+					<Path
+						Margin="4 0 0 0"
+						Visibility="{Binding IsIconEditVisible}"
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Edit}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill"/>
 				</WrapPanel>
 				<TextBlock
 					Margin="4 0 0 0"

@@ -34,7 +34,9 @@
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<WrapPanel VerticalAlignment="Center">
-				<TextBlock Style="{StaticResource LblTb}" Width="Auto">推荐</TextBlock>
+				<TextBlock 
+					Visibility="{Binding MinerProfile.CoinVm.OverClockDatas,Converter={StaticResource NoRecordInvertVisibilityConverter}}"
+					Style="{StaticResource LblTb}" Width="Auto">推荐</TextBlock>
 				<ItemsControl
 					BorderThickness="0"
 					MouseDown="ItemsControl_MouseDown"

@@ -129,7 +129,7 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SysDicVms, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+        <TextBlock Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SysDicVms, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
 
         <DataGrid 
             Grid.Column="2" 
@@ -240,6 +240,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Column="2" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentSysDic.SysDicItems, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+        <TextBlock Grid.Column="2" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentSysDic.SysDicItems, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
     </Grid>
 </UserControl>
