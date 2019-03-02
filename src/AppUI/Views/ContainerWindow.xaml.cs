@@ -15,6 +15,7 @@ namespace NTMiner.Views {
         private static readonly Dictionary<Type, double> s_windowTopDic = new Dictionary<Type, double>();
         private static readonly Dictionary<ContainerWindowViewModel, ContainerWindow> s_windowDic = new Dictionary<ContainerWindowViewModel, ContainerWindow>();
 
+        private static readonly List<ContainerWindowViewModel> s_windows = new List<ContainerWindowViewModel>();
         public static readonly ObservableCollection<ContainerWindowViewModel> Windows = new ObservableCollection<ContainerWindowViewModel>();
 
         public static ICommand CloseWindow { get; private set; }
@@ -28,7 +29,7 @@ namespace NTMiner.Views {
                 "全局语言变更时调整窗口的标题",
                 LogEnum.Console,
                 action: message => {
-                    foreach (var item in Windows) {
+                    foreach (var item in s_windows) {
                         item.OnPropertyChanged(nameof(item.Title));
                     }
                 });
@@ -63,10 +64,16 @@ namespace NTMiner.Views {
                     Owner = null
                 };
                 s_windowDic.Add(vm, window);
-                Windows.Add(vm);
+                if (!vm.IsDialogWindow) {
+                    Windows.Add(vm);
+                }
+                s_windows.Add(vm);
                 window.Closed += (object sender, EventArgs e) => {
                     s_windowDic.Remove(vm);
-                    Windows.Remove(vm);
+                    if (!vm.IsDialogWindow) {
+                        Windows.Remove(vm);
+                    }
+                    s_windows.Remove(vm);
                 };
                 s_windowDicByType.Add(ucType, window);
                 if (s_windowLeftDic.ContainsKey(ucType)) {
