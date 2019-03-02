@@ -9,7 +9,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/MineWorkViewModel.xaml}"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="#EBF2F9">
 	<UserControl.Resources>
 		<Style TargetType="Label">
 			<Setter Property="Width" Value="60"></Setter>
@@ -20,7 +20,7 @@
 			作业
 		</sys:String>
 	</UserControl.Resources>
-	<Grid Background="#EBF2F9">
+	<Grid Margin="0 2 0 0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>

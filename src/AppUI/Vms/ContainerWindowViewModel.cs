@@ -13,6 +13,8 @@ namespace NTMiner.Vms {
         private Visibility _closeVisible = Visibility.Visible;
         private Visibility _headerVisible = Visibility.Visible;
         private Visibility _footerVisible = Visibility.Visible;
+        private Visibility _isIconEditVisible = Visibility.Collapsed;
+        private Visibility _isIconAddVisible = Visibility.Collapsed;
         private double _width = 0;
         private double _height = 0;
         private Geometry _icon;
@@ -59,25 +61,29 @@ namespace NTMiner.Vms {
             get => _formType;
             set {
                 _formType = value;
+                switch (value) {
+                    case FormType.Add:
+                        _isIconAddVisible = Visibility.Visible;
+                        break;
+                    case FormType.Edit:
+                        _isIconEditVisible = Visibility.Visible;
+                        break;
+                    default:
+                        break;
+                }
                 OnPropertyChanged(nameof(FormType));
             }
         }
 
         public Visibility IsIconEditVisible {
             get {
-                if (FormType == FormType.Edit) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
+                return _isIconEditVisible;
             }
         }
 
         public Visibility IsIconAddVisible {
             get {
-                if (FormType == FormType.Add) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
+                return _isIconAddVisible;
             }
         }
 
