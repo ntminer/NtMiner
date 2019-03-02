@@ -198,17 +198,17 @@
 							<RowDefinition Height="*"></RowDefinition>
 							<RowDefinition Height="Auto"></RowDefinition>
 						</Grid.RowDefinitions>
-						<Border
-							Grid.Column="0" Grid.Row="0" Padding="0 6 0 0"
+						<Grid Grid.Column="0" Grid.Row="0">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"></RowDefinition>
+								<RowDefinition Height="*"></RowDefinition>
+							</Grid.RowDefinitions>
+							<Border
+							Grid.Column="0" Grid.Row="0" Padding="0 2 0 0"
 							BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
-							<StackPanel>
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto"></ColumnDefinition>
-										<ColumnDefinition Width="*"></ColumnDefinition>
-									</Grid.ColumnDefinitions>
-									<StackPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
-										<WrapPanel VerticalAlignment="Center">
+								<StackPanel>
+									<WrapPanel>
+										<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 											<TextBlock 
 												FontSize="12"
 												Foreground="{StaticResource LableColor}"
@@ -230,19 +230,8 @@
 													</StackPanel>
 												</TextBox.ToolTip>
 											</TextBox>
-										</WrapPanel>
-										<WrapPanel Margin="0 2">
-											<TextBlock 
-												FontSize="12"
-												Foreground="{StaticResource LableColor}"
-												Padding="0 0 4 0"
-												Width="58"
-												VerticalAlignment="Center"
-												TextAlignment="Right"
-												TextWrapping="Wrap"
-												Height="14">
-											</TextBlock>
 											<controls:KbButton 
+												BorderThickness="0"
 												ToolTip="{DynamicResource UseThisPcName}"
 												Command="{Binding UseThisPcName}"
 												Background="Transparent"
@@ -255,85 +244,87 @@
 													Stretch="Fill" />
 											</controls:KbButton>
 										</WrapPanel>
-									</StackPanel>
-									<WrapPanel Grid.Column="1" Margin="0 0 12 0" VerticalAlignment="Center" HorizontalAlignment="Right">
-										<controls:KbButton 
-											Width="134"
-											Height="40"
-											Command="{Binding StartMine}" 
-											Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-											Background="#00CA72">
-											<WrapPanel>
-												<Path
-													Width="16"
-													Height="16"
-													Data="{StaticResource Icon_Fan}"
-													Fill="White"
-													Stretch="Fill" />
-												<Label
-													Padding="4 4 4 6"
-													VerticalAlignment="Center"
-													Foreground="White"
-													FontSize="16"
-													Content="{DynamicResource BtnStartMine}" />
-											</WrapPanel>
-										</controls:KbButton>
-										<Button                        
-											Command="{Binding StopMine}" 
-											Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
-											<Button.Template>
-												<ControlTemplate>
-													<Border x:Name="Content"
-														Width="134"
-														Height="40"
-														Background="{StaticResource IconFillColor}">
-														<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-															<Path
-																Width="16"
-																Height="16"
-																Data="{StaticResource Icon_Fan}"
-																Fill="White"
-																Stretch="Fill">
-																<Path.RenderTransform>
-																	<RotateTransform Angle="{Binding StateBarVm.LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
-																</Path.RenderTransform>
-															</Path>
-															<Label
-																Padding="4 4 4 6"
-																x:Name="Text"
-																VerticalAlignment="Center"
-																Foreground="White"
-																FontSize="16"
-																Content="{DynamicResource BtnMining}" />
-														</WrapPanel>
-													</Border>
-													<ControlTemplate.Triggers>
-														<Trigger Property="IsMouseOver" Value="True">
-															<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
-															<Setter TargetName="Text" Property="Content" Value="{DynamicResource BtnStopMine}"></Setter>
-														</Trigger>
-													</ControlTemplate.Triggers>
-												</ControlTemplate>
-											</Button.Template>
-										</Button>
+										<StackPanel
+											Margin="42 0 0 0"
+											IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"
+											VerticalAlignment="Bottom">
+											<controls:KbCheckBox 								
+												Content="{DynamicResource ChkIsAutoBoot}"
+												IconColor="{StaticResource IconFillColor}"
+												IsChecked="{Binding MinerProfile.IsAutoBoot}" />
+											<controls:KbCheckBox
+												Content="{DynamicResource ChkIsAutoStart}"
+												IconColor="{StaticResource IconFillColor}"
+												IsChecked="{Binding MinerProfile.IsAutoStart}" />
+										</StackPanel>
 									</WrapPanel>
-								</Grid>
-								<uc:MinerProfileIndex IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}" />
-							</StackPanel>
-						</Border>
-						<WrapPanel 
-							Grid.Column="0" Grid.Row="0" 
-							IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"
-							Margin="10 0 8 2" VerticalAlignment="Bottom">
-							<controls:KbCheckBox 								
-								Content="{DynamicResource ChkIsAutoBoot}"
-								IconColor="{StaticResource IconFillColor}"
-								IsChecked="{Binding MinerProfile.IsAutoBoot}" />
-							<controls:KbCheckBox Margin="10 0 0 0"
-								Content="{DynamicResource ChkIsAutoStart}"
-								IconColor="{StaticResource IconFillColor}"
-								IsChecked="{Binding MinerProfile.IsAutoStart}" />
-						</WrapPanel>
+									<uc:MinerProfileIndex IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}" />
+								</StackPanel>
+							</Border>
+
+							<WrapPanel Grid.Row="1" Margin="0 0 0 4" VerticalAlignment="Center" HorizontalAlignment="Center">
+								<controls:KbButton 
+									Width="134"
+									Height="40"
+									Command="{Binding StartMine}" 
+									Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+									Background="#00CA72">
+									<WrapPanel>
+										<Path
+											Width="16"
+											Height="16"
+											Data="{StaticResource Icon_Fan}"
+											Fill="White"
+											Stretch="Fill" />
+										<Label
+											Padding="4 4 4 6"
+											VerticalAlignment="Center"
+											Foreground="White"
+											FontSize="16"
+											Content="{DynamicResource BtnStartMine}" />
+									</WrapPanel>
+								</controls:KbButton>
+								<Button                        
+									Command="{Binding StopMine}" 
+									Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+									<Button.Template>
+										<ControlTemplate>
+											<Border x:Name="Content"
+												Width="134"
+												Height="40"
+												Background="{StaticResource IconFillColor}">
+												<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+													<Path
+														Width="16"
+														Height="16"
+														Data="{StaticResource Icon_Fan}"
+														Fill="White"
+														Stretch="Fill">
+														<Path.RenderTransform>
+															<RotateTransform Angle="{Binding StateBarVm.LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
+														</Path.RenderTransform>
+													</Path>
+													<Label
+														Padding="4 4 4 6"
+														x:Name="Text"
+														VerticalAlignment="Center"
+														Foreground="White"
+														FontSize="16"
+														Content="{DynamicResource BtnMining}" />
+												</WrapPanel>
+											</Border>
+											<ControlTemplate.Triggers>
+												<Trigger Property="IsMouseOver" Value="True">
+													<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
+													<Setter TargetName="Text" Property="Content" Value="{DynamicResource BtnStopMine}"></Setter>
+												</Trigger>
+											</ControlTemplate.Triggers>
+										</ControlTemplate>
+									</Button.Template>
+								</Button>
+							</WrapPanel>
+						</Grid>
+						
 						<Border
 							Grid.Column="0" Grid.Row="0"
 							Width="200"
