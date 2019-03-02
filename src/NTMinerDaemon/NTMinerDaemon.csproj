@@ -88,6 +88,9 @@
     <Compile Include="..\NTMinerlib\TimeSpanExtensions.cs">
       <Link>TimeSpanExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\User\IUserSet.cs">
+      <Link>User\IUserSet.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>
     </Compile>
@@ -97,12 +100,13 @@
     <Compile Include="..\NTMinerlib\Windows\TaskKill.cs">
       <Link>Windows\TaskKill.cs</Link>
     </Compile>
+    <Compile Include="HostRoot.cs" />
+    <Compile Include="IHostRoot.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.partials.PositionUtil.cs" />
     <Compile Include="NoDevFee\WinDivert.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.cs" />
     <Compile Include="NoDevFee\WinDivertExtract.cs" />
     <Compile Include="NTMinerDaemonController.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

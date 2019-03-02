@@ -1,11 +1,21 @@
-﻿using System;
+﻿using NTMiner.User;
+using System;
 using System.Diagnostics;
 using System.Threading;
 
 namespace NTMiner {
-    class Program {
-        private static Mutex s_mutexApp;
+    public class HostRoot : IHostRoot {
+        public static readonly IHostRoot Current = new HostRoot();
 
+        public DateTime StartedOn { get; private set; } = DateTime.Now;
+
+        public IUserSet UserSet { get; private set; }
+
+        private HostRoot() {
+
+        }
+
+        private static Mutex s_mutexApp;
         static void Main(string[] args) {
             try {
                 bool mutexCreated;
