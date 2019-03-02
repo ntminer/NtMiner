@@ -26,6 +26,9 @@
 			<sys:String x:Key="Args">
 				Args
 			</sys:String>
+			<sys:String x:Key="IsSupportDualMine">
+				IsSupportDualMine
+			</sys:String>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
@@ -44,7 +47,7 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Name}" Padding="0 0 4 0"></TextBlock>
+							<TextBlock Text="{Binding Name}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -53,8 +56,18 @@
 						<TextBlock Text="{DynamicResource Args}"></TextBlock>
 					</DataGridTextColumn.Header>
 				</DataGridTextColumn>
+				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource IsSupportDualMine}"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="双挖" Visibility="{Binding IsSupportDualMine,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTemplateColumn 
-					MinWidth="100" CanUserResize="True" IsReadOnly="True"
+					MinWidth="50" CanUserResize="True" IsReadOnly="True"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
