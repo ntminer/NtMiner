@@ -7,6 +7,7 @@ namespace NTMiner.Profile {
             return new MinerProfileData {
                 Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
                 MinerName = GetThisPcName(),
+                IsAutoThisPCName = true,
                 IsShowInTaskbar = true,
                 CoinId = Guid.Empty,
                 IsAutoBoot = false,
@@ -18,7 +19,6 @@ namespace NTMiner.Profile {
                 PeriodicRestartKernelHours = 12,
                 IsPeriodicRestartComputer = false,
                 PeriodicRestartComputerHours = 24,
-                IsAutoThisPCName = true,
                 IsShowCommandLine = false,
                 CreatedOn = DateTime.Now,
                 ModifiedOn = Timestamp.UnixBaseTime

@@ -69,20 +69,21 @@ namespace NTMiner.Core.Profiles {
         }
 
         private MinerProfileData GetMinerProfileData() {
+            MinerProfileData result = null;
             if (_workId != Guid.Empty) {
-                return Server.ProfileService.GetMinerProfile(_workId);
+                result = Server.ProfileService.GetMinerProfile(_workId);
             }
             else {
                 IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
-                var result = repository.GetAll().FirstOrDefault();
-                if (result == null) {
-                    result = MinerProfileData.CreateDefaultData();
-                }
-                else if (result.IsAutoThisPCName) {
-                    result.MinerName = GetThisPcName();
-                }
-                return result;
+                result = repository.GetAll().FirstOrDefault();
             }
+            if (result == null) {
+                result = MinerProfileData.CreateDefaultData();
+            }
+            else if (result.IsAutoThisPCName) {
+                result.MinerName = MinerProfileData.GetThisPcName();
+            }
+            return result;
         }
 
         [IgnoreReflectionSet]
@@ -105,7 +106,7 @@ namespace NTMiner.Core.Profiles {
             get => _data.MinerName;
             private set {
                 if (string.IsNullOrEmpty(value)) {
-                    value = GetThisPcName();
+                    value = MinerProfileData.GetThisPcName();
                 }
                 value = new string(value.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
                 if (_data.MinerName != value) {
@@ -113,12 +114,6 @@ namespace NTMiner.Core.Profiles {
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
             }
-        }
-
-        public string GetThisPcName() {
-            string value = Environment.MachineName.ToLower();
-            value = new string(value.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
-            return value;
         }
 
         public bool IsAutoThisPCName {
