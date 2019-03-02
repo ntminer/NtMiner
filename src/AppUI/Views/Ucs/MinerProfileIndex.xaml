@@ -27,15 +27,6 @@
 				<Setter Property="TextAlignment" Value="Right"></Setter>
 				<Setter Property="TextWrapping" Value="Wrap"></Setter>
 			</Style>
-			<sys:String x:Key="MinerName">
-				MinerName
-			</sys:String>
-			<sys:String x:Key="MinerNameTip">
-				MinerNameTip
-			</sys:String>
-			<sys:String x:Key="UseThisPcName">
-				UseThisPcName
-			</sys:String>
 			<sys:String x:Key="MainCoin">
 				MainCoin
 			</sys:String>
@@ -116,42 +107,8 @@
 			</sys:String>
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Grid Background="#EBF2F9">
+	<Grid>
 		<StackPanel Margin="2 6 8 8">
-			<WrapPanel Margin="0">
-				<StackPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
-					<WrapPanel VerticalAlignment="Center">
-						<TextBlock 
-							Style="{StaticResource LblTb}"
-							ToolTip="{DynamicResource MinerName}"
-							Text="{DynamicResource MinerName}"></TextBlock>
-						<TextBox 
-							Height="30"
-							IsReadOnly="{Binding ElementName=ChkbAutoThisPCName, Path=IsChecked}"
-							Width="136" Background="White"
-							Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
-							VerticalContentAlignment="Center">
-							<TextBox.ToolTip>
-								<StackPanel>
-									<TextBlock Text="{DynamicResource MinerNameTip}"></TextBlock>
-								</StackPanel>
-							</TextBox.ToolTip>
-						</TextBox>
-					</WrapPanel>
-					<WrapPanel Margin="0 2">
-						<TextBlock Style="{StaticResource LblTb}" Height="14">
-						</TextBlock>
-						<controls:KbCheckBox 
-							Padding="0" 
-							x:Name="ChkbAutoThisPCName" 
-							IconColor="{StaticResource IconFillColor}"
-							IsChecked="{Binding MinerProfile.IsAutoThisPCName}" 
-							VerticalAlignment="Center"
-							Content="{DynamicResource UseThisPcName}"></controls:KbCheckBox>
-					</WrapPanel>
-				</StackPanel>
-			</WrapPanel>
-
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<TextBlock
@@ -927,7 +884,6 @@
 		</StackPanel>
 		<controls:KbButton
 			BorderThickness="0"
-			Margin="200 12 0 0"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
