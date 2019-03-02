@@ -31,6 +31,20 @@ namespace NTMiner {
                 });
             }
 
+            public void RefreshUserSetAsync() {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:3337/api/NTMinerDaemon/RefreshUserSet", null);
+                            Write.DevLine("RefreshUserSetAsync " + message.Result.ReasonPhrase);
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
+                });
+            }
+
             public void RestartWindowsAsync(string clientHost, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {

@@ -17,9 +17,15 @@ namespace NTMiner {
                 return s_sha1;
             }
         }
+
         [HttpPost]
         public string GetDaemonVersion() {
             return Sha1;
+        }
+
+        [HttpPost]
+        public void RefreshUserSet() {
+            HostRoot.Current.RefreshUserSet();
         }
 
         [HttpPost]
