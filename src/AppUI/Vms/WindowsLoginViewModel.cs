@@ -60,15 +60,13 @@ namespace NTMiner.Vms {
                         minerClientVm.WindowsLoginName = this.UserName;
                         minerClientVm.WindowsPassword = this.Password;
                         AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.Ip, this.UserName, this.Password, this.MinerName, message => {
-                            foreach (var manager in AppStatic.Managers) {
-                                manager.CreateMessage()
-                                    .Accent("#1751C3")
-                                    .Background("Red")
-                                    .HasBadge("Error")
-                                    .HasMessage(message)
-                                    .Dismiss().WithButton("忽略", null)
-                                    .Queue();
-                            }
+                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
+                                .Accent("#1751C3")
+                                .Background("Red")
+                                .HasBadge("Error")
+                                .HasMessage(message)
+                                .Dismiss().WithButton("忽略", null)
+                                .Queue();
                         }));
                         UIThread.Execute(() => {
                             CloseWindow?.Invoke();
