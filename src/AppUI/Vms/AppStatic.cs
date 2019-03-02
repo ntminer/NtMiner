@@ -133,7 +133,7 @@ namespace NTMiner.Vms {
 
         public static Visibility IsFreeClientVisible {
             get {
-                if (CommandLineArgs.IsFreeClient) {
+                if (CommandLineArgs.WorkId == Guid.Empty) {
                     return Visibility.Collapsed;
                 }
                 return Visibility.Visible;
@@ -142,7 +142,7 @@ namespace NTMiner.Vms {
 
         public static bool IsFreeClient {
             get {
-                return CommandLineArgs.IsFreeClient;
+                return CommandLineArgs.WorkId == Guid.Empty;
             }
         }
 
