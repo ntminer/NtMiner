@@ -80,7 +80,7 @@ namespace NTMiner {
             return result;
         }
 
-        public static void SetMinerName(string minerName) {
+        private static void SetMinerName(string minerName) {
             if (!string.IsNullOrEmpty(minerName)) {
                 minerName = new string(minerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
             }

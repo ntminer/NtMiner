@@ -81,7 +81,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(NTMinerRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                NTMinerRoot.SetMinerName(request.MinerName);
+                VirtualRoot.Execute(new SetMinerNameCommand(request.MinerName));
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

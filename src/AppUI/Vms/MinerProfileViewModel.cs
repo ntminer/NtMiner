@@ -39,6 +39,13 @@ namespace NTMiner.Vms {
                         this.OnPropertyChanged(propertyInfo.Name);
                     }
                 });
+            VirtualRoot.On<MinerNameSetedEvent>(
+                "矿工名设置后刷新VM内存和命令总成",
+                LogEnum.Console,
+                action: message => {
+                    OnPropertyChanged(nameof(MinerName));
+                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+                });
         }
 
         public IMineWork MineWork {
@@ -59,8 +66,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.GetMinerName();
             set {
                 if (NTMinerRoot.GetMinerName() != value) {
-                    NTMinerRoot.SetMinerName(value);
-                    OnPropertyChanged(nameof(MinerName));
+                    VirtualRoot.Execute(new SetMinerNameCommand(value));
                 }
             }
         }

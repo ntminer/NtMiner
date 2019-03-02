@@ -118,6 +118,21 @@ namespace NTMiner.Core {
     }
     #endregion
 
+    [MessageType(messageType: typeof(SetMinerNameCommand), description: "设置矿工名")]
+    public class SetMinerNameCommand : Cmd {
+        public SetMinerNameCommand(string minerName) {
+            this.MinerName = minerName;
+        }
+
+        public string MinerName { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(MinerNameSetedEvent), description: "设置矿工名后")]
+    public class MinerNameSetedEvent : EventBase {
+        public MinerNameSetedEvent() {
+        }
+    }
+
     #region profile Messages
     [MessageType(messageType: typeof(MinerProfilePropertyChangedEvent), description: "MinerProfile设置变更后")]
     public class MinerProfilePropertyChangedEvent : EventBase {

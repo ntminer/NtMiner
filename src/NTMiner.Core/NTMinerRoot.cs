@@ -157,6 +157,14 @@ namespace NTMiner {
 
             Report.Init(this);
 
+            VirtualRoot.Accept<SetMinerNameCommand>(
+                "处理设置矿工名命令",
+                LogEnum.Console,
+                action: message => {
+                    SetMinerName(message.MinerName);
+                    VirtualRoot.Happened(new MinerNameSetedEvent());
+                });
+
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
             #region 挖矿开始时将无份额内核重启份额计数置0
