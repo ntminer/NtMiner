@@ -141,6 +141,7 @@
 			<WrapPanel HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
 					<controls:KbCheckBox 
+						Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 						Content="使用DevConsole"
 						IconColor="{StaticResource IconFillColor}"
 						IsChecked="{Binding IsUseDevConsole}" />
