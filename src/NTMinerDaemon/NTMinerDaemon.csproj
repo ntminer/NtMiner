@@ -88,6 +88,9 @@
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\SignatureRequestExtension.cs">
+      <Link>SignatureRequestExtension.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\TimeSpanExtensions.cs">
       <Link>TimeSpanExtensions.cs</Link>
     </Compile>

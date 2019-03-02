@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangePasswordRequest.cs" />
+    <Compile Include="Daemon\CloseNTMinerRequest.cs" />
+    <Compile Include="Daemon\RestartWindowsRequest.cs" />
+    <Compile Include="Daemon\ShutdownWindowsRequest.cs" />
     <Compile Include="GpuType.cs" />
     <Compile Include="Hashrate\GpuRowData.cs" />
     <Compile Include="Hashrate\GpuSpeedData.cs" />

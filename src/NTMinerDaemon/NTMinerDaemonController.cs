@@ -29,33 +29,57 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase RestartWindows([FromBody]RequestBase request) {
+        public ResponseBase RestartWindows([FromBody]RestartWindowsRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty);
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
-            TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                Windows.Power.Restart();
-            });
-            return ResponseBase.Ok(request.MessageId);
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                    Windows.Power.Restart();
+                });
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
         }
 
         [HttpPost]
-        public ResponseBase ShutdownWindows([FromBody]RequestBase request) {
+        public ResponseBase ShutdownWindows([FromBody]ShutdownWindowsRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty);
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
-            TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                Windows.Power.Shutdown();
-            });
-            return ResponseBase.Ok(request.MessageId);
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                    Windows.Power.Shutdown();
+                });
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
         }
 
         [HttpPost]
         public ResponseBase OpenNTMiner([FromBody]OpenNTMinerRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty);
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string arguments = string.Empty;
@@ -75,7 +99,11 @@ namespace NTMiner {
         [HttpPost]
         public ResponseBase RestartNTMiner([FromBody]RestartNTMinerRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty);
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            ResponseBase response;
+            if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                return response;
             }
             Task.Factory.StartNew(() => {
                 try {
@@ -123,9 +151,13 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]RequestBase request) {
+        public ResponseBase CloseNTMiner([FromBody]CloseNTMinerRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty);
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            ResponseBase response;
+            if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                return response;
             }
             Task.Factory.StartNew(() => {
                 DoCloseNTMiner();
@@ -174,7 +206,11 @@ namespace NTMiner {
         [HttpPost]
         public ResponseBase UpgradeNTMiner([FromBody]UpgradeNTMinerRequest request) {
             if (request == null || string.IsNullOrEmpty(request.NTMinerFileName)) {
-                return ResponseBase.InvalidInput(Guid.Empty);
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            ResponseBase response;
+            if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                return response;
             }
             Task.Factory.StartNew(() => {
                 try {
