@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NTMiner.MinerClient {
+namespace NTMiner.Daemon {
     public class CloseNTMinerRequest : RequestBase, ISignatureRequest {
         public string ClientIp { get; set; }
         public string LoginName { get; set; }

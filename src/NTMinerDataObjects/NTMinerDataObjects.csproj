@@ -64,7 +64,7 @@
     <Compile Include="MinerServer\CalcConfigsRequest.cs" />
     <Compile Include="MinerServer\ClientCount.cs" />
     <Compile Include="MinerServer\ClientData.cs" />
-    <Compile Include="MinerClient\CloseNTMinerRequest.cs" />
+    <Compile Include="Daemon\CloseNTMinerRequest.cs" />
     <Compile Include="MinerServer\ColumnsShowData.cs" />
     <Compile Include="MinerServer\ColumnsShowsRequest.cs" />
     <Compile Include="MinerServer\GetColumnsShowsResponse.cs" />

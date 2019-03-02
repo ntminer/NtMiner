@@ -141,7 +141,7 @@ namespace NTMiner {
                 });
             }
 
-            public void CloseNTMinerAsync(MinerClient.CloseNTMinerRequest request, Action<ResponseBase> callback) {
+            public void CloseNTMinerAsync(CloseNTMinerRequest request, Action<ResponseBase> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {

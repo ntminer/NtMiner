@@ -194,7 +194,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]MinerClient.CloseNTMinerRequest request) {
+        public ResponseBase CloseNTMiner([FromBody]CloseNTMinerRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
