@@ -44,12 +44,7 @@ namespace NTMiner.Views {
                     }).Queue();
             }
             if (NTMinerRoot.Current.GpuSet.Count == 0) {
-                Vm.Manager
-                    .CreateMessage()
-                    .Warning("没有检测到矿卡。")
-                    .Dismiss().WithButton("忽略", button => {
-
-                    }).Queue();
+                Vm.Manager.ShowErrorMessage("没有检测到矿卡。");
             }
         }
         

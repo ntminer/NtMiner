@@ -27,11 +27,7 @@ namespace NTMiner.Views.Ucs {
                 Match match = regex.Match(CbMainWallet.Text ?? string.Empty);
                 if (!match.Success) {
                     if (_walletNm == null) {
-                        _walletNm = MainWindowViewModel.Current.Manager
-                           .CreateMessage()
-                           .Warning("主币钱包地址格式不正确。")
-                           .Dismiss().WithButton("忽略", null)
-                           .Queue();
+                        _walletNm = MainWindowViewModel.Current.Manager.ShowErrorMessage("主币钱包地址格式不正确。");
                     }
                     else {
                         MainWindowViewModel.Current.Manager.Queue(_walletNm);
@@ -57,11 +53,7 @@ namespace NTMiner.Views.Ucs {
                 Match match = regex.Match(CbDualCoinWallet.Text ?? string.Empty);
                 if (!match.Success) {
                     if (_dualCoinWalletNm == null) {
-                        _dualCoinWalletNm = MainWindowViewModel.Current.Manager
-                           .CreateMessage()
-                           .Warning("双挖币钱包地址格式不正确。")
-                           .Dismiss().WithButton("忽略", null)
-                           .Queue();
+                        _dualCoinWalletNm = MainWindowViewModel.Current.Manager.ShowErrorMessage("双挖币钱包地址格式不正确。");
                     }
                     else {
                         MainWindowViewModel.Current.Manager.Queue(_dualCoinWalletNm);

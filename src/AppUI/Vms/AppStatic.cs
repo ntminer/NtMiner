@@ -49,14 +49,7 @@ namespace NTMiner.Vms {
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 string fileName = ServerJson.Export();
-                MainWindowViewModel.Current.Manager.CreateMessage()
-                    .Accent("#1751C3")
-                    .Background("#333")
-                    .HasBadge("Info")
-                    .HasMessage($"导出成功：{fileName}")
-                    .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(4))
-                    .Queue();
+                MainWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -66,14 +59,7 @@ namespace NTMiner.Vms {
         public static ICommand ExportLangJson { get; private set; } = new DelegateCommand(() => {
             try {
                 string fileName = LangJson.Export();
-                MainWindowViewModel.Current.Manager.CreateMessage()
-                    .Accent("#1751C3")
-                    .Background("#333")
-                    .HasBadge("Info")
-                    .HasMessage($"导出成功：{fileName}")
-                    .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(4))
-                    .Queue();
+                MainWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -92,25 +78,12 @@ namespace NTMiner.Vms {
                         UIThread.Execute(() => {
                             if (response.IsSuccess()) {
                                 foreach (var manager in Managers) {
-                                    manager.CreateMessage()
-                                        .Accent("#1751C3")
-                                        .Background("#333")
-                                        .HasBadge("Info")
-                                        .HasMessage($"刷新成功")
-                                        .Dismiss()
-                                        .WithDelay(TimeSpan.FromSeconds(4))
-                                        .Queue();
+                                    manager.ShowSuccessMessage($"刷新成功");
                                 }
                             }
                             else {
                                 foreach (var manager in Managers) {
-                                    manager.CreateMessage()
-                                        .Accent("#1751C3")
-                                        .Background("Red")
-                                        .HasBadge("Error")
-                                        .HasMessage($"刷新失败")
-                                        .Dismiss().WithButton("忽略", null)
-                                        .Queue();
+                                    manager.ShowErrorMessage($"刷新失败");
                                 }
                             }
                         });
@@ -267,13 +240,7 @@ namespace NTMiner.Vms {
                                     else {
                                         UIThread.Execute(() => {
                                             foreach (var manager in Managers) {
-                                                manager.CreateMessage()
-                                                    .Accent("#1751C3")
-                                                    .Background("Red")
-                                                    .HasBadge("Error")
-                                                    .HasMessage(message)
-                                                    .Dismiss().WithButton("忽略", null)
-                                                    .Queue();
+                                                manager.ShowErrorMessage(message);
                                             }
                                         });
                                         callback?.Invoke();

@@ -883,6 +883,7 @@
 					</DataGridTextColumn.Header>
 					<DataGridTextColumn.EditingElementStyle>
 						<Style TargetType="TextBox">
+							<Setter Property="ToolTip" Value="注意：修改矿工名后需重新开始挖矿才能反应到矿池"></Setter>
 							<Setter Property="Background" Value="White"></Setter>
 							<Setter Property="Width" Value="70"></Setter>
 						</Style>

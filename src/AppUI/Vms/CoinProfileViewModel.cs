@@ -24,27 +24,13 @@ namespace NTMiner.Vms {
             {
                 string wallet = this.Wallet ?? "无";
                 Clipboard.SetDataObject(wallet);
-                MainWindowViewModel.Current.Manager.CreateMessage()
-                    .Accent("#1751C3")
-                    .Background("#333")
-                    .HasBadge("Info")
-                    .HasMessage("复制成功：" + wallet)
-                    .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(4))
-                    .Queue();
+                MainWindowViewModel.Current.Manager.ShowSuccessMessage("复制成功：" + wallet);
             });
             this.CopyDualCoinWallet = new DelegateCommand(() =>
             {
                 string wallet = this.DualCoinWallet ?? "无";
                 Clipboard.SetDataObject(wallet);
-                MainWindowViewModel.Current.Manager.CreateMessage()
-                    .Accent("#1751C3")
-                    .Background("#333")
-                    .HasBadge("Info")
-                    .HasMessage("复制成功：" + wallet)
-                    .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(4))
-                    .Queue();
+                MainWindowViewModel.Current.Manager.ShowSuccessMessage("复制成功：" + wallet);
             });
             this.HideWallet = new DelegateCommand(() => {
                 this.IsHideWallet = true;

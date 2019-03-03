@@ -59,13 +59,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
-                        MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                            .Accent("#1751C3")
-                            .Background("Red")
-                            .HasBadge("Error")
-                            .HasMessage(message)
-                            .Dismiss().WithButton("忽略", null)
-                            .Queue();
+                        MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(message);
                     }));
                 }
             });
@@ -75,13 +69,7 @@ namespace NTMiner.Vms {
                         if (!response.IsSuccess()) {
                             if (response != null) {
                                 Write.UserLine(response.Description, ConsoleColor.Red);
-                                MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                                    .Accent("#1751C3")
-                                    .Background("Red")
-                                    .HasBadge("Error")
-                                    .HasMessage(response.Description)
-                                    .Dismiss().WithButton("忽略", null)
-                                    .Queue();
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                             }
                         }
                     });
@@ -93,13 +81,7 @@ namespace NTMiner.Vms {
                         if (!response.IsSuccess()) {
                             if (response != null) {
                                 Write.UserLine(response.Description, ConsoleColor.Red);
-                                MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                                    .Accent("#1751C3")
-                                    .Background("Red")
-                                    .HasBadge("Error")
-                                    .HasMessage(response.Description)
-                                    .Dismiss().WithButton("忽略", null)
-                                    .Queue();
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                             }
                         }
                     });
@@ -110,13 +92,7 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         if (response != null) {
                             Write.UserLine(response.Description, ConsoleColor.Red);
-                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                                .Accent("#1751C3")
-                                .Background("Red")
-                                .HasBadge("Error")
-                                .HasMessage(response.Description)
-                                .Dismiss().WithButton("忽略", null)
-                                .Queue();
+                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                         }
                     }
                 });
@@ -130,14 +106,7 @@ namespace NTMiner.Vms {
                         if (!response.IsSuccess()) {
                             if (response != null) {
                                 Write.UserLine(response.Description, ConsoleColor.Red);
-                                MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                                    .Accent("#1751C3")
-                                    .Background("Red")
-                                    .HasBadge("Error")
-                                    .HasMessage(response.Description)
-                                    .Dismiss()
-                                    .WithDelay(TimeSpan.FromSeconds(5))
-                                    .Queue();
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                             }
                         }
                     });
@@ -150,13 +119,7 @@ namespace NTMiner.Vms {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
                         UIThread.Execute(() => {
-                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                                .Accent("#1751C3")
-                                .Background("Red")
-                                .HasBadge("Error")
-                                .HasMessage(message)
-                                .Dismiss().WithButton("忽略", null)
-                                .Queue();
+                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                         });
                     }
                 });
@@ -168,13 +131,7 @@ namespace NTMiner.Vms {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
                         UIThread.Execute(() => {
-                            MinerClientsWindowViewModel.Current.Manager.CreateMessage()
-                                .Accent("#1751C3")
-                                .Background("Red")
-                                .HasBadge("Error")
-                                .HasMessage(message)
-                                .Dismiss().WithButton("忽略", null)
-                                .Queue();
+                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                         });
                     }
                 });

@@ -119,6 +119,43 @@ namespace NTMiner.Notifications {
             return builder;
         }
 
+        public static NotificationMessageBuilder Error(this NotificationMessageBuilder builder, string message) {
+            builder.Accent("#1751C3")
+                .Background("Red")
+                .HasBadge("错误");
+            builder.SetMessage(message);
+
+            return builder;
+        }
+
+        public static NotificationMessageBuilder Success(this NotificationMessageBuilder builder, string message) {
+            builder.Accent("#1751C3")
+                .Background("Green")
+                .HasBadge("成功");
+            builder.SetMessage(message);
+
+            return builder;
+        }
+
+        public static INotificationMessage ShowErrorMessage(this INotificationMessageManager manager, string message) {
+            var builder = NotificationMessageBuilder.CreateMessage();
+            builder.Manager = manager;
+            builder.Message = manager.Factory.GetMessage();
+            return builder.Error(message)
+                    .Dismiss().WithButton("忽略", null)
+                    .Queue();
+        }
+
+        public static INotificationMessage ShowSuccessMessage(this INotificationMessageManager manager, string message) {
+            var builder = NotificationMessageBuilder.CreateMessage();
+            builder.Manager = manager;
+            builder.Message = manager.Factory.GetMessage();
+            return builder.Success(message)
+                    .Dismiss()
+                    .WithDelay(TimeSpan.FromSeconds(4))
+                    .Queue();
+        }
+
         /// <summary>
         /// Creates the message.
         /// </summary>
