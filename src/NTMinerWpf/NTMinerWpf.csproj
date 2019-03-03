@@ -114,6 +114,7 @@
     <Compile Include="Views\ViewLang.xaml.cs">
       <DependentUpon>ViewLang.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\WpfStatic.cs" />
     <Compile Include="Vms\FormType.cs" />
     <Compile Include="Vms\IEditableViewModel.cs" />
     <Compile Include="Vms\LangViewItemViewModel.cs" />

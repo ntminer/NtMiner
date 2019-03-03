@@ -3,6 +3,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class GroupPage : UserControl {
+        public static string ViewId = nameof(GroupPage);
+
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Group",

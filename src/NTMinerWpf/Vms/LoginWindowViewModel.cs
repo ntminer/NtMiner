@@ -11,15 +11,11 @@ namespace NTMiner.Vms {
         private Visibility _messageVisible = Visibility.Collapsed;
         private string _password;
 
-        public ICommand ShowLangViewItems { get; private set; }
         public ICommand Login { get; private set; }
 
         public LoginWindowViewModel() {
             this._hostAndPort = $"{Server.MinerServerHost}:{Server.MinerServerPort.ToString()}";
             this._loginName = "admin";
-            this.ShowLangViewItems = new DelegateCommand(() => {
-                ViewLang.ShowWindow(new ViewLangViewModel(nameof(LoginWindow)));
-            });
             this.Login = new DelegateCommand(() => {
                 string passwordSha1 = HashUtil.Sha1(Password);
                 Server.ControlCenterService.LoginAsync(LoginName, passwordSha1, response => {

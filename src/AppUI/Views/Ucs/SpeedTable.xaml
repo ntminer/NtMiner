@@ -49,9 +49,9 @@
                                 <TextBlock Text="{DynamicResource DghGpuIndex}"></TextBlock>
                                 <controls:KbButton
                                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                                    ToolTip="SpeedTable translate"
+                                    ToolTip="{x:Static local:SpeedTable.ViewId}"
                                     Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                                    CommandParameter="SpeedTable"
+                                    CommandParameter="{x:Static local:SpeedTable.ViewId}"
                                     Padding="8 0"
                                     Background="Transparent">
                                     <WrapPanel>

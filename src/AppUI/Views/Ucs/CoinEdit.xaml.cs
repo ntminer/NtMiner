@@ -3,6 +3,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class CoinEdit : UserControl {
+        public static string ViewId = nameof(CoinEdit);
+
         public static void ShowWindow(FormType formType, CoinViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 FormType = formType,

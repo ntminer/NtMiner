@@ -433,9 +433,9 @@
 			VerticalAlignment="Top"
 			HorizontalAlignment="Right"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="KernelGrid translate"
+			ToolTip="{x:Static local:KernelGrid.ViewId}"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="KernelGrid"
+			CommandParameter="{x:Static local:KernelGrid.ViewId}"
 			Background="Transparent">
 			<WrapPanel>
 				<Path

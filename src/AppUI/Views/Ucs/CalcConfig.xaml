@@ -106,9 +106,9 @@
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="CalcConfig translate"
+			ToolTip="{x:Static local:CalcConfig.ViewId}"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="CalcConfig"
+			CommandParameter="{x:Static local:CalcConfig.ViewId}"
 			Background="Transparent">
 			<WrapPanel>
 				<Path

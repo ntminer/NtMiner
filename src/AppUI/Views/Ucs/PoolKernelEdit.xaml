@@ -49,9 +49,9 @@
 					Margin="2 0"
 					HorizontalAlignment="Right"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ToolTip="PoolKernelEdit translate"
+					ToolTip="{x:Static local:PoolKernelEdit.ViewId}"
 					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-					CommandParameter="PoolKernelEdit"
+					CommandParameter="{x:Static local:PoolKernelEdit.ViewId}"
 					Background="Transparent">
 					<WrapPanel>
 						<Path

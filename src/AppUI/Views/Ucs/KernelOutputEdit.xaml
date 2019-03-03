@@ -203,9 +203,9 @@
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="KernelOutputEdit translate"
+			ToolTip="{x:Static local:KernelOutputEdit.ViewId}"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="KernelOutputEdit"
+			CommandParameter="{x:Static local:KernelOutputEdit.ViewId}"
 			Background="Transparent">
 			<WrapPanel>
 				<Path

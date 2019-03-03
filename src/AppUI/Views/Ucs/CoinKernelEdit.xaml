@@ -52,9 +52,9 @@
 					Margin="2 0"
 					HorizontalAlignment="Right"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ToolTip="CoinKernelEdit translate"
+					ToolTip="{x:Static local:CoinKernelEdit.ViewId}"
 					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-					CommandParameter="CoinKernelEdit"
+					CommandParameter="{x:Static local:CoinKernelEdit.ViewId}"
 					Background="Transparent">
 					<WrapPanel>
 						<Path

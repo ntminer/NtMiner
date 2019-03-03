@@ -3,6 +3,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class CoinPage : UserControl {
+        public static string ViewId = nameof(CoinPage);
+
         public static void ShowWindow(CoinViewModel currentCoin) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Coin",

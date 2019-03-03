@@ -70,9 +70,9 @@
 				Margin="4 0 0 0"
 				HorizontalAlignment="Left"
 				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-				ToolTip="KernelOutputPage translate"
+				ToolTip="{x:Static local:KernelOutputPage.ViewId}"
 				Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-				CommandParameter="KernelOutputPage"
+				CommandParameter="{x:Static local:KernelOutputPage.ViewId}"
 				Background="Transparent">
 				<WrapPanel>
 					<Path

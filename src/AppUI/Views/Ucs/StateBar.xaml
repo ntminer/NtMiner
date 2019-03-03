@@ -4,11 +4,11 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
-			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 DataContext="{x:Static vm:StateBarViewModel.Current}"
-			 mc:Ignorable="d">
+			 mc:Ignorable="d" d:DesignWidth="800">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="Lbl" TargetType="Label">
@@ -204,9 +204,9 @@
 					<controls:KbButton
 						Margin="0 0 4 0"
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-						ToolTip="StateBar translate"
+						ToolTip="{x:Static local:StateBar.ViewId}"
 						Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-						CommandParameter="StateBar"
+						CommandParameter="{x:Static local:StateBar.ViewId}"
 						Background="Transparent">
 						<WrapPanel>
 							<Path
@@ -296,7 +296,7 @@
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
 							Background="Transparent" />
-						<WrapPanel Width="284" ToolTip="数据来自鱼池首页">
+						<WrapPanel Width="300" ToolTip="数据来自鱼池首页">
 							<controls:KbButton 
 								Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 								Command="{x:Static vm:AppStatic.ShowCalc}"
@@ -370,7 +370,7 @@
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent" />
-							<WrapPanel Width="284" ToolTip="数据来自鱼池首页">
+							<WrapPanel Width="300" ToolTip="数据来自鱼池首页">
 								<controls:KbButton 
 									Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 									Command="{x:Static vm:AppStatic.ShowCalc}"

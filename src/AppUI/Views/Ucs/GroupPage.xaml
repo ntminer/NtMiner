@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 Background="White"
@@ -45,9 +46,9 @@
 		<controls:KbButton
 			HorizontalAlignment="Left"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="GroupPage translate"
+			ToolTip="{x:Static local:GroupPage.ViewId}"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="GroupPage"
+			CommandParameter="{x:Static local:GroupPage.ViewId}"
 			Padding="8 0"
 			Background="Transparent">
 			<WrapPanel>

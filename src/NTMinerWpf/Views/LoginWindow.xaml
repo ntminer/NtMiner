@@ -7,6 +7,7 @@
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:controls="clr-namespace:NTMiner.Controls"
         xmlns:vm="clr-namespace:NTMiner.Vms"
+        xmlns:local="clr-namespace:NTMiner.Views"
         mc:Ignorable="d"
         UseNoneWindowStyle="True"
         ResizeMode="NoResize"
@@ -55,8 +56,9 @@
                     SelectionChanged="CbLanguage_SelectionChanged">
                 </controls:KbComboBox>
                 <controls:KbButton
-                    ToolTip="LoginWindow translate"
-                    Command="{Binding ShowLangViewItems}"
+                    ToolTip="{x:Static local:LoginWindow.ViewId}"
+                    Command="{x:Static vm:WpfStatic.ShowLangViewItems}"
+                    CommandParameter="{x:Static local:LoginWindow.ViewId}"
                     Padding="4 0"
                     Background="{StaticResource MainColor}">
                     <WrapPanel>

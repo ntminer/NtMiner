@@ -24,9 +24,9 @@
 		<controls:KbButton
 			Margin="0 -50 0 0"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="FileDownloader translate"
+			ToolTip="{x:Static local:FileDownloader.ViewId}"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="FileDownloader"
+			CommandParameter="{x:Static local:FileDownloader.ViewId}"
 			Padding="8 0"
 			Background="Transparent">
 			<WrapPanel>

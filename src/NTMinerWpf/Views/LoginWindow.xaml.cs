@@ -5,6 +5,8 @@ using NTMiner.Vms;
 
 namespace NTMiner.Views {
     public partial class LoginWindow : MetroWindow {
+        public static string ViewId = nameof(LoginWindow);
+
         public LoginWindowViewModel Vm {
             get {
                 return (LoginWindowViewModel)this.DataContext;

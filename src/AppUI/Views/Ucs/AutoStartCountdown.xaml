@@ -28,9 +28,9 @@
             <TextBlock Text="{DynamicResource TbMessage}"></TextBlock>
             <controls:KbButton
                 Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                ToolTip="AutoStartCountdown translate"
+                ToolTip="{x:Static local:AutoStartCountdown.ViewId}"
                 Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                CommandParameter="AutoStartCountdown"
+                CommandParameter="{x:Static local:AutoStartCountdown.ViewId}"
                 Background="Transparent">
                 <WrapPanel>
                     <Path

@@ -69,9 +69,9 @@
 	<WrapPanel>
 		<controls:KbButton
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="MainMenu translate"
+			ToolTip="{x:Static local:MainMenu.ViewId}"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="MainMenu"
+			CommandParameter="{x:Static local:MainMenu.ViewId}"
 			Padding="8 0"
 			Background="Transparent">
 			<WrapPanel>

@@ -3,6 +3,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class PoolEdit : UserControl {
+        public static string ViewId = nameof(PoolEdit);
+
         public static void ShowWindow(FormType formType, PoolViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 FormType = formType,

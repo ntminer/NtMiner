@@ -5,6 +5,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileIndex : UserControl {
+        public static string ViewId = nameof(MinerProfileIndex);
+
         private MinerProfileIndexViewModel Vm {
             get {
                 return (MinerProfileIndexViewModel)this.DataContext;

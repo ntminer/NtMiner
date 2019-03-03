@@ -4,6 +4,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class CalcConfig : UserControl {
+        public static string ViewId = nameof(CalcConfig);
+
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Calc",

@@ -53,9 +53,9 @@
 				VerticalAlignment="Top">
 				<controls:KbButton
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ToolTip="Console translate"
+					ToolTip="{x:Static local:Console.ViewId}"
 					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-					CommandParameter="Console"
+					CommandParameter="{x:Static local:Console.ViewId}"
 					Background="Transparent">
 					<WrapPanel>
 						<Path

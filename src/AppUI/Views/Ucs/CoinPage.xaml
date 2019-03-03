@@ -108,9 +108,9 @@
 					</controls:KbButton>
 					<controls:KbButton
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-						ToolTip="CoinPage translate"
+						ToolTip="{x:Static local:CoinPage.ViewId}"
 						Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-						CommandParameter="CoinPage"
+						CommandParameter="{x:Static local:CoinPage.ViewId}"
 						Padding="8 0"
 						Background="Transparent">
 						<WrapPanel>

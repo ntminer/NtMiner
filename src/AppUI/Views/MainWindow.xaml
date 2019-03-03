@@ -114,9 +114,9 @@
 				</controls:KbLinkButton>
 				<controls:KbButton
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-					ToolTip="MainWindow translate"
+					ToolTip="{x:Static local:MainWindow.ViewId}"
 					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-					CommandParameter="MainWindow"
+					CommandParameter="{x:Static local:MainWindow.ViewId}"
 					Padding="8 0"
 					Background="Transparent">
 					<WrapPanel>

@@ -54,9 +54,9 @@
             </controls:KbButton>
             <controls:KbButton
                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                    ToolTip="GroupEdit translate"
+                    ToolTip="{x:Static local:GroupEdit.ViewId}"
                     Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                    CommandParameter="GroupEdit"
+                    CommandParameter="{x:Static local:GroupEdit.ViewId}"
                     Padding="8 0"
                     Background="Transparent">
                 <WrapPanel>

@@ -125,9 +125,9 @@
 			HorizontalAlignment="Right"
 			VerticalAlignment="Top"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="KernelInputPage translate"
+			ToolTip="{x:Static local:KernelInputPage.ViewId}"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="KernelInputPage"
+			CommandParameter="{x:Static local:KernelInputPage.ViewId}"
 			Background="Transparent">
 			<WrapPanel>
 				<Path

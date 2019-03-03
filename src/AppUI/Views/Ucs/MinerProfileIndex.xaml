@@ -925,10 +925,10 @@
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="MinerProfileIndex translate"
+			ToolTip="{x:Static local:MinerProfileIndex.ViewId}"
 			Background="Transparent"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="MinerProfileIndex">
+			CommandParameter="{x:Static local:MinerProfileIndex.ViewId}">
 			<WrapPanel>
 				<Path
 					Width="14"

@@ -199,9 +199,9 @@
 			VerticalAlignment="Top"
 			HorizontalAlignment="Right"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="PoolEdit translate"
+			ToolTip="{x:Static local:PoolEdit.ViewId}"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="PoolEdit"
+			CommandParameter="{x:Static local:PoolEdit.ViewId}"
 			Background="Transparent">
 			<WrapPanel>
 				<Path

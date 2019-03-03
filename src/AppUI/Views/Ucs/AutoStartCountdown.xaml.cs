@@ -4,6 +4,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class AutoStartCountdown : UserControl {
+        public static string ViewId = nameof(AutoStartCountdown);
+
         public static void ShowDialog() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Width = 400,

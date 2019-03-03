@@ -89,9 +89,9 @@
                 <TextBlock Text="{Binding MachineName}"></TextBlock>
                 <controls:KbButton
                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                    ToolTip="MainWindow translate"
+                    ToolTip="{x:Static local:OuterProperty.ViewId}"
                     Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                    CommandParameter="Property"
+                    CommandParameter="{x:Static local:OuterProperty.ViewId}"
                     Padding="8 0"
                     Background="Transparent">
                     <WrapPanel>

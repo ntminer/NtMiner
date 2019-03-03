@@ -4,6 +4,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d"
@@ -216,9 +217,9 @@
 			VerticalAlignment="Top"
 			HorizontalAlignment="Right"
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-			ToolTip="KernelInputEdit translate"
+			ToolTip="{x:Static local:KernelInputEdit.ViewId}"
 			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-			CommandParameter="KernelInputEdit"
+			CommandParameter="{x:Static local:KernelInputEdit.ViewId}"
 			Background="Transparent">
 			<WrapPanel>
 				<Path

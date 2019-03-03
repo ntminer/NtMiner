@@ -3,6 +3,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class AboutPage : UserControl {
+        public static string ViewId = nameof(AboutPage);
+
         public static void ShowWindow(string appType) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_About",

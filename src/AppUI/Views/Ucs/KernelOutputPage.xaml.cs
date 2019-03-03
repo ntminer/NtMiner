@@ -4,6 +4,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelOutputPage : UserControl {
+        public static string ViewId = nameof(KernelOutputPage);
+
         public static void ShowWindow(KernelOutputViewModel selectedKernelOutputVm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_KernelOutput",

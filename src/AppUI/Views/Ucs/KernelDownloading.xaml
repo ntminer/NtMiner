@@ -41,9 +41,9 @@
 			<controls:KbButton
 				HorizontalAlignment="Right"
 				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-				ToolTip="KernelDownloading translate"
+				ToolTip="{x:Static local:KernelDownloading.ViewId}"
 				Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-				CommandParameter="KernelDownloading"
+				CommandParameter="{x:Static local:KernelDownloading.ViewId}"
 				Padding="8 0"
 				Background="Transparent">
 				<WrapPanel>

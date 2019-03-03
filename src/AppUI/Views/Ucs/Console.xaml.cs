@@ -7,6 +7,8 @@ using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class Console : UserControl {
+        public static string ViewId = nameof(Console);
+
         private ConsoleViewModel Vm {
             get {
                 return (ConsoleViewModel)this.DataContext;
