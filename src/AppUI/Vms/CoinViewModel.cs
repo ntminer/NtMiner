@@ -161,8 +161,7 @@ namespace NTMiner.Vms {
                 int sortNumber = this.Pools.Count == 0 ? 1 : this.Pools.Max(a => a.SortNumber) + 1;
                 new PoolViewModel(Guid.NewGuid()) {
                     CoinId = Id,
-                    SortNumber = sortNumber,
-                    IsAdd = true
+                    SortNumber = sortNumber
                 }.Edit.Execute(FormType.Add);
             });
             this.AddWallet = new DelegateCommand(() => {

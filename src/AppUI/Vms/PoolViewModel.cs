@@ -30,6 +30,8 @@ namespace NTMiner.Vms {
         private bool _isUserMode;
         private PublishStatus _publishState;
         private bool _isCurrentPool;
+        private CoinViewModel _coinVm;
+
 
         public Guid GetId() {
             return this.Id;
@@ -136,11 +138,9 @@ namespace NTMiner.Vms {
             });
         }
 
-        public bool IsAdd {
-            get => _isAdd;
-            set {
-                _isAdd = value;
-                OnPropertyChanged(nameof(IsAdd));
+        public bool IsNew {
+            get {
+                return !NTMinerRoot.Current.PoolSet.Contains(this.Id);
             }
         }
 
@@ -232,9 +232,6 @@ namespace NTMiner.Vms {
                 }
             }
         }
-
-        private CoinViewModel _coinVm;
-        private bool _isAdd;
 
         public CoinViewModel CoinVm {
             get {
