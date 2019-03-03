@@ -202,7 +202,7 @@
 								<RowDefinition Height="*"></RowDefinition>
 							</Grid.RowDefinitions>
 							<Border
-								Grid.Column="0" Grid.Row="0" Padding="0 2 0 0"
+								Grid.Column="0" Grid.Row="0" Padding="0 4 0 0"
 								BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 								<StackPanel>
 									<WrapPanel>
