@@ -36,6 +36,7 @@
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">作业</TextBlock>
 				<TextBox 
+					Padding="0"
 					BorderThickness="0"
 					Background="Transparent"
 					IsReadOnly="True"
@@ -64,6 +65,7 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 				<TextBox 
+					Padding="0"
 					ToolTip="双击打开远程桌面"
 					PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
 					Tag="{Binding}"
@@ -110,13 +112,14 @@
 				<TextBlock Style="{StaticResource LblTb}">拒绝率</TextBlock>
 				<TextBlock Text="{Binding MainCoinRejectPercentText}"></TextBlock>
 			</WrapPanel>
-			<WrapPanel>
+			<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}">双挖币种</TextBlock>
 				<TextBlock Text="{Binding DualCoinCode}"></TextBlock>
 			</WrapPanel>
 			<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}">双挖算力</TextBlock>
 				<TextBox 
+					Padding="0"
 					BorderThickness="0"
 					Background="Transparent"
 					IsReadOnly="True"
@@ -128,7 +131,7 @@
 				<TextBlock Text="/"></TextBlock>
 				<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
 			</WrapPanel>
-			<WrapPanel>
+			<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}">拒绝率</TextBlock>
 				<TextBlock Text="{Binding DualCoinRejectPercentText}"></TextBlock>
 			</WrapPanel>
@@ -255,6 +258,7 @@
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">主币钱包</TextBlock>
 				<TextBox 
+					Padding="0"
 					BorderThickness="0"
 					Background="Transparent"
 					Text="{Binding MainCoinWallet, Mode=OneWay}" 
@@ -263,6 +267,7 @@
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">主币矿池</TextBlock>
 				<TextBox 
+					Padding="0"
 					ToolTip="{Binding MainCoinPool}"
 					BorderThickness="0"
 					Background="Transparent"
@@ -272,6 +277,7 @@
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">内核</TextBlock>
 				<TextBox 
+					Padding="0"
 					BorderThickness="0"
 					Background="Transparent"
 					IsReadOnly="True"
@@ -280,6 +286,7 @@
 			<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}">双挖钱包</TextBlock>
 				<TextBox 
+					Padding="0"
 					BorderThickness="0"
 					Background="Transparent"
 					IsReadOnly="True"
@@ -288,6 +295,7 @@
 			<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}">双挖矿池</TextBlock>
 				<TextBox 
+					Padding="0"
 					ToolTip="{Binding DualCoinPool}"
 					BorderThickness="0"
 					Background="Transparent"
@@ -296,7 +304,7 @@
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">客户端版本</TextBlock>
-				<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding Version, Mode=OneWay}"></TextBox>
+				<TextBox Padding="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding Version, Mode=OneWay}"></TextBox>
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">操作系统</TextBlock>
@@ -304,7 +312,7 @@
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">虚拟内存</TextBlock>
-				<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
+				<TextBox Padding="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">开机自动启动</TextBlock>
@@ -329,7 +337,6 @@
 					Fill="Green"
 					Stretch="Fill" />
 				<Path
-					Margin="4 0 0 0"
 					Width="16"
 					Height="14"
 					ToolTip="AMD"
@@ -341,6 +348,7 @@
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">显卡驱动</TextBlock>
 				<TextBox 
+					Padding="0"
 					BorderThickness="0"
 					Background="Transparent"
 					IsReadOnly="True"
@@ -349,6 +357,7 @@
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">显卡</TextBlock>
 				<TextBox 
+					Padding="0"
 					BorderThickness="0"
 					Background="Transparent"
 					IsReadOnly="True"
