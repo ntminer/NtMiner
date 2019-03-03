@@ -68,7 +68,7 @@
 				</controls:KbButton>
 				<controls:KbCheckBox 
 					Margin="4 0 0 0"
-					Width="15"
+					Width="16"
 					ToolTip="{DynamicResource IsShowCommandLine}"
 					IconColor="{StaticResource IconFillColor}"
 					IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
@@ -121,7 +121,7 @@
 		</TextBox>
 		<controls:KbCheckBox 
 			Grid.Row="1"
-			Width="15"
+			Width="16"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
 			x:Name="ChkbIsConsoleAutoScrollToEnd"
