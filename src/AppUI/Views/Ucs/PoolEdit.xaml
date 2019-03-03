@@ -102,7 +102,7 @@
 					</StackPanel>
 					<WrapPanel Grid.Row="1" Margin="0 10 0 0" HorizontalAlignment="Center">
 						<TextBlock 
-							Visibility="{Binding IsAdd,Converter={StaticResource BoolToVisibilityConverter}}"
+							Visibility="{Binding IsNew,Converter={StaticResource BoolToVisibilityConverter}}"
 							VerticalAlignment="Center" 
 							Foreground="Red" 
 							Text="保存后请根据自带矿池判断是否需要填写矿池级参数"></TextBlock>
