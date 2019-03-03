@@ -21,6 +21,7 @@ namespace NTMiner.Vms {
                 VirtualMemory virtualMemory = _dic[item.DriveName];
                 virtualMemory.MaxSizeMb = item.MaxSizeMb;
             }
+            NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
         }
 
         public bool IsStateChanged {
