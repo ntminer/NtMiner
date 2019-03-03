@@ -26,9 +26,9 @@
 				<ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/TabControlStyle.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 			<Style x:Key="IconButtonBg" TargetType="Border">
-				<Setter Property="Height" Value="36"></Setter>
-				<Setter Property="Width" Value="36"></Setter>
-				<Setter Property="CornerRadius" Value="18"></Setter>
+				<Setter Property="Height" Value="32"></Setter>
+				<Setter Property="Width" Value="32"></Setter>
+				<Setter Property="CornerRadius" Value="16"></Setter>
 				<Setter Property="Background" Value="#E4EFF5"></Setter>
 				<Style.Triggers>
 					<Trigger Property="IsMouseOver" Value="True">
@@ -146,6 +146,8 @@
 						ToolTip="受中控控制，本地不能编辑。"
 						Visibility="{x:Static vm:AppStatic.IsWorkerClientVisible}"></TextBlock>
 				</WrapPanel>
+				<uc:OpenedWindows VerticalAlignment="Top" Margin="8 0 0 0">
+				</uc:OpenedWindows>
 			</WrapPanel>
 			<WrapPanel HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
@@ -180,14 +182,10 @@
 		</Grid>
 		<!--上导航栏-->
 		<Grid Grid.Row="1">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="47"/>
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
 			<TabControl 
-				Name="tab" Grid.RowSpan="2" BorderThickness="0"
+				Name="tab" BorderThickness="0"
 				Margin="0" Style="{DynamicResource TabControlStyle}">
-				<TabItem Margin="3 0 8 0" Header="{DynamicResource HStart}" Height="47" Style="{DynamicResource TabItemStyle}" 
+				<TabItem Margin="3 0 8 0" Header="{DynamicResource HStart}" Height="36" Style="{DynamicResource TabItemStyle}" 
 					 TextOptions.TextFormattingMode="Display">
 					<Grid Background="#EBF2F9">
 						<Grid.ColumnDefinitions>
@@ -432,9 +430,7 @@
 					</Border>
 				</TabItem>
 			</TabControl>
-			<uc:OpenedWindows VerticalAlignment="Top" Margin="8 0 0 0">
-			</uc:OpenedWindows>
-			<WrapPanel x:Name="IconButtons" Margin="0 4 8 4" HorizontalAlignment="Right">
+			<WrapPanel x:Name="IconButtons" Margin="0 0 8 0" VerticalAlignment="Top" HorizontalAlignment="Right">
 				<Border Style="{StaticResource IconButtonBg}" Margin="8 0 0 0">
 					<controls:KbButton 
 						ToolTip="算力图"
@@ -442,8 +438,8 @@
 						Command="{x:Static vm:AppStatic.ShowSpeedChart}">
 						<WrapPanel>
 							<Path 
-								Height="20"
-								Width="20"
+								Height="18"
+								Width="18"
 								Data="{StaticResource Icon_Speed}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
@@ -457,8 +453,8 @@
 						Command="{x:Static vm:AppStatic.ShowKernels}">
 						<WrapPanel>
 							<Path 
-								Height="20"
-								Width="20"
+								Height="18"
+								Width="18"
 								Data="{StaticResource Icon_Logo}"
 								Fill="{StaticResource IconFillColor}"
 								Stretch="Fill" />
@@ -468,7 +464,7 @@
 			</WrapPanel>
 		</Grid>
 
-		<Grid Grid.Row="2" Background="Black" Height="300" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+		<Grid Grid.Row="2" Background="Black" Height="320" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
 			<RichTextBox 
 				FontFamily="Courier New"
 				Background="Transparent"
