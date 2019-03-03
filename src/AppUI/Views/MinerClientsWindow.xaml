@@ -501,16 +501,14 @@
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<!--CheckBox-->
-				<DataGridTemplateColumn>
-					<DataGridTemplateColumn.Header>
+				<DataGridCheckBoxColumn Binding="{Binding IsChecked,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False">
+					<DataGridCheckBoxColumn.Header>
 						<CheckBox IsChecked="{Binding Data.IsChecked,Source={StaticResource proxy}}"></CheckBox>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<CheckBox IsChecked="{Binding IsChecked}"></CheckBox>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
+					</DataGridCheckBoxColumn.Header>
+					<DataGridCheckBoxColumn.ElementStyle>
+						<Style TargetType="CheckBox" />
+					</DataGridCheckBoxColumn.ElementStyle>
+				</DataGridCheckBoxColumn>
 				<!--操作-->
 				<DataGridTemplateColumn Width="110" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
