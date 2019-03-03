@@ -12,7 +12,7 @@
 			 BorderBrush="{StaticResource LineColor}"
 			 TextOptions.TextFormattingMode="Display"  
 			 DataContext="{x:Static vm:MinerProfileIndexViewModel.Current}"
-			 d:DesignHeight="450" d:DesignWidth="400">
+			 d:DesignWidth="390">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

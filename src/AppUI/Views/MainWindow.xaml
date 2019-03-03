@@ -191,7 +191,7 @@
 					 TextOptions.TextFormattingMode="Display">
 					<Grid Background="#EBF2F9">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="400"></ColumnDefinition>
+							<ColumnDefinition Width="394"></ColumnDefinition>
 							<ColumnDefinition Width="*"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>

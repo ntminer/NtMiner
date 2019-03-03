@@ -46,10 +46,9 @@
 				ToolTip="{DynamicResource AnnouncementContentTooltip}"
 				BorderThickness="0" AcceptsReturn="True" 
 				TextWrapping="Wrap" IsReadOnly="True" 
-				Padding="4 0" Foreground="White">
+				Padding="4 0 16 0" Foreground="White">
 			</TextBox>
 			<WrapPanel 
-				Margin="0 0 14 0"
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
 				<controls:KbButton
@@ -57,7 +56,6 @@
 					ToolTip="Console translate"
 					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
 					CommandParameter="Console"
-					Padding="8 0"
 					Background="Transparent">
 					<WrapPanel>
 						<Path
@@ -69,10 +67,13 @@
 					</WrapPanel>
 				</controls:KbButton>
 				<controls:KbCheckBox 
+					Margin="4 0 0 0"
+					Width="15"
 					ToolTip="{DynamicResource IsShowCommandLine}"
 					IconColor="{StaticResource IconFillColor}"
 					IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
 				<controls:KbButton 
+					Margin="2 0 1 0"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 					ToolTip="自定义主题"
 					Background="Transparent" 
@@ -116,8 +117,17 @@
 			Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
-			Padding="4 2" Foreground="Yellow">
+			Padding="4 2 16 2" Foreground="Yellow">
 		</TextBox>
+		<controls:KbCheckBox 
+			Grid.Row="1"
+			Width="15"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Bottom"
+			x:Name="ChkbIsConsoleAutoScrollToEnd"
+			ToolTip="{DynamicResource AutoScrollToEnd}"
+			IconColor="{StaticResource IconFillColor}"
+			IsChecked="True" />
 		<Path 
 			Grid.Row="2"
 			Visibility="{Binding IsWatermarkVisible}"
@@ -140,14 +150,5 @@
 				</Paragraph>
 			</FlowDocument>
 		</RichTextBox>
-		<controls:KbCheckBox 
-			Grid.Row="2"
-			Margin="0 -2 14 0"
-			HorizontalAlignment="Right"
-			VerticalAlignment="Top"
-			x:Name="ChkbIsConsoleAutoScrollToEnd"
-			ToolTip="{DynamicResource AutoScrollToEnd}"
-			IconColor="{StaticResource IconFillColor}"
-			IsChecked="True" />
 	</Grid>
 </UserControl>
