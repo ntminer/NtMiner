@@ -10,10 +10,14 @@
 		d:DataContext="{d:DesignData Source=Design/WindowsLoginViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
-		<Style TargetType="Label">
-			<Setter Property="Width" Value="100"></Setter>
+		<Style x:Key="LblTb" TargetType="TextBlock">
 			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="Width" Value="100"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="TextAlignment" Value="Right"></Setter>
+			<Setter Property="TextWrapping" Value="Wrap"></Setter>
 		</Style>
 		<sys:String x:Key="WindowTitle">
 			远程桌面
@@ -21,18 +25,18 @@
 	</UserControl.Resources>
 	<StackPanel Margin="10 10 30 10">
 		<WrapPanel Margin="0 2">
-			<Label>矿工名</Label>
+			<TextBlock Style="{StaticResource LblTb}">矿工名</TextBlock>
 			<TextBlock Text="{Binding MinerName}" VerticalAlignment="Center"></TextBlock>
-			<Label>IP:</Label>
+			<TextBlock Style="{StaticResource LblTb}">IP:</TextBlock>
 			<TextBlock Text="{Binding Ip}" VerticalAlignment="Center"></TextBlock>
 		</WrapPanel>
 		<WrapPanel Margin="0 2">
-			<Label>Windows登录名</Label>
+			<TextBlock Style="{StaticResource LblTb}">Windows登录名</TextBlock>
 			<TextBox Width="200" VerticalContentAlignment="Center" Text="{Binding UserName, ValidatesOnExceptions=True}">
 			</TextBox>
 		</WrapPanel>
 		<WrapPanel Margin="0 2">
-			<Label>密码</Label>
+			<TextBlock Style="{StaticResource LblTb}">密码</TextBlock>
 			<PasswordBox Width="200" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 		</WrapPanel>
 		<WrapPanel Margin="0 10 0 0">

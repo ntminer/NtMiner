@@ -10,9 +10,14 @@
 		d:DataContext="{d:DesignData Source=Design/OverClockDataViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
-		<Style TargetType="Label">
+		<Style x:Key="LblTb" TargetType="TextBlock">
 			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="Width" Value="50"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="TextAlignment" Value="Right"></Setter>
+			<Setter Property="TextWrapping" Value="Wrap"></Setter>
 		</Style>
 		<sys:String x:Key="WindowTitle">
 			超频建议
@@ -20,22 +25,22 @@
 	</UserControl.Resources>
 	<StackPanel Margin="20 10">
 		<WrapPanel Margin="0 2">
-			<Label>名称</Label>
-			<TextBox Width="302" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+			<TextBlock Style="{StaticResource LblTb}">名称</TextBlock>
+			<TextBox Width="350" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
 			</TextBox>
 		</WrapPanel>
 		
 		<WrapPanel Margin="0 2">
-			<Label>核心</Label>
+			<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
 			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}">
 			</TextBox>
-			<Label>显存</Label>
+			<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
 			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}">
 			</TextBox>
-			<Label>功耗</Label>
+			<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
 			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}">
 			</TextBox>
-			<Label>风扇</Label>
+			<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
 			<TextBox Width="50" VerticalContentAlignment="Center" Text="{Binding Cool, ValidatesOnExceptions=True}">
 			</TextBox>
 		</WrapPanel>

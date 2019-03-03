@@ -12,9 +12,14 @@
         Background="White"
         mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
     <UserControl.Resources>
-        <Style TargetType="Label">
+        <Style x:Key="LblTb" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Padding" Value="0 0 2 0"></Setter>
             <Setter Property="Width" Value="130"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="TextAlignment" Value="Right"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -85,7 +90,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <WrapPanel Margin="4 0">
-                <Label Content="{DynamicResource LblMachineName}" ToolTip="{DynamicResource LblMachineName}"></Label>
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblMachineName}" ToolTip="{DynamicResource LblMachineName}"></TextBlock>
                 <TextBlock Text="{Binding MachineName}"></TextBlock>
                 <controls:KbButton
                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
@@ -105,18 +110,18 @@
                 </controls:KbButton>
             </WrapPanel>
             <WrapPanel Margin="4 0">
-                <Label Content="{DynamicResource LblOS}" ToolTip="{DynamicResource LblOS}"></Label>
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblOS}" ToolTip="{DynamicResource LblOS}"></TextBlock>
                 <TextBlock Text="{Binding OS.WindowsEdition}"></TextBlock>
                 <TextBlock Text="{Binding OS.Is64BitOperatingSystem}" Margin="4 0 0 0"></TextBlock>
                 <TextBlock Text="{Binding OS.CurrentBuild}" Margin="4 0 0 0"></TextBlock>
                 <TextBlock Text="{Binding OS.CSDVersion}" Margin="4 0 0 0"></TextBlock>
             </WrapPanel>
             <WrapPanel Margin="4 0">
-                <Label Content="{DynamicResource LblPhysicalMemory}" ToolTip="{DynamicResource LblPhysicalMemory}"></Label>
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblPhysicalMemory}" ToolTip="{DynamicResource LblPhysicalMemory}"></TextBlock>
                 <TextBlock Text="{Binding Ram.TotalPhysicalMemory}"></TextBlock>
             </WrapPanel>
             <WrapPanel Margin="4 0">
-                <Label Content="{DynamicResource LblVirtualMemory}" ToolTip="{DynamicResource LblVirtualMemory}"></Label>
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblVirtualMemory}" ToolTip="{DynamicResource LblVirtualMemory}"></TextBlock>
                 <TextBlock Text="{Binding DriveSet.VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
                 <controls:KbButton 
                     Margin="8 0 0 0"
@@ -143,15 +148,15 @@
             <GroupBox Header="CPU">
                 <StackPanel>
                     <WrapPanel>
-                        <Label Content="{DynamicResource LblProcessorVendor}" ToolTip="{DynamicResource LblProcessorVendor}"></Label>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblProcessorVendor}" ToolTip="{DynamicResource LblProcessorVendor}"></TextBlock>
                         <TextBlock Text="{Binding Processor.VendorIdentifier}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label Content="{DynamicResource LblProcessorName}" ToolTip="{DynamicResource LblProcessorName}"></Label>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblProcessorName}" ToolTip="{DynamicResource LblProcessorName}"></TextBlock>
                         <TextBlock Text="{Binding Processor.Name}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label Content="{DynamicResource LblNumberOfLogicalCores}" ToolTip="{DynamicResource LblNumberOfLogicalCores}"></Label>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblNumberOfLogicalCores}" ToolTip="{DynamicResource LblNumberOfLogicalCores}"></TextBlock>
                         <TextBlock Text="{Binding Processor.NumberOfLogicalCores}"></TextBlock>
                     </WrapPanel>
                 </StackPanel>
@@ -160,23 +165,23 @@
             <GroupBox Header="BIOS">
                 <StackPanel>
                     <WrapPanel>
-                        <Label Content="{DynamicResource LblBiosMotherboardModel}" ToolTip="{DynamicResource LblBiosMotherboardModel}"></Label>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosMotherboardModel}" ToolTip="{DynamicResource LblBiosMotherboardModel}"></TextBlock>
                         <TextBlock Text="{Binding Bios.MotherboardModel}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label Content="{DynamicResource LblBiosMotherboardManufacturer}" ToolTip="{DynamicResource LblBiosMotherboardManufacturer}"></Label>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosMotherboardManufacturer}" ToolTip="{DynamicResource LblBiosMotherboardManufacturer}"></TextBlock>
                         <TextBlock Text="{Binding Bios.MotherboardManufacturer}" ToolTip="{Binding Bios.MotherboardManufacturer}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label Content="{DynamicResource LblBiosReleaseDate}" ToolTip="{DynamicResource LblBiosReleaseDate}"></Label>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosReleaseDate}" ToolTip="{DynamicResource LblBiosReleaseDate}"></TextBlock>
                         <TextBlock Text="{Binding Bios.BiosReleaseDate}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label Content="{DynamicResource LblBiosVendor}" ToolTip="{DynamicResource LblBiosVendor}"></Label>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosVendor}" ToolTip="{DynamicResource LblBiosVendor}"></TextBlock>
                         <TextBlock Text="{Binding Bios.BiosVendor}" ToolTip="{Binding Bios.BiosVendor}"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Label Content="{DynamicResource LblBiosVersion}" ToolTip="{DynamicResource LblBiosVersion}"></Label>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosVersion}" ToolTip="{DynamicResource LblBiosVersion}"></TextBlock>
                         <TextBlock Text="{Binding Bios.BiosVersion}" ToolTip="{Binding Bios.BiosVersion}"></TextBlock>
                     </WrapPanel>
                 </StackPanel>

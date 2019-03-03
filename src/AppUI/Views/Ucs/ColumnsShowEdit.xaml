@@ -10,10 +10,14 @@
 		d:DataContext="{d:DesignData Source=Design/ColumnsShowViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
-		<Style TargetType="Label">
-			<Setter Property="Width" Value="70"></Setter>
+		<Style x:Key="LblTb" TargetType="TextBlock">
 			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="Width" Value="70"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="TextAlignment" Value="Right"></Setter>
+			<Setter Property="TextWrapping" Value="Wrap"></Setter>
 		</Style>
 		<sys:String x:Key="WindowTitle">
 			列显设置
@@ -21,7 +25,7 @@
 	</UserControl.Resources>
 	<StackPanel Margin="10">
 		<WrapPanel>
-			<TextBlock>名称：</TextBlock>
+			<TextBlock Style="{StaticResource LblTb}">名称：</TextBlock>
 			<TextBox Width="160" Text="{Binding ColumnsShowName}" IsEnabled="{Binding IsPleaseSelect,Converter={StaticResource BoolInvertConverter}}"></TextBox>
 		</WrapPanel>
 		<controls:KbButton

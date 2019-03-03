@@ -10,10 +10,14 @@
 		d:DataContext="{d:DesignData Source=Design/UserViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
-		<Style TargetType="Label">
-			<Setter Property="Width" Value="60"></Setter>
+		<Style x:Key="LblTb" TargetType="TextBlock">
 			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="Width" Value="60"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="TextAlignment" Value="Right"></Setter>
+			<Setter Property="TextWrapping" Value="Wrap"></Setter>
 		</Style>
 		<sys:String x:Key="WindowTitle">
 			远程用户
@@ -21,15 +25,15 @@
 	</UserControl.Resources>
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
-			<Label>登录名:</Label>
+			<TextBlock Style="{StaticResource LblTb}">登录名:</TextBlock>
 			<TextBox Width="180" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding LoginName, ValidatesOnExceptions=True}">
 			</TextBox>
-			<Label>密码:</Label>
+			<TextBlock Style="{StaticResource LblTb}">密码:</TextBlock>
 			<PasswordBox Width="180" Background="White" VerticalContentAlignment="Center" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding PasswordStar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-			<Label></Label>
+			<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 			<controls:KbCheckBox 
 				Content="启用"
 				IconColor="{StaticResource IconFillColor}"
@@ -37,7 +41,7 @@
 		</WrapPanel>
 		
 		<WrapPanel Margin="0 2">
-			<Label>说明:</Label>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">说明:</TextBlock>
 			<TextBox Width="420" Background="Transparent" Padding="0 4"
 					 AcceptsReturn="True" TextWrapping="Wrap" 
 					 VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"

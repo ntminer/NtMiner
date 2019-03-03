@@ -12,8 +12,13 @@
 		Background="White"
 		mc:Ignorable="d" Height="320" Width="660">
 	<UserControl.Resources>
-		<Style TargetType="Label">
+		<Style x:Key="LblTb" TargetType="TextBlock">
 			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="TextAlignment" Value="Right"></Setter>
+			<Setter Property="TextWrapping" Value="Wrap"></Setter>
 		</Style>
 		<Style TargetType="TextBlock">
 			<Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -41,13 +46,13 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
-		<Label Grid.Row="0" Grid.Column="0" Content="AppName"></Label>
+		<TextBlock Style="{StaticResource LblTb}" Grid.Row="0" Grid.Column="0" Text="AppName"></TextBlock>
 		<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding AppName}"></TextBlock>
 
-		<Label Grid.Row="1" Grid.Column="0" Content="BootOn"></Label>
+		<TextBlock Style="{StaticResource LblTb}" Grid.Row="1" Grid.Column="0" Text="BootOn"></TextBlock>
 		<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding BootOn}"></TextBlock>
 
-		<Label Grid.Row="2" Grid.Column="0" Content="CurrentLangVm"></Label>
+		<TextBlock Style="{StaticResource LblTb}" Grid.Row="2" Grid.Column="0" Text="CurrentLangVm"></TextBlock>
 		<controls:KbComboBox 
 			Grid.Row="2" Grid.Column="1"
 			Width="100"
@@ -58,16 +63,16 @@
 			DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
 		</controls:KbComboBox>
 
-		<Label Grid.Row="3" Grid.Column="0" Content="GlobalDir"></Label>
+		<TextBlock Style="{StaticResource LblTb}" Grid.Row="3" Grid.Column="0" Text="GlobalDir"></TextBlock>
 		<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding GlobalDir}"></TextBlock>
 
-		<Label Grid.Row="4" Grid.Column="0" Content="LangDbFileFullName"></Label>
+		<TextBlock Style="{StaticResource LblTb}" Grid.Row="4" Grid.Column="0" Text="LangDbFileFullName"></TextBlock>
 		<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding LangDbFileFullName}"></TextBlock>
 
-		<Label Grid.Row="5" Grid.Column="0" Content="ServerDbFileFullName"></Label>
+		<TextBlock Style="{StaticResource LblTb}" Grid.Row="5" Grid.Column="0" Text="ServerDbFileFullName"></TextBlock>
 		<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ServerDbFileFullName}"></TextBlock>
 
-		<Label Grid.Row="6" Grid.Column="0" Content="LocalDbFileFullName"></Label>
+		<TextBlock Style="{StaticResource LblTb}" Grid.Row="6" Grid.Column="0" Text="LocalDbFileFullName"></TextBlock>
 		<TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding LocalDbFileFullName}"></TextBlock>
 	</Grid>
 </UserControl>

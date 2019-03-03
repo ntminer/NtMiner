@@ -11,10 +11,14 @@
 		d:DataContext="{d:DesignData Source=Design/MineWorkViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="#EBF2F9">
 	<UserControl.Resources>
-		<Style TargetType="Label">
-			<Setter Property="Width" Value="60"></Setter>
+		<Style x:Key="LblTb" TargetType="TextBlock">
 			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-			<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="Width" Value="60"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="TextAlignment" Value="Right"></Setter>
+			<Setter Property="TextWrapping" Value="Wrap"></Setter>
 		</Style>
 		<sys:String x:Key="WindowTitle">
 			作业
@@ -26,14 +30,14 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<WrapPanel Grid.Row="0">
-			<Label>名称:</Label>
+			<TextBlock Style="{StaticResource LblTb}">名称:</TextBlock>
 			<TextBox 
 				Width="320" 
 				VerticalContentAlignment="Center" 
 				Background="White" 
 				Text="{Binding Name, ValidatesOnExceptions=True}">
 			</TextBox>
-			<Label>备注:</Label>
+			<TextBlock Style="{StaticResource LblTb}">备注:</TextBlock>
 			<TextBox Width="420" Background="White" Padding="0 4"
 					 AcceptsReturn="True" TextWrapping="Wrap" 
 					 VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"

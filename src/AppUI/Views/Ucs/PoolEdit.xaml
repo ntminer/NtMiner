@@ -16,10 +16,14 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-			<Style TargetType="Label">
-				<Setter Property="Width" Value="84"></Setter>
+			<Style x:Key="LblTb" TargetType="TextBlock">
 				<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-				<Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+				<Setter Property="FontSize" Value="12"></Setter>
+				<Setter Property="Padding" Value="0 0 2 0"></Setter>
+				<Setter Property="Width" Value="84"></Setter>
+				<Setter Property="VerticalAlignment" Value="Center"></Setter>
+				<Setter Property="TextAlignment" Value="Right"></Setter>
+				<Setter Property="TextWrapping" Value="Wrap"></Setter>
 			</Style>
 			<sys:String x:Key="WindowTitle">
 				WindowTitle
@@ -53,31 +57,31 @@
 					</Grid.RowDefinitions>
 					<StackPanel>
 						<WrapPanel Margin="0 2">
-							<Label>所属币种:</Label>
+							<TextBlock Style="{StaticResource LblTb}">所属币种:</TextBlock>
 							<TextBlock VerticalAlignment="Center" Text="{Binding CoinCode}">
 							</TextBlock>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
-							<Label>矿池名称:</Label>
+							<TextBlock Style="{StaticResource LblTb}">矿池名称:</TextBlock>
 							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
 							</TextBox>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
-							<Label>矿池地址:</Label>
+							<TextBlock Style="{StaticResource LblTb}">矿池地址:</TextBlock>
 							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Server, ValidatesOnExceptions=True}">
 							</TextBox>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
-							<Label>收益查看地址:</Label>
+							<TextBlock Style="{StaticResource LblTb}">收益查看地址:</TextBlock>
 							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Url}">
 							</TextBox>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
-							<Label>简介:</Label>
+							<TextBlock Style="{StaticResource LblTb}">简介:</TextBlock>
 							<TextBox 
 								Width="420" Background="Transparent" Padding="0 4"
 								IsReadOnly="{Binding IsReadOnly}"
