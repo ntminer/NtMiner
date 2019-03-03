@@ -928,17 +928,8 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
-								<TextBox 
-									ToolTip="双击打开远程桌面"
-									PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
-									Tag="{Binding}"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
 								<controls:KbButton
 									BorderThickness="0"
-									Margin="4 0 0 0"
 									Background="Transparent"
 									Command="{Binding RemoteDesktop}"
 									CornerRadius="2">
@@ -949,6 +940,15 @@
 										Fill="{StaticResource IconFillColor}"
 										Stretch="Fill" />
 								</controls:KbButton>
+								<TextBox 
+									Margin="4 0 0 0"
+									ToolTip="双击打开远程桌面"
+									PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
+									Tag="{Binding}"
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
 							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
