@@ -31,6 +31,18 @@ namespace NTMiner.Vms {
             });
         }
 
+        public double MaxWidth {
+            get {
+                return SystemParameters.WorkArea.Size.Width;
+            }
+        }
+
+        public double MaxHeight {
+            get {
+                return SystemParameters.WorkArea.Size.Height;
+            }
+        }
+
         public ResourceDictionary UcResourceDic { get; set; }
 
         public Version CurrentVersion {

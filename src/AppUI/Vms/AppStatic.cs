@@ -30,10 +30,13 @@ namespace NTMiner.Vms {
                     }
                     return SystemParameters.WorkArea.Size.Height;
                 }
-                if (SystemParameters.WorkArea.Size.Height > 620) {
-                    return 620;
+                if (SystemParameters.WorkArea.Size.Height >= 600) {
+                    return 600;
                 }
-                return 520;
+                else if (SystemParameters.WorkArea.Size.Height >= 520) {
+                    return 520;
+                }
+                return 480;
             }
         }
 
@@ -42,7 +45,10 @@ namespace NTMiner.Vms {
                 if (SystemParameters.WorkArea.Size.Width > 1000) {
                     return 1000;
                 }
-                return 860;
+                else if (SystemParameters.WorkArea.Size.Width >= 860) {
+                    return 860;
+                }
+                return 800;
             }
         }
 
