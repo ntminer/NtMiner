@@ -498,24 +498,6 @@
 			AutoGenerateColumns="False">
 			<DataGrid.Resources>
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
-				<Style TargetType="DataGridCell">
-					<Setter Property="VerticalAlignment" Value="Stretch" />
-					<Setter Property="HorizontalAlignment" Value="Stretch" />
-					<Setter Property="Foreground" Value="#FF5A5A5A" />
-					<Setter Property="Background" Value="Transparent"></Setter>
-					<Setter Property="FontSize" Value="12" />
-					<Setter Property="Margin" Value="4 0 0 0" />
-					<Setter Property="Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="DataGridCell">
-								<ContentPresenter
-									Margin="0 6 0 0"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Top" />
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-				</Style>
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<!--CheckBox-->
@@ -941,7 +923,6 @@
 										Stretch="Fill" />
 								</controls:KbButton>
 								<TextBox 
-									Margin="4 0 0 0"
 									ToolTip="双击打开远程桌面"
 									PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
 									Tag="{Binding}"
