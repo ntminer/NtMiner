@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Notifications;
+using NTMiner.Views;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,7 +25,10 @@ namespace NTMiner.Vms {
                 NTMinerRoot.Current.StopMineAsync();
             });
             this.UseThisPcName = new DelegateCommand(() => {
-                MinerProfile.MinerName = NTMinerRoot.GetThisPcName();
+                string thisPcName = NTMinerRoot.GetThisPcName();
+                DialogWindow.ShowDialog(message: $"确定使用本机名{thisPcName}作为矿工名吗？", title: "确认", onYes: () => {
+                    MinerProfile.MinerName = thisPcName;
+                }, icon: "Icon_Confirm");
             });
             if (DevMode.IsDevMode) {
                 VirtualRoot.On<Per10SecondEvent>(
