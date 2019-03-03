@@ -136,6 +136,14 @@ namespace NTMiner.Vms {
             });
         }
 
+        public bool IsAdd {
+            get => _isAdd;
+            set {
+                _isAdd = value;
+                OnPropertyChanged(nameof(IsAdd));
+            }
+        }
+
         public List<PoolKernelViewModel> PoolKernels {
             get {
                 return PoolKernelViewModels.Current.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.Code + a.Kernel.Version).ToList();
@@ -226,6 +234,8 @@ namespace NTMiner.Vms {
         }
 
         private CoinViewModel _coinVm;
+        private bool _isAdd;
+
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || _coinVm.Id != this.CoinId) {
