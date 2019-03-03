@@ -128,8 +128,8 @@
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedNotifyIcon.cs" />
-    <Compile Include="Views\Ucs\MinerClient.xaml.cs">
-      <DependentUpon>MinerClient.xaml</DependentUpon>
+    <Compile Include="Views\Ucs\MinerClientUc.xaml.cs">
+      <DependentUpon>MinerClientUc.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\GpusOverClock.xaml.cs">
       <DependentUpon>GpusOverClock.xaml</DependentUpon>
@@ -449,7 +449,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\MinerClient.xaml">
+    <Page Include="Views\Ucs\MinerClientUc.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

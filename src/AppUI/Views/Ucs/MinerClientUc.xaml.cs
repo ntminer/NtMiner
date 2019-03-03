@@ -3,14 +3,14 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class MinerClient : UserControl {
-        public static void ShowWindow(string appType) {
+    public partial class MinerClientUc : UserControl {
+        public static void ShowWindow(MinerClientViewModel vm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 IconName = "Icon_Miner",
-                CloseVisible = System.Windows.Visibility.Visible,
-                FooterVisible = System.Windows.Visibility.Collapsed
-            }, ucFactory: (window) => new MinerClient(), fixedSize: true);
+                CloseVisible = Visibility.Visible,
+                FooterVisible = Visibility.Collapsed
+            }, ucFactory: (window) => new MinerClientUc(vm), fixedSize: true);
         }
 
         public MinerClientViewModel Vm {
@@ -19,7 +19,8 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public MinerClient() {
+        public MinerClientUc(MinerClientViewModel vm) {
+            this.DataContext = vm;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }

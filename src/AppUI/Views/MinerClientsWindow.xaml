@@ -495,7 +495,8 @@
 			IsReadOnly="False"
 			ItemsSource="{Binding MinerClients}"
 			CanUserResizeRows="True"
-			AutoGenerateColumns="False">
+			AutoGenerateColumns="False"
+			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
 				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>

@@ -28,6 +28,7 @@ namespace NTMiner.Vms {
         public ICommand CloseNTMiner { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
+        public ICommand Details { get; private set; }
 
         public MinerClientViewModel() {
             if (!Design.IsInDesignMode) {
@@ -40,6 +41,9 @@ namespace NTMiner.Vms {
             _data = clientData;
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
+            this.Details = new DelegateCommand(() => {
+                MinerClientUc.ShowWindow(this);
+            });
             this.RemoteLogin = new DelegateCommand(() => {
                 WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
                     UserName = this.WindowsLoginName,

@@ -3,6 +3,7 @@ using NTMiner.Bus;
 using NTMiner.Vms;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
@@ -69,12 +70,6 @@ namespace NTMiner.Views {
             }
         }
 
-        private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this?.DragMove();
-            }
-        }
-
         private void TbIp_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {
             MinerClientViewModel vm = (MinerClientViewModel)((FrameworkElement)sender).Tag;
             vm.RemoteDesktop.Execute(null);
@@ -84,6 +79,17 @@ namespace NTMiner.Views {
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
+            }
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            DataGrid dg = (DataGrid)sender;
+            Point p = e.GetPosition(dg);
+            if (p.Y < 30) {
+                return;
+            }
+            if (dg.SelectedItem != null) {
+                ((MinerClientViewModel)dg.SelectedItem).Details.Execute(null);
             }
         }
     }
