@@ -17,7 +17,7 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
-		mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="2200">
+		mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="2600">
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -480,8 +480,12 @@
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinWallet}" Margin="6 0 0 0">双挖币钱包</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.DualCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinPool}" Margin="6 0 0 0">双挖币矿池</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.Version, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Version}" Margin="6 0 0 0">客户端版本</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.OSName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.OSName}" Margin="6 0 0 0">操作系统</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.OSVirtualMemoryGbText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.OSVirtualMemoryGbText}" Margin="6 0 0 0">虚拟内存</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.IsAutoBoot, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IsAutoBoot}" Margin="6 0 0 0">开机自动启动</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.IsAutoStart, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IsAutoStart}" Margin="6 0 0 0">启动后自动开始挖矿</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuType, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuType}" Margin="6 0 0 0">显卡类型</CheckBox>
+				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuDriver, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuDriver}" Margin="6 0 0 0">显卡驱动</CheckBox>
 				<CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.GpuInfo, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuInfo}" Margin="6 0 0 0">显卡</CheckBox>
 			</WrapPanel>
 		</WrapPanel>
@@ -514,6 +518,7 @@
 				</Style>
 			</DataGrid.Resources>
 			<DataGrid.Columns>
+				<!--CheckBox-->
 				<DataGridTemplateColumn>
 					<DataGridTemplateColumn.Header>
 						<CheckBox IsChecked="{Binding Data.IsChecked,Source={StaticResource proxy}}"></CheckBox>
@@ -524,6 +529,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--操作-->
 				<DataGridTemplateColumn Width="110" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<WrapPanel>
@@ -766,6 +772,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--LastActivedOnText-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -792,6 +799,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--BootTimeSpanText-->
 				<DataGridTextColumn 
 					Binding="{Binding BootTimeSpanText}"
 					Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
@@ -808,6 +816,7 @@
 						</WrapPanel>
 					</DataGridTextColumn.Header>
 				</DataGridTextColumn>
+				<!--MineTimeSpanText-->
 				<DataGridTextColumn 
 					Binding="{Binding MineTimeSpanText}"
 					Visibility="{Binding Data.ColumnsShow.MineTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
@@ -824,6 +833,7 @@
 						</WrapPanel>
 					</DataGridTextColumn.Header>
 				</DataGridTextColumn>
+				<!--Work-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
 					CanUserResize="True" 
@@ -853,6 +863,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--MinerGroup-->
 				<DataGridComboBoxColumn 
 					Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
@@ -870,6 +881,7 @@
 						</WrapPanel>
 					</DataGridComboBoxColumn.Header>
 				</DataGridComboBoxColumn>
+				<!--MinerName-->
 				<DataGridTextColumn 
 					Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 					Binding="{Binding MinerName, UpdateSourceTrigger=LostFocus}" 
@@ -895,6 +907,7 @@
 						</Style>
 					</DataGridTextColumn.EditingElementStyle>
 				</DataGridTextColumn>
+				<!--MinerIp-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -940,6 +953,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--WindowsLoginNameAndPassword-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -982,6 +996,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
+				<!--WindowsLoginNameAndPassword-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1010,6 +1025,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellEditingTemplate>
 				</DataGridTemplateColumn>
+				<!--MainCoinCode-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.MainCoinCode, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1035,6 +1051,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--MainCoinSpeedText-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.MainCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1058,6 +1075,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--MainCoinRejectPercentText-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1085,6 +1103,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--MainCoinRejectPercentText-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1108,6 +1127,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--DualCoinCode-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.DualCoinCode,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1137,6 +1157,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--DualCoinSpeedText-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.DualCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1166,6 +1187,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--DualCoinRejectPercentText-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1193,6 +1215,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--DualCoinRejectPercentText-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1216,6 +1239,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--IncomeMainCoinPerDayText-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.IncomeMainCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1265,6 +1289,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--IncomeDualCoinPerDayText-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.IncomeDualCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1314,6 +1339,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--GpuTableTrs-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1398,6 +1424,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--MainCoinWallet-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.MainCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1427,6 +1454,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--MainCoinPool-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.MainCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1457,6 +1485,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--Kernel-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.Kernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1486,6 +1515,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--DualCoinWallet-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.DualCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1515,6 +1545,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--DualCoinPool-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.DualCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1545,6 +1576,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--Version-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.Version,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1568,6 +1600,55 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--OSName-->
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.OSName,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>操作系统</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="OSName">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSName, Mode=OneWay}"></TextBox>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<!--OSVirtualMemoryGbText-->
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.OSVirtualMemoryGbText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>虚拟内存</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="OSVirtualMemoryGbText">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<!--IsAutoBoot-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.IsAutoBoot,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1595,6 +1676,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--IsAutoStart-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.IsAutoStart,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 
@@ -1622,6 +1704,80 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<!--GpuType-->
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.GpuType,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>显卡类型</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuType">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<Path
+									Margin="4 0 0 0"
+									Width="18"
+									Height="14"
+									ToolTip="NVIDIA"
+									Visibility="{Binding IsNvidiaIconVisible}"
+									Data="{StaticResource Icon_Nvidia}"
+									Fill="Green"
+									Stretch="Fill" />
+								<Path
+									Margin="4 0 0 0"
+									Width="16"
+									Height="14"
+									ToolTip="AMD"
+									Visibility="{Binding IsAMDIconVisible}"
+									Data="{StaticResource Icon_AMD}"
+									Fill="Red"
+									Stretch="Fill" />
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<!--GpuDriver-->
+				<DataGridTemplateColumn 
+					Visibility="{Binding Data.ColumnsShow.GpuDriver,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+					CanUserResize="True" 
+					CanUserReorder="False" 
+					CanUserSort="False" 
+					IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>显卡驱动</TextBlock>
+							<WrapPanel.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuDriver">
+									</MenuItem>
+								</ContextMenu>
+							</WrapPanel.ContextMenu>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBox 
+									BorderThickness="0"
+									Background="Transparent"
+									IsReadOnly="True"
+									Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
+							</WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<!--GpuInfo-->
 				<DataGridTemplateColumn 
 					Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 					CanUserResize="True" 

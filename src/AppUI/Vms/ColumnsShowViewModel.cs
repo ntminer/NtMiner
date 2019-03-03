@@ -37,6 +37,10 @@ namespace NTMiner.Vms {
         private bool _incomeDualCoinPerDayText = true;
         private bool _isAutoBoot = true;
         private bool _isAutoStart = true;
+        private bool _oSName = true;
+        private bool _oSVirtualMemoryGbText = true;
+        private bool _gpuType = true;
+        private bool _gpuDriver = true;
 
         public ICommand Hide { get; private set; }
 
@@ -119,6 +123,10 @@ namespace NTMiner.Vms {
             _incomeDualCoinPerDayText = data.IncomeDualCoinPerDayText;
             _isAutoBoot = data.IsAutoBoot;
             _isAutoStart = data.IsAutoStart;
+            _oSName = data.OSName;
+            _oSVirtualMemoryGbText = data.OSVirtualMemoryGbText;
+            _gpuType = data.GpuType;
+            _gpuDriver = data.GpuDriver;
         }
 
         public bool IsPleaseSelect {
@@ -345,6 +353,38 @@ namespace NTMiner.Vms {
             set {
                 _windowsLoginNameAndPassword = value;
                 OnPropertyChanged(nameof(WindowsLoginNameAndPassword));
+            }
+        }
+
+        public bool OSName {
+            get => _oSName;
+            set {
+                _oSName = value;
+                OnPropertyChanged(nameof(OSName));
+            }
+        }
+
+        public bool OSVirtualMemoryGbText {
+            get => _oSVirtualMemoryGbText;
+            set {
+                _oSVirtualMemoryGbText = value;
+                OnPropertyChanged(nameof(OSVirtualMemoryGbText));
+            }
+        }
+
+        public bool GpuType {
+            get => _gpuType;
+            set {
+                _gpuType = value;
+                OnPropertyChanged(nameof(GpuType));
+            }
+        }
+
+        public bool GpuDriver {
+            get => _gpuDriver;
+            set {
+                _gpuDriver = value;
+                OnPropertyChanged(nameof(GpuDriver));
             }
         }
 

@@ -29,5 +29,9 @@ namespace NTMiner.MinerServer {
         bool IncomeDualCoinPerDayText { get; }
         bool IsAutoBoot { get; }
         bool IsAutoStart { get; }
+        bool OSName { get; }
+        bool OSVirtualMemoryGbText { get; }
+        bool GpuType { get; }
+        bool GpuDriver { get; }
     }
 }

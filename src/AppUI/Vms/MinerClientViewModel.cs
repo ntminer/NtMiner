@@ -7,6 +7,7 @@ using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -813,6 +814,13 @@ namespace NTMiner.Vms {
             set {
                 _data.OSVirtualMemoryMb = value;
                 OnPropertyChanged(nameof(OSVirtualMemoryMb));
+                OnPropertyChanged(nameof(OSVirtualMemoryGbText));
+            }
+        }
+
+        public string OSVirtualMemoryGbText {
+            get {
+                return (this.OSVirtualMemoryMb / 1024.0).ToString("f1") + "Gb";
             }
         }
 
@@ -821,6 +829,20 @@ namespace NTMiner.Vms {
             set {
                 _data.GpuType = value;
                 OnPropertyChanged(nameof(GpuType));
+                OnPropertyChanged(nameof(IsNvidiaIconVisible));
+                OnPropertyChanged(nameof(IsAMDIconVisible));
+            }
+        }
+
+        public Visibility IsNvidiaIconVisible {
+            get {
+                return GpuType == GpuType.NVIDIA ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public Visibility IsAMDIconVisible {
+            get {
+                return GpuType == GpuType.AMD ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 

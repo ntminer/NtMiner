@@ -67,6 +67,14 @@ namespace NTMiner.MinerServer {
 
         public bool IsAutoStart { get; set; }
 
+        public bool OSName { get; set; }
+
+        public bool OSVirtualMemoryGbText { get; set; }
+
+        public bool GpuType { get; set; }
+
+        public bool GpuDriver { get; set; }
+
         public string GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
@@ -95,7 +103,11 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(IncomeMainCoinPerDayText)).Append(IncomeMainCoinPerDayText)
                 .Append(nameof(IncomeDualCoinPerDayText)).Append(IncomeDualCoinPerDayText)
                 .Append(nameof(IsAutoBoot)).Append(IsAutoBoot)
-                .Append(nameof(IsAutoStart)).Append(IsAutoStart);
+                .Append(nameof(IsAutoStart)).Append(IsAutoStart)
+                .Append(nameof(OSName)).Append(OSName)
+                .Append(nameof(OSVirtualMemoryGbText)).Append(OSVirtualMemoryGbText)
+                .Append(nameof(GpuType)).Append(GpuType)
+                .Append(nameof(GpuDriver)).Append(GpuDriver);
             return sb.ToString();
         }
     }
