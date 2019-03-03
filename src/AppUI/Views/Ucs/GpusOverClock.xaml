@@ -11,12 +11,8 @@
 		DataContext="{x:Static vm:GpusOverClockViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="800">
 	<UserControl.Resources>
-		<Style x:Key="LblTb" TargetType="TextBlock">
-			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="40"></Setter>
-			<Setter Property="VerticalAlignment" Value="Center"></Setter>
-			<Setter Property="TextAlignment" Value="Right"></Setter>
-			<Setter Property="TextWrapping" Value="Wrap"></Setter>
 		</Style>
 		<sys:String x:Key="WindowTitle">
 			超频

@@ -8,14 +8,8 @@
         xmlns:vm="clr-namespace:NTMiner.Vms"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
     <UserControl.Resources>
-        <Style x:Key="LblTb" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-            <Setter Property="FontSize" Value="12"></Setter>
-            <Setter Property="Padding" Value="0 0 2 0"></Setter>
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
             <Setter Property="Width" Value="60"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="TextAlignment" Value="Right"></Setter>
-            <Setter Property="TextWrapping" Value="Wrap"></Setter>
         </Style>
         <sys:String x:Key="WindowTitle">
             字典
