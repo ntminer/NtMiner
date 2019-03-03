@@ -29,6 +29,12 @@ namespace NTMiner.Vms {
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
 
+        public MinerClientViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         private readonly ClientData _data;
         public MinerClientViewModel(ClientData clientData) {
             _data = clientData;
