@@ -83,6 +83,9 @@ namespace UnitTestProject1 {
             Console.WriteLine(0.00000012000025222.ToString("f7"));
             Console.WriteLine(1.ToString("f7"));
             Console.WriteLine(1.1.ToString("f0"));
+
+            Console.WriteLine(1.12.ToString("f1"));
+            Console.WriteLine(1.17.ToString("f1"));
         }
 
         [TestMethod]
