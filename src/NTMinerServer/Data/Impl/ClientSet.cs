@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace NTMiner.Data.Impl {
     public class ClientSet : IClientSet {
@@ -215,16 +216,20 @@ namespace NTMiner.Data.Impl {
                     query = query.Where(a => a.Kernel != null && a.Kernel.StartsWith(kernel, StringComparison.OrdinalIgnoreCase));
                 }
                 total = query.Count();
-                var result = query.OrderBy(a => a.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                var results = query.OrderBy(a => a.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                 DateTime time = DateTime.Now.AddMinutes(-3);
                 // 3分钟未上报算力视为0算力
-                foreach (var clientData in result) {
+                foreach (var clientData in results) {
                     if (clientData.ModifiedOn < time) {
                         clientData.DualCoinSpeed = 0;
                         clientData.MainCoinSpeed = 0;
                     }
                 }
-                return result;
+                if (isPull) {
+                    Task[] pullTasks = results.Select(a => a.CreatePullTask()).ToArray();
+                    Task.WaitAll(pullTasks, 3 * 1000);
+                }
+                return results;
             }
         }
 
@@ -242,6 +247,10 @@ namespace NTMiner.Data.Impl {
                 if (clientData != null) {
                     results.Add(clientData);
                 }
+            }
+            if (isPull) {
+                Task[] pullTasks = results.Select(a => a.CreatePullTask()).ToArray();
+                Task.WaitAll(pullTasks, 3 * 1000);
             }
             return results;
         }

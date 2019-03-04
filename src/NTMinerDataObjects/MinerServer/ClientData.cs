@@ -1,5 +1,6 @@
 ﻿using NTMiner.Hashrate;
 using System;
+using System.Threading.Tasks;
 
 namespace NTMiner.MinerServer {
     public class ClientData : IClientData, IDbEntity<Guid>, ITimestampEntity<Guid> {
@@ -88,5 +89,11 @@ namespace NTMiner.MinerServer {
         public Guid GroupId { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
+
+        public Task CreatePullTask() {
+            return Task.Factory.StartNew(() => {
+
+            });
+        }
     }
 }
