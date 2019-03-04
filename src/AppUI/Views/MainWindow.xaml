@@ -102,7 +102,7 @@
 					KbDisplayLine="False"
 					KbSystemButtonHoverBackground="Transparent"
 					Background="Transparent"
-					Foreground="Black">
+					Foreground="{StaticResource ThemeForeground}">
 					<WrapPanel>
 						<TextBlock
 							Margin="0"
@@ -124,7 +124,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_Translate}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -138,11 +138,13 @@
 				</controls:KbButton>
 				<WrapPanel Margin="4 0 0 0">
 					<WrapPanel Visibility="{x:Static vm:AppStatic.IsFreeClientVisible}">
-						<TextBlock VerticalAlignment="Center" Margin="8 0 0 0">作业：</TextBlock>
-						<TextBlock VerticalAlignment="Center" FontSize="14" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
+						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Margin="8 0 0 0">作业：</TextBlock>
+						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" FontSize="14" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
 					</WrapPanel>
 					<TextBlock 
-						VerticalAlignment="Center" FontSize="14" Text="(中控)" Foreground="Red"
+						VerticalAlignment="Center" 
+						FontSize="14" Text="(中控)" 
+						Foreground="{StaticResource ThemeForeground}"
 						ToolTip="受中控控制，本地不能编辑。"
 						Visibility="{x:Static vm:AppStatic.IsWorkerClientVisible}"></TextBlock>
 				</WrapPanel>
@@ -151,32 +153,31 @@
 			</WrapPanel>
 			<WrapPanel HorizontalAlignment="Right">
 				<WrapPanel Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top">
-					<controls:KbCheckBox 
+					<CheckBox 
 						Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-						Content="使用DevConsole"
-						IconColor="{StaticResource IconFillColor}"
+						Content="DevConsole"
+						VerticalAlignment="Center"
+						Foreground="{StaticResource ThemeForeground}"
 						IsChecked="{Binding IsUseDevConsole}" />
 					<controls:KbComboBox 
 						Margin="4 0 0 0"
 						Height="26"
 						Background="{StaticResource ThemeBackground}"
 						ItemsSource="{Binding LangVms.LangVms}"
-						DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
+						DisplayMemberPath="Name" 
+						SelectedItem="{Binding LangVms.CurrentLangVm}">
 					</controls:KbComboBox>
 					<local:MainMenu>
 					</local:MainMenu>
 					<controls:KbSystemMinButton
 						Height="30"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
+						KbSystemButtonSize="40" />
 					<controls:KbSystemMaxButton
 						Height="30"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
+						KbSystemButtonSize="40" />
 					<controls:KbSystemCloseButton
 						Height="30"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
+						KbSystemButtonSize="40" />
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
