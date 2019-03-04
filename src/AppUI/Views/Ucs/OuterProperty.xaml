@@ -99,7 +99,7 @@
                             Width="14"
                             Height="14"
                             Data="{StaticResource Icon_Translate}"
-                            Fill="{StaticResource IconFillColor}"
+                            Fill="{StaticResource ThemeBackground}"
                             Stretch="Fill" />
                     </WrapPanel>
                 </controls:KbButton>
@@ -123,19 +123,19 @@
                     Padding="6 0"
                     Height="20"
                     Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
-                    Background="{StaticResource IconFillColor}"
+                    Background="{StaticResource ThemeBackground}"
                     CornerRadius="2">
                     <WrapPanel>
                         <Path
                             Width="12"
                             Height="12"
                             Data="{StaticResource Icon_VirtualMemory}"
-                            Fill="White"
+                            Fill="{StaticResource ThemeForeground}"
                             Stretch="Fill" />
                         <TextBlock
                             Padding="2 0"
                             VerticalAlignment="Center"
-                            Foreground="White"
+                            Foreground="{StaticResource ThemeForeground}"
                             Text="{DynamicResource LblModify}" />
                     </WrapPanel>
                 </controls:KbButton>

@@ -37,7 +37,7 @@
                         Width="14"
                         Height="14"
                         Data="{StaticResource Icon_Translate}"
-                        Fill="{StaticResource IconFillColor}"
+                        Fill="{StaticResource ThemeBackground}"
                         Stretch="Fill" />
                 </WrapPanel>
             </controls:KbButton>
@@ -45,20 +45,22 @@
         <TextBlock Text="{Binding Seconds}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"></TextBlock>
         <WrapPanel HorizontalAlignment="Center" Margin="4">
             <controls:KbButton 
-                Padding="8 0"
+                Padding="8 4"
                 Click="KbCancelButton_Click"
                 VerticalAlignment="Center"
+                Background="{StaticResource ThemeBackground}"
                 CornerRadius="2">
                 <WrapPanel>
                     <Path
                         Width="14"
                         Height="14"
                         Data="{StaticResource Icon_Close}"
-                        Fill="{StaticResource IconFillColor}"
+                        Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="14"
+                        Foreground="{StaticResource ThemeForeground}"
                         Text="{DynamicResource BtnCancel}" />
                 </WrapPanel>
             </controls:KbButton>
