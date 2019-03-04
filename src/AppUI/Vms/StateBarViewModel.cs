@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                 if (this._logoRotateTransformAngle > 3600000) {
                     this._logoRotateTransformAngle = 0;
                 }
-                this.LogoRotateTransformAngle += 50;
+                this.LogoRotateTransformAngle += 45;
             };
             VirtualRoot.On<MineStartedEvent>(
                 "挖矿开始后将风扇转起来",

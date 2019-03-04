@@ -261,13 +261,14 @@
 							
 							<Border
 								Grid.Column="0" Grid.Row="0"
-								Width="200"
-								Height="200"
+								Margin="0 10"
+								Width="160"
+								Height="160"
 								Background="#55000000"
 								HorizontalAlignment="Center" 
 								VerticalAlignment="Center" 
-								CornerRadius="100"
-								Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}" Margin="97,115">
+								CornerRadius="80"
+								Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
 								<TextBlock 
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"

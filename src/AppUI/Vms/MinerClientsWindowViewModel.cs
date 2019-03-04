@@ -233,12 +233,12 @@ namespace NTMiner.Vms {
             this.PageRefresh = new DelegateCommand(() => {
                 QueryMinerClients();
             });
-            System.Timers.Timer t = new System.Timers.Timer(50);
+            System.Timers.Timer t = new System.Timers.Timer(70);
             t.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
                 if (this._logoRotateTransformAngle > 3600000) {
                     this._logoRotateTransformAngle = 0;
                 }
-                this.LogoRotateTransformAngle += 50;
+                this.LogoRotateTransformAngle += 45;
             };
             t.Start();
         }
