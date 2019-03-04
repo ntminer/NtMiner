@@ -21,7 +21,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{StaticResource MainColor}">
+        <DockPanel Grid.Row="0" Background="{StaticResource ThemeColor}">
             <Path
                 Margin="4 0 0 0"
                 Width="14"

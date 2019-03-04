@@ -6,7 +6,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:vm="clr-namespace:NTMiner.Vms"
              xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-             Background="{StaticResource MainColor}"
+             Background="{StaticResource ThemeColor}"
              TextOptions.TextFormattingMode="Display" 
              mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
     <UserControl.DataContext>

@@ -52,7 +52,7 @@
 			Width="100"
 			Height="26"
 			HorizontalAlignment="Left"
-			Background="{StaticResource MainColor}"
+			Background="{StaticResource ThemeColor}"
 			ItemsSource="{Binding LangVms.LangVms}"
 			DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
 		</controls:KbComboBox>

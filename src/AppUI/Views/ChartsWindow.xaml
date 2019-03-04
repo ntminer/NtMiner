@@ -107,7 +107,7 @@
 					</controls:KbButton>
 					<controls:KbComboBox 
 						Height="26"
-						Background="{StaticResource MainColor}"
+						Background="{StaticResource ThemeColor}"
 						ItemsSource="{Binding LangVms.LangVms}"
 						DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
 					</controls:KbComboBox>

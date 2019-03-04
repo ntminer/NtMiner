@@ -15,7 +15,7 @@
 		MinWidth="800"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
-		Background="{StaticResource MainColor}"
+		Background="{StaticResource ThemeColor}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MainWindowViewModel.Current}"
@@ -159,7 +159,7 @@
 					<controls:KbComboBox 
 						Margin="4 0 0 0"
 						Height="26"
-						Background="{StaticResource MainColor}"
+						Background="{StaticResource ThemeColor}"
 						ItemsSource="{Binding LangVms.LangVms}"
 						DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
 					</controls:KbComboBox>
@@ -266,7 +266,7 @@
 									Height="44"
 									Command="{Binding StartMine}" 
 									Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-									Background="{StaticResource MainColor}">
+									Background="{StaticResource ThemeColor}">
 									<WrapPanel>
 										<Path
 											Width="16"
@@ -358,7 +358,7 @@
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>
-								<uc:Console BorderBrush="{StaticResource MainColor}" BorderThickness="0 1 0 0" Margin="0 -1 0 0">
+								<uc:Console BorderBrush="{StaticResource ThemeColor}" BorderThickness="0 1 0 0" Margin="0 -1 0 0">
 								</uc:Console>
 							</TabItem>
 							<TabItem>

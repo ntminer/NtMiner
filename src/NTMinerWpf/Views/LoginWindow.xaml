@@ -43,7 +43,7 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource MainColor}">
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource ThemeColor}">
             <Image Width="14" Height="14" Margin="4 0 0 0" Source="/NTMinerWpf;component/Styles/Images/logo32.png">
             </Image>
             <TextBlock Text="{DynamicResource Title}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
@@ -60,7 +60,7 @@
                     Command="{x:Static vm:WpfStatic.ShowLangViewItems}"
                     CommandParameter="{x:Static local:LoginWindow.ViewId}"
                     Padding="4 0"
-                    Background="{StaticResource MainColor}">
+                    Background="{StaticResource ThemeColor}">
                     <WrapPanel>
                         <Path
                             Width="12"

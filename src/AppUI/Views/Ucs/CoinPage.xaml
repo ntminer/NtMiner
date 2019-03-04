@@ -8,7 +8,7 @@
 			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 			 xmlns:vm="clr-namespace:NTMiner.Vms"
 			 mc:Ignorable="d"
-			 Background="{StaticResource MainColor}"
+			 Background="{StaticResource ThemeColor}"
 			 TextOptions.TextFormattingMode="Display" 
 			 DataContext="{x:Static vm:CoinPageViewModel.Current}"
 			 d:DesignHeight="520" d:DesignWidth="960">

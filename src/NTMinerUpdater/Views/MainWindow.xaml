@@ -9,7 +9,7 @@
 		mc:Ignorable="d"
 		UseNoneWindowStyle="True"
 		ResizeMode="NoResize"
-		Background="{StaticResource MainColor}"
+		Background="{StaticResource ThemeColor}"
 		BorderThickness="0.8"
 		BorderBrush="{StaticResource IconFillColor}"
 		WindowStartupLocation="CenterScreen"
@@ -35,7 +35,7 @@
 				<RowDefinition Height="Auto"></RowDefinition>
 			</Grid.RowDefinitions>
 			<!--start升级到服务器最新版本-->
-			<Grid Background="{StaticResource MainColor}" Visibility="{Binding IsHistoryVisible, Converter={StaticResource VisibilityInvertConverter}}">
+			<Grid Background="{StaticResource ThemeColor}" Visibility="{Binding IsHistoryVisible, Converter={StaticResource VisibilityInvertConverter}}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="230"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>

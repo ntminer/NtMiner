@@ -44,7 +44,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Background="{StaticResource MainColor}" Height="30">
+        <DockPanel Background="{StaticResource ThemeColor}" Height="30">
             <WrapPanel DockPanel.Dock="Left">
                 <Path 
                     Margin="4 4 0 0"

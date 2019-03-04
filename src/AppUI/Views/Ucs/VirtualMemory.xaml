@@ -114,7 +114,7 @@
 			<controls:KbButton 
 				Margin="8 0 0 0"
 				Width="80"
-				Background="{StaticResource MainColor}"
+				Background="{StaticResource ThemeColor}"
 				Command="{x:Static vm:AppStatic.ShowRestartWindows}"
 				VerticalAlignment="Center"
 				CornerRadius="2">
