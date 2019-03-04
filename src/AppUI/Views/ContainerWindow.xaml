@@ -10,7 +10,7 @@
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
 		d:DataContext="{d:DesignData Source=Design/ContainerWindowViewModel.xaml}"
-		Background="{StaticResource ThemeColor}"
+		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
 		TextOptions.TextFormattingMode="Display"
 		MaxWidth="{Binding MaxWidth}" MaxHeight="{Binding MaxHeight}"
@@ -26,7 +26,7 @@
 			<WrapPanel DockPanel.Dock="Left" VerticalAlignment="Top" Margin="0 2 0 0">
 				<WrapPanel 
 					Margin="4 4 0 0"
-					Background="{StaticResource ThemeColor}"
+					Background="{StaticResource ThemeBackground}"
 					MouseDown="WindowIcon_MouseDoubleClick">
 					<Image
 						Visibility="{Binding IconImage, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
@@ -66,7 +66,7 @@
 			</WrapPanel>
 			<WrapPanel
 				Margin="0" DockPanel.Dock="Right" HorizontalAlignment="Right" 
-				VerticalAlignment="Top" Background="{StaticResource ThemeColor}">
+				VerticalAlignment="Top" Background="{StaticResource ThemeBackground}">
 				<controls:KbSystemMinButton 
 					Height="30"
 					Visibility="{Binding MinVisible}"

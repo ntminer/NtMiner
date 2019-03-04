@@ -23,7 +23,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{StaticResource ThemeColor}">
+        <DockPanel Grid.Row="0" Background="{StaticResource ThemeBackground}">
             <Path
                 x:Name="PathIcon"
                 Width="16"

@@ -19,7 +19,7 @@
             NTMiner.com
         </TextBlock>
         <TextBlock x:Name="TbVersion" Margin="4 2 0 0" VerticalAlignment="Top" FontSize="14" Foreground="White"></TextBlock>
-        <WrapPanel Grid.Row="1" Background="{StaticResource ThemeColor}">
+        <WrapPanel Grid.Row="1" Background="{StaticResource ThemeBackground}">
         </WrapPanel>
     </Grid>
 </Window>
