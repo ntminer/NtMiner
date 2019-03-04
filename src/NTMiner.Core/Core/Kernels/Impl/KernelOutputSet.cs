@@ -276,12 +276,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 int totalShare;
                 if (int.TryParse(totalShareText, out totalShare)) {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                    int old = share.AcceptShareCount;
-                    share.AcceptShareCount = totalShare - share.RejectShareCount;
-                    share.ShareOn = DateTime.Now;
-                    if (old != share.AcceptShareCount) {
-                        VirtualRoot.Happened(new ShareChangedEvent(share));
-                    }
+                    root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: totalShare - share.RejectShareCount, rejectShareCount: null, now: DateTime.Now);
                 }
             }
         }
@@ -299,13 +294,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 string acceptShareText = match.Groups["acceptShare"].Value;
                 int acceptShare;
                 if (int.TryParse(acceptShareText, out acceptShare)) {
-                    ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                    int old = share.AcceptShareCount;
-                    share.AcceptShareCount = acceptShare;
-                    share.ShareOn = DateTime.Now;
-                    if (old != share.AcceptShareCount) {
-                        VirtualRoot.Happened(new ShareChangedEvent(share));
-                    }
+                    root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: acceptShare, rejectShareCount: null, now: DateTime.Now);
                 }
             }
         }
@@ -321,12 +310,7 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = Regex.Match(input, acceptOneShare);
             if (match.Success) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                int old = share.AcceptShareCount;
-                share.AcceptShareCount = share.AcceptShareCount + 1;
-                share.ShareOn = DateTime.Now;
-                if (old != share.AcceptShareCount) {
-                    VirtualRoot.Happened(new ShareChangedEvent(share));
-                }
+                root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: share.AcceptShareCount + 1, rejectShareCount: null, now: DateTime.Now);
             }
         }
 
@@ -344,13 +328,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                 int rejectShare;
                 if (int.TryParse(rejectShareText, out rejectShare)) {
-                    ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                    int old = share.RejectShareCount;
-                    share.RejectShareCount = rejectShare;
-                    share.ShareOn = DateTime.Now;
-                    if (old != share.RejectShareCount) {
-                        VirtualRoot.Happened(new ShareChangedEvent(share));
-                    }
+                    root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: null, rejectShareCount: rejectShare, now: DateTime.Now);
                 }
             }
         }
@@ -366,12 +344,7 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = Regex.Match(input, rejectOneShare);
             if (match.Success) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                int old = share.RejectShareCount;
-                share.RejectShareCount = share.RejectShareCount + 1;
-                share.ShareOn = DateTime.Now;
-                if (old != share.RejectShareCount) {
-                    VirtualRoot.Happened(new ShareChangedEvent(share));
-                }
+                root.CoinShareSet.UpdateShare(coin.GetId(), null, share.RejectShareCount + 1, DateTime.Now);
             }
         }
 
@@ -388,12 +361,7 @@ namespace NTMiner.Core.Kernels.Impl {
             double rejectPercent;
             if (double.TryParse(rejectPercentText, out rejectPercent)) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                int old = share.RejectShareCount;
-                share.RejectShareCount = (int)(share.TotalShareCount * rejectPercent);
-                share.ShareOn = DateTime.Now;
-                if (old != share.RejectShareCount) {
-                    VirtualRoot.Happened(new ShareChangedEvent(share));
-                }
+                root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: null, rejectShareCount: (int)(share.TotalShareCount * rejectPercent), now: DateTime.Now);
             }
         }
         #endregion

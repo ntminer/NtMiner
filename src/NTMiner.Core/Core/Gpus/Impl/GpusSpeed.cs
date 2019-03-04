@@ -54,20 +54,12 @@ namespace NTMiner.Core.Gpus.Impl {
                 LogEnum.Console,
                 action: message => {
                     now = DateTime.Now;
-                    ICoinShare share = _root.CoinShareSet.GetOrCreate(message.MineContext.MainCoin.GetId());
-                    share.AcceptShareCount = 0;
-                    share.RejectShareCount = 0;
-                    share.ShareOn = now;
-                    VirtualRoot.Happened(new ShareChangedEvent(share));
+                    _root.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);
                     foreach (var gpu in _root.GpuSet) {
                         SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: false, now: now);
                     }
                     if (message.MineContext is IDualMineContext dualMineContext) {
-                        share = _root.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                        share.AcceptShareCount = 0;
-                        share.RejectShareCount = 0;
-                        share.ShareOn = now;
-                        VirtualRoot.Happened(new ShareChangedEvent(share));
+                        _root.CoinShareSet.UpdateShare(dualMineContext.DualCoin.GetId(), 0, 0, now);
                         foreach (var gpu in _root.GpuSet) {
                             SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: true, now: now);
                         }

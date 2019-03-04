@@ -33,5 +33,26 @@ namespace NTMiner.Core.Impl {
             _dicByCoinId.Add(coinId, share);
             return share;
         }
+
+        public void UpdateShare(Guid coinId, int? acceptShareCount, int? rejectShareCount, DateTime now) {
+            CoinShare coinShare = (CoinShare)GetOrCreate(coinId);
+            bool isChanged = false;
+            if (acceptShareCount.HasValue) {
+                if (coinShare.AcceptShareCount != acceptShareCount.Value) {
+                    coinShare.AcceptShareCount = acceptShareCount.Value;
+                    isChanged = true;
+                }
+            }
+            if (rejectShareCount.HasValue) {
+                if (coinShare.RejectShareCount != rejectShareCount.Value) {
+                    coinShare.RejectShareCount = rejectShareCount.Value;
+                    isChanged = true;
+                }
+            }
+            coinShare.ShareOn = now;
+            if (isChanged) {
+                VirtualRoot.Happened(new ShareChangedEvent(coinShare));
+            }
+        }
     }
 }
