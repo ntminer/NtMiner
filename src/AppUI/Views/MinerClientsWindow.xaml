@@ -12,7 +12,8 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
-		Background="#EBF2F9"
+		Background="{StaticResource ThemeBackground}"
+		Foreground="{StaticResource ThemeForeground}"
 		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
@@ -26,6 +27,9 @@
 			<sys:String x:Key="WindowTitle">
 				矿工
 			</sys:String>
+			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+				<Setter Property="Foreground" Value="{StaticResource ThemeForeground}"></Setter>
+			</Style>
 		</ResourceDictionary>
 	</metro:MetroWindow.Resources>
 	<Grid>
@@ -47,7 +51,7 @@
 					Width="18"
 					Height="18"
 					Data="{StaticResource Icon_Miner}"
-					Fill="{StaticResource IconFillColor}"
+					Fill="{StaticResource ThemeForeground}"
 					Stretch="Fill" />
 				<TextBlock
 					Margin="4 0 0 0"
@@ -69,31 +73,114 @@
 					</local:MainMenu>
 					<controls:KbSystemMinButton
 						Height="30"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
+						KbSystemButtonSize="40" />
 					<controls:KbSystemMaxButton
 						Height="30"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
+						KbSystemButtonSize="40" />
 					<controls:KbSystemCloseButton
 						Height="30"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
+						KbSystemButtonSize="40" />
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
 		<StackPanel Grid.Row="1">
-			<StackPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
+			<StackPanel.Resources>
+				<Style TargetType="TextBox">
+					<Setter Property="Height" Value="20"></Setter>
+				</Style>
+				<Style TargetType="controls:KbComboBox">
+					<Setter Property="Height" Value="20"></Setter>
+				</Style>
+			</StackPanel.Resources>
+			<WrapPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
+				<TextBlock Style="{StaticResource LblTb}" Text="主币" />
+				<controls:KbComboBox 
+					Margin="0 0 20 0"
+					Width="100"
+					ItemsSource="{Binding MineCoinVms.PleaseSelect}"
+					DisplayMemberPath="Code"
+					SelectedItem="{Binding MainCoin}">
+					<controls:KbComboBox.Toolbar>
+						<WrapPanel HorizontalAlignment="Right">
+							<controls:KbButton
+								Margin="4 2"
+								BorderThickness="0"
+								Height="24"
+								Padding="4 0"
+								Command="{x:Static vm:AppStatic.ShowCoins}"
+								CommandParameter="{Binding MainCoin}"
+								Background="{StaticResource IconFillColor}"
+								CornerRadius="2">
+								<WrapPanel>
+									<Path
+										Width="14"
+										Height="14"
+										Data="{StaticResource Icon_Coin}"
+										Fill="White"
+										Stretch="Fill" />
+									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
+								</WrapPanel>
+							</controls:KbButton>
+						</WrapPanel>
+					</controls:KbComboBox.Toolbar>
+					<controls:KbComboBox.ContextMenuEx>
+						<ContextMenu>
+							<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding MainCoin}">
+							</MenuItem>
+						</ContextMenu>
+					</controls:KbComboBox.ContextMenuEx>
+				</controls:KbComboBox>
+				<WrapPanel Margin="0 0 20 0">
+					<TextBlock Style="{StaticResource LblTb}" Text="主币矿池" />
+					<controls:KbComboBox 
+						Width="120"
+						ItemsSource="{Binding MainCoin.OptionPools}"
+						DisplayMemberPath="Name"
+						SelectedValuePath="Server"
+						SelectedItem="{Binding MainCoinPool}">
+						<controls:KbComboBox.Toolbar>
+							<WrapPanel HorizontalAlignment="Right">
+								<controls:KbButton
+									Margin="4 2"
+									BorderThickness="0"
+									Height="24"
+									Padding="4 0"
+									Command="{x:Static vm:AppStatic.ManagePools}"
+									CommandParameter="{Binding MainCoin}"
+									Background="{StaticResource IconFillColor}"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="14"
+											Height="14"
+											Data="{StaticResource Icon_Pool}"
+											Fill="White"
+											Stretch="Fill" />
+										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+						</controls:KbComboBox.Toolbar>
+						<controls:KbComboBox.ContextMenuEx>
+							<ContextMenu>
+								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}" CommandParameter="{Binding MainCoin}">
+								</MenuItem>
+							</ContextMenu>
+						</controls:KbComboBox.ContextMenuEx>
+					</controls:KbComboBox>
+				</WrapPanel>
+				<WrapPanel Margin="0 0 40 0">
+					<TextBlock Style="{StaticResource LblTb}" Text="主币钱包" />
+					<TextBox VerticalContentAlignment="Center" Text="{Binding MainCoinWallet}" Width="160" Background="White"></TextBox>
+				</WrapPanel>
 				<WrapPanel>
-					<Label
-						Content="主币"
-						Foreground="Black" />
+					<TextBlock Style="{StaticResource LblTb}" Text="双挖币" />
 					<controls:KbComboBox 
 						Margin="0 0 20 0"
 						Width="100"
-						ItemsSource="{Binding MineCoinVms.PleaseSelect}"
+						ItemsSource="{Binding MineCoinVms.DualPleaseSelect}"
 						DisplayMemberPath="Code"
-						SelectedItem="{Binding MainCoin}">
+						SelectedItem="{Binding DualCoin}">
 						<controls:KbComboBox.Toolbar>
 							<WrapPanel HorizontalAlignment="Right">
 								<controls:KbButton
@@ -102,7 +189,7 @@
 									Height="24"
 									Padding="4 0"
 									Command="{x:Static vm:AppStatic.ShowCoins}"
-									CommandParameter="{Binding MainCoin}"
+									CommandParameter="{Binding DualCoin}"
 									Background="{StaticResource IconFillColor}"
 									CornerRadius="2">
 									<WrapPanel>
@@ -119,21 +206,19 @@
 						</controls:KbComboBox.Toolbar>
 						<controls:KbComboBox.ContextMenuEx>
 							<ContextMenu>
-								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding MainCoin}">
+								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding DualCoin}">
 								</MenuItem>
 							</ContextMenu>
 						</controls:KbComboBox.ContextMenuEx>
 					</controls:KbComboBox>
 					<WrapPanel Margin="0 0 20 0">
-						<Label
-							Content="主币矿池"
-							Foreground="Black" />
+						<TextBlock Style="{StaticResource LblTb}" Text="双挖币矿池" />
 						<controls:KbComboBox 
 							Width="120"
-							ItemsSource="{Binding MainCoin.OptionPools}"
+							ItemsSource="{Binding DualCoin.OptionPools}"
 							DisplayMemberPath="Name"
 							SelectedValuePath="Server"
-							SelectedItem="{Binding MainCoinPool}">
+							SelectedItem="{Binding DualCoinPool}">
 							<controls:KbComboBox.Toolbar>
 								<WrapPanel HorizontalAlignment="Right">
 									<controls:KbButton
@@ -142,53 +227,6 @@
 										Height="24"
 										Padding="4 0"
 										Command="{x:Static vm:AppStatic.ManagePools}"
-										CommandParameter="{Binding MainCoin}"
-										Background="{StaticResource IconFillColor}"
-										CornerRadius="2">
-										<WrapPanel>
-											<Path
-											Width="14"
-											Height="14"
-											Data="{StaticResource Icon_Pool}"
-											Fill="White"
-											Stretch="Fill" />
-											<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
-										</WrapPanel>
-									</controls:KbButton>
-								</WrapPanel>
-							</controls:KbComboBox.Toolbar>
-							<controls:KbComboBox.ContextMenuEx>
-								<ContextMenu>
-									<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}" CommandParameter="{Binding MainCoin}">
-									</MenuItem>
-								</ContextMenu>
-							</controls:KbComboBox.ContextMenuEx>
-						</controls:KbComboBox>
-					</WrapPanel>
-					<WrapPanel Margin="0 0 40 0">
-						<Label
-							Content="主币钱包"
-							Foreground="Black" />
-						<TextBox VerticalContentAlignment="Center" Text="{Binding MainCoinWallet}" Width="160" Background="White"></TextBox>
-					</WrapPanel>
-					<WrapPanel>
-						<Label
-							Content="双挖币"
-							Foreground="Black" />
-						<controls:KbComboBox 
-							Margin="0 0 20 0"
-							Width="100"
-							ItemsSource="{Binding MineCoinVms.DualPleaseSelect}"
-							DisplayMemberPath="Code"
-							SelectedItem="{Binding DualCoin}">
-							<controls:KbComboBox.Toolbar>
-								<WrapPanel HorizontalAlignment="Right">
-									<controls:KbButton
-										Margin="4 2"
-										BorderThickness="0"
-										Height="24"
-										Padding="4 0"
-										Command="{x:Static vm:AppStatic.ShowCoins}"
 										CommandParameter="{Binding DualCoin}"
 										Background="{StaticResource IconFillColor}"
 										CornerRadius="2">
@@ -196,7 +234,7 @@
 											<Path
 												Width="14"
 												Height="14"
-												Data="{StaticResource Icon_Coin}"
+												Data="{StaticResource Icon_Pool}"
 												Fill="White"
 												Stretch="Fill" />
 											<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
@@ -206,65 +244,20 @@
 							</controls:KbComboBox.Toolbar>
 							<controls:KbComboBox.ContextMenuEx>
 								<ContextMenu>
-									<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding DualCoin}">
+									<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}" CommandParameter="{Binding DualCoin}">
 									</MenuItem>
 								</ContextMenu>
 							</controls:KbComboBox.ContextMenuEx>
 						</controls:KbComboBox>
-						<WrapPanel Margin="0 0 20 0">
-							<Label
-								Content="双挖币矿池"
-								Foreground="Black" />
-							<controls:KbComboBox 
-								Width="120"
-								ItemsSource="{Binding DualCoin.OptionPools}"
-								DisplayMemberPath="Name"
-								SelectedValuePath="Server"
-								SelectedItem="{Binding DualCoinPool}">
-								<controls:KbComboBox.Toolbar>
-									<WrapPanel HorizontalAlignment="Right">
-										<controls:KbButton
-											Margin="4 2"
-											BorderThickness="0"
-											Height="24"
-											Padding="4 0"
-											Command="{x:Static vm:AppStatic.ManagePools}"
-											CommandParameter="{Binding DualCoin}"
-											Background="{StaticResource IconFillColor}"
-											CornerRadius="2">
-											<WrapPanel>
-												<Path
-													Width="14"
-													Height="14"
-													Data="{StaticResource Icon_Pool}"
-													Fill="White"
-													Stretch="Fill" />
-												<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
-											</WrapPanel>
-										</controls:KbButton>
-									</WrapPanel>
-								</controls:KbComboBox.Toolbar>
-								<controls:KbComboBox.ContextMenuEx>
-									<ContextMenu>
-										<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}" CommandParameter="{Binding DualCoin}">
-										</MenuItem>
-									</ContextMenu>
-								</controls:KbComboBox.ContextMenuEx>
-							</controls:KbComboBox>
-						</WrapPanel>
-						<WrapPanel>
-							<Label
-								Content="双挖币钱包"
-								Foreground="Black" />
-							<TextBox VerticalContentAlignment="Center" Text="{Binding DualCoinWallet}" Width="160" Background="White"></TextBox>
-						</WrapPanel>
+					</WrapPanel>
+					<WrapPanel>
+						<TextBlock Style="{StaticResource LblTb}" Text="双挖币钱包" />
+						<TextBox VerticalContentAlignment="Center" Text="{Binding DualCoinWallet}" Width="160" Background="White"></TextBox>
 					</WrapPanel>
 				</WrapPanel>
-			</StackPanel>
-			<WrapPanel Margin="0 2 0 0">
-				<Label
-					Content="分组"
-					Foreground="Black" />
+			</WrapPanel>
+			<WrapPanel>
+				<TextBlock Style="{StaticResource LblTb}" Text="分组" />
 				<controls:KbComboBox 
 					Margin="0 0 20 0"
 					Width="100"
@@ -300,11 +293,9 @@
 						</ContextMenu>
 					</controls:KbComboBox.ContextMenuEx>
 				</controls:KbComboBox>
-				<Label
-					Content="作业"
-					Foreground="Black" />
+				<TextBlock Style="{StaticResource LblTb}" Text="作业" />
 				<controls:KbComboBox 
-					Margin="0 0 26 0"
+					Margin="0 0 36 0"
 					Width="120"
 					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
 					DisplayMemberPath="Name"
@@ -338,25 +329,25 @@
 						</ContextMenu>
 					</controls:KbComboBox.ContextMenuEx>
 				</controls:KbComboBox>
-				<WrapPanel>
-					<Label HorizontalContentAlignment="Right">IP</Label>
+				<WrapPanel Margin="0 0 10 0">
+					<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
 					<TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
-					<Label Margin="8 0 0 0">矿工名</Label>
+					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">矿工名</TextBlock>
 					<TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerName}" Background="White"></TextBox>
-					<Label Margin="8 0 0 0">内核</Label>
+					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">内核</TextBlock>
 					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以次开头的内核" Width="100" Text="{Binding Kernel}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
-					<Label Margin="8 0 0 0">客户端版本</Label>
+					<TextBlock Style="{StaticResource LblTb}">客户端版本</TextBlock>
 					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="100" Text="{Binding Version}" Background="White"></TextBox>
-					<Label Margin="10 0 0 0">状态</Label>
+					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">状态</TextBlock>
 					<controls:KbComboBox 
 						Width="84"
 						ItemsSource="{Binding MineStatusEnumItems}"
 						DisplayMemberPath="Description"
 						SelectedItem="{Binding MineStatusEnumItem}">
 					</controls:KbComboBox>
-					<Label Margin="10 0 0 0">最后更新</Label>
+					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">最后更新</TextBlock>
 					<controls:KbComboBox 
 						Width="90"
 						ItemsSource="{Binding MinuteItems}"
@@ -366,7 +357,7 @@
 				</WrapPanel>
 			</WrapPanel>
 		</StackPanel>
-		<WrapPanel Grid.Row="2" Margin="0 2 0 0" Background="#EBF2F9">
+		<WrapPanel Grid.Row="2" Background="#EBF2F9" Margin="0 2 0 0">
 			<WrapPanel Margin="2 0 0 0">
 				<Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
 				<Button
@@ -616,11 +607,12 @@
 											Width="14"
 											Height="14"
 											Data="{StaticResource Icon_Fan}"
-											Fill="White"
+											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
 										<Label
 											Padding="0"
 											Margin="2 0 0 0"
+											Foreground="{StaticResource ThemeForeground}"
 											VerticalAlignment="Center"
 											Content="开始挖矿" />
 									</WrapPanel>
@@ -632,14 +624,17 @@
 										<ControlTemplate>
 											<Border 
 												x:Name="Content"
-												Background="{StaticResource IconFillColor}">
+												Background="Transparent"
+												BorderThickness="1" 
+												BorderBrush="{StaticResource LineColor}">
 												<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 													<Path
+														x:Name="Icon"
 														Margin="1 0 0 0"
 														Width="14"
 														Height="14"
 														Data="{StaticResource Icon_Fan}"
-														Fill="White"
+														Fill="Black"
 														Stretch="Fill">
 														<Path.RenderTransform>
 															<RotateTransform Angle="{Binding Data.LogoRotateTransformAngle, Source={StaticResource proxy}}" CenterX="7" CenterY="7"></RotateTransform>
@@ -650,13 +645,16 @@
 														x:Name="Text"
 														Margin="2 0 0 0"
 														VerticalAlignment="Center"
-														Foreground="White"
+														Foreground="Black"
 														Content="正在挖矿" />
 												</WrapPanel>
 											</Border>
 											<ControlTemplate.Triggers>
 												<Trigger Property="IsMouseOver" Value="True">
 													<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
+													<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
+													<Setter TargetName="Icon" Property="Fill" Value="White"></Setter>
+													<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
 													<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
 												</Trigger>
 											</ControlTemplate.Triggers>

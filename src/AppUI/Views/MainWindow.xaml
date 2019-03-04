@@ -157,6 +157,7 @@
 						Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
 						Content="DevConsole"
 						VerticalAlignment="Center"
+						Cursor="Hand"
 						Foreground="{StaticResource ThemeForeground}"
 						IsChecked="{Binding IsUseDevConsole}" />
 					<controls:KbComboBox 
@@ -191,6 +192,7 @@
 					<Grid Background="#EBF2F9">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="394"></ColumnDefinition>
+							<ColumnDefinition Width="1"></ColumnDefinition>
 							<ColumnDefinition Width="*"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
@@ -203,8 +205,7 @@
 								<RowDefinition Height="*"></RowDefinition>
 							</Grid.RowDefinitions>
 							<Border
-								Grid.Column="0" Grid.Row="0" Padding="0 4 0 0"
-								BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
+								Grid.Column="0" Grid.Row="0" Padding="0 4 0 0">
 								<StackPanel>
 									<WrapPanel>
 										<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
@@ -273,12 +274,12 @@
 											Width="16"
 											Height="16"
 											Data="{StaticResource Icon_Fan}"
-											Fill="White"
+											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
 										<Label
 											Padding="4 4 4 6"
 											VerticalAlignment="Center"
-											Foreground="White"
+											Foreground="{StaticResource ThemeForeground}"
 											FontSize="16"
 											Content="{DynamicResource BtnStartMine}" />
 									</WrapPanel>
@@ -288,16 +289,20 @@
 									Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
 									<Button.Template>
 										<ControlTemplate>
-											<Border x:Name="Content"
+											<Border 
+												x:Name="Content"
 												Width="134"
 												Height="44"
-												Background="{StaticResource IconFillColor}">
+												Background="Transparent"
+												BorderThickness="1" 
+												BorderBrush="{StaticResource LineColor}">
 												<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 													<Path
+														x:Name="Icon"
 														Width="16"
 														Height="16"
 														Data="{StaticResource Icon_Fan}"
-														Fill="White"
+														Fill="Black"
 														Stretch="Fill">
 														<Path.RenderTransform>
 															<RotateTransform Angle="{Binding StateBarVm.LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
@@ -307,7 +312,7 @@
 														Padding="4 4 4 6"
 														x:Name="Text"
 														VerticalAlignment="Center"
-														Foreground="White"
+														Foreground="Black"
 														FontSize="16"
 														Content="{DynamicResource BtnMining}" />
 												</WrapPanel>
@@ -315,6 +320,9 @@
 											<ControlTemplate.Triggers>
 												<Trigger Property="IsMouseOver" Value="True">
 													<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
+													<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
+													<Setter TargetName="Icon" Property="Fill" Value="White"></Setter>
+													<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
 													<Setter TargetName="Text" Property="Content" Value="{DynamicResource BtnStopMine}"></Setter>
 												</Trigger>
 											</ControlTemplate.Triggers>
@@ -322,8 +330,7 @@
 									</Button.Template>
 								</Button>
 							</WrapPanel>
-						</Grid>
-						
+						</Grid>						
 						<Border
 							Grid.Column="0" Grid.Row="0"
 							Width="200"
@@ -340,11 +347,14 @@
 								FontSize="30" 
 								Text="由中控管理"></TextBlock>
 						</Border>
+
+						<StackPanel Grid.Column="1" Background="{StaticResource LineColor}"></StackPanel>
+						
 						<TabControl
-							Grid.Column="1" Grid.Row="0" 
+							Grid.Column="2" Grid.Row="0" 
 							Margin="0 -24 0 0" 
 							Padding="0"
-							BorderBrush="{StaticResource LineColor}" BorderThickness="1 1 0 0">
+							BorderThickness="0">
 							<TabItem>
 								<TabItem.Header>
 									<Border Padding="6 0">
@@ -359,7 +369,7 @@
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>
-								<uc:Console BorderBrush="{StaticResource ThemeBackground}" BorderThickness="0 1 0 0" Margin="0 -1 0 0">
+								<uc:Console>
 								</uc:Console>
 							</TabItem>
 							<TabItem>
@@ -421,7 +431,7 @@
 						</TabControl>
 
 						<!--下状态栏-->
-						<uc:StateBar Grid.Row="1" Grid.ColumnSpan="2" Background="#EBF2F9" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
+						<uc:StateBar Grid.Row="1" Grid.ColumnSpan="3" Background="#EBF2F9" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 						</uc:StateBar>
 					</Grid>
 				</TabItem>
