@@ -258,6 +258,23 @@
 									<uc:MinerProfileIndex IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}" />
 								</StackPanel>
 							</Border>
+							
+							<Border
+								Grid.Column="0" Grid.Row="0"
+								Width="200"
+								Height="200"
+								Background="#55000000"
+								HorizontalAlignment="Center" 
+								VerticalAlignment="Center" 
+								CornerRadius="100"
+								Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}" Margin="97,115">
+								<TextBlock 
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									Foreground="{StaticResource IconFillColor}" 
+									FontSize="30" 
+									Text="由中控管理"></TextBlock>
+							</Border>
 
 							<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
 								<controls:KbButton 
@@ -328,22 +345,6 @@
 								</Button>
 							</WrapPanel>
 						</Grid>
-						<Border
-							Grid.Column="0" Grid.Row="0"
-							Width="200"
-							Height="200"
-							Background="#55000000"
-							HorizontalAlignment="Center" 
-							VerticalAlignment="Center" 
-							CornerRadius="100"
-							Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}" Margin="97,115">
-							<TextBlock 
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								Foreground="{StaticResource IconFillColor}" 
-								FontSize="30" 
-								Text="由中控管理"></TextBlock>
-						</Border>
 
 						<StackPanel Grid.Column="1" Background="{StaticResource LineColor}"></StackPanel>
 
