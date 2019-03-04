@@ -10,7 +10,7 @@ namespace NTMiner {
             private AppSettingServiceFace() { }
 
             #region GetAppSettingAsync
-            public void GetAppSettingAsync(string key, Action<GetAppSettingResponse> callback) {
+            public void GetAppSettingAsync(string key, Action<GetAppSettingResponse, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         AppSettingRequest request = new AppSettingRequest {
@@ -18,11 +18,10 @@ namespace NTMiner {
                             Key = key
                         };
                         GetAppSettingResponse response = Request<GetAppSettingResponse>("AppSetting", "AppSetting", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
@@ -45,7 +44,7 @@ namespace NTMiner {
             #endregion
 
             #region SetAppSettingAsync
-            public void SetAppSettingAsync(AppSettingData entity, Action<ResponseBase> callback) {
+            public void SetAppSettingAsync(AppSettingData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         SetAppSettingRequest request = new SetAppSettingRequest() {
@@ -54,11 +53,10 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("AppSetting", "SetAppSetting", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }

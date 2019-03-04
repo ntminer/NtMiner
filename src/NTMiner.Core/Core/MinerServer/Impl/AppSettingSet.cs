@@ -29,7 +29,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         oldValue = null;
                         _dicByKey.Add(message.AppSetting.Key, entity);
                     }
-                    Server.AppSettingService.SetAppSettingAsync(entity, response => {
+                    Server.AppSettingService.SetAppSettingAsync(entity, (response, exception) => {
                         if (!response.IsSuccess()) {
                             if (oldValue == null) {
                                 _dicByKey.Remove(message.AppSetting.Key);

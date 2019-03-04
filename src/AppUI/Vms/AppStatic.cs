@@ -80,7 +80,7 @@ namespace NTMiner.Vms {
                     Server.AppSettingService.SetAppSettingAsync(new AppSettingData {
                         Key = ServerJsonFileName,
                         Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
-                    }, response => {
+                    }, (response, exception) => {
                         UIThread.Execute(() => {
                             if (response.IsSuccess()) {
                                 foreach (var manager in Managers) {

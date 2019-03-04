@@ -69,7 +69,7 @@ namespace NTMiner {
                                 Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
                                 countdown.Signal();
                             });
-                            Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
+                            Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
                                 if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
                                     if (response.Data.Value is string value) {
                                         JsonFileVersion = value;
@@ -369,7 +369,7 @@ namespace NTMiner {
                         if (DevMode.IsDebugMode) {
                             return;
                         }
-                        Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, response => {
+                        Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
                             if (response.IsSuccess() && response.Data != null && response.Data.Value is string value) {
                                 if (JsonFileVersion != value) {
                                     GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
