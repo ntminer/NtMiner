@@ -10,6 +10,7 @@
 		UseNoneWindowStyle="True"
 		ResizeMode="NoResize"
 		Background="{StaticResource ThemeBackground}"
+		Foreground="{StaticResource ThemeForeground}"
 		BorderThickness="0.8"
 		BorderBrush="{StaticResource IconFillColor}"
 		WindowStartupLocation="CenterScreen"
@@ -26,7 +27,7 @@
 			</Image>
 			<TextBlock DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center">开源矿工 - 在线升级</TextBlock>
 			<WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
-				<controls:KbSystemCloseButton Height="30" KbSystemButtonForeground="#385263" />
+				<controls:KbSystemCloseButton Height="30" />
 			</WrapPanel>
 		</DockPanel>
 		<Grid Grid.Row="1">
@@ -35,7 +36,7 @@
 				<RowDefinition Height="Auto"></RowDefinition>
 			</Grid.RowDefinitions>
 			<!--start升级到服务器最新版本-->
-			<Grid Background="{StaticResource ThemeBackground}" Visibility="{Binding IsHistoryVisible, Converter={StaticResource VisibilityInvertConverter}}">
+			<Grid Visibility="{Binding IsHistoryVisible, Converter={StaticResource VisibilityInvertConverter}}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="230"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
@@ -159,13 +160,13 @@
 					Width="170" 
 					Height="44" 
 					FontSize="22"
-					Background="#00CA72"
-					Foreground="White"
+					Background="{StaticResource ThemeBackground}"
+					Foreground="{StaticResource ThemeForeground}"
 					BorderThickness="0"
 					Click="CloseButton_Click">
 					<WrapPanel>
 						<Label
-							Foreground="White"
+							Foreground="{StaticResource ThemeForeground}"
 							VerticalAlignment="Center"
 							Content="好的" />
 					</WrapPanel>
@@ -180,12 +181,12 @@
 						Width="170" 
 						Height="45" 
 						FontSize="22"
-						Background="#00CA72"
-						Foreground="White"
+					    Background="{StaticResource ThemeBackground}"
+					    Foreground="{StaticResource ThemeForeground}"
 						BorderThickness="0">
 						<WrapPanel>
 							<Label
-								Foreground="White"
+								Foreground="{StaticResource ThemeForeground}"
 								VerticalAlignment="Center"
 								Content="一键更新" />
 						</WrapPanel>

@@ -609,7 +609,8 @@
 								<controls:KbButton 
 									Command="{Binding StartMine}" 
 									Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-									Background="#00CA72">
+									Background="{StaticResource ThemeBackground}"
+									Foreground="{StaticResource ThemeForeground}">
 									<WrapPanel>
 										<Path
 											Width="14"
@@ -621,7 +622,6 @@
 											Padding="0"
 											Margin="2 0 0 0"
 											VerticalAlignment="Center"
-											Foreground="White"
 											Content="开始挖矿" />
 									</WrapPanel>
 								</controls:KbButton>
