@@ -171,19 +171,19 @@ namespace NTMiner {
                 "添加了新用户后刷新守护进程的用户集",
                 LogEnum.Console,
                 action: message => {
-                    Client.NTMinerDaemonService.RefreshUserSetAsync();
+                    Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
                 });
             VirtualRoot.On<UserUpdatedEvent>(
                 "更新了新用户后刷新守护进程的用户集",
                 LogEnum.Console,
                 action: message => {
-                    Client.NTMinerDaemonService.RefreshUserSetAsync();
+                    Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
                 });
             VirtualRoot.On<UserRemovedEvent>(
                 "移除了新用户后刷新守护进程的用户集",
                 LogEnum.Console,
                 action: message => {
-                    Client.NTMinerDaemonService.RefreshUserSetAsync();
+                    Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
                 });
             #endregion
             #region 挖矿开始时将无份额内核重启份额计数置0

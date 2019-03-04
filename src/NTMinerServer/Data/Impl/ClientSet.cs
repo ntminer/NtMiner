@@ -314,14 +314,14 @@ namespace NTMiner.Data.Impl {
 
         public static Task CreatePullTask(ClientData clientData) {
             return Task.Factory.StartNew(() => {
-                try {
-                    Client.MinerClientService.GetSpeed(clientData.MinerIp, speedData => {
+                Client.MinerClientService.GetSpeed(clientData.MinerIp, (speedData, exception) => {
+                    if (exception != null) {
+                        // TODO:根据错误类型更新矿工状态
+                    }
+                    else {
                         clientData.Update(speedData);
-                    });
-                }
-                catch (Exception) {
-                    // TODO:根据错误更新在线状态
-                }
+                    }
+                });
             });
         }
     }

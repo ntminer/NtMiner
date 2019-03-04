@@ -13,82 +13,77 @@ namespace NTMiner {
             private MinerClientServiceFace() {
             }
 
-            public void ShowMainWindowAsync(string clientHost, int clientPort, Action<bool> callback) {
+            public void ShowMainWindowAsync(string clientHost, int clientPort, Action<bool, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/MinerClient/ShowMainWindow", null);
                             bool response = message.Result.Content.ReadAsAsync<bool>().Result;
-                            callback?.Invoke(response);
+                            callback?.Invoke(response, null);
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(false);
+                        callback?.Invoke(false, e);
                     }
                 });
             }
 
-            public void StartMineAsync(StartMineRequest request, Action<ResponseBase> callback) {
+            public void StartMineAsync(StartMineRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/StartMine", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response);
+                            callback?.Invoke(response, null);
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
 
-            public void StopMineAsync(StopMineRequest request, Action<ResponseBase> callback) {
+            public void StopMineAsync(StopMineRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/StopMine", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response);
+                            callback?.Invoke(response, null);
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
 
-            public void SetMinerProfilePropertyAsync(Profile.SetClientMinerProfilePropertyRequest request, Action<ResponseBase> callback) {
+            public void SetMinerProfilePropertyAsync(Profile.SetClientMinerProfilePropertyRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/SetMinerProfileProperty", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response);
+                            callback?.Invoke(response, null);
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
 
-            public void GetSpeed(string clientHost, Action<SpeedData> callback) {
+            public void GetSpeed(string clientHost, Action<SpeedData, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:3336/api/MinerClient/GetSpeed", null);
                             SpeedData data = message.Result.Content.ReadAsAsync<SpeedData>().Result;
-                            callback?.Invoke(data);
+                            callback?.Invoke(data, null);
                         }
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }

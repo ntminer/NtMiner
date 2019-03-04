@@ -352,7 +352,7 @@ namespace NTMiner.Vms {
                                 MinerName = value
                             };
                             request.SignIt(SingleUser.PasswordSha1Sha1);
-                            Client.NTMinerDaemonService.SetMinerNameAsync(request, response2 => {
+                            Client.NTMinerDaemonService.SetMinerNameAsync(request, (response2, exception) => {
                                 if (!response2.IsSuccess()) {
                                     _data.MinerName = old;
                                     Write.UserLine($"{this.MinerIp} {response2?.Description}", ConsoleColor.Red);

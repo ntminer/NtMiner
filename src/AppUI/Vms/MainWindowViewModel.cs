@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                     "在开发者调试区展示守护进程的运行状态",
                     LogEnum.None,
                     action: message => {
-                        Client.NTMinerDaemonService.GetDaemonVersionAsync(thatVersion => {
+                        Client.NTMinerDaemonService.GetDaemonVersionAsync((thatVersion, exception) => {
                             this.IsDaemonRunning = !string.IsNullOrEmpty(thatVersion);
                         });
                     });
