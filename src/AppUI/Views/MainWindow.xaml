@@ -398,7 +398,7 @@
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>
-								<uc:MinerProfileOption>
+								<uc:MinerProfileOption Margin="4 0">
 								</uc:MinerProfileOption>
 							</TabItem>
 						</TabControl>

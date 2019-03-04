@@ -47,8 +47,8 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<StackPanel IsEnabled="{x:Static vm:AppStatic.IsFreeClient}">
-			<StackPanel Margin="9 4 0 0">
+		<GroupBox Header="全局" IsEnabled="{x:Static vm:AppStatic.IsFreeClient}">
+			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<controls:KbCheckBox
 							IconColor="{StaticResource IconFillColor}"
@@ -100,7 +100,7 @@
 					<TextBlock VerticalAlignment="Center" Text="{DynamicResource TbHour}"></TextBlock>
 				</WrapPanel>
 			</StackPanel>
-		</StackPanel>
+		</GroupBox>
 		<Border
 			Grid.Column="0" Grid.Row="0"
 			Width="100"
@@ -117,7 +117,7 @@
 				FontSize="18" 
 				Text="由中控管理"></TextBlock>
 		</Border>
-		<GroupBox Grid.Row="1" Margin="6 2" Header="{DynamicResource GHSysSetting}">
+		<GroupBox Grid.Row="1" Header="{DynamicResource GHSysSetting}">
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<controls:KbCheckBox 
