@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                 Server.ControlCenterService.UpdateClientPropertiesAsync(this.ClientId, new Dictionary<string, object> {
                     { nameof(MinerClientViewModel.WindowsLoginName), this.UserName },
                     { nameof(MinerClientViewModel.WindowsPassword), this.Password }
-                }, response => {
+                }, (response, exception) => {
                     if (response.IsSuccess()) {
                         UIThread.Execute(() => {
                             CloseWindow?.Invoke();
@@ -55,7 +55,7 @@ namespace NTMiner.Vms {
                 Server.ControlCenterService.UpdateClientPropertiesAsync(this.ClientId, new Dictionary<string, object> {
                     { nameof(MinerClientViewModel.WindowsLoginName), this.UserName },
                     { nameof(MinerClientViewModel.WindowsPassword), this.Password }
-                }, response => {
+                }, (response, exception) => {
                     if (response.IsSuccess()) {
                         minerClientVm.WindowsLoginName = this.UserName;
                         minerClientVm.WindowsPassword = this.Password;

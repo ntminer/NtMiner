@@ -23,7 +23,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             Password = message.User.Password,
                             IsEnabled = message.User.IsEnabled,
                             Description = message.User.Description
-                        }, response => {
+                        }, (response, exception) => {
                             if (response.IsSuccess()) {
                                 UserData entity = new UserData(message.User);
                                 _dicByLoginName.Add(message.User.LoginName, entity);
@@ -49,7 +49,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             Password = message.User.Password,
                             IsEnabled = message.User.IsEnabled,
                             Description = message.User.Description
-                        }, response => {
+                        }, (response, exception) => {
                             if (!response.IsSuccess()) {
                                 entity.Update(oldValue);
                                 VirtualRoot.Happened(new UserUpdatedEvent(entity));
@@ -67,7 +67,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.LoginName)) {
                         UserData entity = _dicByLoginName[message.LoginName];
-                        Server.ControlCenterService.RemoveUserAsync(message.LoginName, response => {
+                        Server.ControlCenterService.RemoveUserAsync(message.LoginName, (response, exception) => {
                             if (response.IsSuccess()) {
                                 _dicByLoginName.Remove(entity.LoginName);
                                 VirtualRoot.Happened(new UserRemovedEvent(entity));

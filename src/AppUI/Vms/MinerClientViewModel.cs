@@ -344,8 +344,8 @@ namespace NTMiner.Vms {
                 if (_data.MinerName != value) {
                     var old = _data.MinerName;
                     _data.MinerName = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, response1 => {
-                        if (response1.IsSuccess()) {
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
+                        if (response.IsSuccess()) {
                             var request = new MinerClient.SetMinerNameRequest {
                                 ClientIp = this.MinerIp,
                                 LoginName = SingleUser.LoginName,
@@ -398,7 +398,7 @@ namespace NTMiner.Vms {
                     _selectedMinerGroup = value;
                     try {
                         Server.ControlCenterService.UpdateClientAsync(
-                            this.Id, nameof(GroupId), value.Id, response => {
+                            this.Id, nameof(GroupId), value.Id, (response, exception) => {
                                 if (!response.IsSuccess()) {
                                     this.GroupId = old.Id;
                                     Write.UserLine($"{this.MinerIp} {response?.Description}", ConsoleColor.Red);
@@ -432,7 +432,7 @@ namespace NTMiner.Vms {
                 if (_data.WindowsLoginName != value) {
                     var old = _data.WindowsLoginName;
                     _data.WindowsLoginName = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, response => {
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsLoginName = old;
                         }
@@ -450,7 +450,7 @@ namespace NTMiner.Vms {
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;
                     _data.WindowsPassword = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, response => {
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsPassword = old;
                         }

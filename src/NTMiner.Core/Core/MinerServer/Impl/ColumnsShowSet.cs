@@ -24,7 +24,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     ColumnsShowData entity = new ColumnsShowData().Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, response => {
+                    Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                         if (response.IsSuccess()) {
                             _dicById.Add(entity.Id, entity);
                             VirtualRoot.Happened(new ColumnsShowAddedEvent(entity));
@@ -48,7 +48,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     ColumnsShowData entity = _dicById[message.Input.GetId()];
                     ColumnsShowData oldValue = new ColumnsShowData().Update(entity);
                     entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, response => {
+                    Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                         if (!response.IsSuccess()) {
                             entity.Update(oldValue);
                             VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
@@ -71,7 +71,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     ColumnsShowData entity = _dicById[message.EntityId];
-                    Server.ControlCenterService.RemoveColumnsShowAsync(entity.Id, response => {
+                    Server.ControlCenterService.RemoveColumnsShowAsync(entity.Id, (response, exception) => {
                         if (response.IsSuccess()) {
                             _dicById.Remove(entity.Id);
                             VirtualRoot.Happened(new ColumnsShowRemovedEvent(entity));
@@ -98,9 +98,9 @@ namespace NTMiner.Core.MinerServer.Impl {
                 lock (_locker) {
                     if (!_isInited) {
                         Guid messageId = Guid.NewGuid();
-                        var response = Server.ControlCenterService.GetColumnsShows(messageId);
-                        if (response != null) {
-                            foreach (var item in response.Data) {
+                        var result = Server.ControlCenterService.GetColumnsShows(messageId);
+                        if (result != null) {
+                            foreach (var item in result.Data) {
                                 if (!_dicById.ContainsKey(item.GetId())) {
                                     _dicById.Add(item.GetId(), item);
                                 }
@@ -112,9 +112,9 @@ namespace NTMiner.Core.MinerServer.Impl {
                                 Id = ColumnsShowData.PleaseSelectId
                             };
                             _dicById.Add(ColumnsShowData.PleaseSelectId, entity);
-                            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, respon => {
-                                if (!respon.IsSuccess()) {
-                                    Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + respon.Description);
+                            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
+                                if (!response.IsSuccess()) {
+                                    Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + response.Description);
                                 }
                             });
                         }

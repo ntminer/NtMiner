@@ -25,7 +25,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MinerGroupData entity = new MinerGroupData().Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, response => {
+                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                         if (response.IsSuccess()) {
                             _dicById.Add(entity.Id, entity);
                             VirtualRoot.Happened(new MinerGroupAddedEvent(entity));
@@ -52,7 +52,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     MinerGroupData entity = _dicById[message.Input.GetId()];
                     MinerGroupData oldValue = new MinerGroupData().Update(entity);
                     entity.Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, response => {
+                    Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                         if (!response.IsSuccess()) {
                             entity.Update(oldValue);
                             VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
@@ -75,7 +75,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MinerGroupData entity = _dicById[message.EntityId];
-                    Server.ControlCenterService.RemoveMinerGroupAsync(entity.Id, response => {
+                    Server.ControlCenterService.RemoveMinerGroupAsync(entity.Id, (response, exception) => {
                         if (response.IsSuccess()) {
                             _dicById.Remove(entity.Id);
                             VirtualRoot.Happened(new MinerGroupRemovedEvent(entity));

@@ -219,7 +219,7 @@ namespace NTMiner.Core.Profiles {
                     propertyInfo.SetValue(this, value, null);
                     if (_workId != Guid.Empty) {
                         if (VirtualRoot.IsControlCenter) {
-                            Server.ControlCenterService.SetMinerProfilePropertyAsync(_workId, propertyName, value, isSuccess => {
+                            Server.ControlCenterService.SetMinerProfilePropertyAsync(_workId, propertyName, value, (response, exception) => {
                                 VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                             });
                         }
@@ -436,7 +436,7 @@ namespace NTMiner.Core.Profiles {
                             propertyInfo.SetValue(this, value, null);
                             if (_workId != Guid.Empty) {
                                 if (VirtualRoot.IsControlCenter) {
-                                    Server.ControlCenterService.SetCoinKernelProfilePropertyAsync(_workId, CoinKernelId, propertyName, value, isSuccess => {
+                                    Server.ControlCenterService.SetCoinKernelProfilePropertyAsync(_workId, CoinKernelId, propertyName, value, (response, exception) => {
                                         VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
                                     });
                                 }
@@ -639,7 +639,7 @@ namespace NTMiner.Core.Profiles {
                             propertyInfo.SetValue(this, value, null);
                             if (_workId != Guid.Empty) {
                                 if (VirtualRoot.IsControlCenter) {
-                                    Server.ControlCenterService.SetCoinProfilePropertyAsync(_workId, CoinId, propertyName, value, isSuccess => {
+                                    Server.ControlCenterService.SetCoinProfilePropertyAsync(_workId, CoinId, propertyName, value, (response, exception) => {
                                         VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
                                     });
                                 }
@@ -790,7 +790,7 @@ namespace NTMiner.Core.Profiles {
                             propertyInfo.SetValue(this, value, null);
                             if (_workId != Guid.Empty) {
                                 if (VirtualRoot.IsControlCenter) {
-                                    Server.ControlCenterService.SetPoolProfilePropertyAsync(_workId, PoolId, propertyName, value, isSuccess => {
+                                    Server.ControlCenterService.SetPoolProfilePropertyAsync(_workId, PoolId, propertyName, value, (response, exception) => {
                                         VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                                     });
                                 }

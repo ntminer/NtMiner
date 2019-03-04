@@ -453,7 +453,7 @@ namespace NTMiner.Vms {
                 dualCoin,
                 dualCoinPool,
                 dualCoinWallet,
-                this.Version, this.Kernel, (response) => {
+                this.Version, this.Kernel, (response, exception) => {
                     this.CountDown = 10;
                     if (response != null) {
                         UIThread.Execute(() => {
@@ -469,7 +469,7 @@ namespace NTMiner.Vms {
         }
 
         public void LoadClients() {
-            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.Id).ToList(), this.IsPull, (response) => {
+            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.Id).ToList(), this.IsPull, (response, exception) => {
                 this.CountDown = 10;
                 UIThread.Execute(() => {
                     if (response != null) {

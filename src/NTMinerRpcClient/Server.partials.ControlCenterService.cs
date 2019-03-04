@@ -13,7 +13,7 @@ namespace NTMiner {
             }
 
             #region LoginAsync
-            public void LoginAsync(string loginName, string password, Action<ResponseBase> callback) {
+            public void LoginAsync(string loginName, string password, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         LoginControlCenterRequest request = new LoginControlCenterRequest {
@@ -21,11 +21,10 @@ namespace NTMiner {
                         };
                         request.SignIt(password);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "LoginControlCenter", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
@@ -55,7 +54,7 @@ namespace NTMiner {
             #endregion
 
             #region AddUserAsync
-            public void AddUserAsync(UserData userData, Action<ResponseBase> callback) {
+            public void AddUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         AddUserRequest request = new AddUserRequest() {
@@ -64,17 +63,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "AddUser", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
-                    catch {
-                        callback?.Invoke(null);
+                    catch(Exception e) {
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region UpdateUserAsync
-            public void UpdateUserAsync(UserData userData, Action<ResponseBase> callback) {
+            public void UpdateUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         UpdateUserRequest request = new UpdateUserRequest() {
@@ -83,17 +82,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateUser", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
-                    catch {
-                        callback?.Invoke(null);
+                    catch(Exception e) {
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region RemoveUserAsync
-            public void RemoveUserAsync(string loginName, Action<ResponseBase> callback) {
+            public void RemoveUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveUserRequest request = new RemoveUserRequest() {
@@ -102,17 +101,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveUser", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
-                    catch {
-                        callback?.Invoke(null);
+                    catch(Exception e) {
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region LoadClientsAsync
-            public void LoadClientsAsync(List<Guid> clientIds, bool isPull, Action<LoadClientsResponse> callback) {
+            public void LoadClientsAsync(List<Guid> clientIds, bool isPull, Action<LoadClientsResponse, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         LoadClientsRequest request = new LoadClientsRequest {
@@ -122,11 +121,10 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         LoadClientsResponse response = Request<LoadClientsResponse>("ControlCenter", "LoadClients", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
@@ -136,7 +134,7 @@ namespace NTMiner {
             public void GetLatestSnapshotsAsync(
                 int limit,
                 List<string> coinCodes,
-                Action<GetCoinSnapshotsResponse> callback) {
+                Action<GetCoinSnapshotsResponse, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
@@ -145,18 +143,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         GetCoinSnapshotsResponse response = Request<GetCoinSnapshotsResponse>("ControlCenter", "LatestSnapshots", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region LoadClientAsync
-            public void LoadClientAsync(Guid clientId, Action<LoadClientResponse> callback) {
+            public void LoadClientAsync(Guid clientId, Action<LoadClientResponse, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         LoadClientRequest request = new LoadClientRequest {
@@ -165,11 +162,10 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         LoadClientResponse response = Request<LoadClientResponse>("ControlCenter", "LoadClient", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
@@ -194,7 +190,7 @@ namespace NTMiner {
                 string dualCoinWallet,
                 string version,
                 string kernel,
-                Action<QueryClientsResponse> callback) {
+                Action<QueryClientsResponse, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         var request = new QueryClientsRequest {
@@ -219,18 +215,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         QueryClientsResponse response = Request<QueryClientsResponse>("ControlCenter", "QueryClients", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region UpdateClientAsync
-            public void UpdateClientAsync(Guid clientId, string propertyName, object value, Action<ResponseBase> callback) {
+            public void UpdateClientAsync(Guid clientId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         UpdateClientRequest request = new UpdateClientRequest {
@@ -241,18 +236,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateClient", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region UpdateClientPropertiesAsync
-            public void UpdateClientPropertiesAsync(Guid clientId, Dictionary<string, object> values, Action<ResponseBase> callback) {
+            public void UpdateClientPropertiesAsync(Guid clientId, Dictionary<string, object> values, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         UpdateClientPropertiesRequest request = new UpdateClientPropertiesRequest {
@@ -262,11 +256,10 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateClientProperties", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
@@ -294,7 +287,7 @@ namespace NTMiner {
             #endregion
 
             #region AddOrUpdateMinerGroupAsync
-            public void AddOrUpdateMinerGroupAsync(MinerGroupData entity, Action<ResponseBase> callback) {
+            public void AddOrUpdateMinerGroupAsync(MinerGroupData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         entity.ModifiedOn = DateTime.Now;
@@ -304,18 +297,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateMinerGroup", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region RemoveMinerGroupAsync
-            public void RemoveMinerGroupAsync(Guid id, Action<ResponseBase> callback) {
+            public void RemoveMinerGroupAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveMinerGroupRequest request = new RemoveMinerGroupRequest() {
@@ -324,18 +316,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveMinerGroup", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region AddOrUpdateMineWorkAsync
-            public void AddOrUpdateMineWorkAsync(MineWorkData entity, Action<ResponseBase> callback) {
+            public void AddOrUpdateMineWorkAsync(MineWorkData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         entity.ModifiedOn = DateTime.Now;
@@ -345,18 +336,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateMineWork", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region RemoveMineWorkAsync
-            public void RemoveMineWorkAsync(Guid id, Action<ResponseBase> callback) {
+            public void RemoveMineWorkAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveMineWorkRequest request = new RemoveMineWorkRequest {
@@ -365,18 +355,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveMineWork", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region SetMinerProfilePropertyAsync
-            public void SetMinerProfilePropertyAsync(Guid workId, string propertyName, object value, Action<ResponseBase> callback) {
+            public void SetMinerProfilePropertyAsync(Guid workId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest() {
@@ -387,18 +376,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "SetMinerProfileProperty", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region SetCoinProfilePropertyAsync
-            public void SetCoinProfilePropertyAsync(Guid workId, Guid coinId, string propertyName, object value, Action<ResponseBase> callback) {
+            public void SetCoinProfilePropertyAsync(Guid workId, Guid coinId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         SetCoinProfilePropertyRequest request = new SetCoinProfilePropertyRequest {
@@ -410,18 +398,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "SetCoinProfileProperty", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region SetPoolProfilePropertyAsync
-            public void SetPoolProfilePropertyAsync(Guid workId, Guid poolId, string propertyName, object value, Action<ResponseBase> callback) {
+            public void SetPoolProfilePropertyAsync(Guid workId, Guid poolId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         SetPoolProfilePropertyRequest request = new SetPoolProfilePropertyRequest {
@@ -433,18 +420,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "SetPoolProfileProperty", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region SetCoinKernelProfilePropertyAsync
-            public void SetCoinKernelProfilePropertyAsync(Guid workId, Guid coinKernelId, string propertyName, object value, Action<ResponseBase> callback) {
+            public void SetCoinKernelProfilePropertyAsync(Guid workId, Guid coinKernelId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         SetCoinKernelProfilePropertyRequest request = new SetCoinKernelProfilePropertyRequest {
@@ -456,11 +442,10 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "SetCoinKernelProfileProperty", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
@@ -487,7 +472,7 @@ namespace NTMiner {
             #endregion
 
             #region AddOrUpdateWalletAsync
-            public void AddOrUpdateWalletAsync(WalletData entity, Action<ResponseBase> callback) {
+            public void AddOrUpdateWalletAsync(WalletData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         entity.ModifiedOn = DateTime.Now;
@@ -497,18 +482,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateWallet", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region RemoveWalletAsync
-            public void RemoveWalletAsync(Guid id, Action<ResponseBase> callback) {
+            public void RemoveWalletAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveWalletRequest request = new RemoveWalletRequest {
@@ -517,11 +501,10 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveWallet", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
@@ -548,7 +531,7 @@ namespace NTMiner {
             #endregion
 
             #region SaveCalcConfigsAsync
-            public void SaveCalcConfigsAsync(List<CalcConfigData> configs, Action<ResponseBase> callback) {
+            public void SaveCalcConfigsAsync(List<CalcConfigData> configs, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         if (configs == null || configs.Count == 0) {
@@ -560,11 +543,10 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "SaveCalcConfigs", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
@@ -592,7 +574,7 @@ namespace NTMiner {
             #endregion
 
             #region AddOrUpdateColumnsShowAsync
-            public void AddOrUpdateColumnsShowAsync(ColumnsShowData entity, Action<ResponseBase> callback) {
+            public void AddOrUpdateColumnsShowAsync(ColumnsShowData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         AddOrUpdateColumnsShowRequest request = new AddOrUpdateColumnsShowRequest {
@@ -601,18 +583,17 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateColumnsShow", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }
             #endregion
 
             #region RemoveColumnsShowAsync
-            public void RemoveColumnsShowAsync(Guid id, Action<ResponseBase> callback) {
+            public void RemoveColumnsShowAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveColumnsShowRequest request = new RemoveColumnsShowRequest() {
@@ -621,11 +602,10 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveColumnsShow", request);
-                        callback?.Invoke(response);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
+                        callback?.Invoke(null, e);
                     }
                 });
             }

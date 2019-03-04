@@ -94,7 +94,7 @@ namespace NTMiner.Views {
             Server.ControlCenterService.GetLatestSnapshotsAsync(
                 limit,
                 coinCodes,
-                (response) => {
+                (response, exception) => {
                     if (response == null) {
                         return;
                     }

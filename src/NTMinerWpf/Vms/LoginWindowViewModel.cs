@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
             this._loginName = "admin";
             this.Login = new DelegateCommand(() => {
                 string passwordSha1 = HashUtil.Sha1(Password);
-                Server.ControlCenterService.LoginAsync(LoginName, passwordSha1, response => {
+                Server.ControlCenterService.LoginAsync(LoginName, passwordSha1, (response, exception) => {
                     UIThread.Execute(() => {
                         if (response == null) {
                             Message = "服务器忙";
