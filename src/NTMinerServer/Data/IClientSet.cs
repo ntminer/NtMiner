@@ -17,6 +17,7 @@ namespace NTMiner.Data {
         List<ClientData> QueryClients(
             int pageIndex,
             int pageSize,
+            bool isPull,
             DateTime? timeLimit,
             Guid? groupId,
             Guid? workId,
@@ -33,7 +34,7 @@ namespace NTMiner.Data {
             string kernel,
             out int total);
 
-        List<ClientData> LoadClients(IEnumerable<Guid> clientIds);
+        List<ClientData> LoadClients(IEnumerable<Guid> clientIds, bool isPull);
 
         ClientData LoadClient(Guid clientId);
     }

@@ -440,6 +440,7 @@ namespace NTMiner.Vms {
             Server.ControlCenterService.QueryClientsAsync(
                 this.MinerClientPageIndex,
                 this.MinerClientPageSize,
+                this.IsPull,
                 timeLimit,
                 groupId,
                 workId,
@@ -468,7 +469,7 @@ namespace NTMiner.Vms {
         }
 
         public void LoadClients() {
-            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.Id).ToList(), (response) => {
+            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.Id).ToList(), this.IsPull, (response) => {
                 this.CountDown = 10;
                 UIThread.Execute(() => {
                     if (response != null) {

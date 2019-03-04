@@ -9,6 +9,7 @@ namespace NTMiner.MinerServer {
         }
 
         public string LoginName { get; set; }
+        public bool IsPull { get; set; }
         public List<Guid> ClientIds { get; set; }
         public string Sign { get; set; }
 
@@ -20,6 +21,7 @@ namespace NTMiner.MinerServer {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
+                .Append(nameof(IsPull)).Append(IsPull)
                 .Append(nameof(ClientIds)).Append(string.Join(",", ClientIds))
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(UserData.Password)).Append(password);

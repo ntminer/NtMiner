@@ -153,7 +153,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                var data = HostRoot.Current.ClientSet.LoadClients(request.ClientIds) ?? new List<ClientData>();
+                var data = HostRoot.Current.ClientSet.LoadClients(request.ClientIds, request.IsPull) ?? new List<ClientData>();
                 return LoadClientsResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
@@ -178,6 +178,7 @@ namespace NTMiner.Controllers {
                 var data = HostRoot.Current.ClientSet.QueryClients(
                     request.PageIndex, 
                     request.PageSize, 
+                    request.IsPull,
                     request.TimeLimit,
                     request.GroupId, 
                     request.WorkId,

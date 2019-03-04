@@ -129,6 +129,7 @@ namespace NTMiner.Data.Impl {
         public List<ClientData> QueryClients(
             int pageIndex,
             int pageSize,
+            bool isPull,
             DateTime? timeLimit,
             Guid? groupId,
             Guid? workId,
@@ -227,7 +228,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public List<ClientData> LoadClients(IEnumerable<Guid> clientIds) {
+        public List<ClientData> LoadClients(IEnumerable<Guid> clientIds, bool isPull) {
             InitOnece();
             List<ClientData> results = new List<ClientData>();
             DateTime time = DateTime.Now.AddMinutes(-3);

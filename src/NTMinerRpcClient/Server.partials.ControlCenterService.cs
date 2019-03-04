@@ -112,12 +112,13 @@ namespace NTMiner {
             #endregion
 
             #region LoadClientsAsync
-            public void LoadClientsAsync(List<Guid> clientIds, Action<LoadClientsResponse> callback) {
+            public void LoadClientsAsync(List<Guid> clientIds, bool isPull, Action<LoadClientsResponse> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         LoadClientsRequest request = new LoadClientsRequest {
                             LoginName = SingleUser.LoginName,
-                            ClientIds = clientIds
+                            ClientIds = clientIds,
+                            IsPull = isPull
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         LoadClientsResponse response = Request<LoadClientsResponse>("ControlCenter", "LoadClients", request);
@@ -178,6 +179,7 @@ namespace NTMiner {
             public void QueryClientsAsync(
                 int pageIndex,
                 int pageSize,
+                bool isPull,
                 DateTime? timeLimit,
                 Guid? groupId,
                 Guid? workId,
@@ -199,6 +201,7 @@ namespace NTMiner {
                             LoginName = SingleUser.LoginName,
                             PageIndex = pageIndex,
                             PageSize = pageSize,
+                            IsPull = isPull,
                             TimeLimit = timeLimit,
                             GroupId = groupId,
                             WorkId = workId,

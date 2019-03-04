@@ -7,6 +7,7 @@ namespace NTMiner.MinerServer {
         public string LoginName { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
+        public bool IsPull { get; set; }
         public DateTime? TimeLimit { get; set; }
         public Guid? GroupId { get; set; }
         public Guid? WorkId { get; set; }
@@ -33,6 +34,7 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(PageIndex)).Append(PageIndex)
                 .Append(nameof(PageSize)).Append(PageSize)
+                .Append(nameof(IsPull)).Append(IsPull)
                 .Append(nameof(GroupId)).Append(GroupId)
                 .Append(nameof(WorkId)).Append(WorkId)
                 .Append(nameof(MinerIp)).Append(MinerIp)
