@@ -52,6 +52,7 @@
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
 							<controls:KbButton
+								ToolTip="{Binding Tooltip}"
 								Command="{Binding Data.FillForm,Source={StaticResource proxy}}"
 								CommandParameter="{Binding}"
 								Margin="10 0"

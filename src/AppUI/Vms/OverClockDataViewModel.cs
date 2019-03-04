@@ -100,6 +100,7 @@ namespace NTMiner.Vms {
             set {
                 _coreClockDelta = value;
                 OnPropertyChanged(nameof(CoreClockDelta));
+                OnPropertyChanged(nameof(Tooltip));
             }
         }
 
@@ -108,6 +109,7 @@ namespace NTMiner.Vms {
             set {
                 _memoryClockDelta = value;
                 OnPropertyChanged(nameof(MemoryClockDelta));
+                OnPropertyChanged(nameof(Tooltip));
             }
         }
 
@@ -116,6 +118,7 @@ namespace NTMiner.Vms {
             set {
                 _powerCapacity = value;
                 OnPropertyChanged(nameof(PowerCapacity));
+                OnPropertyChanged(nameof(Tooltip));
             }
         }
 
@@ -124,6 +127,7 @@ namespace NTMiner.Vms {
             set {
                 _cool = value;
                 OnPropertyChanged(nameof(Cool));
+                OnPropertyChanged(nameof(Tooltip));
             }
         }
 
@@ -136,6 +140,12 @@ namespace NTMiner.Vms {
                     }
                 }
                 return _coinVm;
+            }
+        }
+
+        public string Tooltip {
+            get {
+                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{Cool}%";
             }
         }
     }
