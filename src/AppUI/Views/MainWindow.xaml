@@ -124,7 +124,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_Translate}"
-							Fill="Red"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -266,7 +266,7 @@
 									Height="44"
 									Command="{Binding StartMine}" 
 									Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-									Background="#00CA72">
+									Background="{StaticResource MainColor}">
 									<WrapPanel>
 										<Path
 											Width="16"

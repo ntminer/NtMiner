@@ -66,7 +66,7 @@
                             Width="12"
                             Height="12"
                             Data="{StaticResource Icon_Translate}"
-                            Fill="Red"
+                            Fill="{StaticResource IconFillColor}"
                             Stretch="Fill" />
                     </WrapPanel>
                 </controls:KbButton>

@@ -27,7 +27,7 @@
                 Width="14"
                 Height="14"
                 Data="{StaticResource Icon_Translate}"
-                Fill="Red"
+                Fill="{StaticResource IconFillColor}"
                 Stretch="Fill" />
             <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
             <TextBlock Text=" - " DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
