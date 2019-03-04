@@ -46,9 +46,10 @@
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource ThemeBackground}">
             <Image Width="14" Height="14" Margin="4 0 0 0" Source="/NTMinerWpf;component/Styles/Images/logo32.png">
             </Image>
-            <TextBlock Text="{DynamicResource Title}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
-            <WrapPanel DockPanel.Dock="Right"
-                       HorizontalAlignment="Right">
+            <TextBlock Text="{DynamicResource Title}" DockPanel.Dock="Left" Foreground="{StaticResource ThemeForeground}" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
+            <WrapPanel 
+                DockPanel.Dock="Right"
+                HorizontalAlignment="Right">
                 <controls:KbComboBox 
                     Height="26"
                     ItemsSource="{Binding LangVms.LangVms}"
@@ -60,19 +61,18 @@
                     Command="{x:Static vm:WpfStatic.ShowLangViewItems}"
                     CommandParameter="{x:Static local:LoginWindow.ViewId}"
                     Padding="4 0"
-                    Background="{StaticResource ThemeBackground}">
+                    Background="{StaticResource ThemeBackground}"
+                    Foreground="{StaticResource ThemeForeground}">
                     <WrapPanel>
                         <Path
                             Width="12"
                             Height="12"
                             Data="{StaticResource Icon_Translate}"
-                            Fill="{StaticResource IconFillColor}"
+                            Fill="{StaticResource ThemeForeground}"
                             Stretch="Fill" />
                     </WrapPanel>
                 </controls:KbButton>
-                <controls:KbSystemCloseButton
-                    Height="30"
-                    KbSystemButtonForeground="#385263" />
+                <controls:KbSystemCloseButton Height="30" />
             </WrapPanel>
         </DockPanel>
         <Grid Grid.Row="1" Background="White" Margin="0 20 0 0">
@@ -98,21 +98,21 @@
             <WrapPanel Grid.Row="3" Grid.Column="2" Margin="0 8 0 0">
                 <controls:KbButton
                     IsDefault="True"
-                    Padding="4 0"
+                    Padding="8 0"
                     Command="{Binding Login}"
-                    Background="{StaticResource IconFillColor}"
-                    Foreground="White"
+                    Background="{StaticResource ThemeBackground}"
+                    Foreground="{StaticResource ThemeForeground}"
                     CornerRadius="2">
                     <WrapPanel>
                         <Path
                             Width="12"
                             Height="12"
                             Data="{StaticResource Icon_Ok}"
-                            Fill="White"
+                            Fill="{StaticResource ThemeForeground}"
                             Stretch="Fill" />
                         <Label
                             VerticalAlignment="Center"
-                            Foreground="White"
+                            Foreground="{StaticResource ThemeForeground}"
                             Content="{DynamicResource Title}" />
                     </WrapPanel>
                 </controls:KbButton>
@@ -126,7 +126,7 @@
             Width="120" Height="120" 
             VerticalAlignment="Top"
             Data="{StaticResource Icon_Admin}"
-            Fill="{StaticResource IconFillColor}"
+            Fill="{StaticResource ThemeBackground}"
             Stretch="Fill" />
     </Grid>
 </metro:MetroWindow>

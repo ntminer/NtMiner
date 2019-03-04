@@ -51,11 +51,12 @@
                     Width="16"
                     Height="16"
                     Visibility="{Binding IsIconVisible}"
-                    Fill="{StaticResource IconFillColor}"
+                    Fill="{StaticResource ThemeForeground}"
                     Data="{DynamicResource Icon}"
                     Stretch="Fill"/>
                 <TextBlock
                     Text="{DynamicResource Title}"
+                    Foreground="{StaticResource ThemeForeground}"
                     Margin="4 4 0 0"
                     FontSize="16" />
             </WrapPanel>
@@ -64,10 +65,12 @@
             <TextBlock Text="{DynamicResource Message}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
-            <controls:KbButton Padding="4" Width="80" Margin="10 0"
+            <controls:KbButton 
+                Padding="4" Width="80" Margin="10 0"
                 x:Name="BtnOk"
                 Click="KbOkButton_Click"
-                Background="{StaticResource IconFillColor}"
+                Background="{StaticResource ThemeBackground}"
+                Foreground="{StaticResource ThemeForeground}"
                 VerticalAlignment="Center"
                 CornerRadius="2">
                 <WrapPanel>
@@ -75,19 +78,21 @@
                         Width="14"
                         Height="14"
                         Data="{StaticResource Icon_Ok}"
-                        Fill="White"
+                        Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
                     <Label
                         FontSize="14"
-                        Foreground="White"
+                        Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
                         Content="{DynamicResource OK}" />
                 </WrapPanel>
             </controls:KbButton>
-            <controls:KbButton Padding="4" Width="80" Margin="10 0"
+            <controls:KbButton 
+                Padding="4" Width="80" Margin="10 0"
                 x:Name="BtnYes"
                 Click="KbYesButton_Click"
-                Background="{StaticResource IconFillColor}"
+                Background="{StaticResource ThemeBackground}"
+                Foreground="{StaticResource ThemeForeground}"
                 VerticalAlignment="Center"
                 CornerRadius="2">
                 <WrapPanel>
@@ -104,7 +109,8 @@
                         Content="{DynamicResource Yes}" />
                 </WrapPanel>
             </controls:KbButton>
-            <controls:KbButton Padding="4" Width="80" Margin="10 0"
+            <controls:KbButton 
+                Padding="4" Width="80" Margin="10 0"
                 x:Name="BtnNo"
                 Click="KbNoButton_Click"
                 Background="Red"

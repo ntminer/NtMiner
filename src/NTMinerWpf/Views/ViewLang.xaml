@@ -27,20 +27,18 @@
                 Width="14"
                 Height="14"
                 Data="{StaticResource Icon_Translate}"
-                Fill="{StaticResource IconFillColor}"
+                Fill="{StaticResource ThemeForeground}"
                 Stretch="Fill" />
-            <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
-            <WrapPanel DockPanel.Dock="Right"
-                       HorizontalAlignment="Right">
+            <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Foreground="{StaticResource ThemeForeground}" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
+            <WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
                 <controls:KbComboBox 
                     Height="26"
                     ItemsSource="{Binding LangVms.LangVms}"
-                    DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}"
+                    DisplayMemberPath="Name" 
+                    SelectedItem="{Binding LangVms.CurrentLangVm}"
                     SelectionChanged="CbLanguage_SelectionChanged">
                 </controls:KbComboBox>
-                <controls:KbSystemCloseButton
-                    Height="30"
-                    KbSystemButtonForeground="#385263" />
+                <controls:KbSystemCloseButton Height="30" />
             </WrapPanel>
         </DockPanel>
         <DataGrid 

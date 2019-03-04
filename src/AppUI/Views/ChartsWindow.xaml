@@ -13,7 +13,7 @@
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		UseNoneWindowStyle="True"
 		BorderBrush="{StaticResource IconFillColor}"
-		Background="#EBF2F9"
+		Background="{StaticResource ThemeBackground}"
 		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
@@ -52,6 +52,7 @@
 				<TextBlock
 					Margin="4 0 0 0"
 					FontSize="14"
+					Foreground="{StaticResource ThemeForeground}"
 					Text="{DynamicResource Title}">
 				</TextBlock>
 			</WrapPanel>
@@ -61,10 +62,11 @@
 						VerticalAlignment="Center" 
 						Text="{Binding TotalMiningCount}" 
 						ToolTip="总挖矿数" 
-						Foreground="Green"
-						FontSize="16" FontWeight="Bold"></TextBlock>
-					<TextBlock VerticalAlignment="Center" Text="/" FontSize="16" FontWeight="Bold"></TextBlock>
-					<TextBlock VerticalAlignment="Center" Text="{Binding TotalOnlineCount}" ToolTip="总在线数" FontSize="16" FontWeight="Bold"></TextBlock>
+						Foreground="{StaticResource ThemeForeground}"
+						FontSize="16" 
+						FontWeight="Bold"></TextBlock>
+					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Text="/" FontSize="16" FontWeight="Bold"></TextBlock>
+					<TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Text="{Binding TotalOnlineCount}" ToolTip="总在线数" FontSize="16" FontWeight="Bold"></TextBlock>
 				</WrapPanel>
 				<uc:OpenedWindows>
 				</uc:OpenedWindows>
@@ -73,10 +75,10 @@
 				<WrapPanel Margin="0"
 					VerticalAlignment="Top">
 					<controls:KbLinkButton
-						Foreground="#0072C1"
 						Command="{x:Static vm:AppStatic.OpenOfficialSite}"
 						Content="http://ntminer.com/"
 						Background="Transparent"
+						Foreground="{StaticResource ThemeForeground}"
 						KbSystemButtonHoverBackground="Transparent"
 						KbDisplayLine="False" />
 					<controls:KbButton 
@@ -90,7 +92,7 @@
 							Width="14"
 							Height="13"
 							Data="{StaticResource Icon_Update}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />
 					</controls:KbButton>
 					<controls:KbButton
@@ -102,41 +104,41 @@
 							Width="16"
 							Height="13"
 							Data="{StaticResource Icon_Server}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />
 					</controls:KbButton>
 					<controls:KbComboBox 
 						Height="26"
 						Background="{StaticResource ThemeBackground}"
 						ItemsSource="{Binding LangVms.LangVms}"
-						DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
+						DisplayMemberPath="Name" 
+						SelectedItem="{Binding LangVms.CurrentLangVm}">
 					</controls:KbComboBox>
 					<controls:KbButton 
 						ToolTip="矿工列表"
-						Command="{x:Static vm:AppStatic.ShowMinerClients}" Background="Transparent" BorderThickness="0"
+						Command="{x:Static vm:AppStatic.ShowMinerClients}" 
+						Background="Transparent" 
+						BorderThickness="0"
 						Margin="2 0"
 						CornerRadius="2">
 						<Path 
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Miner}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />
 					</controls:KbButton>
 					<local:MainMenu>
 					</local:MainMenu>
 					<controls:KbSystemMinButton
 						Height="30"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
+						KbSystemButtonSize="40" />
 					<controls:KbSystemMaxButton
 						Height="30"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
+						KbSystemButtonSize="40" />
 					<controls:KbSystemCloseButton
 						Height="30"
-						KbSystemButtonSize="40"
-						KbSystemButtonForeground="#385263" />
+						KbSystemButtonSize="40" />
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
