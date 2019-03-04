@@ -219,7 +219,7 @@ namespace NTMiner.Vms {
                 if (!Directory.Exists(updaterDirFullName)) {
                     Directory.CreateDirectory(updaterDirFullName);
                 }
-                Server.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl) => {
+                Server.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                     try {
                         if (string.IsNullOrEmpty(downloadFileUrl)) {
                             callback?.Invoke();
@@ -306,7 +306,7 @@ namespace NTMiner.Vms {
                 Directory.CreateDirectory(liteDbExplorerDir);
             }
             if (!File.Exists(liteDbExplorerFileFullName)) {
-                Server.FileUrlService.GetLiteDBExplorerUrlAsync(downloadFileUrl => {
+                Server.FileUrlService.GetLiteDBExplorerUrlAsync((downloadFileUrl, e) => {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         return;
                     }

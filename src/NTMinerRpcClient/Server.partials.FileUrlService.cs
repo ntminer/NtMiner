@@ -11,80 +11,73 @@ namespace NTMiner {
             private FileUrlServiceFace() { }
 
             #region GetNTMinerUrlAsync
-            public void GetNTMinerUrlAsync(string fileName, Action<string> callback) {
+            public void GetNTMinerUrlAsync(string fileName, Action<string, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     NTMinerUrlRequest request = new NTMinerUrlRequest {
                         FileName = fileName
                     };
-                    string response = Request<string>("FileUrl", "NTMinerUrl", request);
-                    callback?.Invoke(response);
+                    RequestAsync("FileUrl", "NTMinerUrl", request, callback);
                 });
             }
             #endregion
 
             #region GetNTMinerFilesAsync
-            public void GetNTMinerFilesAsync(Action<List<NTMinerFileData>> callback) {
+            public void GetNTMinerFilesAsync(Action<List<NTMinerFileData>, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    List<NTMinerFileData> response = Request<List<NTMinerFileData>>("FileUrl", "NTMinerFiles", null);
-                    callback?.Invoke(response);
+                    RequestAsync("FileUrl", "NTMinerFiles", null, callback);
                 });
             }
             #endregion
 
             #region AddOrUpdateNTMinerFileAsync
-            public void AddOrUpdateNTMinerFileAsync(NTMinerFileData entity, Action<ResponseBase> callback) {
+            public void AddOrUpdateNTMinerFileAsync(NTMinerFileData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     AddOrUpdateNTMinerFileRequest request = new AddOrUpdateNTMinerFileRequest() {
                         Data = entity,
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    ResponseBase response = Request<ResponseBase>("FileUrl", "AddOrUpdateNTMinerFile", request);
-                    callback?.Invoke(response);
+                    RequestAsync("FileUrl", "AddOrUpdateNTMinerFile", request, callback);
                 });
             }
             #endregion
 
             #region RemoveNTMinerFileAsync
-            public void RemoveNTMinerFileAsync(Guid id, Action<ResponseBase> callback) {
+            public void RemoveNTMinerFileAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     RemoveNTMinerFileRequest request = new RemoveNTMinerFileRequest {
                         LoginName = SingleUser.LoginName,
                         NTMinerId = id
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    ResponseBase response = Request<ResponseBase>("FileUrl", "RemoveNTMinerFile", request);
-                    callback?.Invoke(response);
+                    RequestAsync("FileUrl", "RemoveNTMinerFile", request, callback);
                 });
             }
             #endregion
 
             #region GetLiteDBExplorerUrlAsync
-            public void GetLiteDBExplorerUrlAsync(Action<string> callback) {
+            public void GetLiteDBExplorerUrlAsync(Action<string, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    string response = Request<string>("FileUrl", "LiteDBExplorerUrl", null);
-                    callback?.Invoke(response);
+                    RequestAsync("FileUrl", "LiteDBExplorerUrl", null, callback);
                 });
             }
             #endregion
 
             #region GetNTMinerUpdaterUrlAsync
-            public void GetNTMinerUpdaterUrlAsync(Action<string> callback) {
+            public void GetNTMinerUpdaterUrlAsync(Action<string, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    string response = Request<string>("FileUrl", "NTMinerUpdaterUrl", null);
-                    callback?.Invoke(response);
+                    RequestAsync("FileUrl", "NTMinerUpdaterUrl", null, callback);
                 });
             }
             #endregion
 
             #region GetPackageUrlAsync
-            public void GetPackageUrlAsync(string package, Action<string> callback) {
+            public void GetPackageUrlAsync(string package, Action<string, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     PackageUrlRequest request = new PackageUrlRequest {
                         Package = package
                     };
-                    string response = Request<string>("FileUrl", "PackageUrl", request);
-                    callback?.Invoke(response);
+                    RequestAsync("FileUrl", "PackageUrl", request, callback);
                 });
             }
             #endregion

@@ -27,7 +27,20 @@ namespace NTMiner {
         }
 
         private static readonly string s_baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api";
-        public static T Request<T>(string controller, string action, object param) {
+        public static void RequestAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
+            try {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{s_baseUrl}/{controller}/{action}", param);
+                    T response = message.Result.Content.ReadAsAsync<T>().Result;
+                    callback?.Invoke(response, null);
+                }
+            }
+            catch (Exception e) {
+                callback?.Invoke(null, e);
+            }
+        }
+
+        public static T Request<T>(string controller, string action, object param) where T : class {
             try {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{s_baseUrl}/{controller}/{action}", param);
@@ -36,8 +49,7 @@ namespace NTMiner {
                 }
             }
             catch (Exception e) {
-                Write.DevLine(e.Message + e.StackTrace, ConsoleColor.Red);
-                return default(T);
+                return null;
             }
         }
     }

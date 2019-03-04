@@ -23,7 +23,7 @@ namespace NTMiner.Views.Ucs {
                 vm = new MinerClientRestartViewModel(title, workId, ()=> {
                     if (minerClients.Count == 1) {
                         var minerClientVm = minerClients[0];
-                        Server.MinerClientService.RestartNTMinerAsync(minerClientVm.MinerIp, vm.SelectedMineWork.Id, response => {
+                        Server.MinerClientService.RestartNTMinerAsync(minerClientVm.MinerIp, vm.SelectedMineWork.Id, (response, e) => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
@@ -35,7 +35,7 @@ namespace NTMiner.Views.Ucs {
                     }
                     else {
                         foreach (var item in minerClients) {
-                            Server.MinerClientService.RestartNTMinerAsync(item.MinerIp, vm.SelectedMineWork.Id, response => {
+                            Server.MinerClientService.RestartNTMinerAsync(item.MinerIp, vm.SelectedMineWork.Id, (response, e) => {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
