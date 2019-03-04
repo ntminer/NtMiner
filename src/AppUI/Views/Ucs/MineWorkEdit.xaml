@@ -24,7 +24,7 @@
 			启动后自动开始挖矿
 		</sys:String>
 	</UserControl.Resources>
-	<Grid Background="#EBF2F9">
+	<Grid Background="{StaticResource MinerProfileBackground}">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="400"></ColumnDefinition>
 			<ColumnDefinition Width="500"></ColumnDefinition>

@@ -33,6 +33,9 @@
 				<TextBlock 
 					Visibility="{Binding MinerProfile.CoinVm.OverClockDatas,Converter={StaticResource NoRecordInvertVisibilityConverter}}"
 					Style="{StaticResource LblTb}" Width="Auto">推荐</TextBlock>
+				<TextBlock 
+					Visibility="{Binding MinerProfile.CoinVm.OverClockDatas,Converter={StaticResource NoRecordVisibilityConverter}}"
+					Style="{StaticResource LblTb}" Width="Auto">没有推荐</TextBlock>
 				<ItemsControl
 					BorderThickness="0"
 					MouseDown="ItemsControl_MouseDown"
@@ -51,7 +54,7 @@
 							<controls:KbButton
 								Command="{Binding Data.FillForm,Source={StaticResource proxy}}"
 								CommandParameter="{Binding}"
-								Margin="0 0 20 0"
+								Margin="10 0"
 								Padding="6 2"
 								CornerRadius="2">
 								<TextBlock Text="{Binding Name}"></TextBlock>

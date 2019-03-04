@@ -9,7 +9,8 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/MineWorkViewModel.xaml}"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="#EBF2F9">
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+		Background="{StaticResource MinerProfileBackground}">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="60"></Setter>

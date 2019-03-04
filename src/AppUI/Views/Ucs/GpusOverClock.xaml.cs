@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class GpusOverClock : UserControl {

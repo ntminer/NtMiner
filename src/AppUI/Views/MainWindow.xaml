@@ -186,7 +186,7 @@
 				Margin="0" Style="{DynamicResource TabControlStyle}">
 				<TabItem Margin="3 0 8 0" Header="{DynamicResource HStart}" Height="36" Style="{DynamicResource TabItemStyle}" 
 					 TextOptions.TextFormattingMode="Display">
-					<Grid Background="#EBF2F9">
+					<Grid Background="{StaticResource MinerProfileBackground}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="394"></ColumnDefinition>
 							<ColumnDefinition Width="1"></ColumnDefinition>
@@ -404,7 +404,12 @@
 						</TabControl>
 
 						<!--下状态栏-->
-						<uc:StateBar Grid.Row="1" Grid.ColumnSpan="3" Background="#EBF2F9" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
+						<uc:StateBar 
+							Grid.Row="1" 
+							Grid.ColumnSpan="3" 
+							Background="{StaticResource MinerProfileBackground}" 
+							BorderBrush="{StaticResource LineColor}" 
+							BorderThickness="0 1 0 0">
 						</uc:StateBar>
 					</Grid>
 				</TabItem>
