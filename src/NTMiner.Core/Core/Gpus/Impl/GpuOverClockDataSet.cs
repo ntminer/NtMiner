@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,25 @@ namespace NTMiner.Core.Gpus.Impl {
                         gpu.OverClock.RefreshGpuState(message.Input.Index);
                     }
                 });
+            VirtualRoot.Accept<CoinOverClockCommand>(
+                "处理币种超频命令",
+                LogEnum.Console,
+                action: message => {
+                    ICoinProfile coinProfile = root.MinerProfile.GetCoinProfile(message.CoinId);
+                    if (coinProfile.IsOverClockEnabled) {
+                        if (coinProfile.IsOverClockGpuAll) {
+                            GpuOverClockData overClockData = _dicById.Values.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);
+                            VirtualRoot.Execute(new OverClockCommand(overClockData));
+                        }
+                        else {
+                            foreach (var overClockData in _dicById.Values.Where(a => a.CoinId == message.CoinId)) {
+                                if (overClockData.IsEnabled && overClockData.Index != NTMinerRoot.GpuAllId) {
+                                    VirtualRoot.Execute(new OverClockCommand(overClockData));
+                                }
+                            }
+                        }
+                    }
+                });
         }
 
         private bool _isInited = false;
@@ -75,7 +95,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public IGpuOverClockData GetGpuOverClockData(Guid coinId, int index) {
             InitOnece();
-            GpuOverClockData data = _dicById.Values.FirstOrDefault(a=>a.CoinId == coinId && a.Index == index);
+            GpuOverClockData data = _dicById.Values.FirstOrDefault(a => a.CoinId == coinId && a.Index == index);
             if (data == null) {
                 return new GpuOverClockData(Guid.NewGuid(), coinId, index);
             }

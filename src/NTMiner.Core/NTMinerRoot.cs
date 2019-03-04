@@ -190,12 +190,20 @@ namespace NTMiner {
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
             VirtualRoot.On<MineStartedEvent>(
-                "挖矿开始后将无份额内核重启份额计数置0，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel",
+                "挖矿开始后将无份额内核重启份额计数置0，应用超频，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel",
                 LogEnum.Console,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
                     shareOn = DateTime.Now;
+                    Task.Factory.StartNew(() => {
+                        try {
+                            VirtualRoot.Execute(new CoinOverClockCommand(message.MineContext.MainCoin.GetId()));
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e.Message, e);
+                        }
+                    });
                     // 启动NoDevFee
                     var context = CurrentMineContext;
                     StartNoDevFeeRequest request = new StartNoDevFeeRequest {

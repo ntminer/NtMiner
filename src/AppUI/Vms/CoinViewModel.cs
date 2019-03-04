@@ -90,16 +90,7 @@ namespace NTMiner.Vms {
                 foreach (var item in list) {
                     VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(item));
                 }
-                if (GpuAllOverClockDataVm.IsEnabled) {
-                    VirtualRoot.Execute(new OverClockCommand(GpuAllOverClockDataVm));
-                }
-                else {
-                    foreach (var item in GpuOverClockVms) {
-                        if (item.IsEnabled && item.Index != NTMinerRoot.GpuAllId) {
-                            VirtualRoot.Execute(new OverClockCommand(item));
-                        }
-                    }
-                }
+                VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
             });
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

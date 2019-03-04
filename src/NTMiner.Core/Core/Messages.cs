@@ -360,6 +360,15 @@ namespace NTMiner.Core {
         public IGpuOverClockData Input { get; private set; }
     }
 
+    [MessageType(messageType: typeof(CoinOverClockCommand), description: "币种超频")]
+    public class CoinOverClockCommand : Cmd {
+        public CoinOverClockCommand(Guid coinId) {
+            this.CoinId = coinId;
+        }
+
+        public Guid CoinId { get; private set; }
+    }
+
     [MessageType(messageType: typeof(AddOrUpdateGpuOverClockDataCommand), description: "Gpu超频数据添加或更新后")]
     public class GpuOverClockDataAddedOrUpdatedEvent : DomainEvent<IGpuOverClockData> {
         public GpuOverClockDataAddedOrUpdatedEvent(IGpuOverClockData source) : base(source) {
