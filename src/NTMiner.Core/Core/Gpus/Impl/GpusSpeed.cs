@@ -12,22 +12,20 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly INTMinerRoot _root;
         public GpusSpeed(INTMinerRoot root) {
             _root = root;
+            DateTime now = DateTime.Now;
             foreach (var gpu in _root.GpuSet) {
-                _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu) {
-                    MainCoinSpeed = new Speed() {
-                        Value = 0,
-                        SpeedOn = DateTime.Now
-                    },
-                    DualCoinSpeed = new Speed() {
-                        Value = 0,
-                        SpeedOn = DateTime.Now
-                    }
-                });
+                _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu, new Speed() {
+                    Value = 0,
+                    SpeedOn = now
+                }, new Speed() {
+                    Value = 0,
+                    SpeedOn = now
+                }));
             }
-            IGpuSpeed totalGpuSpeed = this._currentGpuSpeed[NTMinerRoot.GpuAllId];
+            GpuSpeed totalGpuSpeed = this._currentGpuSpeed[NTMinerRoot.GpuAllId];
             var speedExceptTotal = _currentGpuSpeed.Values.Where(a => a != totalGpuSpeed).ToArray();
-            totalGpuSpeed.MainCoinSpeed.Value = speedExceptTotal.Sum(a => a.MainCoinSpeed.Value);
-            totalGpuSpeed.DualCoinSpeed.Value = speedExceptTotal.Sum(a => a.DualCoinSpeed.Value);
+            totalGpuSpeed.UpdateMainCoinSpeed(speedExceptTotal.Sum(a => a.MainCoinSpeed.Value), now);
+            totalGpuSpeed.UpdateDualCoinSpeed(speedExceptTotal.Sum(a => a.DualCoinSpeed.Value), now);
             foreach (var item in _currentGpuSpeed) {
                 _gpuSpeedHistory.Add(item.Key, new List<IGpuSpeed>());
             }
@@ -42,29 +40,11 @@ namespace NTMiner.Core.Gpus.Impl {
                 "停止挖矿后产生一次0算力",
                 LogEnum.Console,
                 action: message => {
-                    var now = DateTime.Now;
+                    now = DateTime.Now;
                     foreach (var gpu in _root.GpuSet) {
-                        VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: false, gpuSpeed: new GpuSpeed(gpu) {
-                            MainCoinSpeed = new Speed {
-                                Value = 0,
-                                SpeedOn = now
-                            },
-                            DualCoinSpeed = new Speed {
-                                Value = 0,
-                                SpeedOn = now
-                            }
-                        }));
+                        SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: false, now: now);
                         if (message.MineContext is IDualMineContext dualMineContext) {
-                            VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: true, gpuSpeed: new GpuSpeed(gpu) {
-                                MainCoinSpeed = new Speed {
-                                    Value = 0,
-                                    SpeedOn = now
-                                },
-                                DualCoinSpeed = new Speed {
-                                    Value = 0,
-                                    SpeedOn = now
-                                }
-                            }));
+                            SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: true, now: now);
                         }
                     }
                 });
@@ -73,7 +53,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 "挖矿开始时产生一次0算力0份额",
                 LogEnum.Console,
                 action: message => {
-                    var now = DateTime.Now;
+                    now = DateTime.Now;
                     ICoinShare share = _root.CoinShareSet.GetOrCreate(message.MineContext.MainCoin.GetId());
                     share.AcceptShareCount = 0;
                     share.RejectShareCount = 0;
@@ -114,7 +94,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private Guid _mainCoinId;
         public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
-            IGpuSpeed gpuSpeed = _currentGpuSpeed.Values.First(a => a.Gpu.Index == gpuIndex);
+            GpuSpeed gpuSpeed = _currentGpuSpeed.Values.First(a => a.Gpu.Index == gpuIndex);
             if (gpuSpeed == null) {
                 return;
             }
@@ -124,15 +104,10 @@ namespace NTMiner.Core.Gpus.Impl {
                 foreach (var item in _gpuSpeedHistory) {
                     item.Value.Clear();
                 }
-                foreach (var item in _currentGpuSpeed) {
-                    item.Value.MainCoinSpeed.Value = 0;
-                    item.Value.MainCoinSpeed.SpeedOn = now;
-                    item.Value.DualCoinSpeed.Value = 0;
-                    item.Value.DualCoinSpeed.SpeedOn = now;
+                foreach (var item in _currentGpuSpeed.Values) {
+                    item.UpdateMainCoinSpeed(0, now);
+                    item.UpdateDualCoinSpeed(0, now);
                 }
-            }
-            if (_currentGpuSpeed.ContainsKey(gpuSpeed.Gpu.Index)) {
-                _currentGpuSpeed[gpuSpeed.Gpu.Index].Update(gpuSpeed);
             }
             if (_gpuSpeedHistory.ContainsKey(gpuSpeed.Gpu.Index)) {
                 _gpuSpeedHistory[gpuSpeed.Gpu.Index].Add(gpuSpeed.Clone());
@@ -142,15 +117,13 @@ namespace NTMiner.Core.Gpus.Impl {
             if (isDual) {
                 isChanged = gpuSpeed.DualCoinSpeed.SpeedOn.AddSeconds(10) < now || gpuSpeed.DualCoinSpeed.Value.IsChange(speed, 0.01);
                 if (isChanged) {
-                    gpuSpeed.DualCoinSpeed.Value = speed;
-                    gpuSpeed.DualCoinSpeed.SpeedOn = now;                    
+                    gpuSpeed.UpdateDualCoinSpeed(speed, now);
                 }
             }
             else {
                 isChanged = gpuSpeed.MainCoinSpeed.SpeedOn.AddSeconds(10) < now || gpuSpeed.MainCoinSpeed.Value.IsChange(speed, 0.01);
                 if (isChanged) {
-                    gpuSpeed.MainCoinSpeed.Value = speed;
-                    gpuSpeed.MainCoinSpeed.SpeedOn = now;
+                    gpuSpeed.UpdateMainCoinSpeed(speed, now);
                 }
             }
             if (isChanged) {

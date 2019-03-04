@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Impl;
+using System;
 
 namespace NTMiner.Core.Gpus.Impl {
     internal class GpuSpeed : IGpuSpeed {
@@ -12,24 +13,33 @@ namespace NTMiner.Core.Gpus.Impl {
             MemoryClockDelta = 0,
             GpuClockDelta = new GpuClockDelta(0, 0, 0, 0),
             OverClock = new EmptyOverClock()
-        }) {
-            MainCoinSpeed = new Speed(),
-            DualCoinSpeed = new Speed()
-        };
+        }, new Speed(), new Speed());
 
-        public GpuSpeed(IGpu gpu) {
+        private readonly Speed _mainCoinSpeed, _dualCoinSpeed;
+        public GpuSpeed(IGpu gpu, Speed mainCoinSpeed, Speed dualCoinSpeed) {
             this.Gpu = gpu;
+            _mainCoinSpeed = mainCoinSpeed;
+            _dualCoinSpeed = dualCoinSpeed;
         }
 
         public IGpu Gpu { get; private set; }
 
-        public ISpeed MainCoinSpeed { get; set; }
+        public ISpeed MainCoinSpeed {
+            get { return _mainCoinSpeed; }
+        }
 
-        public ISpeed DualCoinSpeed { get; set; }
+        public ISpeed DualCoinSpeed {
+            get { return _dualCoinSpeed; }
+        }
 
-        public void Update(IGpuSpeed data) {
-            this.MainCoinSpeed = data.MainCoinSpeed;
-            this.DualCoinSpeed = data.DualCoinSpeed;
+        public void UpdateMainCoinSpeed(double speed, DateTime speedOn) {
+            this._mainCoinSpeed.Value = speed;
+            this._mainCoinSpeed.SpeedOn = speedOn;
+        }
+
+        public void UpdateDualCoinSpeed(double speed, DateTime speedOn) {
+            this._dualCoinSpeed.Value = speed;
+            this._dualCoinSpeed.SpeedOn = speedOn;
         }
     }
 }
