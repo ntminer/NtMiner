@@ -190,8 +190,7 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="394"></ColumnDefinition>
 							<ColumnDefinition Width="1"></ColumnDefinition>
-							<ColumnDefinition Width="29*"></ColumnDefinition>
-							<ColumnDefinition Width="568*"/>
+							<ColumnDefinition Width="*"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"></RowDefinition>
@@ -405,7 +404,7 @@
 						</TabControl>
 
 						<!--下状态栏-->
-						<uc:StateBar Grid.Row="1" Grid.ColumnSpan="4" Background="#EBF2F9" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
+						<uc:StateBar Grid.Row="1" Grid.ColumnSpan="3" Background="#EBF2F9" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 						</uc:StateBar>
 					</Grid>
 				</TabItem>
