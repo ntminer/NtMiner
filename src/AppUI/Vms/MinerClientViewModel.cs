@@ -30,13 +30,14 @@ namespace NTMiner.Vms {
         public ICommand StopMine { get; private set; }
         public ICommand Details { get; private set; }
 
+        private readonly ClientData _data;
+        #region ctor
         public MinerClientViewModel() {
             if (!Design.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
 
-        private readonly ClientData _data;
         public MinerClientViewModel(ClientData clientData) {
             _data = clientData;
             RefreshMainCoinIncome();
@@ -137,6 +138,7 @@ namespace NTMiner.Vms {
                 });
             });
         }
+        #endregion
 
         #region IClientData
 
@@ -313,7 +315,7 @@ namespace NTMiner.Vms {
                 TimeSpan time = DateTime.Now - MineStartedOn.Value;
                 TimeSpan time1 = new TimeSpan(time.Hours, time.Minutes, time.Seconds);
                 if (time.Days > 0) {
-                    return $"{time1.Days}天{time1.ToString()}";
+                    return $"{time.Days}天{time1.ToString()}";
                 }
                 else {
                     return time1.ToString();
