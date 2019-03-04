@@ -315,10 +315,12 @@ namespace NTMiner.Data.Impl {
         public static Task CreatePullTask(ClientData clientData) {
             return Task.Factory.StartNew(() => {
                 try {
-
+                    Client.MinerClientService.GetSpeed(clientData.MinerIp, speedData => {
+                        clientData.Update(speedData);
+                    });
                 }
                 catch (Exception) {
-
+                    // TODO:根据错误更新在线状态
                 }
             });
         }

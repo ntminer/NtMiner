@@ -7,101 +7,80 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class ReportController : ApiController {
         [HttpPost]
-        public void ReportSpeed([FromBody]SpeedData message) {
+        public void ReportSpeed([FromBody]SpeedData speedData) {
             try {
-                if (message == null) {
+                if (speedData == null) {
                     return;
                 }
                 string minerIp = Request.GetWebClientIp();
-                ClientData clientData = HostRoot.Current.ClientSet.LoadClient(message.ClientId);
+                ClientData clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId);
                 if (clientData == null) {
                     clientData = new ClientData() {
-                        Id = message.ClientId,
-                        IsAutoBoot = message.IsAutoBoot,
-                        IsAutoStart = message.IsAutoStart,
-                        WorkId = message.WorkId,
-                        Version = message.Version,
-                        IsMining = message.IsMining,
-                        BootOn = message.BootOn,
-                        MineStartedOn = message.MineStartedOn,
+                        Id = speedData.ClientId,
+                        IsAutoBoot = speedData.IsAutoBoot,
+                        IsAutoStart = speedData.IsAutoStart,
+                        IsAutoRestartKernel = speedData.IsAutoRestartKernel,
+                        IsNoShareRestartKernel = speedData.IsNoShareRestartKernel,
+                        NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes,
+                        IsPeriodicRestartKernel = speedData.IsPeriodicRestartKernel,
+                        PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours,
+                        IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer,
+                        PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours,
+                        GpuDriver = speedData.GpuDriver,
+                        GpuType = speedData.GpuType,
+                        OSName = speedData.OSName,
+                        OSVirtualMemoryMb = speedData.OSVirtualMemoryMb,
+                        GpuInfo = speedData.GpuInfo,
+                        WorkId = speedData.WorkId,
+                        Version = speedData.Version,
+                        IsMining = speedData.IsMining,
+                        BootOn = speedData.BootOn,
+                        MineStartedOn = speedData.MineStartedOn,
                         MinerIp = minerIp,
-                        GpuInfo = message.GpuInfo,
-                        MinerName = message.MinerName,
+                        MinerName = speedData.MinerName,
                         CreatedOn = DateTime.Now,
                         ModifiedOn = DateTime.Now,
-                        MainCoinCode = message.MainCoinCode,
-                        MainCoinTotalShare = message.MainCoinTotalShare,
-                        MainCoinRejectShare = message.MainCoinRejectShare,
-                        MainCoinSpeed = message.MainCoinSpeed,
-                        MainCoinPool = message.MainCoinPool,
-                        MainCoinWallet = message.MainCoinWallet,
-                        Kernel = message.Kernel,
-                        IsDualCoinEnabled = message.IsDualCoinEnabled,
-                        DualCoinPool = message.DualCoinPool,
-                        DualCoinWallet = message.DualCoinWallet,
-                        DualCoinCode = message.DualCoinCode,
-                        DualCoinTotalShare = message.DualCoinTotalShare,
-                        DualCoinRejectShare = message.DualCoinRejectShare,
-                        DualCoinSpeed = message.DualCoinSpeed,
-                        GpuTable = message.GpuTable,
-                        GpuDriver = message.GpuDriver,
-                        GpuType = message.GpuType,
-                        OSName = message.OSName,
-                        OSVirtualMemoryMb = message.OSVirtualMemoryMb
+                        MainCoinCode = speedData.MainCoinCode,
+                        MainCoinTotalShare = speedData.MainCoinTotalShare,
+                        MainCoinRejectShare = speedData.MainCoinRejectShare,
+                        MainCoinSpeed = speedData.MainCoinSpeed,
+                        MainCoinPool = speedData.MainCoinPool,
+                        MainCoinWallet = speedData.MainCoinWallet,
+                        Kernel = speedData.Kernel,
+                        IsDualCoinEnabled = speedData.IsDualCoinEnabled,
+                        DualCoinPool = speedData.DualCoinPool,
+                        DualCoinWallet = speedData.DualCoinWallet,
+                        DualCoinCode = speedData.DualCoinCode,
+                        DualCoinTotalShare = speedData.DualCoinTotalShare,
+                        DualCoinRejectShare = speedData.DualCoinRejectShare,
+                        DualCoinSpeed = speedData.DualCoinSpeed,
+                        GpuTable = speedData.GpuTable
                     };
                     HostRoot.Current.ClientSet.Add(clientData);
                 }
                 else {
-                    clientData.IsAutoBoot = message.IsAutoBoot;
-                    clientData.IsAutoStart = message.IsAutoStart;
-                    clientData.WorkId = message.WorkId;
-                    clientData.Version = message.Version;
-                    clientData.IsMining = message.IsMining;
-                    clientData.BootOn = message.BootOn;
-                    clientData.MineStartedOn = message.MineStartedOn;
                     clientData.MinerIp = minerIp;
-                    clientData.GpuInfo = message.GpuInfo;
-                    clientData.MinerName = message.MinerName;
-                    clientData.ModifiedOn = DateTime.Now;
-                    clientData.MainCoinCode = message.MainCoinCode;
-                    clientData.MainCoinTotalShare = message.MainCoinTotalShare;
-                    clientData.MainCoinRejectShare = message.MainCoinRejectShare;
-                    clientData.MainCoinSpeed = message.MainCoinSpeed;
-                    clientData.MainCoinPool = message.MainCoinPool;
-                    clientData.MainCoinWallet = message.MainCoinWallet;
-                    clientData.Kernel = message.Kernel;
-                    clientData.IsDualCoinEnabled = message.IsDualCoinEnabled;
-                    clientData.DualCoinPool = message.DualCoinPool;
-                    clientData.DualCoinWallet = message.DualCoinWallet;
-                    clientData.DualCoinCode = message.DualCoinCode;
-                    clientData.DualCoinTotalShare = message.DualCoinTotalShare;
-                    clientData.DualCoinRejectShare = message.DualCoinRejectShare;
-                    clientData.DualCoinSpeed = message.DualCoinSpeed;
-                    clientData.GpuTable = message.GpuTable;
-                    clientData.GpuDriver = message.GpuDriver;
-                    clientData.GpuType = message.GpuType;
-                    clientData.OSName = message.OSName;
-                    clientData.OSVirtualMemoryMb = message.OSVirtualMemoryMb;
+                    clientData.Update(speedData);
                 }
-                bool isMainCoin = !string.IsNullOrEmpty(message.MainCoinCode);
+                bool isMainCoin = !string.IsNullOrEmpty(speedData.MainCoinCode);
                 // 认为双挖币不能和主挖币相同
-                bool isDualCoin = !string.IsNullOrEmpty(message.DualCoinCode) && message.DualCoinCode != message.MainCoinCode;
+                bool isDualCoin = !string.IsNullOrEmpty(speedData.DualCoinCode) && speedData.DualCoinCode != speedData.MainCoinCode;
                 if (isMainCoin) {
                     HostRoot.Current.ClientCoinSnapshotSet.Add(new ClientCoinSnapshotData {
-                        CoinCode = message.MainCoinCode,
-                        ShareDelta = message.MainCoinShareDelta,
-                        Speed = message.MainCoinSpeed,
+                        CoinCode = speedData.MainCoinCode,
+                        ShareDelta = speedData.MainCoinShareDelta,
+                        Speed = speedData.MainCoinSpeed,
                         Timestamp = DateTime.Now,
-                        ClientId = message.ClientId
+                        ClientId = speedData.ClientId
                     });
                 }
                 if (isDualCoin) {
                     HostRoot.Current.ClientCoinSnapshotSet.Add(new ClientCoinSnapshotData {
-                        CoinCode = message.DualCoinCode,
-                        ShareDelta = message.DualCoinShareDelta,
-                        Speed = message.DualCoinSpeed,
+                        CoinCode = speedData.DualCoinCode,
+                        ShareDelta = speedData.DualCoinShareDelta,
+                        Speed = speedData.DualCoinSpeed,
                         Timestamp = DateTime.Now,
-                        ClientId = message.ClientId
+                        ClientId = speedData.ClientId
                     });
                 }
             }
