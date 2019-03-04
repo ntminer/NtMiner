@@ -80,9 +80,9 @@
 				</controls:KbButton>
 			</WrapPanel>
 		</Grid>
-		<WrapPanel Grid.Row="1" Margin="0 4">
+		<WrapPanel Grid.Row="1" Margin="0 0 0 4">
 			<controls:KbCheckBox 
-				Margin="0"
+				Margin="0 4 0 0"
 				VerticalAlignment="Top"
 				IconColor="{StaticResource IconFillColor}"
 				IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll}" 
@@ -90,23 +90,23 @@
 			<WrapPanel IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll}">
 				<WrapPanel VerticalAlignment="Center">
 					<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
-					<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
-					<TextBlock>M</TextBlock>
+					<TextBox VerticalAlignment="Center" ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock VerticalAlignment="Center">M</TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
-					<TextBox ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
-					<TextBlock>M</TextBlock>
+					<TextBox VerticalAlignment="Center" ToolTip="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock VerticalAlignment="Center">M</TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
-					<TextBox ToolTip="50至110" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
-					<TextBlock>%</TextBlock>
+					<TextBox VerticalAlignment="Center" ToolTip="50至110" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-					<TextBox ToolTip="38至100" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
-					<TextBlock>%</TextBlock>
+					<TextBox VerticalAlignment="Center" ToolTip="38至100" Text="{Binding MinerProfile.CoinVm.GpuAllOverClockDataVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
 			</WrapPanel>
 		</WrapPanel>
