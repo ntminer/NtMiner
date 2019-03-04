@@ -1,16 +1,25 @@
 ﻿using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerClientUc : UserControl {
+        public static readonly string ViewId = nameof(MinerClientUc);
+
         public static void ShowWindow(MinerClientViewModel vm) {
+            ResourceDictionary resourceDictionary;
+            if (ResourceDictionarySet.Instance.TryGetResourceDic(ViewId, out resourceDictionary)) {
+                resourceDictionary["WindowTitle"] = vm.MinerIp;
+            }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 IconName = "Icon_Miner",
+                Width = 900,
+                Height = 400,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
-            }, ucFactory: (window) => new MinerClientUc(vm), fixedSize: true);
+            }, ucFactory: (window) => new MinerClientUc(vm), fixedSize: false);
         }
 
         public MinerClientViewModel Vm {
@@ -22,10 +31,11 @@ namespace NTMiner.Views.Ucs {
         public MinerClientUc(MinerClientViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            this.Resources["WindowTitle"] = vm.MinerIp;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
-        private void TbIp_PreviewMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void TbIp_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {
             MinerClientViewModel vm = (MinerClientViewModel)((FrameworkElement)sender).Tag;
             vm.RemoteDesktop.Execute(null);
             e.Handled = true;
