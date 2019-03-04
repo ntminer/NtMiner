@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
+using System;
+using System.Windows;
 
 namespace NTMiner.Views {
     public partial class LoginWindow : MetroWindow {
@@ -15,8 +15,8 @@ namespace NTMiner.Views {
 
         public LoginWindow() {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             this.PbPassword.Focus();
-            UILanguageInit();
         }
 
         private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -36,12 +36,8 @@ namespace NTMiner.Views {
             LangViewModel selectedItem = (LangViewModel)e.AddedItems[0];
             if (selectedItem != VirtualRoot.Lang) {
                 VirtualRoot.Lang = selectedItem;
-                UILanguageInit();
+                ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             }
-        }
-
-        private void UILanguageInit() {
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
     }
 }

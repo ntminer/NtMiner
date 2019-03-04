@@ -5,6 +5,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class DialogWindow : MetroWindow {
+        public static readonly string ViewId = nameof(DialogWindow);
+
         public static void ShowDialog(string icon = null,
             string title = null,
             string message = null,
@@ -34,6 +36,7 @@ namespace NTMiner.Views {
             Action onYes, 
             Action onNo) {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             this.Resources["Title"] = title;
             this.Resources["Message"] = message;
             if (!string.IsNullOrEmpty(icon) && Application.Current.Resources.Contains(icon)) {

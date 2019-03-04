@@ -6,6 +6,8 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:controls="clr-namespace:NTMiner.Controls"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
+        xmlns:local="clr-namespace:NTMiner.Views"
         UseNoneWindowStyle="True"
         WindowTransitionsEnabled="False"
         ResizeMode="NoResize"
@@ -136,5 +138,22 @@
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>
+        <controls:KbButton
+            HorizontalAlignment="Right"
+            ToolTip="{x:Static local:DialogWindow.ViewId}"
+            Command="{x:Static vm:WpfStatic.ShowLangViewItems}"
+            CommandParameter="{x:Static local:DialogWindow.ViewId}"
+            Padding="4 0"
+            Background="{StaticResource ThemeBackground}"
+            Foreground="{StaticResource ThemeForeground}">
+            <WrapPanel>
+                <Path
+                    Width="12"
+                    Height="12"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="{StaticResource ThemeForeground}"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
     </Grid>
 </metro:MetroWindow>
