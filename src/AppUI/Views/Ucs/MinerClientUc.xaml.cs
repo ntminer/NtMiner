@@ -15,8 +15,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 IconName = "Icon_Miner",
-                Width = 900,
-                Height = 400,
+                Width = 1000,
+                Height = 500,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => new MinerClientUc(vm), fixedSize: false);

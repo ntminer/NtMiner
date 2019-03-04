@@ -789,7 +789,7 @@ namespace NTMiner.Vms {
 
         public string OSVirtualMemoryGbText {
             get {
-                return (this.OSVirtualMemoryMb / 1024.0).ToString("f1") + "Gb";
+                return (this.OSVirtualMemoryMb / 1024.0).ToString("f1") + " Gb";
             }
         }
 

@@ -9,7 +9,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		d:DataContext="{d:DesignData Source=Design/MinerClientViewModel.xaml}"
-		mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="400">
+		mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="500">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="130"></Setter>
@@ -210,7 +210,7 @@
 		</WrapPanel>
 		<WrapPanel Grid.Row="10" Grid.ColumnSpan="2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">显卡表格</TextBlock>
-			<Grid>
+			<Grid Margin="0 -4 0 0">
 				<DataGrid 
 					MinRowHeight="24"
 					ColumnHeaderHeight="24"
@@ -254,19 +254,19 @@
 						</Style>
 					</DataGrid.Resources>
 					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding RowHeader}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="0" Binding="{Binding Gpu0}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="1" Binding="{Binding Gpu1}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="2" Binding="{Binding Gpu2}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="3" Binding="{Binding Gpu3}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="4" Binding="{Binding Gpu4}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="5" Binding="{Binding Gpu5}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="6" Binding="{Binding Gpu6}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="7" Binding="{Binding Gpu7}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="8" Binding="{Binding Gpu8}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="9" Binding="{Binding Gpu9}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="10" Binding="{Binding Gpu10}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="11" Binding="{Binding Gpu11}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn Header="数据项" Binding="{Binding RowHeader}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU0" Binding="{Binding Gpu0}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU1" Binding="{Binding Gpu1}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU2" Binding="{Binding Gpu2}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU3" Binding="{Binding Gpu3}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU4" Binding="{Binding Gpu4}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU5" Binding="{Binding Gpu5}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU6" Binding="{Binding Gpu6}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU7" Binding="{Binding Gpu7}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU8" Binding="{Binding Gpu8}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU9" Binding="{Binding Gpu9}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU10" Binding="{Binding Gpu10}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn MinWidth="50" Header="GPU11" Binding="{Binding Gpu11}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Background="#00ffffff"></StackPanel>
