@@ -226,7 +226,7 @@ namespace NTMiner.Data.Impl {
                     }
                 }
                 if (isPull) {
-                    Task[] pullTasks = results.Select(a => a.CreatePullTask()).ToArray();
+                    Task[] pullTasks = results.Select(a => CreatePullTask(a)).ToArray();
                     Task.WaitAll(pullTasks, 3 * 1000);
                 }
                 return results;
@@ -249,7 +249,7 @@ namespace NTMiner.Data.Impl {
                 }
             }
             if (isPull) {
-                Task[] pullTasks = results.Select(a => a.CreatePullTask()).ToArray();
+                Task[] pullTasks = results.Select(a => CreatePullTask(a)).ToArray();
                 Task.WaitAll(pullTasks, 3 * 1000);
             }
             return results;
@@ -310,6 +310,17 @@ namespace NTMiner.Data.Impl {
                 }
                 clientData.ModifiedOn = DateTime.Now;
             }
+        }
+
+        public static Task CreatePullTask(ClientData clientData) {
+            return Task.Factory.StartNew(() => {
+                try {
+
+                }
+                catch (Exception) {
+
+                }
+            });
         }
     }
 }

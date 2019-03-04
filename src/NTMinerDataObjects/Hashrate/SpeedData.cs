@@ -7,8 +7,18 @@ namespace NTMiner.Hashrate {
         }
 
         public bool IsAutoBoot { get; set; }
-
         public bool IsAutoStart { get; set; }
+        public bool IsAutoRestartKernel { get; set; }
+        public bool IsNoShareRestartKernel { get; set; }
+        public int NoShareRestartKernelMinutes { get; set; }
+        public bool IsPeriodicRestartKernel { get; set; }
+        public int PeriodicRestartKernelHours { get; set; }
+        public bool IsPeriodicRestartComputer { get; set; }
+        public int PeriodicRestartComputerHours { get; set; }
+        public string GpuDriver { get; set; }
+        public GpuType GpuType { get; set; }
+        public string OSName { get; set; }
+        public int OSVirtualMemoryMb { get; set; }
 
         public Guid ClientId { get; set; }
 
@@ -63,17 +73,6 @@ namespace NTMiner.Hashrate {
         public double MainCoinSpeed { get; set; }
 
         public double DualCoinSpeed { get; set; }
-
-        public string GpuDriver { get; set; }
-
-        public GpuType GpuType { get; set; }
-
-        public string OSName { get; set; }
-
-        /// <summary>
-        /// Gb
-        /// </summary>
-        public int OSVirtualMemoryMb { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }
