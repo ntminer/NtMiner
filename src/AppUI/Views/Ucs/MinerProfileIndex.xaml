@@ -132,16 +132,16 @@
 									Height="24"
 									Padding="4 0"
 									Command="{x:Static vm:AppStatic.ShowCoins}"
-									Background="{StaticResource IconFillColor}"
+									Background="{StaticResource ThemeBackground}"
 									CornerRadius="2">
 									<WrapPanel>
 										<Path
 											Width="14"
 											Height="14"
 											Data="{StaticResource Icon_Coin}"
-											Fill="White"
+											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -179,7 +179,7 @@
 									BorderThickness="0"
 									Height="24"
 									Padding="4 0"
-									Background="{StaticResource IconFillColor}"
+									Background="{StaticResource ThemeBackground}"
 									Command="{Binding MinerProfile.CoinVm.AddPool}"
 									CornerRadius="2">
 									<WrapPanel>
@@ -187,9 +187,9 @@
 											Width="14"
 											Height="14"
 											Data="{StaticResource Icon_Add}"
-											Fill="White"
+											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Add}" Foreground="White"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Add}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 								<controls:KbButton
@@ -197,7 +197,7 @@
 									BorderThickness="0"
 									Height="24"
 									Padding="4 0"
-									Background="{StaticResource IconFillColor}"
+									Background="{StaticResource ThemeBackground}"
 									Command="{x:Static vm:AppStatic.ManagePools}"
 									CommandParameter="{Binding MinerProfile.CoinVm}"
 									CornerRadius="2">
@@ -206,9 +206,9 @@
 											Width="14"
 											Height="14"
 											Data="{StaticResource Icon_Pool}"
-											Fill="White"
+											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -252,7 +252,7 @@
 										BorderThickness="0"
 										Height="24"
 										Padding="4 0"
-										Background="{StaticResource IconFillColor}"
+										Background="{StaticResource ThemeBackground}"
 										CornerRadius="2"
 										Command="{Binding MinerProfile.CoinVm.CoinProfile.AddWallet}"
 										IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
@@ -261,9 +261,9 @@
 												Width="14"
 												Height="14"
 												Data="{StaticResource Icon_Add}"
-												Fill="White"
+												Fill="{StaticResource ThemeForeground}"
 												Stretch="Fill" />
-											<TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="White"></TextBlock>
+											<TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 										</WrapPanel>
 									</controls:KbButton>
 									<controls:KbButton
@@ -271,7 +271,7 @@
 										BorderThickness="0"
 										Height="24"
 										Padding="4 0"
-										Background="{StaticResource IconFillColor}"
+										Background="{StaticResource ThemeBackground}"
 										Command="{x:Static vm:AppStatic.ManageWallet}"
 										CommandParameter="{Binding MinerProfile.CoinVm}"
 										CornerRadius="2">
@@ -280,9 +280,9 @@
 												Width="12"
 												Height="14"
 												Data="{StaticResource Icon_Wallet}"
-												Fill="White"
+												Fill="{StaticResource ThemeForeground}"
 												Stretch="Fill" />
-											<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+											<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 										</WrapPanel>
 									</controls:KbButton>
 								</WrapPanel>
@@ -490,7 +490,7 @@
 									BorderThickness="0"
 									Height="24"
 									Padding="4 0"
-									Background="{StaticResource IconFillColor}"
+									Background="{StaticResource ThemeBackground}"
 									Command="{x:Static vm:AppStatic.ShowKernels}"
 									CornerRadius="2">
 									<WrapPanel>
@@ -498,9 +498,9 @@
 											Width="14"
 											Height="14"
 											Data="{StaticResource Icon_Kernel}"
-											Fill="White"
+											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -591,16 +591,16 @@
 												Height="24"
 												Padding="4 0"
 												Command="{x:Static vm:AppStatic.ShowCoins}"
-												Background="{StaticResource IconFillColor}"
+												Background="{StaticResource ThemeBackground}"
 												CornerRadius="2">
 												<WrapPanel>
 													<Path
 														Width="14"
 														Height="14"
 														Data="{StaticResource Icon_Coin}"
-														Fill="White"
+														Fill="{StaticResource ThemeForeground}"
 														Stretch="Fill" />
-													<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+													<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 												</WrapPanel>
 											</controls:KbButton>
 										</WrapPanel>
@@ -643,7 +643,7 @@
 												BorderThickness="0"
 												Height="24"
 												Padding="4 0"
-												Background="{StaticResource IconFillColor}"
+												Background="{StaticResource ThemeBackground}"
 												Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.AddPool}"
 												CornerRadius="2">
 												<WrapPanel>
@@ -651,9 +651,9 @@
 														Width="14"
 														Height="14"
 														Data="{StaticResource Icon_Add}"
-														Fill="White"
+														Fill="{StaticResource ThemeForeground}"
 														Stretch="Fill" />
-													<TextBlock Margin="4 0 0 0" Text="{DynamicResource Add}" Foreground="White"></TextBlock>
+													<TextBlock Margin="4 0 0 0" Text="{DynamicResource Add}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 												</WrapPanel>
 											</controls:KbButton>
 											<controls:KbButton
@@ -661,7 +661,7 @@
 												BorderThickness="0"
 												Height="24"
 												Padding="4 0"
-												Background="{StaticResource IconFillColor}"
+												Background="{StaticResource ThemeBackground}"
 												Command="{x:Static vm:AppStatic.ManagePools}"
 												CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}"
 												CornerRadius="2">
@@ -670,9 +670,9 @@
 														Width="14"
 														Height="14"
 														Data="{StaticResource Icon_Pool}"
-														Fill="White"
+														Fill="{StaticResource ThemeForeground}"
 														Stretch="Fill" />
-													<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+													<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 												</WrapPanel>
 											</controls:KbButton>
 										</WrapPanel>
@@ -718,7 +718,7 @@
 														BorderThickness="0"
 														Height="24"
 														Padding="4 0"
-														Background="{StaticResource IconFillColor}"
+														Background="{StaticResource ThemeBackground}"
 														CornerRadius="2"
 														Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.AddDualCoinWallet}"
 														IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
@@ -727,9 +727,9 @@
 																Width="14"
 																Height="14"
 																Data="{StaticResource Icon_Add}"
-																Fill="White"
+																Fill="{StaticResource ThemeForeground}"
 																Stretch="Fill" />
-															<TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="White"></TextBlock>
+															<TextBlock Margin="4 0 0 0" Text="{DynamicResource AddWallet}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 														</WrapPanel>
 													</controls:KbButton>
 													<controls:KbButton
@@ -737,7 +737,7 @@
 														BorderThickness="0"
 														Height="24"
 														Padding="4 0"
-														Background="{StaticResource IconFillColor}"
+														Background="{StaticResource ThemeBackground}"
 														Command="{x:Static vm:AppStatic.ManageWallet}"
 														CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}"
 														CornerRadius="2">
@@ -746,9 +746,9 @@
 																Width="12"
 																Height="14"
 																Data="{StaticResource Icon_Wallet}"
-																Fill="White"
+																Fill="{StaticResource ThemeForeground}"
 																Stretch="Fill" />
-															<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+															<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 														</WrapPanel>
 													</controls:KbButton>
 												</WrapPanel>
