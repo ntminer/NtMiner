@@ -18,7 +18,7 @@
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
-		mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="3000">
+		mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="3200">
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -206,17 +206,6 @@
 			</WrapPanel>
 		</Grid>
 		<StackPanel Grid.Row="1">
-			<StackPanel.Resources>
-				<Style TargetType="TextBox">
-					<Setter Property="Height" Value="20"></Setter>
-				</Style>
-				<Style TargetType="controls:KbComboBox">
-					<Setter Property="Height" Value="20"></Setter>
-				</Style>
-				<Style TargetType="ComboBoxItem">
-					<Setter Property="Height" Value="20"></Setter>
-				</Style>
-			</StackPanel.Resources>
 			<WrapPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
 				<TextBlock Style="{StaticResource LblTb}" Text="主币" />
 				<controls:KbComboBox 
@@ -381,7 +370,7 @@
 					</WrapPanel>
 				</WrapPanel>
 			</WrapPanel>
-			<WrapPanel>
+			<WrapPanel Margin="0 2 0 0">
 				<TextBlock Style="{StaticResource LblTb}" Text="分组" />
 				<controls:KbComboBox 
 					Margin="0 0 20 0"
@@ -483,8 +472,9 @@
 			</WrapPanel>
 		</StackPanel>
 		<DataGrid 
+			Grid.Row="2"
+			Margin="0 2 0 0"
 			BorderThickness="0"
-			Grid.Row="2" Margin="0" 
 			IsReadOnly="False"
 			ItemsSource="{Binding MinerClients}"
 			CanUserResizeRows="True"

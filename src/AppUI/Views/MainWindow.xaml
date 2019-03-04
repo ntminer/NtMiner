@@ -57,9 +57,6 @@
 			<sys:String x:Key="HProperty">
 				HProperty
 			</sys:String>
-			<sys:String x:Key="HLog">
-				HLog
-			</sys:String>
 			<sys:String x:Key="HSpeed">
 				HSpeed
 			</sys:String>
@@ -193,7 +190,8 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="394"></ColumnDefinition>
 							<ColumnDefinition Width="1"></ColumnDefinition>
-							<ColumnDefinition Width="*"></ColumnDefinition>
+							<ColumnDefinition Width="29*"></ColumnDefinition>
+							<ColumnDefinition Width="568*"/>
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"></RowDefinition>
@@ -330,7 +328,7 @@
 									</Button.Template>
 								</Button>
 							</WrapPanel>
-						</Grid>						
+						</Grid>
 						<Border
 							Grid.Column="0" Grid.Row="0"
 							Width="200"
@@ -339,7 +337,7 @@
 							HorizontalAlignment="Center" 
 							VerticalAlignment="Center" 
 							CornerRadius="100"
-							Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
+							Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}" Margin="97,115">
 							<TextBlock 
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
@@ -349,23 +347,17 @@
 						</Border>
 
 						<StackPanel Grid.Column="1" Background="{StaticResource LineColor}"></StackPanel>
-						
+
 						<TabControl
 							Grid.Column="2" Grid.Row="0" 
 							Margin="0 -24 0 0" 
 							Padding="0"
-							BorderThickness="0">
+							BorderThickness="0" Grid.ColumnSpan="2">
 							<TabItem>
 								<TabItem.Header>
-									<Border Padding="6 0">
+									<Border Padding="2 0">
 										<WrapPanel>
-											<Path 
-												Width="14"
-												Height="14"
-												Stretch="Fill"
-												Fill="{StaticResource IconFillColor}"
-												Data="{StaticResource Icon_Log}"></Path>
-											<TextBlock Margin="4 0 0 0" Text="{DynamicResource HLog}"></TextBlock>
+											<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>
@@ -374,64 +366,46 @@
 							</TabItem>
 							<TabItem>
 								<TabItem.Header>
-									<Border Padding="6 0">
+									<Border Padding="2 0">
 										<WrapPanel>
-											<Path 
-												Width="14"
-												Height="14"
-												Stretch="Fill"
-												Fill="{StaticResource IconFillColor}"
-												Data="{StaticResource Icon_Table}"></Path>
-											<TextBlock Margin="4 0 0 0" Text="{DynamicResource HSpeed}"></TextBlock>
+											<TextBlock Text="{DynamicResource HSpeed}"></TextBlock>
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>
 								<uc:SpeedTable>
 								</uc:SpeedTable>
 							</TabItem>
-							<TabItem>
-								<TabItem.Header>
-									<Border Padding="6 0">
-										<WrapPanel>
-											<Path 
-												Width="14"
-												Height="14"
-												Stretch="Fill"
-												Fill="{StaticResource IconFillColor}"
-												Data="{StaticResource Icon_MinerProfile}"></Path>
-											<TextBlock Padding="4 0 0 0" Text="{DynamicResource HOption}"></TextBlock>
-										</WrapPanel>
-									</Border>
-								</TabItem.Header>
-								<uc:MinerProfileOption>
-								</uc:MinerProfileOption>
-							</TabItem>
 							<TabItem Visibility="{Binding IsOverClockVisible}">
 								<TabItem.Header>
-									<Border Padding="6 0">
+									<Border Padding="2 0">
 										<WrapPanel>
-											<Path 
-												Width="14"
-												Height="14"
-												Stretch="Fill"
-												Fill="{StaticResource IconFillColor}"
-												Data="{StaticResource Icon_OverClock}"></Path>
-											<TextBlock Padding="4 0 0 0" Text="{DynamicResource HOverClock}"></TextBlock>
-											<controls:KbCheckBox 
-												Margin="4 1 0 0" 
-												IconColor="{StaticResource IconFillColor}"
+											<TextBlock Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+											<TextBlock Text="{DynamicResource HOverClock}"></TextBlock>
+											<CheckBox 
+												Margin="4 0 0 0" 
 												ToolTip="开始挖矿时自动应用超频" 
-												IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockEnabled}"></controls:KbCheckBox>
+												IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockEnabled}"></CheckBox>
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>
 								<uc:GpusOverClock Margin="4 0 0 0">
 								</uc:GpusOverClock>
 							</TabItem>
+							<TabItem>
+								<TabItem.Header>
+									<Border Padding="2 0">
+										<WrapPanel>
+											<TextBlock Text="{DynamicResource HOption}"></TextBlock>
+										</WrapPanel>
+									</Border>
+								</TabItem.Header>
+								<uc:MinerProfileOption>
+								</uc:MinerProfileOption>
+							</TabItem>
 						</TabControl>
 
 						<!--下状态栏-->
-						<uc:StateBar Grid.Row="1" Grid.ColumnSpan="3" Background="#EBF2F9" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
+						<uc:StateBar Grid.Row="1" Grid.ColumnSpan="4" Background="#EBF2F9" BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0">
 						</uc:StateBar>
 					</Grid>
 				</TabItem>
@@ -522,7 +496,7 @@
 				Foreground="Red"
 				Background="Black"></TextBlock>
 		</Grid>
-		
+
 		<notification:NotificationMessageContainer 
 			Margin="0 4 0 0"
 			Grid.RowSpan="3"
