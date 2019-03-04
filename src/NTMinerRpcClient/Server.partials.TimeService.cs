@@ -11,17 +11,17 @@ namespace NTMiner {
             private TimeServiceFace() {
             }
 
-            public void GetTimeAsync(Action<DateTime> callback) {
+            public void GetTimeAsync(Action<DateTime, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetTime");
                             DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
-                            callback?.Invoke(response);
+                            callback?.Invoke(response, null);
                         }
                     }
-                    catch {
-                        callback?.Invoke(DateTime.Now);
+                    catch(Exception e) {
+                        callback?.Invoke(DateTime.Now, e);
                     }
                 });
             }

@@ -30,41 +30,27 @@ namespace NTMiner {
             #endregion
 
             #region AddOrUpdateOverClockDataAsync
-            public void AddOrUpdateOverClockDataAsync(OverClockData entity, Action<ResponseBase> callback) {
+            public void AddOrUpdateOverClockDataAsync(OverClockData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    try {
-                        AddOrUpdateOverClockDataRequest request = new AddOrUpdateOverClockDataRequest {
-                            LoginName = SingleUser.LoginName,
-                            Data = entity
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("OverClockData", "AddOrUpdateOverClockData", request);
-                        callback?.Invoke(response);
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
-                    }
+                    AddOrUpdateOverClockDataRequest request = new AddOrUpdateOverClockDataRequest {
+                        LoginName = SingleUser.LoginName,
+                        Data = entity
+                    };
+                    request.SignIt(SingleUser.PasswordSha1);
+                    RequestAsync("OverClockData", "AddOrUpdateOverClockData", request, callback);
                 });
             }
             #endregion
 
             #region RemoveOverClockDataAsync
-            public void RemoveOverClockDataAsync(Guid id, Action<ResponseBase> callback) {
+            public void RemoveOverClockDataAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    try {
-                        RemoveOverClockDataRequest request = new RemoveOverClockDataRequest() {
-                            LoginName = SingleUser.LoginName,
-                            OverClockDataId = id
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("OverClockData", "RemoveOverClockData", request);
-                        callback?.Invoke(response);
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                        callback?.Invoke(null);
-                    }
+                    RemoveOverClockDataRequest request = new RemoveOverClockDataRequest() {
+                        LoginName = SingleUser.LoginName,
+                        OverClockDataId = id
+                    };
+                    request.SignIt(SingleUser.PasswordSha1);
+                    RequestAsync("OverClockData", "RemoveOverClockData", request, callback);
                 });
             }
             #endregion
