@@ -42,6 +42,8 @@ namespace NTMiner.Vms {
         private PoolViewModel _dualCoinPool;
         private MineWorkViewModel _selectedMineWork;
         private MinerGroupViewModel _selectedMinerGroup;
+        private bool _isPull = false;
+        private INotificationMessageManager _manager;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -57,9 +59,13 @@ namespace NTMiner.Vms {
         public ICommand PageLast { get; private set; }
         public ICommand PageRefresh { get; private set; }
 
+        #region ctor
         private MinerClientsWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
+            }
+            if (Server.MinerServerHost.IndexOf("ntminer.com", StringComparison.OrdinalIgnoreCase) == -1) {
+                _isPull = true;
             }
             this._lastActivedOn = _minuteItems[3];
             if (Server.MinerServerHost.ToLower().Contains("ntminer.com")) {
@@ -236,6 +242,15 @@ namespace NTMiner.Vms {
             };
             t.Start();
         }
+        #endregion
+
+        public bool IsPull {
+            get => _isPull;
+            set {
+                _isPull = value;
+                OnPropertyChanged(nameof(IsPull));
+            }
+        }
 
         private void ShowNoRecordSelected() {
             Manager.CreateMessage()
@@ -245,7 +260,6 @@ namespace NTMiner.Vms {
                     .Queue();
         }
 
-        private INotificationMessageManager _manager;
         public INotificationMessageManager Manager {
             get {
                 if (_manager == null) {
