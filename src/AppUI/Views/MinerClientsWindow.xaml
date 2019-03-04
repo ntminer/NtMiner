@@ -91,6 +91,9 @@
 				<Style TargetType="controls:KbComboBox">
 					<Setter Property="Height" Value="20"></Setter>
 				</Style>
+				<Style TargetType="ComboBoxItem">
+					<Setter Property="Height" Value="20"></Setter>
+				</Style>
 			</StackPanel.Resources>
 			<WrapPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
 				<TextBlock Style="{StaticResource LblTb}" Text="主币" />
