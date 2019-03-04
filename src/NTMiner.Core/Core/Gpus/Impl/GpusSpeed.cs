@@ -80,16 +80,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     share.ShareOn = now;
                     VirtualRoot.Happened(new ShareChangedEvent(share));
                     foreach (var gpu in _root.GpuSet) {
-                        VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: false, gpuSpeed: new GpuSpeed(gpu) {
-                            MainCoinSpeed = new Speed {
-                                Value = 0,
-                                SpeedOn = now
-                            },
-                            DualCoinSpeed = new Speed {
-                                Value = 0,
-                                SpeedOn = now
-                            }
-                        }));
+                        SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: false, now: now);
                     }
                     if (message.MineContext is IDualMineContext dualMineContext) {
                         share = _root.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
@@ -98,16 +89,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         share.ShareOn = now;
                         VirtualRoot.Happened(new ShareChangedEvent(share));
                         foreach (var gpu in _root.GpuSet) {
-                            VirtualRoot.Happened(new GpuSpeedChangedEvent(isDualSpeed: true, gpuSpeed: new GpuSpeed(gpu) {
-                                MainCoinSpeed = new Speed {
-                                    Value = 0,
-                                    SpeedOn = now
-                                },
-                                DualCoinSpeed = new Speed {
-                                    Value = 0,
-                                    SpeedOn = now
-                                }
-                            }));
+                            SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: true, now: now);
                         }
                     }
                 });
