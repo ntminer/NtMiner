@@ -27,10 +27,10 @@
 		</WrapPanel>
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
-			    ItemsSource="{Binding Drives}"
-			    BorderThickness="0"
-			    ScrollViewer.VerticalScrollBarVisibility="Auto"
-			    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+				ItemsSource="{Binding Drives}"
+				BorderThickness="0"
+				ScrollViewer.VerticalScrollBarVisibility="Auto"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<WrapPanel>
@@ -41,13 +41,13 @@
 					<DataTemplate>
 						<StackPanel Margin="0 10" Orientation="Horizontal">
 							<Path 
-							    VerticalAlignment="Top"
-							    Margin="4 4 6 0" 
-							    Width="50" Height="50"
-							    Data="{StaticResource Icon_Windows}"
-							    Fill="{StaticResource IconFillColor}"
-							    Stretch="Fill"
-							    Visibility="{Binding IsSystemDisk, Converter={StaticResource BoolToHiddenConverter}}">
+								VerticalAlignment="Top"
+								Margin="4 4 6 0" 
+								Width="50" Height="50"
+								Data="{StaticResource Icon_Windows}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill"
+								Visibility="{Binding IsSystemDisk, Converter={StaticResource BoolToHiddenConverter}}">
 							</Path>
 							<StackPanel>
 								<WrapPanel Margin="0" MouseDown="OpenDrive_MouseDown" Tag="{Binding}">
@@ -74,12 +74,12 @@
 								</WrapPanel>
 								<Canvas>
 									<Slider 
-									    Minimum="0" 
-									    Maximum="7" 
-									    Width="254"
-									    TickFrequency="1"
-									    TickPlacement="BottomRight"
-									    Value="{Binding VirtualMemory.MaxSizeLog2}"></Slider>
+										Minimum="0" 
+										Maximum="7" 
+										Width="254"
+										TickFrequency="1"
+										TickPlacement="BottomRight"
+										Value="{Binding VirtualMemory.MaxSizeLog2}"></Slider>
 									<WrapPanel Canvas.Top="24" Canvas.Left="-11">
 										<WrapPanel.Resources>
 											<Style TargetType="Button">
@@ -123,11 +123,12 @@
 						Width="14"
 						Height="14"
 						Data="{StaticResource Icon_Restart}"
-						Fill="{StaticResource IconFillColor}"
+						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 					<Label 
 						Width="60"
-						Foreground="Red"
+						Background="{StaticResource ThemeBackground}"
+						Foreground="{StaticResource ThemeForeground}"
 						VerticalAlignment="Center"
 						Content="立即重启" />
 				</WrapPanel>
@@ -136,24 +137,22 @@
 		<controls:KbButton
 			Grid.Row="2"
 			HorizontalAlignment="Right"
+			Padding="10 0"
 			Margin="0 0 90 20"
 			Command="{Binding Apply}" 
-			Width="70" 
-			Height="30"
-			Background="{StaticResource IconFillColor}"
-			Foreground="White"
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
 			CornerRadius="2">
 			<WrapPanel>
 				<Path
 					Width="12"
 					Height="12"
 					Data="{StaticResource Icon_Ok}"
-					Fill="White"
+					Fill="{StaticResource ThemeForeground}"
 					Stretch="Fill" />
 				<TextBlock
 					Padding="4"
 					VerticalAlignment="Center"
-					Foreground="White"
 					Text="应用" />
 			</WrapPanel>
 		</controls:KbButton>

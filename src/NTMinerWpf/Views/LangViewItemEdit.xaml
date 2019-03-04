@@ -61,7 +61,7 @@
             Grid.Row="2"
             IsDefault="True"
             Command="{Binding Save}"
-            Padding="8 0"
+            Padding="10 0"
             Margin="0 2 22 10"
             HorizontalAlignment="Right"
             Background="{StaticResource ThemeBackground}"

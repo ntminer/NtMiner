@@ -288,22 +288,22 @@
 						Command="{Binding Save}" 
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 						Margin="0 10 0 0"
-						Width="70" 
-						Height="30"
-						Background="{StaticResource IconFillColor}"
-						Foreground="White"
+						Padding="10 0"
+						HorizontalAlignment="Center"
+						Background="{StaticResource ThemeBackground}"
+						Foreground="{StaticResource ThemeForeground}"
 						CornerRadius="2">
 						<WrapPanel>
 							<Path
 								Width="12"
 								Height="12"
 								Data="{StaticResource Icon_Ok}"
-								Fill="White"
+								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
 							<TextBlock
 								Padding="4"
 								VerticalAlignment="Center"
-								Foreground="White"
+								Foreground="{StaticResource ThemeForeground}"
 								Text="确定" />
 						</WrapPanel>
 					</controls:KbButton>

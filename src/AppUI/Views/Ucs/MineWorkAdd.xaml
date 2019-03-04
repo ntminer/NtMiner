@@ -40,25 +40,24 @@
 		</WrapPanel>
 		<controls:KbButton
 			Grid.Row="1" 
-			HorizontalAlignment="Left"
 			Command="{Binding Save}" 
-			Margin="360 10 0 4"
-			Width="70" 
-			Height="30"
-			Background="{StaticResource IconFillColor}"
-			Foreground="White"
+			HorizontalAlignment="Center"
+			Padding="10 0"
+			Margin="-36 4 4 4"
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
 			CornerRadius="2">
 			<WrapPanel>
 				<Path
 					Width="12"
 					Height="12"
 					Data="{StaticResource Icon_Ok}"
-					Fill="White"
+					Fill="{StaticResource ThemeForeground}"
 					Stretch="Fill" />
 				<TextBlock
 					Padding="4"
 					VerticalAlignment="Center"
-					Foreground="White"
+					Foreground="{StaticResource ThemeForeground}"
 					Text="确定" />
 			</WrapPanel>
 		</controls:KbButton>

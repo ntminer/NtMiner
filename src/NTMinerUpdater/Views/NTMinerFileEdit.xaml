@@ -66,8 +66,8 @@
         <Grid Grid.Row="2" Background="White" Height="40">
             <WrapPanel HorizontalAlignment="Right">
                 <controls:KbButton
-                    Command="{Binding Save}" 
-                    Width="70" 
+                    Command="{Binding Save}"
+                    Padding="10 0"
                     Background="{StaticResource ThemeBackground}"
                     Foreground="{StaticResource ThemeForeground}"
                     Margin="0 4 10 4"

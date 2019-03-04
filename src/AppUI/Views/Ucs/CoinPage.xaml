@@ -80,10 +80,10 @@
 					<Path Margin="4 0 0 0"
 						Width="12"
 						Height="12"
-						Fill="{StaticResource IconFillColor}"
+						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill"
 						Data="{StaticResource Icon_Serach}"></Path>
-					<Label Padding="2 6" Content="{DynamicResource Search}"></Label>
+					<Label Padding="2 6" Foreground="{StaticResource ThemeForeground}" Content="{DynamicResource Search}"></Label>
 					<controls:KbTextBox 
 						x:Name="TbKeyword" Width="134" Height="22"
 						Text="{Binding CoinKeyword, UpdateSourceTrigger=PropertyChanged}" 
@@ -118,7 +118,7 @@
 								Width="14"
 								Height="14"
 								Data="{StaticResource Icon_Translate}"
-								Fill="{StaticResource IconFillColor}"
+								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
 						</WrapPanel>
 					</controls:KbButton>

@@ -98,7 +98,7 @@
             <WrapPanel Grid.Row="3" Grid.Column="2" Margin="0 8 0 0">
                 <controls:KbButton
                     IsDefault="True"
-                    Padding="8 0"
+                    Padding="10 0"
                     Command="{Binding Login}"
                     Background="{StaticResource ThemeBackground}"
                     Foreground="{StaticResource ThemeForeground}"
