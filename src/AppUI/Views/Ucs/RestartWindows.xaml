@@ -25,21 +25,22 @@
         </WrapPanel>
         <WrapPanel HorizontalAlignment="Center" Margin="4">
             <controls:KbButton 
-                Margin="0"
+                Padding="8 4"
                 Click="KbCancelButton_Click"
-                Width="80"
                 VerticalAlignment="Center"
+                Background="{StaticResource ThemeBackground}"
                 CornerRadius="2">
                 <WrapPanel>
                     <Path
                         Width="14"
                         Height="14"
                         Data="{StaticResource Icon_Close}"
-                        Fill="{StaticResource IconFillColor}"
+                        Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="14"
+                        Foreground="{StaticResource ThemeForeground}"
                         Text="取消重启" />
                 </WrapPanel>
             </controls:KbButton>
