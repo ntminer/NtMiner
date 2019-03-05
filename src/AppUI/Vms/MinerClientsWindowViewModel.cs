@@ -75,6 +75,10 @@ namespace NTMiner.Vms {
                 action: message => {
                     if (this.CountDown > 0) {
                         this.CountDown = this.CountDown - 1;
+                        var minerClients = this.MinerClients.ToArray();
+                        foreach (var item in minerClients) {
+                            item.OnPropertyChanged(nameof(item.LastActivedOnText));
+                        }
                     }
                 });
             this._columnsShow = this.ColumnsShows.List.FirstOrDefault(a => a.Id == ColumnsShowData.PleaseSelectId);
