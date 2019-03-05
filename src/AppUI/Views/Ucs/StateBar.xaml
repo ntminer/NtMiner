@@ -296,57 +296,51 @@
 							KbDisplayLine="False"
 							KbSystemButtonHoverBackground="Transparent"
 							Background="Transparent" />
-						<WrapPanel Width="300" ToolTip="数据来自鱼池首页">
-							<controls:KbButton 
-								Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
-								Command="{x:Static vm:AppStatic.ShowCalc}"
-								CommandParameter="{Binding MinerProfile.CoinVm}">
-								<WrapPanel>
-									<Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
-									<TextBlock 
-										VerticalAlignment="Center"
-										Padding="0"
-										Background="Transparent"
-										Text="{Binding GpuSpeedVms.IncomeMainCoinPerDayText}">
-									</TextBlock>
-									<TextBlock 
-										Text="{Binding MinerProfile.CoinVm.Code}" 
-										Margin="2 0 0 0"
-										Padding="0"
-										Foreground="{StaticResource LableColor}"
-										FontWeight="Bold" 
-										VerticalAlignment="Center"></TextBlock>
-									<Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
-									<TextBlock 
-										VerticalAlignment="Center"
-										Padding="0"
-										Background="Transparent"
-										Text="{Binding GpuSpeedVms.IncomeMainCoinUsdPerDayText}">
-									</TextBlock>
-									<TextBlock 
-										Text="USD" 
-										Margin="2 0 0 0"
-										Padding="0"
-										Foreground="{StaticResource LableColor}"
-										VerticalAlignment="Center"></TextBlock>
-									<Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
-									<TextBlock 
-										VerticalAlignment="Center"
-										Padding="0"
-										Background="Transparent"
-										Text="{Binding GpuSpeedVms.IncomeMainCoinCnyPerDayText}">
-									</TextBlock>
-									<TextBlock 
-										Text="CNY" 
-										Margin="2 0 0 0"
-										Padding="0"
-										Foreground="{StaticResource LableColor}"
-										VerticalAlignment="Center"></TextBlock>
-									<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-									<Label Padding="0" Content="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
-								</WrapPanel>
-							</controls:KbButton>
-						</WrapPanel>
+						<controls:KbButton 
+							HorizontalContentAlignment="Left"
+							Width="300" ToolTip="数据来自鱼池首页"
+							Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
+							Command="{x:Static vm:AppStatic.ShowCalc}"
+							CommandParameter="{Binding MinerProfile.CoinVm}">
+							<WrapPanel>
+								<Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
+								<TextBlock 
+									Padding="0"
+									Background="Transparent"
+									Text="{Binding GpuSpeedVms.IncomeMainCoinPerDayText}">
+								</TextBlock>
+								<TextBlock 
+									Text="{Binding MinerProfile.CoinVm.Code}" 
+									Margin="2 0 0 0"
+									Padding="0"
+									Foreground="{StaticResource LableColor}"
+									FontWeight="Bold"></TextBlock>
+								<TextBlock Padding="0" Text="，" />
+								<TextBlock 
+									Padding="0"
+									Background="Transparent"
+									Text="{Binding GpuSpeedVms.IncomeMainCoinUsdPerDayText}">
+								</TextBlock>
+								<TextBlock 
+									Text="USD" 
+									Margin="2 0 0 0"
+									Padding="0"
+									Foreground="{StaticResource LableColor}"></TextBlock>
+								<TextBlock Padding="0" Text="，" />
+								<TextBlock 
+									Padding="0"
+									Background="Transparent"
+									Text="{Binding GpuSpeedVms.IncomeMainCoinCnyPerDayText}">
+								</TextBlock>
+								<TextBlock 
+									Text="CNY" 
+									Margin="2 0 0 0"
+									Padding="0"
+									Foreground="{StaticResource LableColor}"></TextBlock>
+								<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
+								<TextBlock Padding="0" Text="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
+							</WrapPanel>
+						</controls:KbButton>
 						<WrapPanel Width="140">
 							<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
 							<TextBlock Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />
@@ -370,57 +364,51 @@
 								KbDisplayLine="False"
 								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent" />
-							<WrapPanel Width="300" ToolTip="数据来自鱼池首页">
-								<controls:KbButton 
-									Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
-									Command="{x:Static vm:AppStatic.ShowCalc}"
-									CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
-									<WrapPanel>
-										<Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
-										<TextBlock 
-											VerticalAlignment="Center"
-											Padding="0"
-											Background="Transparent" 
-											Text="{Binding GpuSpeedVms.IncomeDualCoinPerDayText}">
-										</TextBlock>
-										<TextBlock 
-											Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" 
+							<controls:KbButton 
+								HorizontalContentAlignment="Left"
+								Width="300" ToolTip="数据来自鱼池首页"
+								Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
+								Command="{x:Static vm:AppStatic.ShowCalc}"
+								CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
+								<WrapPanel>
+									<Label Padding="0 0 2 0" Content="≈" Style="{StaticResource Lbl}" />
+									<TextBlock 
+										Padding="0"
+										Background="Transparent" 
+										Text="{Binding GpuSpeedVms.IncomeDualCoinPerDayText}">
+									</TextBlock>
+									<TextBlock 
+										Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}" 
 										Margin="2 0 0 0"
-											Padding="0"
-											FontWeight="Bold" 
-											Foreground="{StaticResource LableColor}"
-											VerticalAlignment="Center"></TextBlock>
-										<Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
-										<TextBlock 
-											VerticalAlignment="Center"
-											Padding="0"
-											Background="Transparent" 
-											Text="{Binding GpuSpeedVms.IncomeDualCoinUsdPerDayText}">
-										</TextBlock>
-										<TextBlock 
-											Text="USD" 
-											Margin="2 0 0 0"
-											Padding="0"
-											Foreground="{StaticResource LableColor}"
-											VerticalAlignment="Center"></TextBlock>
-										<Label Padding="0" Content="，" Style="{StaticResource Lbl}" />
-										<TextBlock 
-											VerticalAlignment="Center"
-											Padding="0"
-											Background="Transparent"
-											Text="{Binding GpuSpeedVms.IncomeDualCoinCnyPerDayText}">
-										</TextBlock>
-										<TextBlock 
-											Text="CNY" 
-											Margin="2 0 0 0"
-											Padding="0"
-											Foreground="{StaticResource LableColor}"
-											VerticalAlignment="Center"></TextBlock>
-										<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-										<Label Padding="0" Content="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
-									</WrapPanel>
-								</controls:KbButton>
-							</WrapPanel>
+										Padding="0"
+										FontWeight="Bold" 
+										Foreground="{StaticResource LableColor}"></TextBlock>
+									<TextBlock Padding="0" Text="，" />
+									<TextBlock 
+										Padding="0"
+										Background="Transparent" 
+										Text="{Binding GpuSpeedVms.IncomeDualCoinUsdPerDayText}">
+									</TextBlock>
+									<TextBlock 
+										Text="USD" 
+										Margin="2 0 0 0"
+										Padding="0"
+										Foreground="{StaticResource LableColor}"></TextBlock>
+									<TextBlock Padding="0" Text="，" />
+									<TextBlock 
+										Padding="0"
+										Background="Transparent"
+										Text="{Binding GpuSpeedVms.IncomeDualCoinCnyPerDayText}">
+									</TextBlock>
+									<TextBlock 
+										Text="CNY" 
+										Margin="2 0 0 0"
+										Padding="0"
+										Foreground="{StaticResource LableColor}"></TextBlock>
+									<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
+									<TextBlock Padding="0" Text="{DynamicResource Day}" Foreground="{StaticResource LableColor}" />
+								</WrapPanel>
+							</controls:KbButton>
 							<WrapPanel Width="140">
 								<Label Padding="0" Content="{DynamicResource LblReject}" Style="{StaticResource Lbl}" />
 								<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="{DynamicResource LblRejectShareCount}" />

@@ -127,7 +127,7 @@
 			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">主币拒绝</TextBlock>
 				<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
-				<TextBlock Text="/"></TextBlock>
+				<TextBlock Padding="1 0" Text="/"></TextBlock>
 				<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
 				<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}"></TextBlock>
 			</WrapPanel>
@@ -146,7 +146,7 @@
 			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">双挖币拒绝</TextBlock>
 				<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
-				<TextBlock Text="/"></TextBlock>
+				<TextBlock Padding="1 0" Text="/"></TextBlock>
 				<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
 				<TextBlock Margin="10 0 0 0" Text="{Binding DualCoinRejectPercentText}"></TextBlock>
 			</WrapPanel>
@@ -174,7 +174,7 @@
 				Margin="2 0 0 0"
 				Padding="0"
 				Foreground="{StaticResource LableColor}"></TextBlock>
-			<TextBlock Text="/" Foreground="{StaticResource LableColor}" />
+			<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
 			<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
 		</WrapPanel>
 		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
@@ -200,7 +200,7 @@
 				Margin="2 0 0 0"
 				Padding="0"
 				Foreground="{StaticResource LableColor}"></TextBlock>
-			<TextBlock Text="/" Foreground="{StaticResource LableColor}" />
+			<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
 			<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
 		</WrapPanel>
 		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
