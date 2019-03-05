@@ -145,7 +145,7 @@
 									BorderThickness="0"
 									Height="24"
 									Padding="4 0"
-									Background="{StaticResource IconFillColor}"
+									Background="{StaticResource ThemeBackground}"
 									Command="{x:Static vm:AppStatic.ShowGroups}"
 									CornerRadius="2">
 									<WrapPanel>
@@ -153,9 +153,9 @@
 											Width="14"
 											Height="14"
 											Data="{StaticResource Icon_Group}"
-											Fill="White"
+											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>

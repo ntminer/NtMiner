@@ -56,16 +56,16 @@
 								Padding="4 0"
 								Command="{x:Static vm:AppStatic.ShowCoins}"
 								CommandParameter="{Binding MainCoin}"
-								Background="{StaticResource IconFillColor}"
+								Background="{StaticResource ThemeBackground}"
 								CornerRadius="2">
 								<WrapPanel>
 									<Path
 										Width="14"
 										Height="14"
 										Data="{StaticResource Icon_Coin}"
-										Fill="White"
+										Fill="{StaticResource ThemeForeground}"
 										Stretch="Fill" />
-									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
+									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 								</WrapPanel>
 							</controls:KbButton>
 						</WrapPanel>
@@ -94,16 +94,16 @@
 									Padding="4 0"
 									Command="{x:Static vm:AppStatic.ManagePools}"
 									CommandParameter="{Binding MainCoin}"
-									Background="{StaticResource IconFillColor}"
+									Background="{StaticResource ThemeBackground}"
 									CornerRadius="2">
 									<WrapPanel>
 										<Path
 											Width="14"
 											Height="14"
 											Data="{StaticResource Icon_Pool}"
-											Fill="White"
+											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -137,16 +137,16 @@
 									Padding="4 0"
 									Command="{x:Static vm:AppStatic.ShowCoins}"
 									CommandParameter="{Binding DualCoin}"
-									Background="{StaticResource IconFillColor}"
+									Background="{StaticResource ThemeBackground}"
 									CornerRadius="2">
 									<WrapPanel>
 										<Path
 											Width="14"
 											Height="14"
 											Data="{StaticResource Icon_Coin}"
-											Fill="White"
+											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
+										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -175,16 +175,16 @@
 										Padding="4 0"
 										Command="{x:Static vm:AppStatic.ManagePools}"
 										CommandParameter="{Binding DualCoin}"
-										Background="{StaticResource IconFillColor}"
+										Background="{StaticResource ThemeBackground}"
 										CornerRadius="2">
 										<WrapPanel>
 											<Path
 												Width="14"
 												Height="14"
 												Data="{StaticResource Icon_Pool}"
-												Fill="White"
+												Fill="{StaticResource ThemeForeground}"
 												Stretch="Fill" />
-											<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
+											<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 										</WrapPanel>
 									</controls:KbButton>
 								</WrapPanel>
@@ -219,16 +219,16 @@
 								Height="24"
 								Padding="4 0"
 								Command="{x:Static vm:AppStatic.ManageMinerGroup}"
-								Background="{StaticResource IconFillColor}"
+								Background="{StaticResource ThemeBackground}"
 								CornerRadius="2">
 								<WrapPanel>
 									<Path
 										Width="14"
 										Height="14"
 										Data="{StaticResource Icon_MinerGroup}"
-										Fill="White"
+										Fill="{StaticResource ThemeForeground}"
 										Stretch="Fill" />
-									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
+									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 								</WrapPanel>
 							</controls:KbButton>
 						</WrapPanel>
@@ -255,16 +255,16 @@
 								Height="24"
 								Padding="4 0"
 								Command="{x:Static vm:AppStatic.ManageMineWork}"
-								Background="{StaticResource IconFillColor}"
+								Background="{StaticResource ThemeBackground}"
 								CornerRadius="2">
 								<WrapPanel>
 									<Path
 										Width="14"
 										Height="14"
 										Data="{StaticResource Icon_MineWork}"
-										Fill="White"
+										Fill="{StaticResource ThemeForeground}"
 										Stretch="Fill" />
-									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="White"></TextBlock>
+									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 								</WrapPanel>
 							</controls:KbButton>
 						</WrapPanel>

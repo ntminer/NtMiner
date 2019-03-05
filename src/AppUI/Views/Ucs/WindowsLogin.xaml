@@ -41,20 +41,20 @@
 				HorizontalAlignment="Left"
 				Width="70" 
 				Height="30"
-				Background="{StaticResource IconFillColor}"
-				Foreground="White"
+				Background="{StaticResource ThemeBackground}"
+				Foreground="{StaticResource ThemeForeground}"
 				CornerRadius="2">
 				<WrapPanel>
 					<Path
 						Width="12"
 						Height="12"
 						Data="{StaticResource Icon_Pool}"
-						Fill="White"
+						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 					<TextBlock
 						Padding="4"
 						VerticalAlignment="Center"
-						Foreground="White"
+						Foreground="{StaticResource ThemeForeground}"
 						Text="连接" />
 				</WrapPanel>
 			</controls:KbButton>
@@ -65,20 +65,20 @@
 				HorizontalAlignment="Left"
 				Width="70" 
 				Height="30"
-				Background="{StaticResource IconFillColor}"
-				Foreground="White"
+				Background="{StaticResource ThemeBackground}"
+				Foreground="{StaticResource ThemeForeground}"
 				CornerRadius="2">
 				<WrapPanel>
 					<Path
 						Width="12"
 						Height="12"
 						Data="{StaticResource Icon_Save}"
-						Fill="White"
+						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 					<TextBlock
 						Padding="4"
 						VerticalAlignment="Center"
-						Foreground="White"
+						Foreground="{StaticResource ThemeForeground}"
 						Text="保存" />
 				</WrapPanel>
 			</controls:KbButton>

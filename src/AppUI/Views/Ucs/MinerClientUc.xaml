@@ -9,85 +9,71 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		d:DataContext="{d:DesignData Source=Design/MinerClientViewModel.xaml}"
-		mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="500">
+		mc:Ignorable="d">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="130"></Setter>
 			<Setter Property="Padding" Value="0 0 20 0"></Setter>
 		</Style>
+		<Style x:Key="Row" TargetType="WrapPanel">
+			<Setter Property="Margin" Value="0 4"></Setter>
+		</Style>
+		<sys:Double x:Key="OneColWidth">480</sys:Double>
+		<sys:Double x:Key="DoubleColWidth">980</sys:Double>
 	</UserControl.Resources>
-	<Grid Margin="20 10">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"></ColumnDefinition>
-			<ColumnDefinition Width="*"></ColumnDefinition>
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-		</Grid.RowDefinitions>
-		<WrapPanel Grid.Row="0" Grid.Column="0">
+	<StackPanel HorizontalAlignment="Left">
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
 			<TextBlock Style="{StaticResource LblTb}">最后更新</TextBlock>
 			<TextBlock Text="{Binding LastActivedOnText}"></TextBlock>
 		</WrapPanel>
-		<WrapPanel Grid.Row="1" Grid.Column="0">
-			<TextBlock Style="{StaticResource LblTb}">运行时长</TextBlock>
-			<TextBlock Text="{Binding BootTimeSpanText}"></TextBlock>
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">运行时长</TextBlock>
+				<TextBlock Text="{Binding BootTimeSpanText}"></TextBlock>
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">挖矿时长</TextBlock>
+				<TextBlock Text="{Binding MineTimeSpanText}"></TextBlock>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="1" Grid.Column="1">
-			<TextBlock Style="{StaticResource LblTb}">挖矿时长</TextBlock>
-			<TextBlock Text="{Binding MineTimeSpanText}"></TextBlock>
-		</WrapPanel>
-		<WrapPanel Grid.Row="2" Grid.Column="0">
-			<TextBlock Style="{StaticResource LblTb}">作业</TextBlock>
-			<TextBox 
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">作业</TextBlock>
+				<TextBox 
 					Padding="0"
 					BorderThickness="0"
 					Background="Transparent"
 					IsReadOnly="True"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></TextBox>
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">分组</TextBlock>
+				<TextBlock Text="{Binding SelectedMinerGroup.Name}"></TextBlock>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="2" Grid.Column="1">
-			<TextBlock Style="{StaticResource LblTb}">分组</TextBlock>
-			<TextBlock Text="{Binding SelectedMinerGroup.Name}"></TextBlock>
-		</WrapPanel>
-		<WrapPanel Grid.Row="3" Grid.Column="0">
-			<TextBlock Style="{StaticResource LblTb}">矿工名</TextBlock>
-			<TextBlock Text="{Binding MinerName}"></TextBlock>
-		</WrapPanel>
-		<WrapPanel Grid.Row="3" Grid.Column="1">
-			<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
-			<controls:KbButton
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">矿工名</TextBlock>
+				<TextBlock Text="{Binding MinerName}"></TextBlock>
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
+				<controls:KbButton
 					BorderThickness="0"
 					Background="Transparent"
 					Command="{Binding RemoteDesktop}"
 					CornerRadius="2">
-				<Path
+					<Path
 						Width="14"
 						Height="14"
 						Data="{StaticResource Icon_RemoteDesktop}"
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill" />
-			</controls:KbButton>
-			<TextBox 
+				</controls:KbButton>
+				<TextBox 
 					Padding="0"
 					ToolTip="双击打开远程桌面"
 					PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
@@ -96,119 +82,129 @@
 					Background="Transparent"
 					IsReadOnly="True"
 					Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="4" Grid.Column="0">
-			<TextBlock Style="{StaticResource LblTb}">远程桌面用户名</TextBlock>
-			<controls:KbButton
-				BorderThickness="0"									
-				Background="Transparent"
-				Command="{Binding RemoteLogin}"
-				CornerRadius="2">
-				<Path
-					Width="14"
-					Height="14"
-					Data="{StaticResource Icon_Edit}"
-					Fill="{StaticResource IconFillColor}"
-					Stretch="Fill" />
-			</controls:KbButton>
-			<TextBlock Margin="4 0 0 0" Text="{Binding WindowsLoginName}"></TextBlock>
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">远程桌面用户名</TextBlock>
+				<controls:KbButton
+					BorderThickness="0"									
+					Background="Transparent"
+					Command="{Binding RemoteLogin}"
+					CornerRadius="2">
+					<Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Edit}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+				</controls:KbButton>
+				<TextBlock Margin="4 0 0 0" Text="{Binding WindowsLoginName}"></TextBlock>
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">远程桌面密码</TextBlock>
+				<TextBlock Text="{Binding WindowsPasswordStar}"></TextBlock>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="4" Grid.Column="1">
-			<TextBlock Style="{StaticResource LblTb}">远程桌面密码</TextBlock>
-			<TextBlock Text="{Binding WindowsPasswordStar}"></TextBlock>
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">主挖币种</TextBlock>
+				<TextBlock Text="{Binding MainCoinCode}"></TextBlock>
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+				<TextBlock Style="{StaticResource LblTb}">双挖币种</TextBlock>
+				<TextBlock Text="{Binding DualCoinCode}"></TextBlock>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="5" Grid.Column="0">
-			<TextBlock Style="{StaticResource LblTb}">主挖币种</TextBlock>
-			<TextBlock Text="{Binding MainCoinCode}"></TextBlock>
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">主币算力</TextBlock>
+				<TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">主币拒绝</TextBlock>
+				<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
+				<TextBlock Text="/"></TextBlock>
+				<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
+				<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}"></TextBlock>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="5" Grid.Column="1" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-			<TextBlock Style="{StaticResource LblTb}">双挖币种</TextBlock>
-			<TextBlock Text="{Binding DualCoinCode}"></TextBlock>
-		</WrapPanel>
-		<WrapPanel Grid.Row="6" Grid.Column="0">
-			<TextBlock Style="{StaticResource LblTb}">主币算力</TextBlock>
-			<TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
-		</WrapPanel>
-		<WrapPanel Grid.Row="6" Grid.Column="1">
-			<TextBlock Style="{StaticResource LblTb}">主币拒绝</TextBlock>
-			<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
-			<TextBlock Text="/"></TextBlock>
-			<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
-			<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}"></TextBlock>
-		</WrapPanel>
-		<WrapPanel Grid.Row="7" Grid.Column="0" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-			<TextBlock Style="{StaticResource LblTb}">双挖算力</TextBlock>
-			<TextBox 
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">双挖算力</TextBlock>
+				<TextBox 
 				Padding="0"
 				BorderThickness="0"
 				Background="Transparent"
 				IsReadOnly="True"
 				Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">双挖币拒绝</TextBlock>
+				<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
+				<TextBlock Text="/"></TextBlock>
+				<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
+				<TextBlock Margin="10 0 0 0" Text="{Binding DualCoinRejectPercentText}"></TextBlock>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="7" Grid.Column="1" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-			<TextBlock Style="{StaticResource LblTb}">双挖币拒绝</TextBlock>
-			<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
-			<TextBlock Text="/"></TextBlock>
-			<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
-			<TextBlock Margin="10 0 0 0" Text="{Binding DualCoinRejectPercentText}"></TextBlock>
-		</WrapPanel>
-		<WrapPanel Grid.Row="8" Grid.ColumnSpan="2">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
 			<TextBlock Style="{StaticResource LblTb}">主币预期收益</TextBlock>
 			<TextBlock Text="{Binding IncomeMainCoinPerDayText}"></TextBlock>
 			<TextBlock 
 				Text="{Binding MainCoinCode}" 
 				Margin="2 0 0 0"
 				Padding="0"
-				Foreground="{StaticResource LableColor}"
-				VerticalAlignment="Center"></TextBlock>
+				Foreground="{StaticResource LableColor}"></TextBlock>
 			<TextBlock Text=", "></TextBlock>
 			<TextBlock Text="{Binding IncomeMainCoinUsdPerDayText}"></TextBlock>
 			<TextBlock 
 				Text="USD" 
 				Margin="2 0 0 0"
 				Padding="0"
-				Foreground="{StaticResource LableColor}"
-				VerticalAlignment="Center"></TextBlock>
+				Foreground="{StaticResource LableColor}"></TextBlock>
 			<TextBlock Text=", "></TextBlock>
 			<TextBlock Text="{Binding IncomeMainCoinCnyPerDayText}"></TextBlock>
 			<TextBlock 
 				Text="CNY" 
 				Margin="2 0 0 0"
 				Padding="0"
-				Foreground="{StaticResource LableColor}"
-				VerticalAlignment="Center"></TextBlock>
-			<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-			<Label Padding="0" Content="天" Foreground="{StaticResource LableColor}" />
+				Foreground="{StaticResource LableColor}"></TextBlock>
+			<TextBlock Text="/" Foreground="{StaticResource LableColor}" />
+			<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
 		</WrapPanel>
-		<WrapPanel Grid.Row="9" Grid.ColumnSpan="2" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock Style="{StaticResource LblTb}">双挖币预期收益</TextBlock>
 			<TextBlock Text="{Binding IncomeDualCoinPerDayText}"></TextBlock>
 			<TextBlock 
 				Text="{Binding DualCoinCode}" 
 				Margin="2 0 0 0"
 				Padding="0"
-				Foreground="{StaticResource LableColor}"
-				VerticalAlignment="Center"></TextBlock>
+				Foreground="{StaticResource LableColor}"></TextBlock>
 			<TextBlock Text=", "></TextBlock>
 			<TextBlock Text="{Binding IncomeDualCoinUsdPerDayText}"></TextBlock>
 			<TextBlock 
 				Text="USD" 
 				Margin="2 0 0 0"
 				Padding="0"
-				Foreground="{StaticResource LableColor}"
-				VerticalAlignment="Center"></TextBlock>
+				Foreground="{StaticResource LableColor}"></TextBlock>
 			<TextBlock Text=", "></TextBlock>
 			<TextBlock Text="{Binding IncomeDualCoinCnyPerDayText}"></TextBlock>
 			<TextBlock 
 				Text="CNY" 
 				Margin="2 0 0 0"
 				Padding="0"
-				Foreground="{StaticResource LableColor}"
-				VerticalAlignment="Center"></TextBlock>
-			<Label Padding="1" Content="/" Foreground="{StaticResource LableColor}" />
-			<Label Padding="0" Content="天" Foreground="{StaticResource LableColor}" />
+				Foreground="{StaticResource LableColor}"></TextBlock>
+			<TextBlock Text="/" Foreground="{StaticResource LableColor}" />
+			<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
 		</WrapPanel>
-		<WrapPanel Grid.Row="10" Grid.ColumnSpan="2">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">显卡表格</TextBlock>
 			<Grid Margin="0 -4 0 0">
 				<DataGrid 
@@ -272,7 +268,8 @@
 				<StackPanel Background="#00ffffff"></StackPanel>
 			</Grid>
 		</WrapPanel>
-		<WrapPanel Grid.Row="11" Grid.ColumnSpan="2">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
 			<TextBlock Style="{StaticResource LblTb}">主币钱包</TextBlock>
 			<TextBox 
 				Padding="0"
@@ -281,7 +278,8 @@
 				Text="{Binding MainCoinWallet, Mode=OneWay}" 
 				IsReadOnly="True"></TextBox>
 		</WrapPanel>
-		<WrapPanel Grid.Row="12" Grid.ColumnSpan="2">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
 			<TextBlock Style="{StaticResource LblTb}">主币矿池</TextBlock>
 			<TextBox 
 					Padding="0"
@@ -291,7 +289,8 @@
 					IsReadOnly="True"
 					Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
 		</WrapPanel>
-		<WrapPanel Grid.Row="13" Grid.Column="0">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
 			<TextBlock Style="{StaticResource LblTb}">内核</TextBlock>
 			<TextBox 
 				Padding="0"
@@ -300,7 +299,8 @@
 				IsReadOnly="True"
 				Text="{Binding Kernel, Mode=OneWay}"></TextBox>
 		</WrapPanel>
-		<WrapPanel Grid.Row="14" Grid.ColumnSpan="2" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock Style="{StaticResource LblTb}">双挖钱包</TextBlock>
 			<TextBox 
 				Padding="0"
@@ -309,7 +309,8 @@
 				IsReadOnly="True"
 				Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
 		</WrapPanel>
-		<WrapPanel Grid.Row="15" Grid.ColumnSpan="2" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock Style="{StaticResource LblTb}">双挖矿池</TextBlock>
 			<TextBox 
 				Padding="0"
@@ -319,59 +320,70 @@
 				IsReadOnly="True"
 				Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
 		</WrapPanel>
-		<WrapPanel Grid.Row="16" Grid.Column="0">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
 			<TextBlock Style="{StaticResource LblTb}">客户端版本</TextBlock>
 			<TextBox Padding="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding Version, Mode=OneWay}"></TextBox>
 		</WrapPanel>
-		<WrapPanel Grid.Row="17" Grid.Column="0">
-			<TextBlock Style="{StaticResource LblTb}">操作系统</TextBlock>
-			<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSName, Mode=OneWay}"></TextBox>
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">操作系统</TextBlock>
+				<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSName, Mode=OneWay}"></TextBox>
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">虚拟内存</TextBlock>
+				<TextBox Padding="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="17" Grid.Column="1">
-			<TextBlock Style="{StaticResource LblTb}">虚拟内存</TextBlock>
-			<TextBox Padding="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
-		</WrapPanel>
-		<WrapPanel Grid.Row="18" Grid.Column="0">
-			<TextBlock Style="{StaticResource LblTb}">开机自动启动</TextBlock>
-			<TextBlock 
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">开机自动启动</TextBlock>
+				<TextBlock 
 				Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
 				Text="是"></TextBlock>
-		</WrapPanel>
-		<WrapPanel Grid.Row="18" Grid.Column="1">
-			<TextBlock Style="{StaticResource LblTb}">启动后自动开始挖矿</TextBlock>
-			<TextBlock 
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">启动后自动开始挖矿</TextBlock>
+				<TextBlock 
 				Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
 				Text="是"></TextBlock>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="19" Grid.Column="0">
-			<TextBlock Style="{StaticResource LblTb}">显卡类型</TextBlock>
-			<Path
-				Width="18"
-				Height="14"
-				ToolTip="NVIDIA"
-				Visibility="{Binding IsNvidiaIconVisible}"
-				Data="{StaticResource Icon_Nvidia}"
-				Fill="Green"
-				Stretch="Fill" />
-			<Path
-				Width="16"
-				Height="14"
-				ToolTip="AMD"
-				Visibility="{Binding IsAMDIconVisible}"
-				Data="{StaticResource Icon_AMD}"
-				Fill="Red"
-				Stretch="Fill" />
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">显卡类型</TextBlock>
+				<Path
+					Width="18"
+					Height="14"
+					ToolTip="NVIDIA"
+					Visibility="{Binding IsNvidiaIconVisible}"
+					Data="{StaticResource Icon_Nvidia}"
+					Fill="Green"
+					Stretch="Fill" />
+				<Path
+					Width="16"
+					Height="14"
+					ToolTip="AMD"
+					Visibility="{Binding IsAMDIconVisible}"
+					Data="{StaticResource Icon_AMD}"
+					Fill="Red"
+					Stretch="Fill" />
+			</WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
+				<TextBlock Style="{StaticResource LblTb}">显卡驱动</TextBlock>
+				<TextBox 
+					Padding="0"
+					BorderThickness="0"
+					Background="Transparent"
+					IsReadOnly="True"
+					Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
+			</WrapPanel>
 		</WrapPanel>
-		<WrapPanel Grid.Row="19" Grid.Column="1">
-			<TextBlock Style="{StaticResource LblTb}">显卡驱动</TextBlock>
-			<TextBox 
-				Padding="0"
-				BorderThickness="0"
-				Background="Transparent"
-				IsReadOnly="True"
-				Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
-		</WrapPanel>
-		<WrapPanel Grid.Row="20" Grid.ColumnSpan="2">
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
 			<TextBlock Style="{StaticResource LblTb}">显卡</TextBlock>
 			<TextBox 
 				Padding="0"
@@ -381,5 +393,6 @@
 				ToolTip="{Binding GpuInfo}"
 				Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
 		</WrapPanel>
-	</Grid>
+		<Border BorderBrush="{StaticResource LineColor}" BorderThickness="0 1 0 0"></Border>
+	</StackPanel>
 </UserControl>

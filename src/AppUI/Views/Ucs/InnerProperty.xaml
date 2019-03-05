@@ -8,11 +8,15 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-		DataContext="{x:Static vm:InnerPropertyViewModel.Current}"
 		Background="White"
 		mc:Ignorable="d" Height="320" Width="660">
+	<UserControl.DataContext>
+		<vm:InnerPropertyViewModel></vm:InnerPropertyViewModel>
+	</UserControl.DataContext>
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+			<Setter Property="Width" Value="200"></Setter>
+			<Setter Property="Padding" Value="10 4"></Setter>
 		</Style>
 		<Style TargetType="TextBlock">
 			<Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -21,51 +25,51 @@
 			InnerProperty
 		</sys:String>
 	</UserControl.Resources>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"></ColumnDefinition>
-			<ColumnDefinition Width="*"></ColumnDefinition>
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-		</Grid.RowDefinitions>
-		<TextBlock Style="{StaticResource LblTb}" Grid.Row="0" Grid.Column="0" Text="AppName"></TextBlock>
-		<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding AppName}"></TextBlock>
+	<StackPanel>
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="AppName"></TextBlock>
+			<TextBlock Text="{Binding AppName}"></TextBlock>
+		</WrapPanel>
 
-		<TextBlock Style="{StaticResource LblTb}" Grid.Row="1" Grid.Column="0" Text="BootOn"></TextBlock>
-		<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding BootOn}"></TextBlock>
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="IsControlCenter"></TextBlock>
+			<TextBlock Text="{Binding IsControlCenter}"></TextBlock>
+		</WrapPanel>
+		
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="BootOn"></TextBlock>
+			<TextBlock Text="{Binding BootOn}"></TextBlock>
+		</WrapPanel>
 
-		<TextBlock Style="{StaticResource LblTb}" Grid.Row="2" Grid.Column="0" Text="CurrentLangVm"></TextBlock>
-		<controls:KbComboBox 
-			Grid.Row="2" Grid.Column="1"
-			Width="100"
-			Height="26"
-			HorizontalAlignment="Left"
-			ItemsSource="{Binding LangVms.LangVms}"
-			DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
-		</controls:KbComboBox>
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="CurrentLangVm"></TextBlock>
+			<controls:KbComboBox 
+				Width="100"
+				Height="26"
+				HorizontalAlignment="Left"
+				ItemsSource="{Binding LangVms.LangVms}"
+				DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}">
+			</controls:KbComboBox>
+		</WrapPanel>
 
-		<TextBlock Style="{StaticResource LblTb}" Grid.Row="3" Grid.Column="0" Text="GlobalDir"></TextBlock>
-		<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding GlobalDir}"></TextBlock>
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="GlobalDir"></TextBlock>
+			<TextBlock Text="{Binding GlobalDir}"></TextBlock>
+		</WrapPanel>
 
-		<TextBlock Style="{StaticResource LblTb}" Grid.Row="4" Grid.Column="0" Text="LangDbFileFullName"></TextBlock>
-		<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding LangDbFileFullName}"></TextBlock>
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="LangDbFileFullName"></TextBlock>
+			<TextBlock Text="{Binding LangDbFileFullName}"></TextBlock>
+		</WrapPanel>
 
-		<TextBlock Style="{StaticResource LblTb}" Grid.Row="5" Grid.Column="0" Text="ServerDbFileFullName"></TextBlock>
-		<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ServerDbFileFullName}"></TextBlock>
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="ServerDbFileFullName"></TextBlock>
+			<TextBlock Text="{Binding ServerDbFileFullName}"></TextBlock>
+		</WrapPanel>
 
-		<TextBlock Style="{StaticResource LblTb}" Grid.Row="6" Grid.Column="0" Text="LocalDbFileFullName"></TextBlock>
-		<TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding LocalDbFileFullName}"></TextBlock>
-	</Grid>
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="LocalDbFileFullName"></TextBlock>
+			<TextBlock Text="{Binding LocalDbFileFullName}"></TextBlock>
+		</WrapPanel>
+	</StackPanel>
 </UserControl>
