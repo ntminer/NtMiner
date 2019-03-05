@@ -21,31 +21,17 @@ namespace NTMiner.Views.Ucs {
                 }
                 MinerClientRestartViewModel vm = null;
                 vm = new MinerClientRestartViewModel(title, workId, ()=> {
-                    if (minerClients.Count == 1) {
-                        var minerClientVm = minerClients[0];
-                        Server.MinerClientService.RestartNTMinerAsync(minerClientVm.MinerIp, vm.SelectedMineWork.Id, (response, e) => {
+                    foreach (var item in minerClients) {
+                        Server.MinerClientService.RestartNTMinerAsync(item.MinerIp, vm.SelectedMineWork.Id, (response, e) => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
-                                    MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
+                                    MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{item.MinerName}({item.MinerIp}) {response.Description}");
                                 }
                             }
                         });
-                        window.Close();
                     }
-                    else {
-                        foreach (var item in minerClients) {
-                            Server.MinerClientService.RestartNTMinerAsync(item.MinerIp, vm.SelectedMineWork.Id, (response, e) => {
-                                if (!response.IsSuccess()) {
-                                    if (response != null) {
-                                        Write.UserLine(response.Description, ConsoleColor.Red);
-                                        MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{item.MinerName}({item.MinerIp}) {response.Description}");
-                                    }
-                                }
-                            });
-                        }
-                        window.Close();
-                    }
+                    window.Close();
                 });
                 vm.CloseWindow = () => window.Close();
                 return new MinerClientRestart(vm);

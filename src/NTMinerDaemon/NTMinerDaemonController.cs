@@ -174,7 +174,7 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 try {
-                    if (IsNTMinerOpened(request.WorkId)) {
+                    if (IsNTMinerOpened(Guid.Empty)) {
                         DoCloseNTMiner();
                         System.Threading.Thread.Sleep(1000);
                     }
