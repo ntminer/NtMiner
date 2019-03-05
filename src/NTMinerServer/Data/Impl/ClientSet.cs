@@ -20,13 +20,7 @@ namespace NTMiner.Data.Impl {
                 action: message => {
                     InitOnece();
                     lock (_locker) {
-                        DateTime time = message.Timestamp.AddMinutes(-20);
-                        // 移除20分钟内未活跃的客户端缓存
-                        List<Guid> toRemoves = _dicById.Where(a => a.Value.ModifiedOn < time).Select(a => a.Key).ToList();
-                        foreach (var clientId in toRemoves) {
-                            _dicById.Remove(clientId);
-                        }
-                        time = message.Timestamp.AddSeconds(-message.Seconds);
+                        DateTime time = message.Timestamp.AddSeconds(-message.Seconds);
                         using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                             var col = db.GetCollection<ClientData>();
                             // 更新一个周期内活跃的客户端
@@ -51,8 +45,7 @@ namespace NTMiner.Data.Impl {
                 if (!_isInited) {
                     using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                         var col = db.GetCollection<ClientData>();
-                        DateTime time = DateTime.Now.AddMinutes(-20);
-                        foreach (var item in col.Find(Query.GT(nameof(ClientData.ModifiedOn), time))) {
+                        foreach (var item in col.FindAll()) {
                             _dicById.Add(item.Id, item);
                         }
                     }
@@ -148,16 +141,7 @@ namespace NTMiner.Data.Impl {
             out int total) {
             InitOnece();
             lock (_locker) {
-                IQueryable<ClientData> query;
-                if (timeLimit.HasValue && timeLimit.Value.AddSeconds(20 * 60 + Timestamp.DesyncSeconds) > DateTime.Now) {
-                    query = _dicById.Values.AsQueryable();
-                }
-                else {
-                    using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                        var col = db.GetCollection<ClientData>();
-                        query = col.FindAll().AsQueryable();
-                    }
-                }
+                IQueryable<ClientData> query = _dicById.Values.AsQueryable();
                 if (timeLimit.HasValue) {
                     query = query.Where(a => a.ModifiedOn > timeLimit.Value);
                 }
@@ -256,22 +240,7 @@ namespace NTMiner.Data.Impl {
             lock (_locker) {
                 _dicById.TryGetValue(clientId, out clientData);
             }
-            if (clientData == null) {
-                using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                    var col = db.GetCollection<ClientData>();
-                    clientData = col.FindById(clientId);
-                    if (clientData != null) {
-                        Add(clientData);
-                    }
-                }
-            }
-            DateTime time = DateTime.Now.AddMinutes(-3);
-            // 3分钟未上报算力视为0算力
-            if (clientData != null && clientData.ModifiedOn < time) {
-                clientData.DualCoinSpeed = 0;
-                clientData.MainCoinSpeed = 0;
-            }
-            if (isPull) {
+            if (isPull && clientData != null) {
                 CreatePullTask(clientData).Wait();
             }
             return clientData;
