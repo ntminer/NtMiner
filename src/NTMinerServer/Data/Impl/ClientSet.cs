@@ -284,7 +284,7 @@ namespace NTMiner.Data.Impl {
         public static Task<SpeedData> CreatePullTask(ClientData clientData) {
             return Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
                 if (exception != null) {
-                    if (exception is SocketException) {
+                    if (exception.GetInnerException() is SocketException) {
                         clientData.IsMining = false;
                         clientData.MainCoinSpeed = 0;
                         clientData.DualCoinSpeed = 0;

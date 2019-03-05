@@ -44,6 +44,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionExtension.cs" />
     <Compile Include="IAppSettingSet.cs" />
     <Compile Include="Bus\Cmd.cs" />
     <Compile Include="Bus\DelegateHandler`1.cs" />
