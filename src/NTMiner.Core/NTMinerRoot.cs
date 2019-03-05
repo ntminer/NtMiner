@@ -713,7 +713,13 @@ namespace NTMiner {
                         if (sb.Length != len) {
                             sb.Append(";");
                         }
-                        sb.Append(g.Key).Append(" x ").Append(g.Count());
+                        int gCount = g.Count();
+                        if (gCount > 1) {
+                            sb.Append(g.Key).Append(" x ").Append(gCount);
+                        }
+                        else {
+                            sb.Append(g.Key);
+                        }
                     }
                     _gpuSetInfo = sb.ToString();
                 }
