@@ -124,6 +124,7 @@ namespace NTMiner.Vms {
                         });
                     }
                 });
+                Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
             });
             this.StopMine = new DelegateCommand(() => {
                 IsMining = false;
@@ -136,6 +137,7 @@ namespace NTMiner.Vms {
                         });
                     }
                 });
+                Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
             });
         }
         #endregion

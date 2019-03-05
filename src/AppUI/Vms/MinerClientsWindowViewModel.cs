@@ -187,6 +187,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     foreach (var item in checkedItems) {
+                        item.IsMining = true;
                         Server.MinerClientService.StartMineAsync(item.MinerIp, item.WorkId, (response, e) => {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
@@ -196,6 +197,7 @@ namespace NTMiner.Vms {
                                 });
                             }
                         });
+                        Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                     }
                 }
             });
@@ -206,6 +208,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     foreach (var item in checkedItems) {
+                        item.IsMining = false;
                         Server.MinerClientService.StopMineAsync(item.MinerIp, (response, e) => {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
@@ -215,6 +218,7 @@ namespace NTMiner.Vms {
                                 });
                             }
                         });
+                        Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                     }
                 }
             });
