@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using NTMiner.Hashrate;
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,21 @@ namespace NTMiner.Data.Impl {
                             var col = db.GetCollection<ClientData>();
                             // 更新一个周期内活跃的客户端
                             col.Upsert(_dicById.Values.Where(a => a.ModifiedOn > time));
+                        }
+                    }
+                });
+            VirtualRoot.On<Per2MinuteEvent>(
+                "每两分钟拉取挖矿端算力图拍照源数据",
+                LogEnum.Console,
+                action: message => {
+                    if (HostRoot.IsPull) {
+                        ClientData[] clientDatas = _dicById.Values.ToArray();
+                        Task<SpeedData>[] tasks = clientDatas.Select(a => CreatePullTask(a)).ToArray();
+                        Task.WaitAll(tasks, 10 * 1000);
+                        foreach (var task in tasks) {
+                            if (task.Result != null) {
+                                root.ClientCoinSnapshotSet.Snapshot(task.Result);
+                            }
                         }
                     }
                 });
@@ -264,16 +280,14 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public static Task CreatePullTask(ClientData clientData) {
-            return Task.Factory.StartNew(() => {
-                Client.MinerClientService.GetSpeed(clientData.MinerIp, (speedData, exception) => {
-                    if (exception != null) {
-                        // TODO:根据错误类型更新矿工状态
-                    }
-                    else {
-                        clientData.Update(speedData);
-                    }
-                });
+        public static Task<SpeedData> CreatePullTask(ClientData clientData) {
+            return Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
+                if (exception != null) {
+                    // TODO:根据错误类型更新矿工状态
+                }
+                else {
+                    clientData.Update(speedData);
+                }
             });
         }
     }

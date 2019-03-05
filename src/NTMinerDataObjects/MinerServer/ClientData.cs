@@ -56,10 +56,14 @@ namespace NTMiner.MinerServer {
         }
 
         public void Update(SpeedData speedData, string minerIp) {
+            this.MinerIp = minerIp;
+            Update(speedData);
+        }
+
+        public void Update(SpeedData speedData) {
             if (speedData == null) {
                 return;
             }
-            this.MinerIp = minerIp;
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
             this.IsAutoRestartKernel = speedData.IsAutoRestartKernel;

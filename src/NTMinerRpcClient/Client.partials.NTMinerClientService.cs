@@ -73,17 +73,19 @@ namespace NTMiner {
                 });
             }
 
-            public void GetSpeed(string clientHost, Action<SpeedData, Exception> callback) {
-                Task.Factory.StartNew(() => {
+            public Task<SpeedData> GetSpeedAsync(string clientHost, Action<SpeedData, Exception> callback) {
+                return Task.Factory.StartNew<SpeedData>(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:3336/api/MinerClient/GetSpeed", null);
                             SpeedData data = message.Result.Content.ReadAsAsync<SpeedData>().Result;
                             callback?.Invoke(data, null);
+                            return data;
                         }
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
+                        return null;
                     }
                 });
             }

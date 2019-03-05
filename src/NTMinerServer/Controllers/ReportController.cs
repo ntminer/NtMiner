@@ -12,6 +12,9 @@ namespace NTMiner.Controllers {
                 if (speedData == null) {
                     return;
                 }
+                if (HostRoot.IsPull) {
+                    return;
+                }
                 string minerIp = Request.GetWebClientIp();
                 ClientData clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId, false);
                 if (clientData == null) {
@@ -21,14 +24,7 @@ namespace NTMiner.Controllers {
                 else {
                     clientData.Update(speedData, minerIp);
                 }
-                ClientCoinSnapshotData dualCoinSnapshotData;
-                ClientCoinSnapshotData mainCoinSnapshotData = ClientCoinSnapshotData.Create(speedData, out dualCoinSnapshotData);
-                if (mainCoinSnapshotData != null) {
-                    HostRoot.Current.ClientCoinSnapshotSet.Add(mainCoinSnapshotData);
-                }
-                if (dualCoinSnapshotData != null) {
-                    HostRoot.Current.ClientCoinSnapshotSet.Add(dualCoinSnapshotData);
-                }
+                HostRoot.Current.ClientCoinSnapshotSet.Snapshot(speedData);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -38,6 +34,9 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public void ReportState([FromBody]ReportStateRequest request) {
             try {
+                if (HostRoot.IsPull) {
+                    return;
+                }
                 string minerIp = Request.GetWebClientIp();
                 ClientData clientData = HostRoot.Current.ClientSet.LoadClient(request.ClientId, false);
                 if (clientData == null) {

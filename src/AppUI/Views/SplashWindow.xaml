@@ -19,7 +19,7 @@
 		<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 			<Image Width="120" Height="120" Source="{x:Static vm:AppStatic.BigLogoImageSource}">
 			</Image>
-			<TextBlock VerticalAlignment="Center" FontSize="50" Foreground="{StaticResource ThemeForeground}" Text="{x:Static local:SplashWindow.WindowTitle}"></TextBlock>
+			<TextBlock Margin="10 0 0 0" VerticalAlignment="Center" FontSize="50" Foreground="{StaticResource ThemeForeground}" Text="{x:Static local:SplashWindow.WindowTitle}"></TextBlock>
 		</WrapPanel>
 		<TextBlock Margin="4 2 0 0" Text="{x:Static local:SplashWindow.Version}" VerticalAlignment="Top" FontSize="14" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 		<WrapPanel Grid.Row="1" Background="{StaticResource ThemeBackground}">

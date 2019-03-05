@@ -109,6 +109,7 @@
     <Compile Include="Data\INTMinerFileSet.cs" />
     <Compile Include="Data\IOverClockDataSet.cs" />
     <Compile Include="Data\IWalletSet.cs" />
+    <Compile Include="Data\SnapshotExtension.cs" />
     <Compile Include="Data\SnapshotTimestamp.cs" />
     <Compile Include="HostRoot.cs" />
     <Compile Include="HttpRequestMessageExtension.cs" />
