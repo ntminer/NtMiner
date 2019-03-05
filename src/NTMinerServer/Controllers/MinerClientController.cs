@@ -115,7 +115,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                Client.MinerClientService.StartMineAsync(request, null);
+                Client.NTMinerDaemonService.StartMineAsync(request, null);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

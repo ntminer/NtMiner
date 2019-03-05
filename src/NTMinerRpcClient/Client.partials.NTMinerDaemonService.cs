@@ -150,6 +150,21 @@ namespace NTMiner {
                 });
             }
 
+            public void StartMineAsync(MinerClient.StartMineRequest request, Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/StartMine", request);
+                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                            callback?.Invoke(response, null);
+                        }
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+
             public void StartNoDevFeeAsync(StartNoDevFeeRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {

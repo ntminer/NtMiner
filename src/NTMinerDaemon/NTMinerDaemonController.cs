@@ -123,6 +123,9 @@ namespace NTMiner {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
+                if (IsNTMinerOpened(request.WorkId)) {
+                    return ResponseBase.Ok(request.MessageId);
+                }
                 string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string arguments = string.Empty;
@@ -139,6 +142,27 @@ namespace NTMiner {
             }
         }
 
+        private static bool IsNTMinerOpened(Guid workId) {
+            string location = NTMinerRegistry.GetLocation();
+            if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                string processName = Path.GetFileNameWithoutExtension(location);
+                Process[] processes = Process.GetProcessesByName(processName);
+                if (processes.Length != 0) {
+                    if (workId != Guid.Empty) {
+                        string oldArguments = NTMinerRegistry.GetArguments();
+                        string arguments = "workid=" + workId.ToString();
+                        if (oldArguments.IndexOf(arguments, StringComparison.OrdinalIgnoreCase) != -1) {
+                            return true;
+                        }
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         [HttpPost]
         public ResponseBase RestartNTMiner([FromBody]RestartNTMinerRequest request) {
             if (request == null) {
@@ -150,8 +174,10 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 try {
-                    DoCloseNTMiner();
-                    System.Threading.Thread.Sleep(1000);
+                    if (IsNTMinerOpened(request.WorkId)) {
+                        DoCloseNTMiner();
+                        System.Threading.Thread.Sleep(1000);
+                    }
                     string arguments = NTMinerRegistry.GetArguments();
                     if (!string.IsNullOrEmpty(arguments)) {
                         string[] parts = arguments.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -268,6 +294,42 @@ namespace NTMiner {
                 }
             });
             return ResponseBase.Ok(request.MessageId);
+        }
+
+        [HttpPost]
+        public ResponseBase StartMine([FromBody]MinerClient.StartMineRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                string location = NTMinerRegistry.GetLocation();
+                if (IsNTMinerOpened(request.WorkId)) {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3336/api/MinerClient/StartMine", request);
+                        response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        return response;
+                    }
+                }
+                else {
+                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                        string arguments = "--AutoStart";
+                        if (request.WorkId != Guid.Empty) {
+                            arguments += " workid=" + request.WorkId.ToString();
+                        }
+                        Windows.Cmd.RunClose(location, arguments);
+                        return ResponseBase.Ok(request.MessageId);
+                    }
+                    return ResponseBase.ServerError(request.MessageId, "挖矿端程序不存在");
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
         }
 
         [HttpPost]
