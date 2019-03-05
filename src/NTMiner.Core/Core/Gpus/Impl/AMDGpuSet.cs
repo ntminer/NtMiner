@@ -58,11 +58,9 @@ namespace NTMiner.Core.Gpus.Impl {
                 string driverVersion = adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
                 Dictionary<string, string> kvs = new Dictionary<string, string> {
-                    {"GPU_64BIT_ATOMICS","1" },
                     {"GPU_FORCE_64BIT_PTR","0" },
                     {"GPU_MAX_ALLOC_PERCENT","100" },
                     {"GPU_MAX_HEAP_SIZE","100" },
-                    {"GPU_MAX_WORKGROUP_SIZE","1024" },
                     {"GPU_SINGLE_ALLOC_PERCENT","100" },
                     { "GPU_USE_SYNC_OBJECTS","1" }
                 };
