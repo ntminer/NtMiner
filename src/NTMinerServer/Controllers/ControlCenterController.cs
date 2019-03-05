@@ -142,27 +142,6 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region LoadClients
-        [HttpPost]
-        public LoadClientsResponse LoadClients([FromBody]LoadClientsRequest request) {
-            if (request == null || request.ClientIds == null || request.ClientIds.Count == 0) {
-                return ResponseBase.InvalidInput<LoadClientsResponse>(Guid.Empty, "参数错误");
-            }
-            try {
-                LoadClientsResponse response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
-                    return response;
-                }
-                var data = HostRoot.Current.ClientSet.LoadClients(request.ClientIds, request.IsPull) ?? new List<ClientData>();
-                return LoadClientsResponse.Ok(request.MessageId, data);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<LoadClientsResponse>(request.MessageId, e.Message);
-            }
-        }
-        #endregion
-
         #region QueryClients
         [HttpPost]
         public QueryClientsResponse QueryClients([FromBody]QueryClientsRequest request) {

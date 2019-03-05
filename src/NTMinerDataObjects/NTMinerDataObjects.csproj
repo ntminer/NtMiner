@@ -117,8 +117,6 @@
     <Compile Include="MinerServer\IWallet.cs" />
     <Compile Include="MinerServer\LoadClientRequest.cs" />
     <Compile Include="MinerServer\LoadClientResponse.cs" />
-    <Compile Include="MinerServer\LoadClientsRequest.cs" />
-    <Compile Include="MinerServer\LoadClientsResponse.cs" />
     <Compile Include="MinerServer\LoginControlCenterRequest.cs" />
     <Compile Include="MinerServer\LoginData.cs" />
     <Compile Include="MinerServer\MinerGroupData.cs" />

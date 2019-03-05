@@ -110,26 +110,6 @@ namespace NTMiner {
             }
             #endregion
 
-            #region LoadClientsAsync
-            public void LoadClientsAsync(List<Guid> clientIds, bool isPull, Action<LoadClientsResponse, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        LoadClientsRequest request = new LoadClientsRequest {
-                            LoginName = SingleUser.LoginName,
-                            ClientIds = clientIds,
-                            IsPull = isPull
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        LoadClientsResponse response = Request<LoadClientsResponse>("ControlCenter", "LoadClients", request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
-            }
-            #endregion
-
             #region GetLatestSnapshotsAsync
             public void GetLatestSnapshotsAsync(
                 int limit,

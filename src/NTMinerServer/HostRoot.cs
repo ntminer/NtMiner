@@ -9,6 +9,8 @@ using System.IO;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
+        public static bool IsPull = false;
+
         static void Main(string[] args) {
             string baseAddress = "http://localhost:3339";
             Console.Title = baseAddress + " Enter exit or ctrl+c to quit.";

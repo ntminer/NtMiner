@@ -65,7 +65,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                LoadClientsResponse response;
+                ResponseBase response;
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }

@@ -139,6 +139,7 @@ namespace NTMiner.Data.Impl {
             string version,
             string kernel,
             out int total) {
+            HostRoot.IsPull = isPull;
             InitOnece();
             lock (_locker) {
                 IQueryable<ClientData> query = _dicById.Values.AsQueryable();
@@ -217,24 +218,8 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public List<ClientData> LoadClients(IEnumerable<Guid> clientIds, bool isPull) {
-            InitOnece();
-            List<ClientData> results = new List<ClientData>();
-            DateTime time = DateTime.Now.AddMinutes(-3);
-            foreach (var clientId in clientIds) {
-                ClientData clientData = LoadClient(clientId, false);
-                if (clientData != null) {
-                    results.Add(clientData);
-                }
-            }
-            if (isPull) {
-                Task[] pullTasks = results.Select(a => CreatePullTask(a)).ToArray();
-                Task.WaitAll(pullTasks, 3 * 1000);
-            }
-            return results;
-        }
-
         public ClientData LoadClient(Guid clientId, bool isPull) {
+            HostRoot.IsPull = isPull;
             InitOnece();
             ClientData clientData = null;
             lock (_locker) {
