@@ -239,11 +239,6 @@ namespace NTMiner.Data.Impl {
             DateTime time = DateTime.Now.AddMinutes(-3);
             foreach (var clientId in clientIds) {
                 ClientData clientData = LoadClient(clientId);
-                // 3分钟未上报算力视为0算力
-                if (clientData.ModifiedOn < time) {
-                    clientData.DualCoinSpeed = 0;
-                    clientData.MainCoinSpeed = 0;
-                }
                 if (clientData != null) {
                     results.Add(clientData);
                 }
