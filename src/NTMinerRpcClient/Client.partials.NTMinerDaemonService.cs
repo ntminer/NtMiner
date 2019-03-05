@@ -30,6 +30,17 @@ namespace NTMiner {
                 });
             }
 
+            public void CloseDaemon() {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:3337/api/NTMinerDaemon/CloseDaemon", null);
+                        Write.DevLine("CloseDaemon " + message.Result.ReasonPhrase);
+                    }
+                }
+                catch {
+                }
+            }
+
             public void SetMinerNameAsync(MinerClient.SetMinerNameRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {

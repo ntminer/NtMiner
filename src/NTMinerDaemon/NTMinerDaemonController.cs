@@ -26,6 +26,11 @@ namespace NTMiner {
         }
 
         [HttpPost]
+        public void CloseDaemon() {
+            HostRoot.WaitHandle.Set();
+        }
+
+        [HttpPost]
         public ResponseBase SetMinerName([FromBody]MinerClient.SetMinerNameRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");

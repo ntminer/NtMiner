@@ -54,12 +54,12 @@ namespace NTMiner {
                 Logger.ErrorDebugLine(e.Message, e);
             }
         }
+
+        public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         private static void Run() {
             try {
                 HttpServer.Start("http://localhost:3337");
-                while (true) {
-                    Thread.Sleep(1000);
-                }
+                WaitHandle.WaitOne();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

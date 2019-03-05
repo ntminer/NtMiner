@@ -15,6 +15,7 @@ namespace NTMiner.Daemon {
                         string thisVersion = ThisNTMinerDaemonFileVersion;
                         if (thatVersion != thisVersion) {
                             Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
+                            Client.NTMinerDaemonService.CloseDaemon();
                             Windows.TaskKill.Kill(processName);
                             ExtractRunNTMinerDaemonAsync();
                         }
