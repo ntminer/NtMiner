@@ -3,7 +3,7 @@ namespace NTMiner.Bus.DirectBus {
     using System;
     using System.Collections.Generic;
 
-    public abstract class DirectBus : DisposableObject, IBus {
+    public abstract class DirectBus : IBus {
         #region Private Fields
         private volatile bool _committed = true;
         private readonly IMessageDispatcher _dispatcher;
@@ -18,11 +18,6 @@ namespace NTMiner.Bus.DirectBus {
                 throw new ArgumentNullException("dispatcher");
             }
             this._dispatcher = dispatcher;
-        }
-        #endregion
-
-        #region Protected Methods
-        protected override void Dispose(bool disposing) {
         }
         #endregion
 

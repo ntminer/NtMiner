@@ -29,7 +29,8 @@ namespace NTMiner.Vms {
                             iconName = "Icom_GpuEmpty";
                             break;
                         default:
-                            throw new System.InvalidProgramException();
+                            iconName = "Icom_GpuEmpty";
+                            break;
                     }
                     _icon = (Geometry)System.Windows.Application.Current.Resources[iconName];
                 }
@@ -51,7 +52,8 @@ namespace NTMiner.Vms {
                         iconFill = "Gray";
                         break;
                     default:
-                        throw new System.InvalidProgramException();
+                        iconFill = "Gray";
+                        break;
                 }
                 return iconFill;
             }

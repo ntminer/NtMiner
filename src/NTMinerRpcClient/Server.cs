@@ -48,7 +48,7 @@ namespace NTMiner {
                     return response;
                 }
             }
-            catch (Exception e) {
+            catch {
                 return null;
             }
         }
