@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
             if (Server.MinerServerHost.IndexOf("ntminer.com", StringComparison.OrdinalIgnoreCase) == -1) {
                 _isPull = true;
             }
-            this._lastActivedOn = _minuteItems[0];
+            this._lastActivedOn = _minuteItems[3];
             VirtualRoot.On<Per1SecondEvent>(
                 "刷新倒计时秒表",
                 LogEnum.None,
