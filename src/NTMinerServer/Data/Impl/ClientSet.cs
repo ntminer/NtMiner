@@ -4,6 +4,7 @@ using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -283,7 +284,15 @@ namespace NTMiner.Data.Impl {
         public static Task<SpeedData> CreatePullTask(ClientData clientData) {
             return Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
                 if (exception != null) {
-                    // TODO:根据错误类型更新矿工状态
+                    if (exception is SocketException) {
+                        clientData.IsMining = false;
+                        clientData.MainCoinSpeed = 0;
+                        clientData.DualCoinSpeed = 0;
+                        foreach (var item in clientData.GpuTable) {
+                            item.MainCoinSpeed = 0;
+                            item.DualCoinSpeed = 0;
+                        }
+                    }
                 }
                 else {
                     clientData.Update(speedData);
