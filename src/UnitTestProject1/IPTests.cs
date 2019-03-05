@@ -7,7 +7,7 @@ namespace UnitTestProject1 {
     public class IPTests {
         [TestMethod]
         public void GetAllDevicesOnLANTest() {
-            foreach (IPAddress ip in NTMiner.VirtualRoot.IpSet) {
+            foreach (IPAddress ip in NTMiner.Ip.Impl.IpSet.Instance) {
                 Console.WriteLine("IP : {0}", ip);
             }
         }
