@@ -9,9 +9,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
+        public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsControlCenter ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
+
         private static NotificationMessageManagers _manager;
         public static NotificationMessageManagers Managers {
             get {
