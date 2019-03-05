@@ -109,7 +109,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{DynamicResource DghGpuTemperature}"></TextBlock>
@@ -121,7 +121,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{DynamicResource DghGpuFan}"></TextBlock>
@@ -133,7 +133,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
