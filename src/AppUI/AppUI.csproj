@@ -233,9 +233,6 @@
     <Compile Include="Views\Ucs\Console.xaml.cs">
       <DependentUpon>Console.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\AutoStartCountdown.xaml.cs">
-      <DependentUpon>AutoStartCountdown.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Ucs\KernelOutputTranslaterEdit.xaml.cs">
       <DependentUpon>KernelOutputTranslaterEdit.xaml</DependentUpon>
     </Compile>
@@ -634,10 +631,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Console.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\AutoStartCountdown.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -315,23 +315,6 @@ namespace NTMiner {
                     Cleaner.ClearPackages();
                 });
             #endregion
-            #region 启动10秒钟后自动开始挖矿
-            if (this.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) {
-                VirtualRoot.On<HasBoot10SecondEvent>(
-                    "启动10秒钟后自动开始挖矿",
-                    LogEnum.Console,
-                    action: (message) => {
-                        if ((this.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsAutoStartCanceled && !this.IsMining) {
-                            UIThread.Execute(() => {
-                                this.StartMine(CommandLineArgs.WorkId);
-                            });
-                        }
-                        if (IsAutoStartCanceled) {
-                            Logger.WarnDebugLine("自动挖矿已取消");
-                        }
-                    });
-            }
-            #endregion
             #region 停止挖矿后停止NoDevFee
             VirtualRoot.On<MineStopedEvent>(
                 "停止挖矿后停止NoDevFee",
@@ -397,6 +380,13 @@ namespace NTMiner {
                         });
                     });
             #endregion
+
+            // 自动开始挖矿
+            if ((this.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !this.IsMining) {
+                UIThread.Execute(() => {
+                    this.StartMine(CommandLineArgs.WorkId);
+                });
+            }
         }
         #endregion
 

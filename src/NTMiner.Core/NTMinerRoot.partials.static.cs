@@ -37,8 +37,6 @@ namespace NTMiner {
             }
         }
 
-        public static bool IsAutoStartCanceled = false;
-
         public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
             return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);
         }

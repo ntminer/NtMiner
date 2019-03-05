@@ -75,10 +75,6 @@ namespace NTMiner {
                                 Logger.ErrorDebugLine(ex.Message, ex);
                             }
                             splashWindow?.Close();
-                            if (NTMinerRoot.Current.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) {
-                                Logger.InfoDebugLine("自动开始挖矿倒计时");
-                                Views.Ucs.AutoStartCountdown.ShowDialog();
-                            }
                         });
                     });
                     VirtualRoot.Accept<CloseNTMinerCommand>(
