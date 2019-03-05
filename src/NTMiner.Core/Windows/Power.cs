@@ -3,11 +3,11 @@
 namespace NTMiner.Windows {
     public static class Power {
         public static void Restart() {
-            Cmd.RunClose("shutdown", "-r -t 0");
+            Cmd.RunClose("shutdown", "-r -f -t 0");
         }
 
         public static void Shutdown() {
-            Cmd.RunClose("shutdown", "-s -t 0");
+            Cmd.RunClose("shutdown", "-s -f -t 0");
         }
 
         public static bool PowerCfgOff() {
