@@ -53,16 +53,14 @@ namespace NTMiner.Core.Gpus.Impl {
                 LogEnum.Console,
                 action: message => {
                     ICoinProfile coinProfile = root.MinerProfile.GetCoinProfile(message.CoinId);
-                    if (coinProfile.IsOverClockEnabled) {
-                        if (coinProfile.IsOverClockGpuAll) {
-                            GpuOverClockData overClockData = _dicById.Values.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);
-                            VirtualRoot.Execute(new OverClockCommand(overClockData));
-                        }
-                        else {
-                            foreach (var overClockData in _dicById.Values.Where(a => a.CoinId == message.CoinId)) {
-                                if (overClockData.IsEnabled && overClockData.Index != NTMinerRoot.GpuAllId) {
-                                    VirtualRoot.Execute(new OverClockCommand(overClockData));
-                                }
+                    if (coinProfile.IsOverClockGpuAll) {
+                        GpuOverClockData overClockData = _dicById.Values.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);
+                        VirtualRoot.Execute(new OverClockCommand(overClockData));
+                    }
+                    else {
+                        foreach (var overClockData in _dicById.Values.Where(a => a.CoinId == message.CoinId)) {
+                            if (overClockData.IsEnabled && overClockData.Index != NTMinerRoot.GpuAllId) {
+                                VirtualRoot.Execute(new OverClockCommand(overClockData));
                             }
                         }
                     }
