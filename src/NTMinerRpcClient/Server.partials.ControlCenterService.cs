@@ -153,12 +153,13 @@ namespace NTMiner {
             #endregion
 
             #region LoadClientAsync
-            public void LoadClientAsync(Guid clientId, Action<LoadClientResponse, Exception> callback) {
+            public void LoadClientAsync(Guid clientId, bool isPull, Action<LoadClientResponse, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         LoadClientRequest request = new LoadClientRequest {
                             LoginName = SingleUser.LoginName,
-                            ClientId = clientId
+                            ClientId = clientId,
+                            IsPull = isPull
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         LoadClientResponse response = Request<LoadClientResponse>("ControlCenter", "LoadClient", request);

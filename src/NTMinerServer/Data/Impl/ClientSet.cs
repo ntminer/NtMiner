@@ -238,7 +238,7 @@ namespace NTMiner.Data.Impl {
             List<ClientData> results = new List<ClientData>();
             DateTime time = DateTime.Now.AddMinutes(-3);
             foreach (var clientId in clientIds) {
-                ClientData clientData = LoadClient(clientId);
+                ClientData clientData = LoadClient(clientId, false);
                 if (clientData != null) {
                     results.Add(clientData);
                 }
@@ -250,7 +250,7 @@ namespace NTMiner.Data.Impl {
             return results;
         }
 
-        public ClientData LoadClient(Guid clientId) {
+        public ClientData LoadClient(Guid clientId, bool isPull) {
             InitOnece();
             ClientData clientData = null;
             lock (_locker) {
@@ -271,12 +271,15 @@ namespace NTMiner.Data.Impl {
                 clientData.DualCoinSpeed = 0;
                 clientData.MainCoinSpeed = 0;
             }
+            if (isPull) {
+                CreatePullTask(clientData).Wait();
+            }
             return clientData;
         }
 
         public void UpdateClient(Guid clientId, string propertyName, object value) {
             InitOnece();
-            ClientData clientData = LoadClient(clientId);
+            ClientData clientData = LoadClient(clientId, false);
             if (clientData != null) {
                 PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
                 if (propertyInfo != null) {
@@ -291,7 +294,7 @@ namespace NTMiner.Data.Impl {
 
         public void UpdateClientProperties(Guid clientId, Dictionary<string, object> values) {
             InitOnece();
-            ClientData clientData = LoadClient(clientId);
+            ClientData clientData = LoadClient(clientId, false);
             if (clientData != null) {
                 foreach (var kv in values) {
                     object value = kv.Value;

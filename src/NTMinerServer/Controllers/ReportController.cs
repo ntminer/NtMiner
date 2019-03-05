@@ -13,7 +13,7 @@ namespace NTMiner.Controllers {
                     return;
                 }
                 string minerIp = Request.GetWebClientIp();
-                ClientData clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId);
+                ClientData clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId, false);
                 if (clientData == null) {
                     clientData = new ClientData() {
                         Id = speedData.ClientId,
@@ -93,7 +93,7 @@ namespace NTMiner.Controllers {
         public void ReportState([FromBody]ReportStateRequest request) {
             try {
                 string minerIp = Request.GetWebClientIp();
-                ClientData clientData = HostRoot.Current.ClientSet.LoadClient(request.ClientId);
+                ClientData clientData = HostRoot.Current.ClientSet.LoadClient(request.ClientId, false);
                 if (clientData == null) {
                     clientData = new ClientData {
                         Id = request.ClientId,

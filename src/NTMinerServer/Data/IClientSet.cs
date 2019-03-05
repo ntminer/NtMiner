@@ -36,6 +36,6 @@ namespace NTMiner.Data {
 
         List<ClientData> LoadClients(IEnumerable<Guid> clientIds, bool isPull);
 
-        ClientData LoadClient(Guid clientId);
+        ClientData LoadClient(Guid clientId, bool isPull);
     }
 }

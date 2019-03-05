@@ -5,6 +5,7 @@ namespace NTMiner.MinerServer {
     public class LoadClientRequest : RequestBase, ISignatureRequest {
         public LoadClientRequest() { }
         public string LoginName { get; set; }
+        public bool IsPull { get; set; }
         public Guid ClientId { get; set; }
         public string Sign { get; set; }
 
@@ -16,6 +17,7 @@ namespace NTMiner.MinerServer {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
+                .Append(nameof(IsPull)).Append(IsPull)
                 .Append(nameof(ClientId)).Append(ClientId)
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(UserData.Password)).Append(password);

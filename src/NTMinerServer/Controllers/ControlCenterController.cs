@@ -240,7 +240,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId);
+                var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId, request.IsPull);
                 return LoadClientResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
