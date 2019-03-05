@@ -33,7 +33,7 @@ namespace NTMiner {
 
             string filter = $"ip && (ip.DstAddr = {s_poolIp} || ip.SrcAddr = {s_poolIp}) && tcp && tcp.PayloadLength > 100";
             Console.WriteLine(filter);
-            var divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
+            var divertHandle = WinDivertNativeMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
 
             try {
                 if (divertHandle != IntPtr.Zero) {
@@ -44,7 +44,7 @@ namespace NTMiner {
                 Console.WriteLine(e.Message, e.StackTrace);
             }
             finally {
-                WinDivertMethods.WinDivertClose(divertHandle);
+                WinDivertNativeMethods.WinDivertClose(divertHandle);
             }
         }
 
@@ -57,7 +57,7 @@ namespace NTMiner {
                     WINDIVERT_TCPHDR* tcpHdr = null;
                     WINDIVERT_ADDRESS addr = new WINDIVERT_ADDRESS();
 
-                    if (!WinDivertMethods.WinDivertRecv(handle, packet, (uint)packet.Length, ref addr, ref readLength)) continue;
+                    if (!WinDivertNativeMethods.WinDivertRecv(handle, packet, (uint)packet.Length, ref addr, ref readLength)) continue;
 
                     if (!ranOnce && readLength > 1) {
                         ranOnce = true;
@@ -66,7 +66,7 @@ namespace NTMiner {
 
                     fixed (byte* inBuf = packet) {
                         byte* payload = null;
-                        WinDivertMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
+                        WinDivertNativeMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
@@ -86,8 +86,8 @@ namespace NTMiner {
                         }
                     }
 
-                    WinDivertMethods.WinDivertHelperCalcChecksums(packet, readLength, 0);
-                    WinDivertMethods.WinDivertSendEx(handle, packet, readLength, 0, ref addr, IntPtr.Zero, IntPtr.Zero);
+                    WinDivertNativeMethods.WinDivertHelperCalcChecksums(packet, readLength, 0);
+                    WinDivertNativeMethods.WinDivertSendEx(handle, packet, readLength, 0, ref addr, IntPtr.Zero, IntPtr.Zero);
                 }
 
             }

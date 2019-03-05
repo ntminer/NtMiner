@@ -4,7 +4,7 @@ using System.Text;
 
 
 namespace NTMiner.Core.Gpus.Nvml {
-    public static class NvmlNativeMethods {
+    internal static class NvmlNativeMethods {
         private const string NVML_API_DLL_NAME = "nvml";
 
 

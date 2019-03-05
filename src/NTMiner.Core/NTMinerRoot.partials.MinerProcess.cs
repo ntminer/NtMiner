@@ -141,7 +141,7 @@ namespace NTMiner {
                         n++;
                     }
                     if (isLogFileCreated) {
-                        using (FileStream stream = File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        FileStream stream = File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         using (StreamReader sreader = new StreamReader(stream, Encoding.Default)) {
                             while (mineContext == Current.CurrentMineContext) {
                                 string outline = sreader.ReadLine();
@@ -257,7 +257,7 @@ namespace NTMiner {
                             });
                         string pipLogFileFullName = Path.Combine(SpecialPath.LogsDirFullName, mineContext.PipeFileName);
                         Task.Factory.StartNew(() => {
-                            using (FileStream fs = new FileStream(pipLogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                            FileStream fs = new FileStream(pipLogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                             using (StreamReader sr = new StreamReader(fs)) {
                                 byte[] buffer = new byte[1024];
                                 int ret;
@@ -325,7 +325,7 @@ namespace NTMiner {
                 void* pBuffer,
                 int NumberOfBytesToRead,
                 int* pNumberOfBytesRead,
-                int pOverlapped
+                NativeOverlapped* lpOverlapped
             );
             [DllImport("kernel32.dll")]
             private static extern bool CreateProcess(
@@ -346,7 +346,7 @@ namespace NTMiner {
             private static unsafe int Read(byte[] buffer, int index, int count, IntPtr hStdOut) {
                 int n = 0;
                 fixed (byte* p = buffer) {
-                    if (!ReadFile(hStdOut, p + index, count, &n, 0))
+                    if (!ReadFile(hStdOut, p + index, count, &n, (NativeOverlapped*)0))
                         return 0;
                 }
                 return n;

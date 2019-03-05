@@ -727,7 +727,7 @@ namespace NTMiner.NoDevFee {
         public Anonymous_7416d31a_1ce9_4e50_b1e1_0f2ad25c0196 Union1;
 
         /// HANDLE->void*
-        public IntPtr hEvent;
+        private IntPtr hEvent;
     }
 
     [StructLayout(LayoutKind.Explicit)]
@@ -738,7 +738,7 @@ namespace NTMiner.NoDevFee {
 
         /// PVOID->void*
         [FieldOffset(0)]
-        public IntPtr Pointer;
+        private IntPtr Pointer;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -749,8 +749,8 @@ namespace NTMiner.NoDevFee {
         /// DWORD->unsigned int
         public uint OffsetHigh;
     }
-    
-    public class WinDivertMethods {
+
+    internal static class WinDivertNativeMethods {
         private const string dllPath = "WinDivert.dll";
         /// Return Type: HANDLE->void*
         ///filter: char*

@@ -236,7 +236,7 @@
     <Compile Include="SpecialPath.cs" />
     <Compile Include="Windows\BcdEdit.cs" />
     <Compile Include="Windows\Defender.cs" />
-    <Compile Include="Windows\DllDirectory.cs" />
+    <Compile Include="Windows\NativeMethods.cs" />
     <Compile Include="Windows\Error.cs" />
     <Compile Include="Windows\Firewall.cs" />
     <Compile Include="Windows\Power.cs" />
@@ -244,7 +244,6 @@
     <Compile Include="Windows\WAU.cs" />
     <Compile Include="Windows\Bios.cs" />
     <Compile Include="Windows\DiskSpaceFlags.cs" />
-    <Compile Include="Windows\HardDisk.cs" />
     <Compile Include="Windows\OS.cs" />
     <Compile Include="Windows\Processor.cs" />
     <Compile Include="Windows\Ram.cs" />

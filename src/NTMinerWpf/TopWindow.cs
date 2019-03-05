@@ -5,8 +5,13 @@ using System.Windows.Interop;
 
 namespace NTMiner {
     public static class TopWindow {
+        private static class NativeMethods {
+            [DllImport("user32.dll")]
+            public static extern IntPtr GetForegroundWindow();
+        }
+
         public static Window GetTopWindow() {
-            IntPtr hwnd = GetForegroundWindow();
+            IntPtr hwnd = NativeMethods.GetForegroundWindow();
             if (hwnd == IntPtr.Zero)
                 return null;
 
@@ -23,8 +28,5 @@ namespace NTMiner {
             }
             return Application.Current.MainWindow;
         }
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
     }
 }

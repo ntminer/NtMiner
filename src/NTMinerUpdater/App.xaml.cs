@@ -10,7 +10,15 @@ using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace NTMiner {
-    public partial class App : Application {
+    public partial class App : Application, IDisposable {
+        private static class NativeMethods {
+            [DllImport("User32.dll")]
+            public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
+
+            [DllImport("User32.dll")]
+            public static extern bool SetForegroundWindow(IntPtr hWnd);
+        }
+
         public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
 
         private Mutex mutexApp;
@@ -82,16 +90,23 @@ namespace NTMiner {
             this.MainWindow.Show();
         }
 
-        [DllImport("User32.dll")]
-        private static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-        [DllImport("User32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        private void Dispose(bool disposing) {
+            if (disposing) {
+                if (mutexApp != null) {
+                    mutexApp.Dispose();
+                }
+            }
+        }
 
         private const int SW_SHOWNOMAL = 1;
         private static void Show(Process instance) {
-            ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
-            SetForegroundWindow(instance.MainWindowHandle);
+            NativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
+            NativeMethods.SetForegroundWindow(instance.MainWindowHandle);
         }
     }
 }

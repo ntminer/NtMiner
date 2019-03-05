@@ -46,7 +46,6 @@ namespace NTMiner {
                         streamWriter.Close();
                     }
                 }
-                zipInputStream.Close();
             }
         }
     }

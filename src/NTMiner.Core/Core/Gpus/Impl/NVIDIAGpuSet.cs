@@ -45,7 +45,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             string nvsmiDir = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles), "NVIDIA Corporation", "NVSMI");
             if (Directory.Exists(nvsmiDir)) {
-                Windows.DllDirectory.SetDllDirectory(nvsmiDir);
+                Windows.NativeMethods.SetDllDirectory(nvsmiDir);
                 NvmlNativeMethods.nvmlInit();
                 _isNvmlInited = true;
                 uint deviceCount = 0;
