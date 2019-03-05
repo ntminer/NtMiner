@@ -4,7 +4,7 @@ using System.Windows.Input;
 namespace NTMiner.Views {
     public partial class SplashWindow : Window {
         public static readonly string Version = $"NTMiner v{NTMinerRoot.CurrentVersion.ToString()}({NTMinerRoot.CurrentVersionTag})";
-        public static readonly string WindowTitle = "ntminer.com";
+        public static readonly string WindowTitle = "NTMiner.com";
 
         public SplashWindow() {
             InitializeComponent();
