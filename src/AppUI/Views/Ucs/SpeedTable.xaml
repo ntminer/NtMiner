@@ -74,6 +74,16 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource DghGpuName}"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding GpuVm.Name}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
                         <StackPanel>
                             <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
                             <TextBlock Text="{Binding Data.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>

@@ -56,15 +56,23 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             string driverVersion = adlHelper.GetDriverVersion();
             this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
-            string[] keys = new string[]{
-                "GPU_FORCE_64BIT_PTR",
-                "GPU_MAX_HEAP_SIZE",
-                "GPU_USE_SYNC_OBJECTS",
-                "GPU_MAX_ALLOC_PERCENT",
-                "GPU_SINGLE_ALLOC_PERCENT"
+            Dictionary<string, string> kvs = new Dictionary<string, string> {
+                {"GPU_64BIT_ATOMICS","1" },
+                {"GPU_FORCE_64BIT_PTR","0" },
+                {"GPU_MAX_ALLOC_PERCENT","100" },
+                {"GPU_MAX_HEAP_SIZE","100" },
+                {"GPU_MAX_WORKGROUP_SIZE","1024" },
+                {"GPU_SINGLE_ALLOC_PERCENT","100" },
+                { "GPU_USE_SYNC_OBJECTS","1" }
             };
-            foreach (var key in keys) {
-                this.Properties.Add(new GpuSetProperty(key, key, Environment.GetEnvironmentVariable(key)));
+            foreach (var kv in kvs) {
+                string value = Environment.GetEnvironmentVariable(kv.Key, EnvironmentVariableTarget.User);
+                if (string.IsNullOrEmpty(value)) {
+                    value = kv.Value;
+                    Environment.SetEnvironmentVariable(kv.Key, value, EnvironmentVariableTarget.User);
+                }
+                var property = new GpuSetProperty(kv.Key, kv.Key, value);
+                this.Properties.Add(property);
             }
             VirtualRoot.On<Per5SecondEvent>(
                 "周期刷新显卡状态",

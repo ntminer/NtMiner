@@ -77,6 +77,18 @@ namespace NTMiner.Core.Gpus.Impl {
                 NvmlNativeMethods.nvmlSystemGetNVMLVersion(out nvmlVersion);
                 this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
                 this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML version", nvmlVersion));
+                Dictionary<string, string> kvs = new Dictionary<string, string> {
+                    {"CUDA_DEVICE_ORDER","PCI_BUS_ID" }
+                };
+                foreach (var kv in kvs) {
+                    string value = Environment.GetEnvironmentVariable(kv.Key, EnvironmentVariableTarget.User);
+                    if (string.IsNullOrEmpty(value)) {
+                        value = kv.Value;
+                        Environment.SetEnvironmentVariable(kv.Key, value, EnvironmentVariableTarget.User);
+                    }
+                    var property = new GpuSetProperty(kv.Key, kv.Key, value);
+                    this.Properties.Add(property);
+                }
             }
             VirtualRoot.On<Per5SecondEvent>(
                 "周期刷新显卡状态",
