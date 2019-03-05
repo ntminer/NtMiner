@@ -90,7 +90,6 @@
     <Compile Include="Bus\MessageDispatchEventArgs.cs" />
     <Compile Include="Bus\MessageTypeAttribute.cs" />
     <Compile Include="DataLevel.cs" />
-    <Compile Include="Bus\DisposableObject.cs" />
     <Compile Include="EntityExtensions.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="GeneralException.cs" />

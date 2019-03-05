@@ -3,9 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace NTMiner.Windows {
     public class ConsoleHandler {
+        private static class NativeMethods {
+            [DllImport("kernel32.dll")]
+            public static extern bool SetConsoleCtrlHandler(ControlCtrlDelegate HandlerRoutine, bool Add);
+        }
+
         public delegate bool ControlCtrlDelegate(int ctrlType);
-        [DllImport("kernel32.dll")]
-        private static extern bool SetConsoleCtrlHandler(ControlCtrlDelegate HandlerRoutine, bool Add);
 
         private bool HandlerRoutine(int ctrlType) {
             switch (ctrlType) {
@@ -23,7 +26,7 @@ namespace NTMiner.Windows {
         private ConsoleHandler(Action onClose) {
             _onClose = onClose;
             ControlCtrlDelegate cancelHandler = new ControlCtrlDelegate(HandlerRoutine);
-            SetConsoleCtrlHandler(cancelHandler, true);
+            NativeMethods.SetConsoleCtrlHandler(cancelHandler, true);
         }
 
         public static void Register(Action onClose) {
