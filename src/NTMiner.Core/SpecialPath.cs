@@ -97,34 +97,5 @@ namespace NTMiner {
                 return dirFullName;
             }
         }
-        private static bool s_isFirstCallPicturesDirFullName = true;
-        public static string PicturesDirFullName {
-            get {
-                string dirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Pictures");
-                if (s_isFirstCallPicturesDirFullName) {
-                    if (!Directory.Exists(dirFullName)) {
-                        Directory.CreateDirectory(dirFullName);
-                    }
-                    s_isFirstCallPicturesDirFullName = false;
-                }
-
-                return dirFullName;
-            }
-        }
-
-        private static bool s_isFirstCallScreenshotsDirFullName = true;
-        public static string ScreenshotsDirFullName {
-            get {
-                string dirFullName = Path.Combine(PicturesDirFullName, "Screenshots");
-                if (s_isFirstCallScreenshotsDirFullName) {
-                    if (!Directory.Exists(dirFullName)) {
-                        Directory.CreateDirectory(dirFullName);
-                    }
-                    s_isFirstCallScreenshotsDirFullName = false;
-                }
-
-                return dirFullName;
-            }
-        }
     }
 }

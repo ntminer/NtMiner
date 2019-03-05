@@ -27,8 +27,8 @@ namespace NTMiner.Core.Impl {
                 SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
             };
             string json = VirtualRoot.JsonSerializer.Serialize(data);
-            File.WriteAllText(AssemblyInfo.ServerJsonFileFullName, json);
-            return Path.GetFileName(AssemblyInfo.ServerJsonFileFullName);
+            File.WriteAllText(AssemblyInfo.ServerVersionJsonFileFullName, json);
+            return Path.GetFileName(AssemblyInfo.ServerVersionJsonFileFullName);
         }
 
         // 私有构造函数不影响序列化反序列化

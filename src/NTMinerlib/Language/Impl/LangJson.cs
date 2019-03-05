@@ -13,8 +13,8 @@ namespace NTMiner.Language.Impl {
                 LangViewItems = LangViewItemSet.Instance.Cast<LangViewItem>().ToArray()
             };
             string json = VirtualRoot.JsonSerializer.Serialize(data);
-            File.WriteAllText(AssemblyInfo.LangJsonFileFullName, json);
-            return Path.GetFileName(AssemblyInfo.LangJsonFileFullName);
+            File.WriteAllText(AssemblyInfo.LangVersionJsonFileFullName, json);
+            return Path.GetFileName(AssemblyInfo.LangVersionJsonFileFullName);
         }
 
         // 私有构造函数不影响序列化反序列化

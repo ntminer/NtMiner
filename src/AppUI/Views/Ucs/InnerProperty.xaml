@@ -9,13 +9,13 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		Background="White"
-		mc:Ignorable="d" Height="320" Width="660">
+		mc:Ignorable="d">
 	<UserControl.DataContext>
 		<vm:InnerPropertyViewModel></vm:InnerPropertyViewModel>
 	</UserControl.DataContext>
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-			<Setter Property="Width" Value="200"></Setter>
+			<Setter Property="Width" Value="210"></Setter>
 			<Setter Property="Padding" Value="10 4"></Setter>
 		</Style>
 		<Style TargetType="TextBlock">
@@ -25,10 +25,15 @@
 			InnerProperty
 		</sys:String>
 	</UserControl.Resources>
-	<StackPanel>
+	<StackPanel Margin="0 0 20 0">
 		<WrapPanel>
 			<TextBlock Style="{StaticResource LblTb}" Text="AppName"></TextBlock>
 			<TextBlock Text="{Binding AppName}"></TextBlock>
+		</WrapPanel>
+		
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="Id"></TextBlock>
+			<TextBox Text="{Binding Id,Mode=OneWay}" VerticalAlignment="Center" BorderThickness="0" IsReadOnly="True"></TextBox>
 		</WrapPanel>
 
 		<WrapPanel>
@@ -63,13 +68,73 @@
 		</WrapPanel>
 
 		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="LocalLangJsonFileFullName"></TextBlock>
+			<TextBlock Text="{Binding LocalLangJsonFileFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="LangVersionJsonFileFullName"></TextBlock>
+			<TextBlock Text="{Binding LangVersionJsonFileFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
 			<TextBlock Style="{StaticResource LblTb}" Text="ServerDbFileFullName"></TextBlock>
 			<TextBlock Text="{Binding ServerDbFileFullName}"></TextBlock>
 		</WrapPanel>
 
 		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="ServerJsonFileFullName"></TextBlock>
+			<TextBlock Text="{Binding ServerJsonFileFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="ServerVersionJsonFileFullName"></TextBlock>
+			<TextBlock Text="{Binding ServerVersionJsonFileFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
 			<TextBlock Style="{StaticResource LblTb}" Text="LocalDbFileFullName"></TextBlock>
 			<TextBlock Text="{Binding LocalDbFileFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="DaemonFileFullName"></TextBlock>
+			<TextBlock Text="{Binding DaemonFileFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="DevConsoleFileFullName"></TextBlock>
+			<TextBlock Text="{Binding DevConsoleFileFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="NTMinerOverClockFileFullName"></TextBlock>
+			<TextBlock Text="{Binding NTMinerOverClockFileFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="TempDirFullName"></TextBlock>
+			<TextBlock Text="{Binding TempDirFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="PackagesDirFullName"></TextBlock>
+			<TextBlock Text="{Binding PackagesDirFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="DownloadDirFullName"></TextBlock>
+			<TextBlock Text="{Binding DownloadDirFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="KernelsDirFullName"></TextBlock>
+			<TextBlock Text="{Binding KernelsDirFullName}"></TextBlock>
+		</WrapPanel>
+
+		<WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="LogsDirFullName"></TextBlock>
+			<TextBlock Text="{Binding LogsDirFullName}"></TextBlock>
 		</WrapPanel>
 	</StackPanel>
 </UserControl>
