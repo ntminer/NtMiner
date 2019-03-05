@@ -54,25 +54,27 @@ namespace NTMiner.Core.Gpus.Impl {
                     OverClock = new AMDOverClock()
                 });
             }
-            string driverVersion = adlHelper.GetDriverVersion();
-            this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
-            Dictionary<string, string> kvs = new Dictionary<string, string> {
-                {"GPU_64BIT_ATOMICS","1" },
-                {"GPU_FORCE_64BIT_PTR","0" },
-                {"GPU_MAX_ALLOC_PERCENT","100" },
-                {"GPU_MAX_HEAP_SIZE","100" },
-                {"GPU_MAX_WORKGROUP_SIZE","1024" },
-                {"GPU_SINGLE_ALLOC_PERCENT","100" },
-                { "GPU_USE_SYNC_OBJECTS","1" }
-            };
-            foreach (var kv in kvs) {
-                string value = Environment.GetEnvironmentVariable(kv.Key, EnvironmentVariableTarget.User);
-                if (string.IsNullOrEmpty(value)) {
-                    value = kv.Value;
-                    Environment.SetEnvironmentVariable(kv.Key, value, EnvironmentVariableTarget.User);
+            if (deviceCount > 0) {
+                string driverVersion = adlHelper.GetDriverVersion();
+                this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
+                Dictionary<string, string> kvs = new Dictionary<string, string> {
+                    {"GPU_64BIT_ATOMICS","1" },
+                    {"GPU_FORCE_64BIT_PTR","0" },
+                    {"GPU_MAX_ALLOC_PERCENT","100" },
+                    {"GPU_MAX_HEAP_SIZE","100" },
+                    {"GPU_MAX_WORKGROUP_SIZE","1024" },
+                    {"GPU_SINGLE_ALLOC_PERCENT","100" },
+                    { "GPU_USE_SYNC_OBJECTS","1" }
+                };
+                foreach (var kv in kvs) {
+                    string value = Environment.GetEnvironmentVariable(kv.Key, EnvironmentVariableTarget.User);
+                    if (string.IsNullOrEmpty(value)) {
+                        value = kv.Value;
+                        Environment.SetEnvironmentVariable(kv.Key, value, EnvironmentVariableTarget.User);
+                    }
+                    var property = new GpuSetProperty(kv.Key, kv.Key, value);
+                    this.Properties.Add(property);
                 }
-                var property = new GpuSetProperty(kv.Key, kv.Key, value);
-                this.Properties.Add(property);
             }
             VirtualRoot.On<Per5SecondEvent>(
                 "周期刷新显卡状态",

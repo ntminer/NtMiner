@@ -71,23 +71,25 @@ namespace NTMiner.Core.Gpus.Impl {
                     };
                     _gpus.Add(i, gpu);
                 }
-                string driverVersion;
-                NvmlNativeMethods.nvmlSystemGetDriverVersion(out driverVersion);
-                string nvmlVersion;
-                NvmlNativeMethods.nvmlSystemGetNVMLVersion(out nvmlVersion);
-                this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
-                this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML version", nvmlVersion));
-                Dictionary<string, string> kvs = new Dictionary<string, string> {
-                    {"CUDA_DEVICE_ORDER","PCI_BUS_ID" }
-                };
-                foreach (var kv in kvs) {
-                    string value = Environment.GetEnvironmentVariable(kv.Key, EnvironmentVariableTarget.User);
-                    if (string.IsNullOrEmpty(value)) {
-                        value = kv.Value;
-                        Environment.SetEnvironmentVariable(kv.Key, value, EnvironmentVariableTarget.User);
+                if (deviceCount > 0) {
+                    string driverVersion;
+                    NvmlNativeMethods.nvmlSystemGetDriverVersion(out driverVersion);
+                    string nvmlVersion;
+                    NvmlNativeMethods.nvmlSystemGetNVMLVersion(out nvmlVersion);
+                    this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
+                    this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML version", nvmlVersion));
+                    Dictionary<string, string> kvs = new Dictionary<string, string> {
+                        {"CUDA_DEVICE_ORDER","PCI_BUS_ID" }
+                    };
+                    foreach (var kv in kvs) {
+                        string value = Environment.GetEnvironmentVariable(kv.Key, EnvironmentVariableTarget.User);
+                        if (string.IsNullOrEmpty(value)) {
+                            value = kv.Value;
+                            Environment.SetEnvironmentVariable(kv.Key, value, EnvironmentVariableTarget.User);
+                        }
+                        var property = new GpuSetProperty(kv.Key, kv.Key, value);
+                        this.Properties.Add(property);
                     }
-                    var property = new GpuSetProperty(kv.Key, kv.Key, value);
-                    this.Properties.Add(property);
                 }
             }
             VirtualRoot.On<Per5SecondEvent>(
