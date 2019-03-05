@@ -11,10 +11,55 @@ namespace NTMiner.MinerServer {
             return this.Id;
         }
 
-        public void Update(SpeedData speedData) {
+        public static ClientData Create(SpeedData speedData, string minerIp) {
+            return new ClientData() {
+                Id = speedData.ClientId,
+                IsAutoBoot = speedData.IsAutoBoot,
+                IsAutoStart = speedData.IsAutoStart,
+                IsAutoRestartKernel = speedData.IsAutoRestartKernel,
+                IsNoShareRestartKernel = speedData.IsNoShareRestartKernel,
+                NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes,
+                IsPeriodicRestartKernel = speedData.IsPeriodicRestartKernel,
+                PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours,
+                IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer,
+                PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours,
+                GpuDriver = speedData.GpuDriver,
+                GpuType = speedData.GpuType,
+                OSName = speedData.OSName,
+                OSVirtualMemoryMb = speedData.OSVirtualMemoryMb,
+                GpuInfo = speedData.GpuInfo,
+                WorkId = speedData.WorkId,
+                Version = speedData.Version,
+                IsMining = speedData.IsMining,
+                BootOn = speedData.BootOn,
+                MineStartedOn = speedData.MineStartedOn,
+                MinerIp = minerIp,
+                MinerName = speedData.MinerName,
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                MainCoinCode = speedData.MainCoinCode,
+                MainCoinTotalShare = speedData.MainCoinTotalShare,
+                MainCoinRejectShare = speedData.MainCoinRejectShare,
+                MainCoinSpeed = speedData.MainCoinSpeed,
+                MainCoinPool = speedData.MainCoinPool,
+                MainCoinWallet = speedData.MainCoinWallet,
+                Kernel = speedData.Kernel,
+                IsDualCoinEnabled = speedData.IsDualCoinEnabled,
+                DualCoinPool = speedData.DualCoinPool,
+                DualCoinWallet = speedData.DualCoinWallet,
+                DualCoinCode = speedData.DualCoinCode,
+                DualCoinTotalShare = speedData.DualCoinTotalShare,
+                DualCoinRejectShare = speedData.DualCoinRejectShare,
+                DualCoinSpeed = speedData.DualCoinSpeed,
+                GpuTable = speedData.GpuTable
+            };
+        }
+
+        public void Update(SpeedData speedData, string minerIp) {
             if (speedData == null) {
                 return;
             }
+            this.MinerIp = minerIp;
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
             this.IsAutoRestartKernel = speedData.IsAutoRestartKernel;

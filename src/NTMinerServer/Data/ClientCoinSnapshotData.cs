@@ -1,10 +1,36 @@
-﻿using System;
+﻿using NTMiner.Hashrate;
+using System;
 
 namespace NTMiner.Data {
     public class ClientCoinSnapshotData {
         private string _coinCode;
 
         public ClientCoinSnapshotData() { }
+
+        public static ClientCoinSnapshotData Create(SpeedData speedData, out ClientCoinSnapshotData dualCoinSnapshotData) {
+            bool isMainCoin = !string.IsNullOrEmpty(speedData.MainCoinCode);
+            dualCoinSnapshotData = null;
+            if (isMainCoin) {
+                bool hasDualCoin = !string.IsNullOrEmpty(speedData.DualCoinCode) && speedData.DualCoinCode != speedData.MainCoinCode;
+                if (hasDualCoin) {
+                    dualCoinSnapshotData = new ClientCoinSnapshotData {
+                        CoinCode = speedData.DualCoinCode,
+                        ShareDelta = speedData.DualCoinShareDelta,
+                        Speed = speedData.DualCoinSpeed,
+                        Timestamp = DateTime.Now,
+                        ClientId = speedData.ClientId
+                    };
+                }
+                return new ClientCoinSnapshotData {
+                    CoinCode = speedData.MainCoinCode,
+                    ShareDelta = speedData.MainCoinShareDelta,
+                    Speed = speedData.MainCoinSpeed,
+                    Timestamp = DateTime.Now,
+                    ClientId = speedData.ClientId
+                };
+            }
+            return null;
+        }
 
         public int Id { get; set; }
         public Guid ClientId { get; set; }
