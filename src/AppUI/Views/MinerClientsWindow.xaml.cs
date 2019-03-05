@@ -32,7 +32,7 @@ namespace NTMiner.Views {
 
         public MinerClientsWindowViewModel Vm {
             get {
-                return (MinerClientsWindowViewModel)this.DataContext;
+                return MinerClientsWindowViewModel.Current;
             }
         }
 
@@ -41,14 +41,12 @@ namespace NTMiner.Views {
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            Vm.QueryMinerClients();
+            MinerClientsWindowViewModel.Current.QueryMinerClients();
             DelegateHandler<Per10SecondEvent> refreshMinerClients = VirtualRoot.On<Per10SecondEvent>(
                 "周期刷新在线客户端列表",
                 LogEnum.Console,
                 action: message => {
-                    UIThread.Execute(() => {
-                        Vm.LoadClients();
-                    });
+                    MinerClientsWindowViewModel.Current.QueryMinerClients();
                 });
             this.Unloaded += (object sender, RoutedEventArgs e) => {
                 VirtualRoot.UnPath(refreshMinerClients);

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
@@ -24,7 +25,7 @@ namespace NTMiner.Vms {
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private MinuteItem _lastActivedOn;
-        private List<MinerClientViewModel> _minerClients = new List<MinerClientViewModel>();
+        private ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
         private int _minerClientPageIndex = 1;
         private int _minerClientPageSize = 20;
         private int _minerClientTotal;
@@ -67,11 +68,7 @@ namespace NTMiner.Vms {
             if (Server.MinerServerHost.IndexOf("ntminer.com", StringComparison.OrdinalIgnoreCase) == -1) {
                 _isPull = true;
             }
-            this._lastActivedOn = _minuteItems[3];
-            if (Server.MinerServerHost.ToLower().Contains("ntminer.com")) {
-                // 官网的服务不支持FindAll
-                _minuteItems.RemoveAt(0);
-            }
+            this._lastActivedOn = _minuteItems[0];
             VirtualRoot.On<Per1SecondEvent>(
                 "刷新倒计时秒表",
                 LogEnum.None,
@@ -461,31 +458,29 @@ namespace NTMiner.Vms {
                     this.CountDown = 10;
                     if (response != null) {
                         UIThread.Execute(() => {
-                            this.MinerClients = response.Data.Select(a => new MinerClientViewModel(a)).ToList();
-                            OnPropertyChanged(nameof(MinerClientTotal));
-                            OnPropertyChanged(nameof(MinerClientPageCount));
-                            OnPropertyChanged(nameof(IsPageDownEnabled));
-                            OnPropertyChanged(nameof(IsPageUpEnabled));
+                            if (this.MinerClients == null || this.MinerClients.Count == 0) {
+                                this.MinerClients = new ObservableCollection<MinerClientViewModel>(response.Data.Select(a => new MinerClientViewModel(a)));
+                            }
+                            else {
+                                var toRemoves = this.MinerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
+                                foreach (var item in toRemoves) {
+                                    this.MinerClients.Remove(item);
+                                }
+                                foreach (var item in this.MinerClients) {
+                                    ClientData data = response.Data.FirstOrDefault(a => a.Id == item.Id);
+                                    if (data != null) {
+                                        item.Update(data);
+                                    }
+                                }
+                                var toAdds = response.Data.Where(a => this.MinerClients.All(b => b.Id != a.Id));
+                                foreach (var item in toAdds) {
+                                    this.MinerClients.Add(new MinerClientViewModel(item));
+                                }
+                            }
                             RefreshPagingUI(response.Total);
                         });
                     }
                 });
-        }
-
-        public void LoadClients() {
-            Server.ControlCenterService.LoadClientsAsync(this.MinerClients.Select(a => a.Id).ToList(), this.IsPull, (response, exception) => {
-                this.CountDown = 10;
-                UIThread.Execute(() => {
-                    if (response != null) {
-                        foreach (var item in this.MinerClients) {
-                            ClientData data = response.Data.FirstOrDefault(a => a.Id == item.Id);
-                            if (data != null) {
-                                item.Update(data);
-                            }
-                        }
-                    }
-                });
-            });
         }
 
         private void RefreshPagingUI(int total) {
@@ -504,7 +499,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<MinerClientViewModel> MinerClients {
+        public ObservableCollection<MinerClientViewModel> MinerClients {
             get {
                 return _minerClients;
             }
