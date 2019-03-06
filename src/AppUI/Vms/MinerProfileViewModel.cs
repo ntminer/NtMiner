@@ -81,6 +81,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsShowNotifyIcon {
+            get => NTMinerRoot.GetIsShowNotifyIcon();
+            set {
+                if (NTMinerRoot.GetIsShowNotifyIcon() != value) {
+                    NTMinerRoot.SetIsShowNotifyIcon(value);
+                    OnPropertyChanged(nameof(IsShowNotifyIcon));
+                }
+            }
+        }
+
         public string ArgsAssembly {
             get {
                 return NTMinerRoot.Current.BuildAssembleArgs();

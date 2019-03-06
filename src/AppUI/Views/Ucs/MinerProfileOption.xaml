@@ -36,8 +36,11 @@
 			<sys:String x:Key="LblPeriodicRestartComputer">
 				LblPeriodicRestartComputer
 			</sys:String>
-			<sys:String x:Key="LblIsShowInTaskbar">
-				LblIsShowInTaskbar
+			<sys:String x:Key="LblIsNotShowInTaskbar">
+				LblIsNotShowInTaskbar
+			</sys:String>
+			<sys:String x:Key="LblIsShowNotifyIcon">
+				LblIsShowNotifyIcon
 			</sys:String>
 		</ResourceDictionary>
 	</UserControl.Resources>
@@ -121,10 +124,18 @@
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<controls:KbCheckBox 
-							IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BoolInvertConverter}}"
-							IconColor="{StaticResource IconFillColor}">
+						IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BoolInvertConverter}}"
+						IconColor="{StaticResource IconFillColor}"
+						Content="{DynamicResource LblIsNotShowInTaskbar}">
 					</controls:KbCheckBox>
-					<TextBlock VerticalAlignment="Center" Text="{DynamicResource LblIsShowInTaskbar}"></TextBlock>
+				</WrapPanel>
+
+				<WrapPanel Margin="0 2">
+					<controls:KbCheckBox 
+						IsChecked="{Binding IsShowNotifyIcon}"
+						IconColor="{StaticResource IconFillColor}"
+						Content="{DynamicResource LblIsShowNotifyIcon}">
+					</controls:KbCheckBox>
 				</WrapPanel>
 			</StackPanel>
 		</GroupBox>

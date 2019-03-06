@@ -91,11 +91,22 @@ namespace NTMiner {
         #region IsShowInTaskbar
         public static bool GetIsShowInTaskbar() {
             object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowInTaskbar");
-            return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
+            return isAutoBootValue == null || isAutoBootValue.ToString() == "True";
         }
 
         public static void SetIsShowInTaskbar(bool value) {
             Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowInTaskbar", value);
+        }
+        #endregion
+
+        #region IsShowNotifyIcon
+        public static bool GetIsShowNotifyIcon() {
+            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowNotifyIcon");
+            return isAutoBootValue == null || isAutoBootValue.ToString() == "True";
+        }
+
+        public static void SetIsShowNotifyIcon(bool value) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowNotifyIcon", value);
         }
         #endregion
 
