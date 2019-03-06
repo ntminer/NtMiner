@@ -1,5 +1,4 @@
-﻿using NTMiner.Daemon;
-using NTMiner.Hashrate;
+﻿using NTMiner.Hashrate;
 using NTMiner.MinerClient;
 using System;
 using System.Net.Http;
