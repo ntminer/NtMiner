@@ -472,6 +472,7 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region Wallets
+        // 挖矿端执行作业的时候需要从中控获取钱包列表所以调用此方法不需要登录
         [HttpPost]
         public GetWalletsResponse Wallets([FromBody]WalletsRequest request) {
             try {
@@ -528,6 +529,7 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region CalcConfigs
+        // 挖矿端实时展示理论收益的功能需要调用此服务所以调用此方法不需要登录
         [HttpPost]
         public GetCalcConfigsResponse CalcConfigs([FromBody]CalcConfigsRequest request) {
             try {
@@ -566,7 +568,14 @@ namespace NTMiner.Controllers {
         #region ColumnsShows
         [HttpPost]
         public GetColumnsShowsResponse ColumnsShows([FromBody]ColumnsShowsRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<GetColumnsShowsResponse>(Guid.Empty, "参数错误");
+            }
             try {
+                GetColumnsShowsResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 var data = HostRoot.Current.ColumnsShowSet.GetAll();
                 return GetColumnsShowsResponse.Ok(request.MessageId, data);
             }

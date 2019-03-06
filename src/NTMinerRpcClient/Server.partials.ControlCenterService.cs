@@ -542,8 +542,9 @@ namespace NTMiner {
             public GetColumnsShowsResponse GetColumnsShows(Guid messageId) {
                 try {
                     ColumnsShowsRequest request = new ColumnsShowsRequest {
-                        MessageId = Guid.NewGuid()
+                        LoginName = SingleUser.LoginName
                     };
+                    request.SignIt(SingleUser.PasswordSha1);
                     GetColumnsShowsResponse response = Request<GetColumnsShowsResponse>("ControlCenter", "ColumnsShows", request);
                     return response;
                 }
