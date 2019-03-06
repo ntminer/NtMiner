@@ -97,8 +97,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
-                        Guid messageId = Guid.NewGuid();
-                        var result = Server.ControlCenterService.GetColumnsShows(messageId);
+                        var result = Server.ControlCenterService.GetColumnsShows();
                         if (result != null) {
                             foreach (var item in result.Data) {
                                 if (!_dicById.ContainsKey(item.GetId())) {

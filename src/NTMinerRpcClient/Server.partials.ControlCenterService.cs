@@ -249,9 +249,8 @@ namespace NTMiner {
             /// <summary>
             /// 同步方法
             /// </summary>
-            /// <param name="messageId"></param>
             /// <returns></returns>
-            public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
+            public GetMinerGroupsResponse GetMinerGroups() {
                 try {
                     MinerGroupsRequest request = new MinerGroupsRequest {
                         LoginName = SingleUser.LoginName
@@ -537,9 +536,8 @@ namespace NTMiner {
             /// <summary>
             /// 同步方法
             /// </summary>
-            /// <param name="messageId"></param>
             /// <returns></returns>
-            public GetColumnsShowsResponse GetColumnsShows(Guid messageId) {
+            public GetColumnsShowsResponse GetColumnsShows() {
                 try {
                     ColumnsShowsRequest request = new ColumnsShowsRequest {
                         LoginName = SingleUser.LoginName

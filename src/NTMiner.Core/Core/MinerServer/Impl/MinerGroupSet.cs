@@ -101,8 +101,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
-                        Guid messageId = Guid.NewGuid();
-                        var response = Server.ControlCenterService.GetMinerGroups(messageId);
+                        var response = Server.ControlCenterService.GetMinerGroups();
                         if (response != null) {
                             foreach (var item in response.Data) {
                                 if (!_dicById.ContainsKey(item.GetId())) {
