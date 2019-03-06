@@ -97,6 +97,17 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string HotKey {
+            get { return NTMinerRoot.GetHotKey(); }
+            set {
+                if (NTMinerRoot.GetHotKey() != value) {
+                    if (NTMinerRoot.SetHotKey(value)) {
+                        OnPropertyChanged(nameof(HotKey));
+                    }
+                }
+            }
+        }
+
         public string ArgsAssembly {
             get {
                 return NTMinerRoot.Current.BuildAssembleArgs();

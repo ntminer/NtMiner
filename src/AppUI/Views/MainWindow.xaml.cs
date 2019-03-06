@@ -49,7 +49,28 @@ namespace NTMiner.Views {
             if (NTMinerRoot.Current.GpuSet.Count == 0) {
                 Vm.Manager.ShowErrorMessage("没有检测到矿卡。");
             }
+            VirtualRoot.On<HotKeyChangedEvent>(
+                "热键设置变更后应用热键",
+                LogEnum.Console,
+                action: message => {
+                    SystemHotKey.UnRegHotKey(_thisWindowHandle, c_hotKeyId);
+                    string msg;
+                    if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, HotKey, out msg)) {
+                        MessageBox.Show(msg);
+                    }
+                });
         }
+
+        private System.Windows.Forms.Keys HotKey {
+            get {
+                System.Windows.Forms.Keys hotKey;
+                if (!Enum.TryParse(NTMinerRoot.GetHotKey(), out hotKey)) {
+                    hotKey = System.Windows.Forms.Keys.X;
+                }
+                return hotKey;
+            }
+        }
+
         private IntPtr _thisWindowHandle;
         protected override void OnSourceInitialized(EventArgs e) {
             base.OnSourceInitialized(e);
@@ -61,7 +82,7 @@ namespace NTMiner.Views {
         protected override void OnContentRendered(EventArgs e) {
             base.OnContentRendered(e);
             string message;
-            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, System.Windows.Forms.Keys.X, out message)) {
+            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, HotKey, out message)) {
                 MessageBox.Show(message);
             }
         }

@@ -110,6 +110,32 @@ namespace NTMiner {
         }
         #endregion
 
+        #region HotKey
+        public static string GetHotKey() {
+            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey");
+            if (isAutoBootValue == null) {
+                return "X";
+            }
+            return isAutoBootValue.ToString();
+        }
+
+        public static bool SetHotKey(string value) {
+            if (string.IsNullOrEmpty(value)) {
+                return false;
+            }
+            System.Windows.Forms.Keys key;
+            if (Enum.TryParse(value, out key) && key >= System.Windows.Forms.Keys.A && key <= System.Windows.Forms.Keys.Z) {
+                string oldValue = GetHotKey();
+                Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey", value);
+                if (oldValue != value) {
+                    VirtualRoot.Happened(new HotKeyChangedEvent());
+                }
+                return true;
+            }
+            return false;
+        }
+        #endregion
+
         #region IsShowCommandLine
         public static bool GetIsShowCommandLine() {
             object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine");

@@ -3,6 +3,12 @@ using NTMiner.Core;
 using System;
 
 namespace NTMiner {
+    [MessageType(messageType: typeof(HotKeyChangedEvent), description: "热键切换后事件")]
+    public class HotKeyChangedEvent : EventBase {
+        public HotKeyChangedEvent() {
+        }
+    }
+
     [MessageType(messageType: typeof(SwichMinerProfileCommand), description: "切换MinerProfile命令")]
     public class SwichMinerProfileCommand : Cmd {
         public SwichMinerProfileCommand(Guid workId) {
