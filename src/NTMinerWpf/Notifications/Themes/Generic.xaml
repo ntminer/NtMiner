@@ -26,8 +26,7 @@
     </Style>
 
     <Style x:Key="NotificationHeaderTextStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:NotificationMessage}}, Path=Foreground}" />
         <Setter Property="Margin" Value="0,0,8,0" />
         <Setter Property="TextWrapping" Value="Wrap" />
@@ -37,9 +36,9 @@
 
     <Style x:Key="NotificationMessageTextStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:NotificationMessage}}, Path=Foreground}" />
-        <Setter Property="Margin" Value="0,0,8,4" />
+        <Setter Property="Margin" Value="0,0,8,2" />
         <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
