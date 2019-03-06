@@ -7,6 +7,7 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public static class AppHelper {
+        public static ExtendedNotifyIcon NotifyIcon;
         public static Action<RemoteDesktopInput> RemoteDesktop;
 
         public static void RunAsAdministrator() {

@@ -19,10 +19,8 @@ namespace NTMiner {
         private bool createdNew;
         private Mutex appMutex;
         private static string s_appPipName = "ntminerclient";
-        ExtendedNotifyIcon notifyIcon;
-
         protected override void OnExit(ExitEventArgs e) {
-            notifyIcon?.Dispose();
+            AppHelper.NotifyIcon?.Dispose();
             NTMinerRoot.Current.Exit();
             HttpServer.Stop();
             base.OnExit(e);
@@ -55,8 +53,8 @@ namespace NTMiner {
                             this.MainWindow = window;
                             this.MainWindow.Show();
                             this.MainWindow.Activate();
-                            notifyIcon = new ExtendedNotifyIcon("pack://application:,,,/NTMiner;component/logo.ico");
-                            notifyIcon.Init();
+                            AppHelper.NotifyIcon = new ExtendedNotifyIcon("pack://application:,,,/NTMiner;component/logo.ico");
+                            AppHelper.NotifyIcon.Init();
                             #region 处理显示主界面命令
                             VirtualRoot.Accept<ShowMainWindowCommand>(
                                 "处理显示主界面命令",

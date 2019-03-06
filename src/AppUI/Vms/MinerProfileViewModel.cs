@@ -87,6 +87,12 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.GetIsShowNotifyIcon() != value) {
                     NTMinerRoot.SetIsShowNotifyIcon(value);
                     OnPropertyChanged(nameof(IsShowNotifyIcon));
+                    if (value) {
+                        AppHelper.NotifyIcon.ShowIcon();
+                    }
+                    else {
+                        AppHelper.NotifyIcon.HideIcon();
+                    }
                 }
             }
         }

@@ -5,14 +5,14 @@ using System.Windows.Forms;
 namespace NTMiner.Views {
     public class ExtendedNotifyIcon : IDisposable {
         public void Init() {
-            // nothing need todo
+            // noting need todo
         }
 
         private readonly NotifyIcon _targetNotifyIcon;
         public ExtendedNotifyIcon(string iconUrl) {
             _targetNotifyIcon = new NotifyIcon {
                 Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new Uri(iconUrl)).Stream),
-                Visible = true,
+                Visible = NTMinerRoot.GetIsShowNotifyIcon(),
                 Text = "NTMiner",
                 ContextMenu = new ContextMenu()
             };
@@ -31,6 +31,14 @@ namespace NTMiner.Views {
                     _targetNotifyIcon.Text = "NTMiner";
                 }
             };
+        }
+
+        public void ShowIcon() {
+            _targetNotifyIcon.Visible = true;
+        }
+
+        public void HideIcon() {
+            _targetNotifyIcon.Visible = false;
         }
 
         public void ToggleWindow() {
