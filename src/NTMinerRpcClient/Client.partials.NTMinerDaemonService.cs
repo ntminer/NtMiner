@@ -44,16 +44,21 @@ namespace NTMiner {
             public void SetMinerNameAsync(MinerClient.SetMinerNameRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/SetMinerName", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
+                        var response = SetMinerName(request);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
+            }
+
+            public ResponseBase SetMinerName(MinerClient.SetMinerNameRequest request) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/SetMinerName", request);
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    return response;
+                }
             }
 
             public void RefreshUserSetAsync(Action<Exception> callback) {
@@ -74,86 +79,108 @@ namespace NTMiner {
             public void RestartWindowsAsync(RestartWindowsRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/RestartWindows", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
+                        var response = RestartWindows(request);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
+            }
+
+            public ResponseBase RestartWindows(RestartWindowsRequest request) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/RestartWindows", request);
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    return response;
+                }
             }
 
             public void ShutdownWindowsAsync(ShutdownWindowsRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/ShutdownWindows", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
+                        var response = ShutdownWindows(request);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
+            }
+
+            public ResponseBase ShutdownWindows(ShutdownWindowsRequest request) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/ShutdownWindows", request);
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    return response;
+                }
             }
 
             public void OpenNTMinerAsync(OpenNTMinerRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/OpenNTMiner", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
+                        var response = OpenNTMiner(request);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
+            }
+
+            public ResponseBase OpenNTMiner(OpenNTMinerRequest request) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/OpenNTMiner", request);
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    return response;
+                }
             }
 
             public void RestartNTMinerAsync(RestartNTMinerRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/RestartNTMiner", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
+                        var response = RestartNTMiner(request);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
+            }
+
+            public ResponseBase RestartNTMiner(RestartNTMinerRequest request) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/RestartNTMiner", request);
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    return response;
+                }
             }
 
             public void UpgradeNTMinerAsync(UpgradeNTMinerRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/UpgradeNTMiner", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
+                        var response = UpgradeNTMiner(request);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
+            }
+
+            public ResponseBase UpgradeNTMiner(UpgradeNTMinerRequest request) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/UpgradeNTMiner", request);
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    return response;
+                }
             }
 
             public void CloseNTMinerAsync(CloseNTMinerRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/CloseNTMiner", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
+                        var response = CloseNTMiner(request);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
@@ -161,19 +188,32 @@ namespace NTMiner {
                 });
             }
 
+            public ResponseBase CloseNTMiner(CloseNTMinerRequest request) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/CloseNTMiner", request);
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    return response;
+                }
+            }
+
             public void StartMineAsync(MinerClient.StartMineRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/StartMine", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
+                        var response = StartMine(request);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
+            }
+
+            public ResponseBase StartMine(MinerClient.StartMineRequest request) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3337/api/NTMinerDaemon/StartMine", request);
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    return response;
+                }
             }
 
             public void StartNoDevFeeAsync(StartNoDevFeeRequest request, Action<ResponseBase, Exception> callback) {

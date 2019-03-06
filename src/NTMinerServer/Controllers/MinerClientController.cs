@@ -18,8 +18,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Client.NTMinerDaemonService.RestartWindowsAsync(request.InnerRequest, null);
-                return ResponseBase.Ok(request.MessageId);
+                response = Client.NTMinerDaemonService.RestartWindows(request.InnerRequest);
+                return response;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -39,8 +39,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Client.NTMinerDaemonService.ShutdownWindowsAsync(request.InnerRequest, null);
-                return ResponseBase.Ok(request.MessageId);
+                response = Client.NTMinerDaemonService.ShutdownWindows(request.InnerRequest);
+                return response;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -60,8 +60,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Client.NTMinerDaemonService.OpenNTMinerAsync(request.InnerRequest, null);
-                return ResponseBase.Ok(request.MessageId);
+                response = Client.NTMinerDaemonService.OpenNTMiner(request.InnerRequest);
+                return response;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -81,8 +81,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Client.NTMinerDaemonService.RestartNTMinerAsync(request.InnerRequest, null);
-                return ResponseBase.Ok(request.MessageId);
+                response = Client.NTMinerDaemonService.RestartNTMiner(request.InnerRequest);
+                return response;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -102,8 +102,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Client.NTMinerDaemonService.UpgradeNTMinerAsync(request.InnerRequest, null);
-                return ResponseBase.Ok(request.MessageId);
+                response = Client.NTMinerDaemonService.UpgradeNTMiner(request.InnerRequest);
+                return response;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -119,8 +119,12 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                Client.NTMinerDaemonService.CloseNTMinerAsync(request.InnerRequest, null);
-                return ResponseBase.Ok(request.MessageId);
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
+                response = Client.NTMinerDaemonService.CloseNTMiner(request.InnerRequest);
+                return response;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -140,8 +144,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Client.NTMinerDaemonService.StartMineAsync(request.InnerRequest, null);
-                return ResponseBase.Ok(request.MessageId);
+                response = Client.NTMinerDaemonService.StartMine(request.InnerRequest);
+                return response;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -182,8 +186,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Client.MinerClientService.SetMinerProfilePropertyAsync(request.InnerRequest, null);
-                return ResponseBase.Ok(request.MessageId);
+                response = Client.MinerClientService.SetMinerProfileProperty(request.InnerRequest);
+                return response;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
