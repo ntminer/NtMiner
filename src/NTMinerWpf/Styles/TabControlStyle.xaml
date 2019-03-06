@@ -6,6 +6,7 @@
 	<SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
 	<!-- 应该在此定义资源字典条目。-->
 	<Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}">
+		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 		<Setter Property="Padding" Value="4,4,4,4"/>
 		<Setter Property="BorderThickness" Value="1"/>
