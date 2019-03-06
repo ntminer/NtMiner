@@ -21,12 +21,6 @@
 			<sys:String x:Key="BtnServerConfig">
 				BtnServerConfig
 			</sys:String>
-			<sys:String x:Key="TbUnMining">
-				TbUnMining
-			</sys:String>
-			<sys:String x:Key="TbMining">
-				TbMining
-			</sys:String>
 			<sys:String x:Key="PoolIncome">
 				PoolIncome
 			</sys:String>
@@ -225,19 +219,41 @@
 						Text="{Binding BootTimeSpanText}"
 						Background="Transparent"></TextBlock>
 					<WrapPanel>
-						<TextBlock 
-							Text="{DynamicResource TbUnMining}" 
+						<Path
+							Width="16"
+							Height="16"
 							Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-							FontWeight="Bold" 
-							Foreground="{StaticResource LableColor}"
-							VerticalAlignment="Center"></TextBlock>
-						<TextBlock 
-							Text="{DynamicResource TbMining}" 
-							Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}" 
-							FontWeight="Bold" 
-							VerticalAlignment="Center"></TextBlock>
+							Data="{StaticResource Icon_Mining1}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill">
+						</Path>
+						<WrapPanel Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+							<Path
+								Width="16"
+								Height="16"
+								Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+								Data="{StaticResource Icon_Mining2}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill">
+								<Path.RenderTransform>
+									<RotateTransform Angle="-20" CenterX="8" CenterY="8"></RotateTransform>
+								</Path.RenderTransform>
+							</Path>
+							<Path
+								Width="16"
+								Height="16"
+								Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+								Data="{StaticResource Icon_Mining1}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill">
+								<Path.RenderTransform>
+									<RotateTransform Angle="20" CenterX="8" CenterY="8"></RotateTransform>
+								</Path.RenderTransform>
+							</Path>
+						</WrapPanel>
 						<TextBlock 
 							Width="83"
+							Margin="4 0 0 0"
 							ToolTip="{DynamicResource MiningTimeSpan}"
 							Text="{Binding MineTimeSpanText}"
 							Background="Transparent"
@@ -269,9 +285,6 @@
 							Data="{StaticResource Icon_Fan}"
 							Fill="{Binding GpuStateColor}"
 							Stretch="Fill">
-							<Path.RenderTransform>
-								<RotateTransform Angle="{Binding LogoRotateTransformAngle}" CenterX="7" CenterY="7"></RotateTransform>
-							</Path.RenderTransform>
 						</Path>
 						<TextBlock Text="{Binding GpuStatusBarVm.GpuAllVm.FanSpeedText}" Width="78" Padding="0" HorizontalAlignment="Left" />
 						<WrapPanel Width="70">

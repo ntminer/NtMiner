@@ -579,11 +579,12 @@
 									Foreground="{StaticResource ThemeForeground}">
 									<WrapPanel>
 										<Path
-											Width="14"
-											Height="14"
-											Data="{StaticResource Icon_Fan}"
+											Width="16"
+											Height="16"
+											Data="{StaticResource Icon_Mining1}"
 											Fill="{StaticResource ThemeForeground}"
-											Stretch="Fill" />
+											Stretch="Fill">
+										</Path>
 										<Label
 											Padding="0"
 											Margin="2 0 0 0"
@@ -604,15 +605,25 @@
 												BorderBrush="{StaticResource LineColor}">
 												<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 													<Path
-														x:Name="Icon"
-														Margin="1 0 0 0"
-														Width="14"
-														Height="14"
-														Data="{StaticResource Icon_Fan}"
-														Fill="Black"
+														Width="16"
+														Height="16"
+														Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+														Data="{StaticResource Icon_Mining2}"
+														Fill="{StaticResource IconFillColor}"
 														Stretch="Fill">
 														<Path.RenderTransform>
-															<RotateTransform Angle="{Binding Data.LogoRotateTransformAngle, Source={StaticResource proxy}}" CenterX="7" CenterY="7"></RotateTransform>
+															<RotateTransform Angle="-20" CenterX="8" CenterY="8"></RotateTransform>
+														</Path.RenderTransform>
+													</Path>
+													<Path
+														Width="16"
+														Height="16"
+														Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+														Data="{StaticResource Icon_Mining1}"
+														Fill="{StaticResource IconFillColor}"
+														Stretch="Fill">
+														<Path.RenderTransform>
+															<RotateTransform Angle="20" CenterX="8" CenterY="8"></RotateTransform>
 														</Path.RenderTransform>
 													</Path>
 													<Label
@@ -628,7 +639,6 @@
 												<Trigger Property="IsMouseOver" Value="True">
 													<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
 													<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
-													<Setter TargetName="Icon" Property="Fill" Value="White"></Setter>
 													<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
 													<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
 												</Trigger>

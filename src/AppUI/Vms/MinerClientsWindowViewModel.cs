@@ -32,7 +32,6 @@ namespace NTMiner.Vms {
         private EnumItem<MineStatus> _mineStatusEnumItem;
         private string _minerIp;
         private string _minerName;
-        private double _logoRotateTransformAngle;
         private string _version;
         private string _kernel;
         private string _mainCoinWallet;
@@ -238,14 +237,18 @@ namespace NTMiner.Vms {
             this.PageRefresh = new DelegateCommand(() => {
                 QueryMinerClients();
             });
-            System.Timers.Timer t = new System.Timers.Timer(70);
-            t.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
-                if (this._logoRotateTransformAngle > 3600000) {
-                    this._logoRotateTransformAngle = 0;
-                }
-                this.LogoRotateTransformAngle += 45;
-            };
-            t.Start();
+            VirtualRoot.On<Per1SecondEvent>(
+                "周期性挥动铲子表示在挖矿中",
+                LogEnum.None,
+                action: message => {
+                    // 周期性挥动铲子表示在挖矿中
+                    var minerClients = this.MinerClients.ToArray();
+                    foreach (var item in minerClients) {
+                        if (item.IsMining) {
+                            item.IsShovelEmpty = !item.IsShovelEmpty;
+                        }
+                    }
+                });
         }
         #endregion
 
@@ -323,16 +326,6 @@ namespace NTMiner.Vms {
                 _lastActivedOn = value;
                 OnPropertyChanged(nameof(LastActivedOn));
                 QueryMinerClients();
-            }
-        }
-
-        public double LogoRotateTransformAngle {
-            get => _logoRotateTransformAngle;
-            set {
-                if (_logoRotateTransformAngle != value) {
-                    _logoRotateTransformAngle = value;
-                    OnPropertyChanged(nameof(LogoRotateTransformAngle));
-                }
             }
         }
 

@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
 
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
-        private double _logoRotateTransformAngle;
+        private bool _isShovelEmpty = true;
 
         public ICommand ConfigMinerServerHost { get; private set; }
 
@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
                 MinerServerHostConfig.ShowWindow();
             });
             VirtualRoot.On<Per1SecondEvent>(
-                "挖矿计时秒表",
+                "挖矿计时秒表，周期性挥动铲子表示在挖矿中",
                 LogEnum.None,
                 action: message => {
                     DateTime now = DateTime.Now;
@@ -29,19 +29,15 @@ namespace NTMiner.Vms {
                     if (mineContext != null) {
                         this.MineTimeSpan = now - mineContext.CreatedOn;
                     }
+                    // 周期性挥动铲子表示在挖矿中
+                    if (IsMining) {
+                        IsShovelEmpty = !IsShovelEmpty;
+                    }
                 });
-            System.Timers.Timer t = new System.Timers.Timer(100);
-            t.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
-                if (this._logoRotateTransformAngle > 3600000) {
-                    this._logoRotateTransformAngle = 0;
-                }
-                this.LogoRotateTransformAngle += 45;
-            };
             VirtualRoot.On<MineStartedEvent>(
                 "挖矿开始后将风扇转起来",
                 LogEnum.Console,
                 action: message => {
-                    t.Start();
                     this.OnPropertyChanged(nameof(this.IsMining));
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
@@ -49,10 +45,19 @@ namespace NTMiner.Vms {
                 "挖矿停止后将风扇停转",
                 LogEnum.Console,
                 action: message => {
-                    t.Stop();
                     this.OnPropertyChanged(nameof(this.IsMining));
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
+        }
+
+        public bool IsShovelEmpty {
+            get => _isShovelEmpty;
+            set {
+                if (_isShovelEmpty != value) {
+                    _isShovelEmpty = value;
+                    OnPropertyChanged(nameof(IsShovelEmpty));
+                }
+            }
         }
 
         public bool IsMining {
@@ -75,16 +80,6 @@ namespace NTMiner.Vms {
                     return s_miningColor;
                 }
                 return s_gray;
-            }
-        }
-
-        public double LogoRotateTransformAngle {
-            get => _logoRotateTransformAngle;
-            set {
-                if (_logoRotateTransformAngle != value) {
-                    _logoRotateTransformAngle = value;
-                    OnPropertyChanged(nameof(LogoRotateTransformAngle));
-                }
             }
         }
 

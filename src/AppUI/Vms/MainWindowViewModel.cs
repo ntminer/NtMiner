@@ -12,6 +12,8 @@ namespace NTMiner.Vms {
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private bool _isDaemonRunning = true;
         private string _serverJsonVersion;
+        private INotificationMessageManager _manager;
+
 
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
@@ -107,7 +109,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private INotificationMessageManager _manager;
         public INotificationMessageManager Manager {
             get {
                 if (_manager == null) {

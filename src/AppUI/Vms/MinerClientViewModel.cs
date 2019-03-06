@@ -142,6 +142,17 @@ namespace NTMiner.Vms {
         }
         #endregion
 
+        private bool _isShovelEmpty = true;
+        public bool IsShovelEmpty {
+            get => _isShovelEmpty;
+            set {
+                if (_isShovelEmpty != value) {
+                    _isShovelEmpty = value;
+                    OnPropertyChanged(nameof(IsShovelEmpty));
+                }
+            }
+        }
+
         #region IClientData
 
         public bool IsChecked {

@@ -288,9 +288,10 @@
 										<Path
 											Width="16"
 											Height="16"
-											Data="{StaticResource Icon_Fan}"
+											Data="{StaticResource Icon_Mining1}"
 											Fill="{StaticResource ThemeForeground}"
-											Stretch="Fill" />
+											Stretch="Fill">
+										</Path>
 										<Label
 											Padding="4 4 4 6"
 											VerticalAlignment="Center"
@@ -313,21 +314,32 @@
 												BorderBrush="{StaticResource LineColor}">
 												<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 													<Path
-														x:Name="Icon"
 														Width="16"
 														Height="16"
-														Data="{StaticResource Icon_Fan}"
-														Fill="Black"
+														Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+														Data="{StaticResource Icon_Mining2}"
+														Fill="{StaticResource IconFillColor}"
 														Stretch="Fill">
 														<Path.RenderTransform>
-															<RotateTransform Angle="{Binding StateBarVm.LogoRotateTransformAngle}" CenterX="8" CenterY="8"></RotateTransform>
+															<RotateTransform Angle="-20" CenterX="8" CenterY="8"></RotateTransform>
+														</Path.RenderTransform>
+													</Path>
+													<Path
+														Width="16"
+														Height="16"
+														Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+														Data="{StaticResource Icon_Mining1}"
+														Fill="{StaticResource IconFillColor}"
+														Stretch="Fill">
+														<Path.RenderTransform>
+															<RotateTransform Angle="20" CenterX="8" CenterY="8"></RotateTransform>
 														</Path.RenderTransform>
 													</Path>
 													<Label
 														Padding="4 4 4 6"
 														x:Name="Text"
 														VerticalAlignment="Center"
-														Foreground="Black"
+														Foreground="{StaticResource IconFillColor}"
 														FontSize="16"
 														Content="{DynamicResource BtnMining}" />
 												</WrapPanel>
@@ -336,7 +348,6 @@
 												<Trigger Property="IsMouseOver" Value="True">
 													<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
 													<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
-													<Setter TargetName="Icon" Property="Fill" Value="White"></Setter>
 													<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
 													<Setter TargetName="Text" Property="Content" Value="{DynamicResource BtnStopMine}"></Setter>
 												</Trigger>
