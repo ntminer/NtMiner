@@ -119,7 +119,6 @@
     <Compile Include="HttpRequestMessageExtension.cs" />
     <Compile Include="IHostConfig.cs" />
     <Compile Include="IHostRoot.cs" />
-    <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialPath.cs" />
   </ItemGroup>

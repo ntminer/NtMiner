@@ -21,7 +21,6 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 Write.DevLine($"{request.LoginName}登录");
-                VirtualRoot.Happened(new UserLoginedEvent(user));
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -274,7 +273,14 @@ namespace NTMiner.Controllers {
         #region MinerGroups
         [HttpPost]
         public GetMinerGroupsResponse MinerGroups([FromBody]MinerGroupsRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<GetMinerGroupsResponse>(Guid.Empty, "参数错误");
+            }
             try {
+                GetMinerGroupsResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                    return response;
+                }
                 var data = HostRoot.Current.MinerGroupSet.GetAll();
                 return GetMinerGroupsResponse.Ok(request.MessageId, data);
             }

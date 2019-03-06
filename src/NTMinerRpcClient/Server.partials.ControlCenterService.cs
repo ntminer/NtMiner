@@ -39,8 +39,7 @@ namespace NTMiner {
             public GetUsersResponse GetUsers(Guid messageId) {
                 try {
                     UsersRequest request = new UsersRequest {
-                        LoginName = SingleUser.LoginName,
-                        MessageId = Guid.NewGuid()
+                        LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     GetUsersResponse response = Request<GetUsersResponse>("ControlCenter", "Users", request);
@@ -255,8 +254,9 @@ namespace NTMiner {
             public GetMinerGroupsResponse GetMinerGroups(Guid messageId) {
                 try {
                     MinerGroupsRequest request = new MinerGroupsRequest {
-                        MessageId = Guid.NewGuid()
+                        LoginName = SingleUser.LoginName
                     };
+                    request.SignIt(SingleUser.PasswordSha1);
                     GetMinerGroupsResponse response = Request<GetMinerGroupsResponse>("ControlCenter", "MinerGroups", request);
                     return response;
                 }
