@@ -291,6 +291,9 @@
 											Data="{StaticResource Icon_Mining1}"
 											Fill="{StaticResource ThemeForeground}"
 											Stretch="Fill">
+											<Path.RenderTransform>
+												<RotateTransform Angle="-45" CenterX="8" CenterY="8"></RotateTransform>
+											</Path.RenderTransform>
 										</Path>
 										<Label
 											Padding="4 4 4 6"

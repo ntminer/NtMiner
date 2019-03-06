@@ -226,6 +226,9 @@
 							Data="{StaticResource Icon_Mining1}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill">
+							<Path.RenderTransform>
+								<RotateTransform Angle="-45" CenterX="8" CenterY="8"></RotateTransform>
+							</Path.RenderTransform>
 						</Path>
 						<WrapPanel Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
 							<Path
