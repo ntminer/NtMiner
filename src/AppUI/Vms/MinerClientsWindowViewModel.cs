@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private MinuteItem _lastActivedOn;
-        private ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
+        private ObservableCollection<MinerClientViewModel> _minerClients = null;
         private int _minerClientPageIndex = 1;
         private int _minerClientPageSize = 20;
         private int _minerClientTotal;
@@ -74,6 +74,9 @@ namespace NTMiner.Vms {
                 action: message => {
                     if (this.CountDown > 0) {
                         this.CountDown = this.CountDown - 1;
+                        if (this.MinerClients == null) {
+                            return;
+                        }
                         var minerClients = this.MinerClients.ToArray();
                         foreach (var item in minerClients) {
                             item.OnPropertyChanged(nameof(item.LastActivedOnText));
@@ -94,6 +97,9 @@ namespace NTMiner.Vms {
             this._mainCoinWallet = string.Empty;
             this._dualCoinWallet = string.Empty;
             this.RestartWindows = new DelegateCommand(() => {
+                if (this.MinerClients == null) {
+                    return;
+                }
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
                     ShowNoRecordSelected();
@@ -114,6 +120,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.ShutdownWindows = new DelegateCommand(() => {
+                if (this.MinerClients == null) {
+                    return;
+                }
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
                     ShowNoRecordSelected();
@@ -134,6 +143,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.StartNTMiner = new DelegateCommand(() => {
+                if (this.MinerClients == null) {
+                    return;
+                }
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
                     ShowNoRecordSelected();
@@ -152,6 +164,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.RestartNTMiner = new DelegateCommand(() => {
+                if (this.MinerClients == null) {
+                    return;
+                }
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToList();
                 if (checkedItems.Count == 0) {
                     ShowNoRecordSelected();
@@ -161,6 +176,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.CloseNTMiner = new DelegateCommand(() => {
+                if (this.MinerClients == null) {
+                    return;
+                }
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
                     ShowNoRecordSelected();
@@ -181,6 +199,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.StartMine = new DelegateCommand(() => {
+                if (this.MinerClients == null) {
+                    return;
+                }
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
                     ShowNoRecordSelected();
@@ -202,6 +223,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.StopMine = new DelegateCommand(() => {
+                if (this.MinerClients == null) {
+                    return;
+                }
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
                     ShowNoRecordSelected();
@@ -241,6 +265,9 @@ namespace NTMiner.Vms {
                 "周期性挥动铲子表示在挖矿中",
                 LogEnum.None,
                 action: message => {
+                    if (this.MinerClients == null) {
+                        return;
+                    }
                     // 周期性挥动铲子表示在挖矿中
                     var minerClients = this.MinerClients.ToArray();
                     foreach (var item in minerClients) {
@@ -282,8 +309,10 @@ namespace NTMiner.Vms {
             get { return _isChecked; }
             set {
                 if (_isChecked != value) {
-                    foreach (var item in MinerClients) {
-                        item.IsChecked = value;
+                    if (MinerClients != null) {
+                        foreach (var item in MinerClients) {
+                            item.IsChecked = value;
+                        }
                     }
                     _isChecked = value;
                     OnPropertyChanged(nameof(IsChecked));
@@ -455,23 +484,28 @@ namespace NTMiner.Vms {
                     this.CountDown = 10;
                     if (response != null) {
                         UIThread.Execute(() => {
-                            if (this.MinerClients == null || this.MinerClients.Count == 0) {
-                                this.MinerClients = new ObservableCollection<MinerClientViewModel>(response.Data.Select(a => new MinerClientViewModel(a)));
+                            if (response.Data.Count == 0) {
+                                this.MinerClients = new ObservableCollection<MinerClientViewModel>();
                             }
                             else {
-                                var toRemoves = this.MinerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
-                                foreach (var item in toRemoves) {
-                                    this.MinerClients.Remove(item);
+                                if (this.MinerClients == null) {
+                                    this.MinerClients = new ObservableCollection<MinerClientViewModel>(response.Data.Select(a => new MinerClientViewModel(a)));
                                 }
-                                foreach (var item in this.MinerClients) {
-                                    ClientData data = response.Data.FirstOrDefault(a => a.Id == item.Id);
-                                    if (data != null) {
-                                        item.Update(data);
+                                else {
+                                    var toRemoves = this.MinerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
+                                    foreach (var item in toRemoves) {
+                                        this.MinerClients.Remove(item);
                                     }
-                                }
-                                var toAdds = response.Data.Where(a => this.MinerClients.All(b => b.Id != a.Id));
-                                foreach (var item in toAdds) {
-                                    this.MinerClients.Add(new MinerClientViewModel(item));
+                                    foreach (var item in this.MinerClients) {
+                                        ClientData data = response.Data.FirstOrDefault(a => a.Id == item.Id);
+                                        if (data != null) {
+                                            item.Update(data);
+                                        }
+                                    }
+                                    var toAdds = response.Data.Where(a => this.MinerClients.All(b => b.Id != a.Id));
+                                    foreach (var item in toAdds) {
+                                        this.MinerClients.Add(new MinerClientViewModel(item));
+                                    }
                                 }
                             }
                             RefreshPagingUI(response.Total);
@@ -486,6 +520,8 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(MinerClientPageCount));
             OnPropertyChanged(nameof(IsPageDownEnabled));
             OnPropertyChanged(nameof(IsPageUpEnabled));
+            // DataGrid没记录时显示无记录
+            OnPropertyChanged(nameof(MinerClients));
             if (MinerClientTotal == 0) {
                 _minerClientPageIndex = 0;
                 OnPropertyChanged(nameof(MinerClientPageIndex));

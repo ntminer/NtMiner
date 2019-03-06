@@ -9,7 +9,7 @@ namespace NTMiner.Converters {
     public class NoRecordVisibilityConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value == null) {
-                return Visibility.Visible;
+                return Visibility.Collapsed;
             }
             if (value is IEnumerable enumerable) {
                 int i = 0;
