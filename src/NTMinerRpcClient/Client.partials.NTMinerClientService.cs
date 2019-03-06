@@ -46,16 +46,21 @@ namespace NTMiner {
             public void StopMineAsync(StopMineRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/StopMine", request);
-                            ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
+                        ResponseBase response = StopMine(request);
+                        callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
+            }
+
+            public ResponseBase StopMine(StopMineRequest request) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/StopMine", request);
+                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    return response;
+                }
             }
 
             public void SetMinerProfilePropertyAsync(Profile.SetClientMinerProfilePropertyRequest request, Action<ResponseBase, Exception> callback) {

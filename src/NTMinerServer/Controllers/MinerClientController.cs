@@ -161,8 +161,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
                     return response;
                 }
-                Client.MinerClientService.StopMineAsync(request.InnerRequest, null);
-                return ResponseBase.Ok(request.MessageId);
+                response = Client.MinerClientService.StopMine(request.InnerRequest);
+                return response;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

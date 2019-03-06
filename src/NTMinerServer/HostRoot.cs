@@ -3,7 +3,6 @@ using LiteDB;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.User;
-using NTMiner.User.Impl;
 using System;
 using System.IO;
 
@@ -80,7 +79,7 @@ namespace NTMiner {
 
         private HostRoot() {
             OSSClientInit();
-            this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
+            this.UserSet = new User.Impl.UserSet(SpecialPath.LocalDbFileFullName);
             this.AppSettingSet = new AppSettingSet(SpecialPath.LocalDbFileFullName);
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ClientCoinSnapshotSet = new ClientCoinSnapshotSet(this);

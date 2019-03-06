@@ -13,13 +13,13 @@ namespace NTMiner {
             private MinerClientServiceFace() {
             }
 
-            public void RestartWindowsAsync(string clientIp, Action<ResponseBase, Exception> callback) {
+            public void RestartWindowsAsync(IClientData client, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     RestartWindowsRequest innerRequest = new RestartWindowsRequest {
                         LoginName = SingleUser.LoginName,
-                        ClientIp = clientIp
+                        ClientIp = client.MinerIp
                     };
-                    innerRequest.SignIt(SingleUser.PasswordSha1Sha1);
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<RestartWindowsRequest> request = new WrapperRequest<RestartWindowsRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest
@@ -29,13 +29,13 @@ namespace NTMiner {
                 });
             }
 
-            public void ShutdownWindowsAsync(string clientIp, Action<ResponseBase, Exception> callback) {
+            public void ShutdownWindowsAsync(IClientData client, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     ShutdownWindowsRequest innerRequest = new ShutdownWindowsRequest {
                         LoginName = SingleUser.LoginName,
-                        ClientIp = clientIp
+                        ClientIp = client.MinerIp
                     };
-                    innerRequest.SignIt(SingleUser.PasswordSha1Sha1);
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<ShutdownWindowsRequest> request = new WrapperRequest<ShutdownWindowsRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest
@@ -45,14 +45,14 @@ namespace NTMiner {
                 });
             }
 
-            public void OpenNTMinerAsync(string clientIp, Guid workId, Action<ResponseBase, Exception> callback) {
+            public void OpenNTMinerAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     OpenNTMinerRequest innerRequest = new OpenNTMinerRequest {
                         LoginName = SingleUser.LoginName,
-                        ClientIp = clientIp,
+                        ClientIp = client.MinerIp,
                         WorkId = workId
                     };
-                    innerRequest.SignIt(SingleUser.PasswordSha1Sha1);
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<OpenNTMinerRequest> request = new WrapperRequest<OpenNTMinerRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest
@@ -62,14 +62,14 @@ namespace NTMiner {
                 });
             }
 
-            public void RestartNTMinerAsync(string clientIp, Guid workId, Action<ResponseBase, Exception> callback) {
+            public void RestartNTMinerAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     RestartNTMinerRequest innerRequest = new RestartNTMinerRequest {
                         LoginName = SingleUser.LoginName,
-                        ClientIp = clientIp,
+                        ClientIp = client.MinerIp,
                         WorkId = workId
                     };
-                    innerRequest.SignIt(SingleUser.PasswordSha1Sha1);
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<RestartNTMinerRequest> request = new WrapperRequest<RestartNTMinerRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest
@@ -79,14 +79,14 @@ namespace NTMiner {
                 });
             }
 
-            public void UpgradeNTMinerAsync(string clientIp, string ntminerFileName, Action<ResponseBase, Exception> callback) {
+            public void UpgradeNTMinerAsync(IClientData client, string ntminerFileName, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     UpgradeNTMinerRequest innerRequest = new UpgradeNTMinerRequest {
                         LoginName = SingleUser.LoginName,
-                        ClientIp = clientIp,
+                        ClientIp = client.MinerIp,
                         NTMinerFileName = ntminerFileName
                     };
-                    innerRequest.SignIt(SingleUser.PasswordSha1Sha1);
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<UpgradeNTMinerRequest> request = new WrapperRequest<UpgradeNTMinerRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest
@@ -96,13 +96,13 @@ namespace NTMiner {
                 });
             }
 
-            public void CloseNTMinerAsync(string clientIp, Action<ResponseBase, Exception> callback) {
+            public void CloseNTMinerAsync(IClientData client, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     CloseNTMinerRequest innerRequest = new CloseNTMinerRequest {
                         LoginName = SingleUser.LoginName,
-                        ClientIp = clientIp
+                        ClientIp = client.MinerIp
                     };
-                    innerRequest.SignIt(SingleUser.PasswordSha1Sha1);
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<CloseNTMinerRequest> request = new WrapperRequest<CloseNTMinerRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest
@@ -112,14 +112,14 @@ namespace NTMiner {
                 });
             }
 
-            public void StartMineAsync(string clientIp, Guid workId, Action<ResponseBase, Exception> callback) {
+            public void StartMineAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     StartMineRequest innerRequest = new StartMineRequest {
-                        ClientIp = clientIp,
+                        ClientIp = client.MinerIp,
                         LoginName = SingleUser.LoginName,
                         WorkId = workId
                     };
-                    innerRequest.SignIt(SingleUser.PasswordSha1Sha1);
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<StartMineRequest> request = new WrapperRequest<StartMineRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest
@@ -129,13 +129,13 @@ namespace NTMiner {
                 });
             }
 
-            public void StopMineAsync(string clientIp, Action<ResponseBase, Exception> callback) {
+            public void StopMineAsync(IClientData client, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     StopMineRequest innerRequest = new StopMineRequest {
-                        ClientIp = clientIp,
+                        ClientIp = client.MinerIp,
                         LoginName = SingleUser.LoginName
                     };
-                    innerRequest.SignIt(SingleUser.PasswordSha1Sha1);
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<StopMineRequest> request = new WrapperRequest<StopMineRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest
@@ -145,15 +145,15 @@ namespace NTMiner {
                 });
             }
 
-            public void SetClientMinerProfilePropertyAsync(string clientIp, string propertyName, object value, Action<ResponseBase, Exception> callback) {
+            public void SetClientMinerProfilePropertyAsync(IClientData client, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     SetClientMinerProfilePropertyRequest innerRequest = new SetClientMinerProfilePropertyRequest {
-                        ClientIp = clientIp,
+                        ClientIp = client.MinerIp,
                         LoginName = SingleUser.LoginName,
                         PropertyName = propertyName,
                         Value = value
                     };
-                    innerRequest.SignIt(SingleUser.PasswordSha1Sha1);
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<SetClientMinerProfilePropertyRequest> request = new WrapperRequest<SetClientMinerProfilePropertyRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest

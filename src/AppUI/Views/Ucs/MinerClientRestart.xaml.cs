@@ -22,7 +22,7 @@ namespace NTMiner.Views.Ucs {
                 MinerClientRestartViewModel vm = null;
                 vm = new MinerClientRestartViewModel(title, workId, ()=> {
                     foreach (var item in minerClients) {
-                        Server.MinerClientService.RestartNTMinerAsync(item.MinerIp, vm.SelectedMineWork.Id, (response, e) => {
+                        Server.MinerClientService.RestartNTMinerAsync(item, vm.SelectedMineWork.Id, (response, e) => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);

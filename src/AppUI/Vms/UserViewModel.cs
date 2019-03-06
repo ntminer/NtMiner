@@ -123,7 +123,12 @@ namespace NTMiner.Vms {
                 if (_passwordStar != value) {
                     _passwordStar = value;
                     OnPropertyChanged(nameof(PasswordStar));
-                    this.Password = HashUtil.Sha1(HashUtil.Sha1(value));
+                    if (VirtualRoot.IsControlCenter) {
+                        this.Password = HashUtil.Sha1(value);
+                    }
+                    else {
+                        this.Password = HashUtil.Sha1($"{HashUtil.Sha1(value)}{ClientId.Id}");
+                    }
                 }
             }
         }

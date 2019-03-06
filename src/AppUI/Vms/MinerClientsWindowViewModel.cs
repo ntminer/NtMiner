@@ -107,7 +107,7 @@ namespace NTMiner.Vms {
                 else {
                     DialogWindow.ShowDialog(message: $"您确定重启选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in checkedItems) {
-                            Server.MinerClientService.RestartWindowsAsync(item.MinerIp, (response, e) => {
+                            Server.MinerClientService.RestartWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
@@ -130,7 +130,7 @@ namespace NTMiner.Vms {
                 else {
                     DialogWindow.ShowDialog(message: $"您确定关机选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in checkedItems) {
-                            Server.MinerClientService.ShutdownWindowsAsync(item.MinerIp, (response, e) => {
+                            Server.MinerClientService.ShutdownWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
@@ -152,7 +152,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     foreach (var item in checkedItems) {
-                        Server.MinerClientService.OpenNTMinerAsync(item.MinerIp, item.WorkId, (response, e) => {
+                        Server.MinerClientService.OpenNTMinerAsync(item, item.WorkId, (response, e) => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
@@ -186,7 +186,7 @@ namespace NTMiner.Vms {
                 else {
                     DialogWindow.ShowDialog(message: $"您确定关闭选中的挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
                         foreach (var item in checkedItems) {
-                            Server.MinerClientService.CloseNTMinerAsync(item.MinerIp, (response, e) => {
+                            Server.MinerClientService.CloseNTMinerAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
@@ -209,7 +209,7 @@ namespace NTMiner.Vms {
                 else {
                     foreach (var item in checkedItems) {
                         item.IsMining = true;
-                        Server.MinerClientService.StartMineAsync(item.MinerIp, item.WorkId, (response, e) => {
+                        Server.MinerClientService.StartMineAsync(item, item.WorkId, (response, e) => {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);
@@ -233,7 +233,7 @@ namespace NTMiner.Vms {
                 else {
                     foreach (var item in checkedItems) {
                         item.IsMining = false;
-                        Server.MinerClientService.StopMineAsync(item.MinerIp, (response, e) => {
+                        Server.MinerClientService.StopMineAsync(item, (response, e) => {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);

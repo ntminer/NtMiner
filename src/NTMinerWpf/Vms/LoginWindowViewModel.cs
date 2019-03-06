@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                         }
                         if (response.IsSuccess()) {
                             SingleUser.LoginName = LoginName;
-                            SingleUser.PasswordSha1 = passwordSha1;
+                            SingleUser.SetPasswordSha1(passwordSha1);
                             Window window = TopWindow.GetTopWindow();
                             if (window != null && window.GetType() == typeof(LoginWindow)) {
                                 window.DialogResult = true;
