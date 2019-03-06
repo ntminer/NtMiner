@@ -24,5 +24,12 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
+
+        private void ButtonHotKey_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+            if (e.Key >= System.Windows.Input.Key.A && e.Key <= System.Windows.Input.Key.Z) {
+                Button btn = (Button)sender;
+                btn.Content = e.Key.ToString();
+            }
+        }
     }
 }
