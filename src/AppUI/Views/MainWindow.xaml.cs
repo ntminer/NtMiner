@@ -49,26 +49,17 @@ namespace NTMiner.Views {
             if (NTMinerRoot.Current.GpuSet.Count == 0) {
                 Vm.Manager.ShowErrorMessage("没有检测到矿卡。");
             }
-            VirtualRoot.On<HotKeyChangedEvent>(
-                "热键设置变更后应用热键",
-                LogEnum.Console,
-                action: message => {
-                    SystemHotKey.UnRegHotKey(_thisWindowHandle, c_hotKeyId);
-                    string msg;
-                    if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, HotKey, out msg)) {
-                        MessageBox.Show(msg);
-                    }
-                });
-        }
-
-        private System.Windows.Forms.Keys HotKey {
-            get {
-                System.Windows.Forms.Keys hotKey;
-                if (!Enum.TryParse(NTMinerRoot.GetHotKey(), out hotKey)) {
-                    hotKey = System.Windows.Forms.Keys.X;
+            NTMinerRoot.RegHotKey = (key) => {
+                string message;
+                if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, key, out message)) {
+                    Vm.Manager
+                        .CreateMessage()
+                        .Warning(message)
+                        .Dismiss().WithButton("忽略", null).Queue();
+                    return false;
                 }
-                return hotKey;
-            }
+                return true;
+            };
         }
 
         private IntPtr _thisWindowHandle;
@@ -82,8 +73,13 @@ namespace NTMiner.Views {
         protected override void OnContentRendered(EventArgs e) {
             base.OnContentRendered(e);
             string message;
-            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, HotKey, out message)) {
-                MessageBox.Show(message);
+            System.Windows.Forms.Keys hotKey = System.Windows.Forms.Keys.X;
+            Enum.TryParse(NTMinerRoot.GetHotKey(), out hotKey);
+            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, hotKey, out message)) {
+                Vm.Manager
+                    .CreateMessage()
+                    .Warning(message)
+                    .Dismiss().WithButton("忽略", null).Queue();
             }
         }
 

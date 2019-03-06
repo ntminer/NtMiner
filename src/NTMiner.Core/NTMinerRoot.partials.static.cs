@@ -10,6 +10,7 @@ using System.Reflection;
 namespace NTMiner {
     public partial class NTMinerRoot {
         public static IKernelDownloader KernelDownloader;
+        public static Func<System.Windows.Forms.Keys, bool> RegHotKey;
         public static string AppName;
         public static bool IsUseDevConsole = false;
         public static int OSVirtualMemoryMb;
@@ -112,25 +113,26 @@ namespace NTMiner {
 
         #region HotKey
         public static string GetHotKey() {
-            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey");
-            if (isAutoBootValue == null) {
+            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey");
+            if (value == null) {
                 return "X";
             }
-            return isAutoBootValue.ToString();
+            return value.ToString();
         }
 
         public static bool SetHotKey(string value) {
+            if (RegHotKey == null) {
+                return false;
+            }
             if (string.IsNullOrEmpty(value)) {
                 return false;
             }
             System.Windows.Forms.Keys key;
             if (Enum.TryParse(value, out key) && key >= System.Windows.Forms.Keys.A && key <= System.Windows.Forms.Keys.Z) {
-                string oldValue = GetHotKey();
-                Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey", value);
-                if (oldValue != value) {
-                    VirtualRoot.Happened(new HotKeyChangedEvent());
+                if (RegHotKey.Invoke(key)) {
+                    Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey", value);
+                    return true;
                 }
-                return true;
             }
             return false;
         }

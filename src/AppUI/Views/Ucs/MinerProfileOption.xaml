@@ -140,7 +140,7 @@
 
 				<WrapPanel Margin="0 2">
 					<TextBlock>快捷键 Ctrl + Alt +</TextBlock>
-					<Button Margin="4 0 0 0" Padding="4 0" Content="X" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></Button>
+					<Button Margin="4 0 0 0" Padding="4 0" Content="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></Button>
 				</WrapPanel>
 			</StackPanel>
 		</GroupBox>

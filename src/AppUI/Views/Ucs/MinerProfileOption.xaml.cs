@@ -28,8 +28,6 @@ namespace NTMiner.Views.Ucs {
         private void ButtonHotKey_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
             if (e.Key >= System.Windows.Input.Key.A && e.Key <= System.Windows.Input.Key.Z) {
                 Vm.HotKey = e.Key.ToString();
-                Button btn = (Button)sender;
-                btn.Content = NTMinerRoot.GetHotKey();
             }
         }
     }

@@ -40,6 +40,7 @@ namespace NTMiner {
         /// <param name="keyModifiers">组合键</param>
         /// <param name="key">热键</param>
         public static bool RegHotKey(IntPtr hwnd, int hotKeyId, KeyModifiers keyModifiers, Keys key, out string message) {
+            UnRegHotKey(hwnd, hotKeyId);
             message = string.Empty;
             if (!RegisterHotKey(hwnd, hotKeyId, keyModifiers, key)) {
                 int errorCode = Marshal.GetLastWin32Error();
