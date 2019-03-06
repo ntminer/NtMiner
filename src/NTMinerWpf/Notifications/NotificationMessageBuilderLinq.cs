@@ -111,8 +111,10 @@ namespace NTMiner.Notifications {
         }
 
         public static NotificationMessageBuilder Warning(this NotificationMessageBuilder builder, string message) {
-            builder.Accent("#E0A030")
-                .Background("#333")
+            builder
+                .Accent("Black")
+                .Foreground("White")
+                .Background("#694F47")
                 .HasBadge("提示");
             builder.SetMessage(message);
 
@@ -120,7 +122,9 @@ namespace NTMiner.Notifications {
         }
 
         public static NotificationMessageBuilder Error(this NotificationMessageBuilder builder, string message) {
-            builder.Accent("#1751C3")
+            builder
+                .Accent("Black")
+                .Foreground("White")
                 .Background("Red")
                 .HasBadge("错误");
             builder.SetMessage(message);
@@ -129,7 +133,9 @@ namespace NTMiner.Notifications {
         }
 
         public static NotificationMessageBuilder Success(this NotificationMessageBuilder builder, string message) {
-            builder.Accent("#1751C3")
+            builder
+                .Accent("Black")
+                .Foreground("White")
                 .Background("Green")
                 .HasBadge("成功");
             builder.SetMessage(message);

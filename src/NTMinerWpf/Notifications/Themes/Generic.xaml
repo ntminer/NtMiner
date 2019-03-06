@@ -190,7 +190,7 @@
                                     x:Name="badgeGrid"
                                     Grid.Column="0"
                                     HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch">
+                                    VerticalAlignment="Center">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
@@ -214,9 +214,9 @@
                                 <Grid
                                     x:Name="textGrid"
                                     Grid.Column="1"
-                                    Margin="10,8"
+                                    Margin="10 0"
                                     HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch">
+                                    VerticalAlignment="Center">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />

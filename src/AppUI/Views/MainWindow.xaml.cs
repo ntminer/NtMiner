@@ -51,15 +51,30 @@ namespace NTMiner.Views {
             }
             NTMinerRoot.RegHotKey = (key) => {
                 string message;
-                if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, key, out message)) {
+                if (!RegHotKey(key, out message)) {
                     Vm.Manager
                         .CreateMessage()
-                        .Warning(message)
-                        .Dismiss().WithButton("忽略", null).Queue();
+                        .Error(message)
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(4)).
+                        Queue();
                     return false;
                 }
-                return true;
+                else {
+                    Vm.Manager.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
+                    return true;
+                }
             };
+        }
+
+        private bool RegHotKey(System.Windows.Forms.Keys key, out string message) {
+            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, key, out message)) {
+                message = $"Ctrl + Alt + {key.ToString()} " + message;
+                return false;
+            }
+            else {
+                return true;
+            }
         }
 
         private IntPtr _thisWindowHandle;
@@ -72,14 +87,15 @@ namespace NTMiner.Views {
 
         protected override void OnContentRendered(EventArgs e) {
             base.OnContentRendered(e);
-            string message;
             System.Windows.Forms.Keys hotKey = System.Windows.Forms.Keys.X;
             Enum.TryParse(NTMinerRoot.GetHotKey(), out hotKey);
-            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, hotKey, out message)) {
+            string message;
+            if (!RegHotKey(hotKey, out message)) {
                 Vm.Manager
                     .CreateMessage()
-                    .Warning(message)
-                    .Dismiss().WithButton("忽略", null).Queue();
+                    .Error(message)
+                    .Dismiss().WithButton("忽略", null)
+                    .Queue();
             }
         }
 

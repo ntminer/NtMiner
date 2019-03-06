@@ -139,8 +139,8 @@
 				</WrapPanel>
 
 				<WrapPanel Margin="0 2">
-					<TextBlock>快捷键 Ctrl + Alt +</TextBlock>
-					<Button Margin="4 0 0 0" Padding="4 0" Content="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></Button>
+					<TextBlock>打开/隐藏主界面 Ctrl + Alt +</TextBlock>
+					<TextBox Margin="4 0 0 0" Padding="4 0" IsReadOnly="True" Text="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></TextBox>
 				</WrapPanel>
 			</StackPanel>
 		</GroupBox>
