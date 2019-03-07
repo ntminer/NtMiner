@@ -169,6 +169,9 @@ namespace NTMiner.Vms {
 
         public GpuOverClockDataViewModel GpuAllOverClockDataVm {
             get {
+                if (this.Id == Guid.Empty) {
+                    return null;
+                }
                 return GpuOverClockDataViewModels.Current.GpuAllVm(this.Id);
             }
         }

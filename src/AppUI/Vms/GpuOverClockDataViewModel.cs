@@ -95,6 +95,9 @@ namespace NTMiner.Vms {
 
         public bool IsGpuAllVm {
             get {
+                if (this.CoinId == Guid.Empty) {
+                    return false;
+                }
                 return this == GpuOverClockDataViewModels.Current.GpuAllVm(CoinId);
             }
         }

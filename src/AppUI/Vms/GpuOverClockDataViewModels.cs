@@ -40,7 +40,11 @@ namespace NTMiner.Vms {
         }
 
         public GpuOverClockDataViewModel GpuAllVm(Guid coinId) {
-            return _gpuAllVmDicByCoinId[coinId];
+            GpuOverClockDataViewModel result;
+            if (_gpuAllVmDicByCoinId.TryGetValue(coinId, out result)) {
+                return result;
+            }
+            return result;
         }
 
         public List<GpuOverClockDataViewModel> List(Guid coinId) {

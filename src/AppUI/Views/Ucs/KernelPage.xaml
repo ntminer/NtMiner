@@ -180,14 +180,22 @@
 					<RowDefinition Height="Auto"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
-				<ScrollViewer x:Name="CoinsScrollView" CanContentScroll="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+				<ScrollViewer Width="200" x:Name="CoinsScrollView" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 					<ScrollViewer.Resources>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
 					</ScrollViewer.Resources>
-					<ItemsControl 
+					<ListBox 
+						Background="Transparent"
 						ItemsSource="{Binding CoinVms.PleaseSelect}"
+						SelectedItem="{Binding SelectedCoinVm}"
 						BorderThickness="0">
+						<ListBox.Resources>
+							<Style TargetType="ListBoxItem">
+								<Setter Property="BorderThickness" Value="0"></Setter>
+								<Setter Property="Margin" Value="1 0"></Setter>
+							</Style>
+						</ListBox.Resources>
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
 								<WrapPanel>
@@ -199,7 +207,7 @@
 								<TextBlock Padding="10 4" Text="{Binding Code}"></TextBlock>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
-					</ItemsControl>
+					</ListBox>
 				</ScrollViewer>
 				<WrapPanel Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
 					<Button x:Name="ButtonLeft" IsEnabled="False" Click="ButtonLeftCoin_Click">
