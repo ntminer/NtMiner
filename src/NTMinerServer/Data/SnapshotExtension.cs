@@ -1,4 +1,4 @@
-﻿using NTMiner.Hashrate;
+﻿using NTMiner.MinerClient;
 
 namespace NTMiner.Data {
     public static class SnapshotExtension {

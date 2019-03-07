@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Daemon;
-using NTMiner.Hashrate;
 using NTMiner.MinerClient;
 using System;
 using System.Web.Http;
@@ -117,7 +116,6 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public SpeedData GetSpeed() {
             try {
-                // TODO:验证签名
                 SpeedData data = Report.CreateSpeedData();
                 return data;
             }

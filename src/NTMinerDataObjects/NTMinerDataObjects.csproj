@@ -44,8 +44,7 @@
   <ItemGroup>
     <Compile Include="ChangePasswordRequest.cs" />
     <Compile Include="GpuType.cs" />
-    <Compile Include="Hashrate\GpuRowData.cs" />
-    <Compile Include="Hashrate\GpuSpeedData.cs" />
+    <Compile Include="MinerClient\GpuSpeedData.cs" />
     <Compile Include="IAppSettingController.cs" />
     <Compile Include="IControlCenterController.cs" />
     <Compile Include="IFileUrlController.cs" />
@@ -162,7 +161,7 @@
     <Compile Include="Profile\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="Profile\SetPoolProfilePropertyRequest.cs" />
     <Compile Include="MinerServer\SetServerJsonVersionRequest.cs" />
-    <Compile Include="Hashrate\SpeedData.cs" />
+    <Compile Include="MinerClient\SpeedData.cs" />
     <Compile Include="MinerClient\StartMineRequest.cs" />
     <Compile Include="MinerClient\StopMineRequest.cs" />
     <Compile Include="Timestamp.cs" />

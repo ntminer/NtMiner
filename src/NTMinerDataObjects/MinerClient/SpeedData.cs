@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Hashrate {
+namespace NTMiner.MinerClient {
     public class SpeedData {
         public SpeedData() {
             GpuTable = new GpuSpeedData[0];

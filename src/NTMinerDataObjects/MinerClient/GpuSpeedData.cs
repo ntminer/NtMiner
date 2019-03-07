@@ -1,4 +1,4 @@
-﻿namespace NTMiner.Hashrate {
+﻿namespace NTMiner.MinerClient {
     public class GpuSpeedData {
         public int Index { get; set; }
 
