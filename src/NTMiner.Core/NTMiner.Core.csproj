@@ -128,6 +128,7 @@
     <Compile Include="Core\Impl\CoinGroupData.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
+    <Compile Include="Core\Kernels\EnvironmentVariable.cs" />
     <Compile Include="Core\MinerServer\Impl\UserSet.cs" />
     <Compile Include="Core\MinerServer\IColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />

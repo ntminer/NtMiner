@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.Gpus;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core.Kernels {
     public interface ICoinKernel : IEntity<Guid> {
@@ -10,5 +11,6 @@ namespace NTMiner.Core.Kernels {
         string Description { get; }
         Guid DualCoinGroupId { get; }
         SupportedGpu SupportedGpu { get; }
+        List<EnvironmentVariable> EnvironmentVariables { get; }
     }
 }

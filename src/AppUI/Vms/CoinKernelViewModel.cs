@@ -19,6 +19,9 @@ namespace NTMiner.Vms {
         private string _args;
         private string _description;
         private SupportedGpu _supportedGpu;
+        private GroupViewModel _selectedDualCoinGroup;
+        private List<EnvironmentVariable> _environmentVariables;
+        private CoinViewModel _coinVm;
 
         public Guid GetId() {
             return this.Id;
@@ -44,6 +47,7 @@ namespace NTMiner.Vms {
 
         public CoinKernelViewModel(Guid id) {
             _id = id;
+            _environmentVariables = new List<EnvironmentVariable>();
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.CoinKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
@@ -125,7 +129,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private CoinViewModel _coinVm;
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || this.CoinId != _coinVm.Id) {
@@ -184,7 +187,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private GroupViewModel _selectedDualCoinGroup;
         public GroupViewModel SelectedDualCoinGroup {
             get {
                 if (this.DualCoinGroupId == Guid.Empty) {
@@ -243,6 +245,14 @@ namespace NTMiner.Vms {
                     _description = value;
                     OnPropertyChanged(nameof(Description));
                 }
+            }
+        }
+
+        public List<EnvironmentVariable> EnvironmentVariables {
+            get => _environmentVariables;
+            set {
+                _environmentVariables = value;
+                OnPropertyChanged(nameof(EnvironmentVariables));
             }
         }
 
