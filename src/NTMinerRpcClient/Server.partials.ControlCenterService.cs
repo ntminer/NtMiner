@@ -8,6 +8,7 @@ namespace NTMiner {
     public static partial class Server {
         public class ControlCenterServiceFace {
             public static readonly ControlCenterServiceFace Instance = new ControlCenterServiceFace();
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IControlCenterController>();
 
             private ControlCenterServiceFace() {
             }
@@ -20,7 +21,7 @@ namespace NTMiner {
                             LoginName = loginName
                         };
                         request.SignIt(password);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "LoginControlCenter", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.LoginControlCenter), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -42,7 +43,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    GetUsersResponse response = Request<GetUsersResponse>("ControlCenter", "Users", request);
+                    GetUsersResponse response = Request<GetUsersResponse>(s_controllerName, nameof(IControlCenterController.Users), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -61,7 +62,7 @@ namespace NTMiner {
                             Data = userData
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "AddUser", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddUser), request);
                         callback?.Invoke(response, null);
                     }
                     catch(Exception e) {
@@ -80,7 +81,7 @@ namespace NTMiner {
                             Data = userData
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateUser", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.UpdateUser), request);
                         callback?.Invoke(response, null);
                     }
                     catch(Exception e) {
@@ -99,7 +100,7 @@ namespace NTMiner {
                             Data = loginName
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveUser", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveUser), request);
                         callback?.Invoke(response, null);
                     }
                     catch(Exception e) {
@@ -121,7 +122,7 @@ namespace NTMiner {
                             Limit = limit
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        GetCoinSnapshotsResponse response = Request<GetCoinSnapshotsResponse>("ControlCenter", "LatestSnapshots", request);
+                        GetCoinSnapshotsResponse response = Request<GetCoinSnapshotsResponse>(s_controllerName, nameof(IControlCenterController.LatestSnapshots), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -141,7 +142,7 @@ namespace NTMiner {
                             IsPull = isPull
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        LoadClientResponse response = Request<LoadClientResponse>("ControlCenter", "LoadClient", request);
+                        LoadClientResponse response = Request<LoadClientResponse>(s_controllerName, nameof(IControlCenterController.LoadClient), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -194,7 +195,7 @@ namespace NTMiner {
                             Kernel = kernel
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        QueryClientsResponse response = Request<QueryClientsResponse>("ControlCenter", "QueryClients", request);
+                        QueryClientsResponse response = Request<QueryClientsResponse>(s_controllerName, nameof(IControlCenterController.QueryClients), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -215,7 +216,7 @@ namespace NTMiner {
                             Value = value
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateClient", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.UpdateClient), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -235,7 +236,7 @@ namespace NTMiner {
                             Values = values
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "UpdateClientProperties", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.UpdateClientProperties), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -256,7 +257,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    GetMinerGroupsResponse response = Request<GetMinerGroupsResponse>("ControlCenter", "MinerGroups", request);
+                    GetMinerGroupsResponse response = Request<GetMinerGroupsResponse>(s_controllerName, nameof(IControlCenterController.MinerGroups), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -276,7 +277,7 @@ namespace NTMiner {
                             Data = entity
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateMinerGroup", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddOrUpdateMinerGroup), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -295,7 +296,7 @@ namespace NTMiner {
                             MinerGroupId = id
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveMinerGroup", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveMinerGroup), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -315,7 +316,7 @@ namespace NTMiner {
                             Data = entity
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateMineWork", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddOrUpdateMineWork), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -334,7 +335,7 @@ namespace NTMiner {
                             MineWorkId = id
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveMineWork", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveMineWork), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -355,7 +356,7 @@ namespace NTMiner {
                             WorkId = workId
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "SetMinerProfileProperty", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.SetMinerProfileProperty), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -377,7 +378,7 @@ namespace NTMiner {
                             Value = value
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "SetCoinProfileProperty", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.SetCoinProfileProperty), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -399,7 +400,7 @@ namespace NTMiner {
                             Value = value
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "SetPoolProfileProperty", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.SetPoolProfileProperty), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -421,7 +422,7 @@ namespace NTMiner {
                             WorkId = workId
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "SetCoinKernelProfileProperty", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.SetCoinKernelProfileProperty), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -441,7 +442,7 @@ namespace NTMiner {
                     WalletsRequest request = new WalletsRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    GetWalletsResponse response = Request<GetWalletsResponse>("ControlCenter", "Wallets", request);
+                    GetWalletsResponse response = Request<GetWalletsResponse>(s_controllerName, nameof(IControlCenterController.Wallets), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -461,7 +462,7 @@ namespace NTMiner {
                             Data = entity
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateWallet", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddOrUpdateWallet), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -480,7 +481,7 @@ namespace NTMiner {
                             WalletId = id
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveWallet", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveWallet), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -500,7 +501,7 @@ namespace NTMiner {
                     CalcConfigsRequest request = new CalcConfigsRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    GetCalcConfigsResponse response = Request<GetCalcConfigsResponse>("ControlCenter", "CalcConfigs", request);
+                    GetCalcConfigsResponse response = Request<GetCalcConfigsResponse>(s_controllerName, nameof(IControlCenterController.CalcConfigs), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -522,7 +523,7 @@ namespace NTMiner {
                             LoginName = SingleUser.LoginName
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "SaveCalcConfigs", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.SaveCalcConfigs), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -543,7 +544,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    GetColumnsShowsResponse response = Request<GetColumnsShowsResponse>("ControlCenter", "ColumnsShows", request);
+                    GetColumnsShowsResponse response = Request<GetColumnsShowsResponse>(s_controllerName, nameof(IControlCenterController.ColumnsShows), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -562,7 +563,7 @@ namespace NTMiner {
                             Data = entity
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "AddOrUpdateColumnsShow", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddOrUpdateColumnsShow), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -581,7 +582,7 @@ namespace NTMiner {
                             ColumnsShowId = id
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("ControlCenter", "RemoveColumnsShow", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveColumnsShow), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {

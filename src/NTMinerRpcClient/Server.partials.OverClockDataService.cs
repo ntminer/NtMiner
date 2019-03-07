@@ -6,6 +6,8 @@ namespace NTMiner {
     public partial class Server {
         public partial class OverClockDataServiceFace {
             public static readonly OverClockDataServiceFace Instance = new OverClockDataServiceFace();
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IOverClockDataController>();
+
             private OverClockDataServiceFace() { }
 
             #region GetOverClockDatas
@@ -19,7 +21,7 @@ namespace NTMiner {
                     OverClockDatasRequest request = new OverClockDatasRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    GetOverClockDatasResponse response = Request<GetOverClockDatasResponse>("OverClockData", "OverClockDatas", request);
+                    GetOverClockDatasResponse response = Request<GetOverClockDatasResponse>(s_controllerName, nameof(IOverClockDataController.OverClockDatas), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -37,7 +39,7 @@ namespace NTMiner {
                         Data = entity
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("OverClockData", "AddOrUpdateOverClockData", request, callback);
+                    RequestAsync(s_controllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request, callback);
                 });
             }
             #endregion
@@ -50,7 +52,7 @@ namespace NTMiner {
                         OverClockDataId = id
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("OverClockData", "RemoveOverClockData", request, callback);
+                    RequestAsync(s_controllerName, nameof(IOverClockDataController.RemoveOverClockData), request, callback);
                 });
             }
             #endregion

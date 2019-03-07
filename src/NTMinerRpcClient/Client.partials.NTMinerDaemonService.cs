@@ -8,6 +8,7 @@ namespace NTMiner {
     public static partial class Client {
         public class NTMinerDaemonServiceFace {
             public static readonly NTMinerDaemonServiceFace Instance = new NTMinerDaemonServiceFace();
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<INTMinerDaemonController>();
 
             private NTMinerDaemonServiceFace() { }
 
@@ -19,7 +20,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/GetDaemonVersion", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.GetDaemonVersion)}", null);
                             string response = message.Result.Content.ReadAsAsync<string>().Result;
                             callback?.Invoke(response, null);
                         }
@@ -33,7 +34,7 @@ namespace NTMiner {
             public void CloseDaemon() {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/CloseDaemon", null);
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.CloseDaemon)}", null);
                         Write.DevLine("CloseDaemon " + message.Result.ReasonPhrase);
                     }
                 }
@@ -55,7 +56,7 @@ namespace NTMiner {
 
             public ResponseBase SetMinerName(MinerClient.SetMinerNameRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/SetMinerName", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SetMinerName)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -65,7 +66,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/RefreshUserSet", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.RefreshUserSet)}", null);
                             Write.DevLine("RefreshUserSetAsync " + message.Result.ReasonPhrase);
                             callback?.Invoke(null);
                         }
@@ -90,7 +91,7 @@ namespace NTMiner {
 
             public ResponseBase RestartWindows(RestartWindowsRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/RestartWindows", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.RestartWindows)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -110,7 +111,7 @@ namespace NTMiner {
 
             public ResponseBase ShutdownWindows(ShutdownWindowsRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/ShutdownWindows", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.ShutdownWindows)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -130,7 +131,7 @@ namespace NTMiner {
 
             public ResponseBase OpenNTMiner(OpenNTMinerRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/OpenNTMiner", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.OpenNTMiner)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -150,7 +151,7 @@ namespace NTMiner {
 
             public ResponseBase RestartNTMiner(RestartNTMinerRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/RestartNTMiner", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.RestartNTMiner)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -170,7 +171,7 @@ namespace NTMiner {
 
             public ResponseBase UpgradeNTMiner(UpgradeNTMinerRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/UpgradeNTMiner", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.UpgradeNTMiner)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -190,7 +191,7 @@ namespace NTMiner {
 
             public ResponseBase CloseNTMiner(CloseNTMinerRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/CloseNTMiner", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.CloseNTMiner)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -210,7 +211,7 @@ namespace NTMiner {
 
             public ResponseBase StartMine(MinerClient.StartMineRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/StartMine", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StartMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -220,7 +221,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/StartNoDevFee", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StartNoDevFee)}", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response, null);
                         }
@@ -236,7 +237,7 @@ namespace NTMiner {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             RequestBase request = new RequestBase();
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/NTMinerDaemon/StopNoDevFee", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StopNoDevFee)}", request);
                             ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response, null);
                         }

@@ -19,7 +19,7 @@ namespace NTMiner {
             }
         }
 
-        private static readonly string s_baseUrl = $"http://{MinerServerHost}:{{WebApiConst.MinerServerPort}}/api";
+        private static readonly string s_baseUrl = $"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api";
         public static void RequestAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
             try {
                 using (HttpClient client = new HttpClient()) {

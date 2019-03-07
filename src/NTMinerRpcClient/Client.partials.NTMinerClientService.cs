@@ -8,6 +8,7 @@ namespace NTMiner {
     public static partial class Client {
         public partial class MinerClientServiceFace {
             public static readonly MinerClientServiceFace Instance = new MinerClientServiceFace();
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IMinerClientController>();
 
             private MinerClientServiceFace() {
             }
@@ -16,7 +17,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{clientPort}/api/MinerClient/ShowMainWindow", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{clientPort}/api/{s_controllerName}/{nameof(IMinerClientController.ShowMainWindow)}", null);
                             bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                             callback?.Invoke(response, null);
                         }
@@ -41,7 +42,7 @@ namespace NTMiner {
 
             public ResponseBase StartMine(StartMineRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/MinerClient/StartMine", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.StartMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -61,7 +62,7 @@ namespace NTMiner {
 
             public ResponseBase StopMine(StopMineRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/MinerClient/StopMine", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.StopMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -81,17 +82,17 @@ namespace NTMiner {
 
             public ResponseBase SetMinerProfileProperty(Profile.SetClientMinerProfilePropertyRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/MinerClient/SetMinerProfileProperty", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.SetMinerProfileProperty)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
             }
 
             public Task<SpeedData> GetSpeedAsync(string clientHost, Action<SpeedData, Exception> callback) {
-                return Task.Factory.StartNew<SpeedData>(() => {
+                return Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.MinerClientAppPort}/api/MinerClient/GetSpeed", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
                             SpeedData data = message.Result.Content.ReadAsAsync<SpeedData>().Result;
                             callback?.Invoke(data, null);
                             return data;

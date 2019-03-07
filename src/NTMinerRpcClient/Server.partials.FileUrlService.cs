@@ -7,6 +7,7 @@ namespace NTMiner {
     public static partial class Server {
         public partial class FileUrlServiceFace {
             public static readonly FileUrlServiceFace Instance = new FileUrlServiceFace();
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IFileUrlController>();
 
             private FileUrlServiceFace() { }
 
@@ -16,7 +17,7 @@ namespace NTMiner {
                     NTMinerUrlRequest request = new NTMinerUrlRequest {
                         FileName = fileName
                     };
-                    RequestAsync("FileUrl", "NTMinerUrl", request, callback);
+                    RequestAsync(s_controllerName, nameof(IFileUrlController.NTMinerUrl), request, callback);
                 });
             }
             #endregion
@@ -24,7 +25,7 @@ namespace NTMiner {
             #region GetNTMinerFilesAsync
             public void GetNTMinerFilesAsync(Action<List<NTMinerFileData>, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    RequestAsync("FileUrl", "NTMinerFiles", null, callback);
+                    RequestAsync(s_controllerName, nameof(IFileUrlController.NTMinerFiles), null, callback);
                 });
             }
             #endregion
@@ -37,7 +38,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("FileUrl", "AddOrUpdateNTMinerFile", request, callback);
+                    RequestAsync(s_controllerName, nameof(IFileUrlController.AddOrUpdateNTMinerFile), request, callback);
                 });
             }
             #endregion
@@ -50,7 +51,7 @@ namespace NTMiner {
                         NTMinerId = id
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("FileUrl", "RemoveNTMinerFile", request, callback);
+                    RequestAsync(s_controllerName, nameof(IFileUrlController.RemoveNTMinerFile), request, callback);
                 });
             }
             #endregion
@@ -58,7 +59,7 @@ namespace NTMiner {
             #region GetLiteDBExplorerUrlAsync
             public void GetLiteDBExplorerUrlAsync(Action<string, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    RequestAsync("FileUrl", "LiteDBExplorerUrl", null, callback);
+                    RequestAsync(s_controllerName, nameof(IFileUrlController.LiteDBExplorerUrl), null, callback);
                 });
             }
             #endregion
@@ -66,7 +67,7 @@ namespace NTMiner {
             #region GetNTMinerUpdaterUrlAsync
             public void GetNTMinerUpdaterUrlAsync(Action<string, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    RequestAsync("FileUrl", "NTMinerUpdaterUrl", null, callback);
+                    RequestAsync(s_controllerName, nameof(IFileUrlController.NTMinerUpdaterUrl), null, callback);
                 });
             }
             #endregion
@@ -77,7 +78,7 @@ namespace NTMiner {
                     PackageUrlRequest request = new PackageUrlRequest {
                         Package = package
                     };
-                    RequestAsync("FileUrl", "PackageUrl", request, callback);
+                    RequestAsync(s_controllerName, nameof(IFileUrlController.PackageUrl), request, callback);
                 });
             }
             #endregion

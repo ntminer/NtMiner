@@ -8,14 +8,15 @@ namespace NTMiner {
     public static partial class Server {
         public partial class ReportServiceFace {
             public static readonly ReportServiceFace Instance = new ReportServiceFace();
-            private readonly string baseUrl = $"http://{MinerServerHost}:{{WebApiConst.MinerServerPort}}/api/Report";
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IReportController>();
+            private readonly string baseUrl = $"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api/{s_controllerName}";
 
             private ReportServiceFace() { }
             public void GetTimeAsync(Action<DateTime, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetTime");
+                            Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IReportController.GetTime)}");
                             DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
                             callback?.Invoke(response, null);
                         }
@@ -30,7 +31,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/ReportSpeed", data);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportController.ReportSpeed)}", data);
                             Write.DevLine("ReportSpeedAsync " + message.Result.ReasonPhrase);
                         }
                     }
@@ -48,7 +49,7 @@ namespace NTMiner {
                                 ClientId = clientId,
                                 IsMining = isMining
                             };
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/ReportState", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportController.ReportState)}", request);
                             Write.DevLine("ReportStateAsync " + message.Result.ReasonPhrase);
                         }
                     }

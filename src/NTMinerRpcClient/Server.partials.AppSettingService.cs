@@ -7,6 +7,8 @@ namespace NTMiner {
     public partial class Server {
         public partial class AppSettingServiceFace {
             public static readonly AppSettingServiceFace Instance = new AppSettingServiceFace();
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IAppSettingController>();
+
             private AppSettingServiceFace() { }
 
             #region GetAppSettingAsync
@@ -17,7 +19,7 @@ namespace NTMiner {
                             MessageId = Guid.NewGuid(),
                             Key = key
                         };
-                        GetAppSettingResponse response = Request<GetAppSettingResponse>("AppSetting", "AppSetting", request);
+                        GetAppSettingResponse response = Request<GetAppSettingResponse>(s_controllerName, nameof(IAppSettingController.AppSetting), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -33,7 +35,7 @@ namespace NTMiner {
                     AppSettingsRequest request = new AppSettingsRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    GetAppSettingsResponse response = Request<GetAppSettingsResponse>("AppSetting", "AppSettings", request);
+                    GetAppSettingsResponse response = Request<GetAppSettingsResponse>(s_controllerName, nameof(IAppSettingController.AppSettings), request);
                     return response.Data;
                 }
                 catch (Exception e) {
@@ -52,7 +54,7 @@ namespace NTMiner {
                             LoginName = SingleUser.LoginName
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>("AppSetting", "SetAppSetting", request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IAppSettingController.SetAppSetting), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {

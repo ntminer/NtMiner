@@ -9,6 +9,7 @@ namespace NTMiner {
     public partial class Server {
         public class WrapperMinerClientServiceFace {
             public static readonly WrapperMinerClientServiceFace Instance = new WrapperMinerClientServiceFace();
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IWrapperMinerClientController>();
 
             private WrapperMinerClientServiceFace() {
             }
@@ -25,7 +26,7 @@ namespace NTMiner {
                         InnerRequest = innerRequest
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("WrapperMinerClient", "RestartWindows", request, callback);
+                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.RestartWindows), request, callback);
                 });
             }
 
@@ -41,7 +42,7 @@ namespace NTMiner {
                         InnerRequest = innerRequest
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("WrapperMinerClient", "ShutdownWindows", request, callback);
+                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.ShutdownWindows), request, callback);
                 });
             }
 
@@ -58,7 +59,7 @@ namespace NTMiner {
                         InnerRequest = innerRequest
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("WrapperMinerClient", "OpenNTMiner", request, callback);
+                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.OpenNTMiner), request, callback);
                 });
             }
 
@@ -75,7 +76,7 @@ namespace NTMiner {
                         InnerRequest = innerRequest
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("WrapperMinerClient", "RestartNTMiner", request, callback);
+                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.RestartNTMiner), request, callback);
                 });
             }
 
@@ -92,7 +93,7 @@ namespace NTMiner {
                         InnerRequest = innerRequest
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("WrapperMinerClient", "UpgradeNTMiner", request, callback);
+                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), request, callback);
                 });
             }
 
@@ -108,7 +109,7 @@ namespace NTMiner {
                         InnerRequest = innerRequest
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("WrapperMinerClient", "CloseNTMiner", request, callback);
+                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.CloseNTMiner), request, callback);
                 });
             }
 
@@ -125,7 +126,7 @@ namespace NTMiner {
                         InnerRequest = innerRequest
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("WrapperMinerClient", "StartMine", request, callback);
+                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.StartMine), request, callback);
                 });
             }
 
@@ -141,7 +142,7 @@ namespace NTMiner {
                         InnerRequest = innerRequest
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("WrapperMinerClient", "StopMine", request, callback);
+                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.StopMine), request, callback);
                 });
             }
 
@@ -159,7 +160,7 @@ namespace NTMiner {
                         InnerRequest = innerRequest
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync("WrapperMinerClient", "SetClientMinerProfileProperty", request, callback);
+                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.SetClientMinerProfileProperty), request, callback);
                 });
             }
         }

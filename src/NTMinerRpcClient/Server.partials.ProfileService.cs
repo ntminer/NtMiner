@@ -7,6 +7,7 @@ namespace NTMiner {
     public static partial class Server {
         public partial class ProfileServiceFace {
             public static readonly ProfileServiceFace Instance = new ProfileServiceFace();
+            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IProfileController>();
 
             private ProfileServiceFace() {
             }
@@ -16,7 +17,7 @@ namespace NTMiner {
                     MineWorkRequest request = new MineWorkRequest {
                         WorkId = workId
                     };
-                    MineWorkData response = Request<MineWorkData>("Profile", "MineWork", request);
+                    MineWorkData response = Request<MineWorkData>(s_controllerName, nameof(IProfileController.MineWork), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -31,7 +32,7 @@ namespace NTMiner {
             /// <returns></returns>
             public List<MineWorkData> GetMineWorks() {
                 try {
-                    List<MineWorkData> response = Request<List<MineWorkData>>("Profile", "MineWorks", null);
+                    List<MineWorkData> response = Request<List<MineWorkData>>(s_controllerName, nameof(IProfileController.MineWorks), null);
                     return response;
                 }
                 catch (Exception e) {
@@ -50,7 +51,7 @@ namespace NTMiner {
                     MinerProfileRequest request = new MinerProfileRequest {
                         WorkId = workId
                     };
-                    MinerProfileData response = Request<MinerProfileData>("Profile", "MinerProfile", request);
+                    MinerProfileData response = Request<MinerProfileData>(s_controllerName, nameof(IProfileController.MinerProfile), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -71,7 +72,7 @@ namespace NTMiner {
                         WorkId = workId,
                         CoinId = coinId
                     };
-                    CoinProfileData response = Request<CoinProfileData>("Profile", "CoinProfile", request);
+                    CoinProfileData response = Request<CoinProfileData>(s_controllerName, nameof(IProfileController.CoinProfile), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -92,7 +93,7 @@ namespace NTMiner {
                         WorkId = workId,
                         PoolId = poolId
                     };
-                    PoolProfileData response = Request<PoolProfileData>("Profile", "PoolProfile", request);
+                    PoolProfileData response = Request<PoolProfileData>(s_controllerName, nameof(IProfileController.PoolProfile), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -113,7 +114,7 @@ namespace NTMiner {
                         WorkId = workId,
                         CoinKernelId = coinKernelId
                     };
-                    CoinKernelProfileData response = Request<CoinKernelProfileData>("Profile", "CoinKernelProfile", request);
+                    CoinKernelProfileData response = Request<CoinKernelProfileData>(s_controllerName, nameof(IProfileController.CoinKernelProfile), request);
                     return response;
                 }
                 catch (Exception e) {
