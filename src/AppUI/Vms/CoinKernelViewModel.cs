@@ -33,7 +33,17 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
         public ICommand Save { get; private set; }
 
+        public ICommand AddEnvironmentVariable { get; private set; }
+        public ICommand EditEnvironmentVariable { get; private set; }
+        public ICommand RemoveEnvironmentVariable { get; private set; }
+
         public Action CloseWindow { get; set; }
+
+        public CoinKernelViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
 
         public CoinKernelViewModel(ICoinKernel data) : this(data.GetId()) {
             _coinId = data.CoinId;
@@ -48,6 +58,15 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel(Guid id) {
             _id = id;
             _environmentVariables = new List<EnvironmentVariable>();
+            this.AddEnvironmentVariable = new DelegateCommand(() => {
+
+            });
+            this.EditEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
+
+            });
+            this.RemoveEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
+
+            });
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.CoinKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
