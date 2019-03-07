@@ -121,8 +121,6 @@
     <Compile Include="Core\ICoinGroupSet.cs" />
     <Compile Include="Core\IGroup.cs" />
     <Compile Include="Core\IGroupSet.cs" />
-    <Compile Include="Core\IKey.cs" />
-    <Compile Include="Core\IKeySet.cs" />
     <Compile Include="Core\Impl\CalcConfigSet.cs" />
     <Compile Include="Core\Impl\CoinData.cs" />
     <Compile Include="Core\Gpus\GpuSpeedExtension.cs" />
@@ -135,8 +133,6 @@
     <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />
     <Compile Include="Core\Impl\GroupData.cs" />
     <Compile Include="Core\Impl\GroupSet.cs" />
-    <Compile Include="Core\Impl\KeyData.cs" />
-    <Compile Include="Core\Impl\KeySet.cs" />
     <Compile Include="Core\MinerServer\Impl\AppSettingSet.cs" />
     <Compile Include="Core\MinerServer\Impl\ColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\Impl\MinerGroupSet.cs" />
