@@ -55,6 +55,7 @@
     <Compile Include="IProfileController.cs" />
     <Compile Include="IReportController.cs" />
     <Compile Include="IShowMainWindow.cs" />
+    <Compile Include="IWrapperMinerClientController.cs" />
     <Compile Include="MinerClient\SetMinerNameRequest.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="MinerServer\AddUserRequest.cs" />

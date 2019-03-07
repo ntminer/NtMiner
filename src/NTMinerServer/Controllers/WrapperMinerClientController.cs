@@ -6,7 +6,7 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class WrapperMinerClientController : ApiController {
+    public class WrapperMinerClientController : ApiController, IWrapperMinerClientController {
         #region RestartWindows
         [HttpPost]
         public ResponseBase RestartWindows([FromBody]WrapperRequest<RestartWindowsRequest> request) {
