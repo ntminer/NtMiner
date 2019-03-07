@@ -180,7 +180,7 @@
 					<RowDefinition Height="Auto"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
-				<ScrollViewer Width="200" x:Name="CoinsScrollView" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+				<ScrollViewer x:Name="CoinsScrollView" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 					<ScrollViewer.Resources>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
@@ -190,23 +190,39 @@
 						ItemsSource="{Binding CoinVms.PleaseSelect}"
 						SelectedItem="{Binding SelectedCoinVm}"
 						BorderThickness="0">
-						<ListBox.Resources>
+						<ListBox.ItemContainerStyle>
 							<Style TargetType="ListBoxItem">
-								<Setter Property="BorderThickness" Value="0"></Setter>
-								<Setter Property="Margin" Value="1 0"></Setter>
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="ListBoxItem">
+											<Border Background="{TemplateBinding Background}">
+												<ContentPresenter 
+													HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+													VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+													TextBlock.Foreground="{TemplateBinding Foreground}"/>
+											</Border>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+								<Style.Triggers>
+									<Trigger Property="IsSelected" Value="true">
+										<Setter Property="Background" Value="#2DA4FF"/>
+										<Setter Property="Foreground" Value="White"/>
+									</Trigger>
+								</Style.Triggers>
 							</Style>
-						</ListBox.Resources>
-						<ItemsControl.ItemsPanel>
+						</ListBox.ItemContainerStyle>
+						<ListBox.ItemsPanel>
 							<ItemsPanelTemplate>
 								<WrapPanel>
 								</WrapPanel>
 							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
+						</ListBox.ItemsPanel>
+						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Padding="10 4" Text="{Binding Code}"></TextBlock>
 							</DataTemplate>
-						</ItemsControl.ItemTemplate>
+						</ListBox.ItemTemplate>
 					</ListBox>
 				</ScrollViewer>
 				<WrapPanel Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
