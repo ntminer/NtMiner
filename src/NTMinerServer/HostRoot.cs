@@ -11,7 +11,7 @@ namespace NTMiner {
         public static bool IsPull = false;
 
         static void Main(string[] args) {
-            string baseAddress = "http://localhost:3339";
+            string baseAddress = $"http://localhost:{WebApiConst.MinerServerPort}";
             Console.Title = baseAddress + " Enter exit or ctrl+c to quit.";
             HttpServer.Start(baseAddress);
             Logger.InfoDebugLine("启动成功");

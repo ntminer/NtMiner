@@ -7,7 +7,6 @@ namespace NTMiner {
         public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
         public static readonly AppSettingServiceFace AppSettingService = AppSettingServiceFace.Instance;
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
-        public static readonly TimeServiceFace TimeService = TimeServiceFace.Instance;
         public static readonly ProfileServiceFace ProfileService = ProfileServiceFace.Instance;
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
         public static readonly WrapperMinerClientServiceFace MinerClientService = WrapperMinerClientServiceFace.Instance;
@@ -20,13 +19,7 @@ namespace NTMiner {
             }
         }
 
-        public static int MinerServerPort {
-            get {
-                return 3339;
-            }
-        }
-
-        private static readonly string s_baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api";
+        private static readonly string s_baseUrl = $"http://{MinerServerHost}:{{WebApiConst.MinerServerPort}}/api";
         public static void RequestAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
             try {
                 using (HttpClient client = new HttpClient()) {

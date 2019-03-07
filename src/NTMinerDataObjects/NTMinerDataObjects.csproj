@@ -40,7 +40,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangePasswordRequest.cs" />
@@ -49,8 +48,12 @@
     <Compile Include="Hashrate\GpuSpeedData.cs" />
     <Compile Include="IAppSettingController.cs" />
     <Compile Include="IControlCenterController.cs" />
+    <Compile Include="IFileUrlController.cs" />
     <Compile Include="IMinerClientController.cs" />
     <Compile Include="INTMinerDaemonController.cs" />
+    <Compile Include="IOverClockDataController.cs" />
+    <Compile Include="IProfileController.cs" />
+    <Compile Include="IReportController.cs" />
     <Compile Include="IShowMainWindow.cs" />
     <Compile Include="MinerClient\SetMinerNameRequest.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />

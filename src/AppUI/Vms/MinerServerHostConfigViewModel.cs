@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
 
         public int MinerServerPort {
             get {
-                return Server.MinerServerPort;
+                return WebApiConst.MinerServerPort;
             }
         }
     }

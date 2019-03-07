@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class ProfileController : ApiController {
+    public class ProfileController : ApiController, IProfileController {
         [HttpPost]
         public MineWorkData MineWork([FromBody]MineWorkRequest request) {
             try {

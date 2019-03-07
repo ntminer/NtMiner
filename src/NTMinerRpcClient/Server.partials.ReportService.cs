@@ -8,9 +8,23 @@ namespace NTMiner {
     public static partial class Server {
         public partial class ReportServiceFace {
             public static readonly ReportServiceFace Instance = new ReportServiceFace();
-            private readonly string baseUrl = $"http://{MinerServerHost}:{MinerServerPort}/api/Report";
+            private readonly string baseUrl = $"http://{MinerServerHost}:{{WebApiConst.MinerServerPort}}/api/Report";
 
             private ReportServiceFace() { }
+            public void GetTimeAsync(Action<DateTime, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/GetTime");
+                            DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
+                            callback?.Invoke(response, null);
+                        }
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(DateTime.Now, e);
+                    }
+                });
+            }
 
             public void ReportSpeedAsync(SpeedData data) {
                 Task.Factory.StartNew(() => {

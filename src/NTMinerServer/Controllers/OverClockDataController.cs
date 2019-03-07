@@ -3,7 +3,7 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class OverClockDataController : ApiController {
+    public class OverClockDataController : ApiController, IOverClockDataController {
         #region AddOrUpdateOverClockData
         [HttpPost]
         public ResponseBase AddOrUpdateOverClockData([FromBody]AddOrUpdateOverClockDataRequest request) {

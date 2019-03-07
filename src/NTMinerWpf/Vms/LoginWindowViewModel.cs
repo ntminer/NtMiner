@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         public ICommand Login { get; private set; }
 
         public LoginWindowViewModel() {
-            this._hostAndPort = $"{Server.MinerServerHost}:{Server.MinerServerPort.ToString()}";
+            this._hostAndPort = $"{Server.MinerServerHost}:{WebApiConst.MinerServerPort}";
             this._loginName = "admin";
             this.Login = new DelegateCommand(() => {
                 string passwordSha1 = HashUtil.Sha1(Password);

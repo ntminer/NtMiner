@@ -87,7 +87,6 @@
     <Compile Include="Controllers\OverClockDataController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\TimeController.cs" />
     <Compile Include="Data\ClientCoinSnapshotData.cs" />
     <Compile Include="Data\ICalcConfigSet.cs" />
     <Compile Include="Data\IClientCoinSnapshotSet.cs" />
