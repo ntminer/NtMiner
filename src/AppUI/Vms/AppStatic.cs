@@ -27,20 +27,24 @@ namespace NTMiner.Vms {
 
         public static double MainWindowHeight {
             get {
-                if (DevMode.IsDevMode) {
-                    if (SystemParameters.WorkArea.Size.Height > 920) {
-                        return 920;
-                    }
-                    return SystemParameters.WorkArea.Size.Height;
-                }
-                if (SystemParameters.WorkArea.Size.Height >= 600) {
-                    return 600;
-                }
-                else if (SystemParameters.WorkArea.Size.Height >= 520) {
-                    return 520;
-                }
-                return 480;
+                return GetMainWindowHeight(DevMode.IsDevMode);
             }
+        }
+
+        public static double GetMainWindowHeight(bool isDevMode) {
+            if (isDevMode) {
+                if (SystemParameters.WorkArea.Size.Height > 920) {
+                    return 920;
+                }
+                return SystemParameters.WorkArea.Size.Height;
+            }
+            if (SystemParameters.WorkArea.Size.Height >= 600) {
+                return 600;
+            }
+            else if (SystemParameters.WorkArea.Size.Height >= 520) {
+                return 520;
+            }
+            return 480;
         }
 
         public static double MainWindowWidth {

@@ -14,12 +14,19 @@ namespace NTMiner.Vms {
         private KernelMenu _currentKernelMenu;
         private Visibility _isBtnUnInstallVisible = Visibility.Collapsed;
         private Visibility _kernelDownloadingVisible = Visibility.Collapsed;
+        private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
+        private int _pageIndex;
+        private int _pageSize = 15;
+        private List<int> _pageNumbers;
 
         public ICommand Home { get; private set; }
         public ICommand ChangeCurrentKernelMenu { get; private set; }
 
         public ICommand Add { get; private set; }
         public ICommand ClearKeyword { get; private set; }
+
+        public ICommand PageSub { get; private set; }
+        public ICommand PageAdd { get; private set; }
 
         private readonly KernelMenu _repositoryKernelMenu = new KernelMenu("宝库", "Icon_Kernel");
         private readonly KernelMenu _updateKernelMenu = new KernelMenu("升级", "Icon_Update");
@@ -44,6 +51,12 @@ namespace NTMiner.Vms {
             this.ClearKeyword = new DelegateCommand(() => {
                 Keyword = string.Empty;
             });
+            this.PageSub = new DelegateCommand(() => {
+                this.PageNumber = this.PageNumber - 1;
+            });
+            this.PageAdd = new DelegateCommand(() => {
+                this.PageNumber = this.PageNumber + 1;
+            });
             this.Home.Execute(null);
         }
 
@@ -52,6 +65,18 @@ namespace NTMiner.Vms {
             KernelViewModel kernelVm;
             if (KernelViewModels.Current.TryGetKernelVm(kernelId, out kernelVm)) {
                 kernelVm.KernelProfileVm.Download(downloadComplete);
+            }
+        }
+
+        public bool CanPageSub {
+            get {
+                return PageNumber != 1;
+            }
+        }
+
+        public bool CanPageAdd {
+            get {
+                return PageNumbers.Count > PageNumber;
             }
         }
 
@@ -67,7 +92,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
         public CoinViewModel SelectedCoinVm {
             get {
                 return _selectedCoinVm;
@@ -102,6 +126,43 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int PageIndex {
+            get => _pageIndex;
+            set {
+                if (_pageIndex != value) {
+                    _pageIndex = value;
+                    OnPropertyChanged(nameof(PageIndex));
+                    OnPropertyChanged(nameof(QueryResults));
+                }
+            }
+        }
+
+        public int PageNumber {
+            get {
+                return PageIndex + 1;
+            }
+            set {
+                PageIndex = value - 1;
+                OnPropertyChanged(nameof(PageNumber));
+            }
+        }
+
+        public int PageSize {
+            get => _pageSize;
+            set {
+                _pageSize = value;
+                OnPropertyChanged(nameof(PageSize));
+            }
+        }
+
+        public List<int> PageNumbers {
+            get => _pageNumbers;
+            set {
+                _pageNumbers = value;
+                OnPropertyChanged(nameof(PageNumbers));
+            }
+        }
+
         public List<KernelViewModel> QueryResults {
             get {
                 IQueryable<KernelViewModel> query = KernelViewModels.Current.AllKernels.AsQueryable();
@@ -129,7 +190,17 @@ namespace NTMiner.Vms {
                 else {
                     IsBtnUnInstallVisible = Visibility.Collapsed;
                 }
-                return query.OrderBy(a => a.Code + a.Version).ToList();
+                int total = query.Count();
+                int pages = (int)Math.Ceiling((double)total / PageSize);
+                List<int> pageNumbers = new List<int>();
+                for (int i = 1; i <= pages; i++) {
+                    pageNumbers.Add(i);
+                }
+                this.PageNumbers = pageNumbers;
+                OnPropertyChanged(nameof(CanPageSub));
+                OnPropertyChanged(nameof(CanPageAdd));
+
+                return query.OrderBy(a => a.Code + a.Version).Skip(PageIndex * PageSize).Take(PageSize).ToList();
             }
         }
 

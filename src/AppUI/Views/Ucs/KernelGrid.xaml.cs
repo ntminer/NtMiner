@@ -26,5 +26,15 @@ namespace NTMiner.Views.Ucs {
         private void DataGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Vm.KernelDownloadingVisible = System.Windows.Visibility.Collapsed;
         }
+
+        private void ButtonLeftCoin_Click(object sender, System.Windows.RoutedEventArgs e) {
+            ButtonLeft.IsEnabled = Vm.PageNumber != 1;
+            ButtonRight.IsEnabled = Vm.PageNumber != Vm.PageNumbers.Count;
+        }
+
+        private void ButtonRightCoin_Click(object sender, System.Windows.RoutedEventArgs e) {
+            ButtonLeft.IsEnabled = Vm.PageNumber != 1;
+            ButtonRight.IsEnabled = Vm.PageNumber != Vm.PageNumbers.Count;
+        }
     }
 }

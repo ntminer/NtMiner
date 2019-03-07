@@ -5,6 +5,7 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerServerHostConfig : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                IsDialogWindow = true,
                 IconName = "Icon_Server",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {

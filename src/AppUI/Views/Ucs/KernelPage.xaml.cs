@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
                 HeaderVisible = Visibility.Collapsed,
                 FooterVisible = Visibility.Collapsed,
                 Width = DevMode.IsDebugMode ? 1200 : AppStatic.MainWindowWidth,
-                Height = AppStatic.MainWindowHeight
+                Height = AppStatic.GetMainWindowHeight(isDevMode: false)
             },
             ucFactory: (window) => {
                 var uc = new KernelPage();
@@ -58,14 +58,14 @@ namespace NTMiner.Views.Ucs {
             double offset = CoinsScrollView.ContentHorizontalOffset - CoinsScrollView.ViewportWidth;
             CoinsScrollView.ScrollToHorizontalOffset(offset);
             ButtonLeft.IsEnabled = offset > 0;
-            ButtonRight.IsEnabled = true;
+            ButtonRight.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
         }
 
         private void ButtonRightCoin_Click(object sender, RoutedEventArgs e) {
             double offset = CoinsScrollView.ContentHorizontalOffset + CoinsScrollView.ViewportWidth;
             CoinsScrollView.ScrollToHorizontalOffset(offset);
+            ButtonLeft.IsEnabled = offset > 0;
             ButtonRight.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
-            ButtonLeft.IsEnabled = true;
         }
 
         private void CoinsScrollView_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
