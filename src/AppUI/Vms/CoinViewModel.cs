@@ -246,6 +246,9 @@ namespace NTMiner.Vms {
 
         public string CodeAlgo {
             get {
+                if (this.Id == Guid.Empty) {
+                    return this.Code;
+                }
                 return $"{this.Code}-{this.Algo}";
             }
         }
