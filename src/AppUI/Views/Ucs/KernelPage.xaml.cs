@@ -52,5 +52,13 @@ namespace NTMiner.Views.Ucs {
                 Vm.KernelDownloadingVisible = System.Windows.Visibility.Visible;
             }
         }
+
+        private void ButtonLeftCoin_Click(object sender, System.Windows.RoutedEventArgs e) {
+
+        }
+
+        private void ButtonRightCoin_Click(object sender, System.Windows.RoutedEventArgs e) {
+
+        }
     }
 }
