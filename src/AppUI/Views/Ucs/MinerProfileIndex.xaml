@@ -362,7 +362,7 @@
 						<TextBox 
 							Height="30"
 							Width="136"
-							Background="White"
+							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
 							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 							VerticalContentAlignment="Center" 
@@ -385,7 +385,7 @@
 						<TextBox 
 							Height="30"
 							Width="114"
-							Background="White"
+							Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Description}"
 							IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 							VerticalContentAlignment="Center" 
@@ -829,7 +829,7 @@
 								<TextBox 
 									Height="26"
 									Width="136"
-									Background="White"
+							        Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 									ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
 									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 									VerticalContentAlignment="Center" 
@@ -852,7 +852,7 @@
 								<TextBox 
 									Height="26"
 									Width="114"
-									Background="White"
+							        Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 									ToolTip="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Description}"
 									IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 									VerticalContentAlignment="Center" 
@@ -909,7 +909,7 @@
 						Height="30"
 						Width="330"
 						VerticalContentAlignment="Center"
-						Background="White"
+						Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 						IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}"
 						VerticalScrollBarVisibility="Auto"
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.CustomArgs, Mode=TwoWay}">

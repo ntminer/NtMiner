@@ -218,7 +218,8 @@
 												Text="{DynamicResource MinerName}"></TextBlock>
 											<TextBox 
 												Height="30"
-												Width="136" Background="White"
+												Width="136" 
+												Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 												Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
 												VerticalContentAlignment="Center">
 												<TextBox.ToolTip>
