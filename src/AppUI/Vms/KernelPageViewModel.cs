@@ -32,7 +32,6 @@ namespace NTMiner.Vms {
         public ICommand Search { get; private set; }
 
         private readonly KernelMenu _repositoryKernelMenu = new KernelMenu("宝库", "Icon_Kernel");
-        private readonly KernelMenu _updateKernelMenu = new KernelMenu("升级", "Icon_Update");
         private readonly KernelMenu _uninstallKernelMenu = new KernelMenu("卸载", "Icon_Delete");
 
         private KernelPageViewModel() {
@@ -46,7 +45,6 @@ namespace NTMiner.Vms {
             });
 
             this._kernelMenus.Add(_repositoryKernelMenu);
-            this._kernelMenus.Add(_updateKernelMenu);
             this._kernelMenus.Add(_uninstallKernelMenu);
             this.Add = new DelegateCommand(() => {
                 new KernelViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
@@ -190,16 +188,8 @@ namespace NTMiner.Vms {
                 if (SelectedCoinVm != null && SelectedCoinVm != CoinViewModel.PleaseSelect) {
                     query = query.Where(a => a.SupportedCoinVms.Contains(SelectedCoinVm));
                 }
-                if (CurrentKernelMenu == _updateKernelMenu) {
-                    IsBtnUnInstallVisible = Visibility.Collapsed;
-                    query = query.Where(a => a.KernelProfileVm.InstallStatus == InstallStatus.CanUpdate);
-                }
-                else if (CurrentKernelMenu == _uninstallKernelMenu) {
-                    IsBtnUnInstallVisible = Visibility.Visible;
-                    query = query.Where(a => a.KernelProfileVm.InstallStatus == InstallStatus.CanUpdate || a.KernelProfileVm.InstallStatus == InstallStatus.Installed);
-                }
-                else {
-                    IsBtnUnInstallVisible = Visibility.Collapsed;
+                if (CurrentKernelMenu == _uninstallKernelMenu) {
+                    query = query.Where(a => a.KernelProfileVm.InstallStatus == InstallStatus.Installed);
                 }
                 int total = query.Count();
                 int pages = (int)Math.Ceiling((double)total / PageSize);
@@ -254,16 +244,6 @@ namespace NTMiner.Vms {
             this.CurrentKernelMenu = kernelMenu;
             if (kernelMenu != null) {
                 this.CurrentKernelMenu.SetSelectedBackground();
-            }
-        }
-
-        public Visibility IsBtnUnInstallVisible {
-            get => _isBtnUnInstallVisible;
-            set {
-                if (_isBtnUnInstallVisible != value) {
-                    _isBtnUnInstallVisible = value;
-                    OnPropertyChanged(nameof(IsBtnUnInstallVisible));
-                }
             }
         }
 

@@ -7,7 +7,6 @@ namespace NTMiner.Core.Kernels {
         string FullName { get; }
         ulong PublishOn { get; }
         string Package { get; }
-        string PackageHistory { get; }
         string Sha1 { get; }
         long Size { get; }
         PublishStatus PublishState { get; }

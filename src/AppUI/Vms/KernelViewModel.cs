@@ -25,7 +25,6 @@ namespace NTMiner.Vms {
             _publishOn = 0,
             _version = string.Empty,
             _package = string.Empty,
-            _packageHistory = string.Empty,
             _kernelOutputId = Guid.Empty,
             _kernelInputId = Guid.Empty
         };
@@ -36,7 +35,6 @@ namespace NTMiner.Vms {
         private string _helpArg;
         private ulong _publishOn;
         private string _package;
-        private string _packageHistory;
         private string _sha1;
         private long _size;
         private PublishStatus _publishState = PublishStatus.UnPublished;
@@ -85,7 +83,6 @@ namespace NTMiner.Vms {
             _publishOn = data.PublishOn;
             _version = data.Version;
             _package = data.Package;
-            _packageHistory = data.PackageHistory;
             _kernelOutputId = data.KernelOutputId;
             _kernelInputId = data.KernelInputId;
         }
@@ -378,17 +375,6 @@ namespace NTMiner.Vms {
                 if (_package != value) {
                     _package = value;
                     OnPropertyChanged(nameof(Package));
-                }
-            }
-        }
-
-        public string PackageHistory {
-            get { return _packageHistory; }
-            set {
-                if (_packageHistory != value) {
-                    _packageHistory = value;
-                    OnPropertyChanged(nameof(PackageHistory));
-                    KernelProfileVm.Refresh();
                 }
             }
         }

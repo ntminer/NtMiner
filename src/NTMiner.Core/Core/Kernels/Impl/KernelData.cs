@@ -28,8 +28,6 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public string Package { get; set; }
 
-        public string PackageHistory { get; set; }
-
         public string Sha1 { get; set; }
 
         public long Size { get; set; }

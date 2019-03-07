@@ -98,18 +98,6 @@ namespace NTMiner.Core.Kernels {
             return Path.Combine(SpecialPath.DownloadDirFullName, kernel.Package);
         }
 
-        public static List<string> GetPackageHistoryFileFullNames(this IKernel kernel) {
-            return GetPackageHistories(kernel).Select(a => Path.Combine(SpecialPath.PackagesDirFullName, a)).ToList();
-        }
-
-        public static List<string> GetPackageHistories(this IKernel kernel) {
-            string packageHistory = kernel.PackageHistory;
-            if (string.IsNullOrEmpty(packageHistory)) {
-                return new List<string>();
-            }
-            return packageHistory.Split(new char[] { ';' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
-        }
-
         public static void ExtractPackage(this IKernel kernel) {
             try {
                 string kernelDir = GetKernelDirFullName(kernel);

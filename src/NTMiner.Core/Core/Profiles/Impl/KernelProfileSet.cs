@@ -68,10 +68,6 @@ namespace NTMiner.Core.Profiles.Impl {
                     if (File.Exists(packageFullName)) {
                         return InstallStatus.Installed;
                     }
-                    List<string> packageHistoryFileFullNames = this.Kernel.GetPackageHistoryFileFullNames();
-                    if (packageHistoryFileFullNames.Any(a => File.Exists(a))) {
-                        return InstallStatus.CanUpdate;
-                    }
                     return InstallStatus.Uninstalled;
                 }
             }

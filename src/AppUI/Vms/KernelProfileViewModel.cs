@@ -74,7 +74,6 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(InstallStatus));
             OnPropertyChanged(nameof(InstallStatusDescription));
             OnPropertyChanged(nameof(BtnInstallVisible));
-            OnPropertyChanged(nameof(BtnUpdateVisible));
             OnPropertyChanged(nameof(BtnInstalledVisible));
         }
 
@@ -95,15 +94,6 @@ namespace NTMiner.Vms {
         public Visibility BtnInstallVisible {
             get {
                 if (InstallStatus == InstallStatus.Uninstalled) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
-        public Visibility BtnUpdateVisible {
-            get {
-                if (InstallStatus == InstallStatus.CanUpdate) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
