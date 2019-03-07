@@ -4,7 +4,6 @@ namespace NTMiner.Core.Gpus {
     public interface IGpuOverClockData : IDbEntity<Guid> {
         Guid CoinId { get; }
         int Index { get; }
-        string Name { get; }
 
         int CoreClockDelta { get; }
 

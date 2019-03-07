@@ -28,9 +28,7 @@ namespace NTMiner.Vms {
                 Guid coinId = coin.GetId();
                 foreach (var gpu in NTMinerRoot.Current.GpuSet) {
                     IGpuOverClockData data = NTMinerRoot.Current.GpuOverClockDataSet.GetGpuOverClockData(coinId, gpu.Index);
-                    var vm = new GpuOverClockDataViewModel(data) {
-                        Name = gpu.Name
-                    };
+                    var vm = new GpuOverClockDataViewModel(data);
                     _dicById.Add(data.GetId(), vm);
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         _gpuAllVmDicByCoinId.Add(coinId, vm);

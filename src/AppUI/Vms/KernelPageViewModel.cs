@@ -13,7 +13,6 @@ namespace NTMiner.Vms {
         private string _keyword;
         private List<KernelMenu> _kernelMenus = new List<KernelMenu>();
         private KernelMenu _currentKernelMenu;
-        private Visibility _isBtnUnInstallVisible = Visibility.Collapsed;
         private Visibility _kernelDownloadingVisible = Visibility.Collapsed;
         private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
         private int _pageIndex;

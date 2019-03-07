@@ -9,7 +9,6 @@ namespace NTMiner.Vms {
         private Guid _id;
         private Guid _coinId;
         private int _index;
-        private string _name;
         private int _coreClockDelta;
         private int _memoryClockDelta;
         private int _powerCapacity;
@@ -28,7 +27,6 @@ namespace NTMiner.Vms {
         public GpuOverClockDataViewModel(IGpuOverClockData data) : this(data.GetId()) {
             _coinId = data.CoinId;
             _index = data.Index;
-            _name = data.Name;
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
@@ -40,7 +38,6 @@ namespace NTMiner.Vms {
         public void Update(IGpuOverClockData data) {
             this._coinId = data.CoinId;
             this._index = data.Index;
-            this._name = data.Name;
             this._coreClockDelta = data.CoreClockDelta;
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
@@ -49,7 +46,6 @@ namespace NTMiner.Vms {
 
             OnPropertyChanged(nameof(CoinId));
             OnPropertyChanged(nameof(Index));
-            OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(CoreClockDelta));
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
@@ -118,18 +114,10 @@ namespace NTMiner.Vms {
 
         public string IndexText {
             get {
-                if (Index == NTMinerRoot.GpuAllId) {
+                if (Index == NTMinerRoot.GpuAllId || GpuVm == null) {
                     return "all#统一超频";
                 }
-                return $"{Index}#{Name}";
-            }
-        }
-
-        public string Name {
-            get => _name;
-            set {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                return $"{Index}#{GpuVm.Name}";
             }
         }
 
