@@ -9,7 +9,7 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms"
-	mc:Ignorable="d" d:DesignHeight="250" d:DesignWidth="650">
+	mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="650">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<sys:String x:Key="WindowTitle">
@@ -31,7 +31,7 @@
 	</UserControl.DataContext>
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="50"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<controls:KbButton
@@ -51,15 +51,51 @@
 					Stretch="Fill" />
 			</WrapPanel>
 		</controls:KbButton>
-		<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-			<Label Content="{DynamicResource LblCoin}"></Label>
-			<controls:KbComboBox 
-				BorderThickness="0"
-				Width="150" ItemsSource="{Binding CoinVms.AllCoins}" 
-				DisplayMemberPath="CodeAlgo"
-				SelectedItem="{Binding SelectedCoinVm}">
-			</controls:KbComboBox>
-		</WrapPanel>
+		<ListBox 
+			Background="Transparent"
+			ItemsSource="{Binding CoinVms.AllCoins}"
+			SelectedItem="{Binding SelectedCoinVm}"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			ScrollViewer.VerticalScrollBarVisibility="Disabled"
+			BorderThickness="0">
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="ListBoxItem">
+								<Border Background="{TemplateBinding Background}">
+									<ContentPresenter 
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+										TextBlock.Foreground="{TemplateBinding Foreground}"/>
+								</Border>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+					<Style.Triggers>
+						<Trigger Property="IsSelected" Value="true">
+							<Setter Property="Background" Value="#2DA4FF"/>
+							<Setter Property="Foreground" Value="White"/>
+						</Trigger>
+						<Trigger Property="IsMouseOver" Value="true">
+							<Setter Property="Background" Value="#2DA4FF"/>
+							<Setter Property="Foreground" Value="White"/>
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</ListBox.ItemContainerStyle>
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel HorizontalAlignment="Center">
+					</WrapPanel>
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Padding="10 2" Text="{Binding Code}" ToolTip="{Binding CodeAlgo}"></TextBlock>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 		<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
 			<Label Content="{DynamicResource LblSpeed}"></Label>
 			<TextBox Width="100" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
