@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
         private KernelPageViewModel() {
             this.ChangeCurrentKernelMenu = new DelegateCommand<KernelMenu>((kernelMenu) => {
                 SetCurrentKernelMenu(kernelMenu);
-                OnPropertyChanged(nameof(QueryResults));
+                this.PageNumber = 1;
                 KernelDownloadingVisible = Visibility.Collapsed;
             });
             this.Home = new DelegateCommand(() => {
@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
                 new KernelViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
             this.Search = new DelegateCommand(() => {
-                OnPropertyChanged(nameof(QueryResults));
+                this.PageNumber = 1;
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 Keyword = string.Empty;
@@ -106,7 +106,7 @@ namespace NTMiner.Vms {
                 if (_selectedCoinVm != value) {
                     _selectedCoinVm = value;
                     OnPropertyChanged(nameof(SelectedCoinVm));
-                    OnPropertyChanged(nameof(QueryResults));
+                    this.PageNumber = 1;
                 }
             }
         }
@@ -137,7 +137,6 @@ namespace NTMiner.Vms {
                 if (_pageIndex != value) {
                     _pageIndex = value;
                     OnPropertyChanged(nameof(PageIndex));
-                    OnPropertyChanged(nameof(QueryResults));
                 }
             }
         }
@@ -149,6 +148,7 @@ namespace NTMiner.Vms {
             set {
                 PageIndex = value - 1;
                 OnPropertyChanged(nameof(PageNumber));
+                OnPropertyChanged(nameof(QueryResults));
             }
         }
 
@@ -165,6 +165,12 @@ namespace NTMiner.Vms {
             set {
                 _pageNumbers = value;
                 OnPropertyChanged(nameof(PageNumbers));
+            }
+        }
+
+        public bool IsPageNumbersEmpty {
+            get {
+                return PageNumbers.Count == 0;
             }
         }
 
@@ -219,6 +225,7 @@ namespace NTMiner.Vms {
                 }
                 OnPropertyChanged(nameof(CanPageSub));
                 OnPropertyChanged(nameof(CanPageAdd));
+                OnPropertyChanged(nameof(IsPageNumbersEmpty));
 
                 return query.OrderBy(a => a.Code + a.Version).Skip(PageIndex * PageSize).Take(PageSize).ToList();
             }
