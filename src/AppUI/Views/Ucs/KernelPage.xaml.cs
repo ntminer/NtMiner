@@ -54,11 +54,11 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void ButtonLeftCoin_Click(object sender, System.Windows.RoutedEventArgs e) {
-
+            CoinsScrollView.PageLeft();
         }
 
         private void ButtonRightCoin_Click(object sender, System.Windows.RoutedEventArgs e) {
-
+            CoinsScrollView.PageRight();
         }
     }
 }

@@ -180,16 +180,28 @@
 					<RowDefinition Height="Auto"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
-				<controls:KbComboBox 
-					Padding="4 1"
-					Height="20"
-					MinWidth="66"
-					ItemsSource="{Binding CoinVms.PleaseSelect}" 
-					SelectedValuePath="Code"
-					DisplayMemberPath="Code"
-					SelectedItem="{Binding SelectedCoinVm}">
-				</controls:KbComboBox>
-				<WrapPanel Grid.Column="1" VerticalAlignment="Center">
+				<ScrollViewer Width="100" x:Name="CoinsScrollView" CanContentScroll="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+					<ScrollViewer.Resources>
+						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
+						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
+					</ScrollViewer.Resources>
+					<ItemsControl 
+						ItemsSource="{Binding CoinVms.PleaseSelect}"
+						BorderThickness="0">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel>
+								</WrapPanel>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Padding="10 4" Text="{Binding Code}"></TextBlock>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</ScrollViewer>
+				<WrapPanel Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
 					<Button Click="ButtonLeftCoin_Click">
 						<Button.Template>
 							<ControlTemplate>
