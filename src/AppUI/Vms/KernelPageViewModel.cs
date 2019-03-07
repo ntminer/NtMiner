@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
     public class KernelPageViewModel : ViewModelBase {
@@ -17,7 +18,7 @@ namespace NTMiner.Vms {
         private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
         private int _pageIndex;
         private int _pageSize = 15;
-        private List<int> _pageNumbers;
+        private ObservableCollection<int> _pageNumbers;
 
         public ICommand Home { get; private set; }
         public ICommand ChangeCurrentKernelMenu { get; private set; }
@@ -27,6 +28,8 @@ namespace NTMiner.Vms {
 
         public ICommand PageSub { get; private set; }
         public ICommand PageAdd { get; private set; }
+
+        public ICommand Search { get; private set; }
 
         private readonly KernelMenu _repositoryKernelMenu = new KernelMenu("宝库", "Icon_Kernel");
         private readonly KernelMenu _updateKernelMenu = new KernelMenu("升级", "Icon_Update");
@@ -47,6 +50,9 @@ namespace NTMiner.Vms {
             this._kernelMenus.Add(_uninstallKernelMenu);
             this.Add = new DelegateCommand(() => {
                 new KernelViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
+            });
+            this.Search = new DelegateCommand(() => {
+                OnPropertyChanged(nameof(QueryResults));
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 Keyword = string.Empty;
@@ -121,7 +127,6 @@ namespace NTMiner.Vms {
                 if (_keyword != value) {
                     _keyword = value;
                     OnPropertyChanged(nameof(Keyword));
-                    OnPropertyChanged(nameof(QueryResults));
                 }
             }
         }
@@ -155,7 +160,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<int> PageNumbers {
+        public ObservableCollection<int> PageNumbers {
             get => _pageNumbers;
             set {
                 _pageNumbers = value;
@@ -192,11 +197,26 @@ namespace NTMiner.Vms {
                 }
                 int total = query.Count();
                 int pages = (int)Math.Ceiling((double)total / PageSize);
-                List<int> pageNumbers = new List<int>();
-                for (int i = 1; i <= pages; i++) {
-                    pageNumbers.Add(i);
+                if (PageNumbers == null) {
+                    List<int> pageNumbers = new List<int>();
+                    for (int i = 1; i <= pages; i++) {
+                        pageNumbers.Add(i);
+                    }
+                    PageNumbers = new ObservableCollection<int>(pageNumbers);
                 }
-                this.PageNumbers = pageNumbers;
+                else {
+                    int count = PageNumbers.Count;
+                    if (pages < count) {
+                        for (int n = pages + 1; n <= count; n++) {
+                            PageNumbers.Remove(n);
+                        }
+                    }
+                    else {
+                        for (int n = count + 1; n <= pages; n++) {
+                            PageNumbers.Add(n);
+                        }
+                    }
+                }
                 OnPropertyChanged(nameof(CanPageSub));
                 OnPropertyChanged(nameof(CanPageAdd));
 

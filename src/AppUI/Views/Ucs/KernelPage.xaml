@@ -124,6 +124,7 @@
 					<controls:KbTextBox 
 						x:Name="TbKeyword" Width="154" Height="20"
 						Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+						LostFocus="TbKeyword_LostFocus"
 						VerticalContentAlignment="Center"
 						Hint="请输入想搜索的内核"
 						BorderBrush="{StaticResource LineColor}"
@@ -143,7 +144,7 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</controls:KbButton>
-
+					<Button IsDefault="True" Command="{Binding Search}" Background="Transparent" BorderThickness="0"></Button>
 					<controls:KbButton  
 						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 						Command="{Binding Add}" 

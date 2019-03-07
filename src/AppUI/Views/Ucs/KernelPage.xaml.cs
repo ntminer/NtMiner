@@ -78,5 +78,9 @@ namespace NTMiner.Views.Ucs {
                 window.DragMove();
             }
         }
+
+        private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
+            Vm.Search.Execute(null);
+        }
     }
 }
