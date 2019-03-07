@@ -96,42 +96,41 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</controls:KbButton>
-
-					<WrapPanel Margin="4 0 0 0">
-						<controls:KbLinkButton
-							Foreground="#0072C1"
-							Command="{x:Static vm:AppStatic.OpenOfficialSite}"
-							Background="Transparent"
-							KbSystemButtonHoverBackground="Transparent"
-							KbDisplayLine="False">
-							<WrapPanel>
-								<TextBlock Text="{DynamicResource Github}"></TextBlock>
-								<Path 
-									Width="14"
-									Height="14"
-									Data="{StaticResource Icon_Github}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</WrapPanel>
-						</controls:KbLinkButton>
-						<controls:KbLinkButton
-							Margin="8 0 0 0"
-							Foreground="#0072C1"
-							Command="{x:Static vm:AppStatic.OpenDiscussSite}"
-							Background="Transparent"
-							KbSystemButtonHoverBackground="Transparent"
-							KbDisplayLine="False">
-							<WrapPanel>
-								<TextBlock Text="{DynamicResource Discuss}"></TextBlock>
-								<Path 
-									Width="14"
-									Height="14"
-									Data="{StaticResource Icon_Discuss}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</WrapPanel>
-						</controls:KbLinkButton>
-					</WrapPanel>
+				</WrapPanel>
+				<WrapPanel>
+					<controls:KbLinkButton
+						Foreground="#0072C1"
+						Command="{x:Static vm:AppStatic.OpenOfficialSite}"
+						Background="Transparent"
+						KbSystemButtonHoverBackground="Transparent"
+						KbDisplayLine="False">
+						<WrapPanel>
+							<TextBlock Text="{DynamicResource Github}"></TextBlock>
+							<Path 
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Github}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbLinkButton>
+					<controls:KbLinkButton
+						Margin="8 0 0 0"
+						Foreground="#0072C1"
+						Command="{x:Static vm:AppStatic.OpenDiscussSite}"
+						Background="Transparent"
+						KbSystemButtonHoverBackground="Transparent"
+						KbDisplayLine="False">
+						<WrapPanel>
+							<TextBlock Text="{DynamicResource Discuss}"></TextBlock>
+							<Path 
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Discuss}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbLinkButton>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock
