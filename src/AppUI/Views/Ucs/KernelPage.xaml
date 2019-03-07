@@ -188,7 +188,7 @@
 					<ListBox 
 						Margin="0 0 0 4"
 						Background="Transparent"
-						ItemsSource="{Binding CoinVms.PleaseSelect}"
+						ItemsSource="{Binding CoinVms.MainCoinPleaseSelect}"
 						SelectedItem="{Binding SelectedCoinVm}"
 						BorderThickness="0">
 						<ListBox.ItemContainerStyle>

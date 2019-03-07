@@ -67,6 +67,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(AllCoins));
             OnPropertyChanged(nameof(MainCoins));
             OnPropertyChanged(nameof(PleaseSelect));
+            OnPropertyChanged(nameof(MainCoinPleaseSelect));
             OnPropertyChanged(nameof(DualPleaseSelect));
         }
 
@@ -110,6 +111,18 @@ namespace NTMiner.Vms {
         public List<CoinViewModel> PleaseSelect {
             get {
                 return GetPleaseSelect().ToList();
+            }
+        }
+
+        private IEnumerable<CoinViewModel> GetMainCoinPleaseSelect() {
+            yield return CoinViewModel.PleaseSelect;
+            foreach (var item in MainCoins) {
+                yield return item;
+            }
+        }
+        public List<CoinViewModel> MainCoinPleaseSelect {
+            get {
+                return GetMainCoinPleaseSelect().OrderBy(a => a.SortNumber).ToList();
             }
         }
 
