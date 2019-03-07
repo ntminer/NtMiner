@@ -97,6 +97,9 @@
     <Compile Include="..\NTMinerlib\User\IUserSet.cs">
       <Link>User\IUserSet.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\WebApiConst.cs">
+      <Link>WebApiConst.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>
     </Compile>

@@ -59,7 +59,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3336/api/MinerClient/SetMinerName", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/SetMinerName", request);
                         ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         callback?.Invoke(response);
                     }
@@ -243,7 +243,7 @@ namespace NTMiner {
             bool isClosed = false;
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3336/api/MinerClient/CloseNTMiner", new RequestBase());
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/CloseNTMiner", new RequestBase());
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     isClosed = response.IsSuccess();
                 }
@@ -314,7 +314,7 @@ namespace NTMiner {
                 string location = NTMinerRegistry.GetLocation();
                 if (IsNTMinerOpened(request.WorkId)) {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:3336/api/MinerClient/StartMine", request);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/StartMine", request);
                         response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         return response;
                     }

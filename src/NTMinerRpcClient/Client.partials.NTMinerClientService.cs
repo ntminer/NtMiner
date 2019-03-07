@@ -12,11 +12,11 @@ namespace NTMiner {
             private MinerClientServiceFace() {
             }
 
-            public void ShowMainWindowAsync(string clientHost, int clientPort, Action<bool, Exception> callback) {
+            public void ShowMainWindowAsync(int clientPort, Action<bool, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{clientPort}/api/MinerClient/ShowMainWindow", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{clientPort}/api/MinerClient/ShowMainWindow", null);
                             bool response = message.Result.Content.ReadAsAsync<bool>().Result;
                             callback?.Invoke(response, null);
                         }
@@ -41,7 +41,7 @@ namespace NTMiner {
 
             public ResponseBase StartMine(StartMineRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/StartMine", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/MinerClient/StartMine", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -61,7 +61,7 @@ namespace NTMiner {
 
             public ResponseBase StopMine(StopMineRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/StopMine", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/MinerClient/StopMine", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -81,7 +81,7 @@ namespace NTMiner {
 
             public ResponseBase SetMinerProfileProperty(Profile.SetClientMinerProfilePropertyRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:3336/api/MinerClient/SetMinerProfileProperty", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/MinerClient/SetMinerProfileProperty", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
@@ -91,7 +91,7 @@ namespace NTMiner {
                 return Task.Factory.StartNew<SpeedData>(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:3336/api/MinerClient/GetSpeed", null);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.MinerClientAppPort}/api/MinerClient/GetSpeed", null);
                             SpeedData data = message.Result.Content.ReadAsAsync<SpeedData>().Result;
                             callback?.Invoke(data, null);
                             return data;

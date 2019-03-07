@@ -58,7 +58,7 @@ namespace NTMiner {
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         private static void Run() {
             try {
-                HttpServer.Start("http://localhost:3337");
+                HttpServer.Start($"http://localhost:{WebApiConst.NTMinerDaemonPort}");
                 WaitHandle.WaitOne();
             }
             catch (Exception e) {

@@ -41,7 +41,7 @@ namespace NTMiner {
         #region ShowMainWindow
         public static void ShowMainWindow(Application app, int clientPort) {
             try {
-                Client.MinerClientService.ShowMainWindowAsync("localhost", clientPort, (isSuccess, exception) => {
+                Client.MinerClientService.ShowMainWindowAsync(clientPort, (isSuccess, exception) => {
                     if (!isSuccess) {
                         RestartNTMiner();
                     }

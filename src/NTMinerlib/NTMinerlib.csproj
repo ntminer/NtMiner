@@ -106,6 +106,7 @@
     <Compile Include="VirtualRoot.cs" />
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
+    <Compile Include="WebApiConst.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\Registry.cs" />
     <Compile Include="Windows\Role.cs" />

@@ -12,9 +12,7 @@ namespace NTMiner {
         public App() {
             VirtualRoot.IsControlCenter = true;
             AppHelper.Init(this);
-            Logger.InfoDebugLine("App.InitializeComponent start");
             InitializeComponent();
-            Logger.InfoDebugLine("App.InitializeComponent end");
         }
 
         private bool createdNew;
@@ -29,7 +27,6 @@ namespace NTMiner {
         }
 
         protected override void OnStartup(StartupEventArgs e) {
-            Logger.InfoDebugLine("App.OnStartup start");
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             try {
                 appMutex = new Mutex(true, s_appPipName, out createdNew);
@@ -39,7 +36,6 @@ namespace NTMiner {
             }
             if (createdNew) {
                 Vms.AppStatic.IsMinerClient = false;
-                Logger.InfoDebugLine("new SplashWindow");
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
                 NTMinerRoot.AppName = "开源矿工中控客户端";
@@ -53,9 +49,7 @@ namespace NTMiner {
                             result = loginWindow.ShowDialog();
                         }
                         if (result.HasValue && result.Value) {
-                            Logger.InfoDebugLine("new MainWindow");
                             ChartsWindow window = ChartsWindow.ShowWindow();
-                            Logger.InfoDebugLine("MainWindow showed");
                             AppHelper.NotifyIcon = new ExtendedNotifyIcon("pack://application:,,,/ControlCenterApp;component/logo.ico");
                             AppHelper.NotifyIcon.Init();
                             #region 处理显示主界面命令
@@ -69,7 +63,7 @@ namespace NTMiner {
                                 });
                             #endregion
                         }
-                        HttpServer.Start("http://localhost:3338");
+                        HttpServer.Start($"http://localhost:{WebApiConst.ControlCenterAppPort}");
                         splashWindow?.Close();
                         AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                     });
@@ -77,7 +71,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    AppHelper.ShowMainWindow(this, 3338);
+                    AppHelper.ShowMainWindow(this, WebApiConst.ControlCenterAppPort);
                 }
                 catch (Exception) {
                     DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");
@@ -91,7 +85,6 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
-            Logger.InfoDebugLine("App.OnStartup end");
         }
     }
 }
