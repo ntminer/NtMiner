@@ -224,11 +224,10 @@
 									</Setter.Value>
 								</Setter>
 								<Style.Triggers>
-									<Trigger Property="IsSelected" Value="true">
-										<Setter Property="Background" Value="#2DA4FF"/>
-										<Setter Property="Foreground" Value="White"/>
-									</Trigger>
 									<Trigger Property="IsMouseOver" Value="true">
+										<Setter Property="Foreground" Value="#2DA4FF"/>
+									</Trigger>
+									<Trigger Property="IsSelected" Value="true">
 										<Setter Property="Background" Value="#2DA4FF"/>
 										<Setter Property="Foreground" Value="White"/>
 									</Trigger>

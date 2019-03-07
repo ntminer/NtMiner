@@ -410,6 +410,9 @@
 							<Trigger Property="IsEnabled" Value="False">
 								<Setter Property="Opacity" Value="0.5"></Setter>
 							</Trigger>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter TargetName="Icon" Property="Fill" Value="#2DA4FF"/>
+							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
 				</Button.Template>
@@ -448,7 +451,6 @@
 							</Trigger>
 							<Trigger Property="IsMouseOver" Value="true">
 								<Setter Property="Background" Value="#2DA4FF"/>
-								<Setter Property="Foreground" Value="White"/>
 							</Trigger>
 						</Style.Triggers>
 					</Style>
@@ -484,6 +486,9 @@
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsEnabled" Value="False">
 								<Setter Property="Opacity" Value="0.5"></Setter>
+							</Trigger>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter TargetName="Icon" Property="Fill" Value="#2DA4FF"/>
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
