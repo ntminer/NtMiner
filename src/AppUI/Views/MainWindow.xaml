@@ -318,6 +318,7 @@
 												BorderBrush="{StaticResource LineColor}">
 												<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 													<Path
+														x:Name="Icon2"
 														Width="16"
 														Height="16"
 														Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -329,6 +330,7 @@
 														</Path.RenderTransform>
 													</Path>
 													<Path
+														x:Name="Icon1"
 														Width="16"
 														Height="16"
 														Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
@@ -350,6 +352,8 @@
 											</Border>
 											<ControlTemplate.Triggers>
 												<Trigger Property="IsMouseOver" Value="True">
+													<Setter TargetName="Icon1" Property="Fill" Value="White"></Setter>
+													<Setter TargetName="Icon2" Property="Fill" Value="White"></Setter>
 													<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
 													<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
 													<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
