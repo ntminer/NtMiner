@@ -140,6 +140,15 @@ namespace NTMiner.Views {
             }
         }
 
+        protected override void OnRender(DrawingContext drawingContext) {
+            base.OnRender(drawingContext);
+            if (DevMode.IsDevMode) {
+                if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
+                    this.RichTextBoxDebug.ScrollToEnd();
+                }
+            }
+        }
+
         private void InnerWrite(string text, ConsoleColor foreground) {
             Run run = new Run(text) {
                 Foreground = new SolidColorBrush(foreground.ToMediaColor())
