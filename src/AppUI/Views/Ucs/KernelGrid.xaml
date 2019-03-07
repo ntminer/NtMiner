@@ -210,6 +210,7 @@
 									<TextBlock Text="{Binding PublishOnText}"></TextBlock>
 								</WrapPanel>
 								<TextBlock Text="{DynamicResource UnPublished}" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
+								<TextBlock Text="{Binding Package}" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -331,97 +332,68 @@
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel>
-								<WrapPanel>
-									<controls:KbButton 
-										ToolTip="{DynamicResource Publish}"
-										Command="{Binding Publish}" 
-										Background="Transparent" BorderThickness="0"
-										Visibility="{Binding IsBtnPublishVisible}"
-										Margin="2 0"
-										CornerRadius="2">
-										<WrapPanel>
-											<Path
-												Width="18"
-												Height="18"
-												Data="{StaticResource Icon_Publish}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
-									<controls:KbButton 
-										ToolTip="{DynamicResource CancelPublish}"
-										Command="{Binding UnPublish}" 
-										Background="Transparent" BorderThickness="0"
-										Visibility="{Binding IsBtnPublishVisible, Converter={StaticResource VisibilityInvertConverter}}"
-										Margin="2 0"
-										CornerRadius="2">
-										<WrapPanel>
-											<Path
-												Width="18"
-												Height="18"
-												Data="{StaticResource Icon_UnPublish}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
-									<controls:KbButton 
-										Command="{Binding Edit}" 
-										Background="Transparent" BorderThickness="0"
-										Margin="2 0"
-										CornerRadius="2">
-										<WrapPanel>
-											<Path
-												Width="18"
-												Height="18"
-												Data="{StaticResource Icon_Edit}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
-									<controls:KbButton 
-										Command="{Binding Remove}" 
-										Background="Transparent" BorderThickness="0"
-										Margin="2 0"
-										CornerRadius="2">
-										<WrapPanel>
-											<Path
-												Width="18"
-												Height="18"
-												Data="{StaticResource Icon_Delete}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
-									<controls:KbButton 
-										Margin="2 0"
-										Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
-										CornerRadius="2" ToolTip="上移">
-										<WrapPanel>
-											<Path
-												Width="18"
-												Height="18"
-												Data="{StaticResource Icon_SortUp}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
-									<controls:KbButton 
-										Margin="2 0"
-										Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
-										CornerRadius="2" ToolTip="下移">
-										<WrapPanel>
-											<Path
-												Width="18"
-												Height="18"
-												Data="{StaticResource Icon_SortDown}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</WrapPanel>
-									</controls:KbButton>
-								</WrapPanel>
-								<TextBlock Text="{Binding Package}" Margin="4 0 0 0" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
-							</StackPanel>
+							<WrapPanel>
+								<controls:KbButton 
+									ToolTip="{DynamicResource Publish}"
+									Command="{Binding Publish}" 
+									Background="Transparent" BorderThickness="0"
+									Visibility="{Binding IsBtnPublishVisible}"
+									Margin="2 0"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Publish}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+								<controls:KbButton 
+									ToolTip="{DynamicResource CancelPublish}"
+									Command="{Binding UnPublish}" 
+									Background="Transparent" BorderThickness="0"
+									Visibility="{Binding IsBtnPublishVisible, Converter={StaticResource VisibilityInvertConverter}}"
+									Margin="2 0"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_UnPublish}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+								<controls:KbButton 
+									Command="{Binding Edit}" 
+									Background="Transparent" BorderThickness="0"
+									Margin="2 0"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Edit}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+								<controls:KbButton 
+									Command="{Binding Remove}" 
+									Background="Transparent" BorderThickness="0"
+									Margin="2 0"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Delete}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

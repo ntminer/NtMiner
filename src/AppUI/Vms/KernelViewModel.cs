@@ -53,8 +53,6 @@ namespace NTMiner.Vms {
         #region Commands
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
-        public ICommand SortUp { get; private set; }
-        public ICommand SortDown { get; private set; }
 
         public ICommand Publish { get; private set; }
         public ICommand UnPublish { get; private set; }
