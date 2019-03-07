@@ -53,7 +53,11 @@ namespace NTMiner.Vms {
             _args = data.Args;
             _description = data.Description;
             _supportedGpu = data.SupportedGpu;
-            _environmentVariables = data.EnvironmentVariables;
+            // 复制，视为值对象，防止直接修改引用
+            _environmentVariables.AddRange(data.EnvironmentVariables.Select(a => new EnvironmentVariable {
+                Key = a.Key,
+                Value = a.Value
+            }));
         }
 
         public CoinKernelViewModel(Guid id) {

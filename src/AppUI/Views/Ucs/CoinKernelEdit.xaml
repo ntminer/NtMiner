@@ -7,6 +7,7 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d"
+		Width="600"
 		d:DataContext="{d:DesignData Source=Design/CoinKernelViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
