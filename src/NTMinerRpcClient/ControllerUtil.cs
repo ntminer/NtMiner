@@ -3,11 +3,11 @@
 namespace NTMiner {
     public static class ControllerUtil {
         public static string GetControllerName<T>() {
-            string name = nameof(T);
+            Type t = typeof(T);
+            string name = t.Name;
             if (!name.EndsWith("Controller")) {
                 throw new InvalidProgramException("控制器类型名需要以Controller为后缀");
             }
-            Type t = typeof(T);
             if (t.IsInterface) {
                 if (name[0] != 'I') {
                     throw new InvalidProgramException("接口类型名需要以I为开头");

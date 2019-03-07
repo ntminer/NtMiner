@@ -128,5 +128,10 @@ namespace UnitTestProject1 {
         public void SpeedChangeTest() {
             Assert.IsFalse(28.1.IsChange(28, 0.1));
         }
+
+        [TestMethod]
+        public void GetControllerNameTest() {
+            Assert.AreEqual("FileUrl", ControllerUtil.GetControllerName<IFileUrlController>());
+        }
     }
 }
