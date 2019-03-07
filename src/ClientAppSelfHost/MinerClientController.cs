@@ -6,7 +6,7 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class MinerClientController : ApiController {
+    public class MinerClientController : ApiController, IMinerClientController, IShowMainWindow {
         [HttpPost]
         public bool ShowMainWindow() {
             try {

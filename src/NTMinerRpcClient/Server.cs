@@ -10,7 +10,7 @@ namespace NTMiner {
         public static readonly TimeServiceFace TimeService = TimeServiceFace.Instance;
         public static readonly ProfileServiceFace ProfileService = ProfileServiceFace.Instance;
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
-        public static readonly MinerClientServiceFace MinerClientService = MinerClientServiceFace.Instance;
+        public static readonly WrapperMinerClientServiceFace MinerClientService = WrapperMinerClientServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
 
         public static string MinerServerHost {

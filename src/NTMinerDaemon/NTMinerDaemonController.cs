@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace NTMiner {
-    public class NTMinerDaemonController : ApiController {
+    public class NTMinerDaemonController : ApiController, INTMinerDaemonController {
         private static string s_sha1 = null;
         public static string Sha1 {
             get {

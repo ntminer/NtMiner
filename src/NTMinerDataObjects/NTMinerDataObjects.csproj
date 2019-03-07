@@ -47,6 +47,11 @@
     <Compile Include="GpuType.cs" />
     <Compile Include="Hashrate\GpuRowData.cs" />
     <Compile Include="Hashrate\GpuSpeedData.cs" />
+    <Compile Include="IAppSettingController.cs" />
+    <Compile Include="IControlCenterController.cs" />
+    <Compile Include="IMinerClientController.cs" />
+    <Compile Include="INTMinerDaemonController.cs" />
+    <Compile Include="IShowMainWindow.cs" />
     <Compile Include="MinerClient\SetMinerNameRequest.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="MinerServer\AddUserRequest.cs" />
