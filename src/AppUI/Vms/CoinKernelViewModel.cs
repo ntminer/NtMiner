@@ -53,19 +53,23 @@ namespace NTMiner.Vms {
             _args = data.Args;
             _description = data.Description;
             _supportedGpu = data.SupportedGpu;
+            _environmentVariables = data.EnvironmentVariables;
         }
 
         public CoinKernelViewModel(Guid id) {
             _id = id;
             _environmentVariables = new List<EnvironmentVariable>();
             this.AddEnvironmentVariable = new DelegateCommand(() => {
-
+                EnvironmentVariableEdit.ShowWindow(this, new EnvironmentVariable());
             });
             this.EditEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
-
+                EnvironmentVariableEdit.ShowWindow(this, environmentVariable);
             });
             this.RemoveEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
-
+                DialogWindow.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
+                    this.EnvironmentVariables.Remove(environmentVariable);
+                    EnvironmentVariables = EnvironmentVariables.ToList();
+                }, icon: "Icon_Confirm");
             });
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.CoinKernelSet.Contains(this.Id)) {

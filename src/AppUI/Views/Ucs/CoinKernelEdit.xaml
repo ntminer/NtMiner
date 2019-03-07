@@ -229,6 +229,8 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<DataGridTextColumn Header="Key" Binding="{Binding Key}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				</DataGridTextColumn>
 				<DataGridTextColumn Header="Value" Binding="{Binding Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 				</DataGridTextColumn>
 			</DataGrid.Columns>

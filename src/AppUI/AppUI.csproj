@@ -146,6 +146,9 @@
     <Compile Include="Views\Ucs\InnerProperty.xaml.cs">
       <DependentUpon>InnerProperty.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\EnvironmentVariableEdit.xaml.cs">
+      <DependentUpon>EnvironmentVariableEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
@@ -290,6 +293,7 @@
     <Compile Include="Vms\ConsoleViewModel.cs" />
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\Drives\VirtualMemorySet.cs" />
+    <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
     <Compile Include="Vms\GpuClockDeltaViewModel.cs" />
     <Compile Include="Vms\GpuOverClockDataViewModel.cs" />
     <Compile Include="Vms\GpuOverClockDataViewModels.cs" />
@@ -491,6 +495,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\InnerProperty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\EnvironmentVariableEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
