@@ -15,6 +15,9 @@ namespace NTMiner.Vms {
             _key = environmentVariable.Key;
             _value = environmentVariable.Value;
             this.Save = new DelegateCommand(() => {
+                if (string.IsNullOrEmpty(this.Key)) {
+                    throw new ValidationException("变量名不能为空");
+                }
                 environmentVariable.Key = this.Key;
                 environmentVariable.Value = this.Value;
                 if (!coinKernelViewModel.EnvironmentVariables.Contains(environmentVariable)) {
@@ -30,6 +33,9 @@ namespace NTMiner.Vms {
             set {
                 _key = value;
                 OnPropertyChanged(nameof(Key));
+                if (string.IsNullOrEmpty(value)) {
+                    throw new ValidationException("变量名不能为空");
+                }
             }
         }
 

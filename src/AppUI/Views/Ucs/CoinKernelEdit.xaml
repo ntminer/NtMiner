@@ -169,6 +169,7 @@
 			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
 			ItemsSource="{Binding EnvironmentVariables}" 
 			Background="Transparent" 
+			MouseDoubleClick="DataGrid_MouseDoubleClick"
 			VerticalScrollBarVisibility="Auto"
 			BorderThickness="0">
 			<DataGrid.Resources>
@@ -231,7 +232,7 @@
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Header="Key" Binding="{Binding Key}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 				</DataGridTextColumn>
-				<DataGridTextColumn Header="Value" Binding="{Binding Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+				<DataGridTextColumn Width="*" Header="Value" Binding="{Binding Value}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
