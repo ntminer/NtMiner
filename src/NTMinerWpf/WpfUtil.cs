@@ -2,26 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner {
     public static class WpfUtil {
-        public static ChildType FindVisualChild<ChildType>(DependencyObject obj) where ChildType : DependencyObject {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++) {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is ChildType) {
-                    return child as ChildType;
-                }
-                else {
-                    ChildType childOfChildren = FindVisualChild<ChildType>(child);
-                    if (childOfChildren != null) {
-                        return childOfChildren;
-                    }
-                }
-            }
-            return null;
-        }
-
         public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
                 ScrollViewer scrollViewer = (ScrollViewer)sender;

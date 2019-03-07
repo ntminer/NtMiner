@@ -180,7 +180,7 @@
 					<RowDefinition Height="Auto"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
-				<ScrollViewer x:Name="CoinsScrollView" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+				<ScrollViewer x:Name="CoinsScrollView" PreviewMouseDown="CoinsScrollView_PreviewMouseDown" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 					<ScrollViewer.Resources>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
@@ -190,6 +190,7 @@
 						Background="Transparent"
 						ItemsSource="{Binding CoinVms.MainCoinPleaseSelect}"
 						SelectedItem="{Binding SelectedCoinVm}"
+						MouseDown="ListBox_MouseDown"
 						BorderThickness="0">
 						<ListBox.ItemContainerStyle>
 							<Style TargetType="ListBoxItem">

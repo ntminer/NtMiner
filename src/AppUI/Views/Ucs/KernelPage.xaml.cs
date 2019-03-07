@@ -67,5 +67,16 @@ namespace NTMiner.Views.Ucs {
             ButtonRight.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
             ButtonLeft.IsEnabled = true;
         }
+
+        private void CoinsScrollView_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void ListBox_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
+                Window window = Window.GetWindow(this);
+                window.DragMove();
+            }
+        }
     }
 }
