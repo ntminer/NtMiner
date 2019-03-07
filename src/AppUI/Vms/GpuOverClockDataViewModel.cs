@@ -21,7 +21,6 @@ namespace NTMiner.Vms {
         public GpuOverClockDataViewModel(Guid id) {
             _id = id;
             this.Apply = new DelegateCommand(() => {
-                VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
                 VirtualRoot.Execute(new OverClockCommand(this));
             });
         }
@@ -39,21 +38,35 @@ namespace NTMiner.Vms {
         }
 
         public void Update(IGpuOverClockData data) {
-            this.CoinId = data.CoinId;
-            this.Index = data.Index;
-            this.Name = data.Name;
-            this.CoreClockDelta = data.CoreClockDelta;
-            this.MemoryClockDelta = data.MemoryClockDelta;
-            this.PowerCapacity = data.PowerCapacity;
-            this.Cool = data.Cool;
-            this.IsEnabled = data.IsEnabled;
+            this._coinId = data.CoinId;
+            this._index = data.Index;
+            this._name = data.Name;
+            this._coreClockDelta = data.CoreClockDelta;
+            this._memoryClockDelta = data.MemoryClockDelta;
+            this._powerCapacity = data.PowerCapacity;
+            this._cool = data.Cool;
+            this._isEnabled = data.IsEnabled;
+
+            OnPropertyChanged(nameof(CoinId));
+            OnPropertyChanged(nameof(Index));
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(CoreClockDelta));
+            OnPropertyChanged(nameof(MemoryClockDelta));
+            OnPropertyChanged(nameof(PowerCapacity));
+            OnPropertyChanged(nameof(Cool));
+            OnPropertyChanged(nameof(IsEnabled));
         }
 
         public void Update(IOverClockData data) {
-            this.CoreClockDelta = data.CoreClockDelta;
-            this.MemoryClockDelta = data.MemoryClockDelta;
-            this.PowerCapacity = data.PowerCapacity;
-            this.Cool = data.Cool;
+            this._coreClockDelta = data.CoreClockDelta;
+            this._memoryClockDelta = data.MemoryClockDelta;
+            this._powerCapacity = data.PowerCapacity;
+            this._cool = data.Cool;
+
+            OnPropertyChanged(nameof(CoreClockDelta));
+            OnPropertyChanged(nameof(MemoryClockDelta));
+            OnPropertyChanged(nameof(PowerCapacity));
+            OnPropertyChanged(nameof(Cool));
         }
 
         public Guid GetId() {
@@ -90,6 +103,7 @@ namespace NTMiner.Vms {
             set {
                 _isEnabled = value;
                 OnPropertyChanged(nameof(IsEnabled));
+                VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
             }
         }
 
@@ -125,6 +139,7 @@ namespace NTMiner.Vms {
                 if (_coreClockDelta != value) {
                     _coreClockDelta = value;
                     OnPropertyChanged(nameof(CoreClockDelta));
+                    VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
                 }
             }
         }
@@ -135,6 +150,7 @@ namespace NTMiner.Vms {
                 if (_memoryClockDelta != value) {
                     _memoryClockDelta = value;
                     OnPropertyChanged(nameof(MemoryClockDelta));
+                    VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
                 }
             }
         }
@@ -144,6 +160,7 @@ namespace NTMiner.Vms {
             set {
                 _powerCapacity = value;
                 OnPropertyChanged(nameof(PowerCapacity));
+                VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
             }
         }
 
@@ -152,6 +169,7 @@ namespace NTMiner.Vms {
             set {
                 _cool = value;
                 OnPropertyChanged(nameof(Cool));
+                VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
             }
         }
 
