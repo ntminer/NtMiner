@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Language {
-    public interface ILang : IDbEntity<Guid> {
+    public interface ILang : IEntity<Guid> {
         string Name { get; }
         string Code { get; }
         int SortNumber { get; }

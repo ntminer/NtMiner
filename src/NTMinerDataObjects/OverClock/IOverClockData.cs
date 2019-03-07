@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.OverClock {
-    public interface IOverClockData : IDbEntity<Guid> {
+    public interface IOverClockData : IEntity<Guid> {
         Guid CoinId { get; }
 
         string Name { get; }

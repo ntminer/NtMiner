@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.OverClock {
-    public class OverClockData : IOverClockData {
+    public class OverClockData : IOverClockData, IDbEntity<Guid> {
         public OverClockData() { }
 
         public Guid GetId() {

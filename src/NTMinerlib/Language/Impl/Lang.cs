@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Language.Impl {
-    public class Lang : ILang {
+    public class Lang : ILang, IDbEntity<Guid> {
         public static readonly ILang Empty = new Lang {
             Id = Guid.Empty,
             Name = string.Empty,
