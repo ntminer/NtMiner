@@ -26,6 +26,9 @@ namespace NTMiner.Controllers {
                     obj.Users = HostRoot.Current.UserSet.Select(a => new UserData(a)).ToArray();
                     obj.Wallets = HostRoot.Current.WalletSet.GetAll().ToArray();
                 }
+                foreach (var user in obj.Users) {
+                    user.Password = HashUtil.Sha1(user.Password);
+                }
                 string json = HostRoot.JsonSerializer.Serialize(obj);
                 return json;
             }
