@@ -15,7 +15,11 @@ namespace NTMiner {
             }
             user = getUser.Invoke(request.LoginName);
             if (user == null) {
-                response = ResponseBase.Forbidden<TResponse>(request.MessageId, "登录名不存在");
+                string message = "登录名不存在";
+                if (request.LoginName == "admin") {
+                    message = "第一次使用，请先设置密码";
+                }
+                response = ResponseBase.NotExist<TResponse>(request.MessageId, message);
                 return false;
             }
             if (!request.Timestamp.IsInTime()) {

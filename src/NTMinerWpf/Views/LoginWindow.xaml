@@ -85,6 +85,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Margin="0 2" Content="{DynamicResource LblHost}" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
             <TextBox Grid.Row="0" Grid.Column="1" Margin="0 2" Text="{Binding HostAndPort}" BorderThickness="0" IsReadOnly="True" Background="White" VerticalContentAlignment="Center"></TextBox>
@@ -94,9 +95,19 @@
 
             <Label Grid.Row="2" Grid.Column="0" Margin="0 2" Content="{DynamicResource LblPassword}" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
             <PasswordBox Grid.Row="2" Grid.Column="1" Margin="0 2" x:Name="PbPassword" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            
-            <WrapPanel Grid.Row="3" Grid.Column="2" Margin="0 8 0 0">
+
+            <Label 
+                Grid.Row="3" Grid.Column="0" 
+                Visibility="{Binding IsPasswordAgainVisible}"
+                Margin="0 2" Content="重复密码" HorizontalContentAlignment="Right" Foreground="{StaticResource LableColor}"></Label>
+            <PasswordBox 
+                Grid.Row="3" Grid.Column="1" 
+                Visibility="{Binding IsPasswordAgainVisible}"
+                Margin="0 2" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding PasswordAgain, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <WrapPanel Grid.Row="4" Grid.Column="2" Margin="0 8 0 0">
                 <controls:KbButton
+                    Visibility="{Binding IsPasswordAgainVisible,Converter={StaticResource VisibilityInvertConverter}}"
                     IsDefault="True"
                     Padding="10 0"
                     Command="{Binding Login}"
@@ -116,7 +127,27 @@
                             Content="{DynamicResource Title}" />
                     </WrapPanel>
                 </controls:KbButton>
-                <TextBlock Text="{Binding Message}" Visibility="{Binding MessageVisible}" FontSize="14" Foreground="Red" Margin="8 0 0 0" VerticalAlignment="Center"></TextBlock>
+                <controls:KbButton
+                    Visibility="{Binding IsPasswordAgainVisible}"
+                    IsDefault="True"
+                    Padding="10 0"
+                    Command="{Binding ActiveAdmin}"
+                    Background="{StaticResource ThemeBackground}"
+                    Foreground="{StaticResource ThemeForeground}"
+                    CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+                            Width="12"
+                            Height="12"
+                            Data="{StaticResource Icon_Ok}"
+                            Fill="{StaticResource ThemeForeground}"
+                            Stretch="Fill" />
+                        <Label
+                            VerticalAlignment="Center"
+                            Foreground="{StaticResource ThemeForeground}"
+                            Content="激活" />
+                    </WrapPanel>
+                </controls:KbButton>
             </WrapPanel>
         </Grid>
         <Path
@@ -128,5 +159,6 @@
             Data="{StaticResource Icon_Admin}"
             Fill="{StaticResource ThemeBackground}"
             Stretch="Fill" />
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="{Binding Message}" Visibility="{Binding MessageVisible}" FontSize="14" Foreground="Red" Margin="8 4 20 20"></TextBlock>
     </Grid>
 </metro:MetroWindow>

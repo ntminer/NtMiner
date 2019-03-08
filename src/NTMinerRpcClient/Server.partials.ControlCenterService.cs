@@ -13,6 +13,18 @@ namespace NTMiner {
             private ControlCenterServiceFace() {
             }
 
+            public void ActiveControlCenterAdminAsync(string password, Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.ActiveControlCenterAdmin), password);
+                        callback?.Invoke(response, null);
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+
             #region LoginAsync
             public void LoginAsync(string loginName, string password, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {

@@ -16,7 +16,6 @@ namespace NTMiner.Core.MinerServer.Impl {
                 action: message => {
                     if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
                         Server.ControlCenterService.AddUserAsync(new UserData {
-                            Id = ObjectId.NewObjectId(),
                             LoginName = message.User.LoginName,
                             Password = message.User.Password,
                             IsEnabled = message.User.IsEnabled,
@@ -42,7 +41,6 @@ namespace NTMiner.Core.MinerServer.Impl {
                         UserData oldValue = new UserData(entity);
                         entity.Update(message.User);
                         Server.ControlCenterService.UpdateUserAsync(new UserData {
-                            Id = ObjectId.NewObjectId(),
                             LoginName = message.User.LoginName,
                             Password = message.User.Password,
                             IsEnabled = message.User.IsEnabled,

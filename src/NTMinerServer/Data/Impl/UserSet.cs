@@ -48,7 +48,7 @@ namespace NTMiner.Data.Impl {
                         _dicByLoginName.Remove(entity.LoginName);
                         using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
                             var col = db.GetCollection<UserData>();
-                            col.Delete(entity.Id);
+                            col.Delete(message.LoginName);
                         }
                         VirtualRoot.Happened(new UserRemovedEvent(entity));
                     }

@@ -31,6 +31,15 @@ namespace NTMiner {
             return ClientError<ResponseBase>(messageId, description);
         }
 
+        public static T NotExist<T>(Guid messageId, string description = "访问的对象不存在") where T : ResponseBase, new() {
+            return new T {
+                MessageId = messageId,
+                StateCode = 404,
+                ReasonPhrase = "NotExist",
+                Description = description
+            };
+        }
+
         public static T Forbidden<T>(Guid messageId, string description = "无权访问") where T : ResponseBase, new() {
             return new T {
                 MessageId = messageId,

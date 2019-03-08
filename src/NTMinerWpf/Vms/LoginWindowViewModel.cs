@@ -10,8 +10,11 @@ namespace NTMiner.Vms {
         private string _message;
         private Visibility _messageVisible = Visibility.Collapsed;
         private string _password;
+        private Visibility _isPasswordAgainVisible = Visibility.Collapsed;
+        private string _passwordAgain;
 
         public ICommand Login { get; private set; }
+        public ICommand ActiveAdmin { get; private set; }
 
         public LoginWindowViewModel() {
             this._hostAndPort = $"{Server.MinerServerHost}:{WebApiConst.MinerServerPort}";
@@ -39,7 +42,8 @@ namespace NTMiner.Vms {
                                 window.Close();
                             }
                         }
-                        else {
+                        else if (this.LoginName == "admin" && response != null && response.StateCode == 404) {
+                            IsPasswordAgainVisible = Visibility.Visible;
                             Message = response.Description;
                             MessageVisible = Visibility.Visible;
                             TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
@@ -47,15 +51,67 @@ namespace NTMiner.Vms {
                                     MessageVisible = Visibility.Collapsed;
                                 });
                             });
-                            return;
+                        }
+                        else {
+                            IsPasswordAgainVisible = Visibility.Collapsed;
+                            Message = response.Description;
+                            MessageVisible = Visibility.Visible;
+                            TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                                UIThread.Execute(() => {
+                                    MessageVisible = Visibility.Collapsed;
+                                });
+                            });
                         }
                     });
+                });
+            });
+            this.ActiveAdmin = new DelegateCommand(() => {
+                string message = string.Empty;
+                if (string.IsNullOrEmpty(this.Password)) {
+                    message = "密码不能为空";
+                }
+                else if (this.Password != this.PasswordAgain) {
+                    message = "两次输入的密码不一致";
+                }
+                if (!string.IsNullOrEmpty(message)) {
+                    this.Message = message;
+                    MessageVisible = Visibility.Visible;
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        UIThread.Execute(() => {
+                            MessageVisible = Visibility.Collapsed;
+                        });
+                    });
+                    return;
+                }
+                string passwordSha1 = HashUtil.Sha1(Password);
+                Server.ControlCenterService.ActiveControlCenterAdminAsync(passwordSha1, (response, e) => {
+                    if (response.IsSuccess()) {
+                        IsPasswordAgainVisible = Visibility.Collapsed;
+                        this.Login.Execute(null);
+                    }
+                    else {
+                        Message = response != null ? response.Description : "激活失败";
+                        MessageVisible = Visibility.Visible;
+                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                            UIThread.Execute(() => {
+                                MessageVisible = Visibility.Collapsed;
+                            });
+                        });
+                    }
                 });
             });
         }
 
         public LangViewModels LangVms {
             get { return LangViewModels.Current; }
+        }
+
+        public Visibility IsPasswordAgainVisible {
+            get => _isPasswordAgainVisible;
+            set {
+                _isPasswordAgainVisible = value;
+                OnPropertyChanged(nameof(IsPasswordAgainVisible));
+            }
         }
 
         public string HostAndPort {
@@ -83,6 +139,14 @@ namespace NTMiner.Vms {
             set {
                 _password = value;
                 OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        public string PasswordAgain {
+            get => _passwordAgain;
+            set {
+                _passwordAgain = value;
+                OnPropertyChanged(nameof(PasswordAgain));
             }
         }
 

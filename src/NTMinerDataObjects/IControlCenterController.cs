@@ -3,6 +3,7 @@ using NTMiner.Profile;
 
 namespace NTMiner {
     public interface IControlCenterController {
+        ResponseBase ActiveControlCenterAdmin(string password);
         ResponseBase LoginControlCenter(LoginControlCenterRequest request);
         GetUsersResponse Users(UsersRequest request);
         ResponseBase AddUser(AddUserRequest request);

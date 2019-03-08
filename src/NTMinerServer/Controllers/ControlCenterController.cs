@@ -43,6 +43,27 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [HttpPost]
+        public ResponseBase ActiveControlCenterAdmin([FromBody]string password) {
+            if (string.IsNullOrEmpty(password)) {
+                return ResponseBase.InvalidInput(Guid.Empty, "密码不能为空");
+            }
+            IUser user = HostRoot.Current.UserSet.GetUser("admin");
+            if (user == null) {
+                var userData = new UserData {
+                    LoginName = "admin",
+                    IsEnabled = true,
+                    Description = "中控初始用户",
+                    Password = password
+                };
+                VirtualRoot.Execute(new AddUserCommand(userData));
+                return ResponseBase.Ok(Guid.Empty);
+            }
+            else {
+                return ResponseBase.Forbidden(Guid.Empty);
+            }
+        }
+
         #region LoginControlCenter
         [HttpPost]
         public ResponseBase LoginControlCenter([FromBody]LoginControlCenterRequest request) {

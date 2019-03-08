@@ -1,5 +1,4 @@
-﻿using LiteDB;
-using System.Text;
+﻿using System.Text;
 
 namespace NTMiner {
     public class UserData : IUser {
@@ -19,8 +18,7 @@ namespace NTMiner {
             this.Description = data.Description;
         }
 
-        public ObjectId Id { get; set; }
-
+        [LiteDB.BsonId]
         public string LoginName { get; set; }
 
         public string Password { get; set; }
