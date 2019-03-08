@@ -1,6 +1,4 @@
-﻿using NTMiner.Core.Profiles;
-using NTMiner.Core.Profiles.Impl;
-using NTMiner.MinerServer;
+﻿using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
@@ -11,29 +9,8 @@ namespace NTMiner.Core.Impl {
     public class LocalJson : IJsonDb {
         public static readonly LocalJson Instance = new LocalJson();
 
-        public static string Export(IWorkProfile workProfile) {
-            if (!VirtualRoot.IsControlCenter) {
-                throw new InvalidProgramException();
-            }
-            INTMinerRoot root = NTMinerRoot.Current;
-            LocalJson data = new LocalJson() {
-                CoinKernelProfiles = workProfile.GetCoinKernelProfiles().Cast<CoinKernelProfileData>().ToArray(),
-                CoinProfiles = workProfile.GetCoinProfiles().Cast<CoinProfileData>().ToArray(),
-                GpuProfiles = workProfile.GetGpuOverClocks().Cast<GpuProfileData>().ToArray(),
-                MinerProfile = new MinerProfileData(workProfile),
-                MineWork = new MineWorkData(workProfile.MineWork),
-                Pools = workProfile.GetPools().Cast<PoolData>().ToArray(),
-                PoolProfiles = workProfile.GetPoolProfiles().Cast<PoolProfileData>().ToArray(),
-                Users = workProfile.GetUsers().Cast<UserData>().ToArray(),
-                Wallets = workProfile.GetWallets().Cast<WalletData>().ToArray()
-            };
-            foreach (var user in data.Users) {
-                user.Password = HashUtil.Sha1(user.Password);
-            }
-            string json = VirtualRoot.JsonSerializer.Serialize(data);
-            string workJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "MineWorks", workProfile.GetId() + ".json");
-            File.WriteAllText(workJsonFileFullName, json);
-            return Path.GetFileName(workJsonFileFullName);
+        public static LocalJson NewInstance() {
+            return new LocalJson();
         }
 
         // 私有构造函数不影响序列化反序列化
@@ -52,7 +29,7 @@ namespace NTMiner.Core.Impl {
 
         private readonly object _locker = new object();
         private bool _inited = false;
-        public void Init(string rawJson) {
+        public void Init(string rawJson, string localJsonFileFullName) {
             if (!_inited) {
                 lock (_locker) {
                     if (!_inited) {
@@ -74,7 +51,7 @@ namespace NTMiner.Core.Impl {
                                     // 客户端的密码是原始密码的两次sha1+ClientId再sha1
                                     user.Password = HashUtil.Sha1(user.Password + ClientId.Id);
                                 }
-                                File.WriteAllText(SpecialPath.LocalJsonFileFullName, rawJson);
+                                File.WriteAllText(localJsonFileFullName, rawJson);
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);
@@ -86,9 +63,9 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public void ReInit(string rawJson) {
+        public void ReInit(string rawJson, string localJsonFileFullName) {
             _inited = false;
-            Init(rawJson);
+            Init(rawJson, localJsonFileFullName);
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {

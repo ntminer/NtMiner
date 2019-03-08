@@ -2,6 +2,7 @@
 using LiteDB;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
+using NTMiner.Serialization;
 using NTMiner.User;
 using System;
 using System.IO;
@@ -28,6 +29,7 @@ namespace NTMiner {
         public DateTime StartedOn { get; private set; } = DateTime.Now;
 
         public static readonly IHostRoot Current = new HostRoot();
+        public static readonly IObjectSerializer JsonSerializer = new ObjectJsonSerializer();
 
         private OssClient _ossClient = null;
 

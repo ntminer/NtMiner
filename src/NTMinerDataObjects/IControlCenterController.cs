@@ -19,6 +19,7 @@ namespace NTMiner {
         ResponseBase RemoveMinerGroup(RemoveMinerGroupRequest request);
         ResponseBase AddOrUpdateMineWork(AddOrUpdateMineWorkRequest request);
         ResponseBase RemoveMineWork(RemoveMineWorkRequest request);
+        ResponseBase ExportMineWork(ExportMineWorkRequest request);
         ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request);
         ResponseBase SetCoinProfileProperty(SetCoinProfilePropertyRequest request);
         ResponseBase SetPoolProfileProperty(SetPoolProfilePropertyRequest request);

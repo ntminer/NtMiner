@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,6 +43,25 @@ namespace NTMiner {
             if (!this._isInited) {
                 lock (this._locker) {
                     if (!this._isInited) {
+                        if (CommandLineArgs.WorkId != Guid.Empty) {
+                            try {
+                                string rawMineWorkJson = string.Empty;
+                                string localJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.json");
+                                if (CommandLineArgs.WorkId != Guid.Empty && File.Exists(localJsonFileFullName)) {
+                                    rawMineWorkJson = File.ReadAllText(localJsonFileFullName);
+                                }
+                                string url = $"http://{Server.MinerServerHost}:{WebApiConst.MinerServerPort}/api/ControlCenter/MineWorkJsonFile?workId={CommandLineArgs.WorkId}";
+                                using (var client = new HttpClient()) {
+                                    Task<HttpResponseMessage> message = client.GetAsync(url);
+                                    rawMineWorkJson = message.Result.Content.ReadAsAsync<string>().Result;
+                                    Logger.InfoDebugLine($"下载完成：" + url);
+                                }
+                                LocalJson.Instance.Init(rawMineWorkJson, localJsonFileFullName);
+                            }
+                            catch (Exception e) {
+                                Logger.ErrorDebugLine(e.Message, e);
+                            }
+                        }
                         bool isUseJson = !DevMode.IsDebugMode;
                         if (isUseJson) {
                             string rawNTMinerJson = string.Empty;

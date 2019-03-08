@@ -87,11 +87,9 @@
     <Compile Include="Bus\MessageDispatcherExtensions.cs" />
     <Compile Include="Bus\MessageDispatchEventArgs.cs" />
     <Compile Include="Bus\MessageTypeAttribute.cs" />
-    <Compile Include="DataLevel.cs" />
     <Compile Include="EntityExtensions.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="GeneralException.cs" />
-    <Compile Include="ILevelEntity`1.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CommonRepository`1.cs" />

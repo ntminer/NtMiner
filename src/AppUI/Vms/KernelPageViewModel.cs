@@ -175,7 +175,7 @@ namespace NTMiner.Vms {
             get {
                 IQueryable<KernelViewModel> query = KernelViewModels.Current.AllKernels.AsQueryable();
                 if (!AppStatic.IsDebugMode) {
-                    query = query.Where(a => a.PublishState == Core.PublishStatus.Published);
+                    query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {
                     string keyword = this.Keyword.ToLower();

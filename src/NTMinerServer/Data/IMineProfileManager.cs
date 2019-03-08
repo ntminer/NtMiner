@@ -1,9 +1,9 @@
-﻿using NTMiner.MinerServer;
-using NTMiner.Profile;
+﻿using NTMiner.Profile;
 using System;
 
 namespace NTMiner.Data {
     public interface IMineProfileManager {
+        void ExportMineWork(Guid mineWorkId);
         MinerProfileData GetMinerProfile(Guid workId);
         void SetMinerProfileProperty(Guid workId, string propertyName, object value);
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Profiles {
+namespace NTMiner {
     public interface IGpuProfile : IDbEntity<Guid> {
         Guid CoinId { get; }
         int Index { get; }

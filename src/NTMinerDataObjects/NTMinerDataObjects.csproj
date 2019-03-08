@@ -43,7 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangePasswordRequest.cs" />
+    <Compile Include="DataLevel.cs" />
+    <Compile Include="GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
+    <Compile Include="IGpuProfile.cs" />
+    <Compile Include="ILevelEntity`1.cs" />
+    <Compile Include="IPool.cs" />
     <Compile Include="MinerClient\GpuSpeedData.cs" />
     <Compile Include="IAppSettingController.cs" />
     <Compile Include="IControlCenterController.cs" />
@@ -67,6 +72,7 @@
     <Compile Include="MinerServer\AppSettingData.cs" />
     <Compile Include="MinerServer\AppSettingRequest.cs" />
     <Compile Include="MinerServer\AppSettingsRequest.cs" />
+    <Compile Include="MinerServer\ExportMineWorkRequest.cs" />
     <Compile Include="MinerServer\WrapperRequest.cs" />
     <Compile Include="MinerServer\CalcConfigData.cs" />
     <Compile Include="MinerServer\CalcConfigsRequest.cs" />
@@ -94,6 +100,7 @@
     <Compile Include="MinerServer\UpdateClientPropertiesRequest.cs" />
     <Compile Include="Daemon\UpgradeNTMinerRequest.cs" />
     <Compile Include="OverClock\RemoveOverClockDataRequest.cs" />
+    <Compile Include="PoolData.cs" />
     <Compile Include="Profile\CoinKernelProfileData.cs" />
     <Compile Include="Profile\CoinKernelProfileRequest.cs" />
     <Compile Include="Profile\CoinProfileData.cs" />
@@ -149,6 +156,7 @@
     <Compile Include="MinerServer\RemoveNTMinerFileRequest.cs" />
     <Compile Include="MinerServer\RemoveWalletRequest.cs" />
     <Compile Include="MinerServer\ReportStateRequest.cs" />
+    <Compile Include="PublishStatus.cs" />
     <Compile Include="RequestBase.cs" />
     <Compile Include="ResponseBase.cs" />
     <Compile Include="ResponseBaseExtension.cs" />

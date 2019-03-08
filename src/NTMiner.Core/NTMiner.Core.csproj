@@ -108,11 +108,9 @@
     <Compile Include="Core\Gpus\IGpuClockDelta.cs" />
     <Compile Include="Core\IJsonDb.cs" />
     <Compile Include="Core\Impl\UserSet.cs" />
-    <Compile Include="Core\Profiles\IGpuProfile.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAClockDeltaSet.cs" />
-    <Compile Include="Core\Profiles\Impl\GpuProfileData.cs" />
     <Compile Include="Core\Profiles\Impl\GpuProfileExtension.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />
@@ -167,9 +165,7 @@
     <Compile Include="Core\Profiles\IKernelProfile.cs" />
     <Compile Include="Core\Profiles\IKernelProfileSet.cs" />
     <Compile Include="Core\MinerServer\Impl\MineWorkSet.cs" />
-    <Compile Include="Core\Impl\PoolData.cs" />
     <Compile Include="Core\Profiles\Impl\KernelProfileSet.cs" />
-    <Compile Include="Core\PublishStatus.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicData.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicItemData.cs" />
     <Compile Include="Core\Gpus\IGpuSet.cs" />
@@ -223,7 +219,6 @@
     <Compile Include="Core\Kernels\KernelStatus.cs" />
     <Compile Include="Core\ICoin.cs" />
     <Compile Include="Core\Kernels\ICoinKernel.cs" />
-    <Compile Include="Core\IPool.cs" />
     <Compile Include="INTMinerRoot.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

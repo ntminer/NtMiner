@@ -1,7 +1,9 @@
 ﻿using LiteDB;
+using NTMiner.Core.Impl;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -14,6 +16,31 @@ namespace NTMiner.Data.Impl {
 
         private LiteDatabase CreateDatabase(Guid workId) {
             return new LiteDatabase($"filename={SpecialPath.GetMineWorkDbFileFullName(workId)};journal=false");
+        }
+
+        public void ExportMineWork(Guid mineWorkId) {
+            try {
+                LocalJson obj = LocalJson.NewInstance();
+                using (var database = CreateDatabase(mineWorkId)) {
+                    obj.CoinKernelProfiles = database.GetCollection<CoinKernelProfileData>().FindAll().ToArray();
+                    obj.CoinProfiles = database.GetCollection<CoinProfileData>().FindAll().ToArray();
+                    obj.GpuProfiles = database.GetCollection<GpuProfileData>().FindAll().ToArray();
+                    obj.MinerProfile = GetMinerProfile(mineWorkId);
+                    obj.MineWork = _root.MineWorkSet.GetMineWork(mineWorkId);
+                    obj.PoolProfiles = database.GetCollection<PoolProfileData>().FindAll().ToArray();
+                    obj.Pools = database.GetCollection<PoolData>().FindAll().ToArray();
+                    obj.TimeStamp = Timestamp.GetTimestamp();
+                    obj.Users = _root.UserSet.Select(a => new UserData(a)).ToArray();
+                    obj.Wallets = _root.WalletSet.GetAll().ToArray();
+                }
+                string json = HostRoot.JsonSerializer.Serialize(obj);
+                if (!string.IsNullOrEmpty(json)) {
+                    File.WriteAllText(SpecialPath.GetMineWorkJsonFileFullName(mineWorkId), json);
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
         }
 
         #region 元数据

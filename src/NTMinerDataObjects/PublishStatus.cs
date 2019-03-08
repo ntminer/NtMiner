@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace NTMiner.Core {
+namespace NTMiner {
     public enum PublishStatus {
         [Description("已发布")]
         Published,

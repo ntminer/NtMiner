@@ -3,11 +3,21 @@ using NTMiner.Profile;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ControlCenterController : ApiController, IControlCenterController {
+        [HttpGet]
+        public string MineWorkJsonFile(Guid workId) {
+            string file = SpecialPath.GetMineWorkJsonFileFullName(workId);
+            if (File.Exists(file)) {
+                return File.ReadAllText(file);
+            }
+            return string.Empty;
+        }
+
         #region LoginControlCenter
         [HttpPost]
         public ResponseBase LoginControlCenter([FromBody]LoginControlCenterRequest request) {
@@ -366,6 +376,26 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 HostRoot.Current.MineWorkSet.Remove(request.MineWorkId);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region ExportMineWork
+        public ResponseBase ExportMineWork(ExportMineWorkRequest request) {
+            if (request == null || request.MineWorkId == Guid.Empty) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                HostRoot.Current.MineProfileManager.ExportMineWork(request.MineWorkId);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

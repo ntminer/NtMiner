@@ -33,7 +33,6 @@
 			<RowDefinition Height="*" MinHeight="410"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<uc:MinerProfileIndex Grid.Row="0" BorderBrush="{StaticResource LineColor}" BorderThickness="0 0 1 0" />
 		<WrapPanel Grid.Column="0" Grid.Row="0" Margin="10 0 8 2" VerticalAlignment="Bottom">
@@ -70,29 +69,5 @@
 		</WrapPanel>
 		<uc:MinerProfileOption Grid.Row="0" Grid.Column="1">
 		</uc:MinerProfileOption>
-		<controls:KbButton
-			Grid.Row="3" 
-			Grid.ColumnSpan="2"
-			HorizontalAlignment="Center"
-			Command="{Binding Save}" 
-			Padding="10 0"
-			Margin="-76 4 4 4"
-			Background="{StaticResource ThemeBackground}"
-			Foreground="{StaticResource ThemeForeground}"
-			CornerRadius="2">
-			<WrapPanel>
-				<Path
-					Width="12"
-					Height="12"
-					Data="{StaticResource Icon_Ok}"
-					Fill="{StaticResource ThemeForeground}"
-					Stretch="Fill" />
-				<TextBlock
-					Padding="4"
-					VerticalAlignment="Center"
-					Foreground="{StaticResource ThemeForeground}"
-					Text="确定" />
-			</WrapPanel>
-		</controls:KbButton>
 	</Grid>
 </UserControl>

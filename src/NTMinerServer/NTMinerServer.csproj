@@ -77,6 +77,12 @@
     <Compile Include="..\ClientAppSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
     </Compile>
+    <Compile Include="..\NTMiner.Core\Core\IJsonDb.cs">
+      <Link>Data\Impl\IJsonDb.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMiner.Core\Core\Impl\LocalJson.cs">
+      <Link>Data\Impl\LocalJson.cs</Link>
+    </Compile>
     <Compile Include="Controllers\AppSettingController.cs" />
     <Compile Include="Controllers\ControlCenterController.cs" />
     <Compile Include="Controllers\FileUrlController.cs" />
