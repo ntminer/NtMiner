@@ -16,7 +16,6 @@ namespace NTMiner.Core.Profiles {
         public class IgnoreReflectionSetAttribute : Attribute { }
 
         private readonly INTMinerRoot _root;
-        private bool _isUseJson;
 
         private MinerProfileData _data;
         private Guid _workId;
@@ -41,7 +40,6 @@ namespace NTMiner.Core.Profiles {
 
         private void Init(INTMinerRoot root, Guid workId) {
             _workId = workId;
-            _isUseJson = workId != Guid.Empty && VirtualRoot.IsControlCenter;
             if (_coinKernelProfileSet == null) {
                 _coinKernelProfileSet = new CoinKernelProfileSet(root, workId);
             }
@@ -99,7 +97,8 @@ namespace NTMiner.Core.Profiles {
                 result = Server.ProfileService.GetMinerProfile(_workId);
             }
             else {
-                IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(_isUseJson);
+                bool isUseJson = _workId != Guid.Empty && VirtualRoot.IsControlCenter;
+                IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
                 result = repository.GetAll().FirstOrDefault();
             }
             if (result == null) {
@@ -250,7 +249,8 @@ namespace NTMiner.Core.Profiles {
                         }
                     }
                     else {
-                        IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(_isUseJson);
+                        bool isUseJson = _workId != Guid.Empty && VirtualRoot.IsControlCenter;
+                        IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
                         repository.Update(_data);
                         VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                     }
