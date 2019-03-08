@@ -11,6 +11,9 @@ namespace NTMiner.Core.Impl {
         public static readonly LocalJson Instance = new LocalJson();
 
         public static string Export(IWorkProfile workProfile) {
+            if (!VirtualRoot.IsControlCenter) {
+                throw new InvalidProgramException();
+            }
             INTMinerRoot root = NTMinerRoot.Current;
             LocalJson data = new LocalJson() {
                 CoinKernelProfiles = workProfile.GetCoinKernelProfiles().Cast<CoinKernelProfileData>().ToArray(),
@@ -22,6 +25,9 @@ namespace NTMiner.Core.Impl {
                 Users = workProfile.GetUsers().Cast<UserData>().ToArray(),
                 Wallets = workProfile.GetWallets().Cast<WalletData>().ToArray()
             };
+            foreach (var user in data.Users) {
+                user.Password = HashUtil.Sha1(user.Password);
+            }
             string json = VirtualRoot.JsonSerializer.Serialize(data);
             string workJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "MineWorks", workProfile.GetId() + ".json");
             File.WriteAllText(workJsonFileFullName, json);
@@ -59,6 +65,11 @@ namespace NTMiner.Core.Impl {
                                 this.Users = data.Users ?? new UserData[0];
                                 this.Wallets = data.Wallets ?? new WalletData[0];
                                 this.TimeStamp = data.TimeStamp;
+                                foreach (var user in this.Users) {
+                                    // 来自中控的密码是中控用户原始密码的两次sha1
+                                    // 客户端的密码是原始密码的两次sha1+ClientId再sha1
+                                    user.Password = HashUtil.Sha1(user.Password + ClientId.Id);
+                                }
                                 File.WriteAllText(SpecialPath.LocalJsonFileFullName, rawJson);
                             }
                             catch (Exception e) {
