@@ -118,6 +118,21 @@ namespace NTMiner {
             }
         }
 
+        private static void ShowMainWindowAsync(Action<bool, Exception> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{3336}/api/MinerClient/ShowMainWindow", null);
+                        bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                        callback?.Invoke(response, null);
+                    }
+                }
+                catch (Exception e) {
+                    callback?.Invoke(false, e);
+                }
+            });
+        }
+
         [HttpPost]
         public ResponseBase OpenNTMiner([FromBody]OpenNTMinerRequest request) {
             if (request == null) {
@@ -129,6 +144,7 @@ namespace NTMiner {
                     return response;
                 }
                 if (IsNTMinerOpened(request.WorkId)) {
+                    ShowMainWindowAsync(callback: null);
                     return ResponseBase.Ok(request.MessageId);
                 }
                 string location = NTMinerRegistry.GetLocation();
