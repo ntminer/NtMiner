@@ -10,13 +10,15 @@ namespace NTMiner.Core.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, PoolData> _dicById = new Dictionary<Guid, PoolData>();
 
-        public PoolSet(INTMinerRoot root) {
+        private readonly bool _isUseJson;
+        public PoolSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
+            _isUseJson = isUseJson;
             VirtualRoot.Accept<RefreshPoolSetCommand>(
                 "处理刷新矿池数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
+                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
                             VirtualRoot.Execute(new UpdatePoolCommand(item));
@@ -45,7 +47,7 @@ namespace NTMiner.Core.Impl {
                     }
                     PoolData entity = new PoolData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
+                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new PoolAddedEvent(entity));
@@ -91,7 +93,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
+                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
                     repository.Update(new PoolData().Update(message.Input));
 
                     VirtualRoot.Happened(new PoolUpdatedEvent(entity));
@@ -108,7 +110,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     // 组合ServerDb和ProfileDb，Profile用户无权删除GlobalDb中的数据，否则抛出异常终端流程从而确保ServerDb中的数据不会被后续的流程修改
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
+                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
                     repository.Remove(message.EntityId);
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
@@ -134,7 +136,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
+                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

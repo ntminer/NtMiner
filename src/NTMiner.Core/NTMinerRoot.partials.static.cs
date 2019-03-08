@@ -38,12 +38,12 @@ namespace NTMiner {
             }
         }
 
-        public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
+        public static IRepository<T> CreateLocalRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
             return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);
         }
 
-        public static IRepository<T> CreateServerRepository<T>() where T : class, IDbEntity<Guid> {
-            if (DevMode.IsDebugMode) {
+        public static IRepository<T> CreateServerRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
+            if (!isUseJson) {
                 return new CommonRepository<T>(SpecialPath.ServerDbFileFullName);
             }
             else {
@@ -57,8 +57,8 @@ namespace NTMiner {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IRepository<T> CreateCompositeRepository<T>() where T : class, ILevelEntity<Guid> {
-            return new CompositeRepository<T>(CreateServerRepository<T>(), CreateLocalRepository<T>());
+        public static IRepository<T> CreateCompositeRepository<T>(bool isUseJson) where T : class, ILevelEntity<Guid> {
+            return new CompositeRepository<T>(CreateServerRepository<T>(isUseJson), CreateLocalRepository<T>(isUseJson));
         }
 
         public static string GetThisPcName() {

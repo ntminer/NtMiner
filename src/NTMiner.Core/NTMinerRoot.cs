@@ -42,25 +42,16 @@ namespace NTMiner {
             if (!this._isInited) {
                 lock (this._locker) {
                     if (!this._isInited) {
-                        string rawNTMinerJson = string.Empty;
-                        if (File.Exists(SpecialPath.ServerJsonFileFullName)) {
-                            rawNTMinerJson = File.ReadAllText(SpecialPath.ServerJsonFileFullName);
-                        }
-                        string rawLangJson = string.Empty;
-                        if (File.Exists(ClientId.LocalLangJsonFileFullName)) {
-                            rawLangJson = File.ReadAllText(ClientId.LocalLangJsonFileFullName);
-                        }
-                        if (CommandLineArgs.IsSkipDownloadJson) {
-                            DoInit(rawNTMinerJson, rawLangJson, callback);
-                            VirtualRoot.On<HasBoot5SecondEvent>(
-                                "Debug打印",
-                                LogEnum.Log,
-                                action: (message) => {
-                                    Logger.OkDebugLine("已跳过从服务器下载Json");
-                                });
-                            _isInited = true;
-                        }
-                        else {
+                        bool isUseJson = !DevMode.IsDebugMode;
+                        if (isUseJson) {
+                            string rawNTMinerJson = string.Empty;
+                            if (File.Exists(SpecialPath.ServerJsonFileFullName)) {
+                                rawNTMinerJson = File.ReadAllText(SpecialPath.ServerJsonFileFullName);
+                            }
+                            string rawLangJson = string.Empty;
+                            if (File.Exists(ClientId.LocalLangJsonFileFullName)) {
+                                rawLangJson = File.ReadAllText(ClientId.LocalLangJsonFileFullName);
+                            }
                             CountdownEvent countdown = new CountdownEvent(2);
                             GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                 rawNTMinerJson = Encoding.UTF8.GetString(data);
@@ -85,14 +76,22 @@ namespace NTMiner {
                             Task.Factory.StartNew(() => {
                                 if (countdown.Wait(30 * 1000)) {
                                     Logger.InfoDebugLine("json下载完成");
-                                    DoInit(rawNTMinerJson, rawLangJson, callback);
+                                    ServerJson.Instance.Init(rawNTMinerJson);
+                                    Language.Impl.LangJson.Instance.Init(rawLangJson);
+                                    DoInit(isUseJson, callback);
                                 }
                                 else {
                                     Logger.InfoDebugLine("启动json下载超时");
-                                    DoInit(rawNTMinerJson, rawLangJson, callback);
+                                    ServerJson.Instance.Init(rawNTMinerJson);
+                                    Language.Impl.LangJson.Instance.Init(rawLangJson);
+                                    DoInit(isUseJson, callback);
                                 }
                                 _isInited = true;
                             });
+                        }
+                        else {
+                            DoInit(isUseJson, callback);
+                            _isInited = true;
                         }
                     }
                 }
@@ -100,26 +99,24 @@ namespace NTMiner {
         }
 
         private MinerProfile _minerProfile;
-        public void DoInit(string rawNTMinerJson, string rawLangJson, Action callback) {
-            ServerJson.Instance.Init(rawNTMinerJson);
-            Language.Impl.LangJson.Instance.Init(rawLangJson);
+        public void DoInit(bool isUseJson, Action callback) {
             this.PackageDownloader = new PackageDownloader(this);
-            this.SysDicSet = new SysDicSet(this);
+            this.SysDicSet = new SysDicSet(this, isUseJson);
             this.AppSettingSet = new AppSettingSet(this);
-            this.SysDicItemSet = new SysDicItemSet(this);
-            this.CoinSet = new CoinSet(this);
-            this.GroupSet = new GroupSet(this);
-            this.CoinGroupSet = new CoinGroupSet(this);
+            this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
+            this.CoinSet = new CoinSet(this, isUseJson);
+            this.GroupSet = new GroupSet(this, isUseJson);
+            this.CoinGroupSet = new CoinGroupSet(this, isUseJson);
             this.CalcConfigSet = new CalcConfigSet(this);
-            this.PoolSet = new PoolSet(this);
-            this.CoinKernelSet = new CoinKernelSet(this);
-            this.PoolKernelSet = new PoolKernelSet(this);
-            this.KernelSet = new KernelSet(this);
+            this.PoolSet = new PoolSet(this, isUseJson);
+            this.CoinKernelSet = new CoinKernelSet(this, isUseJson);
+            this.PoolKernelSet = new PoolKernelSet(this, isUseJson);
+            this.KernelSet = new KernelSet(this, isUseJson);
             this.KernelProfileSet = new KernelProfileSet(this);
-            this.KernelInputSet = new KernelInputSet(this);
-            this.KernelOutputSet = new KernelOutputSet(this);
-            this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
-            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
+            this.KernelInputSet = new KernelInputSet(this, isUseJson);
+            this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
+            this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
+            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
             this.GpusSpeed = new GpusSpeed(this);
             this.CoinShareSet = new CoinShareSet(this);
             this.MineWorkSet = new MineWorkSet(this);

@@ -11,14 +11,16 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly Dictionary<Guid, KernelOutputData> _dicById = new Dictionary<Guid, KernelOutputData>();
 
         private readonly INTMinerRoot _root;
+        private readonly bool _isUseJson;
 
-        public KernelOutputSet(INTMinerRoot root) {
+        public KernelOutputSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
+            _isUseJson = isUseJson;
             VirtualRoot.Accept<RefreshKernelOutputSetCommand>(
                 "处理刷新内核输出数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>(isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
                             VirtualRoot.Execute(new UpdateKernelOutputCommand(item));
@@ -41,7 +43,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelOutputData entity = new KernelOutputData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>(isUseJson);
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new KernelOutputAddedEvent(entity));
@@ -65,7 +67,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>(isUseJson);
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new KernelOutputUpdatedEvent(entity));
@@ -95,7 +97,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(kernelOutputTranslaterId));
                     }
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>(isUseJson);
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new KernelOutputRemovedEvent(entity));
@@ -115,7 +117,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

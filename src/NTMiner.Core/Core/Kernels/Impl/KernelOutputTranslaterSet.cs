@@ -10,14 +10,16 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly Dictionary<Guid, KernelOutputTranslaterData> _dicById = new Dictionary<Guid, KernelOutputTranslaterData>();
         private readonly Dictionary<Guid, List<KernelOutputTranslaterData>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputTranslaterData>>();
         private readonly INTMinerRoot _root;
+        private readonly bool _isUseJson;
 
-        public KernelOutputTranslaterSet(INTMinerRoot root) {
+        public KernelOutputTranslaterSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
+            _isUseJson = isUseJson;
             VirtualRoot.Accept<RefreshKernelOutputTranslaterSetCommand>(
                 "处理刷新内核输出翻译器数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
                             VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(item));
@@ -47,7 +49,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         _dicByKernelOutputId.Add(entity.KernelOutputId, new List<KernelOutputTranslaterData>());
                     }
                     _dicByKernelOutputId[entity.KernelOutputId].Add(entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(isUseJson);
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new KernelOutputTranslaterAddedEvent(entity));
@@ -80,7 +82,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         _colorDic.Remove(entity);
                     }
                     _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(isUseJson);
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new KernelOutputTranslaterUpdatedEvent(entity));
@@ -102,7 +104,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     _colorDic.Remove(entity);
                     _regexDic.Remove(entity);
                     _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(isUseJson);
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new KernelOutputTranslaterRemovedEvent(entity));
@@ -139,7 +141,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

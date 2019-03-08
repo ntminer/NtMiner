@@ -8,13 +8,15 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, CoinKernelData> _dicById = new Dictionary<Guid, CoinKernelData>();
 
-        public CoinKernelSet(INTMinerRoot root) {
+        private readonly bool _isUseJson;
+        public CoinKernelSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
+            _isUseJson = isUseJson;
             VirtualRoot.Accept<RefreshCoinKernelSetCommand>(
                 "处理刷新币种内核数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
                             VirtualRoot.Execute(new UpdateCoinKernelCommand(item));
@@ -43,7 +45,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     CoinKernelData entity = new CoinKernelData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new CoinKernelAddedEvent(entity));
@@ -83,7 +85,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
@@ -101,7 +103,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     CoinKernelData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new CoinKernelRemovedEvent(entity));
@@ -141,7 +143,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
+                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

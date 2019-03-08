@@ -10,13 +10,15 @@ namespace NTMiner.Core.SysDics.Impl {
         private readonly Dictionary<Guid, Dictionary<string, SysDicItemData>> _dicByDicId = new Dictionary<Guid, Dictionary<string, SysDicItemData>>();
         private readonly Dictionary<Guid, SysDicItemData> _dicById = new Dictionary<Guid, SysDicItemData>();
 
-        public SysDicItemSet(INTMinerRoot root) {
+        private readonly bool _isUseJson;
+        public SysDicItemSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
+            _isUseJson = isUseJson;
             VirtualRoot.Accept<RefreshSysDicItemSetCommand>(
                 "处理刷新系统字典项数据集命令",
                 LogEnum.Console,
                 action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (_dicById.ContainsKey(item.Id)) {
                             VirtualRoot.Execute(new UpdateSysDicItemCommand(item));
@@ -49,7 +51,7 @@ namespace NTMiner.Core.SysDics.Impl {
                     SysDicItemData entity = new SysDicItemData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
                     _dicByDicId[message.Input.DicId].Add(entity.Code, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(isUseJson);
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new SysDicItemAddedEvent(entity));
@@ -73,7 +75,7 @@ namespace NTMiner.Core.SysDics.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(isUseJson);
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new SysDicItemUpdatedEvent(entity));
@@ -96,7 +98,7 @@ namespace NTMiner.Core.SysDics.Impl {
                             _dicByDicId[entity.DicId].Remove(entity.Code);
                         }
                     }
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(isUseJson);
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new SysDicItemRemovedEvent(entity));
@@ -116,7 +118,7 @@ namespace NTMiner.Core.SysDics.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>();
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicItemData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

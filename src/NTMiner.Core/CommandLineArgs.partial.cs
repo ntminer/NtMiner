@@ -8,11 +8,9 @@ namespace NTMiner {
         /// </summary>
         public static readonly Guid WorkId = Guid.Empty;
         public static readonly bool IsAutoStart;
-        public static readonly bool IsSkipDownloadJson;
         public static readonly string Upgrade;
 
         static CommandLineArgs() {
-            IsSkipDownloadJson = s_commandLineArgs.Contains("--skipDownloadJson", StringComparer.OrdinalIgnoreCase);
             IsAutoStart = s_commandLineArgs.Contains("--AutoStart", StringComparer.OrdinalIgnoreCase);
             Upgrade = PickArgument("upgrade=");
             string workId = PickArgument("workid=");
