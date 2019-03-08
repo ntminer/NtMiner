@@ -142,24 +142,8 @@ namespace NTMiner {
             NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
             NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
             NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
-
-            try {
-                List<UserData> users = new List<UserData>();
-                foreach (IUser item in MinerProfile.GetUsers()) {
-                    if (item is UserData user) {
-                        users.Add(user);
-                    }
-                    else {
-                        users.Add(new UserData(item));
-                    }
-                }
-                string json = VirtualRoot.JsonSerializer.Serialize(users);
-                File.WriteAllText(Path.Combine(Path.GetDirectoryName(SpecialPath.DaemonFileFullName), "users.json"), json);
-                Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
+                        
+            RefreshUserSet();
 
             Report.Init(this);
 
@@ -177,19 +161,19 @@ namespace NTMiner {
                 "添加了新用户后刷新守护进程的用户集",
                 LogEnum.Console,
                 action: message => {
-                    Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
+                    RefreshUserSet();
                 });
             VirtualRoot.On<UserUpdatedEvent>(
                 "更新了新用户后刷新守护进程的用户集",
                 LogEnum.Console,
                 action: message => {
-                    Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
+                    RefreshUserSet();
                 });
             VirtualRoot.On<UserRemovedEvent>(
                 "移除了新用户后刷新守护进程的用户集",
                 LogEnum.Console,
                 action: message => {
-                    Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
+                    RefreshUserSet();
                 });
             #endregion
             #region 挖矿开始时将无份额内核重启份额计数置0
@@ -398,6 +382,26 @@ namespace NTMiner {
             }
         }
         #endregion
+
+        private void RefreshUserSet() {
+            try {
+                List<UserData> users = new List<UserData>();
+                foreach (IUser item in MinerProfile.GetUsers()) {
+                    if (item is UserData user) {
+                        users.Add(user);
+                    }
+                    else {
+                        users.Add(new UserData(item));
+                    }
+                }
+                string json = VirtualRoot.JsonSerializer.Serialize(users);
+                File.WriteAllText(Path.Combine(Path.GetDirectoryName(SpecialPath.DaemonFileFullName), "users.json"), json);
+                Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+        }
 
         #region GetFileAsync
         public static void GetFileAsync(string fileUrl, Action<byte[]> callback) {
