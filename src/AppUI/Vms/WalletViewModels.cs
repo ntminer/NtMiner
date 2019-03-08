@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 });
-            foreach (var item in NTMinerRoot.Current.MinerProfile.GetAllWallets()) {
+            foreach (var item in NTMinerRoot.Current.MinerProfile.GetWallets()) {
                 _dicById.Add(item.GetId(), new WalletViewModel(item));
             }
         }

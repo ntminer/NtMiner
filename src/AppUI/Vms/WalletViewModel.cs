@@ -55,7 +55,8 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (!this.IsTestWallet) {
-                    if (NTMinerRoot.Current.MinerProfile.ContainsWallet(this.Id)) {
+                    IWallet wallet;
+                    if (NTMinerRoot.Current.MinerProfile.TryGetWallet(this.Id, out wallet)) {
                         VirtualRoot.Execute(new UpdateWalletCommand(this));
                     }
                     else {
@@ -210,7 +211,8 @@ namespace NTMiner.Vms {
                 if (IsTestWallet) {
                     return false;
                 }
-                if (NTMinerRoot.Current.MinerProfile.ContainsWallet(this.Id)) {
+                IWallet wallet;
+                if (NTMinerRoot.Current.MinerProfile.TryGetWallet(this.Id, out wallet)) {
                     return false;
                 }
                 return true;

@@ -1,6 +1,5 @@
 ﻿using LiteDB;
 using NTMiner.Core.Gpus;
-using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.MinerServer;
@@ -278,10 +277,6 @@ namespace NTMiner.Core.Profiles {
             _poolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
         }
 
-        public bool ContainsWallet(Guid walletId) {
-            return _walletSet.ContainsWallet(walletId);
-        }
-
         public bool TryGetWallet(Guid walletId, out IWallet wallet) {
             return _walletSet.TryGetWallet(walletId, out wallet);
         }
@@ -290,8 +285,8 @@ namespace NTMiner.Core.Profiles {
             return _gpuOverClockDatakSet.GetGpuOverClockData(coinId, gpuIndex);
         }
 
-        public IEnumerable<IWallet> GetAllWallets() {
-            return _walletSet.GetAllWallets();
+        public List<IWallet> GetWallets() {
+            return _walletSet.GetAllWallets().ToList();
         }
 
         public List<ICoinKernelProfile> GetCoinKernelProfiles() {
@@ -1129,11 +1124,6 @@ namespace NTMiner.Core.Profiles {
                         }
                     }
                 }
-            }
-
-            public bool ContainsWallet(Guid walletId) {
-                InitOnece();
-                return _dicById.ContainsKey(walletId);
             }
 
             public bool TryGetWallet(Guid walletId, out IWallet wallet) {

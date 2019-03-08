@@ -20,7 +20,7 @@ namespace NTMiner.Core.Impl {
                 Pools = workProfile.GetPools().Cast<PoolData>().ToArray(),
                 PoolProfiles = workProfile.GetPoolProfiles().Cast<PoolProfileData>().ToArray(),
                 Users = workProfile.GetUsers().Cast<UserData>().ToArray(),
-                Wallets = workProfile.GetAllWallets().Cast<WalletData>().ToArray()
+                Wallets = workProfile.GetWallets().Cast<WalletData>().ToArray()
             };
             string json = VirtualRoot.JsonSerializer.Serialize(data);
             string workJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "MineWorks", workProfile.GetId() + ".json");
