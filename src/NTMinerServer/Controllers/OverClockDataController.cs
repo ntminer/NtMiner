@@ -12,7 +12,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.OverClockDataSet.AddOrUpdate(request.Data);
@@ -33,7 +33,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.OverClockDataSet.Remove(request.OverClockDataId);

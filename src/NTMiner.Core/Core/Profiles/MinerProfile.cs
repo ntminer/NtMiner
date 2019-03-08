@@ -5,6 +5,7 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
+using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace NTMiner.Core.Profiles {
         private GpuOverClockDataSet _gpuOverClockDatakSet;
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
+        private IUserSet _userSet;
 
         public MinerProfile(INTMinerRoot root, Guid workId) {
             _root = root;
@@ -67,6 +69,17 @@ namespace NTMiner.Core.Profiles {
             }
             else {
                 _walletSet.Refresh(workId);
+            }
+            if (_userSet == null) {
+                if (VirtualRoot.IsControlCenter) {
+                    _userSet = new MinerServer.Impl.UserSet();
+                }
+                else {
+                    _userSet = new Core.Impl.UserSet();
+                }
+            }
+            else {
+                _userSet.Refresh(workId != Guid.Empty);
             }
             if (workId != Guid.Empty) {
                 MineWork = Server.ProfileService.GetMineWork(workId);
@@ -285,6 +298,10 @@ namespace NTMiner.Core.Profiles {
             return _gpuOverClockDatakSet.GetGpuOverClockData(coinId, gpuIndex);
         }
 
+        public IUser GetUser(string loginName) {
+            return _userSet.GetUser(loginName);
+        }
+
         public List<IWallet> GetWallets() {
             return _walletSet.GetAllWallets().ToList();
         }
@@ -310,7 +327,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public List<IUser> GetUsers() {
-            return _root.UserSet.ToList();
+            return _userSet.ToList();
         }
 
         #region CoinKernelProfileSet

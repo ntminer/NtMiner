@@ -11,8 +11,6 @@ namespace NTMiner {
     public interface INTMinerRoot {
         DateTime CreatedOn { get; }
 
-        IUserSet UserSet { get; }
-
         IAppSettingSet AppSettingSet { get; }
 
         void Init(Action callback);

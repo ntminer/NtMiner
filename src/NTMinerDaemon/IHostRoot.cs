@@ -6,6 +6,6 @@ namespace NTMiner {
         DateTime StartedOn { get; }
         IUserSet UserSet { get; }
 
-        void RefreshUserSet();
+        void RefreshUserSet(bool isReadOnly);
     }
 }

@@ -1,19 +1,20 @@
-﻿using NTMiner.User;
+﻿using System;
 
 namespace NTMiner {
     public static class SignatureRequestExtension {
-        public static bool IsValid<TResponse>(this ISignatureRequest request, IUserSet userSet, out TResponse response) where TResponse : ResponseBase, new() {
+        public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, out TResponse response) where TResponse : ResponseBase, new() {
             IUser user;
-            return IsValid(request, userSet, out user, out response);
+            return IsValid(request, getUser, out user, out response);
         }
 
-        public static bool IsValid<TResponse>(this ISignatureRequest request, IUserSet userSet, out IUser user, out TResponse response) where TResponse : ResponseBase, new() {
+        public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, out IUser user, out TResponse response) where TResponse : ResponseBase, new() {
             if (string.IsNullOrEmpty(request.LoginName)) {
                 response = ResponseBase.InvalidInput<TResponse>(request.MessageId, "登录名不能为空");
                 user = null;
                 return false;
             }
-            if (!userSet.TryGetUser(request.LoginName, out user)) {
+            user = getUser.Invoke(request.LoginName);
+            if (user == null) {
                 response = ResponseBase.Forbidden<TResponse>(request.MessageId, "登录名不存在");
                 return false;
             }

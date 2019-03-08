@@ -17,7 +17,7 @@ namespace NTMiner.Controllers {
             try {
                 ResponseBase response;
                 IUser user;
-                if (!request.IsValid(HostRoot.Current.UserSet, out user, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out user, out response)) {
                     return response;
                 }
                 Write.DevLine($"{request.LoginName}登录");
@@ -38,7 +38,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 GetUsersResponse response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.UserSet.Cast<UserData>().ToList();
@@ -59,7 +59,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new AddUserCommand(request.Data));
@@ -80,7 +80,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new UpdateUserCommand(request.Data));
@@ -101,7 +101,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new RemoveUserCommand(request.Data));
@@ -121,8 +121,8 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                IUser user;
-                if (!HostRoot.Current.UserSet.TryGetUser(request.LoginName, out user)) {
+                IUser user = HostRoot.Current.UserSet.GetUser(request.LoginName);
+                if (user == null) {
                     return ResponseBase.ClientError(request.MessageId, $"登录名不存在");
                 }
                 if (user.Password == request.NewPassword) {
@@ -149,7 +149,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 QueryClientsResponse response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 int total;
@@ -189,7 +189,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 GetCoinSnapshotsResponse response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 int totalMiningCount;
@@ -215,7 +215,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 LoadClientResponse response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId, request.IsPull);
@@ -236,7 +236,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.ClientSet.UpdateClient(request.ClientId, request.PropertyName, request.Value);
@@ -257,7 +257,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.ClientSet.UpdateClientProperties(request.ClientId, request.Values);
@@ -278,7 +278,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 GetMinerGroupsResponse response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MinerGroupSet.GetAll();
@@ -299,7 +299,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.MinerGroupSet.AddOrUpdate(request.Data);
@@ -320,7 +320,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.MinerGroupSet.Remove(request.MinerGroupId);
@@ -341,7 +341,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.MineWorkSet.AddOrUpdate(request.Data);
@@ -362,7 +362,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.MineWorkSet.Remove(request.MineWorkId);
@@ -383,7 +383,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -407,7 +407,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -431,7 +431,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -455,7 +455,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -494,7 +494,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.WalletSet.AddOrUpdate(request.Data);
@@ -515,7 +515,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.WalletSet.Remove(request.WalletId);
@@ -551,7 +551,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.CalcConfigSet.SaveCalcConfigs(request.Data);
@@ -573,7 +573,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 GetColumnsShowsResponse response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.ColumnsShowSet.GetAll();
@@ -594,7 +594,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.ColumnsShowSet.AddOrUpdate(request.Data);
@@ -615,7 +615,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 HostRoot.Current.ColumnsShowSet.Remove(request.ColumnsShowId);

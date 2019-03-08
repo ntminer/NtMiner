@@ -36,7 +36,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new ChangeAppSettingCommand(request.Data));

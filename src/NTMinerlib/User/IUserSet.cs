@@ -2,6 +2,7 @@
 
 namespace NTMiner.User {
     public interface IUserSet : IEnumerable<IUser> {
-        bool TryGetUser(string loginName, out IUser user);
+        IUser GetUser(string loginName);
+        void Refresh(bool isReadOnly);
     }
 }

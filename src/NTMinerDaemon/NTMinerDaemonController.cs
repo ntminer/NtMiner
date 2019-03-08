@@ -39,7 +39,7 @@ namespace NTMiner {
                 SetMinerNameAsync(request, response1 => {
                     if (!response1.IsSuccess()) {
                         ResponseBase response;
-                        if (request.IsValid(HostRoot.Current.UserSet, out response)) {
+                        if (request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                             if (!string.IsNullOrEmpty(request.MinerName)) {
                                 request.MinerName = new string(request.MinerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
                             }
@@ -72,8 +72,8 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public void RefreshUserSet() {
-            HostRoot.Current.RefreshUserSet();
+        public void RefreshUserSet(bool isReadOnly) {
+            HostRoot.Current.RefreshUserSet(isReadOnly);
         }
 
         [HttpPost]
@@ -83,7 +83,7 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
@@ -104,7 +104,7 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
@@ -125,7 +125,7 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 if (IsNTMinerOpened(request.WorkId)) {
@@ -174,7 +174,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             ResponseBase response;
-            if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+            if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                 return response;
             }
             Task.Factory.StartNew(() => {
@@ -230,7 +230,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             ResponseBase response;
-            if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+            if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                 return response;
             }
             Task.Factory.StartNew(() => {
@@ -283,7 +283,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             ResponseBase response;
-            if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+            if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                 return response;
             }
             Task.Factory.StartNew(() => {
@@ -308,7 +308,7 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 string location = NTMinerRegistry.GetLocation();

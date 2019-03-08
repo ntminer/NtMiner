@@ -9,9 +9,7 @@ namespace NTMiner.Core.MinerServer.Impl {
     public class UserSet : IUserSet {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
-        private readonly string _dbFileFullName;
-        public UserSet(string dbFileFullName) {
-            _dbFileFullName = dbFileFullName;
+        public UserSet() {
             VirtualRoot.Accept<AddUserCommand>(
                 "处理添加用户命令",
                 LogEnum.Console,
@@ -98,12 +96,17 @@ namespace NTMiner.Core.MinerServer.Impl {
             }
         }
 
-        public bool TryGetUser(string loginName, out IUser user) {
+        public void Refresh(bool isReadOnly) {
+
+        }
+
+        public IUser GetUser(string loginName) {
             InitOnece();
             UserData userData;
-            bool result = _dicByLoginName.TryGetValue(loginName, out userData);
-            user = userData;
-            return result;
+            if (_dicByLoginName.TryGetValue(loginName, out userData)) {
+                return userData;
+            }
+            return null;
         }
 
         public IEnumerator<IUser> GetEnumerator() {

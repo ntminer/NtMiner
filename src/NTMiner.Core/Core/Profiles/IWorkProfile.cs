@@ -16,6 +16,7 @@ namespace NTMiner.Core.Profiles {
         void SetPoolProfileProperty(Guid poolId, string propertyName, object value);
         bool TryGetWallet(Guid walletId, out IWallet wallet);
         IGpuProfile GetGpuOverClockData(Guid coinId, int gpuIndex);
+        IUser GetUser(string loginName);
 
         List<ICoinKernelProfile> GetCoinKernelProfiles();
         List<ICoinProfile> GetCoinProfiles();

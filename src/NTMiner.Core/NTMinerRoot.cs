@@ -27,8 +27,6 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         public DateTime CreatedOn { get; private set; }
 
-        public IUserSet UserSet { get; private set; }
-
         public IAppSettingSet AppSettingSet { get; private set; }
 
         #region cotr
@@ -108,12 +106,6 @@ namespace NTMiner {
             this.PackageDownloader = new PackageDownloader(this);
             this.SysDicSet = new SysDicSet(this);
             this.AppSettingSet = new AppSettingSet(this);
-            if (VirtualRoot.IsControlCenter) {
-                this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
-            }
-            else {
-                this.UserSet = new User.Impl.UserSet(SpecialPath.LocalDbFileFullName);
-            }
             this.SysDicItemSet = new SysDicItemSet(this);
             this.CoinSet = new CoinSet(this);
             this.GroupSet = new GroupSet(this);

@@ -34,16 +34,17 @@ namespace NTMiner.User.Impl {
             }
         }
 
-        public void ReInit() {
+        public void Refresh(bool isReadOnly) {
             _isInited = false;
         }
 
-        public bool TryGetUser(string loginName, out IUser user) {
+        public IUser GetUser(string loginName) {
             InitOnece();
             UserData userData;
-            bool result = _dicByLoginName.TryGetValue(loginName, out userData);
-            user = userData;
-            return result;
+            if (_dicByLoginName.TryGetValue(loginName, out userData)) {
+                return userData;
+            }
+            return null;
         }
 
         public IEnumerator<IUser> GetEnumerator() {

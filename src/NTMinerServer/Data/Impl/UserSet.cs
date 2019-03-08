@@ -1,9 +1,10 @@
 ﻿using LiteDB;
+using NTMiner.User;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.User.Impl {
+namespace NTMiner.Data.Impl {
     public class UserSet : IUserSet {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
@@ -64,6 +65,10 @@ namespace NTMiner.User.Impl {
             Init();
         }
 
+        public void Refresh(bool isReadOnly) {
+
+        }
+
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
@@ -76,12 +81,13 @@ namespace NTMiner.User.Impl {
             }
         }
 
-        public bool TryGetUser(string loginName, out IUser user) {
+        public IUser GetUser(string loginName) {
             InitOnece();
             UserData userData;
-            bool result = _dicByLoginName.TryGetValue(loginName, out userData);
-            user = userData;
-            return result;
+            if (_dicByLoginName.TryGetValue(loginName, out userData)) {
+                return userData;
+            }
+            return null;
         }
 
         public IEnumerator<IUser> GetEnumerator() {

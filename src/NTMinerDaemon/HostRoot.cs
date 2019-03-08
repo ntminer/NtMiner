@@ -18,8 +18,8 @@ namespace NTMiner {
             this.UserSet = _userSet;
         }
 
-        public void RefreshUserSet() {
-            _userSet.ReInit();
+        public void RefreshUserSet(bool isReadOnly) {
+            _userSet.Refresh(isReadOnly);
         }
 
         private static Mutex s_mutexApp;

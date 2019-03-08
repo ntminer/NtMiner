@@ -106,6 +106,7 @@
     <Compile Include="Core\Gpus\Impl\GpuClockDelta.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\IGpuClockDelta.cs" />
+    <Compile Include="Core\Impl\UserSet.cs" />
     <Compile Include="Core\Profiles\IGpuProfile.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />

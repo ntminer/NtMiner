@@ -54,7 +54,6 @@
     <Compile Include="ISortable.cs" />
     <Compile Include="SignatureRequestExtension.cs" />
     <Compile Include="TimeSpanExtensions.cs" />
-    <Compile Include="User\Impl\UserSet.cs" />
     <Compile Include="User\IUserSet.cs" />
     <Compile Include="Language\ILang.cs" />
     <Compile Include="Language\ILangViewItem.cs" />

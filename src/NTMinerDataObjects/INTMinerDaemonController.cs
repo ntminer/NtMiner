@@ -5,7 +5,7 @@ namespace NTMiner {
         string GetDaemonVersion();
         void CloseDaemon();
         ResponseBase SetMinerName(MinerClient.SetMinerNameRequest request);
-        void RefreshUserSet();
+        void RefreshUserSet(bool isReadOnly);
         ResponseBase RestartWindows(RestartWindowsRequest request);
         ResponseBase ShutdownWindows(ShutdownWindowsRequest request);
         ResponseBase OpenNTMiner(OpenNTMinerRequest request);

@@ -15,7 +15,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.RestartWindows(request.InnerRequest);
@@ -36,7 +36,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.ShutdownWindows(request.InnerRequest);
@@ -57,7 +57,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.OpenNTMiner(request.InnerRequest);
@@ -78,7 +78,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.RestartNTMiner(request.InnerRequest);
@@ -99,7 +99,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.UpgradeNTMiner(request.InnerRequest);
@@ -120,7 +120,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.CloseNTMiner(request.InnerRequest);
@@ -141,7 +141,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.StartMine(request.InnerRequest);
@@ -162,7 +162,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 response = Client.MinerClientService.StopMine(request.InnerRequest);
@@ -183,7 +183,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 response = Client.MinerClientService.SetMinerProfileProperty(request.InnerRequest);
