@@ -58,6 +58,9 @@ namespace NTMiner {
                                 LogEnum.None,
                                 action: message => {
                                     UIThread.Execute(() => {
+                                        if (!ChartsWindow.IsOpened) {
+                                            window = ChartsWindow.ShowWindow();
+                                        }
                                         Dispatcher.Invoke((ThreadStart)window.ShowThisWindow);
                                     });
                                 });
