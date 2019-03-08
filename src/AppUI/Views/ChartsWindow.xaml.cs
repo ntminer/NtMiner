@@ -74,7 +74,14 @@ namespace NTMiner.Views {
 
         public void ShowThisWindow() {
             this.Show();
-            this.WindowState = WindowState.Normal;
+            if (WindowState == WindowState.Minimized) {
+                this.WindowState = WindowState.Normal;
+            }
+            else {
+                var oldState = WindowState;
+                this.WindowState = WindowState.Minimized;
+                this.WindowState = oldState;
+            }
             this.Activate();
         }
 

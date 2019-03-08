@@ -131,6 +131,11 @@ namespace NTMiner.Views {
             if (WindowState == WindowState.Minimized) {
                 WindowState = WindowState.Normal;
             }
+            else {
+                var oldState = WindowState;
+                this.WindowState = WindowState.Minimized;
+                this.WindowState = oldState;
+            }
             this.Activate();
         }
 
