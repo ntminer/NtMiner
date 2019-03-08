@@ -39,7 +39,12 @@ namespace NTMiner {
         }
 
         public static IRepository<T> CreateLocalRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
-            return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);
+            if (!isUseJson) {
+                return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);
+            }
+            else {
+                return new ReadOnlyRepository<T>(LocalJson.Instance);
+            }
         }
 
         public static IRepository<T> CreateServerRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
@@ -47,7 +52,7 @@ namespace NTMiner {
                 return new CommonRepository<T>(SpecialPath.ServerDbFileFullName);
             }
             else {
-                return new ReadOnlyServerRepository<T>();
+                return new ReadOnlyRepository<T>(ServerJson.Instance);
             }
         }
 

@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class ServerJson {
+    public class ServerJson : IJsonDb {
         public static readonly ServerJson Instance = new ServerJson();
 
         public static string Export() {

@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class LocalJson {
+    public class LocalJson : IJsonDb {
         public static readonly LocalJson Instance = new LocalJson();
 
         public static string Export(IWorkProfile workProfile) {
