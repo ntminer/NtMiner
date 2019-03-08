@@ -117,7 +117,6 @@ namespace NTMiner {
             this.SysDicItemSet = new SysDicItemSet(this);
             this.CoinSet = new CoinSet(this);
             this.GroupSet = new GroupSet(this);
-            this.GpuOverClockDataSet = new GpuOverClockDataSet(this);
             this.CoinGroupSet = new CoinGroupSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
             this.PoolSet = new PoolSet(this);
@@ -693,8 +692,6 @@ namespace NTMiner {
         public ICoinSet CoinSet { get; private set; }
 
         public IGroupSet GroupSet { get; private set; }
-
-        public IGpuOverClockDataSet GpuOverClockDataSet { get; private set; }
 
         public ICoinGroupSet CoinGroupSet { get; private set; }
 

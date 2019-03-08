@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NTMiner.Core.Gpus;
+using System;
 
-namespace NTMiner.Core.Gpus.Impl {
-    public static class GpuOverClockDataExtension {
-        public static void OverClock(this IGpuOverClockData data, IOverClock overClock) {
+namespace NTMiner.Core.Profiles.Impl {
+    public static class GpuProfileExtension {
+        public static void OverClock(this IGpuProfile data, IOverClock overClock) {
             overClock.SetCoreClock(data);
             overClock.SetMemoryClock(data);
             overClock.SetPowerCapacity(data);

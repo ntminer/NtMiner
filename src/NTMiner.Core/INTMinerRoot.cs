@@ -51,8 +51,6 @@ namespace NTMiner {
 
         IGpuSet GpuSet { get; }
 
-        IGpuOverClockDataSet GpuOverClockDataSet { get; }
-
         ISysDicSet SysDicSet { get; }
 
         ISysDicItemSet SysDicItemSet { get; }

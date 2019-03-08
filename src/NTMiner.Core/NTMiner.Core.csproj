@@ -106,14 +106,12 @@
     <Compile Include="Core\Gpus\Impl\GpuClockDelta.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\IGpuClockDelta.cs" />
-    <Compile Include="Core\Gpus\IGpuOverClockData.cs" />
-    <Compile Include="Core\Gpus\IGpuOverClockDataSet.cs" />
+    <Compile Include="Core\Profiles\IGpuProfile.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAClockDeltaSet.cs" />
-    <Compile Include="Core\Gpus\Impl\GpuOverClockData.cs" />
-    <Compile Include="Core\Gpus\Impl\GpuOverClockDataExtension.cs" />
-    <Compile Include="Core\Gpus\Impl\GpuOverClockDataSet.cs" />
+    <Compile Include="Core\Profiles\Impl\GpuProfileData.cs" />
+    <Compile Include="Core\Profiles\Impl\GpuProfileExtension.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
@@ -128,6 +126,7 @@
     <Compile Include="Core\Impl\CoinGroupData.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
+    <Compile Include="Core\Impl\LocalJson.cs" />
     <Compile Include="Core\Kernels\EnvironmentVariable.cs" />
     <Compile Include="Core\MinerServer\Impl\UserSet.cs" />
     <Compile Include="Core\MinerServer\IColumnsShowSet.cs" />

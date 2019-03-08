@@ -15,16 +15,18 @@ namespace NTMiner {
                 Directory.CreateDirectory(TempDirFullName);
             }
             NTMinerOverClockFileFullName = Path.Combine(TempDirFullName, "NTMinerOverClock.exe");
-            ServerDbFileName = "server.litedb";
-            ServerDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, ServerDbFileName);
+            ServerDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "server.litedb");
             ServerJsonFileName = "server.json";
             ServerJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, ServerJsonFileName);
 
             LocalDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.litedb");
+            LocalJsonFileName = "local.json";
+            LocalJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, LocalJsonFileName);
         }
 
         public static string LocalDbFileFullName { get; private set; }
-        public static string ServerDbFileName { get; private set; }
+        public static string LocalJsonFileName { get; private set; }
+        public static string LocalJsonFileFullName { get; private set; }
         public static string ServerDbFileFullName { get; private set; }
 
         public static string ServerJsonFileName { get; private set; }

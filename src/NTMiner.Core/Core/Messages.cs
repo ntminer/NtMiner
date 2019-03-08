@@ -1,6 +1,7 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
+using NTMiner.Core.Profiles;
 using NTMiner.Core.SysDics;
 using NTMiner.MinerServer;
 using NTMiner.OverClock;
@@ -344,20 +345,20 @@ namespace NTMiner.Core {
     #region gpu overclock
     [MessageType(messageType: typeof(AddOrUpdateGpuOverClockDataCommand), description: "添加或更新Gpu超频数据")]
     public class AddOrUpdateGpuOverClockDataCommand : Cmd {
-        public AddOrUpdateGpuOverClockDataCommand(IGpuOverClockData input) {
+        public AddOrUpdateGpuOverClockDataCommand(IGpuProfile input) {
             this.Input = input;
         }
 
-        public IGpuOverClockData Input { get; private set; }
+        public IGpuProfile Input { get; private set; }
     }
 
     [MessageType(messageType: typeof(OverClockCommand), description: "超频")]
     public class OverClockCommand : Cmd {
-        public OverClockCommand(IGpuOverClockData input) {
+        public OverClockCommand(IGpuProfile input) {
             this.Input = input;
         }
 
-        public IGpuOverClockData Input { get; private set; }
+        public IGpuProfile Input { get; private set; }
     }
 
     [MessageType(messageType: typeof(CoinOverClockCommand), description: "币种超频")]
@@ -370,8 +371,8 @@ namespace NTMiner.Core {
     }
 
     [MessageType(messageType: typeof(AddOrUpdateGpuOverClockDataCommand), description: "Gpu超频数据添加或更新后")]
-    public class GpuOverClockDataAddedOrUpdatedEvent : DomainEvent<IGpuOverClockData> {
-        public GpuOverClockDataAddedOrUpdatedEvent(IGpuOverClockData source) : base(source) {
+    public class GpuOverClockDataAddedOrUpdatedEvent : DomainEvent<IGpuProfile> {
+        public GpuOverClockDataAddedOrUpdatedEvent(IGpuProfile source) : base(source) {
         }
     }
     #endregion

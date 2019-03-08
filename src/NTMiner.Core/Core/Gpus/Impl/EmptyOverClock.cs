@@ -1,22 +1,24 @@
-﻿namespace NTMiner.Core.Gpus.Impl {
+﻿using NTMiner.Core.Profiles;
+
+namespace NTMiner.Core.Gpus.Impl {
     public class EmptyOverClock : IOverClock {
         public void RefreshGpuState(int gpuIndex) {
             // noting need todo
         }
 
-        public void SetCool(IGpuOverClockData data) {
+        public void SetCool(IGpuProfile data) {
             // noting need todo
         }
 
-        public void SetCoreClock(IGpuOverClockData data) {
+        public void SetCoreClock(IGpuProfile data) {
             // noting need todo
         }
 
-        public void SetMemoryClock(IGpuOverClockData data) {
+        public void SetMemoryClock(IGpuProfile data) {
             // noting need todo
         }
 
-        public void SetPowerCapacity(IGpuOverClockData data) {
+        public void SetPowerCapacity(IGpuProfile data) {
             // noting need todo
         }
     }

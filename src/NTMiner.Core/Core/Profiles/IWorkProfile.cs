@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.Gpus;
+using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,14 @@ namespace NTMiner.Core.Profiles {
         void SetPoolProfileProperty(Guid poolId, string propertyName, object value);
         bool ContainsWallet(Guid walletId);
         bool TryGetWallet(Guid walletId, out IWallet wallet);
+        IGpuProfile GetGpuOverClockData(Guid coinId, int gpuIndex);
+
+        List<ICoinKernelProfile> GetCoinKernelProfiles();
+        List<ICoinProfile> GetCoinProfiles();
+        List<IGpuProfile> GetGpuOverClocks();
+        List<IPool> GetPools();
+        List<IPoolProfile> GetPoolProfiles();
+        List<IUser> GetUsers();
         IEnumerable<IWallet> GetAllWallets();
     }
 }

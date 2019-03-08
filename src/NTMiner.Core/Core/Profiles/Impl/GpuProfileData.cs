@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace NTMiner.Core.Gpus.Impl {
-    public class GpuOverClockData : IGpuOverClockData {
-        public GpuOverClockData() {
+namespace NTMiner.Core.Profiles.Impl {
+    public class GpuProfileData : IGpuProfile {
+        public GpuProfileData() {
         }
 
-        public GpuOverClockData(Guid id, Guid coinId, int index) {
+        public GpuProfileData(Guid id, Guid coinId, int index) {
             this.Id = id;
             this.CoinId = coinId;
             this.Index = index;
@@ -16,7 +16,7 @@ namespace NTMiner.Core.Gpus.Impl {
             this.IsEnabled = true;
         }
 
-        public GpuOverClockData(IGpuOverClockData data) {
+        public GpuProfileData(IGpuProfile data) {
             this.Id = data.GetId();
             this.CoinId = data.CoinId;
             this.Index = data.Index;
@@ -27,7 +27,7 @@ namespace NTMiner.Core.Gpus.Impl {
             this.IsEnabled = data.IsEnabled;
         }
 
-        public void Update(IGpuOverClockData data) {
+        public void Update(IGpuProfile data) {
             this.CoinId = data.CoinId;
             this.Index = data.Index;
             this.CoreClockDelta = data.CoreClockDelta;

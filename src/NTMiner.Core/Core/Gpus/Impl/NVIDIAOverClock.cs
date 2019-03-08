@@ -1,11 +1,12 @@
-﻿using System.Text.RegularExpressions;
+﻿using NTMiner.Core.Profiles;
+using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class NVIDIAOverClock : IOverClock {
         public NVIDIAOverClock() {
         }
 
-        public void SetCoreClock(IGpuOverClockData data) {
+        public void SetCoreClock(IGpuProfile data) {
             int value = data.CoreClockDelta;
             value = 1000 * value;
             if (data.Index == NTMinerRoot.GpuAllId) {
@@ -21,7 +22,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public void SetMemoryClock(IGpuOverClockData data) {
+        public void SetMemoryClock(IGpuProfile data) {
             int value = data.MemoryClockDelta;
             value = 1000 * value;
             if (data.Index == NTMinerRoot.GpuAllId) {
@@ -37,7 +38,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public void SetPowerCapacity(IGpuOverClockData data) {
+        public void SetPowerCapacity(IGpuProfile data) {
             int value = data.PowerCapacity;
             if (value == 0) {
                 return;
@@ -55,7 +56,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public void SetCool(IGpuOverClockData data) {
+        public void SetCool(IGpuProfile data) {
             int value = data.Cool;
             if (value == 0) {
                 return;

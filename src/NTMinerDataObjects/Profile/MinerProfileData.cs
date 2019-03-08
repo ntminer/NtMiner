@@ -22,6 +22,20 @@ namespace NTMiner.Profile {
 
         public MinerProfileData() { }
 
+        public MinerProfileData(IMinerProfile data) {
+            this.Id = data.CoinId;
+            this.CoinId = data.CoinId;
+            this.IsAutoBoot = data.IsAutoBoot;
+            this.IsAutoStart = data.IsAutoStart;
+            this.IsAutoRestartKernel = data.IsAutoRestartKernel;
+            this.IsNoShareRestartKernel = data.IsNoShareRestartKernel;
+            this.NoShareRestartKernelMinutes = data.NoShareRestartKernelMinutes;
+            this.IsPeriodicRestartKernel = data.IsPeriodicRestartKernel;
+            this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
+            this.IsPeriodicRestartComputer = data.IsPeriodicRestartComputer;
+            this.PeriodicRestartComputerHours = data.PeriodicRestartComputerHours;
+        }
+
         public Guid GetId() {
             return this.Id;
         }

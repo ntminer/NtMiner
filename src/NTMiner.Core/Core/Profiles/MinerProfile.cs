@@ -1,4 +1,8 @@
-﻿using NTMiner.Core.Kernels;
+﻿using LiteDB;
+using NTMiner.Core.Gpus;
+using NTMiner.Core.Gpus.Impl;
+using NTMiner.Core.Kernels;
+using NTMiner.Core.Profiles.Impl;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
@@ -17,6 +21,7 @@ namespace NTMiner.Core.Profiles {
         private Guid _workId;
         private CoinKernelProfileSet _coinKernelProfileSet;
         private CoinProfileSet _coinProfileSet;
+        private GpuOverClockDataSet _gpuOverClockDatakSet;
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
 
@@ -45,6 +50,12 @@ namespace NTMiner.Core.Profiles {
             }
             else {
                 _coinProfileSet.Refresh(workId);
+            }
+            if (_gpuOverClockDatakSet == null) {
+                _gpuOverClockDatakSet = new GpuOverClockDataSet(root, workId);
+            }
+            else {
+                _gpuOverClockDatakSet.Refresh(workId);
             }
             if (_poolProfileSet == null) {
                 _poolProfileSet = new PoolProfileSet(root, workId);
@@ -275,8 +286,36 @@ namespace NTMiner.Core.Profiles {
             return _walletSet.TryGetWallet(walletId, out wallet);
         }
 
+        public IGpuProfile GetGpuOverClockData(Guid coinId, int gpuIndex) {
+            return _gpuOverClockDatakSet.GetGpuOverClockData(coinId, gpuIndex);
+        }
+
         public IEnumerable<IWallet> GetAllWallets() {
             return _walletSet.GetAllWallets();
+        }
+
+        public List<ICoinKernelProfile> GetCoinKernelProfiles() {
+            return _coinKernelProfileSet.GetCoinKernelProfiles().ToList();
+        }
+
+        public List<ICoinProfile> GetCoinProfiles() {
+            return _coinProfileSet.GetCoinProfiles().ToList();
+        }
+
+        public List<IGpuProfile> GetGpuOverClocks() {
+            return _gpuOverClockDatakSet.GetGpuOverClocks().ToList();
+        }
+
+        public List<IPool> GetPools() {
+            return _root.PoolSet.ToList();
+        }
+
+        public List<IPoolProfile> GetPoolProfiles() {
+            return _poolProfileSet.GetPoolProfiles().ToList();
+        }
+
+        public List<IUser> GetUsers() {
+            return _root.UserSet.ToList();
         }
 
         #region CoinKernelProfileSet
@@ -310,6 +349,10 @@ namespace NTMiner.Core.Profiles {
 
                     return coinKernelProfile;
                 }
+            }
+
+            public IEnumerable<ICoinKernelProfile> GetCoinKernelProfiles() {
+                return _dicById.Values;
             }
 
             public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
@@ -481,6 +524,10 @@ namespace NTMiner.Core.Profiles {
                     _dicById.Add(coinId, coinProfile);
                     return coinProfile;
                 }
+            }
+
+            public IEnumerable<ICoinProfile> GetCoinProfiles() {
+                return _dicById.Values;
             }
 
             public void SetCoinProfileProperty(Guid coinId, string propertyName, object value) {
@@ -656,6 +703,117 @@ namespace NTMiner.Core.Profiles {
         }
         #endregion
 
+        #region GpuOverClockDataSet
+        public class GpuOverClockDataSet {
+            private readonly Dictionary<Guid, GpuProfileData> _dicById = new Dictionary<Guid, GpuProfileData>();
+
+            private readonly INTMinerRoot _root;
+            private readonly Guid _workId;
+
+            public GpuOverClockDataSet(INTMinerRoot root, Guid workId) {
+                _root = root;
+                _workId = workId;
+                VirtualRoot.Accept<AddOrUpdateGpuOverClockDataCommand>(
+                    "处理添加或更新Gpu超频数据命令",
+                    LogEnum.Console,
+                    action: message => {
+                        IGpu gpu;
+                        if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
+                            GpuProfileData data;
+                            if (_dicById.ContainsKey(message.Input.GetId())) {
+                                data = _dicById[message.Input.GetId()];
+                                data.Update(message.Input);
+                                using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
+                                    var col = db.GetCollection<GpuProfileData>();
+                                    col.Update(data);
+                                }
+                            }
+                            else {
+                                data = new GpuProfileData(message.Input);
+                                _dicById.Add(data.Id, data);
+                                using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
+                                    var col = db.GetCollection<GpuProfileData>();
+                                    col.Insert(data);
+                                }
+                            }
+                            VirtualRoot.Happened(new GpuOverClockDataAddedOrUpdatedEvent(data));
+                        }
+                    });
+                VirtualRoot.Accept<OverClockCommand>(
+                    "处理超频命令",
+                    LogEnum.Console,
+                    action: message => {
+                        IGpu gpu;
+                        if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
+                            message.Input.OverClock(gpu.OverClock);
+                            gpu.OverClock.RefreshGpuState(message.Input.Index);
+                        }
+                    });
+                VirtualRoot.Accept<CoinOverClockCommand>(
+                    "处理币种超频命令",
+                    LogEnum.Console,
+                    action: message => {
+                        ICoinProfile coinProfile = root.MinerProfile.GetCoinProfile(message.CoinId);
+                        if (coinProfile.IsOverClockGpuAll) {
+                            GpuProfileData overClockData = _dicById.Values.FirstOrDefault(a => a.CoinId == message.CoinId && a.Index == NTMinerRoot.GpuAllId);
+                            if (overClockData != null) {
+                                VirtualRoot.Execute(new OverClockCommand(overClockData));
+                            }
+                        }
+                        else {
+                            foreach (var overClockData in _dicById.Values.Where(a => a.CoinId == message.CoinId)) {
+                                if (overClockData.IsEnabled && overClockData.Index != NTMinerRoot.GpuAllId) {
+                                    VirtualRoot.Execute(new OverClockCommand(overClockData));
+                                }
+                            }
+                        }
+                    });
+            }
+
+            private bool _isInited = false;
+            private object _locker = new object();
+
+            private void InitOnece() {
+                if (_isInited) {
+                    return;
+                }
+                Init();
+            }
+
+            private void Init() {
+                lock (_locker) {
+                    if (!_isInited) {
+                        using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
+                            var col = db.GetCollection<GpuProfileData>();
+                            foreach (var item in col.FindAll()) {
+                                _dicById.Add(item.Id, item);
+                            }
+                        }
+                        _isInited = true;
+                    }
+                }
+            }
+
+            public void Refresh(Guid workId) {
+
+            }
+
+            public IGpuProfile GetGpuOverClockData(Guid coinId, int index) {
+                InitOnece();
+                GpuProfileData data = _dicById.Values.FirstOrDefault(a => a.CoinId == coinId && a.Index == index);
+                if (data == null) {
+                    return new GpuProfileData(Guid.NewGuid(), coinId, index);
+                }
+                return data;
+            }
+
+            public IEnumerable<IGpuProfile> GetGpuOverClocks() {
+                InitOnece();
+                return _dicById.Values;
+            }
+        }
+        #endregion
+
         #region PoolProfileSet
         private class PoolProfileSet {
             private readonly Dictionary<Guid, PoolProfile> _dicById = new Dictionary<Guid, PoolProfile>();
@@ -685,6 +843,10 @@ namespace NTMiner.Core.Profiles {
                     _dicById.Add(poolId, coinProfile);
                     return coinProfile;
                 }
+            }
+
+            public IEnumerable<IPoolProfile> GetPoolProfiles() {
+                return _dicById.Values;
             }
 
             public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {

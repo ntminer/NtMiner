@@ -123,7 +123,7 @@
     <Compile Include="ISignatureRequest.cs" />
     <Compile Include="ITimestampEntity·1.cs" />
     <Compile Include="IUser.cs" />
-    <Compile Include="MinerServer\IWallet.cs" />
+    <Compile Include="IWallet.cs" />
     <Compile Include="MinerServer\LoadClientRequest.cs" />
     <Compile Include="MinerServer\LoadClientResponse.cs" />
     <Compile Include="MinerServer\LoginControlCenterRequest.cs" />
@@ -166,7 +166,7 @@
     <Compile Include="Timestamp.cs" />
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />
-    <Compile Include="MinerServer\WalletData.cs" />
+    <Compile Include="WalletData.cs" />
     <Compile Include="MinerServer\WalletsRequest.cs" />
   </ItemGroup>
   <ItemGroup>

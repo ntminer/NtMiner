@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
+using NTMiner.Core.Profiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
             foreach (var coin in NTMinerRoot.Current.CoinSet) {
                 Guid coinId = coin.GetId();
                 foreach (var gpu in NTMinerRoot.Current.GpuSet) {
-                    IGpuOverClockData data = NTMinerRoot.Current.GpuOverClockDataSet.GetGpuOverClockData(coinId, gpu.Index);
+                    IGpuProfile data = NTMinerRoot.Current.MinerProfile.GetGpuOverClockData(coinId, gpu.Index);
                     var vm = new GpuOverClockDataViewModel(data);
                     _dicById.Add(data.GetId(), vm);
                     if (gpu.Index == NTMinerRoot.GpuAllId) {

@@ -1,11 +1,11 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
+using NTMiner.Core.Profiles;
 using NTMiner.OverClock;
 using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class GpuOverClockDataViewModel : ViewModelBase, IGpuOverClockData {
+    public class GpuOverClockDataViewModel : ViewModelBase, IGpuProfile {
         private Guid _id;
         private Guid _coinId;
         private int _index;
@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
             });
         }
 
-        public GpuOverClockDataViewModel(IGpuOverClockData data) : this(data.GetId()) {
+        public GpuOverClockDataViewModel(IGpuProfile data) : this(data.GetId()) {
             _coinId = data.CoinId;
             _index = data.Index;
             _coreClockDelta = data.CoreClockDelta;
@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
             GpuViewModels.Current.TryGetGpuVm(Index, out _gpuVm);
         }
 
-        public void Update(IGpuOverClockData data) {
+        public void Update(IGpuProfile data) {
             this._coinId = data.CoinId;
             this._index = data.Index;
             this._coreClockDelta = data.CoreClockDelta;

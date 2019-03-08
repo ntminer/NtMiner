@@ -1,7 +1,7 @@
 ﻿using System;
 
-namespace NTMiner.Core.Gpus {
-    public interface IGpuOverClockData : IDbEntity<Guid> {
+namespace NTMiner.Core.Profiles {
+    public interface IGpuProfile : IDbEntity<Guid> {
         Guid CoinId { get; }
         int Index { get; }
 
