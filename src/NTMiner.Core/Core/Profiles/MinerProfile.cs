@@ -90,7 +90,7 @@ namespace NTMiner.Core.Profiles {
                     MineWork = LocalJson.Instance.MineWork;
                 }
                 else {
-                    MineWork = null;
+                    MineWork = new MineWorkData();
                 }
             }
             _data = null;
