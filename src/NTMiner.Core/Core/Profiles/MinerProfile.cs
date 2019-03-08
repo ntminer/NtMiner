@@ -99,8 +99,13 @@ namespace NTMiner.Core.Profiles {
             }
             else {
                 bool isUseJson = _workId != Guid.Empty;
-                IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
-                _data = repository.GetAll().FirstOrDefault();
+                if (isUseJson) {
+                    _data = LocalJson.Instance.MinerProfile;
+                }
+                else {
+                    IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
+                    _data = repository.GetAll().FirstOrDefault();
+                }
             }
             if (_data == null) {
                 _data = MinerProfileData.CreateDefaultData();

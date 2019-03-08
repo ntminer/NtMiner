@@ -24,15 +24,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     MineWorkData entity = new MineWorkData().Update(message.Input);
-                    Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
-                        if (response.IsSuccess()) {
-                            _dicById.Add(entity.Id, entity);
-                            VirtualRoot.Happened(new MineWorkAddedEvent(entity));
-                        }
-                        else if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
-                        }
-                    });
+                    var response = Server.ControlCenterService.AddOrUpdateMineWork(entity);
+                    if (response.IsSuccess()) {
+                        _dicById.Add(entity.Id, entity);
+                        VirtualRoot.Happened(new MineWorkAddedEvent(entity));
+                    }
+                    else {
+                        Write.UserLine(response?.Description, ConsoleColor.Red);
+                    }
                 });
             VirtualRoot.Accept<UpdateMineWorkCommand>(
                 "更新工作",

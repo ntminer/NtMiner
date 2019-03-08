@@ -5,6 +5,7 @@ using NTMiner.Profile;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Http;
 
@@ -13,8 +14,12 @@ namespace NTMiner.Controllers {
         [HttpGet]
         public string MineWorkJsonFile(Guid workId) {
             try {
+                string dbFileFullName = SpecialPath.GetMineWorkDbFileFullName(workId);
+                if (!File.Exists(dbFileFullName)) {
+                    return string.Empty;
+                }
                 LocalJson obj = LocalJson.NewInstance();
-                using (var database = new LiteDatabase($"filename={SpecialPath.GetMineWorkDbFileFullName(workId)};journal=false")) {
+                using (var database = new LiteDatabase($"filename={dbFileFullName};journal=false")) {
                     obj.CoinKernelProfiles = database.GetCollection<CoinKernelProfileData>().FindAll().ToArray();
                     obj.CoinProfiles = database.GetCollection<CoinProfileData>().FindAll().ToArray();
                     obj.GpuProfiles = database.GetCollection<GpuProfileData>().FindAll().ToArray();

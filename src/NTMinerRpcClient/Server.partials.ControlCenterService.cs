@@ -310,13 +310,7 @@ namespace NTMiner {
             public void AddOrUpdateMineWorkAsync(MineWorkData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        entity.ModifiedOn = DateTime.Now;
-                        AddOrUpdateMineWorkRequest request = new AddOrUpdateMineWorkRequest {
-                            LoginName = SingleUser.LoginName,
-                            Data = entity
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddOrUpdateMineWork), request);
+                        var response = AddOrUpdateMineWork(entity);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -325,6 +319,17 @@ namespace NTMiner {
                 });
             }
             #endregion
+
+            public ResponseBase AddOrUpdateMineWork(MineWorkData entity) {
+                entity.ModifiedOn = DateTime.Now;
+                AddOrUpdateMineWorkRequest request = new AddOrUpdateMineWorkRequest {
+                    LoginName = SingleUser.LoginName,
+                    Data = entity
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddOrUpdateMineWork), request);
+                return response;
+            }
 
             #region RemoveMineWorkAsync
             public void RemoveMineWorkAsync(Guid id, Action<ResponseBase, Exception> callback) {
