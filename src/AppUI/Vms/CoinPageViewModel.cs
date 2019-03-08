@@ -57,7 +57,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CurrentCoin {
             get { return _currentCoin; }
             set {
-                if (_currentCoin != value) {
+                if (_currentCoin != value && value != null && value.Id != Guid.Empty) {
                     _currentCoin = value;
                     OnPropertyChanged(nameof(CurrentCoin));
                 }
