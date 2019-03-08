@@ -1,9 +1,10 @@
-﻿using NTMiner.MinerServer;
+﻿using LiteDB;
+using NTMiner.Core.Impl;
+using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web.Http;
 
@@ -11,11 +12,27 @@ namespace NTMiner.Controllers {
     public class ControlCenterController : ApiController, IControlCenterController {
         [HttpGet]
         public string MineWorkJsonFile(Guid workId) {
-            string file = SpecialPath.GetMineWorkJsonFileFullName(workId);
-            if (File.Exists(file)) {
-                return File.ReadAllText(file);
+            try {
+                LocalJson obj = LocalJson.NewInstance();
+                using (var database = new LiteDatabase($"filename={SpecialPath.GetMineWorkDbFileFullName(workId)};journal=false")) {
+                    obj.CoinKernelProfiles = database.GetCollection<CoinKernelProfileData>().FindAll().ToArray();
+                    obj.CoinProfiles = database.GetCollection<CoinProfileData>().FindAll().ToArray();
+                    obj.GpuProfiles = database.GetCollection<GpuProfileData>().FindAll().ToArray();
+                    obj.MinerProfile = HostRoot.Current.MineProfileManager.GetMinerProfile(workId);
+                    obj.MineWork = HostRoot.Current.MineWorkSet.GetMineWork(workId);
+                    obj.PoolProfiles = database.GetCollection<PoolProfileData>().FindAll().ToArray();
+                    obj.Pools = database.GetCollection<PoolData>().FindAll().ToArray();
+                    obj.TimeStamp = Timestamp.GetTimestamp();
+                    obj.Users = HostRoot.Current.UserSet.Select(a => new UserData(a)).ToArray();
+                    obj.Wallets = HostRoot.Current.WalletSet.GetAll().ToArray();
+                }
+                string json = HostRoot.JsonSerializer.Serialize(obj);
+                return json;
             }
-            return string.Empty;
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return string.Empty;
+            }
         }
 
         #region LoginControlCenter
@@ -376,26 +393,6 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 HostRoot.Current.MineWorkSet.Remove(request.MineWorkId);
-                return ResponseBase.Ok(request.MessageId);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
-            }
-        }
-        #endregion
-
-        #region ExportMineWork
-        public ResponseBase ExportMineWork(ExportMineWorkRequest request) {
-            if (request == null || request.MineWorkId == Guid.Empty) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
-            }
-            try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
-                HostRoot.Current.MineProfileManager.ExportMineWork(request.MineWorkId);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

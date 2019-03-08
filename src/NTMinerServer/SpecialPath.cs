@@ -14,9 +14,6 @@ namespace NTMiner {
         public static string GetMineWorkDbFileFullName(Guid workId) {
             return Path.Combine(MineWorksDirFullName, workId + ".litedb");
         }
-        public static string GetMineWorkJsonFileFullName(Guid workId) {
-            return Path.Combine(MineWorksDirFullName, workId + ".json");
-        }
         public static string MineWorksDirFullName { get; private set; }
         public static string LocalDbFileFullName { get; private set; }
     }

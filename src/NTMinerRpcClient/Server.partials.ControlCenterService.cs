@@ -345,25 +345,6 @@ namespace NTMiner {
             }
             #endregion
 
-            #region ExportMineWorkAsync
-            public void ExportMineWorkAsync(Guid mineWorkId, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        ExportMineWorkRequest request = new ExportMineWorkRequest {
-                            LoginName = SingleUser.LoginName,
-                            MineWorkId = mineWorkId
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.ExportMineWork), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
-            }
-            #endregion
-
             #region SetMinerProfilePropertyAsync
             public void SetMinerProfilePropertyAsync(Guid workId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {

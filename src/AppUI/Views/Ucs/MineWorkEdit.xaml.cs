@@ -13,7 +13,6 @@ namespace NTMiner.Views.Ucs {
                 OnClose = (uc) => {
                     MineWorkViewModel vm = (MineWorkViewModel)uc.DataContext;
                     vm.Save.Execute(null);
-                    Server.ControlCenterService.ExportMineWorkAsync(vm.Id, callback: null);
                 }
             }, ucFactory: (window) =>
             {
