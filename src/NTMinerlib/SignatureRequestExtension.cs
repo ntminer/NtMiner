@@ -13,7 +13,7 @@ namespace NTMiner {
                 user = null;
                 return false;
             }
-            if (!userSet.TryGetKey(request.LoginName, out user)) {
+            if (!userSet.TryGetUser(request.LoginName, out user)) {
                 response = ResponseBase.Forbidden<TResponse>(request.MessageId, "登录名不存在");
                 return false;
             }

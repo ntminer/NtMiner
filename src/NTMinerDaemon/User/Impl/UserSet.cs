@@ -38,12 +38,7 @@ namespace NTMiner.User.Impl {
             _isInited = false;
         }
 
-        public bool Contains(string loginName) {
-            InitOnece();
-            return _dicByLoginName.ContainsKey(loginName);
-        }
-
-        public bool TryGetKey(string loginName, out IUser user) {
+        public bool TryGetUser(string loginName, out IUser user) {
             InitOnece();
             UserData userData;
             bool result = _dicByLoginName.TryGetValue(loginName, out userData);

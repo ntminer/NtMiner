@@ -122,7 +122,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 IUser user;
-                if (!HostRoot.Current.UserSet.TryGetKey(request.LoginName, out user)) {
+                if (!HostRoot.Current.UserSet.TryGetUser(request.LoginName, out user)) {
                     return ResponseBase.ClientError(request.MessageId, $"登录名不存在");
                 }
                 if (user.Password == request.NewPassword) {
