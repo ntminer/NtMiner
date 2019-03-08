@@ -16,6 +16,7 @@
 	</UserControl.Resources>
 	<Grid>
 		<DataGrid 
+			IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"
 			Margin="0" ItemsSource="{Binding UserVms.List}" 
 			BorderThickness="0"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -120,5 +121,22 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Visibility="{Binding UserVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+		<Border
+			Margin="0 10"
+			Width="160"
+			Height="160"
+			Background="#55000000"
+			HorizontalAlignment="Center" 
+			VerticalAlignment="Center" 
+			CornerRadius="80"
+			Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
+			<TextBlock 
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Foreground="{StaticResource IconFillColor}" 
+				FontSize="30" 
+				Text="由中控管理"></TextBlock>
+		</Border>
+
 	</Grid>
 </UserControl>

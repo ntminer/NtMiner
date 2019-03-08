@@ -33,38 +33,11 @@
 			<TextBlock Style="{StaticResource LblTb}">密码</TextBlock>
 			<PasswordBox Width="200" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 		</WrapPanel>
-		<WrapPanel Margin="0 10 0 0">
-			<controls:KbButton
-				IsDefault="True"
-				Command="{Binding Login}" 
-				Margin="70 0 0 0"
-				HorizontalAlignment="Left"
-				Width="70" 
-				Height="30"
-				Background="{StaticResource ThemeBackground}"
-				Foreground="{StaticResource ThemeForeground}"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Pool}"
-						Fill="{StaticResource ThemeForeground}"
-						Stretch="Fill" />
-					<TextBlock
-						Padding="4"
-						VerticalAlignment="Center"
-						Foreground="{StaticResource ThemeForeground}"
-						Text="连接" />
-				</WrapPanel>
-			</controls:KbButton>
+		<WrapPanel Margin="0 10 0 0" HorizontalAlignment="Right">
 			<controls:KbButton
 				IsDefault="True"
 				Command="{Binding Save}" 
-				Margin="30 0 0 0"
-				HorizontalAlignment="Left"
-				Width="70" 
-				Height="30"
+				Padding="10 0"
 				Background="{StaticResource ThemeBackground}"
 				Foreground="{StaticResource ThemeForeground}"
 				CornerRadius="2">
@@ -80,6 +53,28 @@
 						VerticalAlignment="Center"
 						Foreground="{StaticResource ThemeForeground}"
 						Text="保存" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				IsDefault="True"
+				Command="{Binding Login}" 
+				Margin="30 0 0 0"
+				Padding="10 0"
+				Background="{StaticResource ThemeBackground}"
+				Foreground="{StaticResource ThemeForeground}"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Pool}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+					<TextBlock
+						Padding="4"
+						VerticalAlignment="Center"
+						Foreground="{StaticResource ThemeForeground}"
+						Text="连接" />
 				</WrapPanel>
 			</controls:KbButton>
 			<TextBlock Foreground="Red" Text="{Binding Message}"></TextBlock>

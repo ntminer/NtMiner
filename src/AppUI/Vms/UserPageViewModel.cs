@@ -10,5 +10,9 @@
                 return UserViewModels.Current;
             }
         }
+
+        public MinerProfileViewModel MinerProfile {
+            get { return MinerProfileViewModel.Current; }
+        }
     }
 }
