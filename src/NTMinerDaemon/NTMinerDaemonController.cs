@@ -72,8 +72,8 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public void RefreshUserSet(bool isReadOnly) {
-            HostRoot.Current.RefreshUserSet(isReadOnly);
+        public void RefreshUserSet() {
+            HostRoot.Current.UserSet.Refresh();
         }
 
         [HttpPost]

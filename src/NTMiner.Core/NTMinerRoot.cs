@@ -143,6 +143,24 @@ namespace NTMiner {
             NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
             NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
 
+            try {
+                List<UserData> users = new List<UserData>();
+                foreach (IUser item in MinerProfile.GetUsers()) {
+                    if (item is UserData user) {
+                        users.Add(user);
+                    }
+                    else {
+                        users.Add(new UserData(item));
+                    }
+                }
+                string json = VirtualRoot.JsonSerializer.Serialize(users);
+                File.WriteAllText(Path.Combine(Path.GetDirectoryName(SpecialPath.DaemonFileFullName), "users.json"), json);
+                Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+
             Report.Init(this);
 
             #region 处理设置矿工名命令

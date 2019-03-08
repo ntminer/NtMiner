@@ -86,6 +86,12 @@
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\Serialization\IObjectSerializer.cs">
+      <Link>Serialization\IObjectSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\Serialization\ObjectJsonSerializer.cs">
+      <Link>Serialization\ObjectJsonSerializer.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\SignatureRequestExtension.cs">
       <Link>SignatureRequestExtension.cs</Link>
     </Compile>

@@ -79,25 +79,26 @@ namespace NTMiner.Core.MinerServer.Impl {
         }
 
         private object _locker = new object();
-        private DateTime _lastInitOn = DateTime.MinValue;
+        private bool _isInited = false;
 
         private void InitOnece() {
             DateTime now = DateTime.Now;
-            if (_lastInitOn.AddMinutes(10) < now) {
+            if (!_isInited) {
                 lock (_locker) {
-                    if (_lastInitOn.AddMinutes(10) < now) {
+                    if (!_isInited) {
                         var response = Server.ControlCenterService.GetUsers(Guid.NewGuid());
                         if (response != null) {
                             _dicByLoginName = response.Data.ToDictionary(a => a.LoginName, a => a);
                         }
-                        _lastInitOn = DateTime.Now;
+                        _isInited = true;
                     }
                 }
             }
         }
 
-        public void Refresh(bool isReadOnly) {
-
+        public void Refresh() {
+            _dicByLoginName.Clear();
+            _isInited = false;
         }
 
         public IUser GetUser(string loginName) {

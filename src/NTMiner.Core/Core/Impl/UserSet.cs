@@ -8,7 +8,9 @@ namespace NTMiner.Core.Impl {
     public class UserSet : IUserSet {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
-        public UserSet() {
+        private readonly bool _isUseJson;
+        public UserSet(bool isUseJson) {
+            _isUseJson = isUseJson;
             VirtualRoot.Accept<AddUserCommand>(
                 "处理添加用户命令",
                 LogEnum.Console,
@@ -63,17 +65,25 @@ namespace NTMiner.Core.Impl {
             Init();
         }
 
-        public void Refresh(bool isReadOnly) {
-
+        public void Refresh() {
+            _dicByLoginName.Clear();
+            _isInited = false;
         }
 
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
-                        var col = db.GetCollection<UserData>();
-                        _dicByLoginName = col.FindAll().ToDictionary(a => a.LoginName, a => a);
+                    UserData[] users;
+                    if (_isUseJson) {
+                        users = LocalJson.Instance.Users;
                     }
+                    else {
+                        using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
+                            var col = db.GetCollection<UserData>();
+                            users = col.FindAll().ToArray();
+                        }
+                    }
+                    _dicByLoginName = users.ToDictionary(a => a.LoginName, a => a);
                     _isInited = true;
                 }
             }

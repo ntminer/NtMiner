@@ -1,15 +1,12 @@
-﻿using LiteDB;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 
 namespace NTMiner.User.Impl {
     public class UserSet : IUserSet {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
-        private readonly string _dbFileFullName;
-        public UserSet(string dbFileFullName) {
-            _dbFileFullName = dbFileFullName;
+        public UserSet() {
         }
 
         private bool _isInited = false;
@@ -25,16 +22,25 @@ namespace NTMiner.User.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                        var col = db.GetCollection<UserData>();
-                        _dicByLoginName = col.FindAll().ToDictionary(a => a.LoginName, a => a);
+                    string userFileFullName = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "users.json");
+                    if (File.Exists(userFileFullName)) {
+                        string json = File.ReadAllText(userFileFullName);
+                        if (!string.IsNullOrEmpty(json)) {
+                            List<UserData> users = HostRoot.JsonSerializer.Deserialize<List<UserData>>(json);
+                            foreach (var user in users) {
+                                if (!_dicByLoginName.ContainsKey(user.LoginName)) {
+                                    _dicByLoginName.Add(user.LoginName, user);
+                                }
+                            }
+                        }
                     }
                     _isInited = true;
                 }
             }
         }
 
-        public void Refresh(bool isReadOnly) {
+        public void Refresh() {
+            _dicByLoginName.Clear();
             _isInited = false;
         }
 

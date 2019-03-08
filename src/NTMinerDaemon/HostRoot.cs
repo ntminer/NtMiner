@@ -1,4 +1,5 @@
-﻿using NTMiner.User;
+﻿using NTMiner.Serialization;
+using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
 using System.Diagnostics;
@@ -7,6 +8,7 @@ using System.Threading;
 namespace NTMiner {
     public class HostRoot : IHostRoot {
         public static readonly IHostRoot Current = new HostRoot();
+        public static readonly IObjectSerializer JsonSerializer = new ObjectJsonSerializer();
 
         public DateTime StartedOn { get; private set; } = DateTime.Now;
 
@@ -14,12 +16,8 @@ namespace NTMiner {
 
         private readonly UserSet _userSet;
         private HostRoot() {
-            _userSet = new UserSet(SpecialPath.NTMinerLocalDbFileFullName);
+            _userSet = new UserSet();
             this.UserSet = _userSet;
-        }
-
-        public void RefreshUserSet(bool isReadOnly) {
-            _userSet.Refresh(isReadOnly);
         }
 
         private static Mutex s_mutexApp;

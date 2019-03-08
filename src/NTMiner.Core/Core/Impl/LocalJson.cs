@@ -15,7 +15,7 @@ namespace NTMiner.Core.Impl {
             LocalJson data = new LocalJson() {
                 CoinKernelProfiles = workProfile.GetCoinKernelProfiles().Cast<CoinKernelProfileData>().ToArray(),
                 CoinProfiles = workProfile.GetCoinProfiles().Cast<CoinProfileData>().ToArray(),
-                GpuOverClocks = workProfile.GetGpuOverClocks().Cast<GpuProfileData>().ToArray(),
+                GpuProfiles = workProfile.GetGpuOverClocks().Cast<GpuProfileData>().ToArray(),
                 MinerProfile = new MinerProfileData(workProfile),
                 Pools = workProfile.GetPools().Cast<PoolData>().ToArray(),
                 PoolProfiles = workProfile.GetPoolProfiles().Cast<PoolProfileData>().ToArray(),
@@ -32,7 +32,7 @@ namespace NTMiner.Core.Impl {
         private LocalJson() {
             this.CoinKernelProfiles = new CoinKernelProfileData[0];
             this.CoinProfiles = new CoinProfileData[0];
-            this.GpuOverClocks = new GpuProfileData[0];
+            this.GpuProfiles = new GpuProfileData[0];
             this.MinerProfile = new MinerProfileData();
             this.Pools = new PoolData[0];
             this.PoolProfiles = new PoolProfileData[0];
@@ -52,7 +52,7 @@ namespace NTMiner.Core.Impl {
                                 LocalJson data = VirtualRoot.JsonSerializer.Deserialize<LocalJson>(rawJson);
                                 this.CoinKernelProfiles = data.CoinKernelProfiles ?? new CoinKernelProfileData[0];
                                 this.CoinProfiles = data.CoinProfiles ?? new CoinProfileData[0];
-                                this.GpuOverClocks = data.GpuOverClocks ?? new GpuProfileData[0];
+                                this.GpuProfiles = data.GpuProfiles ?? new GpuProfileData[0];
                                 this.MinerProfile = data.MinerProfile ?? new MinerProfileData();
                                 this.Pools = data.Pools ?? new PoolData[0];
                                 this.PoolProfiles = data.PoolProfiles ?? new PoolProfileData[0];
@@ -92,7 +92,7 @@ namespace NTMiner.Core.Impl {
                 case nameof(CoinProfileData):
                     return this.CoinProfiles.Cast<T>();
                 case nameof(GpuProfileData):
-                    return this.GpuOverClocks.Cast<T>();
+                    return this.GpuProfiles.Cast<T>();
                 case nameof(PoolData):
                     return this.Pools.Cast<T>();
                 case nameof(PoolProfileData):
@@ -112,7 +112,7 @@ namespace NTMiner.Core.Impl {
 
         public CoinProfileData[] CoinProfiles { get; set; }
 
-        public GpuProfileData[] GpuOverClocks { get; set; }
+        public GpuProfileData[] GpuProfiles { get; set; }
 
         public MinerProfileData MinerProfile { get; set; }
 

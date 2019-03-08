@@ -65,8 +65,9 @@ namespace NTMiner.Data.Impl {
             Init();
         }
 
-        public void Refresh(bool isReadOnly) {
-
+        public void Refresh() {
+            _dicByLoginName.Clear();
+            _isInited = false;
         }
 
         private void Init() {

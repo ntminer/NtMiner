@@ -1,5 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.Core.Gpus;
+using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.MinerServer;
@@ -75,11 +76,11 @@ namespace NTMiner.Core.Profiles {
                     _userSet = new MinerServer.Impl.UserSet();
                 }
                 else {
-                    _userSet = new Core.Impl.UserSet();
+                    _userSet = new UserSet(_workId != Guid.Empty);
                 }
             }
             else {
-                _userSet.Refresh(workId != Guid.Empty);
+                _userSet.Refresh();
             }
             if (workId != Guid.Empty) {
                 MineWork = Server.ProfileService.GetMineWork(workId);
@@ -388,19 +389,18 @@ namespace NTMiner.Core.Profiles {
                 }
 
                 private readonly Guid _workId;
-                private readonly bool _isUseJson;
                 private CoinKernelProfile(INTMinerRoot root, Guid workId) {
                     _root = root;
                     _workId = workId;
-                    _isUseJson = workId != Guid.Empty && VirtualRoot.IsControlCenter;
                 }
 
                 private CoinKernelProfileData GetCoinKernelProfileData(Guid coinKernelId) {
-                    if (_workId != Guid.Empty) {
+                    if (VirtualRoot.IsControlCenter) {
                         return Server.ProfileService.GetCoinKernelProfile(_workId, coinKernelId);
                     }
                     else {
-                        IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>(_isUseJson);
+                        bool isUseJson = _workId != Guid.Empty;
+                        IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>(isUseJson);
                         var result = repository.GetByKey(coinKernelId);
                         if (result == null) {
                             result = CoinKernelProfileData.CreateDefaultData(coinKernelId);
@@ -492,15 +492,14 @@ namespace NTMiner.Core.Profiles {
                                 value = DictionaryExtensions.ConvertToGuid(value);
                             }
                             propertyInfo.SetValue(this, value, null);
-                            if (_workId != Guid.Empty) {
-                                if (VirtualRoot.IsControlCenter) {
-                                    Server.ControlCenterService.SetCoinKernelProfilePropertyAsync(_workId, CoinKernelId, propertyName, value, (response, exception) => {
-                                        VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
-                                    });
-                                }
+                            if (VirtualRoot.IsControlCenter) {
+                                Server.ControlCenterService.SetCoinKernelProfilePropertyAsync(_workId, CoinKernelId, propertyName, value, (response, exception) => {
+                                    VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
+                                });
                             }
                             else {
-                                IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>(_isUseJson);
+                                bool isUseJson = _workId != Guid.Empty;
+                                IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>(isUseJson);
                                 repository.Update(_data);
                                 VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
                             }
@@ -567,19 +566,18 @@ namespace NTMiner.Core.Profiles {
                 private readonly INTMinerRoot _root;
                 private readonly Guid _workId;
                 private CoinProfileData _data;
-                private readonly bool _isUseJson;
                 private CoinProfile(INTMinerRoot root, Guid workId) {
                     _root = root;
                     _workId = workId;
-                    _isUseJson = workId != Guid.Empty && VirtualRoot.IsControlCenter;
                 }
 
                 private CoinProfileData GetCoinProfileData(Guid coinId) {
-                    if (_workId != Guid.Empty) {
+                    if (VirtualRoot.IsControlCenter) {
                         return Server.ProfileService.GetCoinProfile(_workId, coinId);
                     }
                     else {
-                        IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(_isUseJson);
+                        bool isUseJson = _workId != Guid.Empty;
+                        IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(isUseJson);
                         var result = repository.GetByKey(coinId);
                         if (result == null) {
                             result = CoinProfileData.CreateDefaultData(coinId);
@@ -701,15 +699,14 @@ namespace NTMiner.Core.Profiles {
                                 value = DictionaryExtensions.ConvertToGuid(value);
                             }
                             propertyInfo.SetValue(this, value, null);
-                            if (_workId != Guid.Empty) {
-                                if (VirtualRoot.IsControlCenter) {
-                                    Server.ControlCenterService.SetCoinProfilePropertyAsync(_workId, CoinId, propertyName, value, (response, exception) => {
-                                        VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
-                                    });
-                                }
+                            if (VirtualRoot.IsControlCenter) {
+                                Server.ControlCenterService.SetCoinProfilePropertyAsync(_workId, CoinId, propertyName, value, (response, exception) => {
+                                    VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
+                                });
                             }
                             else {
-                                IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(_isUseJson);
+                                bool isUseJson = _workId != Guid.Empty;
+                                IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(isUseJson);
                                 repository.Update(_data);
                                 VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
                             }
@@ -725,7 +722,7 @@ namespace NTMiner.Core.Profiles {
             private readonly Dictionary<Guid, GpuProfileData> _dicById = new Dictionary<Guid, GpuProfileData>();
 
             private readonly INTMinerRoot _root;
-            private readonly Guid _workId;
+            private Guid _workId;
 
             public GpuOverClockDataSet(INTMinerRoot root, Guid workId) {
                 _root = root;
@@ -800,11 +797,19 @@ namespace NTMiner.Core.Profiles {
             private void Init() {
                 lock (_locker) {
                     if (!_isInited) {
-                        using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
-                            var col = db.GetCollection<GpuProfileData>();
-                            foreach (var item in col.FindAll()) {
-                                _dicById.Add(item.Id, item);
+                        bool isUseJson = _workId != Guid.Empty;
+                        GpuProfileData[] datas;
+                        if (isUseJson) {
+                            datas = LocalJson.Instance.GpuProfiles;
+                        }
+                        else {
+                            using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
+                                var col = db.GetCollection<GpuProfileData>();
+                                datas = col.FindAll().ToArray();
                             }
+                        }
+                        foreach (var item in datas) {
+                            _dicById.Add(item.Id, item);
                         }
                         _isInited = true;
                     }
@@ -812,7 +817,9 @@ namespace NTMiner.Core.Profiles {
             }
 
             public void Refresh(Guid workId) {
-
+                _workId = workId;
+                _dicById.Clear();
+                _isInited = false;
             }
 
             public IGpuProfile GetGpuOverClockData(Guid coinId, int index) {
@@ -888,19 +895,18 @@ namespace NTMiner.Core.Profiles {
 
                 private readonly INTMinerRoot _root;
                 private PoolProfileData _data;
-                private readonly bool _isUseJson;
                 private PoolProfile(INTMinerRoot root, Guid workId) {
                     _root = root;
                     _workId = workId;
-                    _isUseJson = workId != Guid.Empty && VirtualRoot.IsControlCenter;
                 }
 
                 private PoolProfileData GetPoolProfileData(Guid poolId) {
-                    if (_workId != Guid.Empty) {
+                    if (VirtualRoot.IsControlCenter) {
                         return Server.ProfileService.GetPoolProfile(_workId, poolId);
                     }
                     else {
-                        IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(_isUseJson);
+                        bool isUseJson = _workId != Guid.Empty;
+                        IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
                         var result = repository.GetByKey(poolId);
                         if (result == null) {
                             // 如果本地未设置用户名密码则使用默认的测试用户名密码
@@ -969,15 +975,14 @@ namespace NTMiner.Core.Profiles {
                                 value = DictionaryExtensions.ConvertToGuid(value);
                             }
                             propertyInfo.SetValue(this, value, null);
-                            if (_workId != Guid.Empty) {
-                                if (VirtualRoot.IsControlCenter) {
-                                    Server.ControlCenterService.SetPoolProfilePropertyAsync(_workId, PoolId, propertyName, value, (response, exception) => {
-                                        VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
-                                    });
-                                }
+                            if (VirtualRoot.IsControlCenter) {
+                                Server.ControlCenterService.SetPoolProfilePropertyAsync(_workId, PoolId, propertyName, value, (response, exception) => {
+                                    VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
+                                });
                             }
                             else {
-                                IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(_isUseJson);
+                                bool isUseJson = _workId != Guid.Empty;
+                                IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
                                 repository.Update(_data);
                                 VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                             }
@@ -992,47 +997,6 @@ namespace NTMiner.Core.Profiles {
         private class WalletSet {
             private readonly INTMinerRoot _root;
             private readonly Dictionary<Guid, WalletData> _dicById = new Dictionary<Guid, WalletData>();
-            private readonly bool _isUseJson;
-
-            public WalletSet(bool isUseJson) {
-                _isUseJson = isUseJson;
-            }
-
-            private bool UseRemoteWalletList {
-                get {
-                    return _workId != Guid.Empty;
-                }
-            }
-
-            private void AddWallet(WalletData entity) {
-                if (UseRemoteWalletList) {
-                    Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
-                }
-                else {
-                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>(_isUseJson);
-                    repository.Add(entity);
-                }
-            }
-
-            private void UpdateWallet(WalletData entity) {
-                if (UseRemoteWalletList) {
-                    Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
-                }
-                else {
-                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>(_isUseJson);
-                    repository.Update(entity);
-                }
-            }
-
-            private void RemoveWallet(Guid id) {
-                if (UseRemoteWalletList) {
-                    Server.ControlCenterService.RemoveWalletAsync(id, null);
-                }
-                else {
-                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>(_isUseJson);
-                    repository.Remove(id);
-                }
-            }
 
             private Guid _workId;
             public WalletSet(INTMinerRoot root, Guid workId) {
@@ -1106,6 +1070,39 @@ namespace NTMiner.Core.Profiles {
                     });
             }
 
+            private void AddWallet(WalletData entity) {
+                if (VirtualRoot.IsControlCenter) {
+                    Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
+                }
+                else {
+                    bool isUseJson = _workId != Guid.Empty;
+                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson);
+                    repository.Add(entity);
+                }
+            }
+
+            private void UpdateWallet(WalletData entity) {
+                if (VirtualRoot.IsControlCenter) {
+                    Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
+                }
+                else {
+                    bool isUseJson = _workId != Guid.Empty;
+                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson);
+                    repository.Update(entity);
+                }
+            }
+
+            private void RemoveWallet(Guid id) {
+                if (VirtualRoot.IsControlCenter) {
+                    Server.ControlCenterService.RemoveWalletAsync(id, null);
+                }
+                else {
+                    bool isUseJson = _workId != Guid.Empty;
+                    var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson);
+                    repository.Remove(id);
+                }
+            }
+
             public void Refresh(Guid workId) {
                 _workId = workId;
                 _dicById.Clear();
@@ -1124,7 +1121,7 @@ namespace NTMiner.Core.Profiles {
 
             private void Init() {
                 if (!_isInited) {
-                    if (UseRemoteWalletList) {
+                    if (VirtualRoot.IsControlCenter) {
                         lock (_locker) {
                             if (!_isInited) {
                                 var response = Server.ControlCenterService.GetWallets();
@@ -1140,7 +1137,8 @@ namespace NTMiner.Core.Profiles {
                         }
                     }
                     else {
-                        var repository = NTMinerRoot.CreateLocalRepository<WalletData>(_isUseJson);
+                        bool isUseJson = _workId != Guid.Empty;
+                        var repository = NTMinerRoot.CreateLocalRepository<WalletData>(isUseJson);
                         lock (_locker) {
                             if (!_isInited) {
                                 foreach (var item in repository.GetAll()) {
