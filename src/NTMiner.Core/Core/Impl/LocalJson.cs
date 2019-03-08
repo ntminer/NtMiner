@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
+using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace NTMiner.Core.Impl {
                 CoinProfiles = workProfile.GetCoinProfiles().Cast<CoinProfileData>().ToArray(),
                 GpuProfiles = workProfile.GetGpuOverClocks().Cast<GpuProfileData>().ToArray(),
                 MinerProfile = new MinerProfileData(workProfile),
+                MineWork = new MineWorkData(workProfile.MineWork),
                 Pools = workProfile.GetPools().Cast<PoolData>().ToArray(),
                 PoolProfiles = workProfile.GetPoolProfiles().Cast<PoolProfileData>().ToArray(),
                 Users = workProfile.GetUsers().Cast<UserData>().ToArray(),
@@ -40,6 +42,7 @@ namespace NTMiner.Core.Impl {
             this.CoinProfiles = new CoinProfileData[0];
             this.GpuProfiles = new GpuProfileData[0];
             this.MinerProfile = new MinerProfileData();
+            this.MineWork = new MineWorkData();
             this.Pools = new PoolData[0];
             this.PoolProfiles = new PoolProfileData[0];
             this.Users = new UserData[0];
@@ -60,6 +63,7 @@ namespace NTMiner.Core.Impl {
                                 this.CoinProfiles = data.CoinProfiles ?? new CoinProfileData[0];
                                 this.GpuProfiles = data.GpuProfiles ?? new GpuProfileData[0];
                                 this.MinerProfile = data.MinerProfile ?? new MinerProfileData();
+                                this.MineWork = data.MineWork ?? new MineWorkData();
                                 this.Pools = data.Pools ?? new PoolData[0];
                                 this.PoolProfiles = data.PoolProfiles ?? new PoolProfileData[0];
                                 this.Users = data.Users ?? new UserData[0];
@@ -126,6 +130,8 @@ namespace NTMiner.Core.Impl {
         public GpuProfileData[] GpuProfiles { get; set; }
 
         public MinerProfileData MinerProfile { get; set; }
+
+        public MineWorkData MineWork { get; set; }
 
         public PoolData[] Pools { get; set; }
 

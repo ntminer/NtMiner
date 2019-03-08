@@ -7,6 +7,12 @@ namespace NTMiner.MinerServer {
             this.CreatedOn = DateTime.Now;
         }
 
+        public MineWorkData(IMineWork data) {
+            this.Id = data.GetId();
+            this.Name = data.Name;
+            this.Description = data.Description;
+        }
+
         public Guid GetId() {
             return this.Id;
         }

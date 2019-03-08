@@ -76,36 +76,35 @@ namespace NTMiner.Core.Profiles {
                     _userSet = new MinerServer.Impl.UserSet();
                 }
                 else {
-                    _userSet = new UserSet(_workId != Guid.Empty);
+                    _userSet = new UserSet(isUseJson: _workId != Guid.Empty);
                 }
             }
             else {
                 _userSet.Refresh();
             }
-            if (workId != Guid.Empty) {
+            if (VirtualRoot.IsControlCenter) {
                 MineWork = Server.ProfileService.GetMineWork(workId);
             }
-            _data = null;
-            _data = GetMinerProfileData();
-            if (_data == null) {
-                throw new ValidationException("未获取到MinerProfileData数据，请重试");
+            else {
+                if (workId != Guid.Empty) {
+                    MineWork = LocalJson.Instance.MineWork;
+                }
+                else {
+                    MineWork = null;
+                }
             }
-        }
-
-        private MinerProfileData GetMinerProfileData() {
-            MinerProfileData result = null;
-            if (_workId != Guid.Empty) {
-                result = Server.ProfileService.GetMinerProfile(_workId);
+            _data = null;
+            if (VirtualRoot.IsControlCenter) {
+                _data = Server.ProfileService.GetMinerProfile(_workId);
             }
             else {
-                bool isUseJson = _workId != Guid.Empty && VirtualRoot.IsControlCenter;
+                bool isUseJson = _workId != Guid.Empty;
                 IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
-                result = repository.GetAll().FirstOrDefault();
+                _data = repository.GetAll().FirstOrDefault();
             }
-            if (result == null) {
-                result = MinerProfileData.CreateDefaultData();
+            if (_data == null) {
+                _data = MinerProfileData.CreateDefaultData();
             }
-            return result;
         }
 
         [IgnoreReflectionSet]
@@ -242,15 +241,13 @@ namespace NTMiner.Core.Profiles {
                         value = DictionaryExtensions.ConvertToGuid(value);
                     }
                     propertyInfo.SetValue(this, value, null);
-                    if (_workId != Guid.Empty) {
-                        if (VirtualRoot.IsControlCenter) {
-                            Server.ControlCenterService.SetMinerProfilePropertyAsync(_workId, propertyName, value, (response, exception) => {
-                                VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
-                            });
-                        }
+                    if (VirtualRoot.IsControlCenter) {
+                        Server.ControlCenterService.SetMinerProfilePropertyAsync(_workId, propertyName, value, (response, exception) => {
+                            VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
+                        });
                     }
                     else {
-                        bool isUseJson = _workId != Guid.Empty && VirtualRoot.IsControlCenter;
+                        bool isUseJson = _workId != Guid.Empty;
                         IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
                         repository.Update(_data);
                         VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
