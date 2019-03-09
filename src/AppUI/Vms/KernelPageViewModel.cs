@@ -216,7 +216,15 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(CanPageAdd));
                 OnPropertyChanged(nameof(IsPageNumbersEmpty));
 
-                return query.OrderBy(a => a.Code + a.Version).Skip(PageIndex * PageSize).Take(PageSize).ToList();
+                List<KernelViewModel> orderedList = new List<KernelViewModel>();
+                var groups = query.GroupBy(a => a.Code);
+                foreach (var g in groups.OrderBy(a => a.Key)) {
+                    foreach (var item in g.OrderByDescending(a => a.Version)) {
+                        orderedList.Add(item);
+                    }
+                }
+
+                return orderedList.Skip(PageIndex * PageSize).Take(PageSize).ToList();
             }
         }
 
