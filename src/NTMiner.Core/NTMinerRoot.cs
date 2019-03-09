@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,84 +43,74 @@ namespace NTMiner {
 
         bool isServerJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || CommandLineArgs.WorkId != Guid.Empty;
         #region Init
-        private readonly object _locker = new object();
-        private bool _isInited = false;
         public void Init(Action callback) {
-            if (!this._isInited) {
-                lock (this._locker) {
-                    if (!this._isInited) {
-                        if (isServerJson) {
-                            Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
-                                if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
-                                    if (response.Data.Value is string value) {
-                                        JsonFileVersion = value;
-                                    }
-                                }
-                                else {
-                                    Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
-                                }
-                            });
-                            string serverJson = string.Empty;
-                            if (File.Exists(SpecialPath.ServerJsonFileFullName)) {
-                                serverJson = File.ReadAllText(SpecialPath.ServerJsonFileFullName);
-                            }
-                            string langJson = string.Empty;
-                            if (File.Exists(ClientId.LocalLangJsonFileFullName)) {
-                                langJson = File.ReadAllText(ClientId.LocalLangJsonFileFullName);
-                            }
-                            if (CommandLineArgs.WorkId != Guid.Empty) {
-                                try {
-                                    string localJson = string.Empty;
-                                    if (File.Exists(SpecialPath.LocalJsonFileFullName)) {
-                                        localJson = File.ReadAllText(SpecialPath.LocalJsonFileFullName);
-                                    }
-                                    LocalJson.Instance.Init(localJson, SpecialPath.LocalJsonFileFullName);
-                                }
-                                catch (Exception e) {
-                                    Logger.ErrorDebugLine(e.Message, e);
-                                }
-                                GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                                    langJson = Encoding.UTF8.GetString(data);
-                                    ServerJson.Instance.Init(serverJson, SpecialPath.ServerJsonFileFullName);
-                                    Language.Impl.LangJson.Instance.Init(langJson);
-                                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
-                                    DoInit(callback);
-                                    _isInited = true;
-                                });
-                            }
-                            else {
-                                CountdownEvent countdown = new CountdownEvent(2);
-                                GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                                    serverJson = Encoding.UTF8.GetString(data);
-                                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
-                                    countdown.Signal();
-                                });
-                                GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                                    langJson = Encoding.UTF8.GetString(data);
-                                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
-                                    countdown.Signal();
-                                });
-                                if (countdown.Wait(30 * 1000)) {
-                                    Logger.InfoDebugLine("json下载完成");
-                                    ServerJson.Instance.Init(serverJson, SpecialPath.ServerJsonFileFullName);
-                                    Language.Impl.LangJson.Instance.Init(langJson);
-                                    DoInit(callback);
-                                }
-                                else {
-                                    Logger.InfoDebugLine("启动json下载超时");
-                                    ServerJson.Instance.Init(serverJson, SpecialPath.ServerJsonFileFullName);
-                                    Language.Impl.LangJson.Instance.Init(langJson);
-                                    DoInit(callback);
-                                }
-                                _isInited = true;
-                            }
-                        }
-                        else {
-                            DoInit(callback);
-                            _isInited = true;
-                        }
+            if (!isServerJson) {
+                DoInit(callback);
+                return;
+            }
+            Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
+                if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
+                    if (response.Data.Value is string value) {
+                        JsonFileVersion = value;
                     }
                 }
+                else {
+                    Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
+                }
+            });
+            string serverJson = string.Empty;
+            if (File.Exists(SpecialPath.ServerJsonFileFullName)) {
+                serverJson = File.ReadAllText(SpecialPath.ServerJsonFileFullName);
+            }
+            string langJson = string.Empty;
+            if (File.Exists(ClientId.LocalLangJsonFileFullName)) {
+                langJson = File.ReadAllText(ClientId.LocalLangJsonFileFullName);
+            }
+            if (CommandLineArgs.WorkId != Guid.Empty) {
+                try {
+                    string localJson = string.Empty;
+                    if (File.Exists(SpecialPath.LocalJsonFileFullName)) {
+                        localJson = File.ReadAllText(SpecialPath.LocalJsonFileFullName);
+                    }
+                    LocalJson.Instance.Init(localJson, SpecialPath.LocalJsonFileFullName);
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                }
+                GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                    langJson = Encoding.UTF8.GetString(data);
+                    ServerJson.Instance.Init(serverJson, SpecialPath.ServerJsonFileFullName);
+                    Language.Impl.LangJson.Instance.Init(langJson);
+                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
+                    DoInit(callback);
+                });
+            }
+            else {
+                CountdownEvent countdown = new CountdownEvent(2);
+                GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                    serverJson = Encoding.UTF8.GetString(data);
+                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
+                    countdown.Signal();
+                });
+                GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                    langJson = Encoding.UTF8.GetString(data);
+                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
+                    countdown.Signal();
+                });
+                Task.Factory.StartNew(() => {
+                    if (countdown.Wait(30 * 1000)) {
+                        Logger.InfoDebugLine("json下载完成");
+                        ServerJson.Instance.Init(serverJson, SpecialPath.ServerJsonFileFullName);
+                        Language.Impl.LangJson.Instance.Init(langJson);
+                        DoInit(callback);
+                    }
+                    else {
+                        Logger.InfoDebugLine("启动json下载超时");
+                        ServerJson.Instance.Init(serverJson, SpecialPath.ServerJsonFileFullName);
+                        Language.Impl.LangJson.Instance.Init(langJson);
+                        DoInit(callback);
+                    }
+                });
             }
         }
 
