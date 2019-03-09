@@ -65,14 +65,26 @@ namespace NTMiner.Controllers {
                 if (user == null) {
                     return ResponseBase.Forbidden(request.MessageId, $"登录名为{request.InnerRequest.LoginName}的用户不存在");
                 }
+                string localJson = string.Empty, serverJson = string.Empty;
+                Guid workId = request.InnerRequest.WorkId;
+                if (workId != Guid.Empty) {
+                    string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(workId);
+                    if (File.Exists(localJsonFileFullName)) {
+                        localJson = File.ReadAllText(localJsonFileFullName);
+                    }
+                    string serverJsonFileFullName = SpecialPath.GetMineWorkServerJsonFileFullName(workId);
+                    if (File.Exists(serverJsonFileFullName)) {
+                        serverJson = File.ReadAllText(serverJsonFileFullName);
+                    }
+                }
                 Daemon.OpenNTMinerRequest innerRequest = new Daemon.OpenNTMinerRequest() {
                     ClientIp = request.InnerRequest.ClientIp,
                     MessageId = request.InnerRequest.MessageId,
                     LoginName = request.InnerRequest.LoginName,
                     Timestamp = request.InnerRequest.Timestamp,
-                    WorkId = request.InnerRequest.WorkId,
-                    LocalJson = File.ReadAllText(SpecialPath.GetMineWorkLocalJsonFileFullName(request.InnerRequest.WorkId)),
-                    ServerJson = File.ReadAllText(SpecialPath.GetMineWorkServerJsonFileFullName(request.InnerRequest.WorkId))
+                    WorkId = workId,
+                    LocalJson = localJson,
+                    ServerJson = serverJson
                 };
                 innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
                 response = Client.NTMinerDaemonService.OpenNTMiner(innerRequest);
@@ -142,14 +154,26 @@ namespace NTMiner.Controllers {
                 if (user == null) {
                     return ResponseBase.Forbidden(request.MessageId, $"登录名为{request.InnerRequest.LoginName}的用户不存在");
                 }
+                string localJson = string.Empty, serverJson = string.Empty;
+                Guid workId = request.InnerRequest.WorkId;
+                if (workId != Guid.Empty) {
+                    string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(workId);
+                    if (File.Exists(localJsonFileFullName)) {
+                        localJson = File.ReadAllText(localJsonFileFullName);
+                    }
+                    string serverJsonFileFullName = SpecialPath.GetMineWorkServerJsonFileFullName(workId);
+                    if (File.Exists(serverJsonFileFullName)) {
+                        serverJson = File.ReadAllText(serverJsonFileFullName);
+                    }
+                }
                 Daemon.StartMineRequest innerRequest = new Daemon.StartMineRequest {
                     ClientIp = request.InnerRequest.ClientIp,
                     MessageId = request.InnerRequest.MessageId,
                     LoginName = request.InnerRequest.LoginName,
                     Timestamp = request.InnerRequest.Timestamp,
-                    WorkId = request.InnerRequest.WorkId,
-                    LocalJson = File.ReadAllText(SpecialPath.GetMineWorkLocalJsonFileFullName(request.InnerRequest.WorkId)),
-                    ServerJson = File.ReadAllText(SpecialPath.GetMineWorkServerJsonFileFullName(request.InnerRequest.WorkId))
+                    WorkId = workId,
+                    LocalJson = localJson,
+                    ServerJson = serverJson
                 };
                 innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
                 response = Client.NTMinerDaemonService.StartMine(innerRequest);
@@ -177,14 +201,26 @@ namespace NTMiner.Controllers {
                 if (user == null) {
                     return ResponseBase.Forbidden(request.MessageId, $"登录名为{request.InnerRequest.LoginName}的用户不存在");
                 }
+                string localJson = string.Empty, serverJson = string.Empty;
+                Guid workId = request.InnerRequest.WorkId;
+                if (workId != Guid.Empty) {
+                    string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(workId);
+                    if (File.Exists(localJsonFileFullName)) {
+                        localJson = File.ReadAllText(localJsonFileFullName);
+                    }
+                    string serverJsonFileFullName = SpecialPath.GetMineWorkServerJsonFileFullName(workId);
+                    if (File.Exists(serverJsonFileFullName)) {
+                        serverJson = File.ReadAllText(serverJsonFileFullName);
+                    }
+                }
                 Daemon.RestartNTMinerRequest innerRequest = new Daemon.RestartNTMinerRequest {
                     ClientIp = request.InnerRequest.ClientIp,
                     LoginName = request.InnerRequest.LoginName,
                     MessageId = request.InnerRequest.MessageId,
                     Timestamp = request.InnerRequest.Timestamp,
-                    WorkId = request.InnerRequest.WorkId,
-                    LocalJson = File.ReadAllText(SpecialPath.GetMineWorkLocalJsonFileFullName(request.InnerRequest.WorkId)),
-                    ServerJson = File.ReadAllText(SpecialPath.GetMineWorkServerJsonFileFullName(request.InnerRequest.WorkId))
+                    WorkId = workId,
+                    LocalJson = localJson,
+                    ServerJson = serverJson
                 };
                 innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
                 response = Client.NTMinerDaemonService.RestartNTMiner(innerRequest);
