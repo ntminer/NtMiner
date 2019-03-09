@@ -1,7 +1,6 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
-using NTMiner.Core.Profiles;
 using NTMiner.Core.SysDics;
 using NTMiner.MinerServer;
 using NTMiner.OverClock;
@@ -10,7 +9,13 @@ using System.Linq;
 
 namespace NTMiner.Core {
     public class ServerJsonVersionChangedEvent : EventBase {
-        public ServerJsonVersionChangedEvent() { }
+        public ServerJsonVersionChangedEvent(string oldVersion, string newVersion) {
+            this.OldVersion = oldVersion;
+            this.NewVersion = newVersion;
+        }
+
+        public string OldVersion { get; private set; }
+        public string NewVersion { get; private set; }
     }
 
     #region Refresh 注意Refresh命令有先后顺序

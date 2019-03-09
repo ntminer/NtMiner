@@ -62,6 +62,16 @@ namespace NTMiner {
                                 Logger.ErrorDebugLine(e.Message, e);
                             }
                         }
+                        Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
+                            if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
+                                if (response.Data.Value is string value) {
+                                    JsonFileVersion = value;
+                                }
+                            }
+                            else {
+                                Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
+                            }
+                        });
                         bool isUseJson = !DevMode.IsDebugMode;
                         if (isUseJson) {
                             string rawNTMinerJson = string.Empty;
@@ -152,7 +162,7 @@ namespace NTMiner {
             NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
             NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
             NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
-                        
+
             RefreshUserSet();
 
             Report.Init(this);
@@ -352,16 +362,12 @@ namespace NTMiner {
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.Console,
                     action: message => {
-                        if (DevMode.IsDebugMode) {
-                            return;
-                        }
                         Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
                             if (response.IsSuccess() && response.Data != null && response.Data.Value is string value) {
                                 if (JsonFileVersion != value) {
                                     GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                         string rawNTMinerJson = Encoding.UTF8.GetString(data);
                                         Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{value}");
-                                        JsonFileVersion = value;
                                         ServerJson.Instance.ReInit(rawNTMinerJson);
                                         Logger.InfoDebugLine("ServerJson数据集刷新完成");
                                         UIThread.Execute(() => {
@@ -369,6 +375,7 @@ namespace NTMiner {
                                             foreach (var refreshCommand in refreshCommands) {
                                                 VirtualRoot.Execute(refreshCommand);
                                             }
+                                            JsonFileVersion = value;
                                             Logger.InfoDebugLine("刷新完成");
                                         });
                                     });
@@ -477,7 +484,7 @@ namespace NTMiner {
 
         #region RestartMine
         public void RestartMine() {
-            this.StopMineAsync(()=> {
+            this.StopMineAsync(() => {
                 Logger.WarnWriteLine("正在重启内核");
                 StartMine(CommandLineArgs.WorkId);
             });

@@ -38,16 +38,6 @@ namespace NTMiner.Vms {
                     action: message => {
                         this.ServerJsonVersion = NTMinerRoot.JsonFileVersion;
                     });
-                Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
-                    if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
-                        if (response.Data.Value is string value) {
-                            this.ServerJsonVersion = value;
-                        }
-                    }
-                    else {
-                        Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
-                    }
-                });
             }
         }
 
