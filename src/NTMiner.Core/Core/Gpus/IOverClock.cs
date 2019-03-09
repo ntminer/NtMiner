@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.Profiles;
+﻿using NTMiner.Profile;
 
 namespace NTMiner.Core.Gpus {
     public interface IOverClock {

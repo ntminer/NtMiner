@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.Profiles;
+﻿using NTMiner.Profile;
 using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Gpus.Impl {

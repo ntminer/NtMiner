@@ -4,6 +4,7 @@ using NTMiner.Core.Kernels;
 using NTMiner.Core.SysDics;
 using NTMiner.MinerServer;
 using NTMiner.OverClock;
+using NTMiner.Profile;
 using System;
 
 namespace NTMiner.Core {

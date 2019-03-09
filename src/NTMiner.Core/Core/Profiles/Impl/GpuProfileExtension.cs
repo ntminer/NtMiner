@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
+using NTMiner.Profile;
 using System;
 
 namespace NTMiner.Core.Profiles.Impl {

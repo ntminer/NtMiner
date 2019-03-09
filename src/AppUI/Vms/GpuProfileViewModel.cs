@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Profiles;
 using NTMiner.OverClock;
+using NTMiner.Profile;
 using System;
 using System.Windows.Input;
 

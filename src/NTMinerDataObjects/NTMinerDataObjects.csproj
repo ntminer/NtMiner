@@ -70,9 +70,9 @@
     <Compile Include="Core\SysDicData.cs" />
     <Compile Include="Core\SysDicItemData.cs" />
     <Compile Include="DataLevel.cs" />
-    <Compile Include="GpuProfileData.cs" />
+    <Compile Include="Profile\GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
-    <Compile Include="IGpuProfile.cs" />
+    <Compile Include="Profile\IGpuProfile.cs" />
     <Compile Include="ILevelEntity`1.cs" />
     <Compile Include="Core\IPool.cs" />
     <Compile Include="ISortable.cs" />
