@@ -506,7 +506,8 @@ namespace NTMiner.Controllers {
                     user.Password = HashUtil.Sha1(user.Password);
                 }
                 string json = HostRoot.JsonSerializer.Serialize(obj);
-                File.WriteAllText(SpecialPath.GetMineWorkJsonFileFullName(workId), json);
+                File.WriteAllText(SpecialPath.GetMineWorkLocalJsonFileFullName(workId), json);
+
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

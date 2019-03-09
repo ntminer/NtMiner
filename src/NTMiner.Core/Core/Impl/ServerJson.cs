@@ -9,6 +9,10 @@ namespace NTMiner.Core.Impl {
     public class ServerJson : IJsonDb {
         public static readonly ServerJson Instance = new ServerJson();
 
+        public static ServerJson NewInstance() {
+            return new ServerJson();
+        }
+
         public static string Export() {
             INTMinerRoot root = NTMinerRoot.Current;
             ServerJson data = new ServerJson() {
