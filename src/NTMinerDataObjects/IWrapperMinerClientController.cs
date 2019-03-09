@@ -5,13 +5,13 @@ using NTMiner.Profile;
 
 namespace NTMiner {
     public interface IWrapperMinerClientController {
-        ResponseBase CloseNTMiner(WrapperRequest<CloseNTMinerRequest> request);
-        ResponseBase OpenNTMiner(WrapperRequest<OpenNTMinerRequest> request);
-        ResponseBase RestartNTMiner(WrapperRequest<RestartNTMinerRequest> request);
         ResponseBase RestartWindows(WrapperRequest<RestartWindowsRequest> request);
         ResponseBase SetClientMinerProfileProperty(WrapperRequest<SetClientMinerProfilePropertyRequest> request);
         ResponseBase ShutdownWindows(WrapperRequest<ShutdownWindowsRequest> request);
+        ResponseBase CloseNTMiner(WrapperRequest<CloseNTMinerRequest> request);
+        ResponseBase OpenNTMiner(WrapperRequest<MinerServer.OpenNTMinerRequest> request);
         ResponseBase StartMine(WrapperRequest<MinerClient.StartMineRequest> request);
+        ResponseBase RestartNTMiner(WrapperRequest<MinerServer.RestartNTMinerRequest> request);
         ResponseBase StopMine(WrapperRequest<StopMineRequest> request);
         ResponseBase UpgradeNTMiner(WrapperRequest<UpgradeNTMinerRequest> request);
     }

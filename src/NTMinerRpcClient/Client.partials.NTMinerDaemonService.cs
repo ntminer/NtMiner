@@ -213,7 +213,7 @@ namespace NTMiner {
                 }
             }
 
-            public void StartMineAsync(MinerClient.StartMineRequest request, Action<ResponseBase, Exception> callback) {
+            public void StartMineAsync(Daemon.StartMineRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         var response = StartMine(request);
@@ -225,7 +225,7 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase StartMine(MinerClient.StartMineRequest request) {
+            public ResponseBase StartMine(Daemon.StartMineRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StartMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;

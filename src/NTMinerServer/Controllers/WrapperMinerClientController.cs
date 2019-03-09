@@ -3,6 +3,7 @@ using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
+using System.IO;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -51,7 +52,7 @@ namespace NTMiner.Controllers {
 
         #region OpenNTMiner
         [HttpPost]
-        public ResponseBase OpenNTMiner([FromBody]WrapperRequest<OpenNTMinerRequest> request) {
+        public ResponseBase OpenNTMiner([FromBody]WrapperRequest<MinerServer.OpenNTMinerRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -60,28 +61,21 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.OpenNTMiner(request.InnerRequest);
-                return response;
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
-            }
-        }
-        #endregion
-
-        #region RestartNTMiner
-        [HttpPost]
-        public ResponseBase RestartNTMiner([FromBody]WrapperRequest<RestartNTMinerRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
-            }
-            try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
+                IUser user = HostRoot.Current.UserSet.GetUser(request.InnerRequest.LoginName);
+                if (user == null) {
+                    return ResponseBase.Forbidden(request.MessageId, $"登录名为{request.InnerRequest.LoginName}的用户不存在");
                 }
-                response = Client.NTMinerDaemonService.RestartNTMiner(request.InnerRequest);
+                Daemon.OpenNTMinerRequest innerRequest = new Daemon.OpenNTMinerRequest() {
+                    ClientIp = request.InnerRequest.ClientIp,
+                    MessageId = request.InnerRequest.MessageId,
+                    LoginName = request.InnerRequest.LoginName,
+                    Timestamp = request.InnerRequest.Timestamp,
+                    WorkId = request.InnerRequest.WorkId,
+                    LocalJson = File.ReadAllText(SpecialPath.GetMineWorkLocalJsonFileFullName(request.InnerRequest.WorkId)),
+                    ServerJson = File.ReadAllText(SpecialPath.GetMineWorkServerJsonFileFullName(request.InnerRequest.WorkId))
+                };
+                innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
+                response = Client.NTMinerDaemonService.OpenNTMiner(innerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -144,7 +138,56 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.StartMine(request.InnerRequest);
+                IUser user = HostRoot.Current.UserSet.GetUser(request.InnerRequest.LoginName);
+                if (user == null) {
+                    return ResponseBase.Forbidden(request.MessageId, $"登录名为{request.InnerRequest.LoginName}的用户不存在");
+                }
+                Daemon.StartMineRequest innerRequest = new Daemon.StartMineRequest {
+                    ClientIp = request.InnerRequest.ClientIp,
+                    MessageId = request.InnerRequest.MessageId,
+                    LoginName = request.InnerRequest.LoginName,
+                    Timestamp = request.InnerRequest.Timestamp,
+                    WorkId = request.InnerRequest.WorkId,
+                    LocalJson = File.ReadAllText(SpecialPath.GetMineWorkLocalJsonFileFullName(request.InnerRequest.WorkId)),
+                    ServerJson = File.ReadAllText(SpecialPath.GetMineWorkServerJsonFileFullName(request.InnerRequest.WorkId))
+                };
+                innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
+                response = Client.NTMinerDaemonService.StartMine(innerRequest);
+                return response;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region RestartNTMiner
+        [HttpPost]
+        public ResponseBase RestartNTMiner([FromBody]WrapperRequest<MinerServer.RestartNTMinerRequest> request) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                IUser user = HostRoot.Current.UserSet.GetUser(request.InnerRequest.LoginName);
+                if (user == null) {
+                    return ResponseBase.Forbidden(request.MessageId, $"登录名为{request.InnerRequest.LoginName}的用户不存在");
+                }
+                Daemon.RestartNTMinerRequest innerRequest = new Daemon.RestartNTMinerRequest {
+                    ClientIp = request.InnerRequest.ClientIp,
+                    LoginName = request.InnerRequest.LoginName,
+                    MessageId = request.InnerRequest.MessageId,
+                    Timestamp = request.InnerRequest.Timestamp,
+                    WorkId = request.InnerRequest.WorkId,
+                    LocalJson = File.ReadAllText(SpecialPath.GetMineWorkLocalJsonFileFullName(request.InnerRequest.WorkId)),
+                    ServerJson = File.ReadAllText(SpecialPath.GetMineWorkServerJsonFileFullName(request.InnerRequest.WorkId))
+                };
+                innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
+                response = Client.NTMinerDaemonService.RestartNTMiner(innerRequest);
                 return response;
             }
             catch (Exception e) {
