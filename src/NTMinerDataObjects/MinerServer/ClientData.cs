@@ -28,7 +28,6 @@ namespace NTMiner.MinerServer {
                 OSName = speedData.OSName,
                 OSVirtualMemoryMb = speedData.OSVirtualMemoryMb,
                 GpuInfo = speedData.GpuInfo,
-                WorkId = speedData.WorkId,
                 Version = speedData.Version,
                 IsMining = speedData.IsMining,
                 BootOn = speedData.BootOn,
@@ -79,7 +78,6 @@ namespace NTMiner.MinerServer {
             this.OSVirtualMemoryMb = speedData.OSVirtualMemoryMb;
             this.GpuInfo = speedData.GpuInfo;
 
-            this.WorkId = speedData.WorkId;
             this.Version = speedData.Version;
             this.IsMining = speedData.IsMining;
             this.BootOn = speedData.BootOn;

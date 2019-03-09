@@ -22,8 +22,6 @@ namespace NTMiner.MinerClient {
 
         public Guid ClientId { get; set; }
 
-        public Guid WorkId { get; set; }
-
         public string Version { get; set; }
 
         public DateTime BootOn { get; set; }
