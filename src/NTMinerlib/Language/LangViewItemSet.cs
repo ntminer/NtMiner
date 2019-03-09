@@ -27,8 +27,8 @@ namespace NTMiner.Language {
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    ILang lang;
-                    if (LangSet.Instance.TryGetLang(message.Input.LangId, out lang)) {
+
+                    if (LangSet.Instance.TryGetLang(message.Input.LangId, out _)) {
                         if (!_dicByLangAndView.ContainsKey(message.Input.LangId)) {
                             _dicByLangAndView.Add(message.Input.LangId, new Dictionary<string, List<ILangViewItem>>());
                         }
@@ -89,7 +89,7 @@ namespace NTMiner.Language {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -109,8 +109,9 @@ namespace NTMiner.Language {
                         var dic = new Dictionary<string, List<ILangViewItem>>();
                         _dicByLangAndView.Add(lang.GetId(), dic);
                     }
+                    var langViewItems = langItems as LangViewItem[] ?? langItems.ToArray();
                     foreach (var kv in _dicByLangAndView) {
-                        foreach (var item in langItems.Where(a => a.LangId == kv.Key)) {
+                        foreach (var item in langViewItems.Where(a => a.LangId == kv.Key)) {
                             if (!kv.Value.ContainsKey(item.ViewId)) {
                                 kv.Value.Add(item.ViewId, new List<ILangViewItem>());
                             }
@@ -132,7 +133,7 @@ namespace NTMiner.Language {
             if (!dic.ContainsKey(viewId)) {
                 return new List<ILangViewItem>();
             }
-            return dic[viewId].Cast<ILangViewItem>().ToList();
+            return dic[viewId].ToList();
         }
 
         public Dictionary<string, List<ILangViewItem>> GetLangItems(Guid langId) {

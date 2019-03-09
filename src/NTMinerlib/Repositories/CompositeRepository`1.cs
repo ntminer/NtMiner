@@ -13,13 +13,14 @@ namespace NTMiner.Repositories {
 
         public IEnumerable<T> GetAll() {
             var globalResults = _globalRepository.GetAll();
-            foreach (var item in globalResults) {
+            var enumerable = globalResults as T[] ?? globalResults.ToArray();
+            foreach (var item in enumerable) {
                 item.SetDataLevel(DataLevel.Global);
             }
             if (DevMode.IsDebugMode) {
-                return globalResults;
+                return enumerable;
             }
-            var list = globalResults.ToList();
+            var list = enumerable.ToList();
             foreach (var item in _profileRepository.GetAll()) {
                 item.SetDataLevel(DataLevel.Profile);
                 list.Add(item);
@@ -41,17 +42,13 @@ namespace NTMiner.Repositories {
         public T GetByKey(Guid id) {
             if (DevMode.IsDebugMode) {
                 var entity = _globalRepository.GetByKey(id);
-                if (entity != null) {
-                    entity.SetDataLevel(DataLevel.Global);
-                }
+                entity?.SetDataLevel(DataLevel.Global);
                 return entity;
             }
             T result = _globalRepository.GetByKey(id);
             if (result == null) {
                 result = _profileRepository.GetByKey(id);
-                if (result != null) {
-                    result.SetDataLevel(DataLevel.Profile);
-                }
+                result?.SetDataLevel(DataLevel.Profile);
             }
             else {
                 result.SetDataLevel(DataLevel.Global);

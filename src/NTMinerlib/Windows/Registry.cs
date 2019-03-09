@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using System.Linq;
 
 namespace NTMiner.Windows {
     public static class Registry {
@@ -33,24 +32,10 @@ namespace NTMiner.Windows {
         public static void DeleteValue(RegistryKey root, string subkey, string valueName) {
             try {
                 RegistryKey myKey = root.OpenSubKey(subkey, true);
-                if (myKey != null) {
-                    myKey.DeleteValue(valueName, throwOnMissingValue: false);
-                }
+                myKey?.DeleteValue(valueName, throwOnMissingValue: false);
             }
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-            }
-        }
-
-        public static bool IsValueExist(RegistryKey root, string subkey, string valueName) {
-            try {
-                RegistryKey myKey = root.OpenSubKey(subkey, true);
-                string[] valueNames = myKey.GetValueNames();
-                return valueNames.Any(a => a == valueName);
-            }
-            catch (System.Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return false;
             }
         }
         #endregion

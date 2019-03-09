@@ -45,15 +45,6 @@ namespace NTMiner.Bus.DirectBus {
         }
         #endregion
 
-        #region IUnitOfWork Members
-        public bool DistributedTransactionSupported {
-            get { return false; }
-        }
-
-        public bool Committed {
-            get { return this._committed; }
-        }
-
         public void Commit() {
             lock (_queueLock) {
                 _backupMessageArray = new dynamic[_messageQueue.Count];
@@ -64,18 +55,5 @@ namespace NTMiner.Bus.DirectBus {
                 _committed = true;
             }
         }
-
-        public void Rollback() {
-            lock (_queueLock) {
-                if (_backupMessageArray != null && _backupMessageArray.Length > 0) {
-                    _messageQueue.Clear();
-                    foreach (var msg in _backupMessageArray) {
-                        _messageQueue.Enqueue(msg);
-                    }
-                }
-                _committed = false;
-            }
-        }
-        #endregion
     }
 }

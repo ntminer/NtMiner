@@ -67,9 +67,6 @@
     <Compile Include="Language\Repository.cs" />
     <Compile Include="NtMinerRegistry.cs" />
     <Compile Include="Repositories\IReadOnlyRepository.cs" />
-    <Compile Include="Security\AESHelper.cs" />
-    <Compile Include="Security\BigInteger.cs" />
-    <Compile Include="Security\RSAHelper.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="HandlerId.cs" />

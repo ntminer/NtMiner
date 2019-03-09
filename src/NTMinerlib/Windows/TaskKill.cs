@@ -8,7 +8,7 @@ namespace NTMiner.Windows {
             }
             try {
                 Process[] processes = Process.GetProcessesByName(processName);
-                if (processes != null && processes.Length != 0) {
+                if (processes.Length != 0) {
                     foreach (var process in processes) {
                         try {
                             if (process.CloseMainWindow()) {
@@ -30,7 +30,7 @@ namespace NTMiner.Windows {
                         }
                     }
                     processes = Process.GetProcessesByName(processName);
-                    if (processes != null && processes.Length != 0) {
+                    if (processes.Length != 0) {
                         Cmd.RunClose($"taskkill /F /T /IM {processName}.exe", string.Empty);
                     }
                 }

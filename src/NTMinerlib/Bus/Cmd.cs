@@ -10,11 +10,12 @@ namespace NTMiner.Bus {
 
         private readonly Guid _id;
         #region Ctor
-        public Cmd() {
+
+        protected Cmd() {
             _id = Guid.NewGuid();
         }
 
-        public Cmd(Guid id) {
+        protected Cmd(Guid id) {
             _id = id;
         }
         #endregion
