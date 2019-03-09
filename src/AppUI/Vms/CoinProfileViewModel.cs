@@ -108,7 +108,10 @@ namespace NTMiner.Vms {
 
         public WalletViewModel SelectedWallet {
             get {
-                CoinViewModel coinVm = CoinViewModels.Current[this.CoinId];
+                CoinViewModel coinVm;
+                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    return null;
+                }
                 WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId && a.Address == this.Wallet);
                 if (walletVm == null) {
                     walletVm = coinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId);
@@ -206,7 +209,10 @@ namespace NTMiner.Vms {
 
         public WalletViewModel SelectedDualCoinWallet {
             get {
-                CoinViewModel coinVm = CoinViewModels.Current[this.CoinId];
+                CoinViewModel coinVm;
+                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    return null;
+                }
                 WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId && a.Address == this.DualCoinWallet);
                 if (walletVm == null) {
                     walletVm = coinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId);
@@ -259,7 +265,11 @@ namespace NTMiner.Vms {
 
         public PoolViewModel DualCoinPool {
             get {
-                var dualCoinPools = CoinViewModels.Current[this.CoinId].Pools;
+                CoinViewModel coinVm;
+                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    return null;
+                }
+                var dualCoinPools = coinVm.Pools;
                 PoolViewModel pool = dualCoinPools.FirstOrDefault(a => a.Id == DualCoinPoolId);
                 if (pool == null) {
                     pool = dualCoinPools.FirstOrDefault();

@@ -71,12 +71,6 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(DualPleaseSelect));
         }
 
-        public CoinViewModel this[Guid coinId] {
-            get {
-                return _dicById[coinId];
-            }
-        }
-
         public bool TryGetCoinVm(Guid coinId, out CoinViewModel coinVm) {
             return _dicById.TryGetValue(coinId, out coinVm);
         }

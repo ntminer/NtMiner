@@ -14,12 +14,12 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));
                     OnPropertyChanged(nameof(AllPools));
-                    ICoin coin;
-                    if (NTMinerRoot.Current.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
-                        CoinViewModels.Current[coin.GetId()].CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
-                        CoinViewModels.Current[coin.GetId()].CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
-                        CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.Pools));
-                        CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.OptionPools));
+                    CoinViewModel coinVm;
+                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
+                        coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
+                        coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<PoolRemovedEvent>(
@@ -28,12 +28,12 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllPools));
-                    ICoin coin;
-                    if (NTMinerRoot.Current.CoinSet.TryGetCoin(message.Source.CoinId, out coin)) {
-                        CoinViewModels.Current[coin.GetId()].CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
-                        CoinViewModels.Current[coin.GetId()].CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
-                        CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.Pools));
-                        CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.OptionPools));
+                    CoinViewModel coinVm;
+                    if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
+                        coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
+                        coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<PoolUpdatedEvent>(
