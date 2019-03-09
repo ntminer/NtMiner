@@ -29,7 +29,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new AddKernelOutputCommand(item));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddKernelOutputCommand>(
                 "添加内核输出组",
                 LogEnum.Console,
@@ -47,7 +47,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new KernelOutputAddedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<UpdateKernelOutputCommand>(
                 "更新内核输出组",
                 LogEnum.Console,
@@ -71,7 +71,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new KernelOutputUpdatedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<RemoveKernelOutputCommand>(
                 "移除内核输出组",
                 LogEnum.Console,
@@ -101,7 +101,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new KernelOutputRemovedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;

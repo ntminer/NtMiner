@@ -27,7 +27,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new AddKernelOutputFilterCommand(item));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddKernelOutputFilterCommand>(
                 "添加内核输出过滤器",
                 LogEnum.Console,
@@ -52,7 +52,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new KernelOutputFilterAddedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<UpdateKernelOutputFilterCommand>(
                 "更新内核输出过滤器",
                 LogEnum.Console,
@@ -76,7 +76,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new KernelOutputFilterUpdatedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<RemoveKernelOutputFilterCommand>(
                 "移除内核输出过滤器",
                 LogEnum.Console,
@@ -95,7 +95,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new KernelOutputFilterRemovedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;

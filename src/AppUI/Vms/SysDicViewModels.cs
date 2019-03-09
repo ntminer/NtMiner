@@ -26,7 +26,7 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(Count));
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<SysDicUpdatedEvent>(
                 "更新了系统字典后调整VM内存",
                 LogEnum.Console,
@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                             this.OnPropertyChanged(nameof(List));
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<SysDicRemovedEvent>(
                 "删除了系统字典后调整VM内存",
                 LogEnum.Console,
@@ -48,7 +48,7 @@ namespace NTMiner.Vms {
                     _dicByCode.Remove(message.Source.Code);
                     OnPropertyChanged(nameof(List));
                     OnPropertyChanged(nameof(Count));
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

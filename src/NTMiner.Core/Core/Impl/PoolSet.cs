@@ -27,7 +27,7 @@ namespace NTMiner.Core.Impl {
                             VirtualRoot.Execute(new AddPoolCommand(item));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddPoolCommand>(
                 "添加矿池",
                 LogEnum.Console,
@@ -67,7 +67,7 @@ namespace NTMiner.Core.Impl {
                             VirtualRoot.Execute(new AddPoolKernelCommand(poolKernel));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<UpdatePoolCommand>(
                 "更新矿池",
                 LogEnum.Console,
@@ -97,7 +97,7 @@ namespace NTMiner.Core.Impl {
                     repository.Update(new PoolData().Update(message.Input));
 
                     VirtualRoot.Happened(new PoolUpdatedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<RemovePoolCommand>(
                 "移除矿池",
                 LogEnum.Console,
@@ -120,7 +120,7 @@ namespace NTMiner.Core.Impl {
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;

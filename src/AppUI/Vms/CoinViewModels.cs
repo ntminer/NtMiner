@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
                     OnPropertyChangeds();
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinRemovedEvent>(
                 "移除了币种后刷新VM内存",
                 LogEnum.Console,
@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
                     OnPropertyChangeds();
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinUpdatedEvent>(
                 "更新了币种后刷新VM内存",
                 LogEnum.Console,
@@ -53,7 +53,7 @@ namespace NTMiner.Vms {
                     if (justAsDualCoin != coinVm.JustAsDualCoin) {
                         OnPropertyChanged(nameof(MainCoins));
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

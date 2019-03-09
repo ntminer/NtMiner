@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Bus {
     public class DelegateHandler<TMessage> {
@@ -18,6 +19,12 @@ namespace NTMiner.Bus {
             catch (Exception e) {
                 Logger.ErrorDebugLine(HandlerId.HandlerPath + ":" + e.Message, e);
                 throw;
+            }
+        }
+
+        public void AddToCollection(List<object> handlers) {
+            if (!handlers.Contains(this)) {
+                handlers.Add(this);
             }
         }
     }

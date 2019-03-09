@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
                             VirtualRoot.Execute(new AddGroupCommand(item));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddGroupCommand>(
                 "添加组",
                 LogEnum.Console,
@@ -42,7 +42,7 @@ namespace NTMiner.Core.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new GroupAddedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<UpdateGroupCommand>(
                 "更新组",
                 LogEnum.Console,
@@ -66,7 +66,7 @@ namespace NTMiner.Core.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new GroupUpdatedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<RemoveGroupCommand>(
                 "移除组",
                 LogEnum.Console,
@@ -88,7 +88,7 @@ namespace NTMiner.Core.Impl {
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new GroupRemovedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;

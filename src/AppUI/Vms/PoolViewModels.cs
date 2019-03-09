@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
                         CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.Pools));
                         CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<PoolRemovedEvent>(
                 "删除矿池后刷新VM内存",
                 LogEnum.Console,
@@ -35,13 +35,13 @@ namespace NTMiner.Vms {
                         CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.Pools));
                         CoinViewModels.Current[coin.GetId()].OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<PoolUpdatedEvent>(
                 "更新矿池后刷新VM内存",
                 LogEnum.Console,
                 action: (message) => {
                     _dicById[message.Source.GetId()].Update(message.Source);
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

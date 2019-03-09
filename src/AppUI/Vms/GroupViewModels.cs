@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
                         _dicById.Add(message.Source.GetId(), groupVm);
                         OnPropertyChangeds();
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<GroupUpdatedEvent>(
                 "更新了组后调整VM内存",
                 LogEnum.Console,
@@ -39,14 +39,14 @@ namespace NTMiner.Vms {
                             OnPropertyChanged(nameof(SelectionOptions));
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<GroupRemovedEvent>(
                 "删除了组后调整VM内存",
                 LogEnum.Console,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChangeds();
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

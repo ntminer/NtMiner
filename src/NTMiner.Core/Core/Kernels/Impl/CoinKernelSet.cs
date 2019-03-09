@@ -25,7 +25,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new AddCoinKernelCommand(item));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddCoinKernelCommand>(
                 "添加币种内核",
                 LogEnum.Console,
@@ -65,7 +65,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new AddPoolKernelCommand(poolKernel));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<UpdateCoinKernelCommand>(
                 "更新币种内核",
                 LogEnum.Console,
@@ -89,7 +89,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<RemoveCoinKernelCommand>(
                 "移除币种内核",
                 LogEnum.Console,
@@ -120,7 +120,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;

@@ -25,7 +25,7 @@ namespace NTMiner.Core.Impl {
                             VirtualRoot.Execute(new AddCoinGroupCommand(item));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddCoinGroupCommand>(
                 "添加币组",
                 LogEnum.Console,
@@ -46,7 +46,7 @@ namespace NTMiner.Core.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new CoinGroupAddedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<RemoveCoinGroupCommand>(
                 "移除币组",
                 LogEnum.Console,
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Impl {
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.Happened(new CoinGroupRemovedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;

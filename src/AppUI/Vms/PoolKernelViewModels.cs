@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
                             poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<PoolKernelRemovedEvent>(
                 "移除了币种内核后刷新矿池内核VM内存",
                 LogEnum.Console,
@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
                             poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<PoolKernelUpdatedEvent>(
                 "更新了矿池内核后刷新VM内存",
                 LogEnum.Console,
@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

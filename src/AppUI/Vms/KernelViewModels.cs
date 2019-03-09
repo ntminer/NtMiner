@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
                     foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelRemovedEvent>(
                 "删除了内核后调整VM内存",
                 LogEnum.Console,
@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                     foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelUpdatedEvent>(
                 "更新了内核后调整VM内存",
                 LogEnum.Console,
@@ -50,8 +50,7 @@ namespace NTMiner.Vms {
                     if (kernelInputId != entity.KernelInputId) {
                         VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                     }
-                });
-
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

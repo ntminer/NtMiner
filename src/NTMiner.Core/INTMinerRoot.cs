@@ -4,11 +4,13 @@ using NTMiner.Core.Kernels;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.SysDics;
-using NTMiner.User;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner {
     public interface INTMinerRoot {
+        List<object> ContextHandlers { get; }
+
         DateTime CreatedOn { get; }
 
         IAppSettingSet AppSettingSet { get; }

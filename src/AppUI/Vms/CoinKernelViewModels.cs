@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.CoinVms));
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoinVms));
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoins));
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinKernelUpdatedEvent>(
                 "更新了币种内核后刷新VM内存",
                 LogEnum.Console,
@@ -61,7 +61,7 @@ namespace NTMiner.Vms {
                             coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinKernelRemovedEvent>(
                 "移除了币种内核后刷新VM内存",
                 LogEnum.Console,
@@ -82,7 +82,7 @@ namespace NTMiner.Vms {
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.CoinVms));
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoinVms));
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoins));
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

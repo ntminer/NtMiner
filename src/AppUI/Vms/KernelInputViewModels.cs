@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
                     var vm = new KernelInputViewModel(message.Source);
                     _dicById.Add(message.Source.GetId(), vm);
                     OnPropertyChangeds();
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelInputUpdatedEvent>(
                 "更新了内核输入后刷新VM内存",
                 LogEnum.Console,
@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                             }
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelInputRemovedEvent>(
                 "移除了内核输入后刷新VM内存",
                 LogEnum.Console,
@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

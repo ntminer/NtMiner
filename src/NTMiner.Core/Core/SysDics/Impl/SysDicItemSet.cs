@@ -27,7 +27,7 @@ namespace NTMiner.Core.SysDics.Impl {
                             VirtualRoot.Execute(new AddSysDicItemCommand(item));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddSysDicItemCommand>(
                 "添加系统字典项",
                 LogEnum.Console,
@@ -55,7 +55,7 @@ namespace NTMiner.Core.SysDics.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new SysDicItemAddedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<UpdateSysDicItemCommand>(
                 "更新系统字典项",
                 LogEnum.Console,
@@ -79,7 +79,7 @@ namespace NTMiner.Core.SysDics.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new SysDicItemUpdatedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<RemoveSysDicItemCommand>(
                 "移除系统字典项",
                 LogEnum.Console,
@@ -102,7 +102,7 @@ namespace NTMiner.Core.SysDics.Impl {
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new SysDicItemRemovedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;

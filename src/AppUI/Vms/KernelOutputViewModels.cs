@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
                     _dicById.Add(message.Source.GetId(), vm);
                     OnPropertyChanged(nameof(AllKernelOutputVms));
                     OnPropertyChanged(nameof(PleaseSelectVms));
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelOutputUpdatedEvent>(
                 "更新了内核输出组后刷新VM内存",
                 LogEnum.Console,
@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
                             item.Update(message.Source);
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelOutputRemovedEvent>(
                 "移除了内核输出组后刷新VM内存",
                 LogEnum.Console,
@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(AllKernelOutputVms));
                         OnPropertyChanged(nameof(PleaseSelectVms));
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

@@ -26,6 +26,8 @@ using System.Windows;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
+        public List<object> ContextHandlers { get; private set; } = new List<object>();
+
         public DateTime CreatedOn { get; private set; }
 
         public IAppSettingSet AppSettingSet { get; private set; }
@@ -121,22 +123,24 @@ namespace NTMiner {
         private MinerProfile _minerProfile;
         public void DoInit(bool isUseJson, Action callback) {
             this.PackageDownloader = new PackageDownloader(this);
-            this.SysDicSet = new SysDicSet(this, isUseJson);
             this.AppSettingSet = new AppSettingSet(this);
+            this.CalcConfigSet = new CalcConfigSet(this);
+
+            this.SysDicSet = new SysDicSet(this, isUseJson);
             this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
             this.CoinSet = new CoinSet(this, isUseJson);
             this.GroupSet = new GroupSet(this, isUseJson);
             this.CoinGroupSet = new CoinGroupSet(this, isUseJson);
-            this.CalcConfigSet = new CalcConfigSet(this);
             this.PoolSet = new PoolSet(this, isUseJson);
             this.CoinKernelSet = new CoinKernelSet(this, isUseJson);
             this.PoolKernelSet = new PoolKernelSet(this, isUseJson);
             this.KernelSet = new KernelSet(this, isUseJson);
-            this.KernelProfileSet = new KernelProfileSet(this);
             this.KernelInputSet = new KernelInputSet(this, isUseJson);
             this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
+
+            this.KernelProfileSet = new KernelProfileSet(this);
             this.GpusSpeed = new GpusSpeed(this);
             this.CoinShareSet = new CoinShareSet(this);
             this.MineWorkSet = new MineWorkSet(this);

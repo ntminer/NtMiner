@@ -28,7 +28,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new AddKernelOutputTranslaterCommand(item));
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddKernelOutputTranslaterCommand>(
                 "添加内核输出翻译器",
                 LogEnum.Console,
@@ -53,7 +53,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.Happened(new KernelOutputTranslaterAddedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<UpdateKernelOutputTranslaterCommand>(
                 "更新内核输出翻译器",
                 LogEnum.Console,
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.Happened(new KernelOutputTranslaterUpdatedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<RemoveKernelOutputTranslaterCommand>(
                 "移除内核输出翻译器",
                 LogEnum.Console,
@@ -108,7 +108,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Remove(entity.Id);
 
                     VirtualRoot.Happened(new KernelOutputTranslaterRemovedEvent(entity));
-                });
+                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.On<SysDicItemUpdatedEvent>(
                 "LogColor字典项更新后刷新翻译器内存",
                 LogEnum.Console,
@@ -125,7 +125,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             _colorDic.Remove(entity);
                         }
                     }
-                });
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;

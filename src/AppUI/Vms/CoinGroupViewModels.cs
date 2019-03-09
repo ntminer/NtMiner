@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
                         _listByGroupId[coinGroupVm.GroupId].Add(coinGroupVm);
                         OnGroupPropertyChanged(coinGroupVm.GroupId);
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinGroupUpdatedEvent>(
                 "更新了币组后调整VM内存",
                 LogEnum.Console,
@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
                             }
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinGroupRemovedEvent>(
                 "删除了币组后调整VM内存",
                 LogEnum.Console,
@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                         }
                         OnGroupPropertyChanged(entity.GroupId);
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 

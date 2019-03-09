@@ -26,7 +26,7 @@ namespace NTMiner.Vms {
                             kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelOutputFilterUpdatedEvent>(
                 "更新了内核输出过滤器后刷新VM内存",
                 LogEnum.Console,
@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                     if (_dicById.TryGetValue(message.Source.GetId(), out vm)) {
                         vm.Update(message.Source);
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelOutputFilterRemovedEvent>(
                 "删除了内核输出过滤器后刷新VM内存",
                 LogEnum.Console,
@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
                             kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputFilters));
                         }
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             Init();
         }
 
