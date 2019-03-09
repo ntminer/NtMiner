@@ -35,6 +35,9 @@ namespace NTMiner {
         GetWalletsResponse Wallets(WalletsRequest request);
         ResponseBase AddOrUpdateWallet(AddOrUpdateWalletRequest request);
         ResponseBase RemoveWallet(RemoveWalletRequest request);
+        GetPoolsResponse Pools(PoolsRequest request);
+        ResponseBase AddOrUpdatePool(AddOrUpdatePoolRequest request);
+        ResponseBase RemovePool(RemovePoolRequest request);
         GetCalcConfigsResponse CalcConfigs(CalcConfigsRequest request);
         ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request);
         GetColumnsShowsResponse ColumnsShows(ColumnsShowsRequest request);

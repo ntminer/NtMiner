@@ -14,6 +14,7 @@ namespace NTMiner {
             private ControlCenterServiceFace() {
             }
 
+            #region ActiveControlCenterAdminAsync
             public void ActiveControlCenterAdminAsync(string password, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -25,6 +26,7 @@ namespace NTMiner {
                     }
                 });
             }
+            #endregion
 
             #region LoginAsync
             public void LoginAsync(string loginName, string password, Action<ResponseBase, Exception> callback) {
@@ -333,6 +335,7 @@ namespace NTMiner {
             }
             #endregion
 
+            #region AddOrUpdateMineWork
             public ResponseBase AddOrUpdateMineWork(MineWorkData entity) {
                 entity.ModifiedOn = DateTime.Now;
                 AddOrUpdateMineWorkRequest request = new AddOrUpdateMineWorkRequest {
@@ -343,6 +346,7 @@ namespace NTMiner {
                 ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddOrUpdateMineWork), request);
                 return response;
             }
+            #endregion
 
             #region RemoveMineWorkAsync
             public void RemoveMineWorkAsync(Guid id, Action<ResponseBase, Exception> callback) {
@@ -606,6 +610,64 @@ namespace NTMiner {
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveWallet), request);
+                        callback?.Invoke(response, null);
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+            #endregion
+
+            #region GetPools
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <returns></returns>
+            public GetPoolsResponse GetPools() {
+                try {
+                    PoolsRequest request = new PoolsRequest {
+                        MessageId = Guid.NewGuid()
+                    };
+                    GetPoolsResponse response = Request<GetPoolsResponse>(s_controllerName, nameof(IControlCenterController.Pools), request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
+            }
+            #endregion
+
+            #region AddOrUpdatePoolAsync
+            public void AddOrUpdatePoolAsync(PoolData entity, Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        AddOrUpdatePoolRequest request = new AddOrUpdatePoolRequest {
+                            LoginName = SingleUser.LoginName,
+                            Data = entity
+                        };
+                        request.SignIt(SingleUser.PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddOrUpdatePool), request);
+                        callback?.Invoke(response, null);
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+            #endregion
+
+            #region RemovePoolAsync
+            public void RemovePoolAsync(Guid id, Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        RemovePoolRequest request = new RemovePoolRequest {
+                            LoginName = SingleUser.LoginName,
+                            PoolId = id
+                        };
+                        request.SignIt(SingleUser.PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemovePool), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
