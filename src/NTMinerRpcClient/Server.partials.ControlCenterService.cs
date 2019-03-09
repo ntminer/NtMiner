@@ -374,12 +374,19 @@ namespace NTMiner {
             /// <returns></returns>
             public List<MineWorkData> GetMineWorks() {
                 try {
-                    List<MineWorkData> response = Request<List<MineWorkData>>(s_controllerName, nameof(IControlCenterController.MineWorks), null);
-                    return response;
+                    MineWorksRequest request = new MineWorksRequest {
+                        LoginName = SingleUser.LoginName
+                    };
+                    request.SignIt(SingleUser.PasswordSha1);
+                    GetMineWorksResponse response = Request<GetMineWorksResponse>(s_controllerName, nameof(IControlCenterController.MineWorks), request);
+                    if (response != null) {
+                        return response.Data;
+                    }
+                    return new List<MineWorkData>();
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
-                    return null;
+                    return new List<MineWorkData>();
                 }
             }
             #endregion

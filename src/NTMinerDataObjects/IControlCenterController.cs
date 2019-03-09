@@ -23,7 +23,7 @@ namespace NTMiner {
         ResponseBase RemoveMineWork(RemoveMineWorkRequest request);
         ResponseBase ExportMineWork(ExportMineWorkRequest request);
 
-        List<MineWorkData> MineWorks();
+        GetMineWorksResponse MineWorks(MineWorksRequest request);
         MinerProfileData MinerProfile(MinerProfileRequest request);
         CoinProfileData CoinProfile(CoinProfileRequest request);
         PoolProfileData PoolProfile(PoolProfileRequest request);

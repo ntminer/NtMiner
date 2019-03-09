@@ -438,13 +438,28 @@ namespace NTMiner.Controllers {
 
         #region MineWorks
         [HttpPost]
-        public List<MineWorkData> MineWorks() {
+        public GetMineWorksResponse MineWorks([FromBody]MineWorksRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<GetMineWorksResponse>(Guid.Empty, "参数错误");
+            }
             try {
-                return HostRoot.Current.MineWorkSet.GetAll();
+                GetMineWorksResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+
+                try {
+                    var data = HostRoot.Current.MineWorkSet.GetAll();
+                    return GetMineWorksResponse.Ok(request.MessageId, data);
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return new GetMineWorksResponse();
+                }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return new List<MineWorkData>();
+                return ResponseBase.ServerError<GetMineWorksResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
