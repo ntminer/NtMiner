@@ -68,7 +68,7 @@ namespace NTMiner.Core.Profiles {
 
                 private CoinProfileData GetCoinProfileData(Guid coinId) {
                     if (VirtualRoot.IsControlCenter) {
-                        return Server.ProfileService.GetCoinProfile(_workId, coinId);
+                        return Server.ControlCenterService.GetCoinProfile(_workId, coinId);
                     }
                     else {
                         bool isUseJson = _workId != Guid.Empty;

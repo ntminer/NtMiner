@@ -95,7 +95,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    foreach (var item in Server.ProfileService.GetMineWorks()) {
+                    foreach (var item in Server.ControlCenterService.GetMineWorks()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
                         }

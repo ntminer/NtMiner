@@ -1,5 +1,6 @@
 ﻿using NTMiner.MinerServer;
 using NTMiner.Profile;
+using System.Collections.Generic;
 
 namespace NTMiner {
     public interface IControlCenterController {
@@ -20,6 +21,13 @@ namespace NTMiner {
         ResponseBase RemoveMinerGroup(RemoveMinerGroupRequest request);
         ResponseBase AddOrUpdateMineWork(AddOrUpdateMineWorkRequest request);
         ResponseBase RemoveMineWork(RemoveMineWorkRequest request);
+
+        List<MineWorkData> MineWorks();
+        MinerProfileData MinerProfile(MinerProfileRequest request);
+        CoinProfileData CoinProfile(CoinProfileRequest request);
+        PoolProfileData PoolProfile(PoolProfileRequest request);
+        CoinKernelProfileData CoinKernelProfile(CoinKernelProfileRequest request);
+
         ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request);
         ResponseBase SetCoinProfileProperty(SetCoinProfilePropertyRequest request);
         ResponseBase SetPoolProfileProperty(SetPoolProfilePropertyRequest request);

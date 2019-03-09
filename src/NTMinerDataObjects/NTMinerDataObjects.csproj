@@ -56,7 +56,6 @@
     <Compile Include="IMinerClientController.cs" />
     <Compile Include="INTMinerDaemonController.cs" />
     <Compile Include="IOverClockDataController.cs" />
-    <Compile Include="IProfileController.cs" />
     <Compile Include="IReportController.cs" />
     <Compile Include="IShowMainWindow.cs" />
     <Compile Include="IWrapperMinerClientController.cs" />

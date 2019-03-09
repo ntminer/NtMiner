@@ -77,7 +77,7 @@ namespace NTMiner {
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddUser), request);
                         callback?.Invoke(response, null);
                     }
-                    catch(Exception e) {
+                    catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
@@ -96,7 +96,7 @@ namespace NTMiner {
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.UpdateUser), request);
                         callback?.Invoke(response, null);
                     }
-                    catch(Exception e) {
+                    catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
@@ -115,7 +115,7 @@ namespace NTMiner {
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveUser), request);
                         callback?.Invoke(response, null);
                     }
-                    catch(Exception e) {
+                    catch (Exception e) {
                         callback?.Invoke(null, e);
                     }
                 });
@@ -359,6 +359,113 @@ namespace NTMiner {
                         callback?.Invoke(null, e);
                     }
                 });
+            }
+            #endregion
+
+            #region GetMineWorks
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <returns></returns>
+            public List<MineWorkData> GetMineWorks() {
+                try {
+                    List<MineWorkData> response = Request<List<MineWorkData>>(s_controllerName, nameof(IControlCenterController.MineWorks), null);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
+            }
+            #endregion
+
+            #region GetMinerProfile
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <param name="workId"></param>
+            /// <returns></returns>
+            public MinerProfileData GetMinerProfile(Guid workId) {
+                try {
+                    MinerProfileRequest request = new MinerProfileRequest {
+                        WorkId = workId
+                    };
+                    MinerProfileData response = Request<MinerProfileData>(s_controllerName, nameof(IControlCenterController.MinerProfile), request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
+            }
+            #endregion
+
+            #region GetCoinProfile
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <param name="workId"></param>
+            /// <param name="coinId"></param>
+            /// <returns></returns>
+            public CoinProfileData GetCoinProfile(Guid workId, Guid coinId) {
+                try {
+                    CoinProfileRequest request = new CoinProfileRequest {
+                        WorkId = workId,
+                        CoinId = coinId
+                    };
+                    CoinProfileData response = Request<CoinProfileData>(s_controllerName, nameof(IControlCenterController.CoinProfile), request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
+            }
+            #endregion
+
+            #region GetPoolProfile
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <param name="workId"></param>
+            /// <param name="poolId"></param>
+            /// <returns></returns>
+            public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
+                try {
+                    PoolProfileRequest request = new PoolProfileRequest {
+                        WorkId = workId,
+                        PoolId = poolId
+                    };
+                    PoolProfileData response = Request<PoolProfileData>(s_controllerName, nameof(IControlCenterController.PoolProfile), request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
+            }
+            #endregion
+
+            #region GetCoinKernelProfile
+            /// <summary>
+            /// 同步方法
+            /// </summary>
+            /// <param name="workId"></param>
+            /// <param name="coinKernelId"></param>
+            /// <returns></returns>
+            public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
+                try {
+                    CoinKernelProfileRequest request = new CoinKernelProfileRequest {
+                        WorkId = workId,
+                        CoinKernelId = coinKernelId
+                    };
+                    CoinKernelProfileData response = Request<CoinKernelProfileData>(s_controllerName, nameof(IControlCenterController.CoinKernelProfile), request);
+                    return response;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    return null;
+                }
             }
             #endregion
 

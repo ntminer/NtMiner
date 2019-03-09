@@ -88,7 +88,6 @@
     <Compile Include="Controllers\FileUrlController.cs" />
     <Compile Include="Controllers\WrapperMinerClientController.cs" />
     <Compile Include="Controllers\OverClockDataController.cs" />
-    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Data\ClientCoinSnapshotData.cs" />
     <Compile Include="Data\ICalcConfigSet.cs" />

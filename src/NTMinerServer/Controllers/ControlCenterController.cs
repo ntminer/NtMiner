@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ControlCenterController : ApiController, IControlCenterController {
+        #region MineWorkJsonFile
         [HttpGet]
         public string MineWorkJsonFile(Guid workId) {
             try {
@@ -42,7 +43,9 @@ namespace NTMiner.Controllers {
                 return string.Empty;
             }
         }
+        #endregion
 
+        #region ActiveControlCenterAdmin
         [HttpPost]
         public ResponseBase ActiveControlCenterAdmin([FromBody]string password) {
             if (string.IsNullOrEmpty(password)) {
@@ -63,6 +66,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.Forbidden(Guid.Empty);
             }
         }
+        #endregion
 
         #region LoginControlCenter
         [HttpPost]
@@ -427,6 +431,71 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region MineWorks
+        [HttpPost]
+        public List<MineWorkData> MineWorks() {
+            try {
+                return HostRoot.Current.MineWorkSet.GetAll();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return new List<MineWorkData>();
+            }
+        }
+        #endregion
+
+        #region MinerProfile
+        [HttpPost]
+        public MinerProfileData MinerProfile([FromBody]MinerProfileRequest request) {
+            try {
+                return HostRoot.Current.MineProfileManager.GetMinerProfile(request.WorkId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return null;
+            }
+        }
+        #endregion
+
+        #region CoinProfile
+        [HttpPost]
+        public CoinProfileData CoinProfile([FromBody]CoinProfileRequest request) {
+            try {
+                return HostRoot.Current.MineProfileManager.GetCoinProfile(request.WorkId, request.CoinId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return null;
+            }
+        }
+        #endregion
+
+        #region PoolProfile
+        [HttpPost]
+        public PoolProfileData PoolProfile([FromBody]PoolProfileRequest request) {
+            try {
+                return HostRoot.Current.MineProfileManager.GetPoolProfile(request.WorkId, request.PoolId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return null;
+            }
+        }
+        #endregion
+
+        #region CoinKernelProfile
+        [HttpPost]
+        public CoinKernelProfileData CoinKernelProfile([FromBody]CoinKernelProfileRequest request) {
+            try {
+                return HostRoot.Current.MineProfileManager.GetCoinKernelProfile(request.WorkId, request.CoinKernelId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return null;
             }
         }
         #endregion

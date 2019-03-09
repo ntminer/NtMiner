@@ -69,7 +69,7 @@ namespace NTMiner.Core.Profiles {
 
                 private PoolProfileData GetPoolProfileData(Guid poolId) {
                     if (VirtualRoot.IsControlCenter) {
-                        return Server.ProfileService.GetPoolProfile(_workId, poolId);
+                        return Server.ControlCenterService.GetPoolProfile(_workId, poolId);
                     }
                     else {
                         bool isUseJson = _workId != Guid.Empty;

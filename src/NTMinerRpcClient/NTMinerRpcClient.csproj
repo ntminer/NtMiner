@@ -64,7 +64,6 @@
     <Compile Include="Server.partials.ControlCenterService.cs" />
     <Compile Include="Server.partials.FileUrlService.cs" />
     <Compile Include="Server.partials.WrapperMinerClientService.cs" />
-    <Compile Include="Server.partials.ProfileService.cs" />
     <Compile Include="Server.partials.ReportService.cs" />
     <Compile Include="SingleUser.cs" />
   </ItemGroup>

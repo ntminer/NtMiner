@@ -91,7 +91,7 @@ namespace NTMiner.Core.Profiles {
             }
             _data = null;
             if (VirtualRoot.IsControlCenter) {
-                _data = Server.ProfileService.GetMinerProfile(_workId);
+                _data = Server.ControlCenterService.GetMinerProfile(_workId);
             }
             else {
                 bool isUseJson = _workId != Guid.Empty;
