@@ -60,6 +60,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
     </Reference>
@@ -75,6 +76,7 @@
     <Reference Include="System.Web.Http.SelfHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.SelfHost.4.0.30506.0\lib\net40\System.Web.Http.SelfHost.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\ClientAppSelfHost\HttpServer.cs">
@@ -113,6 +115,7 @@
     <Compile Include="..\NTMinerlib\Windows\TaskKill.cs">
       <Link>Windows\TaskKill.cs</Link>
     </Compile>
+    <Compile Include="ExtendedNotifyIcon.cs" />
     <Compile Include="HostRoot.cs" />
     <Compile Include="IHostRoot.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.partials.PositionUtil.cs" />
@@ -145,6 +148,9 @@
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />

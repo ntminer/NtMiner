@@ -51,8 +51,7 @@ namespace NTMiner {
                         if (result.HasValue && result.Value) {
                             ChartsWindow window = ChartsWindow.ShowWindow();
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/ControlCenterApp;component/logo.ico")).Stream);
-                            AppHelper.NotifyIcon = new ExtendedNotifyIcon(icon, "NTMiner群控客户端");
-                            AppHelper.NotifyIcon.Init();
+                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "NTMiner群控客户端");
                             #region 处理显示主界面命令
                             VirtualRoot.Accept<ShowMainWindowCommand>(
                                 "处理显示主界面命令",

@@ -72,20 +72,20 @@ namespace NTMiner.Vms {
         }
 
         public bool IsShowInTaskbar {
-            get => NTMinerRoot.GetIsShowInTaskbar();
+            get => NTMinerRegistry.GetIsShowInTaskbar();
             set {
-                if (NTMinerRoot.GetIsShowInTaskbar() != value) {
-                    NTMinerRoot.SetIsShowInTaskbar(value);
+                if (NTMinerRegistry.GetIsShowInTaskbar() != value) {
+                    NTMinerRegistry.SetIsShowInTaskbar(value);
                     OnPropertyChanged(nameof(IsShowInTaskbar));
                 }
             }
         }
 
         public bool IsShowNotifyIcon {
-            get => NTMinerRoot.GetIsShowNotifyIcon();
+            get => NTMinerRegistry.GetIsShowNotifyIcon();
             set {
-                if (NTMinerRoot.GetIsShowNotifyIcon() != value) {
-                    NTMinerRoot.SetIsShowNotifyIcon(value);
+                if (NTMinerRegistry.GetIsShowNotifyIcon() != value) {
+                    NTMinerRegistry.SetIsShowNotifyIcon(value);
                     OnPropertyChanged(nameof(IsShowNotifyIcon));
                     if (value) {
                         AppHelper.NotifyIcon.ShowIcon();

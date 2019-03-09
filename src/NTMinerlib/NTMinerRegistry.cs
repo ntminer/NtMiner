@@ -21,6 +21,28 @@ namespace NTMiner {
 
         public const string NTMinerRegistrySubKey = @".DEFAULT\Software\NTMiner";
 
+        #region IsShowInTaskbar
+        public static bool GetIsShowInTaskbar() {
+            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowInTaskbar");
+            return isAutoBootValue == null || isAutoBootValue.ToString() == "True";
+        }
+
+        public static void SetIsShowInTaskbar(bool value) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowInTaskbar", value);
+        }
+        #endregion
+
+        #region IsShowNotifyIcon
+        public static bool GetIsShowNotifyIcon() {
+            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon");
+            return isAutoBootValue == null || isAutoBootValue.ToString() == "True";
+        }
+
+        public static void SetIsShowNotifyIcon(bool value) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowNotifyIcon", value);
+        }
+        #endregion
+
         #region Location
         public static string GetLocation() {
             object locationValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "Location");

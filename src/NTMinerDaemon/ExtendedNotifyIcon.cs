@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows;
 using System.Windows.Forms;
 
-namespace NTMiner.Views {
+namespace NTMiner {
     public class ExtendedNotifyIcon : IDisposable {
         public static ExtendedNotifyIcon Create(Icon icon, string text) {
             return new ExtendedNotifyIcon(icon, text);
@@ -17,14 +16,6 @@ namespace NTMiner.Views {
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
-            _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
-                System.Windows.Application.Current.MainWindow.Close();
-            }));
-            _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
-                if (e.Button == MouseButtons.Left) {
-                    ToggleWindow();
-                }
-            };
         }
 
         public void ShowIcon() {
@@ -33,19 +24,6 @@ namespace NTMiner.Views {
 
         public void HideIcon() {
             _targetNotifyIcon.Visible = false;
-        }
-
-        public void ToggleWindow() {
-            Window mainWindow = System.Windows.Application.Current.MainWindow;
-            if (mainWindow == null) {
-                return;
-            }
-            if (mainWindow.WindowState == WindowState.Minimized) {
-                mainWindow.WindowState = WindowState.Normal;
-            }
-            else {
-                mainWindow.WindowState = WindowState.Minimized;
-            }
         }
 
         #region IDisposable Members
