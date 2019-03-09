@@ -12,20 +12,6 @@ namespace NTMiner {
             private ProfileServiceFace() {
             }
 
-            public MineWorkData GetMineWork(Guid workId) {
-                try {
-                    MineWorkRequest request = new MineWorkRequest {
-                        WorkId = workId
-                    };
-                    MineWorkData response = Request<MineWorkData>(s_controllerName, nameof(IProfileController.MineWork), request);
-                    return response;
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                    return null;
-                }
-            }
-
             /// <summary>
             /// 同步方法
             /// </summary>

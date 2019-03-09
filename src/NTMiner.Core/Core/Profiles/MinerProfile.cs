@@ -79,7 +79,7 @@ namespace NTMiner.Core.Profiles {
                 _userSet.Refresh();
             }
             if (VirtualRoot.IsControlCenter) {
-                MineWork = Server.ProfileService.GetMineWork(workId);
+                MineWork = new MineWorkData();
             }
             else {
                 if (workId != Guid.Empty) {

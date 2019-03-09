@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public interface IProfileController {
-        MineWorkData MineWork(MineWorkRequest request);
         List<MineWorkData> MineWorks();
         MinerProfileData MinerProfile(MinerProfileRequest request);
         CoinProfileData CoinProfile(CoinProfileRequest request);

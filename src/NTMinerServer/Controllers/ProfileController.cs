@@ -7,17 +7,6 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class ProfileController : ApiController, IProfileController {
         [HttpPost]
-        public MineWorkData MineWork([FromBody]MineWorkRequest request) {
-            try {
-                return HostRoot.Current.MineWorkSet.GetMineWork(request.WorkId);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return null;
-            }
-        }
-
-        [HttpPost]
         public List<MineWorkData> MineWorks() {
             try {
                 return HostRoot.Current.MineWorkSet.GetAll();
