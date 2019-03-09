@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
             get => _inner.CoinKernelId;
             set {
                 if (_inner.CoinKernelId != value) {
-                    NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CoinKernelId), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CoinKernelId), value);
                     OnPropertyChanged(nameof(CoinKernelId));
                 }
             }
@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
             }
             set {
                 if (_inner.IsDualCoinEnabled != value) {
-                    NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsDualCoinEnabled), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsDualCoinEnabled), value);
                     OnPropertyChanged(nameof(IsDualCoinEnabled));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
             get => _inner.DualCoinId;
             set {
                 if (_inner.DualCoinId != value) {
-                    NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(DualCoinId), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(DualCoinId), value);
                     OnPropertyChanged(nameof(DualCoinId));
                 }
             }
@@ -61,7 +61,7 @@ namespace NTMiner.Vms {
             get => _inner.IsAutoDualWeight;
             set {
                 if (_inner.IsAutoDualWeight != value) {
-                    NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsAutoDualWeight), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsAutoDualWeight), value);
                     OnPropertyChanged(nameof(IsAutoDualWeight));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
@@ -72,7 +72,7 @@ namespace NTMiner.Vms {
             get => _inner.CustomArgs;
             set {
                 if (_inner.CustomArgs != value) {
-                    NTMinerRoot.Current.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CustomArgs), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CustomArgs), value);
                     OnPropertyChanged(nameof(CustomArgs));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }

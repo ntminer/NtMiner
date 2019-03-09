@@ -562,7 +562,7 @@ namespace NTMiner {
                     return;
                 }
                 if (string.IsNullOrEmpty(coinProfile.Wallet)) {
-                    SetCoinProfileProperty(mainCoin.GetId(), nameof(coinProfile.Wallet), mainCoin.TestWallet);
+                    MinerProfile.SetCoinProfileProperty(mainCoin.GetId(), nameof(coinProfile.Wallet), mainCoin.TestWallet);
                 }
                 if (mainCoinPool.IsUserMode) {
                     IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
@@ -594,7 +594,7 @@ namespace NTMiner {
                         return;
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
-                        SetCoinProfileProperty(dualCoin.GetId(), nameof(coinProfile.DualCoinWallet), dualCoin.TestWallet);
+                        MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(coinProfile.DualCoinWallet), dualCoin.TestWallet);
                     }
                     if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
                         Write.UserLine("没有填写双挖钱包。", ConsoleColor.Red);
@@ -672,57 +672,6 @@ namespace NTMiner {
         public IColumnsShowSet ColumnsShowSet { get; private set; }
 
         public IOverClockDataSet OverClockDataSet { get; private set; }
-
-        public void SetMinerProfileProperty(string propertyName, object value) {
-            _minerProfile.SetValue(propertyName, value);
-            Write.DevLine($"SetMinerProfileProperty({propertyName}, {value})");
-        }
-
-        public object GetMineWorkProperty(string propertyName) {
-            return _minerProfile.GetValue(propertyName);
-        }
-
-        public void SetCoinProfileProperty(Guid coinId, string propertyName, object value) {
-            string coinCode = "意外的币种";
-            ICoin coin;
-            if (this.CoinSet.TryGetCoin(coinId, out coin)) {
-                this.MinerProfile.SetCoinProfileProperty(coinId, propertyName, value);
-                coinCode = coin.Code;
-            }
-            Write.DevLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
-        }
-
-        public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
-            string poolName = "意外的矿池";
-            IPool pool;
-            if (this.PoolSet.TryGetPool(poolId, out pool)) {
-                poolName = pool.Name;
-                if (!pool.IsUserMode) {
-                    Write.DevLine("不是用户名密码模式矿池", ConsoleColor.Green);
-                    return;
-                }
-                this.MinerProfile.SetPoolProfileProperty(poolId, propertyName, value);
-            }
-            Write.DevLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
-        }
-
-        public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
-            string coinCode = "意外的币种";
-            string kernelName = "意外的内核";
-            ICoinKernel coinKernel;
-            if (this.CoinKernelSet.TryGetCoinKernel(coinKernelId, out coinKernel)) {
-                ICoin coin;
-                if (this.CoinSet.TryGetCoin(coinKernel.CoinId, out coin)) {
-                    coinCode = coin.Code;
-                }
-                IKernel kernel;
-                if (this.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
-                    kernelName = kernel.FullName;
-                }
-                this.MinerProfile.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
-            }
-            Write.DevLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
-        }
 
         public string QQGroup {
             get {

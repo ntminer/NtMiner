@@ -107,7 +107,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(NTMinerRoot.Current.MinerProfile.GetUser, out response)) {
                     return response;
                 }
-                NTMinerRoot.Current.SetMinerProfileProperty(request.PropertyName, request.Value);
+                NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(request.PropertyName, request.Value);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

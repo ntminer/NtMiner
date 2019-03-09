@@ -7,6 +7,7 @@ namespace NTMiner.Core.Profiles {
     public interface IWorkProfile : IMinerProfile {
         IMineWork MineWork { get; }
 
+        void SetMinerProfileProperty(string propertyName, object value);
         ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId);
         void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value);
         ICoinProfile GetCoinProfile(Guid coinId);

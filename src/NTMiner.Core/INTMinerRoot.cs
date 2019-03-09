@@ -89,31 +89,6 @@ namespace NTMiner {
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
 
-        object GetMineWorkProperty(string propertyName);
-
-        void SetMinerProfileProperty(string propertyName, object value);
-
-        void SetCoinProfileProperty(Guid coinId, string propertyName, object value);
-
-        void SetPoolProfileProperty(Guid poolId, string propertyName, object value);
-
-        void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value);
-
-        IMineContext CreateMineContext(
-            string minerName,
-            ICoin mainCoin,
-            IPool mainCoinPool,
-            IKernel kernel,
-            ICoinKernel coinKernel,
-            string mainCoinWallet);
-
-        IDualMineContext CreateDualMineContext(
-            IMineContext mineContext,
-            ICoin dualCoin,
-            IPool dualCoinPool,
-            string dualCoinWallet,
-            double dualCoinWeight);
-
         string BuildAssembleArgs();
     }
 }

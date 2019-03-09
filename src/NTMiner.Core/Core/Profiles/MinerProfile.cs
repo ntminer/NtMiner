@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Impl;
+using NTMiner.Core.Kernels;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
@@ -113,7 +114,21 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
-            _coinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
+            string coinCode = "意外的币种";
+            string kernelName = "意外的内核";
+            ICoinKernel coinKernel;
+            if (_root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out coinKernel)) {
+                ICoin coin;
+                if (_root.CoinSet.TryGetCoin(coinKernel.CoinId, out coin)) {
+                    coinCode = coin.Code;
+                }
+                IKernel kernel;
+                if (_root.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
+                    kernelName = kernel.FullName;
+                }
+                _coinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
+            }
+            Write.DevLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
         }
 
         public ICoinProfile GetCoinProfile(Guid coinId) {
@@ -121,7 +136,13 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetCoinProfileProperty(Guid coinId, string propertyName, object value) {
-            _coinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
+            string coinCode = "意外的币种";
+            ICoin coin;
+            if (_root.CoinSet.TryGetCoin(coinId, out coin)) {
+                _coinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
+                coinCode = coin.Code;
+            }
+            Write.DevLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
         }
 
         public IPoolProfile GetPoolProfile(Guid poolId) {
@@ -129,7 +150,17 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
-            _poolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
+            string poolName = "意外的矿池";
+            IPool pool;
+            if (_root.PoolSet.TryGetPool(poolId, out pool)) {
+                poolName = pool.Name;
+                if (!pool.IsUserMode) {
+                    Write.DevLine("不是用户名密码模式矿池", ConsoleColor.Green);
+                    return;
+                }
+                _poolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
+            }
+            Write.DevLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
         }
 
         public bool TryGetWallet(Guid walletId, out IWallet wallet) {
@@ -298,7 +329,7 @@ namespace NTMiner.Core.Profiles {
             return properties;
         }
 
-        public void SetValue(string propertyName, object value) {
+        public void SetMinerProfileProperty(string propertyName, object value) {
             if (Properties.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
                 if (propertyInfo.CanWrite) {
                     if (propertyInfo.PropertyType == typeof(Guid)) {
@@ -316,6 +347,7 @@ namespace NTMiner.Core.Profiles {
                         repository.Update(_data);
                         VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                     }
+                    Write.DevLine($"SetMinerProfileProperty({propertyName}, {value})");
                 }
             }
         }

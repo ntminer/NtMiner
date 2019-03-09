@@ -88,7 +88,7 @@ namespace NTMiner.Vms {
             get => _inner.PoolId;
             set {
                 if (_inner.PoolId != value) {
-                    NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(PoolId), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(PoolId), value);
                     OnPropertyChanged(nameof(PoolId));
                     OnPropertyChanged(nameof(SelectedWallet));
                 }
@@ -99,7 +99,7 @@ namespace NTMiner.Vms {
             get => _inner.Wallet;
             set {
                 if (_inner.Wallet != value) {
-                    NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(Wallet), value ?? string.Empty);
+                    NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(Wallet), value ?? string.Empty);
                     OnPropertyChanged(nameof(Wallet));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
@@ -133,7 +133,7 @@ namespace NTMiner.Vms {
             get => _inner.IsHideWallet;
             set {
                 if (_inner.IsHideWallet != value) {
-                    NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(IsHideWallet), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(IsHideWallet), value);
                     OnPropertyChanged(nameof(IsHideWallet));
                     OnPropertyChanged(nameof(IsShowWallet));
                 }
@@ -150,7 +150,7 @@ namespace NTMiner.Vms {
             get => _inner.CoinKernelId;
             set {
                 if (_inner.CoinKernelId != value) {
-                    NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(CoinKernelId), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(CoinKernelId), value);
                     OnPropertyChanged(nameof(CoinKernelId));
                 }
             }
@@ -190,7 +190,7 @@ namespace NTMiner.Vms {
             get => _inner.DualCoinPoolId;
             set {
                 if (_inner.DualCoinPoolId != value) {
-                    NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(DualCoinPoolId), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(DualCoinPoolId), value);
                     OnPropertyChanged(nameof(DualCoinPoolId));
                 }
             }
@@ -200,7 +200,7 @@ namespace NTMiner.Vms {
             get => _inner.DualCoinWallet;
             set {
                 if (_inner.DualCoinWallet != value) {
-                    NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(DualCoinWallet), value ?? string.Empty);
+                    NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(DualCoinWallet), value ?? string.Empty);
                     OnPropertyChanged(nameof(DualCoinWallet));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 }
@@ -234,7 +234,7 @@ namespace NTMiner.Vms {
             get => _inner.IsDualCoinHideWallet;
             set {
                 if (_inner.IsDualCoinHideWallet != value) {
-                    NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(IsDualCoinHideWallet), value);
+                    NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(IsDualCoinHideWallet), value);
                     OnPropertyChanged(nameof(IsDualCoinHideWallet));
                     OnPropertyChanged(nameof(IsDualCoinShowWallet));
                 }
@@ -250,7 +250,7 @@ namespace NTMiner.Vms {
         public bool IsOverClockEnabled {
             get { return _inner.IsOverClockEnabled; }
             set {
-                NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(IsOverClockEnabled), value);
+                NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(IsOverClockEnabled), value);
                 OnPropertyChanged(nameof(IsOverClockEnabled));
             }
         }
@@ -258,7 +258,7 @@ namespace NTMiner.Vms {
         public bool IsOverClockGpuAll {
             get { return _inner.IsOverClockGpuAll; }
             set {
-                NTMinerRoot.Current.SetCoinProfileProperty(this.CoinId, nameof(IsOverClockGpuAll), value);
+                NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(IsOverClockGpuAll), value);
                 OnPropertyChanged(nameof(IsOverClockGpuAll));
             }
         }

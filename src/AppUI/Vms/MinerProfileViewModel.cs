@@ -127,7 +127,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsAutoBoot;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsAutoBoot != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsAutoBoot), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsAutoBoot), value);
                     OnPropertyChanged(nameof(IsAutoBoot));
                 }
             }
@@ -146,7 +146,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsNoShareRestartKernel;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsNoShareRestartKernel != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsNoShareRestartKernel), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsNoShareRestartKernel), value);
                     OnPropertyChanged(nameof(IsNoShareRestartKernel));
                 }
             }
@@ -156,7 +156,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.NoShareRestartKernelMinutes;
             set {
                 if (NTMinerRoot.Current.MinerProfile.NoShareRestartKernelMinutes != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(NoShareRestartKernelMinutes), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(NoShareRestartKernelMinutes), value);
                     OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
                 }
             }
@@ -166,7 +166,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsPeriodicRestartKernel;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsPeriodicRestartKernel != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsPeriodicRestartKernel), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsPeriodicRestartKernel), value);
                     OnPropertyChanged(nameof(IsPeriodicRestartKernel));
                 }
             }
@@ -176,7 +176,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.PeriodicRestartKernelHours;
             set {
                 if (NTMinerRoot.Current.MinerProfile.PeriodicRestartKernelHours != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(PeriodicRestartKernelHours), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartKernelHours), value);
                     OnPropertyChanged(nameof(PeriodicRestartKernelHours));
                 }
             }
@@ -186,7 +186,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsPeriodicRestartComputer;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsPeriodicRestartComputer != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsPeriodicRestartComputer), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsPeriodicRestartComputer), value);
                     OnPropertyChanged(nameof(IsPeriodicRestartComputer));
                 }
             }
@@ -196,7 +196,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.PeriodicRestartComputerHours;
             set {
                 if (NTMinerRoot.Current.MinerProfile.PeriodicRestartComputerHours != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(PeriodicRestartComputerHours), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartComputerHours), value);
                     OnPropertyChanged(nameof(PeriodicRestartComputerHours));
                 }
             }
@@ -206,7 +206,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsAutoStart;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsAutoStart != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsAutoStart), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStart), value);
                     OnPropertyChanged(nameof(IsAutoStart));
                 }
             }
@@ -216,7 +216,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsAutoRestartKernel;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsAutoRestartKernel != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsAutoRestartKernel), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsAutoRestartKernel), value);
                     OnPropertyChanged(nameof(IsAutoRestartKernel));
                 }
             }
@@ -236,7 +236,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.CoinId;
             set {
                 if (NTMinerRoot.Current.MinerProfile.CoinId != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(CoinId), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(CoinId), value);
                     OnPropertyChanged(nameof(CoinId));
                 }
             }
