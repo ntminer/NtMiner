@@ -14,5 +14,8 @@ namespace NTMiner.Data {
 
         CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId);
         void SetCoinKernelProfileProperty(Guid workId, Guid coinKernelId, string propertyName, object value);
+
+        GpuProfileData GetGpuProfile(Guid workId, Guid coinId);
+        void SetGpuProfile(Guid workId, Guid coinId, string propertyName, object value);
     }
 }

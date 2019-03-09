@@ -168,7 +168,7 @@
     <Compile Include="Core\Profiles\Impl\KernelProfileSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.partials.CoinKernelProfileSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.partials.CoinProfileSet.cs" />
-    <Compile Include="Core\Profiles\MinerProfile.partials.GpuOverClockDataSet.cs" />
+    <Compile Include="Core\Profiles\MinerProfile.partials.GpuProfileSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.partials.PoolProfileSet.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicData.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicItemData.cs" />

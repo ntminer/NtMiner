@@ -448,6 +448,73 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        [HttpPost]
+        public ResponseBase ExportMineWork(ExportMineWorkRequest request) {
+            if (request == null || request.MineWorkId == Guid.Empty) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                Guid workId = request.MineWorkId;
+                string dbFileFullName = SpecialPath.GetMineWorkDbFileFullName(workId);
+                if (!File.Exists(dbFileFullName)) {
+                    return ResponseBase.NotExist<ResponseBase>(request.MessageId);
+                }
+                LocalJson obj = LocalJson.NewInstance();
+                using (var database = new LiteDatabase($"filename={dbFileFullName};journal=false")) {
+                    obj.MinerProfile = HostRoot.Current.MineProfileManager.GetMinerProfile(workId);
+                    obj.MineWork = HostRoot.Current.MineWorkSet.GetMineWork(workId);
+                    if (obj.MinerProfile != null && obj.MineWork != null) {
+                        CoinProfileData mainCoinProfile = database.GetCollection<CoinProfileData>().FindById(obj.MinerProfile.CoinId);
+                        if (mainCoinProfile != null) {
+                            List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
+                            List<PoolProfileData> poolProfiles = new List<PoolProfileData>();
+                            CoinKernelProfileData coinKernelProfile = database.GetCollection<CoinKernelProfileData>().FindById(mainCoinProfile.CoinKernelId);
+                            PoolProfileData mainCoinPoolProfile = database.GetCollection<PoolProfileData>().FindById(mainCoinProfile.PoolId);
+                            if (mainCoinPoolProfile != null) {
+                                poolProfiles.Add(mainCoinPoolProfile);
+                            }
+                            if (coinKernelProfile != null) {
+                                if (coinKernelProfile.IsDualCoinEnabled) {
+                                    CoinProfileData dualCoinProfile = database.GetCollection<CoinProfileData>().FindById(coinKernelProfile.DualCoinId);
+                                    if (dualCoinProfile != null) {
+                                        coinProfiles.Add(dualCoinProfile);
+                                        PoolProfileData dualCoinPoolProfile = database.GetCollection<PoolProfileData>().FindById(dualCoinProfile.PoolId);
+                                        if (dualCoinPoolProfile != null) {
+                                            poolProfiles.Add(dualCoinPoolProfile);
+                                        }
+                                    }
+                                }
+                            }
+                            obj.CoinProfiles = coinProfiles.ToArray();
+                            obj.CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
+                            obj.PoolProfiles = poolProfiles.ToArray();
+                            obj.GpuProfiles = database.GetCollection<GpuProfileData>().Find(a=>a.CoinId == obj.MinerProfile.CoinId).ToArray();
+                        }
+                    }
+                }
+                obj.TimeStamp = Timestamp.GetTimestamp();
+                using (var localDb = HostRoot.CreateLocalDb()) {
+                    obj.Pools = localDb.GetCollection<PoolData>().FindAll().ToArray();
+                }
+                obj.Users = HostRoot.Current.UserSet.Select(a => new UserData(a)).ToArray();
+                obj.Wallets = HostRoot.Current.WalletSet.GetAll().ToArray();
+                foreach (var user in obj.Users) {
+                    user.Password = HashUtil.Sha1(user.Password);
+                }
+                string json = HostRoot.JsonSerializer.Serialize(obj);
+                File.WriteAllText(SpecialPath.GetMineWorkJsonFileFullName(workId), json);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+
         #region MinerProfile
         [HttpPost]
         public MinerProfileData MinerProfile([FromBody]MinerProfileRequest request) {

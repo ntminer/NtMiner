@@ -71,6 +71,7 @@
     <Compile Include="MinerServer\AppSettingData.cs" />
     <Compile Include="MinerServer\AppSettingRequest.cs" />
     <Compile Include="MinerServer\AppSettingsRequest.cs" />
+    <Compile Include="MinerServer\ExportMineWorkRequest.cs" />
     <Compile Include="MinerServer\WrapperRequest.cs" />
     <Compile Include="MinerServer\CalcConfigData.cs" />
     <Compile Include="MinerServer\CalcConfigsRequest.cs" />

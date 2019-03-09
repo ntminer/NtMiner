@@ -217,5 +217,13 @@ namespace NTMiner.Data.Impl {
                 }
             }
         }
+
+        public GpuProfileData GetGpuProfile(Guid workId, Guid coinId) {
+            throw new NotImplementedException();
+        }
+
+        public void SetGpuProfile(Guid workId, Guid coinId, string propertyName, object value) {
+            throw new NotImplementedException();
+        }
     }
 }
