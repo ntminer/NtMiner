@@ -170,7 +170,7 @@ namespace NTMiner.Core.Profiles {
                 return r;
             }
 
-            public IEnumerable<IWallet> GetAllWallets() {
+            public IEnumerable<IWallet> GetWallets() {
                 InitOnece();
                 return _dicById.Values;
             }

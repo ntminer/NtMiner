@@ -91,6 +91,7 @@ namespace NTMiner {
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
             this.WalletSet = new WalletSet(this);
+            this.PoolSet = new PoolSet(this);
             this.MineProfileManager = new MineProfileManager(this);
             this.NTMinerFileSet = new NTMinerFileSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
@@ -115,6 +116,8 @@ namespace NTMiner {
         public IMinerGroupSet MinerGroupSet { get; private set; }
 
         public IWalletSet WalletSet { get; private set; }
+
+        public IPoolSet PoolSet { get; private set; }
 
         public IMineProfileManager MineProfileManager { get; private set; }
 

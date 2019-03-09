@@ -180,7 +180,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public List<IWallet> GetWallets() {
-            return _walletSet.GetAllWallets().ToList();
+            return _walletSet.GetWallets().ToList();
         }
 
         public List<ICoinKernelProfile> GetCoinKernelProfiles() {

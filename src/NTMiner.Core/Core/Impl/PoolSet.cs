@@ -1,6 +1,4 @@
-﻿using NTMiner.Core.Kernels;
-using NTMiner.Core.Kernels.Impl;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

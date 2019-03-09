@@ -20,6 +20,7 @@ namespace NTMiner {
         ICoinSnapshotSet CoinSnapshotSet { get; }
         IMineWorkSet MineWorkSet { get; }
         IMinerGroupSet MinerGroupSet { get; }
+        IPoolSet PoolSet { get; }
         IWalletSet WalletSet { get; }
         IMineProfileManager MineProfileManager { get; }
         INTMinerFileSet NTMinerFileSet { get; }

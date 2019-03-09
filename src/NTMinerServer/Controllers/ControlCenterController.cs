@@ -597,6 +597,62 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region Pools
+        [HttpPost]
+        public GetPoolsResponse Pools([FromBody]PoolsRequest request) {
+            try {
+                var data = HostRoot.Current.PoolSet.GetAll();
+                return GetPoolsResponse.Ok(request.MessageId, data);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError<GetPoolsResponse>(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region AddOrUpdatePool
+        [HttpPost]
+        public ResponseBase AddOrUpdatePool([FromBody]AddOrUpdatePoolRequest request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                HostRoot.Current.PoolSet.AddOrUpdate(request.Data);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region RemovePool
+        [HttpPost]
+        public ResponseBase RemovePool([FromBody]RemovePoolRequest request) {
+            if (request == null || request.PoolId == Guid.Empty) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                HostRoot.Current.PoolSet.Remove(request.PoolId);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
         #region Wallets
         // 挖矿端执行作业的时候需要从中控获取钱包列表所以调用此方法不需要登录
         [HttpPost]

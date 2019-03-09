@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace NTMiner.Core {
     public class PoolData : IPool, IDbEntity<Guid> {
@@ -52,5 +53,22 @@ namespace NTMiner.Core {
         public string UserName { get; set; }
 
         public string Password { get; set; }
+
+        public string GetSignData() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(nameof(Id)).Append(Id)
+                .Append(nameof(DataLevel)).Append(DataLevel)
+                .Append(nameof(CoinId)).Append(CoinId)
+                .Append(nameof(Name)).Append(Name)
+                .Append(nameof(Server)).Append(Server)
+                .Append(nameof(Url)).Append(Url)
+                .Append(nameof(SortNumber)).Append(SortNumber)
+                .Append(nameof(PublishState)).Append(PublishState)
+                .Append(nameof(Description)).Append(Description)
+                .Append(nameof(IsUserMode)).Append(IsUserMode)
+                .Append(nameof(UserName)).Append(UserName)
+                .Append(nameof(Password)).Append(Password);
+            return sb.ToString();
+        }
     }
 }
