@@ -148,6 +148,8 @@ namespace NTMiner {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
+                File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
+                File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
                 if (IsNTMinerOpened(request.WorkId)) {
                     ShowMainWindowAsync(callback: null);
                     return ResponseBase.Ok(request.MessageId);
@@ -199,10 +201,23 @@ namespace NTMiner {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
+                IUser user = HostRoot.Current.UserSet.GetUser(request.LoginName);
+                if (user == null) {
+                    return ResponseBase.Forbidden(request.MessageId);
+                }
+                File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
+                File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
                 string location = NTMinerRegistry.GetLocation();
                 if (IsNTMinerOpened(request.WorkId)) {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/StartMine", request);
+                        MinerClient.StartMineRequest innerRequest = new MinerClient.StartMineRequest {
+                            ClientIp = request.ClientIp,
+                            LoginName = request.LoginName,
+                            MessageId = request.MessageId,
+                            WorkId = request.WorkId
+                        };
+                        innerRequest.SignIt(user.Password);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/StartMine", innerRequest);
                         response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         return response;
                     }
@@ -234,6 +249,12 @@ namespace NTMiner {
             if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                 return response;
             }
+            IUser user = HostRoot.Current.UserSet.GetUser(request.LoginName);
+            if (user == null) {
+                return ResponseBase.Forbidden(request.MessageId);
+            }
+            File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
+            File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
             Task.Factory.StartNew(() => {
                 try {
                     if (IsNTMinerOpened(Guid.Empty)) {
