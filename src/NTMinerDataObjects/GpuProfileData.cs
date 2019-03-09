@@ -58,7 +58,7 @@ namespace NTMiner {
         public bool IsEnabled { get; set; }
 
         public override string ToString() {
-            return $"{Id}{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{Cool}{IsEnabled}";
+            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{Cool}{IsEnabled}";
         }
     }
 }
