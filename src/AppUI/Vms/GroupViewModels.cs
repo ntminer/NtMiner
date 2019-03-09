@@ -16,6 +16,17 @@ namespace NTMiner.Vms {
                     SortNumber = Count + 1
                 }.Edit.Execute(FormType.Add);
             });
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<GroupAddedEvent>(
                 "添加了组后调整VM内存",
                 LogEnum.Console,
@@ -47,10 +58,6 @@ namespace NTMiner.Vms {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChangeds();
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.GroupSet) {
                 GroupViewModel groupVm = new GroupViewModel(item);
                 _dicById.Add(item.GetId(), groupVm);

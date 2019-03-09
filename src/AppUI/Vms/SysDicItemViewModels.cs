@@ -10,6 +10,17 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, SysDicItemViewModel> _dicById = new Dictionary<Guid, SysDicItemViewModel>();
 
         public SysDicItemViewModels() {
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<SysDicItemAddedEvent>(
                 "添加了系统字典项后调整VM内存",
                 LogEnum.Console,
@@ -55,10 +66,6 @@ namespace NTMiner.Vms {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.SysDicItemSet) {
                 _dicById.Add(item.GetId(), new SysDicItemViewModel(item));
             }

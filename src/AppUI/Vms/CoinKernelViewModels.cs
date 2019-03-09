@@ -8,6 +8,17 @@ namespace NTMiner.Vms {
         public static readonly CoinKernelViewModels Current = new CoinKernelViewModels();
         private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
         private CoinKernelViewModels() {
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<CoinKernelAddedEvent>(
                 "添加了币种内核后刷新VM内存",
                 LogEnum.Console,
@@ -83,10 +94,6 @@ namespace NTMiner.Vms {
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoinVms));
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoins));
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.CoinKernelSet) {
                 _dicById.Add(item.GetId(), new CoinKernelViewModel(item));
             }

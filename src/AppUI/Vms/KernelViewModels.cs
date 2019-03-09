@@ -10,6 +10,17 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelViewModel> _dicById = new Dictionary<Guid, KernelViewModel>();
 
         private KernelViewModels() {
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<KernelAddedEvent>(
                 "添加了内核后调整VM内存",
                 LogEnum.Console,
@@ -41,8 +52,8 @@ namespace NTMiner.Vms {
                     Guid kernelInputId = entity.KernelInputId;
                     entity.Update(message.Source);
                     if (publishStatus != entity.PublishState) {
-                        foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a=>a.KernelId == entity.Id)) {
-                            foreach (var coinVm in CoinViewModels.Current.AllCoins.Where(a=>a.Id == coinKernelVm.CoinId)) {
+                        foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == entity.Id)) {
+                            foreach (var coinVm in CoinViewModels.Current.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                             }
                         }
@@ -51,10 +62,6 @@ namespace NTMiner.Vms {
                         VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.KernelSet) {
                 _dicById.Add(item.GetId(), new KernelViewModel(item));
             }

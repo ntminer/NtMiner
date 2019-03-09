@@ -10,6 +10,18 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelOutputFilterViewModel> _dicById = new Dictionary<Guid, KernelOutputFilterViewModel>();
 
         private KernelOutputFilterViewModels() {
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                _dicByKernelOutputId.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<KernelOutputFilterAddedEvent>(
                 "添加了内核输出过滤器后刷新VM内存",
                 LogEnum.Console,
@@ -50,10 +62,6 @@ namespace NTMiner.Vms {
                         }
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.KernelOutputFilterSet) {
                 if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                     _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputFilterViewModel>());

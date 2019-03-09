@@ -13,13 +13,24 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<CoinAddedEvent>(
                 "添加了币种后刷新VM内存",
                 LogEnum.Console,
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
-                    OnPropertyChangeds();
+                    OnAllPropertyChanged();
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinRemovedEvent>(
@@ -28,7 +39,7 @@ namespace NTMiner.Vms {
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
-                    OnPropertyChangeds();
+                    OnAllPropertyChanged();
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinUpdatedEvent>(
@@ -54,21 +65,9 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(MainCoins));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.CoinSet) {
                 _dicById.Add(item.GetId(), new CoinViewModel(item));
             }
-        }
-
-        private void OnPropertyChangeds() {
-            OnPropertyChanged(nameof(AllCoins));
-            OnPropertyChanged(nameof(MainCoins));
-            OnPropertyChanged(nameof(PleaseSelect));
-            OnPropertyChanged(nameof(MainCoinPleaseSelect));
-            OnPropertyChanged(nameof(DualPleaseSelect));
         }
 
         public bool TryGetCoinVm(Guid coinId, out CoinViewModel coinVm) {

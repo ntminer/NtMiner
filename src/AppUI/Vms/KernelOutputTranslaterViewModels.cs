@@ -11,6 +11,18 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelOutputTranslaterViewModel> _dicById = new Dictionary<Guid, KernelOutputTranslaterViewModel>();
 
         private KernelOutputTranslaterViewModels() {
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                _dicByKernelOutputId.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<KernelOutputTranslaterAddedEvent>(
                 "添加了内核输出翻译器后刷新VM内存",
                 LogEnum.Console,
@@ -55,10 +67,6 @@ namespace NTMiner.Vms {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.KernelOutputTranslaterSet) {
                 if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                     _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterViewModel>());

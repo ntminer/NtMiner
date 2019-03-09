@@ -10,6 +10,17 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelOutputViewModel> _dicById = new Dictionary<Guid, KernelOutputViewModel>();
 
         private KernelOutputViewModels() {
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<KernelOutputAddedEvent>(
                 "添加了内核输出组后刷新VM内存",
                 LogEnum.Console,
@@ -40,10 +51,6 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(PleaseSelectVms));
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.KernelOutputSet) {
                 _dicById.Add(item.GetId(), new KernelOutputViewModel(item));
             }

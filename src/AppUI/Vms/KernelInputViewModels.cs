@@ -10,6 +10,17 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelInputViewModel> _dicById = new Dictionary<Guid, KernelInputViewModel>();
 
         private KernelInputViewModels() {
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<KernelInputAddedEvent>(
                 "添加了内核输入后刷新VM内存",
                 LogEnum.Console,
@@ -53,10 +64,6 @@ namespace NTMiner.Vms {
                         OnPropertyChangeds();
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.KernelInputSet) {
                 _dicById.Add(item.GetId(), new KernelInputViewModel(item));
             }

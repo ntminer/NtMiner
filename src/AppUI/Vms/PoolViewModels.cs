@@ -8,6 +8,17 @@ namespace NTMiner.Vms {
         public static readonly PoolViewModels Current = new PoolViewModels();
         private readonly Dictionary<Guid, PoolViewModel> _dicById = new Dictionary<Guid, PoolViewModel>();
         private PoolViewModels() {
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<PoolAddedEvent>(
                 "添加矿池后刷新VM内存",
                 LogEnum.Console,
@@ -42,10 +53,6 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.PoolSet) {
                 _dicById.Add(item.GetId(), new PoolViewModel(item));
             }

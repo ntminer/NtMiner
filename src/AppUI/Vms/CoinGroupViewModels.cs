@@ -9,6 +9,18 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, CoinGroupViewModel> _dicById = new Dictionary<Guid, CoinGroupViewModel>();
         private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
         private CoinGroupViewModels() {
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                _listByGroupId.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnAllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
             VirtualRoot.On<CoinGroupAddedEvent>(
                 "添加了币组后调整VM内存",
                 LogEnum.Console,
@@ -52,10 +64,6 @@ namespace NTMiner.Vms {
                         OnGroupPropertyChanged(entity.GroupId);
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
-            Init();
-        }
-
-        private void Init() {
             foreach (var item in NTMinerRoot.Current.CoinGroupSet) {
                 CoinGroupViewModel groupVm = new CoinGroupViewModel(item);
                 _dicById.Add(item.GetId(), groupVm);

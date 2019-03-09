@@ -12,6 +12,9 @@ namespace NTMiner {
     public interface INTMinerRoot {
         List<IDelegateHandler> ContextHandlers { get; }
 
+        event Action OnContextReInited;
+        event Action OnReRendContext;
+
         DateTime CreatedOn { get; }
 
         IAppSettingSet AppSettingSet { get; }

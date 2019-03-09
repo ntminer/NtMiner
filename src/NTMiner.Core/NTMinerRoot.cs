@@ -29,6 +29,9 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         public List<IDelegateHandler> ContextHandlers { get; private set; } = new List<IDelegateHandler>();
 
+        public event Action OnContextReInited;
+        public event Action OnReRendContext;
+
         public DateTime CreatedOn { get; private set; }
 
         public IAppSettingSet AppSettingSet { get; private set; }
@@ -162,6 +165,8 @@ namespace NTMiner {
             }
             ContextHandlers.Clear();
             ContextInit();
+            OnContextReInited?.Invoke();
+            OnReRendContext?.Invoke();
         }
         #endregion
 
