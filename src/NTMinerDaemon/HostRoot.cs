@@ -49,6 +49,7 @@ namespace NTMiner {
                         }
                     }
                     Run();
+                    NotifyIcon.Dispose();
                 }
             }
             catch (Exception e) {
