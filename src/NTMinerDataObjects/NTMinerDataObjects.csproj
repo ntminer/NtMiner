@@ -71,10 +71,13 @@
     <Compile Include="Core\SysDicItemData.cs" />
     <Compile Include="DataLevel.cs" />
     <Compile Include="MinerServer\AddOrUpdatePoolRequest.cs" />
+    <Compile Include="MinerServer\CoinKernelProfileResponse.cs" />
+    <Compile Include="MinerServer\CoinProfileResponse.cs" />
     <Compile Include="MinerServer\GetMineWorksResponse.cs" />
     <Compile Include="MinerServer\GetPoolsResponse.cs" />
     <Compile Include="MinerServer\MinerProfileResponse.cs" />
     <Compile Include="MinerServer\MineWorksRequest.cs" />
+    <Compile Include="MinerServer\PoolProfileResponse.cs" />
     <Compile Include="MinerServer\PoolsRequest.cs" />
     <Compile Include="MinerServer\RemovePoolRequest.cs" />
     <Compile Include="Profile\GpuProfileData.cs" />

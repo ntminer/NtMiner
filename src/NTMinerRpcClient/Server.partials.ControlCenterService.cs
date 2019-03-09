@@ -400,8 +400,10 @@ namespace NTMiner {
             public MinerProfileData GetMinerProfile(Guid workId) {
                 try {
                     MinerProfileRequest request = new MinerProfileRequest {
+                        LoginName = SingleUser.LoginName,
                         WorkId = workId
                     };
+                    request.SignIt(SingleUser.PasswordSha1);
                     MinerProfileResponse response = Request<MinerProfileResponse>(s_controllerName, nameof(IControlCenterController.MinerProfile), request);
                     if (response != null) {
                         return response.Data;
@@ -425,11 +427,16 @@ namespace NTMiner {
             public CoinProfileData GetCoinProfile(Guid workId, Guid coinId) {
                 try {
                     CoinProfileRequest request = new CoinProfileRequest {
+                        LoginName = SingleUser.LoginName,
                         WorkId = workId,
                         CoinId = coinId
                     };
-                    CoinProfileData response = Request<CoinProfileData>(s_controllerName, nameof(IControlCenterController.CoinProfile), request);
-                    return response;
+                    request.SignIt(SingleUser.PasswordSha1);
+                    CoinProfileResponse response = Request<CoinProfileResponse>(s_controllerName, nameof(IControlCenterController.CoinProfile), request);
+                    if (response != null) {
+                        return response.Data;
+                    }
+                    return null;
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
@@ -448,11 +455,16 @@ namespace NTMiner {
             public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
                 try {
                     PoolProfileRequest request = new PoolProfileRequest {
+                        LoginName = SingleUser.LoginName,
                         WorkId = workId,
                         PoolId = poolId
                     };
-                    PoolProfileData response = Request<PoolProfileData>(s_controllerName, nameof(IControlCenterController.PoolProfile), request);
-                    return response;
+                    request.SignIt(SingleUser.PasswordSha1);
+                    PoolProfileResponse response = Request<PoolProfileResponse>(s_controllerName, nameof(IControlCenterController.PoolProfile), request);
+                    if (response != null) {
+                        return response.Data;
+                    }
+                    return null;
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
@@ -471,11 +483,16 @@ namespace NTMiner {
             public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
                 try {
                     CoinKernelProfileRequest request = new CoinKernelProfileRequest {
+                        LoginName = SingleUser.LoginName,
                         WorkId = workId,
                         CoinKernelId = coinKernelId
                     };
-                    CoinKernelProfileData response = Request<CoinKernelProfileData>(s_controllerName, nameof(IControlCenterController.CoinKernelProfile), request);
-                    return response;
+                    request.SignIt(SingleUser.PasswordSha1);
+                    CoinKernelProfileResponse response = Request<CoinKernelProfileResponse>(s_controllerName, nameof(IControlCenterController.CoinKernelProfile), request);
+                    if (response != null) {
+                        return response.Data;
+                    }
+                    return null;
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
@@ -579,8 +596,10 @@ namespace NTMiner {
             public GetWalletsResponse GetWallets() {
                 try {
                     WalletsRequest request = new WalletsRequest {
+                        LoginName = SingleUser.LoginName,
                         MessageId = Guid.NewGuid()
                     };
+                    request.SignIt(SingleUser.PasswordSha1);
                     GetWalletsResponse response = Request<GetWalletsResponse>(s_controllerName, nameof(IControlCenterController.Wallets), request);
                     return response;
                 }
@@ -637,8 +656,10 @@ namespace NTMiner {
             public GetPoolsResponse GetPools() {
                 try {
                     PoolsRequest request = new PoolsRequest {
+                        LoginName = SingleUser.LoginName,
                         MessageId = Guid.NewGuid()
                     };
+                    request.SignIt(SingleUser.PasswordSha1);
                     GetPoolsResponse response = Request<GetPoolsResponse>(s_controllerName, nameof(IControlCenterController.Pools), request);
                     return response;
                 }

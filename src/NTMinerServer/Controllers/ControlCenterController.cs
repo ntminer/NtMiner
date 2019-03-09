@@ -459,7 +459,20 @@ namespace NTMiner.Controllers {
 
         #region ExportMineWork
         public ResponseBase ExportMineWork(ExportMineWorkRequest request) {
-            throw new NotImplementedException();
+            if (request == null) {
+                return ResponseBase.InvalidInput<ResponseBase>(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                throw new NotImplementedException();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError<ResponseBase>(request.MessageId, e.Message);
+            }
         }
         #endregion
 
@@ -479,46 +492,70 @@ namespace NTMiner.Controllers {
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return null;
+                return ResponseBase.ServerError<MinerProfileResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
 
         #region CoinProfile
         [HttpPost]
-        public CoinProfileData CoinProfile([FromBody]CoinProfileRequest request) {
+        public CoinProfileResponse CoinProfile([FromBody]CoinProfileRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<CoinProfileResponse>(Guid.Empty, "参数错误");
+            }
             try {
-                return HostRoot.Current.MineProfileManager.GetCoinProfile(request.WorkId, request.CoinId);
+                CoinProfileResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                var data = HostRoot.Current.MineProfileManager.GetCoinProfile(request.WorkId, request.CoinId);
+                return CoinProfileResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return null;
+                return ResponseBase.ServerError<CoinProfileResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
 
         #region PoolProfile
         [HttpPost]
-        public PoolProfileData PoolProfile([FromBody]PoolProfileRequest request) {
+        public PoolProfileResponse PoolProfile([FromBody]PoolProfileRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<PoolProfileResponse>(Guid.Empty, "参数错误");
+            }
             try {
-                return HostRoot.Current.MineProfileManager.GetPoolProfile(request.WorkId, request.PoolId);
+                PoolProfileResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                var data = HostRoot.Current.MineProfileManager.GetPoolProfile(request.WorkId, request.PoolId);
+                return PoolProfileResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return null;
+                return ResponseBase.ServerError<PoolProfileResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
 
         #region CoinKernelProfile
         [HttpPost]
-        public CoinKernelProfileData CoinKernelProfile([FromBody]CoinKernelProfileRequest request) {
+        public CoinKernelProfileResponse CoinKernelProfile([FromBody]CoinKernelProfileRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<CoinKernelProfileResponse>(Guid.Empty, "参数错误");
+            }
             try {
-                return HostRoot.Current.MineProfileManager.GetCoinKernelProfile(request.WorkId, request.CoinKernelId);
+                CoinKernelProfileResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                var data = HostRoot.Current.MineProfileManager.GetCoinKernelProfile(request.WorkId, request.CoinKernelId);
+                return CoinKernelProfileResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return null;
+                return ResponseBase.ServerError<CoinKernelProfileResponse>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -622,7 +659,14 @@ namespace NTMiner.Controllers {
         #region Pools
         [HttpPost]
         public GetPoolsResponse Pools([FromBody]PoolsRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<GetPoolsResponse>(Guid.Empty, "参数错误");
+            }
             try {
+                GetPoolsResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
                 var data = HostRoot.Current.PoolSet.GetAll();
                 return GetPoolsResponse.Ok(request.MessageId, data);
             }
@@ -676,10 +720,16 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region Wallets
-        // 挖矿端执行作业的时候需要从中控获取钱包列表所以调用此方法不需要登录
         [HttpPost]
         public GetWalletsResponse Wallets([FromBody]WalletsRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<GetWalletsResponse>(Guid.Empty, "参数错误");
+            }
             try {
+                GetWalletsResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
                 var data = HostRoot.Current.WalletSet.GetAll();
                 return GetWalletsResponse.Ok(request.MessageId, data);
             }
