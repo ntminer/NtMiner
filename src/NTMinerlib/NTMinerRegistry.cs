@@ -46,7 +46,7 @@ namespace NTMiner {
         #region IsShowDaemonNotifyIcon
         public static bool GetIsShowDaemonNotifyIcon() {
             object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowDaemonNotifyIcon");
-            return isAutoBootValue == null || isAutoBootValue.ToString() == "True";
+            return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
         }
 
         public static void SetIsShowDaemonNotifyIcon(bool value) {
