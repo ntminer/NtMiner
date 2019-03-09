@@ -467,7 +467,11 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                throw new NotImplementedException();
+                string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.MineWorkId);
+                string serverJsonFileFullName = SpecialPath.GetMineWorkServerJsonFileFullName(request.MineWorkId);
+                File.WriteAllText(localJsonFileFullName, request.LocalJson);
+                File.WriteAllText(serverJsonFileFullName, request.ServerJson);
+                return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
