@@ -53,12 +53,15 @@ namespace NTMiner.Vms {
                     throw new ValidationException("作业名称是必须的");
                 }
                 bool isMinerProfileChanged = false;
-                if (NTMinerRoot.Current.MineWorkSet.Contains(this.Id)) {
+                IMineWork entity;
+                if (NTMinerRoot.Current.MineWorkSet.TryGetMineWork(this.Id, out entity)) {
                     string sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
                     if (this.Sha1 != sha1) {
                         isMinerProfileChanged = true;
                     }
-                    VirtualRoot.Execute(new UpdateMineWorkCommand(this));
+                    if (entity.Name != this.Name || entity.Description != this.Description) {
+                        VirtualRoot.Execute(new UpdateMineWorkCommand(this));
+                    }
                     CloseWindow?.Invoke();
                 }
                 else {
