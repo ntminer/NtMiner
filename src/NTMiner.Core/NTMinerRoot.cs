@@ -42,7 +42,7 @@ namespace NTMiner {
         }
         #endregion
 
-        bool isUseOfficialServerJson = !DevMode.IsDebugMode;
+        bool isUseOfficialServerJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter;
         #region Init
         private readonly object _locker = new object();
         private bool _isInited = false;
