@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace NTMiner.Core.Gpus {
+namespace NTMiner.Core {
     public enum SupportedGpu {
         [Description("N卡")]
         NVIDIA,

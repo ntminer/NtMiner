@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.SysDics {
+namespace NTMiner.Core {
     public interface ISysDicItem : IEntity<Guid> {
         Guid DicId { get; }
         string Code { get; }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Kernels {
+namespace NTMiner.Core {
     public interface IKernelOutputTranslater : IEntity<Guid> {
         Guid KernelOutputId { get; }
         string RegexPattern { get; }

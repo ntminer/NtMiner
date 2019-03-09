@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Kernels.Impl {
+namespace NTMiner.Core {
     public class KernelOutputTranslaterData : IKernelOutputTranslater, IDbEntity<Guid>, ISortable {
         public Guid GetId() {
             return this.Id;

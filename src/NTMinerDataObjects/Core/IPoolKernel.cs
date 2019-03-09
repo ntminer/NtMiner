@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Kernels {
+namespace NTMiner.Core {
     public interface IPoolKernel : IEntity<Guid> {
         Guid PoolId { get; }
         Guid KernelId { get; }

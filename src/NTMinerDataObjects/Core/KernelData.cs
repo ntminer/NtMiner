@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 
-namespace NTMiner.Core.Kernels.Impl {
+namespace NTMiner.Core {
     public class KernelData : IKernel, IDbEntity<Guid> {
         public KernelData() {
         }

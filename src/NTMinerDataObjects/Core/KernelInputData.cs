@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Kernels.Impl {
+namespace NTMiner.Core {
     public class KernelInputData : IKernelInput, IDbEntity<Guid> {
         public KernelInputData() { }
 

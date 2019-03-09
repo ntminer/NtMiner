@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Kernels.Impl {
+namespace NTMiner.Core {
     public class PoolKernelData : IPoolKernel, IDbEntity<Guid> {
         public PoolKernelData() {
         }

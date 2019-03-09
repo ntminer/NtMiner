@@ -1,8 +1,7 @@
-﻿using NTMiner.Core.Gpus;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Core.Kernels.Impl {
+namespace NTMiner.Core {
     public class CoinKernelData : ICoinKernel, IDbEntity<Guid> {
         public CoinKernelData() {
             this.EnvironmentVariables = new List<EnvironmentVariable>();

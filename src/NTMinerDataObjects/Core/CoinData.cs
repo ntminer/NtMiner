@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Impl {
+namespace NTMiner.Core {
     public class CoinData : ICoin, IDbEntity<Guid> {
         public static readonly ICoin Empty = new CoinData() {
             Id = Guid.Empty,

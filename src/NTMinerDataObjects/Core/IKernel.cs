@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Kernels {
+namespace NTMiner.Core {
     public interface IKernel : IEntity<Guid> {
         string Code { get; }
         string Version { get; }

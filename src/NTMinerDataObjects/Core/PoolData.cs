@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.Core {
     public class PoolData : IPool, IDbEntity<Guid> {
         public PoolData() {
         }

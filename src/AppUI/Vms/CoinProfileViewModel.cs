@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
 using NTMiner.Notifications;
 using NTMiner.Profile;
 using System;

@@ -1,8 +1,7 @@
-﻿using NTMiner.Core.Gpus;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Core.Kernels {
+namespace NTMiner.Core {
     public interface ICoinKernel : IEntity<Guid> {
         Guid CoinId { get; }
         Guid KernelId { get; }

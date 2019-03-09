@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Impl {
+namespace NTMiner.Core {
     public class GroupData : IGroup, IDbEntity<Guid> {
         public GroupData() { }
 

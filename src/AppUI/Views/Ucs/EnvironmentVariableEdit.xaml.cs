@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.Kernels;
+﻿using NTMiner.Core;
 using NTMiner.Vms;
 using System.Windows.Controls;
 

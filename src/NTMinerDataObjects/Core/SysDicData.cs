@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.SysDics.Impl {
+namespace NTMiner.Core {
     public class SysDicData : ISysDic, IDbEntity<Guid> {
         public Guid GetId() {
             return this.Id;

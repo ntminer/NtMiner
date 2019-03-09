@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NTMiner.Core;
+using System.Text;
 
 namespace NTMiner.MinerServer {
     public class AddOrUpdateWalletRequest : RequestBase, ISignatureRequest {

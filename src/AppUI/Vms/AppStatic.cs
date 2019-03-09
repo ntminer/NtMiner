@@ -1,6 +1,5 @@
-﻿using NTMiner.Core.Impl;
-using NTMiner.Core.Kernels.Impl;
-using NTMiner.Core.SysDics.Impl;
+﻿using NTMiner.Core;
+using NTMiner.Core.Impl;
 using NTMiner.Language.Impl;
 using NTMiner.MinerServer;
 using NTMiner.Notifications;

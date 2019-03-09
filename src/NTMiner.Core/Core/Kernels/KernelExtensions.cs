@@ -56,13 +56,13 @@ namespace NTMiner.Core.Kernels {
 
         public static bool IsSupported(this IKernel kernel) {
             foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == kernel.GetId())) {
-                if (item.SupportedGpu == Gpus.SupportedGpu.Both) {
+                if (item.SupportedGpu == SupportedGpu.Both) {
                     return true;
                 }
-                if (item.SupportedGpu == Gpus.SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
+                if (item.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
                     return true;
                 }
-                if (item.SupportedGpu == Gpus.SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
+                if (item.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
                     return true;
                 }
             }

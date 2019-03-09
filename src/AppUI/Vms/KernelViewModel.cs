@@ -283,10 +283,10 @@ namespace NTMiner.Vms {
         public Visibility IsNvidiaIconVisible {
             get {
                 foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.Both) {
+                    if (item.SupportedGpu == SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.NVIDIA) {
+                    if (item.SupportedGpu == SupportedGpu.NVIDIA) {
                         return Visibility.Visible;
                     }
                 }
@@ -297,10 +297,10 @@ namespace NTMiner.Vms {
         public Visibility IsAMDIconVisible {
             get {
                 foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.Both) {
+                    if (item.SupportedGpu == SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.AMD) {
+                    if (item.SupportedGpu == SupportedGpu.AMD) {
                         return Visibility.Visible;
                     }
                 }

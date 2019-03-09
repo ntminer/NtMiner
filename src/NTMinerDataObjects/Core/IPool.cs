@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.Core {
     public interface IPool : ILevelEntity<Guid> {
         Guid CoinId { get; }
         string Name { get; }

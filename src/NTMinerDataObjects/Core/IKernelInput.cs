@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core.Kernels {
+namespace NTMiner.Core {
     public interface IKernelInput : IEntity<Guid> {
         string Name { get; }
         Guid DualCoinGroupId { get; }
