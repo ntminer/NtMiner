@@ -447,15 +447,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-
-                try {
-                    var data = HostRoot.Current.MineWorkSet.GetAll();
-                    return GetMineWorksResponse.Ok(request.MessageId, data);
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                    return new GetMineWorksResponse();
-                }
+                var data = HostRoot.Current.MineWorkSet.GetAll();
+                return GetMineWorksResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -472,9 +465,17 @@ namespace NTMiner.Controllers {
 
         #region MinerProfile
         [HttpPost]
-        public MinerProfileData MinerProfile([FromBody]MinerProfileRequest request) {
+        public MinerProfileResponse MinerProfile([FromBody]MinerProfileRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<MinerProfileResponse>(Guid.Empty, "参数错误");
+            }
             try {
-                return HostRoot.Current.MineProfileManager.GetMinerProfile(request.WorkId);
+                MinerProfileResponse response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                var data = HostRoot.Current.MineProfileManager.GetMinerProfile(request.WorkId);
+                return MinerProfileResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

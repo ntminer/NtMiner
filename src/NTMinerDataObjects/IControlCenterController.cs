@@ -24,7 +24,7 @@ namespace NTMiner {
         ResponseBase ExportMineWork(ExportMineWorkRequest request);
 
         GetMineWorksResponse MineWorks(MineWorksRequest request);
-        MinerProfileData MinerProfile(MinerProfileRequest request);
+        MinerProfileResponse MinerProfile(MinerProfileRequest request);
         CoinProfileData CoinProfile(CoinProfileRequest request);
         PoolProfileData PoolProfile(PoolProfileRequest request);
         CoinKernelProfileData CoinKernelProfile(CoinKernelProfileRequest request);

@@ -73,6 +73,7 @@
     <Compile Include="MinerServer\AddOrUpdatePoolRequest.cs" />
     <Compile Include="MinerServer\GetMineWorksResponse.cs" />
     <Compile Include="MinerServer\GetPoolsResponse.cs" />
+    <Compile Include="MinerServer\MinerProfileResponse.cs" />
     <Compile Include="MinerServer\MineWorksRequest.cs" />
     <Compile Include="MinerServer\PoolsRequest.cs" />
     <Compile Include="MinerServer\RemovePoolRequest.cs" />

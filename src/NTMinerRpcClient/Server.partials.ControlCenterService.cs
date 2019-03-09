@@ -402,8 +402,11 @@ namespace NTMiner {
                     MinerProfileRequest request = new MinerProfileRequest {
                         WorkId = workId
                     };
-                    MinerProfileData response = Request<MinerProfileData>(s_controllerName, nameof(IControlCenterController.MinerProfile), request);
-                    return response;
+                    MinerProfileResponse response = Request<MinerProfileResponse>(s_controllerName, nameof(IControlCenterController.MinerProfile), request);
+                    if (response != null) {
+                        return response.Data;
+                    }
+                    return null;
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
