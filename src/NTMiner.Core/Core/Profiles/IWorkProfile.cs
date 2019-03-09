@@ -7,16 +7,17 @@ namespace NTMiner.Core.Profiles {
     public interface IWorkProfile : IMinerProfile {
         IMineWork MineWork { get; }
 
-        void SetMinerProfileProperty(string propertyName, object value);
         ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId);
-        void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value);
         ICoinProfile GetCoinProfile(Guid coinId);
-        void SetCoinProfileProperty(Guid coinId, string propertyName, object value);
         IPoolProfile GetPoolProfile(Guid poolId);
-        void SetPoolProfileProperty(Guid poolId, string propertyName, object value);
         bool TryGetWallet(Guid walletId, out IWallet wallet);
         IGpuProfile GetGpuOverClockData(Guid coinId, int gpuIndex);
         IUser GetUser(string loginName);
+
+        void SetMinerProfileProperty(string propertyName, object value);
+        void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value);
+        void SetCoinProfileProperty(Guid coinId, string propertyName, object value);
+        void SetPoolProfileProperty(Guid poolId, string propertyName, object value);
 
         List<ICoinKernelProfile> GetCoinKernelProfiles();
         List<ICoinProfile> GetCoinProfiles();

@@ -221,68 +221,52 @@ namespace NTMiner.Core.Profiles {
         public bool IsAutoBoot {
             get => _data.IsAutoBoot;
             private set {
-                if (_data.IsAutoBoot != value) {
-                    _data.IsAutoBoot = value;
-                    NTMinerRegistry.SetIsAutoBoot(value);
-                }
+                _data.IsAutoBoot = value;
+                NTMinerRegistry.SetIsAutoBoot(value);
             }
         }
 
         public bool IsNoShareRestartKernel {
             get => _data.IsNoShareRestartKernel;
             private set {
-                if (_data.IsNoShareRestartKernel != value) {
-                    _data.IsNoShareRestartKernel = value;
-                }
+                _data.IsNoShareRestartKernel = value;
             }
         }
         public int NoShareRestartKernelMinutes {
             get => _data.NoShareRestartKernelMinutes;
             private set {
-                if (_data.NoShareRestartKernelMinutes != value) {
-                    _data.NoShareRestartKernelMinutes = value;
-                }
+                _data.NoShareRestartKernelMinutes = value;
             }
         }
         public bool IsPeriodicRestartKernel {
             get => _data.IsPeriodicRestartKernel;
             private set {
-                if (_data.IsPeriodicRestartKernel != value) {
-                    _data.IsPeriodicRestartKernel = value;
-                }
+                _data.IsPeriodicRestartKernel = value;
             }
         }
         public int PeriodicRestartKernelHours {
             get => _data.PeriodicRestartKernelHours;
             private set {
-                if (_data.PeriodicRestartKernelHours != value) {
-                    _data.PeriodicRestartKernelHours = value;
-                }
+                _data.PeriodicRestartKernelHours = value;
             }
         }
         public bool IsPeriodicRestartComputer {
             get => _data.IsPeriodicRestartComputer;
             private set {
-                if (_data.IsPeriodicRestartComputer != value) {
-                    _data.IsPeriodicRestartComputer = value;
-                }
+                _data.IsPeriodicRestartComputer = value;
             }
         }
         public int PeriodicRestartComputerHours {
             get => _data.PeriodicRestartComputerHours;
             private set {
-                if (_data.PeriodicRestartComputerHours != value) {
-                    _data.PeriodicRestartComputerHours = value;
-                }
+                _data.PeriodicRestartComputerHours = value;
             }
         }
 
         public bool IsAutoStart {
             get => _data.IsAutoStart;
             private set {
-                if (_data.IsAutoStart != value) {
-                    _data.IsAutoStart = value;
-                }
+                _data.IsAutoStart = value;
             }
         }
 
@@ -291,18 +275,14 @@ namespace NTMiner.Core.Profiles {
                 return _data.IsAutoRestartKernel;
             }
             private set {
-                if (_data.IsAutoRestartKernel != value) {
-                    _data.IsAutoRestartKernel = value;
-                }
+                _data.IsAutoRestartKernel = value;
             }
         }
 
         public Guid CoinId {
             get => _data.CoinId;
             private set {
-                if (_data.CoinId != value) {
-                    _data.CoinId = value;
-                }
+                _data.CoinId = value;
             }
         }
 
@@ -335,19 +315,22 @@ namespace NTMiner.Core.Profiles {
                     if (propertyInfo.PropertyType == typeof(Guid)) {
                         value = DictionaryExtensions.ConvertToGuid(value);
                     }
-                    propertyInfo.SetValue(this, value, null);
-                    if (VirtualRoot.IsControlCenter) {
-                        Server.ControlCenterService.SetMinerProfilePropertyAsync(_workId, propertyName, value, (response, exception) => {
+                    object oldValue = propertyInfo.GetValue(this, null);
+                    if (oldValue != value) {
+                        propertyInfo.SetValue(this, value, null);
+                        if (VirtualRoot.IsControlCenter) {
+                            Server.ControlCenterService.SetMinerProfilePropertyAsync(_workId, propertyName, value, (response, exception) => {
+                                VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
+                            });
+                        }
+                        else {
+                            bool isUseJson = _workId != Guid.Empty;
+                            IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
+                            repository.Update(_data);
                             VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
-                        });
+                        }
+                        Write.DevLine($"SetMinerProfileProperty({propertyName}, {value})");
                     }
-                    else {
-                        bool isUseJson = _workId != Guid.Empty;
-                        IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
-                        repository.Update(_data);
-                        VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
-                    }
-                    Write.DevLine($"SetMinerProfileProperty({propertyName}, {value})");
                 }
             }
         }
