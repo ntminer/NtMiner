@@ -21,7 +21,7 @@ namespace NTMiner.Core.Profiles {
 
         List<ICoinKernelProfile> GetCoinKernelProfiles();
         List<ICoinProfile> GetCoinProfiles();
-        List<IGpuProfile> GetGpuOverClocks();
+        List<IGpuProfile> GetGpuProfiles();
         List<IPool> GetPools();
         List<IPoolProfile> GetPoolProfiles();
         List<IUser> GetUsers();

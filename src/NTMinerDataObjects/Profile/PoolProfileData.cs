@@ -5,6 +5,12 @@ namespace NTMiner.Profile {
     public class PoolProfileData : IPoolProfile, IDbEntity<Guid> {
         public PoolProfileData() { }
 
+        public PoolProfileData(IPoolProfile data) {
+            this.PoolId = data.PoolId;
+            this.UserName = data.UserName;
+            this.Password = data.Password;
+        }
+
         public static PoolProfileData CreateDefaultData(Guid poolId) {
             return new PoolProfileData() {
                 PoolId = poolId,

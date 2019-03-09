@@ -5,6 +5,21 @@ namespace NTMiner.Core {
         public PoolData() {
         }
 
+        public PoolData(IPool data) {
+            this.DataLevel = data.DataLevel;
+            this.Id = data.CoinId;
+            this.CoinId = data.CoinId;
+            this.Name = data.Name;
+            this.Server = data.Server;
+            this.Url = data.Url;
+            this.SortNumber = data.SortNumber;
+            this.PublishState = data.PublishState;
+            this.Description = data.Description;
+            this.IsUserMode = data.IsUserMode;
+            this.UserName = data.UserName;
+            this.Password = data.Password;
+        }
+
         public Guid GetId() {
             return this.Id;
         }

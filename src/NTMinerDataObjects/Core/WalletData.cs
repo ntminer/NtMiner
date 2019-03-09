@@ -4,7 +4,14 @@ using System.Text;
 namespace NTMiner.Core {
     public class WalletData : IWallet, IDbEntity<Guid> {
         public WalletData() {
-            this.CreatedOn = DateTime.Now;
+        }
+
+        public WalletData(IWallet data) {
+            this.Id = data.CoinId;
+            this.CoinId = data.CoinId;
+            this.Name = data.Name;
+            this.Address = data.Address;
+            this.SortNumber = data.SortNumber;
         }
 
         public Guid GetId() {
@@ -21,19 +28,13 @@ namespace NTMiner.Core {
 
         public int SortNumber { get; set; }
 
-        public DateTime CreatedOn { get; set; }
-
-        public DateTime ModifiedOn { get; set; }
-
         public string GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(CoinId)).Append(CoinId)
                 .Append(nameof(Name)).Append(Name)
                 .Append(nameof(Address)).Append(Address)
-                .Append(nameof(SortNumber)).Append(SortNumber)
-                .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
-                .Append(nameof(ModifiedOn)).Append(ModifiedOn.ToUlong());
+                .Append(nameof(SortNumber)).Append(SortNumber);
             return sb.ToString();
         }
     }

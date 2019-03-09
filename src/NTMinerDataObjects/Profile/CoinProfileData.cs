@@ -22,6 +22,19 @@ namespace NTMiner.Profile {
             };
         }
 
+        public CoinProfileData(ICoinProfile data) {
+            this.PoolId = data.PoolId;
+            this.Wallet = data.Wallet;
+            this.CoinId = data.CoinId;
+            this.CoinKernelId = data.CoinKernelId;
+            this.IsHideWallet = data.IsHideWallet;
+            this.DualCoinPoolId = data.DualCoinPoolId;
+            this.DualCoinWallet = data.DualCoinWallet;
+            this.IsDualCoinHideWallet = data.IsDualCoinHideWallet;
+            this.IsOverClockEnabled = data.IsOverClockEnabled;
+            this.IsOverClockGpuAll = data.IsOverClockGpuAll;
+        }
+
         public Guid GetId() {
             return this.CoinId;
         }

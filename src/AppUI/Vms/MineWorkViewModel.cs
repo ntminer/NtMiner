@@ -1,9 +1,11 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Impl;
 using NTMiner.MinerServer;
+using NTMiner.Profile;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
@@ -72,7 +74,7 @@ namespace NTMiner.Vms {
                 }
                 if (isMinerProfileChanged) {
                     Write.DevLine("检测到MinerProfile状态变更");
-                    // TODO:调用中控服务的导出json
+                    string localJson = ExportMineWork();
                 }
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
@@ -98,6 +100,45 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
                 }, icon: "Icon_Confirm");
             });
+        }
+
+        private string ExportMineWork() {
+            try {
+                LocalJson localJsonObj = LocalJson.NewInstance();
+                var minerProfile = NTMinerRoot.Current.MinerProfile;
+                localJsonObj.MinerProfile = new MinerProfileData(minerProfile);
+                localJsonObj.MineWork = new MineWorkData(this);
+                CoinProfileData mainCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(localJsonObj.MinerProfile.CoinId));
+                List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
+                List<PoolProfileData> poolProfiles = new List<PoolProfileData>();
+                CoinKernelProfileData coinKernelProfile = new CoinKernelProfileData(minerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId));
+                PoolProfileData mainCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(mainCoinProfile.PoolId));
+                poolProfiles.Add(mainCoinPoolProfile);
+                if (coinKernelProfile.IsDualCoinEnabled) {
+                    CoinProfileData dualCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId));
+                    coinProfiles.Add(dualCoinProfile);
+                    PoolProfileData dualCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(dualCoinProfile.PoolId));
+                    poolProfiles.Add(dualCoinPoolProfile);
+                }
+                localJsonObj.CoinProfiles = coinProfiles.ToArray();
+                localJsonObj.CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
+                localJsonObj.PoolProfiles = poolProfiles.ToArray();
+                localJsonObj.GpuProfiles = new GpuProfileData[] { new GpuProfileData(minerProfile.GetGpuProfile(localJsonObj.MinerProfile.CoinId, NTMinerRoot.GpuAllId)) };
+                localJsonObj.TimeStamp = Timestamp.GetTimestamp();
+                localJsonObj.Pools = NTMinerRoot.Current.PoolSet.Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a=>new PoolData(a)).ToArray();
+                localJsonObj.Users = minerProfile.GetUsers().Select(a => new UserData(a)).ToArray();
+                localJsonObj.Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray();
+                foreach (var user in localJsonObj.Users) {
+                    user.Password = HashUtil.Sha1(user.Password);
+                }
+                string json = VirtualRoot.JsonSerializer.Serialize(localJsonObj);
+
+                return json;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return string.Empty;
+            }
         }
 
         public Guid GetId() {

@@ -581,7 +581,6 @@ namespace NTMiner {
             public void AddOrUpdateWalletAsync(WalletData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        entity.ModifiedOn = DateTime.Now;
                         AddOrUpdateWalletRequest request = new AddOrUpdateWalletRequest {
                             LoginName = SingleUser.LoginName,
                             Data = entity

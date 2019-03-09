@@ -191,7 +191,7 @@ namespace NTMiner.Core.Profiles {
             return _coinProfileSet.GetCoinProfiles().ToList();
         }
 
-        public List<IGpuProfile> GetGpuOverClocks() {
+        public List<IGpuProfile> GetGpuProfiles() {
             return _gpuProfileSet.GetGpuOverClocks().ToList();
         }
 
