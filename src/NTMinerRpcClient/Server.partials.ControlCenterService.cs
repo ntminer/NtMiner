@@ -54,7 +54,7 @@ namespace NTMiner {
             /// <returns></returns>
             public GetUsersResponse GetUsers(Guid messageId) {
                 try {
-                    UsersRequest request = new UsersRequest {
+                    SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
@@ -268,7 +268,7 @@ namespace NTMiner {
             /// <returns></returns>
             public GetMinerGroupsResponse GetMinerGroups() {
                 try {
-                    MinerGroupsRequest request = new MinerGroupsRequest {
+                    SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
@@ -374,7 +374,7 @@ namespace NTMiner {
             /// <returns></returns>
             public List<MineWorkData> GetMineWorks() {
                 try {
-                    MineWorksRequest request = new MineWorksRequest {
+                    SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
@@ -616,7 +616,7 @@ namespace NTMiner {
             /// <returns></returns>
             public GetWalletsResponse GetWallets() {
                 try {
-                    WalletsRequest request = new WalletsRequest {
+                    SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName,
                         MessageId = Guid.NewGuid()
                     };
@@ -676,7 +676,7 @@ namespace NTMiner {
             /// <returns></returns>
             public GetPoolsResponse GetPools() {
                 try {
-                    PoolsRequest request = new PoolsRequest {
+                    SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName,
                         MessageId = Guid.NewGuid()
                     };
@@ -778,7 +778,7 @@ namespace NTMiner {
             /// <returns></returns>
             public GetColumnsShowsResponse GetColumnsShows() {
                 try {
-                    ColumnsShowsRequest request = new ColumnsShowsRequest {
+                    SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);

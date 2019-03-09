@@ -56,7 +56,7 @@ namespace NTMiner.Controllers {
 
         #region Users
         [HttpPost]
-        public GetUsersResponse Users([FromBody]UsersRequest request) {
+        public GetUsersResponse Users([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<GetUsersResponse>(Guid.Empty, "参数错误");
             }
@@ -296,7 +296,7 @@ namespace NTMiner.Controllers {
 
         #region MinerGroups
         [HttpPost]
-        public GetMinerGroupsResponse MinerGroups([FromBody]MinerGroupsRequest request) {
+        public GetMinerGroupsResponse MinerGroups([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<GetMinerGroupsResponse>(Guid.Empty, "参数错误");
             }
@@ -401,7 +401,7 @@ namespace NTMiner.Controllers {
 
         #region MineWorks
         [HttpPost]
-        public GetMineWorksResponse MineWorks([FromBody]MineWorksRequest request) {
+        public GetMineWorksResponse MineWorks([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<GetMineWorksResponse>(Guid.Empty, "参数错误");
             }
@@ -625,7 +625,7 @@ namespace NTMiner.Controllers {
 
         #region Pools
         [HttpPost]
-        public GetPoolsResponse Pools([FromBody]PoolsRequest request) {
+        public GetPoolsResponse Pools([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<GetPoolsResponse>(Guid.Empty, "参数错误");
             }
@@ -688,7 +688,7 @@ namespace NTMiner.Controllers {
 
         #region Wallets
         [HttpPost]
-        public GetWalletsResponse Wallets([FromBody]WalletsRequest request) {
+        public GetWalletsResponse Wallets([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<GetWalletsResponse>(Guid.Empty, "参数错误");
             }
@@ -788,7 +788,7 @@ namespace NTMiner.Controllers {
 
         #region ColumnsShows
         [HttpPost]
-        public GetColumnsShowsResponse ColumnsShows([FromBody]ColumnsShowsRequest request) {
+        public GetColumnsShowsResponse ColumnsShows([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<GetColumnsShowsResponse>(Guid.Empty, "参数错误");
             }

@@ -79,9 +79,7 @@
     <Compile Include="MinerServer\GetMineWorksResponse.cs" />
     <Compile Include="MinerServer\GetPoolsResponse.cs" />
     <Compile Include="MinerServer\MinerProfileResponse.cs" />
-    <Compile Include="MinerServer\MineWorksRequest.cs" />
     <Compile Include="MinerServer\PoolProfileResponse.cs" />
-    <Compile Include="MinerServer\PoolsRequest.cs" />
     <Compile Include="MinerServer\RemovePoolRequest.cs" />
     <Compile Include="Profile\GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
@@ -119,13 +117,12 @@
     <Compile Include="MinerServer\ClientData.cs" />
     <Compile Include="MinerClient\CloseNTMinerRequest.cs" />
     <Compile Include="MinerServer\ColumnsShowData.cs" />
-    <Compile Include="MinerServer\ColumnsShowsRequest.cs" />
     <Compile Include="MinerServer\GetColumnsShowsResponse.cs" />
     <Compile Include="MinerServer\GetUsersResponse.cs" />
     <Compile Include="MinerServer\IColumnsShow.cs" />
     <Compile Include="MinerServer\RemoveUserRequest.cs" />
     <Compile Include="MinerServer\UpdateUserRequest.cs" />
-    <Compile Include="MinerServer\UsersRequest.cs" />
+    <Compile Include="SignatureRequest.cs" />
     <Compile Include="OverClock\AddOrUpdateOverClockDataRequest.cs" />
     <Compile Include="OverClock\IOverClockData.cs" />
     <Compile Include="Daemon\OpenNTMinerRequest.cs" />
@@ -174,7 +171,6 @@
     <Compile Include="MinerServer\LoadClientResponse.cs" />
     <Compile Include="MinerServer\LoginControlCenterRequest.cs" />
     <Compile Include="MinerServer\MinerGroupData.cs" />
-    <Compile Include="MinerServer\MinerGroupsRequest.cs" />
     <Compile Include="MinerServer\MinerJsonPutUrlRequest.cs" />
     <Compile Include="Profile\MinerProfileData.cs" />
     <Compile Include="Profile\MinerProfileRequest.cs" />
@@ -214,7 +210,6 @@
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="Core\WalletData.cs" />
-    <Compile Include="MinerServer\WalletsRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

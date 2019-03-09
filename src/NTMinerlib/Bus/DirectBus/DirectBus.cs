@@ -5,7 +5,6 @@ namespace NTMiner.Bus.DirectBus {
 
     public abstract class DirectBus : IBus {
         #region Private Fields
-        private volatile bool _committed = true;
         private readonly IMessageDispatcher _dispatcher;
         private readonly Queue<dynamic> _messageQueue = new Queue<dynamic>();
         private readonly object _queueLock = new object();
@@ -25,7 +24,6 @@ namespace NTMiner.Bus.DirectBus {
         public void Publish<TMessage>(TMessage message) {
             lock (_queueLock) {
                 _messageQueue.Enqueue(message);
-                _committed = false;
             }
         }
 
@@ -34,7 +32,6 @@ namespace NTMiner.Bus.DirectBus {
                 foreach (var message in messages) {
                     _messageQueue.Enqueue(message);
                 }
-                _committed = false;
             }
         }
 
@@ -52,7 +49,6 @@ namespace NTMiner.Bus.DirectBus {
                 while (_messageQueue.Count > 0) {
                     _dispatcher.DispatchMessage(_messageQueue.Dequeue());
                 }
-                _committed = true;
             }
         }
     }
