@@ -20,6 +20,8 @@ namespace NTMiner.Vms {
         private string _name;
         private string _description;
 
+        public string Sha1 { get; private set; }
+
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
@@ -37,6 +39,10 @@ namespace NTMiner.Vms {
             _description = mineWork.Description;
         }
 
+        public MineWorkViewModel(MineWorkViewModel vm) : this((IMineWork)vm) {
+            Sha1 = vm.Sha1;
+        }
+
         public MineWorkViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
@@ -46,14 +52,24 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.Name)) {
                     throw new ValidationException("作业名称是必须的");
                 }
+                bool isMinerProfileChanged = false;
                 if (NTMinerRoot.Current.MineWorkSet.Contains(this.Id)) {
+                    string sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
+                    if (this.Sha1 != sha1) {
+                        isMinerProfileChanged = true;
+                    }
                     VirtualRoot.Execute(new UpdateMineWorkCommand(this));
                     CloseWindow?.Invoke();
                 }
                 else {
+                    isMinerProfileChanged = true;
                     VirtualRoot.Execute(new AddMineWorkCommand(this));
                     CloseWindow?.Invoke();
                     this.Edit.Execute(FormType.Edit);
+                }
+                if (isMinerProfileChanged) {
+                    Write.DevLine("检测到MinerProfile状态变更");
+                    // TODO:调用中控服务的导出json
                 }
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
@@ -67,6 +83,7 @@ namespace NTMiner.Vms {
                 else {
                     // 编辑作业前切换上下文
                     VirtualRoot.Execute(new SwichMinerProfileCommand(this.Id));
+                    this.Sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
                     MineWorkEdit.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
                 }
             });
