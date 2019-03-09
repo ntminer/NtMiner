@@ -391,6 +391,27 @@ namespace NTMiner {
             }
             #endregion
 
+            #region ExportMineWorkAsync
+            public void ExportMineWorkAsync(Guid workId, string localJson, string serverJson, Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        ExportMineWorkRequest request = new ExportMineWorkRequest {
+                            LoginName = SingleUser.LoginName,
+                            MineWorkId = workId,
+                            LocalJson = localJson,
+                            ServerJson = serverJson
+                        };
+                        request.SignIt(SingleUser.PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.ExportMineWork), request);
+                        callback?.Invoke(response, null);
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+            #endregion
+
             #region GetMinerProfile
             /// <summary>
             /// 同步方法

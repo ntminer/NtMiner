@@ -77,6 +77,9 @@ namespace NTMiner.Vms {
                     string localJson;
                     string serverJson;
                     ExportJson(out localJson, out serverJson);
+                    if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
+                        Server.ControlCenterService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
+                    }
                 }
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
