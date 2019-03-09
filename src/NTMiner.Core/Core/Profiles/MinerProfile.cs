@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile : IWorkProfile {
@@ -36,6 +37,7 @@ namespace NTMiner.Core.Profiles {
                 });
         }
 
+        #region Init
         private void Init(INTMinerRoot root, Guid workId) {
             _workId = workId;
             if (_coinKernelProfileSet == null) {
@@ -108,7 +110,9 @@ namespace NTMiner.Core.Profiles {
                 _data = MinerProfileData.CreateDefaultData();
             }
         }
+        #endregion
 
+        #region methods
         public ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId) {
             return _coinKernelProfileSet.GetCoinKernelProfile(coinKernelId);
         }
@@ -202,7 +206,9 @@ namespace NTMiner.Core.Profiles {
         public List<IUser> GetUsers() {
             return _userSet.ToList();
         }
+        #endregion
 
+        #region properties
         [IgnoreReflectionSet]
         public IMineWork MineWork { get; private set; }
 
@@ -285,6 +291,7 @@ namespace NTMiner.Core.Profiles {
                 _data.CoinId = value;
             }
         }
+        #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;
         [IgnoreReflectionSet]
@@ -342,6 +349,45 @@ namespace NTMiner.Core.Profiles {
                 }
             }
             return null;
+        }
+
+        public string GetSha1() {
+            StringBuilder sb = new StringBuilder();
+            if (_data != null) {
+                sb.Append(_data.ToString());
+            }
+            ICoinProfile coinProfile = GetCoinProfile(this.CoinId);
+            if (coinProfile != null) {
+                sb.Append(coinProfile.ToString());
+            }
+            ICoinKernelProfile coinKernelProfile = GetCoinKernelProfile(coinProfile.CoinKernelId);
+            if (coinKernelProfile != null) {
+                sb.Append(coinKernelProfile.ToString());
+                if (coinKernelProfile.IsDualCoinEnabled) {
+                    ICoinProfile dualCoinProfile = GetCoinProfile(coinKernelProfile.DualCoinId);
+                    if (dualCoinProfile != null) {
+                        sb.Append(dualCoinProfile.ToString());
+                    }
+                    ICoinKernelProfile dualCoinKernelProfile = GetCoinKernelProfile(coinKernelProfile.DualCoinId);
+                    if (dualCoinKernelProfile != null) {
+                        sb.Append(dualCoinKernelProfile.ToString());
+                    }
+                    IPoolProfile dualCoinPoolProfile = GetPoolProfile(dualCoinProfile.PoolId);
+                    if (dualCoinPoolProfile != null) {
+                        sb.Append(dualCoinPoolProfile.ToString());
+                    }
+                }
+            }
+            IPoolProfile poolProfile = GetPoolProfile(coinProfile.PoolId);
+            if (poolProfile != null) {
+                sb.Append(poolProfile.ToString());
+            }
+            IGpuProfile gpuProfile = GetGpuOverClockData(this.CoinId, NTMinerRoot.GpuAllId);
+            if (gpuProfile != null) {
+                sb.Append(gpuProfile.ToString());
+            }
+
+            return HashUtil.Sha1(sb.ToString());
         }
     }
 }

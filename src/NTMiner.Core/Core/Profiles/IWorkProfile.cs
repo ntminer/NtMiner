@@ -7,8 +7,8 @@ namespace NTMiner.Core.Profiles {
     public interface IWorkProfile : IMinerProfile {
         IMineWork MineWork { get; }
 
-        ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId);
         ICoinProfile GetCoinProfile(Guid coinId);
+        ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId);
         IPoolProfile GetPoolProfile(Guid poolId);
         bool TryGetWallet(Guid walletId, out IWallet wallet);
         IGpuProfile GetGpuOverClockData(Guid coinId, int gpuIndex);
@@ -26,5 +26,7 @@ namespace NTMiner.Core.Profiles {
         List<IPoolProfile> GetPoolProfiles();
         List<IUser> GetUsers();
         List<IWallet> GetWallets();
+
+        string GetSha1();
     }
 }

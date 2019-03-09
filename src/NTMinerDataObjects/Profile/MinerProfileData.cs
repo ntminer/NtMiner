@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Profile {
-    public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, ITimestampEntity<Guid> {
+    public class MinerProfileData : IMinerProfile, IDbEntity<Guid> {
         public static MinerProfileData CreateDefaultData() {
             return new MinerProfileData {
                 Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
@@ -14,9 +14,7 @@ namespace NTMiner.Profile {
                 IsPeriodicRestartKernel = false,
                 PeriodicRestartKernelHours = 12,
                 IsPeriodicRestartComputer = false,
-                PeriodicRestartComputerHours = 24,
-                CreatedOn = DateTime.Now,
-                ModifiedOn = Timestamp.UnixBaseTime
+                PeriodicRestartComputerHours = 24
             };
         }
 
@@ -51,8 +49,8 @@ namespace NTMiner.Profile {
         public bool IsPeriodicRestartComputer { get; set; }
         public int PeriodicRestartComputerHours { get; set; }
 
-        public DateTime CreatedOn { get; set; }
-
-        public DateTime ModifiedOn { get; set; }
+        public override string ToString() {
+            return $"{Id}{IsAutoBoot}{IsAutoStart}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}";
+        }
     }
 }

@@ -170,6 +170,13 @@ namespace NTMiner.Core.Profiles {
                         }
                     }
                 }
+
+                public override string ToString() {
+                    if (_data == null) {
+                        return string.Empty;
+                    }
+                    return _data.ToString();
+                }
             }
         }
     }

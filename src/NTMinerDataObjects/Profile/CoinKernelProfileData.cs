@@ -2,7 +2,7 @@
 using System;
 
 namespace NTMiner.Profile {
-    public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid>, ITimestampEntity<Guid> {
+    public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid> {
         public CoinKernelProfileData() { }
 
         public static CoinKernelProfileData CreateDefaultData(Guid coinKernelId) {
@@ -12,9 +12,7 @@ namespace NTMiner.Profile {
                 IsAutoDualWeight = true,
                 DualCoinId = Guid.Empty,
                 DualCoinWeight = 30,
-                CustomArgs = string.Empty,
-                CreatedOn = DateTime.Now,
-                ModifiedOn = Timestamp.UnixBaseTime
+                CustomArgs = string.Empty
             };
         }
 
@@ -35,8 +33,8 @@ namespace NTMiner.Profile {
 
         public string CustomArgs { get; set; }
 
-        public DateTime CreatedOn { get; set; }
-
-        public DateTime ModifiedOn { get; set; }
+        public override string ToString() {
+            return $"{CoinKernelId}{IsDualCoinEnabled}{DualCoinId}{DualCoinWeight}{IsAutoDualWeight}{CustomArgs}";
+        }
     }
 }

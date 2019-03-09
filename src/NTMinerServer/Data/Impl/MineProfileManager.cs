@@ -96,7 +96,6 @@ namespace NTMiner.Data.Impl {
                 }
                 propertyInfo.SetValue(data, value, null);
                 if (exist) {
-                    data.ModifiedOn = DateTime.Now;
                     col.Update(data);
                 }
                 else {
@@ -135,7 +134,6 @@ namespace NTMiner.Data.Impl {
                 }
                 propertyInfo.SetValue(data, value, null);
                 if (exist) {
-                    data.ModifiedOn = DateTime.Now;
                     col.Update(data);
                 }
                 else {
@@ -212,7 +210,6 @@ namespace NTMiner.Data.Impl {
                 }
                 propertyInfo.SetValue(data, value, null);
                 if (exist) {
-                    data.ModifiedOn = DateTime.Now;
                     col.Update(data);
                 }
                 else {
