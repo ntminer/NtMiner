@@ -10,7 +10,6 @@ namespace NTMiner.Vms {
         public static readonly MainWindowViewModel Current = new MainWindowViewModel();
 
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
-        private bool _isDaemonRunning = true;
         private string _serverJsonVersion;
         private INotificationMessageManager _manager;
 
@@ -33,21 +32,22 @@ namespace NTMiner.Vms {
                 }, icon: "Icon_Confirm");
             });
             if (DevMode.IsDevMode) {
-                VirtualRoot.On<Per10SecondEvent>(
-                    "在开发者调试区展示守护进程的运行状态",
-                    LogEnum.None,
-                    action: message => {
-                        Client.NTMinerDaemonService.GetDaemonVersionAsync((thatVersion, exception) => {
-                            this.IsDaemonRunning = !string.IsNullOrEmpty(thatVersion);
-                        });
-                    });
                 VirtualRoot.On<ServerJsonVersionChangedEvent>(
                     "在开发者调试区展示ServerJsonVersion",
                     LogEnum.Console,
                     action: message => {
                         this.ServerJsonVersion = NTMinerRoot.JsonFileVersion;
                     });
-                this._serverJsonVersion = NTMinerRoot.JsonFileVersion;
+                Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
+                    if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
+                        if (response.Data.Value is string value) {
+                            this.ServerJsonVersion = value;
+                        }
+                    }
+                    else {
+                        Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
+                    }
+                });
             }
         }
 
@@ -77,16 +77,6 @@ namespace NTMiner.Vms {
                 if (_isBtnRunAsAdministratorVisible != value) {
                     _isBtnRunAsAdministratorVisible = value;
                     OnPropertyChanged(nameof(IsBtnRunAsAdministratorVisible));
-                }
-            }
-        }
-
-        public bool IsDaemonRunning {
-            get { return _isDaemonRunning; }
-            set {
-                if (_isDaemonRunning != value) {
-                    _isDaemonRunning = value;
-                    OnPropertyChanged(nameof(IsDaemonRunning));
                 }
             }
         }

@@ -492,7 +492,6 @@
 				HorizontalAlignment="Right"
 				VerticalAlignment="Top">
 				<TextBlock 
-					Visibility="{Binding IsDaemonRunning, Converter={StaticResource BoolToVisibilityConverter}}"
 					Margin="0 0 20 0"
 					ToolTip="ServerJsonVersion"
 					Text="{Binding ServerJsonVersion}" 
@@ -504,22 +503,6 @@
 					IconColor="{StaticResource IconFillColor}"
 					IsChecked="True" />
 			</WrapPanel>
-			<TextBlock 
-				Visibility="{Binding IsDaemonRunning, Converter={StaticResource BoolToVisibilityConverter}}"
-				Margin="0 0 18 0"
-				HorizontalAlignment="Right" 
-				VerticalAlignment="Bottom" 
-				Text="守护进程运行中" 
-				Foreground="Green"
-				Background="Black"></TextBlock>
-			<TextBlock 
-				Visibility="{Binding IsDaemonRunning, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-				Margin="0 0 18 0"
-				HorizontalAlignment="Right" 
-				VerticalAlignment="Bottom" 
-				Text="守护进程未运行" 
-				Foreground="Red"
-				Background="Black"></TextBlock>
 		</Grid>
 
 		<notification:NotificationMessageContainer 
