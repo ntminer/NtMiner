@@ -14,20 +14,6 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelOutputFilterSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshKernelOutputFilterSetCommand>(
-                "处理刷新内核输出过滤器数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputFilterData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdateKernelOutputFilterCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddKernelOutputFilterCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddKernelOutputFilterCommand>(
                 "添加内核输出过滤器",
                 LogEnum.Console,

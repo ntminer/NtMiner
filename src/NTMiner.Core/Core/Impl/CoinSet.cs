@@ -13,20 +13,6 @@ namespace NTMiner.Core.Impl {
         public CoinSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshCoinSetCommand>(
-                "处理刷新币种数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdateCoinCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddCoinCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddCoinCommand>(
                 "添加币种",
                 LogEnum.Console,

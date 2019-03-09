@@ -12,20 +12,6 @@ namespace NTMiner.Core.Impl {
         public CoinGroupSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshCoinGroupSetCommand>(
-                "处理刷新币组数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdateCoinGroupCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddCoinGroupCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddCoinGroupCommand>(
                 "添加币组",
                 LogEnum.Console,

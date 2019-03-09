@@ -5,7 +5,6 @@ using NTMiner.Core.SysDics;
 using NTMiner.MinerServer;
 using NTMiner.OverClock;
 using System;
-using System.Linq;
 
 namespace NTMiner.Core {
     public class ServerJsonVersionChangedEvent : EventBase {
@@ -17,112 +16,6 @@ namespace NTMiner.Core {
         public string OldVersion { get; private set; }
         public string NewVersion { get; private set; }
     }
-
-    #region Refresh 注意Refresh命令有先后顺序
-    public abstract class RefreshCommand : Cmd {
-        public static RefreshCommand[] CreateRefreshCommands() {
-            return (new RefreshCommand[] {
-                new RefreshCoinSetCommand(),
-                new RefreshGroupSetCommand(),
-                new RefreshCoinGroupSetCommand(),
-                new RefreshKernelInputSetCommand(),
-                new RefreshKernelOutputSetCommand(),
-                new RefreshKernelOutputTranslaterSetCommand(),
-                new RefreshKernelOutputFilterSetCommand(),
-                new RefreshKernelSetCommand(),
-                new RefreshCoinKernelSetCommand(),
-                new RefreshPoolSetCommand(),
-                new RefreshPoolKernelSetCommand(),
-                new RefreshSysDicSetCommand(),
-                new RefreshSysDicItemSetCommand()
-            }).OrderBy(a => a.Sort).ToArray();
-        }
-
-        protected RefreshCommand(int order) {
-            this.Sort = Sort;
-        }
-
-        public int Sort { get; private set; }
-    }
-
-    [MessageType(messageType: typeof(RefreshCoinSetCommand), description: "刷新币种数据集")]
-    public class RefreshCoinSetCommand : RefreshCommand {
-        public RefreshCoinSetCommand() : base(0) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshGroupSetCommand), description: "刷新组数据集")]
-    public class RefreshGroupSetCommand : RefreshCommand {
-        public RefreshGroupSetCommand() : base(1) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshCoinGroupSetCommand), description: "刷新币组数据集")]
-    public class RefreshCoinGroupSetCommand : RefreshCommand {
-        public RefreshCoinGroupSetCommand() : base(2) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshKernelInputSetCommand), description: "刷新内核输入数据集")]
-    public class RefreshKernelInputSetCommand : RefreshCommand {
-        public RefreshKernelInputSetCommand() : base(3) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshKernelOutputSetCommand), description: "刷新内核输出数据集")]
-    public class RefreshKernelOutputSetCommand : RefreshCommand {
-        public RefreshKernelOutputSetCommand() : base(4) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshKernelOutputTranslaterSetCommand), description: "刷新内核输出翻译器数据集")]
-    public class RefreshKernelOutputTranslaterSetCommand : RefreshCommand {
-        public RefreshKernelOutputTranslaterSetCommand() : base(5) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshKernelOutputFilterSetCommand), description: "刷新内核输出过滤器数据集")]
-    public class RefreshKernelOutputFilterSetCommand : RefreshCommand {
-        public RefreshKernelOutputFilterSetCommand() : base(6) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshKernelSetCommand), description: "刷新内核数据集")]
-    public class RefreshKernelSetCommand : RefreshCommand {
-        public RefreshKernelSetCommand() : base(7) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshCoinKernelSetCommand), description: "刷新币种内核数据集")]
-    public class RefreshCoinKernelSetCommand : RefreshCommand {
-        public RefreshCoinKernelSetCommand() : base(8) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshPoolSetCommand), description: "刷新矿池数据集")]
-    public class RefreshPoolSetCommand : RefreshCommand {
-        public RefreshPoolSetCommand() : base(9) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshPoolKernelSetCommand), description: "刷新矿池内核数据集")]
-    public class RefreshPoolKernelSetCommand : RefreshCommand {
-        public RefreshPoolKernelSetCommand() : base(10) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshSysDicSetCommand), description: "刷新系统字典数据集")]
-    public class RefreshSysDicSetCommand : RefreshCommand {
-        public RefreshSysDicSetCommand() : base(11) {
-        }
-    }
-
-    [MessageType(messageType: typeof(RefreshSysDicItemSetCommand), description: "刷新系统字典项数据集")]
-    public class RefreshSysDicItemSetCommand : RefreshCommand {
-        public RefreshSysDicItemSetCommand() : base(12) {
-        }
-    }
-    #endregion
 
     [MessageType(messageType: typeof(SetMinerNameCommand), description: "设置矿工名")]
     public class SetMinerNameCommand : Cmd {

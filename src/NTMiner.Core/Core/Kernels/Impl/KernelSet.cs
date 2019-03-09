@@ -13,20 +13,6 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshKernelSetCommand>(
-                "处理刷新内核数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    IRepository<KernelData> repository = NTMinerRoot.CreateServerRepository<KernelData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdateKernelCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddKernelCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddKernelCommand>(
                 "添加内核",
                 LogEnum.Console,

@@ -12,20 +12,6 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelInputSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshKernelInputSetCommand>(
-                "处理刷新内核输入数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelInputData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdateKernelInputCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddKernelInputCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddKernelInputCommand>(
                 "添加内核输入组",
                 LogEnum.Console,

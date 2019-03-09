@@ -14,20 +14,6 @@ namespace NTMiner.Core.SysDics.Impl {
         public SysDicSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshSysDicSetCommand>(
-                "处理刷新系统字典数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdateSysDicCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddSysDicCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddSysDicCommand>(
                 "添加系统字典",
                 LogEnum.Console,

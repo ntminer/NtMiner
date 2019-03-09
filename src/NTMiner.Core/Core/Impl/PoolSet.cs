@@ -14,20 +14,6 @@ namespace NTMiner.Core.Impl {
         public PoolSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshPoolSetCommand>(
-                "处理刷新矿池数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdatePoolCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddPoolCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddPoolCommand>(
                 "添加矿池",
                 LogEnum.Console,

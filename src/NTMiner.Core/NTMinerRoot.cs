@@ -391,15 +391,9 @@ namespace NTMiner {
                                         string rawNTMinerJson = Encoding.UTF8.GetString(data);
                                         Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{value}");
                                         ServerJson.Instance.ReInit(rawNTMinerJson);
-                                        Logger.InfoDebugLine("ServerJson数据集刷新完成");
-                                        UIThread.Execute(() => {
-                                            var refreshCommands = RefreshCommand.CreateRefreshCommands();
-                                            foreach (var refreshCommand in refreshCommands) {
-                                                VirtualRoot.Execute(refreshCommand);
-                                            }
-                                            JsonFileVersion = value;
-                                            Logger.InfoDebugLine("刷新完成");
-                                        });
+                                        ContextReInit();
+                                        JsonFileVersion = value;
+                                        Logger.InfoDebugLine("刷新完成");
                                     });
                                 }
                                 else {

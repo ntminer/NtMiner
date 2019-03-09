@@ -12,20 +12,6 @@ namespace NTMiner.Core.Kernels.Impl {
         public PoolKernelSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshPoolKernelSetCommand>(
-                "处理刷新矿池内核数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdatePoolKernelCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddPoolKernelCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddPoolKernelCommand>(
                 "处理添加矿池级内核命令",
                 LogEnum.Console,

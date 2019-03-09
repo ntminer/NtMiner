@@ -15,20 +15,6 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelOutputTranslaterSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshKernelOutputTranslaterSetCommand>(
-                "处理刷新内核输出翻译器数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddKernelOutputTranslaterCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddKernelOutputTranslaterCommand>(
                 "添加内核输出翻译器",
                 LogEnum.Console,

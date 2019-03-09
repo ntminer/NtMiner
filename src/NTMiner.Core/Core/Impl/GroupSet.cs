@@ -11,20 +11,6 @@ namespace NTMiner.Core.Impl {
         public GroupSet(INTMinerRoot root, bool isUseJson) {
             _isUseJson = isUseJson;
             _root = root;
-            VirtualRoot.Accept<RefreshGroupSetCommand>(
-                "处理刷新组数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdateGroupCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddGroupCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddGroupCommand>(
                 "添加组",
                 LogEnum.Console,

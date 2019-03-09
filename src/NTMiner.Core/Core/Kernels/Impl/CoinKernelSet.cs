@@ -12,20 +12,6 @@ namespace NTMiner.Core.Kernels.Impl {
         public CoinKernelSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<RefreshCoinKernelSetCommand>(
-                "处理刷新币种内核数据集命令",
-                LogEnum.Console,
-                action: message => {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>(isUseJson);
-                    foreach (var item in repository.GetAll()) {
-                        if (_dicById.ContainsKey(item.Id)) {
-                            VirtualRoot.Execute(new UpdateCoinKernelCommand(item));
-                        }
-                        else {
-                            VirtualRoot.Execute(new AddCoinKernelCommand(item));
-                        }
-                    }
-                }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Accept<AddCoinKernelCommand>(
                 "添加币种内核",
                 LogEnum.Console,
