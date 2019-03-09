@@ -183,7 +183,7 @@ namespace NTMiner {
             return Path(description, logType, action);
         }
 
-        public static void UnPath<TMessage>(DelegateHandler<TMessage> handler) {
+        public static void UnPath(IDelegateHandler handler) {
             MessageDispatcher.UnRegister(handler);
         }
     }

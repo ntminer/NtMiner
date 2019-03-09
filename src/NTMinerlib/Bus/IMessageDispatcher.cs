@@ -5,6 +5,6 @@ namespace NTMiner.Bus {
 
         void Register<TMessage>(DelegateHandler<TMessage> handler);
 
-        void UnRegister<TMessage>(DelegateHandler<TMessage> handler);
+        void UnRegister(IDelegateHandler handler);
     }
 }

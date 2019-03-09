@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Bus;
+using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.MinerServer;
@@ -9,7 +10,7 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public interface INTMinerRoot {
-        List<object> ContextHandlers { get; }
+        List<IDelegateHandler> ContextHandlers { get; }
 
         DateTime CreatedOn { get; }
 

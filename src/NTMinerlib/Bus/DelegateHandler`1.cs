@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Bus {
-    public class DelegateHandler<TMessage> {
+    public class DelegateHandler<TMessage> : IDelegateHandler {
         private readonly Action<TMessage> _action;
 
         public IHandlerId HandlerId { get; private set; }
@@ -22,7 +22,7 @@ namespace NTMiner.Bus {
             }
         }
 
-        public void AddToCollection(List<object> handlers) {
+        public void AddToCollection(List<IDelegateHandler> handlers) {
             if (!handlers.Contains(this)) {
                 handlers.Add(this);
             }

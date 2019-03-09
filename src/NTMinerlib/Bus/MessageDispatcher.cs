@@ -66,13 +66,13 @@ namespace NTMiner.Bus {
             }
         }
 
-        public void UnRegister<TMessage>(DelegateHandler<TMessage> handler) {
+        public void UnRegister(IDelegateHandler handler) {
             if (handler == null) {
                 return;
             }
             var handlerId = handler.HandlerId;
             _paths.Remove(handlerId.HandlerPath);
-            var keyType = typeof(TMessage);
+            var keyType = handlerId.MessageType;
             if (_handlers.ContainsKey(keyType) &&
                 _handlers[keyType] != null &&
                 _handlers[keyType].Count > 0 &&

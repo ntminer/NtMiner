@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Bus;
+using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
@@ -26,7 +27,7 @@ using System.Windows;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        public List<object> ContextHandlers { get; private set; } = new List<object>();
+        public List<IDelegateHandler> ContextHandlers { get; private set; } = new List<IDelegateHandler>();
 
         public DateTime CreatedOn { get; private set; }
 
@@ -38,6 +39,7 @@ namespace NTMiner {
         }
         #endregion
 
+        bool isUseJson = !DevMode.IsDebugMode;
         #region Init
         private readonly object _locker = new object();
         private bool _isInited = false;
@@ -74,7 +76,6 @@ namespace NTMiner {
                                 Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
                             }
                         });
-                        bool isUseJson = !DevMode.IsDebugMode;
                         if (isUseJson) {
                             string rawNTMinerJson = string.Empty;
                             if (File.Exists(SpecialPath.ServerJsonFileFullName)) {
@@ -100,19 +101,19 @@ namespace NTMiner {
                                     Logger.InfoDebugLine("json下载完成");
                                     ServerJson.Instance.Init(rawNTMinerJson);
                                     Language.Impl.LangJson.Instance.Init(rawLangJson);
-                                    DoInit(isUseJson, callback);
+                                    DoInit(callback);
                                 }
                                 else {
                                     Logger.InfoDebugLine("启动json下载超时");
                                     ServerJson.Instance.Init(rawNTMinerJson);
                                     Language.Impl.LangJson.Instance.Init(rawLangJson);
-                                    DoInit(isUseJson, callback);
+                                    DoInit(callback);
                                 }
                                 _isInited = true;
                             });
                         }
                         else {
-                            DoInit(isUseJson, callback);
+                            DoInit(callback);
                             _isInited = true;
                         }
                     }
@@ -121,11 +122,25 @@ namespace NTMiner {
         }
 
         private MinerProfile _minerProfile;
-        public void DoInit(bool isUseJson, Action callback) {
+        private void DoInit(Action callback) {
             this.PackageDownloader = new PackageDownloader(this);
             this.AppSettingSet = new AppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
 
+            ContextInit();
+
+            this.KernelProfileSet = new KernelProfileSet(this);
+            this.GpusSpeed = new GpusSpeed(this);
+            this.CoinShareSet = new CoinShareSet(this);
+            this.MineWorkSet = new MineWorkSet(this);
+            this.MinerGroupSet = new MinerGroupSet(this);
+            this.OverClockDataSet = new OverClockDataSet(this);
+            this.ColumnsShowSet = new ColumnsShowSet(this);
+            this._minerProfile = new MinerProfile(this, CommandLineArgs.WorkId);
+            callback?.Invoke();
+        }
+
+        private void ContextInit() {
             this.SysDicSet = new SysDicSet(this, isUseJson);
             this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
             this.CoinSet = new CoinSet(this, isUseJson);
@@ -139,16 +154,14 @@ namespace NTMiner {
             this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
+        }
 
-            this.KernelProfileSet = new KernelProfileSet(this);
-            this.GpusSpeed = new GpusSpeed(this);
-            this.CoinShareSet = new CoinShareSet(this);
-            this.MineWorkSet = new MineWorkSet(this);
-            this.MinerGroupSet = new MinerGroupSet(this);
-            this.OverClockDataSet = new OverClockDataSet(this);
-            this.ColumnsShowSet = new ColumnsShowSet(this);
-            this._minerProfile = new MinerProfile(this, CommandLineArgs.WorkId);
-            callback?.Invoke();
+        private void ContextReInit() {
+            foreach (var handler in ContextHandlers) {
+                VirtualRoot.UnPath(handler);
+            }
+            ContextHandlers.Clear();
+            ContextInit();
         }
         #endregion
 
