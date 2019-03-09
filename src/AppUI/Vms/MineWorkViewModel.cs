@@ -74,7 +74,9 @@ namespace NTMiner.Vms {
                 }
                 if (isMinerProfileChanged) {
                     Write.DevLine("检测到MinerProfile状态变更");
-                    string localJson = ExportMineWork();
+                    string localJson;
+                    string serverJson;
+                    ExportJson(out localJson, out serverJson);
                 }
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
@@ -102,7 +104,9 @@ namespace NTMiner.Vms {
             });
         }
 
-        private string ExportMineWork() {
+        private void ExportJson(out string localJson, out string serverJson) {
+            localJson = string.Empty;
+            serverJson = string.Empty;
             try {
                 LocalJson localJsonObj = LocalJson.NewInstance();
                 var minerProfile = NTMinerRoot.Current.MinerProfile;
@@ -125,19 +129,37 @@ namespace NTMiner.Vms {
                 localJsonObj.PoolProfiles = poolProfiles.ToArray();
                 localJsonObj.GpuProfiles = new GpuProfileData[] { new GpuProfileData(minerProfile.GetGpuProfile(localJsonObj.MinerProfile.CoinId, NTMinerRoot.GpuAllId)) };
                 localJsonObj.TimeStamp = Timestamp.GetTimestamp();
-                localJsonObj.Pools = NTMinerRoot.Current.PoolSet.Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a=>new PoolData(a)).ToArray();
+                localJsonObj.Pools = NTMinerRoot.Current.PoolSet.Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData(a)).ToArray();
                 localJsonObj.Users = minerProfile.GetUsers().Select(a => new UserData(a)).ToArray();
                 localJsonObj.Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray();
                 foreach (var user in localJsonObj.Users) {
                     user.Password = HashUtil.Sha1(user.Password);
                 }
-                string json = VirtualRoot.JsonSerializer.Serialize(localJsonObj);
+                localJson = VirtualRoot.JsonSerializer.Serialize(localJsonObj);
 
-                return json;
+                var root = NTMinerRoot.Current;
+                ServerJson serverJsonObj = ServerJson.NewInstance();
+                serverJsonObj.CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToArray();
+                serverJsonObj.Coins = root.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
+                serverJsonObj.CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().Where(a => serverJsonObj.Coins.Any(b => b.Id == a.CoinId)).ToArray();
+                serverJsonObj.Groups = root.GroupSet.Cast<GroupData>().Where(a => serverJsonObj.CoinGroups.Any(b => b.GroupId == a.Id)).ToArray();
+                ICoinKernel coinKernel;
+                root.CoinKernelSet.TryGetCoinKernel(coinKernelProfile.CoinKernelId, out coinKernel);
+                IKernel kernel;
+                root.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel);
+                serverJsonObj.KernelInputs = root.KernelInputSet.Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray();
+                serverJsonObj.KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
+                serverJsonObj.KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
+                serverJsonObj.KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
+                serverJsonObj.Kernels = new KernelData[] { (KernelData)kernel };
+                serverJsonObj.Pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToArray();
+                serverJsonObj.PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && serverJsonObj.Pools.Any(b => b.Id == a.PoolId)).ToArray();
+                serverJsonObj.SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
+                serverJsonObj.SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
+                serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return string.Empty;
             }
         }
 
@@ -170,7 +192,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (MineWorkViewModels.Current.List.Any(a=>a.Name == value && a.Id != this.Id)) {
+                    if (MineWorkViewModels.Current.List.Any(a => a.Name == value && a.Id != this.Id)) {
                         throw new ValidationException("名称重复");
                     }
                 }
