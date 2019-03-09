@@ -449,6 +449,12 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region ExportMineWork
+        public ResponseBase ExportMineWork(ExportMineWorkRequest request) {
+            throw new NotImplementedException();
+        }
+        #endregion
+
         #region MinerProfile
         [HttpPost]
         public MinerProfileData MinerProfile([FromBody]MinerProfileRequest request) {

@@ -21,6 +21,7 @@ namespace NTMiner {
         ResponseBase RemoveMinerGroup(RemoveMinerGroupRequest request);
         ResponseBase AddOrUpdateMineWork(AddOrUpdateMineWorkRequest request);
         ResponseBase RemoveMineWork(RemoveMineWorkRequest request);
+        ResponseBase ExportMineWork(ExportMineWorkRequest request);
 
         List<MineWorkData> MineWorks();
         MinerProfileData MinerProfile(MinerProfileRequest request);
