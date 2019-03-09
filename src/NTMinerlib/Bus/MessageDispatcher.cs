@@ -47,10 +47,10 @@ namespace NTMiner.Bus {
                 Write.DevLine($"重复的路径:{handlerId.HandlerPath}", ConsoleColor.Red);
             }
             if (_handlers.ContainsKey(keyType)) {
-                if (typeof(ICmd).IsAssignableFrom(keyType)) {
+                var registeredHandlers = _handlers[keyType];
+                if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(keyType)) {
                     throw new Exception($"one {typeof(TMessage).Name} cmd can be handle and only be handle by one handler");
                 }
-                var registeredHandlers = _handlers[keyType];
                 if (registeredHandlers != null) {
                     if (!registeredHandlers.Contains(handler))
                         registeredHandlers.Add(handler);
