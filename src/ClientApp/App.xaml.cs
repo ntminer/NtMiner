@@ -53,7 +53,8 @@ namespace NTMiner {
                             this.MainWindow = window;
                             this.MainWindow.Show();
                             this.MainWindow.Activate();
-                            AppHelper.NotifyIcon = new ExtendedNotifyIcon("pack://application:,,,/NTMiner;component/logo.ico");
+                            System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/NTMiner;component/logo.ico")).Stream);
+                            AppHelper.NotifyIcon = new ExtendedNotifyIcon(icon, "NTMiner挖矿端");
                             AppHelper.NotifyIcon.Init();
                             #region 处理显示主界面命令
                             VirtualRoot.Accept<ShowMainWindowCommand>(

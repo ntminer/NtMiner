@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -9,11 +10,11 @@ namespace NTMiner.Views {
         }
 
         private readonly NotifyIcon _targetNotifyIcon;
-        public ExtendedNotifyIcon(string iconUrl) {
+        public ExtendedNotifyIcon(Icon icon, string text) {
             _targetNotifyIcon = new NotifyIcon {
-                Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new Uri(iconUrl)).Stream),
+                Icon = icon,
                 Visible = NTMinerRoot.GetIsShowNotifyIcon(),
-                Text = "NTMiner",
+                Text = text,
                 ContextMenu = new ContextMenu()
             };
             _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
@@ -22,13 +23,6 @@ namespace NTMiner.Views {
             _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e)=> {
                 if (e.Button == MouseButtons.Left) {
                     ToggleWindow();
-                }
-            };
-            DateTime t = DateTime.Now;
-            _targetNotifyIcon.MouseMove += (object sender, MouseEventArgs e)=> {
-                if (t.AddSeconds(2) < DateTime.Now) {
-                    t = DateTime.Now;
-                    _targetNotifyIcon.Text = "NTMiner";
                 }
             };
         }
