@@ -12,9 +12,9 @@ namespace NTMiner {
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
 
         public static string MinerServerHost {
-            get { return NTMinerRegistry.GetMinerServerHost(); }
+            get { return NtMinerRegistry.GetMinerServerHost(); }
             set {
-                NTMinerRegistry.SetMinerServerHost(value);
+                NtMinerRegistry.SetMinerServerHost(value);
             }
         }
 

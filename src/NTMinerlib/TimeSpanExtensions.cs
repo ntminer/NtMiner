@@ -7,7 +7,7 @@ namespace NTMiner {
         public static Task Delay(this TimeSpan timeSpan) {
             var tcs = new TaskCompletionSource<object>();
             var timer = new Timer(timeSpan.TotalMilliseconds) { AutoReset = false };
-            timer.Elapsed += (object sender, ElapsedEventArgs e)=> {
+            timer.Elapsed += (sender, e)=> {
                 timer.Dispose();
                 tcs.SetResult(null);
             };

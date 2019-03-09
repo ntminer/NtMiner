@@ -257,14 +257,14 @@ namespace NTMiner.Vms {
                         }
                         string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
                         Uri uri = new Uri(downloadFileUrl);
-                        string updaterVersion = NTMinerRegistry.GetUpdaterVersion();
+                        string updaterVersion = NtMinerRegistry.GetUpdaterVersion();
                         if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
                             FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                                 try {
                                     if (isSuccess) {
                                         File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
                                         File.Delete(saveFileFullName);
-                                        NTMinerRegistry.SetUpdaterVersion(uri.AbsolutePath);
+                                        NtMinerRegistry.SetUpdaterVersion(uri.AbsolutePath);
                                         window?.Close();
                                         Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
                                         callback?.Invoke();

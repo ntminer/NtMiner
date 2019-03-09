@@ -5,10 +5,10 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class EntityExtensions {
-        private static readonly Dictionary<Type, PropertyInfo[]> s_entityPropertiesDic = new Dictionary<Type, PropertyInfo[]>();
+        private static readonly Dictionary<Type, PropertyInfo[]> SEntityPropertiesDic = new Dictionary<Type, PropertyInfo[]>();
         public static T Update<T, TInput>(this T entity, TInput input) where T : class, IEntity<Guid> {
             if (entity == null) {
-                return entity;
+                return null;
             }
             if (input == null) {
                 return entity;
@@ -19,10 +19,10 @@ namespace NTMiner {
             Type entityType = entity.GetType();
             Type inputType = input.GetType();
             // 写被写对象的可写属性，且可写属性的set访问器必须数public的
-            if (!s_entityPropertiesDic.ContainsKey(entityType)) {
-                s_entityPropertiesDic.Add(entityType, entityType.GetProperties().Where(a => a.CanWrite && a.GetSetMethod(nonPublic: false) != null).ToArray());
+            if (!SEntityPropertiesDic.ContainsKey(entityType)) {
+                SEntityPropertiesDic.Add(entityType, entityType.GetProperties().Where(a => a.CanWrite && a.GetSetMethod(nonPublic: false) != null).ToArray());
             }
-            foreach (PropertyInfo entityProperty in s_entityPropertiesDic[entityType]) {
+            foreach (PropertyInfo entityProperty in SEntityPropertiesDic[entityType]) {
                 PropertyInfo inputProperty = inputType.GetProperty(entityProperty.Name);
                 if (inputProperty == null) {
                     continue;

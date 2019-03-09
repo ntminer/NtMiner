@@ -48,7 +48,7 @@ namespace NTMiner {
                             if (!string.IsNullOrEmpty(request.MinerName)) {
                                 request.MinerName = new string(request.MinerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
                             }
-                            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", request.MinerName ?? string.Empty);
+                            Windows.Registry.SetValue(Registry.Users, NtMinerRegistry.NtMinerRegistrySubKey, "MinerName", request.MinerName ?? string.Empty);
                         }
                     }
                 });
@@ -154,7 +154,7 @@ namespace NTMiner {
                     ShowMainWindowAsync(callback: null);
                     return ResponseBase.Ok(request.MessageId);
                 }
-                string location = NTMinerRegistry.GetLocation();
+                string location = NtMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string arguments = string.Empty;
                     if (request.WorkId != Guid.Empty) {
@@ -171,13 +171,13 @@ namespace NTMiner {
         }
 
         private static bool IsNTMinerOpened(Guid workId) {
-            string location = NTMinerRegistry.GetLocation();
+            string location = NtMinerRegistry.GetLocation();
             if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                 string processName = Path.GetFileNameWithoutExtension(location);
                 Process[] processes = Process.GetProcessesByName(processName);
                 if (processes.Length != 0) {
                     if (workId != Guid.Empty) {
-                        string oldArguments = NTMinerRegistry.GetArguments();
+                        string oldArguments = NtMinerRegistry.GetArguments();
                         string arguments = "workid=" + workId.ToString();
                         if (oldArguments.IndexOf(arguments, StringComparison.OrdinalIgnoreCase) != -1) {
                             return true;
@@ -207,7 +207,7 @@ namespace NTMiner {
                 }
                 File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
                 File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
-                string location = NTMinerRegistry.GetLocation();
+                string location = NtMinerRegistry.GetLocation();
                 if (IsNTMinerOpened(request.WorkId)) {
                     using (HttpClient client = new HttpClient()) {
                         MinerClient.StartMineRequest innerRequest = new MinerClient.StartMineRequest {
@@ -261,7 +261,7 @@ namespace NTMiner {
                         DoCloseNTMiner();
                         System.Threading.Thread.Sleep(1000);
                     }
-                    string arguments = NTMinerRegistry.GetArguments();
+                    string arguments = NtMinerRegistry.GetArguments();
                     if (!string.IsNullOrEmpty(arguments)) {
                         string[] parts = arguments.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         int workIdIndex = -1;
@@ -290,7 +290,7 @@ namespace NTMiner {
                     else if (request.WorkId != Guid.Empty) {
                         arguments = "workid=" + request.WorkId;
                     }
-                    string location = NTMinerRegistry.GetLocation();
+                    string location = NtMinerRegistry.GetLocation();
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                         Windows.Cmd.RunClose(location, arguments);
                     }
@@ -331,7 +331,7 @@ namespace NTMiner {
             }
             if (!isClosed) {
                 try {
-                    string location = NTMinerRegistry.GetLocation();
+                    string location = NtMinerRegistry.GetLocation();
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                         string processName = Path.GetFileNameWithoutExtension(location);
                         Windows.TaskKill.Kill(processName);
@@ -343,8 +343,8 @@ namespace NTMiner {
             }
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetMinerServerHost()}:{WebApiConst.MinerServerPort}/api/Report/ReportState", new MinerServer.ReportStateRequest {
-                        ClientId = NTMinerRegistry.GetClientId(),
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NtMinerRegistry.GetMinerServerHost()}:{WebApiConst.MinerServerPort}/api/Report/ReportState", new MinerServer.ReportStateRequest {
+                        ClientId = NtMinerRegistry.GetClientId(),
                         IsMining = false
                     });
                     Write.DevLine("ReportStateAsync " + message.Result.ReasonPhrase);
@@ -366,7 +366,7 @@ namespace NTMiner {
             }
             Task.Factory.StartNew(() => {
                 try {
-                    string location = NTMinerRegistry.GetLocation();
+                    string location = NtMinerRegistry.GetLocation();
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                         string arguments = "upgrade=" + request.NTMinerFileName;
                         Windows.Cmd.RunClose(location, arguments);

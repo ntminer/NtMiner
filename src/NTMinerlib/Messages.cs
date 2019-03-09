@@ -21,10 +21,7 @@ namespace NTMiner {
 
     public abstract class AddEntityCommand<TEntity> : Cmd where TEntity : class, IEntity<Guid> {
         protected AddEntityCommand(TEntity input) {
-            if (input == null) {
-                throw new ArgumentNullException("input");
-            }
-            this.Input = input;
+            this.Input = input ?? throw new ArgumentNullException(nameof(input));
         }
 
         public TEntity Input { get; private set; }
@@ -40,10 +37,7 @@ namespace NTMiner {
 
     public abstract class UpdateEntityCommand<TEntity> : Cmd where TEntity : class, IEntity<Guid> {
         protected UpdateEntityCommand(TEntity input) {
-            if (input == null) {
-                throw new ArgumentNullException("input");
-            }
-            this.Input = input;
+            this.Input = input ?? throw new ArgumentNullException(nameof(input));
         }
 
         public TEntity Input { get; private set; }

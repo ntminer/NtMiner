@@ -87,13 +87,13 @@ namespace NTMiner.Vms {
                         this.DownloadMessage = "更新成功，正在重启";
                         CloseNTMinerMainWindow();
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                            string location = NTMinerRegistry.GetLocation();
+                            string location = NtMinerRegistry.GetLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                                 location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
                             }
                             File.Copy(saveFileFullName, location, overwrite: true);
                             File.Delete(saveFileFullName);
-                            string arguments = NTMinerRegistry.GetArguments();
+                            string arguments = NtMinerRegistry.GetArguments();
                             Process.Start(location, arguments);
                             this.IsDownloading = false;
                             UIThread.Execute(() => {
@@ -191,7 +191,7 @@ namespace NTMiner.Vms {
 
         private static void CloseNTMinerMainWindow() {
             try {
-                string location = NTMinerRegistry.GetLocation();
+                string location = NtMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string processName = Path.GetFileNameWithoutExtension(location);
                     Process[] processes = Process.GetProcessesByName(processName);
@@ -259,7 +259,7 @@ namespace NTMiner.Vms {
         public Version LocalNTMinerVersion {
             get {
                 if (_localNTMinerVersion == null) {
-                    string currentVersion = NTMinerRegistry.GetCurrentVersion();
+                    string currentVersion = NtMinerRegistry.GetCurrentVersion();
                     if (!Version.TryParse(currentVersion, out _localNTMinerVersion)) {
                         _localNTMinerVersion = new Version(1, 0);
                     }
@@ -270,7 +270,7 @@ namespace NTMiner.Vms {
 
         public string LocalNTMinerVersionTag {
             get {
-                return NTMinerRegistry.GetCurrentVersionTag();
+                return NtMinerRegistry.GetCurrentVersionTag();
             }
         }
 

@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 try {
                     if (string.IsNullOrEmpty(this.MinerServerHost)) {
-                        this.MinerServerHost = NTMinerRegistry.MINER_SERVER_HOST;
+                        this.MinerServerHost = NtMinerRegistry.MinerServerHost;
                     }
                     Server.MinerServerHost = this.MinerServerHost;
                     CloseWindow?.Invoke();

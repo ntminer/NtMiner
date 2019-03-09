@@ -9,15 +9,15 @@ using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
-        private static ILang s_lang = null;
-        private static bool s_isControlCenter;
+        private static ILang _sLang = null;
+        private static bool _sIsControlCenter;
 
         public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         public static bool IsPublishHandlerIdAddedEvent = false;
         public static bool IsControlCenter {
-            get => s_isControlCenter;
+            get => _sIsControlCenter;
             set {
-                s_isControlCenter = value;
+                _sIsControlCenter = value;
                 GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
                 Logging.LogDir.SetDir(System.IO.Path.Combine(GlobalDirFullName, "Logs"));
             }
@@ -25,20 +25,16 @@ namespace NTMiner {
 
         public static ILang Lang {
             get {
-                if (s_lang == null) {
-                    string langCode = NTMinerRegistry.GetLanguage();
-                    s_lang = LangSet.Instance.GetLangByCode(langCode);
-                    if (s_lang == null) {
-                        // 默认是排序在第一个的语言
-                        s_lang = LangSet.Instance.First();
-                    }
+                if (_sLang == null) {
+                    string langCode = NtMinerRegistry.GetLanguage();
+                    _sLang = LangSet.Instance.GetLangByCode(langCode) ?? LangSet.Instance.First();
                 }
-                return s_lang;
+                return _sLang;
             }
             set {
-                if (s_lang != value && value != null) {
-                    s_lang = LangSet.Instance.GetLangByCode(value.Code);
-                    NTMinerRegistry.SetLanguage(value.Code);
+                if (_sLang != value && value != null) {
+                    _sLang = LangSet.Instance.GetLangByCode(value.Code);
+                    NtMinerRegistry.SetLanguage(value.Code);
                     Happened(new GlobalLangChangedEvent(value));
                 }
             }

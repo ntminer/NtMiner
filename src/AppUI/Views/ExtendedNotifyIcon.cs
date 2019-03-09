@@ -15,7 +15,7 @@ namespace NTMiner.Views {
             _isControlCenterApp = isControlCenterApp;
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = isControlCenterApp ? true : NTMinerRegistry.GetIsShowNotifyIcon(),
+                Visible = isControlCenterApp ? true : NtMinerRegistry.GetIsShowNotifyIcon(),
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
@@ -30,7 +30,7 @@ namespace NTMiner.Views {
         }
 
         public void RefreshIcon() {
-            _targetNotifyIcon.Visible = _isControlCenterApp ? true : NTMinerRegistry.GetIsShowNotifyIcon();
+            _targetNotifyIcon.Visible = _isControlCenterApp ? true : NtMinerRegistry.GetIsShowNotifyIcon();
         }
 
         public void ToggleWindow() {

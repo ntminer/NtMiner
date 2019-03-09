@@ -3,8 +3,7 @@
 namespace NTMiner {
     public static class SignatureRequestExtension {
         public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, out TResponse response) where TResponse : ResponseBase, new() {
-            IUser user;
-            return IsValid(request, getUser, out user, out response);
+            return IsValid(request, getUser, out _, out response);
         }
 
         public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, out IUser user, out TResponse response) where TResponse : ResponseBase, new() {

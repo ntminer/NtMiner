@@ -75,7 +75,7 @@ namespace NTMiner {
 
         #region MinerName
         public static string GetMinerName() {
-            object locationValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
+            object locationValue = Windows.Registry.GetValue(Registry.Users, NtMinerRegistry.NtMinerRegistrySubKey, "MinerName");
             string result = string.Empty;
             if (locationValue != null) {
                 result =(string)locationValue;
@@ -90,14 +90,14 @@ namespace NTMiner {
             if (!string.IsNullOrEmpty(minerName)) {
                 minerName = new string(minerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", minerName ?? string.Empty);
+            Windows.Registry.SetValue(Registry.Users, NtMinerRegistry.NtMinerRegistrySubKey, "MinerName", minerName ?? string.Empty);
             VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
         }
         #endregion
 
         #region HotKey
         public static string GetHotKey() {
-            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey");
+            object value = Windows.Registry.GetValue(Registry.Users, NtMinerRegistry.NtMinerRegistrySubKey, "HotKey");
             if (value == null) {
                 return "X";
             }
@@ -114,7 +114,7 @@ namespace NTMiner {
             System.Windows.Forms.Keys key;
             if (Enum.TryParse(value, out key) && key >= System.Windows.Forms.Keys.A && key <= System.Windows.Forms.Keys.Z) {
                 if (RegHotKey.Invoke(key)) {
-                    Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey", value);
+                    Windows.Registry.SetValue(Registry.Users, NtMinerRegistry.NtMinerRegistrySubKey, "HotKey", value);
                     return true;
                 }
             }
@@ -124,12 +124,12 @@ namespace NTMiner {
 
         #region IsShowCommandLine
         public static bool GetIsShowCommandLine() {
-            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine");
+            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NtMinerRegistry.NtMinerRegistrySubKey, "IsShowCommandLine");
             return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
         }
 
         public static void SetIsShowCommandLine(bool value) {
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "IsShowCommandLine", value);
+            Windows.Registry.SetValue(Registry.Users, NtMinerRegistry.NtMinerRegistrySubKey, "IsShowCommandLine", value);
         }
         #endregion
     }
