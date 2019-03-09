@@ -1,5 +1,4 @@
-﻿using NTMiner.Daemon;
-using NTMiner.MinerClient;
+﻿using NTMiner.MinerClient;
 
 namespace NTMiner {
     public interface IMinerClientController : IShowMainWindow {

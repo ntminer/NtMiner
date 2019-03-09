@@ -38,7 +38,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase StartMine([FromBody]StartMineRequest request) {
+        public ResponseBase StartMine([FromBody]MinerClient.StartMineRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }

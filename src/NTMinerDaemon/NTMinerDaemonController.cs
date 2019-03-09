@@ -190,6 +190,42 @@ namespace NTMiner {
         }
 
         [HttpPost]
+        public ResponseBase StartMine([FromBody]StartMineRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                string location = NTMinerRegistry.GetLocation();
+                if (IsNTMinerOpened(request.WorkId)) {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/StartMine", request);
+                        response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        return response;
+                    }
+                }
+                else {
+                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                        string arguments = "--AutoStart";
+                        if (request.WorkId != Guid.Empty) {
+                            arguments += " workid=" + request.WorkId.ToString();
+                        }
+                        Windows.Cmd.RunClose(location, arguments);
+                        return ResponseBase.Ok(request.MessageId);
+                    }
+                    return ResponseBase.ServerError(request.MessageId, "挖矿端程序不存在");
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+
+        [HttpPost]
         public ResponseBase RestartNTMiner([FromBody]RestartNTMinerRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
@@ -246,7 +282,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]CloseNTMinerRequest request) {
+        public ResponseBase CloseNTMiner([FromBody]MinerClient.CloseNTMinerRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -320,42 +356,6 @@ namespace NTMiner {
                 }
             });
             return ResponseBase.Ok(request.MessageId);
-        }
-
-        [HttpPost]
-        public ResponseBase StartMine([FromBody]MinerClient.StartMineRequest request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
-            }
-            try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
-                string location = NTMinerRegistry.GetLocation();
-                if (IsNTMinerOpened(request.WorkId)) {
-                    using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/StartMine", request);
-                        response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                        return response;
-                    }
-                }
-                else {
-                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string arguments = "--AutoStart";
-                        if (request.WorkId != Guid.Empty) {
-                            arguments += " workid=" + request.WorkId.ToString();
-                        }
-                        Windows.Cmd.RunClose(location, arguments);
-                        return ResponseBase.Ok(request.MessageId);
-                    }
-                    return ResponseBase.ServerError(request.MessageId, "挖矿端程序不存在");
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
-            }
         }
 
         [HttpPost]

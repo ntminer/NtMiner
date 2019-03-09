@@ -11,9 +11,9 @@ namespace NTMiner {
         ResponseBase ShutdownWindows(ShutdownWindowsRequest request);
         ResponseBase OpenNTMiner(OpenNTMinerRequest request);
         ResponseBase RestartNTMiner(RestartNTMinerRequest request);
-        ResponseBase CloseNTMiner(CloseNTMinerRequest request);
+        ResponseBase CloseNTMiner(MinerClient.CloseNTMinerRequest request);
         ResponseBase UpgradeNTMiner(UpgradeNTMinerRequest request);
-        ResponseBase StartMine(MinerClient.StartMineRequest request);
+        ResponseBase StartMine(StartMineRequest request);
         ResponseBase StartNoDevFee(StartNoDevFeeRequest request);
         ResponseBase StopNoDevFee(RequestBase request);
     }

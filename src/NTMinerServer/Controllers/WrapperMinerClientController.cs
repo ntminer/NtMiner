@@ -135,7 +135,7 @@ namespace NTMiner.Controllers {
 
         #region StartMine
         [HttpPost]
-        public ResponseBase StartMine([FromBody]WrapperRequest<StartMineRequest> request) {
+        public ResponseBase StartMine([FromBody]WrapperRequest<MinerClient.StartMineRequest> request) {
             if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }

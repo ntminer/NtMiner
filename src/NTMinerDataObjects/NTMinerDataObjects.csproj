@@ -69,6 +69,7 @@
     <Compile Include="Core\SupportedGpu.cs" />
     <Compile Include="Core\SysDicData.cs" />
     <Compile Include="Core\SysDicItemData.cs" />
+    <Compile Include="Daemon\StartMineRequest.cs" />
     <Compile Include="DataLevel.cs" />
     <Compile Include="MinerServer\AddOrUpdatePoolRequest.cs" />
     <Compile Include="MinerServer\CoinKernelProfileResponse.cs" />
@@ -114,7 +115,7 @@
     <Compile Include="MinerServer\CalcConfigsRequest.cs" />
     <Compile Include="MinerServer\ClientCount.cs" />
     <Compile Include="MinerServer\ClientData.cs" />
-    <Compile Include="Daemon\CloseNTMinerRequest.cs" />
+    <Compile Include="MinerClient\CloseNTMinerRequest.cs" />
     <Compile Include="MinerServer\ColumnsShowData.cs" />
     <Compile Include="MinerServer\ColumnsShowsRequest.cs" />
     <Compile Include="MinerServer\GetColumnsShowsResponse.cs" />

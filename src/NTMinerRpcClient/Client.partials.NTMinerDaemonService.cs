@@ -193,7 +193,7 @@ namespace NTMiner {
                 }
             }
 
-            public void CloseNTMinerAsync(CloseNTMinerRequest request, Action<ResponseBase, Exception> callback) {
+            public void CloseNTMinerAsync(MinerClient.CloseNTMinerRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         var response = CloseNTMiner(request);
@@ -205,7 +205,7 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase CloseNTMiner(CloseNTMinerRequest request) {
+            public ResponseBase CloseNTMiner(MinerClient.CloseNTMinerRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.CloseNTMiner)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;

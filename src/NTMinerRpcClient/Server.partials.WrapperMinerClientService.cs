@@ -115,13 +115,13 @@ namespace NTMiner {
 
             public void StartMineAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    StartMineRequest innerRequest = new StartMineRequest {
+                    MinerClient.StartMineRequest innerRequest = new MinerClient.StartMineRequest {
                         ClientIp = client.MinerIp,
                         LoginName = SingleUser.LoginName,
                         WorkId = workId
                     };
                     innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
-                    WrapperRequest<StartMineRequest> request = new WrapperRequest<StartMineRequest> {
+                    WrapperRequest<MinerClient.StartMineRequest> request = new WrapperRequest<MinerClient.StartMineRequest> {
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest
                     };

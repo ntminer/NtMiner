@@ -2,10 +2,11 @@
 using System.Text;
 
 namespace NTMiner.Daemon {
-    public class RestartNTMinerRequest : RequestBase, ISignatureRequest {
+    public class StartMineRequest : RequestBase, ISignatureRequest {
+        public StartMineRequest() { }
+        public string LoginName { get; set; }
         public string ClientIp { get; set; }
         public Guid WorkId { get; set; }
-        public string LoginName { get; set; }
         public string LocalJson { get; set; }
         public string ServerJson { get; set; }
         public string Sign { get; set; }
