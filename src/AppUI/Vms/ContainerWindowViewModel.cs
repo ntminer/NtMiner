@@ -141,6 +141,7 @@ namespace NTMiner.Vms {
         private double _minHeight;
         private double _minWidth;
         private FormType _formType;
+        private string _footerText;
 
         public ImageSource IconImageSource {
             get {
@@ -231,6 +232,14 @@ namespace NTMiner.Vms {
                     _footerVisible = value;
                     OnPropertyChanged(nameof(FooterVisible));
                 }
+            }
+        }
+
+        public string FooterText {
+            get => _footerText;
+            set {
+                _footerText = value;
+                OnPropertyChanged(nameof(FooterText));
             }
         }
 

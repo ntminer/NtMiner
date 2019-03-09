@@ -10,7 +10,8 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_User",
                 Width = 600,
                 Height = 300,
-                CloseVisible = Visibility.Visible
+                CloseVisible = Visibility.Visible,
+                FooterText = "远程用户是供中控端访问挖矿端的用户"
             }, ucFactory: (window) => new UserPage(), fixedSize: true);
         }
 

@@ -87,7 +87,11 @@
 			</DockPanel>
 		</Border>
 		<Grid Grid.Row="2" Background="White" Visibility="{Binding FooterVisible}">
-			<WrapPanel VerticalAlignment="Bottom">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<WrapPanel>
 				<TextBlock
 					Margin="0" Padding="4 0 0 0"
 					HorizontalAlignment="Left"
@@ -118,6 +122,7 @@
 					VerticalAlignment="Center"
 					Text=")" />
 			</WrapPanel>
+			<TextBlock Grid.Column="1" Margin="20 0 0 0" Text="{Binding FooterText}"></TextBlock>
 		</Grid>
 	</Grid>
 </metro:MetroWindow>

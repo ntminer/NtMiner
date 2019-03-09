@@ -10,7 +10,8 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Calc",
                 Width = 650,
                 Height = 300,
-                CloseVisible = System.Windows.Visibility.Visible
+                CloseVisible = System.Windows.Visibility.Visible,
+                FooterText = "数据来自鱼池首页，感谢鱼池的支持"
             }, ucFactory: (window) => {
                 var uc = new Calc(coin);
                 return uc;
