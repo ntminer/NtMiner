@@ -9,16 +9,16 @@ using System.Linq;
 
 namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile {
-        public class GpuOverClockDataSet {
+        public class GpuProfileSet {
             private readonly Dictionary<Guid, GpuProfileData> _dicById = new Dictionary<Guid, GpuProfileData>();
 
             private readonly INTMinerRoot _root;
             private Guid _workId;
 
-            public GpuOverClockDataSet(INTMinerRoot root, Guid workId) {
+            public GpuProfileSet(INTMinerRoot root, Guid workId) {
                 _root = root;
                 _workId = workId;
-                VirtualRoot.Accept<AddOrUpdateGpuOverClockDataCommand>(
+                VirtualRoot.Accept<AddOrUpdateGpuProfileCommand>(
                     "处理添加或更新Gpu超频数据命令",
                     LogEnum.Console,
                     action: message => {
@@ -41,7 +41,7 @@ namespace NTMiner.Core.Profiles {
                                     col.Insert(data);
                                 }
                             }
-                            VirtualRoot.Happened(new GpuOverClockDataAddedOrUpdatedEvent(data));
+                            VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
                         }
                     });
                 VirtualRoot.Accept<OverClockCommand>(
@@ -113,7 +113,7 @@ namespace NTMiner.Core.Profiles {
                 _isInited = false;
             }
 
-            public IGpuProfile GetGpuOverClockData(Guid coinId, int index) {
+            public IGpuProfile GetGpuProfile(Guid coinId, int index) {
                 InitOnece();
                 GpuProfileData data = _dicById.Values.FirstOrDefault(a => a.CoinId == coinId && a.Index == index);
                 if (data == null) {

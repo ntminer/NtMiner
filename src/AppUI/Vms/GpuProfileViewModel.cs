@@ -5,7 +5,7 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class GpuOverClockDataViewModel : ViewModelBase, IGpuProfile {
+    public class GpuProfileViewModel : ViewModelBase, IGpuProfile {
         private Guid _id;
         private Guid _coinId;
         private int _index;
@@ -17,14 +17,14 @@ namespace NTMiner.Vms {
 
         public ICommand Apply { get; private set; }
 
-        public GpuOverClockDataViewModel(Guid id) {
+        public GpuProfileViewModel(Guid id) {
             _id = id;
             this.Apply = new DelegateCommand(() => {
                 VirtualRoot.Execute(new OverClockCommand(this));
             });
         }
 
-        public GpuOverClockDataViewModel(IGpuProfile data) : this(data.GetId()) {
+        public GpuProfileViewModel(IGpuProfile data) : this(data.GetId()) {
             _coinId = data.CoinId;
             _index = data.Index;
             _coreClockDelta = data.CoreClockDelta;
@@ -99,7 +99,7 @@ namespace NTMiner.Vms {
             set {
                 _isEnabled = value;
                 OnPropertyChanged(nameof(IsEnabled));
-                VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
+                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
             }
         }
 
@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
                 if (this.CoinId == Guid.Empty) {
                     return false;
                 }
-                return this == GpuOverClockDataViewModels.Current.GpuAllVm(CoinId);
+                return this == GpuProfileViewModels.Current.GpuAllVm(CoinId);
             }
         }
 
@@ -127,7 +127,7 @@ namespace NTMiner.Vms {
                 if (_coreClockDelta != value) {
                     _coreClockDelta = value;
                     OnPropertyChanged(nameof(CoreClockDelta));
-                    VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
+                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace NTMiner.Vms {
                 if (_memoryClockDelta != value) {
                     _memoryClockDelta = value;
                     OnPropertyChanged(nameof(MemoryClockDelta));
-                    VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
+                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
                 }
             }
         }
@@ -148,7 +148,7 @@ namespace NTMiner.Vms {
             set {
                 _powerCapacity = value;
                 OnPropertyChanged(nameof(PowerCapacity));
-                VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
+                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
             }
         }
 
@@ -157,7 +157,7 @@ namespace NTMiner.Vms {
             set {
                 _cool = value;
                 OnPropertyChanged(nameof(Cool));
-                VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(this));
+                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
             }
         }
 

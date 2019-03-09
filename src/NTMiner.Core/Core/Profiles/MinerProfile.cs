@@ -20,7 +20,7 @@ namespace NTMiner.Core.Profiles {
         private Guid _workId;
         private CoinKernelProfileSet _coinKernelProfileSet;
         private CoinProfileSet _coinProfileSet;
-        private GpuOverClockDataSet _gpuOverClockDatakSet;
+        private GpuProfileSet _gpuProfileSet;
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
         private IUserSet _userSet;
@@ -52,11 +52,11 @@ namespace NTMiner.Core.Profiles {
             else {
                 _coinProfileSet.Refresh(workId);
             }
-            if (_gpuOverClockDatakSet == null) {
-                _gpuOverClockDatakSet = new GpuOverClockDataSet(root, workId);
+            if (_gpuProfileSet == null) {
+                _gpuProfileSet = new GpuProfileSet(root, workId);
             }
             else {
-                _gpuOverClockDatakSet.Refresh(workId);
+                _gpuProfileSet.Refresh(workId);
             }
             if (_poolProfileSet == null) {
                 _poolProfileSet = new PoolProfileSet(root, workId);
@@ -171,8 +171,8 @@ namespace NTMiner.Core.Profiles {
             return _walletSet.TryGetWallet(walletId, out wallet);
         }
 
-        public IGpuProfile GetGpuOverClockData(Guid coinId, int gpuIndex) {
-            return _gpuOverClockDatakSet.GetGpuOverClockData(coinId, gpuIndex);
+        public IGpuProfile GetGpuProfile(Guid coinId, int gpuIndex) {
+            return _gpuProfileSet.GetGpuProfile(coinId, gpuIndex);
         }
 
         public IUser GetUser(string loginName) {
@@ -192,7 +192,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public List<IGpuProfile> GetGpuOverClocks() {
-            return _gpuOverClockDatakSet.GetGpuOverClocks().ToList();
+            return _gpuProfileSet.GetGpuOverClocks().ToList();
         }
 
         public List<IPool> GetPools() {
@@ -382,7 +382,7 @@ namespace NTMiner.Core.Profiles {
             if (poolProfile != null) {
                 sb.Append(poolProfile.ToString());
             }
-            IGpuProfile gpuProfile = GetGpuOverClockData(this.CoinId, NTMinerRoot.GpuAllId);
+            IGpuProfile gpuProfile = GetGpuProfile(this.CoinId, NTMinerRoot.GpuAllId);
             if (gpuProfile != null) {
                 sb.Append(gpuProfile.ToString());
             }

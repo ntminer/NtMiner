@@ -88,7 +88,7 @@ namespace NTMiner.Vms {
             this.ApplyOverClock = new DelegateCommand(() => {
                 var list = GpuOverClockVms.ToArray();
                 foreach (var item in list) {
-                    VirtualRoot.Execute(new AddOrUpdateGpuOverClockDataCommand(item));
+                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
                 }
                 VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
             });
@@ -167,18 +167,18 @@ namespace NTMiner.Vms {
             });
         }
 
-        public GpuOverClockDataViewModel GpuAllOverClockDataVm {
+        public GpuProfileViewModel GpuAllOverClockDataVm {
             get {
                 if (this.Id == Guid.Empty) {
                     return null;
                 }
-                return GpuOverClockDataViewModels.Current.GpuAllVm(this.Id);
+                return GpuProfileViewModels.Current.GpuAllVm(this.Id);
             }
         }
 
-        public List<GpuOverClockDataViewModel> GpuOverClockVms {
+        public List<GpuProfileViewModel> GpuOverClockVms {
             get {
-                return GpuOverClockDataViewModels.Current.List(this.Id);
+                return GpuProfileViewModels.Current.List(this.Id);
             }
         }
 

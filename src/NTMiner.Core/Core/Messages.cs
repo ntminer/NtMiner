@@ -241,9 +241,9 @@ namespace NTMiner.Core {
     #endregion
 
     #region gpu overclock
-    [MessageType(messageType: typeof(AddOrUpdateGpuOverClockDataCommand), description: "添加或更新Gpu超频数据")]
-    public class AddOrUpdateGpuOverClockDataCommand : Cmd {
-        public AddOrUpdateGpuOverClockDataCommand(IGpuProfile input) {
+    [MessageType(messageType: typeof(AddOrUpdateGpuProfileCommand), description: "添加或更新Gpu超频数据")]
+    public class AddOrUpdateGpuProfileCommand : Cmd {
+        public AddOrUpdateGpuProfileCommand(IGpuProfile input) {
             this.Input = input;
         }
 
@@ -268,9 +268,9 @@ namespace NTMiner.Core {
         public Guid CoinId { get; private set; }
     }
 
-    [MessageType(messageType: typeof(AddOrUpdateGpuOverClockDataCommand), description: "Gpu超频数据添加或更新后")]
-    public class GpuOverClockDataAddedOrUpdatedEvent : DomainEvent<IGpuProfile> {
-        public GpuOverClockDataAddedOrUpdatedEvent(IGpuProfile source) : base(source) {
+    [MessageType(messageType: typeof(AddOrUpdateGpuProfileCommand), description: "Gpu超频数据添加或更新后")]
+    public class GpuProfileAddedOrUpdatedEvent : DomainEvent<IGpuProfile> {
+        public GpuProfileAddedOrUpdatedEvent(IGpuProfile source) : base(source) {
         }
     }
     #endregion

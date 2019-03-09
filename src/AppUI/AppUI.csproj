@@ -295,8 +295,8 @@
     <Compile Include="Vms\Drives\VirtualMemorySet.cs" />
     <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
     <Compile Include="Vms\GpuClockDeltaViewModel.cs" />
-    <Compile Include="Vms\GpuOverClockDataViewModel.cs" />
-    <Compile Include="Vms\GpuOverClockDataViewModels.cs" />
+    <Compile Include="Vms\GpuProfileViewModel.cs" />
+    <Compile Include="Vms\GpuProfileViewModels.cs" />
     <Compile Include="Vms\GpusOverClockViewModel.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\GroupViewModels.cs" />
