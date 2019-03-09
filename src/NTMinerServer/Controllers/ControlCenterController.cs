@@ -1,7 +1,4 @@
-﻿using LiteDB;
-using NTMiner.Core;
-using NTMiner.Core.Impl;
-using NTMiner.MinerServer;
+﻿using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using System;
@@ -12,40 +9,6 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ControlCenterController : ApiController, IControlCenterController {
-        #region MineWorkJsonFile
-        [HttpGet]
-        public string MineWorkJsonFile(Guid workId) {
-            try {
-                string dbFileFullName = SpecialPath.GetMineWorkDbFileFullName(workId);
-                if (!File.Exists(dbFileFullName)) {
-                    return string.Empty;
-                }
-                LocalJson obj = LocalJson.NewInstance();
-                using (var database = new LiteDatabase($"filename={dbFileFullName};journal=false")) {
-                    obj.CoinKernelProfiles = database.GetCollection<CoinKernelProfileData>().FindAll().ToArray();
-                    obj.CoinProfiles = database.GetCollection<CoinProfileData>().FindAll().ToArray();
-                    obj.GpuProfiles = database.GetCollection<GpuProfileData>().FindAll().ToArray();
-                    obj.MinerProfile = HostRoot.Current.MineProfileManager.GetMinerProfile(workId);
-                    obj.MineWork = HostRoot.Current.MineWorkSet.GetMineWork(workId);
-                    obj.PoolProfiles = database.GetCollection<PoolProfileData>().FindAll().ToArray();
-                    obj.Pools = database.GetCollection<PoolData>().FindAll().ToArray();
-                    obj.TimeStamp = Timestamp.GetTimestamp();
-                    obj.Users = HostRoot.Current.UserSet.Select(a => new UserData(a)).ToArray();
-                    obj.Wallets = HostRoot.Current.WalletSet.GetAll().ToArray();
-                }
-                foreach (var user in obj.Users) {
-                    user.Password = HashUtil.Sha1(user.Password);
-                }
-                string json = HostRoot.JsonSerializer.Serialize(obj);
-                return json;
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return string.Empty;
-            }
-        }
-        #endregion
-
         #region ActiveControlCenterAdmin
         [HttpPost]
         public ResponseBase ActiveControlCenterAdmin([FromBody]string password) {

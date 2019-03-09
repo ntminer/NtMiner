@@ -29,13 +29,13 @@ namespace NTMiner.Core.Impl {
 
         private readonly object _locker = new object();
         private bool _inited = false;
-        public void Init(string rawJson, string localJsonFileFullName) {
+        public void Init(string localJson, string localJsonFileFullName) {
             if (!_inited) {
                 lock (_locker) {
                     if (!_inited) {
-                        if (!string.IsNullOrEmpty(rawJson)) {
+                        if (!string.IsNullOrEmpty(localJson)) {
                             try {
-                                LocalJson data = VirtualRoot.JsonSerializer.Deserialize<LocalJson>(rawJson);
+                                LocalJson data = VirtualRoot.JsonSerializer.Deserialize<LocalJson>(localJson);
                                 this.CoinKernelProfiles = data.CoinKernelProfiles ?? new CoinKernelProfileData[0];
                                 this.CoinProfiles = data.CoinProfiles ?? new CoinProfileData[0];
                                 this.GpuProfiles = data.GpuProfiles ?? new GpuProfileData[0];
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Impl {
                                     // 客户端的密码是原始密码的两次sha1+ClientId再sha1
                                     user.Password = HashUtil.Sha1(user.Password + ClientId.Id);
                                 }
-                                File.WriteAllText(localJsonFileFullName, rawJson);
+                                File.WriteAllText(localJsonFileFullName, localJson);
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);
