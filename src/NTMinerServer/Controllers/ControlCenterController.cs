@@ -464,12 +464,12 @@ namespace NTMiner.Controllers {
                 if (!File.Exists(dbFileFullName)) {
                     return ResponseBase.NotExist<ResponseBase>(request.MessageId);
                 }
-                LocalJson obj = LocalJson.NewInstance();
+                LocalJson localJsonObj = LocalJson.NewInstance();
                 using (var database = new LiteDatabase($"filename={dbFileFullName};journal=false")) {
-                    obj.MinerProfile = HostRoot.Current.MineProfileManager.GetMinerProfile(workId);
-                    obj.MineWork = HostRoot.Current.MineWorkSet.GetMineWork(workId);
-                    if (obj.MinerProfile != null && obj.MineWork != null) {
-                        CoinProfileData mainCoinProfile = database.GetCollection<CoinProfileData>().FindById(obj.MinerProfile.CoinId);
+                    localJsonObj.MinerProfile = HostRoot.Current.MineProfileManager.GetMinerProfile(workId);
+                    localJsonObj.MineWork = HostRoot.Current.MineWorkSet.GetMineWork(workId);
+                    if (localJsonObj.MinerProfile != null && localJsonObj.MineWork != null) {
+                        CoinProfileData mainCoinProfile = database.GetCollection<CoinProfileData>().FindById(localJsonObj.MinerProfile.CoinId);
                         if (mainCoinProfile != null) {
                             List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
                             List<PoolProfileData> poolProfiles = new List<PoolProfileData>();
@@ -490,23 +490,23 @@ namespace NTMiner.Controllers {
                                     }
                                 }
                             }
-                            obj.CoinProfiles = coinProfiles.ToArray();
-                            obj.CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
-                            obj.PoolProfiles = poolProfiles.ToArray();
-                            obj.GpuProfiles = database.GetCollection<GpuProfileData>().Find(a=>a.CoinId == obj.MinerProfile.CoinId).ToArray();
+                            localJsonObj.CoinProfiles = coinProfiles.ToArray();
+                            localJsonObj.CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
+                            localJsonObj.PoolProfiles = poolProfiles.ToArray();
+                            localJsonObj.GpuProfiles = database.GetCollection<GpuProfileData>().Find(a=>a.CoinId == localJsonObj.MinerProfile.CoinId).ToArray();
                         }
                     }
                 }
-                obj.TimeStamp = Timestamp.GetTimestamp();
+                localJsonObj.TimeStamp = Timestamp.GetTimestamp();
                 using (var localDb = HostRoot.CreateLocalDb()) {
-                    obj.Pools = localDb.GetCollection<PoolData>().FindAll().ToArray();
+                    localJsonObj.Pools = localDb.GetCollection<PoolData>().FindAll().ToArray();
                 }
-                obj.Users = HostRoot.Current.UserSet.Select(a => new UserData(a)).ToArray();
-                obj.Wallets = HostRoot.Current.WalletSet.GetAll().ToArray();
-                foreach (var user in obj.Users) {
+                localJsonObj.Users = HostRoot.Current.UserSet.Select(a => new UserData(a)).ToArray();
+                localJsonObj.Wallets = HostRoot.Current.WalletSet.GetAll().ToArray();
+                foreach (var user in localJsonObj.Users) {
                     user.Password = HashUtil.Sha1(user.Password);
                 }
-                string json = HostRoot.JsonSerializer.Serialize(obj);
+                string json = HostRoot.JsonSerializer.Serialize(localJsonObj);
                 File.WriteAllText(SpecialPath.GetMineWorkLocalJsonFileFullName(workId), json);
 
                 return ResponseBase.Ok(request.MessageId);
