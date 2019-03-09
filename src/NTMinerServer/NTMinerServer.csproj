@@ -83,6 +83,9 @@
     <Compile Include="..\NTMiner.Core\Core\Impl\LocalJson.cs">
       <Link>Data\Impl\LocalJson.cs</Link>
     </Compile>
+    <Compile Include="..\NTMiner.Core\Core\Impl\ServerJson.cs">
+      <Link>Data\Impl\ServerJson.cs</Link>
+    </Compile>
     <Compile Include="Controllers\AppSettingController.cs" />
     <Compile Include="Controllers\ControlCenterController.cs" />
     <Compile Include="Controllers\FileUrlController.cs" />

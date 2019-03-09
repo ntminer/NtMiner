@@ -13,28 +13,6 @@ namespace NTMiner.Core.Impl {
             return new ServerJson();
         }
 
-        public static string Export() {
-            INTMinerRoot root = NTMinerRoot.Current;
-            ServerJson data = new ServerJson() {
-                CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToArray(),
-                Coins = root.CoinSet.Cast<CoinData>().ToArray(),
-                Groups = root.GroupSet.Cast<GroupData>().ToArray(),
-                CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray(),
-                KernelInputs = root.KernelInputSet.Cast<KernelInputData>().ToArray(),
-                KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().ToArray(),
-                KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray(),
-                KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray(),
-                Kernels = root.KernelSet.Cast<KernelData>().ToArray(),
-                Pools = root.PoolSet.Cast<PoolData>().ToArray(),
-                PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToArray(),
-                SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray(),
-                SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
-            };
-            string json = VirtualRoot.JsonSerializer.Serialize(data);
-            File.WriteAllText(AssemblyInfo.ServerVersionJsonFileFullName, json);
-            return Path.GetFileName(AssemblyInfo.ServerVersionJsonFileFullName);
-        }
-
         // 私有构造函数不影响序列化反序列化
         private ServerJson() {
             this.Coins = new CoinData[0];
@@ -55,7 +33,7 @@ namespace NTMiner.Core.Impl {
 
         private readonly object _locker = new object();
         private bool _inited = false;
-        public void Init(string rawJson) {
+        public void Init(string rawJson, string serverJsonFileFullName) {
             if (!_inited) {
                 lock (_locker) {
                     if (!_inited) {
@@ -76,7 +54,7 @@ namespace NTMiner.Core.Impl {
                                 this.SysDics = data.SysDics ?? new SysDicData[0];
                                 this.SysDicItems = data.SysDicItems ?? new SysDicItemData[0];
                                 this.TimeStamp = data.TimeStamp;
-                                File.WriteAllText(SpecialPath.ServerJsonFileFullName, rawJson);
+                                File.WriteAllText(serverJsonFileFullName, rawJson);
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);
@@ -88,9 +66,9 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public void ReInit(string rawJson) {
+        public void ReInit(string rawJson, string serverJsonFileFullName) {
             _inited = false;
-            Init(rawJson);
+            Init(rawJson, serverJsonFileFullName);
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {

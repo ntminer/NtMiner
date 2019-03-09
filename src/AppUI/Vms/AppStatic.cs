@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core.Impl;
+using NTMiner.Core.Kernels.Impl;
+using NTMiner.Core.SysDics.Impl;
 using NTMiner.Language.Impl;
 using NTMiner.MinerServer;
 using NTMiner.Notifications;
@@ -7,6 +9,7 @@ using NTMiner.Views.Ucs;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -61,7 +64,24 @@ namespace NTMiner.Vms {
 
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
-                string fileName = ServerJson.Export();
+                var root = NTMinerRoot.Current;
+                ServerJson obj = ServerJson.NewInstance();
+                obj.CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToArray();
+                obj.Coins = root.CoinSet.Cast<CoinData>().ToArray();
+                obj.Groups = root.GroupSet.Cast<GroupData>().ToArray();
+                obj.CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray();
+                obj.KernelInputs = root.KernelInputSet.Cast<KernelInputData>().ToArray();
+                obj.KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().ToArray();
+                obj.KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray();
+                obj.KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray();
+                obj.Kernels = root.KernelSet.Cast<KernelData>().ToArray();
+                obj.Pools = root.PoolSet.Cast<PoolData>().ToArray();
+                obj.PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToArray();
+                obj.SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
+                obj.SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
+                string json = VirtualRoot.JsonSerializer.Serialize(obj);
+                File.WriteAllText(AssemblyInfo.ServerVersionJsonFileFullName, json);
+                string fileName = Path.GetFileName(AssemblyInfo.ServerVersionJsonFileFullName);
                 MainWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
             }
             catch (Exception e) {

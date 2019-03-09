@@ -35,20 +35,47 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangePasswordRequest.cs" />
+    <Compile Include="Core\CoinData.cs" />
+    <Compile Include="Core\CoinGroupData.cs" />
+    <Compile Include="Core\CoinKernelData.cs" />
+    <Compile Include="Core\EnvironmentVariable.cs" />
+    <Compile Include="Core\GroupData.cs" />
+    <Compile Include="Core\ICoin.cs" />
+    <Compile Include="Core\ICoinGroup.cs" />
+    <Compile Include="Core\ICoinKernel.cs" />
+    <Compile Include="Core\IGroup.cs" />
+    <Compile Include="Core\IKernel.cs" />
+    <Compile Include="Core\IKernelInput.cs" />
+    <Compile Include="Core\IKernelOutput.cs" />
+    <Compile Include="Core\IKernelOutputFilter.cs" />
+    <Compile Include="Core\IKernelOutputTranslater.cs" />
+    <Compile Include="Core\IPoolKernel.cs" />
+    <Compile Include="Core\ISysDic.cs" />
+    <Compile Include="Core\ISysDicItem.cs" />
+    <Compile Include="Core\KernelData.cs" />
+    <Compile Include="Core\KernelInputData.cs" />
+    <Compile Include="Core\KernelOutputData.cs" />
+    <Compile Include="Core\KernelOutputFilterData.cs" />
+    <Compile Include="Core\KernelOutputTranslaterData.cs" />
+    <Compile Include="Core\PoolKernelData.cs" />
+    <Compile Include="Core\SupportedGpu.cs" />
+    <Compile Include="Core\SysDicData.cs" />
+    <Compile Include="Core\SysDicItemData.cs" />
     <Compile Include="DataLevel.cs" />
     <Compile Include="GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
     <Compile Include="IGpuProfile.cs" />
     <Compile Include="ILevelEntity`1.cs" />
-    <Compile Include="IPool.cs" />
+    <Compile Include="Core\IPool.cs" />
+    <Compile Include="ISortable.cs" />
     <Compile Include="MinerClient\GpuSpeedData.cs" />
     <Compile Include="IAppSettingController.cs" />
     <Compile Include="IControlCenterController.cs" />
@@ -99,7 +126,7 @@
     <Compile Include="MinerServer\UpdateClientPropertiesRequest.cs" />
     <Compile Include="Daemon\UpgradeNTMinerRequest.cs" />
     <Compile Include="OverClock\RemoveOverClockDataRequest.cs" />
-    <Compile Include="PoolData.cs" />
+    <Compile Include="Core\PoolData.cs" />
     <Compile Include="Profile\CoinKernelProfileData.cs" />
     <Compile Include="Profile\CoinKernelProfileRequest.cs" />
     <Compile Include="Profile\CoinProfileData.cs" />
@@ -129,7 +156,7 @@
     <Compile Include="ISignatureRequest.cs" />
     <Compile Include="ITimestampEntity·1.cs" />
     <Compile Include="IUser.cs" />
-    <Compile Include="IWallet.cs" />
+    <Compile Include="Core\IWallet.cs" />
     <Compile Include="MinerServer\LoadClientRequest.cs" />
     <Compile Include="MinerServer\LoadClientResponse.cs" />
     <Compile Include="MinerServer\LoginControlCenterRequest.cs" />
@@ -173,7 +200,7 @@
     <Compile Include="Timestamp.cs" />
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />
-    <Compile Include="WalletData.cs" />
+    <Compile Include="Core\WalletData.cs" />
     <Compile Include="MinerServer\WalletsRequest.cs" />
   </ItemGroup>
   <ItemGroup>
