@@ -20,7 +20,7 @@ namespace NTMiner {
             this.UserSet = _userSet;
         }
 
-        private static ExtendedNotifyIcon s_notifyIcon;
+        public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex s_mutexApp;
         static void Main(string[] args) {
             try {
@@ -34,7 +34,7 @@ namespace NTMiner {
                 if (mutexCreated) {
                     NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
                     Type thisType = typeof(HostRoot);
-                    s_notifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner守护进程");
+                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner守护进程");
                     bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
                     if (isAutoBoot) {
                         string location = NTMinerRegistry.GetLocation();

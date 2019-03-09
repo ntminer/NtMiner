@@ -43,6 +43,17 @@ namespace NTMiner {
         }
         #endregion
 
+        #region IsShowDaemonNotifyIcon
+        public static bool GetIsShowDaemonNotifyIcon() {
+            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowDaemonNotifyIcon");
+            return isAutoBootValue == null || isAutoBootValue.ToString() == "True";
+        }
+
+        public static void SetIsShowDaemonNotifyIcon(bool value) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsShowDaemonNotifyIcon", value);
+        }
+        #endregion
+
         #region Location
         public static string GetLocation() {
             object locationValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "Location");

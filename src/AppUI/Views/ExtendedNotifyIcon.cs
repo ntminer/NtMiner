@@ -5,15 +5,17 @@ using System.Windows.Forms;
 
 namespace NTMiner.Views {
     public class ExtendedNotifyIcon : IDisposable {
-        public static ExtendedNotifyIcon Create(Icon icon, string text) {
-            return new ExtendedNotifyIcon(icon, text);
+        public static ExtendedNotifyIcon Create(Icon icon, string text, bool isControlCenterApp) {
+            return new ExtendedNotifyIcon(icon, text, isControlCenterApp);
         }
 
         private readonly NotifyIcon _targetNotifyIcon;
-        private ExtendedNotifyIcon(Icon icon, string text) {
+        private readonly bool _isControlCenterApp;
+        private ExtendedNotifyIcon(Icon icon, string text, bool isControlCenterApp) {
+            _isControlCenterApp = isControlCenterApp;
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = NTMinerRegistry.GetIsShowNotifyIcon(),
+                Visible = isControlCenterApp ? true : NTMinerRegistry.GetIsShowNotifyIcon(),
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
@@ -27,12 +29,8 @@ namespace NTMiner.Views {
             };
         }
 
-        public void ShowIcon() {
-            _targetNotifyIcon.Visible = true;
-        }
-
-        public void HideIcon() {
-            _targetNotifyIcon.Visible = false;
+        public void RefreshIcon() {
+            _targetNotifyIcon.Visible = _isControlCenterApp ? true : NTMinerRegistry.GetIsShowNotifyIcon();
         }
 
         public void ToggleWindow() {

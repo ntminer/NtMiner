@@ -42,6 +42,9 @@
 			<sys:String x:Key="LblIsShowNotifyIcon">
 				LblIsShowNotifyIcon
 			</sys:String>
+			<sys:String x:Key="LblIsShowDaemonNotifyIcon">
+				LblIsShowDaemonNotifyIcon
+			</sys:String>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<Grid>
@@ -135,6 +138,14 @@
 						IsChecked="{Binding IsShowNotifyIcon}"
 						IconColor="{StaticResource IconFillColor}"
 						Content="{DynamicResource LblIsShowNotifyIcon}">
+					</controls:KbCheckBox>
+				</WrapPanel>
+
+				<WrapPanel Margin="0 2">
+					<controls:KbCheckBox 
+						IsChecked="{Binding IsShowDaemonNotifyIcon}"
+						IconColor="{StaticResource IconFillColor}"
+						Content="{DynamicResource LblIsShowDaemonNotifyIcon}">
 					</controls:KbCheckBox>
 				</WrapPanel>
 

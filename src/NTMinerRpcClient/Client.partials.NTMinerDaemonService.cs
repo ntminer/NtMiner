@@ -38,8 +38,24 @@ namespace NTMiner {
                         Write.DevLine("CloseDaemon " + message.Result.ReasonPhrase);
                     }
                 }
-                catch {
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
+            }
+
+            public void RefreshNotifyIconAsync(Action<Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.RefreshNotifyIcon)}", null);
+                            Write.DevLine("RefreshNotifyIconAsync " + message.Result.ReasonPhrase);
+                            callback?.Invoke(null);
+                        }
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(e);
+                    }
+                });
             }
 
             public void SetMinerNameAsync(MinerClient.SetMinerNameRequest request, Action<ResponseBase, Exception> callback) {

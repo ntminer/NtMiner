@@ -4,6 +4,7 @@ namespace NTMiner {
     public interface INTMinerDaemonController {
         string GetDaemonVersion();
         void CloseDaemon();
+        void RefreshNotifyIcon();
         ResponseBase SetMinerName(MinerClient.SetMinerNameRequest request);
         void RefreshUserSet();
         ResponseBase RestartWindows(RestartWindowsRequest request);

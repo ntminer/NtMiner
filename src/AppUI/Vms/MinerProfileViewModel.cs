@@ -87,12 +87,18 @@ namespace NTMiner.Vms {
                 if (NTMinerRegistry.GetIsShowNotifyIcon() != value) {
                     NTMinerRegistry.SetIsShowNotifyIcon(value);
                     OnPropertyChanged(nameof(IsShowNotifyIcon));
-                    if (value) {
-                        AppHelper.NotifyIcon.ShowIcon();
-                    }
-                    else {
-                        AppHelper.NotifyIcon.HideIcon();
-                    }
+                    AppHelper.NotifyIcon.RefreshIcon();
+                }
+            }
+        }
+
+        public bool IsShowDaemonNotifyIcon {
+            get { return NTMinerRegistry.GetIsShowDaemonNotifyIcon(); }
+            set {
+                if (NTMinerRegistry.GetIsShowDaemonNotifyIcon() != value) {
+                    NTMinerRegistry.SetIsShowDaemonNotifyIcon(value);
+                    OnPropertyChanged(nameof(IsShowDaemonNotifyIcon));
+                    Client.NTMinerDaemonService.RefreshNotifyIconAsync(callback: null);
                 }
             }
         }
