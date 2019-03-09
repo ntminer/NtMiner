@@ -31,8 +31,14 @@ namespace NTMiner.Core.Impl {
                     }
                     PoolData entity = new PoolData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
-                    repository.Add(entity);
+
+                    if (VirtualRoot.IsControlCenter) {
+                        Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
+                    }
+                    else {
+                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
+                        repository.Add(entity);
+                    }
 
                     VirtualRoot.Happened(new PoolAddedEvent(entity));
 
@@ -77,8 +83,13 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
-                    repository.Update(new PoolData().Update(message.Input));
+                    if (VirtualRoot.IsControlCenter) {
+                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
+                        repository.Update(new PoolData().Update(message.Input));
+                    }
+                    else {
+                        Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
+                    }
 
                     VirtualRoot.Happened(new PoolUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
@@ -93,12 +104,16 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    // 组合ServerDb和ProfileDb，Profile用户无权删除GlobalDb中的数据，否则抛出异常终端流程从而确保ServerDb中的数据不会被后续的流程修改
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
-                    repository.Remove(message.EntityId);
+                    
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-
+                    if (VirtualRoot.IsControlCenter) {
+                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
+                        repository.Remove(message.EntityId);
+                    }
+                    else {
+                        Server.ControlCenterService.RemovePoolAsync(entity.Id, callback: null);
+                    }
                     VirtualRoot.Happened(new PoolRemovedEvent(entity));
                     Guid[] toRemoves = root.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
