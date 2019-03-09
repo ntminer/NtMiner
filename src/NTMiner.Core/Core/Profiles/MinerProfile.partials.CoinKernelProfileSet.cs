@@ -97,53 +97,41 @@ namespace NTMiner.Core.Profiles {
                 public Guid CoinKernelId {
                     get => _data.CoinKernelId;
                     private set {
-                        if (_data.CoinKernelId != value) {
-                            _data.CoinKernelId = value;
-                        }
+                        _data.CoinKernelId = value;
                     }
                 }
 
                 public bool IsDualCoinEnabled {
                     get => _data.IsDualCoinEnabled;
                     private set {
-                        if (_data.IsDualCoinEnabled != value) {
-                            _data.IsDualCoinEnabled = value;
-                        }
+                        _data.IsDualCoinEnabled = value;
                     }
                 }
                 public Guid DualCoinId {
                     get => _data.DualCoinId;
                     private set {
-                        if (_data.DualCoinId != value) {
-                            _data.DualCoinId = value;
-                        }
+                        _data.DualCoinId = value;
                     }
                 }
 
                 public double DualCoinWeight {
                     get => _data.DualCoinWeight;
                     private set {
-                        if (_data.DualCoinWeight != value) {
-                            _data.DualCoinWeight = value;
-                        }
+                        _data.DualCoinWeight = value;
                     }
                 }
 
                 public bool IsAutoDualWeight {
                     get => _data.IsAutoDualWeight;
                     private set {
-                        if (_data.IsAutoDualWeight != value) {
-                            _data.IsAutoDualWeight = value;
-                        }
+                        _data.IsAutoDualWeight = value;
                     }
                 }
 
                 public string CustomArgs {
                     get => _data.CustomArgs;
                     private set {
-                        if (_data.CustomArgs != value) {
-                            _data.CustomArgs = value;
-                        }
+                        _data.CustomArgs = value;
                     }
                 }
 
@@ -164,17 +152,20 @@ namespace NTMiner.Core.Profiles {
                             if (propertyInfo.PropertyType == typeof(Guid)) {
                                 value = DictionaryExtensions.ConvertToGuid(value);
                             }
-                            propertyInfo.SetValue(this, value, null);
-                            if (VirtualRoot.IsControlCenter) {
-                                Server.ControlCenterService.SetCoinKernelProfilePropertyAsync(_workId, CoinKernelId, propertyName, value, (response, exception) => {
+                            var oldValue = propertyInfo.GetValue(this, null);
+                            if (oldValue != value) {
+                                propertyInfo.SetValue(this, value, null);
+                                if (VirtualRoot.IsControlCenter) {
+                                    Server.ControlCenterService.SetCoinKernelProfilePropertyAsync(_workId, CoinKernelId, propertyName, value, (response, exception) => {
+                                        VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
+                                    });
+                                }
+                                else {
+                                    bool isUseJson = _workId != Guid.Empty;
+                                    IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>(isUseJson);
+                                    repository.Update(_data);
                                     VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
-                                });
-                            }
-                            else {
-                                bool isUseJson = _workId != Guid.Empty;
-                                IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>(isUseJson);
-                                repository.Update(_data);
-                                VirtualRoot.Happened(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
+                                }
                             }
                         }
                     }

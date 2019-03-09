@@ -100,27 +100,21 @@ namespace NTMiner.Core.Profiles {
                 public Guid PoolId {
                     get => _data.PoolId;
                     private set {
-                        if (_data.PoolId != value) {
-                            _data.PoolId = value;
-                        }
+                        _data.PoolId = value;
                     }
                 }
 
                 public string UserName {
                     get => _data.UserName;
                     private set {
-                        if (_data.UserName != value) {
-                            _data.UserName = value;
-                        }
+                        _data.UserName = value;
                     }
                 }
 
                 public string Password {
                     get => _data.Password;
                     private set {
-                        if (_data.Password != value) {
-                            _data.Password = value;
-                        }
+                        _data.Password = value;
                     }
                 }
 
@@ -141,17 +135,20 @@ namespace NTMiner.Core.Profiles {
                             if (propertyInfo.PropertyType == typeof(Guid)) {
                                 value = DictionaryExtensions.ConvertToGuid(value);
                             }
-                            propertyInfo.SetValue(this, value, null);
-                            if (VirtualRoot.IsControlCenter) {
-                                Server.ControlCenterService.SetPoolProfilePropertyAsync(_workId, PoolId, propertyName, value, (response, exception) => {
+                            var oldValue = propertyInfo.GetValue(this, null);
+                            if (oldValue != value) {
+                                propertyInfo.SetValue(this, value, null);
+                                if (VirtualRoot.IsControlCenter) {
+                                    Server.ControlCenterService.SetPoolProfilePropertyAsync(_workId, PoolId, propertyName, value, (response, exception) => {
+                                        VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
+                                    });
+                                }
+                                else {
+                                    bool isUseJson = _workId != Guid.Empty;
+                                    IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
+                                    repository.Update(_data);
                                     VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
-                                });
-                            }
-                            else {
-                                bool isUseJson = _workId != Guid.Empty;
-                                IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
-                                repository.Update(_data);
-                                VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
+                                }
                             }
                         }
                     }
