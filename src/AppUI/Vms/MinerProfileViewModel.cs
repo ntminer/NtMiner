@@ -12,6 +12,9 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnPropertyChanged(nameof(CoinVm));
+            };
             VirtualRoot.On<MinerProfilePropertyChangedEvent>(
                 "MinerProfile设置变更后刷新VM内存",
                 LogEnum.Console,
