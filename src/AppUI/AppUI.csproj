@@ -209,9 +209,6 @@
     <Compile Include="Views\Ucs\KernelDownloading.xaml.cs">
       <DependentUpon>KernelDownloading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\MinerClientRestart.xaml.cs">
-      <DependentUpon>MinerClientRestart.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Ucs\MinerServerHostConfig.xaml.cs">
       <DependentUpon>MinerServerHostConfig.xaml</DependentUpon>
     </Compile>
@@ -325,7 +322,6 @@
     <Compile Include="Vms\KernelProfileViewModel.cs" />
     <Compile Include="Vms\KernelViewModels.cs" />
     <Compile Include="Vms\MeasureModel.cs" />
-    <Compile Include="Vms\MinerClientRestartViewModel.cs" />
     <Compile Include="Vms\MinerClientViewModel.cs" />
     <Compile Include="Vms\ChartViewModel.cs" />
     <Compile Include="Vms\ChartsWindowViewModel.cs" />
@@ -603,10 +599,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\KernelDownloading.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\MinerClientRestart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

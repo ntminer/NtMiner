@@ -48,11 +48,11 @@ namespace NTMiner {
                 });
             }
 
-            public void RestartNTMinerAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
+            public void RestartNTMinerAsync(IClientData client, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     WorkRequest innerRequest = new WorkRequest {
                         LoginName = SingleUser.LoginName,
-                        WorkId = workId
+                        WorkId = client.WorkId
                     };
                     innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
                     WrapperRequest<WorkRequest> request = new WrapperRequest<WorkRequest> {

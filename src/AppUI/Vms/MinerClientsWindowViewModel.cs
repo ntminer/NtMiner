@@ -103,7 +103,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    DialogWindow.ShowDialog(message: $"您确定重启选中的电脑吗？", title: "确认", onYes: () => {
+                    DialogWindow.ShowDialog(message: $"确定重启选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in checkedItems) {
                             Server.MinerClientService.RestartWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -126,7 +126,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    DialogWindow.ShowDialog(message: $"您确定关机选中的电脑吗？", title: "确认", onYes: () => {
+                    DialogWindow.ShowDialog(message: $"确定关闭选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in checkedItems) {
                             Server.MinerClientService.ShutdownWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -149,7 +149,18 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    MinerClientRestart.ShowWindow(checkedItems);
+                    DialogWindow.ShowDialog(message: $"确定重启选中的挖矿客户端吗？", title: "确认", onYes: () => {
+                        foreach (var item in checkedItems) {
+                            Server.MinerClientService.RestartNTMinerAsync(item, (response, e) => {
+                                if (!response.IsSuccess()) {
+                                    if (response != null) {
+                                        Write.UserLine(response.Description, ConsoleColor.Red);
+                                        Manager.ShowErrorMessage(response.Description);
+                                    }
+                                }
+                            });
+                        }
+                    }, icon: "Icon_Confirm");
                 }
             });
             this.StartMine = new DelegateCommand(() => {
@@ -208,9 +219,7 @@ namespace NTMiner.Vms {
             this.PageLast = new DelegateCommand(() => {
                 this.MinerClientPageIndex = MinerClientPageCount;
             });
-            this.PageRefresh = new DelegateCommand(() => {
-                QueryMinerClients();
-            });
+            this.PageRefresh = new DelegateCommand(QueryMinerClients);
             VirtualRoot.On<Per1SecondEvent>(
                 "周期性挥动铲子表示在挖矿中",
                 LogEnum.None,
