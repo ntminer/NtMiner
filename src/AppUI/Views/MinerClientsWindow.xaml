@@ -1,1718 +1,1741 @@
 ﻿<metro:MetroWindow x:Class="NTMiner.Views.MinerClientsWindow"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:notification="clr-namespace:NTMiner.Notifications.Controls;assembly=NTMinerWpf"
-		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:local="clr-namespace:NTMiner.Views"
-		xmlns:view="clr-namespace:NTMiner.Views"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
-		UseNoneWindowStyle="True"
-		BorderBrush="{StaticResource IconFillColor}"
-		Background="{StaticResource ThemeBackground}"
-		Foreground="{StaticResource ThemeForeground}"
-		WindowState="Maximized"
-		WindowStartupLocation="CenterScreen"
-		MouseDown="MetroWindow_MouseDown"
-		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
-		mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="2000">
-	<metro:MetroWindow.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-			<sys:String x:Key="WindowTitle">
-				矿工
-			</sys:String>
-			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-				<Setter Property="Foreground" Value="{StaticResource ThemeForeground}"></Setter>
-			</Style>
-		</ResourceDictionary>
-	</metro:MetroWindow.Resources>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
-		</Grid.RowDefinitions>
-		<!--上标题栏-->
-		<StackPanel>
-			<WrapPanel Margin="0 6 0 0" IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
-				<TextBlock Style="{StaticResource LblTb}" Text="主币" />
-				<controls:KbComboBox 
-					Margin="0 0 20 0"
-					Width="100"
-					ItemsSource="{Binding MineCoinVms.PleaseSelect}"
-					DisplayMemberPath="Code"
-					SelectedItem="{Binding MainCoin}">
-					<controls:KbComboBox.Toolbar>
-						<WrapPanel HorizontalAlignment="Right">
-							<controls:KbButton
-								Margin="4 2"
-								BorderThickness="0"
-								Height="24"
-								Padding="4 0"
-								Command="{x:Static vm:AppStatic.ShowCoins}"
-								CommandParameter="{Binding MainCoin}"
-								Background="{StaticResource ThemeBackground}"
-								CornerRadius="2">
-								<WrapPanel>
-									<Path
-										Width="14"
-										Height="14"
-										Data="{StaticResource Icon_Coin}"
-										Fill="{StaticResource ThemeForeground}"
-										Stretch="Fill" />
-									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-								</WrapPanel>
-							</controls:KbButton>
-						</WrapPanel>
-					</controls:KbComboBox.Toolbar>
-					<controls:KbComboBox.ContextMenuEx>
-						<ContextMenu>
-							<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding MainCoin}">
-							</MenuItem>
-						</ContextMenu>
-					</controls:KbComboBox.ContextMenuEx>
-				</controls:KbComboBox>
-				<WrapPanel Margin="0 0 20 0">
-					<TextBlock Style="{StaticResource LblTb}" Text="主币矿池" />
-					<controls:KbComboBox 
-						Width="120"
-						ItemsSource="{Binding MainCoin.OptionPools}"
-						DisplayMemberPath="Name"
-						SelectedValuePath="Server"
-						SelectedItem="{Binding MainCoinPool}">
-						<controls:KbComboBox.Toolbar>
-							<WrapPanel HorizontalAlignment="Right">
-								<controls:KbButton
-									Margin="4 2"
-									BorderThickness="0"
-									Height="24"
-									Padding="4 0"
-									Command="{x:Static vm:AppStatic.ManagePools}"
-									CommandParameter="{Binding MainCoin}"
-									Background="{StaticResource ThemeBackground}"
-									CornerRadius="2">
-									<WrapPanel>
-										<Path
-											Width="14"
-											Height="14"
-											Data="{StaticResource Icon_Pool}"
-											Fill="{StaticResource ThemeForeground}"
-											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-									</WrapPanel>
-								</controls:KbButton>
-							</WrapPanel>
-						</controls:KbComboBox.Toolbar>
-						<controls:KbComboBox.ContextMenuEx>
-							<ContextMenu>
-								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}" CommandParameter="{Binding MainCoin}">
-								</MenuItem>
-							</ContextMenu>
-						</controls:KbComboBox.ContextMenuEx>
-					</controls:KbComboBox>
-				</WrapPanel>
-				<WrapPanel Margin="0 0 40 0">
-					<TextBlock Style="{StaticResource LblTb}" Text="主币钱包" />
-					<TextBox VerticalContentAlignment="Center" Text="{Binding MainCoinWallet}" Width="160" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Text="双挖币" />
-					<controls:KbComboBox 
-						Margin="0 0 20 0"
-						Width="100"
-						ItemsSource="{Binding MineCoinVms.DualPleaseSelect}"
-						DisplayMemberPath="Code"
-						SelectedItem="{Binding DualCoin}">
-						<controls:KbComboBox.Toolbar>
-							<WrapPanel HorizontalAlignment="Right">
-								<controls:KbButton
-									Margin="4 2"
-									BorderThickness="0"
-									Height="24"
-									Padding="4 0"
-									Command="{x:Static vm:AppStatic.ShowCoins}"
-									CommandParameter="{Binding DualCoin}"
-									Background="{StaticResource ThemeBackground}"
-									CornerRadius="2">
-									<WrapPanel>
-										<Path
-											Width="14"
-											Height="14"
-											Data="{StaticResource Icon_Coin}"
-											Fill="{StaticResource ThemeForeground}"
-											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-									</WrapPanel>
-								</controls:KbButton>
-							</WrapPanel>
-						</controls:KbComboBox.Toolbar>
-						<controls:KbComboBox.ContextMenuEx>
-							<ContextMenu>
-								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding DualCoin}">
-								</MenuItem>
-							</ContextMenu>
-						</controls:KbComboBox.ContextMenuEx>
-					</controls:KbComboBox>
-					<WrapPanel Margin="0 0 20 0">
-						<TextBlock Style="{StaticResource LblTb}" Text="双挖币矿池" />
-						<controls:KbComboBox 
-							Width="120"
-							ItemsSource="{Binding DualCoin.OptionPools}"
-							DisplayMemberPath="Name"
-							SelectedValuePath="Server"
-							SelectedItem="{Binding DualCoinPool}">
-							<controls:KbComboBox.Toolbar>
-								<WrapPanel HorizontalAlignment="Right">
-									<controls:KbButton
-										Margin="4 2"
-										BorderThickness="0"
-										Height="24"
-										Padding="4 0"
-										Command="{x:Static vm:AppStatic.ManagePools}"
-										CommandParameter="{Binding DualCoin}"
-										Background="{StaticResource ThemeBackground}"
-										CornerRadius="2">
-										<WrapPanel>
-											<Path
-												Width="14"
-												Height="14"
-												Data="{StaticResource Icon_Pool}"
-												Fill="{StaticResource ThemeForeground}"
-												Stretch="Fill" />
-											<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-										</WrapPanel>
-									</controls:KbButton>
-								</WrapPanel>
-							</controls:KbComboBox.Toolbar>
-							<controls:KbComboBox.ContextMenuEx>
-								<ContextMenu>
-									<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}" CommandParameter="{Binding DualCoin}">
-									</MenuItem>
-								</ContextMenu>
-							</controls:KbComboBox.ContextMenuEx>
-						</controls:KbComboBox>
-					</WrapPanel>
-					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}" Text="双挖币钱包" />
-						<TextBox VerticalContentAlignment="Center" Text="{Binding DualCoinWallet}" Width="160" Background="White"></TextBox>
-					</WrapPanel>
-				</WrapPanel>
-			</WrapPanel>
-			<WrapPanel Margin="0 2 0 0">
-				<TextBlock Style="{StaticResource LblTb}" Text="分组" />
-				<controls:KbComboBox 
-					Margin="0 0 20 0"
-					Width="100"
-					ItemsSource="{Binding MinerGroupVmItems}"
-					DisplayMemberPath="Name"
-					SelectedItem="{Binding SelectedMinerGroup}">
-					<controls:KbComboBox.Toolbar>
-						<WrapPanel HorizontalAlignment="Right">
-							<controls:KbButton
-								Margin="4 2"
-								BorderThickness="0"
-								Height="24"
-								Padding="4 0"
-								Command="{x:Static vm:AppStatic.ManageMinerGroup}"
-								Background="{StaticResource ThemeBackground}"
-								CornerRadius="2">
-								<WrapPanel>
-									<Path
-										Width="14"
-										Height="14"
-										Data="{StaticResource Icon_MinerGroup}"
-										Fill="{StaticResource ThemeForeground}"
-										Stretch="Fill" />
-									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-								</WrapPanel>
-							</controls:KbButton>
-						</WrapPanel>
-					</controls:KbComboBox.Toolbar>
-					<controls:KbComboBox.ContextMenuEx>
-						<ContextMenu>
-							<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManageMinerGroup}">
-							</MenuItem>
-						</ContextMenu>
-					</controls:KbComboBox.ContextMenuEx>
-				</controls:KbComboBox>
-				<TextBlock Style="{StaticResource LblTb}" Text="作业" />
-				<controls:KbComboBox 
-					Margin="0 0 36 0"
-					Width="120"
-					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
-					DisplayMemberPath="Name"
-					SelectedItem="{Binding SelectedMineWork}">
-					<controls:KbComboBox.Toolbar>
-						<WrapPanel HorizontalAlignment="Right">
-							<controls:KbButton
-								Margin="4 2"
-								BorderThickness="0"
-								Height="24"
-								Padding="4 0"
-								Command="{x:Static vm:AppStatic.ManageMineWork}"
-								Background="{StaticResource ThemeBackground}"
-								CornerRadius="2">
-								<WrapPanel>
-									<Path
-										Width="14"
-										Height="14"
-										Data="{StaticResource Icon_MineWork}"
-										Fill="{StaticResource ThemeForeground}"
-										Stretch="Fill" />
-									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-								</WrapPanel>
-							</controls:KbButton>
-						</WrapPanel>
-					</controls:KbComboBox.Toolbar>
-					<controls:KbComboBox.ContextMenuEx>
-						<ContextMenu>
-							<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManageMineWork}">
-							</MenuItem>
-						</ContextMenu>
-					</controls:KbComboBox.ContextMenuEx>
-				</controls:KbComboBox>
-				<WrapPanel Margin="0 0 10 0">
-					<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
-					<TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
-					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">矿工名</TextBlock>
-					<TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerName}" Background="White"></TextBox>
-					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">内核</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以次开头的内核" Width="100" Text="{Binding Kernel}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}">客户端版本</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="100" Text="{Binding Version}" Background="White"></TextBox>
-					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">状态</TextBlock>
-					<controls:KbComboBox 
-						Width="84"
-						ItemsSource="{Binding MineStatusEnumItems}"
-						DisplayMemberPath="Description"
-						SelectedItem="{Binding MineStatusEnumItem}">
-					</controls:KbComboBox>
-					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">最后更新</TextBlock>
-					<controls:KbComboBox 
-						Width="90"
-						ItemsSource="{Binding MinuteItems}"
-						DisplayMemberPath="Text"
-						SelectedItem="{Binding LastActivedOn}">
-					</controls:KbComboBox>
-				</WrapPanel>
-			</WrapPanel>
-			<WrapPanel Margin="2 2 0 0">
-				<Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
-				<Button
-					Width="20" Margin="4 0 0 0"
-					Command="{Binding PageUp}" 
-					IsEnabled="{Binding IsPageUpEnabled}" 
-					Content="&lt;"
-					ToolTip="上一页">
-				</Button>
-				<Button
-					Width="20" Margin="4 0 0 0"
-					Command="{Binding PageDown}" 
-					IsEnabled="{Binding IsPageDownEnabled}" 
-					Content="&gt;"
-					ToolTip="下一页">
-				</Button>
-				<Button
-					Width="20" Margin="4 0 0 0"
-					Command="{Binding PageRefresh}" 
-					ToolTip="手动刷新">
-					<Path 
-						Width="14"
-						Height="14"
-						Stretch="Fill"
-						Fill="{StaticResource IconFillColor}"
-						Data="{StaticResource Icon_Refresh}"></Path>
-				</Button>
-				<Button Command="{Binding PageLast}" IsEnabled="{Binding IsPageDownEnabled}" Margin="4 0 0 0">尾页</Button>
-				<Label Foreground="{StaticResource ThemeForeground}">第</Label>
-				<TextBox Foreground="{StaticResource ThemeForeground}" VerticalContentAlignment="Center" Text="{Binding MinerClientPageIndex}"></TextBox>
-				<Label Foreground="{StaticResource ThemeForeground}">/</Label>
-				<TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerClientPageCount}"></TextBlock>
-				<Label Foreground="{StaticResource ThemeForeground}">页，每页</Label>
-				<controls:KbComboBox ItemsSource="{Binding PageSizeItems}" SelectedItem="{Binding MinerClientPageSize}">
-				</controls:KbComboBox>
-				<Label Foreground="{StaticResource ThemeForeground}">条，共</Label>
-				<TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
-				<Label Foreground="{StaticResource ThemeForeground}">条</Label>
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:notification="clr-namespace:NTMiner.Notifications.Controls;assembly=NTMinerWpf"
+        xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:local="clr-namespace:NTMiner.Views"
+        xmlns:view="clr-namespace:NTMiner.Views"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
+        UseNoneWindowStyle="True"
+        BorderBrush="{StaticResource IconFillColor}"
+        Background="{StaticResource ThemeBackground}"
+        Foreground="{StaticResource ThemeForeground}"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        MouseDown="MetroWindow_MouseDown"
+        DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
+        mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="2000">
+    <metro:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <sys:String x:Key="WindowTitle">
+                矿工
+            </sys:String>
+            <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+                <Setter Property="Foreground" Value="{StaticResource ThemeForeground}"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </metro:MetroWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--上标题栏-->
+        <StackPanel>
+            <WrapPanel Margin="0 6 0 0" IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
+                <TextBlock Style="{StaticResource LblTb}" Text="主币" />
+                <controls:KbComboBox 
+                    Margin="0 0 20 0"
+                    Width="100"
+                    ItemsSource="{Binding MineCoinVms.PleaseSelect}"
+                    DisplayMemberPath="Code"
+                    SelectedItem="{Binding MainCoin}">
+                    <controls:KbComboBox.Toolbar>
+                        <WrapPanel HorizontalAlignment="Right">
+                            <controls:KbButton
+                                Margin="4 2"
+                                BorderThickness="0"
+                                Height="24"
+                                Padding="4 0"
+                                Command="{x:Static vm:AppStatic.ShowCoins}"
+                                CommandParameter="{Binding MainCoin}"
+                                Background="{StaticResource ThemeBackground}"
+                                CornerRadius="2">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="14"
+                                        Data="{StaticResource Icon_Coin}"
+                                        Fill="{StaticResource ThemeForeground}"
+                                        Stretch="Fill" />
+                                    <TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </WrapPanel>
+                    </controls:KbComboBox.Toolbar>
+                    <controls:KbComboBox.ContextMenuEx>
+                        <ContextMenu>
+                            <MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding MainCoin}">
+                            </MenuItem>
+                        </ContextMenu>
+                    </controls:KbComboBox.ContextMenuEx>
+                </controls:KbComboBox>
+                <WrapPanel Margin="0 0 20 0">
+                    <TextBlock Style="{StaticResource LblTb}" Text="主币矿池" />
+                    <controls:KbComboBox 
+                        Width="120"
+                        ItemsSource="{Binding MainCoin.OptionPools}"
+                        DisplayMemberPath="Name"
+                        SelectedValuePath="Server"
+                        SelectedItem="{Binding MainCoinPool}">
+                        <controls:KbComboBox.Toolbar>
+                            <WrapPanel HorizontalAlignment="Right">
+                                <controls:KbButton
+                                    Margin="4 2"
+                                    BorderThickness="0"
+                                    Height="24"
+                                    Padding="4 0"
+                                    Command="{x:Static vm:AppStatic.ManagePools}"
+                                    CommandParameter="{Binding MainCoin}"
+                                    Background="{StaticResource ThemeBackground}"
+                                    CornerRadius="2">
+                                    <WrapPanel>
+                                        <Path
+                                            Width="14"
+                                            Height="14"
+                                            Data="{StaticResource Icon_Pool}"
+                                            Fill="{StaticResource ThemeForeground}"
+                                            Stretch="Fill" />
+                                        <TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </controls:KbComboBox.Toolbar>
+                        <controls:KbComboBox.ContextMenuEx>
+                            <ContextMenu>
+                                <MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}" CommandParameter="{Binding MainCoin}">
+                                </MenuItem>
+                            </ContextMenu>
+                        </controls:KbComboBox.ContextMenuEx>
+                    </controls:KbComboBox>
+                </WrapPanel>
+                <WrapPanel Margin="0 0 40 0">
+                    <TextBlock Style="{StaticResource LblTb}" Text="主币钱包" />
+                    <TextBox VerticalContentAlignment="Center" Text="{Binding MainCoinWallet}" Width="160" Background="White"></TextBox>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Style="{StaticResource LblTb}" Text="双挖币" />
+                    <controls:KbComboBox 
+                        Margin="0 0 20 0"
+                        Width="100"
+                        ItemsSource="{Binding MineCoinVms.DualPleaseSelect}"
+                        DisplayMemberPath="Code"
+                        SelectedItem="{Binding DualCoin}">
+                        <controls:KbComboBox.Toolbar>
+                            <WrapPanel HorizontalAlignment="Right">
+                                <controls:KbButton
+                                    Margin="4 2"
+                                    BorderThickness="0"
+                                    Height="24"
+                                    Padding="4 0"
+                                    Command="{x:Static vm:AppStatic.ShowCoins}"
+                                    CommandParameter="{Binding DualCoin}"
+                                    Background="{StaticResource ThemeBackground}"
+                                    CornerRadius="2">
+                                    <WrapPanel>
+                                        <Path
+                                            Width="14"
+                                            Height="14"
+                                            Data="{StaticResource Icon_Coin}"
+                                            Fill="{StaticResource ThemeForeground}"
+                                            Stretch="Fill" />
+                                        <TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </controls:KbComboBox.Toolbar>
+                        <controls:KbComboBox.ContextMenuEx>
+                            <ContextMenu>
+                                <MenuItem Header="管理" Command="{x:Static vm:AppStatic.ShowCoins}" CommandParameter="{Binding DualCoin}">
+                                </MenuItem>
+                            </ContextMenu>
+                        </controls:KbComboBox.ContextMenuEx>
+                    </controls:KbComboBox>
+                    <WrapPanel Margin="0 0 20 0">
+                        <TextBlock Style="{StaticResource LblTb}" Text="双挖币矿池" />
+                        <controls:KbComboBox 
+                            Width="120"
+                            ItemsSource="{Binding DualCoin.OptionPools}"
+                            DisplayMemberPath="Name"
+                            SelectedValuePath="Server"
+                            SelectedItem="{Binding DualCoinPool}">
+                            <controls:KbComboBox.Toolbar>
+                                <WrapPanel HorizontalAlignment="Right">
+                                    <controls:KbButton
+                                        Margin="4 2"
+                                        BorderThickness="0"
+                                        Height="24"
+                                        Padding="4 0"
+                                        Command="{x:Static vm:AppStatic.ManagePools}"
+                                        CommandParameter="{Binding DualCoin}"
+                                        Background="{StaticResource ThemeBackground}"
+                                        CornerRadius="2">
+                                        <WrapPanel>
+                                            <Path
+                                                Width="14"
+                                                Height="14"
+                                                Data="{StaticResource Icon_Pool}"
+                                                Fill="{StaticResource ThemeForeground}"
+                                                Stretch="Fill" />
+                                            <TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                </WrapPanel>
+                            </controls:KbComboBox.Toolbar>
+                            <controls:KbComboBox.ContextMenuEx>
+                                <ContextMenu>
+                                    <MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}" CommandParameter="{Binding DualCoin}">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </controls:KbComboBox.ContextMenuEx>
+                        </controls:KbComboBox>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}" Text="双挖币钱包" />
+                        <TextBox VerticalContentAlignment="Center" Text="{Binding DualCoinWallet}" Width="160" Background="White"></TextBox>
+                    </WrapPanel>
+                </WrapPanel>
+            </WrapPanel>
+            <WrapPanel Margin="0 2 0 0">
+                <TextBlock Style="{StaticResource LblTb}" Text="分组" />
+                <controls:KbComboBox 
+                    Margin="0 0 20 0"
+                    Width="100"
+                    ItemsSource="{Binding MinerGroupVmItems}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding SelectedMinerGroup}">
+                    <controls:KbComboBox.Toolbar>
+                        <WrapPanel HorizontalAlignment="Right">
+                            <controls:KbButton
+                                Margin="4 2"
+                                BorderThickness="0"
+                                Height="24"
+                                Padding="4 0"
+                                Command="{x:Static vm:AppStatic.ManageMinerGroup}"
+                                Background="{StaticResource ThemeBackground}"
+                                CornerRadius="2">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="14"
+                                        Data="{StaticResource Icon_MinerGroup}"
+                                        Fill="{StaticResource ThemeForeground}"
+                                        Stretch="Fill" />
+                                    <TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </WrapPanel>
+                    </controls:KbComboBox.Toolbar>
+                    <controls:KbComboBox.ContextMenuEx>
+                        <ContextMenu>
+                            <MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManageMinerGroup}">
+                            </MenuItem>
+                        </ContextMenu>
+                    </controls:KbComboBox.ContextMenuEx>
+                </controls:KbComboBox>
+                <TextBlock Style="{StaticResource LblTb}" Text="作业" />
+                <controls:KbComboBox 
+                    Margin="0 0 36 0"
+                    Width="120"
+                    ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding SelectedMineWork}">
+                    <controls:KbComboBox.Toolbar>
+                        <WrapPanel HorizontalAlignment="Right">
+                            <controls:KbButton
+                                Margin="4 2"
+                                BorderThickness="0"
+                                Height="24"
+                                Padding="4 0"
+                                Command="{x:Static vm:AppStatic.ManageMineWork}"
+                                Background="{StaticResource ThemeBackground}"
+                                CornerRadius="2">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="14"
+                                        Data="{StaticResource Icon_MineWork}"
+                                        Fill="{StaticResource ThemeForeground}"
+                                        Stretch="Fill" />
+                                    <TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </WrapPanel>
+                    </controls:KbComboBox.Toolbar>
+                    <controls:KbComboBox.ContextMenuEx>
+                        <ContextMenu>
+                            <MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManageMineWork}">
+                            </MenuItem>
+                        </ContextMenu>
+                    </controls:KbComboBox.ContextMenuEx>
+                </controls:KbComboBox>
+                <WrapPanel Margin="0 0 10 0">
+                    <TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
+                    <TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
+                    <TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">矿工名</TextBlock>
+                    <TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerName}" Background="White"></TextBox>
+                    <TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">内核</TextBlock>
+                    <TextBox VerticalContentAlignment="Center" ToolTip="内核名以次开头的内核" Width="100" Text="{Binding Kernel}" Background="White"></TextBox>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Style="{StaticResource LblTb}">客户端版本</TextBlock>
+                    <TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="100" Text="{Binding Version}" Background="White"></TextBox>
+                    <TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">状态</TextBlock>
+                    <controls:KbComboBox 
+                        Width="84"
+                        ItemsSource="{Binding MineStatusEnumItems}"
+                        DisplayMemberPath="Description"
+                        SelectedItem="{Binding MineStatusEnumItem}">
+                    </controls:KbComboBox>
+                    <TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">最后更新</TextBlock>
+                    <controls:KbComboBox 
+                        Width="90"
+                        ItemsSource="{Binding MinuteItems}"
+                        DisplayMemberPath="Text"
+                        SelectedItem="{Binding LastActivedOn}">
+                    </controls:KbComboBox>
+                </WrapPanel>
+            </WrapPanel>
+            <WrapPanel Margin="2 2 0 0">
+                <Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
+                <Button
+                    Width="20" Margin="4 0 0 0"
+                    Command="{Binding PageUp}" 
+                    IsEnabled="{Binding IsPageUpEnabled}" 
+                    Content="&lt;"
+                    ToolTip="上一页">
+                </Button>
+                <Button
+                    Width="20" Margin="4 0 0 0"
+                    Command="{Binding PageDown}" 
+                    IsEnabled="{Binding IsPageDownEnabled}" 
+                    Content="&gt;"
+                    ToolTip="下一页">
+                </Button>
+                <Button
+                    Width="20" Margin="4 0 0 0"
+                    Command="{Binding PageRefresh}" 
+                    ToolTip="手动刷新">
+                    <Path 
+                        Width="14"
+                        Height="14"
+                        Stretch="Fill"
+                        Fill="{StaticResource IconFillColor}"
+                        Data="{StaticResource Icon_Refresh}"></Path>
+                </Button>
+                <Button Command="{Binding PageLast}" IsEnabled="{Binding IsPageDownEnabled}" Margin="4 0 0 0">尾页</Button>
+                <Label Foreground="{StaticResource ThemeForeground}">第</Label>
+                <TextBox Foreground="{StaticResource ThemeForeground}" VerticalContentAlignment="Center" Text="{Binding MinerClientPageIndex}"></TextBox>
+                <Label Foreground="{StaticResource ThemeForeground}">/</Label>
+                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerClientPageCount}"></TextBlock>
+                <Label Foreground="{StaticResource ThemeForeground}">页，每页</Label>
+                <controls:KbComboBox ItemsSource="{Binding PageSizeItems}" SelectedItem="{Binding MinerClientPageSize}">
+                </controls:KbComboBox>
+                <Label Foreground="{StaticResource ThemeForeground}">条，共</Label>
+                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
+                <Label Foreground="{StaticResource ThemeForeground}">条</Label>
 
-				<WrapPanel VerticalAlignment="Center">
-					<Label HorizontalContentAlignment="Right" Foreground="{StaticResource ThemeForeground}">列显</Label>
-					<controls:KbComboBox 
-						ItemsSource="{Binding ColumnsShows.List}"
-						DisplayMemberPath="ColumnsShowName"
-						SelectedItem="{Binding ColumnsShow}">
-					</controls:KbComboBox>
-					<controls:KbButton
-						ToolTip="添加列显"
-						Command="{Binding ColumnsShows.Add}" 
-						Background="Transparent" 
-						Foreground="{StaticResource ThemeForeground}"
-						BorderThickness="0"
-						Margin="2 0"
-						CornerRadius="2">
-						<WrapPanel>
-							<Path
-								Width="18"
-								Height="18"
-								Data="{StaticResource Icon_Add}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
-					<controls:KbButton
-						ToolTip="删除列显"
-						IsEnabled="{Binding ColumnsShow.IsPleaseSelect, Converter={StaticResource BoolInvertConverter}}"
-						Command="{Binding ColumnsShow.Remove}" Background="Transparent" BorderThickness="0"
-						Margin="2 0"
-						CornerRadius="2">
-						<WrapPanel>
-							<Path
-								Width="18"
-								Height="18"
-								Data="{StaticResource Icon_Delete}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
-					<controls:KbButton 
-						ToolTip="保存列显"
-						Command="{Binding ColumnsShow.Save}" Background="Transparent" BorderThickness="0"
-						Margin="2 0"
-						CornerRadius="2">
-						<WrapPanel>
-							<Path
-								Width="18"
-								Height="18"
-								Data="{StaticResource Icon_Ok}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-						</WrapPanel>
-					</controls:KbButton>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.LastActivedOnText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.LastActivedOnText}" Margin="0 0 6 0">最后更新</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.BootTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.BootTimeSpanText}" Margin="0 0 6 0">运行时长</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="0 0 6 0">挖矿时长</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}" Margin="0 0 6 0">作业</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="0 0 6 0">分组</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="0 0 6 0">矿工名</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="0 0 6 0">IP</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.WindowsLoginNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.WindowsLoginNameAndPassword}" Margin="0 0 6 0">远程桌面用户名密码</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="0 0 6 0">主挖币种</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="0 0 6 0">主币算力</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinRejectPercentText}" Margin="0 0 6 0">主币拒绝</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinCode}" Margin="0 0 6 0">双挖币种</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinSpeedText}" Margin="0 0 6 0">双挖币算力</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinRejectPercentText}" Margin="0 0 6 0">双挖币拒绝</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IncomeMainCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeMainCoinPerDayText}" Margin="0 0 6 0">主币预期收益</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IncomeDualCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeDualCoinPerDayText}" Margin="0 0 6 0">双挖币预期收益</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.GpuTableTrs, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuTableTrs}" Margin="0 0 6 0">显卡表格</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinWallet}" Margin="0 0 6 0">主币钱包</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinPool}" Margin="0 0 6 0">主币矿池</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.Kernel, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Kernel}" Margin="0 0 6 0">内核</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinWallet}" Margin="0 0 6 0">双挖币钱包</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinPool}" Margin="0 0 6 0">双挖币矿池</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.Version, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Version}" Margin="0 0 6 0">客户端版本</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.OSName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.OSName}" Margin="0 0 6 0">操作系统</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.OSVirtualMemoryGbText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.OSVirtualMemoryGbText}" Margin="0 0 6 0">虚拟内存</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IsAutoBoot, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IsAutoBoot}" Margin="0 0 6 0">开机自动启动</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IsAutoStart, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IsAutoStart}" Margin="0 0 6 0">启动后自动开始挖矿</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.GpuType, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuType}" Margin="0 0 6 0">显卡类型</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.GpuDriver, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuDriver}" Margin="0 0 6 0">显卡驱动</CheckBox>
-					<CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.GpuInfo, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuInfo}" Margin="0 0 6 0">显卡</CheckBox>
-				</WrapPanel>
-			</WrapPanel>
-		</StackPanel>
-		<WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top">
-			<CheckBox IsChecked="{Binding IsPull}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">拉</CheckBox>
-			<controls:KbButton 
-				Margin="10 0 0 0"
-				ToolTip="算力图"
-				Command="{x:Static vm:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
-				CornerRadius="2">
-				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
-				</Image>
-			</controls:KbButton>
-			<local:MainMenu>
-			</local:MainMenu>
-			<controls:KbSystemMinButton
-					Height="30"
-					KbSystemButtonSize="40" />
-			<controls:KbSystemMaxButton
-					Height="30"
-					KbSystemButtonSize="40" />
-			<controls:KbSystemCloseButton
-					Height="30"
-					KbSystemButtonSize="40" />
-		</WrapPanel>
-		<WrapPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 2 0">
-			<TextBlock Text="{Binding CountDown}" FontWeight="Normal"></TextBlock>
-			<TextBlock FontWeight="Normal" Text=" 秒后刷新"></TextBlock>
-		</WrapPanel>
-		<DataGrid 
-			Grid.Row="1"
-			Margin="0 2 0 0"
-			BorderThickness="0"
-			IsReadOnly="False"
-			ItemsSource="{Binding MinerClients}"
-			CanUserResizeRows="True"
-			AutoGenerateColumns="False"
-			MouseDoubleClick="DataGrid_MouseDoubleClick">
-			<DataGrid.Resources>
-				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
-			</DataGrid.Resources>
-			<DataGrid.Columns>
-				<!--CheckBox-->
-				<DataGridCheckBoxColumn Binding="{Binding IsChecked,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False">
-					<DataGridCheckBoxColumn.Header>
-						<CheckBox IsChecked="{Binding Data.IsChecked,Source={StaticResource proxy}}"></CheckBox>
-					</DataGridCheckBoxColumn.Header>
-					<DataGridCheckBoxColumn.ElementStyle>
-						<Style TargetType="CheckBox" />
-					</DataGridCheckBoxColumn.ElementStyle>
-				</DataGridCheckBoxColumn>
-				<!--操作-->
-				<DataGridTemplateColumn Width="110" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>操作</TextBlock>
-							<Menu 
-								Margin="4 0 0 0"
-								Background="Transparent" 
-								Width="24" Height="16" 
-								Padding="0">
-								<MenuItem>
-									<MenuItem.Icon>
-										<Path
-											Width="14"
-											Height="8"
-											Data="{StaticResource Icon_Menu}"
-											Fill="{StaticResource IconFillColor}"
-											Stretch="Fill" />
-									</MenuItem.Icon>
-									<MenuItem Header="重启客户端" Command="{Binding Data.RestartNTMiner,Source={StaticResource proxy}}">
-										<MenuItem.Icon>
-											<Path
-												Width="16"
-												Height="16"
-												Data="{StaticResource Icon_Restart}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</MenuItem.Icon>
-									</MenuItem>
-									<MenuItem Header="开始挖矿" Command="{Binding Data.StartMine,Source={StaticResource proxy}}">
-										<MenuItem.Icon>
-											<Path
-												Width="16"
-												Height="16"
-												Data="{StaticResource Icon_Start}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</MenuItem.Icon>
-									</MenuItem>
-									<MenuItem Header="停止挖矿" Command="{Binding Data.StopMine,Source={StaticResource proxy}}">
-										<MenuItem.Icon>
-											<Path
-												Width="16"
-												Height="16"
-												Data="{StaticResource Icon_Stop}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</MenuItem.Icon>
-									</MenuItem>
-									<MenuItem Header="重启电脑" Command="{Binding Data.RestartWindows,Source={StaticResource proxy}}">
-										<MenuItem.Icon>
-											<Path
-												Width="16"
-												Height="16"
-												Data="{StaticResource Icon_Restart2}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</MenuItem.Icon>
-									</MenuItem>
-									<MenuItem Header="关闭电脑" Command="{Binding Data.ShutdownWindows,Source={StaticResource proxy}}">
-										<MenuItem.Icon>
-											<Path
-												Width="16"
-												Height="16"
-												Data="{StaticResource Icon_Shutdown}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</MenuItem.Icon>
-									</MenuItem>
-								</MenuItem>
-							</Menu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<controls:KbButton 
-									Command="{Binding StartMine}" 
-									Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-									Background="{StaticResource ThemeBackground}"
-									Foreground="{StaticResource ThemeForeground}">
-									<WrapPanel>
-										<Path
-											Width="16"
-											Height="16"
-											Data="{StaticResource Icon_Mining1}"
-											Fill="{StaticResource ThemeForeground}"
-											Stretch="Fill">
-										</Path>
-										<Label
-											Padding="0"
-											Margin="2 0 0 0"
-											Foreground="{StaticResource ThemeForeground}"
-											VerticalAlignment="Center"
-											Content="开始挖矿" />
-									</WrapPanel>
-								</controls:KbButton>
-								<Button
-									Command="{Binding StopMine}" 
-									Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
-									<Button.Template>
-										<ControlTemplate>
-											<Border 
-												x:Name="Content"
-												Background="Transparent"
-												BorderThickness="1" 
-												BorderBrush="{StaticResource LineColor}">
-												<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-													<Path
-														Width="16"
-														Height="16"
-														Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
-														Data="{StaticResource Icon_Mining2}"
-														Fill="{StaticResource IconFillColor}"
-														Stretch="Fill">
-														<Path.RenderTransform>
-															<RotateTransform Angle="-20" CenterX="8" CenterY="8"></RotateTransform>
-														</Path.RenderTransform>
-													</Path>
-													<Path
-														Width="16"
-														Height="16"
-														Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-														Data="{StaticResource Icon_Mining1}"
-														Fill="{StaticResource IconFillColor}"
-														Stretch="Fill">
-														<Path.RenderTransform>
-															<RotateTransform Angle="20" CenterX="8" CenterY="8"></RotateTransform>
-														</Path.RenderTransform>
-													</Path>
-													<Label
-														Padding="0 0 1 1"
-														x:Name="Text"
-														Margin="2 0 0 0"
-														VerticalAlignment="Center"
-														Foreground="Black"
-														Content="正在挖矿" />
-												</WrapPanel>
-											</Border>
-											<ControlTemplate.Triggers>
-												<Trigger Property="IsMouseOver" Value="True">
-													<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
-													<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
-													<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
-													<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Button.Template>
-								</Button>
-								<Menu 
-									Margin="4 0 0 0"
-									Background="Transparent" 
-									Width="24" Height="16" 
-									Padding="0">
-									<MenuItem>
-										<MenuItem.Icon>
-											<Path
-												Width="14"
-												Height="8"
-												Data="{StaticResource Icon_Menu}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</MenuItem.Icon>
-										<MenuItem Header="重启客户端" Command="{Binding RestartNTMiner}">
-											<MenuItem.Icon>
-												<Path
-													Width="16"
-													Height="16"
-													Data="{StaticResource Icon_Restart}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</MenuItem.Icon>
-										</MenuItem>
-										<MenuItem Header="重启电脑" Command="{Binding RestartWindows}">
-											<MenuItem.Icon>
-												<Path
-													Width="16"
-													Height="16"
-													Data="{StaticResource Icon_Restart2}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</MenuItem.Icon>
-										</MenuItem>
-										<MenuItem Header="关闭电脑" Command="{Binding ShutdownWindows}">
-											<MenuItem.Icon>
-												<Path
-													Width="16"
-													Height="16"
-													Data="{StaticResource Icon_Shutdown}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</MenuItem.Icon>
-										</MenuItem>
-									</MenuItem>
-								</Menu>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--LastActivedOnText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock Text="最后更新"></TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="LastActivedOnText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--BootTimeSpanText-->
-				<DataGridTextColumn 
-					Binding="{Binding BootTimeSpanText}"
-					Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTextColumn.Header>
-						<WrapPanel>
-							<TextBlock>运行时长</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="BootTimeSpanText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTextColumn.Header>
-				</DataGridTextColumn>
-				<!--MineTimeSpanText-->
-				<DataGridTextColumn 
-					Binding="{Binding MineTimeSpanText}"
-					Visibility="{Binding Data.ColumnsShow.MineTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-					<DataGridTextColumn.Header>
-						<WrapPanel>
-							<TextBlock>挖矿时长</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MineTimeSpanText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTextColumn.Header>
-				</DataGridTextColumn>
-				<!--Work-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>作业</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Work">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}">
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--MinerGroup-->
-				<DataGridComboBoxColumn 
-					Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}"
-					DisplayMemberPath="Name" SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
-					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="False">
-					<DataGridComboBoxColumn.Header>
-						<WrapPanel>
-							<TextBlock>分组</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerGroup">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridComboBoxColumn.Header>
-				</DataGridComboBoxColumn>
-				<!--MinerName-->
-				<DataGridTextColumn 
-					Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
-					Binding="{Binding MinerName, UpdateSourceTrigger=LostFocus}" 
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="False">
-					<DataGridTextColumn.Header>
-						<WrapPanel>
-							<TextBlock>矿工名</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerName">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTextColumn.Header>
-					<DataGridTextColumn.EditingElementStyle>
-						<Style TargetType="TextBox">
-							<Setter Property="ToolTip" Value="注意：修改矿工名后需重新开始挖矿才能反应到矿池"></Setter>
-							<Setter Property="Background" Value="White"></Setter>
-							<Setter Property="Width" Value="70"></Setter>
-						</Style>
-					</DataGridTextColumn.EditingElementStyle>
-				</DataGridTextColumn>
-				<!--MinerIp-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>IP</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerIp">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<controls:KbButton
-									BorderThickness="0"
-									Background="Transparent"
-									Command="{Binding RemoteDesktop}"
-									CornerRadius="2">
-									<Path
-										Width="14"
-										Height="14"
-										Data="{StaticResource Icon_RemoteDesktop}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
-								<TextBox 
-									ToolTip="双击打开远程桌面"
-									PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
-									Tag="{Binding}"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--WindowsLoginNameAndPassword-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="False">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>远程桌面用户名</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="WindowsLoginNameAndPassword">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<controls:KbButton
-									BorderThickness="0"									
-									Background="Transparent"
-									Command="{Binding RemoteLogin}"
-									CornerRadius="2">
-									<Path
-										Width="14"
-										Height="14"
-										Data="{StaticResource Icon_Edit}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</controls:KbButton>
-								<TextBlock Margin="4 0 0 0" Text="{Binding WindowsLoginName}"></TextBlock>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-					<DataGridTemplateColumn.CellEditingTemplate>
-						<DataTemplate>
-							<TextBox Text="{Binding WindowsLoginName, UpdateSourceTrigger=LostFocus}" Background="White" Width="96"></TextBox>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellEditingTemplate>
-				</DataGridTemplateColumn>
-				<!--WindowsLoginNameAndPassword-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="False">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>远程桌面密码</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="WindowsLoginNameAndPassword">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding WindowsPasswordStar}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-					<DataGridTemplateColumn.CellEditingTemplate>
-						<DataTemplate>
-							<PasswordBox Width="78" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellEditingTemplate>
-				</DataGridTemplateColumn>
-				<!--MainCoinCode-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.MainCoinCode, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>主挖币种</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinCode">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBlock Text="{Binding MainCoinCode}"></TextBlock>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--MainCoinSpeedText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.MainCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>主币算力</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinSpeedText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--MainCoinRejectPercentText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>拒绝次数</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
-								<TextBlock Text="/"></TextBlock>
-								<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--MainCoinRejectPercentText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>拒绝率</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding MainCoinRejectPercentText}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--DualCoinCode-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.DualCoinCode,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>双挖币种</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinCode">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding DualCoinCode, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--DualCoinSpeedText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.DualCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>双挖算力</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinSpeedText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--DualCoinRejectPercentText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>拒绝次数</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinRejectPercentText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-								<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
-								<TextBlock Text="/"></TextBlock>
-								<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--DualCoinRejectPercentText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>拒绝率</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinRejectPercentText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding DualCoinRejectPercentText}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--IncomeMainCoinPerDayText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.IncomeMainCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>主币预期收益</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IncomeMainCoinPerDayText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBlock Text="{Binding IncomeMainCoinPerDayText}"></TextBlock>
-								<TextBlock 
-									Text="{Binding MainCoinCode}" 
-									Margin="2 0 0 0"
-									Padding="0"
-									Foreground="{StaticResource LableColor}"></TextBlock>
-								<TextBlock Text=", "></TextBlock>
-								<TextBlock Text="{Binding IncomeMainCoinUsdPerDayText}"></TextBlock>
-								<TextBlock 
-									Text="USD" 
-									Margin="2 0 0 0"
-									Padding="0"
-									Foreground="{StaticResource LableColor}"></TextBlock>
-								<TextBlock Text=", "></TextBlock>
-								<TextBlock Text="{Binding IncomeMainCoinCnyPerDayText}"></TextBlock>
-								<TextBlock 
-									Text="CNY" 
-									Margin="2 0 0 0"
-									Padding="0"
-									Foreground="{StaticResource LableColor}"></TextBlock>
-								<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
-								<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--IncomeDualCoinPerDayText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.IncomeDualCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>双挖币预期收益</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IncomeDualCoinPerDayText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-								<TextBlock Text="{Binding IncomeDualCoinPerDayText}"></TextBlock>
-								<TextBlock 
-									Text="{Binding DualCoinCode}" 
-									Margin="2 0 0 0"
-									Padding="0"
-									Foreground="{StaticResource LableColor}"></TextBlock>
-								<TextBlock Text=", "></TextBlock>
-								<TextBlock Text="{Binding IncomeDualCoinUsdPerDayText}"></TextBlock>
-								<TextBlock 
-									Text="USD" 
-									Margin="2 0 0 0"
-									Padding="0"
-									Foreground="{StaticResource LableColor}"></TextBlock>
-								<TextBlock Text=", "></TextBlock>
-								<TextBlock Text="{Binding IncomeDualCoinCnyPerDayText}"></TextBlock>
-								<TextBlock 
-									Text="CNY" 
-									Margin="2 0 0 0"
-									Padding="0"
-									Foreground="{StaticResource LableColor}"></TextBlock>
-								<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
-								<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--GpuTableTrs-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>显卡表格</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuTableTrs">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<Grid>
-								<DataGrid 
-									MinRowHeight="24"
-									ColumnHeaderHeight="24"
-									IsReadOnly="True"
-									Background="Transparent"
-									Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-									ItemsSource="{Binding GpuTableTrs}">
-									<DataGrid.Resources>
-										<Style TargetType="DataGridColumnHeader">
-											<Style.Resources>
-												<ResourceDictionary />
-											</Style.Resources>
-											<Setter Property="UseLayoutRounding" Value="True" />
-											<Setter Property="Foreground" Value="#FF5A5A5A" />
-											<Setter Property="Background" Value="Transparent"></Setter>
-											<Setter Property="FontSize" Value="14" />
-											<Setter Property="Focusable" Value="False"></Setter>
-											<Setter Property="Control.VerticalContentAlignment">
-												<Setter.Value>
-													<x:Static Member="VerticalAlignment.Center" />
-												</Setter.Value>
-											</Setter>
-										</Style>
+                <WrapPanel VerticalAlignment="Center">
+                    <Label HorizontalContentAlignment="Right" Foreground="{StaticResource ThemeForeground}">列显</Label>
+                    <controls:KbComboBox 
+                        ItemsSource="{Binding ColumnsShows.List}"
+                        DisplayMemberPath="ColumnsShowName"
+                        SelectedItem="{Binding ColumnsShow}">
+                    </controls:KbComboBox>
+                    <controls:KbButton
+                        ToolTip="添加列显"
+                        Command="{Binding ColumnsShows.Add}" 
+                        Background="Transparent" 
+                        Foreground="{StaticResource ThemeForeground}"
+                        BorderThickness="0"
+                        Margin="2 0"
+                        CornerRadius="2">
+                        <WrapPanel>
+                            <Path
+                                Width="18"
+                                Height="18"
+                                Data="{StaticResource Icon_Add}"
+                                Fill="{StaticResource ThemeForeground}"
+                                Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
+                    <controls:KbButton
+                        ToolTip="删除列显"
+                        IsEnabled="{Binding ColumnsShow.IsPleaseSelect, Converter={StaticResource BoolInvertConverter}}"
+                        Command="{Binding ColumnsShow.Remove}" Background="Transparent" BorderThickness="0"
+                        Margin="2 0"
+                        CornerRadius="2">
+                        <WrapPanel>
+                            <Path
+                                Width="18"
+                                Height="18"
+                                Data="{StaticResource Icon_Delete}"
+                                Fill="{StaticResource ThemeForeground}"
+                                Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
+                    <controls:KbButton 
+                        ToolTip="保存列显"
+                        Command="{Binding ColumnsShow.Save}" Background="Transparent" BorderThickness="0"
+                        Margin="2 0"
+                        CornerRadius="2">
+                        <WrapPanel>
+                            <Path
+                                Width="18"
+                                Height="18"
+                                Data="{StaticResource Icon_Ok}"
+                                Fill="{StaticResource ThemeForeground}"
+                                Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.LastActivedOnText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.LastActivedOnText}" Margin="0 0 6 0">最后更新</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.BootTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.BootTimeSpanText}" Margin="0 0 6 0">运行时长</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="0 0 6 0">挖矿时长</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}" Margin="0 0 6 0">作业</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="0 0 6 0">分组</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="0 0 6 0">矿工名</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="0 0 6 0">IP</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.WindowsLoginNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.WindowsLoginNameAndPassword}" Margin="0 0 6 0">远程桌面用户名密码</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="0 0 6 0">主挖币种</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinSpeedText}" Margin="0 0 6 0">主币算力</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinRejectPercentText}" Margin="0 0 6 0">主币拒绝</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinCode}" Margin="0 0 6 0">双挖币种</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinSpeedText}" Margin="0 0 6 0">双挖币算力</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinRejectPercentText}" Margin="0 0 6 0">双挖币拒绝</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IncomeMainCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeMainCoinPerDayText}" Margin="0 0 6 0">主币预期收益</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IncomeDualCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeDualCoinPerDayText}" Margin="0 0 6 0">双挖币预期收益</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.GpuTableTrs, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuTableTrs}" Margin="0 0 6 0">显卡表格</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinWallet}" Margin="0 0 6 0">主币钱包</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MainCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinPool}" Margin="0 0 6 0">主币矿池</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.Kernel, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Kernel}" Margin="0 0 6 0">内核</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinWallet}" Margin="0 0 6 0">双挖币钱包</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinPool, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinPool}" Margin="0 0 6 0">双挖币矿池</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.Version, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Version}" Margin="0 0 6 0">客户端版本</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.OSName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.OSName}" Margin="0 0 6 0">操作系统</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.OSVirtualMemoryGbText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.OSVirtualMemoryGbText}" Margin="0 0 6 0">虚拟内存</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IsAutoBoot, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IsAutoBoot}" Margin="0 0 6 0">开机自动启动</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IsAutoStart, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IsAutoStart}" Margin="0 0 6 0">启动后自动开始挖矿</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.GpuType, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuType}" Margin="0 0 6 0">显卡类型</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.GpuDriver, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuDriver}" Margin="0 0 6 0">显卡驱动</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.GpuInfo, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuInfo}" Margin="0 0 6 0">显卡</CheckBox>
+                </WrapPanel>
+            </WrapPanel>
+        </StackPanel>
+        <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+            <CheckBox IsChecked="{Binding IsPull}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">拉</CheckBox>
+            <controls:KbButton 
+                Margin="10 0 0 0"
+                ToolTip="算力图"
+                Command="{x:Static vm:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
+                CornerRadius="2">
+                <Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+                </Image>
+            </controls:KbButton>
+            <local:MainMenu>
+            </local:MainMenu>
+            <controls:KbSystemMinButton
+                    Height="30"
+                    KbSystemButtonSize="40" />
+            <controls:KbSystemMaxButton
+                    Height="30"
+                    KbSystemButtonSize="40" />
+            <controls:KbSystemCloseButton
+                    Height="30"
+                    KbSystemButtonSize="40" />
+        </WrapPanel>
+        <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 2 0">
+            <TextBlock Text="{Binding CountDown}" FontWeight="Normal"></TextBlock>
+            <TextBlock FontWeight="Normal" Text=" 秒后刷新"></TextBlock>
+        </WrapPanel>
+        <DataGrid 
+            Grid.Row="1"
+            Margin="0 2 0 0"
+            BorderThickness="0"
+            IsReadOnly="False"
+            ItemsSource="{Binding MinerClients}"
+            CanUserResizeRows="True"
+            AutoGenerateColumns="False"
+            MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <DataGrid.Resources>
+                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <!--CheckBox-->
+                <DataGridCheckBoxColumn Binding="{Binding IsChecked,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False">
+                    <DataGridCheckBoxColumn.Header>
+                        <CheckBox IsChecked="{Binding Data.IsChecked,Source={StaticResource proxy}}"></CheckBox>
+                    </DataGridCheckBoxColumn.Header>
+                    <DataGridCheckBoxColumn.ElementStyle>
+                        <Style TargetType="CheckBox" />
+                    </DataGridCheckBoxColumn.ElementStyle>
+                </DataGridCheckBoxColumn>
+                <!--操作-->
+                <DataGridTemplateColumn Width="110" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>操作</TextBlock>
+                            <Menu 
+                                Margin="4 0 0 0"
+                                Background="Transparent" 
+                                Width="24" Height="16" 
+                                Padding="0">
+                                <MenuItem>
+                                    <MenuItem.Icon>
+                                        <Path
+                                            Width="14"
+                                            Height="8"
+                                            Data="{StaticResource Icon_Menu}"
+                                            Fill="{StaticResource IconFillColor}"
+                                            Stretch="Fill" />
+                                    </MenuItem.Icon>
+                                    <MenuItem Header="重启客户端" Command="{Binding Data.RestartNTMiner,Source={StaticResource proxy}}">
+                                        <MenuItem.Icon>
+                                            <Path
+                                                Width="16"
+                                                Height="16"
+                                                Data="{StaticResource Icon_Restart}"
+                                                Fill="{StaticResource IconFillColor}"
+                                                Stretch="Fill" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="开始挖矿" Command="{Binding Data.StartMine,Source={StaticResource proxy}}">
+                                        <MenuItem.Icon>
+                                            <Path
+                                                Width="16"
+                                                Height="16"
+                                                Data="{StaticResource Icon_Start}"
+                                                Fill="{StaticResource IconFillColor}"
+                                                Stretch="Fill" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="停止挖矿" Command="{Binding Data.StopMine,Source={StaticResource proxy}}">
+                                        <MenuItem.Icon>
+                                            <Path
+                                                Width="16"
+                                                Height="16"
+                                                Data="{StaticResource Icon_Stop}"
+                                                Fill="{StaticResource IconFillColor}"
+                                                Stretch="Fill" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="重启电脑" Command="{Binding Data.RestartWindows,Source={StaticResource proxy}}">
+                                        <MenuItem.Icon>
+                                            <Path
+                                                Width="16"
+                                                Height="16"
+                                                Data="{StaticResource Icon_Restart2}"
+                                                Fill="{StaticResource IconFillColor}"
+                                                Stretch="Fill" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="关闭电脑" Command="{Binding Data.ShutdownWindows,Source={StaticResource proxy}}">
+                                        <MenuItem.Icon>
+                                            <Path
+                                                Width="16"
+                                                Height="16"
+                                                Data="{StaticResource Icon_Shutdown}"
+                                                Fill="{StaticResource IconFillColor}"
+                                                Stretch="Fill" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+                            </Menu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <Button 
+                                    Command="{Binding StartMine}" 
+                                    Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border
+                                                x:Name="Content"
+                                                Padding="4 2"
+                                                Background="Red"
+                                                BorderThickness="0">
+                                                <WrapPanel>
+                                                    <Path
+                                                        Width="16"
+                                                        Height="16"
+                                                        Data="{StaticResource Icon_Mining1}"
+                                                        Fill="White"
+                                                        Stretch="Fill">
+                                                    </Path>
+                                                    <TextBlock
+                                                        x:Name="Text"
+                                                        Padding="2 0 0 0"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Text="未在挖矿" />
+                                                </WrapPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Content" Property="Background" Value="Green"></Setter>
+                                                    <Setter TargetName="Content" Property="BorderBrush" Value="Green"></Setter>
+                                                    <Setter TargetName="Text" Property="Text" Value="开始挖矿"></Setter>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <Button
+                                    Command="{Binding StopMine}" 
+                                    Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border 
+                                                x:Name="Content"
+                                                Padding="4 2"
+                                                Background="Green"
+                                                BorderThickness="0">
+                                                <WrapPanel>
+                                                    <Path
+                                                        Width="16"
+                                                        Height="16"
+                                                        Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                        Data="{StaticResource Icon_Mining2}"
+                                                        Fill="White"
+                                                        Stretch="Fill">
+                                                        <Path.RenderTransform>
+                                                            <RotateTransform Angle="-20" CenterX="8" CenterY="8"></RotateTransform>
+                                                        </Path.RenderTransform>
+                                                    </Path>
+                                                    <Path
+                                                        Width="16"
+                                                        Height="16"
+                                                        Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+                                                        Data="{StaticResource Icon_Mining1}"
+                                                        Fill="White"
+                                                        Stretch="Fill">
+                                                        <Path.RenderTransform>
+                                                            <RotateTransform Angle="20" CenterX="8" CenterY="8"></RotateTransform>
+                                                        </Path.RenderTransform>
+                                                    </Path>
+                                                    <TextBlock
+                                                        x:Name="Text"
+                                                        Padding="2 0 0 0"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Text="正在挖矿" />
+                                                </WrapPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Content" Property="Background" Value="Red"></Setter>
+                                                    <Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
+                                                    <Setter TargetName="Text" Property="Text" Value="停止挖矿"></Setter>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <Menu 
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Width="24"
+                                    Padding="0">
+                                    <MenuItem>
+                                        <MenuItem.Icon>
+                                            <Path
+                                                Width="14"
+                                                Height="8"
+                                                Data="{StaticResource Icon_Menu}"
+                                                Fill="{StaticResource IconFillColor}"
+                                                Stretch="Fill" />
+                                        </MenuItem.Icon>
+                                        <MenuItem Header="重启客户端" Command="{Binding RestartNTMiner}">
+                                            <MenuItem.Icon>
+                                                <Path
+                                                    Width="16"
+                                                    Height="16"
+                                                    Data="{StaticResource Icon_Restart}"
+                                                    Fill="{StaticResource IconFillColor}"
+                                                    Stretch="Fill" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="重启电脑" Command="{Binding RestartWindows}">
+                                            <MenuItem.Icon>
+                                                <Path
+                                                    Width="16"
+                                                    Height="16"
+                                                    Data="{StaticResource Icon_Restart2}"
+                                                    Fill="{StaticResource IconFillColor}"
+                                                    Stretch="Fill" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="关闭电脑" Command="{Binding ShutdownWindows}">
+                                            <MenuItem.Icon>
+                                                <Path
+                                                    Width="16"
+                                                    Height="16"
+                                                    Data="{StaticResource Icon_Shutdown}"
+                                                    Fill="{StaticResource IconFillColor}"
+                                                    Stretch="Fill" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </MenuItem>
+                                </Menu>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--LastActivedOnText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock Text="最后更新"></TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="LastActivedOnText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--BootTimeSpanText-->
+                <DataGridTextColumn 
+                    Binding="{Binding BootTimeSpanText}"
+                    Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTextColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>运行时长</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="BootTimeSpanText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--MineTimeSpanText-->
+                <DataGridTextColumn 
+                    Binding="{Binding MineTimeSpanText}"
+                    Visibility="{Binding Data.ColumnsShow.MineTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTextColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>挖矿时长</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MineTimeSpanText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--Work-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>作业</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Work">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}">
+                                <TextBox 
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--MinerGroup-->
+                <DataGridComboBoxColumn 
+                    Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}" 
+                    DisplayMemberPath="Name" SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
+                    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="False">
+                    <DataGridComboBoxColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>分组</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerGroup">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridComboBoxColumn.Header>
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="Foreground" Value="Green"></Setter>
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                </DataGridComboBoxColumn>
+                <!--MinerName-->
+                <DataGridTextColumn 
+                    Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Binding="{Binding MinerName, UpdateSourceTrigger=LostFocus}" 
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="False">
+                    <DataGridTextColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>矿工名</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerName">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTextColumn.Header>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Green"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="ToolTip" Value="注意：修改矿工名后需重新开始挖矿才能反应到矿池"></Setter>
+                            <Setter Property="Background" Value="White"></Setter>
+                            <Setter Property="Width" Value="70"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+                <!--MinerIp-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>IP</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerIp">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <controls:KbButton
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    Command="{Binding RemoteDesktop}"
+                                    CornerRadius="2">
+                                    <Path
+                                        Width="14"
+                                        Height="14"
+                                        Data="{StaticResource Icon_RemoteDesktop}"
+                                        Fill="{StaticResource IconFillColor}"
+                                        Stretch="Fill" />
+                                </controls:KbButton>
+                                <TextBox 
+                                    ToolTip="双击打开远程桌面"
+                                    PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
+                                    Tag="{Binding}"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--WindowsLoginNameAndPassword-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="False">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>远程桌面用户名</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="WindowsLoginNameAndPassword">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <controls:KbButton
+                                    BorderThickness="0"									
+                                    Background="Transparent"
+                                    Command="{Binding RemoteLogin}"
+                                    CornerRadius="2">
+                                    <Path
+                                        Width="14"
+                                        Height="14"
+                                        Data="{StaticResource Icon_Edit}"
+                                        Fill="{StaticResource IconFillColor}"
+                                        Stretch="Fill" />
+                                </controls:KbButton>
+                                <TextBlock Margin="4 0 0 0" Text="{Binding WindowsLoginName}" Foreground="Green"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding WindowsLoginName, UpdateSourceTrigger=LostFocus}" Background="White" Width="96"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <!--WindowsLoginNameAndPassword-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="False">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>远程桌面密码</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="WindowsLoginNameAndPassword">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding WindowsPasswordStar}" Foreground="Green"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <PasswordBox Width="78" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <!--MainCoinCode-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.MainCoinCode, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>主挖币种</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinCode">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding MainCoinCode}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--MainCoinSpeedText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.MainCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>主币算力</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinSpeedText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--MainCoinRejectPercentText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>拒绝次数</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
+                                <TextBlock Text="/"></TextBlock>
+                                <TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--MainCoinRejectPercentText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>拒绝率</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MainCoinRejectPercentText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--DualCoinCode-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.DualCoinCode,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>双挖币种</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinCode">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBox 
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    Text="{Binding DualCoinCode, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--DualCoinSpeedText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.DualCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>双挖算力</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinSpeedText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBox 
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--DualCoinRejectPercentText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>拒绝次数</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinRejectPercentText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
+                                <TextBlock Text="/"></TextBlock>
+                                <TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--DualCoinRejectPercentText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>拒绝率</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinRejectPercentText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DualCoinRejectPercentText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--IncomeMainCoinPerDayText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.IncomeMainCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>主币预期收益</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IncomeMainCoinPerDayText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding IncomeMainCoinPerDayText}"></TextBlock>
+                                <TextBlock 
+                                    Text="{Binding MainCoinCode}" 
+                                    Margin="2 0 0 0"
+                                    Padding="0"
+                                    Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Text=", "></TextBlock>
+                                <TextBlock Text="{Binding IncomeMainCoinUsdPerDayText}"></TextBlock>
+                                <TextBlock 
+                                    Text="USD" 
+                                    Margin="2 0 0 0"
+                                    Padding="0"
+                                    Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Text=", "></TextBlock>
+                                <TextBlock Text="{Binding IncomeMainCoinCnyPerDayText}"></TextBlock>
+                                <TextBlock 
+                                    Text="CNY" 
+                                    Margin="2 0 0 0"
+                                    Padding="0"
+                                    Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
+                                <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--IncomeDualCoinPerDayText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.IncomeDualCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>双挖币预期收益</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IncomeDualCoinPerDayText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock Text="{Binding IncomeDualCoinPerDayText}"></TextBlock>
+                                <TextBlock 
+                                    Text="{Binding DualCoinCode}" 
+                                    Margin="2 0 0 0"
+                                    Padding="0"
+                                    Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Text=", "></TextBlock>
+                                <TextBlock Text="{Binding IncomeDualCoinUsdPerDayText}"></TextBlock>
+                                <TextBlock 
+                                    Text="USD" 
+                                    Margin="2 0 0 0"
+                                    Padding="0"
+                                    Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Text=", "></TextBlock>
+                                <TextBlock Text="{Binding IncomeDualCoinCnyPerDayText}"></TextBlock>
+                                <TextBlock 
+                                    Text="CNY" 
+                                    Margin="2 0 0 0"
+                                    Padding="0"
+                                    Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
+                                <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--GpuTableTrs-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>显卡表格</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuTableTrs">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <DataGrid 
+                                    MinRowHeight="24"
+                                    ColumnHeaderHeight="24"
+                                    IsReadOnly="True"
+                                    Background="Transparent"
+                                    Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                                    ItemsSource="{Binding GpuTableTrs}">
+                                    <DataGrid.Resources>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Style.Resources>
+                                                <ResourceDictionary />
+                                            </Style.Resources>
+                                            <Setter Property="UseLayoutRounding" Value="True" />
+                                            <Setter Property="Foreground" Value="#FF5A5A5A" />
+                                            <Setter Property="Background" Value="Transparent"></Setter>
+                                            <Setter Property="FontSize" Value="14" />
+                                            <Setter Property="Focusable" Value="False"></Setter>
+                                            <Setter Property="Control.VerticalContentAlignment">
+                                                <Setter.Value>
+                                                    <x:Static Member="VerticalAlignment.Center" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
 
-										<Style TargetType="DataGridRow">
-											<Setter Property="Foreground" Value="#FF666666" />
-											<Setter Property="Background" Value="Transparent"></Setter>
-										</Style>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="Foreground" Value="#FF666666" />
+                                            <Setter Property="Background" Value="Transparent"></Setter>
+                                        </Style>
 
-										<Style TargetType="DataGridCell">
-											<Setter Property="Foreground" Value="#FF5A5A5A" />
-											<Setter Property="Background" Value="Transparent"></Setter>
-											<Setter Property="Template">
-												<Setter.Value>
-													<ControlTemplate TargetType="DataGridCell">
-														<ContentPresenter
-															HorizontalAlignment="Left"
-															VerticalAlignment="Center" />
-													</ControlTemplate>
-												</Setter.Value>
-											</Setter>
-										</Style>
-									</DataGrid.Resources>
-									<DataGrid.Columns>
-										<DataGridTextColumn Binding="{Binding RowHeader}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="0" Binding="{Binding Gpu0}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="1" Binding="{Binding Gpu1}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="2" Binding="{Binding Gpu2}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="3" Binding="{Binding Gpu3}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="4" Binding="{Binding Gpu4}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="5" Binding="{Binding Gpu5}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="6" Binding="{Binding Gpu6}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="7" Binding="{Binding Gpu7}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="8" Binding="{Binding Gpu8}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="9" Binding="{Binding Gpu9}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="10" Binding="{Binding Gpu10}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-										<DataGridTextColumn Header="11" Binding="{Binding Gpu11}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-									</DataGrid.Columns>
-								</DataGrid>
-								<StackPanel Background="#00ffffff"></StackPanel>
-							</Grid>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--MainCoinWallet-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.MainCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>主币钱包</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinWallet">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									Text="{Binding MainCoinWallet, Mode=OneWay}" 
-									IsReadOnly="True"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--MainCoinPool-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.MainCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>主币矿池</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinPool">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									ToolTip="{Binding MainCoinPool}"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--Kernel-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.Kernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>内核</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Kernel">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding Kernel, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--DualCoinWallet-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.DualCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>双挖钱包</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinWallet">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--DualCoinPool-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.DualCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>双挖矿池</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinPool">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									ToolTip="{Binding DualCoinPool}"
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--Version-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.Version,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>客户端版本</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Version">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding Version, Mode=OneWay}"></TextBox>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--OSName-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.OSName,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>操作系统</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="OSName">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSName, Mode=OneWay}"></TextBox>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--OSVirtualMemoryGbText-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.OSVirtualMemoryGbText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>虚拟内存</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="OSVirtualMemoryGbText">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--IsAutoBoot-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.IsAutoBoot,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>开机自动启动</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IsAutoBoot">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBlock 
-									Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
-									Text="是"></TextBlock>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--IsAutoStart-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.IsAutoStart,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>启动后自动开始挖矿</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IsAutoStart">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBlock 
-									Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
-									Text="是"></TextBlock>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--GpuType-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.GpuType,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>显卡类型</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuType">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<Path
-									Margin="4 0 0 0"
-									Width="18"
-									Height="14"
-									ToolTip="NVIDIA"
-									Visibility="{Binding IsNvidiaIconVisible}"
-									Data="{StaticResource Icon_Nvidia}"
-									Fill="Green"
-									Stretch="Fill" />
-								<Path
-									Margin="4 0 0 0"
-									Width="16"
-									Height="14"
-									ToolTip="AMD"
-									Visibility="{Binding IsAMDIconVisible}"
-									Data="{StaticResource Icon_AMD}"
-									Fill="Red"
-									Stretch="Fill" />
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--GpuDriver-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.GpuDriver,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>显卡驱动</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuDriver">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<!--GpuInfo-->
-				<DataGridTemplateColumn 
-					Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					CanUserResize="True" 
-					CanUserReorder="False" 
-					CanUserSort="False" 
-					IsReadOnly="True">
-					<DataGridTemplateColumn.Header>
-						<WrapPanel>
-							<TextBlock>显卡</TextBlock>
-							<WrapPanel.ContextMenu>
-								<ContextMenu>
-									<MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuInfo">
-									</MenuItem>
-								</ContextMenu>
-							</WrapPanel.ContextMenu>
-						</WrapPanel>
-					</DataGridTemplateColumn.Header>
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<WrapPanel>
-								<TextBox 
-									BorderThickness="0"
-									Background="Transparent"
-									IsReadOnly="True"
-									ToolTip="{Binding GpuInfo}"
-									Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
-							</WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-		</DataGrid>
-		<TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
-		<notification:NotificationMessageContainer 
-			Margin="0 4 0 0"
-			Grid.Row="0"
-			Grid.RowSpan="3"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Top"
-			MaxWidth="500"
-			Manager="{Binding Manager}" />
-	</Grid>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Foreground" Value="#FF5A5A5A" />
+                                            <Setter Property="Background" Value="Transparent"></Setter>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="DataGridCell">
+                                                        <ContentPresenter
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center" />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </DataGrid.Resources>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding RowHeader}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="0" Binding="{Binding Gpu0}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="1" Binding="{Binding Gpu1}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="2" Binding="{Binding Gpu2}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="3" Binding="{Binding Gpu3}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="4" Binding="{Binding Gpu4}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="5" Binding="{Binding Gpu5}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="6" Binding="{Binding Gpu6}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="7" Binding="{Binding Gpu7}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="8" Binding="{Binding Gpu8}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="9" Binding="{Binding Gpu9}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="10" Binding="{Binding Gpu10}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="11" Binding="{Binding Gpu11}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <StackPanel Background="#00ffffff"></StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--MainCoinWallet-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.MainCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>主币钱包</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinWallet">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBox 
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    Text="{Binding MainCoinWallet, Mode=OneWay}" 
+                                    IsReadOnly="True"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--MainCoinPool-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.MainCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>主币矿池</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinPool">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBox 
+                                    ToolTip="{Binding MainCoinPool}"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--Kernel-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.Kernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>内核</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Kernel">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBox 
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    Text="{Binding Kernel, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--DualCoinWallet-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.DualCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>双挖钱包</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinWallet">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBox 
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--DualCoinPool-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.DualCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>双挖矿池</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinPool">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBox 
+                                    ToolTip="{Binding DualCoinPool}"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--Version-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.Version,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>客户端版本</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Version">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding Version, Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--OSName-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.OSName,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>操作系统</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="OSName">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSName, Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--OSVirtualMemoryGbText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.OSVirtualMemoryGbText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>虚拟内存</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="OSVirtualMemoryGbText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--IsAutoBoot-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.IsAutoBoot,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>开机自动启动</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IsAutoBoot">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock 
+                                    Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Text="是"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--IsAutoStart-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.IsAutoStart,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>启动后自动开始挖矿</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IsAutoStart">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock 
+                                    Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Text="是"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--GpuType-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.GpuType,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>显卡类型</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuType">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <Path
+                                    Margin="4 0 0 0"
+                                    Width="18"
+                                    Height="14"
+                                    ToolTip="NVIDIA"
+                                    Visibility="{Binding IsNvidiaIconVisible}"
+                                    Data="{StaticResource Icon_Nvidia}"
+                                    Fill="Green"
+                                    Stretch="Fill" />
+                                <Path
+                                    Margin="4 0 0 0"
+                                    Width="16"
+                                    Height="14"
+                                    ToolTip="AMD"
+                                    Visibility="{Binding IsAMDIconVisible}"
+                                    Data="{StaticResource Icon_AMD}"
+                                    Fill="Red"
+                                    Stretch="Fill" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--GpuDriver-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.GpuDriver,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>显卡驱动</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuDriver">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBox 
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--GpuInfo-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>显卡</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuInfo">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBox 
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    IsReadOnly="True"
+                                    ToolTip="{Binding GpuInfo}"
+                                    Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
+        <notification:NotificationMessageContainer 
+            Margin="0 4 0 0"
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            MaxWidth="500"
+            Manager="{Binding Manager}" />
+    </Grid>
 </metro:MetroWindow>
