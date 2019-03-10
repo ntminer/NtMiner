@@ -33,5 +33,7 @@ namespace NTMiner.MinerServer {
         bool OSVirtualMemoryGbText { get; }
         bool GpuType { get; }
         bool GpuDriver { get; }
+        bool TotalPowerText { get; }
+        bool MaxTempText { get; }
     }
 }

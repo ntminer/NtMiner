@@ -41,6 +41,8 @@ namespace NTMiner.Vms {
         private bool _oSVirtualMemoryGbText = true;
         private bool _gpuType = true;
         private bool _gpuDriver = true;
+        private bool _totalPowerText = true;
+        private bool _maxTempText = true;
 
         public ICommand Hide { get; private set; }
 
@@ -120,6 +122,8 @@ namespace NTMiner.Vms {
             _oSVirtualMemoryGbText = data.OSVirtualMemoryGbText;
             _gpuType = data.GpuType;
             _gpuDriver = data.GpuDriver;
+            _totalPowerText = data.TotalPowerText;
+            _maxTempText = data.MaxTempText;
         }
 
         public bool IsPleaseSelect {
@@ -227,6 +231,22 @@ namespace NTMiner.Vms {
             set {
                 _gpuTableTrs = value;
                 OnPropertyChanged(nameof(GpuTableTrs));
+            }
+        }
+
+        public bool TotalPowerText {
+            get => _totalPowerText;
+            set {
+                _totalPowerText = value;
+                OnPropertyChanged(nameof(TotalPowerText));
+            }
+        }
+
+        public bool MaxTempText {
+            get => _maxTempText;
+            set {
+                _maxTempText = value;
+                OnPropertyChanged(nameof(MaxTempText));
             }
         }
 

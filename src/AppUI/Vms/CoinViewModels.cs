@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
                 Init();
             };
             NTMinerRoot.Current.OnReRendContext += () => {
-                OnAllPropertyChanged();
+                AllPropertyChanged();
             };
             Init();
         }
@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
-                    OnAllPropertyChanged();
+                    AllPropertyChanged();
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinRemovedEvent>(
@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
-                    OnAllPropertyChanged();
+                    AllPropertyChanged();
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinUpdatedEvent>(

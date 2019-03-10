@@ -411,6 +411,8 @@
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinCode}" Margin="0 0 6 0">双挖币种</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinSpeedText}" Margin="0 0 6 0">双挖币算力</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinRejectPercentText}" Margin="0 0 6 0">双挖币拒绝</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.TotalPowerText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.TotalPowerText}" Margin="0 0 6 0">总功耗</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MaxTempText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MaxTempText}" Margin="0 0 6 0">最高卡温</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IncomeMainCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeMainCoinPerDayText}" Margin="0 0 6 0">主币预期收益</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IncomeDualCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeDualCoinPerDayText}" Margin="0 0 6 0">双挖币预期收益</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.GpuTableTrs, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.GpuTableTrs}" Margin="0 0 6 0">显卡表格</CheckBox>
@@ -1165,6 +1167,54 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding DualCoinRejectPercentText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--TotalPowerText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.TotalPowerText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>总功耗</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="TotalPowerText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TotalPowerText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--MaxTempText-->
+                <DataGridTemplateColumn 
+                    Visibility="{Binding Data.ColumnsShow.MaxTempText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>最高卡温</TextBlock>
+                            <WrapPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MaxTempText">
+                                    </MenuItem>
+                                </ContextMenu>
+                            </WrapPanel.ContextMenu>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MaxTempText}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

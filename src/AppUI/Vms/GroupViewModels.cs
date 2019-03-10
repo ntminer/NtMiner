@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
                 Init();
             };
             NTMinerRoot.Current.OnReRendContext += () => {
-                OnAllPropertyChanged();
+                AllPropertyChanged();
             };
             Init();
         }

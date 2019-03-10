@@ -816,8 +816,7 @@ namespace NTMiner.Vms {
             get { return $"{GpuTable.Sum(a => a.PowerUsage).ToString("f0")}W"; }
         }
 
-        public string MaxTempText
-        {
+        public string MaxTempText {
             get { return GpuTable.Max(a => a.Temperature).ToString("f0") + "℃"; }
         }
 

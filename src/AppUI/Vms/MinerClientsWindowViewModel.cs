@@ -1,13 +1,12 @@
 ﻿using NTMiner.MinerServer;
 using NTMiner.Notifications;
 using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {

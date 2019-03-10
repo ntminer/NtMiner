@@ -75,6 +75,10 @@ namespace NTMiner.MinerServer {
 
         public bool GpuDriver { get; set; }
 
+        public bool TotalPowerText { get; set; }
+
+        public bool MaxTempText { get; set; }
+
         public string GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
@@ -107,7 +111,9 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(OSName)).Append(OSName)
                 .Append(nameof(OSVirtualMemoryGbText)).Append(OSVirtualMemoryGbText)
                 .Append(nameof(GpuType)).Append(GpuType)
-                .Append(nameof(GpuDriver)).Append(GpuDriver);
+                .Append(nameof(GpuDriver)).Append(GpuDriver)
+                .Append(nameof(TotalPowerText)).Append(TotalPowerText)
+                .Append(nameof(MaxTempText)).Append(MaxTempText);
             return sb.ToString();
         }
     }

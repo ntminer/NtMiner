@@ -8,7 +8,7 @@ namespace NTMiner.Vms {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected void OnAllPropertyChanged() {
+        protected void AllPropertyChanged() {
             Type type = this.GetType();
             foreach (var propertyInfo in type.GetProperties(System.Reflection.BindingFlags.Public)) {
                 this.OnPropertyChanged(propertyInfo.Name);
