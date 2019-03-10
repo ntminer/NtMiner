@@ -134,26 +134,6 @@ namespace NTMiner {
                 }
             }
 
-            public void OpenNTMinerAsync(string clientIp, WorkRequest request, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        var response = OpenNTMiner(clientIp, request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
-            }
-
-            public ResponseBase OpenNTMiner(string clientIp, WorkRequest request) {
-                using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.OpenNTMiner)}", request);
-                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                    return response;
-                }
-            }
-
             public void RestartNTMinerAsync(string clientIp, WorkRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -189,26 +169,6 @@ namespace NTMiner {
             public ResponseBase UpgradeNTMiner(string clientIp, UpgradeNTMinerRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.UpgradeNTMiner)}", request);
-                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                    return response;
-                }
-            }
-
-            public void CloseNTMinerAsync(string clientIp, SignatureRequest request, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        var response = CloseNTMiner(clientIp, request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
-            }
-
-            public ResponseBase CloseNTMiner(string clientIp, SignatureRequest request) {
-                using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.CloseNTMiner)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }

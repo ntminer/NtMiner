@@ -392,9 +392,7 @@ namespace NTMiner {
 
             // 自动开始挖矿
             if ((this.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !this.IsMining) {
-                UIThread.Execute(() => {
-                    this.StartMine(CommandLineArgs.WorkId);
-                });
+                this.StartMine(CommandLineArgs.WorkId);
             }
         }
         #endregion
@@ -510,7 +508,9 @@ namespace NTMiner {
                         args.Add("--autostart");
                     }
                     Windows.Cmd.RunClose(ClientId.AppFileFullName, string.Join(" ", args));
-                    Application.Current.MainWindow.Close();
+                    UIThread.Execute(() => {
+                        Application.Current.MainWindow?.Close();
+                    });
                     return;
                 }
                 IWorkProfile minerProfile = this.MinerProfile;

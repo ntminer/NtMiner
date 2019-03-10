@@ -48,24 +48,6 @@ namespace NTMiner {
                 });
             }
 
-            public void OpenNTMinerAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    OpenNTMinerRequest innerRequest = new OpenNTMinerRequest {
-                        LoginName = SingleUser.LoginName,
-                        WorkId = workId
-                    };
-                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
-                    WrapperRequest<OpenNTMinerRequest> request = new WrapperRequest<OpenNTMinerRequest> {
-                        ClientId = client.GetId(),
-                        LoginName = SingleUser.LoginName,
-                        InnerRequest = innerRequest,
-                        ClientIp = client.MinerIp
-                    };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.OpenNTMiner), request, callback);
-                });
-            }
-
             public void RestartNTMinerAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     WorkRequest innerRequest = new WorkRequest {
@@ -99,23 +81,6 @@ namespace NTMiner {
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), request, callback);
-                });
-            }
-
-            public void CloseNTMinerAsync(IClientData client, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    SignatureRequest innerRequest = new SignatureRequest {
-                        LoginName = SingleUser.LoginName
-                    };
-                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
-                    WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
-                        ClientId = client.GetId(),
-                        LoginName = SingleUser.LoginName,
-                        InnerRequest = innerRequest,
-                        ClientIp = client.MinerIp
-                    };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync(s_controllerName, nameof(IWrapperMinerClientController.CloseNTMiner), request, callback);
                 });
             }
 

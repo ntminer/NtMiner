@@ -495,26 +495,6 @@
 											Fill="{StaticResource IconFillColor}"
 											Stretch="Fill" />
 									</MenuItem.Icon>
-									<MenuItem Header="启动客户端" Command="{Binding Data.StartNTMiner,Source={StaticResource proxy}}">
-										<MenuItem.Icon>
-											<Path
-												Width="16"
-												Height="16"
-												Data="{StaticResource Icon_Entry}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</MenuItem.Icon>
-									</MenuItem>
-									<MenuItem Header="关闭客户端" Command="{Binding Data.CloseNTMiner,Source={StaticResource proxy}}">
-										<MenuItem.Icon>
-											<Path
-												Width="16"
-												Height="18"
-												Data="{StaticResource Icon_Exit}"
-												Fill="{StaticResource IconFillColor}"
-												Stretch="Fill" />
-										</MenuItem.Icon>
-									</MenuItem>
 									<MenuItem Header="重启客户端" Command="{Binding Data.RestartNTMiner,Source={StaticResource proxy}}">
 										<MenuItem.Icon>
 											<Path
@@ -660,26 +640,6 @@
 												Fill="{StaticResource IconFillColor}"
 												Stretch="Fill" />
 										</MenuItem.Icon>
-										<MenuItem Header="启动客户端" Command="{Binding StartNTMiner}">
-											<MenuItem.Icon>
-												<Path
-													Width="16"
-													Height="16"
-													Data="{StaticResource Icon_Entry}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</MenuItem.Icon>
-										</MenuItem>
-										<MenuItem Header="关闭客户端" Command="{Binding CloseNTMiner}">
-											<MenuItem.Icon>
-												<Path
-													Width="16"
-													Height="18"
-													Data="{StaticResource Icon_Exit}"
-													Fill="{StaticResource IconFillColor}"
-													Stretch="Fill" />
-											</MenuItem.Icon>
-										</MenuItem>
 										<MenuItem Header="重启客户端" Command="{Binding RestartNTMiner}">
 											<MenuItem.Icon>
 												<Path

@@ -24,9 +24,7 @@ namespace NTMiner.Vms {
         public ICommand ShutdownWindows { get; private set; }
         public ICommand RemoteDesktop { get; private set; }
         public ICommand RemoteLogin { get; private set; }
-        public ICommand StartNTMiner { get; private set; }
         public ICommand RestartNTMiner { get; private set; }
-        public ICommand CloseNTMiner { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
         public ICommand Details { get; private set; }
@@ -89,32 +87,8 @@ namespace NTMiner.Vms {
                     });
                 }, icon: "Icon_Confirm");
             });
-            this.StartNTMiner = new DelegateCommand(() => {
-                Server.MinerClientService.OpenNTMinerAsync(this, this.WorkId, (response, e) => {
-                    if (!response.IsSuccess()) {
-                        if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
-                            UIThread.Execute(() => {
-                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
-                            });
-                        }
-                    }
-                });
-            });
             this.RestartNTMiner = new DelegateCommand(() => {
                 MinerClientRestart.ShowWindow(new List<MinerClientViewModel> { this });
-            });
-            this.CloseNTMiner = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"您确定关闭{this.MinerName}({this.MinerIp})挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
-                    Server.MinerClientService.CloseNTMinerAsync(this, (response, e) => {
-                        if (!response.IsSuccess()) {
-                            if (response != null) {
-                                Write.UserLine(response.Description, ConsoleColor.Red);
-                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
-                            }
-                        }
-                    });
-                }, icon: "Icon_Confirm");
             });
             this.StartMine = new DelegateCommand(() => {
                 IsMining = true;

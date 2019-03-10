@@ -47,9 +47,7 @@ namespace NTMiner.Vms {
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
-        public ICommand StartNTMiner { get; private set; }
         public ICommand RestartNTMiner { get; private set; }
-        public ICommand CloseNTMiner { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
 
@@ -142,27 +140,6 @@ namespace NTMiner.Vms {
                     }, icon: "Icon_Confirm");
                 }
             });
-            this.StartNTMiner = new DelegateCommand(() => {
-                if (this.MinerClients == null) {
-                    return;
-                }
-                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
-                if (checkedItems.Length == 0) {
-                    ShowNoRecordSelected();
-                }
-                else {
-                    foreach (var item in checkedItems) {
-                        Server.MinerClientService.OpenNTMinerAsync(item, item.WorkId, (response, e) => {
-                            if (!response.IsSuccess()) {
-                                if (response != null) {
-                                    Write.UserLine(response.Description, ConsoleColor.Red);
-                                    Manager.ShowErrorMessage(response.Description);
-                                }
-                            }
-                        });
-                    }
-                }
-            });
             this.RestartNTMiner = new DelegateCommand(() => {
                 if (this.MinerClients == null) {
                     return;
@@ -173,29 +150,6 @@ namespace NTMiner.Vms {
                 }
                 else {
                     MinerClientRestart.ShowWindow(checkedItems);
-                }
-            });
-            this.CloseNTMiner = new DelegateCommand(() => {
-                if (this.MinerClients == null) {
-                    return;
-                }
-                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
-                if (checkedItems.Length == 0) {
-                    ShowNoRecordSelected();
-                }
-                else {
-                    DialogWindow.ShowDialog(message: $"您确定关闭选中的挖矿客户端吗？关闭客户端软件，并非关闭电脑。", title: "确认", onYes: () => {
-                        foreach (var item in checkedItems) {
-                            Server.MinerClientService.CloseNTMinerAsync(item, (response, e) => {
-                                if (!response.IsSuccess()) {
-                                    if (response != null) {
-                                        Write.UserLine(response.Description, ConsoleColor.Red);
-                                        Manager.ShowErrorMessage(response.Description);
-                                    }
-                                }
-                            });
-                        }
-                    }, icon: "Icon_Confirm");
                 }
             });
             this.StartMine = new DelegateCommand(() => {

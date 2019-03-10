@@ -9,9 +9,7 @@ namespace NTMiner.Controllers {
         void RefreshUserSet();
         ResponseBase RestartWindows(SignatureRequest request);
         ResponseBase ShutdownWindows(SignatureRequest request);
-        ResponseBase OpenNTMiner(WorkRequest request);
         ResponseBase RestartNTMiner(WorkRequest request);
-        ResponseBase CloseNTMiner(SignatureRequest request);
         ResponseBase UpgradeNTMiner(UpgradeNTMinerRequest request);
         ResponseBase StartMine(WorkRequest request);
         ResponseBase StartNoDevFee(StartNoDevFeeRequest request);

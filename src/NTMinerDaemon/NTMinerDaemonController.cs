@@ -124,61 +124,6 @@ namespace NTMiner {
             }
         }
 
-        private static void ShowMainWindowAsync(Action<bool, Exception> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{3336}/api/MinerClient/ShowMainWindow", null);
-                        bool response = message.Result.Content.ReadAsAsync<bool>().Result;
-                        callback?.Invoke(response, null);
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(false, e);
-                }
-            });
-        }
-
-        [HttpPost]
-        public ResponseBase OpenNTMiner([FromBody]WorkRequest request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
-            }
-            try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
-
-                if (request.WorkId != Guid.Empty) {
-                    File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
-                    File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
-                }
-                if (IsNTMinerOpened()) {
-                    if (request.WorkId != Guid.Empty) {
-                        // TODO:请求客户端切换至给定的作业
-                    }
-                    else {
-                        ShowMainWindowAsync(callback: null);
-                    }
-                    return ResponseBase.Ok(request.MessageId);
-                }
-                string location = NTMinerRegistry.GetLocation();
-                if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                    string arguments = string.Empty;
-                    if (request.WorkId != Guid.Empty) {
-                        arguments = "workid=" + request.WorkId.ToString();
-                    }
-                    Windows.Cmd.RunClose(location, arguments);
-                }
-                return ResponseBase.Ok(request.MessageId);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
-            }
-        }
-
         private static bool IsNTMinerOpened() {
             string location = NTMinerRegistry.GetLocation();
             if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
@@ -301,21 +246,6 @@ namespace NTMiner {
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
                 }
-            });
-            return ResponseBase.Ok(request.MessageId);
-        }
-
-        [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]SignatureRequest request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
-            }
-            ResponseBase response;
-            if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                return response;
-            }
-            Task.Factory.StartNew(() => {
-                DoCloseNTMiner();
             });
             return ResponseBase.Ok(request.MessageId);
         }

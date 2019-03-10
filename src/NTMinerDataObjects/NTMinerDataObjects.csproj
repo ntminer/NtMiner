@@ -69,7 +69,6 @@
     <Compile Include="Core\SysDicItemData.cs" />
     <Compile Include="DataLevel.cs" />
     <Compile Include="IGetSignData.cs" />
-    <Compile Include="MinerServer\OpenNTMinerRequest.cs" />
     <Compile Include="DataResponse`1.cs" />
     <Compile Include="Profile\GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
