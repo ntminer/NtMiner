@@ -7,11 +7,11 @@ namespace NTMiner {
         void RefreshNotifyIcon();
         ResponseBase SetMinerName(MinerClient.SetMinerNameRequest request);
         void RefreshUserSet();
-        ResponseBase RestartWindows(RestartWindowsRequest request);
-        ResponseBase ShutdownWindows(ShutdownWindowsRequest request);
+        ResponseBase RestartWindows(SignatureRequest request);
+        ResponseBase ShutdownWindows(SignatureRequest request);
         ResponseBase OpenNTMiner(WorkRequest request);
         ResponseBase RestartNTMiner(WorkRequest request);
-        ResponseBase CloseNTMiner(MinerClient.CloseNTMinerRequest request);
+        ResponseBase CloseNTMiner(SignatureRequest request);
         ResponseBase UpgradeNTMiner(UpgradeNTMinerRequest request);
         ResponseBase StartMine(WorkRequest request);
         ResponseBase StartNoDevFee(StartNoDevFeeRequest request);

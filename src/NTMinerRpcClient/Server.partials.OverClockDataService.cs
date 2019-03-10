@@ -1,5 +1,6 @@
 ﻿using NTMiner.OverClock;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -16,12 +17,12 @@ namespace NTMiner {
             /// </summary>
             /// <param name="messageId"></param>
             /// <returns></returns>
-            public GetOverClockDatasResponse GetOverClockDatas(Guid messageId) {
+            public DataResponse<List<OverClockData>> GetOverClockDatas(Guid messageId) {
                 try {
                     OverClockDatasRequest request = new OverClockDatasRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    GetOverClockDatasResponse response = Request<GetOverClockDatasResponse>(s_controllerName, nameof(IOverClockDataController.OverClockDatas), request);
+                    DataResponse<List<OverClockData>> response = Request<DataResponse<List<OverClockData>>>(s_controllerName, nameof(IOverClockDataController.OverClockDatas), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -34,7 +35,7 @@ namespace NTMiner {
             #region AddOrUpdateOverClockDataAsync
             public void AddOrUpdateOverClockDataAsync(OverClockData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    AddOrUpdateOverClockDataRequest request = new AddOrUpdateOverClockDataRequest {
+                    DataRequest<OverClockData> request = new DataRequest<OverClockData>() {
                         LoginName = SingleUser.LoginName,
                         Data = entity
                     };
@@ -47,9 +48,9 @@ namespace NTMiner {
             #region RemoveOverClockDataAsync
             public void RemoveOverClockDataAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
-                    RemoveOverClockDataRequest request = new RemoveOverClockDataRequest() {
+                    DataRequest<Guid> request = new DataRequest<Guid>() {
                         LoginName = SingleUser.LoginName,
-                        OverClockDataId = id
+                        Data = id
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     RequestAsync(s_controllerName, nameof(IOverClockDataController.RemoveOverClockData), request, callback);

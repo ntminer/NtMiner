@@ -72,7 +72,6 @@
     <Compile Include="DataLevel.cs" />
     <Compile Include="IGetSignData.cs" />
     <Compile Include="MinerServer\OpenNTMinerRequest.cs" />
-    <Compile Include="MinerServer\RestartNTMinerRequest.cs" />
     <Compile Include="DataResponse`1.cs" />
     <Compile Include="Profile\GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
@@ -103,21 +102,15 @@
     <Compile Include="MinerServer\CalcConfigsRequest.cs" />
     <Compile Include="MinerServer\ClientCount.cs" />
     <Compile Include="MinerServer\ClientData.cs" />
-    <Compile Include="MinerClient\CloseNTMinerRequest.cs" />
     <Compile Include="MinerServer\ColumnsShowData.cs" />
     <Compile Include="MinerServer\IColumnsShow.cs" />
     <Compile Include="SignatureRequest.cs" />
-    <Compile Include="OverClock\AddOrUpdateOverClockDataRequest.cs" />
     <Compile Include="OverClock\IOverClockData.cs" />
     <Compile Include="Daemon\WorkRequest.cs" />
     <Compile Include="OverClock\OverClockData.cs" />
     <Compile Include="OverClock\OverClockDatasRequest.cs" />
-    <Compile Include="OverClock\GetOverClockDatasResponse.cs" />
-    <Compile Include="Daemon\RestartWindowsRequest.cs" />
-    <Compile Include="Daemon\ShutdownWindowsRequest.cs" />
     <Compile Include="MinerServer\UpdateClientPropertiesRequest.cs" />
     <Compile Include="Daemon\UpgradeNTMinerRequest.cs" />
-    <Compile Include="OverClock\RemoveOverClockDataRequest.cs" />
     <Compile Include="Core\PoolData.cs" />
     <Compile Include="Profile\CoinKernelProfileData.cs" />
     <Compile Include="Profile\CoinKernelProfileRequest.cs" />
@@ -125,7 +118,6 @@
     <Compile Include="Profile\CoinProfileRequest.cs" />
     <Compile Include="MinerServer\CoinSnapshotData.cs" />
     <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="MinerServer\GetCalcConfigsResponse.cs" />
     <Compile Include="MinerServer\GetCoinSnapshotsRequest.cs" />
     <Compile Include="MinerServer\GetCoinSnapshotsResponse.cs" />
     <Compile Include="HashUtil.cs" />
@@ -172,8 +164,6 @@
     <Compile Include="Profile\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="Profile\SetPoolProfilePropertyRequest.cs" />
     <Compile Include="MinerClient\SpeedData.cs" />
-    <Compile Include="MinerClient\StartMineRequest.cs" />
-    <Compile Include="MinerClient\StopMineRequest.cs" />
     <Compile Include="Timestamp.cs" />
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />

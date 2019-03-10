@@ -360,13 +360,12 @@ namespace NTMiner.Vms {
                     _data.MinerName = value;
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
                         if (response.IsSuccess()) {
-                            var request = new MinerClient.SetMinerNameRequest {
-                                ClientIp = this.MinerIp,
+                            var request = new SetMinerNameRequest {
                                 LoginName = SingleUser.LoginName,
                                 MinerName = value
                             };
                             request.SignIt(SingleUser.GetRemotePassword(this.Id));
-                            Client.NTMinerDaemonService.SetMinerNameAsync(request, (response2, exception) => {
+                            Client.NTMinerDaemonService.SetMinerNameAsync(this.MinerIp, request, (response2, exception) => {
                                 if (!response2.IsSuccess()) {
                                     _data.MinerName = old;
                                     Write.UserLine($"{this.MinerIp} {response2?.Description}", ConsoleColor.Red);

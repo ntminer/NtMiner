@@ -56,7 +56,7 @@ namespace NTMiner {
                         Console.WriteLine(incomeItems.Count + "条");
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
-                            GetCalcConfigsResponse response = Server.ControlCenterService.GetCalcConfigs();
+                            DataResponse<List<CalcConfigData>> response = Server.ControlCenterService.GetCalcConfigs();
                             HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                             foreach (CalcConfigData calcConfigData in response.Data) {
                                 IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));

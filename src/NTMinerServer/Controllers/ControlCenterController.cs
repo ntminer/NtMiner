@@ -753,14 +753,14 @@ namespace NTMiner.Controllers {
         #region CalcConfigs
         // 挖矿端实时展示理论收益的功能需要调用此服务所以调用此方法不需要登录
         [HttpPost]
-        public GetCalcConfigsResponse CalcConfigs([FromBody]CalcConfigsRequest request) {
+        public DataResponse<List<CalcConfigData>> CalcConfigs([FromBody]CalcConfigsRequest request) {
             try {
                 var data = HostRoot.Current.CalcConfigSet.GetAll();
-                return GetCalcConfigsResponse.Ok(request.MessageId, data);
+                return DataResponse<List<CalcConfigData>>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetCalcConfigsResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<CalcConfigData>>>(request.MessageId, e.Message);
             }
         }
         #endregion

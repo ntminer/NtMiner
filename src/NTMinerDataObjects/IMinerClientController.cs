@@ -1,10 +1,11 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.Daemon;
+using NTMiner.MinerClient;
 
 namespace NTMiner {
     public interface IMinerClientController : IShowMainWindow {
-        ResponseBase CloseNTMiner(CloseNTMinerRequest request);
-        ResponseBase StartMine(StartMineRequest request);
-        ResponseBase StopMine(StopMineRequest request);
+        ResponseBase CloseNTMiner(SignatureRequest request);
+        ResponseBase StartMine(WorkRequest request);
+        ResponseBase StopMine(SignatureRequest request);
         ResponseBase SetMinerName(SetMinerNameRequest request);
         ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request);
         SpeedData GetSpeed();

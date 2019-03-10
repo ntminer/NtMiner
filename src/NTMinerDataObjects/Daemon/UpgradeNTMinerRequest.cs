@@ -2,7 +2,6 @@
 
 namespace NTMiner.Daemon {
     public class UpgradeNTMinerRequest : RequestBase, ISignatureRequest {
-        public string ClientIp { get; set; }
         public string NTMinerFileName { get; set; }
         public string LoginName { get; set; }
         public string Sign { get; set; }
@@ -15,7 +14,6 @@ namespace NTMiner.Daemon {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
-                .Append(nameof(ClientIp)).Append(ClientIp)
                 .Append(nameof(NTMinerFileName)).Append(NTMinerFileName)
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(UserData.Password)).Append(password);

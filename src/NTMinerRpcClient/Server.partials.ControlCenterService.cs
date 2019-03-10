@@ -734,12 +734,12 @@ namespace NTMiner {
             /// 同步方法
             /// </summary>
             /// <returns></returns>
-            public GetCalcConfigsResponse GetCalcConfigs() {
+            public DataResponse<List<CalcConfigData>> GetCalcConfigs() {
                 try {
                     CalcConfigsRequest request = new CalcConfigsRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    GetCalcConfigsResponse response = Request<GetCalcConfigsResponse>(s_controllerName, nameof(IControlCenterController.CalcConfigs), request);
+                    DataResponse<List<CalcConfigData>> response = Request<DataResponse<List<CalcConfigData>>>(s_controllerName, nameof(IControlCenterController.CalcConfigs), request);
                     return response;
                 }
                 catch (Exception e) {

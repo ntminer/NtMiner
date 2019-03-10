@@ -82,7 +82,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase RestartWindows([FromBody]RestartWindowsRequest request) {
+        public ResponseBase RestartWindows([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -103,7 +103,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase ShutdownWindows([FromBody]ShutdownWindowsRequest request) {
+        public ResponseBase ShutdownWindows([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -210,8 +210,7 @@ namespace NTMiner {
                 string location = NtMinerRegistry.GetLocation();
                 if (IsNTMinerOpened(request.WorkId)) {
                     using (HttpClient client = new HttpClient()) {
-                        MinerClient.StartMineRequest innerRequest = new MinerClient.StartMineRequest {
-                            ClientIp = request.ClientIp,
+                        WorkRequest innerRequest = new WorkRequest {
                             LoginName = request.LoginName,
                             MessageId = request.MessageId,
                             WorkId = request.WorkId
@@ -303,7 +302,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]MinerClient.CloseNTMinerRequest request) {
+        public ResponseBase CloseNTMiner([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }

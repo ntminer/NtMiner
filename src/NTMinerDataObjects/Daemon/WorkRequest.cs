@@ -3,7 +3,6 @@ using System.Text;
 
 namespace NTMiner.Daemon {
     public class WorkRequest : RequestBase, ISignatureRequest {
-        public string ClientIp { get; set; }
         public Guid WorkId { get; set; }
         public string LoginName { get; set; }
         public string LocalJson { get; set; }
@@ -18,7 +17,6 @@ namespace NTMiner.Daemon {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
-                .Append(nameof(ClientIp)).Append(ClientIp)
                 .Append(nameof(WorkId)).Append(WorkId)
                 .Append(nameof(LocalJson)).Append(LocalJson)
                 .Append(nameof(ServerJson)).Append(ServerJson)

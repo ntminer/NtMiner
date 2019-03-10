@@ -2,6 +2,7 @@
 using NTMiner.MinerClient;
 using System;
 using System.Web.Http;
+using NTMiner.Daemon;
 
 namespace NTMiner.Controllers {
     public class MinerClientController : ApiController, IMinerClientController, IShowMainWindow {
@@ -18,7 +19,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]CloseNTMinerRequest request) {
+        public ResponseBase CloseNTMiner([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -37,7 +38,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase StartMine([FromBody]StartMineRequest request) {
+        public ResponseBase StartMine([FromBody]WorkRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -59,7 +60,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase StopMine([FromBody]StopMineRequest request) {
+        public ResponseBase StopMine([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }

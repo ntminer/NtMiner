@@ -1,12 +1,13 @@
 ﻿using NTMiner.OverClock;
 using System;
+using System.Collections.Generic;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class OverClockDataController : ApiController, IOverClockDataController {
         #region AddOrUpdateOverClockData
         [HttpPost]
-        public ResponseBase AddOrUpdateOverClockData([FromBody]AddOrUpdateOverClockDataRequest request) {
+        public ResponseBase AddOrUpdateOverClockData([FromBody]DataRequest<OverClockData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -27,8 +28,8 @@ namespace NTMiner.Controllers {
 
         #region RemoveOverClockData
         [HttpPost]
-        public ResponseBase RemoveOverClockData([FromBody]RemoveOverClockDataRequest request) {
-            if (request == null || request.OverClockDataId == Guid.Empty) {
+        public ResponseBase RemoveOverClockData([FromBody]DataRequest<Guid> request) {
+            if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -36,7 +37,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.OverClockDataSet.Remove(request.OverClockDataId);
+                HostRoot.Current.OverClockDataSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -48,14 +49,14 @@ namespace NTMiner.Controllers {
 
         #region OverClockDatas
         [HttpPost]
-        public GetOverClockDatasResponse OverClockDatas([FromBody]OverClockDatasRequest request) {
+        public DataResponse<List<OverClockData>> OverClockDatas([FromBody]OverClockDatasRequest request) {
             try {
                 var data = HostRoot.Current.OverClockDataSet.GetAll();
-                return GetOverClockDatasResponse.Ok(request.MessageId, data);
+                return DataResponse<List<OverClockData>>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetOverClockDatasResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<OverClockData>>>(request.MessageId, e.Message);
             }
         }
         #endregion

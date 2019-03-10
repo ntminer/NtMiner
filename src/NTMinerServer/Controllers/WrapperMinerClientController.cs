@@ -10,8 +10,8 @@ namespace NTMiner.Controllers {
     public class WrapperMinerClientController : ApiController, IWrapperMinerClientController {
         #region RestartWindows
         [HttpPost]
-        public ResponseBase RestartWindows([FromBody]WrapperRequest<RestartWindowsRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+        public ResponseBase RestartWindows([FromBody]WrapperRequest<SignatureRequest> request) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -19,7 +19,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.RestartWindows(request.InnerRequest);
+                response = Client.NTMinerDaemonService.RestartWindows(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -31,8 +31,8 @@ namespace NTMiner.Controllers {
 
         #region ShutdownWindows
         [HttpPost]
-        public ResponseBase ShutdownWindows([FromBody]WrapperRequest<ShutdownWindowsRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+        public ResponseBase ShutdownWindows([FromBody]WrapperRequest<SignatureRequest> request) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -40,7 +40,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.ShutdownWindows(request.InnerRequest);
+                response = Client.NTMinerDaemonService.ShutdownWindows(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -52,8 +52,8 @@ namespace NTMiner.Controllers {
 
         #region OpenNTMiner
         [HttpPost]
-        public ResponseBase OpenNTMiner([FromBody]WrapperRequest<MinerServer.OpenNTMinerRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+        public ResponseBase OpenNTMiner([FromBody]WrapperRequest<OpenNTMinerRequest> request) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -78,7 +78,6 @@ namespace NTMiner.Controllers {
                     }
                 }
                 WorkRequest innerRequest = new WorkRequest() {
-                    ClientIp = request.InnerRequest.ClientIp,
                     MessageId = request.InnerRequest.MessageId,
                     LoginName = request.InnerRequest.LoginName,
                     Timestamp = request.InnerRequest.Timestamp,
@@ -87,7 +86,7 @@ namespace NTMiner.Controllers {
                     ServerJson = serverJson
                 };
                 innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
-                response = Client.NTMinerDaemonService.OpenNTMiner(innerRequest);
+                response = Client.NTMinerDaemonService.OpenNTMiner(request.ClientIp, innerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -100,7 +99,7 @@ namespace NTMiner.Controllers {
         #region UpgradeNTMiner
         [HttpPost]
         public ResponseBase UpgradeNTMiner([FromBody]WrapperRequest<UpgradeNTMinerRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -108,7 +107,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.UpgradeNTMiner(request.InnerRequest);
+                response = Client.NTMinerDaemonService.UpgradeNTMiner(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -120,8 +119,8 @@ namespace NTMiner.Controllers {
 
         #region CloseNTMiner
         [HttpPost]
-        public ResponseBase CloseNTMiner([FromBody]WrapperRequest<CloseNTMinerRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+        public ResponseBase CloseNTMiner([FromBody]WrapperRequest<SignatureRequest> request) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -129,7 +128,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.CloseNTMiner(request.InnerRequest);
+                response = Client.NTMinerDaemonService.CloseNTMiner(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -141,8 +140,8 @@ namespace NTMiner.Controllers {
 
         #region StartMine
         [HttpPost]
-        public ResponseBase StartMine([FromBody]WrapperRequest<MinerClient.StartMineRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+        public ResponseBase StartMine([FromBody]WrapperRequest<WorkRequest> request) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -167,7 +166,6 @@ namespace NTMiner.Controllers {
                     }
                 }
                 WorkRequest innerRequest = new WorkRequest {
-                    ClientIp = request.InnerRequest.ClientIp,
                     MessageId = request.InnerRequest.MessageId,
                     LoginName = request.InnerRequest.LoginName,
                     Timestamp = request.InnerRequest.Timestamp,
@@ -176,7 +174,7 @@ namespace NTMiner.Controllers {
                     ServerJson = serverJson
                 };
                 innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
-                response = Client.NTMinerDaemonService.StartMine(innerRequest);
+                response = Client.NTMinerDaemonService.StartMine(request.ClientIp, innerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -188,8 +186,8 @@ namespace NTMiner.Controllers {
 
         #region RestartNTMiner
         [HttpPost]
-        public ResponseBase RestartNTMiner([FromBody]WrapperRequest<MinerServer.RestartNTMinerRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+        public ResponseBase RestartNTMiner([FromBody]WrapperRequest<WorkRequest> request) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -214,7 +212,6 @@ namespace NTMiner.Controllers {
                     }
                 }
                 WorkRequest innerRequest = new WorkRequest {
-                    ClientIp = request.InnerRequest.ClientIp,
                     LoginName = request.InnerRequest.LoginName,
                     MessageId = request.InnerRequest.MessageId,
                     Timestamp = request.InnerRequest.Timestamp,
@@ -223,7 +220,7 @@ namespace NTMiner.Controllers {
                     ServerJson = serverJson
                 };
                 innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
-                response = Client.NTMinerDaemonService.RestartNTMiner(innerRequest);
+                response = Client.NTMinerDaemonService.RestartNTMiner(request.ClientIp, innerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -235,8 +232,8 @@ namespace NTMiner.Controllers {
 
         #region StopMine
         [HttpPost]
-        public ResponseBase StopMine([FromBody]WrapperRequest<StopMineRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+        public ResponseBase StopMine([FromBody]WrapperRequest<SignatureRequest> request) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -244,7 +241,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                response = Client.MinerClientService.StopMine(request.InnerRequest);
+                response = Client.MinerClientService.StopMine(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -257,7 +254,7 @@ namespace NTMiner.Controllers {
         #region SetClientMinerProfileProperty
         [HttpPost]
         public ResponseBase SetClientMinerProfileProperty([FromBody]WrapperRequest<SetClientMinerProfilePropertyRequest> request) {
-            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.InnerRequest.ClientIp)) {
+            if (request == null || request.InnerRequest == null || string.IsNullOrEmpty(request.ClientIp)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -265,7 +262,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                response = Client.MinerClientService.SetMinerProfileProperty(request.InnerRequest);
+                response = Client.MinerClientService.SetMinerProfileProperty(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {

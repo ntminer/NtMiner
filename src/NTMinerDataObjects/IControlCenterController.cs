@@ -41,7 +41,7 @@ namespace NTMiner {
         DataResponse<List<PoolData>> Pools(SignatureRequest request);
         ResponseBase AddOrUpdatePool(DataRequest<PoolData> request);
         ResponseBase RemovePool(DataRequest<Guid> request);
-        GetCalcConfigsResponse CalcConfigs(CalcConfigsRequest request);
+        DataResponse<List<CalcConfigData>> CalcConfigs(CalcConfigsRequest request);
         ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request);
         DataResponse<List<ColumnsShowData>> ColumnsShows(SignatureRequest request);
         ResponseBase AddOrUpdateColumnsShow(DataRequest<ColumnsShowData> request);

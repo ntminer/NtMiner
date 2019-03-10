@@ -9,6 +9,8 @@ namespace NTMiner.MinerServer {
 
         public Guid ClientId { get; set; }
 
+        public string ClientIp { get; set; }
+
         public T InnerRequest { get; set; }
 
         public string Sign { get; set; }
@@ -22,6 +24,7 @@ namespace NTMiner.MinerServer {
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(ClientId)).Append(ClientId)
+                .Append(nameof(ClientIp)).Append(ClientIp)
                 .Append(nameof(InnerRequest)).Append(nameof(Sign)).Append(InnerRequest.Sign)
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(UserData.Password)).Append(password);

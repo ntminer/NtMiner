@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.Daemon;
+using NTMiner.MinerClient;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,10 +28,10 @@ namespace NTMiner {
                 });
             }
 
-            public void StartMineAsync(StartMineRequest request, Action<ResponseBase, Exception> callback) {
+            public void StartMineAsync(string clientIp, WorkRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        var response = StartMine(request);
+                        var response = StartMine(clientIp, request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -39,18 +40,18 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase StartMine(StartMineRequest request) {
+            public ResponseBase StartMine(string clientIp, WorkRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.StartMine)}", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.StartMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
             }
 
-            public void StopMineAsync(StopMineRequest request, Action<ResponseBase, Exception> callback) {
+            public void StopMineAsync(string clientIp, SignatureRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        ResponseBase response = StopMine(request);
+                        ResponseBase response = StopMine(clientIp, request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -59,18 +60,18 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase StopMine(StopMineRequest request) {
+            public ResponseBase StopMine(string clientIp, SignatureRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.StopMine)}", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.StopMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
             }
 
-            public void SetMinerProfilePropertyAsync(Profile.SetClientMinerProfilePropertyRequest request, Action<ResponseBase, Exception> callback) {
+            public void SetMinerProfilePropertyAsync(string clientIp, Profile.SetClientMinerProfilePropertyRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        var response = SetMinerProfileProperty(request);
+                        var response = SetMinerProfileProperty(clientIp, request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -79,9 +80,9 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase SetMinerProfileProperty(Profile.SetClientMinerProfilePropertyRequest request) {
+            public ResponseBase SetMinerProfileProperty(string clientIp, Profile.SetClientMinerProfilePropertyRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.SetMinerProfileProperty)}", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.SetMinerProfileProperty)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
                 }
