@@ -560,29 +560,30 @@
                                             <Border
                                                 x:Name="Content"
                                                 Padding="4 2"
+                                                Height="20"
                                                 Background="Red"
                                                 BorderThickness="0">
                                                 <WrapPanel>
                                                     <Path
-                                                        Width="16"
-                                                        Height="16"
+                                                        Width="14"
+                                                        Height="14"
                                                         Data="{StaticResource Icon_Mining1}"
                                                         Fill="White"
                                                         Stretch="Fill">
                                                     </Path>
-                                                    <TextBlock
+                                                    <Label
                                                         x:Name="Text"
                                                         Padding="2 0 0 0"
                                                         VerticalAlignment="Center"
                                                         Foreground="White"
-                                                        Text="未在挖矿" />
+                                                        Content="未在挖矿" />
                                                 </WrapPanel>
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter TargetName="Content" Property="Background" Value="Green"></Setter>
                                                     <Setter TargetName="Content" Property="BorderBrush" Value="Green"></Setter>
-                                                    <Setter TargetName="Text" Property="Text" Value="开始挖矿"></Setter>
+                                                    <Setter TargetName="Text" Property="Content" Value="开始挖矿"></Setter>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -596,44 +597,45 @@
                                             <Border 
                                                 x:Name="Content"
                                                 Padding="4 2"
+                                                Height="20"
                                                 Background="Green"
                                                 BorderThickness="0">
                                                 <WrapPanel>
                                                     <Path
-                                                        Width="16"
-                                                        Height="16"
+                                                        Width="14"
+                                                        Height="14"
                                                         Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
                                                         Data="{StaticResource Icon_Mining2}"
                                                         Fill="White"
                                                         Stretch="Fill">
                                                         <Path.RenderTransform>
-                                                            <RotateTransform Angle="-20" CenterX="8" CenterY="8"></RotateTransform>
+                                                            <RotateTransform Angle="-20" CenterX="7" CenterY="7"></RotateTransform>
                                                         </Path.RenderTransform>
                                                     </Path>
                                                     <Path
-                                                        Width="16"
-                                                        Height="16"
+                                                        Width="14"
+                                                        Height="14"
                                                         Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
                                                         Data="{StaticResource Icon_Mining1}"
                                                         Fill="White"
                                                         Stretch="Fill">
                                                         <Path.RenderTransform>
-                                                            <RotateTransform Angle="20" CenterX="8" CenterY="8"></RotateTransform>
+                                                            <RotateTransform Angle="20" CenterX="7" CenterY="7"></RotateTransform>
                                                         </Path.RenderTransform>
                                                     </Path>
-                                                    <TextBlock
+                                                    <Label
                                                         x:Name="Text"
                                                         Padding="2 0 0 0"
                                                         VerticalAlignment="Center"
                                                         Foreground="White"
-                                                        Text="正在挖矿" />
+                                                        Content="正在挖矿" />
                                                 </WrapPanel>
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter TargetName="Content" Property="Background" Value="Red"></Setter>
                                                     <Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
-                                                    <Setter TargetName="Text" Property="Text" Value="停止挖矿"></Setter>
+                                                    <Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
