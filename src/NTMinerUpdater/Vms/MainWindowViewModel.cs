@@ -87,13 +87,13 @@ namespace NTMiner.Vms {
                         this.DownloadMessage = "更新成功，正在重启";
                         CloseNTMinerMainWindow();
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                            string location = NtMinerRegistry.GetLocation();
+                            string location = NTMinerRegistry.GetLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                                 location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
                             }
                             File.Copy(saveFileFullName, location, overwrite: true);
                             File.Delete(saveFileFullName);
-                            string arguments = NtMinerRegistry.GetArguments();
+                            string arguments = NTMinerRegistry.GetArguments();
                             Process.Start(location, arguments);
                             this.IsDownloading = false;
                             UIThread.Execute(() => {
@@ -153,14 +153,14 @@ namespace NTMiner.Vms {
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };
-                Server.FileUrlService.GetNtMinerUrlAsync(fileName, (url, e) => {
+                Server.FileUrlService.GetNTMinerUrlAsync(fileName, (url, e) => {
                     webClient.DownloadFileAsync(new Uri(url), saveFileFullName);
                 });
             }
         }
 
         public void Refresh() {
-            Server.FileUrlService.GetNtMinerFilesAsync((ntMinerFiles, e) => {
+            Server.FileUrlService.GetNTMinerFilesAsync((ntMinerFiles, e) => {
                 this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;
@@ -191,7 +191,7 @@ namespace NTMiner.Vms {
 
         private static void CloseNTMinerMainWindow() {
             try {
-                string location = NtMinerRegistry.GetLocation();
+                string location = NTMinerRegistry.GetLocation();
                 if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                     string processName = Path.GetFileNameWithoutExtension(location);
                     Process[] processes = Process.GetProcessesByName(processName);
@@ -259,7 +259,7 @@ namespace NTMiner.Vms {
         public Version LocalNTMinerVersion {
             get {
                 if (_localNTMinerVersion == null) {
-                    string currentVersion = NtMinerRegistry.GetCurrentVersion();
+                    string currentVersion = NTMinerRegistry.GetCurrentVersion();
                     if (!Version.TryParse(currentVersion, out _localNTMinerVersion)) {
                         _localNTMinerVersion = new Version(1, 0);
                     }
@@ -270,7 +270,7 @@ namespace NTMiner.Vms {
 
         public string LocalNTMinerVersionTag {
             get {
-                return NtMinerRegistry.GetCurrentVersionTag();
+                return NTMinerRegistry.GetCurrentVersionTag();
             }
         }
 

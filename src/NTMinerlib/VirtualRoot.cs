@@ -26,7 +26,7 @@ namespace NTMiner {
         public static ILang Lang {
             get {
                 if (_sLang == null) {
-                    string langCode = NtMinerRegistry.GetLanguage();
+                    string langCode = NTMinerRegistry.GetLanguage();
                     _sLang = LangSet.Instance.GetLangByCode(langCode) ?? LangSet.Instance.First();
                 }
                 return _sLang;
@@ -34,7 +34,7 @@ namespace NTMiner {
             set {
                 if (_sLang != value && value != null) {
                     _sLang = LangSet.Instance.GetLangByCode(value.Code);
-                    NtMinerRegistry.SetLanguage(value.Code);
+                    NTMinerRegistry.SetLanguage(value.Code);
                     Happened(new GlobalLangChangedEvent(value));
                 }
             }

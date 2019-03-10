@@ -41,10 +41,10 @@ namespace NTMiner {
         }
         #endregion
 
-        bool isServerJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || CommandLineArgs.WorkId != Guid.Empty;
+        private readonly bool _isServerJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || CommandLineArgs.WorkId != Guid.Empty;
         #region Init
         public void Init(Action callback) {
-            if (!isServerJson) {
+            if (!_isServerJson) {
                 DoInit(callback);
                 return;
             }
@@ -79,7 +79,7 @@ namespace NTMiner {
                 }
                 GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                     langJson = Encoding.UTF8.GetString(data);
-                    ServerJson.Instance.Init(serverJson, SpecialPath.ServerJsonFileFullName);
+                    ServerJson.Instance.Init(serverJson);
                     Language.Impl.LangJson.Instance.Init(langJson);
                     Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
                     DoInit(callback);
@@ -100,13 +100,13 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     if (countdown.Wait(30 * 1000)) {
                         Logger.InfoDebugLine("json下载完成");
-                        ServerJson.Instance.Init(serverJson, SpecialPath.ServerJsonFileFullName);
+                        ServerJson.Instance.Init(serverJson);
                         Language.Impl.LangJson.Instance.Init(langJson);
                         DoInit(callback);
                     }
                     else {
                         Logger.InfoDebugLine("启动json下载超时");
-                        ServerJson.Instance.Init(serverJson, SpecialPath.ServerJsonFileFullName);
+                        ServerJson.Instance.Init(serverJson);
                         Language.Impl.LangJson.Instance.Init(langJson);
                         DoInit(callback);
                     }
@@ -134,19 +134,19 @@ namespace NTMiner {
         }
 
         private void ContextInit() {
-            this.SysDicSet = new SysDicSet(this, isServerJson);
-            this.SysDicItemSet = new SysDicItemSet(this, isServerJson);
-            this.CoinSet = new CoinSet(this, isServerJson);
-            this.GroupSet = new GroupSet(this, isServerJson);
-            this.CoinGroupSet = new CoinGroupSet(this, isServerJson);
-            this.PoolSet = new PoolSet(this, isServerJson);
-            this.CoinKernelSet = new CoinKernelSet(this, isServerJson);
-            this.PoolKernelSet = new PoolKernelSet(this, isServerJson);
-            this.KernelSet = new KernelSet(this, isServerJson);
-            this.KernelInputSet = new KernelInputSet(this, isServerJson);
-            this.KernelOutputSet = new KernelOutputSet(this, isServerJson);
-            this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isServerJson);
-            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isServerJson);
+            this.SysDicSet = new SysDicSet(this, _isServerJson);
+            this.SysDicItemSet = new SysDicItemSet(this, _isServerJson);
+            this.CoinSet = new CoinSet(this, _isServerJson);
+            this.GroupSet = new GroupSet(this, _isServerJson);
+            this.CoinGroupSet = new CoinGroupSet(this, _isServerJson);
+            this.PoolSet = new PoolSet(this, _isServerJson);
+            this.CoinKernelSet = new CoinKernelSet(this, _isServerJson);
+            this.PoolKernelSet = new PoolKernelSet(this, _isServerJson);
+            this.KernelSet = new KernelSet(this, _isServerJson);
+            this.KernelInputSet = new KernelInputSet(this, _isServerJson);
+            this.KernelOutputSet = new KernelOutputSet(this, _isServerJson);
+            this.KernelOutputFilterSet = new KernelOutputFilterSet(this, _isServerJson);
+            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, _isServerJson);
         }
 
         private void ContextReInit() {
@@ -170,10 +170,10 @@ namespace NTMiner {
                     Logger.WarnDebugLine($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
                 }
             });
-            NtMinerRegistry.SetLocation(ClientId.AppFileFullName);
-            NtMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
-            NtMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
-            NtMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
+            NTMinerRegistry.SetLocation(ClientId.AppFileFullName);
+            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
+            NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
+            NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
 
             RefreshUserSet();
 
@@ -374,16 +374,16 @@ namespace NTMiner {
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.Console,
                     action: message => {
-                        if (!isServerJson) {
+                        if (!_isServerJson) {
                             return;
                         }
                         Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
                             if (response.IsSuccess() && response.Data != null && response.Data.Value is string value) {
                                 if (JsonFileVersion != value) {
                                     GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                                        string rawNTMinerJson = Encoding.UTF8.GetString(data);
+                                        string rawJson = Encoding.UTF8.GetString(data);
                                         Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{value}");
-                                        ServerJson.Instance.ReInit(rawNTMinerJson, SpecialPath.ServerJsonFileFullName);
+                                        ServerJson.Instance.ReInit(rawJson);
                                         ContextReInit();
                                         JsonFileVersion = value;
                                         Logger.InfoDebugLine("刷新完成");

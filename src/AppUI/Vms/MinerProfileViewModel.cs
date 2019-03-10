@@ -75,20 +75,20 @@ namespace NTMiner.Vms {
         }
 
         public bool IsShowInTaskbar {
-            get => NtMinerRegistry.GetIsShowInTaskbar();
+            get => NTMinerRegistry.GetIsShowInTaskbar();
             set {
-                if (NtMinerRegistry.GetIsShowInTaskbar() != value) {
-                    NtMinerRegistry.SetIsShowInTaskbar(value);
+                if (NTMinerRegistry.GetIsShowInTaskbar() != value) {
+                    NTMinerRegistry.SetIsShowInTaskbar(value);
                     OnPropertyChanged(nameof(IsShowInTaskbar));
                 }
             }
         }
 
         public bool IsShowNotifyIcon {
-            get => NtMinerRegistry.GetIsShowNotifyIcon();
+            get => NTMinerRegistry.GetIsShowNotifyIcon();
             set {
-                if (NtMinerRegistry.GetIsShowNotifyIcon() != value) {
-                    NtMinerRegistry.SetIsShowNotifyIcon(value);
+                if (NTMinerRegistry.GetIsShowNotifyIcon() != value) {
+                    NTMinerRegistry.SetIsShowNotifyIcon(value);
                     OnPropertyChanged(nameof(IsShowNotifyIcon));
                     AppHelper.NotifyIcon.RefreshIcon();
                 }
@@ -96,10 +96,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsShowDaemonNotifyIcon {
-            get { return NtMinerRegistry.GetIsShowDaemonNotifyIcon(); }
+            get { return NTMinerRegistry.GetIsShowDaemonNotifyIcon(); }
             set {
-                if (NtMinerRegistry.GetIsShowDaemonNotifyIcon() != value) {
-                    NtMinerRegistry.SetIsShowDaemonNotifyIcon(value);
+                if (NTMinerRegistry.GetIsShowDaemonNotifyIcon() != value) {
+                    NTMinerRegistry.SetIsShowDaemonNotifyIcon(value);
                     OnPropertyChanged(nameof(IsShowDaemonNotifyIcon));
                     Client.NTMinerDaemonService.RefreshNotifyIconAsync(callback: null);
                 }

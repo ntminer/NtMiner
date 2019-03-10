@@ -32,14 +32,14 @@ namespace NTMiner {
                     mutexCreated = false;
                 }
                 if (mutexCreated) {
-                    NtMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
+                    NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
                     Type thisType = typeof(HostRoot);
                     NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner守护进程");
-                    bool isAutoBoot = NtMinerRegistry.GetIsAutoBoot();
+                    bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
                     if (isAutoBoot) {
-                        string location = NtMinerRegistry.GetLocation();
+                        string location = NTMinerRegistry.GetLocation();
                         if (!string.IsNullOrEmpty(location)) {
-                            string arguments = NtMinerRegistry.GetArguments();
+                            string arguments = NTMinerRegistry.GetArguments();
                             try {
                                 Process.Start(location, arguments);
                             }
@@ -60,7 +60,7 @@ namespace NTMiner {
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         private static void Run() {
             try {
-                HttpServer.Start($"http://localhost:{WebApiConst.NtMinerDaemonPort}");
+                HttpServer.Start($"http://localhost:{WebApiConst.NTMinerDaemonPort}");
                 WaitHandle.WaitOne();
             }
             catch (Exception e) {

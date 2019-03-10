@@ -228,7 +228,7 @@ namespace NTMiner.Core.Profiles {
             get => _data.IsAutoBoot;
             private set {
                 _data.IsAutoBoot = value;
-                NtMinerRegistry.SetIsAutoBoot(value);
+                NTMinerRegistry.SetIsAutoBoot(value);
             }
         }
 

@@ -65,7 +65,7 @@
     <Compile Include="Language\LangSet.cs" />
     <Compile Include="Language\Messages.cs" />
     <Compile Include="Language\Repository.cs" />
-    <Compile Include="NtMinerRegistry.cs" />
+    <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IReadOnlyRepository.cs" />
     <Compile Include="SortNumberComparer.cs" />
     <Compile Include="DictionaryExtensions.cs" />

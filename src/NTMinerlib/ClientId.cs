@@ -20,7 +20,7 @@ namespace NTMiner {
             LangDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, LangDbFileName);
             LocalLangJsonFileName = "lang.json";
             LocalLangJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, LocalLangJsonFileName);
-            Id = NtMinerRegistry.GetClientId();
+            Id = NTMinerRegistry.GetClientId();
         }
     }
 }

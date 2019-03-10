@@ -12,14 +12,14 @@ namespace NTMiner {
         private ExtendedNotifyIcon(Icon icon, string text) {
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = NtMinerRegistry.GetIsShowDaemonNotifyIcon(),
+                Visible = NTMinerRegistry.GetIsShowDaemonNotifyIcon(),
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
         }
 
         public void RefreshIcon() {
-            _targetNotifyIcon.Visible = NtMinerRegistry.GetIsShowDaemonNotifyIcon();
+            _targetNotifyIcon.Visible = NTMinerRegistry.GetIsShowDaemonNotifyIcon();
         }
 
         #region IDisposable Members

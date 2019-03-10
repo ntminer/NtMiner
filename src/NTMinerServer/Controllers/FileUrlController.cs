@@ -23,7 +23,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public string NtMinerUrl([FromBody]NTMinerUrlRequest request) {
+        public string NTMinerUrl([FromBody]NTMinerUrlRequest request) {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
                 return string.Empty;
             }
@@ -35,13 +35,13 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public List<NTMinerFileData> NtMinerFiles() {
+        public List<NTMinerFileData> NTMinerFiles() {
             var list = HostRoot.Current.NTMinerFileSet.GetAll();
             return list;
         }
 
         [HttpPost]
-        public ResponseBase AddOrUpdateNtMinerFile([FromBody]DataRequest<NTMinerFileData> request) {
+        public ResponseBase AddOrUpdateNTMinerFile([FromBody]DataRequest<NTMinerFileData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -60,7 +60,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase RemoveNtMinerFile([FromBody]DataRequest<Guid> request) {
+        public ResponseBase RemoveNTMinerFile([FromBody]DataRequest<Guid> request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -79,7 +79,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public string NtMinerUpdaterUrl() {
+        public string NTMinerUpdaterUrl() {
             try {
                 IAppSetting ntminerUpdaterFileNameSetting = HostRoot.Current.AppSettingSet["ntminerUpdaterFileName"];
                 string ntminerUpdaterFileName = ntminerUpdaterFileNameSetting == null ? "NTMinerUpdater.exe" : (string)ntminerUpdaterFileNameSetting.Value;

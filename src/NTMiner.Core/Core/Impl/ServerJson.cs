@@ -31,7 +31,7 @@ namespace NTMiner.Core.Impl {
 
         private readonly object _locker = new object();
         private bool _inited = false;
-        public void Init(string rawJson, string serverJsonFileFullName) {
+        public void Init(string rawJson) {
             if (!_inited) {
                 lock (_locker) {
                     if (!_inited) {
@@ -52,7 +52,7 @@ namespace NTMiner.Core.Impl {
                                 this.SysDics = data.SysDics ?? new SysDicData[0];
                                 this.SysDicItems = data.SysDicItems ?? new SysDicItemData[0];
                                 this.TimeStamp = data.TimeStamp;
-                                File.WriteAllText(serverJsonFileFullName, rawJson);
+                                File.WriteAllText(SpecialPath.ServerJsonFileFullName, rawJson);
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);
@@ -64,9 +64,9 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public void ReInit(string rawJson, string serverJsonFileFullName) {
+        public void ReInit(string rawJson) {
             _inited = false;
-            Init(rawJson, serverJsonFileFullName);
+            Init(rawJson);
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {

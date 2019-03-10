@@ -115,7 +115,7 @@ namespace UnitTestProject1 {
 
         [TestMethod]
         public void RunCloseTest() {
-            string location = NTMiner.NtMinerRegistry.GetLocation();
+            string location = NTMiner.NTMinerRegistry.GetLocation();
             NTMiner.Windows.Cmd.RunClose(location, string.Empty);
         }
 

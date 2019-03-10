@@ -245,7 +245,7 @@ namespace NTMiner.Vms {
                 if (!Directory.Exists(updaterDirFullName)) {
                     Directory.CreateDirectory(updaterDirFullName);
                 }
-                Server.FileUrlService.GetNtMinerUpdaterUrlAsync((downloadFileUrl, e) => {
+                Server.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                     try {
                         if (string.IsNullOrEmpty(downloadFileUrl)) {
                             callback?.Invoke();
@@ -257,14 +257,14 @@ namespace NTMiner.Vms {
                         }
                         string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
                         Uri uri = new Uri(downloadFileUrl);
-                        string updaterVersion = NtMinerRegistry.GetUpdaterVersion();
+                        string updaterVersion = NTMinerRegistry.GetUpdaterVersion();
                         if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(ntMinerUpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
                             FileDownloader.ShowWindow(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                                 try {
                                     if (isSuccess) {
                                         File.Copy(saveFileFullName, ntMinerUpdaterFileFullName, overwrite: true);
                                         File.Delete(saveFileFullName);
-                                        NtMinerRegistry.SetUpdaterVersion(uri.AbsolutePath);
+                                        NTMinerRegistry.SetUpdaterVersion(uri.AbsolutePath);
                                         window?.Close();
                                         Windows.Cmd.RunClose(ntMinerUpdaterFileFullName, argument);
                                         callback?.Invoke();
