@@ -2,7 +2,7 @@
 using NTMiner.MinerServer;
 using System.Collections.Generic;
 
-namespace NTMiner {
+namespace NTMiner.Controllers {
     public interface IFileUrlController {
         string MinerJsonPutUrl(MinerJsonPutUrlRequest request);
         string NtMinerUrl(NTMinerUrlRequest request);

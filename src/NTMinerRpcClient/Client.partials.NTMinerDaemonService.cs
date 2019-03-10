@@ -1,4 +1,5 @@
-﻿using NTMiner.Daemon;
+﻿using NTMiner.Controllers;
+using NTMiner.Daemon;
 using System;
 using System.Diagnostics;
 using System.Net.Http;

@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Controllers;
+using NTMiner.Core;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NTMiner.Controllers;
 using NTMiner.Daemon;
 using System;
 using System.Diagnostics;

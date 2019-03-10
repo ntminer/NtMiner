@@ -2,7 +2,7 @@
 using NTMiner.MinerServer;
 using System;
 
-namespace NTMiner {
+namespace NTMiner.Controllers {
     public interface IReportController {
         DateTime GetTime();
         void ReportSpeed(SpeedData speedData);

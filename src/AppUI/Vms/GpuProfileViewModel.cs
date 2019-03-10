@@ -1,8 +1,8 @@
 ﻿using NTMiner.Core;
-using NTMiner.OverClock;
 using NTMiner.Profile;
 using System;
 using System.Windows.Input;
+using NTMiner.MinerServer;
 
 namespace NTMiner.Vms {
     public class GpuProfileViewModel : ViewModelBase, IGpuProfile {

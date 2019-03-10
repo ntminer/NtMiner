@@ -1,7 +1,7 @@
 ﻿using NTMiner.Daemon;
 using NTMiner.MinerClient;
 
-namespace NTMiner {
+namespace NTMiner.Controllers {
     public interface IMinerClientController : IShowMainWindow {
         ResponseBase CloseNTMiner(SignatureRequest request);
         ResponseBase StartMine(WorkRequest request);

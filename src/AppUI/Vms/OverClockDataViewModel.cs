@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.OverClock;
+using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;

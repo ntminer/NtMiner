@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.OverClock {
+namespace NTMiner.MinerServer {
     public interface IOverClockData : IEntity<Guid> {
         Guid CoinId { get; }
 

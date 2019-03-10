@@ -1,4 +1,5 @@
-﻿using NTMiner.Daemon;
+﻿using NTMiner.Controllers;
+using NTMiner.Daemon;
 using NTMiner.MinerClient;
 using System;
 using System.Net.Http;
@@ -68,7 +69,7 @@ namespace NTMiner {
                 }
             }
 
-            public void SetMinerProfilePropertyAsync(string clientIp, Profile.SetClientMinerProfilePropertyRequest request, Action<ResponseBase, Exception> callback) {
+            public void SetMinerProfilePropertyAsync(string clientIp, SetClientMinerProfilePropertyRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         var response = SetMinerProfileProperty(clientIp, request);
@@ -80,7 +81,7 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase SetMinerProfileProperty(string clientIp, Profile.SetClientMinerProfilePropertyRequest request) {
+            public ResponseBase SetMinerProfileProperty(string clientIp, SetClientMinerProfilePropertyRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.SetMinerProfileProperty)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;

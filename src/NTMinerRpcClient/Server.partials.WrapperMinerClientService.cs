@@ -1,7 +1,7 @@
-﻿using NTMiner.Daemon;
+﻿using NTMiner.Controllers;
+using NTMiner.Daemon;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
-using NTMiner.Profile;
 using System;
 using System.Threading.Tasks;
 

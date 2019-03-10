@@ -4,7 +4,7 @@ using NTMiner.Core;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 
-namespace NTMiner {
+namespace NTMiner.Controllers {
     public interface IControlCenterController {
         ResponseBase ActiveControlCenterAdmin(string password);
         ResponseBase LoginControlCenter(SignatureRequest request);

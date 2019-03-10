@@ -1,8 +1,8 @@
 ﻿using NTMiner.Daemon;
+using NTMiner.MinerClient;
 using NTMiner.MinerServer;
-using NTMiner.Profile;
 
-namespace NTMiner {
+namespace NTMiner.Controllers {
     public interface IWrapperMinerClientController {
         ResponseBase RestartWindows(WrapperRequest<SignatureRequest> request);
         ResponseBase SetClientMinerProfileProperty(WrapperRequest<SetClientMinerProfilePropertyRequest> request);

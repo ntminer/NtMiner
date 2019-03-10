@@ -1,6 +1,6 @@
 ﻿using NTMiner.Daemon;
 
-namespace NTMiner {
+namespace NTMiner.Controllers {
     public interface INTMinerDaemonController {
         string GetDaemonVersion();
         void CloseDaemon();

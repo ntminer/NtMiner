@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace NTMiner.OverClock {
+namespace NTMiner.MinerServer {
     public class OverClockData : IOverClockData, IDbEntity<Guid>, IGetSignData {
         public OverClockData() { }
 

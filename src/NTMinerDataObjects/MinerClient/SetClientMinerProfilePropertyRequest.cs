@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NTMiner.Profile {
+namespace NTMiner.MinerClient {
     public class SetClientMinerProfilePropertyRequest : RequestBase, ISignatureRequest {
         public SetClientMinerProfilePropertyRequest() { }
         public string LoginName { get; set; }

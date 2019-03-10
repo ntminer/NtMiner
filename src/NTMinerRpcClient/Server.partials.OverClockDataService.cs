@@ -1,4 +1,5 @@
-﻿using NTMiner.OverClock;
+﻿using NTMiner.Controllers;
+using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
