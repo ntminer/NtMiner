@@ -33,7 +33,8 @@
 			<TextBlock Style="{StaticResource LblTb}">密码</TextBlock>
 			<PasswordBox Width="200" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 		</WrapPanel>
-		<WrapPanel Margin="0 10 0 0" HorizontalAlignment="Right">
+		<WrapPanel Margin="0 10 0 0">
+			<TextBlock Style="{StaticResource LblTb}"></TextBlock>
 			<controls:KbButton
 				IsDefault="True"
 				Command="{Binding Save}" 

@@ -237,15 +237,8 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(ModifiedOn));
                     OnPropertyChanged(nameof(ModifiedOnText));
                 }
-                OnPropertyChanged(nameof(IsClientOnline));
                 OnPropertyChanged(nameof(IsMining));
                 OnPropertyChanged(nameof(LastActivedOnText));
-            }
-        }
-
-        public bool IsClientOnline {
-            get {
-                return this.ModifiedOn.AddSeconds(121) >= DateTime.Now;
             }
         }
 
@@ -280,16 +273,22 @@ namespace NTMiner.Vms {
             }
         }
 
+        private static string TimeSpanToString(TimeSpan timeSpan) {
+            if (timeSpan.Days >= 1) {
+                return $"{timeSpan.Days}天{timeSpan.Hours}小时{timeSpan.Minutes}分钟";
+            }
+            if (timeSpan.Hours > 0) {
+                return $"{timeSpan.Hours}小时{timeSpan.Minutes}分钟";
+            }
+            if (timeSpan.Minutes > 2) {
+                return $"{timeSpan.Minutes}分钟";
+            }
+            return (int)timeSpan.TotalSeconds + "秒";
+        }
+
         public string BootTimeSpanText {
             get {
-                TimeSpan time = DateTime.Now - BootOn;
-                TimeSpan time1 = new TimeSpan(time.Hours, time.Minutes, time.Seconds);
-                if (time.Days > 0) {
-                    return $"{time.Days}天{time1.ToString()}";
-                }
-                else {
-                    return time1.ToString();
-                }
+                return TimeSpanToString(DateTime.Now - BootOn);
             }
         }
 
@@ -304,23 +303,17 @@ namespace NTMiner.Vms {
 
         public string MineTimeSpanText {
             get {
-                if (!MineStartedOn.HasValue || MineStartedOn.Value <= Timestamp.UnixBaseTime) {
+                if (!MineStartedOn.HasValue || MineStartedOn.Value <= Timestamp.UnixBaseTime || !this.IsMining) {
                     return string.Empty;
                 }
-                TimeSpan time = DateTime.Now - MineStartedOn.Value;
-                TimeSpan time1 = new TimeSpan(time.Hours, time.Minutes, time.Seconds);
-                if (time.Days > 0) {
-                    return $"{time.Days}天{time1.ToString()}";
-                }
-                else {
-                    return time1.ToString();
-                }
+
+                return TimeSpanToString(DateTime.Now - MineStartedOn.Value);
             }
         }
 
         public bool IsMining {
             get {
-                if (!IsClientOnline) {
+                if (this.ModifiedOn.AddSeconds(130) < DateTime.Now) {
                     return false;
                 }
                 return _data.IsMining;
@@ -487,7 +480,7 @@ namespace NTMiner.Vms {
         public double MainCoinSpeed {
             get => _data.MainCoinSpeed;
             set {
-                if (_data.MainCoinSpeed != value) {
+                if (Math.Abs(_data.MainCoinSpeed - value) > 0.01) {
                     _data.MainCoinSpeed = value;
                     OnPropertyChanged(nameof(MainCoinSpeed));
                     OnPropertyChanged(nameof(MainCoinSpeedText));
