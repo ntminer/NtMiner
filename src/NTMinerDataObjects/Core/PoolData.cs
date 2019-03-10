@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core {
-    public class PoolData : IPool, IDbEntity<Guid> {
+    public class PoolData : IPool, IDbEntity<Guid>, IGetSignData {
         public PoolData() {
         }
 

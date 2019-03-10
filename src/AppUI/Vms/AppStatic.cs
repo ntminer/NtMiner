@@ -184,7 +184,7 @@ namespace NTMiner.Vms {
         });
 
         public static ICommand AppExit { get; private set; } = new DelegateCommand(() => {
-            Application.Current.MainWindow.Close();
+            Application.Current.MainWindow?.Close();
         });
 
         public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(() => {
@@ -245,7 +245,7 @@ namespace NTMiner.Vms {
                 if (!Directory.Exists(updaterDirFullName)) {
                     Directory.CreateDirectory(updaterDirFullName);
                 }
-                Server.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
+                Server.FileUrlService.GetNtMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                     try {
                         if (string.IsNullOrEmpty(downloadFileUrl)) {
                             callback?.Invoke();
@@ -332,7 +332,7 @@ namespace NTMiner.Vms {
                 Directory.CreateDirectory(liteDbExplorerDir);
             }
             if (!File.Exists(liteDbExplorerFileFullName)) {
-                Server.FileUrlService.GetLiteDBExplorerUrlAsync((downloadFileUrl, e) => {
+                Server.FileUrlService.GetLiteDbExplorerUrlAsync((downloadFileUrl, e) => {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         return;
                     }

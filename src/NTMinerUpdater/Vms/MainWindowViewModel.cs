@@ -153,14 +153,14 @@ namespace NTMiner.Vms {
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };
-                Server.FileUrlService.GetNTMinerUrlAsync(fileName, (url, e) => {
+                Server.FileUrlService.GetNtMinerUrlAsync(fileName, (url, e) => {
                     webClient.DownloadFileAsync(new Uri(url), saveFileFullName);
                 });
             }
         }
 
         public void Refresh() {
-            Server.FileUrlService.GetNTMinerFilesAsync((ntMinerFiles, e) => {
+            Server.FileUrlService.GetNtMinerFilesAsync((ntMinerFiles, e) => {
                 this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;

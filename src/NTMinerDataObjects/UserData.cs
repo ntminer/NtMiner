@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 namespace NTMiner {
-    public class UserData : IUser {
+    public class UserData : IUser, IGetSignData {
         public UserData() { }
 
         public UserData(IUser data) {

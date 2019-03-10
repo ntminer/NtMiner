@@ -30,7 +30,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase SetAppSetting([FromBody]SetAppSettingRequest request) {
+        public ResponseBase SetAppSetting([FromBody]DataRequest<AppSettingData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }

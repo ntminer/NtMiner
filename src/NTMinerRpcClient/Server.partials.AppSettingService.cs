@@ -49,7 +49,7 @@ namespace NTMiner {
             public void SetAppSettingAsync(AppSettingData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        SetAppSettingRequest request = new SetAppSettingRequest() {
+                        DataRequest<AppSettingData> request = new DataRequest<AppSettingData>() {
                             Data = entity,
                             LoginName = SingleUser.LoginName
                         };

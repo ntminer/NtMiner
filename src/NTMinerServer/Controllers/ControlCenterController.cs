@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Http;
+using NTMiner.Core;
 
 namespace NTMiner.Controllers {
     public class ControlCenterController : ApiController, IControlCenterController {
@@ -34,7 +35,7 @@ namespace NTMiner.Controllers {
 
         #region LoginControlCenter
         [HttpPost]
-        public ResponseBase LoginControlCenter([FromBody]LoginControlCenterRequest request) {
+        public ResponseBase LoginControlCenter([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -77,7 +78,7 @@ namespace NTMiner.Controllers {
 
         #region AddUser
         [HttpPost]
-        public ResponseBase AddUser([FromBody]AddUserRequest request) {
+        public ResponseBase AddUser([FromBody]DataRequest<UserData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -98,7 +99,7 @@ namespace NTMiner.Controllers {
 
         #region UpdateUser
         [HttpPost]
-        public ResponseBase UpdateUser([FromBody]UpdateUserRequest request) {
+        public ResponseBase UpdateUser([FromBody]DataRequest<UserData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -119,7 +120,7 @@ namespace NTMiner.Controllers {
 
         #region RemoveUser
         [HttpPost]
-        public ResponseBase RemoveUser([FromBody]RemoveUserRequest request) {
+        public ResponseBase RemoveUser([FromBody]DataRequest<String> request) {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -317,7 +318,7 @@ namespace NTMiner.Controllers {
 
         #region AddOrUpdateMinerGroup
         [HttpPost]
-        public ResponseBase AddOrUpdateMinerGroup([FromBody]AddOrUpdateMinerGroupRequest request) {
+        public ResponseBase AddOrUpdateMinerGroup([FromBody]DataRequest<MinerGroupData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -338,8 +339,8 @@ namespace NTMiner.Controllers {
 
         #region RemoveMinerGroup
         [HttpPost]
-        public ResponseBase RemoveMinerGroup([FromBody]RemoveMinerGroupRequest request) {
-            if (request == null || request.MinerGroupId == Guid.Empty) {
+        public ResponseBase RemoveMinerGroup([FromBody]DataRequest<Guid> request) {
+            if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -347,7 +348,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.MinerGroupSet.Remove(request.MinerGroupId);
+                HostRoot.Current.MinerGroupSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -359,7 +360,7 @@ namespace NTMiner.Controllers {
 
         #region AddOrUpdateMineWork
         [HttpPost]
-        public ResponseBase AddOrUpdateMineWork([FromBody]AddOrUpdateMineWorkRequest request) {
+        public ResponseBase AddOrUpdateMineWork([FromBody]DataRequest<MineWorkData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -380,8 +381,8 @@ namespace NTMiner.Controllers {
 
         #region RemoveMineWork
         [HttpPost]
-        public ResponseBase RemoveMineWork([FromBody]RemoveMineWorkRequest request) {
-            if (request == null || request.MineWorkId == Guid.Empty) {
+        public ResponseBase RemoveMineWork([FromBody]DataRequest<Guid> request) {
+            if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -389,7 +390,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.MineWorkSet.Remove(request.MineWorkId);
+                HostRoot.Current.MineWorkSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -445,7 +446,7 @@ namespace NTMiner.Controllers {
 
         #region MinerProfile
         [HttpPost]
-        public MinerProfileResponse MinerProfile([FromBody]MinerProfileRequest request) {
+        public MinerProfileResponse MinerProfile([FromBody]DataRequest<Guid> request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<MinerProfileResponse>(Guid.Empty, "参数错误");
             }
@@ -454,7 +455,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                var data = HostRoot.Current.MineProfileManager.GetMinerProfile(request.WorkId);
+                var data = HostRoot.Current.MineProfileManager.GetMinerProfile(request.Data);
                 return MinerProfileResponse.Ok(request.MessageId, data);
             }
             catch (Exception e) {
@@ -646,7 +647,7 @@ namespace NTMiner.Controllers {
 
         #region AddOrUpdatePool
         [HttpPost]
-        public ResponseBase AddOrUpdatePool([FromBody]AddOrUpdatePoolRequest request) {
+        public ResponseBase AddOrUpdatePool([FromBody]DataRequest<PoolData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -667,8 +668,8 @@ namespace NTMiner.Controllers {
 
         #region RemovePool
         [HttpPost]
-        public ResponseBase RemovePool([FromBody]RemovePoolRequest request) {
-            if (request == null || request.PoolId == Guid.Empty) {
+        public ResponseBase RemovePool([FromBody]DataRequest<Guid> request) {
+            if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -676,7 +677,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.PoolSet.Remove(request.PoolId);
+                HostRoot.Current.PoolSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -709,7 +710,7 @@ namespace NTMiner.Controllers {
 
         #region AddOrUpdateWallet
         [HttpPost]
-        public ResponseBase AddOrUpdateWallet([FromBody]AddOrUpdateWalletRequest request) {
+        public ResponseBase AddOrUpdateWallet([FromBody]DataRequest<WalletData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -730,8 +731,8 @@ namespace NTMiner.Controllers {
 
         #region RemoveWallet
         [HttpPost]
-        public ResponseBase RemoveWallet([FromBody]RemoveWalletRequest request) {
-            if (request == null || request.WalletId == Guid.Empty) {
+        public ResponseBase RemoveWallet([FromBody]DataRequest<Guid> request) {
+            if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -739,7 +740,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.WalletSet.Remove(request.WalletId);
+                HostRoot.Current.WalletSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -809,7 +810,7 @@ namespace NTMiner.Controllers {
 
         #region AddOrUpdateColumnsShow
         [HttpPost]
-        public ResponseBase AddOrUpdateColumnsShow([FromBody]AddOrUpdateColumnsShowRequest request) {
+        public ResponseBase AddOrUpdateColumnsShow([FromBody]DataRequest<ColumnsShowData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -830,8 +831,8 @@ namespace NTMiner.Controllers {
 
         #region RemoveColumnsShow
         [HttpPost]
-        public ResponseBase RemoveColumnsShow([FromBody]RemoveColumnsShowRequest request) {
-            if (request == null || request.ColumnsShowId == Guid.Empty) {
+        public ResponseBase RemoveColumnsShow([FromBody]DataRequest<Guid> request) {
+            if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -839,7 +840,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.ColumnsShowSet.Remove(request.ColumnsShowId);
+                HostRoot.Current.ColumnsShowSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

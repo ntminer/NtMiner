@@ -32,7 +32,7 @@ namespace NTMiner {
             public void LoginAsync(string loginName, string password, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        LoginControlCenterRequest request = new LoginControlCenterRequest {
+                        SignatureRequest request = new SignatureRequest() {
                             LoginName = loginName
                         };
                         request.SignIt(password);
@@ -72,7 +72,7 @@ namespace NTMiner {
             public void AddUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        AddUserRequest request = new AddUserRequest() {
+                        DataRequest<UserData> request = new DataRequest<UserData>() {
                             LoginName = SingleUser.LoginName,
                             Data = userData
                         };
@@ -91,7 +91,7 @@ namespace NTMiner {
             public void UpdateUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        UpdateUserRequest request = new UpdateUserRequest() {
+                        DataRequest<UserData> request = new DataRequest<UserData>() {
                             LoginName = SingleUser.LoginName,
                             Data = userData
                         };
@@ -110,7 +110,7 @@ namespace NTMiner {
             public void RemoveUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        RemoveUserRequest request = new RemoveUserRequest() {
+                        DataRequest<String> request = new DataRequest<String>() {
                             LoginName = SingleUser.LoginName,
                             Data = loginName
                         };
@@ -287,7 +287,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         entity.ModifiedOn = DateTime.Now;
-                        AddOrUpdateMinerGroupRequest request = new AddOrUpdateMinerGroupRequest {
+                        DataRequest<MinerGroupData> request = new DataRequest<MinerGroupData> {
                             LoginName = SingleUser.LoginName,
                             Data = entity
                         };
@@ -306,9 +306,9 @@ namespace NTMiner {
             public void RemoveMinerGroupAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        RemoveMinerGroupRequest request = new RemoveMinerGroupRequest() {
+                        DataRequest<Guid> request = new DataRequest<Guid>() {
                             LoginName = SingleUser.LoginName,
-                            MinerGroupId = id
+                            Data = id
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveMinerGroup), request);
@@ -338,7 +338,7 @@ namespace NTMiner {
             #region AddOrUpdateMineWork
             public ResponseBase AddOrUpdateMineWork(MineWorkData entity) {
                 entity.ModifiedOn = DateTime.Now;
-                AddOrUpdateMineWorkRequest request = new AddOrUpdateMineWorkRequest {
+                DataRequest<MineWorkData> request = new DataRequest<MineWorkData> {
                     LoginName = SingleUser.LoginName,
                     Data = entity
                 };
@@ -352,9 +352,9 @@ namespace NTMiner {
             public void RemoveMineWorkAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        RemoveMineWorkRequest request = new RemoveMineWorkRequest {
+                        DataRequest<Guid> request = new DataRequest<Guid> {
                             LoginName = SingleUser.LoginName,
-                            MineWorkId = id
+                            Data = id
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveMineWork), request);
@@ -420,9 +420,9 @@ namespace NTMiner {
             /// <returns></returns>
             public MinerProfileData GetMinerProfile(Guid workId) {
                 try {
-                    MinerProfileRequest request = new MinerProfileRequest {
+                    DataRequest<Guid> request = new DataRequest<Guid>() {
                         LoginName = SingleUser.LoginName,
-                        WorkId = workId
+                        Data = workId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     MinerProfileResponse response = Request<MinerProfileResponse>(s_controllerName, nameof(IControlCenterController.MinerProfile), request);
@@ -635,7 +635,7 @@ namespace NTMiner {
             public void AddOrUpdateWalletAsync(WalletData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        AddOrUpdateWalletRequest request = new AddOrUpdateWalletRequest {
+                        DataRequest<WalletData> request = new DataRequest<WalletData>() {
                             LoginName = SingleUser.LoginName,
                             Data = entity
                         };
@@ -654,9 +654,9 @@ namespace NTMiner {
             public void RemoveWalletAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        RemoveWalletRequest request = new RemoveWalletRequest {
+                        DataRequest<Guid> request = new DataRequest<Guid>() {
                             LoginName = SingleUser.LoginName,
-                            WalletId = id
+                            Data = id
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveWallet), request);
@@ -695,7 +695,7 @@ namespace NTMiner {
             public void AddOrUpdatePoolAsync(PoolData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        AddOrUpdatePoolRequest request = new AddOrUpdatePoolRequest {
+                        DataRequest<PoolData> request = new DataRequest<PoolData> {
                             LoginName = SingleUser.LoginName,
                             Data = entity
                         };
@@ -714,9 +714,9 @@ namespace NTMiner {
             public void RemovePoolAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        RemovePoolRequest request = new RemovePoolRequest {
+                        DataRequest<Guid> request = new DataRequest<Guid>() {
                             LoginName = SingleUser.LoginName,
-                            PoolId = id
+                            Data = id
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemovePool), request);
@@ -796,7 +796,7 @@ namespace NTMiner {
             public void AddOrUpdateColumnsShowAsync(ColumnsShowData entity, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        AddOrUpdateColumnsShowRequest request = new AddOrUpdateColumnsShowRequest {
+                        DataRequest<ColumnsShowData> request = new DataRequest<ColumnsShowData>() {
                             LoginName = SingleUser.LoginName,
                             Data = entity
                         };
@@ -815,9 +815,9 @@ namespace NTMiner {
             public void RemoveColumnsShowAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        RemoveColumnsShowRequest request = new RemoveColumnsShowRequest() {
+                        DataRequest<Guid> request = new DataRequest<Guid>() {
                             LoginName = SingleUser.LoginName,
-                            ColumnsShowId = id
+                            Data = id
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveColumnsShow), request);

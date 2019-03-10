@@ -23,7 +23,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public string NTMinerUrl([FromBody]NTMinerUrlRequest request) {
+        public string NtMinerUrl([FromBody]NTMinerUrlRequest request) {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
                 return string.Empty;
             }
@@ -35,13 +35,13 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public List<NTMinerFileData> NTMinerFiles() {
+        public List<NTMinerFileData> NtMinerFiles() {
             var list = HostRoot.Current.NTMinerFileSet.GetAll();
             return list;
         }
 
         [HttpPost]
-        public ResponseBase AddOrUpdateNTMinerFile([FromBody]AddOrUpdateNTMinerFileRequest request) {
+        public ResponseBase AddOrUpdateNtMinerFile([FromBody]DataRequest<NTMinerFileData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -60,7 +60,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase RemoveNTMinerFile([FromBody]RemoveNTMinerFileRequest request) {
+        public ResponseBase RemoveNtMinerFile([FromBody]DataRequest<Guid> request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -69,7 +69,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.NTMinerFileSet.Remove(request.NTMinerId);
+                HostRoot.Current.NTMinerFileSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -79,7 +79,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public string NTMinerUpdaterUrl() {
+        public string NtMinerUpdaterUrl() {
             try {
                 IAppSetting ntminerUpdaterFileNameSetting = HostRoot.Current.AppSettingSet["ntminerUpdaterFileName"];
                 string ntminerUpdaterFileName = ntminerUpdaterFileNameSetting == null ? "NTMinerUpdater.exe" : (string)ntminerUpdaterFileNameSetting.Value;
@@ -94,7 +94,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public string LiteDBExplorerUrl() {
+        public string LiteDbExplorerUrl() {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);

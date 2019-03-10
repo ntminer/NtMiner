@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class MineWorkData : IMineWork, IDbEntity<Guid>, ITimestampEntity<Guid> {
+    public class MineWorkData : IMineWork, IDbEntity<Guid>, ITimestampEntity<Guid>, IGetSignData {
         public MineWorkData() {
             this.CreatedOn = DateTime.Now;
         }
