@@ -57,21 +57,21 @@ namespace NTMiner.Controllers {
 
         #region Users
         [HttpPost]
-        public GetUsersResponse Users([FromBody]SignatureRequest request) {
+        public DataResponse<List<UserData>> Users([FromBody]SignatureRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<GetUsersResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<List<UserData>>>(Guid.Empty, "参数错误");
             }
             try {
-                GetUsersResponse response;
+                DataResponse<List<UserData>> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.UserSet.Cast<UserData>().ToList();
-                return GetUsersResponse.Ok(request.MessageId, data);
+                return DataResponse<List<UserData>>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetUsersResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<UserData>>>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -234,21 +234,21 @@ namespace NTMiner.Controllers {
 
         #region LoadClient
         [HttpPost]
-        public LoadClientResponse LoadClient([FromBody]LoadClientRequest request) {
+        public DataResponse<ClientData> LoadClient([FromBody]LoadClientRequest request) {
             if (request == null || request.ClientId == Guid.Empty) {
-                return ResponseBase.InvalidInput<LoadClientResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<ClientData>>(Guid.Empty, "参数错误");
             }
             try {
-                LoadClientResponse response;
+                DataResponse<ClientData> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId, request.IsPull);
-                return LoadClientResponse.Ok(request.MessageId, data);
+                return DataResponse<ClientData>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<LoadClientResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<ClientData>>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -297,21 +297,21 @@ namespace NTMiner.Controllers {
 
         #region MinerGroups
         [HttpPost]
-        public GetMinerGroupsResponse MinerGroups([FromBody]SignatureRequest request) {
+        public DataResponse<List<MinerGroupData>> MinerGroups([FromBody]SignatureRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<GetMinerGroupsResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<List<MinerGroupData>>>(Guid.Empty, "参数错误");
             }
             try {
-                GetMinerGroupsResponse response;
+                DataResponse<List<MinerGroupData>> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MinerGroupSet.GetAll();
-                return GetMinerGroupsResponse.Ok(request.MessageId, data);
+                return DataResponse<List<MinerGroupData>>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetMinerGroupsResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<MinerGroupData>>>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -402,21 +402,21 @@ namespace NTMiner.Controllers {
 
         #region MineWorks
         [HttpPost]
-        public GetMineWorksResponse MineWorks([FromBody]SignatureRequest request) {
+        public DataResponse<List<MineWorkData>> MineWorks([FromBody]SignatureRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<GetMineWorksResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<List<MineWorkData>>>(Guid.Empty, "参数错误");
             }
             try {
-                GetMineWorksResponse response;
+                DataResponse<List<MineWorkData>> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineWorkSet.GetAll();
-                return GetMineWorksResponse.Ok(request.MessageId, data);
+                return DataResponse<List<MineWorkData>>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetMineWorksResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<MineWorkData>>>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -446,84 +446,84 @@ namespace NTMiner.Controllers {
 
         #region MinerProfile
         [HttpPost]
-        public MinerProfileResponse MinerProfile([FromBody]DataRequest<Guid> request) {
+        public DataResponse<MinerProfileData> MinerProfile([FromBody]DataRequest<Guid> request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<MinerProfileResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<MinerProfileData>>(Guid.Empty, "参数错误");
             }
             try {
-                MinerProfileResponse response;
+                DataResponse<MinerProfileData> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineProfileManager.GetMinerProfile(request.Data);
-                return MinerProfileResponse.Ok(request.MessageId, data);
+                return DataResponse<MinerProfileData>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<MinerProfileResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<MinerProfileData>>(request.MessageId, e.Message);
             }
         }
         #endregion
 
         #region CoinProfile
         [HttpPost]
-        public CoinProfileResponse CoinProfile([FromBody]CoinProfileRequest request) {
+        public DataResponse<CoinProfileData> CoinProfile([FromBody]CoinProfileRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<CoinProfileResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<CoinProfileData>>(Guid.Empty, "参数错误");
             }
             try {
-                CoinProfileResponse response;
+                DataResponse<CoinProfileData> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineProfileManager.GetCoinProfile(request.WorkId, request.CoinId);
-                return CoinProfileResponse.Ok(request.MessageId, data);
+                return DataResponse<CoinProfileData>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<CoinProfileResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<CoinProfileData>>(request.MessageId, e.Message);
             }
         }
         #endregion
 
         #region PoolProfile
         [HttpPost]
-        public PoolProfileResponse PoolProfile([FromBody]PoolProfileRequest request) {
+        public DataResponse<PoolProfileData> PoolProfile([FromBody]PoolProfileRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<PoolProfileResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<PoolProfileData>>(Guid.Empty, "参数错误");
             }
             try {
-                PoolProfileResponse response;
+                DataResponse<PoolProfileData> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineProfileManager.GetPoolProfile(request.WorkId, request.PoolId);
-                return PoolProfileResponse.Ok(request.MessageId, data);
+                return DataResponse<PoolProfileData>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<PoolProfileResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<PoolProfileData>>(request.MessageId, e.Message);
             }
         }
         #endregion
 
         #region CoinKernelProfile
         [HttpPost]
-        public CoinKernelProfileResponse CoinKernelProfile([FromBody]CoinKernelProfileRequest request) {
+        public DataResponse<CoinKernelProfileData> CoinKernelProfile([FromBody]CoinKernelProfileRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<CoinKernelProfileResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<CoinKernelProfileData>>(Guid.Empty, "参数错误");
             }
             try {
-                CoinKernelProfileResponse response;
+                DataResponse<CoinKernelProfileData> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineProfileManager.GetCoinKernelProfile(request.WorkId, request.CoinKernelId);
-                return CoinKernelProfileResponse.Ok(request.MessageId, data);
+                return DataResponse<CoinKernelProfileData>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<CoinKernelProfileResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<CoinKernelProfileData>>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -626,21 +626,21 @@ namespace NTMiner.Controllers {
 
         #region Pools
         [HttpPost]
-        public GetPoolsResponse Pools([FromBody]SignatureRequest request) {
+        public DataResponse<List<PoolData>> Pools([FromBody]SignatureRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<GetPoolsResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<List<PoolData>>>(Guid.Empty, "参数错误");
             }
             try {
-                GetPoolsResponse response;
+                DataResponse<List<PoolData>> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.PoolSet.GetAll();
-                return GetPoolsResponse.Ok(request.MessageId, data);
+                return DataResponse<List<PoolData>>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetPoolsResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<PoolData>>>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -689,21 +689,21 @@ namespace NTMiner.Controllers {
 
         #region Wallets
         [HttpPost]
-        public GetWalletsResponse Wallets([FromBody]SignatureRequest request) {
+        public DataResponse<List<WalletData>> Wallets([FromBody]SignatureRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<GetWalletsResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<List<WalletData>>>(Guid.Empty, "参数错误");
             }
             try {
-                GetWalletsResponse response;
+                DataResponse<List<WalletData>> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.WalletSet.GetAll();
-                return GetWalletsResponse.Ok(request.MessageId, data);
+                return DataResponse<List<WalletData>>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetWalletsResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<WalletData>>>(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -789,21 +789,21 @@ namespace NTMiner.Controllers {
 
         #region ColumnsShows
         [HttpPost]
-        public GetColumnsShowsResponse ColumnsShows([FromBody]SignatureRequest request) {
+        public DataResponse<List<ColumnsShowData>> ColumnsShows([FromBody]SignatureRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<GetColumnsShowsResponse>(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput<DataResponse<List<ColumnsShowData>>>(Guid.Empty, "参数错误");
             }
             try {
-                GetColumnsShowsResponse response;
+                DataResponse<List<ColumnsShowData>> response;
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 var data = HostRoot.Current.ColumnsShowSet.GetAll();
-                return GetColumnsShowsResponse.Ok(request.MessageId, data);
+                return DataResponse<List<ColumnsShowData>>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetColumnsShowsResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<ColumnsShowData>>>(request.MessageId, e.Message);
             }
         }
         #endregion

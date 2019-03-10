@@ -52,13 +52,13 @@ namespace NTMiner {
             /// </summary>
             /// <param name="messageId"></param>
             /// <returns></returns>
-            public GetUsersResponse GetUsers(Guid messageId) {
+            public DataResponse<List<UserData>> GetUsers(Guid messageId) {
                 try {
                     SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    GetUsersResponse response = Request<GetUsersResponse>(s_controllerName, nameof(IControlCenterController.Users), request);
+                    DataResponse<List<UserData>> response = Request<DataResponse<List<UserData>>>(s_controllerName, nameof(IControlCenterController.Users), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -148,7 +148,7 @@ namespace NTMiner {
             #endregion
 
             #region LoadClientAsync
-            public void LoadClientAsync(Guid clientId, bool isPull, Action<LoadClientResponse, Exception> callback) {
+            public void LoadClientAsync(Guid clientId, bool isPull, Action<DataResponse<ClientData>, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         LoadClientRequest request = new LoadClientRequest {
@@ -157,7 +157,7 @@ namespace NTMiner {
                             IsPull = isPull
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        LoadClientResponse response = Request<LoadClientResponse>(s_controllerName, nameof(IControlCenterController.LoadClient), request);
+                        DataResponse<ClientData> response = Request<DataResponse<ClientData>>(s_controllerName, nameof(IControlCenterController.LoadClient), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -266,13 +266,13 @@ namespace NTMiner {
             /// 同步方法
             /// </summary>
             /// <returns></returns>
-            public GetMinerGroupsResponse GetMinerGroups() {
+            public DataResponse<List<MinerGroupData>> GetMinerGroups() {
                 try {
                     SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    GetMinerGroupsResponse response = Request<GetMinerGroupsResponse>(s_controllerName, nameof(IControlCenterController.MinerGroups), request);
+                    DataResponse<List<MinerGroupData>> response = Request<DataResponse<List<MinerGroupData>>>(s_controllerName, nameof(IControlCenterController.MinerGroups), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -378,7 +378,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    GetMineWorksResponse response = Request<GetMineWorksResponse>(s_controllerName, nameof(IControlCenterController.MineWorks), request);
+                    DataResponse<List<MineWorkData>> response = Request<DataResponse<List<MineWorkData>>>(s_controllerName, nameof(IControlCenterController.MineWorks), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -425,7 +425,7 @@ namespace NTMiner {
                         Data = workId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    MinerProfileResponse response = Request<MinerProfileResponse>(s_controllerName, nameof(IControlCenterController.MinerProfile), request);
+                    DataResponse<MinerProfileData> response = Request<DataResponse<MinerProfileData>>(s_controllerName, nameof(IControlCenterController.MinerProfile), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -453,7 +453,7 @@ namespace NTMiner {
                         CoinId = coinId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    CoinProfileResponse response = Request<CoinProfileResponse>(s_controllerName, nameof(IControlCenterController.CoinProfile), request);
+                    DataResponse<CoinProfileData> response = Request<DataResponse<CoinProfileData>>(s_controllerName, nameof(IControlCenterController.CoinProfile), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -481,7 +481,7 @@ namespace NTMiner {
                         PoolId = poolId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    PoolProfileResponse response = Request<PoolProfileResponse>(s_controllerName, nameof(IControlCenterController.PoolProfile), request);
+                    DataResponse<PoolProfileData> response = Request<DataResponse<PoolProfileData>>(s_controllerName, nameof(IControlCenterController.PoolProfile), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -509,7 +509,7 @@ namespace NTMiner {
                         CoinKernelId = coinKernelId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    CoinKernelProfileResponse response = Request<CoinKernelProfileResponse>(s_controllerName, nameof(IControlCenterController.CoinKernelProfile), request);
+                    DataResponse<CoinKernelProfileData> response = Request<DataResponse<CoinKernelProfileData>>(s_controllerName, nameof(IControlCenterController.CoinKernelProfile), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -614,14 +614,14 @@ namespace NTMiner {
             /// 同步方法
             /// </summary>
             /// <returns></returns>
-            public GetWalletsResponse GetWallets() {
+            public DataResponse<List<WalletData>> GetWallets() {
                 try {
                     SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName,
                         MessageId = Guid.NewGuid()
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    GetWalletsResponse response = Request<GetWalletsResponse>(s_controllerName, nameof(IControlCenterController.Wallets), request);
+                    DataResponse<List<WalletData>> response = Request<DataResponse<List<WalletData>>>(s_controllerName, nameof(IControlCenterController.Wallets), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -674,14 +674,14 @@ namespace NTMiner {
             /// 同步方法
             /// </summary>
             /// <returns></returns>
-            public GetPoolsResponse GetPools() {
+            public DataResponse<List<PoolData>> GetPools() {
                 try {
                     SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName,
                         MessageId = Guid.NewGuid()
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    GetPoolsResponse response = Request<GetPoolsResponse>(s_controllerName, nameof(IControlCenterController.Pools), request);
+                    DataResponse<List<PoolData>> response = Request<DataResponse<List<PoolData>>>(s_controllerName, nameof(IControlCenterController.Pools), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -776,13 +776,13 @@ namespace NTMiner {
             /// 同步方法
             /// </summary>
             /// <returns></returns>
-            public GetColumnsShowsResponse GetColumnsShows() {
+            public DataResponse<List<ColumnsShowData>> GetColumnsShows() {
                 try {
                     SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    GetColumnsShowsResponse response = Request<GetColumnsShowsResponse>(s_controllerName, nameof(IControlCenterController.ColumnsShows), request);
+                    DataResponse<List<ColumnsShowData>> response = Request<DataResponse<List<ColumnsShowData>>>(s_controllerName, nameof(IControlCenterController.ColumnsShows), request);
                     return response;
                 }
                 catch (Exception e) {

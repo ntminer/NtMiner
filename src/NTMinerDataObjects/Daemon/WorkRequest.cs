@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Daemon {
-    public class OpenNTMinerRequest : RequestBase, ISignatureRequest {
+    public class WorkRequest : RequestBase, ISignatureRequest {
         public string ClientIp { get; set; }
         public Guid WorkId { get; set; }
         public string LoginName { get; set; }

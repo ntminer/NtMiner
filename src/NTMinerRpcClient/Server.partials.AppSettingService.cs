@@ -12,14 +12,14 @@ namespace NTMiner {
             private AppSettingServiceFace() { }
 
             #region GetAppSettingAsync
-            public void GetAppSettingAsync(string key, Action<GetAppSettingResponse, Exception> callback) {
+            public void GetAppSettingAsync(string key, Action<DataResponse<AppSettingData>, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         AppSettingRequest request = new AppSettingRequest {
                             MessageId = Guid.NewGuid(),
                             Key = key
                         };
-                        GetAppSettingResponse response = Request<GetAppSettingResponse>(s_controllerName, nameof(IAppSettingController.AppSetting), request);
+                        DataResponse<AppSettingData> response = Request<DataResponse<AppSettingData>>(s_controllerName, nameof(IAppSettingController.AppSetting), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
@@ -35,7 +35,7 @@ namespace NTMiner {
                     AppSettingsRequest request = new AppSettingsRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    GetAppSettingsResponse response = Request<GetAppSettingsResponse>(s_controllerName, nameof(IAppSettingController.AppSettings), request);
+                    DataResponse<List<AppSettingData>> response = Request<DataResponse<List<AppSettingData>>>(s_controllerName, nameof(IAppSettingController.AppSettings), request);
                     return response.Data;
                 }
                 catch (Exception e) {

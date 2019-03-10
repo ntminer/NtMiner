@@ -77,7 +77,7 @@ namespace NTMiner.Controllers {
                         serverJson = File.ReadAllText(serverJsonFileFullName);
                     }
                 }
-                Daemon.OpenNTMinerRequest innerRequest = new Daemon.OpenNTMinerRequest() {
+                WorkRequest innerRequest = new WorkRequest() {
                     ClientIp = request.InnerRequest.ClientIp,
                     MessageId = request.InnerRequest.MessageId,
                     LoginName = request.InnerRequest.LoginName,
@@ -166,7 +166,7 @@ namespace NTMiner.Controllers {
                         serverJson = File.ReadAllText(serverJsonFileFullName);
                     }
                 }
-                Daemon.StartMineRequest innerRequest = new Daemon.StartMineRequest {
+                WorkRequest innerRequest = new WorkRequest {
                     ClientIp = request.InnerRequest.ClientIp,
                     MessageId = request.InnerRequest.MessageId,
                     LoginName = request.InnerRequest.LoginName,
@@ -213,7 +213,7 @@ namespace NTMiner.Controllers {
                         serverJson = File.ReadAllText(serverJsonFileFullName);
                     }
                 }
-                Daemon.RestartNTMinerRequest innerRequest = new Daemon.RestartNTMinerRequest {
+                WorkRequest innerRequest = new WorkRequest {
                     ClientIp = request.InnerRequest.ClientIp,
                     LoginName = request.InnerRequest.LoginName,
                     MessageId = request.InnerRequest.MessageId,

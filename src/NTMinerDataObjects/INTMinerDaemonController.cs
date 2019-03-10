@@ -9,11 +9,11 @@ namespace NTMiner {
         void RefreshUserSet();
         ResponseBase RestartWindows(RestartWindowsRequest request);
         ResponseBase ShutdownWindows(ShutdownWindowsRequest request);
-        ResponseBase OpenNTMiner(OpenNTMinerRequest request);
-        ResponseBase RestartNTMiner(RestartNTMinerRequest request);
+        ResponseBase OpenNTMiner(WorkRequest request);
+        ResponseBase RestartNTMiner(WorkRequest request);
         ResponseBase CloseNTMiner(MinerClient.CloseNTMinerRequest request);
         ResponseBase UpgradeNTMiner(UpgradeNTMinerRequest request);
-        ResponseBase StartMine(StartMineRequest request);
+        ResponseBase StartMine(WorkRequest request);
         ResponseBase StartNoDevFee(StartNoDevFeeRequest request);
         ResponseBase StopNoDevFee(RequestBase request);
     }

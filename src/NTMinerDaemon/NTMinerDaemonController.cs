@@ -139,7 +139,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase OpenNTMiner([FromBody]OpenNTMinerRequest request) {
+        public ResponseBase OpenNTMiner([FromBody]WorkRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -192,7 +192,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase StartMine([FromBody]StartMineRequest request) {
+        public ResponseBase StartMine([FromBody]WorkRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -241,7 +241,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase RestartNTMiner([FromBody]RestartNTMinerRequest request) {
+        public ResponseBase RestartNTMiner([FromBody]WorkRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }

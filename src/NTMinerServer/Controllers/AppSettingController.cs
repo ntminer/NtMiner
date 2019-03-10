@@ -1,31 +1,32 @@
 ﻿using NTMiner.MinerServer;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class AppSettingController : ApiController, IAppSettingController {
         [HttpPost]
-        public GetAppSettingResponse AppSetting([FromBody]AppSettingRequest request) {
+        public DataResponse<AppSettingData> AppSetting([FromBody]AppSettingRequest request) {
             try {
                 IAppSetting data = HostRoot.Current.AppSettingSet[request.Key];
-                return GetAppSettingResponse.Ok(request.MessageId, AppSettingData.Create(data));
+                return DataResponse<AppSettingData>.Ok(request.MessageId, AppSettingData.Create(data));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetAppSettingResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<AppSettingData>>(request.MessageId, e.Message);
             }
         }
 
         [HttpPost]
-        public GetAppSettingsResponse AppSettings([FromBody]AppSettingsRequest request) {
+        public DataResponse<List<AppSettingData>> AppSettings([FromBody]AppSettingsRequest request) {
             try {
                 var data = HostRoot.Current.AppSettingSet;
-                return GetAppSettingsResponse.Ok(request.MessageId, data.Select(a => AppSettingData.Create(a)).ToList());
+                return DataResponse<List<AppSettingData>>.Ok(request.MessageId, data.Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<GetAppSettingsResponse>(request.MessageId, e.Message);
+                return ResponseBase.ServerError<DataResponse<List<AppSettingData>>>(request.MessageId, e.Message);
             }
         }
 

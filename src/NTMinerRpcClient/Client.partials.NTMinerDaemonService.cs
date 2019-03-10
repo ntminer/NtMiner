@@ -133,7 +133,7 @@ namespace NTMiner {
                 }
             }
 
-            public void OpenNTMinerAsync(OpenNTMinerRequest request, Action<ResponseBase, Exception> callback) {
+            public void OpenNTMinerAsync(WorkRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         var response = OpenNTMiner(request);
@@ -145,7 +145,7 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase OpenNTMiner(OpenNTMinerRequest request) {
+            public ResponseBase OpenNTMiner(WorkRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NtMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.OpenNTMiner)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
@@ -153,7 +153,7 @@ namespace NTMiner {
                 }
             }
 
-            public void RestartNTMinerAsync(RestartNTMinerRequest request, Action<ResponseBase, Exception> callback) {
+            public void RestartNTMinerAsync(WorkRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         var response = RestartNTMiner(request);
@@ -165,7 +165,7 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase RestartNTMiner(RestartNTMinerRequest request) {
+            public ResponseBase RestartNTMiner(WorkRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NtMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.RestartNTMiner)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
@@ -213,7 +213,7 @@ namespace NTMiner {
                 }
             }
 
-            public void StartMineAsync(Daemon.StartMineRequest request, Action<ResponseBase, Exception> callback) {
+            public void StartMineAsync(WorkRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         var response = StartMine(request);
@@ -225,7 +225,7 @@ namespace NTMiner {
                 });
             }
 
-            public ResponseBase StartMine(Daemon.StartMineRequest request) {
+            public ResponseBase StartMine(WorkRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{request.ClientIp}:{WebApiConst.NtMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.StartMine)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
