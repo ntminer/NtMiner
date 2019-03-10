@@ -20,7 +20,7 @@ namespace NTMiner.Views.Ucs {
                     title = $"你确定重启 {minerClientVm.MinerName}({minerClientVm.MinerIp}) 吗？";
                 }
                 MinerClientRestartViewModel vm = null;
-                vm = new MinerClientRestartViewModel(title, workId, ()=> {
+                vm = new MinerClientRestartViewModel(title, workId, () => {
                     foreach (var item in minerClients) {
                         Server.MinerClientService.RestartNTMinerAsync(item, vm.SelectedMineWork.Id, (response, e) => {
                             if (!response.IsSuccess()) {

@@ -141,23 +141,27 @@ namespace NTMiner.Notifications {
             return builder;
         }
 
-        public static INotificationMessage ShowErrorMessage(this INotificationMessageManager manager, string message) {
-            var builder = NotificationMessageBuilder.CreateMessage();
-            builder.Manager = manager;
-            builder.Message = manager.Factory.GetMessage();
-            return builder.Error(message)
+        public static void ShowErrorMessage(this INotificationMessageManager manager, string message) {
+            UIThread.Execute(() => {
+                var builder = NotificationMessageBuilder.CreateMessage();
+                builder.Manager = manager;
+                builder.Message = manager.Factory.GetMessage();
+                builder.Error(message ?? string.Empty)
                     .Dismiss().WithButton("忽略", null)
                     .Queue();
+            });
         }
 
-        public static INotificationMessage ShowSuccessMessage(this INotificationMessageManager manager, string message) {
-            var builder = NotificationMessageBuilder.CreateMessage();
-            builder.Manager = manager;
-            builder.Message = manager.Factory.GetMessage();
-            return builder.Success(message)
+        public static void ShowSuccessMessage(this INotificationMessageManager manager, string message) {
+            UIThread.Execute(() => {
+                var builder = NotificationMessageBuilder.CreateMessage();
+                builder.Manager = manager;
+                builder.Message = manager.Factory.GetMessage();
+                builder.Success(message)
                     .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(4))
                     .Queue();
+            });
         }
 
         /// <summary>
@@ -262,8 +266,7 @@ namespace NTMiner.Notifications {
         private static Action<INotificationMessage> DismissBefore(
             this NotificationMessageBuilder builder,
             Action<INotificationMessage> callback) {
-            return call =>
-            {
+            return call => {
                 builder.Manager.Dismiss(builder.Message);
                 callback?.Invoke(builder.Message);
             };
@@ -281,8 +284,7 @@ namespace NTMiner.Notifications {
         private static Action<INotificationMessageButton> DismissBefore(
             this NotificationMessageBuilder builder,
             Action<INotificationMessageButton> callback) {
-            return button =>
-            {
+            return button => {
                 builder.Manager.Dismiss(builder.Message);
                 callback?.Invoke(button);
             };

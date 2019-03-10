@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 
 namespace NTMiner.User.Impl {
     public class UserSet : IUserSet {
-        private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
+        private readonly Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
         public UserSet() {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -22,15 +21,12 @@ namespace NTMiner.User.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    string userFileFullName = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "users.json");
-                    if (File.Exists(userFileFullName)) {
-                        string json = File.ReadAllText(userFileFullName);
-                        if (!string.IsNullOrEmpty(json)) {
-                            List<UserData> users = HostRoot.JsonSerializer.Deserialize<List<UserData>>(json);
-                            foreach (var user in users) {
-                                if (!_dicByLoginName.ContainsKey(user.LoginName)) {
-                                    _dicByLoginName.Add(user.LoginName, user);
-                                }
+                    string json = SpecialPath.ReadDaemonUsersJsonFile();
+                    if (!string.IsNullOrEmpty(json)) {
+                        List<UserData> users = HostRoot.JsonSerializer.Deserialize<List<UserData>>(json);
+                        foreach (var user in users) {
+                            if (!_dicByLoginName.ContainsKey(user.LoginName)) {
+                                _dicByLoginName.Add(user.LoginName, user);
                             }
                         }
                     }

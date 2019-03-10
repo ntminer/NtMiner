@@ -213,9 +213,7 @@ namespace NTMiner.Vms {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);
-                                UIThread.Execute(() => {
-                                    Manager.ShowErrorMessage(message);
-                                });
+                                Manager.ShowErrorMessage(message);
                             }
                         });
                         Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
@@ -237,9 +235,7 @@ namespace NTMiner.Vms {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);
-                                UIThread.Execute(() => {
-                                    Manager.ShowErrorMessage(message);
-                                });
+                                Manager.ShowErrorMessage(message);
                             }
                         });
                         Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);

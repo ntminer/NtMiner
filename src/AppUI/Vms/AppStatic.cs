@@ -107,18 +107,16 @@ namespace NTMiner.Vms {
                         Key = ServerJsonFileName,
                         Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                     }, (response, exception) => {
-                        UIThread.Execute(() => {
-                            if (response.IsSuccess()) {
-                                foreach (var manager in Managers) {
-                                    manager.ShowSuccessMessage($"刷新成功");
-                                }
+                        if (response.IsSuccess()) {
+                            foreach (var manager in Managers) {
+                                manager.ShowSuccessMessage($"刷新成功");
                             }
-                            else {
-                                foreach (var manager in Managers) {
-                                    manager.ShowErrorMessage($"刷新失败");
-                                }
+                        }
+                        else {
+                            foreach (var manager in Managers) {
+                                manager.ShowErrorMessage($"刷新失败");
                             }
-                        });
+                        }
                     });
                 }, icon: "Icon_Confirm");
             }
@@ -270,11 +268,9 @@ namespace NTMiner.Vms {
                                         callback?.Invoke();
                                     }
                                     else {
-                                        UIThread.Execute(() => {
-                                            foreach (var manager in Managers) {
-                                                manager.ShowErrorMessage(message);
-                                            }
-                                        });
+                                        foreach (var manager in Managers) {
+                                            manager.ShowErrorMessage(message);
+                                        }
                                         callback?.Invoke();
                                     }
                                 }

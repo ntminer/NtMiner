@@ -20,14 +20,12 @@ namespace NTMiner.Vms {
 
         public CoinProfileViewModel(ICoinProfile innerProfile) {
             _inner = innerProfile;
-            this.CopyWallet = new DelegateCommand(() =>
-            {
+            this.CopyWallet = new DelegateCommand(() => {
                 string wallet = this.Wallet ?? "无";
                 Clipboard.SetDataObject(wallet);
                 MainWindowViewModel.Current.Manager.ShowSuccessMessage("复制成功：" + wallet);
             });
-            this.CopyDualCoinWallet = new DelegateCommand(() =>
-            {
+            this.CopyDualCoinWallet = new DelegateCommand(() => {
                 string wallet = this.DualCoinWallet ?? "无";
                 Clipboard.SetDataObject(wallet);
                 MainWindowViewModel.Current.Manager.ShowSuccessMessage("复制成功：" + wallet);
@@ -44,8 +42,7 @@ namespace NTMiner.Vms {
             this.ShowDualCoinWallet = new DelegateCommand(() => {
                 this.IsDualCoinHideWallet = false;
             });
-            this.AddWallet = new DelegateCommand(() =>
-            {
+            this.AddWallet = new DelegateCommand(() => {
                 CoinViewModel coinVm;
                 if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                     Guid id = Guid.NewGuid();
@@ -61,8 +58,7 @@ namespace NTMiner.Vms {
                     }
                 }
             });
-            this.AddDualCoinWallet = new DelegateCommand(() =>
-            {
+            this.AddDualCoinWallet = new DelegateCommand(() => {
                 CoinViewModel coinVm;
                 if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                     Guid id = Guid.NewGuid();

@@ -231,9 +231,6 @@
 							Style="{StaticResource LblTb}"
 							ToolTip="{DynamicResource MainWallet}"
 							Text="{DynamicResource MainWallet}" />
-						<TextBox 
-							Visibility="Collapsed" 
-							Text="{Binding ElementName=CbMainWallet, Path=Text}" TextChanged="TbMainWallet_TextChanged"></TextBox>
 						<controls:KbComboBox 
 							Height="40"
 							BorderThickness="0"
@@ -699,7 +696,6 @@
 										ToolTip="{DynamicResource DualWallet}"
 										Text="{DynamicResource DualWallet}" />
 									<DockPanel IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
-										<TextBox Visibility="Collapsed" Text="{Binding ElementName=CbDualCoinWallet, Path=Text}" TextChanged="TbDualCoinWallet_TextChanged"></TextBox>
 										<controls:KbComboBox 
 											Height="40"
 											BorderThickness="0"

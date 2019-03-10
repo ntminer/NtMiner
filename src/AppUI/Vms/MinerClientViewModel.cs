@@ -94,7 +94,9 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         if (response != null) {
                             Write.UserLine(response.Description, ConsoleColor.Red);
-                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
+                            UIThread.Execute(() => {
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
+                            });
                         }
                     }
                 });
@@ -120,9 +122,7 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
-                        UIThread.Execute(() => {
-                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
-                        });
+                        MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response?.Description);
                     }
                 });
                 Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
@@ -133,9 +133,7 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
-                        UIThread.Execute(() => {
-                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
-                        });
+                        MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response?.Description);
                     }
                 });
                 Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
