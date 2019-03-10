@@ -10,10 +10,9 @@ namespace NTMiner {
 
         public static string ReadDaemonUsersJsonFile() {
             if (File.Exists(DaemonUsersJsonFileFullName)) {
-                return string.Empty;
+                return File.ReadAllText(DaemonUsersJsonFileFullName);
             }
-
-            return File.ReadAllText(DaemonUsersJsonFileFullName);
+            return string.Empty;
         }
     }
 }

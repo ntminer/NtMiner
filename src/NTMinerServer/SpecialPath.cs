@@ -20,6 +20,24 @@ namespace NTMiner {
         public static string GetMineWorkServerJsonFileFullName(Guid workId) {
             return Path.Combine(MineWorksDirFullName, workId + ".server");
         }
+
+        public static string ReadMineWorkLocalJsonFile(Guid workId) {
+            string fileFullName = GetMineWorkLocalJsonFileFullName(workId);
+            if (File.Exists(fileFullName)) {
+                return File.ReadAllText(fileFullName);
+            }
+
+            return string.Empty;
+        }
+
+        public static string ReadMineWorkServerJsonFile(Guid workId) {
+            string fileFullName = GetMineWorkServerJsonFileFullName(workId);
+            if (File.Exists(fileFullName)) {
+                return File.ReadAllText(fileFullName);
+            }
+
+            return string.Empty;
+        }
         public static string MineWorksDirFullName { get; private set; }
         public static string LocalDbFileFullName { get; private set; }
     }

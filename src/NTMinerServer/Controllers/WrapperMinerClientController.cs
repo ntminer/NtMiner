@@ -67,14 +67,8 @@ namespace NTMiner.Controllers {
                 string localJson = string.Empty, serverJson = string.Empty;
                 Guid workId = request.InnerRequest.WorkId;
                 if (workId != Guid.Empty) {
-                    string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(workId);
-                    if (File.Exists(localJsonFileFullName)) {
-                        localJson = File.ReadAllText(localJsonFileFullName);
-                    }
-                    string serverJsonFileFullName = SpecialPath.GetMineWorkServerJsonFileFullName(workId);
-                    if (File.Exists(serverJsonFileFullName)) {
-                        serverJson = File.ReadAllText(serverJsonFileFullName);
-                    }
+                    localJson = SpecialPath.ReadMineWorkLocalJsonFile(workId);
+                    serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest() {
                     MessageId = request.InnerRequest.MessageId,
@@ -155,14 +149,8 @@ namespace NTMiner.Controllers {
                 string localJson = string.Empty, serverJson = string.Empty;
                 Guid workId = request.InnerRequest.WorkId;
                 if (workId != Guid.Empty) {
-                    string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(workId);
-                    if (File.Exists(localJsonFileFullName)) {
-                        localJson = File.ReadAllText(localJsonFileFullName);
-                    }
-                    string serverJsonFileFullName = SpecialPath.GetMineWorkServerJsonFileFullName(workId);
-                    if (File.Exists(serverJsonFileFullName)) {
-                        serverJson = File.ReadAllText(serverJsonFileFullName);
-                    }
+                    localJson = SpecialPath.ReadMineWorkLocalJsonFile(workId);
+                    serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest {
                     MessageId = request.InnerRequest.MessageId,
@@ -201,14 +189,8 @@ namespace NTMiner.Controllers {
                 string localJson = string.Empty, serverJson = string.Empty;
                 Guid workId = request.InnerRequest.WorkId;
                 if (workId != Guid.Empty) {
-                    string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(workId);
-                    if (File.Exists(localJsonFileFullName)) {
-                        localJson = File.ReadAllText(localJsonFileFullName);
-                    }
-                    string serverJsonFileFullName = SpecialPath.GetMineWorkServerJsonFileFullName(workId);
-                    if (File.Exists(serverJsonFileFullName)) {
-                        serverJson = File.ReadAllText(serverJsonFileFullName);
-                    }
+                    localJson = SpecialPath.ReadMineWorkLocalJsonFile(workId);
+                    serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest {
                     LoginName = request.InnerRequest.LoginName,
