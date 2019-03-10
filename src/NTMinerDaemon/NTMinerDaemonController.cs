@@ -149,10 +149,18 @@ namespace NTMiner {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
-                File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
-                if (IsNTMinerOpened(request.WorkId)) {
-                    ShowMainWindowAsync(callback: null);
+
+                if (request.WorkId != Guid.Empty) {
+                    File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
+                    File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
+                }
+                if (IsNTMinerOpened()) {
+                    if (request.WorkId != Guid.Empty) {
+                        // TODO:请求客户端切换至给定的作业
+                    }
+                    else {
+                        ShowMainWindowAsync(callback: null);
+                    }
                     return ResponseBase.Ok(request.MessageId);
                 }
                 string location = NTMinerRegistry.GetLocation();
@@ -171,23 +179,12 @@ namespace NTMiner {
             }
         }
 
-        private static bool IsNTMinerOpened(Guid workId) {
+        private static bool IsNTMinerOpened() {
             string location = NTMinerRegistry.GetLocation();
             if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                 string processName = Path.GetFileNameWithoutExtension(location);
                 Process[] processes = Process.GetProcessesByName(processName);
-                if (processes.Length != 0) {
-                    if (workId != Guid.Empty) {
-                        string oldArguments = NTMinerRegistry.GetArguments();
-                        string arguments = "workid=" + workId.ToString();
-                        if (oldArguments.IndexOf(arguments, StringComparison.OrdinalIgnoreCase) != -1) {
-                            return true;
-                        }
-                    }
-                    else {
-                        return true;
-                    }
-                }
+                return processes.Length != 0;
             }
             return false;
         }
@@ -206,10 +203,13 @@ namespace NTMiner {
                 if (user == null) {
                     return ResponseBase.Forbidden(request.MessageId);
                 }
-                File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
-                File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
+
+                if (request.WorkId != Guid.Empty) {
+                    File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
+                    File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
+                }
                 string location = NTMinerRegistry.GetLocation();
-                if (IsNTMinerOpened(request.WorkId)) {
+                if (IsNTMinerOpened()) {
                     using (HttpClient client = new HttpClient()) {
                         WorkRequest innerRequest = new WorkRequest {
                             LoginName = request.LoginName,
@@ -253,11 +253,14 @@ namespace NTMiner {
             if (user == null) {
                 return ResponseBase.Forbidden(request.MessageId);
             }
-            File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
-            File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
+
+            if (request.WorkId != Guid.Empty) {
+                File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
+                File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
+            }
             Task.Factory.StartNew(() => {
                 try {
-                    if (IsNTMinerOpened(Guid.Empty)) {
+                    if (IsNTMinerOpened()) {
                         DoCloseNTMiner();
                         System.Threading.Thread.Sleep(1000);
                     }
