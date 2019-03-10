@@ -2,14 +2,14 @@
 using System.Text;
 
 namespace NTMiner.Profile {
-    public class PoolProfileRequest : RequestBase, ISignatureRequest {
-        public PoolProfileRequest() { }
+    public class WorkProfileRequest : RequestBase, ISignatureRequest {
+        public WorkProfileRequest() { }
 
         public string LoginName { get; set; }
 
         public Guid WorkId { get; set; }
 
-        public Guid PoolId { get; set; }
+        public Guid DataId { get; set; }
 
         public string Sign { get; set; }
 
@@ -22,7 +22,7 @@ namespace NTMiner.Profile {
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(WorkId)).Append(WorkId)
-                .Append(nameof(PoolId)).Append(PoolId)
+                .Append(nameof(DataId)).Append(DataId)
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(UserData.Password)).Append(password);
             return HashUtil.Sha1(sb.ToString());

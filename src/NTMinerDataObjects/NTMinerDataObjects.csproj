@@ -111,9 +111,8 @@
     <Compile Include="Daemon\UpgradeNTMinerRequest.cs" />
     <Compile Include="Core\PoolData.cs" />
     <Compile Include="Profile\CoinKernelProfileData.cs" />
-    <Compile Include="Profile\CoinKernelProfileRequest.cs" />
+    <Compile Include="Profile\WorkProfileRequest.cs" />
     <Compile Include="Profile\CoinProfileData.cs" />
-    <Compile Include="Profile\CoinProfileRequest.cs" />
     <Compile Include="MinerServer\CoinSnapshotData.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="MinerServer\GetCoinSnapshotsRequest.cs" />
@@ -145,7 +144,6 @@
     <Compile Include="MinerServer\NTMinerUrlRequest.cs" />
     <Compile Include="MinerServer\PackageUrlRequest.cs" />
     <Compile Include="Profile\PoolProfileData.cs" />
-    <Compile Include="Profile\PoolProfileRequest.cs" />
     <Compile Include="Daemon\StartNoDevFeeRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MinerServer\QueryClientsRequest.cs" />

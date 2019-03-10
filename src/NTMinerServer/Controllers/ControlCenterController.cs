@@ -467,7 +467,7 @@ namespace NTMiner.Controllers {
 
         #region CoinProfile
         [HttpPost]
-        public DataResponse<CoinProfileData> CoinProfile([FromBody]CoinProfileRequest request) {
+        public DataResponse<CoinProfileData> CoinProfile([FromBody]WorkProfileRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<CoinProfileData>>(Guid.Empty, "参数错误");
             }
@@ -476,7 +476,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                var data = HostRoot.Current.MineProfileManager.GetCoinProfile(request.WorkId, request.CoinId);
+                var data = HostRoot.Current.MineProfileManager.GetCoinProfile(request.WorkId, request.DataId);
                 return DataResponse<CoinProfileData>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
@@ -488,7 +488,7 @@ namespace NTMiner.Controllers {
 
         #region PoolProfile
         [HttpPost]
-        public DataResponse<PoolProfileData> PoolProfile([FromBody]PoolProfileRequest request) {
+        public DataResponse<PoolProfileData> PoolProfile([FromBody]WorkProfileRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<PoolProfileData>>(Guid.Empty, "参数错误");
             }
@@ -497,7 +497,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                var data = HostRoot.Current.MineProfileManager.GetPoolProfile(request.WorkId, request.PoolId);
+                var data = HostRoot.Current.MineProfileManager.GetPoolProfile(request.WorkId, request.DataId);
                 return DataResponse<PoolProfileData>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
@@ -509,7 +509,7 @@ namespace NTMiner.Controllers {
 
         #region CoinKernelProfile
         [HttpPost]
-        public DataResponse<CoinKernelProfileData> CoinKernelProfile([FromBody]CoinKernelProfileRequest request) {
+        public DataResponse<CoinKernelProfileData> CoinKernelProfile([FromBody]WorkProfileRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<CoinKernelProfileData>>(Guid.Empty, "参数错误");
             }
@@ -518,7 +518,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                var data = HostRoot.Current.MineProfileManager.GetCoinKernelProfile(request.WorkId, request.CoinKernelId);
+                var data = HostRoot.Current.MineProfileManager.GetCoinKernelProfile(request.WorkId, request.DataId);
                 return DataResponse<CoinKernelProfileData>.Ok(request.MessageId, data);
             }
             catch (Exception e) {

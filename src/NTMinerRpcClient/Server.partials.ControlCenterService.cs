@@ -448,10 +448,10 @@ namespace NTMiner {
             /// <returns></returns>
             public CoinProfileData GetCoinProfile(Guid workId, Guid coinId) {
                 try {
-                    CoinProfileRequest request = new CoinProfileRequest {
+                    WorkProfileRequest request = new WorkProfileRequest {
                         LoginName = SingleUser.LoginName,
                         WorkId = workId,
-                        CoinId = coinId
+                        DataId = coinId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<CoinProfileData> response = Request<DataResponse<CoinProfileData>>(s_controllerName, nameof(IControlCenterController.CoinProfile), request);
@@ -476,10 +476,10 @@ namespace NTMiner {
             /// <returns></returns>
             public PoolProfileData GetPoolProfile(Guid workId, Guid poolId) {
                 try {
-                    PoolProfileRequest request = new PoolProfileRequest {
+                    WorkProfileRequest request = new WorkProfileRequest {
                         LoginName = SingleUser.LoginName,
                         WorkId = workId,
-                        PoolId = poolId
+                        DataId = poolId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<PoolProfileData> response = Request<DataResponse<PoolProfileData>>(s_controllerName, nameof(IControlCenterController.PoolProfile), request);
@@ -504,10 +504,10 @@ namespace NTMiner {
             /// <returns></returns>
             public CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId) {
                 try {
-                    CoinKernelProfileRequest request = new CoinKernelProfileRequest {
+                    WorkProfileRequest request = new WorkProfileRequest {
                         LoginName = SingleUser.LoginName,
                         WorkId = workId,
-                        CoinKernelId = coinKernelId
+                        DataId = coinKernelId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<CoinKernelProfileData> response = Request<DataResponse<CoinKernelProfileData>>(s_controllerName, nameof(IControlCenterController.CoinKernelProfile), request);

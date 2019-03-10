@@ -27,9 +27,9 @@ namespace NTMiner.Controllers {
 
         DataResponse<List<MineWorkData>> MineWorks(SignatureRequest request);
         DataResponse<MinerProfileData> MinerProfile(DataRequest<Guid> request);
-        DataResponse<CoinProfileData> CoinProfile(CoinProfileRequest request);
-        DataResponse<PoolProfileData> PoolProfile(PoolProfileRequest request);
-        DataResponse<CoinKernelProfileData> CoinKernelProfile(CoinKernelProfileRequest request);
+        DataResponse<CoinProfileData> CoinProfile(WorkProfileRequest request);
+        DataResponse<PoolProfileData> PoolProfile(WorkProfileRequest request);
+        DataResponse<CoinKernelProfileData> CoinKernelProfile(WorkProfileRequest request);
 
         ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request);
         ResponseBase SetCoinProfileProperty(SetCoinProfilePropertyRequest request);
