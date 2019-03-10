@@ -8,6 +8,7 @@ namespace NTMiner {
                 Directory.CreateDirectory(daemonDirFullName);
             }
             DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");
+            DaemonUsersJsonFileFullName = Path.Combine(daemonDirFullName, "users.json");
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
             TempDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Temp");
@@ -46,6 +47,10 @@ namespace NTMiner {
             File.WriteAllText(LocalJsonFileFullName, json);
         }
 
+        public static void WriteDaemonUsersJsonFile(string json) {
+            File.WriteAllText(DaemonUsersJsonFileFullName, json);
+        }
+
         public static string LocalDbFileFullName { get; private set; }
         public static string LocalJsonFileFullName { get; private set; }
         public static string ServerDbFileFullName { get; private set; }
@@ -53,6 +58,8 @@ namespace NTMiner {
         public static string ServerJsonFileFullName { get; private set; }
 
         public static string DaemonFileFullName { get; private set; }
+
+        public static string DaemonUsersJsonFileFullName { get; private set; }
 
         public static string DevConsoleFileFullName { get; private set; }
 

@@ -411,7 +411,7 @@ namespace NTMiner {
                     }
                 }
                 string json = VirtualRoot.JsonSerializer.Serialize(users);
-                File.WriteAllText(Path.Combine(Path.GetDirectoryName(SpecialPath.DaemonFileFullName), "users.json"), json);
+                SpecialPath.WriteDaemonUsersJsonFile(json);
                 Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
             }
             catch (Exception e) {
@@ -559,10 +559,7 @@ namespace NTMiner {
                     Write.UserLine("没有填写钱包地址。", ConsoleColor.Red);
                     return;
                 }
-                IMineContext mineContext = this.CreateMineContext(
-                        GetMinerName(),
-                        mainCoin, mainCoinPool, kernel, coinKernel,
-                        coinProfile.Wallet);
+                IMineContext mineContext = new MineContext(GetMinerName(), mainCoin, mainCoinPool, kernel, coinKernel, coinProfile.Wallet);
                 ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(coinKernel.GetId());
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     ICoin dualCoin;
@@ -583,7 +580,7 @@ namespace NTMiner {
                         Write.UserLine("没有填写双挖钱包。", ConsoleColor.Red);
                         return;
                     }
-                    mineContext = this.CreateDualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
+                    mineContext = new DualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
                 }
                 if (_currentMineContext != null) {
                     this.StopMine();
@@ -756,24 +753,5 @@ namespace NTMiner {
         public IKernelOutputFilterSet KernelOutputFilterSet { get; private set; }
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
-
-        public IMineContext CreateMineContext(
-            string minerName,
-            ICoin mainCoin,
-            IPool mainCoinPool,
-            IKernel kernel,
-            ICoinKernel coinKernel,
-            string mainCoinWallet) {
-            return new MineContext(minerName, mainCoin, mainCoinPool, kernel, coinKernel, mainCoinWallet);
-        }
-
-        public IDualMineContext CreateDualMineContext(
-            IMineContext mineContext,
-            ICoin dualCoin,
-            IPool dualCoinPool,
-            string dualCoinWallet,
-            double dualCoinWeight) {
-            return new DualMineContext(mineContext, dualCoin, dualCoinPool, dualCoinWallet, dualCoinWeight);
-        }
     }
 }

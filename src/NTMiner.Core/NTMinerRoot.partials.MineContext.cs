@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Kernels;
 using System;
 
 namespace NTMiner {
@@ -23,11 +22,6 @@ namespace NTMiner {
                 this.ProcessDisappearedCound = 0;
                 this.CreatedOn = DateTime.Now;
                 this.PipeFileName = "pip_" + DateTime.Now.Ticks.ToString() + ".log";
-            }
-
-            public MineContext(IMineContext mineContext) :
-                this(mineContext.MinerName, mineContext.MainCoin, mineContext.MainCoinPool,
-                    mineContext.Kernel, mineContext.CoinKernel, mineContext.MainCoinWallet) {
             }
 
             public Guid Id { get; private set; }
