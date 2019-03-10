@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MinerClientViewModel : ViewModelBase, IClientData {
@@ -371,6 +372,8 @@ namespace NTMiner.Vms {
         }
 
         private MinerGroupViewModel _selectedMinerGroup;
+        private SolidColorBrush _tempForeground;
+
         public MinerGroupViewModel SelectedMinerGroup {
             get {
                 if (_selectedMinerGroup == null || _selectedMinerGroup.Id != GroupId) {
@@ -820,8 +823,20 @@ namespace NTMiner.Vms {
             get { return $"{GpuTable.Sum(a => a.PowerUsage).ToString("f0")}W"; }
         }
 
+        public uint MaxTemp {
+            get { return GpuTable.Max(a => a.Temperature); }
+        }
+
         public string MaxTempText {
             get { return GpuTable.Max(a => a.Temperature).ToString("f0") + "℃"; }
+        }
+
+        public SolidColorBrush TempForeground {
+            get => _tempForeground;
+            set {
+                _tempForeground = value;
+                OnPropertyChanged(nameof(TempForeground));
+            }
         }
 
         public GpuSpeedData[] GpuTable {
@@ -831,6 +846,7 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuTable));
                 OnPropertyChanged(nameof(GpuTableTrs));
                 OnPropertyChanged(nameof(TotalPowerText));
+                OnPropertyChanged(nameof(MaxTemp));
                 OnPropertyChanged(nameof(MaxTempText));
                 OnPropertyChanged(nameof(GpuCount));
             }

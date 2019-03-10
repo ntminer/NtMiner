@@ -21,6 +21,7 @@
     <converters:ByteToGbConverter x:Key="ByteToGbConverter" />
     <converters:ByteToMbConverter x:Key="ByteToMbConverter" />
     <converters:ConsoleColorToMediaColorConverter x:Key="ConsoleColorToMediaColorConverter" />
+    <converters:GreatToVisibleConverter x:Key="GreatToVisibleConverter" />
 
     <SolidColorBrush x:Key="IconFillColor">#1976AC</SolidColorBrush>
     <SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
