@@ -32,7 +32,8 @@ namespace NTMiner.Data {
             string dualCoinWallet,
             string version,
             string kernel,
-            out int total);
+            out int total,
+            out int miningCount);
 
         ClientData LoadClient(Guid clientId, bool isPull);
     }

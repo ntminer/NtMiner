@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private MinuteItem _lastActivedOn;
-        private ObservableCollection<MinerClientViewModel> _minerClients = null;
+        private ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
         private int _minerClientPageIndex = 1;
         private int _minerClientPageSize = 20;
         private int _minerClientTotal;
@@ -44,6 +44,7 @@ namespace NTMiner.Vms {
         private MinerGroupViewModel _selectedMinerGroup;
         private bool _isPull = false;
         private INotificationMessageManager _manager;
+        private int _miningCount;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -186,25 +187,24 @@ namespace NTMiner.Vms {
                 }
             });
             this.StopMine = new DelegateCommand(() => {
-                if (this.MinerClients == null) {
-                    return;
-                }
                 var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
                 if (checkedItems.Length == 0) {
                     ShowNoRecordSelected();
                 }
                 else {
-                    foreach (var item in checkedItems) {
-                        item.IsMining = false;
-                        Server.MinerClientService.StopMineAsync(item, (response, e) => {
-                            if (!response.IsSuccess()) {
-                                string message = $"{item.MinerIp} {response?.Description}";
-                                Write.UserLine(message, ConsoleColor.Red);
-                                Manager.ShowErrorMessage(message);
-                            }
-                        });
-                        Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
-                    }
+                    DialogWindow.ShowDialog(message: $"确定停止挖矿选中的挖矿端吗？", title: "确认", onYes: () => {
+                        foreach (var item in checkedItems) {
+                            item.IsMining = false;
+                            Server.MinerClientService.StopMineAsync(item, (response, e) => {
+                                if (!response.IsSuccess()) {
+                                    string message = $"{item.MinerIp} {response?.Description}";
+                                    Write.UserLine(message, ConsoleColor.Red);
+                                    Manager.ShowErrorMessage(message);
+                                }
+                            });
+                            Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
+                        }
+                    }, icon: "Icon_Confirm");
                 }
             });
             this.PageUp = new DelegateCommand(() => {
@@ -380,6 +380,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int MiningCount {
+            get => _miningCount;
+            set {
+                _miningCount = value;
+                OnPropertyChanged(nameof(MiningCount));
+            }
+        }
+
         public void QueryMinerClients() {
             int total = _minerClientTotal;
             Guid? groupId = null;
@@ -444,29 +452,25 @@ namespace NTMiner.Vms {
                     if (response != null) {
                         UIThread.Execute(() => {
                             if (response.Data.Count == 0) {
-                                this.MinerClients = new ObservableCollection<MinerClientViewModel>();
+                                this.MinerClients.Clear();
                             }
                             else {
-                                if (this.MinerClients == null) {
-                                    this.MinerClients = new ObservableCollection<MinerClientViewModel>(response.Data.Select(a => new MinerClientViewModel(a)));
+                                var toRemoves = this.MinerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
+                                foreach (var item in toRemoves) {
+                                    this.MinerClients.Remove(item);
                                 }
-                                else {
-                                    var toRemoves = this.MinerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
-                                    foreach (var item in toRemoves) {
-                                        this.MinerClients.Remove(item);
+                                foreach (var item in this.MinerClients) {
+                                    ClientData data = response.Data.FirstOrDefault(a => a.Id == item.Id);
+                                    if (data != null) {
+                                        item.Update(data);
                                     }
-                                    foreach (var item in this.MinerClients) {
-                                        ClientData data = response.Data.FirstOrDefault(a => a.Id == item.Id);
-                                        if (data != null) {
-                                            item.Update(data);
-                                        }
-                                    }
-                                    var toAdds = response.Data.Where(a => this.MinerClients.All(b => b.Id != a.Id));
-                                    foreach (var item in toAdds) {
-                                        this.MinerClients.Add(new MinerClientViewModel(item));
-                                    }
+                                }
+                                var toAdds = response.Data.Where(a => this.MinerClients.All(b => b.Id != a.Id));
+                                foreach (var item in toAdds) {
+                                    this.MinerClients.Add(new MinerClientViewModel(item));
                                 }
                             }
+                            MiningCount = response.MiningCount;
                             RefreshPagingUI(response.Total);
                         });
                     }
@@ -494,12 +498,6 @@ namespace NTMiner.Vms {
         public ObservableCollection<MinerClientViewModel> MinerClients {
             get {
                 return _minerClients;
-            }
-            private set {
-                if (_minerClients != value) {
-                    _minerClients = value;
-                    OnPropertyChanged(nameof(MinerClients));
-                }
             }
         }
 

@@ -155,7 +155,8 @@ namespace NTMiner.Data.Impl {
             string dualCoinWallet,
             string version,
             string kernel,
-            out int total) {
+            out int total,
+            out int miningCount) {
             HostRoot.IsPull = isPull;
             InitOnece();
             lock (_locker) {
@@ -218,6 +219,7 @@ namespace NTMiner.Data.Impl {
                     query = query.Where(a => a.Kernel != null && a.Kernel.StartsWith(kernel, StringComparison.OrdinalIgnoreCase));
                 }
                 total = query.Count();
+                miningCount = query.Count(a => a.IsMining);
                 var results = query.OrderBy(a => a.MinerName).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
                 DateTime time = DateTime.Now.AddMinutes(-3);
                 // 3分钟未上报算力视为0算力

@@ -340,6 +340,8 @@
                 </controls:KbComboBox>
                 <Label Foreground="{StaticResource ThemeForeground}">条，共</Label>
                 <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
+                <Label Foreground="{StaticResource ThemeForeground}">条，挖矿中</Label>
+                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MiningCount}"></TextBlock>
                 <Label Foreground="{StaticResource ThemeForeground}">条</Label>
 
                 <WrapPanel VerticalAlignment="Center">

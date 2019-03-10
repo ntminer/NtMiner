@@ -178,26 +178,28 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 int total;
+                int miningCount;
                 var data = HostRoot.Current.ClientSet.QueryClients(
-                    request.PageIndex, 
-                    request.PageSize, 
-                    request.IsPull,
-                    request.TimeLimit,
-                    request.GroupId, 
-                    request.WorkId,
-                    request.MinerIp, 
-                    request.MinerName, 
-                    request.MineState,
-                    request.MainCoin, 
-                    request.MainCoinPool, 
-                    request.MainCoinWallet,
-                    request.DualCoin, 
-                    request.DualCoinPool, 
-                    request.DualCoinWallet,
-                    request.Version, 
-                    request.Kernel, 
-                    out total) ?? new List<ClientData>();
-                return QueryClientsResponse.Ok(request.MessageId, data, total);
+                               request.PageIndex, 
+                                request.PageSize, 
+                                request.IsPull,
+                                request.TimeLimit,
+                                request.GroupId, 
+                                request.WorkId,
+                                request.MinerIp, 
+                                request.MinerName, 
+                                request.MineState,
+                                request.MainCoin, 
+                                request.MainCoinPool, 
+                                request.MainCoinWallet,
+                                request.DualCoin, 
+                                request.DualCoinPool, 
+                                request.DualCoinWallet,
+                                request.Version, 
+                                request.Kernel, 
+                                out total,
+                                out miningCount) ?? new List<ClientData>();
+                return QueryClientsResponse.Ok(request.MessageId, data, total, miningCount);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
