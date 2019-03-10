@@ -58,21 +58,11 @@ namespace NTMiner {
                     Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
                 }
             });
-            string serverJson = string.Empty;
-            if (File.Exists(SpecialPath.ServerJsonFileFullName)) {
-                serverJson = File.ReadAllText(SpecialPath.ServerJsonFileFullName);
-            }
-            string langJson = string.Empty;
-            if (File.Exists(ClientId.LocalLangJsonFileFullName)) {
-                langJson = File.ReadAllText(ClientId.LocalLangJsonFileFullName);
-            }
+            string serverJson = SpecialPath.ReadServerJsonFile();
+            string langJson = ClientId.ReadLocalLangJsonFile();
             if (CommandLineArgs.WorkId != Guid.Empty) {
                 try {
-                    string localJson = string.Empty;
-                    if (File.Exists(SpecialPath.LocalJsonFileFullName)) {
-                        localJson = File.ReadAllText(SpecialPath.LocalJsonFileFullName);
-                    }
-                    LocalJson.Instance.Init(localJson, SpecialPath.LocalJsonFileFullName);
+                    LocalJson.Instance.Init();
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);

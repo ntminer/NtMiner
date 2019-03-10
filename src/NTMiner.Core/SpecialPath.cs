@@ -16,20 +16,40 @@ namespace NTMiner {
             }
             NTMinerOverClockFileFullName = Path.Combine(TempDirFullName, "NTMinerOverClock.exe");
             ServerDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "server.litedb");
-            ServerJsonFileName = "server.json";
-            ServerJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, ServerJsonFileName);
+            ServerJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "server.json");
 
             LocalDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.litedb");
-            LocalJsonFileName = "local.json";
-            LocalJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, LocalJsonFileName);
+            LocalJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.json");
+        }
+
+        public static string ReadServerJsonFile() {
+            if (File.Exists(ServerJsonFileFullName)) {
+                return File.ReadAllText(ServerJsonFileFullName);
+            }
+
+            return string.Empty;
+        }
+
+        public static void WriteServerJsonFile(string json) {
+            File.WriteAllText(ServerJsonFileFullName, json);
+        }
+
+        public static string ReadLocalJsonFile() {
+            if (File.Exists(LocalJsonFileFullName)) {
+                return File.ReadAllText(LocalJsonFileFullName);
+            }
+
+            return string.Empty;
+        }
+
+        public static void WriteLocalJsonFile(string json) {
+            File.WriteAllText(LocalJsonFileFullName, json);
         }
 
         public static string LocalDbFileFullName { get; private set; }
-        public static string LocalJsonFileName { get; private set; }
         public static string LocalJsonFileFullName { get; private set; }
         public static string ServerDbFileFullName { get; private set; }
 
-        public static string ServerJsonFileName { get; private set; }
         public static string ServerJsonFileFullName { get; private set; }
 
         public static string DaemonFileFullName { get; private set; }
@@ -40,60 +60,60 @@ namespace NTMiner {
 
         public static string TempDirFullName { get; private set; }
 
-        private static bool s_isFirstCallPackageDirFullName = true;
+        private static bool _sIsFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {
                 string dirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Packages");
-                if (s_isFirstCallPackageDirFullName) {
+                if (_sIsFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    s_isFirstCallPackageDirFullName = false;
+                    _sIsFirstCallPackageDirFullName = false;
                 }
 
                 return dirFullName;
             }
         }
 
-        private static bool s_isFirstCallDownloadDirFullName = true;
+        private static bool _sIsFirstCallDownloadDirFullName = true;
         public static string DownloadDirFullName {
             get {
                 string dirFullName = Path.Combine(TempDirFullName, "Download");
-                if (s_isFirstCallDownloadDirFullName) {
+                if (_sIsFirstCallDownloadDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    s_isFirstCallDownloadDirFullName = false;
+                    _sIsFirstCallDownloadDirFullName = false;
                 }
 
                 return dirFullName;
             }
         }
 
-        private static bool s_isFirstCallKernelsDirFullName = true;
+        private static bool _sIsFirstCallKernelsDirFullName = true;
         public static string KernelsDirFullName {
             get {
                 string dirFullName = Path.Combine(TempDirFullName, "Kernels");
-                if (s_isFirstCallKernelsDirFullName) {
+                if (_sIsFirstCallKernelsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    s_isFirstCallKernelsDirFullName = false;
+                    _sIsFirstCallKernelsDirFullName = false;
                 }
 
                 return dirFullName;
             }
         }
 
-        private static bool s_isFirstCallLogsDirFullName = true;
+        private static bool _sIsFirstCallLogsDirFullName = true;
         public static string LogsDirFullName {
             get {
                 string dirFullName = Path.Combine(TempDirFullName, "logs");
-                if (s_isFirstCallLogsDirFullName) {
+                if (_sIsFirstCallLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    s_isFirstCallLogsDirFullName = false;
+                    _sIsFirstCallLogsDirFullName = false;
                 }
 
                 return dirFullName;

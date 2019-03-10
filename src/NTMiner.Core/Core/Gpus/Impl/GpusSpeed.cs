@@ -21,13 +21,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     Value = 0,
                     SpeedOn = now
                 }));
-            }
-            GpuSpeed totalGpuSpeed = this._currentGpuSpeed[NTMinerRoot.GpuAllId];
-            var speedExceptTotal = _currentGpuSpeed.Values.Where(a => a != totalGpuSpeed).ToArray();
-            totalGpuSpeed.UpdateMainCoinSpeed(speedExceptTotal.Sum(a => a.MainCoinSpeed.Value), now);
-            totalGpuSpeed.UpdateDualCoinSpeed(speedExceptTotal.Sum(a => a.DualCoinSpeed.Value), now);
-            foreach (var item in _currentGpuSpeed) {
-                _gpuSpeedHistory.Add(item.Key, new List<IGpuSpeed>());
+                _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
             }
             VirtualRoot.On<Per10MinuteEvent>(
                 "周期清除过期的历史算力",

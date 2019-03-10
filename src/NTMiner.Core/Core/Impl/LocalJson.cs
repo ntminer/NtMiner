@@ -2,7 +2,6 @@
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
@@ -29,10 +28,11 @@ namespace NTMiner.Core.Impl {
 
         private readonly object _locker = new object();
         private bool _inited = false;
-        public void Init(string localJson, string localJsonFileFullName) {
+        public void Init() {
             if (!_inited) {
                 lock (_locker) {
                     if (!_inited) {
+                        string localJson = SpecialPath.ReadLocalJsonFile();
                         if (!string.IsNullOrEmpty(localJson)) {
                             try {
                                 LocalJson data = VirtualRoot.JsonSerializer.Deserialize<LocalJson>(localJson);
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Impl {
                                     // 客户端的密码是原始密码的两次sha1+ClientId再sha1
                                     user.Password = HashUtil.Sha1(user.Password + ClientId.Id);
                                 }
-                                File.WriteAllText(localJsonFileFullName, localJson);
+                                SpecialPath.WriteLocalJsonFile(localJson);
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);
@@ -63,9 +63,9 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public void ReInit(string rawJson, string localJsonFileFullName) {
+        public void ReInit() {
             _inited = false;
-            Init(rawJson, localJsonFileFullName);
+            Init();
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {

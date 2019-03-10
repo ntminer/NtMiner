@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner.Core.MinerServer.Impl {
     public class ColumnsShowSet : IColumnsShowSet {
@@ -11,7 +10,6 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public ColumnsShowSet(INTMinerRoot root) {
             _root = root;
-            ICoin coin = root.CoinSet.FirstOrDefault();
             VirtualRoot.Accept<AddColumnsShowCommand>(
                 "添加列显",
                 LogEnum.Console,

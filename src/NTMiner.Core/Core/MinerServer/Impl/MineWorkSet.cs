@@ -11,7 +11,6 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public MineWorkSet(INTMinerRoot root) {
             _root = root;
-            ICoin coin = root.CoinSet.FirstOrDefault();
             VirtualRoot.Accept<AddMineWorkCommand>(
                 "添加工作",
                 LogEnum.Console,

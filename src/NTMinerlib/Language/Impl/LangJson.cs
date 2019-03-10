@@ -34,7 +34,7 @@ namespace NTMiner.Language.Impl {
                                 LangJson data = VirtualRoot.JsonSerializer.Deserialize<LangJson>(rawJson);
                                 this.Langs = data.Langs ?? new Lang[0];
                                 this.LangViewItems = data.LangViewItems ?? new LangViewItem[0];
-                                File.WriteAllText(ClientId.LocalLangJsonFileFullName, rawJson);
+                                ClientId.WriteLocalLangJsonFile(rawJson);
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);

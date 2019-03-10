@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace NTMiner.Core.Profiles.Impl {
     public class KernelProfileSet : IKernelProfileSet {

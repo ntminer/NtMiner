@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
@@ -52,7 +51,7 @@ namespace NTMiner.Core.Impl {
                                 this.SysDics = data.SysDics ?? new SysDicData[0];
                                 this.SysDicItems = data.SysDicItems ?? new SysDicItemData[0];
                                 this.TimeStamp = data.TimeStamp;
-                                File.WriteAllText(SpecialPath.ServerJsonFileFullName, rawJson);
+                                SpecialPath.WriteServerJsonFile(rawJson);
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);
