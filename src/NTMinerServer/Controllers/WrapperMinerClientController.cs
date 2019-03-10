@@ -161,7 +161,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                response = Client.MinerClientService.StopMine(request.ClientIp, request.InnerRequest);
+                response = Client.NTMinerDaemonService.StopMine(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {

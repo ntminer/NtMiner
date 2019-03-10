@@ -186,6 +186,38 @@ namespace NTMiner {
         }
 
         [HttpPost]
+        public ResponseBase StopMine([FromBody]SignatureRequest request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+
+                if (!IsNTMinerOpened()) {
+                    return ResponseBase.Ok(request.MessageId);
+                }
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/StopMine", request);
+                        response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        return response;
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                }
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+
+        [HttpPost]
         public ResponseBase RestartNTMiner([FromBody]WorkRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
@@ -206,7 +238,11 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     if (IsNTMinerOpened()) {
-                        DoCloseNTMiner();
+                        SignatureRequest innerRequest = new SignatureRequest {
+                            LoginName = request.LoginName
+                        };
+                        innerRequest.SignIt(user.Password);
+                        DoCloseNTMiner(innerRequest);
                         System.Threading.Thread.Sleep(1000);
                     }
                     string arguments = NTMinerRegistry.GetArguments();
@@ -250,11 +286,11 @@ namespace NTMiner {
             return ResponseBase.Ok(request.MessageId);
         }
 
-        private void DoCloseNTMiner() {
+        private void DoCloseNTMiner(SignatureRequest request) {
             bool isClosed = false;
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/CloseNTMiner", new RequestBase());
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/CloseNTMiner", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     isClosed = response.IsSuccess();
                 }

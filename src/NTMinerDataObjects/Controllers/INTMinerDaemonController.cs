@@ -12,6 +12,7 @@ namespace NTMiner.Controllers {
         ResponseBase RestartNTMiner(WorkRequest request);
         ResponseBase UpgradeNTMiner(UpgradeNTMinerRequest request);
         ResponseBase StartMine(WorkRequest request);
+        ResponseBase StopMine(SignatureRequest request);
         ResponseBase StartNoDevFee(StartNoDevFeeRequest request);
         ResponseBase StopNoDevFee(RequestBase request);
     }
