@@ -812,12 +812,23 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string TotalPowerText {
+            get { return $"{GpuTable.Sum(a => a.PowerUsage).ToString("f0")}W"; }
+        }
+
+        public string MaxTempText
+        {
+            get { return GpuTable.Max(a => a.Temperature).ToString("f0") + "℃"; }
+        }
+
         public GpuSpeedData[] GpuTable {
             get => _data.GpuTable;
             set {
                 _data.GpuTable = value;
                 OnPropertyChanged(nameof(GpuTable));
                 OnPropertyChanged(nameof(GpuTableTrs));
+                OnPropertyChanged(nameof(TotalPowerText));
+                OnPropertyChanged(nameof(MaxTempText));
             }
         }
 
