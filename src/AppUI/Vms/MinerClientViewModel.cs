@@ -804,6 +804,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int GpuCount {
+            get { return GpuTable.Length; }
+        }
+
         public string GpuDriver {
             get => _data.GpuDriver;
             set {
@@ -828,6 +832,7 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuTableTrs));
                 OnPropertyChanged(nameof(TotalPowerText));
                 OnPropertyChanged(nameof(MaxTempText));
+                OnPropertyChanged(nameof(GpuCount));
             }
         }
 

@@ -1716,6 +1716,8 @@
                                     Data="{StaticResource Icon_AMD}"
                                     Fill="Red"
                                     Stretch="Fill" />
+                                <TextBlock Text=" x "></TextBlock>
+                                <TextBlock Text="{Binding GpuCount}"></TextBlock>
                             </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
