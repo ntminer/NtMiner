@@ -237,7 +237,7 @@ namespace NTMiner {
                         Coin = context.MainCoin.Code,
                         OurWallet = context.MainCoinWallet,
                         TestWallet = context.MainCoin.TestWallet,
-                        KernelName = context.Kernel.FullName
+                        KernelName = context.Kernel.GetFullName()
                     };
                     Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
                     // 启动DevConsole
@@ -363,7 +363,7 @@ namespace NTMiner {
                                 Coin = context.MainCoin.Code,
                                 OurWallet = context.MainCoinWallet,
                                 TestWallet = context.MainCoin.TestWallet,
-                                KernelName = context.Kernel.FullName
+                                KernelName = context.Kernel.GetFullName()
                             };
                             Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
                         }
@@ -604,17 +604,17 @@ namespace NTMiner {
                     Windows.TaskKill.Kill(processName);
                 }
                 if (string.IsNullOrEmpty(kernel.Package)) {
-                    Write.UserLine(kernel.FullName + "没有内核包", ConsoleColor.Red);
+                    Write.UserLine(kernel.GetFullName() + "没有内核包", ConsoleColor.Red);
                     this.StopMine();
                     return;
                 }
                 if (string.IsNullOrEmpty(kernelInput.Args)) {
-                    Write.UserLine(kernel.FullName + "没有配置运行参数", ConsoleColor.Red);
+                    Write.UserLine(kernel.GetFullName() + "没有配置运行参数", ConsoleColor.Red);
                     return;
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    Logger.WarnWriteLine(kernel.FullName + "本地内核包不存在，触发自动下载");
+                    Logger.WarnWriteLine(kernel.GetFullName() + "本地内核包不存在，触发自动下载");
                     if (KernelDownloader == null) {
                         throw new InvalidProgramException("为赋值NTMinerRoot.KernelDownloader");
                     }

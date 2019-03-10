@@ -122,7 +122,7 @@ namespace NTMiner {
                 if (root.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
                     IKernel kernel;
                     if (root.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
-                        data.Kernel = kernel.FullName;
+                        data.Kernel = kernel.GetFullName();
                         ICoinKernelProfile coinKernelProfile = root.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
                         data.IsDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
                         if (coinKernelProfile.IsDualCoinEnabled) {

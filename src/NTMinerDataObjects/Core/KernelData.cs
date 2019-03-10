@@ -1,6 +1,4 @@
-﻿using LiteDB;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 
 namespace NTMiner.Core {
     public class KernelData : IKernel, IDbEntity<Guid> {
@@ -17,13 +15,6 @@ namespace NTMiner.Core {
 
         public string Version { get; set; }
 
-        [JsonIgnore]
-        [BsonIgnore]
-        public string FullName {
-            get {
-                return $"{this.Code}{this.Version}";
-            }
-        }
         public ulong PublishOn { get; set; }
 
         public string Package { get; set; }

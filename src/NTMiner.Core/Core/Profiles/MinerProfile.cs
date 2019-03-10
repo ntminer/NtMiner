@@ -128,7 +128,7 @@ namespace NTMiner.Core.Profiles {
                 }
                 IKernel kernel;
                 if (_root.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
-                    kernelName = kernel.FullName;
+                    kernelName = kernel.GetFullName();
                 }
                 _coinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             }

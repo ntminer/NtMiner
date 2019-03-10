@@ -4,7 +4,6 @@ namespace NTMiner.Core {
     public interface IKernel : IEntity<Guid> {
         string Code { get; }
         string Version { get; }
-        string FullName { get; }
         ulong PublishOn { get; }
         string Package { get; }
         string Sha1 { get; }

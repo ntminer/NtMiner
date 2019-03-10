@@ -35,9 +35,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -61,6 +58,7 @@
     <Compile Include="Core\ISysDic.cs" />
     <Compile Include="Core\ISysDicItem.cs" />
     <Compile Include="Core\KernelData.cs" />
+    <Compile Include="Core\KernelExtension.cs" />
     <Compile Include="Core\KernelInputData.cs" />
     <Compile Include="Core\KernelOutputData.cs" />
     <Compile Include="Core\KernelOutputFilterData.cs" />
