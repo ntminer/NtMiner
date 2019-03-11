@@ -13,7 +13,9 @@ namespace NTMiner {
         public static Func<System.Windows.Forms.Keys, bool> RegHotKey;
         public static string AppName;
         public static bool IsUseDevConsole = false;
+        // ReSharper disable once InconsistentNaming
         public static int OSVirtualMemoryMb;
+        public static string UserKernelCommandLine;
 
         public static readonly int GpuAllId = -1;
 
@@ -23,17 +25,17 @@ namespace NTMiner {
             CurrentVersionTag = ((AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).First()).Description;
         }
 
-        private static readonly NTMinerRoot s_current = new NTMinerRoot();
-        public static readonly INTMinerRoot Current = s_current;
+        private static readonly NTMinerRoot SCurrent = new NTMinerRoot();
+        public static readonly INTMinerRoot Current = SCurrent;
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag;
-        private static string s_jsonFileVersion;
+        private static string _sJsonFileVersion;
         public static string JsonFileVersion {
-            get { return s_jsonFileVersion; }
+            get { return _sJsonFileVersion; }
             set {
-                if (s_jsonFileVersion != value) {
-                    string oldVersion = s_jsonFileVersion;
-                    s_jsonFileVersion = value;
+                if (_sJsonFileVersion != value) {
+                    string oldVersion = _sJsonFileVersion;
+                    _sJsonFileVersion = value;
                     VirtualRoot.Happened(new ServerJsonVersionChangedEvent(oldVersion, value));
                 }
             }

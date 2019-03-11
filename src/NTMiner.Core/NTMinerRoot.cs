@@ -611,6 +611,11 @@ namespace NTMiner {
                 }
                 else {
                     string commandLine = BuildAssembleArgs();
+                    if (commandLine != UserKernelCommandLine) {
+                        Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");
+                        Logger.WarnDebugLine("UserKernelCommandLine  :" + UserKernelCommandLine);
+                        Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
+                    }
                     IMineContext mineContext = new MineContext(GetMinerName(), mainCoin, mainCoinPool, kernel, coinKernel, coinProfile.Wallet, commandLine);
                     if (coinKernelProfile.IsDualCoinEnabled) {
                         mineContext = new DualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);

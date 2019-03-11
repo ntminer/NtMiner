@@ -119,7 +119,9 @@ namespace NTMiner.Vms {
 
         public string ArgsAssembly {
             get {
-                return NTMinerRoot.Current.BuildAssembleArgs();
+                string kernelCommandLine = NTMinerRoot.Current.BuildAssembleArgs();
+                NTMinerRoot.UserKernelCommandLine = kernelCommandLine;
+                return kernelCommandLine;
             }
         }
 

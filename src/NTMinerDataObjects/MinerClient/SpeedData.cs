@@ -74,7 +74,7 @@ namespace NTMiner.MinerClient {
 
         public double DualCoinSpeed { get; set; }
 
-        public string CommandLine { get; set; }
+        public string KernelCommandLine { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }

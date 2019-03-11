@@ -92,6 +92,7 @@ namespace NTMiner {
                 GpuDriver = root.GpuSet.GetProperty("DriverVersion"),
                 GpuType = root.GpuSet.GpuType,
                 OSVirtualMemoryMb = NTMinerRoot.OSVirtualMemoryMb,
+                KernelCommandLine = NTMinerRoot.UserKernelCommandLine,
                 GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
                     Index = a.Gpu.Index,
                     MainCoinSpeed = a.MainCoinSpeed.Value,
@@ -153,6 +154,7 @@ namespace NTMiner {
                 var mineContext = root.CurrentMineContext;
                 if (mineContext != null) {
                     data.MineStartedOn = mineContext.CreatedOn;
+                    data.KernelCommandLine = mineContext.CommandLine;
                 }
                 // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
                 if (_sLastSpeedMainCoin == null || _sLastSpeedMainCoin == root.CurrentMineContext.MainCoin) {
