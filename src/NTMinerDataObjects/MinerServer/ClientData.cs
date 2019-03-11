@@ -50,6 +50,7 @@ namespace NTMiner.MinerServer {
                 DualCoinTotalShare = speedData.DualCoinTotalShare,
                 DualCoinRejectShare = speedData.DualCoinRejectShare,
                 DualCoinSpeed = speedData.DualCoinSpeed,
+                KernelCommandLine = speedData.KernelCommandLine,
                 GpuTable = speedData.GpuTable
             };
         }
@@ -98,6 +99,7 @@ namespace NTMiner.MinerServer {
             this.DualCoinTotalShare = speedData.DualCoinTotalShare;
             this.DualCoinRejectShare = speedData.DualCoinRejectShare;
             this.DualCoinSpeed = speedData.DualCoinSpeed;
+            this.KernelCommandLine = speedData.KernelCommandLine;
             this.GpuTable = speedData.GpuTable;
         }
 
@@ -177,6 +179,8 @@ namespace NTMiner.MinerServer {
         public DateTime ModifiedOn { get; set; }
 
         public Guid GroupId { get; set; }
+
+        public string KernelCommandLine { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }

@@ -782,6 +782,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        // ReSharper disable once InconsistentNaming
         public string OSVirtualMemoryGbText {
             get {
                 return (this.OSVirtualMemoryMb / 1024.0).ToString("f1") + " Gb";
@@ -804,6 +805,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        // ReSharper disable once InconsistentNaming
         public Visibility IsAMDIconVisible {
             get {
                 return GpuType == GpuType.AMD ? Visibility.Visible : Visibility.Collapsed;
@@ -819,6 +821,14 @@ namespace NTMiner.Vms {
             set {
                 _data.GpuDriver = value;
                 OnPropertyChanged(nameof(GpuDriver));
+            }
+        }
+
+        public string KernelCommandLine {
+            get => _data.KernelCommandLine;
+            set {
+                _data.KernelCommandLine = value;
+                OnPropertyChanged(nameof(KernelCommandLine));
             }
         }
 
@@ -906,6 +916,7 @@ namespace NTMiner.Vms {
                 return list.ToArray();
             }
         }
+
         public class GpuRowData : ViewModelBase {
             public static readonly PropertyInfo[] ValueProperties = new PropertyInfo[12];
             public static readonly PropertyInfo[] ForegroundProperties = new PropertyInfo[12];

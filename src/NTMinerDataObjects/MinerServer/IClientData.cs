@@ -57,13 +57,17 @@ namespace NTMiner.MinerServer {
 
         string GpuInfo { get; }
 
+        // ReSharper disable once InconsistentNaming
         string OSName { get; }
 
+        // ReSharper disable once InconsistentNaming
         int OSVirtualMemoryMb { get; }
 
         GpuType GpuType { get; }
 
         string GpuDriver { get; }
+
+        string KernelCommandLine { get; }
 
         GpuSpeedData[] GpuTable { get; }
     }

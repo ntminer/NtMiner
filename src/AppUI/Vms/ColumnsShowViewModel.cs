@@ -43,6 +43,7 @@ namespace NTMiner.Vms {
         private bool _gpuDriver = true;
         private bool _totalPowerText = true;
         private bool _maxTempText = true;
+        private bool _kernelCommandLine = true;
 
         public ICommand Hide { get; private set; }
 
@@ -398,6 +399,14 @@ namespace NTMiner.Vms {
             set {
                 _gpuDriver = value;
                 OnPropertyChanged(nameof(GpuDriver));
+            }
+        }
+
+        public bool KernelCommandLine {
+            get => _kernelCommandLine;
+            set {
+                _kernelCommandLine = value;
+                OnPropertyChanged(nameof(KernelCommandLine));
             }
         }
 
