@@ -48,6 +48,7 @@ namespace NTMiner.Vms {
         private uint _maxTemp = 80;
         private int _frozenColumnCount = 9;
         private uint _minTemp = 40;
+        private double _elePrice = 0.56;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -273,6 +274,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public double ElePrice {
+            get => _elePrice;
+            set {
+                _elePrice = Math.Round(value, 2);
+                OnPropertyChanged(nameof(ElePrice));
+            }
+        }
+
         private void RefreshMaxTempForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MaxTemp >= this.MaxTemp) {
@@ -296,9 +305,24 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string TotalPowerText
-        {
+        public string TotalPowerText {
             get { return this.MinerClients.Sum(a => a.TotalPower).ToString("f0") + "W"; }
+        }
+
+        public string IncomeMainCoinUsdPerDayText {
+            get { return this.MinerClients.Sum(a => a.IncomeMainCoinUsdPerDay).ToString("f1"); }
+        }
+
+        public string IncomeMainCoinCnyPerDayText {
+            get { return this.MinerClients.Sum(a => a.IncomeMainCoinCnyPerDay).ToString("f1"); }
+        }
+
+        public string IncomeDualCoinUsdPerDayText {
+            get { return this.MinerClients.Sum(a => a.IncomeDualCoinUsdPerDay).ToString("f1"); }
+        }
+
+        public string IncomeDualCoinCnyPerDayText {
+            get { return this.MinerClients.Sum(a => a.IncomeDualCoinCnyPerDay).ToString("f1"); }
         }
 
         private void ShowNoRecordSelected() {
@@ -530,6 +554,10 @@ namespace NTMiner.Vms {
                             OnPropertyChanged(nameof(MinerClients));
                             RefreshMaxTempForeground();
                             OnPropertyChanged(nameof(TotalPowerText));
+                            OnPropertyChanged(nameof(IncomeMainCoinUsdPerDayText));
+                            OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
+                            OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
+                            OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
                         });
                     }
                 });
