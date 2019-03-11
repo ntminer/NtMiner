@@ -79,6 +79,8 @@ namespace NTMiner.MinerServer {
 
         public bool MaxTempText { get; set; }
 
+        public bool KernelCommandLine { get; set; }
+
         public string GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
@@ -113,7 +115,8 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(GpuType)).Append(GpuType)
                 .Append(nameof(GpuDriver)).Append(GpuDriver)
                 .Append(nameof(TotalPowerText)).Append(TotalPowerText)
-                .Append(nameof(MaxTempText)).Append(MaxTempText);
+                .Append(nameof(MaxTempText)).Append(MaxTempText)
+                .Append(nameof(KernelCommandLine)).Append(KernelCommandLine);
             return sb.ToString();
         }
     }

@@ -125,6 +125,7 @@ namespace NTMiner.Vms {
             _gpuDriver = data.GpuDriver;
             _totalPowerText = data.TotalPowerText;
             _maxTempText = data.MaxTempText;
+            _kernelCommandLine = data.KernelCommandLine;
         }
 
         public bool IsPleaseSelect {
