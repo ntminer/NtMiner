@@ -254,18 +254,22 @@ namespace NTMiner.Vms {
         public uint MaxTemp {
             get => _maxTemp;
             set {
-                _maxTemp = value;
-                OnPropertyChanged(nameof(MaxTemp));
-                RefreshMaxTempForeground();
+                if (value > this.MinTemp && value != _maxTemp) {
+                    _maxTemp = value;
+                    OnPropertyChanged(nameof(MaxTemp));
+                    RefreshMaxTempForeground();
+                }
             }
         }
 
         public uint MinTemp {
             get => _minTemp;
             set {
-                _minTemp = value;
-                OnPropertyChanged(nameof(MinTemp));
-                RefreshMaxTempForeground();
+                if (value < this.MaxTemp && value != _minTemp) {
+                    _minTemp = value;
+                    OnPropertyChanged(nameof(MinTemp));
+                    RefreshMaxTempForeground();
+                }
             }
         }
 
@@ -273,6 +277,9 @@ namespace NTMiner.Vms {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MaxTemp >= this.MaxTemp) {
                     item.TempForeground = MinerClientViewModel.Red;
+                }
+                else if (item.MaxTemp < this.MinTemp) {
+                    item.TempForeground = MinerClientViewModel.Blue;
                 }
                 else {
                     item.TempForeground = MinerClientViewModel.DefaultForeground;
@@ -287,6 +294,11 @@ namespace NTMiner.Vms {
                 _isPull = value;
                 OnPropertyChanged(nameof(IsPull));
             }
+        }
+
+        public string TotalPowerText
+        {
+            get { return this.MinerClients.Sum(a => a.TotalPower).ToString("f0") + "W"; }
         }
 
         private void ShowNoRecordSelected() {
@@ -517,6 +529,7 @@ namespace NTMiner.Vms {
                             // DataGrid没记录时显示无记录
                             OnPropertyChanged(nameof(MinerClients));
                             RefreshMaxTempForeground();
+                            OnPropertyChanged(nameof(TotalPowerText));
                         });
                     }
                 });

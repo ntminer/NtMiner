@@ -833,6 +833,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public uint TotalPower {
+            get { return (uint)GpuTable.Sum(a => a.PowerUsage); }
+        }
+
         public string TotalPowerText {
             get { return $"{GpuTable.Sum(a => a.PowerUsage).ToString("f0")}W"; }
         }
@@ -859,6 +863,7 @@ namespace NTMiner.Vms {
                 _data.GpuTable = value;
                 OnPropertyChanged(nameof(GpuTable));
                 OnPropertyChanged(nameof(GpuTableTrs));
+                OnPropertyChanged(nameof(TotalPower));
                 OnPropertyChanged(nameof(TotalPowerText));
                 OnPropertyChanged(nameof(MaxTemp));
                 OnPropertyChanged(nameof(MaxTempText));
@@ -873,11 +878,10 @@ namespace NTMiner.Vms {
                 if (gpuSpeedData.Temperature >= maxTemp) {
                     propertyInfo.SetValue(GpuTableTempRow, Red, null);
                 }
-                else if(gpuSpeedData.Temperature < minTemp) {
+                else if (gpuSpeedData.Temperature < minTemp) {
                     propertyInfo.SetValue(GpuTableTempRow, Blue, null);
                 }
-                else
-                {
+                else {
                     propertyInfo.SetValue(GpuTableTempRow, DefaultForeground, null);
                 }
             }
@@ -934,14 +938,14 @@ namespace NTMiner.Vms {
                 }
             }
             private SolidColorBrush _gpu0Foreground = DefaultForeground;
-            private SolidColorBrush _gpu1Foreground= DefaultForeground;
-            private SolidColorBrush _gpu2Foreground= DefaultForeground;
-            private SolidColorBrush _gpu3Foreground= DefaultForeground;
-            private SolidColorBrush _gpu4Foreground= DefaultForeground;
-            private SolidColorBrush _gpu5Foreground= DefaultForeground;
-            private SolidColorBrush _gpu6Foreground= DefaultForeground;
-            private SolidColorBrush _gpu7Foreground= DefaultForeground;
-            private SolidColorBrush _gpu8Foreground= DefaultForeground;
+            private SolidColorBrush _gpu1Foreground = DefaultForeground;
+            private SolidColorBrush _gpu2Foreground = DefaultForeground;
+            private SolidColorBrush _gpu3Foreground = DefaultForeground;
+            private SolidColorBrush _gpu4Foreground = DefaultForeground;
+            private SolidColorBrush _gpu5Foreground = DefaultForeground;
+            private SolidColorBrush _gpu6Foreground = DefaultForeground;
+            private SolidColorBrush _gpu7Foreground = DefaultForeground;
+            private SolidColorBrush _gpu8Foreground = DefaultForeground;
             private SolidColorBrush _gpu9Foreground = DefaultForeground;
             private SolidColorBrush _gpu10Foreground = DefaultForeground;
             private SolidColorBrush _gpu11Foreground = DefaultForeground;

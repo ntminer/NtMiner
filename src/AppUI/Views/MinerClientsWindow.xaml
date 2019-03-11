@@ -17,7 +17,7 @@
         WindowStartupLocation="CenterScreen"
         MouseDown="MetroWindow_MouseDown"
         DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
-        mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="2000">
+        mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="3600">
     <metro:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -487,6 +487,7 @@
             Margin="0 2 0 0"
             BorderThickness="0"
             IsReadOnly="False"
+            ColumnHeaderHeight="40"
             FrozenColumnCount="{Binding FrozenColumnCount}"
             ItemsSource="{Binding MinerClients}"
             CanUserResizeRows="True"
@@ -731,12 +732,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock Text="最后更新"></TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="LastActivedOnText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="LastActivedOnText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -753,12 +762,20 @@
                     <DataGridTextColumn.Header>
                         <WrapPanel>
                             <TextBlock>运行时长</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="BootTimeSpanText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="BootTimeSpanText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
@@ -770,12 +787,20 @@
                     <DataGridTextColumn.Header>
                         <WrapPanel>
                             <TextBlock>挖矿时长</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MineTimeSpanText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MineTimeSpanText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
@@ -789,12 +814,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>作业</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Work">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="Work"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -818,12 +851,20 @@
                     <DataGridComboBoxColumn.Header>
                         <WrapPanel>
                             <TextBlock>分组</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerGroup">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MinerGroup"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridComboBoxColumn.Header>
                     <DataGridComboBoxColumn.ElementStyle>
@@ -843,12 +884,20 @@
                     <DataGridTextColumn.Header>
                         <WrapPanel>
                             <TextBlock>矿工名</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerName">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MinerName"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTextColumn.Header>
                     <DataGridTextColumn.ElementStyle>
@@ -874,12 +923,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>IP</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MinerIp">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MinerIp"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -919,12 +976,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>远程桌面用户名</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="WindowsLoginNameAndPassword">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="WindowsLoginNameAndPassword"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -962,12 +1027,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>远程桌面密码</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="WindowsLoginNameAndPassword">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="WindowsLoginNameAndPassword"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -991,12 +1064,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>主挖币种</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinCode">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MainCoinCode"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1017,12 +1098,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>主币算力</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinSpeedText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MainCoinSpeedText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1041,12 +1130,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>拒绝次数</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MainCoinRejectPercentText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1069,12 +1166,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>拒绝率</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinRejectPercentText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MainCoinRejectPercentText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1093,12 +1198,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>双挖币种</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinCode">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="DualCoinCode"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1123,12 +1236,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>双挖算力</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinSpeedText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="DualCoinSpeedText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1153,12 +1274,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>拒绝次数</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinRejectPercentText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="DualCoinRejectPercentText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1181,12 +1310,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>拒绝率</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinRejectPercentText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="DualCoinRejectPercentText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1203,15 +1340,26 @@
                     CanUserSort="False" 
                     IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <WrapPanel>
-                            <TextBlock>总功耗</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="TotalPowerText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
-                        </WrapPanel>
+                        <StackPanel>
+                            <WrapPanel>
+                                <TextBlock>总功耗</TextBlock>
+                                <controls:KbButton
+                                    ToolTip="不展示"
+                                    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                    CommandParameter="TotalPowerText"
+                                    Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+                                            Width="14"
+                                            Height="8"
+                                            Data="{StaticResource Icon_Hide}"
+                                            Fill="#FF5A5A5A"
+                                            Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                            <TextBlock Text="{Binding Data.TotalPowerText,Source={StaticResource proxy}}" FontWeight="Normal"></TextBlock>
+                        </StackPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -1229,12 +1377,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>最高卡温</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MaxTempText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MaxTempText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1253,12 +1409,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>主币预期收益</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IncomeMainCoinPerDayText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="IncomeMainCoinPerDayText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1300,12 +1464,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>双挖币预期收益</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IncomeDualCoinPerDayText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="IncomeDualCoinPerDayText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1347,12 +1519,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>显卡表格</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuTableTrs">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="GpuTableTrs"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1542,12 +1722,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>主币钱包</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinWallet">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MainCoinWallet"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1572,12 +1760,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>主币矿池</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="MainCoinPool">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="MainCoinPool"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1603,12 +1799,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>内核</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Kernel">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="Kernel"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1633,12 +1837,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>双挖钱包</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinWallet">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="DualCoinWallet"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1663,12 +1875,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>双挖矿池</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="DualCoinPool">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="DualCoinPool"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1694,12 +1914,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>客户端版本</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="Version">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="Version"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1718,12 +1946,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>操作系统</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="OSName">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="OSName"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1742,12 +1978,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>虚拟内存</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="OSVirtualMemoryGbText">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="OSVirtualMemoryGbText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1766,12 +2010,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>开机自动启动</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IsAutoBoot">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="IsAutoBoot"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1794,12 +2046,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>启动后自动开始挖矿</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="IsAutoStart">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="IsAutoStart"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1822,12 +2082,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>显卡类型</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuType">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="GpuType"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1867,12 +2135,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>显卡驱动</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuDriver">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="GpuDriver"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1897,12 +2173,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>显卡</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="GpuInfo">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="GpuInfo"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1928,12 +2212,20 @@
                     <DataGridTemplateColumn.Header>
                         <WrapPanel>
                             <TextBlock>内核命令行</TextBlock>
-                            <WrapPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="不展示" Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" CommandParameter="KernelCommandLine">
-                                    </MenuItem>
-                                </ContextMenu>
-                            </WrapPanel.ContextMenu>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="KernelCommandLine"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -1956,11 +2248,11 @@
             <TextBox TextAlignment="Center" Text="{Binding FrozenColumnCount, UpdateSourceTrigger=PropertyChanged}" Width="20" ToolTip="最小值2"></TextBox>
             <TextBlock>列</TextBlock>
         </WrapPanel>
-        <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
+        <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
         <notification:NotificationMessageContainer 
             Margin="0 4 0 0"
             Grid.Row="0"
-            Grid.RowSpan="3"
+            Grid.RowSpan="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             MaxWidth="500"
