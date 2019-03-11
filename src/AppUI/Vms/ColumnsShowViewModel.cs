@@ -149,56 +149,77 @@ namespace NTMiner.Vms {
         public string ColumnsShowName {
             get { return _columnsShowName; }
             set {
-                _columnsShowName = value;
-                OnPropertyChanged(nameof(ColumnsShowName));
+                if (_columnsShowName != value) {
+                    _columnsShowName = value;
+                    OnPropertyChanged(nameof(ColumnsShowName));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool BootTimeSpanText {
             get { return _bootTimeSpanText; }
             set {
-                _bootTimeSpanText = value;
-                OnPropertyChanged(nameof(BootTimeSpanText));
+                if (_bootTimeSpanText != value) {
+                    _bootTimeSpanText = value;
+                    OnPropertyChanged(nameof(BootTimeSpanText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool MineTimeSpanText {
             get { return _mineTimeSpanText; }
             set {
-                _mineTimeSpanText = value;
-                OnPropertyChanged(nameof(MineTimeSpanText));
+                if (_mineTimeSpanText != value) {
+                    _mineTimeSpanText = value;
+                    OnPropertyChanged(nameof(MineTimeSpanText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool Work {
             get => _work;
             set {
-                _work = value;
-                OnPropertyChanged(nameof(Work));
+                if (_work != value) {
+                    _work = value;
+                    OnPropertyChanged(nameof(Work));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool MinerName {
             get { return _minerName; }
             set {
-                _minerName = value;
-                OnPropertyChanged(nameof(MinerName));
+                if (_minerName != value) {
+                    _minerName = value;
+                    OnPropertyChanged(nameof(MinerName));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool MinerIp {
             get { return _minerIp; }
             set {
-                _minerIp = value;
-                OnPropertyChanged(nameof(MinerIp));
+                if (_minerIp != value) {
+                    _minerIp = value;
+                    OnPropertyChanged(nameof(MinerIp));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool MinerGroup {
             get { return _minerGroup; }
             set {
-                _minerGroup = value;
-                OnPropertyChanged(nameof(MinerGroup));
+                if (_minerGroup != value) {
+                    _minerGroup = value;
+                    OnPropertyChanged(nameof(MinerGroup));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
@@ -207,216 +228,307 @@ namespace NTMiner.Vms {
                 return _mainCoinCode;
             }
             set {
-                _mainCoinCode = value;
-                OnPropertyChanged(nameof(MainCoinCode));
+                if (_mainCoinCode != value) {
+                    _mainCoinCode = value;
+                    OnPropertyChanged(nameof(MainCoinCode));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool MainCoinSpeedText {
             get { return _mainCoinSpeedText; }
             set {
-                _mainCoinSpeedText = value;
-                OnPropertyChanged(nameof(MainCoinSpeedText));
+                if (_mainCoinSpeedText != value) {
+                    _mainCoinSpeedText = value;
+                    OnPropertyChanged(nameof(MainCoinSpeedText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool MainCoinRejectPercentText {
             get => _mainCoinRejectPercentText;
             set {
-                _mainCoinRejectPercentText = value;
-                OnPropertyChanged(nameof(MainCoinRejectPercentText));
+                if (_mainCoinRejectPercentText != value) {
+                    _mainCoinRejectPercentText = value;
+                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool GpuTableTrs {
             get { return _gpuTableTrs; }
             set {
-                _gpuTableTrs = value;
-                OnPropertyChanged(nameof(GpuTableTrs));
+                if (_gpuTableTrs != value) {
+                    _gpuTableTrs = value;
+                    OnPropertyChanged(nameof(GpuTableTrs));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool TotalPowerText {
             get => _totalPowerText;
             set {
-                _totalPowerText = value;
-                OnPropertyChanged(nameof(TotalPowerText));
+                if (_totalPowerText != value) {
+                    _totalPowerText = value;
+                    OnPropertyChanged(nameof(TotalPowerText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool MaxTempText {
             get => _maxTempText;
             set {
-                _maxTempText = value;
-                OnPropertyChanged(nameof(MaxTempText));
+                if (_maxTempText != value) {
+                    _maxTempText = value;
+                    OnPropertyChanged(nameof(MaxTempText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool MainCoinWallet {
             get => _mainCoinWallet;
             set {
-                _mainCoinWallet = value;
-                OnPropertyChanged(nameof(MainCoinWallet));
+                if (_mainCoinWallet != value) {
+                    _mainCoinWallet = value;
+                    OnPropertyChanged(nameof(MainCoinWallet));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool MainCoinPool {
             get => _mainCoinPool;
             set {
-                _mainCoinPool = value;
-                OnPropertyChanged(nameof(MainCoinPool));
+                if (_mainCoinPool != value) {
+                    _mainCoinPool = value;
+                    OnPropertyChanged(nameof(MainCoinPool));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool Kernel {
             get => _kernel;
             set {
-                _kernel = value;
-                OnPropertyChanged(nameof(Kernel));
+                if (_kernel != value) {
+                    _kernel = value;
+                    OnPropertyChanged(nameof(Kernel));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
         public bool DualCoinCode {
             get => _dualCoinCode;
             set {
-                _dualCoinCode = value;
-                OnPropertyChanged(nameof(DualCoinCode));
+                if (_dualCoinCode != value) {
+                    _dualCoinCode = value;
+                    OnPropertyChanged(nameof(DualCoinCode));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool DualCoinSpeedText {
             get => _dualCoinSpeedText;
             set {
-                _dualCoinSpeedText = value;
-                OnPropertyChanged(nameof(DualCoinSpeedText));
+                if (_dualCoinSpeedText != value) {
+                    _dualCoinSpeedText = value;
+                    OnPropertyChanged(nameof(DualCoinSpeedText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool DualCoinRejectPercentText {
             get => _dualCoinRejectPercentText;
             set {
-                _dualCoinRejectPercentText = value;
-                OnPropertyChanged(nameof(DualCoinRejectPercentText));
+                if (_dualCoinRejectPercentText != value) {
+                    _dualCoinRejectPercentText = value;
+                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool IncomeMainCoinPerDayText {
             get => _incomeMainCoinPerDayText;
             set {
-                _incomeMainCoinPerDayText = value;
-                OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+                if (_incomeMainCoinPerDayText != value) {
+                    _incomeMainCoinPerDayText = value;
+                    OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool IncomeDualCoinPerDayText {
             get => _incomeDualCoinPerDayText;
             set {
-                _incomeDualCoinPerDayText = value;
-                OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
+                if (_incomeDualCoinPerDayText != value) {
+                    _incomeDualCoinPerDayText = value;
+                    OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool DualCoinWallet {
             get => _dualCoinWallet;
             set {
-                _dualCoinWallet = value;
-                OnPropertyChanged(nameof(DualCoinWallet));
+                if (_dualCoinWallet != value) {
+                    _dualCoinWallet = value;
+                    OnPropertyChanged(nameof(DualCoinWallet));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool DualCoinPool {
             get => _dualCoinPool;
             set {
-                _dualCoinPool = value;
-                OnPropertyChanged(nameof(DualCoinPool));
+                if (_dualCoinPool != value) {
+                    _dualCoinPool = value;
+                    OnPropertyChanged(nameof(DualCoinPool));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool LastActivedOnText {
             get => _lastActivedOnText;
             set {
-                _lastActivedOnText = value;
-                OnPropertyChanged(nameof(LastActivedOnText));
+                if (_lastActivedOnText != value) {
+                    _lastActivedOnText = value;
+                    OnPropertyChanged(nameof(LastActivedOnText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool Version {
             get => _version;
             set {
-                _version = value;
-                OnPropertyChanged(nameof(Version));
+                if (_version != value) {
+                    _version = value;
+                    OnPropertyChanged(nameof(Version));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool IsAutoBoot {
             get => _isAutoBoot;
             set {
-                _isAutoBoot = value;
-                OnPropertyChanged(nameof(IsAutoBoot));
+                if (_isAutoBoot != value) {
+                    _isAutoBoot = value;
+                    OnPropertyChanged(nameof(IsAutoBoot));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool IsAutoStart {
             get => _isAutoStart;
             set {
-                _isAutoStart = value;
-                OnPropertyChanged(nameof(IsAutoStart));
+                if (_isAutoStart != value) {
+                    _isAutoStart = value;
+                    OnPropertyChanged(nameof(IsAutoStart));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool WindowsLoginNameAndPassword {
             get => _windowsLoginNameAndPassword;
             set {
-                _windowsLoginNameAndPassword = value;
-                OnPropertyChanged(nameof(WindowsLoginNameAndPassword));
+                if (_windowsLoginNameAndPassword != value) {
+                    _windowsLoginNameAndPassword = value;
+                    OnPropertyChanged(nameof(WindowsLoginNameAndPassword));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool OSName {
             get => _oSName;
             set {
-                _oSName = value;
-                OnPropertyChanged(nameof(OSName));
+                if (_oSName != value) {
+                    _oSName = value;
+                    OnPropertyChanged(nameof(OSName));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool OSVirtualMemoryGbText {
             get => _oSVirtualMemoryGbText;
             set {
-                _oSVirtualMemoryGbText = value;
-                OnPropertyChanged(nameof(OSVirtualMemoryGbText));
+                if (_oSVirtualMemoryGbText != value) {
+                    _oSVirtualMemoryGbText = value;
+                    OnPropertyChanged(nameof(OSVirtualMemoryGbText));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool GpuType {
             get => _gpuType;
             set {
-                _gpuType = value;
-                OnPropertyChanged(nameof(GpuType));
+                if (_gpuType != value) {
+                    _gpuType = value;
+                    OnPropertyChanged(nameof(GpuType));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool GpuDriver {
             get => _gpuDriver;
             set {
-                _gpuDriver = value;
-                OnPropertyChanged(nameof(GpuDriver));
+                if (_gpuDriver != value) {
+                    _gpuDriver = value;
+                    OnPropertyChanged(nameof(GpuDriver));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool KernelCommandLine {
             get => _kernelCommandLine;
             set {
-                _kernelCommandLine = value;
-                OnPropertyChanged(nameof(KernelCommandLine));
+                if (_kernelCommandLine != value) {
+                    _kernelCommandLine = value;
+                    OnPropertyChanged(nameof(KernelCommandLine));
+                    UpdateColumnsShowAsync();
+                }
             }
         }
 
         public bool GpuInfo {
             get => _gpuInfo;
             set {
-                _gpuInfo = value;
-                OnPropertyChanged(nameof(GpuInfo));
+                if (_gpuInfo != value) {
+                    _gpuInfo = value;
+                    OnPropertyChanged(nameof(GpuInfo));
+                    UpdateColumnsShowAsync();
+                }
             }
+        }
+
+        private void UpdateColumnsShowAsync() {
+            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
+                if (!response.IsSuccess()) {
+                    if (response != null) {
+                        Write.UserLine(response.Description, ConsoleColor.Red);
+                    }
+                }
+            });
         }
     }
 }
