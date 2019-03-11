@@ -313,7 +313,7 @@
 							Background="Transparent" />
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
-							Width="300" ToolTip="数据来自鱼池首页"
+							Width="280" ToolTip="数据来自鱼池首页"
 							Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 							Command="{x:Static vm:AppStatic.ShowCalc}"
 							CommandParameter="{Binding MinerProfile.CoinVm}">
@@ -337,7 +337,7 @@
 									Text="{Binding GpuSpeedVms.IncomeMainCoinUsdPerDayText}">
 								</TextBlock>
 								<TextBlock 
-									Text="USD" 
+									Text="$" 
 									Margin="2 0 0 0"
 									Padding="0"
 									Foreground="{StaticResource LableColor}"></TextBlock>
@@ -348,7 +348,7 @@
 									Text="{Binding GpuSpeedVms.IncomeMainCoinCnyPerDayText}">
 								</TextBlock>
 								<TextBlock 
-									Text="CNY" 
+									Text="￥" 
 									Margin="2 0 0 0"
 									Padding="0"
 									Foreground="{StaticResource LableColor}"></TextBlock>
@@ -381,7 +381,7 @@
 								Background="Transparent" />
 							<controls:KbButton 
 								HorizontalContentAlignment="Left"
-								Width="300" ToolTip="数据来自鱼池首页"
+								Width="280" ToolTip="数据来自鱼池首页"
 								Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
 								Command="{x:Static vm:AppStatic.ShowCalc}"
 								CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
@@ -405,7 +405,7 @@
 										Text="{Binding GpuSpeedVms.IncomeDualCoinUsdPerDayText}">
 									</TextBlock>
 									<TextBlock 
-										Text="USD" 
+										Text="$" 
 										Margin="2 0 0 0"
 										Padding="0"
 										Foreground="{StaticResource LableColor}"></TextBlock>
@@ -416,7 +416,7 @@
 										Text="{Binding GpuSpeedVms.IncomeDualCoinCnyPerDayText}">
 									</TextBlock>
 									<TextBlock 
-										Text="CNY" 
+										Text="￥" 
 										Margin="2 0 0 0"
 										Padding="0"
 										Foreground="{StaticResource LableColor}"></TextBlock>

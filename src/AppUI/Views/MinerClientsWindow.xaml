@@ -1426,14 +1426,23 @@
                             <WrapPanel>
                                 <TextBlock Text="{Binding Data.IncomeMainCoinUsdPerDayText,Source={StaticResource proxy}}"></TextBlock>
                                 <TextBlock 
-                                    Text="USD" 
+                                    Text="$" 
                                     Margin="2 0 0 0"
                                     Padding="0"
                                     Foreground="{StaticResource LableColor}"></TextBlock>
                                 <TextBlock Text=", "></TextBlock>
                                 <TextBlock Text="{Binding Data.IncomeMainCoinCnyPerDayText,Source={StaticResource proxy}}"></TextBlock>
                                 <TextBlock 
-                                    Text="CNY" 
+                                    Text="￥" 
+                                    Margin="2 0 0 0"
+                                    Padding="0"
+                                    Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
+                                <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
+                                <TextBlock Text=", 电费"></TextBlock>
+                                <TextBlock Text="{Binding Data.TotalCost,Source={StaticResource proxy}}"></TextBlock>
+                                <TextBlock 
+                                    Text="￥" 
                                     Margin="2 0 0 0"
                                     Padding="0"
                                     Foreground="{StaticResource LableColor}"></TextBlock>
@@ -1454,14 +1463,14 @@
                                 <TextBlock Text=", "></TextBlock>
                                 <TextBlock Text="{Binding IncomeMainCoinUsdPerDayText}"></TextBlock>
                                 <TextBlock 
-                                    Text="USD" 
+                                    Text="$" 
                                     Margin="2 0 0 0"
                                     Padding="0"
                                     Foreground="{StaticResource LableColor}"></TextBlock>
                                 <TextBlock Text=", "></TextBlock>
                                 <TextBlock Text="{Binding IncomeMainCoinCnyPerDayText}"></TextBlock>
                                 <TextBlock 
-                                    Text="CNY" 
+                                    Text="￥" 
                                     Margin="2 0 0 0"
                                     Padding="0"
                                     Foreground="{StaticResource LableColor}"></TextBlock>
@@ -1500,14 +1509,14 @@
                             <WrapPanel>
                                 <TextBlock Text="{Binding Data.IncomeDualCoinUsdPerDayText,Source={StaticResource proxy}}"></TextBlock>
                                 <TextBlock 
-                                    Text="USD" 
+                                    Text="$" 
                                     Margin="2 0 0 0"
                                     Padding="0"
                                     Foreground="{StaticResource LableColor}"></TextBlock>
                                 <TextBlock Text=", "></TextBlock>
                                 <TextBlock Text="{Binding Data.IncomeDualCoinCnyPerDayText,Source={StaticResource proxy}}"></TextBlock>
                                 <TextBlock 
-                                    Text="CNY" 
+                                    Text="￥" 
                                     Margin="2 0 0 0"
                                     Padding="0"
                                     Foreground="{StaticResource LableColor}"></TextBlock>

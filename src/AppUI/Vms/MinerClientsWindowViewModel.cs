@@ -279,7 +279,12 @@ namespace NTMiner.Vms {
             set {
                 _elePrice = Math.Round(value, 2);
                 OnPropertyChanged(nameof(ElePrice));
+                OnPropertyChanged(nameof(TotalCost));
             }
+        }
+
+        public double TotalCost {
+            get { return Math.Round((this.MinerClients.Sum(a => a.TotalPower) / 1000.0) * this.ElePrice * 24, 2); }
         }
 
         private void RefreshMaxTempForeground() {
@@ -558,6 +563,7 @@ namespace NTMiner.Vms {
                             OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
                             OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
                             OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
+                            OnPropertyChanged(nameof(TotalCost));
                         });
                     }
                 });
