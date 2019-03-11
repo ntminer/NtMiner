@@ -2266,7 +2266,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <WrapPanel Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="White">
-            <TextBlock>冻结前</TextBlock>
+            <TextBlock Margin="4 0 0 0">冻结前</TextBlock>
             <TextBox TextAlignment="Center" Text="{Binding FrozenColumnCount, UpdateSourceTrigger=PropertyChanged}" Width="20" ToolTip="最小值2"></TextBox>
             <TextBlock>列</TextBlock>
         </WrapPanel>
@@ -2280,7 +2280,7 @@
             MaxWidth="500"
             Manager="{Binding Manager}" />
         <WrapPanel Grid.Row="2" Background="{StaticResource MinerProfileBackground}">
-            <WrapPanel>
+            <WrapPanel Margin="4 0 0 0">
                 <TextBlock VerticalAlignment="Center">卡温达到</TextBlock>
                 <Slider 
                     Minimum="0" 
