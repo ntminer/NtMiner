@@ -37,7 +37,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <!--上标题栏-->
-        <StackPanel Margin="0 0 70 0">
+        <StackPanel Margin="0 0 210 0">
             <WrapPanel Margin="0 6 0 0" IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
                 <TextBlock Style="{StaticResource LblTb}" Text="主币" />
                 <controls:KbComboBox 
