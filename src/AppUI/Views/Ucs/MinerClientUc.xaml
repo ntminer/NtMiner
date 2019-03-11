@@ -114,6 +114,7 @@
 				<TextBlock Style="{StaticResource LblTb}">矿工名</TextBlock>
 				<TextBox 
 					x:Name="TbMinerName"
+					ToolTip="注意：修改矿工名后需重新开始挖矿才能反应到矿池"
 					Width="100"
 					GotFocus="TbMinerName_OnGotFocus"></TextBox>
 				<controls:KbButton
@@ -148,7 +149,6 @@
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill" />
 				</controls:KbButton>
-				<TextBlock x:Name="TxtMinerNameTip" Visibility="Collapsed" Foreground="Red">注意：修改矿工名后需重新开始挖矿才能反应到矿池</TextBlock>
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
