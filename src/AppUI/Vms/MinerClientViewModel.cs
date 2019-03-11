@@ -222,37 +222,29 @@ namespace NTMiner.Vms {
             set {
                 if (_selectedMineWork != value) {
                     var old = _selectedMineWork;
+                    this.WorkId = value.Id;
                     _selectedMineWork = value;
                     try {
                         Server.ControlCenterService.UpdateClientAsync(
                             this.Id, nameof(WorkId), value.Id, (response, exception) => {
                                 if (!response.IsSuccess()) {
+                                    _selectedMineWork = old;
                                     this.WorkId = old.Id;
-                                    Write.UserLine($"{this.MinerIp} {response?.Description}", ConsoleColor.Red);
+                                    if (response != null) {
+                                        Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
+                                        MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
+                                    }
+                                    else {
+                                        MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}切换作业失败，已撤销");
+                                    }
                                 }
-                                else {
-                                    this.WorkId = value.Id;
-                                    OnPropertyChanged(nameof(SelectedMineWork));
-                                }
+                                OnPropertyChanged(nameof(SelectedMineWork));
                             });
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
                     }
                 }
-            }
-        }
-
-        public string WorkName {
-            get {
-                if (this.WorkId == Guid.Empty) {
-                    return "自由作业";
-                }
-                IMineWork mineWork;
-                if (NTMinerRoot.Current.MineWorkSet.TryGetMineWork(this.WorkId, out mineWork)) {
-                    return mineWork.Name;
-                }
-                return "未知作业";
             }
         }
 
@@ -379,16 +371,28 @@ namespace NTMiner.Vms {
                             Client.NTMinerDaemonService.SetMinerNameAsync(this.MinerIp, request, (response2, exception) => {
                                 if (!response2.IsSuccess()) {
                                     _data.MinerName = old;
-                                    Write.UserLine($"{this.MinerIp} {response2?.Description}", ConsoleColor.Red);
+                                    if (response2 != null) {
+                                        Write.UserLine($"{this.MinerIp} {response2.Description}", ConsoleColor.Red);
+                                        MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response2.Description}");
+                                    }
+                                    else {
+                                        MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿工名失败失败，已撤销");
+                                    }
                                 }
-                                else {
-                                    OnPropertyChanged(nameof(MinerName));
-                                }
+                                OnPropertyChanged(nameof(MinerName));
                             });
                         }
                         else {
                             _data.MinerName = old;
+                            if (response != null) {
+                                Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
+                            }
+                            else {
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿工名失败，已撤销");
+                            }
                         }
+                        OnPropertyChanged(nameof(MinerName));
                     });
                 }
             }
@@ -419,18 +423,22 @@ namespace NTMiner.Vms {
                 if (_selectedMinerGroup != value) {
                     var old = _selectedMinerGroup;
                     _selectedMinerGroup = value;
+                    this.GroupId = value.Id;
                     try {
-                        Server.ControlCenterService.UpdateClientAsync(
-                            this.Id, nameof(GroupId), value.Id, (response, exception) => {
-                                if (!response.IsSuccess()) {
-                                    this.GroupId = old.Id;
-                                    Write.UserLine($"{this.MinerIp} {response?.Description}", ConsoleColor.Red);
+                        Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
+                            if (!response.IsSuccess()) {
+                                _selectedMinerGroup = old;
+                                this.GroupId = old.Id;
+                                if (response != null) {
+                                    Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
+                                    MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
                                 }
                                 else {
-                                    this.GroupId = value.Id;
-                                    OnPropertyChanged(nameof(SelectedMinerGroup));
+                                    MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改分组失败，已撤销");
                                 }
-                            });
+                            }
+                            OnPropertyChanged(nameof(SelectedMinerGroup));
+                        });
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
@@ -458,10 +466,15 @@ namespace NTMiner.Vms {
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsLoginName = old;
+                            if (response != null) {
+                                Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
+                            }
+                            else {
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改登录名失败，已撤销");
+                            }
                         }
-                        else {
-                            OnPropertyChanged(nameof(WindowsLoginName));
-                        }
+                        OnPropertyChanged(nameof(WindowsLoginName));
                     });
                 }
             }
@@ -476,11 +489,16 @@ namespace NTMiner.Vms {
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsPassword = old;
+                            if (response != null) {
+                                Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
+                            }
+                            else {
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改登录密码失败，已撤销");
+                            }
                         }
-                        else {
-                            OnPropertyChanged(nameof(WindowsPassword));
-                            OnPropertyChanged(nameof(WindowsPasswordStar));
-                        }
+                        OnPropertyChanged(nameof(WindowsPassword));
+                        OnPropertyChanged(nameof(WindowsPasswordStar));
                     });
                 }
             }
