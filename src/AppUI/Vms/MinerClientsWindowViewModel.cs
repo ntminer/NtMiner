@@ -46,6 +46,7 @@ namespace NTMiner.Vms {
         private INotificationMessageManager _manager;
         private int _miningCount;
         private uint _maxTemp = 80;
+        private int _frozenColumnCount = 9;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -238,6 +239,14 @@ namespace NTMiner.Vms {
                 });
         }
         #endregion
+
+        public int FrozenColumnCount {
+            get => _frozenColumnCount;
+            set {
+                _frozenColumnCount = value;
+                OnPropertyChanged(nameof(FrozenColumnCount));
+            }
+        }
 
         public uint MaxTemp {
             get => _maxTemp;

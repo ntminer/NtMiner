@@ -13,7 +13,6 @@
         UseNoneWindowStyle="True"
         BorderBrush="{StaticResource IconFillColor}"
         Background="{StaticResource ThemeBackground}"
-        Foreground="{StaticResource ThemeForeground}"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         MouseDown="MetroWindow_MouseDown"
@@ -474,6 +473,7 @@
             Margin="0 2 0 0"
             BorderThickness="0"
             IsReadOnly="False"
+            FrozenColumnCount="{Binding FrozenColumnCount}"
             ItemsSource="{Binding MinerClients}"
             CanUserResizeRows="True"
             AutoGenerateColumns="False"
@@ -1937,6 +1937,11 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <WrapPanel Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="White">
+            <TextBlock>冻结前</TextBlock>
+            <TextBox TextAlignment="Center" Text="{Binding FrozenColumnCount, UpdateSourceTrigger=PropertyChanged}" Width="20"></TextBox>
+            <TextBlock>列</TextBlock>
+        </WrapPanel>
         <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
         <notification:NotificationMessageContainer 
             Margin="0 4 0 0"
