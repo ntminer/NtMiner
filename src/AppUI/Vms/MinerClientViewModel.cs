@@ -198,22 +198,39 @@ namespace NTMiner.Vms {
             }
         }
 
+        private MineWorkViewModel _selectedMineWork;
         public MineWorkViewModel SelectedMineWork {
             get {
                 if (WorkId == Guid.Empty) {
                     return MineWorkViewModel.FreeMineWork;
                 }
-                MineWorkViewModel vm;
-                if (MineWorkViewModels.Current.TryGetMineWorkVm(WorkId, out vm)) {
-                    return vm;
+                if (_selectedMineWork == null || _selectedMineWork.Id != WorkId) {
+                    if (MineWorkViewModels.Current.TryGetMineWorkVm(WorkId, out _selectedMineWork)) {
+                        return _selectedMineWork;
+                    }
                 }
-                return MineWorkViewModel.FreeMineWork;
+                return _selectedMineWork;
             }
             set {
-                if (WorkId != value.Id) {
-                    WorkId = value.Id;
-                    OnPropertyChanged(nameof(SelectedMineWork));
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IClientData.WorkId), value.Id, null);
+                if (_selectedMineWork != value) {
+                    var old = _selectedMineWork;
+                    _selectedMineWork = value;
+                    try {
+                        Server.ControlCenterService.UpdateClientAsync(
+                            this.Id, nameof(WorkId), value.Id, (response, exception) => {
+                                if (!response.IsSuccess()) {
+                                    this.WorkId = old.Id;
+                                    Write.UserLine($"{this.MinerIp} {response?.Description}", ConsoleColor.Red);
+                                }
+                                else {
+                                    this.WorkId = value.Id;
+                                    OnPropertyChanged(nameof(SelectedMineWork));
+                                }
+                            });
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
                 }
             }
         }

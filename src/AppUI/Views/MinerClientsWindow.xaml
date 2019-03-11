@@ -769,13 +769,16 @@
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
                 <!--Work-->
-                <DataGridTemplateColumn 
+                <DataGridComboBoxColumn 
                     Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
+                    ItemsSource="{Binding Data.MineWorkVms, Source={StaticResource proxy}}" 
+                    DisplayMemberPath="Name" 
+                    SelectedItemBinding="{Binding SelectedMineWork, UpdateSourceTrigger=PropertyChanged}"
                     CanUserResize="True" 
                     CanUserReorder="False" 
                     CanUserSort="False" 
-                    IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
+                    IsReadOnly="False">
+                    <DataGridComboBoxColumn.Header>
                         <WrapPanel>
                             <TextBlock>作业</TextBlock>
                             <controls:KbButton
@@ -793,25 +796,23 @@
                                 </WrapPanel>
                             </controls:KbButton>
                         </WrapPanel>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}">
-                                <TextBox 
-                                    BorderThickness="0"
-                                    Background="Transparent"
-                                    IsReadOnly="True"
-                                    Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></TextBox>
-                            </WrapPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                    </DataGridComboBoxColumn.Header>
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="Foreground" Value="Green"></Setter>
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                </DataGridComboBoxColumn>
                 <!--MinerGroup-->
                 <DataGridComboBoxColumn 
                     Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
                     ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}" 
-                    DisplayMemberPath="Name" SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
-                    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="False">
+                    DisplayMemberPath="Name" 
+                    SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
+                    CanUserResize="True" 
+                    CanUserReorder="False" 
+                    CanUserSort="False" 
+                    IsReadOnly="False">
                     <DataGridComboBoxColumn.Header>
                         <WrapPanel>
                             <TextBlock>分组</TextBlock>
