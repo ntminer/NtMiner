@@ -17,7 +17,9 @@ namespace NTMiner.MinerClient {
         public int PeriodicRestartComputerHours { get; set; }
         public string GpuDriver { get; set; }
         public GpuType GpuType { get; set; }
+        // ReSharper disable once InconsistentNaming
         public string OSName { get; set; }
+        // ReSharper disable once InconsistentNaming
         public int OSVirtualMemoryMb { get; set; }
 
         public Guid ClientId { get; set; }
@@ -71,6 +73,8 @@ namespace NTMiner.MinerClient {
         public double MainCoinSpeed { get; set; }
 
         public double DualCoinSpeed { get; set; }
+
+        public string CommandLine { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }

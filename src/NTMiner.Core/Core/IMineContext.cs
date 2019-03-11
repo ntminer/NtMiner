@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.Kernels;
-using System;
+﻿using System;
 
 namespace NTMiner.Core {
     public interface IMineContext {
