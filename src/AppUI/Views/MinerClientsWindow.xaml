@@ -455,18 +455,18 @@
                     KbSystemButtonSize="40" />
         </WrapPanel>
         <WrapPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 2 0">
-            <TextBlock VerticalAlignment="Center">卡温达到</TextBlock>
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">卡温达到</TextBlock>
             <Slider 
                 Minimum="50" 
                 Maximum="100" 
                 Width="100"
                 IsSnapToTickEnabled="True"
                 Value="{Binding MaxTemp}"></Slider>
-            <TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}"></TextBlock>
-            <TextBlock VerticalAlignment="Center">℃红色</TextBlock>
+            <TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">℃红色</TextBlock>
 
-            <TextBlock Width="30" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding CountDown}"></TextBlock>
-            <TextBlock VerticalAlignment="Center" Text=" 秒后刷新"></TextBlock>
+            <TextBlock Width="30" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding CountDown}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+            <TextBlock VerticalAlignment="Center" Text=" 秒后刷新" Foreground="{StaticResource ThemeForeground}"></TextBlock>
         </WrapPanel>
         <DataGrid 
             Grid.Row="1"
