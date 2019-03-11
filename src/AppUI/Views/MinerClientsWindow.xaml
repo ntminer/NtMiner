@@ -1388,6 +1388,17 @@
                                             Stretch="Fill" />
                                     </WrapPanel>
                                 </controls:KbButton>
+                                <TextBlock 
+                                    ToolTip="盈利，包括双挖（如果双挖了的话）"
+                                    Text="{Binding Data.TotalCnyProfit, Source={StaticResource proxy}}" 
+                                    Foreground="{Binding Data.TotalCnyProfit, Source={StaticResource proxy},Converter={StaticResource ProfitToBrushConverter}}"></TextBlock>
+                                <TextBlock 
+                                    Text="￥" 
+                                    Margin="2 0 0 0"
+                                    Padding="0"
+                                    Foreground="{StaticResource LableColor}"></TextBlock>
+                                <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
+                                <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
                             </WrapPanel>
                             <WrapPanel>
                                 <TextBlock Text="{Binding Data.IncomeMainCoinUsdPerDayText,Source={StaticResource proxy}}"></TextBlock>

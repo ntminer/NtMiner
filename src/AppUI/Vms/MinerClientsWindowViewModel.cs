@@ -308,6 +308,7 @@ namespace NTMiner.Vms {
                 _elePrice = Math.Round(value, 2);
                 OnPropertyChanged(nameof(ElePrice));
                 OnPropertyChanged(nameof(TotalCost));
+                OnPropertyChanged(nameof(TotalCnyProfit));
             }
         }
 
@@ -344,6 +345,7 @@ namespace NTMiner.Vms {
                 _powerPlusPerMiner = value;
                 OnPropertyChanged(nameof(PowerPlusPerMiner));
                 OnPropertyChanged(nameof(TotalCost));
+                OnPropertyChanged(nameof(TotalCnyProfit));
                 OnPropertyChanged(nameof(TotalPowerText));
             }
         }
@@ -366,6 +368,12 @@ namespace NTMiner.Vms {
 
         public string IncomeDualCoinCnyPerDayText {
             get { return this.MinerClients.Sum(a => a.IncomeDualCoinCnyPerDay).ToString("f1"); }
+        }
+
+        public double TotalCnyProfit {
+            get {
+                return Math.Round((this.MinerClients.Sum(a => a.IncomeMainCoinCnyPerDay + a.IncomeDualCoinCnyPerDay) - TotalCost), 1);
+            }
         }
 
         private void ShowNoRecordSelected() {
@@ -602,6 +610,7 @@ namespace NTMiner.Vms {
                             OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
                             OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
                             OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
+                            OnPropertyChanged(nameof(TotalCnyProfit));
                             OnPropertyChanged(nameof(TotalCost));
                         });
                     }
