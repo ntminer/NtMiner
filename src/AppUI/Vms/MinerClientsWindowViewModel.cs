@@ -243,8 +243,10 @@ namespace NTMiner.Vms {
         public int FrozenColumnCount {
             get => _frozenColumnCount;
             set {
-                _frozenColumnCount = value;
-                OnPropertyChanged(nameof(FrozenColumnCount));
+                if (value >= 2) {
+                    _frozenColumnCount = value;
+                    OnPropertyChanged(nameof(FrozenColumnCount));
+                }
             }
         }
 

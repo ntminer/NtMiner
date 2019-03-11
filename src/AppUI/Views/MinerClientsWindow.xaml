@@ -1939,7 +1939,7 @@
         </DataGrid>
         <WrapPanel Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="White">
             <TextBlock>冻结前</TextBlock>
-            <TextBox TextAlignment="Center" Text="{Binding FrozenColumnCount, UpdateSourceTrigger=PropertyChanged}" Width="20"></TextBox>
+            <TextBox TextAlignment="Center" Text="{Binding FrozenColumnCount, UpdateSourceTrigger=PropertyChanged}" Width="20" ToolTip="最小值2"></TextBox>
             <TextBlock>列</TextBlock>
         </WrapPanel>
         <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
