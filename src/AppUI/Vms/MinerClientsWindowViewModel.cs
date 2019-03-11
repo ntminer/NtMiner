@@ -313,7 +313,7 @@ namespace NTMiner.Vms {
         }
 
         public double TotalCost {
-            get { return Math.Round((this.MinerClients.Sum(a => a.TotalPower + this.PowerPlusPerMiner) / 1000.0) * this.ElePrice * 24, 2); }
+            get { return Math.Round((this.MinerClients.Sum(a => a.TotalPower + this.PowerPlusPerMiner) / 1000.0) * this.ElePrice * 24, 1); }
         }
 
         private void RefreshMaxTempForeground() {
@@ -372,7 +372,7 @@ namespace NTMiner.Vms {
 
         public double TotalCnyProfit {
             get {
-                return Math.Round((this.MinerClients.Sum(a => a.IncomeMainCoinCnyPerDay + a.IncomeDualCoinCnyPerDay) - TotalCost), 1);
+                return Math.Round(Math.Round(this.MinerClients.Sum(a => a.IncomeMainCoinCnyPerDay + a.IncomeDualCoinCnyPerDay), 1) - TotalCost, 1);
             }
         }
 
