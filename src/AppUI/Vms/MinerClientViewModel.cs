@@ -136,6 +136,14 @@ namespace NTMiner.Vms {
         }
         #endregion
 
+        public MineWorkViewModels MineWorkVms {
+            get { return MineWorkViewModels.Current; }
+        }
+
+        public MinerGroupViewModels MinerGroupVms {
+            get { return MinerGroupViewModels.Current; }
+        }
+
         private bool _isShovelEmpty = true;
         public bool IsShovelEmpty {
             get => _isShovelEmpty;

@@ -29,6 +29,7 @@ namespace NTMiner.Views.Ucs {
         public MinerClientUc(MinerClientViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            this.TbMinerName.Text = vm.MinerName;
             this.Resources["WindowTitle"] = vm.MinerIp;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
@@ -37,6 +38,26 @@ namespace NTMiner.Views.Ucs {
             MinerClientViewModel vm = (MinerClientViewModel)((FrameworkElement)sender).Tag;
             vm.RemoteDesktop.Execute(null);
             e.Handled = true;
+        }
+
+        private void TbMinerName_OnGotFocus(object sender, RoutedEventArgs e) {
+            this.BtnCancelSaveMinerName.Visibility = Visibility.Visible;
+            this.BtnSaveMinerName.Visibility = Visibility.Visible;
+            this.TxtMinerNameTip.Visibility = Visibility.Visible;
+        }
+
+        private void BtnSaveMinerName_OnClick(object sender, RoutedEventArgs e) {
+            Vm.MinerName = this.TbMinerName.Text;
+            this.BtnCancelSaveMinerName.Visibility = Visibility.Collapsed;
+            this.BtnSaveMinerName.Visibility = Visibility.Collapsed;
+            this.TxtMinerNameTip.Visibility = Visibility.Collapsed;
+        }
+
+        private void BtnCancelSaveMinerName_OnClick(object sender, RoutedEventArgs e) {
+            this.TbMinerName.Text = Vm.MinerName;
+            this.BtnCancelSaveMinerName.Visibility = Visibility.Collapsed;
+            this.BtnSaveMinerName.Visibility = Visibility.Collapsed;
+            this.TxtMinerNameTip.Visibility = Visibility.Collapsed;
         }
     }
 }
