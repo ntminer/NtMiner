@@ -11,6 +11,9 @@ namespace NTMiner.Core {
         string MainCoinWallet { get; }
         int ProcessDisappearedCound { get; set; }
         string PipeFileName { get; }
+
+        string CommandLine { get; }
+
         DateTime CreatedOn { get; }
     }
 }

@@ -54,7 +54,7 @@ namespace NTMiner {
                 if (!kernelExeFileFullName.EndsWith(".exe")) {
                     kernelExeFileFullName += ".exe";
                 }
-                var args = Current.BuildAssembleArgs();
+                var args = mineContext.CommandLine;
                 arguments = args.Substring(kernelCommandName.Length).Trim();
             }
             #endregion

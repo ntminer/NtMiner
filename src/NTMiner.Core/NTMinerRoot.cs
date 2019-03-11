@@ -559,15 +559,14 @@ namespace NTMiner {
                     Write.UserLine("没有填写钱包地址。", ConsoleColor.Red);
                     return;
                 }
-                IMineContext mineContext = new MineContext(GetMinerName(), mainCoin, mainCoinPool, kernel, coinKernel, coinProfile.Wallet);
                 ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(coinKernel.GetId());
+                ICoin dualCoin = null;
+                IPool dualCoinPool = null;
                 if (coinKernelProfile.IsDualCoinEnabled) {
-                    ICoin dualCoin;
                     if (!this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
                         Write.UserLine("没有选择双挖币种。", ConsoleColor.Red);
                         return;
                     }
-                    IPool dualCoinPool;
                     coinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
                     if (!this.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
                         Write.UserLine("没有选择双挖矿池。", ConsoleColor.Red);
@@ -580,7 +579,6 @@ namespace NTMiner {
                         Write.UserLine("没有填写双挖钱包。", ConsoleColor.Red);
                         return;
                     }
-                    mineContext = new DualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
                 }
                 if (_currentMineContext != null) {
                     this.StopMine();
@@ -610,15 +608,19 @@ namespace NTMiner {
                             StartMine(workId);
                         }
                     });
-                    return;
                 }
                 else {
+                    string commandLine = BuildAssembleArgs();
+                    IMineContext mineContext = new MineContext(GetMinerName(), mainCoin, mainCoinPool, kernel, coinKernel, coinProfile.Wallet, commandLine);
+                    if (coinKernelProfile.IsDualCoinEnabled) {
+                        mineContext = new DualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
+                    }
                     _currentMineContext = mineContext;
                     // kill这一个上下文的进程
                     Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName());
                     MinerProcess.CreateProcessAsync(mineContext);
+                    VirtualRoot.Happened(new MineStartedEvent(mineContext));
                 }
-                VirtualRoot.Happened(new MineStartedEvent(mineContext));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
