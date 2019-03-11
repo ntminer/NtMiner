@@ -201,17 +201,6 @@
                         <TextBlock Style="{StaticResource LblTb}" Text="双挖币钱包" />
                         <TextBox VerticalContentAlignment="Center" Text="{Binding DualCoinWallet}" Width="160" Background="White"></TextBox>
                     </WrapPanel>
-                    <WrapPanel>
-                        <TextBlock Style="{StaticResource LblTb}">卡温达到</TextBlock>
-                        <Slider 
-                            Minimum="50" 
-                            Maximum="100" 
-                            Width="100"
-                            IsSnapToTickEnabled="True"
-                            Value="{Binding MaxTemp}"></Slider>
-                        <TextBlock Style="{StaticResource LblTb}" Text="{Binding MaxTemp}"></TextBlock>
-                        <TextBlock Style="{StaticResource LblTb}">℃红色</TextBlock>
-                    </WrapPanel>
                 </WrapPanel>
             </WrapPanel>
             <WrapPanel Margin="0 2 0 0">
@@ -443,7 +432,7 @@
                 </WrapPanel>
             </WrapPanel>
         </StackPanel>
-        <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top">
             <CheckBox IsChecked="{Binding IsPull}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">拉</CheckBox>
             <controls:KbButton 
                 Margin="10 0 0 0"
@@ -465,9 +454,19 @@
                     Height="30"
                     KbSystemButtonSize="40" />
         </WrapPanel>
-        <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 2 0">
-            <TextBlock Text="{Binding CountDown}" FontWeight="Normal"></TextBlock>
-            <TextBlock FontWeight="Normal" Text=" 秒后刷新"></TextBlock>
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 2 0">
+            <TextBlock VerticalAlignment="Center">卡温达到</TextBlock>
+            <Slider 
+                Minimum="50" 
+                Maximum="100" 
+                Width="100"
+                IsSnapToTickEnabled="True"
+                Value="{Binding MaxTemp}"></Slider>
+            <TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}"></TextBlock>
+            <TextBlock VerticalAlignment="Center">℃红色</TextBlock>
+
+            <TextBlock Width="30" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding CountDown}"></TextBlock>
+            <TextBlock VerticalAlignment="Center" Text=" 秒后刷新"></TextBlock>
         </WrapPanel>
         <DataGrid 
             Grid.Row="1"
