@@ -141,7 +141,7 @@
 				<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
 				<TextBlock Padding="1 0" Text="/"></TextBlock>
 				<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
-				<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}"></TextBlock>
+				<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}" Foreground="{Binding MainCoinRejectPercentForeground}"></TextBlock>
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
@@ -160,7 +160,7 @@
 				<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
 				<TextBlock Padding="1 0" Text="/"></TextBlock>
 				<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
-				<TextBlock Margin="10 0 0 0" Text="{Binding DualCoinRejectPercentText}"></TextBlock>
+				<TextBlock Margin="10 0 0 0" Text="{Binding DualCoinRejectPercentText}" Foreground="{Binding DualCoinRejectPercentForeground}"></TextBlock>
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
@@ -203,6 +203,7 @@
 					Padding="0"
 					BorderThickness="0"
 					Background="Transparent"
+					Foreground="{Binding TempForeground}"
 					IsReadOnly="True"
 					Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
 			</WrapPanel>
@@ -281,43 +282,128 @@
 						</Style>
 					</DataGrid.Resources>
 					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding RowHeader}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU0" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=0}"
-											Binding="{Binding Gpu0}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU1" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=1}"
-											Binding="{Binding Gpu1}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU2" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=2}"
-											Binding="{Binding Gpu2}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU3" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=3}"
-											Binding="{Binding Gpu3}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU4" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=4}"
-											Binding="{Binding Gpu4}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU5" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=5}"
-											Binding="{Binding Gpu5}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU6" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=6}"
-											Binding="{Binding Gpu6}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU7" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=7}"
-											Binding="{Binding Gpu7}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU8" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=8}"
-											Binding="{Binding Gpu8}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU9" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=9}"
-											Binding="{Binding Gpu9}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU10"
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=10}"
-											Binding="{Binding Gpu10}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
-						<DataGridTextColumn Header="GPU11" 
-											Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=11}"
-											Binding="{Binding Gpu11}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTextColumn 
+							Binding="{Binding RowHeader}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+						<DataGridTemplateColumn 
+							Header="GPU0"
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=0}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu0}" Foreground="{Binding Gpu0Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU1" 
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=1}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu1}" Foreground="{Binding Gpu1Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU2" 
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=2}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu2}" Foreground="{Binding Gpu2Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU3" 
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=3}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu3}" Foreground="{Binding Gpu3Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU4" 
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=4}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu4}" Foreground="{Binding Gpu4Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU5"
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=5}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu5}" Foreground="{Binding Gpu5Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU6"
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=6}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu6}" Foreground="{Binding Gpu6Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU7"
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=7}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu7}" Foreground="{Binding Gpu7Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU8" 
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=8}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu8}" Foreground="{Binding Gpu8Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU9"
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=9}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu9}" Foreground="{Binding Gpu9Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU10"
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=10}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu10}" Foreground="{Binding Gpu10Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn 
+							Header="GPU11"
+							Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=11}"
+							CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Gpu11}" Foreground="{Binding Gpu11Foreground}"></TextBlock>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Background="#00ffffff"></StackPanel>
