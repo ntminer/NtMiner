@@ -49,6 +49,7 @@ namespace NTMiner.Vms {
         private int _frozenColumnCount = 9;
         private uint _minTemp = 40;
         private double _elePrice = 0.56;
+        private int _powerPlusPerMiner;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -284,7 +285,7 @@ namespace NTMiner.Vms {
         }
 
         public double TotalCost {
-            get { return Math.Round((this.MinerClients.Sum(a => a.TotalPower) / 1000.0) * this.ElePrice * 24, 2); }
+            get { return Math.Round((this.MinerClients.Sum(a => a.TotalPower + this.PowerPlusPerMiner) / 1000.0) * this.ElePrice * 24, 2); }
         }
 
         private void RefreshMaxTempForeground() {
@@ -310,8 +311,18 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int PowerPlusPerMiner {
+            get => _powerPlusPerMiner;
+            set {
+                _powerPlusPerMiner = value;
+                OnPropertyChanged(nameof(PowerPlusPerMiner));
+                OnPropertyChanged(nameof(TotalCost));
+                OnPropertyChanged(nameof(TotalPowerText));
+            }
+        }
+
         public string TotalPowerText {
-            get { return this.MinerClients.Sum(a => a.TotalPower).ToString("f0") + "W"; }
+            get { return this.MinerClients.Sum(a => a.TotalPower + this.PowerPlusPerMiner).ToString("f0") + "W"; }
         }
 
         public string IncomeMainCoinUsdPerDayText {
