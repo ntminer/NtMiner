@@ -47,6 +47,7 @@ namespace NTMiner.Vms {
         private int _miningCount;
         private uint _maxTemp = 80;
         private int _frozenColumnCount = 9;
+        private uint _minTemp = 40;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -259,6 +260,15 @@ namespace NTMiner.Vms {
             }
         }
 
+        public uint MinTemp {
+            get => _minTemp;
+            set {
+                _minTemp = value;
+                OnPropertyChanged(nameof(MinTemp));
+                RefreshMaxTempForeground();
+            }
+        }
+
         private void RefreshMaxTempForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MaxTemp >= this.MaxTemp) {
@@ -267,7 +277,7 @@ namespace NTMiner.Vms {
                 else {
                     item.TempForeground = MinerClientViewModel.DefaultForeground;
                 }
-                item.RefreshGpusForeground(this.MaxTemp);
+                item.RefreshGpusForeground(this.MinTemp, this.MaxTemp);
             }
         }
 

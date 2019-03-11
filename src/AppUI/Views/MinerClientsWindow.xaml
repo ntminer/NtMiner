@@ -37,7 +37,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <!--上标题栏-->
-        <StackPanel>
+        <StackPanel Margin="0 0 70 0">
             <WrapPanel Margin="0 6 0 0" IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
                 <TextBlock Style="{StaticResource LblTb}" Text="主币" />
                 <controls:KbComboBox 
@@ -454,17 +454,31 @@
                     Height="30"
                     KbSystemButtonSize="40" />
         </WrapPanel>
-        <WrapPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 2 0">
-            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">卡温达到</TextBlock>
-            <Slider 
-                Minimum="50" 
-                Maximum="100" 
-                Width="100"
-                IsSnapToTickEnabled="True"
-                Value="{Binding MaxTemp}"></Slider>
-            <TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">℃红色</TextBlock>
-
+        <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 30 2 0" Background="{StaticResource ThemeBackground}">
+            <WrapPanel>
+                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">卡温达到</TextBlock>
+                <Slider 
+                    Minimum="0" 
+                    Maximum="100" 
+                    Width="100"
+                    IsSnapToTickEnabled="True"
+                    Value="{Binding MaxTemp}"></Slider>
+                <TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}" Width="20" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">℃红色</TextBlock>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">卡温低于</TextBlock>
+                <Slider 
+                    Minimum="0" 
+                    Maximum="100" 
+                    Width="100"
+                    IsSnapToTickEnabled="True"
+                    Value="{Binding MinTemp}"></Slider>
+                <TextBlock VerticalAlignment="Center" Text="{Binding MinTemp}" Width="20" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">℃蓝色</TextBlock>
+            </WrapPanel>
+        </StackPanel>
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 30 2 0">
             <TextBlock Width="30" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding CountDown}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
             <TextBlock VerticalAlignment="Center" Text=" 秒后刷新" Foreground="{StaticResource ThemeForeground}"></TextBlock>
         </WrapPanel>
