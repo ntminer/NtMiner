@@ -2328,8 +2328,8 @@
                 <TextBlock VerticalAlignment="Center">每矿机+</TextBlock>
                 <Slider 
                     Minimum="0" 
-                    Maximum="200" 
-                    Width="200"
+                    Maximum="100" 
+                    Width="100"
                     IsSnapToTickEnabled="True"
                     Value="{Binding PowerPlusPerMiner}"></Slider>
                 <TextBlock VerticalAlignment="Center" Text="{Binding PowerPlusPerMiner}" Width="20"></TextBlock>
