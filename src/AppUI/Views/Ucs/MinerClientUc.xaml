@@ -431,5 +431,16 @@
 				Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
+			<TextBlock Style="{StaticResource LblTb}">内核命令行</TextBlock>
+			<TextBox 
+				Padding="0"
+				BorderThickness="0"
+				Background="Transparent"
+				IsReadOnly="True"
+				ToolTip="{Binding KernelCommandLine}"
+				Text="{Binding KernelCommandLine, Mode=OneWay}"></TextBox>
+		</WrapPanel>
+		<Border Style="{StaticResource RowLine}"></Border>
 	</StackPanel>
 </UserControl>
