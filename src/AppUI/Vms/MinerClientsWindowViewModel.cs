@@ -246,13 +246,17 @@ namespace NTMiner.Vms {
             set {
                 _maxTemp = value;
                 OnPropertyChanged(nameof(MaxTemp));
-                foreach (MinerClientViewModel item in MinerClients) {
-                    if (item.MaxTemp >= value) {
-                        item.TempForeground = Red;
-                    }
-                    else {
-                        item.TempForeground = DefaultForeground;
-                    }
+                RefreshMaxTempForeground();
+            }
+        }
+
+        private void RefreshMaxTempForeground() {
+            foreach (MinerClientViewModel item in MinerClients) {
+                if (item.MaxTemp >= this.MaxTemp) {
+                    item.TempForeground = Red;
+                }
+                else {
+                    item.TempForeground = DefaultForeground;
                 }
             }
         }
@@ -336,10 +340,10 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly List<int> s_pageSizeItems = new List<int>() { 10, 20, 30, 40 };
+        private static readonly List<int> SPageSizeItems = new List<int>() { 10, 20, 30, 40 };
         public List<int> PageSizeItems {
             get {
-                return s_pageSizeItems;
+                return SPageSizeItems;
             }
         }
 
@@ -408,7 +412,6 @@ namespace NTMiner.Vms {
         }
 
         public void QueryMinerClients() {
-            int total = _minerClientTotal;
             Guid? groupId = null;
             if (SelectedMinerGroup != MinerGroupViewModel.PleaseSelect) {
                 groupId = SelectedMinerGroup.Id;
@@ -490,20 +493,21 @@ namespace NTMiner.Vms {
                                 }
                             }
                             MiningCount = response.MiningCount;
-                            RefreshPagingUI(response.Total);
+                            RefreshPagingUi(response.Total);
+                            // DataGrid没记录时显示无记录
+                            OnPropertyChanged(nameof(MinerClients));
+                            RefreshMaxTempForeground();
                         });
                     }
                 });
         }
 
-        private void RefreshPagingUI(int total) {
+        private void RefreshPagingUi(int total) {
             _minerClientTotal = total;
             OnPropertyChanged(nameof(MinerClientTotal));
             OnPropertyChanged(nameof(MinerClientPageCount));
             OnPropertyChanged(nameof(IsPageDownEnabled));
             OnPropertyChanged(nameof(IsPageUpEnabled));
-            // DataGrid没记录时显示无记录
-            OnPropertyChanged(nameof(MinerClients));
             if (MinerClientTotal == 0) {
                 _minerClientPageIndex = 0;
                 OnPropertyChanged(nameof(MinerClientPageIndex));
