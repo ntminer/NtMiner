@@ -1148,7 +1148,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding MainCoinRejectPercentText}"></TextBlock>
+                            <TextBlock Text="{Binding MainCoinRejectPercentText}" Foreground="{Binding MainCoinRejectPercentForeground}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -1292,7 +1292,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding DualCoinRejectPercentText}"></TextBlock>
+                            <TextBlock Text="{Binding DualCoinRejectPercentText}" Foreground="{Binding DualCoinRejectPercentForeground}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -2268,50 +2268,61 @@
             VerticalAlignment="Top"
             MaxWidth="500"
             Manager="{Binding Manager}" />
-        <WrapPanel Grid.Row="2">
+        <WrapPanel Grid.Row="2" Background="{StaticResource MinerProfileBackground}">
             <WrapPanel>
-                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">卡温达到</TextBlock>
+                <TextBlock VerticalAlignment="Center">卡温达到</TextBlock>
                 <Slider 
                     Minimum="0" 
                     Maximum="100" 
                     Width="100"
                     IsSnapToTickEnabled="True"
                     Value="{Binding MaxTemp}"></Slider>
-                <TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}" Width="20" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">℃红色</TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}" Width="20"></TextBlock>
+                <TextBlock VerticalAlignment="Center">℃红色，</TextBlock>
             </WrapPanel>
             <WrapPanel Margin="20 0 0 0">
-                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">卡温低于</TextBlock>
+                <TextBlock VerticalAlignment="Center">卡温低于</TextBlock>
                 <Slider 
                     Minimum="0" 
                     Maximum="100" 
                     Width="100"
                     IsSnapToTickEnabled="True"
                     Value="{Binding MinTemp}"></Slider>
-                <TextBlock VerticalAlignment="Center" Text="{Binding MinTemp}" Width="20" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">℃蓝色</TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{Binding MinTemp}" Width="20"></TextBlock>
+                <TextBlock VerticalAlignment="Center">℃蓝色，</TextBlock>
             </WrapPanel>
             <WrapPanel Margin="20 0 0 0">
-                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">电价</TextBlock>
+                <TextBlock VerticalAlignment="Center">拒绝率达到</TextBlock>
+                <Slider 
+                    Minimum="0" 
+                    Maximum="100" 
+                    Width="100"
+                    IsSnapToTickEnabled="True"
+                    Value="{Binding RejectPercent}"></Slider>
+                <TextBlock VerticalAlignment="Center" Text="{Binding RejectPercent}" Width="20"></TextBlock>
+                <TextBlock VerticalAlignment="Center">%红色，</TextBlock>
+            </WrapPanel>
+            <WrapPanel Margin="20 0 0 0">
+                <TextBlock VerticalAlignment="Center">电价</TextBlock>
                 <Slider 
                     Minimum="0" 
                     Maximum="1" 
                     Width="100"
                     IsSnapToTickEnabled="False"
                     Value="{Binding ElePrice}"></Slider>
-                <TextBlock VerticalAlignment="Center" Text="{Binding ElePrice}" Width="28" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">元/度</TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{Binding ElePrice}" Width="28"></TextBlock>
+                <TextBlock VerticalAlignment="Center">元/度，</TextBlock>
             </WrapPanel>
             <WrapPanel Margin="20 0 0 0">
-                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">每矿机+</TextBlock>
+                <TextBlock VerticalAlignment="Center">每矿机+</TextBlock>
                 <Slider 
                     Minimum="0" 
                     Maximum="200" 
-                    Width="100"
+                    Width="200"
                     IsSnapToTickEnabled="True"
                     Value="{Binding PowerPlusPerMiner}"></Slider>
-                <TextBlock VerticalAlignment="Center" Text="{Binding PowerPlusPerMiner}" Width="20" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-                <TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">W</TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{Binding PowerPlusPerMiner}" Width="20"></TextBlock>
+                <TextBlock VerticalAlignment="Center">W</TextBlock>
             </WrapPanel>
         </WrapPanel>
     </Grid>

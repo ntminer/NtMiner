@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
@@ -50,6 +49,7 @@ namespace NTMiner.Vms {
         private uint _minTemp = 40;
         private double _elePrice = 0.56;
         private int _powerPlusPerMiner;
+        private int _rejectPercent = 10;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -249,6 +249,33 @@ namespace NTMiner.Vms {
                 if (value >= 2) {
                     _frozenColumnCount = value;
                     OnPropertyChanged(nameof(FrozenColumnCount));
+                }
+            }
+        }
+
+        public int RejectPercent {
+            get => _rejectPercent;
+            set {
+                _rejectPercent = value;
+                OnPropertyChanged(nameof(RejectPercent));
+                RefreshRejectPercentForeground();
+            }
+        }
+
+        private void RefreshRejectPercentForeground() {
+            foreach (MinerClientViewModel item in MinerClients) {
+                if (item.MainCoinRejectPercent >= this.RejectPercent) {
+                    item.MainCoinRejectPercentForeground = MinerClientViewModel.Red;
+                }
+                else {
+                    item.MainCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
+                }
+
+                if (item.DualCoinRejectPercent >= this.RejectPercent) {
+                    item.DualCoinRejectPercentForeground = MinerClientViewModel.Red;
+                }
+                else {
+                    item.DualCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
                 }
             }
         }
@@ -569,6 +596,7 @@ namespace NTMiner.Vms {
                             // DataGrid没记录时显示无记录
                             OnPropertyChanged(nameof(MinerClients));
                             RefreshMaxTempForeground();
+                            RefreshRejectPercentForeground();
                             OnPropertyChanged(nameof(TotalPowerText));
                             OnPropertyChanged(nameof(IncomeMainCoinUsdPerDayText));
                             OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));

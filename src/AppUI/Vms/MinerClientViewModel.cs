@@ -25,6 +25,11 @@ namespace NTMiner.Vms {
         private double _incomeDualCoinPerDay;
         private double _incomeDualCoinUsdPerDay;
         private double _incomeDualCoinCnyPerDay;
+        private MinerGroupViewModel _selectedMinerGroup;
+        private SolidColorBrush _tempForeground;
+        private SolidColorBrush _dualCoinRejectPercentForeground;
+        private SolidColorBrush _mainCoinRejectPercentForeground;
+
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
         public ICommand RemoteDesktop { get; private set; }
@@ -375,9 +380,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private MinerGroupViewModel _selectedMinerGroup;
-        private SolidColorBrush _tempForeground;
-
         public MinerGroupViewModel SelectedMinerGroup {
             get {
                 if (_selectedMinerGroup == null || _selectedMinerGroup.Id != GroupId) {
@@ -517,6 +519,7 @@ namespace NTMiner.Vms {
                 _data.MainCoinTotalShare = value;
                 OnPropertyChanged(nameof(MainCoinTotalShare));
                 OnPropertyChanged(nameof(MainCoinRejectPercentText));
+                OnPropertyChanged(nameof(MainCoinRejectPercent));
             }
         }
 
@@ -526,6 +529,16 @@ namespace NTMiner.Vms {
                 _data.MainCoinRejectShare = value;
                 OnPropertyChanged(nameof(MainCoinRejectShare));
                 OnPropertyChanged(nameof(MainCoinRejectPercentText));
+                OnPropertyChanged(nameof(MainCoinRejectPercent));
+            }
+        }
+
+        public double MainCoinRejectPercent {
+            get {
+                if (MainCoinTotalShare == 0) {
+                    return 0;
+                }
+                return (MainCoinRejectShare * 100.0 / MainCoinTotalShare);
             }
         }
 
@@ -715,6 +728,7 @@ namespace NTMiner.Vms {
                 _data.DualCoinTotalShare = value;
                 OnPropertyChanged(nameof(DualCoinTotalShare));
                 OnPropertyChanged(nameof(DualCoinRejectPercentText));
+                OnPropertyChanged(nameof(DualCoinRejectPercent));
             }
         }
 
@@ -724,6 +738,17 @@ namespace NTMiner.Vms {
                 _data.DualCoinRejectShare = value;
                 OnPropertyChanged(nameof(DualCoinRejectShare));
                 OnPropertyChanged(nameof(DualCoinRejectPercentText));
+                OnPropertyChanged(nameof(DualCoinRejectPercent));
+            }
+        }
+
+        public double DualCoinRejectPercent {
+            get {
+                if (DualCoinTotalShare == 0) {
+                    return 0;
+                }
+
+                return (DualCoinRejectShare * 100.0 / DualCoinTotalShare);
             }
         }
 
@@ -854,6 +879,22 @@ namespace NTMiner.Vms {
             set {
                 _tempForeground = value;
                 OnPropertyChanged(nameof(TempForeground));
+            }
+        }
+
+        public SolidColorBrush MainCoinRejectPercentForeground {
+            get => _mainCoinRejectPercentForeground;
+            set {
+                _mainCoinRejectPercentForeground = value;
+                OnPropertyChanged(nameof(MainCoinRejectPercentForeground));
+            }
+        }
+
+        public SolidColorBrush DualCoinRejectPercentForeground {
+            get => _dualCoinRejectPercentForeground;
+            set {
+                _dualCoinRejectPercentForeground = value;
+                OnPropertyChanged(nameof(DualCoinRejectPercentForeground));
             }
         }
 
