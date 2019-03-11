@@ -14,6 +14,7 @@
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="130"></Setter>
 			<Setter Property="Padding" Value="0 0 20 0"></Setter>
+			<Setter Property="VerticalAlignment" Value="Top"></Setter>
 		</Style>
 		<Style x:Key="Row" TargetType="WrapPanel">
 			<Setter Property="Margin" Value="0 4"></Setter>
@@ -24,6 +25,7 @@
 		</Style>
 		<sys:Double x:Key="OneColWidth">480</sys:Double>
 		<sys:Double x:Key="DoubleColWidth">980</sys:Double>
+		<sys:Double x:Key="DoubleColValueWidth">850</sys:Double>
 	</UserControl.Resources>
 	<StackPanel HorizontalAlignment="Left">
 		<WrapPanel Style="{StaticResource Row}">
@@ -233,7 +235,7 @@
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
 		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
-			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">显卡表格</TextBlock>
+			<TextBlock Style="{StaticResource LblTb}">显卡表格</TextBlock>
 			<Grid Margin="0 -4 0 0">
 				<DataGrid 
 					MinRowHeight="24"
@@ -434,8 +436,10 @@
 		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
 			<TextBlock Style="{StaticResource LblTb}">内核命令行</TextBlock>
 			<TextBox 
+				Width="{StaticResource DoubleColValueWidth}"
 				Padding="0"
 				BorderThickness="0"
+				TextWrapping="Wrap"
 				Background="Transparent"
 				IsReadOnly="True"
 				ToolTip="{Binding KernelCommandLine}"

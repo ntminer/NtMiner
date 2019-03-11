@@ -1904,7 +1904,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <!--GpuInfo-->
+                <!--KernelCommandLine-->
                 <DataGridTemplateColumn 
                     Visibility="{Binding Data.ColumnsShow.KernelCommandLine,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
                     CanUserResize="True" 
