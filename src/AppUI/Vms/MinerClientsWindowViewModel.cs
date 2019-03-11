@@ -12,8 +12,8 @@ using System.Windows.Media;
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
         public static readonly MinerClientsWindowViewModel Current = new MinerClientsWindowViewModel();
-        private static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
-        private static readonly SolidColorBrush DefaultForeground = new SolidColorBrush(Color.FromArgb(0xFF, 0x5A, 0x5A, 0x5A));
+        public static readonly SolidColorBrush Red = new SolidColorBrush(Colors.Red);
+        public static readonly SolidColorBrush DefaultForeground = new SolidColorBrush(Color.FromArgb(0xFF, 0x5A, 0x5A, 0x5A));
 
         private readonly List<MinuteItem> _minuteItems = new List<MinuteItem> {
             new MinuteItem(0),
@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
         private bool _isPull = false;
         private INotificationMessageManager _manager;
         private int _miningCount;
-        private double _maxTemp = 80;
+        private uint _maxTemp = 80;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -241,7 +241,7 @@ namespace NTMiner.Vms {
         }
         #endregion
 
-        public double MaxTemp {
+        public uint MaxTemp {
             get => _maxTemp;
             set {
                 _maxTemp = value;
@@ -258,6 +258,7 @@ namespace NTMiner.Vms {
                 else {
                     item.TempForeground = DefaultForeground;
                 }
+                item.RefreshGpuTableColumnsForeground(this.MaxTemp);
             }
         }
 

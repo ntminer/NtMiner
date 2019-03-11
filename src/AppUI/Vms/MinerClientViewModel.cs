@@ -852,6 +852,151 @@ namespace NTMiner.Vms {
             }
         }
 
+        public SolidColorBrush GpuTableColumn0Foreground {
+            get => _gpuTableColumn0Foreground;
+            set {
+                _gpuTableColumn0Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn0Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn1Foreground {
+            get => _gpuTableColumn1Foreground;
+            set {
+                _gpuTableColumn1Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn1Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn2Foreground {
+            get => _gpuTableColumn2Foreground;
+            set {
+                _gpuTableColumn2Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn2Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn3Foreground {
+            get => _gpuTableColumn3Foreground;
+            set {
+                _gpuTableColumn3Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn3Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn4Foreground {
+            get => _gpuTableColumn4Foreground;
+            set {
+                _gpuTableColumn4Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn4Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn5Foreground {
+            get => _gpuTableColumn5Foreground;
+            set {
+                _gpuTableColumn5Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn5Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn6Foreground {
+            get => _gpuTableColumn6Foreground;
+            set {
+                _gpuTableColumn6Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn6Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn7Foreground {
+            get => _gpuTableColumn7Foreground;
+            set {
+                _gpuTableColumn7Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn7Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn8Foreground {
+            get => _gpuTableColumn8Foreground;
+            set {
+                _gpuTableColumn8Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn8Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn9Foreground {
+            get => _gpuTableColumn9Foreground;
+            set {
+                _gpuTableColumn9Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn9Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn10Foreground {
+            get => _gpuTableColumn10Foreground;
+            set {
+                _gpuTableColumn10Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn10Foreground));
+            }
+        }
+
+        public SolidColorBrush GpuTableColumn11Foreground {
+            get => _gpuTableColumn11Foreground;
+            set {
+                _gpuTableColumn11Foreground = value;
+                OnPropertyChanged(nameof(GpuTableColumn11Foreground));
+            }
+        }
+
+        private static readonly PropertyInfo[] GpuTableColumnForegroundProperties = new PropertyInfo[]
+        {
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn0Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn1Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn2Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn3Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn4Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn5Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn6Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn7Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn8Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn9Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn10Foreground)),
+            typeof(MinerClientViewModel).GetProperty(nameof(GpuTableColumn11Foreground))
+        };
+
+        public void RefreshGpuTableColumnsForeground(uint maxTemp) {
+            for (int i = 0; i < GpuTable.Length; i++) {
+                GpuSpeedData gpuSpeedData = GpuTable[i];
+                if (gpuSpeedData.Temperature >= maxTemp) {
+                    GpuTableColumnForegroundProperties[i].SetValue(this, MinerClientsWindowViewModel.Red, null);
+                }
+                else {
+                    GpuTableColumnForegroundProperties[i].SetValue(this, MinerClientsWindowViewModel.DefaultForeground, null);
+                }
+            }
+        }
+
+        public GpuRowData GpuTableTempRow { get; set; } = new GpuRowData {
+            RowHeader = "温度"
+        };
+
+        public GpuRowData GpuTableFanRow = new GpuRowData {
+            RowHeader = "风扇"
+        };
+
+        private SolidColorBrush _gpuTableColumn0Foreground;
+        private SolidColorBrush _gpuTableColumn1Foreground;
+        private SolidColorBrush _gpuTableColumn2Foreground;
+        private SolidColorBrush _gpuTableColumn3Foreground;
+        private SolidColorBrush _gpuTableColumn4Foreground;
+        private SolidColorBrush _gpuTableColumn5Foreground;
+        private SolidColorBrush _gpuTableColumn6Foreground;
+        private SolidColorBrush _gpuTableColumn7Foreground;
+        private SolidColorBrush _gpuTableColumn8Foreground;
+        private SolidColorBrush _gpuTableColumn9Foreground;
+        private SolidColorBrush _gpuTableColumn10Foreground;
+        private SolidColorBrush _gpuTableColumn11Foreground;
+
         public GpuRowData[] GpuTableTrs {
             get {
                 List<GpuRowData> list = new List<GpuRowData> {
@@ -861,23 +1006,20 @@ namespace NTMiner.Vms {
                     new GpuRowData {
                         RowHeader = $"{DualCoinCode} {DualCoinSpeedText}"
                     },
-                    new GpuRowData {
-                        RowHeader = "温度"
-                    },
-                    new GpuRowData {
-                        RowHeader = "风扇"
-                    },
+                    GpuTableTempRow,
+                    GpuTableFanRow,
                     new GpuRowData {
                         RowHeader = $"功耗 {GpuTable.Sum(a=>a.PowerUsage).ToString("f0")}W"
                     }
                 };
                 for (int i = 0; i < GpuTable.Length; i++) {
                     GpuSpeedData gpuSpeedData = GpuTable[i];
-                    GpuRowData.GpuProperties[i].SetValue(list[0], gpuSpeedData.MainCoinSpeed.ToUnitSpeedText(), null);
-                    GpuRowData.GpuProperties[i].SetValue(list[1], gpuSpeedData.DualCoinSpeed.ToUnitSpeedText(), null);
-                    GpuRowData.GpuProperties[i].SetValue(list[2], gpuSpeedData.Temperature.ToString("f0") + "℃", null);
-                    GpuRowData.GpuProperties[i].SetValue(list[3], gpuSpeedData.FanSpeed.ToString("f0") + "%", null);
-                    GpuRowData.GpuProperties[i].SetValue(list[4], gpuSpeedData.PowerUsage.ToString("f0") + "W", null);
+                    PropertyInfo propertyInfo = GpuRowData.GpuProperties[i];
+                    propertyInfo.SetValue(list[0], gpuSpeedData.MainCoinSpeed.ToUnitSpeedText(), null);
+                    propertyInfo.SetValue(list[1], gpuSpeedData.DualCoinSpeed.ToUnitSpeedText(), null);
+                    propertyInfo.SetValue(list[2], gpuSpeedData.Temperature.ToString("f0") + "℃", null);
+                    propertyInfo.SetValue(list[3], gpuSpeedData.FanSpeed.ToString("f0") + "%", null);
+                    propertyInfo.SetValue(list[4], gpuSpeedData.PowerUsage.ToString("f0") + "W", null);
                 }
                 if (!IsDualCoinEnabled) {
                     list.RemoveAt(1);
