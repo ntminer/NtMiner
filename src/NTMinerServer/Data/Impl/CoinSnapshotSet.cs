@@ -3,7 +3,6 @@ using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NTMiner.Data.Impl {
     public class CoinSnapshotSet : ICoinSnapshotSet {
@@ -11,7 +10,6 @@ namespace NTMiner.Data.Impl {
         // 内存中保留最近20分钟的快照
         private readonly List<CoinSnapshotData> _dataList = new List<CoinSnapshotData>();
 
-        private bool _historyDataSnapshotOver = false;
         internal CoinSnapshotSet(IHostRoot root) {
             _root = root;
             VirtualRoot.On<Per10SecondEvent>(
@@ -20,22 +18,7 @@ namespace NTMiner.Data.Impl {
                 action: message => {
                     DateTime leftTime = message.Timestamp.AddSeconds(-message.Seconds);
                     Snapshot(leftTime, seconds: 10);
-                    if (_historyDataSnapshotOver) {
-                        DateTime rightTime = leftTime.AddSeconds(10);
-                        SnapshotTimestamp.SetSnapshotTimestamp(rightTime);
-                    }
                 });
-
-            Task.Factory.StartNew(() => {
-                DateTime leftTime = SnapshotTimestamp.GetSnapshotTimestamp();
-                while (leftTime > DateTime.Now.AddMonths(-1) && leftTime.AddSeconds(10) < DateTime.Now) {
-                    Snapshot(leftTime, seconds: 10);
-                    DateTime rightTime = leftTime.AddSeconds(10);
-                    SnapshotTimestamp.SetSnapshotTimestamp(rightTime);
-                    leftTime = rightTime;
-                }
-                _historyDataSnapshotOver = true;
-            });
         }
 
         private bool _isInited = false;
@@ -69,30 +52,126 @@ namespace NTMiner.Data.Impl {
             }
         }
 
+        private static readonly Dictionary<string, int> STotalShareByCoin = new Dictionary<string, int>();
+        private static readonly Dictionary<string, int> SRejectShareByCoin = new Dictionary<string, int>();
         /// <summary>
         /// 
         /// </summary>
         /// <param name="leftTime"></param>
         /// <param name="seconds">快照周期：秒</param>
         private void Snapshot(DateTime leftTime, int seconds) {
+            InitOnece();
             if (seconds > 120) {
                 throw new InvalidProgramException("客户端每两分钟上报一次数据，所以快照拍摄周期不能大于2分钟，否则一个快照中同一个人可能出现两次");
             }
-            if (leftTime == DateTime.MinValue) {
-                Write.DevLine("尚没有数据源，暂不拍摄");
-                return;
-            }
             DateTime rightTime = leftTime.AddSeconds(seconds);
             Write.DevLine($"快照时间区间{{{leftTime} - {rightTime}]");
-            if (rightTime <= DateTime.Now) {
+            DateTime now = DateTime.Now;
+            if (rightTime <= now) {
                 try {
-                    if (IsSnapshoted(leftTime, rightTime)) {
-                        return;
+                    Dictionary<string, int> totalShareDic = new Dictionary<string, int>();
+                    Dictionary<string, int> rejectShareDic = new Dictionary<string, int>();
+                    Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
+                    foreach (var clientData in _root.ClientSet) {
+                        if (clientData.ModifiedOn.AddMinutes(3) < now) {
+                            continue;
+                        }
+
+                        if (string.IsNullOrEmpty(clientData.MainCoinCode)) {
+                            continue;
+                        }
+
+                        if (!STotalShareByCoin.ContainsKey(clientData.MainCoinCode)) {
+                            STotalShareByCoin.Add(clientData.MainCoinCode, 0);
+                        }
+
+                        if (!SRejectShareByCoin.ContainsKey(clientData.MainCoinCode)) {
+                            SRejectShareByCoin.Add(clientData.MainCoinCode, 0);
+                        }
+
+                        if (!totalShareDic.ContainsKey(clientData.MainCoinCode)) {
+                            totalShareDic.Add(clientData.MainCoinCode, 0);
+                        }
+
+                        if (!rejectShareDic.ContainsKey(clientData.MainCoinCode)) {
+                            rejectShareDic.Add(clientData.MainCoinCode, 0);
+                        }
+
+                        CoinSnapshotData mainCoinSnapshotData;
+                        if (!dicByCoinCode.TryGetValue(clientData.MainCoinCode, out mainCoinSnapshotData)) {
+                            mainCoinSnapshotData = new CoinSnapshotData() {
+                                Id = ObjectId.NewObjectId(),
+                                Timestamp = rightTime,
+                                CoinCode = clientData.MainCoinCode
+                            };
+                            dicByCoinCode.Add(clientData.MainCoinCode, mainCoinSnapshotData);
+                        }
+
+                        if (clientData.IsMining) {
+                            mainCoinSnapshotData.MainCoinMiningCount += 1;
+                            mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
+                            totalShareDic[clientData.MainCoinCode] += clientData.MainCoinTotalShare;
+                            rejectShareDic[clientData.MainCoinCode] += clientData.MainCoinRejectShare;
+                        }
+
+                        mainCoinSnapshotData.MainCoinOnlineCount += 1;
+
+                        if (!string.IsNullOrEmpty(clientData.DualCoinCode) && clientData.IsDualCoinEnabled) {
+                            if (!STotalShareByCoin.ContainsKey(clientData.DualCoinCode)) {
+                                STotalShareByCoin.Add(clientData.DualCoinCode, 0);
+                            }
+
+                            if (!SRejectShareByCoin.ContainsKey(clientData.DualCoinCode)) {
+                                SRejectShareByCoin.Add(clientData.DualCoinCode, 0);
+                            }
+
+                            if (!totalShareDic.ContainsKey(clientData.DualCoinCode)) {
+                                totalShareDic.Add(clientData.DualCoinCode, 0);
+                            }
+
+                            if (!rejectShareDic.ContainsKey(clientData.DualCoinCode)) {
+                                rejectShareDic.Add(clientData.DualCoinCode, 0);
+                            }
+
+                            CoinSnapshotData dualCoinSnapshotData;
+                            if (!dicByCoinCode.TryGetValue(clientData.DualCoinCode, out dualCoinSnapshotData)) {
+                                dualCoinSnapshotData = new CoinSnapshotData() {
+                                    Id = ObjectId.NewObjectId(),
+                                    Timestamp = rightTime,
+                                    CoinCode = clientData.DualCoinCode
+                                };
+                                dicByCoinCode.Add(clientData.DualCoinCode, dualCoinSnapshotData);
+                            }
+
+                            if (clientData.IsMining) {
+                                dualCoinSnapshotData.DualCoinMiningCount += 1;
+                                dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
+                                totalShareDic[clientData.DualCoinCode] += clientData.DualCoinTotalShare;
+                                rejectShareDic[clientData.DualCoinCode] += clientData.DualCoinRejectShare;
+                            }
+
+                            dualCoinSnapshotData.DualCoinOnlineCount += 1;
+                        }
                     }
-                    // 根据3分钟的数据进行统计因为客户端每两分钟上报一次算力
-                    List<ClientCoinSnapshotData> clientCoinSpeedList = _root.ClientCoinSnapshotSet.GetClientCoinSnapshots(leftTime.AddSeconds(-180), rightTime);
-                    if (clientCoinSpeedList.Count > 0) {
-                        Snapshot(clientCoinSpeedList, rightTime);
+
+                    foreach (var item in dicByCoinCode.Values) {
+                        item.ShareDelta = (totalShareDic[item.CoinCode] - rejectShareDic[item.CoinCode]) -
+                            (STotalShareByCoin[item.CoinCode] - SRejectShareByCoin[item.CoinCode]);
+                        item.RejectShareDelta = rejectShareDic[item.CoinCode] - SRejectShareByCoin[item.CoinCode];
+                        STotalShareByCoin[item.CoinCode] = totalShareDic[item.CoinCode];
+                        SRejectShareByCoin[item.CoinCode] = rejectShareDic[item.CoinCode];
+                    }
+                    DateTime time = rightTime.AddMinutes(-20);
+                    List<CoinSnapshotData> toRemoves = _dataList.Where(a => a.Timestamp < time).ToList();
+                    foreach (var item in toRemoves) {
+                        _dataList.Remove(item);
+                    }
+                    if (dicByCoinCode.Count > 0) {
+                        using (LiteDatabase db = HostRoot.CreateReportDb()) {
+                            var col = db.GetCollection<CoinSnapshotData>();
+                            col.Insert(dicByCoinCode.Values);
+                        }
+                        Write.DevLine("拍摄快照" + dicByCoinCode.Count + "张，快照时间戳：" + rightTime.ToString("yyyy-MM-dd HH:mm:ss fff"));
                     }
                 }
                 catch (Exception e) {
@@ -101,76 +180,6 @@ namespace NTMiner.Data.Impl {
             }
             else {
                 Write.DevLine("快照已拍摄到当前时间");
-            }
-        }
-
-        private void Snapshot(List<ClientCoinSnapshotData> clientCoinSpeedList, DateTime timestamp) {
-            InitOnece();
-            Dictionary<string, List<ClientCoinSnapshotData>> clientCoinSpeedDic = clientCoinSpeedList.GroupBy(a => a.CoinCode).ToDictionary(a => a.Key, a => a.ToList());
-            List<CoinSnapshotData> data = new List<CoinSnapshotData>();
-            lock (_locker) {
-                foreach (var item in clientCoinSpeedDic) {
-                    Dictionary<Guid, ClientCoinSnapshotData> dic = new Dictionary<Guid, ClientCoinSnapshotData>();
-                    foreach (var clientCoinSnapshotData in item.Value) {
-                        if (!dic.ContainsKey(clientCoinSnapshotData.ClientId)) {
-                            dic.Add(clientCoinSnapshotData.ClientId, clientCoinSnapshotData);
-                        }
-                        else {
-                            dic[clientCoinSnapshotData.ClientId] = clientCoinSnapshotData;
-                        }
-                    }
-                    double speed = dic.Values.Sum(a => a.Speed);
-                    int shareDelta = dic.Values.Sum(a => a.ShareDelta);
-                    int rejectShareDelta = dic.Values.Sum(a => a.RejectShareDelta);
-                    ClientCoinCount count = _root.ClientSet.Count(item.Key);
-                    CoinSnapshotData preData = _dataList.Where(a => a.CoinCode == item.Key).OrderByDescending(a => a.Timestamp).FirstOrDefault();
-                    if (preData != null) {
-                        shareDelta = shareDelta - preData.ShareDelta;
-                        rejectShareDelta = preData.RejectShareDelta;
-                    }
-                    CoinSnapshotData snapshotData = new CoinSnapshotData {
-                        Id = ObjectId.NewObjectId(),
-                        CoinCode = item.Key,
-                        MainCoinMiningCount = count.MainCoinMiningCount,
-                        MainCoinOnlineCount = count.MainCoinOnlineCount,
-                        DualCoinMiningCount = count.DualCoinMiningCount,
-                        DualCoinOnlineCount = count.DualCoinOnlineCount,
-                        Timestamp = timestamp,
-                        ShareDelta = shareDelta,
-                        RejectShareDelta = rejectShareDelta,
-                        Speed = speed
-                    };
-                    data.Add(snapshotData);
-                }
-                _dataList.AddRange(data);
-                DateTime time = timestamp.AddMinutes(-20);
-                List<CoinSnapshotData> toRemoves = _dataList.Where(a => a.Timestamp < time).ToList();
-                foreach (var item in toRemoves) {
-                    _dataList.Remove(item);
-                }
-            }
-            if (data.Count > 0) {
-                using (LiteDatabase db = HostRoot.CreateReportDb()) {
-                    var col = db.GetCollection<CoinSnapshotData>();
-                    col.Insert(data);
-                }
-                Write.DevLine("拍摄快照" + data.Count + "张，快照时间戳：" + timestamp.ToString("yyyy-MM-dd HH:mm:ss fff"));
-            }
-        }
-
-        private bool IsSnapshoted(DateTime leftTime, DateTime rightTime) {
-            InitOnece();
-            if (leftTime > DateTime.Now.AddMinutes(-20)) {
-                lock (_locker) {
-                    return _dataList.Any(a => a.Timestamp > leftTime && a.Timestamp <= rightTime);
-                }
-            }
-            using (LiteDatabase db = HostRoot.CreateReportDb()) {
-                var col = db.GetCollection<CoinSnapshotData>();
-                return col.Exists(
-                    Query.And(
-                        Query.GT(nameof(CoinSnapshotData.Timestamp), leftTime),
-                        Query.LTE(nameof(CoinSnapshotData.Timestamp), rightTime)));
             }
         }
 

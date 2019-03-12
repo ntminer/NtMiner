@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Data {
-    public interface IClientSet {
+    public interface IClientSet : IEnumerable<ClientData> {
         ClientCount Count();
 
         ClientCoinCount Count(string coinCode);

@@ -2,6 +2,7 @@
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -31,18 +32,13 @@ namespace NTMiner.Data.Impl {
                     }
                 });
             VirtualRoot.On<Per2MinuteEvent>(
-                "每两分钟拉取挖矿端算力图拍照源数据",
+                "每两分钟拉取数据更新拍照源数据",
                 LogEnum.Console,
                 action: message => {
                     if (HostRoot.IsPull) {
                         ClientData[] clientDatas = _dicById.Values.ToArray();
                         Task<SpeedData>[] tasks = clientDatas.Select(a => CreatePullTask(a)).ToArray();
                         Task.WaitAll(tasks, 10 * 1000);
-                        foreach (var task in tasks) {
-                            if (task.Result != null) {
-                                root.ClientCoinSnapshotSet.Snapshot(clientDatas.FirstOrDefault(a => a.Id == task.Result.ClientId), task.Result);
-                            }
-                        }
                     }
                 });
         }
@@ -300,6 +296,17 @@ namespace NTMiner.Data.Impl {
                     clientData.Update(speedData);
                 }
             });
+        }
+
+        public IEnumerator<ClientData> GetEnumerator() {
+            InitOnece();
+            foreach (var clientData in _dicById.Values) {
+                yield return clientData;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
         }
     }
 }

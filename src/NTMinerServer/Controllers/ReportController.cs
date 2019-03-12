@@ -1,5 +1,4 @@
-﻿using NTMiner.Data;
-using NTMiner.MinerClient;
+﻿using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
 using System.Web.Http;
@@ -28,7 +27,6 @@ namespace NTMiner.Controllers {
                 else {
                     clientData.Update(speedData, minerIp);
                 }
-                HostRoot.Current.ClientCoinSnapshotSet.Snapshot(clientData, speedData);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
