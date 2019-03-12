@@ -25,9 +25,17 @@ namespace NTMiner.Data.Impl {
                     lock (_locker) {
                         DateTime time = message.Timestamp.AddSeconds(-message.Seconds);
                         using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                            var col = db.GetCollection<ClientData>();
+                            var col = db.GetCollection<MinerClient>();
                             // 更新一个周期内活跃的客户端
-                            col.Upsert(_dicById.Values.Where(a => a.ModifiedOn > time));
+                            col.Upsert(_dicById.Values.Where(a => a.ModifiedOn > time).Select(a => new MinerClient {
+                                CreatedOn = a.CreatedOn,
+                                GroupId = a.GroupId,
+                                Id = a.Id,
+                                MinerIp = a.MinerIp,
+                                WindowsLoginName = a.WindowsLoginName,
+                                WindowsPassword = a.WindowsPassword,
+                                WorkId = a.WorkId
+                            }));
                         }
                     }
                 });
