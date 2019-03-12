@@ -150,9 +150,14 @@ namespace NTMiner.Data.Impl {
                 }
 
                 foreach (var item in dicByCoinCode.Values) {
-                    item.ShareDelta = (totalShareDic[item.CoinCode] - rejectShareDic[item.CoinCode]) -
-                        (STotalShareByCoin[item.CoinCode] - SRejectShareByCoin[item.CoinCode]);
-                    item.RejectShareDelta = rejectShareDic[item.CoinCode] - SRejectShareByCoin[item.CoinCode];
+                    int preShare = (STotalShareByCoin[item.CoinCode] - SRejectShareByCoin[item.CoinCode]);
+                    if (preShare != 0) {
+                        item.ShareDelta = (totalShareDic[item.CoinCode] - rejectShareDic[item.CoinCode]) - preShare;
+                    }
+                    int preRejectShare = SRejectShareByCoin[item.CoinCode];
+                    if (preRejectShare != 0) {
+                        item.RejectShareDelta = rejectShareDic[item.CoinCode] - preRejectShare;
+                    }
                     STotalShareByCoin[item.CoinCode] = totalShareDic[item.CoinCode];
                     SRejectShareByCoin[item.CoinCode] = rejectShareDic[item.CoinCode];
                 }
