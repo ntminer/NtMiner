@@ -51,18 +51,18 @@ namespace NTMiner.Vms {
                 Position = AxisPosition.RightTop
             };
             var axisYOnlineCount = new Axis() {
-                LabelFormatter = value => Math.Round(value, 0).ToString(),
+                LabelFormatter = value => Math.Round(value, 0) + "miner",
                 Separator = new Separator(),
                 Foreground = SAxisForeground,
                 MinValue = 0,
-                FontSize = 13
+                FontSize = 11
             };
             var axisYShareCount = new Axis() {
-                LabelFormatter = value => Math.Round(value, 0).ToString(),
+                LabelFormatter = value => Math.Round(value, 0) + "share",
                 Separator = new Separator(),
                 Foreground = SAxisForeground,
                 MinValue = 0,
-                FontSize = 13,
+                FontSize = 11,
                 Position = AxisPosition.RightTop
             };
             this._axisY = new AxesCollection {

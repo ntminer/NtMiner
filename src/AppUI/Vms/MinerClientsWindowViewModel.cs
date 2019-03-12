@@ -102,10 +102,7 @@ namespace NTMiner.Vms {
             this._dualCoinPool = _dualCoin.OptionPools.First();
             this._mainCoinWallet = string.Empty;
             this._dualCoinWallet = string.Empty;
-            this.AddMinerClient = new DelegateCommand(() => {
-                MinerClientAdd.ShowWindow();
-                QueryMinerClients();
-            });
+            this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
             this.RestartWindows = new DelegateCommand(() => {
                 if (this.MinerClients == null) {
                     return;
