@@ -97,6 +97,7 @@
     <Compile Include="Data\Impl\ColumnsShowSet.cs" />
     <Compile Include="Data\Impl\HostConfigData.cs" />
     <Compile Include="Data\Impl\MineProfileManager.cs" />
+    <Compile Include="Data\Impl\MinerClient.cs" />
     <Compile Include="Data\Impl\MinerGroupSet.cs" />
     <Compile Include="Data\Impl\MineWorkSet.cs" />
     <Compile Include="Data\Impl\NTMinerFileSet.cs" />

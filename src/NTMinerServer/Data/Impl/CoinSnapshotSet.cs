@@ -178,8 +178,8 @@ namespace NTMiner.Data.Impl {
             totalMiningCount = count.MiningCount;
             totalOnlineCount = count.OnlineCount;
             List<CoinSnapshotData> results;
-            DateTime rightTime = DateTime.Now.AddSeconds(-10);
-            DateTime leftTime = rightTime.AddSeconds(-limit * 10 - 10);
+            DateTime rightTime = DateTime.Now.AddSeconds(-20);
+            DateTime leftTime = rightTime.AddSeconds(-limit * 10 - 20);
             if (leftTime > HostRoot.Current.StartedOn) {
                 lock (_locker) {
                     results = _dataList.Where(a => a.Timestamp > leftTime && a.Timestamp <= rightTime).OrderByDescending(a => a.Timestamp).ToList();
