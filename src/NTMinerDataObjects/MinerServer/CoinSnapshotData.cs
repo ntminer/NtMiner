@@ -10,6 +10,7 @@ namespace NTMiner.MinerServer {
         public string CoinCode { get; set; }
         public double Speed { get; set; }
         public int ShareDelta { get; set; }
+        public int RejectShareDelta { get; set; }
         public int MainCoinOnlineCount { get; set; }
         public int MainCoinMiningCount { get; set; }
         public int DualCoinOnlineCount { get; set; }

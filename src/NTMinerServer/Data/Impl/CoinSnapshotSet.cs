@@ -72,6 +72,7 @@ namespace NTMiner.Data.Impl {
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="leftTime"></param>
         /// <param name="seconds">快照周期：秒</param>
         private void Snapshot(DateTime leftTime, int seconds) {
             if (seconds > 120) {
@@ -120,8 +121,9 @@ namespace NTMiner.Data.Impl {
                     }
                     double speed = dic.Values.Sum(a => a.Speed);
                     int shareDelta = dic.Values.Sum(a => a.ShareDelta);
+                    int rejectShareDelta = dic.Values.Sum(a => a.RejectShareDelta);
                     ClientCoinCount count = _root.ClientSet.Count(item.Key);
-                    CoinSnapshotData snapshotdData = new CoinSnapshotData {
+                    CoinSnapshotData snapshotData = new CoinSnapshotData {
                         Id = ObjectId.NewObjectId(),
                         CoinCode = item.Key,
                         MainCoinMiningCount = count.MainCoinMiningCount,
@@ -130,9 +132,10 @@ namespace NTMiner.Data.Impl {
                         DualCoinOnlineCount = count.DualCoinOnlineCount,
                         Timestamp = timestamp,
                         ShareDelta = shareDelta,
+                        RejectShareDelta = rejectShareDelta,
                         Speed = speed
                     };
-                    data.Add(snapshotdData);
+                    data.Add(snapshotData);
                 }
                 _dataList.AddRange(data);
                 DateTime time = timestamp.AddMinutes(-20);
@@ -174,7 +177,7 @@ namespace NTMiner.Data.Impl {
             ClientCount count = HostRoot.Current.ClientSet.Count();
             totalMiningCount = count.MiningCount;
             totalOnlineCount = count.OnlineCount;
-            List<CoinSnapshotData> results = new List<CoinSnapshotData>();
+            List<CoinSnapshotData> results;
             DateTime rightTime = DateTime.Now;
             DateTime leftTime = rightTime.AddSeconds(-limit * 10 - 10);
             if (leftTime > HostRoot.Current.StartedOn) {

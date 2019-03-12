@@ -16,6 +16,7 @@ namespace NTMiner.Data {
                     dualCoinSnapshotData = new ClientCoinSnapshotData {
                         CoinCode = speedData.DualCoinCode,
                         ShareDelta = speedData.DualCoinShareDelta,
+                        RejectShareDelta = speedData.DualCoinRejectShareDelta,
                         Speed = speedData.DualCoinSpeed,
                         Timestamp = DateTime.Now,
                         ClientId = speedData.ClientId
@@ -24,6 +25,7 @@ namespace NTMiner.Data {
                 return new ClientCoinSnapshotData {
                     CoinCode = speedData.MainCoinCode,
                     ShareDelta = speedData.MainCoinShareDelta,
+                    RejectShareDelta = speedData.MainCoinRejectShareDelta,
                     Speed = speedData.MainCoinSpeed,
                     Timestamp = DateTime.Now,
                     ClientId = speedData.ClientId
@@ -34,13 +36,13 @@ namespace NTMiner.Data {
 
         public int Id { get; set; }
         public Guid ClientId { get; set; }
-        public bool IsMinig { get; set; }
         public string CoinCode {
             get => _coinCode ?? string.Empty;
             set => _coinCode = value;
         }
         public double Speed { get; set; }
         public int ShareDelta { get; set; }
+        public int RejectShareDelta { get; set; }
         public DateTime Timestamp { get; set; }
     }
 }

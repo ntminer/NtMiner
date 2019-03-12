@@ -215,7 +215,7 @@ namespace NTMiner.Vms {
         public void SetAxisLimits(DateTime now) {
             AxisX[0].MaxValue = now.Ticks;
             AxisX[0].MinValue = now.Ticks - TimeSpan.FromMinutes(NTMinerRoot.Current.SpeedHistoryLengthByMinute).Ticks;
-            double maxAcceptValue = 0;
+            double maxAcceptValue = 1;
             double maxRejectValue = 0;
             if (_acceptValues != null && _acceptValues.Count != 0) {
                 maxAcceptValue = _acceptValues.Max(a => a.Value);
