@@ -16,8 +16,12 @@ namespace NTMiner.Data.Impl {
                 "周期性拍摄快照",
                 LogEnum.Console,
                 action: message => {
-                    DateTime leftTime = message.Timestamp.AddSeconds(-message.Seconds);
-                    Snapshot(leftTime, seconds: 10);
+                    Snapshot(message.Timestamp);
+                    DateTime time = message.Timestamp.AddMinutes(-20);
+                    List<CoinSnapshotData> toRemoves = _dataList.Where(a => a.Timestamp < time).ToList();
+                    foreach (var item in toRemoves) {
+                        _dataList.Remove(item);
+                    }
                 });
         }
 
@@ -57,129 +61,111 @@ namespace NTMiner.Data.Impl {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="leftTime"></param>
-        /// <param name="seconds">快照周期：秒</param>
-        private void Snapshot(DateTime leftTime, int seconds) {
+        private void Snapshot(DateTime now) {
             InitOnece();
-            if (seconds > 120) {
-                throw new InvalidProgramException("客户端每两分钟上报一次数据，所以快照拍摄周期不能大于2分钟，否则一个快照中同一个人可能出现两次");
-            }
-            DateTime rightTime = leftTime.AddSeconds(seconds);
-            Write.DevLine($"快照时间区间{{{leftTime} - {rightTime}]");
-            DateTime now = DateTime.Now;
-            if (rightTime <= now) {
-                try {
-                    Dictionary<string, int> totalShareDic = new Dictionary<string, int>();
-                    Dictionary<string, int> rejectShareDic = new Dictionary<string, int>();
-                    Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
-                    foreach (var clientData in _root.ClientSet) {
-                        if (clientData.ModifiedOn.AddMinutes(3) < now) {
-                            continue;
+            try {
+                Dictionary<string, int> totalShareDic = new Dictionary<string, int>();
+                Dictionary<string, int> rejectShareDic = new Dictionary<string, int>();
+                Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
+                foreach (var clientData in _root.ClientSet) {
+                    if (clientData.ModifiedOn.AddMinutes(3) < now) {
+                        continue;
+                    }
+
+                    if (string.IsNullOrEmpty(clientData.MainCoinCode)) {
+                        continue;
+                    }
+
+                    if (!STotalShareByCoin.ContainsKey(clientData.MainCoinCode)) {
+                        STotalShareByCoin.Add(clientData.MainCoinCode, 0);
+                    }
+
+                    if (!SRejectShareByCoin.ContainsKey(clientData.MainCoinCode)) {
+                        SRejectShareByCoin.Add(clientData.MainCoinCode, 0);
+                    }
+
+                    if (!totalShareDic.ContainsKey(clientData.MainCoinCode)) {
+                        totalShareDic.Add(clientData.MainCoinCode, 0);
+                    }
+
+                    if (!rejectShareDic.ContainsKey(clientData.MainCoinCode)) {
+                        rejectShareDic.Add(clientData.MainCoinCode, 0);
+                    }
+
+                    CoinSnapshotData mainCoinSnapshotData;
+                    if (!dicByCoinCode.TryGetValue(clientData.MainCoinCode, out mainCoinSnapshotData)) {
+                        mainCoinSnapshotData = new CoinSnapshotData() {
+                            Id = ObjectId.NewObjectId(),
+                            Timestamp = now,
+                            CoinCode = clientData.MainCoinCode
+                        };
+                        dicByCoinCode.Add(clientData.MainCoinCode, mainCoinSnapshotData);
+                    }
+
+                    if (clientData.IsMining) {
+                        mainCoinSnapshotData.MainCoinMiningCount += 1;
+                        mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
+                        totalShareDic[clientData.MainCoinCode] += clientData.MainCoinTotalShare;
+                        rejectShareDic[clientData.MainCoinCode] += clientData.MainCoinRejectShare;
+                    }
+
+                    mainCoinSnapshotData.MainCoinOnlineCount += 1;
+
+                    if (!string.IsNullOrEmpty(clientData.DualCoinCode) && clientData.IsDualCoinEnabled) {
+                        if (!STotalShareByCoin.ContainsKey(clientData.DualCoinCode)) {
+                            STotalShareByCoin.Add(clientData.DualCoinCode, 0);
                         }
 
-                        if (string.IsNullOrEmpty(clientData.MainCoinCode)) {
-                            continue;
+                        if (!SRejectShareByCoin.ContainsKey(clientData.DualCoinCode)) {
+                            SRejectShareByCoin.Add(clientData.DualCoinCode, 0);
                         }
 
-                        if (!STotalShareByCoin.ContainsKey(clientData.MainCoinCode)) {
-                            STotalShareByCoin.Add(clientData.MainCoinCode, 0);
+                        if (!totalShareDic.ContainsKey(clientData.DualCoinCode)) {
+                            totalShareDic.Add(clientData.DualCoinCode, 0);
                         }
 
-                        if (!SRejectShareByCoin.ContainsKey(clientData.MainCoinCode)) {
-                            SRejectShareByCoin.Add(clientData.MainCoinCode, 0);
+                        if (!rejectShareDic.ContainsKey(clientData.DualCoinCode)) {
+                            rejectShareDic.Add(clientData.DualCoinCode, 0);
                         }
 
-                        if (!totalShareDic.ContainsKey(clientData.MainCoinCode)) {
-                            totalShareDic.Add(clientData.MainCoinCode, 0);
-                        }
-
-                        if (!rejectShareDic.ContainsKey(clientData.MainCoinCode)) {
-                            rejectShareDic.Add(clientData.MainCoinCode, 0);
-                        }
-
-                        CoinSnapshotData mainCoinSnapshotData;
-                        if (!dicByCoinCode.TryGetValue(clientData.MainCoinCode, out mainCoinSnapshotData)) {
-                            mainCoinSnapshotData = new CoinSnapshotData() {
+                        CoinSnapshotData dualCoinSnapshotData;
+                        if (!dicByCoinCode.TryGetValue(clientData.DualCoinCode, out dualCoinSnapshotData)) {
+                            dualCoinSnapshotData = new CoinSnapshotData() {
                                 Id = ObjectId.NewObjectId(),
-                                Timestamp = rightTime,
-                                CoinCode = clientData.MainCoinCode
+                                Timestamp = now,
+                                CoinCode = clientData.DualCoinCode
                             };
-                            dicByCoinCode.Add(clientData.MainCoinCode, mainCoinSnapshotData);
+                            dicByCoinCode.Add(clientData.DualCoinCode, dualCoinSnapshotData);
                         }
 
                         if (clientData.IsMining) {
-                            mainCoinSnapshotData.MainCoinMiningCount += 1;
-                            mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
-                            totalShareDic[clientData.MainCoinCode] += clientData.MainCoinTotalShare;
-                            rejectShareDic[clientData.MainCoinCode] += clientData.MainCoinRejectShare;
+                            dualCoinSnapshotData.DualCoinMiningCount += 1;
+                            dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
+                            totalShareDic[clientData.DualCoinCode] += clientData.DualCoinTotalShare;
+                            rejectShareDic[clientData.DualCoinCode] += clientData.DualCoinRejectShare;
                         }
 
-                        mainCoinSnapshotData.MainCoinOnlineCount += 1;
-
-                        if (!string.IsNullOrEmpty(clientData.DualCoinCode) && clientData.IsDualCoinEnabled) {
-                            if (!STotalShareByCoin.ContainsKey(clientData.DualCoinCode)) {
-                                STotalShareByCoin.Add(clientData.DualCoinCode, 0);
-                            }
-
-                            if (!SRejectShareByCoin.ContainsKey(clientData.DualCoinCode)) {
-                                SRejectShareByCoin.Add(clientData.DualCoinCode, 0);
-                            }
-
-                            if (!totalShareDic.ContainsKey(clientData.DualCoinCode)) {
-                                totalShareDic.Add(clientData.DualCoinCode, 0);
-                            }
-
-                            if (!rejectShareDic.ContainsKey(clientData.DualCoinCode)) {
-                                rejectShareDic.Add(clientData.DualCoinCode, 0);
-                            }
-
-                            CoinSnapshotData dualCoinSnapshotData;
-                            if (!dicByCoinCode.TryGetValue(clientData.DualCoinCode, out dualCoinSnapshotData)) {
-                                dualCoinSnapshotData = new CoinSnapshotData() {
-                                    Id = ObjectId.NewObjectId(),
-                                    Timestamp = rightTime,
-                                    CoinCode = clientData.DualCoinCode
-                                };
-                                dicByCoinCode.Add(clientData.DualCoinCode, dualCoinSnapshotData);
-                            }
-
-                            if (clientData.IsMining) {
-                                dualCoinSnapshotData.DualCoinMiningCount += 1;
-                                dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
-                                totalShareDic[clientData.DualCoinCode] += clientData.DualCoinTotalShare;
-                                rejectShareDic[clientData.DualCoinCode] += clientData.DualCoinRejectShare;
-                            }
-
-                            dualCoinSnapshotData.DualCoinOnlineCount += 1;
-                        }
-                    }
-
-                    foreach (var item in dicByCoinCode.Values) {
-                        item.ShareDelta = (totalShareDic[item.CoinCode] - rejectShareDic[item.CoinCode]) -
-                            (STotalShareByCoin[item.CoinCode] - SRejectShareByCoin[item.CoinCode]);
-                        item.RejectShareDelta = rejectShareDic[item.CoinCode] - SRejectShareByCoin[item.CoinCode];
-                        STotalShareByCoin[item.CoinCode] = totalShareDic[item.CoinCode];
-                        SRejectShareByCoin[item.CoinCode] = rejectShareDic[item.CoinCode];
-                    }
-                    DateTime time = rightTime.AddMinutes(-20);
-                    List<CoinSnapshotData> toRemoves = _dataList.Where(a => a.Timestamp < time).ToList();
-                    foreach (var item in toRemoves) {
-                        _dataList.Remove(item);
-                    }
-                    if (dicByCoinCode.Count > 0) {
-                        using (LiteDatabase db = HostRoot.CreateReportDb()) {
-                            var col = db.GetCollection<CoinSnapshotData>();
-                            col.Insert(dicByCoinCode.Values);
-                        }
-                        Write.DevLine("拍摄快照" + dicByCoinCode.Count + "张，快照时间戳：" + rightTime.ToString("yyyy-MM-dd HH:mm:ss fff"));
+                        dualCoinSnapshotData.DualCoinOnlineCount += 1;
                     }
                 }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
+
+                foreach (var item in dicByCoinCode.Values) {
+                    item.ShareDelta = (totalShareDic[item.CoinCode] - rejectShareDic[item.CoinCode]) -
+                        (STotalShareByCoin[item.CoinCode] - SRejectShareByCoin[item.CoinCode]);
+                    item.RejectShareDelta = rejectShareDic[item.CoinCode] - SRejectShareByCoin[item.CoinCode];
+                    STotalShareByCoin[item.CoinCode] = totalShareDic[item.CoinCode];
+                    SRejectShareByCoin[item.CoinCode] = rejectShareDic[item.CoinCode];
+                }
+                if (dicByCoinCode.Count > 0) {
+                    using (LiteDatabase db = HostRoot.CreateReportDb()) {
+                        var col = db.GetCollection<CoinSnapshotData>();
+                        col.Insert(dicByCoinCode.Values);
+                    }
+                    Write.DevLine("拍摄快照" + dicByCoinCode.Count + "张，快照时间戳：" + now.ToString("yyyy-MM-dd HH:mm:ss fff"));
                 }
             }
-            else {
-                Write.DevLine("快照已拍摄到当前时间");
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -192,7 +178,7 @@ namespace NTMiner.Data.Impl {
             totalMiningCount = count.MiningCount;
             totalOnlineCount = count.OnlineCount;
             List<CoinSnapshotData> results;
-            DateTime rightTime = DateTime.Now;
+            DateTime rightTime = DateTime.Now.AddSeconds(-10);
             DateTime leftTime = rightTime.AddSeconds(-limit * 10 - 10);
             if (leftTime > HostRoot.Current.StartedOn) {
                 lock (_locker) {
