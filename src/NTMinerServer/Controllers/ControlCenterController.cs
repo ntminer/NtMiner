@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
 using NTMiner.Core;
 
@@ -259,7 +260,7 @@ namespace NTMiner.Controllers {
 
         [HttpPost]
         public ResponseBase AddClient([FromBody] DataRequest<string> request) {
-            if (request == null) {
+            if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -268,9 +269,18 @@ namespace NTMiner.Controllers {
                     return response;
                 }
 
+                IPAddress ip;
+                if (!IPAddress.TryParse(request.Data, out ip)) {
+                    return ResponseBase.InvalidInput(request.MessageId, "IP格式不正确");
+                }
+
+                ClientData clientData = HostRoot.Current.ClientSet.FirstOrDefault(a => a.MinerIp == request.Data);
+                if (clientData != null) {
+                    return ResponseBase.Ok(request.MessageId);
+                }
                 Client.MinerClientService.GetSpeedAsync(request.Data, (speedData, e) => {
                     if (speedData != null) {
-                        ClientData clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId, isPull: false);
+                        clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId, isPull: false);
                         if (clientData == null) {
                             clientData = ClientData.Create(speedData, request.Data);
                             HostRoot.Current.ClientSet.Add(clientData);

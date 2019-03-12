@@ -40,6 +40,7 @@
 			</TextBox>
 		</WrapPanel>
 		<controls:KbButton
+			IsDefault="True"
 			Grid.Row="1" 
 			Command="{Binding Save}" 
 			HorizontalAlignment="Center"

@@ -910,11 +910,21 @@ namespace NTMiner.Vms {
         }
 
         public uint MaxTemp {
-            get { return GpuTable.Max(a => a.Temperature); }
+            get {
+                if (GpuTable == null || GpuTable.Length == 0) {
+                    return 0;
+                }
+                return GpuTable.Max(a => a.Temperature);
+            }
         }
 
         public string MaxTempText {
-            get { return GpuTable.Max(a => a.Temperature).ToString("f0") + "℃"; }
+            get {
+                if (GpuTable == null || GpuTable.Length == 0) {
+                    return "0";
+                }
+                return GpuTable.Max(a => a.Temperature).ToString("f0") + "℃";
+            }
         }
 
         public SolidColorBrush TempForeground {
