@@ -3,6 +3,7 @@ using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using NTMiner.MinerServer;
 using System;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -11,6 +12,7 @@ namespace NTMiner.Vms {
         private SeriesCollection _series;
         private AxesCollection _axisY;
         private AxesCollection _axisX;
+
         private static readonly SolidColorBrush s_transparent = new SolidColorBrush(Colors.Transparent);
         private static readonly SolidColorBrush s_black = new SolidColorBrush(Colors.Black);
         private static readonly SolidColorBrush s_green = new SolidColorBrush(Colors.Green);
@@ -19,7 +21,8 @@ namespace NTMiner.Vms {
         private readonly CoinViewModel _coinVm;
 
         public ICommand Hide { get; private set; }
-
+        private ChartValues<MeasureModel> _rejectValues;
+        private ChartValues<MeasureModel> _acceptValues;
         public ChartViewModel(CoinViewModel coinVm) {
             this.Hide = new DelegateCommand(() => {
                 this.IsShow = false;
@@ -54,8 +57,16 @@ namespace NTMiner.Vms {
                 MinValue = 0,
                 FontSize = 13
             };
+            var axisYShareCount = new Axis() {
+                LabelFormatter = value => Math.Round(value, 0).ToString(),
+                Separator = new Separator(),
+                Foreground = s_AxisForeground,
+                MinValue = 0,
+                FontSize = 13,
+                Position = AxisPosition.RightTop
+            };
             this._axisY = new AxesCollection {
-                axisYOnlineCount, axisYSpeed
+                axisYOnlineCount, axisYSpeed, axisYShareCount
             };
             DateTime now = DateTime.Now;
             this._axisX = new AxesCollection() {
@@ -99,8 +110,33 @@ namespace NTMiner.Vms {
                 Stroke = MiningColor,
                 Values = new ChartValues<MeasureModel>()
             };
+            _rejectValues = new ChartValues<MeasureModel>();
+            _acceptValues = new ChartValues<MeasureModel>();
+            Random r = new Random((int)DateTime.Now.Ticks);
+            for (DateTime t = now.AddMinutes(-10); t < now; t = t.AddSeconds(10)) {
+                _rejectValues.Add(new MeasureModel() {
+                    DateTime = t,
+                    Value = r.Next(2)
+                });
+                _acceptValues.Add(new MeasureModel() {
+                    DateTime = t,
+                    Value = 10 + r.Next(2)
+                });
+            }
+            StackedColumnSeries rejectScs = new StackedColumnSeries {
+                Values = _rejectValues,
+                DataLabels = false,
+                ScalesYAt = 2,
+                MaxColumnWidth = 7
+            };
+            StackedColumnSeries acceptScs = new StackedColumnSeries {
+                Values = _acceptValues,
+                DataLabels = false,
+                ScalesYAt = 2,
+                MaxColumnWidth = 7
+            };
             this._series = new SeriesCollection() {
-                mainCoinSpeedLs, onlineCountLs, miningCountLs
+                mainCoinSpeedLs, rejectScs, acceptScs, miningCountLs, onlineCountLs
             };
         }
 
@@ -188,6 +224,15 @@ namespace NTMiner.Vms {
         public void SetAxisLimits(DateTime now) {
             AxisX[0].MaxValue = now.Ticks;
             AxisX[0].MinValue = now.Ticks - TimeSpan.FromMinutes(NTMinerRoot.Current.SpeedHistoryLengthByMinute).Ticks;
+            double maxAcceptValue = 0;
+            double maxRejectValue = 0;
+            if (_acceptValues != null && _acceptValues.Count != 0) {
+                maxAcceptValue = _acceptValues.Max(a => a.Value);
+            }
+            if (_rejectValues != null && _rejectValues.Count != 0) {
+                maxRejectValue = _rejectValues.Max(a => a.Value);
+            }
+            AxisY[2].MaxValue = Math.Max(maxRejectValue, maxAcceptValue) * 3;
         }
     }
 }
