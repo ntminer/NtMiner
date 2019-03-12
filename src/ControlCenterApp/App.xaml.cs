@@ -45,7 +45,7 @@ namespace NTMiner {
                         bool? result = true;
                         if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
                             LoginWindow loginWindow = new LoginWindow();
-                            splashWindow.Hide();
+                            splashWindow?.Close();
                             result = loginWindow.ShowDialog();
                         }
                         if (result.HasValue && result.Value) {
@@ -67,7 +67,6 @@ namespace NTMiner {
                             #endregion
                         }
                         HttpServer.Start($"http://localhost:{WebApiConst.ControlCenterAppPort}");
-                        splashWindow?.Close();
                         AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                     });
                 });

@@ -180,23 +180,23 @@ namespace NTMiner.Controllers {
                 int total;
                 int miningCount;
                 var data = HostRoot.Current.ClientSet.QueryClients(
-                               request.PageIndex, 
-                                request.PageSize, 
+                               request.PageIndex,
+                                request.PageSize,
                                 request.IsPull,
                                 request.TimeLimit,
-                                request.GroupId, 
+                                request.GroupId,
                                 request.WorkId,
-                                request.MinerIp, 
-                                request.MinerName, 
+                                request.MinerIp,
+                                request.MinerName,
                                 request.MineState,
-                                request.MainCoin, 
-                                request.MainCoinPool, 
+                                request.MainCoin,
+                                request.MainCoinPool,
                                 request.MainCoinWallet,
-                                request.DualCoin, 
-                                request.DualCoinPool, 
+                                request.DualCoin,
+                                request.DualCoinPool,
                                 request.DualCoinWallet,
-                                request.Version, 
-                                request.Kernel, 
+                                request.Version,
+                                request.Kernel,
                                 out total,
                                 out miningCount) ?? new List<ClientData>();
                 return QueryClientsResponse.Ok(request.MessageId, data, total, miningCount);
@@ -251,6 +251,35 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<DataResponse<ClientData>>(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region AddClient
+
+        [HttpPost]
+        public ResponseBase AddClient([FromBody] DataRequest<string> request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+
+                Client.MinerClientService.GetSpeedAsync(request.Data, (speedData, e) => {
+                    ClientData clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId, isPull: false);
+                    if (clientData == null) {
+                        clientData = ClientData.Create(speedData, request.Data);
+                        HostRoot.Current.ClientSet.Add(clientData);
+                    }
+                });
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
         #endregion

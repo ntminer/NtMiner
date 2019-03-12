@@ -221,6 +221,25 @@ namespace NTMiner {
             }
             #endregion
 
+            #region AddClientAsync
+            public void AddClientAsync(string clientIp, Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        DataRequest<string> request = new DataRequest<string>() {
+                            LoginName = SingleUser.LoginName,
+                            Data = clientIp
+                        };
+                        request.SignIt(SingleUser.PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddClient), request);
+                        callback?.Invoke(response, null);
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+            #endregion
+
             #region UpdateClientAsync
             public void UpdateClientAsync(Guid clientId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {

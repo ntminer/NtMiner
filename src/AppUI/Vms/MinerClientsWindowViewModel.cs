@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Windows.Input;
+using NTMiner.Views.Ucs;
 
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
@@ -62,6 +63,7 @@ namespace NTMiner.Vms {
         public ICommand PageFirst { get; private set; }
         public ICommand PageLast { get; private set; }
         public ICommand PageRefresh { get; private set; }
+        public ICommand AddMinerClient { get; private set; }
 
         #region ctor
         private MinerClientsWindowViewModel() {
@@ -100,6 +102,10 @@ namespace NTMiner.Vms {
             this._dualCoinPool = _dualCoin.OptionPools.First();
             this._mainCoinWallet = string.Empty;
             this._dualCoinWallet = string.Empty;
+            this.AddMinerClient = new DelegateCommand(() => {
+                MinerClientAdd.ShowWindow();
+                QueryMinerClients();
+            });
             this.RestartWindows = new DelegateCommand(() => {
                 if (this.MinerClients == null) {
                     return;

@@ -535,6 +535,20 @@
                                     </MenuItem>
                                 </MenuItem>
                             </Menu>
+                            <controls:KbButton  
+                                Command="{Binding Data.AddMinerClient, Source={StaticResource proxy}}" 
+                                Background="Transparent" BorderThickness="0"
+                                Margin="2 0"
+                                CornerRadius="2" ToolTip="添加">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="14"
+                                        Data="{StaticResource Icon_Add}"
+                                        Fill="{StaticResource IconFillColor}"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
                         </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
