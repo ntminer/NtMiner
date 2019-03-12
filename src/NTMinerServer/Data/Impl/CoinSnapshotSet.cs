@@ -123,6 +123,11 @@ namespace NTMiner.Data.Impl {
                     int shareDelta = dic.Values.Sum(a => a.ShareDelta);
                     int rejectShareDelta = dic.Values.Sum(a => a.RejectShareDelta);
                     ClientCoinCount count = _root.ClientSet.Count(item.Key);
+                    CoinSnapshotData preData = _dataList.Where(a => a.CoinCode == item.Key).OrderByDescending(a => a.Timestamp).FirstOrDefault();
+                    if (preData != null) {
+                        shareDelta = shareDelta - preData.ShareDelta;
+                        rejectShareDelta = preData.RejectShareDelta;
+                    }
                     CoinSnapshotData snapshotData = new CoinSnapshotData {
                         Id = ObjectId.NewObjectId(),
                         CoinCode = item.Key,

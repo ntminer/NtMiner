@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
-using NTMiner.Core.Kernels;
 using NTMiner.MinerClient;
 using NTMiner.Profile;
 using System;
@@ -11,8 +10,18 @@ namespace NTMiner {
     public static class Report {
         // 用于存储和计算份额delta
         private class CoinShareData {
-            public int AccptedShareCount { get; set; }
-            public int RejectedShareCount { get; set; }
+            public CoinShareData(ICoinShare data) {
+                this.AccptedShareCount = data.AcceptShareCount;
+                this.RejectedShareCount = data.RejectShareCount;
+            }
+
+            public void Update(ICoinShare data) {
+                this.AccptedShareCount = data.AcceptShareCount;
+                this.RejectedShareCount = data.RejectShareCount;
+            }
+
+            public int AccptedShareCount { get; private set; }
+            public int RejectedShareCount { get; private set; }
         }
 
         public static void Init(INTMinerRoot root) {
@@ -159,7 +168,6 @@ namespace NTMiner {
                 // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
                 if (_sLastSpeedMainCoin == null || _sLastSpeedMainCoin == root.CurrentMineContext.MainCoin) {
                     _sLastSpeedMainCoin = root.CurrentMineContext.MainCoin;
-                    CoinShareData preCoinShare;
                     Guid coinId = root.CurrentMineContext.MainCoin.GetId();
                     IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
                     IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
@@ -167,11 +175,8 @@ namespace NTMiner {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
                     data.MainCoinTotalShare = share.TotalShareCount;
                     data.MainCoinRejectShare = share.RejectShareCount;
-                    if (!SCoinShareDic.TryGetValue(coinId, out preCoinShare)) {
-                        preCoinShare = new CoinShareData() {
-                            AccptedShareCount = share.AcceptShareCount,
-                            RejectedShareCount = share.RejectShareCount
-                        };
+                    if (!SCoinShareDic.TryGetValue(coinId, out var preCoinShare)) {
+                        preCoinShare = new CoinShareData(share);
                         SCoinShareDic.Add(coinId, preCoinShare);
                         data.MainCoinShareDelta = share.AcceptShareCount;
                         data.MainCoinRejectShareDelta = share.RejectShareCount;
@@ -179,6 +184,7 @@ namespace NTMiner {
                     else {
                         data.MainCoinShareDelta = share.AcceptShareCount - preCoinShare.AccptedShareCount;
                         data.MainCoinRejectShareDelta = share.RejectShareCount - preCoinShare.RejectedShareCount;
+                        preCoinShare.Update(share);
                     }
                 }
                 else {
@@ -188,7 +194,6 @@ namespace NTMiner {
                     // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
                     if (_sLastSpeedDualCoin == null || _sLastSpeedDualCoin == dualMineContext.DualCoin) {
                         _sLastSpeedDualCoin = dualMineContext.DualCoin;
-                        CoinShareData preCoinShare;
                         Guid coinId = dualMineContext.DualCoin.GetId();
                         IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
                         IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
@@ -196,11 +201,8 @@ namespace NTMiner {
                         ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
                         data.DualCoinTotalShare = share.TotalShareCount;
                         data.DualCoinRejectShare = share.RejectShareCount;
-                        if (!SCoinShareDic.TryGetValue(coinId, out preCoinShare)) {
-                            preCoinShare = new CoinShareData() {
-                                AccptedShareCount = share.AcceptShareCount,
-                                RejectedShareCount = share.RejectShareCount
-                            };
+                        if (!SCoinShareDic.TryGetValue(coinId, out var preCoinShare)) {
+                            preCoinShare = new CoinShareData(share);
                             SCoinShareDic.Add(coinId, preCoinShare);
                             data.DualCoinShareDelta = share.AcceptShareCount;
                             data.DualCoinRejectShareDelta = share.RejectShareCount;
@@ -208,6 +210,7 @@ namespace NTMiner {
                         else {
                             data.DualCoinShareDelta = share.AcceptShareCount - preCoinShare.AccptedShareCount;
                             data.DualCoinRejectShareDelta = share.RejectShareCount - preCoinShare.RejectedShareCount;
+                            preCoinShare.Update(share);
                         }
                     }
                     else {
