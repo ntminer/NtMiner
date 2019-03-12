@@ -93,6 +93,7 @@ namespace NTMiner {
                 return Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
+                            client.Timeout = TimeSpan.FromMilliseconds(100);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
                             SpeedData data = message.Result.Content.ReadAsAsync<SpeedData>().Result;
                             callback?.Invoke(data, null);
