@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
             //lets save the mapper globally.
             Charting.For<MeasureModel>(mapper);
 
-            string DateTimeFormatter(double value) => new DateTime((long) value).ToString("HH:mm");
+            string DateTimeFormatter(double value) => new DateTime((long)value).ToString("HH:mm");
             string SpeedFormatter(double value) => value.ToUnitSpeedText();
             //AxisStep forces the distance between each separator in the X axis
             double axisStep = TimeSpan.FromMinutes(1).Ticks;
@@ -215,7 +215,7 @@ namespace NTMiner.Vms {
         public void SetAxisLimits(DateTime now) {
             AxisX[0].MaxValue = now.Ticks;
             AxisX[0].MinValue = now.Ticks - TimeSpan.FromMinutes(NTMinerRoot.Current.SpeedHistoryLengthByMinute).Ticks;
-            double maxAcceptValue = 1;
+            double maxAcceptValue = 0;
             double maxRejectValue = 0;
             if (_acceptValues != null && _acceptValues.Count != 0) {
                 maxAcceptValue = _acceptValues.Max(a => a.Value);
@@ -223,7 +223,12 @@ namespace NTMiner.Vms {
             if (_rejectValues != null && _rejectValues.Count != 0) {
                 maxRejectValue = _rejectValues.Max(a => a.Value);
             }
-            AxisY[2].MaxValue = Math.Max(maxRejectValue, maxAcceptValue) * 3;
+            double maxShareValue = Math.Max(maxRejectValue, maxAcceptValue);
+            // 不能为0
+            if (maxShareValue < 1) {
+                maxShareValue = 1;
+            }
+            AxisY[2].MaxValue = maxShareValue * 3;
         }
     }
 }
