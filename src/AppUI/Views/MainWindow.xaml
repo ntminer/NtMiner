@@ -244,13 +244,14 @@
 										</WrapPanel>
 										<StackPanel
 											Margin="42 0 0 0"
-											IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"
-											VerticalAlignment="Bottom">
-											<controls:KbCheckBox 								
+											IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}">
+											<controls:KbCheckBox
+												Margin="0 2 0 0"
 												Content="{DynamicResource ChkIsAutoBoot}"
 												IconColor="{StaticResource IconFillColor}"
 												IsChecked="{Binding MinerProfile.IsAutoBoot}" />
 											<controls:KbCheckBox
+												Margin="0 2 0 0"
 												Content="{DynamicResource ChkIsAutoStart}"
 												IconColor="{StaticResource IconFillColor}"
 												IsChecked="{Binding MinerProfile.IsAutoStart}" />

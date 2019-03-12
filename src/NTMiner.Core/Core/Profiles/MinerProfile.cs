@@ -109,6 +109,8 @@ namespace NTMiner.Core.Profiles {
             if (_data == null) {
                 _data = MinerProfileData.CreateDefaultData();
             }
+            // 同步数据层开机自动启动项到注册表
+            NTMinerRegistry.SetIsAutoBoot(_data.IsAutoBoot);
         }
         #endregion
 
