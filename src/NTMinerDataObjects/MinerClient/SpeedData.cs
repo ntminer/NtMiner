@@ -56,19 +56,11 @@ namespace NTMiner.MinerClient {
 
         public int MainCoinRejectShare { get; set; }
 
-        public int MainCoinShareDelta { get; set; }
-
-        public int MainCoinRejectShareDelta { get; set; }
-
         public bool IsDualCoinEnabled { get; set; }
 
         public int DualCoinTotalShare { get; set; }
 
         public int DualCoinRejectShare { get; set; }
-
-        public int DualCoinShareDelta { get; set; }
-
-        public int DualCoinRejectShareDelta { get; set; }
 
         public double MainCoinSpeed { get; set; }
 

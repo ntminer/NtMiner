@@ -3,27 +3,10 @@ using NTMiner.Core.Gpus;
 using NTMiner.MinerClient;
 using NTMiner.Profile;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner {
     public static class Report {
-        // 用于存储和计算份额delta
-        private class CoinShareData {
-            public CoinShareData(ICoinShare data) {
-                this.AccptedShareCount = data.AcceptShareCount;
-                this.RejectedShareCount = data.RejectShareCount;
-            }
-
-            public void Update(ICoinShare data) {
-                this.AccptedShareCount = data.AcceptShareCount;
-                this.RejectedShareCount = data.RejectShareCount;
-            }
-
-            public int AccptedShareCount { get; private set; }
-            public int RejectedShareCount { get; private set; }
-        }
-
         public static void Init(INTMinerRoot root) {
             if (Design.IsInDesignMode) {
                 return;
@@ -64,7 +47,6 @@ namespace NTMiner {
                 });
         }
 
-        private static readonly Dictionary<Guid, CoinShareData> SCoinShareDic = new Dictionary<Guid, CoinShareData>();
         private static ICoin _sLastSpeedMainCoin;
         private static ICoin _sLastSpeedDualCoin;
         public static SpeedData CreateSpeedData() {
@@ -83,14 +65,10 @@ namespace NTMiner {
                 MainCoinWallet = string.Empty,
                 MainCoinTotalShare = 0,
                 MainCoinRejectShare = 0,
-                MainCoinShareDelta = 0,
-                MainCoinRejectShareDelta = 0,
                 MainCoinSpeed = 0,
                 DualCoinCode = string.Empty,
                 DualCoinTotalShare = 0,
                 DualCoinRejectShare = 0,
-                DualCoinShareDelta = 0,
-                DualCoinRejectShareDelta = 0,
                 DualCoinSpeed = 0,
                 DualCoinPool = string.Empty,
                 DualCoinWallet = string.Empty,
@@ -175,17 +153,6 @@ namespace NTMiner {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
                     data.MainCoinTotalShare = share.TotalShareCount;
                     data.MainCoinRejectShare = share.RejectShareCount;
-                    if (!SCoinShareDic.TryGetValue(coinId, out var preCoinShare)) {
-                        preCoinShare = new CoinShareData(share);
-                        SCoinShareDic.Add(coinId, preCoinShare);
-                        data.MainCoinShareDelta = share.AcceptShareCount;
-                        data.MainCoinRejectShareDelta = share.RejectShareCount;
-                    }
-                    else {
-                        data.MainCoinShareDelta = share.AcceptShareCount - preCoinShare.AccptedShareCount;
-                        data.MainCoinRejectShareDelta = share.RejectShareCount - preCoinShare.RejectedShareCount;
-                        preCoinShare.Update(share);
-                    }
                 }
                 else {
                     _sLastSpeedMainCoin = root.CurrentMineContext.MainCoin;
@@ -201,17 +168,6 @@ namespace NTMiner {
                         ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
                         data.DualCoinTotalShare = share.TotalShareCount;
                         data.DualCoinRejectShare = share.RejectShareCount;
-                        if (!SCoinShareDic.TryGetValue(coinId, out var preCoinShare)) {
-                            preCoinShare = new CoinShareData(share);
-                            SCoinShareDic.Add(coinId, preCoinShare);
-                            data.DualCoinShareDelta = share.AcceptShareCount;
-                            data.DualCoinRejectShareDelta = share.RejectShareCount;
-                        }
-                        else {
-                            data.DualCoinShareDelta = share.AcceptShareCount - preCoinShare.AccptedShareCount;
-                            data.DualCoinRejectShareDelta = share.RejectShareCount - preCoinShare.RejectedShareCount;
-                            preCoinShare.Update(share);
-                        }
                     }
                     else {
                         _sLastSpeedDualCoin = dualMineContext.DualCoin;

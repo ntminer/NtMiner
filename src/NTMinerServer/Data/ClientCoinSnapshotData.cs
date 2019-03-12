@@ -1,5 +1,6 @@
 ﻿using NTMiner.MinerClient;
 using System;
+using NTMiner.MinerServer;
 
 namespace NTMiner.Data {
     public class ClientCoinSnapshotData {
@@ -7,25 +8,44 @@ namespace NTMiner.Data {
 
         public ClientCoinSnapshotData() { }
 
-        public static ClientCoinSnapshotData Create(SpeedData speedData, out ClientCoinSnapshotData dualCoinSnapshotData) {
+        public static ClientCoinSnapshotData Create(IClientData clientData, SpeedData speedData,
+            out ClientCoinSnapshotData dualCoinSnapshotData) {
             bool isMainCoin = !string.IsNullOrEmpty(speedData.MainCoinCode);
             dualCoinSnapshotData = null;
             if (isMainCoin) {
-                bool hasDualCoin = !string.IsNullOrEmpty(speedData.DualCoinCode) && speedData.DualCoinCode != speedData.MainCoinCode;
+                bool hasDualCoin = !string.IsNullOrEmpty(speedData.DualCoinCode) &&
+                                   speedData.DualCoinCode != speedData.MainCoinCode;
                 if (hasDualCoin) {
+                    int dualCoinShareDelta = 0;
+                    int dualCoinRejectShareDelta = 0;
+                    if (clientData.DualCoinCode == speedData.DualCoinCode) {
+                        dualCoinShareDelta = (speedData.DualCoinTotalShare - speedData.DualCoinRejectShare) -
+                                             (clientData.DualCoinTotalShare - clientData.DualCoinRejectShare);
+                        dualCoinRejectShareDelta = speedData.DualCoinRejectShare - clientData.DualCoinRejectShare;
+                    }
+
                     dualCoinSnapshotData = new ClientCoinSnapshotData {
                         CoinCode = speedData.DualCoinCode,
-                        ShareDelta = speedData.DualCoinShareDelta,
-                        RejectShareDelta = speedData.DualCoinRejectShareDelta,
+                        ShareDelta = dualCoinShareDelta,
+                        RejectShareDelta = dualCoinRejectShareDelta,
                         Speed = speedData.DualCoinSpeed,
                         Timestamp = DateTime.Now,
                         ClientId = speedData.ClientId
                     };
                 }
+
+                int mainCoinShareDelta = 0;
+                int mainCoinRejectShareDelta = 0;
+                if (clientData.MainCoinCode == speedData.MainCoinCode) {
+                    mainCoinShareDelta = (speedData.MainCoinRejectShare - speedData.MainCoinRejectShare) -
+                                         (clientData.MainCoinTotalShare - clientData.MainCoinRejectShare);
+                    mainCoinRejectShareDelta = speedData.MainCoinRejectShare - clientData.MainCoinRejectShare;
+                }
+
                 return new ClientCoinSnapshotData {
                     CoinCode = speedData.MainCoinCode,
-                    ShareDelta = speedData.MainCoinShareDelta,
-                    RejectShareDelta = speedData.MainCoinRejectShareDelta,
+                    ShareDelta = mainCoinShareDelta,
+                    RejectShareDelta = mainCoinRejectShareDelta,
                     Speed = speedData.MainCoinSpeed,
                     Timestamp = DateTime.Now,
                     ClientId = speedData.ClientId

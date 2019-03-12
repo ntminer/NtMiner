@@ -40,7 +40,7 @@ namespace NTMiner.Data.Impl {
                         Task.WaitAll(tasks, 10 * 1000);
                         foreach (var task in tasks) {
                             if (task.Result != null) {
-                                root.ClientCoinSnapshotSet.Snapshot(task.Result);
+                                root.ClientCoinSnapshotSet.Snapshot(clientDatas.FirstOrDefault(a => a.Id == task.Result.ClientId), task.Result);
                             }
                         }
                     }

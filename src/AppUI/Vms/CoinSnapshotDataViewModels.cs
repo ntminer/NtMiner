@@ -19,6 +19,7 @@ namespace NTMiner.Vms {
                     DualCoinMiningCount = 0,
                     DualCoinOnlineCount = 0,
                     ShareDelta = 0,
+                    RejectShareDelta = 0,
                     Speed = 0,
                     Timestamp = DateTime.MinValue
                 }));

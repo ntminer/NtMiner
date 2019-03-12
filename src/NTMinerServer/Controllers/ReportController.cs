@@ -28,7 +28,7 @@ namespace NTMiner.Controllers {
                 else {
                     clientData.Update(speedData, minerIp);
                 }
-                HostRoot.Current.ClientCoinSnapshotSet.Snapshot(speedData);
+                HostRoot.Current.ClientCoinSnapshotSet.Snapshot(clientData, speedData);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
