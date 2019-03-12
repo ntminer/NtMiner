@@ -25,7 +25,6 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="220"></ColumnDefinition>
-            <ColumnDefinition Width="8"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -35,7 +34,8 @@
         <ScrollViewer Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Background="{StaticResource MinerProfileBackground}" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
             <ItemsControl 
                 x:Name="LvGpus"
-                BorderThickness="0"
+                BorderThickness="0 0 1 0" 
+                BorderBrush="{StaticResource LineColor}"
                 ItemsSource="{Binding SpeedChartVms}" 
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ItemsControl.Resources>
@@ -93,8 +93,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Background="{StaticResource ThemeBackground}"></StackPanel>
-        <Grid Grid.Row="0" Grid.Column="2">
+        <Grid Grid.Row="0" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -132,7 +131,7 @@
                 <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.MainCoinSpeed.SpeedText}"></TextBlock>
             </WrapPanel>
         </Grid>
-        <Grid x:Name="DetailsGrid" Grid.Row="1" Grid.Column="2">
+        <Grid x:Name="DetailsGrid" Grid.Row="1" Grid.Column="1">
         </Grid>
     </Grid>
 </UserControl>
