@@ -162,6 +162,7 @@ namespace NTMiner.Data.Impl {
                     SRejectShareByCoin[item.CoinCode] = rejectShareDic[item.CoinCode];
                 }
                 if (dicByCoinCode.Count > 0) {
+                    _dataList.AddRange(dicByCoinCode.Values);
                     using (LiteDatabase db = HostRoot.CreateReportDb()) {
                         var col = db.GetCollection<CoinSnapshotData>();
                         col.Insert(dicByCoinCode.Values);
