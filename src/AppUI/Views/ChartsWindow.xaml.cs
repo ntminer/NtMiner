@@ -47,7 +47,7 @@ namespace NTMiner.Views {
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            Write.WriteUserLineMethod = (text, foreground)=> {
+            Write.WriteUserLineMethod = (text, foreground) => {
                 WriteLine(this.RichTextBox, this.ConsoleParagraph, text, foreground);
             };
             Write.WriteDevLineMethod = (text, foreground) => {
@@ -105,11 +105,19 @@ namespace NTMiner.Views {
                     if (response == null) {
                         return;
                     }
+
+                    if (!response.IsSuccess()) {
+                        Write.UserLine(response.Description, ConsoleColor.Red);
+                        return;
+                    }
+                    if (exception != null) {
+                        Write.DevLine(exception.Message);
+                        return;
+                    }
                     UIThread.Execute(() => {
                         bool isOnlyOne = limit == 1;
                         Vm.TotalMiningCount = response.TotalMiningCount;
                         Vm.TotalOnlineCount = response.TotalOnlineCount;
-                        //NTMinerRoot.Current.DebugLine($"获取了{data.Count}条");
                         foreach (var chartVm in Vm.ChartVms) {
                             var list = response.Data.Where(a => a.CoinCode == chartVm.CoinVm.Code).ToList();
                             if (list.Count != 0) {
@@ -169,6 +177,12 @@ namespace NTMiner.Views {
                                                 });
                                             }
                                         }
+                                    }
+                                    else if (seriy.Title == "rejectShare") {
+
+                                    }
+                                    else if (seriy.Title == "acceptShare") {
+
                                     }
                                 }
                             }
