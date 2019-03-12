@@ -74,9 +74,6 @@ namespace NTMiner.Core.Profiles {
                         bool isUseJson = _workId != Guid.Empty;
                         IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(isUseJson);
                         var result = repository.GetByKey(coinId);
-                        if (result == null) {
-                            result = CoinProfileData.CreateDefaultData(coinId);
-                        }
                         return result;
                     }
                 }
@@ -86,7 +83,7 @@ namespace NTMiner.Core.Profiles {
                     _workId = workId;
                     _data = GetCoinProfileData(coin.GetId());
                     if (_data == null) {
-                        throw new ValidationException("未获取到CoinProfileData数据，请重试");
+                        _data = CoinProfileData.CreateDefaultData(coin.GetId());
                     }
                 }
 

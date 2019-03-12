@@ -27,6 +27,7 @@ namespace NTMiner.Views {
                 s_window.WindowState = WindowState.Normal;
             }
             s_window.Activate();
+            s_window.RefreshTotalSpeedChart(limit: 60);
             return s_window;
         }
 
@@ -54,7 +55,6 @@ namespace NTMiner.Views {
                 WriteLine(this.RichTextBoxDebug, this.ConsoleParagraphDebug, text, foreground);
             };
             #region 总算力
-            RefreshTotalSpeedChart(limit: 60);
             DelegateHandler<Per10SecondEvent> refeshTotalSpeedChart = VirtualRoot.On<Per10SecondEvent>(
                 "周期刷新总算力图",
                 LogEnum.Console,

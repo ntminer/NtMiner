@@ -358,31 +358,35 @@ namespace NTMiner.Core.Profiles {
             if (_data != null) {
                 sb.Append(_data.ToString());
             }
+
+            if (this.CoinId == Guid.Empty) {
+                return sb.ToString();
+            }
             ICoinProfile coinProfile = GetCoinProfile(this.CoinId);
             if (coinProfile != null) {
                 sb.Append(coinProfile.ToString());
-            }
-            ICoinKernelProfile coinKernelProfile = GetCoinKernelProfile(coinProfile.CoinKernelId);
-            if (coinKernelProfile != null) {
-                sb.Append(coinKernelProfile.ToString());
-                if (coinKernelProfile.IsDualCoinEnabled) {
-                    ICoinProfile dualCoinProfile = GetCoinProfile(coinKernelProfile.DualCoinId);
-                    if (dualCoinProfile != null) {
-                        sb.Append(dualCoinProfile.ToString());
-                    }
-                    ICoinKernelProfile dualCoinKernelProfile = GetCoinKernelProfile(coinKernelProfile.DualCoinId);
-                    if (dualCoinKernelProfile != null) {
-                        sb.Append(dualCoinKernelProfile.ToString());
-                    }
-                    IPoolProfile dualCoinPoolProfile = GetPoolProfile(dualCoinProfile.PoolId);
-                    if (dualCoinPoolProfile != null) {
-                        sb.Append(dualCoinPoolProfile.ToString());
+                ICoinKernelProfile coinKernelProfile = GetCoinKernelProfile(coinProfile.CoinKernelId);
+                if (coinKernelProfile != null) {
+                    sb.Append(coinKernelProfile.ToString());
+                    if (coinKernelProfile.IsDualCoinEnabled) {
+                        ICoinProfile dualCoinProfile = GetCoinProfile(coinKernelProfile.DualCoinId);
+                        if (dualCoinProfile != null) {
+                            sb.Append(dualCoinProfile.ToString());
+                            IPoolProfile dualCoinPoolProfile = GetPoolProfile(dualCoinProfile.PoolId);
+                            if (dualCoinPoolProfile != null) {
+                                sb.Append(dualCoinPoolProfile.ToString());
+                            }
+                        }
+                        ICoinKernelProfile dualCoinKernelProfile = GetCoinKernelProfile(coinKernelProfile.DualCoinId);
+                        if (dualCoinKernelProfile != null) {
+                            sb.Append(dualCoinKernelProfile.ToString());
+                        }
                     }
                 }
-            }
-            IPoolProfile poolProfile = GetPoolProfile(coinProfile.PoolId);
-            if (poolProfile != null) {
-                sb.Append(poolProfile.ToString());
+                IPoolProfile poolProfile = GetPoolProfile(coinProfile.PoolId);
+                if (poolProfile != null) {
+                    sb.Append(poolProfile.ToString());
+                }
             }
             IGpuProfile gpuProfile = GetGpuProfile(this.CoinId, NTMinerRoot.GpuAllId);
             if (gpuProfile != null) {

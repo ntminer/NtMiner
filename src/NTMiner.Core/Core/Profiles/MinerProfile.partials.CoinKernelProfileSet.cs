@@ -89,7 +89,7 @@ namespace NTMiner.Core.Profiles {
                     _workId = workId;
                     _data = GetCoinKernelProfileData(coinKernel.GetId());
                     if (_data == null) {
-                        throw new ValidationException("未获取到CoinKernelProfileData数据，请重试");
+                        _data = CoinKernelProfileData.CreateDefaultData(coinKernel.GetId());
                     }
                 }
 

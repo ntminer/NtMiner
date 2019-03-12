@@ -183,23 +183,9 @@ namespace NTMiner.Data.Impl {
             ClientCount count = HostRoot.Current.ClientSet.Count();
             totalMiningCount = count.MiningCount;
             totalOnlineCount = count.OnlineCount;
-            List<CoinSnapshotData> results;
-            DateTime rightTime = DateTime.Now.AddSeconds(-20);
-            DateTime leftTime = rightTime.AddSeconds(-limit * 10 - 20);
-            if (leftTime > HostRoot.Current.StartedOn) {
-                lock (_locker) {
-                    results = _dataList.Where(a => a.Timestamp > leftTime && a.Timestamp <= rightTime).OrderByDescending(a => a.Timestamp).ToList();
-                }
-            }
-            else {
-                using (LiteDatabase db = HostRoot.CreateReportDb()) {
-                    var col = db.GetCollection<CoinSnapshotData>();
-                    results = col.Find(
-                        Query.And(
-                            Query.GT(nameof(CoinSnapshotData.Timestamp), leftTime),
-                            Query.LTE(nameof(CoinSnapshotData.Timestamp), rightTime))).OrderByDescending(a => a.Timestamp).ToList();
-                }
-            }
+            DateTime rightTime = DateTime.Now.AddSeconds(-5);
+            DateTime leftTime = rightTime.AddSeconds(-limit * 10 - 5);
+            List<CoinSnapshotData> results = _dataList.Where(a => a.Timestamp > leftTime && a.Timestamp <= rightTime).OrderByDescending(a => a.Timestamp).ToList();
             return results;
         }
     }

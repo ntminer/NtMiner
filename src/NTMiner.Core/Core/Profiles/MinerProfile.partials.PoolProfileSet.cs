@@ -92,7 +92,7 @@ namespace NTMiner.Core.Profiles {
                     _workId = workId;
                     _data = GetPoolProfileData(pool.GetId());
                     if (_data == null) {
-                        throw new ValidationException("未获取到PoolProfileData数据，请重试");
+                        _data = PoolProfileData.CreateDefaultData(pool.GetId());
                     }
                 }
 
