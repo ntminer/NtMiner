@@ -13,19 +13,10 @@ namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
         public static readonly MinerClientsWindowViewModel Current = new MinerClientsWindowViewModel();
 
-        private readonly List<MinuteItem> _minuteItems = new List<MinuteItem> {
-            new MinuteItem(0),
-            new MinuteItem(1),
-            new MinuteItem(2),
-            new MinuteItem(5),
-            new MinuteItem(10),
-            new MinuteItem(20)
-        };
         private bool _isChecked = false;
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
-        private MinuteItem _lastActivedOn;
-        private ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
+        private readonly ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
         private int _minerClientPageIndex = 1;
         private int _minerClientPageSize = 20;
         private int _minerClientTotal;
@@ -69,7 +60,6 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this._lastActivedOn = _minuteItems[3];
             VirtualRoot.On<Per1SecondEvent>(
                 "刷新倒计时秒表",
                 LogEnum.None,
@@ -424,20 +414,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<MinuteItem> MinuteItems {
-            get {
-                return _minuteItems;
-            }
-        }
-        public MinuteItem LastActivedOn {
-            get => _lastActivedOn;
-            set {
-                _lastActivedOn = value;
-                OnPropertyChanged(nameof(LastActivedOn));
-                QueryMinerClients();
-            }
-        }
-
         private static readonly List<int> SPageSizeItems = new List<int>() { 10, 20, 30, 40 };
         public List<int> PageSizeItems {
             get {
@@ -547,14 +523,9 @@ namespace NTMiner.Vms {
                     dualCoinWallet = this.DualCoinWallet;
                 }
             }
-            DateTime? timeLimit = null;
-            if (this.LastActivedOn.Minutes != 0) {
-                timeLimit = DateTime.Now.AddMinutes(-this.LastActivedOn.Minutes);
-            }
             Server.ControlCenterService.QueryClientsAsync(
                 this.MinerClientPageIndex,
                 this.MinerClientPageSize,
-                timeLimit,
                 groupId,
                 workId,
                 this.MinerIp,

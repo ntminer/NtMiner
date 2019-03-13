@@ -294,13 +294,6 @@
                         DisplayMemberPath="Description"
                         SelectedItem="{Binding MineStatusEnumItem}">
                     </controls:KbComboBox>
-                    <TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">最后更新</TextBlock>
-                    <controls:KbComboBox 
-                        Width="90"
-                        ItemsSource="{Binding MinuteItems}"
-                        DisplayMemberPath="Text"
-                        SelectedItem="{Binding LastActivedOn}">
-                    </controls:KbComboBox>
                 </WrapPanel>
             </WrapPanel>
             <WrapPanel Margin="2 2 0 0">

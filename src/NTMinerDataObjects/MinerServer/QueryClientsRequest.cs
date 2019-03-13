@@ -7,7 +7,6 @@ namespace NTMiner.MinerServer {
         public string LoginName { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
-        public DateTime? TimeLimit { get; set; }
         public Guid? GroupId { get; set; }
         public Guid? WorkId { get; set; }
         public string MinerIp { get; set; }
