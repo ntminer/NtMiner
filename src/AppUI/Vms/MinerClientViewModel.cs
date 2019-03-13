@@ -34,7 +34,6 @@ namespace NTMiner.Vms {
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
         public ICommand RemoteDesktop { get; private set; }
-        public ICommand RemoteLogin { get; private set; }
         // ReSharper disable once InconsistentNaming
         public ICommand RestartNTMiner { get; private set; }
         public ICommand StartMine { get; private set; }
@@ -68,18 +67,10 @@ namespace NTMiner.Vms {
                     });
                 }, icon: "Icon_Confirm");
             });
-            this.RemoteLogin = new DelegateCommand(() => {
-                WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.ClientId, this.MinerName, this.MinerIp, this));
-            });
             this.RemoteDesktop = new DelegateCommand(() => {
-                if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
-                    WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.ClientId, this.MinerName, this.MinerIp, this));
-                }
-                else {
-                    AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
-                        MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(message);
-                    }));
-                }
+                AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
+                    MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(message);
+                }));
             });
             this.RestartWindows = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {

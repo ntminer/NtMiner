@@ -164,9 +164,6 @@
     <Compile Include="Views\Ucs\MinerClientAdd.xaml.cs">
       <DependentUpon>MinerClientAdd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\WindowsLogin.xaml.cs">
-      <DependentUpon>WindowsLogin.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Ucs\NTMinerUpdaterConfig.xaml.cs">
       <DependentUpon>NTMinerUpdaterConfig.xaml</DependentUpon>
     </Compile>
@@ -346,7 +343,6 @@
     <Compile Include="Vms\PoolKernelViewModels.cs" />
     <Compile Include="Vms\PoolProfileViewModel.cs" />
     <Compile Include="Vms\PoolProfileViewModels.cs" />
-    <Compile Include="Vms\WindowsLoginViewModel.cs" />
     <Compile Include="Vms\ShareViewModel.cs" />
     <Compile Include="Vms\ShareViewModels.cs" />
     <Compile Include="Vms\CoinSnapshotDataViewModel.cs" />
@@ -486,10 +482,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\Design\WindowsLoginViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Ucs\ColumnsShowPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -519,10 +511,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\MinerClientAdd.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\WindowsLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

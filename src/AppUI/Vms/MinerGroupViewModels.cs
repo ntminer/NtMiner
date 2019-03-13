@@ -61,11 +61,14 @@ namespace NTMiner.Vms {
         }
 
         public IEnumerator<MinerGroupViewModel> GetEnumerator() {
-            return _dicById.Values.GetEnumerator();
+            yield return MinerGroupViewModel.PleaseSelect;
+            foreach (var item in _dicById.Values) {
+                yield return item;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
-            return _dicById.Values.GetEnumerator();
+            return this.GetEnumerator();
         }
     }
 }

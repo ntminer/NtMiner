@@ -50,6 +50,7 @@
 			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">作业</TextBlock>
 				<ComboBox
+					MinWidth="100"
 					ItemsSource="{Binding MineWorkVms}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMineWork}"
@@ -58,6 +59,7 @@
 			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">分组</TextBlock>
 				<ComboBox 
+					MinWidth="100"
 					ItemsSource="{Binding MinerGroupVms}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
@@ -80,6 +82,7 @@
 						Stretch="Fill" />
 				</controls:KbButton>
 				<TextBox 
+					Width="122"
 					Padding="0"
 					ToolTip="双击打开远程桌面"
 					PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
@@ -88,14 +91,14 @@
 					Background="Transparent"
 					IsReadOnly="True"
 					Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
-				<TextBox Margin="4 0 0 0" Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}" ToolTip="Windows远程桌面登录名"></TextBox>
+				<TextBox Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}" ToolTip="Windows远程桌面登录名"></TextBox>
 				<PasswordBox Margin="10 0 0 0" Width="100" ToolTip="Windows远程桌面密码" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
 			</WrapPanel>
 			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">矿工名</TextBlock>
 				<TextBox 
 					ToolTip="注意：修改矿工名后需重新开始挖矿才能反应到矿池"
-					Width="100"
+					Width="120"
 					Text="{Binding MinerName}"></TextBox>
 			</WrapPanel>
 		</WrapPanel>

@@ -91,11 +91,14 @@ namespace NTMiner.Vms {
         }
 
         public IEnumerator<MineWorkViewModel> GetEnumerator() {
-            return _dicById.Values.GetEnumerator();
+            yield return MineWorkViewModel.FreeMineWork;
+            foreach (var item in _dicById.Values) {
+                yield return item;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
-            return _dicById.Values.GetEnumerator();
+            return this.GetEnumerator();
         }
     }
 }

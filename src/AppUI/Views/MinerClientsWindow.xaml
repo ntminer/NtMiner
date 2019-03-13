@@ -999,21 +999,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <WrapPanel>
-                                <controls:KbButton
-                                    BorderThickness="0"									
-                                    Background="Transparent"
-                                    Command="{Binding RemoteLogin}"
-                                    CornerRadius="2">
-                                    <Path
-                                        Width="14"
-                                        Height="14"
-                                        Data="{StaticResource Icon_Edit}"
-                                        Fill="{StaticResource IconFillColor}"
-                                        Stretch="Fill" />
-                                </controls:KbButton>
-                                <TextBlock Margin="4 0 0 0" Text="{Binding WindowsLoginName}" Foreground="Green"></TextBlock>
-                            </WrapPanel>
+                            <TextBlock Margin="4 0 0 0" Text="{Binding WindowsLoginName}" Foreground="Green"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
