@@ -448,7 +448,6 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
-            Server.ReportService.ReportStateAsync(ClientId.Id, isMining: false);
             if (_currentMineContext != null) {
                 StopMine();
             }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 
-namespace NTMiner.Controllers {
+namespace NTMiner {
     public class MinerClientController : ApiController, IShowMainWindow {
         [HttpPost]
         public bool ShowMainWindow() {

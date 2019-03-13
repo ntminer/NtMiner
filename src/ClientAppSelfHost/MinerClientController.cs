@@ -1,10 +1,11 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Controllers;
+using NTMiner.Core;
+using NTMiner.Daemon;
 using NTMiner.MinerClient;
 using System;
 using System.Web.Http;
-using NTMiner.Daemon;
 
-namespace NTMiner.Controllers {
+namespace NTMiner {
     public class MinerClientController : ApiController, IMinerClientController, IShowMainWindow {
         [HttpPost]
         public bool ShowMainWindow() {
