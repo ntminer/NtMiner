@@ -23,14 +23,14 @@ namespace NTMiner.Data.Impl {
                 action: message => {
                     InitOnece();
                     lock (_locker) {
-                        DateTime time = message.Timestamp.AddSeconds(-message.Seconds);
+                        DateTime time = message.Timestamp.AddMinutes(-5);
                         using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                            var col = db.GetCollection<MinerClient>();
-                            // 更新一个周期内活跃的客户端
-                            col.Upsert(_dicById.Values.Where(a => a.ModifiedOn > time).Select(a => new MinerClient {
+                            var col = db.GetCollection<MinerData>();
+                            col.Upsert(_dicById.Values.Where(a => a.ModifiedOn > time).Select(a => new MinerData {
                                 CreatedOn = a.CreatedOn,
                                 GroupId = a.GroupId,
-                                Id = a.Id,
+                                Id = new ObjectId(a.Id),
+                                ClientId = a.ClientId,
                                 MinerIp = a.MinerIp,
                                 WindowsLoginName = a.WindowsLoginName,
                                 WindowsPassword = a.WindowsPassword,
@@ -44,9 +44,11 @@ namespace NTMiner.Data.Impl {
                 LogEnum.Console,
                 action: message => {
                     if (HostRoot.IsPull) {
-                        ClientData[] clientDatas = _dicById.Values.ToArray();
-                        Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
-                        Task.WaitAll(tasks, 10 * 1000);
+                        Task.Factory.StartNew(() => {
+                            ClientData[] clientDatas = _dicById.Values.ToArray();
+                            Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
+                            Task.WaitAll(tasks, 10 * 1000);
+                        });
                     }
                 });
         }
@@ -65,62 +67,14 @@ namespace NTMiner.Data.Impl {
             lock (_locker) {
                 if (!_isInited) {
                     using (LiteDatabase db = HostRoot.CreateLocalDb()) {
-                        var col = db.GetCollection<MinerClient>();
+                        var col = db.GetCollection<MinerData>();
                         foreach (var item in col.FindAll()) {
-                            _dicById.Add(item.Id, CreateClientData(item));
+                            _dicById.Add(item.ClientId, MinerData.CreateClientData(item));
                         }
                     }
                     _isInited = true;
                 }
             }
-        }
-
-        public static ClientData CreateClientData(MinerClient data) {
-            return new ClientData() {
-                MinerIp = data.MinerIp,
-                CreatedOn = data.CreatedOn,
-                GroupId = data.GroupId,
-                WorkId = data.WorkId,
-                WindowsLoginName = data.WindowsLoginName,
-                WindowsPassword = data.WindowsPassword,
-                Id = data.Id,
-                IsAutoBoot = false,
-                IsAutoStart = false,
-                IsAutoRestartKernel = false,
-                IsNoShareRestartKernel = false,
-                NoShareRestartKernelMinutes = 0,
-                IsPeriodicRestartKernel = false,
-                PeriodicRestartKernelHours = 0,
-                IsPeriodicRestartComputer = false,
-                PeriodicRestartComputerHours = 0,
-                GpuDriver = String.Empty,
-                GpuType = GpuType.Empty,
-                OSName = String.Empty,
-                OSVirtualMemoryMb = 0,
-                GpuInfo = String.Empty,
-                Version = String.Empty,
-                IsMining = false,
-                BootOn = DateTime.MinValue,
-                MineStartedOn = DateTime.MinValue,
-                MinerName = String.Empty,
-                ModifiedOn = DateTime.MinValue,
-                MainCoinCode = String.Empty,
-                MainCoinTotalShare = 0,
-                MainCoinRejectShare = 0,
-                MainCoinSpeed = 0,
-                MainCoinPool = String.Empty,
-                MainCoinWallet = String.Empty,
-                Kernel = String.Empty,
-                IsDualCoinEnabled = false,
-                DualCoinPool = String.Empty,
-                DualCoinWallet = String.Empty,
-                DualCoinCode = String.Empty,
-                DualCoinTotalShare = 0,
-                DualCoinRejectShare = 0,
-                DualCoinSpeed = 0,
-                KernelCommandLine = String.Empty,
-                GpuTable = new GpuSpeedData[0]
-            };
         }
 
         public ClientCount Count() {
@@ -176,9 +130,18 @@ namespace NTMiner.Data.Impl {
 
         public void Add(ClientData clientData) {
             InitOnece();
-            if (!_dicById.ContainsKey(clientData.Id)) {
-                if (!_dicById.ContainsKey(clientData.Id)) {
-                    _dicById.Add(clientData.Id, clientData);
+            if (!_dicById.ContainsKey(clientData.ClientId)) {
+                _dicById.Add(clientData.ClientId, clientData);
+            }
+        }
+
+        public void Remove(Guid clientId) {
+            ClientData clientData;
+            if (_dicById.TryGetValue(clientId, out clientData)) {
+                _dicById.Remove(clientId);
+                using (LiteDatabase db = HostRoot.CreateLocalDb()) {
+                    var col = db.GetCollection<MinerData>();
+                    col.Delete(clientData.Id);
                 }
             }
         }
@@ -326,6 +289,11 @@ namespace NTMiner.Data.Impl {
                     }
                 }
                 else {
+                    if (speedData.ClientId != clientData.ClientId) {
+                        HostRoot.Current.ClientSet.Remove(clientData.ClientId);
+                        clientData.ClientId = speedData.ClientId;
+                        HostRoot.Current.ClientSet.Add(clientData);
+                    }
                     clientData.Update(speedData);
                 }
             });

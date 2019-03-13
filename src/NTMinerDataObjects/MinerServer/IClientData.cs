@@ -1,8 +1,10 @@
 ﻿using NTMiner.MinerClient;
 using System;
+using LiteDB;
 
 namespace NTMiner.MinerServer {
-    public interface IClientData : IEntity<Guid> {
+    public interface IClientData : IEntity<string> {
+        Guid ClientId { get; }
         bool IsAutoBoot { get; }
 
         bool IsAutoStart { get; }

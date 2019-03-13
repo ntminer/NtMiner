@@ -217,12 +217,12 @@ namespace NTMiner {
             #endregion
 
             #region AddClientAsync
-            public void AddClientAsync(string clientIp, Action<ResponseBase, Exception> callback) {
+            public void AddClientAsync(List<string> clientIps, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        DataRequest<string> request = new DataRequest<string>() {
+                        AddClientRequest request = new AddClientRequest() {
                             LoginName = SingleUser.LoginName,
-                            Data = clientIp
+                            ClientIps = clientIps
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddClient), request);

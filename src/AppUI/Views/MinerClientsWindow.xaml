@@ -299,23 +299,22 @@
             <WrapPanel Margin="2 2 0 0">
                 <Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
                 <Button
-                    Width="20" Margin="4 0 0 0"
+                    Width="26" Margin="4 0 0 0"
                     Command="{Binding PageUp}" 
                     IsEnabled="{Binding IsPageUpEnabled}" 
                     Content="&lt;"
                     ToolTip="上一页">
                 </Button>
                 <Button
-                    Width="20" Margin="4 0 0 0"
+                    Width="26" Margin="4 0 0 0"
                     Command="{Binding PageDown}" 
                     IsEnabled="{Binding IsPageDownEnabled}" 
                     Content="&gt;"
                     ToolTip="下一页">
                 </Button>
                 <Button
-                    Width="20" Margin="4 0 0 0"
-                    Command="{Binding PageRefresh}" 
-                    ToolTip="手动刷新">
+                    Width="26" Margin="4 0 0 0"
+                    Command="{Binding PageRefresh}">
                     <Path 
                         Width="14"
                         Height="14"
@@ -1317,7 +1316,7 @@
                     IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
-                            <WrapPanel>
+                            <WrapPanel ToolTip="仅计算本页的数据">
                                 <TextBlock>总功耗</TextBlock>
                                 <controls:KbButton
                                     ToolTip="不展示"
@@ -1383,7 +1382,7 @@
                     CanUserSort="False" 
                     IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <StackPanel>
+                        <StackPanel ToolTip="仅计算本页的数据">
                             <WrapPanel>
                                 <TextBlock>主币预期收益</TextBlock>
                                 <controls:KbButton
@@ -1477,7 +1476,7 @@
                     CanUserSort="False" 
                     IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <StackPanel>
+                        <StackPanel ToolTip="仅计算本页的数据">
                             <WrapPanel>
                                 <TextBlock>双挖币预期收益</TextBlock>
                                 <controls:KbButton

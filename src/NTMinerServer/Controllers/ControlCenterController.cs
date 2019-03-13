@@ -1,4 +1,7 @@
-﻿using NTMiner.MinerServer;
+﻿using LiteDB;
+using NTMiner.Core;
+using NTMiner.Data;
+using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using System;
@@ -7,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
-using NTMiner.Core;
 
 namespace NTMiner.Controllers {
     public class ControlCenterController : ApiController, IControlCenterController {
@@ -257,9 +259,13 @@ namespace NTMiner.Controllers {
         #region AddClient
 
         [HttpPost]
-        public ResponseBase AddClient([FromBody] DataRequest<string> request) {
-            if (request == null || string.IsNullOrEmpty(request.Data)) {
+        public ResponseBase AddClient([FromBody]AddClientRequest request) {
+            if (request == null || request.ClientIps == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+
+            if (request.ClientIps.Count > 100) {
+                return ResponseBase.InvalidInput(request.MessageId, "最多支持一次添加100个IP");
             }
             try {
                 ResponseBase response;
@@ -268,23 +274,30 @@ namespace NTMiner.Controllers {
                 }
 
                 IPAddress ip;
-                if (!IPAddress.TryParse(request.Data, out ip)) {
+                if (request.ClientIps.Any(a => !IPAddress.TryParse(a, out ip))) {
                     return ResponseBase.InvalidInput(request.MessageId, "IP格式不正确");
                 }
 
-                ClientData clientData = HostRoot.Current.ClientSet.FirstOrDefault(a => a.MinerIp == request.Data);
-                if (clientData != null) {
-                    return ResponseBase.Ok(request.MessageId);
-                }
-                Client.MinerClientService.GetSpeedAsync(request.Data, (speedData, e) => {
-                    if (speedData != null) {
-                        clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId);
-                        if (clientData == null) {
-                            clientData = ClientData.Create(speedData, request.Data);
-                            HostRoot.Current.ClientSet.Add(clientData);
-                        }
+                foreach (var clientIp in request.ClientIps) {
+                    ClientData clientData = HostRoot.Current.ClientSet.FirstOrDefault(a => a.MinerIp == clientIp);
+                    if (clientData != null) {
+                        return ResponseBase.Ok(request.MessageId);
                     }
-                });
+                    else {
+                        MinerData minerData = new MinerData {
+                            Id = ObjectId.NewObjectId(),
+                            ClientId = Guid.NewGuid(),
+                            CreatedOn = DateTime.Now,
+                            GroupId = Guid.Empty,
+                            MinerIp = clientIp,
+                            WindowsLoginName = string.Empty,
+                            WindowsPassword = String.Empty,
+                            WorkId = Guid.Empty
+                        };
+                        clientData = MinerData.CreateClientData(minerData);
+                        HostRoot.Current.ClientSet.Add(clientData);
+                    }
+                }
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

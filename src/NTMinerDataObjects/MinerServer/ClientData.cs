@@ -1,19 +1,21 @@
 ﻿using NTMiner.MinerClient;
 using System;
+using LiteDB;
 
 namespace NTMiner.MinerServer {
-    public class ClientData : IClientData, IDbEntity<Guid>, ITimestampEntity<Guid> {
+    public class ClientData : IClientData, IDbEntity<string>, ITimestampEntity<string> {
         public ClientData() {
             this.GpuTable = new GpuSpeedData[0];
         }
 
-        public Guid GetId() {
+        public string GetId() {
             return this.Id;
         }
 
         public static ClientData Create(SpeedData speedData, string minerIp) {
             return new ClientData() {
-                Id = speedData.ClientId,
+                Id = ObjectId.NewObjectId().ToString(),
+                ClientId = speedData.ClientId,
                 IsAutoBoot = speedData.IsAutoBoot,
                 IsAutoStart = speedData.IsAutoStart,
                 IsAutoRestartKernel = speedData.IsAutoRestartKernel,
@@ -68,6 +70,8 @@ namespace NTMiner.MinerServer {
             if (speedData == null) {
                 return;
             }
+
+            this.ClientId = speedData.ClientId;
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
             this.IsAutoRestartKernel = speedData.IsAutoRestartKernel;
@@ -212,8 +216,9 @@ namespace NTMiner.MinerServer {
 
         private string _mainCoinCode;
         private string _dualCoinCode;
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
+        public Guid ClientId { get; set; }
         public bool IsAutoBoot { get; set; }
         public bool IsAutoStart { get; set; }
         public bool IsAutoRestartKernel { get; set; }

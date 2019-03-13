@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -7,6 +9,8 @@ namespace NTMiner.Vms {
         private string _leftIp = "192.168.0.1";
         private string _rightIp = "192.168.0.255";
         private bool _isIpRange;
+        private string _message;
+        private Visibility _messageVisible = Visibility.Collapsed;
 
         public ICommand Save { get; private set; }
 
@@ -16,32 +20,53 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 IPAddress leftIp;
                 if (!IPAddress.TryParse(this.LeftIp, out leftIp)) {
-                    throw new ValidationException("IP格式不正确");
+                    this.ShowMessage("IP格式不正确");
+                    return;
                 }
 
                 if (this.IsIpRange) {
                     IPAddress rightIp;
                     if (!IPAddress.TryParse(this.RightIp, out rightIp)) {
-                        throw new ValidationException("IP格式不正确");
+                        this.ShowMessage("IP格式不正确");
+                        return;
                     }
 
                     uint leftValue = IpToInt(this.LeftIp);
                     uint rightValue = IpToInt(this.RightIp);
                     if (rightValue >= leftValue) {
+                        List<string> clientIps = new List<string>();
                         for (uint ip = leftValue; ip <= rightValue; ip++) {
-                            Server.ControlCenterService.AddClientAsync(IntToIp(ip), (response, e) => {
-                            });
+                            clientIps.Add(IntToIp(ip));
                         }
+
+                        if (clientIps.Count > 100) {
+                            this.ShowMessage("最多支持一次添加100个IP");
+                            return;
+                        }
+
+                        if (clientIps.Count == 0) {
+                            this.ShowMessage("没有IP");
+                            return;
+                        }
+                        Server.ControlCenterService.AddClientAsync(clientIps, (response, e) => {
+                            if (!response.IsSuccess()) {
+                                if (response != null) {
+                                    this.ShowMessage(response.Description);
+                                }
+                            }
+                            else {
+                                UIThread.Execute(() => {
+                                    CloseWindow?.Invoke();
+                                });
+                            }
+                        });
                     }
                     else {
-                        throw new ValidationException("天啊，起始ip居然比终止ip还大");
+                        this.ShowMessage("起始IP不能比终止IP大");
                     }
-                    UIThread.Execute(() => {
-                        CloseWindow?.Invoke();
-                    });
                 }
                 else {
-                    Server.ControlCenterService.AddClientAsync(this.LeftIp, (response, e) => {
+                    Server.ControlCenterService.AddClientAsync(new List<string> { this.LeftIp }, (response, e) => {
                         if (!response.IsSuccess()) {
                             if (response != null) {
                                 Write.UserLine(response.Description, ConsoleColor.Red);
@@ -73,6 +98,36 @@ namespace NTMiner.Vms {
             byte d = (byte)(ipcode & 0x000000FF);
             string ipStr = string.Format("{0}.{1}.{2}.{3}", a, b, c, d);
             return ipStr;
+        }
+
+        private void ShowMessage(string message) {
+            this.Message = message;
+            MessageVisible = Visibility.Visible;
+            TimeSpan.FromSeconds(4).Delay().ContinueWith(t => {
+                UIThread.Execute(() => {
+                    MessageVisible = Visibility.Collapsed;
+                });
+            });
+        }
+
+        public string Message {
+            get => _message;
+            set {
+                if (_message != value) {
+                    _message = value;
+                    OnPropertyChanged(nameof(Message));
+                }
+            }
+        }
+
+        public Visibility MessageVisible {
+            get => _messageVisible;
+            set {
+                if (_messageVisible != value) {
+                    _messageVisible = value;
+                    OnPropertyChanged(nameof(MessageVisible));
+                }
+            }
         }
 
         public string LeftIp {

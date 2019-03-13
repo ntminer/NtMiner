@@ -43,7 +43,7 @@ namespace NTMiner.Controllers {
                 ClientData clientData = HostRoot.Current.ClientSet.LoadClient(request.ClientId);
                 if (clientData == null) {
                     clientData = new ClientData {
-                        Id = request.ClientId,
+                        ClientId = request.ClientId,
                         IsMining = request.IsMining,
                         CreatedOn = DateTime.Now,
                         ModifiedOn = DateTime.Now,

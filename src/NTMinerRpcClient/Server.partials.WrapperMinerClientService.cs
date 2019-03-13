@@ -19,9 +19,9 @@ namespace NTMiner {
                     SignatureRequest innerRequest = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
-                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                     WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
-                        ClientId = client.GetId(),
+                        ClientId = client.ClientId,
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest,
                         ClientIp = client.MinerIp
@@ -36,9 +36,9 @@ namespace NTMiner {
                     SignatureRequest innerRequest = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
-                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                     WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
-                        ClientId = client.GetId(),
+                        ClientId = client.ClientId,
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest,
                         ClientIp = client.MinerIp
@@ -54,9 +54,9 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName,
                         WorkId = client.WorkId
                     };
-                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                     WrapperRequest<WorkRequest> request = new WrapperRequest<WorkRequest> {
-                        ClientId = client.GetId(),
+                        ClientId = client.ClientId,
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest,
                         ClientIp = client.MinerIp
@@ -72,9 +72,9 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName,
                         NTMinerFileName = ntminerFileName
                     };
-                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                     WrapperRequest<UpgradeNTMinerRequest> request = new WrapperRequest<UpgradeNTMinerRequest> {
-                        ClientId = client.GetId(),
+                        ClientId = client.ClientId,
                         LoginName = SingleUser.LoginName,
                         InnerRequest = innerRequest,
                         ClientIp = client.MinerIp
@@ -90,9 +90,9 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName,
                         WorkId = workId
                     };
-                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                     WrapperRequest<WorkRequest> request = new WrapperRequest<WorkRequest> {
-                        ClientId = client.GetId(),
+                        ClientId = client.ClientId,
                         LoginName = SingleUser.LoginName,
                         ClientIp = client.MinerIp,
                         InnerRequest = innerRequest
@@ -107,9 +107,9 @@ namespace NTMiner {
                     SignatureRequest innerRequest = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
-                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                     WrapperRequest<SignatureRequest> request = new WrapperRequest<SignatureRequest> {
-                        ClientId = client.GetId(),
+                        ClientId = client.ClientId,
                         LoginName = SingleUser.LoginName,
                         ClientIp = client.MinerIp,
                         InnerRequest = innerRequest
@@ -126,9 +126,9 @@ namespace NTMiner {
                         PropertyName = propertyName,
                         Value = value
                     };
-                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.GetId()));
+                    innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                     WrapperRequest<SetClientMinerProfilePropertyRequest> request = new WrapperRequest<SetClientMinerProfilePropertyRequest> {
-                        ClientId = client.GetId(),
+                        ClientId = client.ClientId,
                         LoginName = SingleUser.LoginName,
                         ClientIp = client.MinerIp,
                         InnerRequest = innerRequest

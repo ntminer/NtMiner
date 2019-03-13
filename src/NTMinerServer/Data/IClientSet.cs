@@ -1,6 +1,7 @@
 ﻿using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
+using LiteDB;
 
 namespace NTMiner.Data {
     public interface IClientSet : IEnumerable<ClientData> {
@@ -13,6 +14,8 @@ namespace NTMiner.Data {
         void UpdateClient(Guid clientId, string propertyName, object value);
 
         void UpdateClientProperties(Guid clientId, Dictionary<string, object> values);
+
+        void Remove(Guid clientId);
 
         List<ClientData> QueryClients(
             int pageIndex,

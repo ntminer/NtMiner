@@ -70,6 +70,7 @@
     <Compile Include="DataLevel.cs" />
     <Compile Include="IGetSignData.cs" />
     <Compile Include="DataResponse`1.cs" />
+    <Compile Include="MinerServer\AddClientRequest.cs" />
     <Compile Include="Profile\GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
     <Compile Include="Profile\IGpuProfile.cs" />

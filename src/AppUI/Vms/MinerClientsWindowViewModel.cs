@@ -176,7 +176,7 @@ namespace NTMiner.Vms {
                                 Manager.ShowErrorMessage(message);
                             }
                         });
-                        Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
+                        Server.ControlCenterService.UpdateClientAsync(item.ClientId, nameof(item.IsMining), item.IsMining, null);
                     }
                 }
             });
@@ -196,7 +196,7 @@ namespace NTMiner.Vms {
                                     Manager.ShowErrorMessage(message);
                                 }
                             });
-                            Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
+                            Server.ControlCenterService.UpdateClientAsync(item.ClientId, nameof(item.IsMining), item.IsMining, null);
                         }
                     }, icon: "Icon_Confirm");
                 }

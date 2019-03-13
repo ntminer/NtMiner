@@ -159,6 +159,6 @@
             Data="{StaticResource Icon_Admin}"
             Fill="{StaticResource ThemeBackground}"
             Stretch="Fill" />
-        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="{Binding Message}" Visibility="{Binding MessageVisible}" FontSize="14" Foreground="Red" Margin="8 4 20 20"></TextBlock>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="{Binding Message}" Visibility="{Binding MessageVisible}" FontSize="14" Foreground="{Binding MessageForeground}" Margin="8 4 20 20"></TextBlock>
     </Grid>
 </metro:MetroWindow>

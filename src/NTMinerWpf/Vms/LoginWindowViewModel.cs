@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class LoginWindowViewModel : ViewModelBase {
@@ -11,6 +12,7 @@ namespace NTMiner.Vms {
         private string _password;
         private Visibility _isPasswordAgainVisible = Visibility.Collapsed;
         private string _passwordAgain;
+        private SolidColorBrush _messageForeground;
 
         public ICommand ActiveAdmin { get; private set; }
 
@@ -20,42 +22,38 @@ namespace NTMiner.Vms {
             this.ActiveAdmin = new DelegateCommand(() => {
                 string message = string.Empty;
                 if (string.IsNullOrEmpty(this.Password)) {
-                    message = "密码不能为空";
+                    this.ShowMessage("密码不能为空");
+                    return;
                 }
                 else if (this.Password != this.PasswordAgain) {
-                    message = "两次输入的密码不一致";
-                }
-                if (!string.IsNullOrEmpty(message)) {
-                    this.Message = message;
-                    MessageVisible = Visibility.Visible;
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                        UIThread.Execute(() => {
-                            MessageVisible = Visibility.Collapsed;
-                        });
-                    });
+                    this.ShowMessage("两次输入的密码不一致");
                     return;
                 }
                 string passwordSha1 = HashUtil.Sha1(Password);
                 Server.ControlCenterService.ActiveControlCenterAdminAsync(passwordSha1, (response, e) => {
                     if (response.IsSuccess()) {
                         IsPasswordAgainVisible = Visibility.Collapsed;
-                        Message = "激活成功";
-                        MessageVisible = Visibility.Visible;
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            UIThread.Execute(() => {
-                                MessageVisible = Visibility.Collapsed;
-                            });
-                        });
+                        this.ShowMessage("激活成功");
                     }
                     else {
-                        Message = response != null ? response.Description : "激活失败";
-                        MessageVisible = Visibility.Visible;
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            UIThread.Execute(() => {
-                                MessageVisible = Visibility.Collapsed;
-                            });
-                        });
+                        this.ShowMessage(response != null ? response.Description : "激活失败");
                     }
+                });
+            });
+        }
+
+        private void ShowMessage(string message, bool isSuccess = false) {
+            this.Message = message;
+            MessageVisible = Visibility.Visible;
+            if (isSuccess) {
+                this.MessageForeground = new SolidColorBrush(Colors.Green);
+            }
+            else {
+                this.MessageForeground = new SolidColorBrush(Colors.Red);
+            }
+            TimeSpan.FromSeconds(4).Delay().ContinueWith(t => {
+                UIThread.Execute(() => {
+                    MessageVisible = Visibility.Collapsed;
                 });
             });
         }
@@ -115,6 +113,14 @@ namespace NTMiner.Vms {
                     _message = value;
                     OnPropertyChanged(nameof(Message));
                 }
+            }
+        }
+
+        public SolidColorBrush MessageForeground {
+            get => _messageForeground;
+            set {
+                _messageForeground = value;
+                OnPropertyChanged(nameof(MessageForeground));
             }
         }
 

@@ -7,7 +7,7 @@ namespace NTMiner {
     public class IgnoreReflectionSetAttribute : Attribute { }
     public static class EntityExtensions {
         private static readonly Dictionary<Type, PropertyInfo[]> SEntityPropertiesDic = new Dictionary<Type, PropertyInfo[]>();
-        public static T Update<T, TInput>(this T entity, TInput input) where T : class, IEntity<Guid> {
+        public static T Update<T, TInput>(this T entity, TInput input) where T : class, IEntity {
             if (entity == null) {
                 return null;
             }

@@ -54,6 +54,7 @@
 						Text="添加" />
 				</WrapPanel>
 			</controls:KbButton>
+			<TextBlock Margin="4 0 0 0" Foreground="Red" VerticalAlignment="Center" Text="{Binding Message}" Visibility="{Binding MessageVisible}"></TextBlock>
 		</WrapPanel>
 	</StackPanel>
 </UserControl>
