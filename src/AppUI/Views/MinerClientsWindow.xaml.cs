@@ -74,16 +74,5 @@ namespace NTMiner.Views {
                 this.DragMove();
             }
         }
-
-        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                ((MinerClientViewModel)dg.SelectedItem).Details.Execute(null);
-            }
-        }
     }
 }

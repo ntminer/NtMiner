@@ -39,7 +39,6 @@ namespace NTMiner.Vms {
         public ICommand RestartNTMiner { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
-        public ICommand Details { get; private set; }
         public ICommand Remove { get; private set; }
 
         private readonly ClientData _data;
@@ -54,9 +53,6 @@ namespace NTMiner.Vms {
             _data = clientData;
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
-            this.Details = new DelegateCommand(() => {
-                MinerClientUc.ShowWindow(this);
-            });
             this.Remove = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"确定删除该矿工吗？", title: "确认", onYes: () => {
                     Server.ControlCenterService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {

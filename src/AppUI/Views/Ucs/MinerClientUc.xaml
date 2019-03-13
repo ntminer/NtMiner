@@ -53,9 +53,6 @@
 					ItemsSource="{Binding MineWorkVms}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMineWork}"
-					Padding="0"
-					BorderThickness="0"
-					Background="Transparent"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></ComboBox>
 			</WrapPanel>
 			<WrapPanel Width="{StaticResource OneColWidth}">
@@ -63,10 +60,7 @@
 				<ComboBox 
 					ItemsSource="{Binding MinerGroupVms}"
 					DisplayMemberPath="Name"
-					SelectedItem="{Binding SelectedMinerGroup}"
-					Padding="0"
-					BorderThickness="0"
-					Background="Transparent"></ComboBox>
+					SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
@@ -94,61 +88,15 @@
 					Background="Transparent"
 					IsReadOnly="True"
 					Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
-				<controls:KbButton
-					Margin="20 0 0 0"
-					BorderThickness="0"									
-					Background="Transparent"
-					Command="{Binding RemoteLogin}"
-					CornerRadius="2">
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Edit}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-				</controls:KbButton>
-				<TextBlock Margin="4 0 0 0" Text="{Binding WindowsLoginName}"></TextBlock>
-				<TextBlock Margin="10 0 0 0" Text="{Binding WindowsPasswordStar}"></TextBlock>
+				<TextBox Margin="4 0 0 0" Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}" ToolTip="Windows远程桌面登录名"></TextBox>
+				<PasswordBox Margin="10 0 0 0" Width="100" ToolTip="Windows远程桌面密码" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
 			</WrapPanel>
 			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">矿工名</TextBlock>
 				<TextBox 
-					x:Name="TbMinerName"
 					ToolTip="注意：修改矿工名后需重新开始挖矿才能反应到矿池"
 					Width="100"
-					GotFocus="TbMinerName_OnGotFocus"></TextBox>
-				<controls:KbButton
-					x:Name="BtnSaveMinerName"
-					Click="BtnSaveMinerName_OnClick"
-					Visibility="Collapsed"
-					ToolTip="保存"
-					Margin="4 0 0 0"
-					BorderThickness="0"									
-					Background="Transparent"
-					CornerRadius="2">
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Save}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-				</controls:KbButton>
-				<controls:KbButton
-					x:Name="BtnCancelSaveMinerName"
-					Click="BtnCancelSaveMinerName_OnClick"
-					ToolTip="放弃"
-					Visibility="Collapsed"
-					Margin="4 0 0 0"
-					BorderThickness="0"									
-					Background="Transparent"
-					CornerRadius="2">
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_Cancel}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-				</controls:KbButton>
+					Text="{Binding MinerName}"></TextBox>
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>

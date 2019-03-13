@@ -9,6 +9,7 @@
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views"
         xmlns:view="clr-namespace:NTMiner.Views"
+        xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms"
         UseNoneWindowStyle="True"
         BorderBrush="{StaticResource IconFillColor}"
@@ -17,7 +18,7 @@
         WindowStartupLocation="CenterScreen"
         MouseDown="MetroWindow_MouseDown"
         DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
-        mc:Ignorable="d" d:DesignHeight="750" d:DesignWidth="3600">
+        mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="3600">
     <metro:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,6 +36,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <!--上标题栏-->
@@ -438,9 +440,9 @@
             HeadersVisibility="All"
             FrozenColumnCount="{Binding FrozenColumnCount}"
             ItemsSource="{Binding MinerClients}"
+            SelectedItem="{Binding CurrentMinerClient}"
             CanUserResizeRows="True"
-            AutoGenerateColumns="False"
-            MouseDoubleClick="DataGrid_MouseDoubleClick">
+            AutoGenerateColumns="False">
             <DataGrid.Resources>
                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
@@ -2257,7 +2259,16 @@
             VerticalAlignment="Top"
             MaxWidth="500"
             Manager="{Binding Manager}" />
-        <WrapPanel Grid.Row="2" Background="{StaticResource MinerProfileBackground}">
+        <Grid Grid.Row="2" Height="500" Background="{StaticResource MinerProfileBackground}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+                <uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
+            </StackPanel>
+        </Grid>
+        <WrapPanel Grid.Row="3" Background="{StaticResource MinerProfileBackground}">
             <WrapPanel Margin="4 0 0 0">
                 <TextBlock VerticalAlignment="Center">卡温达到</TextBlock>
                 <Slider 

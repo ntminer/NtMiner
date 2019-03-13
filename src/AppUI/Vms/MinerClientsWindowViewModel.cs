@@ -17,6 +17,7 @@ namespace NTMiner.Vms {
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private readonly ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
+        private MinerClientViewModel _currentMinerClient;
         private int _minerClientPageIndex = 1;
         private int _minerClientPageSize = 20;
         private int _minerClientTotal;
@@ -562,6 +563,14 @@ namespace NTMiner.Vms {
         public ObservableCollection<MinerClientViewModel> MinerClients {
             get {
                 return _minerClients;
+            }
+        }
+
+        public MinerClientViewModel CurrentMinerClient {
+            get { return _currentMinerClient; }
+            set {
+                _currentMinerClient = value;
+                OnPropertyChanged(nameof(CurrentMinerClient));
             }
         }
 
