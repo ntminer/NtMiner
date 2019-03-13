@@ -172,7 +172,6 @@ namespace NTMiner {
             public void QueryClientsAsync(
                 int pageIndex,
                 int pageSize,
-                bool isPull,
                 DateTime? timeLimit,
                 Guid? groupId,
                 Guid? workId,
@@ -194,7 +193,6 @@ namespace NTMiner {
                             LoginName = SingleUser.LoginName,
                             PageIndex = pageIndex,
                             PageSize = pageSize,
-                            IsPull = isPull,
                             TimeLimit = timeLimit,
                             GroupId = groupId,
                             WorkId = workId,

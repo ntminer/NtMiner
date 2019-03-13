@@ -42,7 +42,6 @@ namespace NTMiner.Vms {
         private PoolViewModel _dualCoinPool;
         private MineWorkViewModel _selectedMineWork;
         private MinerGroupViewModel _selectedMinerGroup;
-        private bool _isPull = false;
         private INotificationMessageManager _manager;
         private int _miningCount;
         private uint _maxTemp = 80;
@@ -69,9 +68,6 @@ namespace NTMiner.Vms {
         private MinerClientsWindowViewModel() {
             if (Design.IsInDesignMode) {
                 return;
-            }
-            if (Server.MinerServerHost.IndexOf("ntminer.com", StringComparison.OrdinalIgnoreCase) == -1) {
-                _isPull = true;
             }
             this._lastActivedOn = _minuteItems[3];
             VirtualRoot.On<Per1SecondEvent>(
@@ -334,14 +330,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsPull {
-            get => _isPull;
-            set {
-                _isPull = value;
-                OnPropertyChanged(nameof(IsPull));
-            }
-        }
-
         public int PowerPlusPerMiner {
             get => _powerPlusPerMiner;
             set {
@@ -566,7 +554,6 @@ namespace NTMiner.Vms {
             Server.ControlCenterService.QueryClientsAsync(
                 this.MinerClientPageIndex,
                 this.MinerClientPageSize,
-                this.IsPull,
                 timeLimit,
                 groupId,
                 workId,

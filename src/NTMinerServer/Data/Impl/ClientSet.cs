@@ -192,7 +192,6 @@ namespace NTMiner.Data.Impl {
         public List<ClientData> QueryClients(
             int pageIndex,
             int pageSize,
-            bool isPull,
             DateTime? timeLimit,
             Guid? groupId,
             Guid? workId,
@@ -209,7 +208,6 @@ namespace NTMiner.Data.Impl {
             string kernel,
             out int total,
             out int miningCount) {
-            HostRoot.IsPull = isPull;
             InitOnece();
             lock (_locker) {
                 IQueryable<ClientData> query = _dicById.Values.AsQueryable();
@@ -280,10 +278,6 @@ namespace NTMiner.Data.Impl {
                         clientData.DualCoinSpeed = 0;
                         clientData.MainCoinSpeed = 0;
                     }
-                }
-                if (isPull) {
-                    Task[] pullTasks = results.Select(a => CreatePullTask(a)).ToArray();
-                    Task.WaitAll(pullTasks, 3 * 1000);
                 }
                 return results;
             }

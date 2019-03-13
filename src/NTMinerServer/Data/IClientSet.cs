@@ -17,7 +17,6 @@ namespace NTMiner.Data {
         List<ClientData> QueryClients(
             int pageIndex,
             int pageSize,
-            bool isPull,
             DateTime? timeLimit,
             Guid? groupId,
             Guid? workId,
