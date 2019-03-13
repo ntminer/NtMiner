@@ -26,7 +26,7 @@ namespace NTMiner.Vms {
             this.Ip = ip;
             this.Save = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.UserName) || string.IsNullOrEmpty(this.Password)) {
-                    throw new ValidationException("用户名密码不能为空");
+                    return;
                 }
                 minerClientVm.WindowsLoginName = this.UserName;
                 minerClientVm.WindowsPassword = this.Password;
@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
             });
             this.Login = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.UserName) || string.IsNullOrEmpty(this.Password)) {
-                    throw new ValidationException("用户名密码不能为空");
+                    return;
                 }
                 minerClientVm.WindowsLoginName = this.UserName;
                 minerClientVm.WindowsPassword = this.Password;
@@ -64,6 +64,9 @@ namespace NTMiner.Vms {
             set {
                 _userName = value;
                 OnPropertyChanged(nameof(UserName));
+                if (string.IsNullOrEmpty(value)) {
+                    throw new ValidationException("登录名不能为空");
+                }
             }
         }
         public string Password {
@@ -71,6 +74,9 @@ namespace NTMiner.Vms {
             set {
                 _password = value;
                 OnPropertyChanged(nameof(Password));
+                if (string.IsNullOrEmpty(value)) {
+                    throw new ValidationException("登录密码不能为空");
+                }
             }
         }
     }
