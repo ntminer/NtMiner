@@ -694,7 +694,7 @@
                                                     Stretch="Fill" />
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="删除矿工" Command="{Binding Remove,Source={StaticResource proxy}}">
+                                        <MenuItem Header="删除矿工" Command="{Binding Remove}">
                                             <MenuItem.Icon>
                                                 <Path
                                                     Width="16"

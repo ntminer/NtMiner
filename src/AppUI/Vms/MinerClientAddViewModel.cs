@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
+using NTMiner.Notifications;
 
 namespace NTMiner.Vms {
     public class MinerClientAddViewModel : ViewModelBase {
-        private string _leftIp = "192.168.0.1";
-        private string _rightIp = "192.168.0.255";
+        private string _leftIp = "192.168.0.100";
+        private string _rightIp = "192.168.0.200";
         private bool _isIpRange;
         private string _message;
         private Visibility _messageVisible = Visibility.Collapsed;
@@ -56,6 +57,7 @@ namespace NTMiner.Vms {
                             }
                             else {
                                 UIThread.Execute(() => {
+                                    MinerClientsWindowViewModel.Current.Manager.ShowSuccessMessage("操作成功，等待刷新");
                                     CloseWindow?.Invoke();
                                 });
                             }
@@ -75,6 +77,7 @@ namespace NTMiner.Vms {
                         }
                         else {
                             UIThread.Execute(() => {
+                                MinerClientsWindowViewModel.Current.Manager.ShowSuccessMessage("操作成功，等待刷新");
                                 CloseWindow?.Invoke();
                             });
                         }
