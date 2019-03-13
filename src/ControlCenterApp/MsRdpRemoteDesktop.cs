@@ -10,7 +10,6 @@ namespace NTMiner {
         /// <summary>
         /// 打开远程桌面窗口连接给定ip的windows主机
         /// </summary>
-        /// <param name="serverIp">serverIp可带端口或不带端口，不带短则则使用远程桌面默认的3389</param>
         public static void OpenRemoteDesktop(RemoteDesktopInput input) {
             UIThread.Execute(() => {
                 string serverIp = input.ServerIp;

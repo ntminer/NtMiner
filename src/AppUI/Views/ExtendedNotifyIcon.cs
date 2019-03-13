@@ -15,12 +15,12 @@ namespace NTMiner.Views {
             _isControlCenterApp = isControlCenterApp;
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = isControlCenterApp ? true : NTMinerRegistry.GetIsShowNotifyIcon(),
+                Visible = isControlCenterApp || NTMinerRegistry.GetIsShowNotifyIcon(),
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
             _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
-                System.Windows.Application.Current.MainWindow.Close();
+                System.Windows.Application.Current.MainWindow?.Close();
             }));
             _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
                 if (e.Button == MouseButtons.Left) {
@@ -30,7 +30,7 @@ namespace NTMiner.Views {
         }
 
         public void RefreshIcon() {
-            _targetNotifyIcon.Visible = _isControlCenterApp ? true : NTMinerRegistry.GetIsShowNotifyIcon();
+            _targetNotifyIcon.Visible = _isControlCenterApp || NTMinerRegistry.GetIsShowNotifyIcon();
         }
 
         public void ToggleWindow() {
@@ -52,7 +52,7 @@ namespace NTMiner.Views {
         /// Standard IDisposable interface implementation. If you dont dispose the windows notify icon, the application
         /// closes but the icon remains in the task bar until such time as you mouse over it.
         /// </summary>
-        private bool _IsDisposed = false;
+        private bool _isDisposed = false;
 
         ~ExtendedNotifyIcon() {
             Dispose(false);
@@ -65,16 +65,16 @@ namespace NTMiner.Views {
             GC.SuppressFinalize(true);
         }
 
-        protected virtual void Dispose(bool IsDisposing) {
-            if (_IsDisposed)
+        protected virtual void Dispose(bool isDisposing) {
+            if (_isDisposed)
                 return;
 
-            if (IsDisposing) {
+            if (isDisposing) {
                 _targetNotifyIcon.Dispose();
             }
 
             // Free any unmanaged resources in this section
-            _IsDisposed = true;
+            _isDisposed = true;
         }
 
         #endregion
