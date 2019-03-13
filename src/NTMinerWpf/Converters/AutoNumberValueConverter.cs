@@ -9,7 +9,9 @@ namespace NTMiner.Converters {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
             var item = values[0];
             var items = values[1] as ItemCollection;
-
+            if (items == null) {
+                return string.Empty;
+            }
             var index = items.IndexOf(item);
             return (index + 1).ToString();
         }

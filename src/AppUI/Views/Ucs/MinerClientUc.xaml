@@ -28,10 +28,156 @@
 		<sys:Double x:Key="DoubleColValueWidth">850</sys:Double>
 	</UserControl.Resources>
 	<StackPanel HorizontalAlignment="Left">
-		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">最后更新</TextBlock>
-				<TextBlock Text="{Binding LastActivedOnText}"></TextBlock>
+		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
+			<TextBlock Style="{StaticResource LblTb}">最后更新</TextBlock>
+			<TextBlock Width="120" Text="{Binding LastActivedOnText}"></TextBlock>
+			<WrapPanel>
+				<Button 
+					Command="{Binding StartMine}" 
+					Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+					<Button.Template>
+						<ControlTemplate>
+							<Border
+								x:Name="Content"
+								Padding="4 2"
+								Height="20"
+								Background="Red"
+								BorderThickness="0">
+								<WrapPanel>
+									<Path
+										Width="14"
+										Height="14"
+										Data="{StaticResource Icon_Mining1}"
+										Fill="White"
+										Stretch="Fill">
+									</Path>
+									<Label
+										x:Name="Text"
+										Padding="2 0 0 0"
+										VerticalAlignment="Center"
+										Foreground="White"
+										Content="未在挖矿" />
+								</WrapPanel>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsMouseOver" Value="True">
+									<Setter TargetName="Content" Property="Background" Value="Green"></Setter>
+									<Setter TargetName="Content" Property="BorderBrush" Value="Green"></Setter>
+									<Setter TargetName="Text" Property="Content" Value="开始挖矿"></Setter>
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
+				<Button
+					Command="{Binding StopMine}" 
+					Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Button.Template>
+						<ControlTemplate>
+							<Border 
+								x:Name="Content"
+								Padding="4 2"
+								Height="20"
+								Background="Green"
+								BorderThickness="0">
+								<WrapPanel>
+									<Path
+										Width="14"
+										Height="14"
+										Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+										Data="{StaticResource Icon_Mining2}"
+										Fill="White"
+										Stretch="Fill">
+										<Path.RenderTransform>
+											<RotateTransform Angle="-20" CenterX="7" CenterY="7"></RotateTransform>
+										</Path.RenderTransform>
+									</Path>
+									<Path
+										Width="14"
+										Height="14"
+										Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+										Data="{StaticResource Icon_Mining1}"
+										Fill="White"
+										Stretch="Fill">
+										<Path.RenderTransform>
+											<RotateTransform Angle="20" CenterX="7" CenterY="7"></RotateTransform>
+										</Path.RenderTransform>
+									</Path>
+									<Label
+										x:Name="Text"
+										Padding="2 0 0 0"
+										VerticalAlignment="Center"
+										Foreground="White"
+										Content="正在挖矿" />
+								</WrapPanel>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsMouseOver" Value="True">
+									<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
+									<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
+									<Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
+				<Menu 
+					Background="Transparent"
+					BorderThickness="0"
+					Width="24"
+					Height="20"
+					Padding="0">
+					<MenuItem>
+						<MenuItem.Icon>
+							<Path
+								Width="14"
+								Height="8"
+								Data="{StaticResource Icon_Menu}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</MenuItem.Icon>
+						<MenuItem Header="重启客户端" Command="{Binding RestartNTMiner}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Restart}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="重启电脑" Command="{Binding RestartWindows}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Restart2}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="关闭电脑" Command="{Binding ShutdownWindows}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Shutdown}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="删除矿工" Command="{Binding Remove}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Delete}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+					</MenuItem>
+				</Menu>
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
