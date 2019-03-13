@@ -45,7 +45,7 @@ namespace NTMiner.Data.Impl {
                 action: message => {
                     if (HostRoot.IsPull) {
                         ClientData[] clientDatas = _dicById.Values.ToArray();
-                        Task<SpeedData>[] tasks = clientDatas.Select(a => CreatePullTask(a)).ToArray();
+                        Task[] tasks = clientDatas.Select(a => CreatePullTask(a)).ToArray();
                         Task.WaitAll(tasks, 10 * 1000);
                     }
                 });
@@ -77,6 +77,12 @@ namespace NTMiner.Data.Impl {
 
         public static ClientData CreateClientData(MinerClient data) {
             return new ClientData() {
+                MinerIp = data.MinerIp,
+                CreatedOn = data.CreatedOn,
+                GroupId = data.GroupId,
+                WorkId = data.WorkId,
+                WindowsLoginName = data.WindowsLoginName,
+                WindowsPassword = data.WindowsPassword,
                 Id = data.Id,
                 IsAutoBoot = false,
                 IsAutoStart = false,
@@ -96,9 +102,7 @@ namespace NTMiner.Data.Impl {
                 IsMining = false,
                 BootOn = DateTime.MinValue,
                 MineStartedOn = DateTime.MinValue,
-                MinerIp = data.MinerIp,
                 MinerName = String.Empty,
-                CreatedOn = data.CreatedOn,
                 ModifiedOn = DateTime.MinValue,
                 MainCoinCode = String.Empty,
                 MainCoinTotalShare = 0,
@@ -334,7 +338,8 @@ namespace NTMiner.Data.Impl {
         public static Task<SpeedData> CreatePullTask(ClientData clientData) {
             return Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
                 if (exception != null) {
-                    if (exception.GetInnerException() is SocketException) {
+                    Exception innerException = exception.GetInnerException();
+                    if (innerException is SocketException || innerException is TaskCanceledException) {
                         clientData.IsMining = false;
                         clientData.MainCoinSpeed = 0;
                         clientData.DualCoinSpeed = 0;
