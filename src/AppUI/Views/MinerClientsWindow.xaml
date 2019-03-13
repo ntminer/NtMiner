@@ -2248,8 +2248,9 @@
         <Grid Grid.Row="2" Height="500" Background="{StaticResource MinerProfileBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="1000"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <uc:MessageCenter></uc:MessageCenter>
             <StackPanel Grid.Column="1" Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
                 <uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
             </StackPanel>

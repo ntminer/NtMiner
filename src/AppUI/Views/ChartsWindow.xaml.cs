@@ -4,13 +4,9 @@ using NTMiner.Bus;
 using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
-using System.Collections;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Views {
     public partial class ChartsWindow : MetroWindow, IMainWindow {
@@ -39,12 +35,6 @@ namespace NTMiner.Views {
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            Write.WriteUserLineMethod = (text, foreground) => {
-                WriteLine(this.RichTextBox, this.ConsoleParagraph, text, foreground);
-            };
-            Write.WriteDevLineMethod = (text, foreground) => {
-                WriteLine(this.RichTextBoxDebug, this.ConsoleParagraphDebug, text, foreground);
-            };
             #region 总算力
             DelegateHandler<Per10SecondEvent> refeshTotalSpeedChart = VirtualRoot.On<Per10SecondEvent>(
                 "周期刷新总算力图",
@@ -217,34 +207,6 @@ namespace NTMiner.Views {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
             }
-        }
-
-        private void InnerWrite(RichTextBox rtb, Paragraph p, string text, ConsoleColor foreground) {
-            InlineCollection list = p.Inlines;
-            // 满1000行删除500行
-            if (list.Count > 1000) {
-                int delLines = 500;
-                while (delLines-- > 0) {
-                    ((IList)list).RemoveAt(0);
-                }
-            }
-            Run run = new Run(text) {
-                Foreground = new SolidColorBrush(foreground.ToMediaColor())
-            };
-            list.Add(run);
-
-            if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                rtb.ScrollToEnd();
-            }
-        }
-
-        public void WriteLine(RichTextBox rtb, Paragraph p, string text, ConsoleColor foreground) {
-            Dispatcher.Invoke((Action)(() => {
-                if (p.Inlines.Count > 0) {
-                    text = "\n" + text;
-                }
-                InnerWrite(rtb, p, text, foreground);
-            }));
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {

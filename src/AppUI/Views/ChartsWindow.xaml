@@ -35,12 +35,8 @@
 			<RowDefinition Height="Auto" MinHeight="30"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"></ColumnDefinition>
-			<ColumnDefinition Width="480"></ColumnDefinition>
-		</Grid.ColumnDefinitions>
 		<!--上标题栏-->
-		<Grid Grid.ColumnSpan="2">
+		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -131,7 +127,7 @@
 				</WrapPanel>
 			</WrapPanel>
 		</Grid>
-		<WrapPanel Grid.Column="0" Grid.Row="1">
+		<WrapPanel Grid.Row="1">
 			<WrapPanel VerticalAlignment="Bottom" Background="White">
 				<TextBlock 
 					Text="{Binding TotalMiningCount}" 
@@ -193,9 +189,8 @@
 			</ItemsControl>
 		</WrapPanel>
 		<ScrollViewer 
-			Grid.Column="0"
 			Grid.Row="2" 
-		    FocusVisualStyle="{x:Null}"
+			FocusVisualStyle="{x:Null}"
 			Background="White"
 			VerticalScrollBarVisibility="Auto"
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown"
@@ -206,7 +201,7 @@
 			</ScrollViewer.Resources>
 			<Viewbox Stretch="Uniform" VerticalAlignment="Top">
 				<ItemsControl
-					Width="960"
+					Width="1440"
 					ItemsSource="{Binding ChartVms}"
 					BorderThickness="0"
 					MouseDown="MetroWindow_MouseDown"
@@ -279,59 +274,9 @@
 			Margin="0 4 0 0"
 			Grid.Row="0" 
 			Grid.RowSpan="3"
-			Grid.Column="0"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Top"
 			MaxWidth="500"
 			Manager="{Binding Manager}" />
-
-		<Grid Grid.Row="2" Grid.Column="1">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*"></RowDefinition>
-				<RowDefinition Height="*"></RowDefinition>
-			</Grid.RowDefinitions>
-			<RichTextBox 
-				FontFamily="Courier New"
-				VerticalScrollBarVisibility="Auto"
-				x:Name="RichTextBoxDebug" 
-				BorderThickness="0" 
-				SpellCheck.IsEnabled="False"
-				IsReadOnly="True"
-				Padding="0 0 0 4" Background="Black" Foreground="White">
-				<RichTextBox.Resources>
-					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
-					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
-				</RichTextBox.Resources>
-				<FlowDocument>
-					<Paragraph x:Name="ConsoleParagraphDebug">
-					</Paragraph>
-				</FlowDocument>
-			</RichTextBox>
-			<RichTextBox 
-				Grid.Row="1"
-				FontFamily="Courier New"
-				VerticalScrollBarVisibility="Auto"
-				x:Name="RichTextBox" 
-				BorderThickness="0" 
-				SpellCheck.IsEnabled="False"
-				IsReadOnly="True"
-				Padding="0 0 0 4" Background="Black" Foreground="White">
-				<RichTextBox.Resources>
-					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
-					<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
-				</RichTextBox.Resources>
-				<FlowDocument>
-					<Paragraph x:Name="ConsoleParagraph">
-					</Paragraph>
-				</FlowDocument>
-			</RichTextBox>
-			<controls:KbCheckBox 
-				Margin="0 2 14 0"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Top"
-				x:Name="ChkbIsConsoleAutoScrollToEnd"
-				IconColor="{StaticResource IconFillColor}"
-				IsChecked="True" />
-		</Grid>
 	</Grid>
 </metro:MetroWindow>

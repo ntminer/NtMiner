@@ -128,6 +128,9 @@
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExtendedNotifyIcon.cs" />
+    <Compile Include="Views\Ucs\MessageCenter.xaml.cs">
+      <DependentUpon>MessageCenter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\MinerClientUc.xaml.cs">
       <DependentUpon>MinerClientUc.xaml</DependentUpon>
     </Compile>
@@ -305,6 +308,7 @@
     <Compile Include="Vms\KernelOutputViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModels.cs" />
     <Compile Include="Vms\LogColorViewModel.cs" />
+    <Compile Include="Vms\MessageCenterViewModel.cs" />
     <Compile Include="Vms\MinerClientAddViewModel.cs" />
     <Compile Include="Vms\MinerClientsWindowViewModel.cs" />
     <Compile Include="Vms\KernelSelectViewModel.cs" />
@@ -441,6 +445,10 @@
     <Page Include="Views\SplashWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Ucs\MessageCenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Design\CoinKernelViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
