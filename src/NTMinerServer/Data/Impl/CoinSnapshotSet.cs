@@ -6,6 +6,37 @@ using System.Linq;
 
 namespace NTMiner.Data.Impl {
     public class CoinSnapshotSet : ICoinSnapshotSet {
+        private class CoinShare {
+            public CoinShare(string coinCode, int totalShare, int rejectShare, DateTime time) {
+                this.CoinCode = coinCode;
+                this.TotalShare = totalShare;
+                this.RejectShare = rejectShare;
+                this.Time = time;
+            }
+
+            public void Update(string coinCode, ShareData data, DateTime time) {
+                this.CoinCode = coinCode;
+                this.TotalShare = data.TotalShare;
+                this.RejectShare = data.RejectShare;
+                this.Time = time;
+            }
+
+            public string CoinCode { get; private set; }
+            public DateTime Time { get; private set; }
+            public int TotalShare { get; private set; }
+            public int RejectShare { get; private set; }
+        }
+
+        public struct ShareData {
+            public ShareData(int totalShare, int rejectShare) {
+                TotalShare = totalShare;
+                RejectShare = rejectShare;
+            }
+
+            public int TotalShare;
+            public int RejectShare;
+        }
+
         private readonly IHostRoot _root;
         // 内存中保留最近20分钟的快照
         private readonly List<CoinSnapshotData> _dataList = new List<CoinSnapshotData>();
@@ -26,7 +57,7 @@ namespace NTMiner.Data.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -56,16 +87,14 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        private static readonly Dictionary<string, int> STotalShareByCoin = new Dictionary<string, int>();
-        private static readonly Dictionary<string, int> SRejectShareByCoin = new Dictionary<string, int>();
+        private static readonly Dictionary<string, CoinShare> SShareDicByCoin = new Dictionary<string, CoinShare>();
         /// <summary>
         /// 
         /// </summary>
         private void Snapshot(DateTime now) {
             InitOnece();
             try {
-                Dictionary<string, int> totalShareDic = new Dictionary<string, int>();
-                Dictionary<string, int> rejectShareDic = new Dictionary<string, int>();
+                Dictionary<string, ShareData> shareDicByCoin = new Dictionary<string, ShareData>();
                 Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
                 foreach (var clientData in _root.ClientSet) {
                     if (clientData.ModifiedOn.AddMinutes(3) < now) {
@@ -76,20 +105,12 @@ namespace NTMiner.Data.Impl {
                         continue;
                     }
 
-                    if (!STotalShareByCoin.ContainsKey(clientData.MainCoinCode)) {
-                        STotalShareByCoin.Add(clientData.MainCoinCode, 0);
+                    if (!SShareDicByCoin.ContainsKey(clientData.MainCoinCode)) {
+                        SShareDicByCoin.Add(clientData.MainCoinCode, new CoinShare(clientData.MainCoinCode, 0, 0, now));
                     }
 
-                    if (!SRejectShareByCoin.ContainsKey(clientData.MainCoinCode)) {
-                        SRejectShareByCoin.Add(clientData.MainCoinCode, 0);
-                    }
-
-                    if (!totalShareDic.ContainsKey(clientData.MainCoinCode)) {
-                        totalShareDic.Add(clientData.MainCoinCode, 0);
-                    }
-
-                    if (!rejectShareDic.ContainsKey(clientData.MainCoinCode)) {
-                        rejectShareDic.Add(clientData.MainCoinCode, 0);
+                    if (!shareDicByCoin.ContainsKey(clientData.MainCoinCode)) {
+                        shareDicByCoin.Add(clientData.MainCoinCode, new ShareData(0, 0));
                     }
 
                     CoinSnapshotData mainCoinSnapshotData;
@@ -105,27 +126,20 @@ namespace NTMiner.Data.Impl {
                     if (clientData.IsMining) {
                         mainCoinSnapshotData.MainCoinMiningCount += 1;
                         mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
-                        totalShareDic[clientData.MainCoinCode] += clientData.MainCoinTotalShare;
-                        rejectShareDic[clientData.MainCoinCode] += clientData.MainCoinRejectShare;
+                        ShareData shareData = shareDicByCoin[clientData.MainCoinCode];
+                        shareData.TotalShare += clientData.MainCoinTotalShare;
+                        shareData.RejectShare += clientData.MainCoinRejectShare;
                     }
 
                     mainCoinSnapshotData.MainCoinOnlineCount += 1;
 
                     if (!string.IsNullOrEmpty(clientData.DualCoinCode) && clientData.IsDualCoinEnabled) {
-                        if (!STotalShareByCoin.ContainsKey(clientData.DualCoinCode)) {
-                            STotalShareByCoin.Add(clientData.DualCoinCode, 0);
+                        if (!SShareDicByCoin.ContainsKey(clientData.DualCoinCode)) {
+                            SShareDicByCoin.Add(clientData.DualCoinCode, new CoinShare(clientData.DualCoinCode, 0, 0, now));
                         }
 
-                        if (!SRejectShareByCoin.ContainsKey(clientData.DualCoinCode)) {
-                            SRejectShareByCoin.Add(clientData.DualCoinCode, 0);
-                        }
-
-                        if (!totalShareDic.ContainsKey(clientData.DualCoinCode)) {
-                            totalShareDic.Add(clientData.DualCoinCode, 0);
-                        }
-
-                        if (!rejectShareDic.ContainsKey(clientData.DualCoinCode)) {
-                            rejectShareDic.Add(clientData.DualCoinCode, 0);
+                        if (!shareDicByCoin.ContainsKey(clientData.DualCoinCode)) {
+                            shareDicByCoin.Add(clientData.DualCoinCode, new ShareData(0, 0));
                         }
 
                         CoinSnapshotData dualCoinSnapshotData;
@@ -141,8 +155,9 @@ namespace NTMiner.Data.Impl {
                         if (clientData.IsMining) {
                             dualCoinSnapshotData.DualCoinMiningCount += 1;
                             dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
-                            totalShareDic[clientData.DualCoinCode] += clientData.DualCoinTotalShare;
-                            rejectShareDic[clientData.DualCoinCode] += clientData.DualCoinRejectShare;
+                            ShareData shareData = shareDicByCoin[clientData.DualCoinCode];
+                            shareData.TotalShare += clientData.DualCoinTotalShare;
+                            shareData.RejectShare += clientData.DualCoinRejectShare;
                         }
 
                         dualCoinSnapshotData.DualCoinOnlineCount += 1;
@@ -150,16 +165,19 @@ namespace NTMiner.Data.Impl {
                 }
 
                 foreach (var item in dicByCoinCode.Values) {
-                    int preShare = (STotalShareByCoin[item.CoinCode] - SRejectShareByCoin[item.CoinCode]);
-                    if (preShare != 0) {
-                        item.ShareDelta = (totalShareDic[item.CoinCode] - rejectShareDic[item.CoinCode]) - preShare;
+                    CoinShare oldShare = SShareDicByCoin[item.CoinCode];
+                    ShareData shareData = shareDicByCoin[item.CoinCode];
+                    if (oldShare.Time.AddSeconds(20) > now) {
+                        int preShare = oldShare.TotalShare - oldShare.RejectShare;
+                        // 如果没有preShare说明是第一次拍照，此时不计算shareDelta
+                        if (preShare != 0) {
+                            item.ShareDelta = shareData.TotalShare - shareData.RejectShare - preShare;
+                        }
+                        if (oldShare.RejectShare != 0) {
+                            item.RejectShareDelta = shareData.RejectShare - oldShare.RejectShare;
+                        }
                     }
-                    int preRejectShare = SRejectShareByCoin[item.CoinCode];
-                    if (preRejectShare != 0) {
-                        item.RejectShareDelta = rejectShareDic[item.CoinCode] - preRejectShare;
-                    }
-                    STotalShareByCoin[item.CoinCode] = totalShareDic[item.CoinCode];
-                    SRejectShareByCoin[item.CoinCode] = rejectShareDic[item.CoinCode];
+                    oldShare.Update(item.CoinCode, shareData, now);
                 }
                 if (dicByCoinCode.Count > 0) {
                     _dataList.AddRange(dicByCoinCode.Values);
