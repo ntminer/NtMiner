@@ -7,27 +7,24 @@ using System.Linq;
 namespace NTMiner.Data.Impl {
     public class CoinSnapshotSet : ICoinSnapshotSet {
         private class CoinShare {
-            public CoinShare(string coinCode, int totalShare, int rejectShare, DateTime time) {
-                this.CoinCode = coinCode;
+            public CoinShare(int totalShare, int rejectShare, DateTime time) {
                 this.TotalShare = totalShare;
                 this.RejectShare = rejectShare;
                 this.Time = time;
             }
 
-            public void Update(string coinCode, ShareData data, DateTime time) {
-                this.CoinCode = coinCode;
+            public void Update(ShareData data, DateTime time) {
                 this.TotalShare = data.TotalShare;
                 this.RejectShare = data.RejectShare;
                 this.Time = time;
             }
 
-            public string CoinCode { get; private set; }
             public DateTime Time { get; private set; }
             public int TotalShare { get; private set; }
             public int RejectShare { get; private set; }
         }
 
-        public struct ShareData {
+        public class ShareData {
             public ShareData(int totalShare, int rejectShare) {
                 TotalShare = totalShare;
                 RejectShare = rejectShare;
@@ -106,7 +103,7 @@ namespace NTMiner.Data.Impl {
                     }
 
                     if (!SShareDicByCoin.ContainsKey(clientData.MainCoinCode)) {
-                        SShareDicByCoin.Add(clientData.MainCoinCode, new CoinShare(clientData.MainCoinCode, 0, 0, now));
+                        SShareDicByCoin.Add(clientData.MainCoinCode, new CoinShare(0, 0, now));
                     }
 
                     if (!shareDicByCoin.ContainsKey(clientData.MainCoinCode)) {
@@ -135,7 +132,7 @@ namespace NTMiner.Data.Impl {
 
                     if (!string.IsNullOrEmpty(clientData.DualCoinCode) && clientData.IsDualCoinEnabled) {
                         if (!SShareDicByCoin.ContainsKey(clientData.DualCoinCode)) {
-                            SShareDicByCoin.Add(clientData.DualCoinCode, new CoinShare(clientData.DualCoinCode, 0, 0, now));
+                            SShareDicByCoin.Add(clientData.DualCoinCode, new CoinShare(0, 0, now));
                         }
 
                         if (!shareDicByCoin.ContainsKey(clientData.DualCoinCode)) {
@@ -167,17 +164,15 @@ namespace NTMiner.Data.Impl {
                 foreach (var item in dicByCoinCode.Values) {
                     CoinShare oldShare = SShareDicByCoin[item.CoinCode];
                     ShareData shareData = shareDicByCoin[item.CoinCode];
-                    if (oldShare.Time.AddSeconds(20) > now) {
+                    if (oldShare.Time.AddSeconds(60) > now) {
                         int preShare = oldShare.TotalShare - oldShare.RejectShare;
                         // 如果没有preShare说明是第一次拍照，此时不计算shareDelta
                         if (preShare != 0) {
                             item.ShareDelta = shareData.TotalShare - shareData.RejectShare - preShare;
-                        }
-                        if (oldShare.RejectShare != 0) {
                             item.RejectShareDelta = shareData.RejectShare - oldShare.RejectShare;
                         }
                     }
-                    oldShare.Update(item.CoinCode, shareData, now);
+                    oldShare.Update(shareData, now);
                 }
                 if (dicByCoinCode.Count > 0) {
                     _dataList.AddRange(dicByCoinCode.Values);
