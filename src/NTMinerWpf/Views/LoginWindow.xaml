@@ -110,7 +110,7 @@
                     Visibility="{Binding IsPasswordAgainVisible,Converter={StaticResource VisibilityInvertConverter}}"
                     IsDefault="True"
                     Padding="10 0"
-                    Command="{Binding Login}"
+                    Click="BtnLogin_OnClick"
                     Background="{StaticResource ThemeBackground}"
                     Foreground="{StaticResource ThemeForeground}"
                     CornerRadius="2">

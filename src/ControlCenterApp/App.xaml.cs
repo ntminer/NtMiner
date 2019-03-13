@@ -65,9 +65,9 @@ namespace NTMiner {
                                     });
                                 });
                             #endregion
+                            HttpServer.Start($"http://localhost:{WebApiConst.ControlCenterAppPort}");
+                            AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                         }
-                        HttpServer.Start($"http://localhost:{WebApiConst.ControlCenterAppPort}");
-                        AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                     });
                 });
             }
