@@ -56,17 +56,11 @@ namespace NTMiner.Vms {
                 MinerClientUc.ShowWindow(this);
             });
             this.RemoteLogin = new DelegateCommand(() => {
-                WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
-                    UserName = this.WindowsLoginName,
-                    Password = this.WindowsPassword
-                });
+                WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.Id, this.MinerName, this.MinerIp, this));
             });
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
-                    WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.Id, this.MinerName, this.MinerIp, this) {
-                        UserName = this.WindowsLoginName,
-                        Password = this.WindowsPassword
-                    });
+                    WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.Id, this.MinerName, this.MinerIp, this));
                 }
                 else {
                     AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {

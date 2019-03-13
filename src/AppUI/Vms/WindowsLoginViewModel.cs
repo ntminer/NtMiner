@@ -24,6 +24,8 @@ namespace NTMiner.Vms {
             this.ClientId = clientId;
             this.MinerName = minerName;
             this.Ip = ip;
+            this._userName = minerClientVm.WindowsLoginName;
+            this._password = minerClientVm.WindowsPassword;
             this.Save = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.UserName) || string.IsNullOrEmpty(this.Password)) {
                     return;
