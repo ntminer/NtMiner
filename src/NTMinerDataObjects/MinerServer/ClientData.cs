@@ -107,6 +107,109 @@ namespace NTMiner.MinerServer {
             this.GpuTable = speedData.GpuTable;
         }
 
+        private int _preMainCoinShare = 0;
+        private int _preDualCoinShare = 0;
+        private int _preMainCoinRejectShare = 0;
+        private int _preDualCoinRejectShare = 0;
+        private string _preMainCoin;
+        private string _preDualCoin;
+
+        public int GetMainCoinShareDelta() {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                return 0;
+            }
+
+            int delta = 0;
+
+            if (_preMainCoin == this.MainCoinCode) {
+                if (_preMainCoinShare != 0) {
+                    delta = this.MainCoinTotalShare - _preMainCoinShare;
+                    if (delta < 0) {
+                        delta = 0;
+                    }
+                }
+                _preMainCoinShare = this.MainCoinTotalShare;
+            }
+            else {
+                _preMainCoinShare = 0;
+                _preMainCoin = this.MainCoinCode;
+            }
+
+            return delta;
+        }
+
+        public int GetDualCoinShareDelta() {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                return 0;
+            }
+
+            int delta = 0;
+
+            if (_preDualCoin == this.DualCoinCode) {
+                if (_preDualCoinShare != 0) {
+                    delta = this.DualCoinTotalShare - _preDualCoinShare;
+                    if (delta < 0) {
+                        delta = 0;
+                    }
+                }
+                _preDualCoinShare = this.DualCoinTotalShare;
+            }
+            else {
+                _preDualCoinShare = 0;
+                _preDualCoin = this.DualCoinCode;
+            }
+
+            return delta;
+        }
+
+        public int GetMainCoinRejectShareDelta() {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                return 0;
+            }
+
+            int delta = 0;
+
+            if (_preMainCoin == this.MainCoinCode) {
+                if (_preMainCoinRejectShare != 0) {
+                    delta = this.MainCoinTotalShare - _preMainCoinRejectShare;
+                    if (delta < 0) {
+                        delta = 0;
+                    }
+                }
+                _preMainCoinRejectShare = this.MainCoinTotalShare;
+            }
+            else {
+                _preMainCoinRejectShare = 0;
+                _preMainCoin = this.MainCoinCode;
+            }
+
+            return delta;
+        }
+
+        public int GetDualCoinRejectShareDelta() {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+                return 0;
+            }
+
+            int delta = 0;
+
+            if (_preDualCoin == this.DualCoinCode) {
+                if (_preDualCoinRejectShare != 0) {
+                    delta = this.DualCoinTotalShare - _preDualCoinRejectShare;
+                    if (delta < 0) {
+                        delta = 0;
+                    }
+                }
+                _preDualCoinRejectShare = this.DualCoinTotalShare;
+            }
+            else {
+                _preDualCoinRejectShare = 0;
+                _preDualCoin = this.DualCoinCode;
+            }
+
+            return delta;
+        }
+
         private string _mainCoinCode;
         private string _dualCoinCode;
         public Guid Id { get; set; }

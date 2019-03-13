@@ -6,34 +6,6 @@ using System.Linq;
 
 namespace NTMiner.Data.Impl {
     public class CoinSnapshotSet : ICoinSnapshotSet {
-        private class CoinShare {
-            public CoinShare(int totalShare, int rejectShare, DateTime time) {
-                this.TotalShare = totalShare;
-                this.RejectShare = rejectShare;
-                this.Time = time;
-            }
-
-            public void Update(ShareData data, DateTime time) {
-                this.TotalShare = data.TotalShare;
-                this.RejectShare = data.RejectShare;
-                this.Time = time;
-            }
-
-            public DateTime Time { get; private set; }
-            public int TotalShare { get; private set; }
-            public int RejectShare { get; private set; }
-        }
-
-        public class ShareData {
-            public ShareData(int totalShare, int rejectShare) {
-                TotalShare = totalShare;
-                RejectShare = rejectShare;
-            }
-
-            public int TotalShare;
-            public int RejectShare;
-        }
-
         private readonly IHostRoot _root;
         // 内存中保留最近20分钟的快照
         private readonly List<CoinSnapshotData> _dataList = new List<CoinSnapshotData>();
@@ -84,14 +56,12 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        private static readonly Dictionary<string, CoinShare> SShareDicByCoin = new Dictionary<string, CoinShare>();
         /// <summary>
         /// 
         /// </summary>
         private void Snapshot(DateTime now) {
             InitOnece();
             try {
-                Dictionary<string, ShareData> shareDicByCoin = new Dictionary<string, ShareData>();
                 Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
                 foreach (var clientData in _root.ClientSet) {
                     if (clientData.ModifiedOn.AddMinutes(3) < now) {
@@ -100,14 +70,6 @@ namespace NTMiner.Data.Impl {
 
                     if (string.IsNullOrEmpty(clientData.MainCoinCode)) {
                         continue;
-                    }
-
-                    if (!SShareDicByCoin.ContainsKey(clientData.MainCoinCode)) {
-                        SShareDicByCoin.Add(clientData.MainCoinCode, new CoinShare(0, 0, now));
-                    }
-
-                    if (!shareDicByCoin.ContainsKey(clientData.MainCoinCode)) {
-                        shareDicByCoin.Add(clientData.MainCoinCode, new ShareData(0, 0));
                     }
 
                     CoinSnapshotData mainCoinSnapshotData;
@@ -123,22 +85,13 @@ namespace NTMiner.Data.Impl {
                     if (clientData.IsMining) {
                         mainCoinSnapshotData.MainCoinMiningCount += 1;
                         mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
-                        ShareData shareData = shareDicByCoin[clientData.MainCoinCode];
-                        shareData.TotalShare += clientData.MainCoinTotalShare;
-                        shareData.RejectShare += clientData.MainCoinRejectShare;
+                        mainCoinSnapshotData.ShareDelta += clientData.GetMainCoinShareDelta();
+                        mainCoinSnapshotData.RejectShareDelta += clientData.GetMainCoinRejectShareDelta();
                     }
 
                     mainCoinSnapshotData.MainCoinOnlineCount += 1;
 
                     if (!string.IsNullOrEmpty(clientData.DualCoinCode) && clientData.IsDualCoinEnabled) {
-                        if (!SShareDicByCoin.ContainsKey(clientData.DualCoinCode)) {
-                            SShareDicByCoin.Add(clientData.DualCoinCode, new CoinShare(0, 0, now));
-                        }
-
-                        if (!shareDicByCoin.ContainsKey(clientData.DualCoinCode)) {
-                            shareDicByCoin.Add(clientData.DualCoinCode, new ShareData(0, 0));
-                        }
-
                         CoinSnapshotData dualCoinSnapshotData;
                         if (!dicByCoinCode.TryGetValue(clientData.DualCoinCode, out dualCoinSnapshotData)) {
                             dualCoinSnapshotData = new CoinSnapshotData() {
@@ -152,28 +105,14 @@ namespace NTMiner.Data.Impl {
                         if (clientData.IsMining) {
                             dualCoinSnapshotData.DualCoinMiningCount += 1;
                             dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
-                            ShareData shareData = shareDicByCoin[clientData.DualCoinCode];
-                            shareData.TotalShare += clientData.DualCoinTotalShare;
-                            shareData.RejectShare += clientData.DualCoinRejectShare;
+                            dualCoinSnapshotData.ShareDelta += clientData.GetDualCoinShareDelta();
+                            dualCoinSnapshotData.RejectShareDelta += clientData.GetDualCoinRejectShareDelta();
                         }
 
                         dualCoinSnapshotData.DualCoinOnlineCount += 1;
                     }
                 }
 
-                foreach (var item in dicByCoinCode.Values) {
-                    CoinShare oldShare = SShareDicByCoin[item.CoinCode];
-                    ShareData shareData = shareDicByCoin[item.CoinCode];
-                    if (oldShare.Time.AddSeconds(60) > now) {
-                        int preShare = oldShare.TotalShare - oldShare.RejectShare;
-                        // 如果没有preShare说明是第一次拍照，此时不计算shareDelta
-                        if (preShare != 0) {
-                            item.ShareDelta = shareData.TotalShare - shareData.RejectShare - preShare;
-                            item.RejectShareDelta = shareData.RejectShare - oldShare.RejectShare;
-                        }
-                    }
-                    oldShare.Update(shareData, now);
-                }
                 if (dicByCoinCode.Count > 0) {
                     _dataList.AddRange(dicByCoinCode.Values);
                     using (LiteDatabase db = HostRoot.CreateReportDb()) {
