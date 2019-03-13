@@ -40,8 +40,8 @@ namespace NTMiner.Vms {
                             clientIps.Add(IntToIp(ip));
                         }
 
-                        if (clientIps.Count > 100) {
-                            this.ShowMessage("最多支持一次添加100个IP");
+                        if (clientIps.Count > 101) {
+                            this.ShowMessage("最多支持一次添加101个IP");
                             return;
                         }
 

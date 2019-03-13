@@ -264,8 +264,8 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
 
-            if (request.ClientIps.Count > 100) {
-                return ResponseBase.InvalidInput(request.MessageId, "最多支持一次添加100个IP");
+            if (request.ClientIps.Count > 101) {
+                return ResponseBase.InvalidInput(request.MessageId, "最多支持一次添加101个IP");
             }
             try {
                 ResponseBase response;
