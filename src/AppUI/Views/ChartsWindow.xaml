@@ -177,16 +177,15 @@
 									</TextBlock>
 								</WrapPanel>
 
-								<controls:KbCheckBox 
+								<CheckBox 
 									Padding="0" 
 									FontSize="16"
 									FontWeight="Bold"
-									HorizontalAlignment="Center" 
-									IconColor="{StaticResource IconFillColor}"
+									VerticalContentAlignment="Center" 
 									IsChecked="{Binding IsShow}" 
 									ToolTip="显示算力图" 
 									VerticalAlignment="Center" 
-									Content="{Binding CoinVm.Code}"></controls:KbCheckBox>
+									Content="{Binding CoinVm.Code}"></CheckBox>
 							</StackPanel>
 						</Border>
 					</DataTemplate>
