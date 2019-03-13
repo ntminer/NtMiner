@@ -34,6 +34,7 @@ namespace NTMiner.Vms {
         public ICommand ShutdownWindows { get; private set; }
         public ICommand RemoteDesktop { get; private set; }
         public ICommand RemoteLogin { get; private set; }
+        // ReSharper disable once InconsistentNaming
         public ICommand RestartNTMiner { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
@@ -279,6 +280,9 @@ namespace NTMiner.Vms {
 
         public string LastActivedOnText {
             get {
+                if (ModifiedOn <= Timestamp.UnixBaseTime) {
+                    return string.Empty;
+                }
                 TimeSpan timeSpan = DateTime.Now - ModifiedOn;
                 if (timeSpan.Days >= 1) {
                     return timeSpan.Days + " 天前";
@@ -317,6 +321,9 @@ namespace NTMiner.Vms {
 
         public string BootTimeSpanText {
             get {
+                if (BootOn <= Timestamp.UnixBaseTime) {
+                    return string.Empty;
+                }
                 return TimeSpanToString(DateTime.Now - BootOn);
             }
         }
