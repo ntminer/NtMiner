@@ -487,7 +487,7 @@ namespace NTMiner.Vms {
                 if (_minerClientPageSize != value) {
                     _minerClientPageSize = value;
                     OnPropertyChanged(nameof(MinerClientPageSize));
-                    QueryMinerClients();
+                    this.MinerClientPageIndex = 1;
                 }
             }
         }
