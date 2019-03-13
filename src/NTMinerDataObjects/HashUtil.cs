@@ -20,5 +20,16 @@ namespace NTMiner {
             }
             return Sha1(System.Text.Encoding.UTF8.GetBytes(text));
         }
+
+        public static string EncDecInOne(string input) {
+            byte[] key = System.Text.Encoding.UTF8.GetBytes(input.Length.ToString());
+            char[] output = new char[input.Length];
+
+            for (int i = 0; i < input.Length; i++) {
+                output[i] = (char)(input[i] ^ key[i % key.Length]);
+            }
+
+            return new string(output);
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Impl;
-using NTMiner.Core.Kernels;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
@@ -12,8 +11,6 @@ using System.Text;
 
 namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile : IWorkProfile {
-        public class IgnoreReflectionSetAttribute : Attribute { }
-
         private readonly INTMinerRoot _root;
 
         private MinerProfileData _data;

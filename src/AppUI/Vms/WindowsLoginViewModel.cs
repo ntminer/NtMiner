@@ -1,6 +1,5 @@
 ﻿using NTMiner.Notifications;
 using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -29,52 +28,20 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.UserName) || string.IsNullOrEmpty(this.Password)) {
                     throw new ValidationException("用户名密码不能为空");
                 }
-                Server.ControlCenterService.UpdateClientPropertiesAsync(this.ClientId, new Dictionary<string, object> {
-                    { nameof(MinerClientViewModel.WindowsLoginName), this.UserName },
-                    { nameof(MinerClientViewModel.WindowsPassword), this.Password }
-                }, (response, exception) => {
-                    if (response.IsSuccess()) {
-                        UIThread.Execute(() => {
-                            CloseWindow?.Invoke();
-                        });
-                    }
-                    else {
-                        if (response != null) {
-                            this.Message = response.Description;
-                            TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
-                                this.Message = string.Empty;
-                            });
-                        }
-                    }
-                });
+                minerClientVm.WindowsLoginName = this.UserName;
+                minerClientVm.WindowsPassword = this.Password;
+                CloseWindow?.Invoke();
             });
             this.Login = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.UserName) || string.IsNullOrEmpty(this.Password)) {
                     throw new ValidationException("用户名密码不能为空");
                 }
-                Server.ControlCenterService.UpdateClientPropertiesAsync(this.ClientId, new Dictionary<string, object> {
-                    { nameof(MinerClientViewModel.WindowsLoginName), this.UserName },
-                    { nameof(MinerClientViewModel.WindowsPassword), this.Password }
-                }, (response, exception) => {
-                    if (response.IsSuccess()) {
-                        minerClientVm.WindowsLoginName = this.UserName;
-                        minerClientVm.WindowsPassword = this.Password;
-                        AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.Ip, this.UserName, this.Password, this.MinerName, message => {
-                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(message);
-                        }));
-                        UIThread.Execute(() => {
-                            CloseWindow?.Invoke();
-                        });
-                    }
-                    else {
-                        if (response != null) {
-                            this.Message = response.Description;
-                            TimeSpan.FromSeconds(3).Delay().ContinueWith(t => {
-                                this.Message = string.Empty;
-                            });
-                        }
-                    }
-                });
+                minerClientVm.WindowsLoginName = this.UserName;
+                minerClientVm.WindowsPassword = this.Password;
+                AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.Ip, this.UserName, this.Password, this.MinerName, message => {
+                    MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(message);
+                }));
+                CloseWindow?.Invoke();
             });
         }
 

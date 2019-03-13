@@ -146,6 +146,7 @@ namespace NTMiner.Vms {
         }
 
         private bool _isShovelEmpty = true;
+        [IgnoreReflectionSet]
         public bool IsShovelEmpty {
             get => _isShovelEmpty;
             set {
@@ -158,6 +159,7 @@ namespace NTMiner.Vms {
 
         #region IClientData
 
+        [IgnoreReflectionSet]
         public bool IsChecked {
             get { return _isChecked; }
             set {
@@ -208,6 +210,7 @@ namespace NTMiner.Vms {
         }
 
         private MineWorkViewModel _selectedMineWork;
+        [IgnoreReflectionSet]
         public MineWorkViewModel SelectedMineWork {
             get {
                 if (WorkId == Guid.Empty) {
@@ -401,6 +404,7 @@ namespace NTMiner.Vms {
                         }
                         OnPropertyChanged(nameof(MinerName));
                     });
+                    OnPropertyChanged(nameof(MinerName));
                 }
             }
         }
@@ -416,6 +420,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [IgnoreReflectionSet]
         public MinerGroupViewModel SelectedMinerGroup {
             get {
                 if (_selectedMinerGroup == null || _selectedMinerGroup.Id != GroupId) {
@@ -464,6 +469,7 @@ namespace NTMiner.Vms {
             }
         }
 
+        [IgnoreReflectionSet]
         public string WindowsLoginName {
             get { return _data.WindowsLoginName; }
             set {
@@ -483,13 +489,23 @@ namespace NTMiner.Vms {
                         }
                         OnPropertyChanged(nameof(WindowsLoginName));
                     });
+                    OnPropertyChanged(nameof(WindowsLoginName));
                 }
             }
         }
 
+        [IgnoreReflectionSet]
         public string WindowsPassword {
-            get { return _data.WindowsPassword; }
+            get {
+                if (string.IsNullOrEmpty(_data.WindowsPassword)) {
+                    return string.Empty;
+                }
+                return HashUtil.EncDecInOne(_data.WindowsPassword);
+            }
             set {
+                if (!string.IsNullOrEmpty(value)) {
+                    value = HashUtil.EncDecInOne(value);
+                }
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;
                     _data.WindowsPassword = value;
@@ -507,6 +523,8 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(WindowsPassword));
                         OnPropertyChanged(nameof(WindowsPasswordStar));
                     });
+                    OnPropertyChanged(nameof(WindowsPassword));
+                    OnPropertyChanged(nameof(WindowsPasswordStar));
                 }
             }
         }
@@ -516,7 +534,7 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.WindowsPassword)) {
                     return string.Empty;
                 }
-                return new string('●', this.WindowsPassword.Length);
+                return new string('●', 6);
             }
         }
 
@@ -527,14 +545,6 @@ namespace NTMiner.Vms {
                     _data.MainCoinCode = value;
                     OnPropertyChanged(nameof(MainCoinCode));
                 }
-            }
-        }
-
-        public CoinViewModel MainCoinVm {
-            get {
-                CoinViewModel coinVm;
-                CoinViewModels.Current.TryGetCoinVm(this.MainCoinCode, out coinVm);
-                return coinVm;
             }
         }
 

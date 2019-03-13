@@ -51,7 +51,11 @@ namespace NTMiner.MinerServer {
                 DualCoinRejectShare = speedData.DualCoinRejectShare,
                 DualCoinSpeed = speedData.DualCoinSpeed,
                 KernelCommandLine = speedData.KernelCommandLine,
-                GpuTable = speedData.GpuTable
+                GpuTable = speedData.GpuTable,
+                GroupId = Guid.Empty,
+                WorkId = Guid.Empty,
+                WindowsLoginName = string.Empty,
+                WindowsPassword = string.Empty
             };
         }
 

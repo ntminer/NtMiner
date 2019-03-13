@@ -134,5 +134,18 @@ namespace UnitTestProject1 {
         public void GetControllerNameTest() {
             Assert.AreEqual("FileUrl", ControllerUtil.GetControllerName<IFileUrlController>());
         }
+
+        [TestMethod]
+        public void HashUtilTest() {
+            string[] values = new[]
+            {
+                "ntminer", "测试", "helloworld", "s d-,"
+            };
+            foreach (var value in values) {
+                string v1 = HashUtil.EncDecInOne(value);
+                Console.WriteLine(v1);
+                Assert.AreEqual(value, HashUtil.EncDecInOne(v1));
+            }
+        }
     }
 }
