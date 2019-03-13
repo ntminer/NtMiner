@@ -31,7 +31,14 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Background="{StaticResource MinerProfileBackground}" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+        <ScrollViewer 
+            Grid.Row="0" 
+            Grid.Column="0" 
+            Grid.RowSpan="2" 
+            FocusVisualStyle="{x:Null}"
+            Background="{StaticResource MinerProfileBackground}" 
+            VerticalScrollBarVisibility="Auto" 
+            PreviewMouseDown="ScrollViewer_PreviewMouseDown">
             <ItemsControl 
                 x:Name="LvGpus"
                 BorderThickness="0 0 1 0" 

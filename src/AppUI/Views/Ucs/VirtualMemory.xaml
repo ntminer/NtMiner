@@ -25,7 +25,11 @@
 			<TextBlock FontSize="16" Margin="4 0" VerticalAlignment="Center" Text="{Binding VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
 			<TextBlock VerticalAlignment="Center">虚拟内存</TextBlock>            
 		</WrapPanel>
-		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+		<ScrollViewer 
+		    Grid.Row="1" 
+		    FocusVisualStyle="{x:Null}"
+		    VerticalScrollBarVisibility="Auto" 
+		    PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
 				ItemsSource="{Binding Drives}"
 				BorderThickness="0"

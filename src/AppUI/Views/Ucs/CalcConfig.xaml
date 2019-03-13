@@ -33,7 +33,10 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
-		<ScrollViewer VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+		<ScrollViewer 
+			FocusVisualStyle="{x:Null}"
+			VerticalScrollBarVisibility="Auto" 
+			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
 				Padding="70 0 0 0"
 				Width="600"

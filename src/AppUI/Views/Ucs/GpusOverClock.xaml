@@ -114,7 +114,11 @@
 				</WrapPanel>
 			</WrapPanel>
 		</WrapPanel>
-		<ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+		<ScrollViewer 
+		    Grid.Row="2" 
+		    FocusVisualStyle="{x:Null}"
+		    VerticalScrollBarVisibility="Auto" 
+		    PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
 				IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll,Converter={StaticResource BoolInvertConverter}}"
 				BorderThickness="0"

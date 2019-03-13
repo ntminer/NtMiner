@@ -194,7 +194,8 @@
 		</WrapPanel>
 		<ScrollViewer 
 			Grid.Column="0"
-			Grid.Row="2"		
+			Grid.Row="2" 
+		    FocusVisualStyle="{x:Null}"
 			Background="White"
 			VerticalScrollBarVisibility="Auto"
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown"
@@ -204,7 +205,7 @@
 				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
 			</ScrollViewer.Resources>
 			<Viewbox Stretch="Uniform" VerticalAlignment="Top">
-				<ItemsControl 
+				<ItemsControl
 					Width="960"
 					ItemsSource="{Binding ChartVms}"
 					BorderThickness="0"
