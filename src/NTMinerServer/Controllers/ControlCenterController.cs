@@ -245,7 +245,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId, request.IsPull);
+                var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId);
                 return DataResponse<ClientData>.Ok(request.MessageId, data);
             }
             catch (Exception e) {
@@ -279,7 +279,7 @@ namespace NTMiner.Controllers {
                 }
                 Client.MinerClientService.GetSpeedAsync(request.Data, (speedData, e) => {
                     if (speedData != null) {
-                        clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId, isPull: false);
+                        clientData = HostRoot.Current.ClientSet.LoadClient(speedData.ClientId);
                         if (clientData == null) {
                             clientData = ClientData.Create(speedData, request.Data);
                             HostRoot.Current.ClientSet.Add(clientData);

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
-        public static bool IsPull = false;
+        public static bool IsPull = true;
 
         static void Main(string[] args) {
             string baseAddress = $"http://localhost:{WebApiConst.MinerServerPort}";

@@ -419,7 +419,6 @@
             </WrapPanel>
         </StackPanel>
         <WrapPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <CheckBox IsChecked="{Binding IsPull}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">拉</CheckBox>
             <controls:KbButton 
                 Margin="10 0 0 0"
                 ToolTip="算力图"

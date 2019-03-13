@@ -283,22 +283,16 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public ClientData LoadClient(Guid clientId, bool isPull) {
-            HostRoot.IsPull = isPull;
+        public ClientData LoadClient(Guid clientId) {
             InitOnece();
             ClientData clientData = null;
-            lock (_locker) {
-                _dicById.TryGetValue(clientId, out clientData);
-            }
-            if (isPull && clientData != null) {
-                CreatePullTask(clientData).Wait();
-            }
+            _dicById.TryGetValue(clientId, out clientData);
             return clientData;
         }
 
         public void UpdateClient(Guid clientId, string propertyName, object value) {
             InitOnece();
-            ClientData clientData = LoadClient(clientId, false);
+            ClientData clientData = LoadClient(clientId);
             if (clientData != null) {
                 PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
                 if (propertyInfo != null) {
@@ -313,7 +307,7 @@ namespace NTMiner.Data.Impl {
 
         public void UpdateClientProperties(Guid clientId, Dictionary<string, object> values) {
             InitOnece();
-            ClientData clientData = LoadClient(clientId, false);
+            ClientData clientData = LoadClient(clientId);
             if (clientData != null) {
                 foreach (var kv in values) {
                     object value = kv.Value;

@@ -34,6 +34,6 @@ namespace NTMiner.Data {
             out int total,
             out int miningCount);
 
-        ClientData LoadClient(Guid clientId, bool isPull);
+        ClientData LoadClient(Guid clientId);
     }
 }
