@@ -171,12 +171,12 @@ namespace NTMiner.MinerServer {
 
             if (_preMainCoin == this.MainCoinCode) {
                 if (_preMainCoinRejectShare != 0) {
-                    delta = this.MainCoinTotalShare - _preMainCoinRejectShare;
+                    delta = this.MainCoinRejectShare - _preMainCoinRejectShare;
                     if (delta < 0) {
                         delta = 0;
                     }
                 }
-                _preMainCoinRejectShare = this.MainCoinTotalShare;
+                _preMainCoinRejectShare = this.MainCoinRejectShare;
             }
             else {
                 _preMainCoinRejectShare = 0;
@@ -195,12 +195,12 @@ namespace NTMiner.MinerServer {
 
             if (_preDualCoin == this.DualCoinCode) {
                 if (_preDualCoinRejectShare != 0) {
-                    delta = this.DualCoinTotalShare - _preDualCoinRejectShare;
+                    delta = this.DualCoinRejectShare - _preDualCoinRejectShare;
                     if (delta < 0) {
                         delta = 0;
                     }
                 }
-                _preDualCoinRejectShare = this.DualCoinTotalShare;
+                _preDualCoinRejectShare = this.DualCoinRejectShare;
             }
             else {
                 _preDualCoinRejectShare = 0;
