@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
+using NTMiner.Vms;
 
 namespace NTMiner.Views {
     public class ExtendedNotifyIcon : IDisposable {
@@ -20,7 +21,7 @@ namespace NTMiner.Views {
                 ContextMenu = new ContextMenu()
             };
             _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
-                System.Windows.Application.Current.MainWindow?.Close();
+                AppStatic.AppExit.Execute(null);
             }));
             _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
                 if (e.Button == MouseButtons.Left) {
