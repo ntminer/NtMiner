@@ -11,11 +11,11 @@ namespace NTMiner.Data {
 
         void Add(ClientData clientData);
 
-        void UpdateClient(Guid clientId, string propertyName, object value);
+        void UpdateClient(ObjectId objectId, string propertyName, object value);
 
-        void UpdateClientProperties(Guid clientId, Dictionary<string, object> values);
+        void UpdateClientProperties(ObjectId objectId, Dictionary<string, object> values);
 
-        void Remove(Guid clientId);
+        void Remove(ObjectId objectId);
 
         List<ClientData> QueryClients(
             int pageIndex,
@@ -36,6 +36,6 @@ namespace NTMiner.Data {
             out int total,
             out int miningCount);
 
-        ClientData LoadClient(Guid clientId);
+        ClientData GetByClientId(Guid clientId);
     }
 }

@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
             });
             this.Remove = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"确定删除该矿工吗？", title: "确认", onYes: () => {
-                    Server.ControlCenterService.RemoveClientsAsync(new List<Guid> { this.ClientId }, (response, e) => {
+                    Server.ControlCenterService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
                             if (response != null) {
                                 Write.UserLine(response.Description, ConsoleColor.Red);
@@ -130,7 +130,7 @@ namespace NTMiner.Vms {
                         MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response?.Description);
                     }
                 });
-                Server.ControlCenterService.UpdateClientAsync(this.ClientId, nameof(IsMining), IsMining, null);
+                Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
             });
             this.StopMine = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"确定停止挖矿{this.MinerName}({this.MinerIp})挖矿端吗？", title: "确认", onYes: () => {
@@ -142,7 +142,7 @@ namespace NTMiner.Vms {
                             MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response?.Description);
                         }
                     });
-                    Server.ControlCenterService.UpdateClientAsync(this.ClientId, nameof(IsMining), IsMining, null);
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
                 }, icon: "Icon_Confirm");
             });
         }
@@ -249,7 +249,7 @@ namespace NTMiner.Vms {
                     _selectedMineWork = value;
                     try {
                         Server.ControlCenterService.UpdateClientAsync(
-                            this.ClientId, nameof(WorkId), value.Id, (response, exception) => {
+                            this.Id, nameof(WorkId), value.Id, (response, exception) => {
                                 if (!response.IsSuccess()) {
                                     _selectedMineWork = old;
                                     this.WorkId = old.Id;
@@ -390,7 +390,7 @@ namespace NTMiner.Vms {
                 if (_data.MinerName != value) {
                     var old = _data.MinerName;
                     _data.MinerName = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.ClientId, nameof(MinerName), value, (response, e) => {
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
                         if (response.IsSuccess()) {
                             var request = new SetMinerNameRequest {
                                 LoginName = SingleUser.LoginName,
@@ -456,7 +456,7 @@ namespace NTMiner.Vms {
                     _selectedMinerGroup = value;
                     this.GroupId = value.Id;
                     try {
-                        Server.ControlCenterService.UpdateClientAsync(this.ClientId, nameof(GroupId), value.Id, (response, exception) => {
+                        Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
                             if (!response.IsSuccess()) {
                                 _selectedMinerGroup = old;
                                 this.GroupId = old.Id;
@@ -495,7 +495,7 @@ namespace NTMiner.Vms {
                 if (_data.WindowsLoginName != value) {
                     var old = _data.WindowsLoginName;
                     _data.WindowsLoginName = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.ClientId, nameof(WindowsLoginName), value, (response, exception) => {
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsLoginName = old;
                             if (response != null) {
@@ -528,7 +528,7 @@ namespace NTMiner.Vms {
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;
                     _data.WindowsPassword = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.ClientId, nameof(WindowsPassword), value, (response, exception) => {
+                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsPassword = old;
                             if (response != null) {

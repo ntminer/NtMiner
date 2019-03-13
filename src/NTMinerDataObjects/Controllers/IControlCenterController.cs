@@ -15,7 +15,6 @@ namespace NTMiner.Controllers {
         ResponseBase ChangePassword(ChangePasswordRequest request);
         QueryClientsResponse QueryClients(QueryClientsRequest request);
         GetCoinSnapshotsResponse LatestSnapshots(GetCoinSnapshotsRequest request);
-        DataResponse<ClientData> LoadClient(LoadClientRequest request);
         ResponseBase AddClients(AddClientRequest request);
         ResponseBase RemoveClients(RemoveClientsRequest request);
         ResponseBase UpdateClient(UpdateClientRequest request);

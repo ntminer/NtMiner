@@ -8,7 +8,7 @@ namespace NTMiner.MinerServer {
             this.Values = new Dictionary<string, object>();
         }
         public string LoginName { get; set; }
-        public Guid ClientId { get; set; }
+        public string ObjectId { get; set; }
         public Dictionary<string, object> Values { get; set; }
         public string Sign { get; set; }
 
@@ -20,7 +20,7 @@ namespace NTMiner.MinerServer {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
-                .Append(nameof(ClientId)).Append(ClientId)
+                .Append(nameof(ObjectId)).Append(ObjectId)
                 .Append(nameof(Values)).Append(GetValuesString())
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(UserData.Password)).Append(password);

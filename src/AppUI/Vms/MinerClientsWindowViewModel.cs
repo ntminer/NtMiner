@@ -100,7 +100,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"确定删除选中的矿工吗？", title: "确认", onYes: () => {
-                        Server.ControlCenterService.RemoveClientsAsync(checkedItems.Select(a => a.ClientId).ToList(), (response, e) => {
+                        Server.ControlCenterService.RemoveClientsAsync(checkedItems.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
@@ -201,7 +201,7 @@ namespace NTMiner.Vms {
                                 Manager.ShowErrorMessage(message);
                             }
                         });
-                        Server.ControlCenterService.UpdateClientAsync(item.ClientId, nameof(item.IsMining), item.IsMining, null);
+                        Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                     }
                 }
             });
@@ -221,7 +221,7 @@ namespace NTMiner.Vms {
                                     Manager.ShowErrorMessage(message);
                                 }
                             });
-                            Server.ControlCenterService.UpdateClientAsync(item.ClientId, nameof(item.IsMining), item.IsMining, null);
+                            Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                         }
                     }, icon: "Icon_Confirm");
                 }

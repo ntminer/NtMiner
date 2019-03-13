@@ -5,10 +5,10 @@ using System.Text;
 namespace NTMiner.MinerServer {
     public class RemoveClientsRequest : RequestBase, ISignatureRequest {
         public RemoveClientsRequest() {
-            this.ClientIds = new List<Guid>();
+            this.ObjectIds = new List<string>();
         }
         public string LoginName { get; set; }
-        public List<Guid> ClientIds { get; set; }
+        public List<string> ObjectIds { get; set; }
         public string Sign { get; set; }
 
         public void SignIt(string password) {
@@ -21,8 +21,8 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
                 .Append(nameof(UserData.Password)).Append(password);
-            sb.Append(nameof(ClientIds));
-            foreach (var clientId in ClientIds) {
+            sb.Append(nameof(ObjectIds));
+            foreach (var clientId in ObjectIds) {
                 sb.Append(clientId);
             }
             return HashUtil.Sha1(sb.ToString());

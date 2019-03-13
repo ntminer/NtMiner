@@ -149,7 +149,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MinerServer\QueryClientsRequest.cs" />
     <Compile Include="MinerServer\QueryClientsResponse.cs" />
-    <Compile Include="MinerServer\ReportStateRequest.cs" />
+    <Compile Include="MinerServer\ReportState.cs" />
     <Compile Include="PublishStatus.cs" />
     <Compile Include="RequestBase.cs" />
     <Compile Include="ResponseBase.cs" />

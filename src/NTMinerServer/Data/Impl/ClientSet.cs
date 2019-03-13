@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 namespace NTMiner.Data.Impl {
     public class ClientSet : IClientSet {
         // 内存中保留20分钟内活跃的客户端
-        private readonly Dictionary<Guid, ClientData> _dicById = new Dictionary<Guid, ClientData>();
+        private readonly Dictionary<ObjectId, ClientData> _dicByObjectId = new Dictionary<ObjectId, ClientData>();
+        private readonly Dictionary<Guid, ClientData> _dicByClientId = new Dictionary<Guid, ClientData>();
 
         private readonly IHostRoot _root;
         internal ClientSet(IHostRoot root) {
@@ -26,7 +27,7 @@ namespace NTMiner.Data.Impl {
                         DateTime time = message.Timestamp.AddMinutes(-5);
                         using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                             var col = db.GetCollection<MinerData>();
-                            col.Upsert(_dicById.Values.Where(a => a.ModifiedOn > time).Select(a => new MinerData {
+                            col.Upsert(_dicByObjectId.Values.Where(a => a.ModifiedOn > time).Select(a => new MinerData {
                                 CreatedOn = a.CreatedOn,
                                 GroupId = a.GroupId,
                                 Id = new ObjectId(a.Id),
@@ -45,7 +46,7 @@ namespace NTMiner.Data.Impl {
                 action: message => {
                     if (HostRoot.IsPull) {
                         Task.Factory.StartNew(() => {
-                            ClientData[] clientDatas = _dicById.Values.ToArray();
+                            ClientData[] clientDatas = _dicByObjectId.Values.ToArray();
                             Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
                             Task.WaitAll(tasks, 10 * 1000);
                         });
@@ -69,7 +70,11 @@ namespace NTMiner.Data.Impl {
                     using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                         var col = db.GetCollection<MinerData>();
                         foreach (var item in col.FindAll()) {
-                            _dicById.Add(item.ClientId, MinerData.CreateClientData(item));
+                            var data = MinerData.CreateClientData(item);
+                            _dicByObjectId.Add(item.Id, data);
+                            if (!_dicByClientId.ContainsKey(item.ClientId)) {
+                                _dicByClientId.Add(item.ClientId, data);
+                            }
                         }
                     }
                     _isInited = true;
@@ -83,7 +88,7 @@ namespace NTMiner.Data.Impl {
             DateTime time = DateTime.Now.AddSeconds(-140);
             int onlineCount = 0;
             int miningCount = 0;
-            foreach (var clientData in _dicById.Values) {
+            foreach (var clientData in _dicByObjectId.Values) {
                 if (clientData.ModifiedOn > time) {
                     onlineCount++;
                     if (clientData.IsMining) {
@@ -104,7 +109,7 @@ namespace NTMiner.Data.Impl {
             int mainCoinMiningCount = 0;
             int dualCoinOnlineCount = 0;
             int dualCoinMiningCount = 0;
-            foreach (var clientData in _dicById.Values) {
+            foreach (var clientData in _dicByObjectId.Values) {
                 if (clientData.ModifiedOn > time) {
                     if (clientData.MainCoinCode == coinCode) {
                         mainCoinOnlineCount++;
@@ -130,15 +135,21 @@ namespace NTMiner.Data.Impl {
 
         public void Add(ClientData clientData) {
             InitOnece();
-            if (!_dicById.ContainsKey(clientData.ClientId)) {
-                _dicById.Add(clientData.ClientId, clientData);
+            ObjectId objectId = new ObjectId(clientData.Id);
+            if (!_dicByObjectId.ContainsKey(objectId)) {
+                _dicByObjectId.Add(objectId, clientData);
+            }
+
+            if (!_dicByClientId.ContainsKey(clientData.ClientId)) {
+                _dicByClientId.Add(clientData.ClientId, clientData);
             }
         }
 
-        public void Remove(Guid clientId) {
+        public void Remove(ObjectId objectId) {
             ClientData clientData;
-            if (_dicById.TryGetValue(clientId, out clientData)) {
-                _dicById.Remove(clientId);
+            if (_dicByObjectId.TryGetValue(objectId, out clientData)) {
+                _dicByObjectId.Remove(objectId);
+                _dicByClientId.Remove(clientData.ClientId);
                 using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                     var col = db.GetCollection<MinerData>();
                     col.Delete(clientData.Id);
@@ -165,7 +176,7 @@ namespace NTMiner.Data.Impl {
             out int total,
             out int miningCount) {
             InitOnece();
-            IQueryable<ClientData> query = _dicById.Values.AsQueryable();
+            IQueryable<ClientData> query = _dicByObjectId.Values.AsQueryable();
             if (groupId != null && groupId.Value != Guid.Empty) {
                 query = query.Where(a => a.GroupId == groupId.Value);
             }
@@ -234,17 +245,17 @@ namespace NTMiner.Data.Impl {
             return results;
         }
 
-        public ClientData LoadClient(Guid clientId) {
+        public ClientData GetByClientId(Guid clientId) {
             InitOnece();
             ClientData clientData = null;
-            _dicById.TryGetValue(clientId, out clientData);
+            _dicByClientId.TryGetValue(clientId, out clientData);
             return clientData;
         }
 
-        public void UpdateClient(Guid clientId, string propertyName, object value) {
+        public void UpdateClient(ObjectId objectId, string propertyName, object value) {
             InitOnece();
-            ClientData clientData = LoadClient(clientId);
-            if (clientData != null) {
+            ClientData clientData;
+            if (_dicByObjectId.TryGetValue(objectId, out clientData)) {
                 PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
                 if (propertyInfo != null) {
                     if (propertyInfo.PropertyType == typeof(Guid)) {
@@ -256,10 +267,10 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public void UpdateClientProperties(Guid clientId, Dictionary<string, object> values) {
+        public void UpdateClientProperties(ObjectId objectId, Dictionary<string, object> values) {
             InitOnece();
-            ClientData clientData = LoadClient(clientId);
-            if (clientData != null) {
+            ClientData clientData;
+            if (_dicByObjectId.TryGetValue(objectId, out clientData)) {
                 foreach (var kv in values) {
                     object value = kv.Value;
                     PropertyInfo propertyInfo = typeof(ClientData).GetProperty(kv.Key);
@@ -274,7 +285,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public static Task<SpeedData> CreatePullTask(ClientData clientData) {
+        public Task<SpeedData> CreatePullTask(ClientData clientData) {
             return Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
                 if (exception != null) {
                     Exception innerException = exception.GetInnerException();
@@ -290,9 +301,8 @@ namespace NTMiner.Data.Impl {
                 }
                 else {
                     if (speedData.ClientId != clientData.ClientId) {
-                        HostRoot.Current.ClientSet.Remove(clientData.ClientId);
-                        clientData.ClientId = speedData.ClientId;
-                        HostRoot.Current.ClientSet.Add(clientData);
+                        _dicByClientId.Remove(clientData.ClientId);
+                        _dicByClientId.Add(speedData.ClientId, clientData);
                     }
                     clientData.Update(speedData);
                 }
@@ -301,7 +311,7 @@ namespace NTMiner.Data.Impl {
 
         public IEnumerator<ClientData> GetEnumerator() {
             InitOnece();
-            foreach (var clientData in _dicById.Values) {
+            foreach (var clientData in _dicByObjectId.Values) {
                 yield return clientData;
             }
         }

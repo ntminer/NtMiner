@@ -6,6 +6,6 @@ namespace NTMiner.Controllers {
     public interface IReportController {
         DateTime GetTime();
         void ReportSpeed(SpeedData speedData);
-        void ReportState(ReportStateRequest request);
+        void ReportState(ReportState request);
     }
 }

@@ -46,7 +46,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            ReportStateRequest request = new ReportStateRequest {
+                            ReportState request = new ReportState {
                                 ClientId = clientId,
                                 IsMining = isMining
                             };

@@ -312,7 +312,7 @@ namespace NTMiner {
             }
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetMinerServerHost()}:{WebApiConst.MinerServerPort}/api/Report/ReportState", new MinerServer.ReportStateRequest {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetMinerServerHost()}:{WebApiConst.MinerServerPort}/api/Report/ReportState", new MinerServer.ReportState {
                         ClientId = NTMinerRegistry.GetClientId(),
                         IsMining = false
                     });

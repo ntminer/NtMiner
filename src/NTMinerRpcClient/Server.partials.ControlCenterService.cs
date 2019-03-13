@@ -148,25 +148,6 @@ namespace NTMiner {
             }
             #endregion
 
-            #region LoadClientAsync
-            public void LoadClientAsync(Guid clientId, Action<DataResponse<ClientData>, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        LoadClientRequest request = new LoadClientRequest {
-                            LoginName = SingleUser.LoginName,
-                            ClientId = clientId
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        DataResponse<ClientData> response = Request<DataResponse<ClientData>>(s_controllerName, nameof(IControlCenterController.LoadClient), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
-            }
-            #endregion
-
             #region QueryClientsAsync
             public void QueryClientsAsync(
                 int pageIndex,
@@ -236,12 +217,12 @@ namespace NTMiner {
             #endregion
 
             #region RemoveClientsAsync
-            public void RemoveClientsAsync(List<Guid> clientIds, Action<ResponseBase, Exception> callback) {
+            public void RemoveClientsAsync(List<string> objectIds, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         RemoveClientsRequest request = new RemoveClientsRequest() {
                             LoginName = SingleUser.LoginName,
-                            ClientIds = clientIds
+                            ObjectIds = objectIds
                         };
                         request.SignIt(SingleUser.PasswordSha1);
                         ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveClients), request);
@@ -255,12 +236,12 @@ namespace NTMiner {
             #endregion
 
             #region UpdateClientAsync
-            public void UpdateClientAsync(Guid clientId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
+            public void UpdateClientAsync(string objectId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         UpdateClientRequest request = new UpdateClientRequest {
                             LoginName = SingleUser.LoginName,
-                            ClientId = clientId,
+                            ObjectId = objectId,
                             PropertyName = propertyName,
                             Value = value
                         };
@@ -276,12 +257,12 @@ namespace NTMiner {
             #endregion
 
             #region UpdateClientPropertiesAsync
-            public void UpdateClientPropertiesAsync(Guid clientId, Dictionary<string, object> values, Action<ResponseBase, Exception> callback) {
+            public void UpdateClientPropertiesAsync(string objectId, Dictionary<string, object> values, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         UpdateClientPropertiesRequest request = new UpdateClientPropertiesRequest {
                             LoginName = SingleUser.LoginName,
-                            ClientId = clientId,
+                            ObjectId = objectId,
                             Values = values
                         };
                         request.SignIt(SingleUser.PasswordSha1);

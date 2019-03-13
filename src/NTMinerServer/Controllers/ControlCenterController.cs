@@ -235,27 +235,6 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region LoadClient
-        [HttpPost]
-        public DataResponse<ClientData> LoadClient([FromBody]LoadClientRequest request) {
-            if (request == null || request.ClientId == Guid.Empty) {
-                return ResponseBase.InvalidInput<DataResponse<ClientData>>(Guid.Empty, "参数错误");
-            }
-            try {
-                DataResponse<ClientData> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
-                var data = HostRoot.Current.ClientSet.LoadClient(request.MessageId);
-                return DataResponse<ClientData>.Ok(request.MessageId, data);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError<DataResponse<ClientData>>(request.MessageId, e.Message);
-            }
-        }
-        #endregion
-
         #region AddClients
 
         [HttpPost]
@@ -308,7 +287,7 @@ namespace NTMiner.Controllers {
         #region RemoveClients
         [HttpPost]
         public ResponseBase RemoveClients([FromBody]RemoveClientsRequest request) {
-            if (request == null || request.ClientIds == null) {
+            if (request == null || request.ObjectIds == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
 
@@ -318,8 +297,8 @@ namespace NTMiner.Controllers {
                     return response;
                 }
 
-                foreach (var clientId in request.ClientIds) {
-                    HostRoot.Current.ClientSet.Remove(clientId);
+                foreach (var objectId in request.ObjectIds) {
+                    HostRoot.Current.ClientSet.Remove(new ObjectId(objectId));
                 }
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -341,7 +320,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.ClientSet.UpdateClient(request.ClientId, request.PropertyName, request.Value);
+                HostRoot.Current.ClientSet.UpdateClient(new ObjectId(request.ObjectId), request.PropertyName, request.Value);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -362,7 +341,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.ClientSet.UpdateClientProperties(request.ClientId, request.Values);
+                HostRoot.Current.ClientSet.UpdateClientProperties(new ObjectId(request.ObjectId), request.Values);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
