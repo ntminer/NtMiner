@@ -281,22 +281,20 @@ namespace NTMiner.Controllers {
                 foreach (var clientIp in request.ClientIps) {
                     ClientData clientData = HostRoot.Current.ClientSet.FirstOrDefault(a => a.MinerIp == clientIp);
                     if (clientData != null) {
-                        return ResponseBase.Ok(request.MessageId);
+                        continue;
                     }
-                    else {
-                        MinerData minerData = new MinerData {
-                            Id = ObjectId.NewObjectId(),
-                            ClientId = Guid.NewGuid(),
-                            CreatedOn = DateTime.Now,
-                            GroupId = Guid.Empty,
-                            MinerIp = clientIp,
-                            WindowsLoginName = string.Empty,
-                            WindowsPassword = String.Empty,
-                            WorkId = Guid.Empty
-                        };
-                        clientData = MinerData.CreateClientData(minerData);
-                        HostRoot.Current.ClientSet.Add(clientData);
-                    }
+                    MinerData minerData = new MinerData {
+                        Id = ObjectId.NewObjectId(),
+                        ClientId = Guid.NewGuid(),
+                        CreatedOn = DateTime.Now,
+                        GroupId = Guid.Empty,
+                        MinerIp = clientIp,
+                        WindowsLoginName = string.Empty,
+                        WindowsPassword = String.Empty,
+                        WorkId = Guid.Empty
+                    };
+                    clientData = MinerData.CreateClientData(minerData);
+                    HostRoot.Current.ClientSet.Add(clientData);
                 }
                 return ResponseBase.Ok(request.MessageId);
             }

@@ -331,7 +331,9 @@
                 <controls:KbComboBox ItemsSource="{Binding PageSizeItems}" SelectedItem="{Binding MinerClientPageSize}">
                 </controls:KbComboBox>
                 <Label Foreground="{StaticResource ThemeForeground}">条，共</Label>
-                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
+                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" FontSize="18" Text="{Binding MiningCount}" ToolTip="挖矿中"></TextBlock>
+                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" FontSize="18" Text="/"></TextBlock>
+                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" FontSize="18" Text="{Binding MinerClientTotal}" ToolTip="在线"></TextBlock>
                 <Label Foreground="{StaticResource ThemeForeground}">条</Label>
 
                 <Label HorizontalContentAlignment="Right" Foreground="{StaticResource ThemeForeground}">列显</Label>
@@ -549,11 +551,6 @@
                                         Stretch="Fill" />
                                     </WrapPanel>
                                 </controls:KbButton>
-                            </WrapPanel>
-                            <WrapPanel>
-                                <TextBlock Text="{Binding Data.MiningCount,Source={StaticResource proxy}}" ToolTip="挖矿中"></TextBlock>
-                                <TextBlock Text="/"></TextBlock>
-                                <TextBlock Text="{Binding Data.MinerClientTotal,Source={StaticResource proxy}}" ToolTip="在线"></TextBlock>
                             </WrapPanel>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
