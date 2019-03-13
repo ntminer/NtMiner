@@ -39,8 +39,8 @@ namespace NTMiner.Data.Impl {
                         }
                     }
                 });
-            VirtualRoot.On<Per2MinuteEvent>(
-                "每两分钟拉取数据更新拍照源数据",
+            VirtualRoot.On<Per10SecondEvent>(
+                "周期拉取数据更新拍照源数据",
                 LogEnum.Console,
                 action: message => {
                     if (HostRoot.IsPull) {
