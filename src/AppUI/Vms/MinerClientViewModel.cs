@@ -3,7 +3,6 @@ using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using NTMiner.Notifications;
 using NTMiner.Views;
-using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,6 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using LiteDB;
 
 namespace NTMiner.Vms {
     public class MinerClientViewModel : ViewModelBase, IClientData {
@@ -19,7 +17,6 @@ namespace NTMiner.Vms {
         public static readonly SolidColorBrush Blue = new SolidColorBrush(Colors.Blue);
         public static readonly SolidColorBrush DefaultForeground = new SolidColorBrush(Color.FromArgb(0xFF, 0x5A, 0x5A, 0x5A));
 
-        private bool _isChecked = false;
         private double _incomeMainCoinPerDay;
         private double _incomeMainCoinUsdPerDay;
         private double _incomeMainCoinCnyPerDay;
@@ -156,15 +153,6 @@ namespace NTMiner.Vms {
         }
 
         #region IClientData
-
-        [IgnoreReflectionSet]
-        public bool IsChecked {
-            get { return _isChecked; }
-            set {
-                _isChecked = value;
-                OnPropertyChanged(nameof(IsChecked));
-            }
-        }
 
         public string GetId() {
             return this.Id;

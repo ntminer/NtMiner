@@ -325,6 +325,8 @@
             Margin="0 2 0 0"
             BorderThickness="0"
             IsReadOnly="False"
+            SelectionMode="Extended"
+            SelectionChanged="MinerClientsGrid_OnSelectionChanged"
             ColumnHeaderHeight="40"
             HeadersVisibility="All"
             FrozenColumnCount="{Binding FrozenColumnCount}"
@@ -348,15 +350,6 @@
                 </Style>
             </DataGrid.RowHeaderStyle>
             <DataGrid.Columns>
-                <!--CheckBox-->
-                <DataGridCheckBoxColumn Binding="{Binding IsChecked,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False">
-                    <DataGridCheckBoxColumn.Header>
-                        <CheckBox IsChecked="{Binding Data.IsChecked,Source={StaticResource proxy}}"></CheckBox>
-                    </DataGridCheckBoxColumn.Header>
-                    <DataGridCheckBoxColumn.ElementStyle>
-                        <Style TargetType="CheckBox" />
-                    </DataGridCheckBoxColumn.ElementStyle>
-                </DataGridCheckBoxColumn>
                 <!--操作-->
                 <DataGridTemplateColumn Width="110" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>

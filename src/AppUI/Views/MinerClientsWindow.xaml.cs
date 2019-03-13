@@ -2,6 +2,7 @@
 using NTMiner.Bus;
 using NTMiner.Vms;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -73,6 +74,10 @@ namespace NTMiner.Views {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
             }
+        }
+
+        private void MinerClientsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            Vm.SelectedMinerClients = ((DataGrid)sender).SelectedItems.Cast<MinerClientViewModel>().ToArray();
         }
     }
 }

@@ -13,11 +13,11 @@ namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
         public static readonly MinerClientsWindowViewModel Current = new MinerClientsWindowViewModel();
 
-        private bool _isChecked = false;
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private readonly ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
         private MinerClientViewModel _currentMinerClient;
+        private MinerClientViewModel[] _selectedMinerClients = new MinerClientViewModel[0];
         private int _minerClientPageIndex = 1;
         private int _minerClientPageSize = 20;
         private int _minerClientTotal;
@@ -93,13 +93,12 @@ namespace NTMiner.Vms {
                 if (this.MinerClients == null) {
                     return;
                 }
-                var checkedItems = MinerClients.Where(a => a.IsChecked).ToList();
-                if (checkedItems.Count == 0) {
+                if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"确定删除选中的矿工吗？", title: "确认", onYes: () => {
-                        Server.ControlCenterService.RemoveClientsAsync(checkedItems.Select(a => a.Id).ToList(), (response, e) => {
+                        Server.ControlCenterService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
@@ -117,13 +116,12 @@ namespace NTMiner.Vms {
                 if (this.MinerClients == null) {
                     return;
                 }
-                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
-                if (checkedItems.Length == 0) {
+                if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"确定重启选中的电脑吗？", title: "确认", onYes: () => {
-                        foreach (var item in checkedItems) {
+                        foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
@@ -140,13 +138,12 @@ namespace NTMiner.Vms {
                 if (this.MinerClients == null) {
                     return;
                 }
-                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
-                if (checkedItems.Length == 0) {
+                if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"确定关闭选中的电脑吗？", title: "确认", onYes: () => {
-                        foreach (var item in checkedItems) {
+                        foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.ShutdownWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
@@ -163,13 +160,12 @@ namespace NTMiner.Vms {
                 if (this.MinerClients == null) {
                     return;
                 }
-                var checkedItems = MinerClients.Where(a => a.IsChecked).ToList();
-                if (checkedItems.Count == 0) {
+                if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"确定重启选中的挖矿客户端吗？", title: "确认", onYes: () => {
-                        foreach (var item in checkedItems) {
+                        foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartNTMinerAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
@@ -186,12 +182,11 @@ namespace NTMiner.Vms {
                 if (this.MinerClients == null) {
                     return;
                 }
-                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
-                if (checkedItems.Length == 0) {
+                if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
                 else {
-                    foreach (var item in checkedItems) {
+                    foreach (var item in SelectedMinerClients) {
                         item.IsMining = true;
                         Server.MinerClientService.StartMineAsync(item, item.WorkId, (response, e) => {
                             if (!response.IsSuccess()) {
@@ -205,13 +200,12 @@ namespace NTMiner.Vms {
                 }
             });
             this.StopMine = new DelegateCommand(() => {
-                var checkedItems = MinerClients.Where(a => a.IsChecked).ToArray();
-                if (checkedItems.Length == 0) {
+                if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"确定停止挖矿选中的挖矿端吗？", title: "确认", onYes: () => {
-                        foreach (var item in checkedItems) {
+                        foreach (var item in SelectedMinerClients) {
                             item.IsMining = false;
                             Server.MinerClientService.StopMineAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -345,21 +339,6 @@ namespace NTMiner.Vms {
                     AppStatic.Managers.AddManager(_manager);
                 }
                 return _manager;
-            }
-        }
-
-        public bool IsChecked {
-            get { return _isChecked; }
-            set {
-                if (_isChecked != value) {
-                    if (MinerClients != null) {
-                        foreach (var item in MinerClients) {
-                            item.IsChecked = value;
-                        }
-                    }
-                    _isChecked = value;
-                    OnPropertyChanged(nameof(IsChecked));
-                }
             }
         }
 
@@ -571,6 +550,14 @@ namespace NTMiner.Vms {
             set {
                 _currentMinerClient = value;
                 OnPropertyChanged(nameof(CurrentMinerClient));
+            }
+        }
+
+        public MinerClientViewModel[] SelectedMinerClients {
+            get { return _selectedMinerClients; }
+            set {
+                _selectedMinerClients = value;
+                OnPropertyChanged(nameof(SelectedMinerClients));
             }
         }
 
