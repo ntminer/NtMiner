@@ -45,7 +45,7 @@ namespace NTMiner.Data.Impl {
                 action: message => {
                     if (HostRoot.IsPull) {
                         ClientData[] clientDatas = _dicById.Values.ToArray();
-                        Task[] tasks = clientDatas.Select(a => CreatePullTask(a)).ToArray();
+                        Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
                         Task.WaitAll(tasks, 10 * 1000);
                     }
                 });
