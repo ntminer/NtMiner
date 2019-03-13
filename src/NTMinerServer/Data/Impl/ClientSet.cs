@@ -129,13 +129,11 @@ namespace NTMiner.Data.Impl {
             DateTime time = DateTime.Now.AddSeconds(-140);
             int onlineCount = 0;
             int miningCount = 0;
-            lock (_locker) {
-                foreach (var clientData in _dicById.Values) {
-                    if (clientData.ModifiedOn > time) {
-                        onlineCount++;
-                        if (clientData.IsMining) {
-                            miningCount++;
-                        }
+            foreach (var clientData in _dicById.Values) {
+                if (clientData.ModifiedOn > time) {
+                    onlineCount++;
+                    if (clientData.IsMining) {
+                        miningCount++;
                     }
                 }
             }
@@ -152,20 +150,18 @@ namespace NTMiner.Data.Impl {
             int mainCoinMiningCount = 0;
             int dualCoinOnlineCount = 0;
             int dualCoinMiningCount = 0;
-            lock (_locker) {
-                foreach (var clientData in _dicById.Values) {
-                    if (clientData.ModifiedOn > time) {
-                        if (clientData.MainCoinCode == coinCode) {
-                            mainCoinOnlineCount++;
-                            if (clientData.IsMining) {
-                                mainCoinMiningCount++;
-                            }
+            foreach (var clientData in _dicById.Values) {
+                if (clientData.ModifiedOn > time) {
+                    if (clientData.MainCoinCode == coinCode) {
+                        mainCoinOnlineCount++;
+                        if (clientData.IsMining) {
+                            mainCoinMiningCount++;
                         }
-                        if (clientData.DualCoinCode == coinCode) {
-                            dualCoinOnlineCount++;
-                            if (clientData.IsMining) {
-                                dualCoinMiningCount++;
-                            }
+                    }
+                    if (clientData.DualCoinCode == coinCode) {
+                        dualCoinOnlineCount++;
+                        if (clientData.IsMining) {
+                            dualCoinMiningCount++;
                         }
                     }
                 }
@@ -181,10 +177,8 @@ namespace NTMiner.Data.Impl {
         public void Add(ClientData clientData) {
             InitOnece();
             if (!_dicById.ContainsKey(clientData.Id)) {
-                lock (_locker) {
-                    if (!_dicById.ContainsKey(clientData.Id)) {
-                        _dicById.Add(clientData.Id, clientData);
-                    }
+                if (!_dicById.ContainsKey(clientData.Id)) {
+                    _dicById.Add(clientData.Id, clientData);
                 }
             }
         }
@@ -208,75 +202,73 @@ namespace NTMiner.Data.Impl {
             out int total,
             out int miningCount) {
             InitOnece();
-            lock (_locker) {
-                IQueryable<ClientData> query = _dicById.Values.AsQueryable();
-                if (groupId != null && groupId.Value != Guid.Empty) {
-                    query = query.Where(a => a.GroupId == groupId.Value);
-                }
-                if (workId != null && workId.Value != Guid.Empty) {
+            IQueryable<ClientData> query = _dicById.Values.AsQueryable();
+            if (groupId != null && groupId.Value != Guid.Empty) {
+                query = query.Where(a => a.GroupId == groupId.Value);
+            }
+            if (workId != null && workId.Value != Guid.Empty) {
+                query = query.Where(a => a.WorkId == workId.Value);
+            }
+            else {
+                if (workId != null) {
                     query = query.Where(a => a.WorkId == workId.Value);
                 }
-                else {
-                    if (workId != null) {
-                        query = query.Where(a => a.WorkId == workId.Value);
-                    }
-                    if (!string.IsNullOrEmpty(mainCoin)) {
-                        query = query.Where(a => a.MainCoinCode == mainCoin);
-                    }
-                    if (!string.IsNullOrEmpty(mainCoinPool)) {
-                        query = query.Where(a => a.MainCoinPool == mainCoinPool);
-                    }
-                    if (!string.IsNullOrEmpty(dualCoin)) {
-                        if (dualCoin == "*") {
-                            query = query.Where(a => a.IsDualCoinEnabled);
-                        }
-                        else {
-                            query = query.Where(a => a.DualCoinCode == dualCoin);
-                        }
-                    }
-                    if (!string.IsNullOrEmpty(dualCoinPool)) {
-                        query = query.Where(a => a.DualCoinPool == dualCoinPool);
-                    }
-                    if (!string.IsNullOrEmpty(mainCoinWallet)) {
-                        query = query.Where(a => a.MainCoinWallet == mainCoinWallet);
-                    }
-                    if (!string.IsNullOrEmpty(dualCoinWallet)) {
-                        query = query.Where(a => a.DualCoinWallet == dualCoinWallet);
-                    }
+                if (!string.IsNullOrEmpty(mainCoin)) {
+                    query = query.Where(a => a.MainCoinCode == mainCoin);
                 }
-                if (!string.IsNullOrEmpty(minerIp)) {
-                    query = query.Where(a => a.MinerIp == minerIp);
+                if (!string.IsNullOrEmpty(mainCoinPool)) {
+                    query = query.Where(a => a.MainCoinPool == mainCoinPool);
                 }
-                if (!string.IsNullOrEmpty(minerName)) {
-                    query = query.Where(a => a.MinerName.IndexOf(minerName, StringComparison.OrdinalIgnoreCase) >= 0);
-                }
-                if (mineState != MineStatus.All) {
-                    if (mineState == MineStatus.Mining) {
-                        query = query.Where(a => a.IsMining == true);
+                if (!string.IsNullOrEmpty(dualCoin)) {
+                    if (dualCoin == "*") {
+                        query = query.Where(a => a.IsDualCoinEnabled);
                     }
                     else {
-                        query = query.Where(a => a.IsMining == false);
+                        query = query.Where(a => a.DualCoinCode == dualCoin);
                     }
                 }
-                if (!string.IsNullOrEmpty(version)) {
-                    query = query.Where(a => a.Version != null && a.Version.StartsWith(version, StringComparison.OrdinalIgnoreCase));
+                if (!string.IsNullOrEmpty(dualCoinPool)) {
+                    query = query.Where(a => a.DualCoinPool == dualCoinPool);
                 }
-                if (!string.IsNullOrEmpty(kernel)) {
-                    query = query.Where(a => a.Kernel != null && a.Kernel.StartsWith(kernel, StringComparison.OrdinalIgnoreCase));
+                if (!string.IsNullOrEmpty(mainCoinWallet)) {
+                    query = query.Where(a => a.MainCoinWallet == mainCoinWallet);
                 }
-                total = query.Count();
-                miningCount = query.Count(a => a.IsMining);
-                var results = query.OrderBy(a => a.MinerName).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-                DateTime time = DateTime.Now.AddMinutes(-3);
-                // 3分钟未上报算力视为0算力
-                foreach (var clientData in results) {
-                    if (clientData.ModifiedOn < time) {
-                        clientData.DualCoinSpeed = 0;
-                        clientData.MainCoinSpeed = 0;
-                    }
+                if (!string.IsNullOrEmpty(dualCoinWallet)) {
+                    query = query.Where(a => a.DualCoinWallet == dualCoinWallet);
                 }
-                return results;
             }
+            if (!string.IsNullOrEmpty(minerIp)) {
+                query = query.Where(a => a.MinerIp == minerIp);
+            }
+            if (!string.IsNullOrEmpty(minerName)) {
+                query = query.Where(a => a.MinerName.IndexOf(minerName, StringComparison.OrdinalIgnoreCase) >= 0);
+            }
+            if (mineState != MineStatus.All) {
+                if (mineState == MineStatus.Mining) {
+                    query = query.Where(a => a.IsMining == true);
+                }
+                else {
+                    query = query.Where(a => a.IsMining == false);
+                }
+            }
+            if (!string.IsNullOrEmpty(version)) {
+                query = query.Where(a => a.Version != null && a.Version.StartsWith(version, StringComparison.OrdinalIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(kernel)) {
+                query = query.Where(a => a.Kernel != null && a.Kernel.StartsWith(kernel, StringComparison.OrdinalIgnoreCase));
+            }
+            total = query.Count();
+            miningCount = query.Count(a => a.IsMining);
+            var results = query.OrderBy(a => a.MinerName).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            DateTime time = DateTime.Now.AddMinutes(-3);
+            // 3分钟未上报算力视为0算力
+            foreach (var clientData in results) {
+                if (clientData.ModifiedOn < time) {
+                    clientData.DualCoinSpeed = 0;
+                    clientData.MainCoinSpeed = 0;
+                }
+            }
+            return results;
         }
 
         public ClientData LoadClient(Guid clientId) {
