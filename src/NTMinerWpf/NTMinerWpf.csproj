@@ -62,6 +62,7 @@
     <Compile Include="Controls\KbSystemMinButton.cs" />
     <Compile Include="Controls\KbTextBox.cs" />
     <Compile Include="Controls\PasswordBoxHelper.cs" />
+    <Compile Include="Converters\AutoNumberValueConverter.cs" />
     <Compile Include="Converters\ProfitToBrushConverter.cs" />
     <Compile Include="Converters\GreatToVisibleConverter.cs" />
     <Compile Include="Converters\TrueTransparentElseWhiteConverter.cs" />

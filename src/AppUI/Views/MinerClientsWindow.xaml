@@ -331,9 +331,7 @@
                 <controls:KbComboBox ItemsSource="{Binding PageSizeItems}" SelectedItem="{Binding MinerClientPageSize}">
                 </controls:KbComboBox>
                 <Label Foreground="{StaticResource ThemeForeground}">条，共</Label>
-                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" FontSize="18" Text="{Binding MiningCount}" ToolTip="挖矿中"></TextBlock>
-                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" FontSize="18" Text="/"></TextBlock>
-                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" FontSize="18" Text="{Binding MinerClientTotal}" ToolTip="在线"></TextBlock>
+                <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerClientTotal}"></TextBlock>
                 <Label Foreground="{StaticResource ThemeForeground}">条</Label>
 
                 <Label HorizontalContentAlignment="Right" Foreground="{StaticResource ThemeForeground}">列显</Label>
@@ -388,7 +386,7 @@
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinCode}" Margin="0 0 6 0">双挖币种</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinSpeedText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinSpeedText}" Margin="0 0 6 0">双挖币算力</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.DualCoinRejectPercentText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.DualCoinRejectPercentText}" Margin="0 0 6 0">双挖币拒绝</CheckBox>
-                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.TotalPowerText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.TotalPowerText}" Margin="0 0 6 0">总功耗</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.TotalPowerText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.TotalPowerText}" Margin="0 0 6 0">功耗</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.MaxTempText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MaxTempText}" Margin="0 0 6 0">最高卡温</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IncomeMainCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeMainCoinPerDayText}" Margin="0 0 6 0">主币预期收益</CheckBox>
                     <CheckBox VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Visibility="{Binding ColumnsShow.IncomeDualCoinPerDayText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.IncomeDualCoinPerDayText}" Margin="0 0 6 0">双挖币预期收益</CheckBox>
@@ -437,6 +435,7 @@
             BorderThickness="0"
             IsReadOnly="False"
             ColumnHeaderHeight="40"
+            HeadersVisibility="All"
             FrozenColumnCount="{Binding FrozenColumnCount}"
             ItemsSource="{Binding MinerClients}"
             CanUserResizeRows="True"
@@ -445,6 +444,18 @@
             <DataGrid.Resources>
                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="{x:Type DataGridRowHeader}">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource AutoNumberValueConverter}">
+                                <Binding />
+                                <Binding Path="Items" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" />
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowHeaderStyle>
             <DataGrid.Columns>
                 <!--CheckBox-->
                 <DataGridCheckBoxColumn Binding="{Binding IsChecked,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False">
@@ -1332,26 +1343,23 @@
                     CanUserSort="False" 
                     IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <StackPanel>
-                            <WrapPanel ToolTip="仅计算本页的数据">
-                                <TextBlock>总功耗</TextBlock>
-                                <controls:KbButton
-                                    ToolTip="不展示"
-                                    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-                                    CommandParameter="TotalPowerText"
-                                    Background="Transparent">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="14"
-                                            Height="8"
-                                            Data="{StaticResource Icon_Hide}"
-                                            Fill="#FF5A5A5A"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                            </WrapPanel>
-                            <TextBlock Text="{Binding Data.TotalPowerText,Source={StaticResource proxy}}"></TextBlock>
-                        </StackPanel>
+                        <WrapPanel>
+                            <TextBlock>功耗</TextBlock>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="TotalPowerText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -1399,62 +1407,23 @@
                     CanUserSort="False" 
                     IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <StackPanel ToolTip="仅计算本页的数据">
-                            <WrapPanel>
-                                <TextBlock>主币预期收益</TextBlock>
-                                <controls:KbButton
-                                    ToolTip="不展示"
-                                    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-                                    CommandParameter="IncomeMainCoinPerDayText"
-                                    Background="Transparent">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="14"
-                                            Height="8"
-                                            Data="{StaticResource Icon_Hide}"
-                                            Fill="#FF5A5A5A"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                                <TextBlock 
-                                    ToolTip="盈利，包括双挖（如果双挖了的话）"
-                                    Text="{Binding Data.TotalCnyProfit, Source={StaticResource proxy}}" 
-                                    Foreground="{Binding Data.TotalCnyProfit, Source={StaticResource proxy},Converter={StaticResource ProfitToBrushConverter}}"></TextBlock>
-                                <TextBlock 
-                                    Text="￥" 
-                                    Margin="2 0 0 0"
-                                    Padding="0"
-                                    Foreground="{StaticResource LableColor}"></TextBlock>
-                                <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
-                                <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
-                            </WrapPanel>
-                            <WrapPanel>
-                                <TextBlock Text="{Binding Data.IncomeMainCoinUsdPerDayText,Source={StaticResource proxy}}"></TextBlock>
-                                <TextBlock 
-                                    Text="$" 
-                                    Margin="2 0 0 0"
-                                    Padding="0"
-                                    Foreground="{StaticResource LableColor}"></TextBlock>
-                                <TextBlock Text=", "></TextBlock>
-                                <TextBlock Text="{Binding Data.IncomeMainCoinCnyPerDayText,Source={StaticResource proxy}}"></TextBlock>
-                                <TextBlock 
-                                    Text="￥" 
-                                    Margin="2 0 0 0"
-                                    Padding="0"
-                                    Foreground="{StaticResource LableColor}"></TextBlock>
-                                <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
-                                <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
-                                <TextBlock Text=", 电费"></TextBlock>
-                                <TextBlock Text="{Binding Data.TotalCost,Source={StaticResource proxy}}"></TextBlock>
-                                <TextBlock 
-                                    Text="￥" 
-                                    Margin="2 0 0 0"
-                                    Padding="0"
-                                    Foreground="{StaticResource LableColor}"></TextBlock>
-                                <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
-                                <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
-                            </WrapPanel>
-                        </StackPanel>
+                        <WrapPanel>
+                            <TextBlock>主币预期收益</TextBlock>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="IncomeMainCoinPerDayText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -1493,42 +1462,23 @@
                     CanUserSort="False" 
                     IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <StackPanel ToolTip="仅计算本页的数据">
-                            <WrapPanel>
-                                <TextBlock>双挖币预期收益</TextBlock>
-                                <controls:KbButton
-                                    ToolTip="不展示"
-                                    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-                                    CommandParameter="IncomeDualCoinPerDayText"
-                                    Background="Transparent">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="14"
-                                            Height="8"
-                                            Data="{StaticResource Icon_Hide}"
-                                            Fill="#FF5A5A5A"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                            </WrapPanel>
-                            <WrapPanel>
-                                <TextBlock Text="{Binding Data.IncomeDualCoinUsdPerDayText,Source={StaticResource proxy}}"></TextBlock>
-                                <TextBlock 
-                                    Text="$" 
-                                    Margin="2 0 0 0"
-                                    Padding="0"
-                                    Foreground="{StaticResource LableColor}"></TextBlock>
-                                <TextBlock Text=", "></TextBlock>
-                                <TextBlock Text="{Binding Data.IncomeDualCoinCnyPerDayText,Source={StaticResource proxy}}"></TextBlock>
-                                <TextBlock 
-                                    Text="￥" 
-                                    Margin="2 0 0 0"
-                                    Padding="0"
-                                    Foreground="{StaticResource LableColor}"></TextBlock>
-                                <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
-                                <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
-                            </WrapPanel>
-                        </StackPanel>
+                        <WrapPanel>
+                            <TextBlock>双挖币预期收益</TextBlock>
+                            <controls:KbButton
+                                ToolTip="不展示"
+                                Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+                                CommandParameter="IncomeDualCoinPerDayText"
+                                Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+                                        Width="14"
+                                        Height="8"
+                                        Data="{StaticResource Icon_Hide}"
+                                        Fill="#FF5A5A5A"
+                                        Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </WrapPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -2340,30 +2290,6 @@
                     Value="{Binding RejectPercent}"></Slider>
                 <TextBlock VerticalAlignment="Center" Text="{Binding RejectPercent}" Width="20"></TextBlock>
                 <TextBlock VerticalAlignment="Center">%红色，</TextBlock>
-            </WrapPanel>
-            <WrapPanel Margin="20 0 0 0">
-                <TextBlock VerticalAlignment="Center">电价</TextBlock>
-                <Slider 
-                    Minimum="0" 
-                    Maximum="1" 
-                    Width="100"
-                    LargeChange="0.01"
-                    SmallChange="0.01"
-                    IsSnapToTickEnabled="False"
-                    Value="{Binding ElePrice}"></Slider>
-                <TextBlock VerticalAlignment="Center" Text="{Binding ElePrice}" Width="28"></TextBlock>
-                <TextBlock VerticalAlignment="Center">元/度，</TextBlock>
-            </WrapPanel>
-            <WrapPanel Margin="20 0 0 0">
-                <TextBlock VerticalAlignment="Center">每矿机+</TextBlock>
-                <Slider 
-                    Minimum="0" 
-                    Maximum="100" 
-                    Width="100"
-                    IsSnapToTickEnabled="True"
-                    Value="{Binding PowerPlusPerMiner}"></Slider>
-                <TextBlock VerticalAlignment="Center" Text="{Binding PowerPlusPerMiner}" Width="20"></TextBlock>
-                <TextBlock VerticalAlignment="Center">W</TextBlock>
             </WrapPanel>
         </WrapPanel>
     </Grid>

@@ -23,6 +23,7 @@
     <converters:ConsoleColorToMediaColorConverter x:Key="ConsoleColorToMediaColorConverter" />
     <converters:GreatToVisibleConverter x:Key="GreatToVisibleConverter" />
     <converters:ProfitToBrushConverter x:Key="ProfitToBrushConverter"></converters:ProfitToBrushConverter>
+    <converters:AutoNumberValueConverter x:Key="AutoNumberValueConverter"></converters:AutoNumberValueConverter>
 
     <SolidColorBrush x:Key="IconFillColor">#1976AC</SolidColorBrush>
     <SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />

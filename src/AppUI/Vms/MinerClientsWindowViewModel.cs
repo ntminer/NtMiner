@@ -38,8 +38,6 @@ namespace NTMiner.Vms {
         private uint _maxTemp = 80;
         private int _frozenColumnCount = 9;
         private uint _minTemp = 40;
-        private double _elePrice = 0.56;
-        private int _powerPlusPerMiner;
         private int _rejectPercent = 10;
 
         public ICommand RestartWindows { get; private set; }
@@ -316,20 +314,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public double ElePrice {
-            get => _elePrice;
-            set {
-                _elePrice = Math.Round(value, 2);
-                OnPropertyChanged(nameof(ElePrice));
-                OnPropertyChanged(nameof(TotalCost));
-                OnPropertyChanged(nameof(TotalCnyProfit));
-            }
-        }
-
-        public double TotalCost {
-            get { return Math.Round((this.MinerClients.Sum(a => a.TotalPower + this.PowerPlusPerMiner) / 1000.0) * this.ElePrice * 24, 1); }
-        }
-
         private void RefreshMaxTempForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MaxTemp >= this.MaxTemp) {
@@ -342,43 +326,6 @@ namespace NTMiner.Vms {
                     item.TempForeground = MinerClientViewModel.DefaultForeground;
                 }
                 item.RefreshGpusForeground(this.MinTemp, this.MaxTemp);
-            }
-        }
-
-        public int PowerPlusPerMiner {
-            get => _powerPlusPerMiner;
-            set {
-                _powerPlusPerMiner = value;
-                OnPropertyChanged(nameof(PowerPlusPerMiner));
-                OnPropertyChanged(nameof(TotalCost));
-                OnPropertyChanged(nameof(TotalCnyProfit));
-                OnPropertyChanged(nameof(TotalPowerText));
-            }
-        }
-
-        public string TotalPowerText {
-            get { return this.MinerClients.Sum(a => a.TotalPower + this.PowerPlusPerMiner).ToString("f0") + "W"; }
-        }
-
-        public string IncomeMainCoinUsdPerDayText {
-            get { return this.MinerClients.Sum(a => a.IncomeMainCoinUsdPerDay).ToString("f1"); }
-        }
-
-        public string IncomeMainCoinCnyPerDayText {
-            get { return this.MinerClients.Sum(a => a.IncomeMainCoinCnyPerDay).ToString("f1"); }
-        }
-
-        public string IncomeDualCoinUsdPerDayText {
-            get { return this.MinerClients.Sum(a => a.IncomeDualCoinUsdPerDay).ToString("f1"); }
-        }
-
-        public string IncomeDualCoinCnyPerDayText {
-            get { return this.MinerClients.Sum(a => a.IncomeDualCoinCnyPerDay).ToString("f1"); }
-        }
-
-        public double TotalCnyProfit {
-            get {
-                return Math.Round(Math.Round(this.MinerClients.Sum(a => a.IncomeMainCoinCnyPerDay + a.IncomeDualCoinCnyPerDay), 1) - TotalCost, 1);
             }
         }
 
@@ -591,13 +538,6 @@ namespace NTMiner.Vms {
                             OnPropertyChanged(nameof(MinerClients));
                             RefreshMaxTempForeground();
                             RefreshRejectPercentForeground();
-                            OnPropertyChanged(nameof(TotalPowerText));
-                            OnPropertyChanged(nameof(IncomeMainCoinUsdPerDayText));
-                            OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
-                            OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
-                            OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
-                            OnPropertyChanged(nameof(TotalCnyProfit));
-                            OnPropertyChanged(nameof(TotalCost));
                         });
                     }
                 });
