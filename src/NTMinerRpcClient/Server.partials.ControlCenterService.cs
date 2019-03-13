@@ -216,8 +216,8 @@ namespace NTMiner {
             }
             #endregion
 
-            #region AddClientAsync
-            public void AddClientAsync(List<string> clientIps, Action<ResponseBase, Exception> callback) {
+            #region AddClientsAsync
+            public void AddClientsAsync(List<string> clientIps, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         AddClientRequest request = new AddClientRequest() {
@@ -225,7 +225,26 @@ namespace NTMiner {
                             ClientIps = clientIps
                         };
                         request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddClient), request);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.AddClients), request);
+                        callback?.Invoke(response, null);
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+            #endregion
+
+            #region RemoveClientsAsync
+            public void RemoveClientsAsync(List<Guid> clientIds, Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        RemoveClientsRequest request = new RemoveClientsRequest() {
+                            LoginName = SingleUser.LoginName,
+                            ClientIds = clientIds
+                        };
+                        request.SignIt(SingleUser.PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.RemoveClients), request);
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {

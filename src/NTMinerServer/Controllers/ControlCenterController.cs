@@ -256,10 +256,10 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region AddClient
+        #region AddClients
 
         [HttpPost]
-        public ResponseBase AddClient([FromBody]AddClientRequest request) {
+        public ResponseBase AddClients([FromBody]AddClientRequest request) {
             if (request == null || request.ClientIps == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -297,6 +297,31 @@ namespace NTMiner.Controllers {
                         clientData = MinerData.CreateClientData(minerData);
                         HostRoot.Current.ClientSet.Add(clientData);
                     }
+                }
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region RemoveClients
+        [HttpPost]
+        public ResponseBase RemoveClients([FromBody]RemoveClientsRequest request) {
+            if (request == null || request.ClientIds == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+
+                foreach (var clientId in request.ClientIds) {
+                    HostRoot.Current.ClientSet.Remove(clientId);
                 }
                 return ResponseBase.Ok(request.MessageId);
             }

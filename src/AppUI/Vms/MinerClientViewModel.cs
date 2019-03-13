@@ -40,6 +40,7 @@ namespace NTMiner.Vms {
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
         public ICommand Details { get; private set; }
+        public ICommand Remove { get; private set; }
 
         private readonly ClientData _data;
         #region ctor
@@ -55,6 +56,21 @@ namespace NTMiner.Vms {
             RefreshDualCoinIncome();
             this.Details = new DelegateCommand(() => {
                 MinerClientUc.ShowWindow(this);
+            });
+            this.Remove = new DelegateCommand(() => {
+                DialogWindow.ShowDialog(message: $"确定删除该矿工吗？", title: "确认", onYes: () => {
+                    Server.ControlCenterService.RemoveClientsAsync(new List<Guid> { this.ClientId }, (response, e) => {
+                        if (!response.IsSuccess()) {
+                            if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                                MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
+                            }
+                        }
+                        else {
+                            MinerClientsWindowViewModel.Current.Manager.ShowSuccessMessage("操作成功，等待刷新");
+                        }
+                    });
+                }, icon: "Icon_Confirm");
             });
             this.RemoteLogin = new DelegateCommand(() => {
                 WindowsLogin.ShowWindow(new WindowsLoginViewModel(this.ClientId, this.MinerName, this.MinerIp, this));

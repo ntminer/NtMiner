@@ -54,6 +54,7 @@ namespace NTMiner.Vms {
         public ICommand PageLast { get; private set; }
         public ICommand PageRefresh { get; private set; }
         public ICommand AddMinerClient { get; private set; }
+        public ICommand RemoveMinerClients { get; private set; }
 
         #region ctor
         private MinerClientsWindowViewModel() {
@@ -89,6 +90,30 @@ namespace NTMiner.Vms {
             this._mainCoinWallet = string.Empty;
             this._dualCoinWallet = string.Empty;
             this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
+            this.RemoveMinerClients = new DelegateCommand(() => {
+                if (this.MinerClients == null) {
+                    return;
+                }
+                var checkedItems = MinerClients.Where(a => a.IsChecked).ToList();
+                if (checkedItems.Count == 0) {
+                    ShowNoRecordSelected();
+                }
+                else {
+                    DialogWindow.ShowDialog(message: $"确定删除选中的矿工吗？", title: "确认", onYes: () => {
+                        Server.ControlCenterService.RemoveClientsAsync(checkedItems.Select(a => a.ClientId).ToList(), (response, e) => {
+                            if (!response.IsSuccess()) {
+                                if (response != null) {
+                                    Write.UserLine(response.Description, ConsoleColor.Red);
+                                    Manager.ShowErrorMessage(response.Description);
+                                }
+                            }
+                            else {
+                                Manager.ShowSuccessMessage("操作成功，等待刷新");
+                            }
+                        });
+                    }, icon: "Icon_Confirm");
+                }
+            });
             this.RestartWindows = new DelegateCommand(() => {
                 if (this.MinerClients == null) {
                     return;
