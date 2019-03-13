@@ -2326,6 +2326,8 @@
                     Minimum="0" 
                     Maximum="1" 
                     Width="100"
+                    LargeChange="0.01"
+                    SmallChange="0.01"
                     IsSnapToTickEnabled="False"
                     Value="{Binding ElePrice}"></Slider>
                 <TextBlock VerticalAlignment="Center" Text="{Binding ElePrice}" Width="28"></TextBlock>
