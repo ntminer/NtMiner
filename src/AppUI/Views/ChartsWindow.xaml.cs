@@ -15,12 +15,10 @@ using System.Windows.Media;
 namespace NTMiner.Views {
     public partial class ChartsWindow : MetroWindow, IMainWindow {
         private static ChartsWindow s_window = null;
-        public static ChartsWindow ShowWindow() {
+        public static void ShowWindow() {
             if (s_window == null) {
                 s_window = new ChartsWindow();
-                if (Application.Current.MainWindow == null || Application.Current.MainWindow.GetType() == typeof(SplashWindow)) {
-                    Application.Current.MainWindow = s_window;
-                }
+                Application.Current.MainWindow = s_window;
             }
             s_window.Show();
             if (s_window.WindowState == WindowState.Minimized) {
@@ -28,13 +26,6 @@ namespace NTMiner.Views {
             }
             s_window.Activate();
             s_window.RefreshTotalSpeedChart(limit: 60);
-            return s_window;
-        }
-
-        public static bool IsOpened {
-            get {
-                return s_window != null;
-            }
         }
 
         public ChartsWindowViewModel Vm {
@@ -82,11 +73,9 @@ namespace NTMiner.Views {
 
         protected override void OnClosed(EventArgs e) {
             s_window = null;
+            Application.Current.MainWindow = null;
             AppStatic.Managers.RemoveManager(Vm.Manager);
             base.OnClosed(e);
-            if (!MinerClientsWindow.IsOpened) {
-                Application.Current.Shutdown();
-            }
         }
 
         #region 刷新总算力图表

@@ -12,9 +12,6 @@ namespace NTMiner.Views {
         public static MinerClientsWindow ShowWindow() {
             if (s_window == null) {
                 s_window = new MinerClientsWindow();
-                if (Application.Current.MainWindow == null || Application.Current.MainWindow.GetType() == typeof(SplashWindow)) {
-                    Application.Current.MainWindow = s_window;
-                }
             }
             s_window.Show();
             if (s_window.WindowState == WindowState.Minimized) {
@@ -22,12 +19,6 @@ namespace NTMiner.Views {
             }
             s_window.Activate();
             return s_window;
-        }
-
-        public static bool IsOpened {
-            get {
-                return s_window != null;
-            }
         }
 
         public MinerClientsWindowViewModel Vm {
@@ -70,9 +61,6 @@ namespace NTMiner.Views {
             s_window = null;
             AppStatic.Managers.RemoveManager(Vm.Manager);
             base.OnClosed(e);
-            if (!ChartsWindow.IsOpened) {
-                Application.Current.Shutdown();
-            }
         }
 
         private void TbIp_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {

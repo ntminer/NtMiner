@@ -183,6 +183,7 @@ namespace NTMiner.Vms {
 
         public static ICommand AppExit { get; private set; } = new DelegateCommand(() => {
             Application.Current.MainWindow?.Close();
+            Application.Current.Shutdown();
         });
 
         public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(() => {

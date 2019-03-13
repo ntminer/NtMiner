@@ -36,6 +36,7 @@ namespace NTMiner.Views {
         public void ToggleWindow() {
             Window mainWindow = System.Windows.Application.Current.MainWindow;
             if (mainWindow == null) {
+                VirtualRoot.Execute(new ShowMainWindowCommand());
                 return;
             }
             if (mainWindow.WindowState == WindowState.Minimized) {
