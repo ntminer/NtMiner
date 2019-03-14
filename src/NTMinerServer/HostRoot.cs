@@ -8,8 +8,6 @@ using System.IO;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
-        public static bool IsPull = true;
-
         static void Main(string[] args) {
             string baseAddress = $"http://localhost:{WebApiConst.MinerServerPort}";
             Console.Title = baseAddress + " Enter exit or ctrl+c to quit.";

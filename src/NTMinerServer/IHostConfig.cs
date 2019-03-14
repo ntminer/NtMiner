@@ -3,5 +3,6 @@
         string OssAccessKeyId { get; }
         string OssAccessKeySecret { get; }
         string OssEndpoint { get; }
+        bool IsPull { get; }
     }
 }

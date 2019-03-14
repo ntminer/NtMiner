@@ -49,7 +49,7 @@ namespace NTMiner.Data.Impl {
                 while (true) {
                     DateTime now = DateTime.Now;
                     if (_getSpeedOn.AddSeconds(10) <= now) {
-                        if (HostRoot.IsPull) {
+                        if (HostRoot.Current.HostConfig.IsPull) {
                             Write.DevLine("周期拉取数据更新拍照源数据");
                             Task.Factory.StartNew(() => {
                                 ClientData[] clientDatas = _dicByObjectId.Values.ToArray();

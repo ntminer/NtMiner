@@ -15,9 +15,6 @@ namespace NTMiner.Controllers {
                 if (speedData == null) {
                     return;
                 }
-                if (HostRoot.IsPull) {
-                    return;
-                }
                 string minerIp = Request.GetWebClientIp();
                 ClientData clientData = HostRoot.Current.ClientSet.GetByClientId(speedData.ClientId);
                 if (clientData == null) {
@@ -36,9 +33,6 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public void ReportState([FromBody]ReportState request) {
             try {
-                if (HostRoot.IsPull) {
-                    return;
-                }
                 string minerIp = Request.GetWebClientIp();
                 ClientData clientData = HostRoot.Current.ClientSet.GetByClientId(request.ClientId);
                 if (clientData == null) {
