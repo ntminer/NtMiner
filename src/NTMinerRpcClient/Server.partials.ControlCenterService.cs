@@ -152,7 +152,7 @@ namespace NTMiner {
 
             #region RemoveClientsAsync
             public void RemoveClientsAsync(List<string> objectIds, Action<ResponseBase, Exception> callback) {
-                RemoveClientsRequest request = new RemoveClientsRequest() {
+                MinerIdsRequest request = new MinerIdsRequest() {
                     LoginName = SingleUser.LoginName,
                     ObjectIds = objectIds
                 };
@@ -163,7 +163,7 @@ namespace NTMiner {
 
             #region RefreshClientsAsync
             public void RefreshClientsAsync(List<string> objectIds, Action<DataResponse<List<ClientData>>, Exception> callback) {
-                RemoveClientsRequest request = new RemoveClientsRequest() {
+                MinerIdsRequest request = new MinerIdsRequest() {
                     LoginName = SingleUser.LoginName,
                     ObjectIds = objectIds
                 };

@@ -71,7 +71,7 @@
     <Compile Include="IGetSignData.cs" />
     <Compile Include="DataResponse`1.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
-    <Compile Include="MinerServer\RemoveClientsRequest.cs" />
+    <Compile Include="MinerServer\MinerIdsRequest.cs" />
     <Compile Include="Profile\GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
     <Compile Include="Profile\IGpuProfile.cs" />

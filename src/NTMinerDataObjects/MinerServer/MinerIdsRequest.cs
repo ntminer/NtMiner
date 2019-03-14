@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class RemoveClientsRequest : RequestBase, ISignatureRequest {
-        public RemoveClientsRequest() {
+    public class MinerIdsRequest : RequestBase, ISignatureRequest {
+        public MinerIdsRequest() {
             this.ObjectIds = new List<string>();
         }
         public string LoginName { get; set; }

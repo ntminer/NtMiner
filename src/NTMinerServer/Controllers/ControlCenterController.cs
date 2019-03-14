@@ -285,7 +285,7 @@ namespace NTMiner.Controllers {
 
         #region RemoveClients
         [HttpPost]
-        public ResponseBase RemoveClients([FromBody]RemoveClientsRequest request) {
+        public ResponseBase RemoveClients([FromBody]MinerIdsRequest request) {
             if (request == null || request.ObjectIds == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -331,7 +331,7 @@ namespace NTMiner.Controllers {
 
         #region RefreshClients
 
-        public DataResponse<List<ClientData>> RefreshClients([FromBody]RemoveClientsRequest request) {
+        public DataResponse<List<ClientData>> RefreshClients([FromBody]MinerIdsRequest request) {
             if (request == null || request.ObjectIds == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<ClientData>>>(Guid.Empty, "参数错误");
             }
