@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using LiteDB;
 
 namespace NTMiner.Views {
     public partial class ChartsWindow : MetroWindow, IMainWindow {
@@ -94,97 +95,109 @@ namespace NTMiner.Views {
                         Vm.TotalOnlineCount = response.TotalOnlineCount;
                         foreach (var chartVm in Vm.ChartVms) {
                             var list = response.Data.Where(a => a.CoinCode == chartVm.CoinVm.Code).ToList();
-                            if (list.Count != 0) {
-                                CoinSnapshotData one = null;
-                                if (isOnlyOne) {
-                                    one = list.Last();
+                            if (list.Count == 0) {
+                                list.Add(new CoinSnapshotData {
+                                    CoinCode = chartVm.CoinVm.Code,
+                                    DualCoinOnlineCount = 0,
+                                    DualCoinMiningCount = 0,
+                                    Id = ObjectId.NewObjectId(),
+                                    MainCoinOnlineCount = 0,
+                                    MainCoinMiningCount = 0,
+                                    RejectShareDelta = 0,
+                                    ShareDelta = 0,
+                                    Speed = 0,
+                                    Timestamp = DateTime.Now
+                                });
+                            }
+                            CoinSnapshotData one = null;
+                            if (isOnlyOne) {
+                                one = list.Last();
+                            }
+                            else {
+                                list = list.OrderBy(a => a.Timestamp).ToList();
+                            }
+                            CoinSnapshotData latestData = list.Last();
+                            chartVm.SnapshotDataVm.Update(latestData);
+                            foreach (var riser in chartVm.Series) {
+                                if (riser.Title == "speed") {
+                                    if (list.Count > 0) {
+                                        if (isOnlyOne) {
+                                            riser.Values.Add(new MeasureModel() {
+                                                DateTime = one.Timestamp,
+                                                Value = one.Speed
+                                            });
+                                        }
+                                        else {
+                                            foreach (var item in list) {
+                                                riser.Values.Add(new MeasureModel() {
+                                                    DateTime = item.Timestamp,
+                                                    Value = item.Speed
+                                                });
+                                            }
+                                        }
+                                    }
                                 }
-                                else {
-                                    list = list.OrderBy(a => a.Timestamp).ToList();
+                                else if (riser.Title == "onlineCount") {
+                                    if (isOnlyOne) {
+                                        riser.Values.Add(new MeasureModel() {
+                                            DateTime = one.Timestamp,
+                                            Value = one.MainCoinOnlineCount + one.DualCoinOnlineCount
+                                        });
+                                    }
+                                    else {
+                                        foreach (var item in list) {
+                                            riser.Values.Add(new MeasureModel() {
+                                                DateTime = item.Timestamp,
+                                                Value = item.MainCoinOnlineCount + item.DualCoinOnlineCount
+                                            });
+                                        }
+                                    }
                                 }
-                                CoinSnapshotData latestData = list.Last();
-                                chartVm.SnapshotDataVm.Update(latestData);
-                                foreach (var riser in chartVm.Series) {
-                                    if (riser.Title == "speed") {
-                                        if (list.Count > 0) {
-                                            if (isOnlyOne) {
-                                                riser.Values.Add(new MeasureModel() {
-                                                    DateTime = one.Timestamp,
-                                                    Value = one.Speed
-                                                });
-                                            }
-                                            else {
-                                                foreach (var item in list) {
-                                                    riser.Values.Add(new MeasureModel() {
-                                                        DateTime = item.Timestamp,
-                                                        Value = item.Speed
-                                                    });
-                                                }
-                                            }
-                                        }
+                                else if (riser.Title == "miningCount") {
+                                    if (isOnlyOne) {
+                                        riser.Values.Add(new MeasureModel() {
+                                            DateTime = one.Timestamp,
+                                            Value = one.MainCoinMiningCount + one.DualCoinMiningCount
+                                        });
                                     }
-                                    else if (riser.Title == "onlineCount") {
-                                        if (isOnlyOne) {
+                                    else {
+                                        foreach (var item in list) {
                                             riser.Values.Add(new MeasureModel() {
-                                                DateTime = one.Timestamp,
-                                                Value = one.MainCoinOnlineCount + one.DualCoinOnlineCount
+                                                DateTime = item.Timestamp,
+                                                Value = item.MainCoinMiningCount + item.DualCoinMiningCount
                                             });
                                         }
-                                        else {
-                                            foreach (var item in list) {
-                                                riser.Values.Add(new MeasureModel() {
-                                                    DateTime = item.Timestamp,
-                                                    Value = item.MainCoinOnlineCount + item.DualCoinOnlineCount
-                                                });
-                                            }
-                                        }
                                     }
-                                    else if (riser.Title == "miningCount") {
-                                        if (isOnlyOne) {
+                                }
+                                else if (riser.Title == "rejectShare") {
+                                    if (isOnlyOne) {
+                                        riser.Values.Add(new MeasureModel() {
+                                            DateTime = one.Timestamp,
+                                            Value = one.RejectShareDelta
+                                        });
+                                    }
+                                    else {
+                                        foreach (var item in list) {
                                             riser.Values.Add(new MeasureModel() {
-                                                DateTime = one.Timestamp,
-                                                Value = one.MainCoinMiningCount + one.DualCoinMiningCount
+                                                DateTime = item.Timestamp,
+                                                Value = item.RejectShareDelta
                                             });
                                         }
-                                        else {
-                                            foreach (var item in list) {
-                                                riser.Values.Add(new MeasureModel() {
-                                                    DateTime = item.Timestamp,
-                                                    Value = item.MainCoinMiningCount + item.DualCoinMiningCount
-                                                });
-                                            }
-                                        }
                                     }
-                                    else if (riser.Title == "rejectShare") {
-                                        if (isOnlyOne) {
-                                            riser.Values.Add(new MeasureModel() {
-                                                DateTime = one.Timestamp,
-                                                Value = one.RejectShareDelta
-                                            });
-                                        }
-                                        else {
-                                            foreach (var item in list) {
-                                                riser.Values.Add(new MeasureModel() {
-                                                    DateTime = item.Timestamp,
-                                                    Value = item.RejectShareDelta
-                                                });
-                                            }
-                                        }
+                                }
+                                else if (riser.Title == "acceptShare") {
+                                    if (isOnlyOne) {
+                                        riser.Values.Add(new MeasureModel() {
+                                            DateTime = one.Timestamp,
+                                            Value = one.ShareDelta
+                                        });
                                     }
-                                    else if (riser.Title == "acceptShare") {
-                                        if (isOnlyOne) {
+                                    else {
+                                        foreach (var item in list) {
                                             riser.Values.Add(new MeasureModel() {
-                                                DateTime = one.Timestamp,
-                                                Value = one.ShareDelta
+                                                DateTime = item.Timestamp,
+                                                Value = item.ShareDelta
                                             });
-                                        }
-                                        else {
-                                            foreach (var item in list) {
-                                                riser.Values.Add(new MeasureModel() {
-                                                    DateTime = item.Timestamp,
-                                                    Value = item.ShareDelta
-                                                });
-                                            }
                                         }
                                     }
                                 }
