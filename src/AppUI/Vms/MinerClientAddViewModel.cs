@@ -56,8 +56,8 @@ namespace NTMiner.Vms {
                                 }
                             }
                             else {
+                                MinerClientsWindowViewModel.Current.QueryMinerClients();
                                 UIThread.Execute(() => {
-                                    MinerClientsWindowViewModel.Current.Manager.ShowSuccessMessage("操作成功，等待刷新");
                                     CloseWindow?.Invoke();
                                 });
                             }
@@ -76,8 +76,8 @@ namespace NTMiner.Vms {
                             }
                         }
                         else {
+                            MinerClientsWindowViewModel.Current.QueryMinerClients();
                             UIThread.Execute(() => {
-                                MinerClientsWindowViewModel.Current.Manager.ShowSuccessMessage("操作成功，等待刷新");
                                 CloseWindow?.Invoke();
                             });
                         }
