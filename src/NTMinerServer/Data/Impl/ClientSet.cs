@@ -94,7 +94,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public ClientCoinCount Count(string coinCode) {
+        public CoinClientCount Count(string coinCode) {
             InitOnece();
             DateTime time = DateTime.Now.AddSeconds(-140);
             int mainCoinOnlineCount = 0;
@@ -117,7 +117,7 @@ namespace NTMiner.Data.Impl {
                     }
                 }
             }
-            return new ClientCoinCount {
+            return new CoinClientCount {
                 MainCoinOnlineCount = mainCoinOnlineCount,
                 MainCoinMiningCount = mainCoinMiningCount,
                 DualCoinOnlineCount = dualCoinOnlineCount,

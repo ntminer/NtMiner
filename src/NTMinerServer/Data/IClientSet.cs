@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Data {
     public interface IClientSet : IEnumerable<ClientData> {
-        ClientCoinCount Count(string coinCode);
+        CoinClientCount Count(string coinCode);
 
         void Add(ClientData clientData);
 
