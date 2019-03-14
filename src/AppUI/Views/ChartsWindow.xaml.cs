@@ -105,7 +105,7 @@ namespace NTMiner.Views {
                                     RejectShareDelta = 0,
                                     ShareDelta = 0,
                                     Speed = 0,
-                                    Timestamp = DateTime.Now
+                                    Timestamp = DateTime.Now.AddSeconds(-5)
                                 });
                             }
                             CoinSnapshotData one = null;
