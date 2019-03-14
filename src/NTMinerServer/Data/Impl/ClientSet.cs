@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace NTMiner.Data.Impl {
     public class ClientSet : IClientSet {
         // 内存中保留20分钟内活跃的客户端
-        private readonly Dictionary<ObjectId, ClientData> _dicByObjectId = new Dictionary<ObjectId, ClientData>();
+        private readonly Dictionary<string, ClientData> _dicByObjectId = new Dictionary<string, ClientData>();
         private readonly Dictionary<Guid, ClientData> _dicByClientId = new Dictionary<Guid, ClientData>();
 
         private DateTime _getSpeedOn = DateTime.Now;
@@ -32,7 +32,7 @@ namespace NTMiner.Data.Impl {
                             col.Upsert(_dicByObjectId.Values.Where(a => a.ModifiedOn > time).Select(a => new MinerData {
                                 CreatedOn = a.CreatedOn,
                                 GroupId = a.GroupId,
-                                Id = new ObjectId(a.Id),
+                                Id = a.Id,
                                 ClientId = a.ClientId,
                                 MinerIp = a.MinerIp,
                                 WindowsLoginName = a.WindowsLoginName,
@@ -96,9 +96,8 @@ namespace NTMiner.Data.Impl {
 
         public void Add(ClientData clientData) {
             InitOnece();
-            ObjectId objectId = new ObjectId(clientData.Id);
-            if (!_dicByObjectId.ContainsKey(objectId)) {
-                _dicByObjectId.Add(objectId, clientData);
+            if (!_dicByObjectId.ContainsKey(clientData.Id)) {
+                _dicByObjectId.Add(clientData.Id, clientData);
             }
 
             if (!_dicByClientId.ContainsKey(clientData.ClientId)) {
@@ -106,7 +105,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public void Remove(ObjectId objectId) {
+        public void Remove(string objectId) {
             ClientData clientData;
             if (_dicByObjectId.TryGetValue(objectId, out clientData)) {
                 _dicByObjectId.Remove(objectId);
@@ -209,7 +208,7 @@ namespace NTMiner.Data.Impl {
             return clientData;
         }
 
-        public void UpdateClient(ObjectId objectId, string propertyName, object value) {
+        public void UpdateClient(string objectId, string propertyName, object value) {
             InitOnece();
             ClientData clientData;
             if (_dicByObjectId.TryGetValue(objectId, out clientData)) {
@@ -224,7 +223,7 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public void UpdateClientProperties(ObjectId objectId, Dictionary<string, object> values) {
+        public void UpdateClientProperties(string objectId, Dictionary<string, object> values) {
             InitOnece();
             ClientData clientData;
             if (_dicByObjectId.TryGetValue(objectId, out clientData)) {

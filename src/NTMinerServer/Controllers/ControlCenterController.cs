@@ -262,7 +262,7 @@ namespace NTMiner.Controllers {
                         continue;
                     }
                     MinerData minerData = new MinerData {
-                        Id = ObjectId.NewObjectId(),
+                        Id = ObjectId.NewObjectId().ToString(),
                         ClientId = Guid.NewGuid(),
                         CreatedOn = DateTime.Now,
                         GroupId = Guid.Empty,
@@ -297,7 +297,7 @@ namespace NTMiner.Controllers {
                 }
 
                 foreach (var objectId in request.ObjectIds) {
-                    HostRoot.Current.ClientSet.Remove(new ObjectId(objectId));
+                    HostRoot.Current.ClientSet.Remove(objectId);
                 }
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -319,7 +319,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.ClientSet.UpdateClient(new ObjectId(request.ObjectId), request.PropertyName, request.Value);
+                HostRoot.Current.ClientSet.UpdateClient(request.ObjectId, request.PropertyName, request.Value);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
@@ -340,7 +340,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                HostRoot.Current.ClientSet.UpdateClientProperties(new ObjectId(request.ObjectId), request.Values);
+                HostRoot.Current.ClientSet.UpdateClientProperties(request.ObjectId, request.Values);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

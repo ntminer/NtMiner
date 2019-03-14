@@ -54,7 +54,7 @@ namespace NTMiner.Data {
             };
         }
 
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
         public Guid ClientId { get; set; }
         public Guid WorkId { get; set; }
         public string MinerIp { get; set; }

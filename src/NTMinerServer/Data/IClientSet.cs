@@ -7,11 +7,11 @@ namespace NTMiner.Data {
     public interface IClientSet : IEnumerable<ClientData> {
         void Add(ClientData clientData);
 
-        void UpdateClient(ObjectId objectId, string propertyName, object value);
+        void UpdateClient(string objectId, string propertyName, object value);
 
-        void UpdateClientProperties(ObjectId objectId, Dictionary<string, object> values);
+        void UpdateClientProperties(string objectId, Dictionary<string, object> values);
 
-        void Remove(ObjectId objectId);
+        void Remove(string objectId);
 
         List<ClientData> QueryClients(
             int pageIndex,
