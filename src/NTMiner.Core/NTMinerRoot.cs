@@ -44,64 +44,69 @@ namespace NTMiner {
         private readonly bool _isServerJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || CommandLineArgs.WorkId != Guid.Empty;
         #region Init
         public void Init(Action callback) {
-            if (!_isServerJson) {
-                DoInit(callback);
-                return;
-            }
-            Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
-                if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
-                    if (response.Data.Value is string value) {
-                        JsonFileVersion = value;
-                    }
-                }
-                else {
-                    Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
-                }
-            });
-            string serverJson = SpecialPath.ReadServerJsonFile();
-            string langJson = ClientId.ReadLocalLangJsonFile();
-            if (CommandLineArgs.WorkId != Guid.Empty) {
-                try {
-                    LocalJson.Instance.Init();
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                }
-                GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                    langJson = Encoding.UTF8.GetString(data);
-                    ServerJson.Instance.Init(serverJson);
-                    Language.Impl.LangJson.Instance.Init(langJson);
-                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
+            Task.Factory.StartNew(() => {
+                if (!_isServerJson) {
                     DoInit(callback);
-                });
-            }
-            else {
-                CountdownEvent countdown = new CountdownEvent(2);
-                GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                    serverJson = Encoding.UTF8.GetString(data);
-                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
-                    countdown.Signal();
-                });
-                GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                    langJson = Encoding.UTF8.GetString(data);
-                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
-                    countdown.Signal();
-                });
-                Task.Factory.StartNew(() => {
-                    if (countdown.Wait(30 * 1000)) {
-                        Logger.InfoDebugLine("json下载完成");
-                        ServerJson.Instance.Init(serverJson);
-                        Language.Impl.LangJson.Instance.Init(langJson);
-                        DoInit(callback);
+                    return;
+                }
+
+                Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
+                    if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
+                        if (response.Data.Value is string value) {
+                            JsonFileVersion = value;
+                        }
                     }
                     else {
-                        Logger.InfoDebugLine("启动json下载超时");
-                        ServerJson.Instance.Init(serverJson);
-                        Language.Impl.LangJson.Instance.Init(langJson);
-                        DoInit(callback);
+                        Logger.ErrorDebugLine(
+                            $"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
                     }
                 });
-            }
+                string serverJson = SpecialPath.ReadServerJsonFile();
+                string langJson = ClientId.ReadLocalLangJsonFile();
+                if (CommandLineArgs.WorkId != Guid.Empty) {
+                    try {
+                        LocalJson.Instance.Init();
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
+
+                    GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                        langJson = Encoding.UTF8.GetString(data);
+                        ServerJson.Instance.Init(serverJson);
+                        Language.Impl.LangJson.Instance.Init(langJson);
+                        Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
+                        DoInit(callback);
+                    });
+                }
+                else {
+                    CountdownEvent countdown = new CountdownEvent(2);
+                    GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                        serverJson = Encoding.UTF8.GetString(data);
+                        Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
+                        countdown.Signal();
+                    });
+                    GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                        langJson = Encoding.UTF8.GetString(data);
+                        Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
+                        countdown.Signal();
+                    });
+                    Task.Factory.StartNew(() => {
+                        if (countdown.Wait(30 * 1000)) {
+                            Logger.InfoDebugLine("json下载完成");
+                            ServerJson.Instance.Init(serverJson);
+                            Language.Impl.LangJson.Instance.Init(langJson);
+                            DoInit(callback);
+                        }
+                        else {
+                            Logger.InfoDebugLine("启动json下载超时");
+                            ServerJson.Instance.Init(serverJson);
+                            Language.Impl.LangJson.Instance.Init(langJson);
+                            DoInit(callback);
+                        }
+                    });
+                }
+            });
         }
 
         private MinerProfile _minerProfile;

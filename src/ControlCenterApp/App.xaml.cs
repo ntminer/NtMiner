@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace NTMiner {
-    public partial class App : Application {
+    public partial class App : Application, IDisposable {
         public App() {
             VirtualRoot.IsControlCenter = true;
             AppHelper.Init(this);
@@ -84,6 +84,19 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing) {
+            if (disposing) {
+                if (appMutex != null) {
+                    appMutex.Dispose();
+                }
+            }
         }
     }
 }
