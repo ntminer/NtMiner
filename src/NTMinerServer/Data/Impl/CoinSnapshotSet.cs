@@ -90,7 +90,6 @@ namespace NTMiner.Data.Impl {
                     CoinSnapshotData mainCoinSnapshotData;
                     if (!dicByCoinCode.TryGetValue(clientData.MainCoinCode, out mainCoinSnapshotData)) {
                         mainCoinSnapshotData = new CoinSnapshotData() {
-                            Id = ObjectId.NewObjectId(),
                             Timestamp = now,
                             CoinCode = clientData.MainCoinCode
                         };
@@ -111,7 +110,6 @@ namespace NTMiner.Data.Impl {
                         CoinSnapshotData dualCoinSnapshotData;
                         if (!dicByCoinCode.TryGetValue(clientData.DualCoinCode, out dualCoinSnapshotData)) {
                             dualCoinSnapshotData = new CoinSnapshotData() {
-                                Id = ObjectId.NewObjectId(),
                                 Timestamp = now,
                                 CoinCode = clientData.DualCoinCode
                             };

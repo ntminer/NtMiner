@@ -100,7 +100,6 @@ namespace NTMiner.Views {
                                     CoinCode = chartVm.CoinVm.Code,
                                     DualCoinOnlineCount = 0,
                                     DualCoinMiningCount = 0,
-                                    Id = ObjectId.NewObjectId(),
                                     MainCoinOnlineCount = 0,
                                     MainCoinMiningCount = 0,
                                     RejectShareDelta = 0,

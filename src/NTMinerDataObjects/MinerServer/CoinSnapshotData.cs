@@ -1,12 +1,14 @@
-﻿using LiteDB;
-using System;
+﻿using System;
+using LiteDB;
 
 namespace NTMiner.MinerServer {
     public class CoinSnapshotData {
-        public CoinSnapshotData() { }
+        public CoinSnapshotData() {
+            Id = ObjectId.NewObjectId().ToString();
+        }
 
-        [BsonId(autoId: true)]
-        public ObjectId Id { get; set; }
+        [BsonId]
+        public string Id { get; set; }
         public string CoinCode { get; set; }
         public double Speed { get; set; }
         public int ShareDelta { get; set; }
