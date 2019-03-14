@@ -11,18 +11,17 @@ using LiteDB;
 
 namespace NTMiner.Views {
     public partial class ChartsWindow : MetroWindow, IMainWindow {
-        private static ChartsWindow s_window = null;
+        private static ChartsWindow _sWindow = null;
         public static void ShowWindow() {
-            if (s_window == null) {
-                s_window = new ChartsWindow();
-                Application.Current.MainWindow = s_window;
+            if (_sWindow == null) {
+                _sWindow = new ChartsWindow();
+                Application.Current.MainWindow = _sWindow;
             }
-            s_window.Show();
-            if (s_window.WindowState == WindowState.Minimized) {
-                s_window.WindowState = WindowState.Normal;
+            _sWindow.Show();
+            if (_sWindow.WindowState == WindowState.Minimized) {
+                _sWindow.WindowState = WindowState.Normal;
             }
-            s_window.Activate();
-            s_window.RefreshTotalSpeedChart(limit: 60);
+            _sWindow.Activate();
         }
 
         public ChartsWindowViewModel Vm {
@@ -46,6 +45,7 @@ namespace NTMiner.Views {
             this.Unloaded += (object sender, RoutedEventArgs e) => {
                 VirtualRoot.UnPath(refeshTotalSpeedChart);
             };
+            RefreshTotalSpeedChart(limit: 60);
             #endregion
         }
 
@@ -63,7 +63,7 @@ namespace NTMiner.Views {
         }
 
         protected override void OnClosed(EventArgs e) {
-            s_window = null;
+            _sWindow = null;
             Application.Current.MainWindow = null;
             AppStatic.Managers.RemoveManager(Vm.Manager);
             base.OnClosed(e);
