@@ -66,7 +66,11 @@ namespace NTMiner.Vms {
             });
             this.RemoteDesktop = new DelegateCommand(() => {
                 AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
-                    MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(message);
+                    MinerClientsWindowViewModel.Current.Manager.CreateMessage()
+                        .Error(message)
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(4))
+                        .Queue(); ;
                 }));
             });
             this.RestartWindows = new DelegateCommand(() => {

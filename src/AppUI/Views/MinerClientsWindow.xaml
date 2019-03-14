@@ -36,7 +36,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="550"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <!--上标题栏-->
@@ -2127,16 +2127,17 @@
             VerticalAlignment="Top"
             MaxWidth="500"
             Manager="{Binding Manager}" />
-        <Grid Grid.Row="2" Height="550" Background="{StaticResource MinerProfileBackground}">
+        <GridSplitter Grid.Row="2" Height="6" Background="{StaticResource MinerProfileBackground}" VerticalAlignment="Top" HorizontalAlignment="Stretch"></GridSplitter>
+        <Grid Grid.Row="2" Background="White" Margin="0 6 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1000"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource MinerProfileBackground}">
                 <Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
                 <Button
                     Width="26" Margin="4 0 0 0"
@@ -2247,13 +2248,16 @@
                     <CheckBox VerticalAlignment="Center" Visibility="{Binding ColumnsShow.KernelCommandLine, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.KernelCommandLine}" Margin="0 0 6 0">内核命令行</CheckBox>
                 </WrapPanel>
             </WrapPanel>
-            <uc:MessageCenter Grid.Row="1" Grid.Column="1"></uc:MessageCenter>
             <ScrollViewer 
                 Grid.Row="1" Grid.Column="0" 
+                Background="White"
                 PreviewMouseDown="ScrollViewer_PreviewMouseDown"
+                VerticalScrollBarVisibility="Auto"
                 Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
                 <uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
             </ScrollViewer>
+            <uc:MessageCenter Grid.Row="1" Grid.Column="1"></uc:MessageCenter>
+            <GridSplitter Grid.Row="1" Grid.Column="1" Width="6" Background="Black" HorizontalAlignment="Left" VerticalAlignment="Stretch"></GridSplitter>
         </Grid>
         <WrapPanel Grid.Row="3" Background="{StaticResource MinerProfileBackground}">
             <WrapPanel Margin="4 0 0 0">

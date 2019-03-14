@@ -17,18 +17,16 @@
 			<Setter Property="VerticalAlignment" Value="Top"></Setter>
 		</Style>
 		<Style x:Key="Row" TargetType="WrapPanel">
-			<Setter Property="Margin" Value="0 4"></Setter>
+			<Setter Property="Margin" Value="0 2"></Setter>
 		</Style>
 		<Style x:Key="RowLine" TargetType="Border">
 			<Setter Property="BorderBrush" Value="#EEEEEE"></Setter>
 			<Setter Property="BorderThickness" Value="0 1 0 0"></Setter>
 		</Style>
 		<sys:Double x:Key="OneColWidth">480</sys:Double>
-		<sys:Double x:Key="DoubleColWidth">980</sys:Double>
-		<sys:Double x:Key="DoubleColValueWidth">850</sys:Double>
 	</UserControl.Resources>
 	<StackPanel HorizontalAlignment="Left">
-		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
+		<WrapPanel Style="{StaticResource Row}">
 			<TextBlock Style="{StaticResource LblTb}">最后更新</TextBlock>
 			<TextBlock Width="120" Text="{Binding LastActivedOnText}"></TextBlock>
 			<WrapPanel>
@@ -186,7 +184,7 @@
 				<TextBlock Style="{StaticResource LblTb}">运行时长</TextBlock>
 				<TextBlock Text="{Binding BootTimeSpanText}"></TextBlock>
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">挖矿时长</TextBlock>
 				<TextBlock Text="{Binding MineTimeSpanText}"></TextBlock>
 			</WrapPanel>
@@ -202,7 +200,7 @@
 					SelectedItem="{Binding SelectedMineWork}"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></ComboBox>
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">分组</TextBlock>
 				<ComboBox 
 					MinWidth="100"
@@ -240,7 +238,7 @@
 				<TextBox Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}" ToolTip="Windows远程桌面登录名"></TextBox>
 				<PasswordBox Margin="10 0 0 0" Width="100" ToolTip="Windows远程桌面密码" VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">矿工名</TextBlock>
 				<TextBox 
 					ToolTip="注意：修改矿工名后需重新开始挖矿才能反应到矿池"
@@ -261,7 +259,7 @@
 					Text="{Binding MainCoinWallet, Mode=OneWay}" 
 					IsReadOnly="True"></TextBox>
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+			<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}">双挖币种</TextBlock>
 				<TextBlock Text="{Binding DualCoinCode}"></TextBlock>
 				<TextBox 
@@ -279,7 +277,7 @@
 				<TextBlock Style="{StaticResource LblTb}">主币算力</TextBlock>
 				<TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">主币拒绝</TextBlock>
 				<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
 				<TextBlock Padding="1 0" Text="/"></TextBlock>
@@ -292,13 +290,13 @@
 			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">双挖算力</TextBlock>
 				<TextBox 
-				Padding="0"
-				BorderThickness="0"
-				Background="Transparent"
-				IsReadOnly="True"
-				Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
+					Padding="0"
+					BorderThickness="0"
+					Background="Transparent"
+					IsReadOnly="True"
+					Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">双挖币拒绝</TextBlock>
 				<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
 				<TextBlock Padding="1 0" Text="/"></TextBlock>
@@ -333,7 +331,7 @@
 				<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
 				<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">总功耗</TextBlock>
 				<TextBox 
 					Padding="0"
@@ -352,7 +350,7 @@
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+		<WrapPanel Style="{StaticResource Row}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 			<TextBlock Style="{StaticResource LblTb}">双挖币预期收益</TextBlock>
 			<TextBlock Text="{Binding IncomeDualCoinPerDayText}"></TextBlock>
 			<TextBlock 
@@ -378,7 +376,7 @@
 			<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
-		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
+		<WrapPanel Style="{StaticResource Row}">
 			<TextBlock Style="{StaticResource LblTb}">显卡表格</TextBlock>
 			<Grid Margin="0 -4 0 0">
 				<DataGrid 
@@ -386,6 +384,7 @@
 					ColumnHeaderHeight="24"
 					IsReadOnly="True"
 					Background="Transparent"
+					BorderThickness="0"
 					ItemsSource="{Binding GpuTableTrs}">
 					<DataGrid.Resources>
 						<vm:BindingProxy x:Key="proxy2" Data="{Binding}" />
@@ -564,7 +563,7 @@
 					IsReadOnly="True"
 					Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
 			</WrapPanel>
-			<WrapPanel Style="{StaticResource Row}" Width="{StaticResource OneColWidth}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+			<WrapPanel Style="{StaticResource Row}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 				<TextBlock Style="{StaticResource LblTb}">双挖矿池</TextBlock>
 				<TextBox 
 					Padding="0"
@@ -581,7 +580,7 @@
 				<TextBlock Style="{StaticResource LblTb}">客户端版本</TextBlock>
 				<TextBox Padding="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding Version, Mode=OneWay}"></TextBox>
 			</WrapPanel>
-			<WrapPanel Style="{StaticResource Row}" Width="{StaticResource OneColWidth}">
+			<WrapPanel Style="{StaticResource Row}">
 				<TextBlock Style="{StaticResource LblTb}">挖矿内核</TextBlock>
 				<TextBox 
 					Padding="0"
@@ -597,7 +596,7 @@
 				<TextBlock Style="{StaticResource LblTb}">操作系统</TextBlock>
 				<TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSName, Mode=OneWay}"></TextBox>
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">虚拟内存</TextBlock>
 				<TextBox Padding="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBox>
 			</WrapPanel>
@@ -610,7 +609,7 @@
 				Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
 				Text="是"></TextBlock>
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">启动后自动开始挖矿</TextBlock>
 				<TextBlock 
 				Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
@@ -640,7 +639,7 @@
 				<TextBlock Text=" x "></TextBlock>
 				<TextBlock Text="{Binding GpuCount}"></TextBlock>
 			</WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">显卡驱动</TextBlock>
 				<TextBox 
 					Padding="0"
@@ -651,7 +650,7 @@
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
+		<WrapPanel Style="{StaticResource Row}">
 			<TextBlock Style="{StaticResource LblTb}">显卡</TextBlock>
 			<TextBox 
 				Padding="0"
@@ -662,10 +661,14 @@
 				Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}" Width="{StaticResource DoubleColWidth}">
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
 			<TextBlock Style="{StaticResource LblTb}">内核命令行</TextBlock>
 			<TextBox 
-				Width="{StaticResource DoubleColValueWidth}"
+				Grid.Column="1"
 				Padding="0"
 				BorderThickness="0"
 				TextWrapping="Wrap"
@@ -673,7 +676,7 @@
 				IsReadOnly="True"
 				ToolTip="{Binding KernelCommandLine}"
 				Text="{Binding KernelCommandLine, Mode=OneWay}"></TextBox>
-		</WrapPanel>
+		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
 	</StackPanel>
 </UserControl>
