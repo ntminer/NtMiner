@@ -1,4 +1,4 @@
-﻿namespace NTMiner.MinerServer {
+﻿namespace NTMiner.Data {
     public class ClientCount {
         public void Update(int onlineCount, int miningCount) {
             this.OnlineCount = onlineCount;

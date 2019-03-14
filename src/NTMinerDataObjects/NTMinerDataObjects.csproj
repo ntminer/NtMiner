@@ -99,7 +99,6 @@
     <Compile Include="MinerServer\WrapperRequest.cs" />
     <Compile Include="MinerServer\CalcConfigData.cs" />
     <Compile Include="MinerServer\CalcConfigsRequest.cs" />
-    <Compile Include="MinerServer\ClientCount.cs" />
     <Compile Include="MinerServer\ClientData.cs" />
     <Compile Include="MinerServer\ColumnsShowData.cs" />
     <Compile Include="MinerServer\IColumnsShow.cs" />
