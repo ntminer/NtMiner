@@ -13,6 +13,7 @@
         <Setter Property="CanUserReorderColumns" Value="False"></Setter>
         <Setter Property="ColumnHeaderHeight" Value="28"></Setter>
         <Setter Property="AutoGenerateColumns" Value="False"></Setter>
+        <Setter Property="CanUserResizeRows" Value="False"></Setter>
         <Setter Property="IsReadOnly" Value="True"></Setter>
         <Setter Property="MinRowHeight" Value="28"></Setter>
         <Setter Property="AlternatingRowBackground" Value="White"></Setter>
