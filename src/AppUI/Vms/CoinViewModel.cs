@@ -188,22 +188,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private INTMinerRoot RootObj {
-            get {
-                return NTMinerRoot.Current;
-            }
-        }
-
-        public bool IsCurrentCoin {
-            get { return _isCurrentCoin; }
-            set {
-                if (_isCurrentCoin != value) {
-                    _isCurrentCoin = value;
-                    OnPropertyChanged(nameof(IsCurrentCoin));
-                }
-            }
-        }
-
         public Guid Id {
             get => _id;
             private set {

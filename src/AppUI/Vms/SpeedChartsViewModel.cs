@@ -26,12 +26,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public INTMinerRoot RootObj {
-            get {
-                return NTMinerRoot.Current;
-            }
-        }
-
         public MinerProfileViewModel MinerProfile {
             get {
                 return MinerProfileViewModel.Current;

@@ -38,9 +38,7 @@ namespace NTMiner.Vms {
                 "MinerProfile切换后刷新Vm内存",
                 LogEnum.Console,
                 action: message => {
-                    foreach (var propertyInfo in this.GetType().GetProperties()) {
-                        this.OnPropertyChanged(propertyInfo.Name);
-                    }
+                    AllPropertyChanged();
                 });
             VirtualRoot.On<MinerNameSetedEvent>(
                 "矿工名设置后刷新VM内存和命令总成",
@@ -252,12 +250,6 @@ namespace NTMiner.Vms {
                     if (coinVm != null) {
                         CoinId = coinVm.Id;
                     }
-                }
-                if (coinVm != null && !coinVm.IsCurrentCoin) {
-                    foreach (var item in CoinViewModels.Current.AllCoins) {
-                        item.IsCurrentCoin = false;
-                    }
-                    coinVm.IsCurrentCoin = true;
                 }
                 return coinVm;
             }
