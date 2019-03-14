@@ -8,12 +8,15 @@ namespace NTMiner.Data {
         void SetMinerProfileProperty(Guid workId, string propertyName, object value);
 
         CoinProfileData GetCoinProfile(Guid workId, Guid coinId);
+        void SetCoinProfile(Guid workId, CoinProfileData data);
         void SetCoinProfileProperty(Guid workId, Guid coinId, string propertyName, object value);
 
         PoolProfileData GetPoolProfile(Guid workId, Guid poolId);
+        void SetPoolProfile(Guid workId, PoolProfileData data);
         void SetPoolProfileProperty(Guid workId, Guid poolId, string propertyName, object value);
 
         CoinKernelProfileData GetCoinKernelProfile(Guid workId, Guid coinKernelId);
+        void SetCoinKernelProfile(Guid workId, CoinKernelProfileData data);
         void SetCoinKernelProfileProperty(Guid workId, Guid coinKernelId, string propertyName, object value);
 
         GpuProfileData GetGpuProfile(Guid workId, Guid coinId);

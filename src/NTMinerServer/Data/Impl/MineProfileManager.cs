@@ -25,43 +25,43 @@ namespace NTMiner.Data.Impl {
             return result;
         }
 
-        private static Dictionary<string, PropertyInfo> s_minerProfileProperties;
+        private static Dictionary<string, PropertyInfo> _sMinerProfileProperties;
         private static Dictionary<string, PropertyInfo> MinerProfileProperties {
             get {
-                if (s_minerProfileProperties == null) {
-                    s_minerProfileProperties = GetProperties<MinerProfileData>();
+                if (_sMinerProfileProperties == null) {
+                    _sMinerProfileProperties = GetProperties<MinerProfileData>();
                 }
-                return s_minerProfileProperties;
+                return _sMinerProfileProperties;
             }
         }
 
-        private static Dictionary<string, PropertyInfo> s_coinProfileProperties;
+        private static Dictionary<string, PropertyInfo> _sCoinProfileProperties;
         private static Dictionary<string, PropertyInfo> CoinProfileProperties {
             get {
-                if (s_coinProfileProperties == null) {
-                    s_coinProfileProperties = GetProperties<CoinProfileData>();
+                if (_sCoinProfileProperties == null) {
+                    _sCoinProfileProperties = GetProperties<CoinProfileData>();
                 }
-                return s_coinProfileProperties;
+                return _sCoinProfileProperties;
             }
         }
 
-        private static Dictionary<string, PropertyInfo> s_poolProfileProperties;
+        private static Dictionary<string, PropertyInfo> _sPoolProfileProperties;
         private static Dictionary<string, PropertyInfo> PoolProfileProperties {
             get {
-                if (s_poolProfileProperties == null) {
-                    s_poolProfileProperties = GetProperties<PoolProfileData>();
+                if (_sPoolProfileProperties == null) {
+                    _sPoolProfileProperties = GetProperties<PoolProfileData>();
                 }
-                return s_poolProfileProperties;
+                return _sPoolProfileProperties;
             }
         }
 
-        private static Dictionary<string, PropertyInfo> s_coinKernelProfileProperties;
+        private static Dictionary<string, PropertyInfo> _sCoinKernelProfileProperties;
         private static Dictionary<string, PropertyInfo> CoinKernelProfileProperties {
             get {
-                if (s_coinKernelProfileProperties == null) {
-                    s_coinKernelProfileProperties = GetProperties<CoinKernelProfileData>();
+                if (_sCoinKernelProfileProperties == null) {
+                    _sCoinKernelProfileProperties = GetProperties<CoinKernelProfileData>();
                 }
-                return s_coinKernelProfileProperties;
+                return _sCoinKernelProfileProperties;
             }
         }
         #endregion
@@ -89,22 +89,15 @@ namespace NTMiner.Data.Impl {
             using (var database = CreateDatabase(workId)) {
                 var col = database.GetCollection<MinerProfileData>();
                 var data = col.FindAll().FirstOrDefault();
-                bool exist = true;
                 if (data == null) {
-                    exist = false;
-                    data = MinerProfileData.CreateDefaultData(Guid.Empty);
+                    return;
                 }
                 PropertyInfo propertyInfo = MinerProfileProperties[propertyName];
                 if (propertyInfo.PropertyType == typeof(Guid)) {
                     value = DictionaryExtensions.ConvertToGuid(value);
                 }
                 propertyInfo.SetValue(data, value, null);
-                if (exist) {
-                    col.Update(data);
-                }
-                else {
-                    col.Insert(data);
-                }
+                col.Update(data);
             }
         }
 
@@ -120,6 +113,19 @@ namespace NTMiner.Data.Impl {
             }
         }
 
+        public void SetCoinProfile(Guid workId, CoinProfileData data) {
+            using (var database = CreateDatabase(workId)) {
+                var col = database.GetCollection<CoinProfileData>();
+                var item = col.FindById(data.CoinId);
+                if (item != null) {
+                    item.Update(data);
+                }
+                else {
+                    col.Insert(data);
+                }
+            }
+        }
+
         public void SetCoinProfileProperty(Guid workId, Guid coinId, string propertyName, object value) {
             if (!CoinProfileProperties.ContainsKey(propertyName)) {
                 return;
@@ -127,22 +133,15 @@ namespace NTMiner.Data.Impl {
             using (var database = CreateDatabase(workId)) {
                 var col = database.GetCollection<CoinProfileData>();
                 var data = col.FindById(coinId);
-                bool exist = true;
                 if (data == null) {
-                    exist = false;
-                    data = CoinProfileData.CreateDefaultData(coinId);
+                    return;
                 }
                 PropertyInfo propertyInfo = CoinProfileProperties[propertyName];
                 if (propertyInfo.PropertyType == typeof(Guid)) {
                     value = DictionaryExtensions.ConvertToGuid(value);
                 }
                 propertyInfo.SetValue(data, value, null);
-                if (exist) {
-                    col.Update(data);
-                }
-                else {
-                    col.Insert(data);
-                }
+                col.Update(data);
             }
         }
 
@@ -165,18 +164,24 @@ namespace NTMiner.Data.Impl {
             using (var database = CreateDatabase(workId)) {
                 var col = database.GetCollection<PoolProfileData>();
                 var data = col.FindById(poolId);
-                bool exist = true;
                 if (data == null) {
-                    exist = false;
-                    data = PoolProfileData.CreateDefaultData(poolId);
+                    return;
                 }
                 PropertyInfo propertyInfo = PoolProfileProperties[propertyName];
                 if (propertyInfo.PropertyType == typeof(Guid)) {
                     value = DictionaryExtensions.ConvertToGuid(value);
                 }
                 propertyInfo.SetValue(data, value, null);
-                if (exist) {
-                    col.Update(data);
+                col.Update(data);
+            }
+        }
+
+        public void SetPoolProfile(Guid workId, PoolProfileData data) {
+            using (var database = CreateDatabase(workId)) {
+                var col = database.GetCollection<PoolProfileData>();
+                var item = col.FindById(data.PoolId);
+                if (item != null) {
+                    item.Update(data);
                 }
                 else {
                     col.Insert(data);
@@ -196,6 +201,19 @@ namespace NTMiner.Data.Impl {
             }
         }
 
+        public void SetCoinKernelProfile(Guid workId, CoinKernelProfileData data) {
+            using (var database = CreateDatabase(workId)) {
+                var col = database.GetCollection<CoinKernelProfileData>();
+                var item = col.FindById(data.CoinKernelId);
+                if (item != null) {
+                    item.Update(data);
+                }
+                else {
+                    col.Insert(data);
+                }
+            }
+        }
+
         public void SetCoinKernelProfileProperty(Guid workId, Guid coinKernelId, string propertyName, object value) {
             if (!CoinKernelProfileProperties.ContainsKey(propertyName)) {
                 return;
@@ -203,9 +221,7 @@ namespace NTMiner.Data.Impl {
             using (var database = CreateDatabase(workId)) {
                 var col = database.GetCollection<CoinKernelProfileData>();
                 var data = col.FindById(coinKernelId);
-                bool exist = true;
                 if (data == null) {
-                    exist = false;
                     data = CoinKernelProfileData.CreateDefaultData(coinKernelId);
                 }
                 PropertyInfo propertyInfo = CoinKernelProfileProperties[propertyName];
@@ -213,12 +229,7 @@ namespace NTMiner.Data.Impl {
                     value = DictionaryExtensions.ConvertToGuid(value);
                 }
                 propertyInfo.SetValue(data, value, null);
-                if (exist) {
-                    col.Update(data);
-                }
-                else {
-                    col.Insert(data);
-                }
+                col.Update(data);
             }
         }
 
