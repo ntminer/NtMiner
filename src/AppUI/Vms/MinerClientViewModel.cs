@@ -219,6 +219,9 @@ namespace NTMiner.Vms {
             }
             set {
                 if (_selectedMineWork != value) {
+                    if (value == null) {
+                        value = MineWorkViewModel.FreeMineWork;
+                    }
                     var old = _selectedMineWork;
                     this.WorkId = value.Id;
                     _selectedMineWork = value;
@@ -427,6 +430,9 @@ namespace NTMiner.Vms {
             }
             set {
                 if (_selectedMinerGroup != value) {
+                    if (value == null) {
+                        value = MinerGroupViewModel.PleaseSelect;
+                    }
                     var old = _selectedMinerGroup;
                     _selectedMinerGroup = value;
                     this.GroupId = value.Id;
@@ -742,14 +748,6 @@ namespace NTMiner.Vms {
                     _data.DualCoinCode = value;
                     OnPropertyChanged(nameof(DualCoinCode));
                 }
-            }
-        }
-
-        public CoinViewModel DualCoinVm {
-            get {
-                CoinViewModel coinVm;
-                CoinViewModels.Current.TryGetCoinVm(this.DualCoinCode, out coinVm);
-                return coinVm;
             }
         }
 
