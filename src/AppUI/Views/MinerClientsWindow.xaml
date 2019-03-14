@@ -2130,7 +2130,7 @@
             MaxWidth="500"
             Manager="{Binding Manager}" />
         <GridSplitter Grid.Row="2" Height="6" Background="{StaticResource MinerProfileBackground}" VerticalAlignment="Top" HorizontalAlignment="Stretch"></GridSplitter>
-        <Grid Grid.Row="2" Background="White" Margin="0 6 0 0">
+        <Grid Grid.Row="2" Background="{StaticResource MinerProfileBackground}" Margin="0 6 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1000"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -2252,7 +2252,6 @@
             </WrapPanel>
             <ScrollViewer 
                 Grid.Row="1" Grid.Column="0" 
-                Background="White"
                 PreviewMouseDown="ScrollViewer_PreviewMouseDown"
                 VerticalScrollBarVisibility="Auto"
                 Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
