@@ -1444,9 +1444,11 @@
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="DataGridCell">
-                                                        <ContentPresenter
-                                                            HorizontalAlignment="Left"
-                                                            VerticalAlignment="Center" />
+                                                        <Border Padding="4 0 0 0">
+                                                            <ContentPresenter
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center" />
+                                                        </Border>
                                                     </ControlTemplate>
                                                 </Setter.Value>
                                             </Setter>
