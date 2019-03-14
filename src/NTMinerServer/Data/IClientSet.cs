@@ -1,12 +1,10 @@
-﻿using NTMiner.MinerServer;
+﻿using LiteDB;
+using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
-using LiteDB;
 
 namespace NTMiner.Data {
     public interface IClientSet : IEnumerable<ClientData> {
-        ClientCount Count();
-
         ClientCoinCount Count(string coinCode);
 
         void Add(ClientData clientData);

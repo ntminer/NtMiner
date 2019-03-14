@@ -2,7 +2,7 @@
 using LiteDB;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
-using NTMiner.Serialization;
+using NTMiner.MinerServer;
 using NTMiner.User;
 using System;
 using System.IO;
@@ -29,13 +29,13 @@ namespace NTMiner {
         public DateTime StartedOn { get; private set; } = DateTime.Now;
 
         public static readonly IHostRoot Current = new HostRoot();
-        public static readonly IObjectSerializer JsonSerializer = new ObjectJsonSerializer();
+        public static readonly ClientCount ClientCount = new ClientCount();
 
         private OssClient _ossClient = null;
 
         public OssClient OssClient {
             get {
-                OSSClientInit();
+                OssClientInit();
                 return _ossClient;
             }
         }
@@ -43,7 +43,7 @@ namespace NTMiner {
         #region OSSClientInit
         private DateTime _ossClientOn = DateTime.MinValue;
         private readonly object _ossClientLocker = new object();
-        private void OSSClientInit() {
+        private void OssClientInit() {
             DateTime now = DateTime.Now;
             if (_ossClientOn.AddMinutes(10) < now) {
                 lock (_ossClientLocker) {
@@ -80,7 +80,7 @@ namespace NTMiner {
         }
 
         private HostRoot() {
-            OSSClientInit();
+            OssClientInit();
             this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
             this.AppSettingSet = new AppSettingSet(SpecialPath.LocalDbFileFullName);
             this.CalcConfigSet = new CalcConfigSet(this);

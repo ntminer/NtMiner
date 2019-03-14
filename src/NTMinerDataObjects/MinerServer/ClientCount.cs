@@ -1,7 +1,11 @@
 ﻿namespace NTMiner.MinerServer {
     public class ClientCount {
-        public int OnlineCount { get; set; }
-        public int MiningCount { get; set; }
+        public void Update(int onlineCount, int miningCount) {
+            this.OnlineCount = onlineCount;
+            this.MiningCount = miningCount;
+        }
+        public int OnlineCount { get; private set; }
+        public int MiningCount { get; private set; }
     }
 
     public class ClientCoinCount {

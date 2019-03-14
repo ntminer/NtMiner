@@ -66,11 +66,15 @@ namespace NTMiner.Data.Impl {
         private void Snapshot(DateTime now) {
             InitOnece();
             try {
+                int onlineCount = 0;
+                int miningCount = 0;
                 Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
                 foreach (var clientData in _root.ClientSet) {
-                    if (clientData.ModifiedOn.AddMinutes(3) < now) {
+                    if (clientData.ModifiedOn.AddSeconds(20) < now) {
                         continue;
                     }
+
+                    onlineCount++;
 
                     if (string.IsNullOrEmpty(clientData.MainCoinCode)) {
                         continue;
@@ -87,6 +91,7 @@ namespace NTMiner.Data.Impl {
                     }
 
                     if (clientData.IsMining) {
+                        miningCount++;
                         mainCoinSnapshotData.MainCoinMiningCount += 1;
                         mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
                         mainCoinSnapshotData.ShareDelta += clientData.GetMainCoinShareDelta();
@@ -117,6 +122,7 @@ namespace NTMiner.Data.Impl {
                     }
                 }
 
+                HostRoot.ClientCount.Update(onlineCount, miningCount);
                 if (dicByCoinCode.Count > 0) {
                     _dataList.AddRange(dicByCoinCode.Values);
                     using (LiteDatabase db = HostRoot.CreateReportDb()) {
@@ -136,7 +142,7 @@ namespace NTMiner.Data.Impl {
             out int totalMiningCount,
             out int totalOnlineCount) {
             InitOnece();
-            ClientCount count = HostRoot.Current.ClientSet.Count();
+            ClientCount count = HostRoot.ClientCount;
             totalMiningCount = count.MiningCount;
             totalOnlineCount = count.OnlineCount;
             DateTime rightTime = DateTime.Now.AddSeconds(-5);
