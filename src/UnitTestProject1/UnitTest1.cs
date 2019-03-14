@@ -7,6 +7,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows;
+using NTMiner.Profile;
+using NTMiner.Serialization;
 
 namespace UnitTestProject1 {
     [TestClass]
@@ -146,6 +148,16 @@ namespace UnitTestProject1 {
                 Console.WriteLine(v1);
                 Assert.AreEqual(value, HashUtil.EncDecInOne(v1));
             }
+        }
+
+        [TestMethod]
+        public void ObjectJsonSerializerTest() {
+            PoolProfileData data = new PoolProfileData {
+                Password = "sssaaa",
+                PoolId = Guid.NewGuid(),
+                UserName = "test"
+            };
+            Console.WriteLine(new ObjectJsonSerializer().Serialize(data));
         }
     }
 }
