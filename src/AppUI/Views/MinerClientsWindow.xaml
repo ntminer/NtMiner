@@ -325,6 +325,7 @@
             SelectionChanged="MinerClientsGrid_OnSelectionChanged"
             ColumnHeaderHeight="40"
             HeadersVisibility="All"
+            RowHeaderWidth="10"
             FrozenColumnCount="{Binding FrozenColumnCount}"
             ItemsSource="{Binding MinerClients}"
             SelectedItem="{Binding CurrentMinerClient}"
@@ -406,18 +407,6 @@
                     </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
-            <DataGrid.RowHeaderStyle>
-                <Style TargetType="{x:Type DataGridRowHeader}">
-                    <Setter Property="Content">
-                        <Setter.Value>
-                            <MultiBinding Converter="{StaticResource AutoNumberValueConverter}">
-                                <Binding />
-                                <Binding Path="Items" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" />
-                            </MultiBinding>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.RowHeaderStyle>
             <DataGrid.Columns>
                 <!--操作-->
                 <DataGridTemplateColumn Width="18" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
