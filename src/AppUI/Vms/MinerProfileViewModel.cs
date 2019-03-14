@@ -254,6 +254,9 @@ namespace NTMiner.Vms {
                 return coinVm;
             }
             set {
+                if (value == null) {
+                    value = CoinViewModels.Current.MainCoins.OrderBy(a => a.SortNumber).FirstOrDefault();
+                }
                 if (value != null) {
                     this.CoinId = value.Id;
                     OnPropertyChanged(nameof(CoinVm));

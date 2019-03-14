@@ -108,9 +108,9 @@ namespace NTMiner.Vms {
                 if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                     return null;
                 }
-                WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId && a.Address == this.Wallet);
+                WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.Address == this.Wallet);
                 if (walletVm == null) {
-                    walletVm = coinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId);
+                    walletVm = coinVm.Wallets.FirstOrDefault();
                     if (walletVm != null) {
                         this.Wallet = walletVm.Address;
                     }
@@ -118,6 +118,12 @@ namespace NTMiner.Vms {
                 return walletVm;
             }
             set {
+                if (value == null) {
+                    CoinViewModel coinVm;
+                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                        value = coinVm.Wallets.FirstOrDefault();
+                    }
+                }
                 if (value != null) {
                     this.Wallet = value.Address;
                     OnPropertyChanged(nameof(SelectedWallet));
@@ -157,24 +163,28 @@ namespace NTMiner.Vms {
                 if (this.CoinId == Guid.Empty) {
                     return null;
                 }
-                var pools = PoolViewModels.Current.AllPools.Where(a => a.CoinId == this.CoinId);
-                PoolViewModel pool = pools.FirstOrDefault(a => a.Id == PoolId);
-                if (pool == null) {
-                    pool = pools.FirstOrDefault();
+
+                CoinViewModel coinVm;
+                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    return null;
+                }
+                PoolViewModel pool;
+                if (!PoolViewModels.Current.TryGetPoolVm(this.PoolId, out pool)) {
+                    pool = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     if (pool != null) {
                         PoolId = pool.Id;
                     }
                 }
-                if (pool != null && !pool.IsCurrentPool) {
-                    foreach (var poolVm in pools) {
-                        poolVm.IsCurrentPool = false;
-                    }
-                    pool.IsCurrentPool = true;
-                }
                 return pool;
             }
             set {
-                if (value != null && value.Id != Guid.Empty) {
+                if (value == null) {
+                    CoinViewModel coinVm;
+                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                        value = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
+                    }
+                }
+                if (value != null) {
                     PoolId = value.Id;
                     OnPropertyChanged(nameof(MainCoinPool));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
@@ -209,9 +219,9 @@ namespace NTMiner.Vms {
                 if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                     return null;
                 }
-                WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId && a.Address == this.DualCoinWallet);
+                WalletViewModel walletVm = coinVm.Wallets.FirstOrDefault(a => a.Address == this.DualCoinWallet);
                 if (walletVm == null) {
-                    walletVm = coinVm.Wallets.FirstOrDefault(a => a.CoinId == this.CoinId);
+                    walletVm = coinVm.Wallets.FirstOrDefault();
                     if (walletVm != null) {
                         this.DualCoinWallet = walletVm.Address;
                     }
@@ -219,6 +229,12 @@ namespace NTMiner.Vms {
                 return walletVm;
             }
             set {
+                if (value == null) {
+                    CoinViewModel coinVm;
+                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                        value = coinVm.Wallets.FirstOrDefault();
+                    }
+                }
                 if (value != null) {
                     this.DualCoinWallet = value.Address;
                     OnPropertyChanged(nameof(SelectedDualCoinWallet));
@@ -265,10 +281,9 @@ namespace NTMiner.Vms {
                 if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                     return null;
                 }
-                var dualCoinPools = coinVm.Pools;
-                PoolViewModel pool = dualCoinPools.FirstOrDefault(a => a.Id == DualCoinPoolId);
-                if (pool == null) {
-                    pool = dualCoinPools.FirstOrDefault();
+                PoolViewModel pool;
+                if (!PoolViewModels.Current.TryGetPoolVm(this.DualCoinPoolId, out pool)) {
+                    pool = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
                     if (pool != null) {
                         DualCoinPoolId = pool.Id;
                     }
@@ -276,7 +291,13 @@ namespace NTMiner.Vms {
                 return pool;
             }
             set {
-                if (value != null && value.Id != Guid.Empty) {
+                if (value == null) {
+                    CoinViewModel coinVm;
+                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                        value = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
+                    }
+                }
+                if (value != null) {
                     DualCoinPoolId = value.Id;
                     OnPropertyChanged(nameof(DualCoinPool));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());

@@ -334,17 +334,7 @@ namespace NTMiner.Vms {
 
         public List<PoolViewModel> Pools {
             get {
-                var list = PoolViewModels.Current.AllPools.Where(a => a.CoinId == this.Id).ToList();
-                if (CoinProfile != null) {
-                    foreach (var pool in list) {
-                        pool.IsCurrentPool = false;
-                    }
-                    PoolViewModel poolVm = list.FirstOrDefault(a => a.Id == CoinProfile.PoolId);
-                    if (poolVm != null) {
-                        poolVm.IsCurrentPool = true;
-                    }
-                }
-                return list.OrderBy(a => a.SortNumber).ToList();
+                return PoolViewModels.Current.AllPools.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 

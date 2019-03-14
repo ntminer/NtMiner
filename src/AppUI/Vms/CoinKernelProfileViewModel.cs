@@ -81,10 +81,13 @@ namespace NTMiner.Vms {
 
         public CoinViewModel SelectedDualCoin {
             get {
-                CoinViewModel coin = CoinViewModels.Current.AllCoins.FirstOrDefault(a => a.Id == DualCoinId);
-                if (coin == null) {
-                    CoinKernelViewModel coinKernelVm = CoinKernelViewModels.Current.AllCoinKernels.FirstOrDefault(a => a.Id == this.CoinKernelId);
-                    if (coinKernelVm != null) {
+                if (this.DualCoinId == Guid.Empty) {
+                    return null;
+                }
+                CoinViewModel coin;
+                if (!CoinViewModels.Current.TryGetCoinVm(this.DualCoinId, out coin)) {
+                    CoinKernelViewModel coinKernelVm;
+                    if (CoinKernelViewModels.Current.TryGetCoinKernelVm(this.CoinKernelId, out coinKernelVm)) {
                         coin = coinKernelVm.DualCoinGroup.DualCoinVms.FirstOrDefault();
                     }
                     if (coin != null) {

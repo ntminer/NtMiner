@@ -29,7 +29,6 @@ namespace NTMiner.Vms {
         private string _passWord;
         private bool _isUserMode;
         private PublishStatus _publishState;
-        private bool _isCurrentPool;
         private CoinViewModel _coinVm;
 
 
@@ -147,16 +146,6 @@ namespace NTMiner.Vms {
         public List<PoolKernelViewModel> PoolKernels {
             get {
                 return PoolKernelViewModels.Current.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.Code + a.Kernel.Version).ToList();
-            }
-        }
-
-        public bool IsCurrentPool {
-            get { return _isCurrentPool; }
-            set {
-                if (_isCurrentPool != value) {
-                    _isCurrentPool = value;
-                    OnPropertyChanged(nameof(IsCurrentPool));
-                }
             }
         }
 
