@@ -2,7 +2,6 @@
 using LiteDB;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
-using NTMiner.MinerServer;
 using NTMiner.User;
 using System;
 using System.IO;

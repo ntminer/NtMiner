@@ -94,37 +94,6 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public CoinClientCount Count(string coinCode) {
-            InitOnece();
-            DateTime time = DateTime.Now.AddSeconds(-140);
-            int mainCoinOnlineCount = 0;
-            int mainCoinMiningCount = 0;
-            int dualCoinOnlineCount = 0;
-            int dualCoinMiningCount = 0;
-            foreach (var clientData in _dicByObjectId.Values) {
-                if (clientData.ModifiedOn > time) {
-                    if (clientData.MainCoinCode == coinCode) {
-                        mainCoinOnlineCount++;
-                        if (clientData.IsMining) {
-                            mainCoinMiningCount++;
-                        }
-                    }
-                    if (clientData.DualCoinCode == coinCode) {
-                        dualCoinOnlineCount++;
-                        if (clientData.IsMining) {
-                            dualCoinMiningCount++;
-                        }
-                    }
-                }
-            }
-            return new CoinClientCount {
-                MainCoinOnlineCount = mainCoinOnlineCount,
-                MainCoinMiningCount = mainCoinMiningCount,
-                DualCoinOnlineCount = dualCoinOnlineCount,
-                DualCoinMiningCount = dualCoinMiningCount
-            };
-        }
-
         public void Add(ClientData clientData) {
             InitOnece();
             ObjectId objectId = new ObjectId(clientData.Id);
