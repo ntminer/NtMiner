@@ -424,7 +424,7 @@
             </DataGrid.RowHeaderStyle>
             <DataGrid.Columns>
                 <!--操作-->
-                <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn Width="82" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
                             <WrapPanel>
