@@ -48,7 +48,7 @@ namespace NTMiner.Data.Impl {
                         Task.Factory.StartNew(() => {
                             ClientData[] clientDatas = _dicByObjectId.Values.ToArray();
                             Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
-                            Task.WaitAll(tasks, 10 * 1000);
+                            Task.WaitAll(tasks, 5 * 1000);
                         });
                     }
                 });

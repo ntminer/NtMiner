@@ -3,26 +3,42 @@ using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NTMiner.Data.Impl {
     public class CoinSnapshotSet : ICoinSnapshotSet {
         private readonly IHostRoot _root;
         // 内存中保留最近20分钟的快照
         private readonly List<CoinSnapshotData> _dataList = new List<CoinSnapshotData>();
-
+        private DateTime _snapshotOn = DateTime.Now;
         internal CoinSnapshotSet(IHostRoot root) {
             _root = root;
-            VirtualRoot.On<Per10SecondEvent>(
+            Snapshot();
+            VirtualRoot.On<Per1MinuteEvent>(
                 "周期性拍摄快照",
                 LogEnum.Console,
                 action: message => {
-                    Snapshot(message.Timestamp);
-                    DateTime time = message.Timestamp.AddMinutes(-20);
+                    DateTime time = DateTime.Now.AddMinutes(-20);
                     List<CoinSnapshotData> toRemoves = _dataList.Where(a => a.Timestamp < time).ToList();
                     foreach (var item in toRemoves) {
                         _dataList.Remove(item);
                     }
                 });
+        }
+
+        private void Snapshot() {
+            Task.Factory.StartNew(() => {
+                while (true) {
+                    DateTime now = DateTime.Now;
+                    if (_snapshotOn.AddSeconds(10) <= now) {
+                        Snapshot(now);
+                        _snapshotOn = now;
+                    }
+                    else {
+                        System.Threading.Thread.Sleep((int)(_snapshotOn.AddSeconds(10) - now).TotalMilliseconds);
+                    }
+                }
+            });
         }
 
         private bool _isInited = false;

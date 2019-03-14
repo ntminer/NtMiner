@@ -45,11 +45,15 @@ namespace NTMiner.Core.Profiles {
             }
 
             private class CoinProfile : ICoinProfile {
-                public static readonly CoinProfile Empty = new CoinProfile(NTMinerRoot.Current, Guid.Empty);
+                private static readonly CoinProfile Empty = new CoinProfile(Guid.Empty, new CoinProfileData());
 
                 public static CoinProfile Create(INTMinerRoot root, Guid workId, Guid coinId) {
                     if (root.CoinSet.TryGetCoin(coinId, out ICoin coin)) {
-                        CoinProfile coinProfile = new CoinProfile(root, workId, coin);
+                        var data = GetCoinProfileData(workId, coin.GetId());
+                        if (data == null) {
+                            data = CoinProfileData.CreateDefaultData(coin.GetId());
+                        }
+                        CoinProfile coinProfile = new CoinProfile(workId, data);
 
                         return coinProfile;
                     }
@@ -58,33 +62,24 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private readonly INTMinerRoot _root;
                 private readonly Guid _workId;
                 private CoinProfileData _data;
-                private CoinProfile(INTMinerRoot root, Guid workId) {
-                    _root = root;
-                    _workId = workId;
-                }
 
-                private CoinProfileData GetCoinProfileData(Guid coinId) {
+                private static CoinProfileData GetCoinProfileData(Guid workId, Guid coinId) {
                     if (VirtualRoot.IsControlCenter) {
-                        return Server.ControlCenterService.GetCoinProfile(_workId, coinId);
+                        return Server.ControlCenterService.GetCoinProfile(workId, coinId);
                     }
                     else {
-                        bool isUseJson = _workId != Guid.Empty;
+                        bool isUseJson = workId != Guid.Empty;
                         IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(isUseJson);
                         var result = repository.GetByKey(coinId);
                         return result;
                     }
                 }
 
-                private CoinProfile(INTMinerRoot root, Guid workId, ICoin coin) {
-                    _root = root;
+                private CoinProfile(Guid workId, CoinProfileData data) {
                     _workId = workId;
-                    _data = GetCoinProfileData(coin.GetId());
-                    if (_data == null) {
-                        _data = CoinProfileData.CreateDefaultData(coin.GetId());
-                    }
+                    _data = data ?? throw new ArgumentNullException(nameof(data));
                 }
 
                 [IgnoreReflectionSet]
@@ -157,14 +152,14 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private static Dictionary<string, PropertyInfo> s_properties;
+                private static Dictionary<string, PropertyInfo> _sProperties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
                     get {
-                        if (s_properties == null) {
-                            s_properties = GetPropertiesCanSet<CoinProfile>();
+                        if (_sProperties == null) {
+                            _sProperties = GetPropertiesCanSet<CoinProfile>();
                         }
-                        return s_properties;
+                        return _sProperties;
                     }
                 }
 

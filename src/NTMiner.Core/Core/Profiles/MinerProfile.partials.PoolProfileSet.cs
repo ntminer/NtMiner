@@ -46,12 +46,16 @@ namespace NTMiner.Core.Profiles {
             }
 
             public class PoolProfile : IPoolProfile {
-                public static readonly PoolProfile Empty = new PoolProfile(NTMinerRoot.Current, Guid.Empty);
+                private static readonly PoolProfile Empty = new PoolProfile(Guid.Empty, new PoolProfileData());
 
                 private readonly Guid _workId;
                 public static PoolProfile Create(INTMinerRoot root, Guid workId, Guid poolIdId) {
                     if (root.PoolSet.TryGetPool(poolIdId, out IPool pool)) {
-                        PoolProfile coinProfile = new PoolProfile(root, workId, pool);
+                        var data = GetPoolProfileData(root, workId, pool.GetId());
+                        if (data == null) {
+                            data = PoolProfileData.CreateDefaultData(pool.GetId());
+                        }
+                        PoolProfile coinProfile = new PoolProfile(workId, data);
 
                         return coinProfile;
                     }
@@ -60,25 +64,20 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private readonly INTMinerRoot _root;
                 private PoolProfileData _data;
-                private PoolProfile(INTMinerRoot root, Guid workId) {
-                    _root = root;
-                    _workId = workId;
-                }
 
-                private PoolProfileData GetPoolProfileData(Guid poolId) {
+                private static PoolProfileData GetPoolProfileData(INTMinerRoot root, Guid workId, Guid poolId) {
                     if (VirtualRoot.IsControlCenter) {
-                        return Server.ControlCenterService.GetPoolProfile(_workId, poolId);
+                        return Server.ControlCenterService.GetPoolProfile(workId, poolId);
                     }
                     else {
-                        bool isUseJson = _workId != Guid.Empty;
+                        bool isUseJson = workId != Guid.Empty;
                         IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
                         var result = repository.GetByKey(poolId);
                         if (result == null) {
                             // 如果本地未设置用户名密码则使用默认的测试用户名密码
                             result = PoolProfileData.CreateDefaultData(poolId);
-                            if (_root.PoolSet.TryGetPool(poolId, out IPool pool)) {
+                            if (root.PoolSet.TryGetPool(poolId, out IPool pool)) {
                                 result.UserName = pool.UserName;
                                 result.Password = pool.Password;
                             }
@@ -87,13 +86,9 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private PoolProfile(INTMinerRoot root, Guid workId, IPool pool) {
-                    _root = root;
+                private PoolProfile(Guid workId, PoolProfileData data) {
                     _workId = workId;
-                    _data = GetPoolProfileData(pool.GetId());
-                    if (_data == null) {
-                        _data = PoolProfileData.CreateDefaultData(pool.GetId());
-                    }
+                    _data = data ?? throw new ArgumentNullException(nameof(data));
                 }
 
                 [IgnoreReflectionSet]
@@ -118,14 +113,14 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private static Dictionary<string, PropertyInfo> s_properties;
+                private static Dictionary<string, PropertyInfo> _sProperties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
                     get {
-                        if (s_properties == null) {
-                            s_properties = GetPropertiesCanSet<PoolProfile>();
+                        if (_sProperties == null) {
+                            _sProperties = GetPropertiesCanSet<PoolProfile>();
                         }
-                        return s_properties;
+                        return _sProperties;
                     }
                 }
 

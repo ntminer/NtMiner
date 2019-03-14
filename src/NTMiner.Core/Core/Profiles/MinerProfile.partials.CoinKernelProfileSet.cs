@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.Kernels;
-using NTMiner.Profile;
+﻿using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
@@ -49,10 +48,14 @@ namespace NTMiner.Core.Profiles {
             }
 
             private class CoinKernelProfile : ICoinKernelProfile {
-                public static readonly CoinKernelProfile Empty = new CoinKernelProfile(NTMinerRoot.Current, Guid.Empty);
+                private static readonly CoinKernelProfile Empty = new CoinKernelProfile(Guid.Empty, new CoinKernelProfileData());
                 public static CoinKernelProfile Create(INTMinerRoot root, Guid workId, Guid coinKernelId) {
                     if (root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
-                        CoinKernelProfile coinProfile = new CoinKernelProfile(root, workId, coinKernel);
+                        var data = GetCoinKernelProfileData(workId, coinKernel.GetId());
+                        if (data == null) {
+                            data = CoinKernelProfileData.CreateDefaultData(coinKernel.GetId());
+                        }
+                        CoinKernelProfile coinProfile = new CoinKernelProfile(workId, data);
 
                         return coinProfile;
                     }
@@ -62,17 +65,13 @@ namespace NTMiner.Core.Profiles {
                 }
 
                 private readonly Guid _workId;
-                private CoinKernelProfile(INTMinerRoot root, Guid workId) {
-                    _root = root;
-                    _workId = workId;
-                }
 
-                private CoinKernelProfileData GetCoinKernelProfileData(Guid coinKernelId) {
+                private static CoinKernelProfileData GetCoinKernelProfileData(Guid workId, Guid coinKernelId) {
                     if (VirtualRoot.IsControlCenter) {
-                        return Server.ControlCenterService.GetCoinKernelProfile(_workId, coinKernelId);
+                        return Server.ControlCenterService.GetCoinKernelProfile(workId, coinKernelId);
                     }
                     else {
-                        bool isUseJson = _workId != Guid.Empty;
+                        bool isUseJson = workId != Guid.Empty;
                         IRepository<CoinKernelProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>(isUseJson);
                         var result = repository.GetByKey(coinKernelId);
                         if (result == null) {
@@ -82,15 +81,10 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private readonly INTMinerRoot _root;
                 private CoinKernelProfileData _data;
-                private CoinKernelProfile(INTMinerRoot root, Guid workId, ICoinKernel coinKernel) {
-                    _root = root;
+                private CoinKernelProfile(Guid workId, CoinKernelProfileData data) {
                     _workId = workId;
-                    _data = GetCoinKernelProfileData(coinKernel.GetId());
-                    if (_data == null) {
-                        _data = CoinKernelProfileData.CreateDefaultData(coinKernel.GetId());
-                    }
+                    _data = data ?? throw new ArgumentNullException(nameof(data));
                 }
 
                 [IgnoreReflectionSet]
@@ -135,14 +129,14 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private static Dictionary<string, PropertyInfo> s_properties;
+                private static Dictionary<string, PropertyInfo> _sProperties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
                     get {
-                        if (s_properties == null) {
-                            s_properties = GetPropertiesCanSet<CoinKernelProfile>();
+                        if (_sProperties == null) {
+                            _sProperties = GetPropertiesCanSet<CoinKernelProfile>();
                         }
-                        return s_properties;
+                        return _sProperties;
                     }
                 }
 
