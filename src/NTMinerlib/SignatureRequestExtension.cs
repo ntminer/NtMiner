@@ -26,7 +26,7 @@ namespace NTMiner {
                 return false;
             }
             if (request.Sign != request.GetSign(user.Password)) {
-                response = ResponseBase.Forbidden<TResponse>(request.MessageId, "签名验证未通过");
+                response = ResponseBase.Forbidden<TResponse>(request.MessageId, "用户名或密码错误");
                 return false;
             }
             response = null;

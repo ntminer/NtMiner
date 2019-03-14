@@ -7,13 +7,10 @@ namespace NTMiner.Views {
     public partial class LoginWindow : MetroWindow {
         public static string ViewId = nameof(LoginWindow);
 
-        public LoginWindowViewModel Vm {
-            get {
-                return (LoginWindowViewModel)this.DataContext;
-            }
-        }
-
+        private readonly LoginWindowViewModel _vm;
         public LoginWindow() {
+            _vm = new LoginWindowViewModel();
+            this.DataContext = _vm;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             this.PbPassword.Focus();
@@ -41,44 +38,26 @@ namespace NTMiner.Views {
         }
 
         private void BtnLogin_OnClick(object sender, RoutedEventArgs e) {
-            string passwordSha1 = HashUtil.Sha1(Vm.Password);
-            Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, (response, exception) => {
-                if (response == null) {
-                    Vm.Message = "服务器忙";
-                    Vm.MessageVisible = Visibility.Visible;
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                        UIThread.Execute(() => {
-                            Vm.MessageVisible = Visibility.Collapsed;
-                        });
-                    });
-                    return;
-                }
+            string passwordSha1 = HashUtil.Sha1(_vm.Password);
+            Server.ControlCenterService.LoginAsync(_vm.LoginName, passwordSha1, (response, exception) => {
                 UIThread.Execute(() => {
+                    if (response == null) {
+                        _vm.ShowMessage("服务器忙");
+                        return;
+                    }
                     if (response.IsSuccess()) {
-                        SingleUser.LoginName = Vm.LoginName;
+                        SingleUser.LoginName = _vm.LoginName;
                         SingleUser.SetPasswordSha1(passwordSha1);
                         this.DialogResult = true;
                         this.Close();
                     }
-                    else if (Vm.LoginName == "admin" && response.StateCode == 404) {
-                        Vm.IsPasswordAgainVisible = Visibility.Visible;
-                        Vm.Message = response.Description;
-                        Vm.MessageVisible = Visibility.Visible;
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            UIThread.Execute(() => {
-                                Vm.MessageVisible = Visibility.Collapsed;
-                            });
-                        });
+                    else if (_vm.LoginName == "admin" && response.StateCode == 404) {
+                        _vm.IsPasswordAgainVisible = Visibility.Visible;
+                        _vm.ShowMessage(response.Description);
                     }
                     else {
-                        Vm.IsPasswordAgainVisible = Visibility.Collapsed;
-                        Vm.Message = response.Description;
-                        Vm.MessageVisible = Visibility.Visible;
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            UIThread.Execute(() => {
-                                Vm.MessageVisible = Visibility.Collapsed;
-                            });
-                        });
+                        _vm.IsPasswordAgainVisible = Visibility.Collapsed;
+                        _vm.ShowMessage(response.Description);
                     }
                 });
             });

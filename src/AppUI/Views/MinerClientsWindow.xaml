@@ -118,10 +118,6 @@
                         </controls:KbComboBox.ContextMenuEx>
                     </controls:KbComboBox>
                 </WrapPanel>
-                <WrapPanel Margin="0 0 40 0">
-                    <TextBlock Style="{StaticResource LblTb}" Text="主币钱包" />
-                    <TextBox VerticalContentAlignment="Center" Text="{Binding MainCoinWallet}" Width="160" Background="White"></TextBox>
-                </WrapPanel>
                 <WrapPanel>
                     <TextBlock Style="{StaticResource LblTb}" Text="双挖币" />
                     <controls:KbComboBox 
@@ -200,8 +196,8 @@
                         </controls:KbComboBox>
                     </WrapPanel>
                     <WrapPanel>
-                        <TextBlock Style="{StaticResource LblTb}" Text="双挖币钱包" />
-                        <TextBox VerticalContentAlignment="Center" Text="{Binding DualCoinWallet}" Width="160" Background="White"></TextBox>
+                        <TextBlock Style="{StaticResource LblTb}" Text="钱包" />
+                        <TextBox VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="260" Background="White"></TextBox>
                     </WrapPanel>
                 </WrapPanel>
             </WrapPanel>

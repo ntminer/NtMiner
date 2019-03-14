@@ -159,10 +159,9 @@ namespace NTMiner {
                 MineStatus mineState,
                 string mainCoin,
                 string mainCoinPool,
-                string mainCoinWallet,
                 string dualCoin,
                 string dualCoinPool,
-                string dualCoinWallet,
+                string wallet,
                 string version,
                 string kernel,
                 Action<QueryClientsResponse, Exception> callback) {
@@ -179,10 +178,9 @@ namespace NTMiner {
                             MineState = mineState,
                             MainCoin = mainCoin,
                             MainCoinPool = mainCoinPool,
-                            MainCoinWallet = mainCoinWallet,
                             DualCoin = dualCoin,
                             DualCoinPool = dualCoinPool,
-                            DualCoinWallet = dualCoinWallet,
+                            Wallet = wallet,
                             Version = version,
                             Kernel = kernel
                         };

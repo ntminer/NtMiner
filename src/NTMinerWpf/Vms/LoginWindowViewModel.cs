@@ -1,18 +1,16 @@
-﻿using System;
+﻿using NTMiner.Notifications;
+using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class LoginWindowViewModel : ViewModelBase {
         private string _hostAndPort;
         private string _loginName;
-        private string _message;
-        private Visibility _messageVisible = Visibility.Collapsed;
         private string _password;
         private Visibility _isPasswordAgainVisible = Visibility.Collapsed;
         private string _passwordAgain;
-        private SolidColorBrush _messageForeground;
+        private INotificationMessageManager _manager;
 
         public ICommand ActiveAdmin { get; private set; }
 
@@ -20,7 +18,6 @@ namespace NTMiner.Vms {
             this._hostAndPort = $"{Server.MinerServerHost}:{WebApiConst.MinerServerPort}";
             this._loginName = "admin";
             this.ActiveAdmin = new DelegateCommand(() => {
-                string message = string.Empty;
                 if (string.IsNullOrEmpty(this.Password)) {
                     this.ShowMessage("密码不能为空");
                     return;
@@ -42,20 +39,26 @@ namespace NTMiner.Vms {
             });
         }
 
-        private void ShowMessage(string message, bool isSuccess = false) {
-            this.Message = message;
-            MessageVisible = Visibility.Visible;
+        public void ShowMessage(string message, bool isSuccess = false) {
             if (isSuccess) {
-                this.MessageForeground = new SolidColorBrush(Colors.Green);
+                Manager.ShowSuccessMessage(message);
             }
             else {
-                this.MessageForeground = new SolidColorBrush(Colors.Red);
+                Manager.CreateMessage()
+                    .Error(message)
+                    .Dismiss()
+                    .WithDelay(TimeSpan.FromSeconds(2))
+                    .Queue();
             }
-            TimeSpan.FromSeconds(4).Delay().ContinueWith(t => {
-                UIThread.Execute(() => {
-                    MessageVisible = Visibility.Collapsed;
-                });
-            });
+        }
+
+        public INotificationMessageManager Manager {
+            get {
+                if (_manager == null) {
+                    _manager = new NotificationMessageManager();
+                }
+                return _manager;
+            }
         }
 
         public LangViewModels LangVms {
@@ -103,34 +106,6 @@ namespace NTMiner.Vms {
             set {
                 _passwordAgain = value;
                 OnPropertyChanged(nameof(PasswordAgain));
-            }
-        }
-
-        public string Message {
-            get => _message;
-            set {
-                if (_message != value) {
-                    _message = value;
-                    OnPropertyChanged(nameof(Message));
-                }
-            }
-        }
-
-        public SolidColorBrush MessageForeground {
-            get => _messageForeground;
-            set {
-                _messageForeground = value;
-                OnPropertyChanged(nameof(MessageForeground));
-            }
-        }
-
-        public Visibility MessageVisible {
-            get => _messageVisible;
-            set {
-                if (_messageVisible != value) {
-                    _messageVisible = value;
-                    OnPropertyChanged(nameof(MessageVisible));
-                }
             }
         }
     }

@@ -179,10 +179,9 @@ namespace NTMiner.Data.Impl {
             MineStatus mineState,
             string mainCoin,
             string mainCoinPool,
-            string mainCoinWallet,
             string dualCoin,
             string dualCoinPool,
-            string dualCoinWallet,
+            string wallet,
             string version,
             string kernel,
             out int total,
@@ -216,11 +215,8 @@ namespace NTMiner.Data.Impl {
                 if (!string.IsNullOrEmpty(dualCoinPool)) {
                     query = query.Where(a => a.DualCoinPool == dualCoinPool);
                 }
-                if (!string.IsNullOrEmpty(mainCoinWallet)) {
-                    query = query.Where(a => a.MainCoinWallet == mainCoinWallet);
-                }
-                if (!string.IsNullOrEmpty(dualCoinWallet)) {
-                    query = query.Where(a => a.DualCoinWallet == dualCoinWallet);
+                if (!string.IsNullOrEmpty(wallet)) {
+                    query = query.Where(a => a.MainCoinWallet == wallet || a.DualCoinWallet == wallet);
                 }
             }
             if (!string.IsNullOrEmpty(minerIp)) {

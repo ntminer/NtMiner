@@ -26,8 +26,7 @@ namespace NTMiner.Vms {
         private string _minerName;
         private string _version;
         private string _kernel;
-        private string _mainCoinWallet;
-        private string _dualCoinWallet;
+        private string _wallet;
         private CoinViewModel _mainCoin;
         private CoinViewModel _dualCoin;
         private PoolViewModel _mainCoinPool;
@@ -94,8 +93,7 @@ namespace NTMiner.Vms {
             this._selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
             this._mainCoinPool = _mainCoin.OptionPools.First();
             this._dualCoinPool = _dualCoin.OptionPools.First();
-            this._mainCoinWallet = string.Empty;
-            this._dualCoinWallet = string.Empty;
+            this._wallet = string.Empty;
             this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
             this.RemoveMinerClients = new DelegateCommand(() => {
                 if (this.MinerClients == null) {
@@ -464,8 +462,7 @@ namespace NTMiner.Vms {
             string dualCoin = string.Empty;
             string mainCoinPool = string.Empty;
             string dualCoinPool = string.Empty;
-            string mainCoinWallet = string.Empty;
-            string dualCoinWallet = string.Empty;
+            string wallet = string.Empty;
             if (workId == null || workId.Value == Guid.Empty) {
                 if (this.MainCoin != CoinViewModel.PleaseSelect) {
                     mainCoin = this.MainCoin.Code;
@@ -482,11 +479,8 @@ namespace NTMiner.Vms {
                         dualCoinPool = this.DualCoinPool.Server;
                     }
                 }
-                if (!string.IsNullOrEmpty(this.MainCoinWallet)) {
-                    mainCoinWallet = this.MainCoinWallet;
-                }
-                if (!string.IsNullOrEmpty(DualCoinWallet)) {
-                    dualCoinWallet = this.DualCoinWallet;
+                if (!string.IsNullOrEmpty(Wallet)) {
+                    wallet = this.Wallet;
                 }
             }
             Server.ControlCenterService.QueryClientsAsync(
@@ -499,10 +493,9 @@ namespace NTMiner.Vms {
                 this.MineStatusEnumItem.Value,
                 mainCoin,
                 mainCoinPool,
-                mainCoinWallet,
                 dualCoin,
                 dualCoinPool,
-                dualCoinWallet,
+                wallet,
                 this.Version, this.Kernel, (response, exception) => {
                     this.CountDown = 10;
                     if (response != null) {
@@ -602,18 +595,9 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(MainCoin));
                     OnPropertyChanged(nameof(MainCoinPool));
                     this.MainCoinPool = PoolViewModel.PleaseSelect;
-                    this.MainCoinWallet = string.Empty;
                     OnPropertyChanged(nameof(IsMainCoinSelected));
                     QueryMinerClients();
                 }
-            }
-        }
-
-        public string MainCoinWallet {
-            get { return _mainCoinWallet; }
-            set {
-                _mainCoinWallet = value;
-                OnPropertyChanged(nameof(MainCoinWallet));
             }
         }
 
@@ -637,12 +621,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string DualCoinWallet {
-            get => _dualCoinWallet;
+        public string Wallet {
+            get => _wallet;
             set {
-                if (_dualCoinWallet != value) {
-                    _dualCoinWallet = value;
-                    OnPropertyChanged(nameof(DualCoinWallet));
+                if (_wallet != value) {
+                    _wallet = value;
+                    OnPropertyChanged(nameof(Wallet));
                     QueryMinerClients();
                 }
             }
@@ -657,7 +641,7 @@ namespace NTMiner.Vms {
                     _dualCoin = value;
                     OnPropertyChanged(nameof(DualCoin));
                     this.DualCoinPool = PoolViewModel.PleaseSelect;
-                    this.DualCoinWallet = string.Empty;
+                    this.Wallet = string.Empty;
                     OnPropertyChanged(nameof(IsDualCoinSelected));
                     QueryMinerClients();
                 }
