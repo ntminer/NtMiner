@@ -120,7 +120,11 @@ namespace NTMiner.Vms {
                 }
             });
             this.RefreshMinerClients = new DelegateCommand(() => {
-                Server.ControlCenterService.RefreshClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
+                IEnumerable<MinerClientViewModel> clients = SelectedMinerClients;
+                if (!clients.Any()) {
+                    clients = MinerClients;
+                }
+                Server.ControlCenterService.RefreshClientsAsync(clients.Select(a => a.Id).ToList(), (response, e) => {
                     if (!response.IsSuccess()) {
                         if (response != null) {
                             Write.UserLine(response.Description, ConsoleColor.Red);
