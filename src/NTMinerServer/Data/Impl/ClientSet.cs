@@ -15,9 +15,11 @@ namespace NTMiner.Data.Impl {
         private readonly Dictionary<ObjectId, ClientData> _dicByObjectId = new Dictionary<ObjectId, ClientData>();
         private readonly Dictionary<Guid, ClientData> _dicByClientId = new Dictionary<Guid, ClientData>();
 
+        private DateTime _getSpeedOn = DateTime.Now;
         private readonly IHostRoot _root;
         internal ClientSet(IHostRoot root) {
             _root = root;
+            GetSpeed();
             VirtualRoot.On<Per20SecondEvent>(
                 "周期性将内存中的ClientData列表刷入磁盘",
                 LogEnum.Console,
@@ -40,18 +42,28 @@ namespace NTMiner.Data.Impl {
                         }
                     }
                 });
-            VirtualRoot.On<Per10SecondEvent>(
-                "周期拉取数据更新拍照源数据",
-                LogEnum.Console,
-                action: message => {
-                    if (HostRoot.IsPull) {
-                        Task.Factory.StartNew(() => {
-                            ClientData[] clientDatas = _dicByObjectId.Values.ToArray();
-                            Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
-                            Task.WaitAll(tasks, 5 * 1000);
-                        });
+        }
+
+        private void GetSpeed() {
+            Task.Factory.StartNew(() => {
+                while (true) {
+                    DateTime now = DateTime.Now;
+                    if (_getSpeedOn.AddSeconds(10) <= now) {
+                        if (HostRoot.IsPull) {
+                            Write.DevLine("周期拉取数据更新拍照源数据");
+                            Task.Factory.StartNew(() => {
+                                ClientData[] clientDatas = _dicByObjectId.Values.ToArray();
+                                Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
+                                Task.WaitAll(tasks, 5 * 1000);
+                            });
+                        }
+                        _getSpeedOn = now;
                     }
-                });
+                    else {
+                        System.Threading.Thread.Sleep((int)(_getSpeedOn.AddSeconds(10) - now).TotalMilliseconds);
+                    }
+                }
+            });
         }
 
         private bool _isInited = false;

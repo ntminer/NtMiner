@@ -83,7 +83,7 @@ namespace NTMiner {
 
             public ResponseBase SetMinerProfileProperty(string clientIp, SetClientMinerProfilePropertyRequest request) {
                 using (HttpClient client = new HttpClient()) {
-                    client.Timeout = TimeSpan.FromMilliseconds(1000);
+                    client.Timeout = TimeSpan.FromMilliseconds(3000);
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.SetMinerProfileProperty)}", request);
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
@@ -94,7 +94,7 @@ namespace NTMiner {
                 return Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromMilliseconds(1000);
+                            client.Timeout = TimeSpan.FromMilliseconds(3000);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
                             SpeedData data = message.Result.Content.ReadAsAsync<SpeedData>().Result;
                             callback?.Invoke(data, null);
