@@ -6,6 +6,8 @@ namespace NTMiner.Data {
     public interface IClientSet : IEnumerable<ClientData> {
         void Add(ClientData clientData);
 
+        void AddMiner(string minerIp);
+
         void UpdateClient(string objectId, string propertyName, object value);
 
         void UpdateClientProperties(string objectId, Dictionary<string, object> values);

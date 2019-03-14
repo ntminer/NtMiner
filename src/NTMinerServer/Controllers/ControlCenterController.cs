@@ -261,18 +261,7 @@ namespace NTMiner.Controllers {
                     if (clientData != null) {
                         continue;
                     }
-                    MinerData minerData = new MinerData {
-                        Id = ObjectId.NewObjectId().ToString(),
-                        ClientId = Guid.NewGuid(),
-                        CreatedOn = DateTime.Now,
-                        GroupId = Guid.Empty,
-                        MinerIp = clientIp,
-                        WindowsLoginName = string.Empty,
-                        WindowsPassword = String.Empty,
-                        WorkId = Guid.Empty
-                    };
-                    clientData = MinerData.CreateClientData(minerData);
-                    HostRoot.Current.ClientSet.Add(clientData);
+                    HostRoot.Current.ClientSet.AddMiner(clientIp);
                 }
                 return ResponseBase.Ok(request.MessageId);
             }

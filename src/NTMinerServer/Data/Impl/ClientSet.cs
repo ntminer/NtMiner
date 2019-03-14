@@ -105,6 +105,25 @@ namespace NTMiner.Data.Impl {
             }
         }
 
+        public void AddMiner(string minerIp) {
+            MinerData minerData = new MinerData {
+                Id = ObjectId.NewObjectId().ToString(),
+                ClientId = Guid.NewGuid(),
+                CreatedOn = DateTime.Now,
+                GroupId = Guid.Empty,
+                MinerIp = minerIp,
+                WindowsLoginName = string.Empty,
+                WindowsPassword = String.Empty,
+                WorkId = Guid.Empty
+            };
+            var clientData = MinerData.CreateClientData(minerData);
+            Add(clientData);
+            using (LiteDatabase db = HostRoot.CreateLocalDb()) {
+                var col = db.GetCollection<MinerData>();
+                col.Insert(minerData);
+            }
+        }
+
         public void Remove(string objectId) {
             ClientData clientData;
             if (_dicByObjectId.TryGetValue(objectId, out clientData)) {
