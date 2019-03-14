@@ -9,7 +9,10 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public DataResponse<AppSettingData> AppSetting([FromBody]AppSettingRequest request) {
             try {
-                IAppSetting data = HostRoot.Current.AppSettingSet[request.Key];
+                IAppSetting data;
+                if (!HostRoot.Current.AppSettingSet.TryGetAppSetting(request.Key, out data)) {
+                    data = null;
+                }
                 return DataResponse<AppSettingData>.Ok(request.MessageId, AppSettingData.Create(data));
             }
             catch (Exception e) {

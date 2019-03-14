@@ -61,13 +61,12 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public IAppSetting this[string key] {
-            get {
-                InitOnece();
-                AppSettingData data;
-                _dicByKey.TryGetValue(key, out data);
-                return data;
-            }
+        public bool TryGetAppSetting(string key, out IAppSetting appSetting) {
+            InitOnece();
+            AppSettingData data;
+            var result = _dicByKey.TryGetValue(key, out data);
+            appSetting = data;
+            return result;
         }
 
         public IEnumerator<IAppSetting> GetEnumerator() {

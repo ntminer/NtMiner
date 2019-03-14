@@ -19,7 +19,6 @@ namespace NTMiner.Vms {
             _testWallet = string.Empty,
             _sortNumber = 0,
             _justAsDualCoin = false,
-            _isCurrentCoin = false,
             _walletRegexPattern = string.Empty
         };
         public static readonly CoinViewModel PleaseSelect = new CoinViewModel(Guid.Empty) {
@@ -38,8 +37,6 @@ namespace NTMiner.Vms {
         private string _cnName;
         private string _walletRegexPattern;
         private bool _justAsDualCoin;
-
-        private bool _isCurrentCoin;
 
         public Guid GetId() {
             return this.Id;

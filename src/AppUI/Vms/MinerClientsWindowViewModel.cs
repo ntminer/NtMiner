@@ -75,7 +75,15 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
-            this._columnsShow = this.ColumnsShows.List.FirstOrDefault(a => a.Id == ColumnsShowData.PleaseSelectId);
+            Guid columnsShowId = ColumnsShowData.PleaseSelectId;
+            IAppSetting columnsShowAppSetting;
+            if (NTMinerRoot.Current.AppSettingSet.TryGetAppSetting("ColumnsShowId", out columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
+                Guid guid;
+                if (Guid.TryParse(columnsShowAppSetting.Value.ToString(), out guid)) {
+                    columnsShowId = guid;
+                }
+            }
+            this._columnsShow = this.ColumnsShows.List.FirstOrDefault(a => a.Id == columnsShowId);
             if (this._columnsShow == null) {
                 this._columnsShow = this.ColumnsShows.List.FirstOrDefault();
             }
@@ -347,8 +355,14 @@ namespace NTMiner.Vms {
                 return _columnsShow;
             }
             set {
-                _columnsShow = value;
-                OnPropertyChanged(nameof(ColumnsShow));
+                if (_columnsShow != value && value != null) {
+                    _columnsShow = value;
+                    OnPropertyChanged(nameof(ColumnsShow));
+                    VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
+                        Key = "ColumnsShowId",
+                        Value = value.Id
+                    }));
+                }
             }
         }
 

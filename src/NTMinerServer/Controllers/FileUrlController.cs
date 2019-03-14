@@ -81,8 +81,14 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public string NTMinerUpdaterUrl() {
             try {
-                IAppSetting ntminerUpdaterFileNameSetting = HostRoot.Current.AppSettingSet["ntminerUpdaterFileName"];
-                string ntminerUpdaterFileName = ntminerUpdaterFileNameSetting == null ? "NTMinerUpdater.exe" : (string)ntminerUpdaterFileNameSetting.Value;
+                string ntminerUpdaterFileName;
+                IAppSetting ntminerUpdaterFileNameSetting;
+                if (!HostRoot.Current.AppSettingSet.TryGetAppSetting("ntminerUpdaterFileName", out ntminerUpdaterFileNameSetting)) {
+                    ntminerUpdaterFileName = "NTMinerUpdater.exe";
+                }
+                else {
+                    ntminerUpdaterFileName = (string)ntminerUpdaterFileNameSetting.Value;
+                }
                 var req = new GeneratePresignedUriRequest("ntminer", ntminerUpdaterFileName, SignHttpMethod.Get);
                 var uri = HostRoot.Current.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();

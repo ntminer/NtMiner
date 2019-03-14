@@ -2,6 +2,6 @@
 
 namespace NTMiner {
     public interface IAppSettingSet : IEnumerable<IAppSetting> {
-        IAppSetting this[string key] { get; }
+        bool TryGetAppSetting(string key, out IAppSetting appSetting);
     }
 }
