@@ -5,10 +5,6 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ReportController : ApiController, IReportController {
-        public DateTime GetTime() {
-            return DateTime.Now;
-        }
-
         [HttpPost]
         public void ReportSpeed([FromBody]SpeedData speedData) {
             try {

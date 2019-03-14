@@ -152,7 +152,7 @@ namespace NTMiner {
 
         #region Start
         public void Start() {
-            Server.ReportService.GetTimeAsync((remoteTime, e) => {
+            Server.AppSettingService.GetTimeAsync((remoteTime, e) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
                     Logger.OkDebugLine("时间同步");
                 }

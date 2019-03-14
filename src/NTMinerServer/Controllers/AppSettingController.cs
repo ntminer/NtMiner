@@ -6,6 +6,10 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class AppSettingController : ApiController, IAppSettingController {
+        public DateTime GetTime() {
+            return DateTime.Now;
+        }
+
         [HttpPost]
         public DataResponse<AppSettingData> AppSetting([FromBody]AppSettingRequest request) {
             try {

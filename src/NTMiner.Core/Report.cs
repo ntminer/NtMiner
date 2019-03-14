@@ -39,7 +39,7 @@ namespace NTMiner {
                 LogEnum.Console,
                 action: message => {
                     try {
-                        Server.ReportService.ReportStateAsync(ClientId.Id, isMining: false);
+                        Server.ReportService.ReportStateAsync(Server.MinerServerHost, ClientId.Id, isMining: false);
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
@@ -180,7 +180,7 @@ namespace NTMiner {
         private static void ReportSpeed() {
             try {
                 SpeedData data = CreateSpeedData();
-                Server.ReportService.ReportSpeedAsync(data);
+                Server.ReportService.ReportSpeedAsync(Server.MinerServerHost, data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

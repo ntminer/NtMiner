@@ -9,30 +9,15 @@ namespace NTMiner {
     public static partial class Server {
         public partial class ReportServiceFace {
             public static readonly ReportServiceFace Instance = new ReportServiceFace();
-            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IReportController>();
-            private readonly string baseUrl = $"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api/{s_controllerName}";
+            private static readonly string SControllerName = ControllerUtil.GetControllerName<IReportController>();
 
             private ReportServiceFace() { }
-            public void GetTimeAsync(Action<DateTime, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.GetAsync($"{baseUrl}/{nameof(IReportController.GetTime)}");
-                            DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
-                            callback?.Invoke(response, null);
-                        }
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(DateTime.Now, e);
-                    }
-                });
-            }
 
-            public void ReportSpeedAsync(SpeedData data) {
+            public void ReportSpeedAsync(string host, SpeedData data) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportController.ReportSpeed)}", data);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:{WebApiConst.MinerServerPort}/api/{SControllerName}/{nameof(IReportController.ReportSpeed)}", data);
                             Write.DevLine("ReportSpeedAsync " + message.Result.ReasonPhrase);
                         }
                     }
@@ -42,7 +27,7 @@ namespace NTMiner {
                 });
             }
 
-            public void ReportStateAsync(Guid clientId, bool isMining) {
+            public void ReportStateAsync(string host, Guid clientId, bool isMining) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
@@ -50,7 +35,7 @@ namespace NTMiner {
                                 ClientId = clientId,
                                 IsMining = isMining
                             };
-                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{baseUrl}/{nameof(IReportController.ReportState)}", request);
+                            Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{host}:{WebApiConst.MinerServerPort}/api/{SControllerName}/{nameof(IReportController.ReportState)}", request);
                             Write.DevLine("ReportStateAsync " + message.Result.ReasonPhrase);
                         }
                     }
