@@ -34,6 +34,28 @@
 				<Border Width="19" Height="19" Background="Red" ToolTip="未挖矿" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}"></Border>
 				<controls:KbButton
 					Margin="20 0 0 0"
+					Command="{Binding Refresh}" 
+					Padding="4 0"
+					Height="19"
+					Background="{StaticResource ThemeBackground}"
+					Foreground="{StaticResource ThemeForeground}"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Refresh}"
+							Fill="{StaticResource ThemeForeground}"
+							Stretch="Fill" />
+						<TextBlock
+							Margin="2 0 0 0"
+							VerticalAlignment="Center"
+							Foreground="{StaticResource ThemeForeground}"
+							Text="刷新" />
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton
+					Margin="4 0 0 0"
 					Command="{Binding StartMine}" 
 					Padding="4 0"
 					Height="19"

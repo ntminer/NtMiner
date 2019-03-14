@@ -1,5 +1,4 @@
-﻿using LiteDB;
-using NTMiner.MinerServer;
+﻿using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 
@@ -12,6 +11,8 @@ namespace NTMiner.Data {
         void UpdateClientProperties(string objectId, Dictionary<string, object> values);
 
         void Remove(string objectId);
+
+        List<ClientData> RefreshClients(List<string> objectId);
 
         List<ClientData> QueryClients(
             int pageIndex,

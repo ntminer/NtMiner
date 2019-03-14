@@ -161,6 +161,17 @@ namespace NTMiner {
             }
             #endregion
 
+            #region RefreshClientsAsync
+            public void RefreshClientsAsync(List<string> objectIds, Action<DataResponse<List<ClientData>>, Exception> callback) {
+                RemoveClientsRequest request = new RemoveClientsRequest() {
+                    LoginName = SingleUser.LoginName,
+                    ObjectIds = objectIds
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.RefreshClients), request, callback);
+            }
+            #endregion
+
             #region UpdateClientAsync
             public void UpdateClientAsync(string objectId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 UpdateClientRequest request = new UpdateClientRequest {

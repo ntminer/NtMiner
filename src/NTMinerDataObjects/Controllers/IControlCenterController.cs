@@ -18,6 +18,7 @@ namespace NTMiner.Controllers {
         ResponseBase AddClients(AddClientRequest request);
         ResponseBase RemoveClients(RemoveClientsRequest request);
         ResponseBase UpdateClient(UpdateClientRequest request);
+        DataResponse<List<ClientData>> RefreshClients(RemoveClientsRequest request);
         ResponseBase UpdateClientProperties(UpdateClientPropertiesRequest request);
         DataResponse<List<MinerGroupData>> MinerGroups(SignatureRequest request);
         ResponseBase AddOrUpdateMinerGroup(DataRequest<MinerGroupData> request);

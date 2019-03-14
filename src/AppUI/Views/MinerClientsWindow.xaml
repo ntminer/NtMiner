@@ -335,6 +335,16 @@
             </DataGrid.Resources>
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="刷新" Command="{Binding Data.RefreshMinerClients,Source={StaticResource proxy}}">
+                        <MenuItem.Icon>
+                            <Path
+                                Width="16"
+                                Height="16"
+                                Data="{StaticResource Icon_Refresh}"
+                                Fill="{StaticResource IconFillColor}"
+                                Stretch="Fill" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="开始挖矿" Command="{Binding Data.StartMine,Source={StaticResource proxy}}">
                         <MenuItem.Icon>
                             <Path

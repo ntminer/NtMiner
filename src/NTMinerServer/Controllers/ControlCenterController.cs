@@ -329,6 +329,33 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region RefreshClients
+
+        public DataResponse<List<ClientData>> RefreshClients([FromBody]RemoveClientsRequest request) {
+            if (request == null || request.ObjectIds == null) {
+                return ResponseBase.InvalidInput<DataResponse<List<ClientData>>>(Guid.Empty, "参数错误");
+            }
+
+            try {
+                DataResponse<List<ClientData>> response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+
+                foreach (var objectId in request.ObjectIds) {
+                    HostRoot.Current.ClientSet.Remove(objectId);
+                }
+
+                var data = HostRoot.Current.ClientSet.RefreshClients(request.ObjectIds);
+                return DataResponse<List<ClientData>>.Ok(request.MessageId, data);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError<DataResponse<List<ClientData>>>(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
         #region UpdateClientProperties
         [HttpPost]
         public ResponseBase UpdateClientProperties([FromBody]UpdateClientPropertiesRequest request) {

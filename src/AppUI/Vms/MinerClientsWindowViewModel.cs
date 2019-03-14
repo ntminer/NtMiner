@@ -53,6 +53,7 @@ namespace NTMiner.Vms {
         public ICommand PageRefresh { get; private set; }
         public ICommand AddMinerClient { get; private set; }
         public ICommand RemoveMinerClients { get; private set; }
+        public ICommand RefreshMinerClients { get; private set; }
 
         #region ctor
         private MinerClientsWindowViewModel() {
@@ -117,6 +118,24 @@ namespace NTMiner.Vms {
                         });
                     }, icon: "Icon_Confirm");
                 }
+            });
+            this.RefreshMinerClients = new DelegateCommand(() => {
+                Server.ControlCenterService.RefreshClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
+                    if (!response.IsSuccess()) {
+                        if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
+                        }
+                    }
+                    else {
+                        foreach (var data in response.Data) {
+                            var item = MinerClients.FirstOrDefault(a => a.Id == data.Id);
+                            if (item != null) {
+                                item.Update(data);
+                            }
+                        }
+                    }
+                });
             });
             this.RestartWindows = new DelegateCommand(() => {
                 if (this.MinerClients == null) {

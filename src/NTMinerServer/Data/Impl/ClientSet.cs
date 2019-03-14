@@ -117,6 +117,19 @@ namespace NTMiner.Data.Impl {
             }
         }
 
+        public List<ClientData> RefreshClients(List<string> objectIds) {
+            List<ClientData> clientDatas = new List<ClientData>();
+            ClientData item;
+            foreach (var objectId in objectIds) {
+                if (_dicByObjectId.TryGetValue(objectId, out item)) {
+                    clientDatas.Add(item);
+                }
+            }
+            Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
+            Task.WaitAll(tasks, 5 * 1000);
+            return clientDatas;
+        }
+
         public List<ClientData> QueryClients(
             int pageIndex,
             int pageSize,

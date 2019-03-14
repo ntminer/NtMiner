@@ -36,6 +36,7 @@ namespace NTMiner.Vms {
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
         public ICommand Remove { get; private set; }
+        public ICommand Refresh { get; private set; }
 
         private readonly ClientData _data;
         #region ctor
@@ -63,6 +64,22 @@ namespace NTMiner.Vms {
                         }
                     });
                 }, icon: "Icon_Confirm");
+            });
+            this.Refresh = new DelegateCommand(() => {
+                Server.ControlCenterService.RefreshClientsAsync(new List<string> { this.Id }, (response, e) => {
+                    if (!response.IsSuccess()) {
+                        if (response != null) {
+                            Write.UserLine(response.Description, ConsoleColor.Red);
+                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
+                        }
+                    }
+                    else {
+                        var data = response.Data.FirstOrDefault(a => a.Id == this.Id);
+                        if (data != null) {
+                            this.Update(data);
+                        }
+                    }
+                });
             });
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
