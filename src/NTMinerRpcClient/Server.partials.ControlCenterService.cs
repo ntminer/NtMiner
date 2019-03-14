@@ -17,33 +17,17 @@ namespace NTMiner {
 
             #region ActiveControlCenterAdminAsync
             public void ActiveControlCenterAdminAsync(string password, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.ActiveControlCenterAdmin), password);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                PostAsync(SControllerName, nameof(IControlCenterController.ActiveControlCenterAdmin), password, callback);
             }
             #endregion
 
             #region LoginAsync
             public void LoginAsync(string loginName, string password, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        SignatureRequest request = new SignatureRequest() {
-                            LoginName = loginName
-                        };
-                        request.SignIt(password);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.LoginControlCenter), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                SignatureRequest request = new SignatureRequest() {
+                    LoginName = loginName
+                };
+                request.SignIt(password);
+                PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), request, callback);
             }
             #endregion
 
@@ -59,7 +43,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<UserData>> response = Request<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), request);
+                    DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -71,58 +55,34 @@ namespace NTMiner {
 
             #region AddUserAsync
             public void AddUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<UserData> request = new DataRequest<UserData>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = userData
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.AddUser), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<UserData> request = new DataRequest<UserData>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = userData
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddUser), request, callback);
             }
             #endregion
 
             #region UpdateUserAsync
             public void UpdateUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<UserData> request = new DataRequest<UserData>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = userData
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.UpdateUser), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<UserData> request = new DataRequest<UserData>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = userData
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateUser), request, callback);
             }
             #endregion
 
             #region RemoveUserAsync
             public void RemoveUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<String> request = new DataRequest<String>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = loginName
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.RemoveUser), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<String> request = new DataRequest<String>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = loginName
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveUser), request, callback);
             }
             #endregion
 
@@ -131,20 +91,12 @@ namespace NTMiner {
                 int limit,
                 List<string> coinCodes,
                 Action<GetCoinSnapshotsResponse, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
-                            LoginName = SingleUser.LoginName,
-                            Limit = limit
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        GetCoinSnapshotsResponse response = Request<GetCoinSnapshotsResponse>(SControllerName, nameof(IControlCenterController.LatestSnapshots), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
+                    LoginName = SingleUser.LoginName,
+                    Limit = limit
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.LatestSnapshots), request, callback);
             }
             #endregion
 
@@ -165,112 +117,72 @@ namespace NTMiner {
                 string version,
                 string kernel,
                 Action<QueryClientsResponse, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        var request = new QueryClientsRequest {
-                            LoginName = SingleUser.LoginName,
-                            PageIndex = pageIndex,
-                            PageSize = pageSize,
-                            GroupId = groupId,
-                            WorkId = workId,
-                            MinerIp = minerIp,
-                            MinerName = minerName,
-                            MineState = mineState,
-                            MainCoin = mainCoin,
-                            MainCoinPool = mainCoinPool,
-                            DualCoin = dualCoin,
-                            DualCoinPool = dualCoinPool,
-                            Wallet = wallet,
-                            Version = version,
-                            Kernel = kernel
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        QueryClientsResponse response = Request<QueryClientsResponse>(SControllerName, nameof(IControlCenterController.QueryClients), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                var request = new QueryClientsRequest {
+                    LoginName = SingleUser.LoginName,
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    GroupId = groupId,
+                    WorkId = workId,
+                    MinerIp = minerIp,
+                    MinerName = minerName,
+                    MineState = mineState,
+                    MainCoin = mainCoin,
+                    MainCoinPool = mainCoinPool,
+                    DualCoin = dualCoin,
+                    DualCoinPool = dualCoinPool,
+                    Wallet = wallet,
+                    Version = version,
+                    Kernel = kernel
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.QueryClients), request, callback);
             }
             #endregion
 
             #region AddClientsAsync
             public void AddClientsAsync(List<string> clientIps, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        AddClientRequest request = new AddClientRequest() {
-                            LoginName = SingleUser.LoginName,
-                            ClientIps = clientIps
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.AddClients), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                AddClientRequest request = new AddClientRequest() {
+                    LoginName = SingleUser.LoginName,
+                    ClientIps = clientIps
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddClients), request, callback);
             }
             #endregion
 
             #region RemoveClientsAsync
             public void RemoveClientsAsync(List<string> objectIds, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        RemoveClientsRequest request = new RemoveClientsRequest() {
-                            LoginName = SingleUser.LoginName,
-                            ObjectIds = objectIds
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.RemoveClients), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                RemoveClientsRequest request = new RemoveClientsRequest() {
+                    LoginName = SingleUser.LoginName,
+                    ObjectIds = objectIds
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveClients), request, callback);
             }
             #endregion
 
             #region UpdateClientAsync
             public void UpdateClientAsync(string objectId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        UpdateClientRequest request = new UpdateClientRequest {
-                            LoginName = SingleUser.LoginName,
-                            ObjectId = objectId,
-                            PropertyName = propertyName,
-                            Value = value
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.UpdateClient), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                UpdateClientRequest request = new UpdateClientRequest {
+                    LoginName = SingleUser.LoginName,
+                    ObjectId = objectId,
+                    PropertyName = propertyName,
+                    Value = value
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClient), request, callback);
             }
             #endregion
 
             #region UpdateClientPropertiesAsync
             public void UpdateClientPropertiesAsync(string objectId, Dictionary<string, object> values, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        UpdateClientPropertiesRequest request = new UpdateClientPropertiesRequest {
-                            LoginName = SingleUser.LoginName,
-                            ObjectId = objectId,
-                            Values = values
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.UpdateClientProperties), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                UpdateClientPropertiesRequest request = new UpdateClientPropertiesRequest {
+                    LoginName = SingleUser.LoginName,
+                    ObjectId = objectId,
+                    Values = values
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClientProperties), request, callback);
             }
             #endregion
 
@@ -285,7 +197,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<MinerGroupData>> response = Request<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), request);
+                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -297,40 +209,24 @@ namespace NTMiner {
 
             #region AddOrUpdateMinerGroupAsync
             public void AddOrUpdateMinerGroupAsync(MinerGroupData entity, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        entity.ModifiedOn = DateTime.Now;
-                        DataRequest<MinerGroupData> request = new DataRequest<MinerGroupData> {
-                            LoginName = SingleUser.LoginName,
-                            Data = entity
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdateMinerGroup), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                entity.ModifiedOn = DateTime.Now;
+                DataRequest<MinerGroupData> request = new DataRequest<MinerGroupData> {
+                    LoginName = SingleUser.LoginName,
+                    Data = entity
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateMinerGroup), request, callback);
             }
             #endregion
 
             #region RemoveMinerGroupAsync
             public void RemoveMinerGroupAsync(Guid id, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<Guid> request = new DataRequest<Guid>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = id
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.RemoveMinerGroup), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<Guid> request = new DataRequest<Guid>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = id
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMinerGroup), request, callback);
             }
             #endregion
 
@@ -356,27 +252,19 @@ namespace NTMiner {
                     Data = entity
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdateMineWork), request);
+                ResponseBase response = Post<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdateMineWork), request);
                 return response;
             }
             #endregion
 
             #region RemoveMineWorkAsync
             public void RemoveMineWorkAsync(Guid id, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<Guid> request = new DataRequest<Guid> {
-                            LoginName = SingleUser.LoginName,
-                            Data = id
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.RemoveMineWork), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<Guid> request = new DataRequest<Guid> {
+                    LoginName = SingleUser.LoginName,
+                    Data = id
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveMineWork), request, callback);
             }
             #endregion
 
@@ -391,7 +279,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<MineWorkData>> response = Request<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), request);
+                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -406,22 +294,14 @@ namespace NTMiner {
 
             #region ExportMineWorkAsync
             public void ExportMineWorkAsync(Guid workId, string localJson, string serverJson, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        ExportMineWorkRequest request = new ExportMineWorkRequest {
-                            LoginName = SingleUser.LoginName,
-                            MineWorkId = workId,
-                            LocalJson = localJson,
-                            ServerJson = serverJson
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.ExportMineWork), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                ExportMineWorkRequest request = new ExportMineWorkRequest {
+                    LoginName = SingleUser.LoginName,
+                    MineWorkId = workId,
+                    LocalJson = localJson,
+                    ServerJson = serverJson
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.ExportMineWork), request, callback);
             }
             #endregion
 
@@ -438,7 +318,7 @@ namespace NTMiner {
                         Data = workId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<MinerProfileData> response = Request<DataResponse<MinerProfileData>>(SControllerName, nameof(IControlCenterController.MinerProfile), request);
+                    DataResponse<MinerProfileData> response = Post<DataResponse<MinerProfileData>>(SControllerName, nameof(IControlCenterController.MinerProfile), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -453,21 +333,13 @@ namespace NTMiner {
 
             #region SetMinerProfileAsync
             public void SetMinerProfileAsync(Guid workId, MinerProfileData data, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        SetWorkProfileRequest<MinerProfileData> request = new SetWorkProfileRequest<MinerProfileData>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = data,
-                            WorkId = workId
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.SetMinerProfile), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                SetWorkProfileRequest<MinerProfileData> request = new SetWorkProfileRequest<MinerProfileData>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = data,
+                    WorkId = workId
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.SetMinerProfile), request, callback);
             }
             #endregion
 
@@ -486,7 +358,7 @@ namespace NTMiner {
                         DataId = coinId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<CoinProfileData> response = Request<DataResponse<CoinProfileData>>(SControllerName, nameof(IControlCenterController.CoinProfile), request);
+                    DataResponse<CoinProfileData> response = Post<DataResponse<CoinProfileData>>(SControllerName, nameof(IControlCenterController.CoinProfile), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -501,21 +373,13 @@ namespace NTMiner {
 
             #region SetCoinProfileAsync
             public void SetCoinProfileAsync(Guid workId, CoinProfileData data, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        SetWorkProfileRequest<CoinProfileData> request = new SetWorkProfileRequest<CoinProfileData>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = data,
-                            WorkId = workId
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.SetCoinProfile), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                SetWorkProfileRequest<CoinProfileData> request = new SetWorkProfileRequest<CoinProfileData>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = data,
+                    WorkId = workId
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.SetCoinProfile), request, callback);
             }
             #endregion
 
@@ -534,7 +398,7 @@ namespace NTMiner {
                         DataId = poolId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<PoolProfileData> response = Request<DataResponse<PoolProfileData>>(SControllerName, nameof(IControlCenterController.PoolProfile), request);
+                    DataResponse<PoolProfileData> response = Post<DataResponse<PoolProfileData>>(SControllerName, nameof(IControlCenterController.PoolProfile), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -549,21 +413,13 @@ namespace NTMiner {
 
             #region SetPoolProfileAsync
             public void SetPoolProfileAsync(Guid workId, PoolProfileData data, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        SetWorkProfileRequest<PoolProfileData> request = new SetWorkProfileRequest<PoolProfileData>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = data,
-                            WorkId = workId
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.SetPoolProfile), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                SetWorkProfileRequest<PoolProfileData> request = new SetWorkProfileRequest<PoolProfileData>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = data,
+                    WorkId = workId
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.SetPoolProfile), request, callback);
             }
             #endregion
 
@@ -582,7 +438,7 @@ namespace NTMiner {
                         DataId = coinKernelId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<CoinKernelProfileData> response = Request<DataResponse<CoinKernelProfileData>>(SControllerName, nameof(IControlCenterController.CoinKernelProfile), request);
+                    DataResponse<CoinKernelProfileData> response = Post<DataResponse<CoinKernelProfileData>>(SControllerName, nameof(IControlCenterController.CoinKernelProfile), request);
                     if (response != null) {
                         return response.Data;
                     }
@@ -597,108 +453,68 @@ namespace NTMiner {
 
             #region SetCoinKernelProfileAsync
             public void SetCoinKernelProfileAsync(Guid workId, CoinKernelProfileData data, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        SetWorkProfileRequest<CoinKernelProfileData> request = new SetWorkProfileRequest<CoinKernelProfileData>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = data,
-                            WorkId = workId
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.SetCoinKernelProfile), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                SetWorkProfileRequest<CoinKernelProfileData> request = new SetWorkProfileRequest<CoinKernelProfileData>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = data,
+                    WorkId = workId
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.SetCoinKernelProfile), request, callback);
             }
             #endregion
 
             #region SetMinerProfilePropertyAsync
             public void SetMinerProfilePropertyAsync(Guid workId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest() {
-                            LoginName = SingleUser.LoginName,
-                            PropertyName = propertyName,
-                            Value = value,
-                            WorkId = workId
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.SetMinerProfileProperty), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                SetMinerProfilePropertyRequest request = new SetMinerProfilePropertyRequest() {
+                    LoginName = SingleUser.LoginName,
+                    PropertyName = propertyName,
+                    Value = value,
+                    WorkId = workId
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.SetMinerProfileProperty), request, callback);
             }
             #endregion
 
             #region SetCoinProfilePropertyAsync
             public void SetCoinProfilePropertyAsync(Guid workId, Guid coinId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        SetCoinProfilePropertyRequest request = new SetCoinProfilePropertyRequest {
-                            LoginName = SingleUser.LoginName,
-                            CoinId = coinId,
-                            WorkId = workId,
-                            PropertyName = propertyName,
-                            Value = value
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.SetCoinProfileProperty), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                SetCoinProfilePropertyRequest request = new SetCoinProfilePropertyRequest {
+                    LoginName = SingleUser.LoginName,
+                    CoinId = coinId,
+                    WorkId = workId,
+                    PropertyName = propertyName,
+                    Value = value
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.SetCoinProfileProperty), request, callback);
             }
             #endregion
 
             #region SetPoolProfilePropertyAsync
             public void SetPoolProfilePropertyAsync(Guid workId, Guid poolId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        SetPoolProfilePropertyRequest request = new SetPoolProfilePropertyRequest {
-                            LoginName = SingleUser.LoginName,
-                            PoolId = poolId,
-                            WorkId = workId,
-                            PropertyName = propertyName,
-                            Value = value
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.SetPoolProfileProperty), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                SetPoolProfilePropertyRequest request = new SetPoolProfilePropertyRequest {
+                    LoginName = SingleUser.LoginName,
+                    PoolId = poolId,
+                    WorkId = workId,
+                    PropertyName = propertyName,
+                    Value = value
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.SetPoolProfileProperty), request, callback);
             }
             #endregion
 
             #region SetCoinKernelProfilePropertyAsync
             public void SetCoinKernelProfilePropertyAsync(Guid workId, Guid coinKernelId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        SetCoinKernelProfilePropertyRequest request = new SetCoinKernelProfilePropertyRequest {
-                            LoginName = SingleUser.LoginName,
-                            CoinKernelId = coinKernelId,
-                            PropertyName = propertyName,
-                            Value = value,
-                            WorkId = workId
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.SetCoinKernelProfileProperty), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                SetCoinKernelProfilePropertyRequest request = new SetCoinKernelProfilePropertyRequest {
+                    LoginName = SingleUser.LoginName,
+                    CoinKernelId = coinKernelId,
+                    PropertyName = propertyName,
+                    Value = value,
+                    WorkId = workId
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.SetCoinKernelProfileProperty), request, callback);
             }
             #endregion
 
@@ -714,7 +530,7 @@ namespace NTMiner {
                         MessageId = Guid.NewGuid()
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<WalletData>> response = Request<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), request);
+                    DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -726,39 +542,23 @@ namespace NTMiner {
 
             #region AddOrUpdateWalletAsync
             public void AddOrUpdateWalletAsync(WalletData entity, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<WalletData> request = new DataRequest<WalletData>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = entity
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdateWallet), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<WalletData> request = new DataRequest<WalletData>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = entity
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateWallet), request, callback);
             }
             #endregion
 
             #region RemoveWalletAsync
             public void RemoveWalletAsync(Guid id, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<Guid> request = new DataRequest<Guid>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = id
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.RemoveWallet), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<Guid> request = new DataRequest<Guid>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = id
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveWallet), request, callback);
             }
             #endregion
 
@@ -774,7 +574,7 @@ namespace NTMiner {
                         MessageId = Guid.NewGuid()
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<PoolData>> response = Request<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), request);
+                    DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -786,39 +586,23 @@ namespace NTMiner {
 
             #region AddOrUpdatePoolAsync
             public void AddOrUpdatePoolAsync(PoolData entity, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<PoolData> request = new DataRequest<PoolData> {
-                            LoginName = SingleUser.LoginName,
-                            Data = entity
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdatePool), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<PoolData> request = new DataRequest<PoolData> {
+                    LoginName = SingleUser.LoginName,
+                    Data = entity
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdatePool), request, callback);
             }
             #endregion
 
             #region RemovePoolAsync
             public void RemovePoolAsync(Guid id, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<Guid> request = new DataRequest<Guid>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = id
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.RemovePool), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<Guid> request = new DataRequest<Guid>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = id
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemovePool), request, callback);
             }
             #endregion
 
@@ -832,7 +616,7 @@ namespace NTMiner {
                     CalcConfigsRequest request = new CalcConfigsRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    DataResponse<List<CalcConfigData>> response = Request<DataResponse<List<CalcConfigData>>>(SControllerName, nameof(IControlCenterController.CalcConfigs), request);
+                    DataResponse<List<CalcConfigData>> response = Post<DataResponse<List<CalcConfigData>>>(SControllerName, nameof(IControlCenterController.CalcConfigs), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -844,23 +628,15 @@ namespace NTMiner {
 
             #region SaveCalcConfigsAsync
             public void SaveCalcConfigsAsync(List<CalcConfigData> configs, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        if (configs == null || configs.Count == 0) {
-                            return;
-                        }
-                        SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
-                            Data = configs,
-                            LoginName = SingleUser.LoginName
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.SaveCalcConfigs), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                if (configs == null || configs.Count == 0) {
+                    return;
+                }
+                SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
+                    Data = configs,
+                    LoginName = SingleUser.LoginName
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.SaveCalcConfigs), request, callback);
             }
             #endregion
 
@@ -875,7 +651,7 @@ namespace NTMiner {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
-                    DataResponse<List<ColumnsShowData>> response = Request<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), request);
+                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -887,39 +663,23 @@ namespace NTMiner {
 
             #region AddOrUpdateColumnsShowAsync
             public void AddOrUpdateColumnsShowAsync(ColumnsShowData entity, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<ColumnsShowData> request = new DataRequest<ColumnsShowData>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = entity
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.AddOrUpdateColumnsShow), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<ColumnsShowData> request = new DataRequest<ColumnsShowData>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = entity
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.AddOrUpdateColumnsShow), request, callback);
             }
             #endregion
 
             #region RemoveColumnsShowAsync
             public void RemoveColumnsShowAsync(Guid id, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        DataRequest<Guid> request = new DataRequest<Guid>() {
-                            LoginName = SingleUser.LoginName,
-                            Data = id
-                        };
-                        request.SignIt(SingleUser.PasswordSha1);
-                        ResponseBase response = Request<ResponseBase>(SControllerName, nameof(IControlCenterController.RemoveColumnsShow), request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                DataRequest<Guid> request = new DataRequest<Guid>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = id
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IControlCenterController.RemoveColumnsShow), request, callback);
             }
             #endregion
         }

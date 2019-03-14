@@ -23,7 +23,7 @@ namespace NTMiner {
                     OverClockDatasRequest request = new OverClockDatasRequest {
                         MessageId = Guid.NewGuid()
                     };
-                    DataResponse<List<OverClockData>> response = Request<DataResponse<List<OverClockData>>>(s_controllerName, nameof(IOverClockDataController.OverClockDatas), request);
+                    DataResponse<List<OverClockData>> response = Post<DataResponse<List<OverClockData>>>(s_controllerName, nameof(IOverClockDataController.OverClockDatas), request);
                     return response;
                 }
                 catch (Exception e) {
@@ -35,27 +35,23 @@ namespace NTMiner {
 
             #region AddOrUpdateOverClockDataAsync
             public void AddOrUpdateOverClockDataAsync(OverClockData entity, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    DataRequest<OverClockData> request = new DataRequest<OverClockData>() {
-                        LoginName = SingleUser.LoginName,
-                        Data = entity
-                    };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync(s_controllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request, callback);
-                });
+                DataRequest<OverClockData> request = new DataRequest<OverClockData>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = entity
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(s_controllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request, callback);
             }
             #endregion
 
             #region RemoveOverClockDataAsync
             public void RemoveOverClockDataAsync(Guid id, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    DataRequest<Guid> request = new DataRequest<Guid>() {
-                        LoginName = SingleUser.LoginName,
-                        Data = id
-                    };
-                    request.SignIt(SingleUser.PasswordSha1);
-                    RequestAsync(s_controllerName, nameof(IOverClockDataController.RemoveOverClockData), request, callback);
-                });
+                DataRequest<Guid> request = new DataRequest<Guid>() {
+                    LoginName = SingleUser.LoginName,
+                    Data = id
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(s_controllerName, nameof(IOverClockDataController.RemoveOverClockData), request, callback);
             }
             #endregion
         }
