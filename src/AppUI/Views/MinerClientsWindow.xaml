@@ -424,106 +424,12 @@
             </DataGrid.RowHeaderStyle>
             <DataGrid.Columns>
                 <!--操作-->
-                <DataGridTemplateColumn Width="82" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <StackPanel>
-                            <WrapPanel>
-                                <TextBlock ToolTip="在行上右键">操作</TextBlock>
-                            </WrapPanel>
-                        </StackPanel>
-                    </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn Width="18" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <Button 
-                                    Command="{Binding StartMine}" 
-                                    Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-                                    <Button.Template>
-                                        <ControlTemplate>
-                                            <Border
-                                                x:Name="Content"
-                                                Padding="4 2"
-                                                Height="20"
-                                                Background="Red"
-                                                BorderThickness="0">
-                                                <WrapPanel>
-                                                    <Path
-                                                        Width="14"
-                                                        Height="14"
-                                                        Data="{StaticResource Icon_Mining1}"
-                                                        Fill="White"
-                                                        Stretch="Fill">
-                                                    </Path>
-                                                    <Label
-                                                        x:Name="Text"
-                                                        Padding="2 0 0 0"
-                                                        VerticalAlignment="Center"
-                                                        Foreground="White"
-                                                        Content="未在挖矿" />
-                                                </WrapPanel>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="Content" Property="Background" Value="Green"></Setter>
-                                                    <Setter TargetName="Content" Property="BorderBrush" Value="Green"></Setter>
-                                                    <Setter TargetName="Text" Property="Content" Value="开始挖矿"></Setter>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-                                <Button
-                                    Command="{Binding StopMine}" 
-                                    Visibility="{Binding IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <Button.Template>
-                                        <ControlTemplate>
-                                            <Border 
-                                                x:Name="Content"
-                                                Padding="4 2"
-                                                Height="20"
-                                                Background="Green"
-                                                BorderThickness="0">
-                                                <WrapPanel>
-                                                    <Path
-                                                        Width="14"
-                                                        Height="14"
-                                                        Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                        Data="{StaticResource Icon_Mining2}"
-                                                        Fill="White"
-                                                        Stretch="Fill">
-                                                        <Path.RenderTransform>
-                                                            <RotateTransform Angle="-20" CenterX="7" CenterY="7"></RotateTransform>
-                                                        </Path.RenderTransform>
-                                                    </Path>
-                                                    <Path
-                                                        Width="14"
-                                                        Height="14"
-                                                        Visibility="{Binding IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-                                                        Data="{StaticResource Icon_Mining1}"
-                                                        Fill="White"
-                                                        Stretch="Fill">
-                                                        <Path.RenderTransform>
-                                                            <RotateTransform Angle="20" CenterX="7" CenterY="7"></RotateTransform>
-                                                        </Path.RenderTransform>
-                                                    </Path>
-                                                    <Label
-                                                        x:Name="Text"
-                                                        Padding="2 0 0 0"
-                                                        VerticalAlignment="Center"
-                                                        Foreground="White"
-                                                        Content="正在挖矿" />
-                                                </WrapPanel>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="Content" Property="Background" Value="Red"></Setter>
-                                                    <Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
-                                                    <Setter TargetName="Text" Property="Content" Value="停止挖矿"></Setter>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
+                                <Border Width="10" Height="10" Background="Green" ToolTip="挖矿中，在行上右键操作矿机" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityConverter}}"></Border>
+                                <Border Width="10" Height="10" Background="Red" ToolTip="未挖矿，在行上右键操作矿机" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}"></Border>
                             </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

@@ -65,6 +65,14 @@ namespace NTMiner.Vms {
                 }, icon: "Icon_Confirm");
             });
             this.RemoteDesktop = new DelegateCommand(() => {
+                if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
+                    MinerClientsWindowViewModel.Current.Manager.CreateMessage()
+                        .Error("没有填写远程桌面用户名密码")
+                        .Dismiss()
+                        .WithDelay(TimeSpan.FromSeconds(4))
+                        .Queue();
+                    return;
+                }
                 AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
                     MinerClientsWindowViewModel.Current.Manager.CreateMessage()
                         .Error(message)
@@ -273,6 +281,7 @@ namespace NTMiner.Vms {
                 }
                 OnPropertyChanged(nameof(IsMining));
                 OnPropertyChanged(nameof(LastActivedOnText));
+                OnPropertyChanged(nameof(IsOnline));
             }
         }
 
@@ -325,11 +334,15 @@ namespace NTMiner.Vms {
 
         public string BootTimeSpanText {
             get {
-                if (BootOn <= Timestamp.UnixBaseTime) {
+                if (BootOn <= Timestamp.UnixBaseTime || !IsOnline) {
                     return string.Empty;
                 }
                 return TimeSpanToString(DateTime.Now - BootOn);
             }
+        }
+
+        public bool IsOnline {
+            get { return this.ModifiedOn.AddSeconds(20) > DateTime.Now; }
         }
 
         public DateTime? MineStartedOn {
