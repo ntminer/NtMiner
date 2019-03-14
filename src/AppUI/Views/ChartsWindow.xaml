@@ -190,7 +190,6 @@
 		</WrapPanel>
 		<ScrollViewer 
 			Grid.Row="2" 
-			FocusVisualStyle="{x:Null}"
 			Background="White"
 			VerticalScrollBarVisibility="Auto"
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown"

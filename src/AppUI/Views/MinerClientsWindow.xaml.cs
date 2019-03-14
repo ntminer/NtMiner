@@ -9,17 +9,17 @@ using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class MinerClientsWindow : MetroWindow, IMainWindow {
-        private static MinerClientsWindow s_window = null;
+        private static MinerClientsWindow _sWindow = null;
         public static MinerClientsWindow ShowWindow() {
-            if (s_window == null) {
-                s_window = new MinerClientsWindow();
+            if (_sWindow == null) {
+                _sWindow = new MinerClientsWindow();
             }
-            s_window.Show();
-            if (s_window.WindowState == WindowState.Minimized) {
-                s_window.WindowState = WindowState.Normal;
+            _sWindow.Show();
+            if (_sWindow.WindowState == WindowState.Minimized) {
+                _sWindow.WindowState = WindowState.Normal;
             }
-            s_window.Activate();
-            return s_window;
+            _sWindow.Activate();
+            return _sWindow;
         }
 
         public MinerClientsWindowViewModel Vm {
@@ -59,7 +59,7 @@ namespace NTMiner.Views {
         }
 
         protected override void OnClosed(EventArgs e) {
-            s_window = null;
+            _sWindow = null;
             AppStatic.Managers.RemoveManager(Vm.Manager);
             base.OnClosed(e);
         }
@@ -78,6 +78,10 @@ namespace NTMiner.Views {
 
         private void MinerClientsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
             Vm.SelectedMinerClients = ((DataGrid)sender).SelectedItems.Cast<MinerClientViewModel>().ToArray();
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

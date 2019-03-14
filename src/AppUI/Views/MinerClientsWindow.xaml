@@ -2248,11 +2248,12 @@
                 </WrapPanel>
             </WrapPanel>
             <uc:MessageCenter Grid.Row="1" Grid.Column="1"></uc:MessageCenter>
-            <StackPanel 
+            <ScrollViewer 
                 Grid.Row="1" Grid.Column="0" 
+                PreviewMouseDown="ScrollViewer_PreviewMouseDown"
                 Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
                 <uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
-            </StackPanel>
+            </ScrollViewer>
         </Grid>
         <WrapPanel Grid.Row="3" Background="{StaticResource MinerProfileBackground}">
             <WrapPanel Margin="4 0 0 0">

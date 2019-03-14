@@ -27,7 +27,6 @@
 		</WrapPanel>
 		<ScrollViewer 
 		    Grid.Row="1" 
-		    FocusVisualStyle="{x:Null}"
 		    VerticalScrollBarVisibility="Auto" 
 		    PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 

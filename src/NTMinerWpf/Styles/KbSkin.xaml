@@ -66,4 +66,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="ScrollViewer">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
+    </Style>
 </ResourceDictionary>

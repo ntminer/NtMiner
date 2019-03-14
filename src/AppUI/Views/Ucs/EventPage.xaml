@@ -19,7 +19,6 @@
 	</UserControl.Resources>
 	<Grid>
 		<ScrollViewer 
-			FocusVisualStyle="{x:Null}"
 			VerticalScrollBarVisibility="Auto" 
 			HorizontalScrollBarVisibility="Auto" 
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">

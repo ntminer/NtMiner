@@ -190,7 +190,6 @@
 				</Grid.RowDefinitions>
 				<ScrollViewer 
 				    x:Name="CoinsScrollView" 
-				    FocusVisualStyle="{x:Null}"
 				    PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
 				    HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 					<ScrollViewer.Resources>
