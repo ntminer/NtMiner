@@ -54,6 +54,9 @@ namespace NTMiner.Core.Profiles {
                         var data = GetCoinKernelProfileData(workId, coinKernel.GetId());
                         if (data == null) {
                             data = CoinKernelProfileData.CreateDefaultData(coinKernel.GetId());
+                            if (VirtualRoot.IsControlCenter) {
+                                Server.ControlCenterService.SetCoinKernelProfileAsync(workId, data, callback: null);
+                            }
                         }
                         CoinKernelProfile coinProfile = new CoinKernelProfile(workId, data);
 

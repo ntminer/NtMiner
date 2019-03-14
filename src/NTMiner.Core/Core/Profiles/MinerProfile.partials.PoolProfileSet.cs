@@ -54,6 +54,7 @@ namespace NTMiner.Core.Profiles {
                         var data = GetPoolProfileData(root, workId, pool.GetId());
                         if (data == null) {
                             data = PoolProfileData.CreateDefaultData(pool.GetId());
+                            Server.ControlCenterService.SetPoolProfileAsync(workId, data, callback: null);
                         }
                         PoolProfile coinProfile = new PoolProfile(workId, data);
 
