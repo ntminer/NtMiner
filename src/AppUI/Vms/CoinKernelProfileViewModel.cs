@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
         public double DualCoinWeight {
             get => _dualCoinWeight;
             set {
-                if (_dualCoinWeight != value) {
+                if (Math.Abs(_dualCoinWeight - value) > 0.01) {
                     _dualCoinWeight = value;
                     OnPropertyChanged(nameof(DualCoinWeight));
                 }
@@ -81,9 +81,6 @@ namespace NTMiner.Vms {
 
         public CoinViewModel SelectedDualCoin {
             get {
-                if (this.DualCoinId == Guid.Empty) {
-                    return null;
-                }
                 CoinViewModel coin;
                 if (!CoinViewModels.Current.TryGetCoinVm(this.DualCoinId, out coin)) {
                     CoinKernelViewModel coinKernelVm;
