@@ -105,10 +105,6 @@ namespace NTMiner.Data.Impl {
             using (var database = CreateDatabase(workId)) {
                 var col = database.GetCollection<CoinProfileData>();
                 var data = col.FindById(coinId);
-                if (data == null) {
-                    data = CoinProfileData.CreateDefaultData(coinId);
-                    col.Insert(data);
-                }
                 return data;
             }
         }
@@ -149,10 +145,6 @@ namespace NTMiner.Data.Impl {
             using (var database = CreateDatabase(workId)) {
                 var col = database.GetCollection<PoolProfileData>();
                 var data = col.FindById(poolId);
-                if (data == null) {
-                    data = PoolProfileData.CreateDefaultData(poolId);
-                    col.Insert(data);
-                }
                 return data;
             }
         }
@@ -193,10 +185,6 @@ namespace NTMiner.Data.Impl {
             using (var database = CreateDatabase(workId)) {
                 var col = database.GetCollection<CoinKernelProfileData>();
                 var data = col.FindById(coinKernelId);
-                if (data == null) {
-                    data = CoinKernelProfileData.CreateDefaultData(coinKernelId);
-                    col.Insert(data);
-                }
                 return data;
             }
         }

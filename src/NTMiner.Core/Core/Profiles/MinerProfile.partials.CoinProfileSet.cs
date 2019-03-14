@@ -2,6 +2,7 @@
 using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace NTMiner.Core.Profiles {
@@ -51,7 +52,18 @@ namespace NTMiner.Core.Profiles {
                     if (root.CoinSet.TryGetCoin(coinId, out ICoin coin)) {
                         var data = GetCoinProfileData(workId, coin.GetId());
                         if (data == null) {
-                            data = CoinProfileData.CreateDefaultData(coin.GetId());
+                            Guid poolId = Guid.Empty;
+                            IPool pool = root.PoolSet.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId);
+                            if (pool != null) {
+                                poolId = pool.GetId();
+                            }
+                            string wallet = coin.TestWallet;
+                            Guid coinKernelId = Guid.Empty;
+                            ICoinKernel coinKernel = root.CoinKernelSet.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId);
+                            if (coinKernel != null) {
+                                coinKernelId = coinKernel.GetId();
+                            }
+                            data = CoinProfileData.CreateDefaultData(coinId, poolId, wallet, coinKernelId);
                             if (VirtualRoot.IsControlCenter) {
                                 Server.ControlCenterService.SetCoinProfileAsync(workId, data, callback: null);
                             }

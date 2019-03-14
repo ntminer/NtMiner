@@ -1,5 +1,6 @@
 ﻿using LiteDB;
 using System;
+using NTMiner.Core;
 
 namespace NTMiner.Profile {
     public class PoolProfileData : IPoolProfile, IDbEntity<Guid>, IGetSignData {
@@ -11,11 +12,11 @@ namespace NTMiner.Profile {
             this.Password = data.Password;
         }
 
-        public static PoolProfileData CreateDefaultData(Guid poolId) {
+        public static PoolProfileData CreateDefaultData(IPool pool) {
             return new PoolProfileData() {
-                PoolId = poolId,
-                UserName = string.Empty,
-                Password = string.Empty
+                PoolId = pool.GetId(),
+                UserName = pool.UserName,
+                Password = pool.Password
             };
         }
 

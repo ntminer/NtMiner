@@ -7,12 +7,12 @@ namespace NTMiner.Profile {
             this.IsOverClockGpuAll = true;
         }
 
-        public static CoinProfileData CreateDefaultData(Guid coinId) {
+        public static CoinProfileData CreateDefaultData(Guid coinId, Guid poolId, string wallet, Guid coinKernelId) {
             return new CoinProfileData() {
-                PoolId = Guid.Empty,
-                Wallet = string.Empty,
+                PoolId = poolId,
+                Wallet = wallet,
                 CoinId = coinId,
-                CoinKernelId = Guid.Empty,
+                CoinKernelId = coinKernelId,
                 IsHideWallet = false,
                 DualCoinPoolId = Guid.Empty,
                 DualCoinWallet = string.Empty,
