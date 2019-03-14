@@ -2,7 +2,7 @@
 using System;
 
 namespace NTMiner.Profile {
-    public class PoolProfileData : IPoolProfile, IDbEntity<Guid> {
+    public class PoolProfileData : IPoolProfile, IDbEntity<Guid>, IGetSignData {
         public PoolProfileData() { }
 
         public PoolProfileData(IPoolProfile data) {
@@ -32,6 +32,10 @@ namespace NTMiner.Profile {
 
         public override string ToString() {
             return $"{PoolId}{UserName}{Password}";
+        }
+
+        public string GetSignData() {
+            return this.ToString();
         }
     }
 }

@@ -30,8 +30,11 @@ namespace NTMiner.Controllers {
         DataResponse<MinerProfileData> MinerProfile(DataRequest<Guid> request);
         ResponseBase SetMinerProfile(SetWorkProfileRequest<MinerProfileData> request);
         DataResponse<CoinProfileData> CoinProfile(WorkProfileRequest request);
+        ResponseBase SetCoinProfile(SetWorkProfileRequest<CoinProfileData> request);
         DataResponse<PoolProfileData> PoolProfile(WorkProfileRequest request);
+        ResponseBase SetPoolProfile(SetWorkProfileRequest<PoolProfileData> request);
         DataResponse<CoinKernelProfileData> CoinKernelProfile(WorkProfileRequest request);
+        ResponseBase SetCoinKernelProfile(SetWorkProfileRequest<CoinKernelProfileData> request);
 
         ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request);
         ResponseBase SetCoinProfileProperty(SetCoinProfilePropertyRequest request);

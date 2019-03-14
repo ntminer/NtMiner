@@ -2,7 +2,7 @@
 using System;
 
 namespace NTMiner.Profile {
-    public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid> {
+    public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid>, IGetSignData {
         public CoinKernelProfileData() { }
 
         public CoinKernelProfileData(ICoinKernelProfile data) {
@@ -44,6 +44,10 @@ namespace NTMiner.Profile {
 
         public override string ToString() {
             return $"{CoinKernelId}{IsDualCoinEnabled}{DualCoinId}{DualCoinWeight}{IsAutoDualWeight}{CustomArgs}";
+        }
+
+        public string GetSignData() {
+            return this.ToString();
         }
     }
 }

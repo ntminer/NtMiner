@@ -2,7 +2,7 @@
 using System;
 
 namespace NTMiner.Profile {
-    public class CoinProfileData : ICoinProfile, IDbEntity<Guid> {
+    public class CoinProfileData : ICoinProfile, IDbEntity<Guid>, IGetSignData {
         public CoinProfileData() {
             this.IsOverClockGpuAll = true;
         }
@@ -56,6 +56,10 @@ namespace NTMiner.Profile {
 
         public override string ToString() {
             return $"{CoinId}{PoolId}{Wallet}{IsHideWallet}{CoinKernelId}{DualCoinPoolId}{DualCoinWallet}{IsDualCoinHideWallet}{IsOverClockEnabled}{IsOverClockGpuAll}";
+        }
+
+        public string GetSignData() {
+            return this.ToString();
         }
     }
 }

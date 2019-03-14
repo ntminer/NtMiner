@@ -521,6 +521,30 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region SetMinerProfile
+        [HttpPost]
+        public ResponseBase SetMinerProfile([FromBody]SetWorkProfileRequest<MinerProfileData> request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
+                    return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
+                }
+                HostRoot.Current.MineProfileManager.SetMinerProfile(request.WorkId, request.Data);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
         #region CoinProfile
         [HttpPost]
         public DataResponse<CoinProfileData> CoinProfile([FromBody]WorkProfileRequest request) {
@@ -538,6 +562,30 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError<DataResponse<CoinProfileData>>(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
+        #region SetCoinProfile
+        [HttpPost]
+        public ResponseBase SetCoinProfile([FromBody]SetWorkProfileRequest<CoinProfileData> request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
+                    return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
+                }
+                HostRoot.Current.MineProfileManager.SetCoinProfile(request.WorkId, request.Data);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
             }
         }
         #endregion
@@ -563,6 +611,30 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region SetPoolProfile
+        [HttpPost]
+        public ResponseBase SetPoolProfile([FromBody]SetWorkProfileRequest<PoolProfileData> request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
+                    return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
+                }
+                HostRoot.Current.MineProfileManager.SetPoolProfile(request.WorkId, request.Data);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
         #region CoinKernelProfile
         [HttpPost]
         public DataResponse<CoinKernelProfileData> CoinKernelProfile([FromBody]WorkProfileRequest request) {
@@ -584,6 +656,30 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region SetCoinKernelProfile
+        [HttpPost]
+        public ResponseBase SetCoinKernelProfile([FromBody]SetWorkProfileRequest<CoinKernelProfileData> request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
+                    return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
+                }
+                HostRoot.Current.MineProfileManager.SetCoinKernelProfile(request.WorkId, request.Data);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
         #region SetMinerProfileProperty
         [HttpPost]
         public ResponseBase SetMinerProfileProperty([FromBody]SetMinerProfilePropertyRequest request) {
@@ -599,30 +695,6 @@ namespace NTMiner.Controllers {
                     return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
                 }
                 HostRoot.Current.MineProfileManager.SetMinerProfileProperty(request.WorkId, request.PropertyName, request.Value);
-                return ResponseBase.Ok(request.MessageId);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
-            }
-        }
-        #endregion
-
-        #region SetMinerProfile
-        [HttpPost]
-        public ResponseBase SetMinerProfile([FromBody]SetWorkProfileRequest<MinerProfileData> request) {
-            if (request == null || request.Data == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
-            }
-            try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
-                if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
-                    return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
-                }
-                HostRoot.Current.MineProfileManager.SetMinerProfile(request.WorkId, request.Data);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {
