@@ -98,13 +98,13 @@ namespace NTMiner {
                 IPool mainCoinPool;
                 if (root.PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
                     data.MainCoinPool = mainCoinPool.Server;
+                    if (mainCoinPool.IsUserMode) {
+                        IPoolProfile mainCoinPoolProfile = root.MinerProfile.GetPoolProfile(coinProfile.PoolId);
+                        data.MainCoinWallet = mainCoinPoolProfile.UserName;
+                    }
                 }
                 else {
                     data.MainCoinPool = string.Empty;
-                }
-                if (mainCoinPool.IsUserMode) {
-                    IPoolProfile mainCoinPoolProfile = root.MinerProfile.GetPoolProfile(coinProfile.PoolId);
-                    data.MainCoinWallet = mainCoinPoolProfile.UserName;
                 }
                 ICoinKernel coinKernel;
                 if (root.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
@@ -122,13 +122,13 @@ namespace NTMiner {
                                 IPool dualCoinPool;
                                 if (root.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
                                     data.DualCoinPool = dualCoinPool.Server;
+                                    if (dualCoinPool.IsUserMode) {
+                                        IPoolProfile dualCoinPoolProfile = root.MinerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId);
+                                        data.DualCoinWallet = dualCoinPoolProfile.UserName;
+                                    }
                                 }
                                 else {
                                     data.DualCoinPool = string.Empty;
-                                }
-                                if (dualCoinPool.IsUserMode) {
-                                    IPoolProfile dualCoinPoolProfile = root.MinerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId);
-                                    data.DualCoinWallet = dualCoinPoolProfile.UserName;
                                 }
                             }
                         }

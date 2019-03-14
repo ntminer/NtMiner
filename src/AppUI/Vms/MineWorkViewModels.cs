@@ -1,12 +1,11 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class MineWorkViewModels : ViewModelBase, IEnumerable<MineWorkViewModel> {
+    public class MineWorkViewModels : ViewModelBase {
         public static readonly MineWorkViewModels Current = new MineWorkViewModels();
 
         private readonly Dictionary<Guid, MineWorkViewModel> _dicById = new Dictionary<Guid, MineWorkViewModel>();
@@ -88,17 +87,6 @@ namespace NTMiner.Vms {
 
         public bool TryGetMineWorkVm(Guid id, out MineWorkViewModel mineWorkVm) {
             return _dicById.TryGetValue(id, out mineWorkVm);
-        }
-
-        public IEnumerator<MineWorkViewModel> GetEnumerator() {
-            yield return MineWorkViewModel.FreeMineWork;
-            foreach (var item in _dicById.Values) {
-                yield return item;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return this.GetEnumerator();
         }
     }
 }

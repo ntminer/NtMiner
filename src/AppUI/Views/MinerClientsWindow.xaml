@@ -693,7 +693,7 @@
                 <!--Work-->
                 <DataGridComboBoxColumn 
                     Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
-                    ItemsSource="{Binding Data.MineWorkVms, Source={StaticResource proxy}}" 
+                    ItemsSource="{Binding Data.MineWorkVms.MineWorkItems, Source={StaticResource proxy}}" 
                     DisplayMemberPath="Name" 
                     SelectedItemBinding="{Binding SelectedMineWork, UpdateSourceTrigger=PropertyChanged}"
                     CanUserResize="True" 
