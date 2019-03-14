@@ -342,10 +342,6 @@ namespace NTMiner.Controllers {
                     return response;
                 }
 
-                foreach (var objectId in request.ObjectIds) {
-                    HostRoot.Current.ClientSet.Remove(objectId);
-                }
-
                 var data = HostRoot.Current.ClientSet.RefreshClients(request.ObjectIds);
                 return DataResponse<List<ClientData>>.Ok(request.MessageId, data);
             }

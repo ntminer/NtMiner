@@ -124,7 +124,7 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         if (response != null) {
                             Write.UserLine(response.Description, ConsoleColor.Red);
-                            MinerClientsWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
+                            Manager.ShowErrorMessage(response.Description);
                         }
                     }
                     else {
