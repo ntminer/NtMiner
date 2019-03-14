@@ -61,29 +61,29 @@ namespace NTMiner.Core.Profiles {
                     Server.ControlCenterService.SetMinerProfileAsync(_workId, _data, callback: null);
                 }
             }
-            if (_coinKernelProfileSet == null) {
-                _coinKernelProfileSet = new CoinKernelProfileSet(root, workId);
-            }
-            else {
-                _coinKernelProfileSet.Refresh(workId);
-            }
             if (_coinProfileSet == null) {
                 _coinProfileSet = new CoinProfileSet(root, workId);
             }
             else {
                 _coinProfileSet.Refresh(workId);
             }
-            if (_gpuProfileSet == null) {
-                _gpuProfileSet = new GpuProfileSet(root, workId);
+            if (_coinKernelProfileSet == null) {
+                _coinKernelProfileSet = new CoinKernelProfileSet(root, workId);
             }
             else {
-                _gpuProfileSet.Refresh(workId);
+                _coinKernelProfileSet.Refresh(workId);
             }
             if (_poolProfileSet == null) {
                 _poolProfileSet = new PoolProfileSet(root, workId);
             }
             else {
                 _poolProfileSet.Refresh(workId);
+            }
+            if (_gpuProfileSet == null) {
+                _gpuProfileSet = new GpuProfileSet(root, workId);
+            }
+            else {
+                _gpuProfileSet.Refresh(workId);
             }
             if (_walletSet == null) {
                 _walletSet = new WalletSet(root, workId);
