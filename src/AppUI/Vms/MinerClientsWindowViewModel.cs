@@ -106,7 +106,7 @@ namespace NTMiner.Vms {
                                 }
                             }
                             else {
-                                Manager.ShowSuccessMessage("操作成功，等待刷新");
+                                QueryMinerClients();
                             }
                         });
                     }, icon: "Icon_Confirm");

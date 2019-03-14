@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
                             }
                         }
                         else {
-                            MinerClientsWindowViewModel.Current.Manager.ShowSuccessMessage("操作成功，等待刷新");
+                            MinerClientsWindowViewModel.Current.QueryMinerClients();
                         }
                     });
                 }, icon: "Icon_Confirm");
