@@ -72,15 +72,16 @@
         <Setter Property="Foreground" Value="#FF5A5A5A" />
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="Margin" Value="4 0 0 0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridCell">
                     <Grid>
                         <TextBlock />
-                        <ContentPresenter
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center" />
+                        <Border Padding="4 0 0 0">
+                            <ContentPresenter
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center" />
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
