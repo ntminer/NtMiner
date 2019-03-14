@@ -608,6 +608,30 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region SetMinerProfile
+        [HttpPost]
+        public ResponseBase SetMinerProfile([FromBody]SetWorkProfileRequest<MinerProfileData> request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+            }
+            try {
+                ResponseBase response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
+                    return ResponseBase.InvalidInput(request.MessageId, "给定的workId不存在");
+                }
+                HostRoot.Current.MineProfileManager.SetMinerProfile(request.WorkId, request.Data);
+                return ResponseBase.Ok(request.MessageId);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(request.MessageId, e.Message);
+            }
+        }
+        #endregion
+
         #region SetCoinProfileProperty
         [HttpPost]
         public ResponseBase SetCoinProfileProperty([FromBody]SetCoinProfilePropertyRequest request) {

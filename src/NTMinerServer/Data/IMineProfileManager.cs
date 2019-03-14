@@ -4,6 +4,7 @@ using System;
 namespace NTMiner.Data {
     public interface IMineProfileManager {
         MinerProfileData GetMinerProfile(Guid workId);
+        void SetMinerProfile(Guid workId, MinerProfileData data);
         void SetMinerProfileProperty(Guid workId, string propertyName, object value);
 
         CoinProfileData GetCoinProfile(Guid workId, Guid coinId);

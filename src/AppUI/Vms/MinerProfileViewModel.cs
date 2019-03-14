@@ -254,7 +254,7 @@ namespace NTMiner.Vms {
                 return coinVm;
             }
             set {
-                if (value != null && !string.IsNullOrEmpty(value.Code)) {
+                if (value != null) {
                     this.CoinId = value.Id;
                     OnPropertyChanged(nameof(CoinVm));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());

@@ -13,7 +13,7 @@ namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile : IWorkProfile {
         private readonly INTMinerRoot _root;
 
-        private MinerProfileData _data;
+        private MinerProfileData _data = null;
         private Guid _workId;
         private CoinKernelProfileSet _coinKernelProfileSet;
         private CoinProfileSet _coinProfileSet;
@@ -37,6 +37,30 @@ namespace NTMiner.Core.Profiles {
         #region Init
         private void Init(INTMinerRoot root, Guid workId) {
             _workId = workId;
+            if (VirtualRoot.IsControlCenter) {
+                _data = Server.ControlCenterService.GetMinerProfile(_workId);
+            }
+            else {
+                bool isUseJson = _workId != Guid.Empty;
+                if (isUseJson) {
+                    _data = LocalJson.Instance.MinerProfile;
+                }
+                else {
+                    IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(false);
+                    _data = repository.GetAll().FirstOrDefault();
+                }
+            }
+            if (_data == null) {
+                Guid coinId = Guid.Empty;
+                ICoin coin = root.CoinSet.FirstOrDefault();
+                if (coin != null) {
+                    coinId = coin.GetId();
+                }
+                _data = MinerProfileData.CreateDefaultData(coinId);
+                if (VirtualRoot.IsControlCenter) {
+                    Server.ControlCenterService.SetMinerProfileAsync(_workId, _data, callback: null);
+                }
+            }
             if (_coinKernelProfileSet == null) {
                 _coinKernelProfileSet = new CoinKernelProfileSet(root, workId);
             }
@@ -88,23 +112,6 @@ namespace NTMiner.Core.Profiles {
                 else {
                     MineWork = new MineWorkData();
                 }
-            }
-            _data = null;
-            if (VirtualRoot.IsControlCenter) {
-                _data = Server.ControlCenterService.GetMinerProfile(_workId);
-            }
-            else {
-                bool isUseJson = _workId != Guid.Empty;
-                if (isUseJson) {
-                    _data = LocalJson.Instance.MinerProfile;
-                }
-                else {
-                    IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
-                    _data = repository.GetAll().FirstOrDefault();
-                }
-            }
-            if (_data == null) {
-                _data = MinerProfileData.CreateDefaultData();
             }
             // 同步数据层开机自动启动项到注册表
             NTMinerRegistry.SetIsAutoBoot(_data.IsAutoBoot);

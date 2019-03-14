@@ -103,6 +103,7 @@
     <Compile Include="MinerServer\ClientData.cs" />
     <Compile Include="MinerServer\ColumnsShowData.cs" />
     <Compile Include="MinerServer\IColumnsShow.cs" />
+    <Compile Include="Profile\SetWorkProfileRequest`1.cs" />
     <Compile Include="SignatureRequest.cs" />
     <Compile Include="MinerServer\IOverClockData.cs" />
     <Compile Include="Daemon\WorkRequest.cs" />

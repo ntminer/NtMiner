@@ -1,11 +1,11 @@
 ﻿using System;
 
 namespace NTMiner.Profile {
-    public class MinerProfileData : IMinerProfile, IDbEntity<Guid> {
-        public static MinerProfileData CreateDefaultData() {
+    public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, IGetSignData {
+        public static MinerProfileData CreateDefaultData(Guid coinId) {
             return new MinerProfileData {
                 Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
-                CoinId = Guid.Empty,
+                CoinId = coinId,
                 IsAutoBoot = false,
                 IsAutoStart = false,
                 IsAutoRestartKernel = true,
@@ -51,6 +51,10 @@ namespace NTMiner.Profile {
 
         public override string ToString() {
             return $"{Id}{IsAutoBoot}{IsAutoStart}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}";
+        }
+
+        public string GetSignData() {
+            return this.ToString();
         }
     }
 }

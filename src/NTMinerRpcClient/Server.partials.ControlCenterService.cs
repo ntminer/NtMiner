@@ -537,6 +537,27 @@ namespace NTMiner {
             }
             #endregion
 
+            #region SetMinerProfileAsync
+
+            public void SetMinerProfileAsync(Guid workId, MinerProfileData data, Action<ResponseBase, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        SetWorkProfileRequest<MinerProfileData> request = new SetWorkProfileRequest<MinerProfileData>() {
+                            LoginName = SingleUser.LoginName,
+                            Data = data,
+                            WorkId = workId
+                        };
+                        request.SignIt(SingleUser.PasswordSha1);
+                        ResponseBase response = Request<ResponseBase>(s_controllerName, nameof(IControlCenterController.SetMinerProfile), request);
+                        callback?.Invoke(response, null);
+                    }
+                    catch (Exception e) {
+                        callback?.Invoke(null, e);
+                    }
+                });
+            }
+            #endregion
+
             #region SetMinerProfilePropertyAsync
             public void SetMinerProfilePropertyAsync(Guid workId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {

@@ -70,11 +70,15 @@ namespace NTMiner.Data.Impl {
             using (var database = CreateDatabase(workId)) {
                 var col = database.GetCollection<MinerProfileData>();
                 var data = col.FindAll().FirstOrDefault();
-                if (data == null) {
-                    data = MinerProfileData.CreateDefaultData();
-                    col.Insert(data);
-                }
                 return data;
+            }
+        }
+
+        public void SetMinerProfile(Guid workId, MinerProfileData data) {
+            using (var database = CreateDatabase(workId)) {
+                var col = database.GetCollection<MinerProfileData>();
+                col.Delete(Query.All());
+                col.Insert(data);
             }
         }
 
@@ -88,7 +92,7 @@ namespace NTMiner.Data.Impl {
                 bool exist = true;
                 if (data == null) {
                     exist = false;
-                    data = MinerProfileData.CreateDefaultData();
+                    data = MinerProfileData.CreateDefaultData(Guid.Empty);
                 }
                 PropertyInfo propertyInfo = MinerProfileProperties[propertyName];
                 if (propertyInfo.PropertyType == typeof(Guid)) {
