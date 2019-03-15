@@ -34,9 +34,9 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-		    <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
@@ -244,20 +244,20 @@
 					<ColumnDefinition Width="Auto"></ColumnDefinition>
 				</Grid.ColumnDefinitions>
 				<ScrollViewer 
-				    Grid.Column="0"
-				    x:Name="CoinsScrollView" 
-				    PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
-				    HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+					Grid.Column="0"
+					x:Name="CoinsScrollView" 
+					PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
+					HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 					<ScrollViewer.Resources>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
 					</ScrollViewer.Resources>
 					<ListBox 
-					    Background="Transparent"
-					    ItemsSource="{Binding MineCoinVms.PleaseSelect}"
-					    SelectedItem="{Binding CoinVm}"
-					    MouseDown="ListBox_MouseDown"
-					    BorderThickness="0">
+						Background="Transparent"
+						ItemsSource="{Binding MineCoinVms.PleaseSelect}"
+						SelectedItem="{Binding CoinVm}"
+						MouseDown="ListBox_MouseDown"
+						BorderThickness="0">
 						<ListBox.ItemContainerStyle>
 							<Style TargetType="ListBoxItem">
 								<Setter Property="Template">
@@ -274,16 +274,16 @@
 												</Grid.RowDefinitions>
 												<Border Background="{TemplateBinding Background}">
 													<ContentPresenter 
-													    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-													    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-													    TextBlock.Foreground="{TemplateBinding Foreground}"/>
+														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+														VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+														TextBlock.Foreground="{TemplateBinding Foreground}"/>
 												</Border>
 												<Path 
-												    Grid.Row="1"
-												    Grid.Column="0"
-												    HorizontalAlignment="Center"
-												    Fill="{TemplateBinding Background}"
-												    Data="M 0,0 6,0 3,3 Z" />
+													Grid.Row="1"
+													Grid.Column="0"
+													HorizontalAlignment="Center"
+													Fill="{TemplateBinding Background}"
+													Data="M 0,0 6,0 3,3 Z" />
 												<Border Grid.Row="0" Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
 											</Grid>
 										</ControlTemplate>
@@ -318,17 +318,17 @@
 						<Button.Template>
 							<ControlTemplate>
 								<Border 
-								    x:Name="Content"
-								    Padding="4 4 6 4"
-								    BorderThickness="1"
-								    Background="Transparent">
+									x:Name="Content"
+									Padding="4 4 6 4"
+									BorderThickness="1"
+									Background="Transparent">
 									<Path
-									    x:Name="Icon"
-									    Width="8"
-									    Height="12"
-									    Data="{StaticResource Icon_LeftTriangle}"
-									    Fill="#676767"
-									    Stretch="Fill">
+										x:Name="Icon"
+										Width="8"
+										Height="12"
+										Data="{StaticResource Icon_LeftTriangle}"
+										Fill="#676767"
+										Stretch="Fill">
 									</Path>
 								</Border>
 								<ControlTemplate.Triggers>
@@ -348,17 +348,17 @@
 						<Button.Template>
 							<ControlTemplate>
 								<Border 
-								    x:Name="Content"
-								    Padding="6 4 4 4"
-								    BorderThickness="1"
-								    Background="Transparent">
+									x:Name="Content"
+									Padding="6 4 4 4"
+									BorderThickness="1"
+									Background="Transparent">
 									<Path
-									    x:Name="Icon"
-									    Width="8"
-									    Height="12"
-									    Data="{StaticResource Icon_RightTriangle}"
-									    Fill="#676767"
-									    Stretch="Fill">
+										x:Name="Icon"
+										Width="8"
+										Height="12"
+										Data="{StaticResource Icon_RightTriangle}"
+										Fill="#676767"
+										Stretch="Fill">
 									</Path>
 								</Border>
 								<ControlTemplate.Triggers>
@@ -377,152 +377,151 @@
 				</WrapPanel>
 				<WrapPanel Grid.Column="2">
 					<controls:KbButton
-					    Command="{Binding RefreshMinerClients}" 
-					    Padding="4 0"
-					    Height="19"
-					    CornerRadius="2">
+						Command="{Binding RefreshMinerClients}" 
+						Padding="4 0"
+						Height="19"
+						CornerRadius="2">
 						<WrapPanel>
 							<Path
-							    Width="12"
-							    Height="12"
-							    Data="{StaticResource Icon_Refresh}"
-							    Fill="{StaticResource IconFillColor}"
-							    Stretch="Fill" />
+								Width="12"
+								Height="12"
+								Data="{StaticResource Icon_Refresh}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
 							<TextBlock
-							    Margin="2 0 0 0"
-							    VerticalAlignment="Center"
-							    Text="刷新" />
+								Margin="2 0 0 0"
+								VerticalAlignment="Center"
+								Text="刷新" />
 						</WrapPanel>
 					</controls:KbButton>
 					<controls:KbButton
-					    Margin="4 0 0 0"
-					    Command="{Binding StartMine}" 
-					    Padding="4 0"
-					    Height="19"
-					    CornerRadius="2">
+						Margin="4 0 0 0"
+						Command="{Binding StartMine}" 
+						Padding="4 0"
+						Height="19"
+						CornerRadius="2">
 						<WrapPanel>
 							<Path
-							    Width="12"
-							    Height="12"
-							    Data="{StaticResource Icon_Start}"
-							    Fill="{StaticResource IconFillColor}"
-							    Stretch="Fill" />
+								Width="12"
+								Height="12"
+								Data="{StaticResource Icon_Start}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
 							<TextBlock
-							    Margin="2 0 0 0"
-							    VerticalAlignment="Center"
-							    Text="开始挖矿" />
+								Margin="2 0 0 0"
+								VerticalAlignment="Center"
+								Text="开始挖矿" />
 						</WrapPanel>
 					</controls:KbButton>
 					<controls:KbButton
-					    Margin="4 0 0 0"
-					    Command="{Binding StopMine}" 
-					    Padding="4 0"
-					    Height="19"
-					    CornerRadius="2">
+						Margin="4 0 0 0"
+						Command="{Binding StopMine}" 
+						Padding="4 0"
+						Height="19"
+						CornerRadius="2">
 						<WrapPanel>
 							<Path
-							    Width="12"
-							    Height="12"
-							    Data="{StaticResource Icon_Stop}"
-							    Fill="{StaticResource IconFillColor}"
-							    Stretch="Fill" />
+								Width="12"
+								Height="12"
+								Data="{StaticResource Icon_Stop}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
 							<TextBlock
-							    Margin="2 0 0 0"
-							    VerticalAlignment="Center"
-							    Text="停止挖矿" />
+								Margin="2 0 0 0"
+								VerticalAlignment="Center"
+								Text="停止挖矿" />
 						</WrapPanel>
 					</controls:KbButton>
 					<controls:KbButton
-					    Margin="4 0 0 0"
-					    Command="{Binding RestartNTMiner}" 
-					    Padding="4 0"
-					    Height="19"
-					    CornerRadius="2">
+						Margin="4 0 0 0"
+						Command="{Binding RestartNTMiner}" 
+						Padding="4 0"
+						Height="19"
+						CornerRadius="2">
 						<WrapPanel>
 							<Path
-							    Width="12"
-							    Height="12"
-							    Data="{StaticResource Icon_Restart}"
-							    Fill="{StaticResource IconFillColor}"
-							    Stretch="Fill" />
+								Width="12"
+								Height="12"
+								Data="{StaticResource Icon_Restart}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
 							<TextBlock
-							    Margin="2 0 0 0"
-							    VerticalAlignment="Center"
-							    Text="重启客户端" />
+								Margin="2 0 0 0"
+								VerticalAlignment="Center"
+								Text="重启客户端" />
 						</WrapPanel>
 					</controls:KbButton>
 					<controls:KbButton
-					    Margin="4 0 0 0"
-					    Command="{Binding RestartWindows}" 
-					    Padding="4 0"
-					    Height="19"
-					    CornerRadius="2">
+						Margin="4 0 0 0"
+						Command="{Binding RestartWindows}" 
+						Padding="4 0"
+						Height="19"
+						CornerRadius="2">
 						<WrapPanel>
 							<Path
-							    Width="12"
-							    Height="12"
-							    Data="{StaticResource Icon_Restart2}"
-							    Fill="{StaticResource IconFillColor}"
-							    Stretch="Fill" />
+								Width="12"
+								Height="12"
+								Data="{StaticResource Icon_Restart2}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
 							<TextBlock
-							    Margin="2 0 0 0"
-							    VerticalAlignment="Center"
-							    Text="重启电脑" />
+								Margin="2 0 0 0"
+								VerticalAlignment="Center"
+								Text="重启电脑" />
 						</WrapPanel>
 					</controls:KbButton>
 					<controls:KbButton
-					    Margin="4 0 0 0"
-					    Command="{Binding ShutdownWindows}" 
-					    Padding="4 0"
-					    Height="19"
-					    CornerRadius="2">
+						Margin="4 0 0 0"
+						Command="{Binding ShutdownWindows}" 
+						Padding="4 0"
+						Height="19"
+						CornerRadius="2">
 						<WrapPanel>
 							<Path
-							    Width="12"
-							    Height="12"
-							    Data="{StaticResource Icon_Shutdown}"
-							    Fill="{StaticResource IconFillColor}"
-							    Stretch="Fill" />
+								Width="12"
+								Height="12"
+								Data="{StaticResource Icon_Shutdown}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
 							<TextBlock
-							    Margin="2 0 0 0"
-							    VerticalAlignment="Center"
-							    Text="关闭电脑" />
+								Margin="2 0 0 0"
+								VerticalAlignment="Center"
+								Text="关闭电脑" />
 						</WrapPanel>
 					</controls:KbButton>
 					<controls:KbButton
-					    Margin="4 0 0 0"
-					    Command="{Binding RemoveMinerClients}" 
-					    Padding="4 0"
-					    Height="19"
-					    CornerRadius="2">
+						Margin="4 0 0 0"
+						Command="{Binding RemoveMinerClients}" 
+						Padding="4 0"
+						Height="19"
+						CornerRadius="2">
 						<WrapPanel>
 							<Path
-							    Width="12"
-							    Height="12"
-							    Data="{StaticResource Icon_Delete}"
-							    Fill="{StaticResource IconFillColor}"
-							    Stretch="Fill" />
+								Width="12"
+								Height="12"
+								Data="{StaticResource Icon_Delete}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
 							<TextBlock
-							    Margin="2 0 0 0"
-							    VerticalAlignment="Center"
-							    Text="删除矿工" />
+								Margin="2 0 0 0"
+								VerticalAlignment="Center"
+								Text="删除矿工" />
 						</WrapPanel>
 					</controls:KbButton>
 				</WrapPanel>
 			</Grid>
 			<DataGrid 
-			    Grid.Row="1"
-			    BorderThickness="0"
-			    IsReadOnly="False"
-			    SelectionMode="Extended"
-			    SelectionChanged="MinerClientsGrid_OnSelectionChanged"
-			    ColumnHeaderHeight="40"
-			    HeadersVisibility="All"
-			    RowHeaderWidth="10"
-			    FrozenColumnCount="{Binding FrozenColumnCount}"
-			    ItemsSource="{Binding MinerClients}"
-			    SelectedItem="{Binding CurrentMinerClient}"
-			    AutoGenerateColumns="False">
+				Grid.Row="1"
+				BorderThickness="0"
+				IsReadOnly="False"
+				SelectionMode="Extended"
+				SelectionChanged="MinerClientsGrid_OnSelectionChanged"
+				HeadersVisibility="All"
+				RowHeaderWidth="10"
+				FrozenColumnCount="{Binding FrozenColumnCount}"
+				ItemsSource="{Binding MinerClients}"
+				SelectedItem="{Binding CurrentMinerClient}"
+				AutoGenerateColumns="False">
 				<DataGrid.Resources>
 					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
@@ -531,81 +530,81 @@
 						<MenuItem Header="刷新" Command="{Binding Data.RefreshMinerClients,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
-								    Width="16"
-								    Height="16"
-								    Data="{StaticResource Icon_Refresh}"
-								    Fill="{StaticResource IconFillColor}"
-								    Stretch="Fill" />
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Refresh}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
 						<MenuItem Header="开始挖矿" Command="{Binding Data.StartMine,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
-								    Width="16"
-								    Height="16"
-								    Data="{StaticResource Icon_Start}"
-								    Fill="{StaticResource IconFillColor}"
-								    Stretch="Fill" />
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Start}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
 						<MenuItem Header="停止挖矿" Command="{Binding Data.StopMine,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
-								    Width="16"
-								    Height="16"
-								    Data="{StaticResource Icon_Stop}"
-								    Fill="{StaticResource IconFillColor}"
-								    Stretch="Fill" />
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Stop}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
 						<MenuItem Header="重启客户端" Command="{Binding Data.RestartNTMiner,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
-								    Width="16"
-								    Height="16"
-								    Data="{StaticResource Icon_Restart}"
-								    Fill="{StaticResource IconFillColor}"
-								    Stretch="Fill" />
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Restart}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
 						<MenuItem Header="重启电脑" Command="{Binding Data.RestartWindows,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
-								    Width="16"
-								    Height="16"
-								    Data="{StaticResource Icon_Restart2}"
-								    Fill="{StaticResource IconFillColor}"
-								    Stretch="Fill" />
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Restart2}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
 						<MenuItem Header="关闭电脑" Command="{Binding Data.ShutdownWindows,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
-								    Width="16"
-								    Height="16"
-								    Data="{StaticResource Icon_Shutdown}"
-								    Fill="{StaticResource IconFillColor}"
-								    Stretch="Fill" />
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Shutdown}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
 						<MenuItem Header="添加矿工" Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
-								    Width="16"
-								    Height="16"
-								    Data="{StaticResource Icon_Add}"
-								    Fill="{StaticResource IconFillColor}"
-								    Stretch="Fill" />
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
 						<MenuItem Header="删除矿工" Command="{Binding Data.RemoveMinerClients,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
-								    Width="16"
-								    Height="16"
-								    Data="{StaticResource Icon_Delete}"
-								    Fill="{StaticResource IconFillColor}"
-								    Stretch="Fill" />
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Delete}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
 					</ContextMenu>
@@ -624,34 +623,31 @@
 					</DataGridTemplateColumn>
 					<!--LastActivedOnText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<StackPanel>
 								<WrapPanel>
 									<TextBlock Text="最后更新"></TextBlock>
 									<controls:KbButton
-									    ToolTip="不展示"
-									    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-									    CommandParameter="LastActivedOnText"
-									    Background="Transparent">
+										ToolTip="不展示"
+										Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+										CommandParameter="LastActivedOnText"
+										Background="Transparent">
 										<WrapPanel>
 											<Path
-											    Width="14"
-											    Height="8"
-											    Data="{StaticResource Icon_Hide}"
-											    Fill="#FF5A5A5A"
-											    Stretch="Fill" />
+												Width="14"
+												Height="8"
+												Data="{StaticResource Icon_Hide}"
+												Fill="#FF5A5A5A"
+												Stretch="Fill" />
 										</WrapPanel>
-									</controls:KbButton>
-								</WrapPanel>
-								<WrapPanel>
-									<TextBlock Text="{Binding Data.CountDown,Source={StaticResource proxy}}"></TextBlock>
-									<TextBlock Text=" 秒后刷新"></TextBlock>
-								</WrapPanel>
+								    </controls:KbButton>
+								    <TextBlock Margin="4 0 0 0" Text="{Binding Data.CountDown,Source={StaticResource proxy}}"></TextBlock>
+                                </WrapPanel>
 							</StackPanel>
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
@@ -662,24 +658,24 @@
 					</DataGridTemplateColumn>
 					<!--BootTimeSpanText-->
 					<DataGridTextColumn 
-					    Binding="{Binding BootTimeSpanText}"
-					    Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						Binding="{Binding BootTimeSpanText}"
+						Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock>运行时长</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="BootTimeSpanText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="BootTimeSpanText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -687,24 +683,24 @@
 					</DataGridTextColumn>
 					<!--MineTimeSpanText-->
 					<DataGridTextColumn 
-					    Binding="{Binding MineTimeSpanText}"
-					    Visibility="{Binding Data.ColumnsShow.MineTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						Binding="{Binding MineTimeSpanText}"
+						Visibility="{Binding Data.ColumnsShow.MineTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock>挖矿时长</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MineTimeSpanText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MineTimeSpanText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -712,29 +708,29 @@
 					</DataGridTextColumn>
 					<!--Work-->
 					<DataGridComboBoxColumn 
-					    Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
-					    ItemsSource="{Binding Data.MineWorkVms.MineWorkItems, Source={StaticResource proxy}}" 
-					    DisplayMemberPath="Name" 
-					    SelectedItemBinding="{Binding SelectedMineWork, UpdateSourceTrigger=PropertyChanged}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="False">
+						Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
+						ItemsSource="{Binding Data.MineWorkVms.MineWorkItems, Source={StaticResource proxy}}" 
+						DisplayMemberPath="Name" 
+						SelectedItemBinding="{Binding SelectedMineWork, UpdateSourceTrigger=PropertyChanged}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="False">
 						<DataGridComboBoxColumn.Header>
 							<WrapPanel>
 								<TextBlock>作业</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="Work"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="Work"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -747,29 +743,29 @@
 					</DataGridComboBoxColumn>
 					<!--MinerGroup-->
 					<DataGridComboBoxColumn 
-					    Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}" 
-					    DisplayMemberPath="Name" 
-					    SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="False">
+						Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						ItemsSource="{Binding Data.MinerGroupVmItems, Source={StaticResource proxy}}" 
+						DisplayMemberPath="Name" 
+						SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="False">
 						<DataGridComboBoxColumn.Header>
 							<WrapPanel>
 								<TextBlock>分组</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MinerGroup"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MinerGroup"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -782,27 +778,27 @@
 					</DataGridComboBoxColumn>
 					<!--MinerName-->
 					<DataGridTextColumn 
-					    Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
-					    Binding="{Binding MinerName, UpdateSourceTrigger=LostFocus}" 
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="False">
+						Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+						Binding="{Binding MinerName, UpdateSourceTrigger=LostFocus}" 
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="False">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock>矿工名</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MinerName"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MinerName"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -822,26 +818,26 @@
 					</DataGridTextColumn>
 					<!--MinerIp-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>IP</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MinerIp"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MinerIp"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -850,51 +846,51 @@
 							<DataTemplate>
 								<WrapPanel>
 									<controls:KbButton
-									    BorderThickness="0"
-									    Background="Transparent"
-									    Command="{Binding RemoteDesktop}"
-									    CornerRadius="2">
+										BorderThickness="0"
+										Background="Transparent"
+										Command="{Binding RemoteDesktop}"
+										CornerRadius="2">
 										<Path
-										    Width="14"
-										    Height="14"
-										    Data="{StaticResource Icon_RemoteDesktop}"
-										    Fill="{StaticResource IconFillColor}"
-										    Stretch="Fill" />
+											Width="14"
+											Height="14"
+											Data="{StaticResource Icon_RemoteDesktop}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
 									</controls:KbButton>
 									<TextBox 
-									    ToolTip="双击打开远程桌面"
-									    PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
-									    Tag="{Binding}"
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
+										ToolTip="双击打开远程桌面"
+										PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
+										Tag="{Binding}"
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--WindowsLoginNameAndPassword-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="False">
+						Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="False">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>远程桌面用户名</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="WindowsLoginNameAndPassword"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="WindowsLoginNameAndPassword"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -912,26 +908,26 @@
 					</DataGridTemplateColumn>
 					<!--WindowsLoginNameAndPassword-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="False">
+						Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="False">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>远程桌面密码</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="WindowsLoginNameAndPassword"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="WindowsLoginNameAndPassword"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -949,26 +945,26 @@
 					</DataGridTemplateColumn>
 					<!--MainCoinCode-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.MainCoinCode, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.MainCoinCode, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>主挖币种</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MainCoinCode"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MainCoinCode"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -983,26 +979,26 @@
 					</DataGridTemplateColumn>
 					<!--MainCoinSpeedText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.MainCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.MainCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>主币算力</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MainCoinSpeedText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MainCoinSpeedText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1015,26 +1011,26 @@
 					</DataGridTemplateColumn>
 					<!--MainCoinRejectPercentText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>拒绝次数</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MainCoinRejectPercentText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MainCoinRejectPercentText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1051,26 +1047,26 @@
 					</DataGridTemplateColumn>
 					<!--MainCoinRejectPercentText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>拒绝率</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MainCoinRejectPercentText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MainCoinRejectPercentText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1083,26 +1079,26 @@
 					</DataGridTemplateColumn>
 					<!--DualCoinCode-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.DualCoinCode,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.DualCoinCode,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>双挖币种</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="DualCoinCode"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="DualCoinCode"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1111,36 +1107,36 @@
 							<DataTemplate>
 								<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 									<TextBox 
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    Text="{Binding DualCoinCode, Mode=OneWay}"></TextBox>
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding DualCoinCode, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--DualCoinSpeedText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.DualCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.DualCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>双挖算力</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="DualCoinSpeedText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="DualCoinSpeedText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1149,36 +1145,36 @@
 							<DataTemplate>
 								<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 									<TextBox 
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--DualCoinRejectPercentText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>拒绝次数</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="DualCoinRejectPercentText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="DualCoinRejectPercentText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1195,26 +1191,26 @@
 					</DataGridTemplateColumn>
 					<!--DualCoinRejectPercentText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>拒绝率</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="DualCoinRejectPercentText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="DualCoinRejectPercentText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1227,26 +1223,26 @@
 					</DataGridTemplateColumn>
 					<!--TotalPowerText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.TotalPowerText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.TotalPowerText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>功耗</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="TotalPowerText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="TotalPowerText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1259,26 +1255,26 @@
 					</DataGridTemplateColumn>
 					<!--MaxTempText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.MaxTempText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.MaxTempText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>最高卡温</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MaxTempText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MaxTempText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1291,26 +1287,26 @@
 					</DataGridTemplateColumn>
 					<!--IncomeMainCoinPerDayText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.IncomeMainCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.IncomeMainCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>主币预期收益</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="IncomeMainCoinPerDayText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IncomeMainCoinPerDayText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1320,24 +1316,24 @@
 								<WrapPanel>
 									<TextBlock Text="{Binding IncomeMainCoinPerDayText}"></TextBlock>
 									<TextBlock 
-									    Text="{Binding MainCoinCode}" 
-									    Margin="2 0 0 0"
-									    Padding="0"
-									    Foreground="{StaticResource LableColor}"></TextBlock>
+										Text="{Binding MainCoinCode}" 
+										Margin="2 0 0 0"
+										Padding="0"
+										Foreground="{StaticResource LableColor}"></TextBlock>
 									<TextBlock Text=", "></TextBlock>
 									<TextBlock Text="{Binding IncomeMainCoinUsdPerDayText}"></TextBlock>
 									<TextBlock 
-									    Text="$" 
-									    Margin="2 0 0 0"
-									    Padding="0"
-									    Foreground="{StaticResource LableColor}"></TextBlock>
+										Text="$" 
+										Margin="2 0 0 0"
+										Padding="0"
+										Foreground="{StaticResource LableColor}"></TextBlock>
 									<TextBlock Text=", "></TextBlock>
 									<TextBlock Text="{Binding IncomeMainCoinCnyPerDayText}"></TextBlock>
 									<TextBlock 
-									    Text="￥" 
-									    Margin="2 0 0 0"
-									    Padding="0"
-									    Foreground="{StaticResource LableColor}"></TextBlock>
+										Text="￥" 
+										Margin="2 0 0 0"
+										Padding="0"
+										Foreground="{StaticResource LableColor}"></TextBlock>
 									<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
 									<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
 								</WrapPanel>
@@ -1346,26 +1342,26 @@
 					</DataGridTemplateColumn>
 					<!--IncomeDualCoinPerDayText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.IncomeDualCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.IncomeDualCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>双挖币预期收益</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="IncomeDualCoinPerDayText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IncomeDualCoinPerDayText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1375,24 +1371,24 @@
 								<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 									<TextBlock Text="{Binding IncomeDualCoinPerDayText}"></TextBlock>
 									<TextBlock 
-									    Text="{Binding DualCoinCode}" 
-									    Margin="2 0 0 0"
-									    Padding="0"
-									    Foreground="{StaticResource LableColor}"></TextBlock>
+										Text="{Binding DualCoinCode}" 
+										Margin="2 0 0 0"
+										Padding="0"
+										Foreground="{StaticResource LableColor}"></TextBlock>
 									<TextBlock Text=", "></TextBlock>
 									<TextBlock Text="{Binding IncomeDualCoinUsdPerDayText}"></TextBlock>
 									<TextBlock 
-									    Text="USD" 
-									    Margin="2 0 0 0"
-									    Padding="0"
-									    Foreground="{StaticResource LableColor}"></TextBlock>
+										Text="USD" 
+										Margin="2 0 0 0"
+										Padding="0"
+										Foreground="{StaticResource LableColor}"></TextBlock>
 									<TextBlock Text=", "></TextBlock>
 									<TextBlock Text="{Binding IncomeDualCoinCnyPerDayText}"></TextBlock>
 									<TextBlock 
-									    Text="CNY" 
-									    Margin="2 0 0 0"
-									    Padding="0"
-									    Foreground="{StaticResource LableColor}"></TextBlock>
+										Text="CNY" 
+										Margin="2 0 0 0"
+										Padding="0"
+										Foreground="{StaticResource LableColor}"></TextBlock>
 									<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
 									<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
 								</WrapPanel>
@@ -1401,26 +1397,26 @@
 					</DataGridTemplateColumn>
 					<!--GpuTableTrs-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>显卡表格</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="GpuTableTrs"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="GpuTableTrs"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1429,12 +1425,12 @@
 							<DataTemplate>
 								<Grid>
 									<DataGrid 
-									    MinRowHeight="24"
-									    ColumnHeaderHeight="24"
-									    IsReadOnly="True"
-									    Background="Transparent"
-									    Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-									    ItemsSource="{Binding GpuTableTrs}">
+										MinRowHeight="24"
+										ColumnHeaderHeight="24"
+										IsReadOnly="True"
+										Background="Transparent"
+										Visibility="{Binding Data.ColumnsShow.GpuTableTrs,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+										ItemsSource="{Binding GpuTableTrs}">
 										<DataGrid.Resources>
 											<vm:BindingProxy x:Key="proxy2" Data="{Binding}" />
 											<Style TargetType="DataGridColumnHeader">
@@ -1476,11 +1472,11 @@
 										</DataGrid.Resources>
 										<DataGrid.Columns>
 											<DataGridTextColumn 
-											    Binding="{Binding RowHeader}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
+												Binding="{Binding RowHeader}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"></DataGridTextColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU0"
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=0}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU0"
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=0}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu0}" Foreground="{Binding Gpu0Foreground}"></TextBlock>
@@ -1488,9 +1484,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU1" 
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=1}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU1" 
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=1}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu1}" Foreground="{Binding Gpu1Foreground}"></TextBlock>
@@ -1498,9 +1494,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU2" 
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=2}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU2" 
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=2}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu2}" Foreground="{Binding Gpu2Foreground}"></TextBlock>
@@ -1508,9 +1504,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU3" 
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=3}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU3" 
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=3}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu3}" Foreground="{Binding Gpu3Foreground}"></TextBlock>
@@ -1518,9 +1514,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU4" 
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=4}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU4" 
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=4}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu4}" Foreground="{Binding Gpu4Foreground}"></TextBlock>
@@ -1528,9 +1524,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU5"
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=5}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU5"
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=5}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu5}" Foreground="{Binding Gpu5Foreground}"></TextBlock>
@@ -1538,9 +1534,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU6"
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=6}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU6"
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=6}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu6}" Foreground="{Binding Gpu6Foreground}"></TextBlock>
@@ -1548,9 +1544,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU7"
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=7}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU7"
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=7}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu7}" Foreground="{Binding Gpu7Foreground}"></TextBlock>
@@ -1558,9 +1554,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU8" 
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=8}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU8" 
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=8}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu8}" Foreground="{Binding Gpu8Foreground}"></TextBlock>
@@ -1568,9 +1564,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU9"
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=9}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU9"
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=9}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu9}" Foreground="{Binding Gpu9Foreground}"></TextBlock>
@@ -1578,9 +1574,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU10"
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=10}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU10"
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=10}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu10}" Foreground="{Binding Gpu10Foreground}"></TextBlock>
@@ -1588,9 +1584,9 @@
 												</DataGridTemplateColumn.CellTemplate>
 											</DataGridTemplateColumn>
 											<DataGridTemplateColumn 
-											    Header="GPU11"
-											    Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=11}"
-											    CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+												Header="GPU11"
+												Visibility="{Binding Data.GpuCount,Source={StaticResource proxy2},Converter={StaticResource GreatToVisibleConverter}, ConverterParameter=11}"
+												CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 												<DataGridTemplateColumn.CellTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding Gpu11}" Foreground="{Binding Gpu11Foreground}"></TextBlock>
@@ -1606,26 +1602,26 @@
 					</DataGridTemplateColumn>
 					<!--MainCoinWallet-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.MainCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.MainCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>主币钱包</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MainCoinWallet"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MainCoinWallet"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1634,36 +1630,36 @@
 							<DataTemplate>
 								<WrapPanel>
 									<TextBox 
-									    BorderThickness="0"
-									    Background="Transparent"
-									    Text="{Binding MainCoinWallet, Mode=OneWay}" 
-									    IsReadOnly="True"></TextBox>
+										BorderThickness="0"
+										Background="Transparent"
+										Text="{Binding MainCoinWallet, Mode=OneWay}" 
+										IsReadOnly="True"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--MainCoinPool-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.MainCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.MainCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>主币矿池</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="MainCoinPool"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="MainCoinPool"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1672,37 +1668,37 @@
 							<DataTemplate>
 								<WrapPanel>
 									<TextBox 
-									    ToolTip="{Binding MainCoinPool}"
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
+										ToolTip="{Binding MainCoinPool}"
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--Kernel-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.Kernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.Kernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>内核</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="Kernel"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="Kernel"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1711,36 +1707,36 @@
 							<DataTemplate>
 								<WrapPanel>
 									<TextBox 
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    Text="{Binding Kernel, Mode=OneWay}"></TextBox>
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding Kernel, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--DualCoinWallet-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.DualCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.DualCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>双挖钱包</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="DualCoinWallet"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="DualCoinWallet"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1749,36 +1745,36 @@
 							<DataTemplate>
 								<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 									<TextBox 
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--DualCoinPool-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.DualCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.DualCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>双挖矿池</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="DualCoinPool"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="DualCoinPool"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1787,37 +1783,37 @@
 							<DataTemplate>
 								<WrapPanel>
 									<TextBox 
-									    ToolTip="{Binding DualCoinPool}"
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
+										ToolTip="{Binding DualCoinPool}"
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--Version-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.Version,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.Version,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>客户端版本</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="Version"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="Version"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1830,26 +1826,26 @@
 					</DataGridTemplateColumn>
 					<!--OSName-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.OSName,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.OSName,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>操作系统</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="OSName"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="OSName"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1862,26 +1858,26 @@
 					</DataGridTemplateColumn>
 					<!--OSVirtualMemoryGbText-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.OSVirtualMemoryGbText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.OSVirtualMemoryGbText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>虚拟内存</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="OSVirtualMemoryGbText"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="OSVirtualMemoryGbText"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1894,26 +1890,26 @@
 					</DataGridTemplateColumn>
 					<!--IsAutoBoot-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.IsAutoBoot,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.IsAutoBoot,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>开机自动启动</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="IsAutoBoot"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IsAutoBoot"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1922,34 +1918,34 @@
 							<DataTemplate>
 								<WrapPanel>
 									<TextBlock 
-									    Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
-									    Text="是"></TextBlock>
+										Visibility="{Binding IsAutoBoot,Converter={StaticResource BoolToVisibilityConverter}}"
+										Text="是"></TextBlock>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--IsAutoStart-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.IsAutoStart,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.IsAutoStart,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>启动后自动开始挖矿</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="IsAutoStart"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="IsAutoStart"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1958,34 +1954,34 @@
 							<DataTemplate>
 								<WrapPanel>
 									<TextBlock 
-									    Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
-									    Text="是"></TextBlock>
+										Visibility="{Binding IsAutoStart,Converter={StaticResource BoolToVisibilityConverter}}"
+										Text="是"></TextBlock>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--GpuType-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.GpuType,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.GpuType,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>显卡类型</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="GpuType"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="GpuType"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -1994,23 +1990,23 @@
 							<DataTemplate>
 								<WrapPanel>
 									<Path
-									    Margin="4 0 0 0"
-									    Width="18"
-									    Height="14"
-									    ToolTip="NVIDIA"
-									    Visibility="{Binding IsNvidiaIconVisible}"
-									    Data="{StaticResource Icon_Nvidia}"
-									    Fill="Green"
-									    Stretch="Fill" />
+										Margin="4 0 0 0"
+										Width="18"
+										Height="14"
+										ToolTip="NVIDIA"
+										Visibility="{Binding IsNvidiaIconVisible}"
+										Data="{StaticResource Icon_Nvidia}"
+										Fill="Green"
+										Stretch="Fill" />
 									<Path
-									    Margin="4 0 0 0"
-									    Width="16"
-									    Height="14"
-									    ToolTip="AMD"
-									    Visibility="{Binding IsAMDIconVisible}"
-									    Data="{StaticResource Icon_AMD}"
-									    Fill="Red"
-									    Stretch="Fill" />
+										Margin="4 0 0 0"
+										Width="16"
+										Height="14"
+										ToolTip="AMD"
+										Visibility="{Binding IsAMDIconVisible}"
+										Data="{StaticResource Icon_AMD}"
+										Fill="Red"
+										Stretch="Fill" />
 									<TextBlock Text=" x "></TextBlock>
 									<TextBlock Text="{Binding GpuCount}"></TextBlock>
 								</WrapPanel>
@@ -2019,26 +2015,26 @@
 					</DataGridTemplateColumn>
 					<!--GpuDriver-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.GpuDriver,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.GpuDriver,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>显卡驱动</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="GpuDriver"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="GpuDriver"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -2047,36 +2043,36 @@
 							<DataTemplate>
 								<WrapPanel>
 									<TextBox 
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--GpuInfo-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>显卡</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="GpuInfo"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="GpuInfo"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -2085,37 +2081,37 @@
 							<DataTemplate>
 								<WrapPanel>
 									<TextBox 
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    ToolTip="{Binding GpuInfo}"
-									    Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										ToolTip="{Binding GpuInfo}"
+										Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<!--KernelCommandLine-->
 					<DataGridTemplateColumn 
-					    Visibility="{Binding Data.ColumnsShow.KernelCommandLine,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-					    CanUserResize="True" 
-					    CanUserReorder="False" 
-					    CanUserSort="False" 
-					    IsReadOnly="True">
+						Visibility="{Binding Data.ColumnsShow.KernelCommandLine,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
 							<WrapPanel>
 								<TextBlock>内核命令行</TextBlock>
 								<controls:KbButton
-								    ToolTip="不展示"
-								    Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-								    CommandParameter="KernelCommandLine"
-								    Background="Transparent">
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="KernelCommandLine"
+									Background="Transparent">
 									<WrapPanel>
 										<Path
-										    Width="14"
-										    Height="8"
-										    Data="{StaticResource Icon_Hide}"
-										    Fill="#FF5A5A5A"
-										    Stretch="Fill" />
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
@@ -2124,31 +2120,26 @@
 							<DataTemplate>
 								<WrapPanel>
 									<TextBox 
-									    BorderThickness="0"
-									    Background="Transparent"
-									    IsReadOnly="True"
-									    ToolTip="{Binding KernelCommandLine}"
-									    Text="{Binding KernelCommandLine, Mode=OneWay}"></TextBox>
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										ToolTip="{Binding KernelCommandLine}"
+										Text="{Binding KernelCommandLine, Mode=OneWay}"></TextBox>
 								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
-			<WrapPanel Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="#F5F4F5">
-				<TextBlock Margin="4 0 0 0">冻结前</TextBlock>
-				<TextBox TextAlignment="Center" Padding="4 0" Height="16" Text="{Binding FrozenColumnCount, UpdateSourceTrigger=PropertyChanged}" Width="20" ToolTip="最小值2"></TextBox>
-				<TextBlock>列</TextBlock>
-			</WrapPanel>
 			<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
 			<notification:NotificationMessageContainer 
-			    Margin="0 4 0 0"
-			    Grid.Row="0"
-			    Grid.RowSpan="3"
-			    HorizontalAlignment="Center"
-			    VerticalAlignment="Top"
-			    MaxWidth="500"
-			    Manager="{Binding Manager}" />
+				Margin="0 4 0 0"
+				Grid.Row="0"
+				Grid.RowSpan="3"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Top"
+				MaxWidth="500"
+				Manager="{Binding Manager}" />
 			<GridSplitter Grid.Row="2" Height="6" VerticalAlignment="Top" HorizontalAlignment="Stretch"></GridSplitter>
 			<Grid Grid.Row="2" Margin="0 6 0 0">
 				<Grid.ColumnDefinitions>
@@ -2160,30 +2151,30 @@
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
 				<WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-					<Button Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
+					<Button Margin="4 0 0 0" Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
 					<Button
-					    Width="26" Margin="4 0 0 0"
-					    Command="{Binding PageUp}" 
-					    IsEnabled="{Binding IsPageUpEnabled}" 
-					    Content="&lt;"
-					    ToolTip="上一页">
+						Width="26" Margin="4 0 0 0"
+						Command="{Binding PageUp}" 
+						IsEnabled="{Binding IsPageUpEnabled}" 
+						Content="&lt;"
+						ToolTip="上一页">
 					</Button>
 					<Button
-					    Width="26" Margin="4 0 0 0"
-					    Command="{Binding PageDown}" 
-					    IsEnabled="{Binding IsPageDownEnabled}" 
-					    Content="&gt;"
-					    ToolTip="下一页">
+						Width="26" Margin="4 0 0 0"
+						Command="{Binding PageDown}" 
+						IsEnabled="{Binding IsPageDownEnabled}" 
+						Content="&gt;"
+						ToolTip="下一页">
 					</Button>
 					<Button
-					    Width="26" Margin="4 0 0 0"
-					    Command="{Binding PageRefresh}">
+						Width="26" Margin="4 0 0 0"
+						Command="{Binding PageRefresh}">
 						<Path 
-						    Width="14"
-						    Height="14"
-						    Stretch="Fill"
-						    Fill="{StaticResource IconFillColor}"
-						    Data="{StaticResource Icon_Refresh}"></Path>
+							Width="14"
+							Height="14"
+							Stretch="Fill"
+							Fill="{StaticResource IconFillColor}"
+							Data="{StaticResource Icon_Refresh}"></Path>
 					</Button>
 					<Button Command="{Binding PageLast}" IsEnabled="{Binding IsPageDownEnabled}" Margin="4 0 0 0">尾页</Button>
 					<Label>第</Label>
@@ -2198,29 +2189,31 @@
 					<Label>条</Label>
 
 					<WrapPanel VerticalAlignment="Center">
-						<TextBlock VerticalAlignment="Center" Margin="4 0 0 0">列显</TextBlock>
+                        <controls:KbComboBox Margin="4 0 0 0" ToolTip="冻结列" ItemsSource="{Binding FrozenColumns}" SelectedItem="{Binding FrozenColumnCount}">
+					    </controls:KbComboBox>
+                        <TextBlock VerticalAlignment="Center" Margin="4 0 0 0">列显</TextBlock>
 						<controls:KbComboBox 
-						    Margin="0 0 4 0"
-						    ItemsSource="{Binding ColumnsShows.List}"
-						    DisplayMemberPath="ColumnsShowName"
-						    SelectedItem="{Binding ColumnsShow}">
+							Margin="0 0 4 0"
+							ItemsSource="{Binding ColumnsShows.List}"
+							DisplayMemberPath="ColumnsShowName"
+							SelectedItem="{Binding ColumnsShow}">
 							<controls:KbComboBox.Toolbar>
 								<WrapPanel HorizontalAlignment="Right">
 									<controls:KbButton
-									    Margin="4 2"
-									    BorderThickness="0"
-									    Height="24"
-									    Padding="4 0"
-									    Command="{Binding ColumnsShows.Add}"
-									    Background="{StaticResource ThemeBackground}"
-									    CornerRadius="2">
+										Margin="4 2"
+										BorderThickness="0"
+										Height="24"
+										Padding="4 0"
+										Command="{Binding ColumnsShows.Add}"
+										Background="{StaticResource ThemeBackground}"
+										CornerRadius="2">
 										<WrapPanel>
 											<Path
-											    Width="14"
-											    Height="14"
-											    Data="{StaticResource Icon_Add}"
-											    Fill="{StaticResource ThemeForeground}"
-											    Stretch="Fill" />
+												Width="14"
+												Height="14"
+												Data="{StaticResource Icon_Add}"
+												Fill="{StaticResource ThemeForeground}"
+												Stretch="Fill" />
 											<TextBlock Margin="4 0 0 0" Text="新建" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 										</WrapPanel>
 									</controls:KbButton>
@@ -2271,51 +2264,51 @@
 					</WrapPanel>
 				</WrapPanel>
 				<ScrollViewer 
-				    Grid.Row="1" Grid.Column="0" 
-                    Background="#EEEEF2"
-				    PreviewMouseDown="ScrollViewer_PreviewMouseDown"
-				    VerticalScrollBarVisibility="Auto"
-				    Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+					Grid.Row="1" Grid.Column="0" 
+					Background="#EEEEF2"
+					PreviewMouseDown="ScrollViewer_PreviewMouseDown"
+					VerticalScrollBarVisibility="Auto"
+					Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
 				</ScrollViewer>
 				<uc:MessageCenter Grid.Row="1" Grid.Column="1"></uc:MessageCenter>
 				<GridSplitter Grid.Row="1" Grid.Column="1" Width="6" Background="Black" HorizontalAlignment="Left" VerticalAlignment="Stretch"></GridSplitter>
 			</Grid>
-        </Grid>
-        <WrapPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="#007ACC">
-	        <WrapPanel Margin="4 0 0 0">
-	            <TextBlock VerticalAlignment="Center" Foreground="White">卡温达到</TextBlock>
-	            <Slider 
-	                Minimum="0" 
-	                Maximum="100" 
-	                Width="100"
-	                IsSnapToTickEnabled="True"
-	                Value="{Binding MaxTemp}"></Slider>
-                <TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}" Foreground="White" Width="20"></TextBlock>
-                <TextBlock VerticalAlignment="Center" Foreground="White">℃红色，</TextBlock>
-	        </WrapPanel>
-	        <WrapPanel Margin="20 0 0 0">
-                <TextBlock VerticalAlignment="Center" Foreground="White">卡温低于</TextBlock>
-	            <Slider 
-	                Minimum="0" 
-	                Maximum="100" 
-	                Width="100"
-	                IsSnapToTickEnabled="True"
-	                Value="{Binding MinTemp}"></Slider>
-                <TextBlock VerticalAlignment="Center" Text="{Binding MinTemp}" Foreground="White" Width="20"></TextBlock>
-                <TextBlock VerticalAlignment="Center" Foreground="White">℃蓝色，</TextBlock>
-	        </WrapPanel>
-	        <WrapPanel Margin="20 0 0 0">
-                <TextBlock VerticalAlignment="Center" Foreground="White">拒绝率达到</TextBlock>
-	            <Slider 
-	                Minimum="0" 
-	                Maximum="20" 
-	                Width="100"
-	                IsSnapToTickEnabled="True"
-	                Value="{Binding RejectPercent}"></Slider>
-                <TextBlock VerticalAlignment="Center" Text="{Binding RejectPercent}" Foreground="White" Width="20"></TextBlock>
-                <TextBlock VerticalAlignment="Center" Foreground="White">%红色，</TextBlock>
-	        </WrapPanel>
-	    </WrapPanel>
-    </Grid>
+		</Grid>
+		<WrapPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="#007ACC">
+			<WrapPanel Margin="4 0 0 0">
+				<TextBlock VerticalAlignment="Center" Foreground="White">卡温达到</TextBlock>
+				<Slider 
+					Minimum="0" 
+					Maximum="100" 
+					Width="100"
+					IsSnapToTickEnabled="True"
+					Value="{Binding MaxTemp}"></Slider>
+				<TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}" Foreground="White" Width="20"></TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="White">℃红色，</TextBlock>
+			</WrapPanel>
+			<WrapPanel Margin="20 0 0 0">
+				<TextBlock VerticalAlignment="Center" Foreground="White">卡温低于</TextBlock>
+				<Slider 
+					Minimum="0" 
+					Maximum="100" 
+					Width="100"
+					IsSnapToTickEnabled="True"
+					Value="{Binding MinTemp}"></Slider>
+				<TextBlock VerticalAlignment="Center" Text="{Binding MinTemp}" Foreground="White" Width="20"></TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="White">℃蓝色，</TextBlock>
+			</WrapPanel>
+			<WrapPanel Margin="20 0 0 0">
+				<TextBlock VerticalAlignment="Center" Foreground="White">拒绝率达到</TextBlock>
+				<Slider 
+					Minimum="0" 
+					Maximum="20" 
+					Width="100"
+					IsSnapToTickEnabled="True"
+					Value="{Binding RejectPercent}"></Slider>
+				<TextBlock VerticalAlignment="Center" Text="{Binding RejectPercent}" Foreground="White" Width="20"></TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="White">%红色，</TextBlock>
+			</WrapPanel>
+		</WrapPanel>
+	</Grid>
 </metro:MetroWindow>

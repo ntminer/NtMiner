@@ -34,6 +34,7 @@ namespace NTMiner.Vms {
         private INotificationMessageManager _manager;
         private int _miningCount;
         private uint _maxTemp = 80;
+        private readonly List<int> _frozenColumns = new List<int> { 8, 7, 6, 5, 4, 3, 2 };
         private int _frozenColumnCount = 8;
         private uint _minTemp = 40;
         private int _rejectPercent = 10;
@@ -260,6 +261,10 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(FrozenColumnCount));
                 }
             }
+        }
+
+        public List<int> FrozenColumns {
+            get { return _frozenColumns; }
         }
 
         public int RejectPercent {
