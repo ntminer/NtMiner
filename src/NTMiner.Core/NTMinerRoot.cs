@@ -12,6 +12,7 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.Daemon;
+using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using System;
@@ -19,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,6 +42,34 @@ namespace NTMiner {
             CreatedOn = DateTime.Now;
         }
         #endregion
+        public void GetJsonFileVersionAsync(string key, Action<string> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    AppSettingRequest request = new AppSettingRequest {
+                        MessageId = Guid.NewGuid(),
+                        Key = key
+                    };
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message =
+                            client.PostAsJsonAsync($"http://server.ntminer.com:3339/api/AppSetting/AppSetting", request);
+                        DataResponse<AppSettingData> response =
+                            message.Result.Content.ReadAsAsync<DataResponse<AppSettingData>>().Result;
+                        string jsonFileVersion = string.Empty;
+                        if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
+                            if (response.Data.Value is string value) {
+                                jsonFileVersion = value;
+                            }
+                        }
+
+                        callback?.Invoke(jsonFileVersion);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine($"GetJsonFileVersionAsync({AssemblyInfo.ServerJsonFileName})失败 {e?.Message}");
+                    callback?.Invoke(string.Empty);
+                }
+            });
+        }
 
         private readonly bool _isServerJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || CommandLineArgs.WorkId != Guid.Empty;
         #region Init
@@ -50,15 +80,9 @@ namespace NTMiner {
                     return;
                 }
 
-                Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
-                    if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
-                        if (response.Data.Value is string value) {
-                            JsonFileVersion = value;
-                        }
-                    }
-                    else {
-                        Logger.ErrorDebugLine(
-                            $"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败 {exception?.Message}");
+                GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
+                    if (!string.IsNullOrEmpty(jsonFileVersion)) {
+                        JsonFileVersion = jsonFileVersion;
                     }
                 });
                 string serverJson = SpecialPath.ReadServerJsonFile();
@@ -155,9 +179,27 @@ namespace NTMiner {
         }
         #endregion
 
+
+        public void GetTimeAsync(Action<DateTime> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message =
+                            client.GetAsync($"http://server.ntminer.com:3339/api/AppSetting/GetTime");
+                        DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
+                        callback?.Invoke(response);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine($"GetTimeAsync失败 {e?.Message}");
+                    callback?.Invoke(DateTime.Now);
+                }
+            });
+        }
+
         #region Start
         public void Start() {
-            Server.AppSettingService.GetTimeAsync((remoteTime, e) => {
+            GetTimeAsync((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
                     Logger.OkDebugLine("时间同步");
                 }
@@ -372,24 +414,19 @@ namespace NTMiner {
                         if (!_isServerJson) {
                             return;
                         }
-                        Server.AppSettingService.GetAppSettingAsync(AssemblyInfo.ServerJsonFileName, (response, exception) => {
-                            if (response.IsSuccess() && response.Data != null && response.Data.Value is string value) {
-                                if (JsonFileVersion != value) {
-                                    GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                                        string rawJson = Encoding.UTF8.GetString(data);
-                                        Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{value}");
-                                        ServerJson.Instance.ReInit(rawJson);
-                                        ContextReInit();
-                                        JsonFileVersion = value;
-                                        Logger.InfoDebugLine("刷新完成");
-                                    });
-                                }
-                                else {
-                                    Write.DevLine("server.json没有新版本", ConsoleColor.Green);
-                                }
+                        GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
+                            if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
+                                GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                                    string rawJson = Encoding.UTF8.GetString(data);
+                                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{jsonFileVersion}");
+                                    ServerJson.Instance.ReInit(rawJson);
+                                    ContextReInit();
+                                    JsonFileVersion = jsonFileVersion;
+                                    Logger.InfoDebugLine("刷新完成");
+                                });
                             }
                             else {
-                                Logger.ErrorDebugLine($"GetAppSettingAsync({AssemblyInfo.ServerJsonFileName})失败");
+                                Write.DevLine("server.json没有新版本", ConsoleColor.Green);
                             }
                         });
                     });

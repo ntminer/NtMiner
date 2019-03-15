@@ -20,7 +20,7 @@ namespace NTMiner {
             }
         }
 
-        public static readonly string OfficialServerHost = "server.ntminer.com";
+        public static readonly string OfficialServerHost = "localhost";
 
         private static readonly string SBaseUrl = $"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api";
         public static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {

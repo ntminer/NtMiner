@@ -2,7 +2,6 @@
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class Server {
@@ -11,20 +10,6 @@ namespace NTMiner {
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IAppSettingController>();
 
             private AppSettingServiceFace() { }
-
-            public void GetTimeAsync(Action<DateTime, Exception> callback) {
-                GetAsync(SControllerName, nameof(IAppSettingController.GetTime), null, callback);
-            }
-
-            #region GetAppSettingAsync
-            public void GetAppSettingAsync(string key, Action<DataResponse<AppSettingData>, Exception> callback) {
-                AppSettingRequest request = new AppSettingRequest {
-                    MessageId = Guid.NewGuid(),
-                    Key = key
-                };
-                PostAsync(SControllerName, nameof(IAppSettingController.AppSetting), request, callback);
-            }
-            #endregion
 
             #region GetAppSettings
             public List<AppSettingData> GetAppSettings() {

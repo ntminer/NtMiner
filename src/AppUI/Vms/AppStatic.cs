@@ -12,6 +12,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Console = System.Console;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
@@ -103,21 +104,21 @@ namespace NTMiner.Vms {
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             try {
                 DialogWindow.ShowDialog(message: $"您确定刷新{AssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
-                    Server.AppSettingService.SetAppSettingAsync(new AppSettingData {
-                        Key = ServerJsonFileName,
-                        Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
-                    }, (response, exception) => {
-                        if (response.IsSuccess()) {
-                            foreach (var manager in Managers) {
-                                manager.ShowSuccessMessage($"刷新成功");
-                            }
+                    try {
+                        VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
+                            Key = ServerJsonFileName,
+                            Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
+                        }));
+                        foreach (var manager in Managers) {
+                            manager.ShowSuccessMessage($"刷新成功");
                         }
-                        else {
-                            foreach (var manager in Managers) {
-                                manager.ShowErrorMessage($"刷新失败");
-                            }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                        foreach (var manager in Managers) {
+                            manager.ShowErrorMessage($"刷新失败");
                         }
-                    });
+                    }
                 }, icon: "Icon_Confirm");
             }
             catch (Exception e) {
