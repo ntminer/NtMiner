@@ -189,9 +189,9 @@
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
 				<ScrollViewer 
-				    x:Name="CoinsScrollView" 
-				    PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
-				    HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+					x:Name="CoinsScrollView" 
+					PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
+					HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 					<ScrollViewer.Resources>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
 						<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
@@ -225,10 +225,11 @@
 												</Border>
 												<Path 
 													Grid.Row="1"
+													Grid.Column="0"
 													HorizontalAlignment="Center"
 													Fill="{TemplateBinding Background}"
 													Data="M 0,0 6,0 3,3 Z" />
-												<Border Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
+												<Border Grid.Row="0" Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
 											</Grid>
 										</ControlTemplate>
 									</Setter.Value>
@@ -257,7 +258,7 @@
 						</ListBox.ItemTemplate>
 					</ListBox>
 				</ScrollViewer>
-				<WrapPanel Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
+				<WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
 					<Button x:Name="ButtonLeft" IsEnabled="False" Click="ButtonLeftCoin_Click">
 						<Button.Template>
 							<ControlTemplate>
@@ -319,7 +320,7 @@
 						</Button.Template>
 					</Button>
 				</WrapPanel>
-				<uc:KernelGrid Grid.Row="1" Grid.ColumnSpan="2"></uc:KernelGrid>
+				<uc:KernelGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></uc:KernelGrid>
 			</Grid>
 		</DockPanel>
 		<uc:KernelDownloading Margin="57 0 0 0" HorizontalAlignment="Left" Visibility="{Binding KernelDownloadingVisible}"></uc:KernelDownloading>
