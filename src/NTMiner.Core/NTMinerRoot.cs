@@ -363,18 +363,21 @@ namespace NTMiner {
                     "发生了用户活动时检查serverJson是否有新版本",
                     LogEnum.Console,
                     action: message => {
-                        if (!_isServerJson) {
-                            return;
-                        }
                         OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                             if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
                                 GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                                    Write.DevLine($"有新版本{JsonFileVersion}->{jsonFileVersion}");
                                     string rawJson = Encoding.UTF8.GetString(data);
                                     Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{jsonFileVersion}");
                                     ServerJson.Instance.ReInit(rawJson);
-                                    ContextReInit();
+                                    if (_isServerJson) {
+                                        ContextReInit();
+                                        Logger.InfoDebugLine("刷新完成");
+                                    }
+                                    else {
+                                        Write.DevLine("不是使用的json，无需刷新");
+                                    }
                                     JsonFileVersion = jsonFileVersion;
-                                    Logger.InfoDebugLine("刷新完成");
                                 });
                             }
                             else {
