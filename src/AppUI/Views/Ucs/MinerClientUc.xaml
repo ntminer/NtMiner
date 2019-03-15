@@ -606,47 +606,40 @@
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">显卡类型</TextBlock>
-				<Path
-					Width="18"
-					Height="14"
-					ToolTip="NVIDIA"
-					Visibility="{Binding IsNvidiaIconVisible}"
-					Data="{StaticResource Icon_Nvidia}"
-					Fill="Green"
-					Stretch="Fill" />
-				<Path
-					Width="16"
-					Height="14"
-					ToolTip="AMD"
-					Visibility="{Binding IsAMDIconVisible}"
-					Data="{StaticResource Icon_AMD}"
-					Fill="Red"
-					Stretch="Fill" />
-				<TextBlock Text=" x "></TextBlock>
-				<TextBlock Text="{Binding GpuCount}"></TextBlock>
-			</WrapPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">显卡驱动</TextBlock>
-				<TextBox 
-					Padding="0"
-					BorderThickness="0"
-					Background="Transparent"
-					IsReadOnly="True"
-					Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
-			</WrapPanel>
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
 			<TextBlock Style="{StaticResource LblTb}">显卡</TextBlock>
+			<Path
+				Width="18"
+				Height="14"
+				ToolTip="NVIDIA"
+				Visibility="{Binding IsNvidiaIconVisible}"
+				Data="{StaticResource Icon_Nvidia}"
+				Fill="Green"
+				Stretch="Fill" />
+			<Path
+				Width="16"
+				Height="14"
+				ToolTip="AMD"
+				Visibility="{Binding IsAMDIconVisible}"
+				Data="{StaticResource Icon_AMD}"
+				Fill="Red"
+				Stretch="Fill" />
+			<TextBlock Text=" x "></TextBlock>
+			<TextBlock Text="{Binding GpuCount}"></TextBlock>
 			<TextBox 
+				Margin="4 0 0 0"
 				Padding="0"
 				BorderThickness="0"
 				Background="Transparent"
 				IsReadOnly="True"
 				ToolTip="{Binding GpuInfo}"
 				Text="{Binding GpuInfo, Mode=OneWay}"></TextBox>
+			<TextBox 
+				Margin="4 0 0 0"
+				Padding="0"
+				BorderThickness="0"
+				Background="Transparent"
+				IsReadOnly="True"
+				Text="{Binding GpuDriver, Mode=OneWay}"></TextBox>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
 		<Grid>

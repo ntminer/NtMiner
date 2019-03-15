@@ -538,7 +538,7 @@
 		<Grid Grid.Row="2" Grid.Column="1" Background="{StaticResource MinerProfileBackground}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"></RowDefinition>
-				<RowDefinition Height="500"></RowDefinition>
+				<RowDefinition Height="470"></RowDefinition>
 			</Grid.RowDefinitions>
 			<DataGrid 
 				Grid.Row="0"
