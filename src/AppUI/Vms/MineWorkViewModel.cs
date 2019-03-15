@@ -12,7 +12,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class MineWorkViewModel : ViewModelBase, IMineWork, IEditableViewModel {
         public static readonly MineWorkViewModel PleaseSelect = new MineWorkViewModel(Guid.Empty) {
-            _name = "请选择"
+            _name = "全部作业"
         };
         public static readonly MineWorkViewModel FreeMineWork = new MineWorkViewModel(Guid.Empty) {
             _name = "自由作业"

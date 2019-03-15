@@ -39,7 +39,7 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"></ColumnDefinition>
+			<ColumnDefinition Width="220"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<!--上标题栏-->
@@ -84,7 +84,7 @@
 					KbSystemButtonSize="40" />
 			</WrapPanel>
 		</Grid>
-		<Grid Grid.Row="1" Grid.ColumnSpan="2" Background="#EEEEF2">
+		<Grid Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2" Background="#EEEEF2">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
@@ -138,10 +138,10 @@
 							</Setter>
 							<Style.Triggers>
 								<Trigger Property="IsMouseOver" Value="true">
-									<Setter Property="Foreground" Value="#2DA4FF"/>
+									<Setter Property="Foreground" Value="#836258"/>
 								</Trigger>
 								<Trigger Property="IsSelected" Value="true">
-									<Setter Property="Background" Value="#2DA4FF"/>
+									<Setter Property="Background" Value="#836258"/>
 									<Setter Property="Foreground" Value="White"/>
 								</Trigger>
 							</Style.Triggers>
@@ -358,86 +358,141 @@
 			</WrapPanel>
 		</Grid>
 		<StackPanel Grid.Row="2" Grid.Column="0" Background="#F5F5F5">
-			<WrapPanel Margin="0 0 20 0">
-				<TextBlock Style="{StaticResource LblTb}" Text="作业" />
-				<controls:KbComboBox 
-					Width="120"
-					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
-					DisplayMemberPath="Name"
-					SelectedItem="{Binding SelectedMineWork}">
-					<controls:KbComboBox.Toolbar>
-						<WrapPanel HorizontalAlignment="Right">
-							<controls:KbButton
-								Margin="4 2"
-								BorderThickness="0"
-								Height="24"
-								Padding="4 0"
-								Command="{x:Static vm:AppStatic.ManageMineWork}"
-								Background="{StaticResource ThemeBackground}"
-								CornerRadius="2">
-								<WrapPanel>
-									<Path
-										Width="14"
-										Height="14"
-										Data="{StaticResource Icon_MineWork}"
-										Fill="{StaticResource ThemeForeground}"
-										Stretch="Fill" />
-									<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-								</WrapPanel>
-							</controls:KbButton>
+			<ListBox 
+				Background="Transparent"
+				ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
+				SelectedItem="{Binding SelectedMineWork}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				BorderThickness="0">
+				<ListBox.ItemContainerStyle>
+					<Style TargetType="ListBoxItem">
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="ListBoxItem">
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+											<ColumnDefinition Width="1"></ColumnDefinition>
+										</Grid.ColumnDefinitions>
+										<Border Background="{TemplateBinding Background}">
+											<ContentPresenter 
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												TextBlock.Foreground="{TemplateBinding Foreground}"/>
+										</Border>
+										<Border Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
+									</Grid>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+						<Style.Triggers>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="Foreground" Value="#836258"/>
+							</Trigger>
+							<Trigger Property="IsSelected" Value="true">
+								<Setter Property="Background" Value="#836258"/>
+								<Setter Property="Foreground" Value="White"/>
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</ListBox.ItemContainerStyle>
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel>
 						</WrapPanel>
-					</controls:KbComboBox.Toolbar>
-					<controls:KbComboBox.ContextMenuEx>
-						<ContextMenu>
-							<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManageMineWork}">
-							</MenuItem>
-						</ContextMenu>
-					</controls:KbComboBox.ContextMenuEx>
-				</controls:KbComboBox>
-			</WrapPanel>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+			<ListBox 
+				Margin="0 8 0 0"
+				Background="Transparent"
+				IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}"
+				ItemsSource="{Binding MinerGroupVmItems}"
+				SelectedItem="{Binding SelectedMinerGroup}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				BorderThickness="0">
+				<ListBox.ItemContainerStyle>
+					<Style TargetType="ListBoxItem">
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="ListBoxItem">
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+											<ColumnDefinition Width="1"></ColumnDefinition>
+										</Grid.ColumnDefinitions>
+										<Border Background="{TemplateBinding Background}">
+											<ContentPresenter 
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												TextBlock.Foreground="{TemplateBinding Foreground}"/>
+										</Border>
+										<Border Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
+									</Grid>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+						<Style.Triggers>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="Foreground" Value="#836258"/>
+							</Trigger>
+							<Trigger Property="IsSelected" Value="true">
+								<Setter Property="Background" Value="#836258"/>
+								<Setter Property="Foreground" Value="White"/>
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</ListBox.ItemContainerStyle>
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel>
+						</WrapPanel>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
 			<StackPanel IsEnabled="{Binding IsMineWorkSelected, Converter={StaticResource BoolInvertConverter}}">
-				<WrapPanel Margin="0 0 20 0">
-					<TextBlock Style="{StaticResource LblTb}" Text="分组" />
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50" Text="钱包" />
+					<TextBox VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="150" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">IP</TextBlock>
+					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">矿工名</TextBlock>
+					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerName}" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">内核</TextBlock>
+					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以次开头的内核" Width="150" Text="{Binding Kernel}" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">版本</TextBlock>
+					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="100" Text="{Binding Version}" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">状态</TextBlock>
 					<controls:KbComboBox 
-						Width="100"
-						ItemsSource="{Binding MinerGroupVmItems}"
-						DisplayMemberPath="Name"
-						SelectedItem="{Binding SelectedMinerGroup}">
-						<controls:KbComboBox.Toolbar>
-							<WrapPanel HorizontalAlignment="Right">
-								<controls:KbButton
-									Margin="4 2"
-									BorderThickness="0"
-									Height="24"
-									Padding="4 0"
-									Command="{x:Static vm:AppStatic.ManageMinerGroup}"
-									Background="{StaticResource ThemeBackground}"
-									CornerRadius="2">
-									<WrapPanel>
-										<Path
-											Width="14"
-											Height="14"
-											Data="{StaticResource Icon_MinerGroup}"
-											Fill="{StaticResource ThemeForeground}"
-											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-									</WrapPanel>
-								</controls:KbButton>
-							</WrapPanel>
-						</controls:KbComboBox.Toolbar>
-						<controls:KbComboBox.ContextMenuEx>
-							<ContextMenu>
-								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManageMinerGroup}">
-								</MenuItem>
-							</ContextMenu>
-						</controls:KbComboBox.ContextMenuEx>
+						Width="84"
+						ItemsSource="{Binding MineStatusEnumItems}"
+						DisplayMemberPath="Description"
+						SelectedItem="{Binding MineStatusEnumItem}">
 					</controls:KbComboBox>
 				</WrapPanel>
-				<WrapPanel Margin="0 0 20 0">
-					<TextBlock Style="{StaticResource LblTb}" Text="钱包" />
-					<TextBox VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="160" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel Margin="0 0 20 0">
+				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="矿池" />
 					<controls:KbComboBox 
 						Width="120"
@@ -477,42 +532,17 @@
 						</controls:KbComboBox.ContextMenuEx>
 					</controls:KbComboBox>
 				</WrapPanel>
-				<WrapPanel Margin="0 0 20 0">
-					<TextBlock Style="{StaticResource LblTb}">IP</TextBlock>
-					<TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel Margin="0 0 20 0">
-					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">矿工名</TextBlock>
-					<TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding MinerName}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel Margin="0 0 20 0">
-					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">内核</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以次开头的内核" Width="100" Text="{Binding Kernel}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel Margin="0 0 20 0">
-					<TextBlock Style="{StaticResource LblTb}">客户端版本</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="100" Text="{Binding Version}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel Margin="0 0 20 0">
-					<TextBlock Style="{StaticResource LblTb}" Margin="8 0 0 0">状态</TextBlock>
-					<controls:KbComboBox 
-						Width="84"
-						ItemsSource="{Binding MineStatusEnumItems}"
-						DisplayMemberPath="Description"
-						SelectedItem="{Binding MineStatusEnumItem}">
-					</controls:KbComboBox>
-				</WrapPanel>
 			</StackPanel>
 		</StackPanel>
 		<GridSplitter Grid.Row="2" Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="6" Background="Transparent"></GridSplitter>
 		<Grid Grid.Row="2" Grid.Column="1" Background="{StaticResource MinerProfileBackground}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"></RowDefinition>
-				<RowDefinition Height="Auto"></RowDefinition>
 				<RowDefinition Height="500"></RowDefinition>
 			</Grid.RowDefinitions>
 			<DataGrid 
 				Grid.Row="0"
+				Margin="0 0 0 28"
 				BorderThickness="0"
 				IsReadOnly="False"
 				SelectionMode="Extended"
@@ -2136,12 +2166,13 @@
 			<notification:NotificationMessageContainer 
 				Margin="0 4 0 0"
 				Grid.Row="0"
-				Grid.RowSpan="3"
+				Grid.RowSpan="2"
 				HorizontalAlignment="Center"
 				VerticalAlignment="Top"
 				MaxWidth="500"
 				Manager="{Binding Manager}" />
-			<Grid Grid.Row="1">
+			<GridSplitter Grid.Row="0" Height="6" Margin="0 0 0 24"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
+			<Grid Grid.Row="0" VerticalAlignment="Bottom">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"></ColumnDefinition>
 					<ColumnDefinition Width="*"></ColumnDefinition>
@@ -2260,8 +2291,7 @@
 					<CheckBox Visibility="{Binding ColumnsShow.KernelCommandLine, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.KernelCommandLine}" Margin="0 0 6 0">内核命令行</CheckBox>
 				</WrapPanel>
 			</Grid>
-			<GridSplitter Grid.Row="2" Height="6" VerticalAlignment="Top" HorizontalAlignment="Stretch"></GridSplitter>
-			<Grid Grid.Row="2" Margin="0 6 0 0">
+			<Grid Grid.Row="1" Margin="0 6 0 0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="1000"></ColumnDefinition>
 					<ColumnDefinition Width="*"></ColumnDefinition>
