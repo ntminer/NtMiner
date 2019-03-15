@@ -37,20 +37,17 @@
 					Command="{Binding Refresh}" 
 					Padding="4 0"
 					Height="19"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
 					CornerRadius="2">
 					<WrapPanel>
 						<Path
 							Width="12"
 							Height="12"
 							Data="{StaticResource Icon_Refresh}"
-							Fill="{StaticResource ThemeForeground}"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
 							Margin="2 0 0 0"
 							VerticalAlignment="Center"
-							Foreground="{StaticResource ThemeForeground}"
 							Text="刷新" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -59,20 +56,17 @@
 					Command="{Binding StartMine}" 
 					Padding="4 0"
 					Height="19"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
 					CornerRadius="2">
 					<WrapPanel>
 						<Path
 							Width="12"
 							Height="12"
 							Data="{StaticResource Icon_Start}"
-							Fill="{StaticResource ThemeForeground}"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
 							Margin="2 0 0 0"
 							VerticalAlignment="Center"
-							Foreground="{StaticResource ThemeForeground}"
 							Text="开始挖矿" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -81,20 +75,17 @@
 					Command="{Binding StopMine}" 
 					Padding="4 0"
 					Height="19"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
 					CornerRadius="2">
 					<WrapPanel>
 						<Path
 							Width="12"
 							Height="12"
 							Data="{StaticResource Icon_Stop}"
-							Fill="{StaticResource ThemeForeground}"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
 							Margin="2 0 0 0"
 							VerticalAlignment="Center"
-							Foreground="{StaticResource ThemeForeground}"
 							Text="停止挖矿" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -103,20 +94,17 @@
 					Command="{Binding RestartNTMiner}" 
 					Padding="4 0"
 					Height="19"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
 					CornerRadius="2">
 					<WrapPanel>
 						<Path
 							Width="12"
 							Height="12"
 							Data="{StaticResource Icon_Restart}"
-							Fill="{StaticResource ThemeForeground}"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
 							Margin="2 0 0 0"
 							VerticalAlignment="Center"
-							Foreground="{StaticResource ThemeForeground}"
 							Text="重启客户端" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -125,20 +113,17 @@
 					Command="{Binding RestartWindows}" 
 					Padding="4 0"
 					Height="19"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
 					CornerRadius="2">
 					<WrapPanel>
 						<Path
 							Width="12"
 							Height="12"
 							Data="{StaticResource Icon_Restart2}"
-							Fill="{StaticResource ThemeForeground}"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
 							Margin="2 0 0 0"
 							VerticalAlignment="Center"
-							Foreground="{StaticResource ThemeForeground}"
 							Text="重启电脑" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -147,20 +132,17 @@
 					Command="{Binding ShutdownWindows}" 
 					Padding="4 0"
 					Height="19"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
 					CornerRadius="2">
 					<WrapPanel>
 						<Path
 							Width="12"
 							Height="12"
 							Data="{StaticResource Icon_Shutdown}"
-							Fill="{StaticResource ThemeForeground}"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
 							Margin="2 0 0 0"
 							VerticalAlignment="Center"
-							Foreground="{StaticResource ThemeForeground}"
 							Text="关闭电脑" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -169,20 +151,17 @@
 					Command="{Binding Remove}" 
 					Padding="4 0"
 					Height="19"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
 					CornerRadius="2">
 					<WrapPanel>
 						<Path
 							Width="12"
 							Height="12"
 							Data="{StaticResource Icon_Delete}"
-							Fill="{StaticResource ThemeForeground}"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 						<TextBlock
 							Margin="2 0 0 0"
 							VerticalAlignment="Center"
-							Foreground="{StaticResource ThemeForeground}"
 							Text="删除矿工" />
 					</WrapPanel>
 				</controls:KbButton>
