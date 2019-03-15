@@ -14,7 +14,7 @@ namespace NTMiner.Data {
                 WorkId = data.WorkId,
                 WindowsLoginName = data.WindowsLoginName,
                 WindowsPassword = data.WindowsPassword,
-                Id = data.Id.ToString(),
+                Id = data.Id,
                 IsAutoBoot = false,
                 IsAutoStart = false,
                 IsAutoRestartKernel = false,
