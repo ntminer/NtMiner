@@ -45,16 +45,16 @@ namespace NTMiner {
         #region Init
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
-                if (!_isServerJson) {
-                    DoInit(callback);
-                    return;
-                }
-
                 OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                     if (!string.IsNullOrEmpty(jsonFileVersion)) {
                         JsonFileVersion = jsonFileVersion;
                     }
                 });
+                if (!_isServerJson) {
+                    DoInit(callback);
+                    return;
+                }
+
                 string serverJson = SpecialPath.ReadServerJsonFile();
                 string langJson = ClientId.ReadLocalLangJsonFile();
                 if (CommandLineArgs.WorkId != Guid.Empty) {

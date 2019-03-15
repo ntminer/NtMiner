@@ -38,6 +38,7 @@ namespace NTMiner.Vms {
                     action: message => {
                         this.ServerJsonVersion = NTMinerRoot.JsonFileVersion;
                     });
+                _serverJsonVersion = NTMinerRoot.JsonFileVersion;
             }
         }
 
