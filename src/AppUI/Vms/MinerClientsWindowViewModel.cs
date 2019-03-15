@@ -27,10 +27,8 @@ namespace NTMiner.Vms {
         private string _version;
         private string _kernel;
         private string _wallet;
-        private CoinViewModel _mainCoin;
-        private CoinViewModel _dualCoin;
-        private PoolViewModel _mainCoinPool;
-        private PoolViewModel _dualCoinPool;
+        private CoinViewModel _coinVm;
+        private PoolViewModel _poolVm;
         private MineWorkViewModel _selectedMineWork;
         private MinerGroupViewModel _selectedMinerGroup;
         private INotificationMessageManager _manager;
@@ -88,12 +86,10 @@ namespace NTMiner.Vms {
                 this._columnsShow = this.ColumnsShows.List.FirstOrDefault();
             }
             this._mineStatusEnumItem = this.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
-            this._mainCoin = CoinViewModel.PleaseSelect;
-            this._dualCoin = CoinViewModel.PleaseSelect;
+            this._coinVm = CoinViewModel.PleaseSelect;
             this._selectedMineWork = MineWorkViewModel.PleaseSelect;
             this._selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
-            this._mainCoinPool = _mainCoin.OptionPools.First();
-            this._dualCoinPool = _dualCoin.OptionPools.First();
+            this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
             this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
             this.RemoveMinerClients = new DelegateCommand(() => {
@@ -481,25 +477,14 @@ namespace NTMiner.Vms {
             if (SelectedMineWork != MineWorkViewModel.PleaseSelect) {
                 workId = SelectedMineWork.Id;
             }
-            string mainCoin = string.Empty;
-            string dualCoin = string.Empty;
-            string mainCoinPool = string.Empty;
-            string dualCoinPool = string.Empty;
+            string coin = string.Empty;
+            string pool = string.Empty;
             string wallet = string.Empty;
             if (workId == null || workId.Value == Guid.Empty) {
-                if (this.MainCoin != CoinViewModel.PleaseSelect) {
-                    mainCoin = this.MainCoin.Code;
-                    if (this.MainCoinPool != null) {
-                        mainCoinPool = this.MainCoinPool.Server;
-                    }
-                }
-                if (this.DualCoin != CoinViewModel.PleaseSelect) {
-                    dualCoin = this.DualCoin.Code;
-                    if (this.DualCoin == CoinViewModel.DualCoinEnabled) {
-                        dualCoin = "*";
-                    }
-                    if (this.DualCoinPool != null) {
-                        dualCoinPool = this.DualCoinPool.Server;
+                if (this.CoinVm != CoinViewModel.PleaseSelect) {
+                    coin = this.CoinVm.Code;
+                    if (this.PoolVm != null) {
+                        pool = this.PoolVm.Server;
                     }
                 }
                 if (!string.IsNullOrEmpty(Wallet)) {
@@ -514,10 +499,8 @@ namespace NTMiner.Vms {
                 this.MinerIp,
                 this.MinerName,
                 this.MineStatusEnumItem.Value,
-                mainCoin,
-                mainCoinPool,
-                dualCoin,
-                dualCoinPool,
+                coin,
+                pool,
                 wallet,
                 this.Version, this.Kernel, (response, exception) => {
                     this.CountDown = 10;
@@ -610,14 +593,14 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinViewModel MainCoin {
-            get { return _mainCoin; }
+        public CoinViewModel CoinVm {
+            get { return _coinVm; }
             set {
-                if (_mainCoin != value) {
-                    _mainCoin = value;
-                    OnPropertyChanged(nameof(MainCoin));
-                    OnPropertyChanged(nameof(MainCoinPool));
-                    this.MainCoinPool = PoolViewModel.PleaseSelect;
+                if (_coinVm != value) {
+                    _coinVm = value;
+                    OnPropertyChanged(nameof(CoinVm));
+                    OnPropertyChanged(nameof(PoolVm));
+                    this.PoolVm = PoolViewModel.PleaseSelect;
                     OnPropertyChanged(nameof(IsMainCoinSelected));
                     QueryMinerClients();
                 }
@@ -626,19 +609,19 @@ namespace NTMiner.Vms {
 
         public bool IsMainCoinSelected {
             get {
-                if (MainCoin == CoinViewModel.PleaseSelect) {
+                if (CoinVm == CoinViewModel.PleaseSelect) {
                     return false;
                 }
                 return true;
             }
         }
 
-        public PoolViewModel MainCoinPool {
-            get => _mainCoinPool;
+        public PoolViewModel PoolVm {
+            get => _poolVm;
             set {
-                if (_mainCoinPool != value) {
-                    _mainCoinPool = value;
-                    OnPropertyChanged(nameof(MainCoinPool));
+                if (_poolVm != value) {
+                    _poolVm = value;
+                    OnPropertyChanged(nameof(PoolVm));
                     QueryMinerClients();
                 }
             }
@@ -651,44 +634,6 @@ namespace NTMiner.Vms {
                     _wallet = value;
                     OnPropertyChanged(nameof(Wallet));
                     QueryMinerClients();
-                }
-            }
-        }
-
-        public CoinViewModel DualCoin {
-            get {
-                return _dualCoin;
-            }
-            set {
-                if (_dualCoin != value) {
-                    _dualCoin = value;
-                    OnPropertyChanged(nameof(DualCoin));
-                    this.DualCoinPool = PoolViewModel.PleaseSelect;
-                    this.Wallet = string.Empty;
-                    OnPropertyChanged(nameof(IsDualCoinSelected));
-                    QueryMinerClients();
-                }
-            }
-        }
-
-        public bool IsDualCoinSelected {
-            get {
-                if (DualCoin == CoinViewModel.PleaseSelect || DualCoin == CoinViewModel.DualCoinEnabled) {
-                    return false;
-                }
-                return true;
-            }
-        }
-
-        public PoolViewModel DualCoinPool {
-            get => _dualCoinPool;
-            set {
-                if (_dualCoinPool != null) {
-                    if (_dualCoinPool != value) {
-                        _dualCoinPool = value;
-                        OnPropertyChanged(nameof(DualCoinPool));
-                        QueryMinerClients();
-                    }
                 }
             }
         }

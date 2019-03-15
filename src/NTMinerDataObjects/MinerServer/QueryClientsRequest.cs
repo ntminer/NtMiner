@@ -12,10 +12,8 @@ namespace NTMiner.MinerServer {
         public string MinerIp { get; set; }
         public string MinerName { get; set; }
         public MineStatus MineState { get; set; }
-        public string MainCoin { get; set; }
-        public string MainCoinPool { get; set; }
-        public string DualCoin { get; set; }
-        public string DualCoinPool { get; set; }
+        public string Coin { get; set; }
+        public string Pool { get; set; }
         public string Wallet { get; set; }
         public string Version { get; set; }
         public string Kernel { get; set; }
@@ -36,10 +34,8 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(MinerIp)).Append(MinerIp)
                 .Append(nameof(MinerName)).Append(MinerName)
                 .Append(nameof(MineState)).Append(MineState)
-                .Append(nameof(MainCoin)).Append(MainCoin)
-                .Append(nameof(MainCoinPool)).Append(MainCoinPool)
-                .Append(nameof(DualCoin)).Append(DualCoin)
-                .Append(nameof(DualCoinPool)).Append(DualCoinPool)
+                .Append(nameof(Coin)).Append(Coin)
+                .Append(nameof(Pool)).Append(Pool)
                 .Append(nameof(Wallet)).Append(Wallet)
                 .Append(nameof(Version)).Append(Version)
                 .Append(nameof(Kernel)).Append(Kernel)

@@ -157,10 +157,8 @@ namespace NTMiner.Data.Impl {
             string minerIp,
             string minerName,
             MineStatus mineState,
-            string mainCoin,
-            string mainCoinPool,
-            string dualCoin,
-            string dualCoinPool,
+            string coin,
+            string pool,
             string wallet,
             string version,
             string kernel,
@@ -178,22 +176,11 @@ namespace NTMiner.Data.Impl {
                 if (workId != null) {
                     query = query.Where(a => a.WorkId == workId.Value);
                 }
-                if (!string.IsNullOrEmpty(mainCoin)) {
-                    query = query.Where(a => a.MainCoinCode == mainCoin);
+                if (!string.IsNullOrEmpty(coin)) {
+                    query = query.Where(a => a.MainCoinCode == coin || a.DualCoinCode == coin);
                 }
-                if (!string.IsNullOrEmpty(mainCoinPool)) {
-                    query = query.Where(a => a.MainCoinPool == mainCoinPool);
-                }
-                if (!string.IsNullOrEmpty(dualCoin)) {
-                    if (dualCoin == "*") {
-                        query = query.Where(a => a.IsDualCoinEnabled);
-                    }
-                    else {
-                        query = query.Where(a => a.DualCoinCode == dualCoin);
-                    }
-                }
-                if (!string.IsNullOrEmpty(dualCoinPool)) {
-                    query = query.Where(a => a.DualCoinPool == dualCoinPool);
+                if (!string.IsNullOrEmpty(pool)) {
+                    query = query.Where(a => a.MainCoinPool == pool || a.DualCoinPool == pool);
                 }
                 if (!string.IsNullOrEmpty(wallet)) {
                     query = query.Where(a => a.MainCoinWallet == wallet || a.DualCoinWallet == wallet);
