@@ -131,7 +131,7 @@ namespace NTMiner.Data.Impl {
                 _dicByClientId.Remove(clientData.ClientId);
                 using (LiteDatabase db = HostRoot.CreateLocalDb()) {
                     var col = db.GetCollection<MinerData>();
-                    col.Delete(new ObjectId(clientData.Id));
+                    col.Delete(clientData.Id);
                 }
             }
         }

@@ -7,7 +7,6 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using LiteDB;
 
 namespace NTMiner.Views {
     public partial class ChartsWindow : MetroWindow, IMainWindow {
