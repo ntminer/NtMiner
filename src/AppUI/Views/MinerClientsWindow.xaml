@@ -281,6 +281,101 @@
 				</controls:KbButton>
 				<controls:KbButton
 					Margin="4 0 0 0"
+					Command="{Binding OneKeyWork}" 
+					Padding="4 0"
+					Height="19"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_MineWork}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<TextBlock
+							Margin="2 0 0 0"
+							VerticalAlignment="Center"
+							Text="一键作业" />
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton
+					Margin="4 0 0 0"
+					Command="{Binding OneKeyGroup}" 
+					Padding="4 0"
+					Height="19"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_MineWork}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<TextBlock
+							Margin="2 0 0 0"
+							VerticalAlignment="Center"
+							Text="一键入组" />
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton
+					Margin="4 0 0 0"
+					Command="{Binding OneKeyMinerName}" 
+					Padding="4 0"
+					Height="19"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Miner}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<TextBlock
+							Margin="2 0 0 0"
+							VerticalAlignment="Center"
+							Text="一键矿工名" />
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton
+					Margin="4 0 0 0"
+					Command="{Binding OneKeyOverClock}" 
+					Padding="4 0"
+					Height="19"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_OverClock}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<TextBlock
+							Margin="2 0 0 0"
+							VerticalAlignment="Center"
+							Text="一键超频" />
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton
+					Margin="4 0 0 0"
+					Command="{Binding OneKeyUpgrade}" 
+					Padding="4 0"
+					Height="19"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Update}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<TextBlock
+							Margin="2 0 0 0"
+							VerticalAlignment="Center"
+							Text="一键升级" />
+					</WrapPanel>
+				</controls:KbButton>
+				<controls:KbButton
+					Margin="4 0 0 0"
 					Command="{Binding RestartNTMiner}" 
 					Padding="4 0"
 					Height="19"
