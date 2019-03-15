@@ -51,7 +51,7 @@ namespace NTMiner {
                     };
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message =
-                            client.PostAsJsonAsync($"http://server.ntminer.com:3339/api/AppSetting/AppSetting", request);
+                            client.PostAsJsonAsync($"http://{Server.OfficialServerHost}:3339/api/AppSetting/AppSetting", request);
                         DataResponse<AppSettingData> response =
                             message.Result.Content.ReadAsAsync<DataResponse<AppSettingData>>().Result;
                         string jsonFileVersion = string.Empty;
@@ -185,7 +185,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message =
-                            client.GetAsync($"http://server.ntminer.com:3339/api/AppSetting/GetTime");
+                            client.GetAsync($"http://{Server.OfficialServerHost}:3339/api/AppSetting/GetTime");
                         DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
                         callback?.Invoke(response);
                     }

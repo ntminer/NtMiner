@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.MinerServer.Impl {
     public class AppSettingSet : IAppSettingSet {
-        private Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>();
+        private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>();
         private readonly INTMinerRoot _root;
         public AppSettingSet(INTMinerRoot root) {
             _root = root;
