@@ -8,10 +8,8 @@ namespace NTMiner {
     public static partial class Server {
         public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
         public static readonly AppSettingServiceFace AppSettingService = AppSettingServiceFace.Instance;
-        public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
         public static readonly WrapperMinerClientServiceFace MinerClientService = WrapperMinerClientServiceFace.Instance;
-        public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
 
         public static string MinerServerHost {
             get { return NTMinerRegistry.GetMinerServerHost(); }
@@ -20,15 +18,12 @@ namespace NTMiner {
             }
         }
 
-        public static readonly string OfficialServerHost = "localhost";
-
-        private static readonly string SBaseUrl = $"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api";
-        public static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
+        private static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message =
-                            client.PostAsJsonAsync($"{SBaseUrl}/{controller}/{action}", param);
+                            client.PostAsJsonAsync($"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api/{controller}/{action}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -39,10 +34,10 @@ namespace NTMiner {
             });
         }
 
-        public static T Post<T>(string controller, string action, object param) where T : class {
+        private static T Post<T>(string controller, string action, object param) where T : class {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"{SBaseUrl}/{controller}/{action}", param);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api/{controller}/{action}", param);
                     T response = message.Result.Content.ReadAsAsync<T>().Result;
                     return response;
                 }
@@ -52,7 +47,7 @@ namespace NTMiner {
             }
         }
 
-        public static void GetAsync<T>(string controller, string action, Dictionary<string, string> param, Action<T, Exception> callback) {
+        private static void GetAsync<T>(string controller, string action, Dictionary<string, string> param, Action<T, Exception> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
@@ -62,7 +57,7 @@ namespace NTMiner {
                         }
 
                         Task<HttpResponseMessage> message =
-                            client.GetAsync($"{SBaseUrl}/{controller}/{action}{queryString}");
+                            client.GetAsync($"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api/{controller}/{action}{queryString}");
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }

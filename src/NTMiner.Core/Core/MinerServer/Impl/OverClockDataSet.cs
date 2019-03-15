@@ -25,7 +25,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     OverClockData entity = new OverClockData().Update(message.Input);
-                    Server.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
+                    OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                         if (response.IsSuccess()) {
                             _dicById.Add(entity.Id, entity);
                             VirtualRoot.Happened(new OverClockDataAddedEvent(entity));
@@ -52,7 +52,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     OverClockData entity = _dicById[message.Input.GetId()];
                     OverClockData oldValue = new OverClockData().Update(entity);
                     entity.Update(message.Input);
-                    Server.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
+                    OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                         if (!response.IsSuccess()) {
                             entity.Update(oldValue);
                             VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
@@ -75,7 +75,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         return;
                     }
                     OverClockData entity = _dicById[message.EntityId];
-                    Server.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
+                    OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
                         if (response.IsSuccess()) {
                             _dicById.Remove(entity.Id);
                             VirtualRoot.Happened(new OverClockDataRemovedEvent(entity));
@@ -102,7 +102,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 lock (_locker) {
                     if (!_isInited) {
                         Guid messageId = Guid.NewGuid();
-                        var response = Server.OverClockDataService.GetOverClockDatas(messageId);
+                        var response = OfficialServer.OverClockDataService.GetOverClockDatas(messageId);
                         if (response != null) {
                             foreach (var item in response.Data) {
                                 if (!_dicById.ContainsKey(item.GetId())) {

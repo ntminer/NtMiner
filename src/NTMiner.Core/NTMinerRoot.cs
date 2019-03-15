@@ -12,7 +12,6 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.Daemon;
-using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using System;
@@ -20,7 +19,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,34 +40,6 @@ namespace NTMiner {
             CreatedOn = DateTime.Now;
         }
         #endregion
-        public void GetJsonFileVersionAsync(string key, Action<string> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    AppSettingRequest request = new AppSettingRequest {
-                        MessageId = Guid.NewGuid(),
-                        Key = key
-                    };
-                    using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message =
-                            client.PostAsJsonAsync($"http://{Server.OfficialServerHost}:3339/api/AppSetting/AppSetting", request);
-                        DataResponse<AppSettingData> response =
-                            message.Result.Content.ReadAsAsync<DataResponse<AppSettingData>>().Result;
-                        string jsonFileVersion = string.Empty;
-                        if (response.IsSuccess() && response.Data != null && response.Data.Value != null) {
-                            if (response.Data.Value is string value) {
-                                jsonFileVersion = value;
-                            }
-                        }
-
-                        callback?.Invoke(jsonFileVersion);
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine($"GetJsonFileVersionAsync({AssemblyInfo.ServerJsonFileName})失败 {e?.Message}");
-                    callback?.Invoke(string.Empty);
-                }
-            });
-        }
 
         private readonly bool _isServerJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || CommandLineArgs.WorkId != Guid.Empty;
         #region Init
@@ -80,7 +50,7 @@ namespace NTMiner {
                     return;
                 }
 
-                GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
+                OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                     if (!string.IsNullOrEmpty(jsonFileVersion)) {
                         JsonFileVersion = jsonFileVersion;
                     }
@@ -179,27 +149,9 @@ namespace NTMiner {
         }
         #endregion
 
-
-        public void GetTimeAsync(Action<DateTime> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message =
-                            client.GetAsync($"http://{Server.OfficialServerHost}:3339/api/AppSetting/GetTime");
-                        DateTime response = message.Result.Content.ReadAsAsync<DateTime>().Result;
-                        callback?.Invoke(response);
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine($"GetTimeAsync失败 {e?.Message}");
-                    callback?.Invoke(DateTime.Now);
-                }
-            });
-        }
-
         #region Start
         public void Start() {
-            GetTimeAsync((remoteTime) => {
+            OfficialServer.GetTimeAsync((remoteTime) => {
                 if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
                     Logger.OkDebugLine("时间同步");
                 }
@@ -414,7 +366,7 @@ namespace NTMiner {
                         if (!_isServerJson) {
                             return;
                         }
-                        GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
+                        OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                             if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
                                 GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                                     string rawJson = Encoding.UTF8.GetString(data);

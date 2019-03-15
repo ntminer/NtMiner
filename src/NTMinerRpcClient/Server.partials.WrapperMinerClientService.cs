@@ -3,13 +3,12 @@ using NTMiner.Daemon;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class Server {
         public class WrapperMinerClientServiceFace {
             public static readonly WrapperMinerClientServiceFace Instance = new WrapperMinerClientServiceFace();
-            private static readonly string s_controllerName = ControllerUtil.GetControllerName<IWrapperMinerClientController>();
+            private static readonly string SControllerName = ControllerUtil.GetControllerName<IWrapperMinerClientController>();
 
             private WrapperMinerClientServiceFace() {
             }
@@ -26,7 +25,7 @@ namespace NTMiner {
                     ClientIp = client.MinerIp
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(s_controllerName, nameof(IWrapperMinerClientController.RestartWindows), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartWindows), request, callback);
             }
 
             public void ShutdownWindowsAsync(IClientData client, Action<ResponseBase, Exception> callback) {
@@ -41,9 +40,10 @@ namespace NTMiner {
                     ClientIp = client.MinerIp
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(s_controllerName, nameof(IWrapperMinerClientController.ShutdownWindows), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.ShutdownWindows), request, callback);
             }
 
+            // ReSharper disable once InconsistentNaming
             public void RestartNTMinerAsync(IClientData client, Action<ResponseBase, Exception> callback) {
                 WorkRequest innerRequest = new WorkRequest {
                     LoginName = SingleUser.LoginName,
@@ -57,9 +57,10 @@ namespace NTMiner {
                     ClientIp = client.MinerIp
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(s_controllerName, nameof(IWrapperMinerClientController.RestartNTMiner), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartNTMiner), request, callback);
             }
 
+            // ReSharper disable once InconsistentNaming
             public void UpgradeNTMinerAsync(IClientData client, string ntminerFileName, Action<ResponseBase, Exception> callback) {
                 UpgradeNTMinerRequest innerRequest = new UpgradeNTMinerRequest {
                     LoginName = SingleUser.LoginName,
@@ -73,7 +74,7 @@ namespace NTMiner {
                     ClientIp = client.MinerIp
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(s_controllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), request, callback);
             }
 
             public void StartMineAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
@@ -89,7 +90,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(s_controllerName, nameof(IWrapperMinerClientController.StartMine), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StartMine), request, callback);
             }
 
             public void StopMineAsync(IClientData client, Action<ResponseBase, Exception> callback) {
@@ -104,7 +105,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(s_controllerName, nameof(IWrapperMinerClientController.StopMine), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StopMine), request, callback);
             }
 
             public void SetClientMinerProfilePropertyAsync(IClientData client, string propertyName, object value, Action<ResponseBase, Exception> callback) {
@@ -121,7 +122,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(s_controllerName, nameof(IWrapperMinerClientController.SetClientMinerProfileProperty), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.SetClientMinerProfileProperty), request, callback);
             }
         }
     }
