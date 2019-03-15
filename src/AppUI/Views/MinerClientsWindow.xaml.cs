@@ -60,7 +60,6 @@ namespace NTMiner.Views {
 
         protected override void OnClosed(EventArgs e) {
             _sWindow = null;
-            AppStatic.Managers.RemoveManager(Vm.Manager);
             base.OnClosed(e);
         }
 

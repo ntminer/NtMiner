@@ -7,7 +7,6 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:notification="clr-namespace:NTMiner.Notifications.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
@@ -269,13 +268,5 @@
 				</ItemsControl>
 			</Viewbox>
 		</ScrollViewer>
-		<notification:NotificationMessageContainer 
-			Margin="0 4 0 0"
-			Grid.Row="0" 
-			Grid.RowSpan="3"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Top"
-			MaxWidth="500"
-			Manager="{Binding Manager}" />
 	</Grid>
 </metro:MetroWindow>

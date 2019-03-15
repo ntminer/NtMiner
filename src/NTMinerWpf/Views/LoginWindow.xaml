@@ -8,7 +8,6 @@
         xmlns:controls="clr-namespace:NTMiner.Controls"
         xmlns:vm="clr-namespace:NTMiner.Vms"
         xmlns:local="clr-namespace:NTMiner.Views"
-        xmlns:notification="clr-namespace:NTMiner.Notifications.Controls"
         mc:Ignorable="d"
         UseNoneWindowStyle="True"
         ResizeMode="NoResize"
@@ -158,12 +157,5 @@
                 Fill="{StaticResource ThemeBackground}"
                 Stretch="Fill" />
         </Grid>
-        <notification:NotificationMessageContainer 
-            Grid.Row="0"
-            Grid.RowSpan="3"
-            Margin="0 4 0 0"
-            MaxWidth="500" 
-            HorizontalAlignment="Center" 
-            Manager="{Binding Manager}" />
     </Grid>
 </metro:MetroWindow>

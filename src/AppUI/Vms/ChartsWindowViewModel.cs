@@ -18,17 +18,6 @@ namespace NTMiner.Vms {
             });
         }
 
-        private INotificationMessageManager _manager;
-        public INotificationMessageManager Manager {
-            get {
-                if (_manager == null) {
-                    _manager = new NotificationMessageManager();
-                    AppStatic.Managers.AddManager(_manager);
-                }
-                return _manager;
-            }
-        }
-
         public LangViewModels LangVms {
             get {
                 return LangViewModels.Current;

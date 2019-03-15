@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Notifications;
 using NTMiner.Views;
 using System.Windows;
 using System.Windows.Input;
@@ -11,8 +10,6 @@ namespace NTMiner.Vms {
 
         private Visibility _isBtnRunAsAdministratorVisible = Visibility.Collapsed;
         private string _serverJsonVersion;
-        private INotificationMessageManager _manager;
-
 
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
@@ -87,15 +84,6 @@ namespace NTMiner.Vms {
         public StateBarViewModel StateBarVm {
             get {
                 return StateBarViewModel.Current;
-            }
-        }
-
-        public INotificationMessageManager Manager {
-            get {
-                if (_manager == null) {
-                    _manager = new NotificationMessageManager();
-                }
-                return _manager;
             }
         }
 

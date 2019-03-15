@@ -6,11 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace NTMiner.Views {
-    public class NotificationSampleViewModel : ViewModelBase {
-
-        public INotificationMessageManager Manager { get; } = new NotificationMessageManager();
-    }
-
     public partial class NotificationSample : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
@@ -23,21 +18,14 @@ namespace NTMiner.Views {
             }, fixedSize: false);
         }
 
-        public NotificationSampleViewModel Vm {
-            get {
-                return (NotificationSampleViewModel)this.DataContext;
-            }
-        }
-
         public NotificationSample() {
-            this.DataContext = new NotificationSampleViewModel();
             this.InitializeComponent();
         }
 
 
         private void ButtonBaseErrorOnClick(object sender, RoutedEventArgs e)
         {
-            Vm.Manager
+            NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#F15B19")
                 .Background("#F15B19")
@@ -54,12 +42,13 @@ namespace NTMiner.Views {
                     IsIndeterminate = true,
                     IsHitTestVisible = false
                 })
+                .Dismiss().WithButton("Ignore", button => { })
                 .Queue();
         }
 
         private void ButtonBaseWarningOnClick(object sender, RoutedEventArgs e)
         {
-            Vm.Manager
+            NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#E0A030")
                 .Background("#333")
@@ -73,7 +62,7 @@ namespace NTMiner.Views {
 
         private void ButtonBaseInfoOnClick(object sender, RoutedEventArgs e)
         {
-            Vm.Manager
+            NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Background("#333")
@@ -87,7 +76,7 @@ namespace NTMiner.Views {
 
         private void ButtonBaseInfoDelayOnClick(object sender, RoutedEventArgs e)
         {
-            Vm.Manager
+            NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Animates(true)
@@ -104,7 +93,7 @@ namespace NTMiner.Views {
 
         private void ButtonBaseAdditionalContentOnClick(object sender, RoutedEventArgs e)
         {
-            Vm.Manager
+            NotiCenterWindowViewModel.Current.Manager
                 .CreateMessage()
                 .Accent("#1751C3")
                 .Background("#333")

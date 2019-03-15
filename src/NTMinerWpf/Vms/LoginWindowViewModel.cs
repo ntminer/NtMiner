@@ -10,7 +10,6 @@ namespace NTMiner.Vms {
         private string _password;
         private Visibility _isPasswordAgainVisible = Visibility.Collapsed;
         private string _passwordAgain;
-        private INotificationMessageManager _manager;
 
         public ICommand ActiveAdmin { get; private set; }
 
@@ -41,23 +40,14 @@ namespace NTMiner.Vms {
 
         public void ShowMessage(string message, bool isSuccess = false) {
             if (isSuccess) {
-                Manager.ShowSuccessMessage(message);
+                NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage(message);
             }
             else {
-                Manager.CreateMessage()
+                NotiCenterWindowViewModel.Current.Manager.CreateMessage()
                     .Error(message)
                     .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(2))
                     .Queue();
-            }
-        }
-
-        public INotificationMessageManager Manager {
-            get {
-                if (_manager == null) {
-                    _manager = new NotificationMessageManager();
-                }
-                return _manager;
             }
         }
 

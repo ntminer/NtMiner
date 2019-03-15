@@ -31,7 +31,6 @@ namespace NTMiner.Vms {
         private PoolViewModel _poolVm;
         private MineWorkViewModel _selectedMineWork;
         private MinerGroupViewModel _selectedMinerGroup;
-        private INotificationMessageManager _manager;
         private int _miningCount;
         private uint _maxTemp = 80;
         private readonly List<int> _frozenColumns = new List<int> { 8, 7, 6, 5, 4, 3, 2 };
@@ -106,7 +105,7 @@ namespace NTMiner.Vms {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
-                                    Manager.ShowErrorMessage(response.Description);
+                                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                                 }
                             }
                             else {
@@ -125,7 +124,7 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         if (response != null) {
                             Write.UserLine(response.Description, ConsoleColor.Red);
-                            Manager.ShowErrorMessage(response.Description);
+                            NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                         }
                     }
                     else {
@@ -149,7 +148,7 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        Manager.ShowErrorMessage(response.Description);
+                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                                     }
                                 }
                             });
@@ -168,7 +167,7 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        Manager.ShowErrorMessage(response.Description);
+                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                                     }
                                 }
                             });
@@ -187,7 +186,7 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        Manager.ShowErrorMessage(response.Description);
+                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                                     }
                                 }
                             });
@@ -206,7 +205,7 @@ namespace NTMiner.Vms {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);
-                                Manager.ShowErrorMessage(message);
+                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message);
                             }
                         });
                         Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
@@ -225,7 +224,7 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     string message = $"{item.MinerIp} {response?.Description}";
                                     Write.UserLine(message, ConsoleColor.Red);
-                                    Manager.ShowErrorMessage(message);
+                                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message);
                                 }
                             });
                             Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
@@ -332,21 +331,11 @@ namespace NTMiner.Vms {
         }
 
         private void ShowNoRecordSelected() {
-            Manager.CreateMessage()
+            NotiCenterWindowViewModel.Current.Manager.CreateMessage()
                     .Error("没有选中记录")
                     .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(2))
                     .Queue();
-        }
-
-        public INotificationMessageManager Manager {
-            get {
-                if (_manager == null) {
-                    _manager = new NotificationMessageManager();
-                    AppStatic.Managers.AddManager(_manager);
-                }
-                return _manager;
-            }
         }
 
         public ColumnsShowViewModel ColumnsShow {

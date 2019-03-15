@@ -36,7 +36,7 @@ namespace NTMiner.Views {
             Write.WriteDevLineMethod = DebugLine;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             if (!Windows.Role.IsAdministrator) {
-                Vm.Manager
+                NotiCenterWindowViewModel.Current.Manager
                     .CreateMessage()
                     .Warning("请以管理员身份运行。")
                     .WithButton("点击以管理员身份运行", button => {
@@ -47,12 +47,12 @@ namespace NTMiner.Views {
                     }).Queue();
             }
             if (NTMinerRoot.Current.GpuSet.Count == 0) {
-                Vm.Manager.ShowErrorMessage("没有检测到矿卡。");
+                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有检测到矿卡。");
             }
             NTMinerRoot.RegHotKey = (key) => {
                 string message;
                 if (!RegHotKey(key, out message)) {
-                    Vm.Manager
+                    NotiCenterWindowViewModel.Current.Manager
                         .CreateMessage()
                         .Error(message)
                         .Dismiss()
@@ -61,7 +61,7 @@ namespace NTMiner.Views {
                     return false;
                 }
                 else {
-                    Vm.Manager.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
+                    NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
                     return true;
                 }
             };
@@ -91,7 +91,7 @@ namespace NTMiner.Views {
             Enum.TryParse(NTMinerRoot.GetHotKey(), out hotKey);
             string message;
             if (!RegHotKey(hotKey, out message)) {
-                Vm.Manager
+                NotiCenterWindowViewModel.Current.Manager
                     .CreateMessage()
                     .Error(message)
                     .Dismiss().WithButton("忽略", null)

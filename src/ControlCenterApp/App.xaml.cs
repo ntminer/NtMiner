@@ -34,10 +34,13 @@ namespace NTMiner {
             catch (Exception){
                 createdNew = false;
             }
+
+            NotiCenterWindow notiCenter = new NotiCenterWindow();
             if (createdNew) {
                 Vms.AppStatic.IsMinerClient = false;
                 SplashWindow splashWindow = new SplashWindow();
                 splashWindow.Show();
+                notiCenter.Show();
                 NTMinerRoot.AppName = "开源矿工中控客户端";
                 NTMinerRoot.Current.Init(() => {
                     NTMinerRoot.KernelDownloader = new KernelDownloader();

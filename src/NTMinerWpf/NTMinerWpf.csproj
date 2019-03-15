@@ -87,7 +87,6 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DelegateCommand`1.cs" />
     <Compile Include="Design.cs" />
-    <Compile Include="Notifications\NotificationMessageManagers.cs" />
     <Compile Include="UIThread.cs" />
     <Compile Include="Notifications\ContentLocation.cs" />
     <Compile Include="Notifications\Controls\NotificationMessage.cs" />
@@ -113,9 +112,13 @@
     <Compile Include="Views\LangViewItemEdit.xaml.cs">
       <DependentUpon>LangViewItemEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NotiCenterWindow.xaml.cs">
+      <DependentUpon>NotiCenterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ViewLang.xaml.cs">
       <DependentUpon>ViewLang.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\NotiCenterWindowViewModel.cs" />
     <Compile Include="Vms\WpfStatic.cs" />
     <Compile Include="Vms\FormType.cs" />
     <Compile Include="Vms\IEditableViewModel.cs" />
@@ -187,6 +190,10 @@
     <Page Include="Views\LangViewItemEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NotiCenterWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ViewLang.xaml">
       <Generator>MSBuild:Compile</Generator>

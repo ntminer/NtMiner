@@ -18,16 +18,6 @@ namespace NTMiner.Vms {
     public static class AppStatic {
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsControlCenter ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
 
-        private static NotificationMessageManagers _manager;
-        public static NotificationMessageManagers Managers {
-            get {
-                if (_manager == null) {
-                    _manager = new NotificationMessageManagers();
-                }
-                return _manager;
-            }
-        }
-
         public static double MainWindowHeight {
             get {
                 return GetMainWindowHeight(DevMode.IsDevMode);
@@ -82,7 +72,7 @@ namespace NTMiner.Vms {
                 string json = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
                 File.WriteAllText(AssemblyInfo.ServerVersionJsonFileFullName, json);
                 string fileName = Path.GetFileName(AssemblyInfo.ServerVersionJsonFileFullName);
-                MainWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
+                NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -92,7 +82,7 @@ namespace NTMiner.Vms {
         public static ICommand ExportLangJson { get; private set; } = new DelegateCommand(() => {
             try {
                 string fileName = LangJson.Export();
-                MainWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
+                NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
@@ -109,15 +99,11 @@ namespace NTMiner.Vms {
                             Key = ServerJsonFileName,
                             Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                         }));
-                        foreach (var manager in Managers) {
-                            manager.ShowSuccessMessage($"刷新成功");
-                        }
+                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"刷新成功");
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
-                        foreach (var manager in Managers) {
-                            manager.ShowErrorMessage($"刷新失败");
-                        }
+                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"刷新失败");
                     }
                 }, icon: "Icon_Confirm");
             }
@@ -270,9 +256,7 @@ namespace NTMiner.Vms {
                                         callback?.Invoke();
                                     }
                                     else {
-                                        foreach (var manager in Managers) {
-                                            manager.ShowErrorMessage(message);
-                                        }
+                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message);
                                         callback?.Invoke();
                                     }
                                 }

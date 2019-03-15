@@ -5,7 +5,6 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:notification="clr-namespace:NTMiner.Notifications.Controls;assembly=NTMinerWpf"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		xmlns:view="clr-namespace:NTMiner.Views"
@@ -17,6 +16,7 @@
 		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
+		Title="矿工列表"
 		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="3600">
 	<metro:MetroWindow.Resources>
@@ -2258,14 +2258,6 @@
 				</DataGrid.Columns>
 			</DataGrid>
 			<TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
-			<notification:NotificationMessageContainer 
-				Margin="0 4 0 0"
-				Grid.Row="0"
-				Grid.RowSpan="2"
-				HorizontalAlignment="Center"
-				VerticalAlignment="Top"
-				MaxWidth="500"
-				Manager="{Binding Manager}" />
 			<GridSplitter Grid.Row="0" Height="6" Margin="0 0 0 24"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
 			<Grid Grid.Row="0" VerticalAlignment="Bottom">
 				<Grid.ColumnDefinitions>
