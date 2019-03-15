@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
         private INotificationMessageManager _manager;
         private int _miningCount;
         private uint _maxTemp = 80;
-        private int _frozenColumnCount = 9;
+        private int _frozenColumnCount = 8;
         private uint _minTemp = 40;
         private int _rejectPercent = 10;
 
@@ -114,7 +114,7 @@ namespace NTMiner.Vms {
                         });
                     }, icon: "Icon_Confirm");
                 }
-            });
+            }, CanCommand);
             this.RefreshMinerClients = new DelegateCommand(() => {
                 IEnumerable<MinerClientViewModel> clients = SelectedMinerClients;
                 if (!clients.Any()) {
@@ -155,7 +155,7 @@ namespace NTMiner.Vms {
                         }
                     }, icon: "Icon_Confirm");
                 }
-            });
+            }, CanCommand);
             this.ShutdownWindows = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
@@ -174,7 +174,7 @@ namespace NTMiner.Vms {
                         }
                     }, icon: "Icon_Confirm");
                 }
-            });
+            }, CanCommand);
             this.RestartNTMiner = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
@@ -193,7 +193,7 @@ namespace NTMiner.Vms {
                         }
                     }, icon: "Icon_Confirm");
                 }
-            });
+            }, CanCommand);
             this.StartMine = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
@@ -211,7 +211,7 @@ namespace NTMiner.Vms {
                         Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                     }
                 }
-            });
+            }, CanCommand);
             this.StopMine = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
@@ -231,7 +231,7 @@ namespace NTMiner.Vms {
                         }
                     }, icon: "Icon_Confirm");
                 }
-            });
+            }, CanCommand);
             this.PageUp = new DelegateCommand(() => {
                 this.MinerClientPageIndex = this.MinerClientPageIndex - 1;
             });
@@ -247,6 +247,10 @@ namespace NTMiner.Vms {
             this.PageRefresh = new DelegateCommand(QueryMinerClients);
         }
         #endregion
+
+        private bool CanCommand() {
+            return this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0;
+        }
 
         public int FrozenColumnCount {
             get => _frozenColumnCount;

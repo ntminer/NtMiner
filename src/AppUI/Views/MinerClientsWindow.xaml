@@ -234,7 +234,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
-				<RowDefinition Height="550"></RowDefinition>
+				<RowDefinition Height="500"></RowDefinition>
 				<RowDefinition Height="Auto"></RowDefinition>
 			</Grid.RowDefinitions>
 			<Grid Grid.Row="0">
@@ -2271,10 +2271,10 @@
 					</WrapPanel>
 				</WrapPanel>
 				<ScrollViewer 
-				Grid.Row="1" Grid.Column="0" 
-				PreviewMouseDown="ScrollViewer_PreviewMouseDown"
-				VerticalScrollBarVisibility="Auto"
-				Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+				    Grid.Row="1" Grid.Column="0" 
+				    PreviewMouseDown="ScrollViewer_PreviewMouseDown"
+				    VerticalScrollBarVisibility="Auto"
+				    Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
 				</ScrollViewer>
 				<uc:MessageCenter Grid.Row="1" Grid.Column="1"></uc:MessageCenter>

@@ -248,7 +248,20 @@
 					Text="{Binding MainCoinWallet, Mode=OneWay}" 
 					IsReadOnly="True"></TextBox>
 			</WrapPanel>
-			<WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+			<WrapPanel>
+				<TextBlock Style="{StaticResource LblTb}">主币算力</TextBlock>
+				<TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
+			</WrapPanel>
+			<WrapPanel Margin="20 0 0 0">
+				<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
+				<TextBlock Padding="1 0" Text="/"></TextBlock>
+				<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
+				<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}" Foreground="{Binding MainCoinRejectPercentForeground}"></TextBlock>
+			</WrapPanel>
+		</WrapPanel>
+		<Border Style="{StaticResource RowLine}"></Border>
+		<WrapPanel Style="{StaticResource Row}">
+			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">双挖币种</TextBlock>
 				<TextBlock Text="{Binding DualCoinCode}"></TextBlock>
 				<TextBox 
@@ -259,24 +272,7 @@
 					IsReadOnly="True"
 					Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
 			</WrapPanel>
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">主币算力</TextBlock>
-				<TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
-			</WrapPanel>
 			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">主币拒绝</TextBlock>
-				<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
-				<TextBlock Padding="1 0" Text="/"></TextBlock>
-				<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
-				<TextBlock Margin="10 0 0 0" Text="{Binding MainCoinRejectPercentText}" Foreground="{Binding MainCoinRejectPercentForeground}"></TextBlock>
-			</WrapPanel>
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">双挖算力</TextBlock>
 				<TextBox 
 					Padding="0"
@@ -285,15 +281,14 @@
 					IsReadOnly="True"
 					Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
 			</WrapPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">双挖币拒绝</TextBlock>
+			<WrapPanel Margin="20 0 0 0">
 				<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
 				<TextBlock Padding="1 0" Text="/"></TextBlock>
 				<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
 				<TextBlock Margin="10 0 0 0" Text="{Binding DualCoinRejectPercentText}" Foreground="{Binding DualCoinRejectPercentForeground}"></TextBlock>
 			</WrapPanel>
 		</WrapPanel>
-		<Border Style="{StaticResource RowLine}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
+		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
 			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">主币预期收益</TextBlock>
@@ -321,6 +316,34 @@
 				<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
 			</WrapPanel>
 			<WrapPanel>
+				<TextBlock Style="{StaticResource LblTb}">双挖币预期收益</TextBlock>
+				<TextBlock Text="{Binding IncomeDualCoinPerDayText}"></TextBlock>
+				<TextBlock 
+					Text="{Binding DualCoinCode}" 
+					Margin="2 0 0 0"
+					Padding="0"
+					Foreground="{StaticResource LableColor}"></TextBlock>
+				<TextBlock Text=", "></TextBlock>
+				<TextBlock Text="{Binding IncomeDualCoinUsdPerDayText}"></TextBlock>
+				<TextBlock 
+					Text="$" 
+					Margin="2 0 0 0"
+					Padding="0"
+					Foreground="{StaticResource LableColor}"></TextBlock>
+				<TextBlock Text=", "></TextBlock>
+				<TextBlock Text="{Binding IncomeDualCoinCnyPerDayText}"></TextBlock>
+				<TextBlock 
+					Text="￥" 
+					Margin="2 0 0 0"
+					Padding="0"
+					Foreground="{StaticResource LableColor}"></TextBlock>
+				<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
+				<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
+			</WrapPanel>
+		</WrapPanel>
+		<Border Style="{StaticResource RowLine}"></Border>
+		<WrapPanel>
+			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">总功耗</TextBlock>
 				<TextBox 
 					Padding="0"
@@ -328,43 +351,17 @@
 					Background="Transparent"
 					IsReadOnly="True"
 					Text="{Binding TotalPowerText, Mode=OneWay}"></TextBox>
-				<TextBlock Style="{StaticResource LblTb}">最高卡温</TextBlock>
-				<TextBox 
-					Padding="0"
-					BorderThickness="0"
-					Background="Transparent"
-					Foreground="{Binding TempForeground}"
-					IsReadOnly="True"
-					Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
 			</WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}">最高卡温</TextBlock>
+			<TextBox 
+				Padding="0"
+				BorderThickness="0"
+				Background="Transparent"
+				Foreground="{Binding TempForeground}"
+				IsReadOnly="True"
+				Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-			<TextBlock Style="{StaticResource LblTb}">双挖币预期收益</TextBlock>
-			<TextBlock Text="{Binding IncomeDualCoinPerDayText}"></TextBlock>
-			<TextBlock 
-				Text="{Binding DualCoinCode}" 
-				Margin="2 0 0 0"
-				Padding="0"
-				Foreground="{StaticResource LableColor}"></TextBlock>
-			<TextBlock Text=", "></TextBlock>
-			<TextBlock Text="{Binding IncomeDualCoinUsdPerDayText}"></TextBlock>
-			<TextBlock 
-				Text="$" 
-				Margin="2 0 0 0"
-				Padding="0"
-				Foreground="{StaticResource LableColor}"></TextBlock>
-			<TextBlock Text=", "></TextBlock>
-			<TextBlock Text="{Binding IncomeDualCoinCnyPerDayText}"></TextBlock>
-			<TextBlock 
-				Text="￥" 
-				Margin="2 0 0 0"
-				Padding="0"
-				Foreground="{StaticResource LableColor}"></TextBlock>
-			<TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
-			<TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
 			<TextBlock Style="{StaticResource LblTb}">显卡表格</TextBlock>
 			<Grid Margin="0 -4 0 0">
@@ -554,7 +551,7 @@
 					IsReadOnly="True"
 					Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
 			</WrapPanel>
-			<WrapPanel Style="{StaticResource Row}" Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+			<WrapPanel Style="{StaticResource Row}">
 				<TextBlock Style="{StaticResource LblTb}">双挖矿池</TextBlock>
 				<TextBox 
 					Padding="0"
