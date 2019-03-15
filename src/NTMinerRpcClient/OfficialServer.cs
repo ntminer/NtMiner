@@ -64,7 +64,7 @@ namespace NTMiner {
         }
 
         public static void GetTimeAsync(Action<DateTime> callback) {
-            GetAsync("AppSetting", "GetTime", null, callback: (DateTime datetime, Exception e) => {
+            GetAsync("AppSetting", nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
                 callback?.Invoke(datetime);
                 if (e != null) {
                     Logger.ErrorDebugLine($"GetTimeAsync失败 {e?.Message}");
@@ -77,7 +77,11 @@ namespace NTMiner {
                 MessageId = Guid.NewGuid(),
                 Key = key
             };
-            PostAsync("AppSetting", "AppSetting", request, (string jsonFileVersion, Exception e) => {
+            PostAsync("AppSetting", nameof(IAppSettingController.AppSetting), request, (DataResponse<AppSettingData> response, Exception e) => {
+                string jsonFileVersion = string.Empty;
+                if (response != null && response.Data != null && response.Data.Value != null) {
+                    jsonFileVersion = response.Data.Value.ToString();
+                }
                 callback?.Invoke(jsonFileVersion);
                 if (e != null) {
                     Logger.ErrorDebugLine($"GetJsonFileVersionAsync({AssemblyInfo.ServerJsonFileName})失败 {e?.Message}");
