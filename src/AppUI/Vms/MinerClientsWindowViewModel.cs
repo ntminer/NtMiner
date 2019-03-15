@@ -59,17 +59,20 @@ namespace NTMiner.Vms {
                 return;
             }
             VirtualRoot.On<Per1SecondEvent>(
-                "刷新倒计时秒表",
+                "刷新倒计时秒表，周期性挥动铲子表示在挖矿中",
                 LogEnum.None,
                 action: message => {
+                    var minerClients = this.MinerClients.ToArray();
                     if (this.CountDown > 0) {
                         this.CountDown = this.CountDown - 1;
-                        if (this.MinerClients == null) {
-                            return;
-                        }
-                        var minerClients = this.MinerClients.ToArray();
                         foreach (var item in minerClients) {
                             item.OnPropertyChanged(nameof(item.LastActivedOnText));
+                        }
+                    }
+                    // 周期性挥动铲子表示在挖矿中
+                    foreach (var item in minerClients) {
+                        if (item.IsMining) {
+                            item.IsShovelEmpty = !item.IsShovelEmpty;
                         }
                     }
                 });
@@ -93,9 +96,6 @@ namespace NTMiner.Vms {
             this._wallet = string.Empty;
             this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
             this.RemoveMinerClients = new DelegateCommand(() => {
-                if (this.MinerClients == null) {
-                    return;
-                }
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
@@ -138,9 +138,6 @@ namespace NTMiner.Vms {
                 });
             });
             this.RestartWindows = new DelegateCommand(() => {
-                if (this.MinerClients == null) {
-                    return;
-                }
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
@@ -160,9 +157,6 @@ namespace NTMiner.Vms {
                 }
             });
             this.ShutdownWindows = new DelegateCommand(() => {
-                if (this.MinerClients == null) {
-                    return;
-                }
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
@@ -182,9 +176,6 @@ namespace NTMiner.Vms {
                 }
             });
             this.RestartNTMiner = new DelegateCommand(() => {
-                if (this.MinerClients == null) {
-                    return;
-                }
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
@@ -204,9 +195,6 @@ namespace NTMiner.Vms {
                 }
             });
             this.StartMine = new DelegateCommand(() => {
-                if (this.MinerClients == null) {
-                    return;
-                }
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();
                 }
@@ -257,21 +245,6 @@ namespace NTMiner.Vms {
                 this.MinerClientPageIndex = MinerClientPageCount;
             });
             this.PageRefresh = new DelegateCommand(QueryMinerClients);
-            VirtualRoot.On<Per1SecondEvent>(
-                "周期性挥动铲子表示在挖矿中",
-                LogEnum.None,
-                action: message => {
-                    if (this.MinerClients == null) {
-                        return;
-                    }
-                    // 周期性挥动铲子表示在挖矿中
-                    var minerClients = this.MinerClients.ToArray();
-                    foreach (var item in minerClients) {
-                        if (item.IsMining) {
-                            item.IsShovelEmpty = !item.IsShovelEmpty;
-                        }
-                    }
-                });
         }
         #endregion
 
