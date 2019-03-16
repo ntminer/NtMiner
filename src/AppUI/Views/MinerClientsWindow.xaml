@@ -2069,7 +2069,7 @@
 					IsSnapToTickEnabled="True"
 					Value="{Binding RejectPercent}"></Slider>
 				<TextBlock VerticalAlignment="Center" Text="{Binding RejectPercent}" Foreground="White" Width="20"></TextBlock>
-				<TextBlock VerticalAlignment="Center" Foreground="White">%红色，</TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="White">%红色</TextBlock>
 			</WrapPanel>
 		</WrapPanel>
 	</Grid>

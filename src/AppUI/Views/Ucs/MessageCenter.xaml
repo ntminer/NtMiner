@@ -24,10 +24,6 @@
 			SpellCheck.IsEnabled="False"
 			IsReadOnly="True"
 			Padding="0 0 0 4" Background="Black" Foreground="White">
-			<RichTextBox.Resources>
-				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
-				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
-			</RichTextBox.Resources>
 			<FlowDocument>
 				<Paragraph x:Name="ConsoleParagraphDebug">
 				</Paragraph>

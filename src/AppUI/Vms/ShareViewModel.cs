@@ -28,6 +28,7 @@ namespace NTMiner.Vms {
                     _acceptShareCount = value;
                     OnPropertyChanged(nameof(AcceptShareCount));
                     OnPropertyChanged(nameof(TotalShareCount));
+                    OnPropertyChanged(nameof(RejectPercentText));
                 }
             }
         }
