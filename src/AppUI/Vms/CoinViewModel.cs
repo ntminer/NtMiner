@@ -88,6 +88,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
                 }
                 VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
+                NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("超频成功");
             });
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

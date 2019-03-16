@@ -53,7 +53,7 @@
 						<DataTemplate>
 							<controls:KbButton
 								ToolTip="{Binding Tooltip}"
-								Command="{Binding Data.FillForm,Source={StaticResource proxy}}"
+								Command="{Binding Data.OverClock,Source={StaticResource proxy}}"
 								CommandParameter="{Binding}"
 								Margin="10 0"
 								Padding="6 2"
