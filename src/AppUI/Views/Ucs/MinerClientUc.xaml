@@ -226,8 +226,8 @@
 					Background="Transparent"
 					IsReadOnly="True"
 					Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
-				<TextBox Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}" ToolTip="Windows远程桌面登录名"></TextBox>
-				<PasswordBox Margin="10 0 0 0" Width="100" ToolTip="Windows远程桌面密码" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
+				<TextBox x:Name="TbWindowsLoginName" Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}" ToolTip="Windows远程桌面登录名"></TextBox>
+				<PasswordBox Margin="10 0 0 0" Width="100" BorderBrush="{Binding ElementName=TbWindowsLoginName,Path=BorderBrush}" ToolTip="Windows远程桌面密码" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
 			</WrapPanel>
 			<WrapPanel>
 				<TextBlock Style="{StaticResource LblTb}">矿工名</TextBlock>
