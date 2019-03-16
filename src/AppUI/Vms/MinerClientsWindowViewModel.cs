@@ -1,13 +1,12 @@
 ﻿using NTMiner.MinerServer;
-using NTMiner.Notifications;
 using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Windows.Input;
-using NTMiner.Views.Ucs;
 
 namespace NTMiner.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase {
@@ -52,6 +51,10 @@ namespace NTMiner.Vms {
         public ICommand AddMinerClient { get; private set; }
         public ICommand RemoveMinerClients { get; private set; }
         public ICommand RefreshMinerClients { get; private set; }
+        public ICommand OneKeyWork { get; private set; }
+        public ICommand OneKeyGroup { get; private set; }
+        public ICommand OneKeyOverClock { get; private set; }
+        public ICommand OneKeyUpgrade { get; private set; }
 
         #region ctor
         private MinerClientsWindowViewModel() {
@@ -94,6 +97,18 @@ namespace NTMiner.Vms {
             this._selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
+            this.OneKeyWork = new DelegateCommand(() => {
+
+            });
+            this.OneKeyGroup = new DelegateCommand(() => {
+
+            });
+            this.OneKeyOverClock = new DelegateCommand(() => {
+
+            });
+            this.OneKeyUpgrade = new DelegateCommand(() => {
+
+            });
             this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
             this.RemoveMinerClients = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {

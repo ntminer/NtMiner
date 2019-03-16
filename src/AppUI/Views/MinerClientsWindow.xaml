@@ -119,7 +119,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="一键作业" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyWork}">
+				<MenuItem Header="分配作业" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyWork}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -129,22 +129,12 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="一键入组" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyGroup}">
+				<MenuItem Header="加入组" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyGroup}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_MinerGroup}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="一键矿工名" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyMinerName}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Miner}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
