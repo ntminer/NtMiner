@@ -21,6 +21,20 @@
 			ItemsSource="{Binding List}">
 			<DataGrid.Resources>
 				<vm:BindingProxy x:Key="proxy2" Data="{Binding}" />
+				<Style TargetType="DataGridColumnHeader">
+					<Style.Resources>
+						<ResourceDictionary />
+					</Style.Resources>
+					<Setter Property="UseLayoutRounding" Value="True" />
+					<Setter Property="Foreground" Value="#FF5A5A5A" />
+					<Setter Property="Background" Value="Transparent"></Setter>
+					<Setter Property="FontWeight" Value="Bold"></Setter>
+					<Setter Property="Focusable" Value="False"></Setter>
+				</Style>
+				<Style TargetType="DataGridRow">
+					<Setter Property="Foreground" Value="#FF666666" />
+					<Setter Property="Background" Value="Transparent"></Setter>
+				</Style>
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="编号" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">

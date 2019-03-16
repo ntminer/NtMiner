@@ -258,7 +258,7 @@
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
+		<WrapPanel Style="{StaticResource Row}" Visibility="{Binding DualCoinCode,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 			<WrapPanel Width="{StaticResource OneColWidth}">
 				<TextBlock Style="{StaticResource LblTb}">双挖币种</TextBlock>
 				<TextBlock Text="{Binding DualCoinCode}"></TextBlock>
