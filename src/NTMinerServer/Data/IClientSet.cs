@@ -33,5 +33,7 @@ namespace NTMiner.Data {
             out int miningCount);
 
         ClientData GetByClientId(Guid clientId);
+
+        bool IsAnyClientInGroup(Guid groupId);
     }
 }
