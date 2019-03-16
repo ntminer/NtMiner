@@ -2222,7 +2222,7 @@
 					Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
 				</ScrollViewer>
-				<GridSplitter Grid.Column="1" Width="6" Background="Black" HorizontalAlignment="Left" VerticalAlignment="Stretch"></GridSplitter>
+				<GridSplitter Grid.Column="1" Width="6" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Stretch"></GridSplitter>
 			</Grid>
 		</Grid>
 		<WrapPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Background="#007ACC">
