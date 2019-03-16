@@ -3,6 +3,7 @@ using NTMiner.Views;
 using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -47,7 +48,7 @@ namespace NTMiner {
                     splashWindow.Show();
                     notiCenter.Show();
                     NTMinerRoot.AppName = "开源矿工挖矿客户端";
-                    NTMinerRoot.Current.Init(()=> {
+                    NTMinerRoot.Current.Init(() => {
                         NTMinerRoot.KernelDownloader = new KernelDownloader();
                         UIThread.Execute(() => {
                             MainWindow window = new MainWindow();
@@ -67,14 +68,16 @@ namespace NTMiner {
                                     });
                                 });
                             #endregion
-                            try {
-                                HttpServer.Start($"http://localhost:{WebApiConst.MinerClientAppPort}");
-                                NTMinerRoot.Current.Start();
-                            }
-                            catch (Exception ex) {
-                                Logger.ErrorDebugLine(ex.Message, ex);
-                            }
                             splashWindow?.Close();
+                            Task.Factory.StartNew(() => {
+                                try {
+                                    HttpServer.Start($"http://localhost:{WebApiConst.MinerClientAppPort}");
+                                    NTMinerRoot.Current.Start();
+                                }
+                                catch (Exception ex) {
+                                    Logger.ErrorDebugLine(ex.Message, ex);
+                                }
+                            });
                         });
                     });
                     VirtualRoot.Accept<CloseNTMinerCommand>(

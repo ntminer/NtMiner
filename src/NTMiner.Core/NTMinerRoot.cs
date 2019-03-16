@@ -303,22 +303,6 @@ namespace NTMiner {
                     #endregion
                 });
             #endregion
-            #region 启动5秒钟后优化windows环境
-            VirtualRoot.On<HasBoot5SecondEvent>(
-                "启动5秒钟后优化windows环境",
-                LogEnum.Console,
-                action: message => {
-                    Task.Factory.StartNew(() => {
-                        Windows.Error.DisableWindowsErrorUI();
-                        Windows.Firewall.DisableFirewall();
-                        Windows.UAC.DisableUAC();
-                        Windows.WAU.DisableWAUAsync();
-                        Windows.Defender.DisableAntiSpyware();
-                        Windows.Power.PowerCfgOff();
-                        Windows.BcdEdit.IgnoreAllFailures();
-                    });
-                });
-            #endregion
             #region 每50分钟执行一次过期日志清理工作
             VirtualRoot.On<Per50MinuteEvent>(
                 "每50分钟执行一次过期日志清理工作",
@@ -387,9 +371,18 @@ namespace NTMiner {
                     });
             #endregion
 
+            Windows.Error.DisableWindowsErrorUI();
+            Windows.Firewall.DisableFirewall();
+            Windows.UAC.DisableUAC();
+            Windows.WAU.DisableWAUAsync();
+            Windows.Defender.DisableAntiSpyware();
+            Windows.Power.PowerCfgOff();
+            Windows.BcdEdit.IgnoreAllFailures();
+            WMIPrintGpus();
+
             // 自动开始挖矿
-            if ((this.MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !this.IsMining) {
-                this.StartMine(CommandLineArgs.WorkId);
+            if ((MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsMining) {
+                StartMine(CommandLineArgs.WorkId);
             }
         }
         #endregion

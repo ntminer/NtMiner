@@ -5,6 +5,7 @@ using NTMiner.Core.Kernels;
 using NTMiner.Repositories;
 using System;
 using System.Linq;
+using System.Management;
 using System.Reflection;
 
 namespace NTMiner {
@@ -73,6 +74,22 @@ namespace NTMiner {
             string value = Environment.MachineName.ToLower();
             value = new string(value.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
             return value;
+        }
+
+        public static void WMIPrintGpus() {
+            try {
+                ManagementObjectSearcher videos = new ManagementObjectSearcher("select * from Win32_VideoController");
+
+                foreach (var obj in videos.Get()) {
+                    Write.DevLine("Name - " + obj["Name"]);
+                    Write.DevLine("AdapterRAM - " + obj["AdapterRAM"]);
+                    Write.DevLine("DriverVersion - " + obj["DriverVersion"]);
+                    Write.DevLine("VideoProcessor - " + obj["VideoProcessor"]);
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
         }
 
         #region MinerName
