@@ -396,31 +396,33 @@
 					</ListBox>
 				</GroupBox>
 				<GroupBox Header="矿池">
-					<ListBox 
-						Background="Transparent"
-						ItemsSource="{Binding CoinVm.OptionPools}"
-						SelectedItem="{Binding PoolVm}"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-						ScrollViewer.VerticalScrollBarVisibility="Disabled"
-						ItemContainerStyle="{StaticResource ListBoxBarItem}"
-						BorderThickness="0">
-						<ListBox.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
-							</ItemsPanelTemplate>
-						</ListBox.ItemsPanel>
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
+					<StackPanel>
+						<TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Pool}" Width="208" Height="24" Background="White"></TextBox>
+						<ListBox 
+							Background="Transparent"
+							ItemsSource="{Binding CoinVm.OptionPools}"
+							SelectedItem="{Binding PoolVm}"
+							ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+							ScrollViewer.VerticalScrollBarVisibility="Disabled"
+							ItemContainerStyle="{StaticResource ListBoxBarItem}"
+							BorderThickness="0">
+							<ListBox.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel>
+									</WrapPanel>
+								</ItemsPanelTemplate>
+							</ListBox.ItemsPanel>
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+					</StackPanel>
 				</GroupBox>
-				<WrapPanel Margin="0 4 0 0">
-					<TextBlock Style="{StaticResource LblTb}" Width="50" Text="钱包" />
-					<TextBox VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="150" Background="White"></TextBox>
-				</WrapPanel>
+				<GroupBox Header="钱包">
+					<TextBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="208" Height="24" Background="White"></TextBox>
+				</GroupBox>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Width="50">IP</TextBlock>
 					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>

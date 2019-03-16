@@ -34,7 +34,7 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Center">最后更新</TextBlock>
 			<WrapPanel Grid.Column="1">
-				<TextBlock Width="120" Text="{Binding LastActivedOnText}" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Width="60" Text="{Binding LastActivedOnText}" VerticalAlignment="Center"></TextBlock>
 				<Border Width="19" Height="19" Background="Green" ToolTip="挖矿中" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityConverter}}"></Border>
 				<Border Width="19" Height="19" Background="Red" ToolTip="未挖矿" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}"></Border>
 				<Menu Margin="20 0 0 0">

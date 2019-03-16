@@ -27,6 +27,7 @@ namespace NTMiner.Vms {
         private string _kernel;
         private string _wallet;
         private CoinViewModel _coinVm;
+        private string _pool;
         private PoolViewModel _poolVm;
         private MineWorkViewModel _selectedMineWork;
         private MinerGroupViewModel _selectedMinerGroup;
@@ -95,6 +96,7 @@ namespace NTMiner.Vms {
             this._coinVm = CoinViewModel.PleaseSelect;
             this._selectedMineWork = MineWorkViewModel.PleaseSelect;
             this._selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
+            this._pool = string.Empty;
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
             this.OneKeyWork = new DelegateCommand(() => {
@@ -460,14 +462,10 @@ namespace NTMiner.Vms {
                 workId = SelectedMineWork.Id;
             }
             string coin = string.Empty;
-            string pool = string.Empty;
             string wallet = string.Empty;
             if (workId == null || workId.Value == Guid.Empty) {
                 if (this.CoinVm != CoinViewModel.PleaseSelect) {
                     coin = this.CoinVm.Code;
-                    if (this.PoolVm != null) {
-                        pool = this.PoolVm.Server;
-                    }
                 }
                 if (!string.IsNullOrEmpty(Wallet)) {
                     wallet = this.Wallet;
@@ -482,7 +480,7 @@ namespace NTMiner.Vms {
                 this.MinerName,
                 this.MineStatusEnumItem.Value,
                 coin,
-                pool,
+                this.Pool,
                 wallet,
                 this.Version, this.Kernel, (response, exception) => {
                     this.CountDown = 10;
@@ -581,6 +579,7 @@ namespace NTMiner.Vms {
                 if (_coinVm != value) {
                     _coinVm = value;
                     OnPropertyChanged(nameof(CoinVm));
+                    this._pool = string.Empty;
                     this._poolVm = PoolViewModel.PleaseSelect;
                     OnPropertyChanged(nameof(PoolVm));
                     OnPropertyChanged(nameof(IsMainCoinSelected));
@@ -598,13 +597,27 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string Pool {
+            get { return _pool; }
+            set {
+                _pool = value;
+                OnPropertyChanged(nameof(Pool));
+                QueryMinerClients();
+            }
+        }
+
         public PoolViewModel PoolVm {
             get => _poolVm;
             set {
                 if (_poolVm != value) {
                     _poolVm = value;
+                    if (value == null) {
+                        Pool = string.Empty;
+                    }
+                    else {
+                        Pool = value.Server;
+                    }
                     OnPropertyChanged(nameof(PoolVm));
-                    QueryMinerClients();
                 }
             }
         }
