@@ -45,6 +45,18 @@ namespace NTMiner.Vms {
             });
         }
 
+        public static void ShowMessage(this INotificationMessageManager manager, string message) {
+            UIThread.Execute(() => {
+                var builder = NotificationMessageBuilder.CreateMessage();
+                builder.Manager = manager;
+                builder.Message = manager.Factory.GetMessage();
+                builder.Warning(message ?? string.Empty)
+                    .Dismiss()
+                    .WithDelay(TimeSpan.FromSeconds(4))
+                    .Queue();
+            });
+        }
+
         public static void ShowSuccessMessage(this INotificationMessageManager manager, string message) {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage();

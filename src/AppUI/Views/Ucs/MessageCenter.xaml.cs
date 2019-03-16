@@ -20,6 +20,7 @@ namespace NTMiner.Views.Ucs {
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Write.WriteUserLineMethod = (text, foreground) => {
                 WriteLine(this.RichTextBox, this.ConsoleParagraph, text, foreground);
+                NotiCenterWindowViewModel.Current.Manager.ShowMessage(text);
             };
             Write.WriteDevLineMethod = (text, foreground) => {
                 WriteLine(this.RichTextBoxDebug, this.ConsoleParagraphDebug, text, foreground);
