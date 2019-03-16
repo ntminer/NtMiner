@@ -4,6 +4,7 @@ using NTMiner.MinerServer;
 using NTMiner.Notifications;
 using NTMiner.Views;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -1093,7 +1094,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public class GpuTableViewModel : ViewModelBase {
+        public class GpuTableViewModel : ViewModelBase, IEnumerable<GpuSpeedDataViewModel> {
             private readonly List<GpuSpeedDataViewModel> _gpuSpeeds = new List<GpuSpeedDataViewModel>();
             private string _mainCoinCode;
             private string _dualCoinCode;
@@ -1155,20 +1156,29 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(TotalPowerText));
                 }
             }
+
+            public IEnumerator<GpuSpeedDataViewModel> GetEnumerator() {
+                return _gpuSpeeds.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() {
+                return _gpuSpeeds.GetEnumerator();
+            }
         }
 
         public void RefreshGpusForeground(uint minTemp, uint maxTemp) {
-            for (int i = 0; i < GpuTable.Length; i++) {
-                GpuSpeedData gpuSpeedData = GpuTable[i];
-                PropertyInfo propertyInfo = GpuRowData.ForegroundProperties[i];
+            if (GpuTableVm == null) {
+                return;
+            }
+            foreach (var gpuSpeedData in GpuTableVm) {
                 if (gpuSpeedData.Temperature >= maxTemp) {
-                    propertyInfo.SetValue(GpuTableTempRow, Red, null);
+                    gpuSpeedData.TemperatureForeground = Red;
                 }
                 else if (gpuSpeedData.Temperature < minTemp) {
-                    propertyInfo.SetValue(GpuTableTempRow, Blue, null);
+                    gpuSpeedData.TemperatureForeground = Blue;
                 }
                 else {
-                    propertyInfo.SetValue(GpuTableTempRow, DefaultForeground, null);
+                    gpuSpeedData.TemperatureForeground = DefaultForeground;
                 }
             }
         }
