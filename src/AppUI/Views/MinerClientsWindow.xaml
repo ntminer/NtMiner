@@ -2210,18 +2210,18 @@
 			</Grid>
 			<Grid Grid.Row="1" Margin="0 6 0 0">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="1000"></ColumnDefinition>
 					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="1000"></ColumnDefinition>
 				</Grid.ColumnDefinitions>
+				<uc:MessageCenter Grid.Column="0"></uc:MessageCenter>
 				<ScrollViewer 
-					Grid.Column="0" 
+					Grid.Column="1" 
 					Background="#EEEEF2"
 					PreviewMouseDown="ScrollViewer_PreviewMouseDown"
 					VerticalScrollBarVisibility="Auto"
 					Visibility="{Binding CurrentMinerClient,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
 					<uc:MinerClientUc DataContext="{Binding CurrentMinerClient}"></uc:MinerClientUc>
 				</ScrollViewer>
-				<uc:MessageCenter Grid.Column="1"></uc:MessageCenter>
 				<GridSplitter Grid.Column="1" Width="6" Background="Black" HorizontalAlignment="Left" VerticalAlignment="Stretch"></GridSplitter>
 			</Grid>
 		</Grid>
