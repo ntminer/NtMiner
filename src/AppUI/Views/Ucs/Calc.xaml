@@ -57,39 +57,8 @@
 			SelectedItem="{Binding SelectedCoinVm}"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 			ScrollViewer.VerticalScrollBarVisibility="Disabled"
+			ItemContainerStyle="{StaticResource ListBoxBarItem}"
 			BorderThickness="0">
-			<ListBox.ItemContainerStyle>
-				<Style TargetType="ListBoxItem">
-					<Setter Property="Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="ListBoxItem">
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="*"></ColumnDefinition>
-										<ColumnDefinition Width="1"></ColumnDefinition>
-									</Grid.ColumnDefinitions>
-									<Border Background="{TemplateBinding Background}">
-										<ContentPresenter 
-											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											TextBlock.Foreground="{TemplateBinding Foreground}"/>
-									</Border>
-									<Border Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
-								</Grid>
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-					<Style.Triggers>
-						<Trigger Property="IsMouseOver" Value="true">
-							<Setter Property="Foreground" Value="#2DA4FF"/>
-						</Trigger>
-						<Trigger Property="IsSelected" Value="true">
-							<Setter Property="Background" Value="#2DA4FF"/>
-							<Setter Property="Foreground" Value="White"/>
-						</Trigger>
-					</Style.Triggers>
-				</Style>
-			</ListBox.ItemContainerStyle>
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>
 					<WrapPanel HorizontalAlignment="Center">
