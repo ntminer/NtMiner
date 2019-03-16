@@ -48,6 +48,8 @@ namespace NTMiner.Vms {
                     return;
                 }
                 MinerGroupEdit.ShowWindow(formType ?? FormType.Edit, this);
+            }, (formType) => {
+                return this != PleaseSelect;
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -56,6 +58,8 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
                 }, icon: "Icon_Confirm");
+            }, () => {
+                return this != PleaseSelect;
             });
         }
 

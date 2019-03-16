@@ -96,6 +96,11 @@ namespace NTMiner.Vms {
                     this.Sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
                     MineWorkEdit.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
                 }
+            }, formType => {
+                if (this == PleaseSelect || this == FreeMineWork) {
+                    return false;
+                }
+                return true;
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -104,6 +109,11 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定删除吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
                 }, icon: "Icon_Confirm");
+            }, () => {
+                if (this == PleaseSelect || this == FreeMineWork) {
+                    return false;
+                }
+                return true;
             });
         }
 
