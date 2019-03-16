@@ -10,7 +10,7 @@
              xmlns:vm="clr-namespace:NTMiner.Vms"
              mc:Ignorable="d" 
              Background="White"
-             TextOptions.TextFormattingMode="Display" 
+             TextOptions.TextFormattingMode="Display"
              DataContext="{x:Static vm:GpuSpeedViewModels.Current}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -27,22 +27,6 @@
                         <DataTemplate>
                             <WrapPanel>
                                 <TextBlock Text="Index"></TextBlock>
-                                <controls:KbButton
-                                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                                    ToolTip="{x:Static local:SpeedTable.ViewId}"
-                                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                                    CommandParameter="{x:Static local:SpeedTable.ViewId}"
-                                    Padding="8 0"
-                                    Background="Transparent">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="14"
-                                            Height="14"
-                                            Data="{StaticResource Icon_Translate}"
-                                            Fill="{StaticResource ThemeBackground}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
                             </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>

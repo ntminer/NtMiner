@@ -1,10 +1,10 @@
 ﻿using NTMiner.Core;
 using NTMiner.Views;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-
     public class MainWindowViewModel : ViewModelBase {
         public static readonly MainWindowViewModel Current = new MainWindowViewModel();
 
@@ -85,6 +85,10 @@ namespace NTMiner.Vms {
             get {
                 return StateBarViewModel.Current;
             }
+        }
+
+        public List<GpuSpeedViewModel> GpuSpeedVms {
+            get { return GpuSpeedViewModels.Current.GpuSpeedVms; }
         }
 
         public string ServerJsonVersion {
