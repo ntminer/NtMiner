@@ -25,9 +25,7 @@ namespace NTMiner.Vms {
             this.GpuAllVm = GpuViewModels.Current.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
             IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
             foreach (var item in gpuSpeeds) {
-                GpuViewModel gpuVm;
-                GpuViewModels.Current.TryGetGpuVm(item.Gpu.Index, out gpuVm);
-                this._list.Add(new GpuSpeedViewModel(item.MainCoinSpeed, item.DualCoinSpeed, gpuVm));
+                this._list.Add(new GpuSpeedViewModel(item));
             }
             _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
             VirtualRoot.On<GpuSpeedChangedEvent>(

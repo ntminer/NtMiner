@@ -1005,6 +1005,82 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(MaxTemp));
                 OnPropertyChanged(nameof(MaxTempText));
                 OnPropertyChanged(nameof(GpuCount));
+                this.GpuTableVm = new GpuTableViewModel(MainCoinCode, DualCoinCode, MainCoinSpeedText, DualCoinSpeedText, TotalPowerText, value);
+            }
+        }
+
+        private GpuTableViewModel _gpuTableVm;
+        public GpuTableViewModel GpuTableVm {
+            get {
+                return _gpuTableVm;
+            }
+            set {
+                _gpuTableVm = value;
+                OnPropertyChanged(nameof(GpuTableVm));
+            }
+        }
+
+        public class GpuTableViewModel : ViewModelBase {
+            private readonly List<GpuSpeedViewModel> _gpuSpeeds = new List<GpuSpeedViewModel>();
+            private string _mainCoinCode;
+            private string _dualCoinCode;
+            private string _mainCoinTotalSpeedText;
+            private string _dualCoinTotalSpeedText;
+            private string _totalPowerText;
+
+            public GpuTableViewModel(
+                string mainCoinCode,
+                string dualCoinCode,
+                string mainCoinTotalSpeedText,
+                string dualCoinTotalSpeedText,
+                string totalPowerText,
+                GpuSpeedData[] datas) {
+                this._mainCoinCode = mainCoinCode;
+                this._dualCoinCode = dualCoinCode;
+                this._mainCoinTotalSpeedText = mainCoinTotalSpeedText;
+                this._dualCoinTotalSpeedText = dualCoinTotalSpeedText;
+                this._totalPowerText = totalPowerText;
+                if (datas != null && datas.Length != 0) {
+                    foreach (var data in datas) {
+                        _gpuSpeeds.Add(new GpuSpeedViewModel(data));
+                    }
+                }
+            }
+
+            public string MainCoinCode {
+                get => _mainCoinCode;
+                set {
+                    _mainCoinCode = value;
+                    OnPropertyChanged(nameof(MainCoinCode));
+                }
+            }
+            public string DualCoinCode {
+                get => _dualCoinCode;
+                set {
+                    _dualCoinCode = value;
+                    OnPropertyChanged(nameof(DualCoinCode));
+                }
+            }
+            public string MainCoinTotalSpeedText {
+                get => _mainCoinTotalSpeedText;
+                set {
+                    _mainCoinTotalSpeedText = value;
+                    OnPropertyChanged(nameof(MainCoinTotalSpeedText));
+                }
+            }
+            public string DualCoinTotalSpeedText {
+                get => _dualCoinTotalSpeedText;
+                set {
+                    _dualCoinTotalSpeedText = value;
+                    OnPropertyChanged(nameof(DualCoinTotalSpeedText));
+                }
+            }
+            string TotalPowerText {
+                get => _totalPowerText;
+                set {
+                    _totalPowerText = value;
+                    OnPropertyChanged(nameof(TotalPowerText));
+                }
             }
         }
 
