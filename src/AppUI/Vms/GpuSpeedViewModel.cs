@@ -1,6 +1,5 @@
-﻿using NTMiner.Core.Gpus;
+﻿using NTMiner.Core;
 using NTMiner.Views.Ucs;
-using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -8,14 +7,12 @@ namespace NTMiner.Vms {
         private SpeedViewModel _mainCoinSpeed;
         private SpeedViewModel _dualCoinSpeed;
 
-        private readonly IGpuSpeed _gpuSpeed;
-
         public ICommand OpenChart { get; private set; }
 
-        public GpuSpeedViewModel(IGpuSpeed gpuSpeed) {
-            _gpuSpeed = gpuSpeed;
-            this._mainCoinSpeed = new SpeedViewModel(gpuSpeed.MainCoinSpeed);
-            this._dualCoinSpeed = new SpeedViewModel(gpuSpeed.DualCoinSpeed);
+        public GpuSpeedViewModel(ISpeed mainCoinSpeed, ISpeed dualCoinSpeed, GpuViewModel gpuVm) {
+            _gpuVm = gpuVm;
+            this._mainCoinSpeed = new SpeedViewModel(mainCoinSpeed);
+            this._dualCoinSpeed = new SpeedViewModel(dualCoinSpeed);
             this.OpenChart = new DelegateCommand(() => {
                 SpeedCharts.ShowWindow(this);
             });
@@ -24,9 +21,6 @@ namespace NTMiner.Vms {
         private GpuViewModel _gpuVm = null;
         public GpuViewModel GpuVm {
             get {
-                if (_gpuVm == null) {
-                    _gpuVm = GpuViewModels.Current.FirstOrDefault(a => a.Index == _gpuSpeed.Gpu.Index);
-                }
                 return _gpuVm;
             }
         }
