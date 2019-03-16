@@ -19,7 +19,7 @@
 			作业
 		</sys:String>
 	</UserControl.Resources>
-	<Grid Margin="0 2 0 0">
+	<Grid Margin="10 4 10 0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -31,12 +31,6 @@
 				VerticalContentAlignment="Center" 
 				Background="White" 
 				Text="{Binding Name, ValidatesOnExceptions=True}">
-			</TextBox>
-			<TextBlock Style="{StaticResource LblTb}">备注:</TextBlock>
-			<TextBox Width="420" Background="White" Padding="0 4"
-					 AcceptsReturn="True" TextWrapping="Wrap" 
-					 VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-					 Text="{Binding Description, Mode=TwoWay}">
 			</TextBox>
 		</WrapPanel>
 		<controls:KbButton

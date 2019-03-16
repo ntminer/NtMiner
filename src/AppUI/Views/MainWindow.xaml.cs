@@ -55,12 +55,7 @@ namespace NTMiner.Views {
             NTMinerRoot.RegHotKey = (key) => {
                 string message;
                 if (!RegHotKey(key, out message)) {
-                    NotiCenterWindowViewModel.Current.Manager
-                        .CreateMessage()
-                        .Error(message)
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(4)).
-                        Queue();
+                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message, 4);
                     return false;
                 }
                 else {

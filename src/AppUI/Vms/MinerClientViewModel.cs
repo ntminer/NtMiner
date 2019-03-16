@@ -82,19 +82,11 @@ namespace NTMiner.Vms {
             });
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.WindowsLoginName) || string.IsNullOrEmpty(this.WindowsPassword)) {
-                    NotiCenterWindowViewModel.Current.Manager.CreateMessage()
-                        .Error("没有填写远程桌面用户名密码")
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(4))
-                        .Queue();
+                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有填写远程桌面用户名密码", 4);
                     return;
                 }
                 AppHelper.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
-                    NotiCenterWindowViewModel.Current.Manager.CreateMessage()
-                        .Error(message)
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(4))
-                        .Queue(); ;
+                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message, 4);
                 }));
             });
             this.RestartWindows = new DelegateCommand(() => {

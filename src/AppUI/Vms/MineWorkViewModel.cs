@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (string.IsNullOrEmpty(this.Name)) {
-                    throw new ValidationException("作业名称是必须的");
+                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("作业名称是必须的");
                 }
                 bool isMinerProfileChanged = false;
                 IMineWork entity;

@@ -331,11 +331,7 @@ namespace NTMiner.Vms {
         }
 
         private void ShowNoRecordSelected() {
-            NotiCenterWindowViewModel.Current.Manager.CreateMessage()
-                    .Error("没有选中记录")
-                    .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(2))
-                    .Queue();
+            NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage("没有选中记录", 2);
         }
 
         public ColumnsShowViewModel ColumnsShow {
