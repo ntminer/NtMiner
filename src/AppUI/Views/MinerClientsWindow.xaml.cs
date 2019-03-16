@@ -85,5 +85,13 @@ namespace NTMiner.Views {
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
+
+        private void MenuItemWork_Click(object sender, RoutedEventArgs e) {
+            PopMineWork.IsOpen = !PopMineWork.IsOpen;
+        }
+
+        private void MenuItemGroup_Click(object sender, RoutedEventArgs e) {
+            PopMinerGroup.IsOpen = !PopMinerGroup.IsOpen;
+        }
     }
 }

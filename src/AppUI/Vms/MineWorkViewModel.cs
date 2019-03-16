@@ -12,10 +12,7 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class MineWorkViewModel : ViewModelBase, IMineWork, IEditableViewModel {
         public static readonly MineWorkViewModel PleaseSelect = new MineWorkViewModel(Guid.Empty) {
-            _name = "全部作业"
-        };
-        public static readonly MineWorkViewModel FreeMineWork = new MineWorkViewModel(Guid.Empty) {
-            _name = "自由作业"
+            _name = "不指定"
         };
 
         private Guid _id;
@@ -97,7 +94,7 @@ namespace NTMiner.Vms {
                     MineWorkEdit.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
                 }
             }, formType => {
-                if (this == PleaseSelect || this == FreeMineWork) {
+                if (this == PleaseSelect) {
                     return false;
                 }
                 return true;
@@ -110,7 +107,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
                 }, icon: "Icon_Confirm");
             }, () => {
-                if (this == PleaseSelect || this == FreeMineWork) {
+                if (this == PleaseSelect) {
                     return false;
                 }
                 return true;
@@ -197,9 +194,6 @@ namespace NTMiner.Vms {
                     _name = value;
                     OnPropertyChanged(nameof(Name));
                     if (this == PleaseSelect) {
-                        return;
-                    }
-                    if (this == FreeMineWork) {
                         return;
                     }
                     if (string.IsNullOrEmpty(value)) {

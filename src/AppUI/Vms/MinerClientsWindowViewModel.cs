@@ -99,11 +99,15 @@ namespace NTMiner.Vms {
             this._pool = string.Empty;
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
-            this.OneKeyWork = new DelegateCommand(() => {
-
+            this.OneKeyWork = new DelegateCommand<MineWorkViewModel>((work) => {
+                foreach (var item in SelectedMinerClients) {
+                    item.SelectedMineWork = work;
+                }
             });
-            this.OneKeyGroup = new DelegateCommand(() => {
-
+            this.OneKeyGroup = new DelegateCommand<MinerGroupViewModel>((group) => {
+                foreach (var item in SelectedMinerClients) {
+                    item.SelectedMinerGroup = group;
+                }
             });
             this.OneKeyOverClock = new DelegateCommand(() => {
 
@@ -706,7 +710,7 @@ namespace NTMiner.Vms {
 
         public bool IsMineWorkSelected {
             get {
-                if (SelectedMineWork != MineWorkViewModel.PleaseSelect && SelectedMineWork != MineWorkViewModel.FreeMineWork) {
+                if (SelectedMineWork != MineWorkViewModel.PleaseSelect) {
                     return true;
                 }
                 return false;

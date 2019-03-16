@@ -151,7 +151,7 @@
 				<TextBlock Style="{StaticResource LblTb}">作业</TextBlock>
 				<ComboBox
 					MinWidth="100"
-					ItemsSource="{Binding MineWorkVms.MineWorkItems}"
+					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMineWork}"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></ComboBox>

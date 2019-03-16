@@ -236,7 +236,7 @@ namespace NTMiner.Vms {
         public MineWorkViewModel SelectedMineWork {
             get {
                 if (WorkId == Guid.Empty) {
-                    return MineWorkViewModel.FreeMineWork;
+                    return MineWorkViewModel.PleaseSelect;
                 }
                 if (_selectedMineWork == null || _selectedMineWork.Id != WorkId) {
                     if (MineWorkViewModels.Current.TryGetMineWorkVm(WorkId, out _selectedMineWork)) {
@@ -248,7 +248,7 @@ namespace NTMiner.Vms {
             set {
                 if (_selectedMineWork != value) {
                     if (value == null) {
-                        value = MineWorkViewModel.FreeMineWork;
+                        value = MineWorkViewModel.PleaseSelect;
                     }
                     var old = _selectedMineWork;
                     this.WorkId = value.Id;

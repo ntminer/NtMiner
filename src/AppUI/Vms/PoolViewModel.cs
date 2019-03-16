@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
         };
         public static readonly PoolViewModel PleaseSelect = new PoolViewModel(Guid.Empty) {
             _coinId = Guid.Empty,
-            _name = "全部矿池"
+            _name = "不指定"
         };
         private DataLevel _dataLevel = DataLevel.UnDefined;
         private Guid _id;

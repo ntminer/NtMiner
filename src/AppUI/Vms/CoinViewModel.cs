@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
             _walletRegexPattern = string.Empty
         };
         public static readonly CoinViewModel PleaseSelect = new CoinViewModel(Guid.Empty) {
-            _code = "全部币种"
+            _code = "不指定"
         };
         public static readonly CoinViewModel DualCoinEnabled = new CoinViewModel(Guid.Empty) {
             _code = "启用了双挖"

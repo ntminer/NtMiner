@@ -29,7 +29,6 @@ namespace NTMiner.Vms {
                         _dicById.Add(message.Source.GetId(), new MineWorkViewModel(message.Source));
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MineWorkVmItems));
-                        OnPropertyChanged(nameof(MineWorkItems));
                         if (message.Source.GetId() == MinerClientsWindowViewModel.Current.SelectedMineWork.GetId()) {
                             MinerClientsWindowViewModel.Current.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                         }
@@ -47,7 +46,6 @@ namespace NTMiner.Vms {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(List));
                     OnPropertyChanged(nameof(MineWorkVmItems));
-                    OnPropertyChanged(nameof(MineWorkItems));
                     if (message.Source.GetId() == MinerClientsWindowViewModel.Current.SelectedMineWork.GetId()) {
                         MinerClientsWindowViewModel.Current.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                     }
@@ -62,7 +60,6 @@ namespace NTMiner.Vms {
 
         private IEnumerable<MineWorkViewModel> GetMineWorkVmItems() {
             yield return MineWorkViewModel.PleaseSelect;
-            yield return MineWorkViewModel.FreeMineWork;
             foreach (var item in List) {
                 yield return item;
             }
@@ -70,18 +67,6 @@ namespace NTMiner.Vms {
         public List<MineWorkViewModel> MineWorkVmItems {
             get {
                 return GetMineWorkVmItems().ToList();
-            }
-        }
-
-        private IEnumerable<MineWorkViewModel> GetMineWorkItems() {
-            yield return MineWorkViewModel.FreeMineWork;
-            foreach (var item in List) {
-                yield return item;
-            }
-        }
-        public List<MineWorkViewModel> MineWorkItems {
-            get {
-                return GetMineWorkItems().ToList();
             }
         }
 
