@@ -35,5 +35,7 @@ namespace NTMiner.Data {
         ClientData GetByClientId(Guid clientId);
 
         bool IsAnyClientInGroup(Guid groupId);
+
+        bool IsAnyClientInWork(Guid workId);
     }
 }

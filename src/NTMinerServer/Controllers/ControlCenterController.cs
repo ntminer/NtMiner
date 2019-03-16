@@ -458,6 +458,9 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
+                if (HostRoot.Current.ClientSet.IsAnyClientInWork(request.Data)) {
+                    return ResponseBase.ClientError(request.MessageId, "该作业下有矿工，请先移除矿工再做删除操作");
+                }
                 HostRoot.Current.MineWorkSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
             }

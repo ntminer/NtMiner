@@ -289,6 +289,11 @@ namespace NTMiner.Data.Impl {
             return _dicByObjectId.Values.Any(a => a.GroupId == groupId);
         }
 
+        public bool IsAnyClientInWork(Guid workId) {
+            InitOnece();
+            return _dicByObjectId.Values.Any(a => a.WorkId == workId);
+        }
+
         public IEnumerator<ClientData> GetEnumerator() {
             InitOnece();
             foreach (var clientData in _dicByObjectId.Values) {
