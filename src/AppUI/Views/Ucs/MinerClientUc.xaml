@@ -349,7 +349,7 @@
 					Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
 			</StackPanel>
 			<Grid Grid.Column="1" HorizontalAlignment="Left">
-				<uc:GpuSpeedDataTable DataContext="{Binding GpuTableVm}" Visibility="{Binding GpuTableVm,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"></uc:GpuSpeedDataTable>
+				<uc:GpuSpeedDataTable DataContext="{Binding GpuTableVm}"></uc:GpuSpeedDataTable>
 				<StackPanel Background="#00ffffff"></StackPanel>
 			</Grid>
 		</Grid>

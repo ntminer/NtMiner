@@ -282,12 +282,6 @@ namespace NTMiner.Vms {
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
             Process.Start("https://github.com/ntminer/ntminer");
         });
-        public static ICommand ManageMinerGroup { get; private set; } = new DelegateCommand(() => {
-            MinerGroupPage.ShowWindow();
-        });
-        public static ICommand ManageMineWork { get; private set; } = new DelegateCommand(() => {
-            MineWorkPage.ShowWindow();
-        });
         public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
             MinerClientsWindow.ShowWindow();
         });

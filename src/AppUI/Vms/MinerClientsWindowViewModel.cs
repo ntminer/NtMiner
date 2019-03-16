@@ -664,15 +664,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        private IEnumerable<MinerGroupViewModel> GetMinerGroupVmItems() {
-            yield return MinerGroupViewModel.PleaseSelect;
-            foreach (var item in MinerGroupViewModels.Current.List) {
-                yield return item;
-            }
-        }
-        public List<MinerGroupViewModel> MinerGroupVmItems {
+        public MinerGroupViewModels MinerGroupVms {
             get {
-                return GetMinerGroupVmItems().ToList();
+                return MinerGroupViewModels.Current;
             }
         }
 

@@ -227,12 +227,6 @@
     <Compile Include="Views\Ucs\KernelHelpPage.xaml.cs">
       <DependentUpon>KernelHelpPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\MineWorkPage.xaml.cs">
-      <DependentUpon>MineWorkPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Ucs\MinerGroupPage.xaml.cs">
-      <DependentUpon>MinerGroupPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Ucs\StateBar.xaml.cs">
       <DependentUpon>StateBar.xaml</DependentUpon>
     </Compile>
@@ -335,11 +329,9 @@
     <Compile Include="Vms\MinerClientViewModel.cs" />
     <Compile Include="Vms\ChartViewModel.cs" />
     <Compile Include="Vms\ChartsWindowViewModel.cs" />
-    <Compile Include="Vms\MinerGroupPageViewModel.cs" />
     <Compile Include="Vms\MinerGroupViewModel.cs" />
     <Compile Include="Vms\MinerGroupViewModels.cs" />
     <Compile Include="Vms\MinerServerHostConfigViewModel.cs" />
-    <Compile Include="Vms\MineWorkPageViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModels.cs" />
     <Compile Include="Vms\MinuteItem.cs" />
@@ -634,14 +626,6 @@
     <Page Include="Views\Ucs\Design\KernelViewModel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Ucs\MineWorkPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\MinerGroupPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\StateBar.xaml">
       <Generator>MSBuild:Compile</Generator>

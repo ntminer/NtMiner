@@ -1,12 +1,11 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class MinerGroupViewModels : ViewModelBase, IEnumerable<MinerGroupViewModel> {
+    public class MinerGroupViewModels : ViewModelBase {
         public static readonly MinerGroupViewModels Current = new MinerGroupViewModels();
         private readonly Dictionary<Guid, MinerGroupViewModel> _dicById = new Dictionary<Guid, MinerGroupViewModel>();
 
@@ -29,7 +28,7 @@ namespace NTMiner.Vms {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Add(message.Source.GetId(), new MinerGroupViewModel(message.Source));
                         OnPropertyChanged(nameof(List));
-                        MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.MinerGroupVmItems));
+                        OnPropertyChanged(nameof(MinerGroupItems));
                         MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                     }
                 });
@@ -45,7 +44,7 @@ namespace NTMiner.Vms {
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(List));
-                    MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.MinerGroupVmItems));
+                    OnPropertyChanged(nameof(MinerGroupItems));
                     MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                 });
         }
@@ -60,15 +59,16 @@ namespace NTMiner.Vms {
             return _dicById.TryGetValue(id, out minerGroupVm);
         }
 
-        public IEnumerator<MinerGroupViewModel> GetEnumerator() {
+        private IEnumerable<MinerGroupViewModel> GetMinerGroupItems() {
             yield return MinerGroupViewModel.PleaseSelect;
-            foreach (var item in _dicById.Values) {
+            foreach (var item in List) {
                 yield return item;
             }
         }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return this.GetEnumerator();
+        public List<MinerGroupViewModel> MinerGroupItems {
+            get {
+                return GetMinerGroupItems().ToList();
+            }
         }
     }
 }
