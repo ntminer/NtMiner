@@ -199,14 +199,14 @@ namespace NTMiner.Views {
                                     }
                                 }
                             }
-                            DateTime now = DateTime.Now;
+                            DateTime now = DateTime.Now.AddSeconds(10);
                             foreach (var riser in chartVm.Series) {
                                 IChartValues valuesTotal = riser.Values;
                                 if (valuesTotal.Count > 0 && ((MeasureModel)valuesTotal[0]).DateTime.AddMinutes(NTMinerRoot.Current.SpeedHistoryLengthByMinute) < now) {
                                     valuesTotal.RemoveAt(0);
                                 }
                             }
-                            chartVm.SetAxisLimits(DateTime.Now);
+                            chartVm.SetAxisLimits(now);
                         }
                     });
                 });
