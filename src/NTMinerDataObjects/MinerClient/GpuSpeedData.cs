@@ -1,6 +1,11 @@
 ﻿namespace NTMiner.MinerClient {
     public class GpuSpeedData {
+        public GpuSpeedData() {
+        }
+
         public int Index { get; set; }
+
+        public string Name { get; set; }
 
         public double MainCoinSpeed { get; set; }
 

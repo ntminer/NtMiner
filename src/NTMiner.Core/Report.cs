@@ -82,6 +82,7 @@ namespace NTMiner {
                 KernelCommandLine = NTMinerRoot.UserKernelCommandLine,
                 GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
                     Index = a.Gpu.Index,
+                    Name = a.Gpu.Name,
                     MainCoinSpeed = a.MainCoinSpeed.Value,
                     DualCoinSpeed = a.DualCoinSpeed.Value,
                     FanSpeed = a.Gpu.FanSpeed,

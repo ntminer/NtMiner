@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.Core.Gpus.Impl {
-    internal class Gpu : IGpu {
+    public class Gpu : IGpu {
         public Gpu() {
         }
 
