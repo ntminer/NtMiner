@@ -378,7 +378,6 @@ namespace NTMiner {
             Windows.Defender.DisableAntiSpyware();
             Windows.Power.PowerCfgOff();
             Windows.BcdEdit.IgnoreAllFailures();
-            WMIPrintGpus();
 
             // 自动开始挖矿
             if ((MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsMining) {

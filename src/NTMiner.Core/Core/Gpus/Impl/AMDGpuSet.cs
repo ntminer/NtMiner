@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Gpus.Impl {
@@ -55,8 +56,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 });
             }
             if (deviceCount > 0) {
-                string driverVersion = adlHelper.GetDriverVersion();
-                this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", driverVersion));
+                this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", GetDriverVersion()));
                 Dictionary<string, string> kvs = new Dictionary<string, string> {
                     {"GPU_FORCE_64BIT_PTR","0" },
                     {"GPU_MAX_ALLOC_PERCENT","100" },
@@ -77,6 +77,19 @@ namespace NTMiner.Core.Gpus.Impl {
                 action: message => {
                     LoadGpuStateAsync();
                 });
+        }
+
+        public string GetDriverVersion() {
+            try {
+                ManagementObjectSearcher videos = new ManagementObjectSearcher("select DriverVersion from Win32_VideoController");
+                foreach (var obj in videos.Get()) {
+                    return obj["DriverVersion"] ?.ToString();
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+            return "0.0";
         }
 
         private void LoadGpuStateAsync() {

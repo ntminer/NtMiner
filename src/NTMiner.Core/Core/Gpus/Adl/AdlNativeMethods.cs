@@ -50,8 +50,6 @@ namespace NTMiner.Core.Gpus.Adl {
     /// <returns>return ADL Error Code</returns>
     internal delegate int ADL_Display_DisplayInfo_Get(int adapterIndex, ref int numDisplays, out IntPtr displayInfoArray, int forceDetect);
 
-    internal delegate int ADL_Overdrive5_CurrentActivity_Get(int iAdapterIndex, ref ADLPMActivity activity);
-
     internal delegate int ADL_Overdrive5_Temperature_Get(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
 
     internal delegate int ADL_Overdrive5_FanSpeed_Get(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue temperature);
@@ -63,10 +61,6 @@ namespace NTMiner.Core.Gpus.Adl {
     internal delegate int ADL_Main_Control_Refresh();
 
     internal delegate int ADL2_Main_Control_Refresh(IntPtr hHandle);
-
-    internal delegate int ADL_Graphics_Versions_Get(ref ADLVersionsInfo outVersionInfo);
-
-    internal delegate int ADL2_Graphics_Versions_Get(IntPtr hHandle, ref ADLVersionsInfo outVersionInfo);
 
     #endregion Export Delegates
 
@@ -121,9 +115,6 @@ namespace NTMiner.Core.Gpus.Adl {
             internal static extern int ADL_Display_DisplayInfo_Get(int adapterIndex, ref int numDisplays, out IntPtr displayInfoArray, int forceDetect);
 
             [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Overdrive5_CurrentActivity_Get(int iAdapterIndex, ref ADLPMActivity activity);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
             internal static extern int ADL_Overdrive5_Temperature_Get(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
 
             [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
@@ -140,12 +131,6 @@ namespace NTMiner.Core.Gpus.Adl {
 
             [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
             public static extern int ADL2_Main_Control_Refresh(IntPtr hHandle);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ADL_Graphics_Versions_Get(ref ADLVersionsInfo outVersionInfo);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern int ADL2_Graphics_Versions_Get(IntPtr hHandle, ref ADLVersionsInfo outVersionInfo);
 
             #endregion DLLImport
         }
@@ -407,58 +392,6 @@ namespace NTMiner.Core.Gpus.Adl {
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Display_DisplayInfo_Get_Check = false;
         #endregion ADL_Display_DisplayInfo_Get
-
-        #region ADL_Graphics_Versions_Get
-        /// <summary> ADL_Graphics_Versions_Get Delegates</summary>
-        internal static ADL_Graphics_Versions_Get ADL_Graphics_Versions_Get {
-            get {
-                if (!ADL_Graphics_Versions_Get_Check && null == ADL_Graphics_Versions_Get_) {
-                    ADL_Graphics_Versions_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Graphics_Versions_Get")) {
-                        ADL_Graphics_Versions_Get_ = ADLImport.ADL_Graphics_Versions_Get;
-                    }
-                }
-                return ADL_Graphics_Versions_Get_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL_Graphics_Versions_Get ADL_Graphics_Versions_Get_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL_Graphics_Versions_Get_Check = false;
-        #endregion ADL_Graphics_Versions_Get
-
-        #region ADL2_Graphics_Versions_Get
-        /// <summary> ADL2_Graphics_Versions_Get Delegates</summary>
-        internal static ADL2_Graphics_Versions_Get ADL2_Graphics_Versions_Get {
-            get {
-                if (!ADL2_Graphics_Versions_Get_Check && null == ADL2_Graphics_Versions_Get_) {
-                    ADL2_Graphics_Versions_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL2_Graphics_Versions_Get")) {
-                        ADL2_Graphics_Versions_Get_ = ADLImport.ADL2_Graphics_Versions_Get;
-                    }
-                }
-                return ADL2_Graphics_Versions_Get_;
-            }
-        }
-        /// <summary> Private Delegate</summary>
-        private static ADL2_Graphics_Versions_Get ADL2_Graphics_Versions_Get_ = null;
-        /// <summary> check flag to indicate the delegate has been checked</summary>
-        private static bool ADL2_Graphics_Versions_Get_Check = false;
-        #endregion ADL2_Graphics_Versions_Get
-
-        internal static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get {
-            get {
-                if (!ADL_Overdrive5_CurrentActivity_Get_Check && null == ADL_Overdrive5_CurrentActivity_Get_) {
-                    ADL_Overdrive5_CurrentActivity_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Overdrive5_CurrentActivity_Get")) {
-                        ADL_Overdrive5_CurrentActivity_Get_ = ADLImport.ADL_Overdrive5_CurrentActivity_Get;
-                    }
-                }
-                return ADL_Overdrive5_CurrentActivity_Get_;
-            }
-        }
-        private static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get_ = null;
-        private static bool ADL_Overdrive5_CurrentActivity_Get_Check = false;
 
         internal static ADL_Overdrive5_Temperature_Get ADL_Overdrive5_Temperature_Get {
             get {
