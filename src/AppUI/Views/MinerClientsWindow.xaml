@@ -85,233 +85,131 @@
 			</WrapPanel>
 		</Grid>
 		<WrapPanel Grid.Row="1" Grid.Column="2" Background="#EEEEF2">
-			<controls:KbButton
-				Command="{Binding RefreshMinerClients}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Refresh}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="刷新" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding StartMine}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Start}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="开始挖矿" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding StopMine}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Stop}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="停止挖矿" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding OneKeyWork}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_MineWork}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="一键作业" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding OneKeyGroup}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_MineWork}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="一键入组" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding OneKeyMinerName}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Miner}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="一键矿工名" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding OneKeyOverClock}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_OverClock}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="一键超频" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding OneKeyUpgrade}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Update}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="一键升级" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding RestartNTMiner}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Restart}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="重启客户端" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding RestartWindows}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Restart2}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="重启电脑" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding ShutdownWindows}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Shutdown}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="关闭电脑" />
-				</WrapPanel>
-			</controls:KbButton>
-			<controls:KbButton
-				Margin="4 0 0 0"
-				Command="{Binding RemoveMinerClients}" 
-				Padding="4 0"
-				Height="19"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Delete}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-					<TextBlock
-						Margin="2 0 0 0"
-						VerticalAlignment="Center"
-						Text="删除矿工" />
-				</WrapPanel>
-			</controls:KbButton>
+			<Menu Margin="0 2 0 0">
+				<Menu.Resources>
+					<SolidColorBrush x:Key="IconFillColor">#005098</SolidColorBrush>
+				</Menu.Resources>
+				<MenuItem Header="刷新" Padding="0 4" Margin="0 0 6 0" Command="{Binding RefreshMinerClients}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Refresh}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="开始挖矿" Padding="0 4" Margin="0 0 6 0" Command="{Binding StartMine}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Start}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="停止挖矿" Padding="0 4" Margin="0 0 6 0" Command="{Binding StopMine}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Stop}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="一键作业" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyWork}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_MineWork}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="一键入组" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyGroup}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_MinerGroup}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="一键矿工名" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyMinerName}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Miner}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="一键超频" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyOverClock}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_OverClock}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="一键升级" Padding="0 4" Margin="0 0 6 0" Command="{Binding OneKeyUpgrade}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Update}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="重启客户端" Padding="0 4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Restart}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="重启电脑" Padding="0 4" Margin="0 0 6 0" Command="{Binding RestartWindows}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Restart2}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="关闭电脑" Padding="0 4" Margin="0 0 6 0" Command="{Binding ShutdownWindows}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Shutdown}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="删除矿工" Padding="0 4" Margin="0 0 6 0" Command="{Binding RemoveMinerClients}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Delete}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+			</Menu>
 		</WrapPanel>
 		<StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Background="#F5F5F5">
 			<ListBox 

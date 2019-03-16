@@ -18,7 +18,7 @@
 			<Setter Property="VerticalAlignment" Value="Top"></Setter>
 		</Style>
 		<Style x:Key="Row" TargetType="WrapPanel">
-			<Setter Property="Margin" Value="0 2"></Setter>
+			<Setter Property="Margin" Value="0 4"></Setter>
 		</Style>
 		<Style x:Key="RowLine" TargetType="Border">
 			<Setter Property="BorderBrush" Value="#EEEEEE"></Setter>
@@ -32,144 +32,86 @@
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<TextBlock Style="{StaticResource LblTb}">最后更新</TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Center">最后更新</TextBlock>
 			<WrapPanel Grid.Column="1">
-				<TextBlock Width="120" Text="{Binding LastActivedOnText}"></TextBlock>
+				<TextBlock Width="120" Text="{Binding LastActivedOnText}" VerticalAlignment="Center"></TextBlock>
 				<Border Width="19" Height="19" Background="Green" ToolTip="挖矿中" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityConverter}}"></Border>
 				<Border Width="19" Height="19" Background="Red" ToolTip="未挖矿" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}"></Border>
-				<controls:KbButton
-					Margin="20 0 0 0"
-					Command="{Binding Refresh}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
+				<Menu Margin="20 0 0 0">
+					<Menu.Resources>
+						<SolidColorBrush x:Key="IconFillColor">#005098</SolidColorBrush>
+					</Menu.Resources>
+					<MenuItem Header="刷新" Padding="0 4" Margin="0 0 6 0" Command="{Binding Refresh}">
+						<MenuItem.Icon>
+							<Path
+							Width="16"
+							Height="16"
 							Data="{StaticResource Icon_Refresh}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="刷新" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding StartMine}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="开始挖矿" Padding="0 4" Margin="0 0 6 0" Command="{Binding StartMine}">
+						<MenuItem.Icon>
+							<Path
+							Width="16"
+							Height="16"
 							Data="{StaticResource Icon_Start}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="开始挖矿" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding StopMine}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="停止挖矿" Padding="0 4" Margin="0 0 6 0" Command="{Binding StopMine}">
+						<MenuItem.Icon>
+							<Path
+							Width="16"
+							Height="16"
 							Data="{StaticResource Icon_Stop}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="停止挖矿" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding RestartNTMiner}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="重启客户端" Padding="0 4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
+						<MenuItem.Icon>
+							<Path
+							Width="16"
+							Height="16"
 							Data="{StaticResource Icon_Restart}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="重启客户端" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding RestartWindows}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="重启电脑" Padding="0 4" Margin="0 0 6 0" Command="{Binding RestartWindows}">
+						<MenuItem.Icon>
+							<Path
+							Width="16"
+							Height="16"
 							Data="{StaticResource Icon_Restart2}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="重启电脑" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding ShutdownWindows}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="关闭电脑" Padding="0 4" Margin="0 0 6 0" Command="{Binding ShutdownWindows}">
+						<MenuItem.Icon>
+							<Path
+							Width="16"
+							Height="16"
 							Data="{StaticResource Icon_Shutdown}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="关闭电脑" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding Remove}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="删除矿工" Padding="0 4" Margin="0 0 6 0" Command="{Binding Remove}">
+						<MenuItem.Icon>
+							<Path
+							Width="16"
+							Height="16"
 							Data="{StaticResource Icon_Delete}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="删除矿工" />
-					</WrapPanel>
-				</controls:KbButton>
+						</MenuItem.Icon>
+					</MenuItem>
+				</Menu>
 			</WrapPanel>
 		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
@@ -198,7 +140,7 @@
 				<TextBlock Style="{StaticResource LblTb}">分组</TextBlock>
 				<ComboBox 
 					MinWidth="100"
-					ItemsSource="{Binding MinerGroupVms}"
+					ItemsSource="{Binding MinerGroupVms.List}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
 			</WrapPanel>
