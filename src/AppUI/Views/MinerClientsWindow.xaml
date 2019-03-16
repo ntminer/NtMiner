@@ -232,9 +232,10 @@
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
-			<GroupBox Header="作业">
-				<StackPanel>
+			<GroupBox>
+				<GroupBox.Header>
 					<WrapPanel>
+						<Label>作业</Label>
 						<controls:KbButton  
 							Command="{Binding MineWorkVms.Add}" 
 							Background="Transparent" 
@@ -284,32 +285,33 @@
 							</WrapPanel>
 						</controls:KbButton>
 					</WrapPanel>
-					<ListBox 
-						Background="Transparent"
-						ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
-						SelectedItem="{Binding SelectedMineWork}"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-						ScrollViewer.VerticalScrollBarVisibility="Disabled"
-						ItemContainerStyle="{StaticResource ListBoxBarItem}"
-						BorderThickness="0">
-						<ListBox.ItemsPanel>
-							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
-							</ItemsPanelTemplate>
-						</ListBox.ItemsPanel>
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-				</StackPanel>
+				</GroupBox.Header>
+				<ListBox 
+					Background="Transparent"
+					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
+					SelectedItem="{Binding SelectedMineWork}"
+					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					ScrollViewer.VerticalScrollBarVisibility="Disabled"
+					ItemContainerStyle="{StaticResource ListBoxBarItem}"
+					BorderThickness="0">
+					<ListBox.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel>
+							</WrapPanel>
+						</ItemsPanelTemplate>
+					</ListBox.ItemsPanel>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
 			</GroupBox>
 			<StackPanel Visibility="{Binding IsMineWorkSelected, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-				<GroupBox Header="组">
-					<StackPanel>
+				<GroupBox>
+					<GroupBox.Header>
 						<WrapPanel>
+							<Label>分组</Label>
 							<controls:KbButton  
 								Command="{Binding MinerGroupVms.Add}" 
 								Background="Transparent" 
@@ -359,49 +361,28 @@
 								</WrapPanel>
 							</controls:KbButton>
 						</WrapPanel>
-						<ListBox 
-							Margin="0 8 0 0"
-							Background="Transparent"				
-							ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
-							SelectedItem="{Binding SelectedMinerGroup}"
-							ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-							ScrollViewer.VerticalScrollBarVisibility="Disabled"
-							ItemContainerStyle="{StaticResource ListBoxBarItem}"
-							BorderThickness="0">
-							<ListBox.ItemsPanel>
-								<ItemsPanelTemplate>
-									<WrapPanel>
-									</WrapPanel>
-								</ItemsPanelTemplate>
-							</ListBox.ItemsPanel>
-							<ListBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
-								</DataTemplate>
-							</ListBox.ItemTemplate>
-						</ListBox>
-					</StackPanel>
+					</GroupBox.Header>
+					<ListBox 
+						Background="Transparent"				
+						ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
+						SelectedItem="{Binding SelectedMinerGroup}"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						ScrollViewer.VerticalScrollBarVisibility="Disabled"
+						ItemContainerStyle="{StaticResource ListBoxBarItem}"
+						BorderThickness="0">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel>
+								</WrapPanel>
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
 				</GroupBox>
-				<WrapPanel Margin="0 4 0 0">
-					<TextBlock Style="{StaticResource LblTb}" Width="50" Text="钱包" />
-					<TextBox VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="150" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">IP</TextBlock>
-					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">矿工名</TextBlock>
-					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerName}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">内核</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以此开头的内核" Width="150" Text="{Binding Kernel}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">版本</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="150" Text="{Binding Version}" Background="White"></TextBox>
-				</WrapPanel>
 				<GroupBox Header="状态">
 					<ListBox 
 						Background="Transparent"
@@ -446,6 +427,26 @@
 						</ListBox.ItemTemplate>
 					</ListBox>
 				</GroupBox>
+				<WrapPanel Margin="0 4 0 0">
+					<TextBlock Style="{StaticResource LblTb}" Width="50" Text="钱包" />
+					<TextBox VerticalContentAlignment="Center" Text="{Binding Wallet}" Width="150" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">IP</TextBlock>
+					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">矿工名</TextBlock>
+					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerName}" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">内核</TextBlock>
+					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以此开头的内核" Width="150" Text="{Binding Kernel}" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">版本</TextBlock>
+					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="150" Text="{Binding Version}" Background="White"></TextBox>
+				</WrapPanel>
 			</StackPanel>
 		</StackPanel>
 		<GridSplitter Grid.Row="2" Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="6" Background="Transparent"></GridSplitter>
