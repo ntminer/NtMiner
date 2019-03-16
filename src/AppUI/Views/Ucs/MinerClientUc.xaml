@@ -332,7 +332,7 @@
 				<TextBox 
 					HorizontalAlignment="Right"
 					ToolTip="最高卡温"
-					Padding="0"
+					Padding="0 0 20 0"
 					BorderThickness="0"
 					Background="Transparent"
 					Foreground="{Binding TempForeground}"
