@@ -84,375 +84,256 @@
 					KbSystemButtonSize="40" />
 			</WrapPanel>
 		</Grid>
-		<Grid Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2" Background="#EEEEF2">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="Auto"></ColumnDefinition>
-			</Grid.ColumnDefinitions>
-			<ScrollViewer 
-				Grid.Column="0"
-				x:Name="CoinsScrollView" 
-				PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
-				HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-				<ScrollViewer.Resources>
-					<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
-					<sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
-				</ScrollViewer.Resources>
-				<ListBox 
-					Background="Transparent"
-					ItemsSource="{Binding MineCoinVms.PleaseSelect}"
-					SelectedItem="{Binding CoinVm}"
-					MouseDown="ListBox_MouseDown"
-					BorderThickness="0">
-					<ListBox.ItemContainerStyle>
-						<Style TargetType="ListBoxItem">
-							<Setter Property="Template">
-								<Setter.Value>
-									<ControlTemplate TargetType="ListBoxItem">
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="*"></ColumnDefinition>
-												<ColumnDefinition Width="1"></ColumnDefinition>
-											</Grid.ColumnDefinitions>
-											<Grid.RowDefinitions>
-												<RowDefinition Height="*"></RowDefinition>
-												<RowDefinition Height="Auto"></RowDefinition>
-											</Grid.RowDefinitions>
-											<Border Background="{TemplateBinding Background}">
-												<ContentPresenter 
-													HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-													VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-													TextBlock.Foreground="{TemplateBinding Foreground}"/>
-											</Border>
-											<Path 
-												Grid.Row="1"
-												Grid.Column="0"
-												HorizontalAlignment="Center"
-												Fill="{TemplateBinding Background}"
-												Data="M 0,0 6,0 3,3 Z" />
-											<Border Grid.Row="0" Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
-										</Grid>
-									</ControlTemplate>
-								</Setter.Value>
-							</Setter>
-							<Style.Triggers>
-								<Trigger Property="IsMouseOver" Value="true">
-									<Setter Property="Foreground" Value="#836258"/>
-								</Trigger>
-								<Trigger Property="IsSelected" Value="true">
-									<Setter Property="Background" Value="#836258"/>
-									<Setter Property="Foreground" Value="White"/>
-								</Trigger>
-							</Style.Triggers>
-						</Style>
-					</ListBox.ItemContainerStyle>
-					<ListBox.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel>
-							</WrapPanel>
-						</ItemsPanelTemplate>
-					</ListBox.ItemsPanel>
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Padding="10 2" Text="{Binding Code}" ToolTip="{Binding CodeAlgo}"></TextBlock>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</ScrollViewer>
-			<WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding ElementName=CoinsScrollView,Path=ComputedHorizontalScrollBarVisibility}">
-				<Button x:Name="ButtonLeft" IsEnabled="False" Click="ButtonLeftCoin_Click">
-					<Button.Template>
-						<ControlTemplate>
-							<Border 
-								x:Name="Content"
-								Padding="4 4 6 4"
-								BorderThickness="1"
-								Background="Transparent">
-								<Path
-									x:Name="Icon"
-									Width="8"
-									Height="12"
-									Data="{StaticResource Icon_LeftTriangle}"
-									Fill="#676767"
-									Stretch="Fill">
-								</Path>
-							</Border>
-							<ControlTemplate.Triggers>
-								<Trigger Property="IsMouseOver" Value="True">
-									<Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
-									<Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
-									<Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
-								</Trigger>
-								<Trigger Property="IsEnabled" Value="False">
-									<Setter Property="Opacity" Value="0.5"></Setter>
-								</Trigger>
-							</ControlTemplate.Triggers>
-						</ControlTemplate>
-					</Button.Template>
-				</Button>
-				<Button x:Name="ButtonRight" Margin="2 0 0 0" Click="ButtonRightCoin_Click">
-					<Button.Template>
-						<ControlTemplate>
-							<Border 
-								x:Name="Content"
-								Padding="6 4 4 4"
-								BorderThickness="1"
-								Background="Transparent">
-								<Path
-									x:Name="Icon"
-									Width="8"
-									Height="12"
-									Data="{StaticResource Icon_RightTriangle}"
-									Fill="#676767"
-									Stretch="Fill">
-								</Path>
-							</Border>
-							<ControlTemplate.Triggers>
-								<Trigger Property="IsMouseOver" Value="True">
-									<Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
-									<Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
-									<Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
-								</Trigger>
-								<Trigger Property="IsEnabled" Value="False">
-									<Setter Property="Opacity" Value="0.5"></Setter>
-								</Trigger>
-							</ControlTemplate.Triggers>
-						</ControlTemplate>
-					</Button.Template>
-				</Button>
-			</WrapPanel>
-			<WrapPanel Grid.Column="2">
-				<controls:KbButton
-					Command="{Binding RefreshMinerClients}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Refresh}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="刷新" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding StartMine}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Start}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="开始挖矿" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding StopMine}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Stop}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="停止挖矿" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding OneKeyWork}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_MineWork}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="一键作业" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding OneKeyGroup}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_MineWork}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="一键入组" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding OneKeyMinerName}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Miner}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="一键矿工名" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding OneKeyOverClock}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_OverClock}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="一键超频" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding OneKeyUpgrade}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Update}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="一键升级" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding RestartNTMiner}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Restart}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="重启客户端" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding RestartWindows}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Restart2}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="重启电脑" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding ShutdownWindows}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Shutdown}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="关闭电脑" />
-					</WrapPanel>
-				</controls:KbButton>
-				<controls:KbButton
-					Margin="4 0 0 0"
-					Command="{Binding RemoveMinerClients}" 
-					Padding="4 0"
-					Height="19"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Delete}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-						<TextBlock
-							Margin="2 0 0 0"
-							VerticalAlignment="Center"
-							Text="删除矿工" />
-					</WrapPanel>
-				</controls:KbButton>
-			</WrapPanel>
-		</Grid>
-		<StackPanel Grid.Row="2" Grid.Column="0" Background="#F5F5F5">
+		<WrapPanel Grid.Row="1" Grid.Column="2" Background="#EEEEF2">
+			<controls:KbButton
+				Command="{Binding RefreshMinerClients}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Refresh}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="刷新" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding StartMine}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Start}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="开始挖矿" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding StopMine}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Stop}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="停止挖矿" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding OneKeyWork}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_MineWork}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="一键作业" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding OneKeyGroup}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_MineWork}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="一键入组" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding OneKeyMinerName}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Miner}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="一键矿工名" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding OneKeyOverClock}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_OverClock}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="一键超频" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding OneKeyUpgrade}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Update}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="一键升级" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding RestartNTMiner}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Restart}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="重启客户端" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding RestartWindows}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Restart2}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="重启电脑" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding ShutdownWindows}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Shutdown}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="关闭电脑" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 0 0 0"
+				Command="{Binding RemoveMinerClients}" 
+				Padding="4 0"
+				Height="19"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Delete}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+					<TextBlock
+						Margin="2 0 0 0"
+						VerticalAlignment="Center"
+						Text="删除矿工" />
+				</WrapPanel>
+			</controls:KbButton>
+		</WrapPanel>
+		<StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Background="#F5F5F5">
+			<ListBox 
+				Background="Transparent"
+				ItemsSource="{Binding MineCoinVms.PleaseSelect}"
+				SelectedItem="{Binding CoinVm}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				ItemContainerStyle="{StaticResource ListBoxBarItem}"
+				BorderThickness="0">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel>
+						</WrapPanel>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Padding="10 2" Text="{Binding Code}" ToolTip="{Binding CodeAlgo}"></TextBlock>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
 			<GroupBox Header="作业">
 				<StackPanel>
 					<WrapPanel>
@@ -617,61 +498,52 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Width="50">内核</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以次开头的内核" Width="150" Text="{Binding Kernel}" Background="White"></TextBox>
+					<TextBox VerticalContentAlignment="Center" ToolTip="内核名以此开头的内核" Width="150" Text="{Binding Kernel}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Width="50">版本</TextBlock>
-					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="100" Text="{Binding Version}" Background="White"></TextBox>
+					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="150" Text="{Binding Version}" Background="White"></TextBox>
 				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">状态</TextBlock>
-					<controls:KbComboBox 
-						Width="84"
-						ItemsSource="{Binding MineStatusEnumItems}"
-						DisplayMemberPath="Description"
-						SelectedItem="{Binding MineStatusEnumItem}">
-					</controls:KbComboBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Text="矿池" />
-					<controls:KbComboBox 
-						Width="120"
-						ItemsSource="{Binding CoinVm.OptionPools}"
-						IsEditable="True"
-						DisplayMemberPath="Name"
-						SelectedValuePath="Server"
-						SelectedItem="{Binding PoolVm}">
-						<controls:KbComboBox.Toolbar>
-							<WrapPanel HorizontalAlignment="Right">
-								<controls:KbButton
-									Margin="4 2"
-									BorderThickness="0"
-									Height="24"
-									Padding="4 0"
-									Command="{x:Static vm:AppStatic.ManagePools}"
-									CommandParameter="{Binding CoinVm}"
-									Background="{StaticResource ThemeBackground}"
-									CornerRadius="2">
-									<WrapPanel>
-										<Path
-											Width="14"
-											Height="14"
-											Data="{StaticResource Icon_Pool}"
-											Fill="{StaticResource ThemeForeground}"
-											Stretch="Fill" />
-										<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-									</WrapPanel>
-								</controls:KbButton>
+				<ListBox 
+					Background="Transparent"
+					ItemsSource="{Binding MineStatusEnumItems}"
+					SelectedItem="{Binding MineStatusEnumItem}"
+					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					ScrollViewer.VerticalScrollBarVisibility="Disabled"
+					ItemContainerStyle="{StaticResource ListBoxBarItem}"
+					BorderThickness="0">
+					<ListBox.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel>
 							</WrapPanel>
-						</controls:KbComboBox.Toolbar>
-						<controls:KbComboBox.ContextMenuEx>
-							<ContextMenu>
-								<MenuItem Header="管理" Command="{x:Static vm:AppStatic.ManagePools}" CommandParameter="{Binding CoinVm}">
-								</MenuItem>
-							</ContextMenu>
-						</controls:KbComboBox.ContextMenuEx>
-					</controls:KbComboBox>
-				</WrapPanel>
+						</ItemsPanelTemplate>
+					</ListBox.ItemsPanel>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Padding="10 2" Text="{Binding Description}"></TextBlock>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+				<ListBox 
+					Background="Transparent"
+					ItemsSource="{Binding CoinVm.OptionPools}"
+					SelectedItem="{Binding PoolVm}"
+					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					ScrollViewer.VerticalScrollBarVisibility="Disabled"
+					ItemContainerStyle="{StaticResource ListBoxBarItem}"
+					BorderThickness="0">
+					<ListBox.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel>
+							</WrapPanel>
+						</ItemsPanelTemplate>
+					</ListBox.ItemsPanel>
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
 			</StackPanel>
 		</StackPanel>
 		<GridSplitter Grid.Row="2" Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="6" Background="Transparent"></GridSplitter>

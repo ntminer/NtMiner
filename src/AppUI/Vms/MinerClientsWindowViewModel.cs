@@ -570,8 +570,8 @@ namespace NTMiner.Vms {
                 if (_coinVm != value) {
                     _coinVm = value;
                     OnPropertyChanged(nameof(CoinVm));
+                    this._poolVm = PoolViewModel.PleaseSelect;
                     OnPropertyChanged(nameof(PoolVm));
-                    this.PoolVm = PoolViewModel.PleaseSelect;
                     OnPropertyChanged(nameof(IsMainCoinSelected));
                     QueryMinerClients();
                 }

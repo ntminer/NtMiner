@@ -85,30 +85,5 @@ namespace NTMiner.Views {
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
-
-        private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {
-            double offset = CoinsScrollView.ContentHorizontalOffset - CoinsScrollView.ViewportWidth;
-            CoinsScrollView.ScrollToHorizontalOffset(offset);
-            ButtonLeft.IsEnabled = offset > 0;
-            ButtonRight.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
-        }
-
-        private void ButtonRightCoin_Click(object sender, RoutedEventArgs e) {
-            double offset = CoinsScrollView.ContentHorizontalOffset + CoinsScrollView.ViewportWidth;
-            CoinsScrollView.ScrollToHorizontalOffset(offset);
-            ButtonLeft.IsEnabled = offset > 0;
-            ButtonRight.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
-        }
-
-        private void ListBox_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
-                Window window = Window.GetWindow(this);
-                window.DragMove();
-            }
-        }
-
-        private void CoinsScrollView_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
-        }
     }
 }
