@@ -25,6 +25,7 @@
 			<Setter Property="BorderThickness" Value="0 1 0 0"></Setter>
 		</Style>
 		<sys:Double x:Key="OneColWidth">480</sys:Double>
+		<sys:Double x:Key="OneColWidthAddLblTbWidth">610</sys:Double>
 	</UserControl.Resources>
 	<StackPanel HorizontalAlignment="Left">
 		<WrapPanel Style="{StaticResource Row}">
@@ -238,7 +239,7 @@
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel Width="{StaticResource OneColWidthAddLblTbWidth}">
 				<TextBlock Style="{StaticResource LblTb}" Text="{Binding MainCoinCode}"></TextBlock>
 				<TextBox 
 					Padding="0"
@@ -280,7 +281,7 @@
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
 		<WrapPanel Style="{StaticResource Row}" Visibility="{Binding DualCoinCode,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
+			<WrapPanel Width="{StaticResource OneColWidthAddLblTbWidth}">
 				<TextBlock Style="{StaticResource LblTb}" Text="{Binding DualCoinCode}"></TextBlock>
 				<TextBox 
 					Padding="0"
