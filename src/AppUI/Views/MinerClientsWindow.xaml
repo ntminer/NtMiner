@@ -84,17 +84,27 @@
 					KbSystemButtonSize="40" />
 			</WrapPanel>
 		</Grid>
-		<WrapPanel Grid.Row="1" Grid.Column="2" Background="#EEEEF2">
+		<Grid Grid.Row="1" Grid.Column="2" Background="#EEEEF2">
 			<Menu Margin="0 2 0 0">
 				<Menu.Resources>
 					<SolidColorBrush x:Key="IconFillColor">#005098</SolidColorBrush>
 				</Menu.Resources>
-				<MenuItem Header="刷新" Padding="4" Margin="0 0 6 0" Command="{Binding RefreshMinerClients}">
+				<MenuItem Header="分配作业" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyWork}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
 							Height="16"
-							Data="{StaticResource Icon_Refresh}"
+							Data="{StaticResource Icon_MineWork}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="加入组" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyGroup}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_MinerGroup}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
@@ -115,26 +125,6 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Stop}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="分配作业" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyWork}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_MineWork}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="加入组" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyGroup}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_MinerGroup}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
@@ -199,8 +189,41 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
+				<MenuItem Header="刷新" Padding="4" Margin="0 0 6 0" Command="{Binding RefreshMinerClients}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Refresh}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 			</Menu>
-		</WrapPanel>
+			<ListBox 
+				x:Name="LbMineWork"
+				Visibility="Collapsed"
+				Margin="0 0 0 -26"
+				Background="Transparent"
+				ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
+				SelectedItem="{Binding SelectedMineWork}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				ItemContainerStyle="{StaticResource ListBoxBarItem}"
+				BorderThickness="0">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel>
+						</WrapPanel>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Grid>
 		<StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Background="#F5F5F5">
 			<ListBox 
 				Background="Transparent"
