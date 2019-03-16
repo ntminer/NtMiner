@@ -121,14 +121,14 @@ namespace NTMiner.MinerServer {
         private DateTime _preDualCoinDeltaOn;
 
         public int GetMainCoinShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this._preMainCoinDeltaOn.AddSeconds(20) < DateTime.Now) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
                 return 0;
             }
 
             int delta = 0;
 
             if (_preMainCoin == this.MainCoinCode) {
-                if (_preMainCoinShare != 0) {
+                if (_preMainCoinShare != 0 && _preMainCoinDeltaOn.AddSeconds(20) > DateTime.Now) {
                     delta = this.MainCoinTotalShare - _preMainCoinShare;
                     if (delta < 0) {
                         delta = 0;
@@ -147,14 +147,14 @@ namespace NTMiner.MinerServer {
         }
 
         public int GetDualCoinShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this._preDualCoinDeltaOn.AddSeconds(20) < DateTime.Now) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
                 return 0;
             }
 
             int delta = 0;
 
             if (_preDualCoin == this.DualCoinCode) {
-                if (_preDualCoinShare != 0) {
+                if (_preDualCoinShare != 0 && _preDualCoinDeltaOn.AddSeconds(20) > DateTime.Now) {
                     delta = this.DualCoinTotalShare - _preDualCoinShare;
                     if (delta < 0) {
                         delta = 0;
@@ -173,7 +173,7 @@ namespace NTMiner.MinerServer {
         }
 
         public int GetMainCoinRejectShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this._preMainCoinDeltaOn.AddSeconds(20) < DateTime.Now) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
                 return 0;
             }
 
@@ -197,7 +197,7 @@ namespace NTMiner.MinerServer {
         }
 
         public int GetDualCoinRejectShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this._preDualCoinDeltaOn.AddSeconds(20) < DateTime.Now) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
                 return 0;
             }
 
