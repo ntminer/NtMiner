@@ -11,7 +11,7 @@ namespace NTMiner {
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
 
-        public static readonly string OfficialServerHost = "localhost";
+        public static readonly string OfficialServerHost = "192.168.0.104";
 
         public static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
             Task.Factory.StartNew(() => {
