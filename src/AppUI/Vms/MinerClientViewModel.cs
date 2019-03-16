@@ -1020,8 +1020,81 @@ namespace NTMiner.Vms {
             }
         }
 
+        public class GpuSpeedDataViewModel : ViewModelBase {
+            private readonly GpuSpeedData _data;
+            public GpuSpeedDataViewModel(GpuSpeedData data) {
+                _data = data;
+            }
+            public int Index {
+                get { return _data.Index; }
+                set {
+                    _data.Index = value;
+                    OnPropertyChanged(nameof(Index));
+                }
+            }
+
+            public string Name {
+                get { return _data.Name; }
+                set {
+                    _data.Name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
+            }
+
+            public double MainCoinSpeed {
+                get { return _data.MainCoinSpeed; }
+                set {
+                    _data.MainCoinSpeed = value;
+                    OnPropertyChanged(nameof(MainCoinSpeed));
+                }
+            }
+
+            public double DualCoinSpeed {
+                get { return _data.DualCoinSpeed; }
+                set {
+                    _data.DualCoinSpeed = value;
+                    OnPropertyChanged(nameof(DualCoinSpeed));
+                }
+            }
+
+            public uint Temperature {
+                get { return _data.Temperature; }
+                set {
+                    _data.Temperature = value;
+                    OnPropertyChanged(nameof(Temperature));
+                }
+            }
+
+            private SolidColorBrush _temperatureForeground = DefaultForeground;
+            public SolidColorBrush TemperatureForeground {
+                get {
+                    return _temperatureForeground;
+                }
+                set {
+                    _temperatureForeground = value;
+                    OnPropertyChanged(nameof(TemperatureForeground));
+                }
+            }
+
+            public uint FanSpeed {
+                get { return _data.FanSpeed; }
+                set {
+                    _data.FanSpeed = value;
+                    OnPropertyChanged(nameof(FanSpeed));
+                }
+            }
+
+            public uint PowerUsage {
+                get { return _data.PowerUsage; }
+                set {
+                    _data.PowerUsage = value;
+                    OnPropertyChanged(nameof(PowerUsage));
+                }
+            }
+        }
+
         public class GpuTableViewModel : ViewModelBase {
-            private readonly List<GpuSpeedViewModel> _gpuSpeeds = new List<GpuSpeedViewModel>();
+            private readonly List<GpuSpeedDataViewModel> _gpuSpeeds = new List<GpuSpeedDataViewModel>();
             private string _mainCoinCode;
             private string _dualCoinCode;
             private string _mainCoinTotalSpeedText;
@@ -1042,7 +1115,7 @@ namespace NTMiner.Vms {
                 this._totalPowerText = totalPowerText;
                 if (datas != null && datas.Length != 0) {
                     foreach (var data in datas) {
-                        _gpuSpeeds.Add(new GpuSpeedViewModel(data));
+                        _gpuSpeeds.Add(new GpuSpeedDataViewModel(data));
                     }
                 }
             }
