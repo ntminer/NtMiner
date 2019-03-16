@@ -504,46 +504,50 @@
 					<TextBlock Style="{StaticResource LblTb}" Width="50">版本</TextBlock>
 					<TextBox VerticalContentAlignment="Center" ToolTip="客户端版本号以此开头的客户端" Width="150" Text="{Binding Version}" Background="White"></TextBox>
 				</WrapPanel>
-				<ListBox 
-					Background="Transparent"
-					ItemsSource="{Binding MineStatusEnumItems}"
-					SelectedItem="{Binding MineStatusEnumItem}"
-					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-					ScrollViewer.VerticalScrollBarVisibility="Disabled"
-					ItemContainerStyle="{StaticResource ListBoxBarItem}"
-					BorderThickness="0">
-					<ListBox.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel>
-							</WrapPanel>
-						</ItemsPanelTemplate>
-					</ListBox.ItemsPanel>
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Padding="10 2" Text="{Binding Description}"></TextBlock>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-				<ListBox 
-					Background="Transparent"
-					ItemsSource="{Binding CoinVm.OptionPools}"
-					SelectedItem="{Binding PoolVm}"
-					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-					ScrollViewer.VerticalScrollBarVisibility="Disabled"
-					ItemContainerStyle="{StaticResource ListBoxBarItem}"
-					BorderThickness="0">
-					<ListBox.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel>
-							</WrapPanel>
-						</ItemsPanelTemplate>
-					</ListBox.ItemsPanel>
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
+				<GroupBox Header="状态">
+					<ListBox 
+						Background="Transparent"
+						ItemsSource="{Binding MineStatusEnumItems}"
+						SelectedItem="{Binding MineStatusEnumItem}"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						ScrollViewer.VerticalScrollBarVisibility="Disabled"
+						ItemContainerStyle="{StaticResource ListBoxBarItem}"
+						BorderThickness="0">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel>
+								</WrapPanel>
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Padding="10 2" Text="{Binding Description}"></TextBlock>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</GroupBox>
+				<GroupBox Header="矿池">
+					<ListBox 
+						Background="Transparent"
+						ItemsSource="{Binding CoinVm.OptionPools}"
+						SelectedItem="{Binding PoolVm}"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						ScrollViewer.VerticalScrollBarVisibility="Disabled"
+						ItemContainerStyle="{StaticResource ListBoxBarItem}"
+						BorderThickness="0">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel>
+								</WrapPanel>
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Padding="10 2" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</GroupBox>
 			</StackPanel>
 		</StackPanel>
 		<GridSplitter Grid.Row="2" Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="6" Background="Transparent"></GridSplitter>
