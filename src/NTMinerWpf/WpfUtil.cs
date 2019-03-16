@@ -1,10 +1,19 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Views;
+using NTMiner.Vms;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner {
     public static class WpfUtil {
+        public static EventHandler ChangeNotiCenterWindowLocation(Window window) {
+            return (sender, e) => {
+                NotiCenterWindow.Instance.Left = window.Left + (window.Width - NotiCenterWindow.Instance.Width) / 2;
+                NotiCenterWindow.Instance.Top = window.Top + 10;
+            };
+        }
+
         public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
                 ScrollViewer scrollViewer = (ScrollViewer)sender;

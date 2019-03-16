@@ -33,6 +33,9 @@ namespace NTMiner.Views {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
+            EventHandler ChangeNotiCenterWindowLocation = WpfUtil.ChangeNotiCenterWindowLocation(this);
+            this.Activated += ChangeNotiCenterWindowLocation;
+            this.LocationChanged += ChangeNotiCenterWindowLocation;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             #region 总算力
             DelegateHandler<Per10SecondEvent> refeshTotalSpeedChart = VirtualRoot.On<Per10SecondEvent>(

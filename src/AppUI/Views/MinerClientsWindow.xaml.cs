@@ -32,6 +32,9 @@ namespace NTMiner.Views {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
+            EventHandler ChangeNotiCenterWindowLocation = WpfUtil.ChangeNotiCenterWindowLocation(this);
+            this.Activated += ChangeNotiCenterWindowLocation;
+            this.LocationChanged += ChangeNotiCenterWindowLocation;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             MinerClientsWindowViewModel.Current.QueryMinerClients();
             DelegateHandler<Per10SecondEvent> refreshMinerClients = VirtualRoot.On<Per10SecondEvent>(

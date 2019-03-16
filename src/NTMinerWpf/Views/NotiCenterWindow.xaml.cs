@@ -4,11 +4,13 @@ using NTMiner.Vms;
 
 namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {
+        public static readonly NotiCenterWindow Instance = new NotiCenterWindow();
+
         public NotiCenterWindowViewModel Vm {
             get { return NotiCenterWindowViewModel.Current; }
         }
 
-        public NotiCenterWindow() {
+        private NotiCenterWindow() {
             this.DataContext = Vm;
             InitializeComponent();
             this.Topmost = true;
