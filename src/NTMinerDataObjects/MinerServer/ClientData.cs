@@ -117,9 +117,11 @@ namespace NTMiner.MinerServer {
         private int _preDualCoinRejectShare = 0;
         private string _preMainCoin;
         private string _preDualCoin;
+        private DateTime _preMainCoinDeltaOn;
+        private DateTime _preDualCoinDeltaOn;
 
         public int GetMainCoinShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this._preMainCoinDeltaOn.AddSeconds(20) < DateTime.Now) {
                 return 0;
             }
 
@@ -139,11 +141,13 @@ namespace NTMiner.MinerServer {
                 _preMainCoin = this.MainCoinCode;
             }
 
+            _preMainCoinDeltaOn = DateTime.Now;
+
             return delta;
         }
 
         public int GetDualCoinShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this._preDualCoinDeltaOn.AddSeconds(20) < DateTime.Now) {
                 return 0;
             }
 
@@ -163,11 +167,13 @@ namespace NTMiner.MinerServer {
                 _preDualCoin = this.DualCoinCode;
             }
 
+            _preDualCoinDeltaOn = DateTime.Now;
+
             return delta;
         }
 
         public int GetMainCoinRejectShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.MainCoinCode) || this._preMainCoinDeltaOn.AddSeconds(20) < DateTime.Now) {
                 return 0;
             }
 
@@ -191,7 +197,7 @@ namespace NTMiner.MinerServer {
         }
 
         public int GetDualCoinRejectShareDelta() {
-            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this.ModifiedOn.AddSeconds(20) < DateTime.Now) {
+            if (this.IsMining == false || string.IsNullOrEmpty(this.DualCoinCode) || this._preDualCoinDeltaOn.AddSeconds(20) < DateTime.Now) {
                 return 0;
             }
 
