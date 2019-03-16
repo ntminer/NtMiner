@@ -36,7 +36,8 @@
     <Grid>
         <DataGrid 
             ItemsSource="{Binding GpuSpeedVms}" 
-            Background="Transparent" ColumnHeaderHeight="32"
+            Background="Transparent" 
+            ColumnHeaderHeight="32"
             MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
             <DataGrid.Resources>
                 <vm:BindingProxy x:Key="proxy" Data="{Binding}" />

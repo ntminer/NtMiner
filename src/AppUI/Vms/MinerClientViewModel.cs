@@ -4,7 +4,6 @@ using NTMiner.MinerServer;
 using NTMiner.Notifications;
 using NTMiner.Views;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -1004,12 +1003,12 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(MaxTemp));
                 OnPropertyChanged(nameof(MaxTempText));
                 OnPropertyChanged(nameof(GpuCount));
-                this.GpuTableVm = new GpuTableViewModel(MainCoinCode, DualCoinCode, MainCoinSpeedText, DualCoinSpeedText, TotalPowerText, value);
+                this.GpuTableVm = new GpuSpeedDataViewModels(MainCoinCode, DualCoinCode, MainCoinSpeedText, DualCoinSpeedText, TotalPowerText, value);
             }
         }
 
-        private GpuTableViewModel _gpuTableVm;
-        public GpuTableViewModel GpuTableVm {
+        private GpuSpeedDataViewModels _gpuTableVm;
+        public GpuSpeedDataViewModels GpuTableVm {
             get {
                 return _gpuTableVm;
             }
@@ -1019,198 +1018,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public class GpuSpeedDataViewModel : ViewModelBase {
-            private readonly GpuSpeedData _data;
-            public GpuSpeedDataViewModel(GpuSpeedData data) {
-                _data = data;
-            }
-            public int Index {
-                get { return _data.Index; }
-                set {
-                    _data.Index = value;
-                    OnPropertyChanged(nameof(Index));
-                }
-            }
-
-            public string Name {
-                get { return _data.Name; }
-                set {
-                    _data.Name = value;
-                    OnPropertyChanged(nameof(Name));
-                }
-            }
-
-            public double MainCoinSpeed {
-                get { return _data.MainCoinSpeed; }
-                set {
-                    _data.MainCoinSpeed = value;
-                    OnPropertyChanged(nameof(MainCoinSpeed));
-                    OnPropertyChanged(nameof(MainCoinSpeedText));
-                }
-            }
-
-            public string MainCoinSpeedText {
-                get {
-                    return MainCoinSpeed.ToUnitSpeedText();
-                }
-            }
-
-            public double DualCoinSpeed {
-                get { return _data.DualCoinSpeed; }
-                set {
-                    _data.DualCoinSpeed = value;
-                    OnPropertyChanged(nameof(DualCoinSpeed));
-                    OnPropertyChanged(nameof(DualCoinSpeedText));
-                }
-            }
-
-            public string DualCoinSpeedText {
-                get {
-                    return DualCoinSpeed.ToUnitSpeedText();
-                }
-            }
-
-            public uint Temperature {
-                get { return _data.Temperature; }
-                set {
-                    _data.Temperature = value;
-                    OnPropertyChanged(nameof(Temperature));
-                    OnPropertyChanged(nameof(TemperatureText));
-                }
-            }
-
-            public string TemperatureText {
-                get {
-                    return this.Temperature.ToString() + "℃";
-                }
-            }
-
-            private SolidColorBrush _temperatureForeground = DefaultForeground;
-            public SolidColorBrush TemperatureForeground {
-                get {
-                    return _temperatureForeground;
-                }
-                set {
-                    _temperatureForeground = value;
-                    OnPropertyChanged(nameof(TemperatureForeground));
-                }
-            }
-
-            public uint FanSpeed {
-                get { return _data.FanSpeed; }
-                set {
-                    _data.FanSpeed = value;
-                    OnPropertyChanged(nameof(FanSpeed));
-                    OnPropertyChanged(nameof(FanSpeedText));
-                }
-            }
-
-            public string FanSpeedText {
-                get {
-                    return this.FanSpeed.ToString() + "%";
-                }
-            }
-
-            public uint PowerUsage {
-                get { return _data.PowerUsage; }
-                set {
-                    _data.PowerUsage = value;
-                    OnPropertyChanged(nameof(PowerUsage));
-                    OnPropertyChanged(nameof(PowerUsageW));
-                    OnPropertyChanged(nameof(PowerUsageWText));
-                }
-            }
-
-            public double PowerUsageW {
-                get {
-                    return this.PowerUsage;
-                }
-            }
-
-            public string PowerUsageWText {
-                get {
-                    return PowerUsageW.ToString("f0") + "W";
-                }
-            }
-        }
-
-        public class GpuTableViewModel : ViewModelBase, IEnumerable<GpuSpeedDataViewModel> {
-            private readonly List<GpuSpeedDataViewModel> _gpuSpeeds = new List<GpuSpeedDataViewModel>();
-            private string _mainCoinCode;
-            private string _dualCoinCode;
-            private string _mainCoinSpeedText;
-            private string _dualCoinSpeedText;
-            private string _totalPowerText;
-
-            public GpuTableViewModel(
-                string mainCoinCode,
-                string dualCoinCode,
-                string mainCoinTotalSpeedText,
-                string dualCoinTotalSpeedText,
-                string totalPowerText,
-                GpuSpeedData[] datas) {
-                this._mainCoinCode = mainCoinCode;
-                this._dualCoinCode = dualCoinCode;
-                this._mainCoinSpeedText = mainCoinTotalSpeedText;
-                this._dualCoinSpeedText = dualCoinTotalSpeedText;
-                this._totalPowerText = totalPowerText;
-                if (datas != null && datas.Length != 0) {
-                    foreach (var data in datas) {
-                        _gpuSpeeds.Add(new GpuSpeedDataViewModel(data));
-                    }
-                }
-            }
-
-            public string MainCoinCode {
-                get => _mainCoinCode;
-                set {
-                    _mainCoinCode = value;
-                    OnPropertyChanged(nameof(MainCoinCode));
-                }
-            }
-            public string DualCoinCode {
-                get => _dualCoinCode;
-                set {
-                    _dualCoinCode = value;
-                    OnPropertyChanged(nameof(DualCoinCode));
-                }
-            }
-            public string MainCoinSpeedText {
-                get => _mainCoinSpeedText;
-                set {
-                    _mainCoinSpeedText = value;
-                    OnPropertyChanged(nameof(MainCoinSpeedText));
-                }
-            }
-            public string DualCoinSpeedText {
-                get => _dualCoinSpeedText;
-                set {
-                    _dualCoinSpeedText = value;
-                    OnPropertyChanged(nameof(DualCoinSpeedText));
-                }
-            }
-            string TotalPowerText {
-                get => _totalPowerText;
-                set {
-                    _totalPowerText = value;
-                    OnPropertyChanged(nameof(TotalPowerText));
-                }
-            }
-
-            public IEnumerator<GpuSpeedDataViewModel> GetEnumerator() {
-                return _gpuSpeeds.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() {
-                return _gpuSpeeds.GetEnumerator();
-            }
-        }
-
         public void RefreshGpusForeground(uint minTemp, uint maxTemp) {
             if (GpuTableVm == null) {
                 return;
             }
-            foreach (var gpuSpeedData in GpuTableVm) {
+            foreach (var gpuSpeedData in GpuTableVm.List) {
                 if (gpuSpeedData.Temperature >= maxTemp) {
                     gpuSpeedData.TemperatureForeground = Red;
                 }

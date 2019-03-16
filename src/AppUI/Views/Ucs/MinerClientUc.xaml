@@ -6,6 +6,7 @@
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		d:DataContext="{d:DesignData Source=Design/MinerClientViewModel.xaml}"
@@ -248,11 +249,8 @@
 					Text="{Binding MainCoinWallet, Mode=OneWay}" 
 					IsReadOnly="True"></TextBox>
 			</WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}">主币拒绝率</TextBlock>
 			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">主币算力</TextBlock>
-				<TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
-			</WrapPanel>
-			<WrapPanel Margin="20 0 0 0">
 				<TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
 				<TextBlock Padding="1 0" Text="/"></TextBlock>
 				<TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
@@ -272,16 +270,8 @@
 					IsReadOnly="True"
 					Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
 			</WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}">双挖币拒绝率</TextBlock>
 			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">双挖算力</TextBlock>
-				<TextBox 
-					Padding="0"
-					BorderThickness="0"
-					Background="Transparent"
-					IsReadOnly="True"
-					Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
-			</WrapPanel>
-			<WrapPanel Margin="20 0 0 0">
 				<TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
 				<TextBlock Padding="1 0" Text="/"></TextBlock>
 				<TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
@@ -342,126 +332,26 @@
 			</WrapPanel>
 		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel>
-			<WrapPanel Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">总功耗</TextBlock>
-				<TextBox 
-					Padding="0"
-					BorderThickness="0"
-					Background="Transparent"
-					IsReadOnly="True"
-					Text="{Binding TotalPowerText, Mode=OneWay}"></TextBox>
-			</WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}">最高卡温</TextBlock>
-			<TextBox 
-				Padding="0"
-				BorderThickness="0"
-				Background="Transparent"
-				Foreground="{Binding TempForeground}"
-				IsReadOnly="True"
-				Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
-		</WrapPanel>
 		<Border Style="{StaticResource RowLine}"></Border>
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<TextBlock Style="{StaticResource LblTb}">显卡表格</TextBlock>
-			<Grid Grid.Column="1" Margin="0 -4 0 0">
-				<DataGrid 
-					MinRowHeight="24"
-					ColumnHeaderHeight="24"
-					IsReadOnly="True"
+			<StackPanel>
+				<TextBlock Style="{StaticResource LblTb}">显卡表格</TextBlock>
+				<TextBox 
+					HorizontalAlignment="Right"
+					ToolTip="最高卡温"
+					Padding="0"
+					BorderThickness="0"
 					Background="Transparent"
-					ItemsSource="{Binding GpuTableVm}">
-					<DataGrid.Resources>
-						<vm:BindingProxy x:Key="proxy2" Data="{Binding}" />
-					</DataGrid.Resources>
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Index" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Index}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Header="Gpu Name" Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Name}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-							<DataGridTemplateColumn.Header>
-								<StackPanel>
-									<TextBlock Text="{Binding Data.MainCoinCode, Source={StaticResource proxy2}}" FontSize="12"></TextBlock>
-									<TextBlock Text="{Binding Data.MainCoinSpeedText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
-								</StackPanel>
-							</DataGridTemplateColumn.Header>
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding MainCoinSpeedText}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"
-													Visibility="{Binding Data.DualCoinCode, Source={StaticResource proxy2}, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-							<DataGridTemplateColumn.Header>
-								<StackPanel>
-									<TextBlock Text="{Binding Data.DualCoinCode, Source={StaticResource proxy2}}" FontSize="12"></TextBlock>
-									<TextBlock Text="{Binding Data.DualCoinSpeedText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
-								</StackPanel>
-							</DataGridTemplateColumn.Header>
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding DualCoinSpeedText}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-							<DataGridTemplateColumn.HeaderTemplate>
-								<DataTemplate>
-									<TextBlock Text="Temperature"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.HeaderTemplate>
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TemperatureText}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-							<DataGridTemplateColumn.HeaderTemplate>
-								<DataTemplate>
-									<TextBlock Text="Fan"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.HeaderTemplate>
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FanSpeedText}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="70" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-							<DataGridTemplateColumn.HeaderTemplate>
-								<DataTemplate>
-									<StackPanel>
-										<TextBlock Text="Power" FontSize="12"></TextBlock>
-										<TextBlock Text="{Binding Data.PowerUsageWText, Source={StaticResource proxy2}}" FontSize="11"></TextBlock>
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.HeaderTemplate>
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerUsageWText}"></TextBlock>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-					</DataGrid.Columns>
-				</DataGrid>
-				<TextBlock Visibility="{Binding GpuTableVm, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
+					Foreground="{Binding TempForeground}"
+					IsReadOnly="True"
+					Text="{Binding MaxTempText, Mode=OneWay}"></TextBox>
+			</StackPanel>
+			<Grid Grid.Column="1">
+				<uc:GpuSpeedDataTable DataContext="{Binding GpuTableVm}"></uc:GpuSpeedDataTable>
 				<StackPanel Background="#00ffffff"></StackPanel>
 			</Grid>
 		</Grid>
