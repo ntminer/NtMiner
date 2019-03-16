@@ -7,7 +7,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -1000,7 +999,6 @@ namespace NTMiner.Vms {
             set {
                 _data.GpuTable = value;
                 OnPropertyChanged(nameof(GpuTable));
-                OnPropertyChanged(nameof(GpuTableTrs));
                 OnPropertyChanged(nameof(TotalPower));
                 OnPropertyChanged(nameof(TotalPowerText));
                 OnPropertyChanged(nameof(MaxTemp));
@@ -1047,6 +1045,13 @@ namespace NTMiner.Vms {
                 set {
                     _data.MainCoinSpeed = value;
                     OnPropertyChanged(nameof(MainCoinSpeed));
+                    OnPropertyChanged(nameof(MainCoinSpeedText));
+                }
+            }
+
+            public string MainCoinSpeedText {
+                get {
+                    return MainCoinSpeed.ToUnitSpeedText();
                 }
             }
 
@@ -1055,6 +1060,13 @@ namespace NTMiner.Vms {
                 set {
                     _data.DualCoinSpeed = value;
                     OnPropertyChanged(nameof(DualCoinSpeed));
+                    OnPropertyChanged(nameof(DualCoinSpeedText));
+                }
+            }
+
+            public string DualCoinSpeedText {
+                get {
+                    return DualCoinSpeed.ToUnitSpeedText();
                 }
             }
 
@@ -1063,6 +1075,13 @@ namespace NTMiner.Vms {
                 set {
                     _data.Temperature = value;
                     OnPropertyChanged(nameof(Temperature));
+                    OnPropertyChanged(nameof(TemperatureText));
+                }
+            }
+
+            public string TemperatureText {
+                get {
+                    return this.Temperature.ToString() + "℃";
                 }
             }
 
@@ -1082,6 +1101,13 @@ namespace NTMiner.Vms {
                 set {
                     _data.FanSpeed = value;
                     OnPropertyChanged(nameof(FanSpeed));
+                    OnPropertyChanged(nameof(FanSpeedText));
+                }
+            }
+
+            public string FanSpeedText {
+                get {
+                    return this.FanSpeed.ToString() + "%";
                 }
             }
 
@@ -1090,6 +1116,20 @@ namespace NTMiner.Vms {
                 set {
                     _data.PowerUsage = value;
                     OnPropertyChanged(nameof(PowerUsage));
+                    OnPropertyChanged(nameof(PowerUsageW));
+                    OnPropertyChanged(nameof(PowerUsageWText));
+                }
+            }
+
+            public double PowerUsageW {
+                get {
+                    return this.PowerUsage;
+                }
+            }
+
+            public string PowerUsageWText {
+                get {
+                    return PowerUsageW.ToString("f0") + "W";
                 }
             }
         }
@@ -1098,8 +1138,8 @@ namespace NTMiner.Vms {
             private readonly List<GpuSpeedDataViewModel> _gpuSpeeds = new List<GpuSpeedDataViewModel>();
             private string _mainCoinCode;
             private string _dualCoinCode;
-            private string _mainCoinTotalSpeedText;
-            private string _dualCoinTotalSpeedText;
+            private string _mainCoinSpeedText;
+            private string _dualCoinSpeedText;
             private string _totalPowerText;
 
             public GpuTableViewModel(
@@ -1111,8 +1151,8 @@ namespace NTMiner.Vms {
                 GpuSpeedData[] datas) {
                 this._mainCoinCode = mainCoinCode;
                 this._dualCoinCode = dualCoinCode;
-                this._mainCoinTotalSpeedText = mainCoinTotalSpeedText;
-                this._dualCoinTotalSpeedText = dualCoinTotalSpeedText;
+                this._mainCoinSpeedText = mainCoinTotalSpeedText;
+                this._dualCoinSpeedText = dualCoinTotalSpeedText;
                 this._totalPowerText = totalPowerText;
                 if (datas != null && datas.Length != 0) {
                     foreach (var data in datas) {
@@ -1135,18 +1175,18 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(DualCoinCode));
                 }
             }
-            public string MainCoinTotalSpeedText {
-                get => _mainCoinTotalSpeedText;
+            public string MainCoinSpeedText {
+                get => _mainCoinSpeedText;
                 set {
-                    _mainCoinTotalSpeedText = value;
-                    OnPropertyChanged(nameof(MainCoinTotalSpeedText));
+                    _mainCoinSpeedText = value;
+                    OnPropertyChanged(nameof(MainCoinSpeedText));
                 }
             }
-            public string DualCoinTotalSpeedText {
-                get => _dualCoinTotalSpeedText;
+            public string DualCoinSpeedText {
+                get => _dualCoinSpeedText;
                 set {
-                    _dualCoinTotalSpeedText = value;
-                    OnPropertyChanged(nameof(DualCoinTotalSpeedText));
+                    _dualCoinSpeedText = value;
+                    OnPropertyChanged(nameof(DualCoinSpeedText));
                 }
             }
             string TotalPowerText {
@@ -1181,180 +1221,6 @@ namespace NTMiner.Vms {
                     gpuSpeedData.TemperatureForeground = DefaultForeground;
                 }
             }
-        }
-
-        public GpuRowData GpuTableTempRow { get; set; } = new GpuRowData {
-            RowHeader = "温度"
-        };
-
-        public GpuRowData GpuTableFanRow = new GpuRowData {
-            RowHeader = "风扇"
-        };
-
-        public GpuRowData[] GpuTableTrs {
-            get {
-                List<GpuRowData> list = new List<GpuRowData> {
-                    new GpuRowData {
-                        RowHeader = $"{MainCoinCode} {MainCoinSpeedText}"
-                    },
-                    new GpuRowData {
-                        RowHeader = $"{DualCoinCode} {DualCoinSpeedText}"
-                    },
-                    GpuTableTempRow,
-                    GpuTableFanRow,
-                    new GpuRowData {
-                        RowHeader = $"功耗 {GpuTable.Sum(a=>a.PowerUsage).ToString("f0")}W"
-                    }
-                };
-                for (int i = 0; i < GpuTable.Length; i++) {
-                    GpuSpeedData gpuSpeedData = GpuTable[i];
-                    PropertyInfo propertyInfo = GpuRowData.ValueProperties[i];
-                    propertyInfo.SetValue(list[0], gpuSpeedData.MainCoinSpeed.ToUnitSpeedText(), null);
-                    propertyInfo.SetValue(list[1], gpuSpeedData.DualCoinSpeed.ToUnitSpeedText(), null);
-                    propertyInfo.SetValue(list[2], gpuSpeedData.Temperature.ToString("f0") + "℃", null);
-                    propertyInfo.SetValue(list[3], gpuSpeedData.FanSpeed.ToString("f0") + "%", null);
-                    propertyInfo.SetValue(list[4], gpuSpeedData.PowerUsage.ToString("f0") + "W", null);
-                }
-                if (!IsDualCoinEnabled) {
-                    list.RemoveAt(1);
-                }
-                return list.ToArray();
-            }
-        }
-
-        public class GpuRowData : ViewModelBase {
-            public static readonly PropertyInfo[] ValueProperties = new PropertyInfo[12];
-            public static readonly PropertyInfo[] ForegroundProperties = new PropertyInfo[12];
-
-            static GpuRowData() {
-                Type t = typeof(GpuRowData);
-                for (int i = 0; i < 12; i++) {
-                    ValueProperties[i] = t.GetProperty("Gpu" + i);
-                    ForegroundProperties[i] = t.GetProperty("Gpu" + i + "Foreground");
-                }
-            }
-            private SolidColorBrush _gpu0Foreground = DefaultForeground;
-            private SolidColorBrush _gpu1Foreground = DefaultForeground;
-            private SolidColorBrush _gpu2Foreground = DefaultForeground;
-            private SolidColorBrush _gpu3Foreground = DefaultForeground;
-            private SolidColorBrush _gpu4Foreground = DefaultForeground;
-            private SolidColorBrush _gpu5Foreground = DefaultForeground;
-            private SolidColorBrush _gpu6Foreground = DefaultForeground;
-            private SolidColorBrush _gpu7Foreground = DefaultForeground;
-            private SolidColorBrush _gpu8Foreground = DefaultForeground;
-            private SolidColorBrush _gpu9Foreground = DefaultForeground;
-            private SolidColorBrush _gpu10Foreground = DefaultForeground;
-            private SolidColorBrush _gpu11Foreground = DefaultForeground;
-
-            public SolidColorBrush Gpu0Foreground {
-                get => _gpu0Foreground;
-                set {
-                    _gpu0Foreground = value;
-                    OnPropertyChanged(nameof(Gpu0Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu1Foreground {
-                get => _gpu1Foreground;
-                set {
-                    _gpu1Foreground = value;
-                    OnPropertyChanged(nameof(Gpu1Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu2Foreground {
-                get => _gpu2Foreground;
-                set {
-                    _gpu2Foreground = value;
-                    OnPropertyChanged(nameof(Gpu2Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu3Foreground {
-                get => _gpu3Foreground;
-                set {
-                    _gpu3Foreground = value;
-                    OnPropertyChanged(nameof(Gpu3Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu4Foreground {
-                get => _gpu4Foreground;
-                set {
-                    _gpu4Foreground = value;
-                    OnPropertyChanged(nameof(Gpu4Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu5Foreground {
-                get => _gpu5Foreground;
-                set {
-                    _gpu5Foreground = value;
-                    OnPropertyChanged(nameof(Gpu5Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu6Foreground {
-                get => _gpu6Foreground;
-                set {
-                    _gpu6Foreground = value;
-                    OnPropertyChanged(nameof(Gpu6Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu7Foreground {
-                get => _gpu7Foreground;
-                set {
-                    _gpu7Foreground = value;
-                    OnPropertyChanged(nameof(Gpu7Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu8Foreground {
-                get => _gpu8Foreground;
-                set {
-                    _gpu8Foreground = value;
-                    OnPropertyChanged(nameof(Gpu8Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu9Foreground {
-                get => _gpu9Foreground;
-                set {
-                    _gpu9Foreground = value;
-                    OnPropertyChanged(nameof(Gpu9Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu10Foreground {
-                get => _gpu10Foreground;
-                set {
-                    _gpu10Foreground = value;
-                    OnPropertyChanged(nameof(Gpu10Foreground));
-                }
-            }
-
-            public SolidColorBrush Gpu11Foreground {
-                get => _gpu11Foreground;
-                set {
-                    _gpu11Foreground = value;
-                    OnPropertyChanged(nameof(Gpu11Foreground));
-                }
-            }
-
-            public string RowHeader { get; set; }
-            public string Gpu0 { get; set; }
-            public string Gpu1 { get; set; }
-            public string Gpu2 { get; set; }
-            public string Gpu3 { get; set; }
-            public string Gpu4 { get; set; }
-            public string Gpu5 { get; set; }
-            public string Gpu6 { get; set; }
-            public string Gpu7 { get; set; }
-            public string Gpu8 { get; set; }
-            public string Gpu9 { get; set; }
-            public string Gpu10 { get; set; }
-            public string Gpu11 { get; set; }
         }
         #endregion IClientData
     }

@@ -10,9 +10,29 @@
              xmlns:vm="clr-namespace:NTMiner.Vms"
              mc:Ignorable="d" 
              Background="White"
-             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextFormattingMode="Display" 
              DataContext="{x:Static vm:GpuSpeedViewModels.Current}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:String x:Key="WindowTitle">
+            WindowTitle
+        </sys:String>
+        <sys:String x:Key="DghGpuIndex">
+            DghGpuIndex
+        </sys:String>
+        <sys:String x:Key="DghGpuName">
+            DghGpuName
+        </sys:String>
+        <sys:String x:Key="DghGpuTemperature">
+            DghGpuTemperature
+        </sys:String>
+        <sys:String x:Key="DghGpuFan">
+            DghGpuFan
+        </sys:String>
+        <sys:String x:Key="DghGpuTotalPower">
+            DghGpuTotalPower
+        </sys:String>
+    </UserControl.Resources>
     <Grid>
         <DataGrid 
             ItemsSource="{Binding GpuSpeedVms}" 
@@ -26,7 +46,23 @@
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <TextBlock Text="Index"></TextBlock>
+                                <TextBlock Text="{DynamicResource DghGpuIndex}"></TextBlock>
+                                <controls:KbButton
+                                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                                    ToolTip="{x:Static local:SpeedTable.ViewId}"
+                                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                                    CommandParameter="{x:Static local:SpeedTable.ViewId}"
+                                    Padding="8 0"
+                                    Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+                                            Width="14"
+                                            Height="14"
+                                            Data="{StaticResource Icon_Translate}"
+                                            Fill="{StaticResource ThemeBackground}"
+                                            Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
                             </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
@@ -38,7 +74,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
-                        <TextBlock Text="Gpu Name"></TextBlock>
+                        <TextBlock Text="{DynamicResource DghGpuName}"></TextBlock>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -76,7 +112,7 @@
                 <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="Temperature"></TextBlock>
+                            <TextBlock Text="{DynamicResource DghGpuTemperature}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -88,7 +124,7 @@
                 <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="Fan"></TextBlock>
+                            <TextBlock Text="{DynamicResource DghGpuFan}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -101,7 +137,7 @@
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="Power" FontSize="12"></TextBlock>
+                                <TextBlock Text="{DynamicResource DghGpuTotalPower}" FontSize="12"></TextBlock>
                                 <TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                             </StackPanel>
                         </DataTemplate>

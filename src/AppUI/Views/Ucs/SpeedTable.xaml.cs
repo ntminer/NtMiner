@@ -4,6 +4,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class SpeedTable : UserControl {
+        public static string ViewId = nameof(SpeedTable);
+
         private GpuSpeedViewModels Vm {
             get {
                 return (GpuSpeedViewModels)this.DataContext;
