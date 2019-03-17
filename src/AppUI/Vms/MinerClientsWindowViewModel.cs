@@ -56,6 +56,8 @@ namespace NTMiner.Vms {
         public ICommand OneKeyGroup { get; private set; }
         public ICommand OneKeyOverClock { get; private set; }
         public ICommand OneKeyUpgrade { get; private set; }
+        public ICommand EditMineWork { get; private set; }
+        public ICommand EditMinerGroup { get; private set; }
 
         #region ctor
         private MinerClientsWindowViewModel() {
@@ -99,6 +101,18 @@ namespace NTMiner.Vms {
             this._pool = string.Empty;
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
+            this.EditMineWork = new DelegateCommand(() => {
+
+            }, () => this.SelectedMinerClients != null 
+                    && this.SelectedMinerClients.Length == 1 
+                    && this.SelectedMinerClients[0].SelectedMineWork != null 
+                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect);
+            this.EditMinerGroup = new DelegateCommand(() => {
+
+            }, () => this.SelectedMinerClients != null
+                    && this.SelectedMinerClients.Length == 1
+                    && this.SelectedMinerClients[0].SelectedMinerGroup != null
+                    && this.SelectedMinerClients[0].SelectedMinerGroup != MinerGroupViewModel.PleaseSelect);
             this.OneKeyWork = new DelegateCommand<MineWorkViewModel>((work) => {
                 foreach (var item in SelectedMinerClients) {
                     item.SelectedMineWork = work;

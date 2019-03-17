@@ -603,6 +603,46 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
+						<MenuItem Header="新建作业" Command="{Binding Data.MineWorkVms.Add,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="编辑作业" Command="{Binding Data.EditMineWork,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Edit}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="新建分组" Command="{Binding Data.MinerGroupVms.Add,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="编辑分组" Command="{Binding Data.EditMinerGroup,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Edit}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
 					</ContextMenu>
 				</DataGrid.ContextMenu>
 				<DataGrid.Columns>
