@@ -53,7 +53,7 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<GroupBox Header="全局" IsEnabled="{x:Static vm:AppStatic.IsFreeClient}">
+		<GroupBox Header="全局" IsEnabled="{Binding IsFreeClient}">
 			<StackPanel>
 				<WrapPanel Margin="0 2">
 					<controls:KbCheckBox

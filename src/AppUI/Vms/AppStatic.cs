@@ -112,21 +112,6 @@ namespace NTMiner.Vms {
             }
         });
 
-        public static Visibility IsWorkerClientVisible {
-            get {
-                if (NTMinerRoot.Current.MinerProfile.MineWork != null) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
-        public static bool IsFreeClient {
-            get {
-                return NTMinerRoot.Current.MinerProfile.MineWork == null;
-            }
-        }
-
         public static ICommand ShowUsers { get; private set; } = new DelegateCommand(() => {
             UserPage.ShowWindow();
         });

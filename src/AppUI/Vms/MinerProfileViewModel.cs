@@ -43,6 +43,8 @@ namespace NTMiner.Vms {
                 });
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
                 OnPropertyChanged(nameof(CoinVm));
+                OnPropertyChanged(nameof(IsFreeClient));
+                OnPropertyChanged(nameof(MineWork));
                 MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
             };
         }
@@ -50,6 +52,12 @@ namespace NTMiner.Vms {
         public IMineWork MineWork {
             get {
                 return NTMinerRoot.Current.MinerProfile.MineWork;
+            }
+        }
+
+        public bool IsFreeClient {
+            get {
+                return MineWork == null && !VirtualRoot.IsControlCenter;
             }
         }
 
