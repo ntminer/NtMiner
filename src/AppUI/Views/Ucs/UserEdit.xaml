@@ -17,7 +17,7 @@
 			远程用户
 		</sys:String>
 	</UserControl.Resources>
-	<StackPanel Margin="10">
+	<StackPanel Margin="10" IsEnabled="{Binding IsControlCenter}">
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">登录名:</TextBlock>
 			<TextBox Width="180" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding LoginName, ValidatesOnExceptions=True}">
