@@ -118,6 +118,23 @@ namespace NTMiner {
             callback?.Invoke();
         }
 
+        private void ContextReInit(bool isWork) {
+            foreach (var handler in ContextHandlers) {
+                VirtualRoot.UnPath(handler);
+            }
+            ContextHandlers.Clear();
+            if (isWork) {
+                string serverJson = SpecialPath.ReadServerJsonFile();
+                ServerJson.Instance.ReInit(serverJson);
+            }
+            ContextInit(isWork);
+            OnContextReInited?.Invoke();
+            OnReRendContext?.Invoke();
+            if (isWork) {
+                ReInitMinerProfile();
+            }
+        }
+
         private void ContextInit(bool isWork) {
             bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || isWork;
             this.SysDicSet = new SysDicSet(this, isUseJson);
@@ -133,19 +150,6 @@ namespace NTMiner {
             this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
-        }
-
-        private void ContextReInit(bool isWork) {
-            foreach (var handler in ContextHandlers) {
-                VirtualRoot.UnPath(handler);
-            }
-            ContextHandlers.Clear();
-            ContextInit(isWork);
-            OnContextReInited?.Invoke();
-            OnReRendContext?.Invoke();
-            if (isWork) {
-                ReInitMinerProfile();
-            }
         }
 
         public void ReInitMinerProfile() {
