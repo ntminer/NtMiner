@@ -45,6 +45,7 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(CoinVm));
                 OnPropertyChanged(nameof(IsFreeClient));
                 OnPropertyChanged(nameof(MineWork));
+                OnPropertyChanged(nameof(IsWorker));
                 MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
             };
         }
