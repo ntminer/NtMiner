@@ -29,6 +29,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     callback?.Invoke(null, e);
                 }
             });
@@ -63,6 +64,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     callback?.Invoke(default(T), e);
                 }
             });

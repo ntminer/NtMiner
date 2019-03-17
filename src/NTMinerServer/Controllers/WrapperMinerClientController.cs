@@ -22,6 +22,7 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
+                e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
@@ -43,6 +44,7 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
+                e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
@@ -64,6 +66,7 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
+                e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
@@ -104,6 +107,7 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
+                e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
@@ -144,6 +148,7 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
+                e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
@@ -165,6 +170,7 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
+                e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }
@@ -186,6 +192,7 @@ namespace NTMiner.Controllers {
                 return response;
             }
             catch (Exception e) {
+                e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
                 return ResponseBase.ServerError(request.MessageId, e.Message);
             }

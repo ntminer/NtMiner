@@ -47,6 +47,7 @@ namespace NTMiner {
                     return response;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
@@ -208,6 +209,7 @@ namespace NTMiner {
                     return response;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
@@ -245,6 +247,7 @@ namespace NTMiner {
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
+                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                     }
                 });
@@ -293,6 +296,7 @@ namespace NTMiner {
                     return new List<MineWorkData>();
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return new List<MineWorkData>();
                 }
@@ -332,6 +336,7 @@ namespace NTMiner {
                     return null;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
@@ -372,6 +377,7 @@ namespace NTMiner {
                     return null;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
@@ -412,6 +418,7 @@ namespace NTMiner {
                     return null;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
@@ -452,6 +459,7 @@ namespace NTMiner {
                     return null;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
@@ -541,6 +549,7 @@ namespace NTMiner {
                     return response;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
@@ -585,6 +594,7 @@ namespace NTMiner {
                     return response;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
@@ -627,6 +637,7 @@ namespace NTMiner {
                     return response;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }
@@ -662,6 +673,7 @@ namespace NTMiner {
                     return response;
                 }
                 catch (Exception e) {
+                    e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                     return null;
                 }

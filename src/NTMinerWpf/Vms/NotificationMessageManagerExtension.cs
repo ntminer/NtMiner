@@ -40,14 +40,15 @@ namespace NTMiner.Vms {
                 var builder = NotificationMessageBuilder.CreateMessage();
                 builder.Manager = manager;
                 builder.Message = manager.Factory.GetMessage();
+                builder.Error(message ?? string.Empty);
                 if (delaySeconds.HasValue && delaySeconds.Value != 0) {
-                    builder.Error(message ?? string.Empty)
+                    builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(4))
+                        .WithDelay(TimeSpan.FromSeconds(4)).WithButton("忽略", null)
                         .Queue();
                 }
                 else {
-                    builder.Error(message ?? string.Empty)
+                    builder
                         .Dismiss().WithButton("忽略", null)
                         .Queue();
                 }
@@ -61,7 +62,7 @@ namespace NTMiner.Vms {
                 builder.Message = manager.Factory.GetMessage();
                 builder.Warning(message ?? string.Empty)
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(4))
+                    .WithDelay(TimeSpan.FromSeconds(4)).WithButton("忽略", null)
                     .Queue();
             });
         }

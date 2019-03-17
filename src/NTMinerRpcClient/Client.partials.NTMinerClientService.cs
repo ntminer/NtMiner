@@ -24,6 +24,7 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
+                        e = e.GetInnerException();
                         callback?.Invoke(false, e);
                     }
                 });
@@ -36,6 +37,7 @@ namespace NTMiner {
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
+                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                     }
                 });
@@ -56,6 +58,7 @@ namespace NTMiner {
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
+                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                     }
                 });
@@ -76,6 +79,7 @@ namespace NTMiner {
                         callback?.Invoke(response, null);
                     }
                     catch (Exception e) {
+                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                     }
                 });
@@ -102,6 +106,7 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
+                        e = e.GetInnerException();
                         callback?.Invoke(null, e);
                         return null;
                     }
