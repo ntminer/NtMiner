@@ -355,7 +355,6 @@
     <Compile Include="Vms\GroupPageViewModel.cs" />
     <Compile Include="Vms\SysDicViewModels.cs" />
     <Compile Include="Vms\Drives\VirtualMemory.cs" />
-    <Compile Include="Vms\BindingProxy.cs" />
     <Compile Include="Views\Ucs\KernelPage.xaml.cs">
       <DependentUpon>KernelPage.xaml</DependentUpon>
     </Compile>

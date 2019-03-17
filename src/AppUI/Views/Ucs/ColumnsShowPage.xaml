@@ -20,7 +20,7 @@
             BorderThickness="0"
             MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding ColumnsShowVms}" />
+                <controls:BindingProxy x:Key="proxy" Data="{Binding ColumnsShowVms}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding ColumnsShowName}">

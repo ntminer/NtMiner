@@ -21,7 +21,7 @@
 			BorderThickness="0"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
-				<vm:BindingProxy x:Key="proxy" Data="{Binding UserVms}" />
+				<controls:BindingProxy x:Key="proxy" Data="{Binding UserVms}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="登录名" Binding="{Binding LoginName}">

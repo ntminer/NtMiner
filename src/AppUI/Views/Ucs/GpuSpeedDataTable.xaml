@@ -18,7 +18,7 @@
 		Background="Transparent"
 		ItemsSource="{Binding List}">
 		<DataGrid.Resources>
-			<vm:BindingProxy x:Key="proxy2" Data="{Binding}" />
+			<controls:BindingProxy x:Key="proxy2" Data="{Binding}" />
 			<Style TargetType="DataGridColumnHeader">
 				<Style.Resources>
 					<ResourceDictionary />

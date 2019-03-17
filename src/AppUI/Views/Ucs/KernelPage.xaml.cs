@@ -69,7 +69,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void CoinsScrollView_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
+            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void ListBox_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {

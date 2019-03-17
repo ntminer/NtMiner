@@ -34,7 +34,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<PoolKernelViewModel>(sender, e);
+            Wpf.Util.DataGrid_MouseDoubleClick<PoolKernelViewModel>(sender, e);
         }
     }
 }

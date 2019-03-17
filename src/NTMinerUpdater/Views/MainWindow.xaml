@@ -75,7 +75,7 @@
 					SelectedItem="{Binding SelectedNTMinerFile}"
 					MouseDoubleClick="DataGrid_MouseDoubleClick">
 					<DataGrid.Resources>
-						<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 					</DataGrid.Resources>
 					<DataGrid.Columns>
 						<DataGridTemplateColumn CanUserSort="False" CanUserReorder="False" CanUserResize="True" IsReadOnly="True" Header="版本号">
@@ -181,8 +181,8 @@
 						Width="170" 
 						Height="45" 
 						FontSize="22"
-					    Background="{StaticResource ThemeBackground}"
-					    Foreground="{StaticResource ThemeForeground}"
+						Background="{StaticResource ThemeBackground}"
+						Foreground="{StaticResource ThemeForeground}"
 						BorderThickness="0">
 						<WrapPanel>
 							<Label

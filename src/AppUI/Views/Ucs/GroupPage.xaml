@@ -66,7 +66,7 @@
 			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
-				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn 
@@ -208,7 +208,7 @@
 				ItemsSource="{Binding CurrentGroup.CoinGroupVms}" 
 				BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}">
 				<DataGrid.Resources>
-					<vm:BindingProxy x:Key="proxy" Data="{Binding CurrentGroup}" />
+					<controls:BindingProxy x:Key="proxy" Data="{Binding CurrentGroup}" />
 				</DataGrid.Resources>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">

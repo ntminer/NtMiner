@@ -209,7 +209,7 @@
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 					ScrollViewer.VerticalScrollBarVisibility="Disabled">
 					<ItemsControl.Resources>
-						<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 					</ItemsControl.Resources>
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -237,7 +237,7 @@
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 					ScrollViewer.VerticalScrollBarVisibility="Disabled">
 					<ItemsControl.Resources>
-						<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 					</ItemsControl.Resources>
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -519,7 +519,7 @@
 				SelectedItem="{Binding CurrentMinerClient}"
 				AutoGenerateColumns="False">
 				<DataGrid.Resources>
-					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
 				<DataGrid.ContextMenu>
 					<ContextMenu>

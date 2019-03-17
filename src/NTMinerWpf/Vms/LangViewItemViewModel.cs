@@ -1,5 +1,6 @@
 ﻿using NTMiner.Language;
 using NTMiner.Views;
+using NTMiner.Wpf;
 using System;
 using System.Windows.Input;
 

@@ -81,7 +81,7 @@
 			PreviewMouseDown="DataGrid_PreviewMouseDown"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
-				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">6</sys:Double>
 				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
 			</DataGrid.Resources>

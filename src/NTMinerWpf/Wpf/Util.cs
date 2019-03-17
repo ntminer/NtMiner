@@ -5,8 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NTMiner {
-    public static class WpfUtil {
+namespace NTMiner.Wpf {
+    public static class Util {
         public static EventHandler ChangeNotiCenterWindowLocation(Window window) {
             return (sender, e) => {
                 NotiCenterWindow.Instance.Left = window.Left + (window.Width - NotiCenterWindow.Instance.Width) / 2;

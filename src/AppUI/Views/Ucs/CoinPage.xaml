@@ -132,7 +132,7 @@
 				SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False"
 				MouseDoubleClick="DataGrid_MouseDoubleClick">
 				<DataGrid.Resources>
-					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn 
@@ -291,7 +291,7 @@
 						ItemsSource="{Binding CurrentCoin.Pools}" Padding="0"
 						MouseDoubleClick="PoolDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
-							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
 							<DataGridTemplateColumn MinWidth="100" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
@@ -447,7 +447,7 @@
 						ItemsSource="{Binding CurrentCoin.Wallets}"
 						MouseDoubleClick="WalletDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
-							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
 							<DataGridTemplateColumn MinWidth="100" CanUserResize="True" IsReadOnly="True">
@@ -581,7 +581,7 @@
 						ItemsSource="{Binding CurrentCoin.CoinKernels}"
 						MouseDoubleClick="KernelDataGrid_MouseDoubleClick" Grid.ColumnSpan="3">
 						<DataGrid.Resources>
-							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
 							<DataGridTemplateColumn 

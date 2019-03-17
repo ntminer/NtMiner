@@ -89,7 +89,7 @@
 				SelectedItem="{Binding CurrentKernelOutputVm}" AutoGenerateColumns="False"
 				MouseDoubleClick="DataGrid_MouseDoubleClick">
 				<DataGrid.Resources>
-					<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 				</DataGrid.Resources>
 				<DataGrid.Columns>
 					<DataGridTemplateColumn 
@@ -258,7 +258,7 @@
 										</Trigger>
 									</Style.Triggers>
 								</Style>
-								<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+								<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 							</DataGrid.Resources>
 							<DataGrid.Columns>
 								<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">
@@ -400,7 +400,7 @@
 							BorderThickness="1 0 0 0"
 							MouseDoubleClick="KernelOutputFilterDataGrid_MouseDoubleClick">
 							<DataGrid.Resources>
-								<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+								<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 							</DataGrid.Resources>
 							<DataGrid.Columns>
 								<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" Binding="{Binding RegexPattern}"  IsReadOnly="True">

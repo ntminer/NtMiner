@@ -33,7 +33,7 @@ namespace NTMiner.Views {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
-            EventHandler ChangeNotiCenterWindowLocation = WpfUtil.ChangeNotiCenterWindowLocation(this);
+            EventHandler ChangeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += ChangeNotiCenterWindowLocation;
             this.LocationChanged += ChangeNotiCenterWindowLocation;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
@@ -223,7 +223,7 @@ namespace NTMiner.Views {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
+            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

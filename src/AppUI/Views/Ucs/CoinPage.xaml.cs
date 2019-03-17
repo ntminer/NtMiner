@@ -34,19 +34,19 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<CoinViewModel>(sender, e);
+            Wpf.Util.DataGrid_MouseDoubleClick<CoinViewModel>(sender, e);
         }
 
         private void WalletDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<WalletViewModel>(sender, e);
+            Wpf.Util.DataGrid_MouseDoubleClick<WalletViewModel>(sender, e);
         }
 
         private void PoolDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<PoolViewModel>(sender, e);
+            Wpf.Util.DataGrid_MouseDoubleClick<PoolViewModel>(sender, e);
         }
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
+            Wpf.Util.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
         }
     }
 }

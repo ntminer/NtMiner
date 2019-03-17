@@ -29,7 +29,7 @@
             BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
             MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
@@ -137,7 +137,7 @@
             BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
             MouseDoubleClick="SysDicItemDataGrid_MouseDoubleClick">
             <DataGrid.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding CurrentSysDic}" />
+                <controls:BindingProxy x:Key="proxy" Data="{Binding CurrentSysDic}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">

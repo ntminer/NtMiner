@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace NTMiner.Vms {
+namespace NTMiner.Controls {
     public class BindingProxy : Freezable {
         protected override Freezable CreateInstanceCore() {
             return new BindingProxy();

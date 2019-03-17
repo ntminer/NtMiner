@@ -335,7 +335,7 @@
 						BorderThickness="0" BorderBrush="{StaticResource LineColor}"
 						MouseDoubleClick="CoinKernelDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
-							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
 							<DataGridTemplateColumn 

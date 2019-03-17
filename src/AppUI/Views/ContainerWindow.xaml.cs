@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
+using NTMiner.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

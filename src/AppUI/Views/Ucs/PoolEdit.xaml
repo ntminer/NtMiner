@@ -144,7 +144,7 @@
 						BorderBrush="{StaticResource LineColor}"
 						MouseDoubleClick="KernelDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
-							<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 						</DataGrid.Resources>
 						<DataGrid.Columns>
 							<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">

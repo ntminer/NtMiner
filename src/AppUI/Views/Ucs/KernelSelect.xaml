@@ -63,7 +63,7 @@
 			ColumnHeaderHeight="0"
 			BorderThickness="0" RowHeight="40">
 			<DataGrid.Resources>
-				<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">

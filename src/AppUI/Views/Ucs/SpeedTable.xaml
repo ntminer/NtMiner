@@ -40,7 +40,7 @@
             ColumnHeaderHeight="32"
             MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
             <DataGrid.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">

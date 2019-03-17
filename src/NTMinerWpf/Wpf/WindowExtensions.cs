@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace NTMiner {
+namespace NTMiner.Wpf {
     public static class WindowExtensions {
         public static bool? ShowDialogEx(this Window window) {
             bool? result;

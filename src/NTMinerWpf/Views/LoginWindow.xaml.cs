@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
+using NTMiner.Wpf;
 using System;
 using System.Windows;
 
@@ -11,7 +12,7 @@ namespace NTMiner.Views {
         public LoginWindow() {
             _vm = new LoginWindowViewModel();
             this.DataContext = _vm;
-            EventHandler ChangeNotiCenterWindowLocation = WpfUtil.ChangeNotiCenterWindowLocation(this);
+            EventHandler ChangeNotiCenterWindowLocation = Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += ChangeNotiCenterWindowLocation;
             this.LocationChanged += ChangeNotiCenterWindowLocation;
             InitializeComponent();

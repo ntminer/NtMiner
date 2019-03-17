@@ -1,5 +1,6 @@
 ﻿using NTMiner.MinerServer;
 using NTMiner.Views;
+using NTMiner.Wpf;
 using System;
 using System.Linq;
 using System.Windows;

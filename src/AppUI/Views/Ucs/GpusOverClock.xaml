@@ -42,7 +42,7 @@
 					ItemsSource="{Binding MinerProfile.CoinVm.OverClockDatas}" 
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 					<ItemsControl.Resources>
-						<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 					</ItemsControl.Resources>
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -115,9 +115,9 @@
 			</WrapPanel>
 		</WrapPanel>
 		<ScrollViewer 
-		    Grid.Row="2" 
-		    VerticalScrollBarVisibility="Auto" 
-		    PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+			Grid.Row="2" 
+			VerticalScrollBarVisibility="Auto" 
+			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl 
 				IsEnabled="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockGpuAll,Converter={StaticResource BoolInvertConverter}}"
 				BorderThickness="0"

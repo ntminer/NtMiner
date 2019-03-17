@@ -27,7 +27,7 @@
 				BorderThickness="0"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 				<ItemsControl.Resources>
-					<vm:BindingProxy x:Key="proxy" Data="{Binding HandlerIdVms}" />
+					<controls:BindingProxy x:Key="proxy" Data="{Binding HandlerIdVms}" />
 				</ItemsControl.Resources>
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>

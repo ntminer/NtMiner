@@ -25,7 +25,7 @@ namespace NTMiner.Views {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<NTMinerFileViewModel>(sender, e);
+            Wpf.Util.DataGrid_MouseDoubleClick<NTMinerFileViewModel>(sender, e);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
+using NTMiner.Wpf;
 
 namespace NTMiner.Views {
     public partial class ViewLang : MetroWindow {
@@ -35,7 +36,7 @@ namespace NTMiner.Views {
         }
 
         private void LangViewItemDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<LangViewItemViewModel>(sender, e);
+            Util.DataGrid_MouseDoubleClick<LangViewItemViewModel>(sender, e);
         }
     }
 }

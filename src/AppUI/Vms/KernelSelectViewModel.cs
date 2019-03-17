@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.Wpf;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 

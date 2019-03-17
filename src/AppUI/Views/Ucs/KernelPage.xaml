@@ -44,7 +44,7 @@
 					ItemsSource="{Binding KernelMenus}" 
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 					<ItemsControl.Resources>
-						<vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 					</ItemsControl.Resources>
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>

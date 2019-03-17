@@ -194,7 +194,7 @@
                     Background="Transparent" 
                     BorderBrush="{StaticResource LineColor}">
                     <DataGrid.Resources>
-                        <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                        <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
