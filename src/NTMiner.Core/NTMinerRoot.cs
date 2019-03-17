@@ -372,9 +372,9 @@ namespace NTMiner {
             Windows.Power.PowerCfgOff();
             Windows.BcdEdit.IgnoreAllFailures();
 
+            VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
             // 自动开始挖矿
             if ((MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsMining) {
-                VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 StartMine();
             }
         }
