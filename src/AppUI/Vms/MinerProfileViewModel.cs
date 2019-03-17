@@ -267,7 +267,7 @@ namespace NTMiner.Vms {
 
         public bool IsWorker {
             get {
-                return NTMinerRoot.Current.MinerProfile.MineWork != null;
+                return MineWork != null && !VirtualRoot.IsControlCenter;
             }
         }
     }
