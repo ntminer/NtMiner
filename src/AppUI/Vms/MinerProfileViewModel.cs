@@ -46,6 +46,15 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(IsFreeClient));
                 OnPropertyChanged(nameof(MineWork));
                 OnPropertyChanged(nameof(IsWorker));
+                OnPropertyChanged(nameof(IsAutoBoot));
+                OnPropertyChanged(nameof(IsNoShareRestartKernel));
+                OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
+                OnPropertyChanged(nameof(IsPeriodicRestartKernel));
+                OnPropertyChanged(nameof(PeriodicRestartKernelHours));
+                OnPropertyChanged(nameof(IsPeriodicRestartComputer));
+                OnPropertyChanged(nameof(PeriodicRestartComputerHours));
+                OnPropertyChanged(nameof(IsAutoStart));
+                OnPropertyChanged(nameof(IsAutoRestartKernel));
                 MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
             };
         }
@@ -58,7 +67,7 @@ namespace NTMiner.Vms {
 
         public bool IsFreeClient {
             get {
-                return MineWork == null && !VirtualRoot.IsControlCenter;
+                return MineWork == null || VirtualRoot.IsControlCenter;
             }
         }
 
@@ -141,15 +150,6 @@ namespace NTMiner.Vms {
                     NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsAutoBoot), value);
                     OnPropertyChanged(nameof(IsAutoBoot));
                 }
-            }
-        }
-
-        public string IsAutoBootText {
-            get {
-                if (IsAutoBoot) {
-                    return "是";
-                }
-                return "否";
             }
         }
 
