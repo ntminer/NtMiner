@@ -43,6 +43,8 @@ namespace NTMiner.Vms {
                 });
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
                 OnPropertyChanged(nameof(CoinVm));
+                MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
+                MainWindowViewModel.Current.OnPropertyChanged(nameof(MainWindowViewModel.Current.MinerProfile));
             };
         }
 
