@@ -44,13 +44,10 @@ namespace NTMiner {
             try {
                 SetMinerNameAsync(request, response1 => {
                     if (!response1.IsSuccess()) {
-                        ResponseBase response;
-                        if (request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                            if (!string.IsNullOrEmpty(request.MinerName)) {
-                                request.MinerName = new string(request.MinerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
-                            }
-                            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", request.MinerName ?? string.Empty);
+                        if (!string.IsNullOrEmpty(request.MinerName)) {
+                            request.MinerName = new string(request.MinerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
                         }
+                        Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", request.MinerName ?? string.Empty);
                     }
                 });
                 return ResponseBase.Ok(request.MessageId);
@@ -88,10 +85,6 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
                 TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                     Windows.Power.Restart();
                 });
@@ -109,10 +102,6 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
                 TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                     Windows.Power.Shutdown();
                 });
@@ -141,14 +130,6 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
-                IUser user = HostRoot.Current.UserSet.GetUser(request.LoginName);
-                if (user == null) {
-                    return ResponseBase.Forbidden(request.MessageId);
-                }
-
                 if (request.WorkId != Guid.Empty) {
                     File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
                     File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
@@ -161,7 +142,6 @@ namespace NTMiner {
                             MessageId = request.MessageId,
                             WorkId = request.WorkId
                         };
-                        innerRequest.SignIt(user.Password);
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/StartMine", innerRequest);
                         response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         return response;
@@ -192,10 +172,6 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
-
                 if (!IsNTMinerOpened()) {
                     return ResponseBase.Ok(request.MessageId);
                 }
@@ -222,15 +198,6 @@ namespace NTMiner {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
-            ResponseBase response;
-            if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                return response;
-            }
-            IUser user = HostRoot.Current.UserSet.GetUser(request.LoginName);
-            if (user == null) {
-                return ResponseBase.Forbidden(request.MessageId);
-            }
-
             if (request.WorkId != Guid.Empty) {
                 File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
                 File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
@@ -241,7 +208,6 @@ namespace NTMiner {
                         SignatureRequest innerRequest = new SignatureRequest {
                             LoginName = request.LoginName
                         };
-                        innerRequest.SignIt(user.Password);
                         DoCloseNTMiner(innerRequest);
                         System.Threading.Thread.Sleep(1000);
                     }
@@ -291,10 +257,6 @@ namespace NTMiner {
         public ResponseBase UpgradeNTMiner([FromBody]UpgradeNTMinerRequest request) {
             if (request == null || string.IsNullOrEmpty(request.NTMinerFileName)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
-            }
-            ResponseBase response;
-            if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                return response;
             }
             Task.Factory.StartNew(() => {
                 try {

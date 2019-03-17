@@ -25,10 +25,6 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
                 VirtualRoot.Execute(new CloseNTMinerCommand());
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -44,10 +40,6 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
                 NTMinerRoot.Current.RestartMine(isWork: request.WorkId != Guid.Empty);
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -63,10 +55,6 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
                 NTMinerRoot.Current.StopMineAsync();
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -82,10 +70,6 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
                 VirtualRoot.Execute(new SetMinerNameCommand(request.MinerName));
                 return ResponseBase.Ok(request.MessageId);
             }
@@ -101,10 +85,6 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
-                }
                 NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(request.PropertyName, request.Value);
                 return ResponseBase.Ok(request.MessageId);
             }

@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 });
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
-                AllPropertyChanged();
+                OnPropertyChanged(nameof(CoinVm));
             };
         }
 

@@ -59,12 +59,18 @@ namespace NTMiner {
                 }
                 string serverJson = SpecialPath.ReadServerJsonFile();
                 string langJson = ClientId.ReadLocalLangJsonFile();
-                CountdownEvent countdown = new CountdownEvent(2);
-                GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                    serverJson = Encoding.UTF8.GetString(data);
-                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
-                    countdown.Signal();
-                });
+                int initialCount = 2;
+                if (isWork) {
+                    initialCount = 1;
+                }
+                CountdownEvent countdown = new CountdownEvent(initialCount);
+                if (!isWork) {
+                    GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                        serverJson = Encoding.UTF8.GetString(data);
+                        Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
+                        countdown.Signal();
+                    });
+                }
                 GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
                     langJson = Encoding.UTF8.GetString(data);
                     Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
