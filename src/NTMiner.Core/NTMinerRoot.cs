@@ -456,10 +456,7 @@ namespace NTMiner {
                     if (!CommandLineArgs.IsAutoStart) {
                         args.Add("--autostart");
                     }
-                    Windows.Cmd.RunClose(ClientId.AppFileFullName, string.Join(" ", args));
-                    UIThread.Execute(() => {
-                        Application.Current.MainWindow?.Close();
-                    });
+                    // TODO:切换作业
                     return;
                 }
                 IWorkProfile minerProfile = this.MinerProfile;

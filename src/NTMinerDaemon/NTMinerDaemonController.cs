@@ -310,18 +310,6 @@ namespace NTMiner {
                     Logger.ErrorDebugLine(e.Message, e);
                 }
             }
-            try {
-                using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetMinerServerHost()}:{WebApiConst.MinerServerPort}/api/Report/ReportState", new MinerServer.ReportState {
-                        ClientId = NTMinerRegistry.GetClientId(),
-                        IsMining = false
-                    });
-                    Write.DevLine("ReportStateAsync " + message.Result.ReasonPhrase);
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
         }
 
         [HttpPost]
