@@ -63,7 +63,6 @@ namespace NTMiner.Vms {
                         if (!response.IsSuccess()) {
                             if (response != null) {
                                 Write.UserLine(response.Description, ConsoleColor.Red);
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                             }
                         }
                         else {
@@ -77,7 +76,6 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         if (response != null) {
                             Write.UserLine(response.Description, ConsoleColor.Red);
-                            NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                         }
                     }
                     else {
@@ -103,7 +101,6 @@ namespace NTMiner.Vms {
                         if (!response.IsSuccess()) {
                             if (response != null) {
                                 Write.UserLine(response.Description, ConsoleColor.Red);
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                             }
                         }
                     });
@@ -115,7 +112,6 @@ namespace NTMiner.Vms {
                         if (!response.IsSuccess()) {
                             if (response != null) {
                                 Write.UserLine(response.Description, ConsoleColor.Red);
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                             }
                         }
                     });
@@ -127,7 +123,6 @@ namespace NTMiner.Vms {
                         if (!response.IsSuccess()) {
                             if (response != null) {
                                 Write.UserLine(response.Description, ConsoleColor.Red);
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                             }
                         }
                     });
@@ -139,7 +134,6 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         string message = $"{this.MinerIp} {response?.Description}";
                         Write.UserLine(message, ConsoleColor.Red);
-                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response?.Description);
                     }
                 });
                 Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
@@ -151,7 +145,6 @@ namespace NTMiner.Vms {
                         if (!response.IsSuccess()) {
                             string message = $"{this.MinerIp} {response?.Description}";
                             Write.UserLine(message, ConsoleColor.Red);
-                            NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response?.Description);
                         }
                     });
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
@@ -261,7 +254,6 @@ namespace NTMiner.Vms {
                                     this.WorkId = old.Id;
                                     if (response != null) {
                                         Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
                                     }
                                     else {
                                         NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}切换作业失败，已撤销");
@@ -413,7 +405,6 @@ namespace NTMiner.Vms {
                                     _data.MinerName = old;
                                     if (response2 != null) {
                                         Write.UserLine($"{this.MinerIp} {response2.Description}", ConsoleColor.Red);
-                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response2.Description}");
                                     }
                                     else {
                                         NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿机名失败，已撤销");
@@ -426,7 +417,6 @@ namespace NTMiner.Vms {
                             _data.MinerName = old;
                             if (response != null) {
                                 Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
                             }
                             else {
                                 NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿机名失败，已撤销");
@@ -476,7 +466,6 @@ namespace NTMiner.Vms {
                                 this.GroupId = old.Id;
                                 if (response != null) {
                                     Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
                                 }
                                 else {
                                     NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改分组失败，已撤销");
@@ -514,7 +503,6 @@ namespace NTMiner.Vms {
                             _data.WindowsLoginName = old;
                             if (response != null) {
                                 Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
                             }
                             else {
                                 NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改登录名失败，已撤销");
@@ -547,7 +535,6 @@ namespace NTMiner.Vms {
                             _data.WindowsPassword = old;
                             if (response != null) {
                                 Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
                             }
                             else {
                                 NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改登录密码失败，已撤销");

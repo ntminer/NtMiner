@@ -138,7 +138,6 @@ namespace NTMiner.Vms {
                             if (!response.IsSuccess()) {
                                 if (response != null) {
                                     Write.UserLine(response.Description, ConsoleColor.Red);
-                                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                                 }
                             }
                             else {
@@ -157,7 +156,6 @@ namespace NTMiner.Vms {
                     if (!response.IsSuccess()) {
                         if (response != null) {
                             Write.UserLine(response.Description, ConsoleColor.Red);
-                            NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                         }
                     }
                     else {
@@ -181,7 +179,6 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                                     }
                                 }
                             });
@@ -200,7 +197,6 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                                     }
                                 }
                             });
@@ -219,7 +215,6 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     if (response != null) {
                                         Write.UserLine(response.Description, ConsoleColor.Red);
-                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(response.Description);
                                     }
                                 }
                             });
@@ -238,7 +233,6 @@ namespace NTMiner.Vms {
                             if (!response.IsSuccess()) {
                                 string message = $"{item.MinerIp} {response?.Description}";
                                 Write.UserLine(message, ConsoleColor.Red);
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message);
                             }
                         });
                         Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
@@ -257,7 +251,6 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     string message = $"{item.MinerIp} {response?.Description}";
                                     Write.UserLine(message, ConsoleColor.Red);
-                                    NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message);
                                 }
                             });
                             Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);

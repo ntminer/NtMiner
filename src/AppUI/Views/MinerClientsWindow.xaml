@@ -84,8 +84,8 @@
 					KbSystemButtonSize="40" />
 			</WrapPanel>
 		</Grid>
-		<Grid Grid.Row="1" Grid.Column="2" Background="#EEEEF2">
-			<Menu Margin="0 2 0 0">
+		<WrapPanel Grid.Row="1" Grid.Column="2" Background="#EEEEF2">
+			<Menu>
 				<Menu.Resources>
 					<SolidColorBrush x:Key="IconFillColor">#005098</SolidColorBrush>
 				</Menu.Resources>
@@ -109,88 +109,9 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="超频" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyOverClock}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_OverClock}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="升级挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyUpgrade}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Update}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="重启客户端" Padding="4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Restart}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="重启电脑" Padding="4" Margin="0 0 6 0" Command="{Binding RestartWindows}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Restart2}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="关闭电脑" Padding="4" Margin="0 0 6 0" Command="{Binding ShutdownWindows}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Shutdown}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="添加矿机" Padding="4" Margin="0 0 6 0" Command="{Binding AddMinerClient}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Add}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="删除矿机" Padding="4" Margin="0 0 6 0" Command="{Binding RemoveMinerClients}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Delete}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="刷新" Padding="4" Margin="0 0 6 0" Command="{Binding RefreshMinerClients}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Refresh}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
 			</Menu>
-		</Grid>
+			<TextBlock Style="{StaticResource LblTb}">选中矿机，右键更多菜单</TextBlock>
+		</WrapPanel>
 		<StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Background="#F5F5F5">
 			<ListBox 
 				Background="Transparent"
@@ -685,16 +606,14 @@
 						</DataGridTextColumn.Header>
 					</DataGridTextColumn>
 					<!--Work-->
-					<DataGridComboBoxColumn 
+					<DataGridTextColumn 
+						Binding="{Binding SelectedMineWork.Name}"
 						Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
-						ItemsSource="{Binding Data.MineWorkVms.MineWorkVmItems, Source={StaticResource proxy}}" 
-						DisplayMemberPath="Name" 
-						SelectedItemBinding="{Binding SelectedMineWork, UpdateSourceTrigger=PropertyChanged}"
 						CanUserResize="True" 
 						CanUserReorder="False" 
 						CanUserSort="False" 
-						IsReadOnly="False">
-						<DataGridComboBoxColumn.Header>
+						IsReadOnly="True">
+						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock>作业</TextBlock>
 								<controls:KbButton
@@ -712,24 +631,17 @@
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
-						</DataGridComboBoxColumn.Header>
-						<DataGridComboBoxColumn.ElementStyle>
-							<Style TargetType="ComboBox">
-								<Setter Property="Foreground" Value="Green"></Setter>
-							</Style>
-						</DataGridComboBoxColumn.ElementStyle>
-					</DataGridComboBoxColumn>
+						</DataGridTextColumn.Header>
+					</DataGridTextColumn>
 					<!--MinerGroup-->
-					<DataGridComboBoxColumn 
+					<DataGridTextColumn 
+						Binding="{Binding SelectedMinerGroup.Name}"
 						Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
-						ItemsSource="{Binding Data.MinerGroupVms.MinerGroupItems, Source={StaticResource proxy}}" 
-						DisplayMemberPath="Name" 
-						SelectedItemBinding="{Binding SelectedMinerGroup, UpdateSourceTrigger=PropertyChanged}"
 						CanUserResize="True" 
 						CanUserReorder="False" 
 						CanUserSort="False" 
-						IsReadOnly="False">
-						<DataGridComboBoxColumn.Header>
+						IsReadOnly="True">
+						<DataGridTextColumn.Header>
 							<WrapPanel>
 								<TextBlock>分组</TextBlock>
 								<controls:KbButton
@@ -747,13 +659,8 @@
 									</WrapPanel>
 								</controls:KbButton>
 							</WrapPanel>
-						</DataGridComboBoxColumn.Header>
-						<DataGridComboBoxColumn.ElementStyle>
-							<Style TargetType="ComboBox">
-								<Setter Property="Foreground" Value="Green"></Setter>
-							</Style>
-						</DataGridComboBoxColumn.ElementStyle>
-					</DataGridComboBoxColumn>
+						</DataGridTextColumn.Header>
+					</DataGridTextColumn>
 					<!--MinerName-->
 					<DataGridTextColumn 
 						Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -2078,70 +1985,72 @@
 			</Grid>
 		</Grid>
 		<Popup x:Name="PopMineWork" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" Placement="MousePoint" StaysOpen="False">
-			<GroupBox Background="#EEEEF2">
-				<GroupBox.Header>
-					<TextBlock Background="#EEEEF2">分配作业</TextBlock>
-				</GroupBox.Header>
-				<ItemsControl 
-					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
-					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-					ScrollViewer.VerticalScrollBarVisibility="Disabled">
-					<ItemsControl.Resources>
-						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-					</ItemsControl.Resources>
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel>
-							</WrapPanel>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Button 
-								BorderBrush="{StaticResource LineColor}"
-								Margin="4"
-								Padding="10 2" 
-								Content="{Binding Name}" 
-								ToolTip="{Binding Description}"
-								Command="{Binding Data.OneKeyWork,Source={StaticResource proxy}}"
-								CommandParameter="{Binding}"></Button>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-			</GroupBox>
+			<Border Padding="4" Background="#EEEEF2" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+				<StackPanel>
+					<TextBlock>分配作业</TextBlock>
+					<ItemsControl 
+						ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						ScrollViewer.VerticalScrollBarVisibility="Disabled">
+						<ItemsControl.Resources>
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+						</ItemsControl.Resources>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel>
+								</WrapPanel>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button 
+									Click="PopupButton_Click"
+									BorderBrush="{StaticResource LineColor}"
+									Margin="4"
+									Padding="10 2" 
+									Content="{Binding Name}" 
+									ToolTip="{Binding Description}"
+									Command="{Binding Data.OneKeyWork,Source={StaticResource proxy}}"
+									CommandParameter="{Binding}"></Button>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</Border>
 		</Popup>
 		<Popup x:Name="PopMinerGroup" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" Placement="MousePoint" StaysOpen="False">
-			<GroupBox Background="#EEEEF2">
-				<GroupBox.Header>
-					<TextBlock Background="#EEEEF2">加入组</TextBlock>
-				</GroupBox.Header>
-				<ItemsControl 
-					ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
-					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-					ScrollViewer.VerticalScrollBarVisibility="Disabled">
-					<ItemsControl.Resources>
-						<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-					</ItemsControl.Resources>
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel>
-							</WrapPanel>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Button 
-								BorderBrush="{StaticResource LineColor}"
-								Margin="4"
-								Padding="10 2" 
-								Content="{Binding Name}" 
-								ToolTip="{Binding Description}" 
-								Command="{Binding Data.OneKeyGroup,Source={StaticResource proxy}}"
-								CommandParameter="{Binding}"></Button>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-			</GroupBox>
+			<Border Padding="4" Background="#EEEEF2" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+				<StackPanel>
+					<TextBlock>加入组</TextBlock>
+					<ItemsControl 
+						ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						ScrollViewer.VerticalScrollBarVisibility="Disabled">
+						<ItemsControl.Resources>
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+						</ItemsControl.Resources>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel>
+								</WrapPanel>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button 
+									Click="PopupButton_Click"
+									BorderBrush="{StaticResource LineColor}"
+									Margin="4"
+									Padding="10 2" 
+									Content="{Binding Name}" 
+									ToolTip="{Binding Description}" 
+									Command="{Binding Data.OneKeyGroup,Source={StaticResource proxy}}"
+									CommandParameter="{Binding}"></Button>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</Border>
 		</Popup>
 		<WrapPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Background="#007ACC">
 			<WrapPanel Margin="4 0 0 0">
