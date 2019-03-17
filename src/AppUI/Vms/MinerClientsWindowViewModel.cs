@@ -102,13 +102,23 @@ namespace NTMiner.Vms {
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
             this.EditMineWork = new DelegateCommand(() => {
-
+                if (this.SelectedMinerClients != null
+                    && this.SelectedMinerClients.Length == 1
+                    && this.SelectedMinerClients[0].SelectedMineWork != null
+                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect) {
+                    this.SelectedMinerClients[0].SelectedMineWork.Edit.Execute(null);
+                }
             }, () => this.SelectedMinerClients != null 
                     && this.SelectedMinerClients.Length == 1 
                     && this.SelectedMinerClients[0].SelectedMineWork != null 
                     && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect);
             this.EditMinerGroup = new DelegateCommand(() => {
-
+                if (this.SelectedMinerClients != null
+                    && this.SelectedMinerClients.Length == 1
+                    && this.SelectedMinerClients[0].SelectedMinerGroup != null
+                    && this.SelectedMinerClients[0].SelectedMinerGroup != MinerGroupViewModel.PleaseSelect) {
+                    this.SelectedMinerClients[0].SelectedMinerGroup.Edit.Execute(null);
+                }
             }, () => this.SelectedMinerClients != null
                     && this.SelectedMinerClients.Length == 1
                     && this.SelectedMinerClients[0].SelectedMinerGroup != null
