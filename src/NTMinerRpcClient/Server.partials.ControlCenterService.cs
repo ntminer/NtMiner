@@ -317,6 +317,25 @@ namespace NTMiner {
             }
             #endregion
 
+            public string GetLocalJson(Guid workId) {
+                try {
+                    DataRequest<Guid> request = new DataRequest<Guid>() {
+                        Data = workId,
+                        LoginName = SingleUser.LoginName
+                    };
+                    request.SignIt(SingleUser.PasswordSha1);
+                    var response = Post<DataResponse<string>>(SControllerName, nameof(IControlCenterController.GetLocalJson), request);
+                    if (response != null) {
+                        return response.Data;
+                    }
+                }
+                catch (Exception e) {
+                    e = e.GetInnerException();
+                    Logger.ErrorDebugLine(e.Message, e);
+                }
+                return string.Empty;
+            }
+
             #region GetMinerProfile
             /// <summary>
             /// 同步方法

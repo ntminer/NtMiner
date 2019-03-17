@@ -21,13 +21,17 @@ namespace NTMiner.Core.Profiles {
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
 
-        public MinerProfile(INTMinerRoot root, Guid workId) {
+        public MinerProfile(INTMinerRoot root, bool isUseJson) {
             _root = root;
+            Guid workId = Guid.Empty;
+            if (isUseJson) {
+                workId = LocalJson.Instance.MineWork.Id;
+            }
             Init(root, workId);
             VirtualRoot.Accept<SwichMinerProfileCommand>(
                 "处理切换MinerProfile命令",
                 LogEnum.Console,
-                action: message => {
+                action: message => {                    
                     Init(root, message.WorkId);
                     VirtualRoot.Happened(new MinerProfileSwichedEvent());
                 });
@@ -36,18 +40,13 @@ namespace NTMiner.Core.Profiles {
         #region Init
         private void Init(INTMinerRoot root, Guid workId) {
             _workId = workId;
-            if (VirtualRoot.IsControlCenter) {
-                _data = Server.ControlCenterService.GetMinerProfile(_workId);
+            bool isUseJson = _workId != Guid.Empty;
+            if (isUseJson) {
+                _data = LocalJson.Instance.MinerProfile;
             }
             else {
-                bool isUseJson = _workId != Guid.Empty;
-                if (isUseJson) {
-                    _data = LocalJson.Instance.MinerProfile;
-                }
-                else {
-                    IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(false);
-                    _data = repository.GetAll().FirstOrDefault();
-                }
+                IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(false);
+                _data = repository.GetAll().FirstOrDefault();
             }
             if (_data == null) {
                 Guid coinId = Guid.Empty;
@@ -90,16 +89,11 @@ namespace NTMiner.Core.Profiles {
             else {
                 _walletSet.Refresh(workId);
             }
-            if (VirtualRoot.IsControlCenter) {
-                MineWork = new MineWorkData();
+            if (workId != Guid.Empty) {
+                MineWork = LocalJson.Instance.MineWork;
             }
             else {
-                if (workId != Guid.Empty) {
-                    MineWork = LocalJson.Instance.MineWork;
-                }
-                else {
-                    MineWork = new MineWorkData();
-                }
+                MineWork = null;
             }
             // 同步数据层开机自动启动项到注册表
             NTMinerRegistry.SetIsAutoBoot(_data.IsAutoBoot);
@@ -343,38 +337,37 @@ namespace NTMiner.Core.Profiles {
                 sb.Append(_data.ToString());
             }
 
-            if (this.CoinId == Guid.Empty) {
-                return sb.ToString();
-            }
-            ICoinProfile coinProfile = GetCoinProfile(this.CoinId);
-            if (coinProfile != null) {
-                sb.Append(coinProfile.ToString());
-                ICoinKernelProfile coinKernelProfile = GetCoinKernelProfile(coinProfile.CoinKernelId);
-                if (coinKernelProfile != null) {
-                    sb.Append(coinKernelProfile.ToString());
-                    if (coinKernelProfile.IsDualCoinEnabled) {
-                        ICoinProfile dualCoinProfile = GetCoinProfile(coinKernelProfile.DualCoinId);
-                        if (dualCoinProfile != null) {
-                            sb.Append(dualCoinProfile.ToString());
-                            IPoolProfile dualCoinPoolProfile = GetPoolProfile(dualCoinProfile.PoolId);
-                            if (dualCoinPoolProfile != null) {
-                                sb.Append(dualCoinPoolProfile.ToString());
+            if (this.CoinId != Guid.Empty) {
+                ICoinProfile coinProfile = GetCoinProfile(this.CoinId);
+                if (coinProfile != null) {
+                    sb.Append(coinProfile.ToString());
+                    ICoinKernelProfile coinKernelProfile = GetCoinKernelProfile(coinProfile.CoinKernelId);
+                    if (coinKernelProfile != null) {
+                        sb.Append(coinKernelProfile.ToString());
+                        if (coinKernelProfile.IsDualCoinEnabled) {
+                            ICoinProfile dualCoinProfile = GetCoinProfile(coinKernelProfile.DualCoinId);
+                            if (dualCoinProfile != null) {
+                                sb.Append(dualCoinProfile.ToString());
+                                IPoolProfile dualCoinPoolProfile = GetPoolProfile(dualCoinProfile.PoolId);
+                                if (dualCoinPoolProfile != null) {
+                                    sb.Append(dualCoinPoolProfile.ToString());
+                                }
+                            }
+                            ICoinKernelProfile dualCoinKernelProfile = GetCoinKernelProfile(coinKernelProfile.DualCoinId);
+                            if (dualCoinKernelProfile != null) {
+                                sb.Append(dualCoinKernelProfile.ToString());
                             }
                         }
-                        ICoinKernelProfile dualCoinKernelProfile = GetCoinKernelProfile(coinKernelProfile.DualCoinId);
-                        if (dualCoinKernelProfile != null) {
-                            sb.Append(dualCoinKernelProfile.ToString());
-                        }
+                    }
+                    IPoolProfile poolProfile = GetPoolProfile(coinProfile.PoolId);
+                    if (poolProfile != null) {
+                        sb.Append(poolProfile.ToString());
                     }
                 }
-                IPoolProfile poolProfile = GetPoolProfile(coinProfile.PoolId);
-                if (poolProfile != null) {
-                    sb.Append(poolProfile.ToString());
+                IGpuProfile gpuProfile = GetGpuProfile(this.CoinId, NTMinerRoot.GpuAllId);
+                if (gpuProfile != null) {
+                    sb.Append(gpuProfile.ToString());
                 }
-            }
-            IGpuProfile gpuProfile = GetGpuProfile(this.CoinId, NTMinerRoot.GpuAllId);
-            if (gpuProfile != null) {
-                sb.Append(gpuProfile.ToString());
             }
 
             return HashUtil.Sha1(sb.ToString());

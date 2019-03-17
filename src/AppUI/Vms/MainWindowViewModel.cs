@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
 
         private MainWindowViewModel() {
             this.StartMine = new DelegateCommand(() => {
-                NTMinerRoot.Current.StartMine(CommandLineArgs.WorkId);
+                NTMinerRoot.Current.StartMine();
             });
             this.StopMine = new DelegateCommand(() => {
                 NTMinerRoot.Current.StopMineAsync();

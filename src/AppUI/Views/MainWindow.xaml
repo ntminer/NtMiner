@@ -136,8 +136,8 @@
 					Background="Red"
 					Command="{x:Static vm:AppStatic.RunAsAdministrator}">
 				</controls:KbButton>
-				<WrapPanel Margin="4 0 0 0">
-					<WrapPanel Visibility="{x:Static vm:AppStatic.IsFreeClientVisible}">
+				<WrapPanel Margin="4 0 0 0" Visibility="{x:Static vm:AppStatic.IsWorkerClientVisible}">
+					<WrapPanel>
 						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Margin="8 0 0 0">作业：</TextBlock>
 						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" FontSize="14" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
 					</WrapPanel>
@@ -145,8 +145,7 @@
 						VerticalAlignment="Center" 
 						FontSize="14" Text="(中控)" 
 						Foreground="{StaticResource ThemeForeground}"
-						ToolTip="受中控控制，本地不能编辑。"
-						Visibility="{x:Static vm:AppStatic.IsWorkerClientVisible}"></TextBlock>
+						ToolTip="受中控控制，本地不能编辑。"></TextBlock>
 				</WrapPanel>
 				<uc:OpenedWindows VerticalAlignment="Top" Margin="8 0 0 0">
 				</uc:OpenedWindows>

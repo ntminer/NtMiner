@@ -50,6 +50,17 @@ namespace NTMiner.Core.Impl {
                                 Logger.ErrorDebugLine(e.Message, e);
                             }
                         }
+                        else {
+                            this.CoinKernelProfiles = new CoinKernelProfileData[0];
+                            this.CoinProfiles = new CoinProfileData[0];
+                            this.GpuProfiles = new GpuProfileData[0];
+                            this.MinerProfile = new MinerProfileData();
+                            this.MineWork = new MineWorkData();
+                            this.Pools = new PoolData[0];
+                            this.PoolProfiles = new PoolProfileData[0];
+                            this.Wallets = new WalletData[0];
+                            this.TimeStamp = Timestamp.GetTimestamp();
+                        }
                         _inited = true;
                     }
                 }

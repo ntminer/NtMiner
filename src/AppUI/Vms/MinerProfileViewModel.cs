@@ -267,7 +267,7 @@ namespace NTMiner.Vms {
 
         public bool IsWorker {
             get {
-                return CommandLineArgs.WorkId != Guid.Empty;
+                return NTMinerRoot.Current.MinerProfile.MineWork != null;
             }
         }
     }

@@ -503,7 +503,8 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region ExportMineWork
-        public ResponseBase ExportMineWork(ExportMineWorkRequest request) {
+        [HttpPost]
+        public ResponseBase ExportMineWork([FromBody]ExportMineWorkRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<ResponseBase>(Guid.Empty, "参数错误");
             }
@@ -524,6 +525,29 @@ namespace NTMiner.Controllers {
             }
         }
         #endregion
+
+        [HttpPost]
+        public DataResponse<string> GetLocalJson([FromBody]DataRequest<Guid> request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<DataResponse<string>>(Guid.Empty, "参数错误");
+            }
+            try {
+                DataResponse<string> response;
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    return response;
+                }
+                string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.Data);
+                string data = string.Empty;
+                if (File.Exists(localJsonFileFullName)) {
+                    data = File.ReadAllText(localJsonFileFullName);
+                }
+                return DataResponse<string>.Ok(request.MessageId, data);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError<DataResponse<string>>(request.MessageId, e.Message);
+            }
+        }
 
         #region MinerProfile
         [HttpPost]

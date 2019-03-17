@@ -22,7 +22,6 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
@@ -43,7 +42,6 @@ namespace NTMiner {
         }
         #endregion
 
-        private readonly bool _isServerJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || CommandLineArgs.WorkId != Guid.Empty;
         #region Init
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
@@ -52,56 +50,38 @@ namespace NTMiner {
                         JsonFileVersion = jsonFileVersion;
                     }
                 });
-                if (!_isServerJson) {
+                if (DevMode.IsDebugMode && !VirtualRoot.IsControlCenter) {
                     DoInit(callback);
                     return;
                 }
 
                 string serverJson = SpecialPath.ReadServerJsonFile();
                 string langJson = ClientId.ReadLocalLangJsonFile();
-                if (CommandLineArgs.WorkId != Guid.Empty) {
-                    try {
-                        LocalJson.Instance.Init();
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e.Message, e);
-                    }
-
-                    GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                        langJson = Encoding.UTF8.GetString(data);
+                CountdownEvent countdown = new CountdownEvent(2);
+                GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                    serverJson = Encoding.UTF8.GetString(data);
+                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
+                    countdown.Signal();
+                });
+                GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                    langJson = Encoding.UTF8.GetString(data);
+                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
+                    countdown.Signal();
+                });
+                Task.Factory.StartNew(() => {
+                    if (countdown.Wait(30 * 1000)) {
+                        Logger.InfoDebugLine("json下载完成");
                         ServerJson.Instance.Init(serverJson);
                         Language.Impl.LangJson.Instance.Init(langJson);
-                        Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
                         DoInit(callback);
-                    });
-                }
-                else {
-                    CountdownEvent countdown = new CountdownEvent(2);
-                    GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                        serverJson = Encoding.UTF8.GetString(data);
-                        Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
-                        countdown.Signal();
-                    });
-                    GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
-                        langJson = Encoding.UTF8.GetString(data);
-                        Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
-                        countdown.Signal();
-                    });
-                    Task.Factory.StartNew(() => {
-                        if (countdown.Wait(30 * 1000)) {
-                            Logger.InfoDebugLine("json下载完成");
-                            ServerJson.Instance.Init(serverJson);
-                            Language.Impl.LangJson.Instance.Init(langJson);
-                            DoInit(callback);
-                        }
-                        else {
-                            Logger.InfoDebugLine("启动json下载超时");
-                            ServerJson.Instance.Init(serverJson);
-                            Language.Impl.LangJson.Instance.Init(langJson);
-                            DoInit(callback);
-                        }
-                    });
-                }
+                    }
+                    else {
+                        Logger.InfoDebugLine("启动json下载超时");
+                        ServerJson.Instance.Init(serverJson);
+                        Language.Impl.LangJson.Instance.Init(langJson);
+                        DoInit(callback);
+                    }
+                });
             });
         }
 
@@ -121,24 +101,28 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
-            this._minerProfile = new MinerProfile(this, CommandLineArgs.WorkId);
             callback?.Invoke();
         }
 
         private void ContextInit() {
-            this.SysDicSet = new SysDicSet(this, _isServerJson);
-            this.SysDicItemSet = new SysDicItemSet(this, _isServerJson);
-            this.CoinSet = new CoinSet(this, _isServerJson);
-            this.GroupSet = new GroupSet(this, _isServerJson);
-            this.CoinGroupSet = new CoinGroupSet(this, _isServerJson);
-            this.PoolSet = new PoolSet(this, _isServerJson);
-            this.CoinKernelSet = new CoinKernelSet(this, _isServerJson);
-            this.PoolKernelSet = new PoolKernelSet(this, _isServerJson);
-            this.KernelSet = new KernelSet(this, _isServerJson);
-            this.KernelInputSet = new KernelInputSet(this, _isServerJson);
-            this.KernelOutputSet = new KernelOutputSet(this, _isServerJson);
-            this.KernelOutputFilterSet = new KernelOutputFilterSet(this, _isServerJson);
-            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, _isServerJson);
+            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || IsWork;
+            if (isUseJson) {
+                LocalJson.Instance.Init();
+            }
+            this.SysDicSet = new SysDicSet(this, isUseJson);
+            this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
+            this.CoinSet = new CoinSet(this, isUseJson);
+            this.GroupSet = new GroupSet(this, isUseJson);
+            this.CoinGroupSet = new CoinGroupSet(this, isUseJson);
+            this.PoolSet = new PoolSet(this, isUseJson);
+            this.CoinKernelSet = new CoinKernelSet(this, isUseJson);
+            this.PoolKernelSet = new PoolKernelSet(this, isUseJson);
+            this.KernelSet = new KernelSet(this, isUseJson);
+            this.KernelInputSet = new KernelInputSet(this, isUseJson);
+            this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
+            this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
+            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
+            this._minerProfile = new MinerProfile(this, isUseJson);
         }
 
         private void ContextReInit() {
@@ -335,7 +319,8 @@ namespace NTMiner {
                                     string rawJson = Encoding.UTF8.GetString(data);
                                     Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{jsonFileVersion}");
                                     ServerJson.Instance.ReInit(rawJson);
-                                    if (_isServerJson) {
+                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || IsWork;
+                                    if (isUseJson) {
                                         ContextReInit();
                                         Logger.InfoDebugLine("刷新完成");
                                     }
@@ -362,7 +347,7 @@ namespace NTMiner {
 
             // 自动开始挖矿
             if ((MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsMining) {
-                StartMine(CommandLineArgs.WorkId);
+                StartMine();
             }
         }
         #endregion
@@ -432,33 +417,14 @@ namespace NTMiner {
         public void RestartMine() {
             this.StopMineAsync(() => {
                 Logger.WarnWriteLine("正在重启内核");
-                StartMine(CommandLineArgs.WorkId);
+                StartMine();
             });
         }
         #endregion
 
         #region StartMine
-        public void StartMine(Guid workId) {
+        public void StartMine() {
             try {
-                if (workId != CommandLineArgs.WorkId) {
-                    List<string> args = CommandLineArgs.Args;
-                    if (CommandLineArgs.WorkId != Guid.Empty) {
-                        for (int i = 0; i < args.Count; i++) {
-                            if (args[i].StartsWith("workid=", StringComparison.OrdinalIgnoreCase)) {
-                                args[i] = "workid=" + workId.ToString();
-                                break;
-                            }
-                        }
-                    }
-                    else {
-                        args.Add("workid=" + workId.ToString());
-                    }
-                    if (!CommandLineArgs.IsAutoStart) {
-                        args.Add("--autostart");
-                    }
-                    // TODO:切换作业
-                    return;
-                }
                 IWorkProfile minerProfile = this.MinerProfile;
                 ICoin mainCoin;
                 if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
@@ -551,7 +517,7 @@ namespace NTMiner {
                     }
                     KernelDownloader.Download(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
-                            StartMine(workId);
+                            StartMine();
                         }
                     });
                 }

@@ -6,6 +6,7 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 
@@ -89,6 +90,15 @@ namespace NTMiner.Vms {
                 }
                 else {
                     // 编辑作业前切换上下文
+                    // 根据workId下载json保存到本地并调用LocalJson.Instance.ReInit()
+                    string json = Server.ControlCenterService.GetLocalJson(this.Id);
+                    if (!string.IsNullOrEmpty(json)) {
+                        File.WriteAllText(SpecialPath.LocalJsonFileFullName, json);
+                    }
+                    else {
+                        File.Delete(SpecialPath.LocalJsonFileFullName);
+                    }
+                    LocalJson.Instance.ReInit();
                     VirtualRoot.Execute(new SwichMinerProfileCommand(this.Id));
                     this.Sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
                     MineWorkEdit.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));

@@ -26,7 +26,7 @@ namespace NTMiner.Controllers {
         ResponseBase AddOrUpdateMineWork(DataRequest<MineWorkData> request);
         ResponseBase RemoveMineWork(DataRequest<Guid> request);
         ResponseBase ExportMineWork(ExportMineWorkRequest request);
-
+        DataResponse<string> GetLocalJson(DataRequest<Guid> request);
         DataResponse<List<MineWorkData>> MineWorks(SignatureRequest request);
         DataResponse<MinerProfileData> MinerProfile(DataRequest<Guid> request);
         ResponseBase SetMinerProfile(SetWorkProfileRequest<MinerProfileData> request);

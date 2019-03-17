@@ -114,25 +114,16 @@ namespace NTMiner.Vms {
 
         public static Visibility IsWorkerClientVisible {
             get {
-                if (CommandLineArgs.WorkId != Guid.Empty) {
+                if (NTMinerRoot.Current.MinerProfile.MineWork != null) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
             }
         }
 
-        public static Visibility IsFreeClientVisible {
-            get {
-                if (CommandLineArgs.WorkId == Guid.Empty) {
-                    return Visibility.Collapsed;
-                }
-                return Visibility.Visible;
-            }
-        }
-
         public static bool IsFreeClient {
             get {
-                return CommandLineArgs.WorkId == Guid.Empty;
+                return NTMinerRoot.Current.MinerProfile.MineWork == null;
             }
         }
 
