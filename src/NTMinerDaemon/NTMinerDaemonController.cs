@@ -79,7 +79,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void RefreshUserSet() {
-            HostRoot.Current.UserSet.Refresh();
+            HostRoot.Current.RefreshUserSet();
         }
 
         [HttpPost]

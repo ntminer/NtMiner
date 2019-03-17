@@ -26,7 +26,7 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.MinerProfile.GetUser, out response)) {
+                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new CloseNTMinerCommand());
@@ -45,7 +45,7 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.MinerProfile.GetUser, out response)) {
+                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 if (NTMinerRoot.Current.IsMining && NTMinerRoot.Current.MinerProfile.MineWork != null && NTMinerRoot.Current.MinerProfile.MineWork.GetId() == request.WorkId) {
@@ -67,7 +67,7 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.MinerProfile.GetUser, out response)) {
+                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 NTMinerRoot.Current.StopMineAsync();
@@ -86,7 +86,7 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.MinerProfile.GetUser, out response)) {
+                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new SetMinerNameCommand(request.MinerName));
@@ -105,7 +105,7 @@ namespace NTMiner {
             }
             try {
                 ResponseBase response;
-                if (!request.IsValid(NTMinerRoot.Current.MinerProfile.GetUser, out response)) {
+                if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
                 NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(request.PropertyName, request.Value);

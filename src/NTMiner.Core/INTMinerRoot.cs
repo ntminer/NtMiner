@@ -5,6 +5,7 @@ using NTMiner.Core.Kernels;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.SysDics;
+using NTMiner.User;
 using System;
 using System.Collections.Generic;
 
@@ -14,6 +15,8 @@ namespace NTMiner {
 
         event Action OnContextReInited;
         event Action OnReRendContext;
+
+        IUserSet UserSet { get; }
 
         DateTime CreatedOn { get; }
 

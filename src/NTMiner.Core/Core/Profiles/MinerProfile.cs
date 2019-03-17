@@ -20,7 +20,6 @@ namespace NTMiner.Core.Profiles {
         private GpuProfileSet _gpuProfileSet;
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
-        private IUserSet _userSet;
 
         public MinerProfile(INTMinerRoot root, Guid workId) {
             _root = root;
@@ -90,17 +89,6 @@ namespace NTMiner.Core.Profiles {
             }
             else {
                 _walletSet.Refresh(workId);
-            }
-            if (_userSet == null) {
-                if (VirtualRoot.IsControlCenter) {
-                    _userSet = new MinerServer.Impl.UserSet();
-                }
-                else {
-                    _userSet = new UserSet(isUseJson: _workId != Guid.Empty);
-                }
-            }
-            else {
-                _userSet.Refresh();
             }
             if (VirtualRoot.IsControlCenter) {
                 MineWork = new MineWorkData();
@@ -181,10 +169,6 @@ namespace NTMiner.Core.Profiles {
             return _gpuProfileSet.GetGpuProfile(coinId, gpuIndex);
         }
 
-        public IUser GetUser(string loginName) {
-            return _userSet.GetUser(loginName);
-        }
-
         public List<IWallet> GetWallets() {
             return _walletSet.GetWallets().ToList();
         }
@@ -207,10 +191,6 @@ namespace NTMiner.Core.Profiles {
 
         public List<IPoolProfile> GetPoolProfiles() {
             return _poolProfileSet.GetPoolProfiles().ToList();
-        }
-
-        public List<IUser> GetUsers() {
-            return _userSet.ToList();
         }
         #endregion
 

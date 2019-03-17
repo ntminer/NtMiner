@@ -140,11 +140,7 @@ namespace NTMiner.Vms {
                 localJsonObj.GpuProfiles = new GpuProfileData[] { new GpuProfileData(minerProfile.GetGpuProfile(localJsonObj.MinerProfile.CoinId, NTMinerRoot.GpuAllId)) };
                 localJsonObj.TimeStamp = Timestamp.GetTimestamp();
                 localJsonObj.Pools = NTMinerRoot.Current.PoolSet.Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData(a)).ToArray();
-                localJsonObj.Users = minerProfile.GetUsers().Select(a => new UserData(a)).ToArray();
                 localJsonObj.Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray();
-                foreach (var user in localJsonObj.Users) {
-                    user.Password = HashUtil.Sha1(user.Password);
-                }
                 localJson = VirtualRoot.JsonSerializer.Serialize(localJsonObj);
 
                 var root = NTMinerRoot.Current;

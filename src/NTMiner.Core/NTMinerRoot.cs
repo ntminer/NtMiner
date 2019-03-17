@@ -31,6 +31,8 @@ namespace NTMiner {
         public event Action OnContextReInited;
         public event Action OnReRendContext;
 
+        public IUserSet UserSet { get; private set; }
+
         public DateTime CreatedOn { get; private set; }
 
         public IAppSettingSet AppSettingSet { get; private set; }
@@ -111,6 +113,7 @@ namespace NTMiner {
 
             ContextInit();
 
+            this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
             this.GpusSpeed = new GpusSpeed(this);
             this.CoinShareSet = new CoinShareSet(this);
@@ -164,8 +167,6 @@ namespace NTMiner {
             NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
             NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
 
-            RefreshUserSet();
-
             Report.Init(this);
 
             #region 处理设置矿机名命令
@@ -175,26 +176,6 @@ namespace NTMiner {
                 action: message => {
                     SetMinerName(message.MinerName);
                     VirtualRoot.Happened(new MinerNameSetedEvent());
-                });
-            #endregion
-            #region 增删改了用户后刷新守护进程的用户集
-            VirtualRoot.On<UserAddedEvent>(
-                "添加了新用户后刷新守护进程的用户集",
-                LogEnum.Console,
-                action: message => {
-                    RefreshUserSet();
-                });
-            VirtualRoot.On<UserUpdatedEvent>(
-                "更新了新用户后刷新守护进程的用户集",
-                LogEnum.Console,
-                action: message => {
-                    RefreshUserSet();
-                });
-            VirtualRoot.On<UserRemovedEvent>(
-                "移除了新用户后刷新守护进程的用户集",
-                LogEnum.Console,
-                action: message => {
-                    RefreshUserSet();
                 });
             #endregion
             #region 挖矿开始时将无份额内核重启份额计数置0
@@ -385,26 +366,6 @@ namespace NTMiner {
             }
         }
         #endregion
-
-        private void RefreshUserSet() {
-            try {
-                List<UserData> users = new List<UserData>();
-                foreach (IUser item in MinerProfile.GetUsers()) {
-                    if (item is UserData user) {
-                        users.Add(user);
-                    }
-                    else {
-                        users.Add(new UserData(item));
-                    }
-                }
-                string json = VirtualRoot.JsonSerializer.Serialize(users);
-                SpecialPath.WriteDaemonUsersJsonFile(json);
-                Client.NTMinerDaemonService.RefreshUserSetAsync(callback: null);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
-        }
 
         #region GetFileAsync
         public static void GetFileAsync(string fileUrl, Action<byte[]> callback) {

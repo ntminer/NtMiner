@@ -21,7 +21,6 @@ namespace NTMiner.Core.Impl {
             this.MineWork = new MineWorkData();
             this.Pools = new PoolData[0];
             this.PoolProfiles = new PoolProfileData[0];
-            this.Users = new UserData[0];
             this.Wallets = new WalletData[0];
             this.TimeStamp = Timestamp.GetTimestamp();
         }
@@ -43,14 +42,8 @@ namespace NTMiner.Core.Impl {
                                 this.MineWork = data.MineWork ?? new MineWorkData();
                                 this.Pools = data.Pools ?? new PoolData[0];
                                 this.PoolProfiles = data.PoolProfiles ?? new PoolProfileData[0];
-                                this.Users = data.Users ?? new UserData[0];
                                 this.Wallets = data.Wallets ?? new WalletData[0];
                                 this.TimeStamp = data.TimeStamp;
-                                foreach (var user in this.Users) {
-                                    // 来自中控的密码是中控用户原始密码的两次sha1
-                                    // 客户端的密码是原始密码的两次sha1+ClientId再sha1
-                                    user.Password = HashUtil.Sha1(user.Password + ClientId.Id);
-                                }
                                 SpecialPath.WriteLocalJsonFile(localJson);
                             }
                             catch (Exception e) {
@@ -89,8 +82,6 @@ namespace NTMiner.Core.Impl {
                     return this.Pools.Cast<T>();
                 case nameof(PoolProfileData):
                     return this.PoolProfiles.Cast<T>();
-                case nameof(UserData):
-                    return this.Users.Cast<T>();
                 case nameof(WalletData):
                     return this.Wallets.Cast<T>();
                 default:
@@ -113,8 +104,6 @@ namespace NTMiner.Core.Impl {
         public PoolData[] Pools { get; set; }
 
         public PoolProfileData[] PoolProfiles { get; set; }
-
-        public UserData[] Users { get; set; }
 
         public WalletData[] Wallets { get; set; }
     }

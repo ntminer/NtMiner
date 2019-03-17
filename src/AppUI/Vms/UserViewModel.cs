@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
                 }
-                IUser user = NTMinerRoot.Current.MinerProfile.GetUser(this.LoginName);
+                IUser user = NTMinerRoot.Current.UserSet.GetUser(this.LoginName);
                 if (user != null) {
                     VirtualRoot.Execute(new UpdateUserCommand(this));
                 }

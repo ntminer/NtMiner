@@ -84,7 +84,11 @@ namespace NTMiner.Core.MinerServer.Impl {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
-                        var response = Server.ControlCenterService.GetUsers(Guid.NewGuid());
+                        Guid? clientId = null;
+                        if (!VirtualRoot.IsControlCenter) {
+                            clientId = ClientId.Id;
+                        }
+                        var response = Server.ControlCenterService.GetUsers(clientId);
                         if (response != null) {
                             _dicByLoginName = response.Data.ToDictionary(a => a.LoginName, a => a);
                         }

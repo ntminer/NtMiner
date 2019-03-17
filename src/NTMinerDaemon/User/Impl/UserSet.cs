@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace NTMiner.User.Impl {
     public class UserSet : IUserSet {
@@ -21,18 +24,41 @@ namespace NTMiner.User.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    string json = SpecialPath.ReadDaemonUsersJsonFile();
-                    if (!string.IsNullOrEmpty(json)) {
-                        List<UserData> users = HostRoot.JsonSerializer.Deserialize<List<UserData>>(json);
-                        foreach (var user in users) {
-                            if (!_dicByLoginName.ContainsKey(user.LoginName)) {
-                                _dicByLoginName.Add(user.LoginName, user);
-                            }
+                    List<UserData> users = GetUsers();
+                    foreach (var user in users) {
+                        if (!_dicByLoginName.ContainsKey(user.LoginName)) {
+                            _dicByLoginName.Add(user.LoginName, user);
                         }
                     }
                     _isInited = true;
                 }
             }
+        }
+
+        /// <summary>
+        /// 同步方法
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <returns></returns>
+        private static List<UserData> GetUsers() {
+            try {
+                DataRequest<Guid?> request = new DataRequest<Guid?> {
+                    LoginName = string.Empty,
+                    Data = NTMinerRegistry.GetClientId()
+                };
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetMinerServerHost()}:{WebApiConst.MinerServerPort}/api/ControlCenter/Users", request);
+                    DataResponse<List<UserData>> response = message.Result.Content.ReadAsAsync<DataResponse<List<UserData>>>().Result;
+                    if (response != null && response.Data != null) {
+                        return response.Data;
+                    }
+                }
+            }
+            catch (Exception e) {
+                e = e.GetInnerException();
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+            return new List<UserData>();
         }
 
         public void Refresh() {

@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
                 if (delaySeconds.HasValue && delaySeconds.Value != 0) {
                     builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(4)).WithButton("忽略", null)
+                        .WithDelay(TimeSpan.FromSeconds(4))
                         .Queue();
                 }
                 else {
@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
                 builder.Message = manager.Factory.GetMessage();
                 builder.Warning(message ?? string.Empty)
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(4)).WithButton("忽略", null)
+                    .WithDelay(TimeSpan.FromSeconds(4))
                     .Queue();
             });
         }

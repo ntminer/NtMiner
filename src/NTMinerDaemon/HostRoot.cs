@@ -14,6 +14,10 @@ namespace NTMiner {
 
         public IUserSet UserSet { get; private set; }
 
+        public void RefreshUserSet() {
+            _userSet.Refresh();
+        }
+
         private readonly UserSet _userSet;
         private HostRoot() {
             _userSet = new UserSet();

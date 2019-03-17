@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bus\IDelegateHandler.cs" />
-    <Compile Include="ExceptionExtension.cs" />
     <Compile Include="IAppSettingSet.cs" />
     <Compile Include="Bus\Cmd.cs" />
     <Compile Include="Bus\DelegateHandler`1.cs" />

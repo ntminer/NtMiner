@@ -8,7 +8,7 @@ namespace NTMiner.Controllers {
     public interface IControlCenterController {
         ResponseBase ActiveControlCenterAdmin(string password);
         ResponseBase LoginControlCenter(SignatureRequest request);
-        DataResponse<List<UserData>> Users(SignatureRequest request);
+        DataResponse<List<UserData>> Users(DataRequest<Guid?> request);
         ResponseBase AddUser(DataRequest<UserData> request);
         ResponseBase UpdateUser(DataRequest<UserData> request);
         ResponseBase RemoveUser(DataRequest<string> request);

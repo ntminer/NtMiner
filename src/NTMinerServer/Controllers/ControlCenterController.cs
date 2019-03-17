@@ -60,16 +60,23 @@ namespace NTMiner.Controllers {
 
         #region Users
         [HttpPost]
-        public DataResponse<List<UserData>> Users([FromBody]SignatureRequest request) {
+        public DataResponse<List<UserData>> Users([FromBody]DataRequest<Guid?> request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<UserData>>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<List<UserData>> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
-                    return response;
+                if (!request.Data.HasValue) {
+                    DataResponse<List<UserData>> response;
+                    if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                        return response;
+                    }
                 }
                 var data = HostRoot.Current.UserSet.Cast<UserData>().ToList();
+                if (request.Data.HasValue) {
+                    foreach (var user in data) {
+                        user.Password = HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.Data.Value);
+                    }
+                }
                 return DataResponse<List<UserData>>.Ok(request.MessageId, data);
             }
             catch (Exception e) {

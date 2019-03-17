@@ -35,12 +35,13 @@ namespace NTMiner {
             /// <summary>
             /// 同步方法
             /// </summary>
-            /// <param name="messageId"></param>
+            /// <param name="clientId"></param>
             /// <returns></returns>
-            public DataResponse<List<UserData>> GetUsers(Guid messageId) {
+            public DataResponse<List<UserData>> GetUsers(Guid? clientId) {
                 try {
-                    SignatureRequest request = new SignatureRequest {
-                        LoginName = SingleUser.LoginName
+                    DataRequest<Guid?> request = new DataRequest<Guid?> {
+                        LoginName = SingleUser.LoginName,
+                        Data = clientId
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), request);

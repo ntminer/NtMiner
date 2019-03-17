@@ -68,6 +68,7 @@
     <Compile Include="Core\SysDicData.cs" />
     <Compile Include="Core\SysDicItemData.cs" />
     <Compile Include="DataLevel.cs" />
+    <Compile Include="ExceptionExtension.cs" />
     <Compile Include="IGetSignData.cs" />
     <Compile Include="DataResponse`1.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />

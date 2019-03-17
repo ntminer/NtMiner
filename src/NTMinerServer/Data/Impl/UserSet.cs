@@ -65,11 +65,6 @@ namespace NTMiner.Data.Impl {
             Init();
         }
 
-        public void Refresh() {
-            _dicByLoginName.Clear();
-            _isInited = false;
-        }
-
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {

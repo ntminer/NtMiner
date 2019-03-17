@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                     _dicByLoginName.Remove(message.Source.LoginName);
                     OnPropertyChanged(nameof(List));
                 });
-            foreach (var item in NTMinerRoot.Current.MinerProfile.GetUsers()) {
+            foreach (var item in NTMinerRoot.Current.UserSet) {
                 _dicByLoginName.Add(item.LoginName, new UserViewModel(item));
             }
         }
