@@ -16,7 +16,7 @@
 		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
-		Title="矿工列表"
+		Title="矿机列表"
 		DataContext="{x:Static vm:MinerClientsWindowViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="3600">
 	<metro:MetroWindow.Resources>
@@ -25,7 +25,7 @@
 				<ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 			<sys:String x:Key="WindowTitle">
-				矿工
+				矿机
 			</sys:String>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			</Style>
@@ -181,7 +181,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="添加矿工" Padding="4" Margin="0 0 6 0" Command="{Binding AddMinerClient}">
+				<MenuItem Header="添加矿机" Padding="4" Margin="0 0 6 0" Command="{Binding AddMinerClient}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -191,7 +191,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="删除矿工" Padding="4" Margin="0 0 6 0" Command="{Binding RemoveMinerClients}">
+				<MenuItem Header="删除矿机" Padding="4" Margin="0 0 6 0" Command="{Binding RemoveMinerClients}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -496,7 +496,7 @@
 					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerIp, ValidatesOnExceptions=True}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">矿工名</TextBlock>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">矿机名</TextBlock>
 					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerName}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
@@ -633,7 +633,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="添加矿工" Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}">
+						<MenuItem Header="添加矿机" Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -643,7 +643,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="删除矿工" Command="{Binding Data.RemoveMinerClients,Source={StaticResource proxy}}">
+						<MenuItem Header="删除矿机" Command="{Binding Data.RemoveMinerClients,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -842,7 +842,7 @@
 						IsReadOnly="False">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>矿工名</TextBlock>
+								<TextBlock>矿机名</TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -866,7 +866,7 @@
 						</DataGridTextColumn.ElementStyle>
 						<DataGridTextColumn.EditingElementStyle>
 							<Style TargetType="TextBox">
-								<Setter Property="ToolTip" Value="注意：修改矿工名后需重新开始挖矿才能反应到矿池"></Setter>
+								<Setter Property="ToolTip" Value="注意：修改矿机名后需重新开始挖矿才能反应到矿池"></Setter>
 								<Setter Property="Background" Value="White"></Setter>
 								<Setter Property="Width" Value="90"></Setter>
 							</Style>
@@ -2108,7 +2108,7 @@
 					<CheckBox Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="0 0 6 0">挖矿时长</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}" Margin="0 0 6 0">作业</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="0 0 6 0">分组</CheckBox>
-					<CheckBox Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="0 0 6 0">矿工名</CheckBox>
+					<CheckBox Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="0 0 6 0">矿机名</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="0 0 6 0">IP</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.WindowsLoginNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.WindowsLoginNameAndPassword}" Margin="0 0 6 0">远程桌面用户名密码</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="0 0 6 0">主挖币种</CheckBox>

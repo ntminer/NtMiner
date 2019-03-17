@@ -99,7 +99,7 @@
 						SelectedItem="{Binding LangVms.CurrentLangVm}">
 					</controls:KbComboBox>
 					<controls:KbButton 
-						ToolTip="矿工列表"
+						ToolTip="矿机列表"
 						Command="{x:Static vm:AppStatic.ShowMinerClients}" 
 						Background="Transparent" 
 						BorderThickness="0"

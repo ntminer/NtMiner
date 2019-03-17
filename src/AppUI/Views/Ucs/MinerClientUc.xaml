@@ -121,7 +121,7 @@
 							Stretch="Fill" />
 						</MenuItem.Icon>
 					</MenuItem>
-					<MenuItem Header="删除矿工" Padding="4" Margin="0 0 6 0" Command="{Binding Remove}">
+					<MenuItem Header="删除矿机" Padding="4" Margin="0 0 6 0" Command="{Binding Remove}">
 						<MenuItem.Icon>
 							<Path
 							Width="16"
@@ -195,9 +195,9 @@
 				<PasswordBox Margin="10 0 0 0" Width="100" BorderBrush="{Binding ElementName=TbWindowsLoginName,Path=BorderBrush}" ToolTip="Windows远程桌面密码" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
 			</WrapPanel>
 			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">矿工名</TextBlock>
+				<TextBlock Style="{StaticResource LblTb}">矿机名</TextBlock>
 				<TextBox 
-					ToolTip="注意：修改矿工名后需重新开始挖矿才能反应到矿池"
+					ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"
 					Width="120"
 					Text="{Binding MinerName}"></TextBox>
 			</WrapPanel>

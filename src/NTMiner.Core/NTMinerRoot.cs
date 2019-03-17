@@ -168,9 +168,9 @@ namespace NTMiner {
 
             Report.Init(this);
 
-            #region 处理设置矿工名命令
+            #region 处理设置矿机名命令
             VirtualRoot.Accept<SetMinerNameCommand>(
-                "处理设置矿工名命令",
+                "处理设置矿机名命令",
                 LogEnum.Console,
                 action: message => {
                     SetMinerName(message.MinerName);

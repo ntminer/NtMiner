@@ -58,7 +58,7 @@ namespace NTMiner.Vms {
 
             });
             this.Remove = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"确定删除该矿工吗？", title: "确认", onYes: () => {
+                DialogWindow.ShowDialog(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
                     Server.ControlCenterService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
                             if (response != null) {
@@ -416,7 +416,7 @@ namespace NTMiner.Vms {
                                         NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response2.Description}");
                                     }
                                     else {
-                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿工名失败失败，已撤销");
+                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿机名失败，已撤销");
                                     }
                                 }
                                 OnPropertyChanged(nameof(MinerName));
@@ -429,7 +429,7 @@ namespace NTMiner.Vms {
                                 NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp} {response.Description}");
                             }
                             else {
-                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿工名失败，已撤销");
+                                NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿机名失败，已撤销");
                             }
                         }
                         OnPropertyChanged(nameof(MinerName));

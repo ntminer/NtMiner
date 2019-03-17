@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
                     AllPropertyChanged();
                 });
             VirtualRoot.On<MinerNameSetedEvent>(
-                "矿工名设置后刷新VM内存和命令总成",
+                "矿机名设置后刷新VM内存和命令总成",
                 LogEnum.Console,
                 action: message => {
                     OnPropertyChanged(nameof(MinerName));

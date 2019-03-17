@@ -133,7 +133,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    DialogWindow.ShowDialog(message: $"确定删除选中的矿工吗？", title: "确认", onYes: () => {
+                    DialogWindow.ShowDialog(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
                         Server.ControlCenterService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {

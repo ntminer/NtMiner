@@ -414,7 +414,7 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 if (HostRoot.Current.ClientSet.IsAnyClientInGroup(request.Data)) {
-                    return ResponseBase.ClientError(request.MessageId, "该组下有矿工，请先移除矿工再做删除操作");
+                    return ResponseBase.ClientError(request.MessageId, "该组下有矿机，请先移除矿工再做删除操作");
                 }
                 HostRoot.Current.MinerGroupSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
@@ -459,7 +459,7 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 if (HostRoot.Current.ClientSet.IsAnyClientInWork(request.Data)) {
-                    return ResponseBase.ClientError(request.MessageId, "该作业下有矿工，请先移除矿工再做删除操作");
+                    return ResponseBase.ClientError(request.MessageId, "该作业下有矿机，请先移除矿工再做删除操作");
                 }
                 HostRoot.Current.MineWorkSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);

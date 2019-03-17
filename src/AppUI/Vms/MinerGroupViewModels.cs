@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
                 new MinerGroupViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
             VirtualRoot.On<MinerGroupAddedEvent>(
-                "添加矿工分组后刷新VM内存",
+                "添加矿机分组后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
@@ -33,13 +33,13 @@ namespace NTMiner.Vms {
                     }
                 });
             VirtualRoot.On<MinerGroupUpdatedEvent>(
-                "更新矿工分组后刷新VM内存",
+                "更新矿机分组后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 });
             VirtualRoot.On<MinerGroupRemovedEvent>(
-                "删除矿工分组后刷新VM内存",
+                "删除矿机分组后刷新VM内存",
                 LogEnum.Console,
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
