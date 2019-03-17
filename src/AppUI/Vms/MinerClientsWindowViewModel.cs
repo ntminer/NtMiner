@@ -123,10 +123,10 @@ namespace NTMiner.Vms {
             });
             this.OneKeyOverClock = new DelegateCommand(() => {
 
-            });
+            }, CanCommand);
             this.OneKeyUpgrade = new DelegateCommand(() => {
 
-            });
+            }, CanCommand);
             this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
             this.RemoveMinerClients = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {

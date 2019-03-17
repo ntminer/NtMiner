@@ -93,5 +93,9 @@ namespace NTMiner.Views {
         private void MenuItemGroup_Click(object sender, RoutedEventArgs e) {
             PopMinerGroup.IsOpen = !PopMinerGroup.IsOpen;
         }
+
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e) {
+            this.MenuItemWork.IsEnabled = this.MenuItemGroup.IsEnabled = Vm.SelectedMinerClients.Length != 0;
+        }
     }
 }
