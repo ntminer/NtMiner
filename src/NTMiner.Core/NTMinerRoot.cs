@@ -50,11 +50,11 @@ namespace NTMiner {
                         JsonFileVersion = jsonFileVersion;
                     }
                 });
-                if (DevMode.IsDebugMode && !VirtualRoot.IsControlCenter) {
-                    DoInit(callback);
+                bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
+                if (DevMode.IsDebugMode && !VirtualRoot.IsControlCenter && !isWork) {
+                    DoInit(isWork, callback);
                     return;
                 }
-
                 string serverJson = SpecialPath.ReadServerJsonFile();
                 string langJson = ClientId.ReadLocalLangJsonFile();
                 CountdownEvent countdown = new CountdownEvent(2);
@@ -73,25 +73,25 @@ namespace NTMiner {
                         Logger.InfoDebugLine("json下载完成");
                         ServerJson.Instance.Init(serverJson);
                         Language.Impl.LangJson.Instance.Init(langJson);
-                        DoInit(callback);
+                        DoInit(isWork, callback);
                     }
                     else {
                         Logger.InfoDebugLine("启动json下载超时");
                         ServerJson.Instance.Init(serverJson);
                         Language.Impl.LangJson.Instance.Init(langJson);
-                        DoInit(callback);
+                        DoInit(isWork, callback);
                     }
                 });
             });
         }
 
         private MinerProfile _minerProfile;
-        private void DoInit(Action callback) {
+        private void DoInit(bool isWork, Action callback) {
             this.PackageDownloader = new PackageDownloader(this);
             this.AppSettingSet = new AppSettingSet(this);
             this.CalcConfigSet = new CalcConfigSet(this);
 
-            ContextInit();
+            ContextInit(isWork);
 
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
@@ -101,7 +101,6 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
-            bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
             if (isWork) {
                 LocalJson.Instance.Init();
             }
@@ -109,8 +108,8 @@ namespace NTMiner {
             callback?.Invoke();
         }
 
-        private void ContextInit() {
-            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter;
+        private void ContextInit(bool isWork) {
+            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || isWork;
             this.SysDicSet = new SysDicSet(this, isUseJson);
             this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
             this.CoinSet = new CoinSet(this, isUseJson);
@@ -131,7 +130,7 @@ namespace NTMiner {
                 VirtualRoot.UnPath(handler);
             }
             ContextHandlers.Clear();
-            ContextInit();
+            ContextInit(isWork);
             OnContextReInited?.Invoke();
             OnReRendContext?.Invoke();
             if (isWork) {
