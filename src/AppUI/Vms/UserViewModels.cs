@@ -16,6 +16,9 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Add = new DelegateCommand(() => {
+                if (!VirtualRoot.IsControlCenter) {
+                    return;
+                }
                 new UserViewModel().Edit.Execute(FormType.Add);
             });
             VirtualRoot.On<UserAddedEvent>(

@@ -25,6 +25,9 @@ namespace NTMiner.Vms {
 
         public UserViewModel() {
             this.Save = new DelegateCommand(() => {
+                if (!VirtualRoot.IsControlCenter) {
+                    return;
+                }
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
                 }
@@ -41,6 +44,9 @@ namespace NTMiner.Vms {
                 UserEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
+                if (!VirtualRoot.IsControlCenter) {
+                    return;
+                }
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
                 }
@@ -52,6 +58,9 @@ namespace NTMiner.Vms {
                 }, icon: "Icon_Confirm");
             });
             this.Enable = new DelegateCommand(() => {
+                if (!VirtualRoot.IsControlCenter) {
+                    return;
+                }
                 if (this.IsEnabled) {
                     return;
                 }
@@ -61,6 +70,9 @@ namespace NTMiner.Vms {
                 }, icon: "Icon_Confirm");
             });
             this.Disable = new DelegateCommand(() => {
+                if (!VirtualRoot.IsControlCenter) {
+                    return;
+                }
                 if (!this.IsEnabled) {
                     return;
                 }
@@ -97,6 +109,12 @@ namespace NTMiner.Vms {
         public bool IsReadOnly {
             get {
                 return !string.IsNullOrEmpty(this.LoginName);
+            }
+        }
+
+        public bool IsControlCenter {
+            get {
+                return VirtualRoot.IsControlCenter;
             }
         }
 

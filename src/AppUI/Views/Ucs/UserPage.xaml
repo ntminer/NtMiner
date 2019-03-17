@@ -21,12 +21,16 @@
 			BorderThickness="0"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
-				<controls:BindingProxy x:Key="proxy" Data="{Binding UserVms}" />
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="登录名" Binding="{Binding LoginName}">
 				</DataGridTextColumn>
 				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="密码" Binding="{Binding PasswordStar}">
+				</DataGridTextColumn>
+				<DataGridTextColumn
+					Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="密码" Binding="{Binding Password}">
 				</DataGridTextColumn>
 				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="状态">
 					<DataGridTemplateColumn.CellTemplate>
@@ -40,8 +44,9 @@
 				<DataGridTemplateColumn 
 					MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
-						<controls:KbButton  
-							Command="{Binding Data.Add, Source={StaticResource proxy}}" 
+						<controls:KbButton
+							IsEnabled="{Binding Data.IsControlCenter,Source={StaticResource proxy}}"
+							Command="{Binding Data.UserVms.Add, Source={StaticResource proxy}}" 
 							Background="Transparent" BorderThickness="0"
 							Margin="2 0"
 							CornerRadius="2" ToolTip="添加">
@@ -57,7 +62,9 @@
 					</DataGridTemplateColumn.Header>
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+							<StackPanel 
+								IsEnabled="{Binding IsControlCenter}"
+								HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
 								<controls:KbButton 
 									Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
 									Margin="2 0"
@@ -121,22 +128,5 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Visibility="{Binding UserVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
-		<Border
-			Margin="0 10"
-			Width="160"
-			Height="160"
-			Background="#55000000"
-			HorizontalAlignment="Center" 
-			VerticalAlignment="Center" 
-			CornerRadius="80"
-			Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
-			<TextBlock 
-				HorizontalAlignment="Center"
-				VerticalAlignment="Center"
-				Foreground="{StaticResource IconFillColor}" 
-				FontSize="30" 
-				Text="由中控管理"></TextBlock>
-		</Border>
-
 	</Grid>
 </UserControl>

@@ -14,5 +14,11 @@
         public MinerProfileViewModel MinerProfile {
             get { return MinerProfileViewModel.Current; }
         }
+
+        public bool IsControlCenter {
+            get {
+                return VirtualRoot.IsControlCenter;
+            }
+        }
     }
 }

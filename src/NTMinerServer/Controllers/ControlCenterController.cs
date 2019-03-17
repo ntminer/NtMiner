@@ -73,7 +73,8 @@ namespace NTMiner.Controllers {
                 }
                 var data = HostRoot.Current.UserSet.Cast<UserData>().ToList();
                 if (request.Data.HasValue) {
-                    foreach (var user in data) {
+                    List<UserData> users = data.Select(a => new UserData(a)).ToList();
+                    foreach (var user in users) {
                         user.Password = HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.Data.Value);
                     }
                 }
