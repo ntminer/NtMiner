@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                 "刷新参数总成",
                 LogEnum.Console,
                 action: cmd => {
-                    this.OnPropertyChanged(nameof(this.ArgsAssembly));
+                    this.ArgsAssembly = NTMinerRoot.Current.BuildAssembleArgs();
                 });
             VirtualRoot.On<MinerNameSetedEvent>(
                 "矿机名设置后刷新VM内存和命令总成",
@@ -44,7 +44,6 @@ namespace NTMiner.Vms {
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
                 OnPropertyChanged(nameof(CoinVm));
                 MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
-                MainWindowViewModel.Current.OnPropertyChanged(nameof(MainWindowViewModel.Current.MinerProfile));
             };
         }
 
@@ -114,11 +113,15 @@ namespace NTMiner.Vms {
             }
         }
 
+        private string _argsAssembly;
         public string ArgsAssembly {
             get {
-                string kernelCommandLine = NTMinerRoot.Current.BuildAssembleArgs();
-                NTMinerRoot.UserKernelCommandLine = kernelCommandLine;
-                return kernelCommandLine;
+                return _argsAssembly;
+            }
+            set {
+                _argsAssembly = value;
+                OnPropertyChanged(nameof(ArgsAssembly));
+                NTMinerRoot.UserKernelCommandLine = value;
             }
         }
 
