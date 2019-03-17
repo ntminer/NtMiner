@@ -171,7 +171,7 @@ namespace NTMiner {
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                         string arguments = "--AutoStart";
                         if (request.WorkId != Guid.Empty) {
-                            arguments += " workid=" + request.WorkId.ToString();
+                            arguments += " --work";
                         }
                         Windows.Cmd.RunClose(location, arguments);
                         return ResponseBase.Ok(request.MessageId);
@@ -245,34 +245,9 @@ namespace NTMiner {
                         DoCloseNTMiner(innerRequest);
                         System.Threading.Thread.Sleep(1000);
                     }
-                    string arguments = NTMinerRegistry.GetArguments();
-                    if (!string.IsNullOrEmpty(arguments)) {
-                        string[] parts = arguments.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        int workIdIndex = -1;
-                        for (int i = 0; i < parts.Length; i++) {
-                            string item = parts[i];
-                            if (item.StartsWith("workid=")) {
-                                workIdIndex = i;
-                            }
-                        }
-                        if (request.WorkId == Guid.Empty) {
-                            if (workIdIndex != -1) {
-                                parts[workIdIndex] = string.Empty;
-                            }
-                        }
-                        else {
-                            if (workIdIndex != -1) {
-                                parts[workIdIndex] = "workid=" + request.WorkId;
-                            }
-                            else {
-                                Array.Resize(ref parts, parts.Length + 1);
-                                parts[parts.Length - 1] = "workid=" + request.WorkId;
-                            }
-                        }
-                        arguments = string.Join(" ", parts);
-                    }
-                    else if (request.WorkId != Guid.Empty) {
-                        arguments = "workid=" + request.WorkId;
+                    string arguments = string.Empty;
+                    if (request.WorkId != Guid.Empty) {
+                        arguments = "--work";
                     }
                     string location = NTMinerRegistry.GetLocation();
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {

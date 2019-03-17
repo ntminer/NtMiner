@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                     }
                 }
             }
-            VirtualRoot.On<MinerProfileSwichedEvent>(
+            VirtualRoot.On<MinerProfileReInitedEvent>(
                 "MinerProfile切换后刷新Vm内存",
                 LogEnum.Console,
                 action: message => {

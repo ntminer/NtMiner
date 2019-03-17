@@ -94,12 +94,12 @@ namespace NTMiner.Vms {
                     string json = Server.ControlCenterService.GetLocalJson(this.Id);
                     if (!string.IsNullOrEmpty(json)) {
                         File.WriteAllText(SpecialPath.LocalJsonFileFullName, json);
+                        LocalJson.Instance.ReInit();
                     }
                     else {
-                        File.Delete(SpecialPath.LocalJsonFileFullName);
+                        LocalJson.Instance.ReInit(this);
                     }
-                    LocalJson.Instance.ReInit();
-                    VirtualRoot.Execute(new SwichMinerProfileCommand(this.Id));
+                    VirtualRoot.Execute(new ReInitMinerProfileCommand());
                     this.Sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
                     MineWorkEdit.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
                 }

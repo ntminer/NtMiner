@@ -14,6 +14,10 @@ namespace NTMiner.Core.Impl {
 
         // 私有构造函数不影响序列化反序列化
         private LocalJson() {
+            Clear();
+        }
+
+        private void Clear() {
             this.CoinKernelProfiles = new CoinKernelProfileData[0];
             this.CoinProfiles = new CoinProfileData[0];
             this.GpuProfiles = new GpuProfileData[0];
@@ -51,15 +55,7 @@ namespace NTMiner.Core.Impl {
                             }
                         }
                         else {
-                            this.CoinKernelProfiles = new CoinKernelProfileData[0];
-                            this.CoinProfiles = new CoinProfileData[0];
-                            this.GpuProfiles = new GpuProfileData[0];
-                            this.MinerProfile = new MinerProfileData();
-                            this.MineWork = new MineWorkData();
-                            this.Pools = new PoolData[0];
-                            this.PoolProfiles = new PoolProfileData[0];
-                            this.Wallets = new WalletData[0];
-                            this.TimeStamp = Timestamp.GetTimestamp();
+                            Clear();
                         }
                         _inited = true;
                     }
@@ -70,6 +66,12 @@ namespace NTMiner.Core.Impl {
         public void ReInit() {
             _inited = false;
             Init();
+        }
+
+        public void ReInit(IMineWork work) {
+            _inited = true;
+            Clear();
+            this.MineWork = new MineWorkData(work);
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {

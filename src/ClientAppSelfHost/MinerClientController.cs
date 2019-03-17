@@ -48,10 +48,7 @@ namespace NTMiner {
                 if (!request.IsValid(NTMinerRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
-                if (NTMinerRoot.Current.IsMining && NTMinerRoot.Current.MinerProfile.MineWork != null && NTMinerRoot.Current.MinerProfile.MineWork.GetId() == request.WorkId) {
-                    return ResponseBase.Ok(request.MessageId);
-                }
-                NTMinerRoot.Current.StartMine();
+                NTMinerRoot.Current.RestartMine(isWork: request.WorkId != Guid.Empty);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

@@ -30,9 +30,9 @@ namespace NTMiner {
 
         void StartMine();
 
-        void StopMineAsync(Action callback = null);
+        void RestartMine(bool isWork = false);
 
-        void RestartMine();
+        void StopMineAsync(Action callback = null);
 
         IPackageDownloader PackageDownloader { get; }
 

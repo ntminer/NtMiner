@@ -16,7 +16,7 @@ namespace NTMiner.Vms {
                         _poolProfileDicById[message.PoolId].OnPropertyChanged(message.PropertyName);
                     }
                 });
-            VirtualRoot.On<MinerProfileSwichedEvent>(
+            VirtualRoot.On<MinerProfileReInitedEvent>(
                 "MinerProfile切换后刷新Vm内存",
                 LogEnum.Console,
                 action: message => {

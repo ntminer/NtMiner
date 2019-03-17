@@ -2,7 +2,6 @@
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
-using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,33 +13,31 @@ namespace NTMiner.Core.Profiles {
         private readonly INTMinerRoot _root;
 
         private MinerProfileData _data = null;
-        private Guid _workId;
         private CoinKernelProfileSet _coinKernelProfileSet;
         private CoinProfileSet _coinProfileSet;
         private GpuProfileSet _gpuProfileSet;
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
 
-        public MinerProfile(INTMinerRoot root, bool isUseJson) {
+        public MinerProfile(INTMinerRoot root, bool isWork) {
             _root = root;
             Guid workId = Guid.Empty;
-            if (isUseJson) {
+            if (isWork) {
                 workId = LocalJson.Instance.MineWork.Id;
             }
             Init(root, workId);
-            VirtualRoot.Accept<SwichMinerProfileCommand>(
+            VirtualRoot.Accept<ReInitMinerProfileCommand>(
                 "处理切换MinerProfile命令",
                 LogEnum.Console,
                 action: message => {                    
-                    Init(root, message.WorkId);
-                    VirtualRoot.Happened(new MinerProfileSwichedEvent());
+                    Init(root, LocalJson.Instance.MineWork.Id);
+                    VirtualRoot.Happened(new MinerProfileReInitedEvent());
                 });
         }
 
         #region Init
         private void Init(INTMinerRoot root, Guid workId) {
-            _workId = workId;
-            bool isUseJson = _workId != Guid.Empty;
+            bool isUseJson = workId != Guid.Empty;
             if (isUseJson) {
                 _data = LocalJson.Instance.MinerProfile;
             }
@@ -56,7 +53,7 @@ namespace NTMiner.Core.Profiles {
                 }
                 _data = MinerProfileData.CreateDefaultData(coinId);
                 if (VirtualRoot.IsControlCenter) {
-                    Server.ControlCenterService.SetMinerProfileAsync(_workId, _data, callback: null);
+                    Server.ControlCenterService.SetMinerProfileAsync(workId, _data, callback: null);
                 }
             }
             if (_coinProfileSet == null) {
@@ -304,14 +301,15 @@ namespace NTMiner.Core.Profiles {
                     }
                     object oldValue = propertyInfo.GetValue(this, null);
                     if (oldValue != value) {
+                        Guid workId = LocalJson.Instance.MineWork.Id;
                         propertyInfo.SetValue(this, value, null);
                         if (VirtualRoot.IsControlCenter) {
-                            Server.ControlCenterService.SetMinerProfilePropertyAsync(_workId, propertyName, value, (response, exception) => {
+                            Server.ControlCenterService.SetMinerProfilePropertyAsync(workId, propertyName, value, (response, exception) => {
                                 VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                             });
                         }
                         else {
-                            bool isUseJson = _workId != Guid.Empty;
+                            bool isUseJson = workId != Guid.Empty;
                             IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
                             repository.Update(_data);
                             VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));

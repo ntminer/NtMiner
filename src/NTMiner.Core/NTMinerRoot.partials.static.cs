@@ -16,7 +16,6 @@ namespace NTMiner {
         // ReSharper disable once InconsistentNaming
         public static int OSVirtualMemoryMb;
         public static string UserKernelCommandLine;
-        public static bool IsWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
 
         public static readonly int GpuAllId = -1;
 

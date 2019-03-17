@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
                 action: cmd => {
                     this.OnPropertyChanged(nameof(this.ArgsAssembly));
                 });
-            VirtualRoot.On<MinerProfileSwichedEvent>(
+            VirtualRoot.On<MinerProfileReInitedEvent>(
                 "MinerProfile切换后刷新Vm内存",
                 LogEnum.Console,
                 action: message => {

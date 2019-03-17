@@ -3,18 +3,15 @@ using NTMiner.Core;
 using System;
 
 namespace NTMiner {
-    [MessageType(messageType: typeof(SwichMinerProfileCommand), description: "切换MinerProfile命令")]
-    public class SwichMinerProfileCommand : Cmd {
-        public SwichMinerProfileCommand(Guid workId) {
-            this.WorkId = workId;
+    [MessageType(messageType: typeof(ReInitMinerProfileCommand), description: "重新初始化MinerProfile命令")]
+    public class ReInitMinerProfileCommand : Cmd {
+        public ReInitMinerProfileCommand() {
         }
-
-        public Guid WorkId { get; private set; }
     }
 
-    [MessageType(messageType: typeof(MinerProfileSwichedEvent), description: "MinerProfile切换后事件")]
-    public class MinerProfileSwichedEvent : EventBase {
-        public MinerProfileSwichedEvent() {
+    [MessageType(messageType: typeof(MinerProfileReInitedEvent), description: "MinerProfile重新初始化后事件")]
+    public class MinerProfileReInitedEvent : EventBase {
+        public MinerProfileReInitedEvent() {
         }
     }
 

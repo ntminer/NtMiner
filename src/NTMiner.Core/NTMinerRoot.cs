@@ -101,14 +101,16 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
+            bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
+            if (isWork) {
+                LocalJson.Instance.Init();
+            }
+            this._minerProfile = new MinerProfile(this, isWork);
             callback?.Invoke();
         }
 
         private void ContextInit() {
-            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || IsWork;
-            if (isUseJson) {
-                LocalJson.Instance.Init();
-            }
+            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter;
             this.SysDicSet = new SysDicSet(this, isUseJson);
             this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
             this.CoinSet = new CoinSet(this, isUseJson);
@@ -122,10 +124,9 @@ namespace NTMiner {
             this.KernelOutputSet = new KernelOutputSet(this, isUseJson);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this, isUseJson);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this, isUseJson);
-            this._minerProfile = new MinerProfile(this, isUseJson);
         }
 
-        private void ContextReInit() {
+        private void ContextReInit(bool isWork) {
             foreach (var handler in ContextHandlers) {
                 VirtualRoot.UnPath(handler);
             }
@@ -133,6 +134,10 @@ namespace NTMiner {
             ContextInit();
             OnContextReInited?.Invoke();
             OnReRendContext?.Invoke();
+            if (isWork) {
+                LocalJson.Instance.ReInit();
+                VirtualRoot.Execute(new ReInitMinerProfileCommand());
+            }
         }
         #endregion
 
@@ -319,9 +324,10 @@ namespace NTMiner {
                                     string rawJson = Encoding.UTF8.GetString(data);
                                     Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{jsonFileVersion}");
                                     ServerJson.Instance.ReInit(rawJson);
-                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || IsWork;
+                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter;
                                     if (isUseJson) {
-                                        ContextReInit();
+                                        // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
+                                        ContextReInit(isWork: false);
                                         Logger.InfoDebugLine("刷新完成");
                                     }
                                     else {
@@ -414,9 +420,12 @@ namespace NTMiner {
         #endregion
 
         #region RestartMine
-        public void RestartMine() {
+        public void RestartMine(bool isWork = false) {
             this.StopMineAsync(() => {
                 Logger.WarnWriteLine("正在重启内核");
+                if (isWork) {
+                    ContextReInit(true);
+                }
                 StartMine();
             });
         }
