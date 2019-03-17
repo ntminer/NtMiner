@@ -181,6 +181,16 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
+				<MenuItem Header="添加矿工" Padding="4" Margin="0 0 6 0" Command="{Binding AddMinerClient}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Add}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<MenuItem Header="删除矿工" Padding="4" Margin="0 0 6 0" Command="{Binding RemoveMinerClients}">
 					<MenuItem.Icon>
 						<Path
@@ -553,8 +563,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="分配作业" Padding="4" Margin="0 0 6 0" 
-								  Click="MenuItemWork_Click">
+						<MenuItem Header="分配作业" Click="MenuItemWork_Click">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -564,8 +573,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="加入组" Padding="4" Margin="0 0 6 0"
-								  Click="MenuItemGroup_Click">
+						<MenuItem Header="加入组" Click="MenuItemGroup_Click">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -575,7 +583,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="超频" Padding="4" Margin="0 0 6 0" Command="{Binding Data.OneKeyOverClock,Source={StaticResource proxy}}">
+						<MenuItem Header="超频" Command="{Binding Data.OneKeyOverClock,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -585,7 +593,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="升级挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding Data.OneKeyUpgrade,Source={StaticResource proxy}}">
+						<MenuItem Header="升级挖矿端" Command="{Binding Data.OneKeyUpgrade,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
