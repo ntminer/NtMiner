@@ -148,26 +148,27 @@ namespace NTMiner.Vms {
                 }
             }, CanCommand);
             this.RefreshMinerClients = new DelegateCommand(() => {
-                IEnumerable<MinerClientViewModel> clients = SelectedMinerClients;
-                if (!clients.Any()) {
-                    clients = MinerClients;
+                if (SelectedMinerClients.Length == 0) {
+                    ShowNoRecordSelected();
                 }
-                Server.ControlCenterService.RefreshClientsAsync(clients.Select(a => a.Id).ToList(), (response, e) => {
-                    if (!response.IsSuccess()) {
-                        if (response != null) {
-                            Write.UserLine(response.Description, ConsoleColor.Red);
-                        }
-                    }
-                    else {
-                        foreach (var data in response.Data) {
-                            var item = MinerClients.FirstOrDefault(a => a.Id == data.Id);
-                            if (item != null) {
-                                item.Update(data);
+                else {
+                    Server.ControlCenterService.RefreshClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
+                        if (!response.IsSuccess()) {
+                            if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
                             }
                         }
-                    }
-                });
-            });
+                        else {
+                            foreach (var data in response.Data) {
+                                var item = MinerClients.FirstOrDefault(a => a.Id == data.Id);
+                                if (item != null) {
+                                    item.Update(data);
+                                }
+                            }
+                        }
+                    });
+                }
+            }, CanCommand);
             this.RestartWindows = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();

@@ -376,7 +376,7 @@
 				</DataGrid.Resources>
 				<DataGrid.ContextMenu>
 					<ContextMenu Opened="ContextMenu_Opened">
-						<MenuItem Header="刷新" Command="{Binding Data.RefreshMinerClients,Source={StaticResource proxy}}">
+						<MenuItem Header="刷新选中的矿机" Command="{Binding Data.RefreshMinerClients,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -406,7 +406,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem x:Name="MenuItemWork" Header="分配作业" Click="MenuItemWork_Click">
+						<MenuItem x:Name="MenuItemWork" Header="切换作业" Click="MenuItemWork_Click">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -1987,7 +1987,7 @@
 		<Popup x:Name="PopMineWork" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" Placement="MousePoint" StaysOpen="False">
 			<Border Padding="4" Background="#EEEEF2" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
 				<StackPanel>
-					<TextBlock>分配作业</TextBlock>
+					<TextBlock>切换作业</TextBlock>
 					<ItemsControl 
 						ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
