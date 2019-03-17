@@ -66,6 +66,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 if (!request.Data.HasValue) {
+                    // request.Data是ClientId，如果未传ClientId表示是中控客户端，中控客户端获取用户表需验证身份
                     DataResponse<List<UserData>> response;
                     if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                         return response;
@@ -73,8 +74,9 @@ namespace NTMiner.Controllers {
                 }
                 var data = HostRoot.Current.UserSet.Cast<UserData>().ToList();
                 if (request.Data.HasValue) {
-                    List<UserData> users = data.Select(a => new UserData(a)).ToList();
-                    foreach (var user in users) {
+                    // request.Data是ClientId，挖矿端获取用户表无需验证身份但获取到的用户表的密码是加密的和中控客户端获取到的不同的
+                    data = data.Select(a => new UserData(a)).ToList();
+                    foreach (var user in data) {
                         user.Password = HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.Data.Value);
                     }
                 }
