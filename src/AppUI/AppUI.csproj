@@ -143,6 +143,9 @@
     <Compile Include="Views\Ucs\ColumnsShowEdit.xaml.cs">
       <DependentUpon>ColumnsShowEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\ColumnsShowPage.xaml.cs">
+      <DependentUpon>ColumnsShowPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\InnerProperty.xaml.cs">
       <DependentUpon>InnerProperty.xaml</DependentUpon>
     </Compile>
@@ -281,6 +284,7 @@
     <Compile Include="Vms\CoinGroupViewModels.cs" />
     <Compile Include="Vms\CoinProfileViewModels.cs" />
     <Compile Include="Vms\CoinSnapshotDataViewModels.cs" />
+    <Compile Include="Vms\ColumnsShowPageViewModel.cs" />
     <Compile Include="Vms\ColumnsShowViewModel.cs" />
     <Compile Include="Vms\ColumnsShowViewModels.cs" />
     <Compile Include="Vms\ConsoleViewModel.cs" />
@@ -480,6 +484,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Design\ColumnsShowViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\ColumnsShowPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

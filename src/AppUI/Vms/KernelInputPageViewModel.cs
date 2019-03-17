@@ -16,9 +16,9 @@ namespace NTMiner.Vms {
             });
         }
 
-        public Vm Vm {
+        public KernelInputViewModels KernelInputVms {
             get {
-                return Vm.Instance;
+                return KernelInputViewModels.Current;
             }
         }
     }

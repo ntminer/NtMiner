@@ -29,8 +29,14 @@ namespace NTMiner.Vms {
                 this.CoinKeyword = string.Empty;
             });
             CoinViewModel coinVm;
-            if (CoinViewModels.Current.TryGetCoinVm(Vm.Instance.Root.MinerProfile.CoinId, out coinVm)) {
+            if (CoinViewModels.Current.TryGetCoinVm(MinerProfile.CoinId, out coinVm)) {
                 _currentCoin = coinVm;
+            }
+        }
+
+        public MinerProfileViewModel MinerProfile {
+            get {
+                return MinerProfileViewModel.Current;
             }
         }
 

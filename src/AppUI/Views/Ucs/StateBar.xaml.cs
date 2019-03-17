@@ -5,9 +5,9 @@ namespace NTMiner.Views.Ucs {
     public partial class StateBar : UserControl {
         public static string ViewId = nameof(StateBar);
 
-        private Vm Vm {
+        private StateBarViewModel Vm {
             get {
-                return (Vm)this.DataContext;
+                return (StateBarViewModel)this.DataContext;
             }
         }
 

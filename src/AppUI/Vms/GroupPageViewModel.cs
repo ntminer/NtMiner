@@ -8,7 +8,7 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this._currentGroup = Vm.Root.GroupVms.List.FirstOrDefault();
+            this._currentGroup = GroupVms.List.FirstOrDefault();
         }
 
         private GroupViewModel _currentGroup;
@@ -22,9 +22,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Vm Vm {
+        public GroupViewModels GroupVms {
             get {
-                return Vm.Instance;
+                return GroupViewModels.Current;
             }
         }
     }

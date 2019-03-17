@@ -6,12 +6,12 @@ namespace NTMiner.Vms {
         private CoinViewModel _currentCoin;
 
         private OverClockDataPageViewModel() {
-            _currentCoin = Vm.Root.CoinVms.MainCoins.FirstOrDefault();
+            _currentCoin = CoinVms.MainCoins.FirstOrDefault();
         }
 
-        public Vm Vm {
+        public CoinViewModels CoinVms {
             get {
-                return Vm.Instance;
+                return CoinViewModels.Current;
             }
         }
 

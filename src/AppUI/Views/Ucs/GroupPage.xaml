@@ -61,7 +61,7 @@
 			</WrapPanel>
 		</controls:KbButton>
 		<DataGrid 
-			Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Vm.Root.GroupVms.List}"
+			Grid.Row="1" Grid.Column="0" ItemsSource="{Binding GroupVms.List}"
 			SelectedItem="{Binding CurrentGroup}" 
 			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -74,7 +74,7 @@
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton  
-							Command="{Binding Data.Vm.Root.GroupVms.Add, Source={StaticResource proxy}}" 
+							Command="{Binding Data.GroupVms.Add, Source={StaticResource proxy}}" 
 							Background="Transparent" BorderThickness="0"
 							Margin="10 0"
 							CornerRadius="2" ToolTip="{DynamicResource Add}">
@@ -180,7 +180,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Vm.Root.GroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
+		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
 		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
 			<Label Width="40" Content="{DynamicResource Coin}"></Label>
 			<controls:KbComboBox 

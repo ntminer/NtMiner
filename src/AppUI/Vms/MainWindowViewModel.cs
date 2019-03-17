@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
             this.UseThisPcName = new DelegateCommand(() => {
                 string thisPcName = NTMinerRoot.GetThisPcName();
                 DialogWindow.ShowDialog(message: $"确定使用本机名{thisPcName}作为矿机名吗？", title: "确认", onYes: () => {
-                    Vm.Root.MinerProfile.MinerName = thisPcName;
+                    MinerProfile.MinerName = thisPcName;
                 }, icon: "Icon_Confirm");
             });
             if (DevMode.IsDevMode) {
@@ -75,9 +75,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Vm Vm {
+        public MinerProfileViewModel MinerProfile {
             get {
-                return Vm.Instance;
+                return MinerProfileViewModel.Current;
+            }
+        }
+
+        public StateBarViewModel StateBarVm {
+            get {
+                return StateBarViewModel.Current;
             }
         }
 

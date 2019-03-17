@@ -249,9 +249,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Vm Vm {
+        public GroupViewModels GroupVms {
             get {
-                return Vm.Instance;
+                return GroupViewModels.Current;
             }
         }
 

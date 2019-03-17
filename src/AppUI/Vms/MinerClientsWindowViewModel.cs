@@ -89,9 +89,9 @@ namespace NTMiner.Vms {
                     columnsShowId = guid;
                 }
             }
-            this._columnsShow = Vm.Root.ColumnsShowVms.List.FirstOrDefault(a => a.Id == columnsShowId);
+            this._columnsShow = this.ColumnsShows.List.FirstOrDefault(a => a.Id == columnsShowId);
             if (this._columnsShow == null) {
-                this._columnsShow = Vm.Root.ColumnsShowVms.List.FirstOrDefault();
+                this._columnsShow = this.ColumnsShows.List.FirstOrDefault();
             }
             this._mineStatusEnumItem = this.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._coinVm = CoinViewModel.PleaseSelect;
@@ -376,9 +376,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Vm Vm {
+        public ColumnsShowViewModels ColumnsShows {
             get {
-                return Vm.Instance;
+                return ColumnsShowViewModels.Current;
             }
         }
 
@@ -563,6 +563,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public CoinViewModels MineCoinVms {
+            get {
+                return CoinViewModels.Current;
+            }
+        }
+
         private IEnumerable<CoinViewModel> GetDualCoinVmItems() {
             yield return CoinViewModel.PleaseSelect;
             yield return CoinViewModel.DualCoinEnabled;
@@ -688,6 +694,12 @@ namespace NTMiner.Vms {
         public MineWorkViewModels MineWorkVms {
             get {
                 return MineWorkViewModels.Current;
+            }
+        }
+
+        public MinerGroupViewModels MinerGroupVms {
+            get {
+                return MinerGroupViewModels.Current;
             }
         }
 

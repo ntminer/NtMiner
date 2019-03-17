@@ -24,7 +24,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <DataGrid 
-            Grid.Column="0" ItemsSource="{Binding Vm.Root.SysDicVms.List}"
+            Grid.Column="0" ItemsSource="{Binding SysDicVms.List}"
             SelectedItem="{Binding CurrentSysDic}" 
             BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
             MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -37,7 +37,7 @@
                     Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
-                            Command="{Binding Data.Vm.Root.SysDicVms.Add, Source={StaticResource proxy}}" 
+                            Command="{Binding Data.SysDicVms.Add, Source={StaticResource proxy}}" 
                             Background="Transparent" BorderThickness="0"
                             Margin="10 0"
                             CornerRadius="2" ToolTip="添加">
@@ -129,7 +129,7 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Vm.Root.SysDicVms, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
+        <TextBlock Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SysDicVms, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
 
         <DataGrid 
             Grid.Column="2" 

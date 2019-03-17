@@ -53,7 +53,7 @@
 		</controls:KbButton>
 		<ListBox 
 			Background="Transparent"
-			ItemsSource="{Binding Vm.Root.CoinVms.AllCoins}"
+			ItemsSource="{Binding CoinVms.AllCoins}"
 			SelectedItem="{Binding SelectedCoinVm}"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 			ScrollViewer.VerticalScrollBarVisibility="Disabled"

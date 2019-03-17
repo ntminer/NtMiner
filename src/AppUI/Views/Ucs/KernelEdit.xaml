@@ -191,7 +191,7 @@
 								IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 								Width="180" 
 								Height="26"
-								ItemsSource="{Binding Vm.Root.KernelInputVms.PleaseSelectVms}"
+								ItemsSource="{Binding KernelInputVms.PleaseSelectVms}"
 								DisplayMemberPath="Name" SelectedItem="{Binding KernelInputVm}">
 								<controls:KbComboBox.Toolbar>
 									<WrapPanel HorizontalAlignment="Right">
@@ -240,7 +240,7 @@
 								IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 								Width="180" 
 								Height="26"
-								ItemsSource="{Binding Vm.Root.KernelOutputVms.PleaseSelectVms}"
+								ItemsSource="{Binding KernelOutputVms.PleaseSelectVms}"
 								DisplayMemberPath="Name" SelectedItem="{Binding KernelOutputVm}">
 								<controls:KbComboBox.Toolbar>
 									<WrapPanel HorizontalAlignment="Right">

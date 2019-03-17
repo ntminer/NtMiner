@@ -32,9 +32,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Vm Vm {
+        public KernelOutputViewModels KernelOutputVms {
             get {
-                return Vm.Instance;
+                return KernelOutputViewModels.Current;
             }
         }
     }

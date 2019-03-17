@@ -50,11 +50,11 @@
 				<controls:KbCheckBox 
 					Content="{DynamicResource ChkIsAutoBoot}"
 					IconColor="{StaticResource IconFillColor}"
-					IsChecked="{Binding Vm.Root.MinerProfile.IsAutoBoot}" />
+					IsChecked="{Binding MinerProfile.IsAutoBoot}" />
 				<controls:KbCheckBox
 					Content="{DynamicResource ChkIsAutoStart}"
 					IconColor="{StaticResource IconFillColor}"
-					IsChecked="{Binding Vm.Root.MinerProfile.IsAutoStart}" />
+					IsChecked="{Binding MinerProfile.IsAutoStart}" />
 			</StackPanel>
 			<uc:MinerProfileIndex BorderBrush="{StaticResource LineColor}" />
 		</StackPanel>
@@ -68,7 +68,7 @@
 			BorderThickness="0 1 0 0"
 			AcceptsReturn="True" TextWrapping="Wrap" 
 			VerticalContentAlignment="Top"
-			Text="{Binding Vm.Root.MinerProfile.ArgsAssembly, Mode=OneWay}">
+			Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}">
 		</TextBox>
 	</Grid>
 </UserControl>

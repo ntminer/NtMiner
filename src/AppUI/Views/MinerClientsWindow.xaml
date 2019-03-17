@@ -115,7 +115,7 @@
 		<StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Background="#F5F5F5">
 			<ListBox 
 				Background="Transparent"
-				ItemsSource="{Binding Vm.Root.CoinVms.PleaseSelect}"
+				ItemsSource="{Binding MineCoinVms.PleaseSelect}"
 				SelectedItem="{Binding CoinVm}"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 				ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -138,7 +138,7 @@
 					<WrapPanel>
 						<Label>作业</Label>
 						<controls:KbButton  
-							Command="{Binding Vm.Root.MineWorkVms.Add}" 
+							Command="{Binding MineWorkVms.Add}" 
 							Background="Transparent" 
 							BorderThickness="0"
 							Margin="2 0"
@@ -189,7 +189,7 @@
 				</GroupBox.Header>
 				<ListBox 
 					Background="Transparent"
-					ItemsSource="{Binding Vm.Root.MineWorkVms.MineWorkVmItems}"
+					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
 					SelectedItem="{Binding SelectedMineWork}"
 					ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 					ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -214,7 +214,7 @@
 						<WrapPanel>
 							<Label>分组</Label>
 							<controls:KbButton  
-								Command="{Binding Vm.Root.MinerGroupVms.Add}" 
+								Command="{Binding MinerGroupVms.Add}" 
 								Background="Transparent" 
 								ToolTip="新建组"
 								BorderThickness="0"
@@ -265,7 +265,7 @@
 					</GroupBox.Header>
 					<ListBox 
 						Background="Transparent"				
-						ItemsSource="{Binding Vm.Root.MinerGroupVms.MinerGroupItems}"
+						ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
 						SelectedItem="{Binding SelectedMinerGroup}"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 						ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -1896,7 +1896,7 @@
 					<TextBlock VerticalAlignment="Center" Margin="4 0 0 0">列显</TextBlock>
 					<controls:KbComboBox 
 						Margin="0 0 4 0"
-						ItemsSource="{Binding Vm.Root.ColumnsShowVms.List}"
+						ItemsSource="{Binding ColumnsShows.List}"
 						DisplayMemberPath="ColumnsShowName"
 						SelectedItem="{Binding ColumnsShow}">
 						<controls:KbComboBox.Toolbar>
@@ -1906,7 +1906,7 @@
 									BorderThickness="0"
 									Height="24"
 									Padding="4 0"
-									Command="{Binding Vm.Root.ColumnsShowVms.Add}"
+									Command="{Binding ColumnsShows.Add}"
 									Background="{StaticResource ThemeBackground}"
 									CornerRadius="2">
 									<WrapPanel>
@@ -1923,7 +1923,7 @@
 						</controls:KbComboBox.Toolbar>
 						<controls:KbComboBox.ContextMenuEx>
 							<ContextMenu>
-								<MenuItem Header="新建" Command="{Binding Vm.Root.ColumnsShowVms.Add}">
+								<MenuItem Header="新建" Command="{Binding ColumnsShows.Add}">
 								</MenuItem>
 								<MenuItem Header="删除" Command="{Binding ColumnsShow.Remove}" IsEnabled="{Binding ColumnsShow.IsPleaseSelect, Converter={StaticResource BoolInvertConverter}}">
 								</MenuItem>
@@ -1989,7 +1989,7 @@
 				<StackPanel>
 					<TextBlock>分配作业</TextBlock>
 					<ItemsControl 
-						ItemsSource="{Binding Vm.Root.MineWorkVms.MineWorkVmItems}"
+						ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 						ScrollViewer.VerticalScrollBarVisibility="Disabled">
 						<ItemsControl.Resources>
@@ -2023,7 +2023,7 @@
 				<StackPanel>
 					<TextBlock>加入组</TextBlock>
 					<ItemsControl 
-						ItemsSource="{Binding Vm.Root.MinerGroupVms.MinerGroupItems}"
+						ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 						ScrollViewer.VerticalScrollBarVisibility="Disabled">
 						<ItemsControl.Resources>

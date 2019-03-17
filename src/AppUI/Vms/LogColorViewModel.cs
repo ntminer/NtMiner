@@ -13,6 +13,12 @@ namespace NTMiner.Vms {
 
         }
 
+        public MinerProfileViewModel MinerProfile {
+            get {
+                return MinerProfileViewModel.Current;
+            }
+        }
+
         private List<ConsoleColorItem> _consoleColorItems;
 
         public List<ConsoleColorItem> ConsoleColorItems {

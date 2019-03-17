@@ -4,10 +4,6 @@
         private RootViewModel _root;
 
         private Vm() {
-            _root = new RootViewModel();
-            NTMinerRoot.Current.OnReRendMinerProfile += () => {
-                OnPropertyChanged(nameof(Root));
-            };
         }
 
         public RootViewModel Root {
@@ -19,17 +15,9 @@
         }
 
         public class RootViewModel : ViewModelBase {
-            public RootViewModel() { }
-
             public MinerProfileViewModel MinerProfile {
                 get {
                     return MinerProfileViewModel.Current;
-                }
-            }
-
-            public StateBarViewModel StateBarVm {
-                get {
-                    return StateBarViewModel.Current;
                 }
             }
 

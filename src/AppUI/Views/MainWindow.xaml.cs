@@ -20,7 +20,7 @@ namespace NTMiner.Views {
 
         public MainWindow() {
             this.StateChanged += (s, e) => {
-                if (Vm.Vm.Root.MinerProfile.IsShowInTaskbar) {
+                if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;
                 }
                 else {

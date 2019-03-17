@@ -80,11 +80,11 @@
                                 </WrapPanel>
                                 <StackPanel Grid.Column="1" Margin="2 0">
                                     <WrapPanel>
-                                        <TextBlock Foreground="Blue" Text="{Binding Vm.Root.MinerProfile.CoinVm.Code}"></TextBlock>
+                                        <TextBlock Foreground="Blue" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
                                         <TextBlock Foreground="Blue" Text="{Binding GpuSpeedVm.MainCoinSpeed.SpeedText}" FontWeight="Bold" Margin="4 0 0 0"></TextBlock>
                                     </WrapPanel>
-                                    <WrapPanel Visibility="{Binding Vm.Root.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock Foreground="Green" Text="{Binding Vm.Root.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
+                                    <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock Foreground="Green" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
                                         <TextBlock Foreground="Green" Text="{Binding GpuSpeedVm.DualCoinSpeed.SpeedText}" FontWeight="Bold" Margin="4 0 0 0"></TextBlock>
                                     </WrapPanel>
                                     <WrapPanel>
@@ -127,12 +127,12 @@
             <WrapPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 10 10 0">
                 <WrapPanel 
                     HorizontalAlignment="Left" Margin="0 0 20 0"
-                    Visibility="{Binding Vm.Root.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock FontSize="20" Text="{Binding Vm.Root.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
+                    Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
                     <TextBlock FontSize="20" Text="："></TextBlock>
                     <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.DualCoinSpeed.SpeedText}"></TextBlock>
                 </WrapPanel>
-                <TextBlock FontSize="20" Text="{Binding Vm.Root.MinerProfile.CoinVm.Code}"></TextBlock>
+                <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
                 <TextBlock FontSize="20" Text="："></TextBlock>
                 <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.MainCoinSpeed.SpeedText}"></TextBlock>
             </WrapPanel>

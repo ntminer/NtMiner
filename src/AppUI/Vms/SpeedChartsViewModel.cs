@@ -26,9 +26,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Vm Vm {
+        public MinerProfileViewModel MinerProfile {
             get {
-                return Vm.Instance;
+                return MinerProfileViewModel.Current;
             }
         }
 

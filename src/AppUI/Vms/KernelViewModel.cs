@@ -215,6 +215,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public KernelOutputViewModels KernelOutputVms {
+            get {
+                return KernelOutputViewModels.Current;
+            }
+        }
+
         private KernelInputViewModel _kernelInputVm;
         public KernelInputViewModel KernelInputVm {
             get {
@@ -235,9 +241,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Vm Vm {
+        public KernelInputViewModels KernelInputVms {
             get {
-                return Vm.Instance;
+                return KernelInputViewModels.Current;
+            }
+        }
+
+        public GroupViewModels GroupVms {
+            get {
+                return GroupViewModels.Current;
             }
         }
 

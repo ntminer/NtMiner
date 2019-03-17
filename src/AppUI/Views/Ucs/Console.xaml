@@ -71,7 +71,7 @@
 					Width="16"
 					ToolTip="{DynamicResource IsShowCommandLine}"
 					IconColor="{StaticResource IconFillColor}"
-					IsChecked="{Binding Vm.Root.MinerProfile.IsShowCommandLine}" />
+					IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
 				<controls:KbButton 
 					Margin="2 0 1 0"
 					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
@@ -96,9 +96,9 @@
 				AcceptsReturn="True"
 				BorderThickness="0"
 				Foreground="LightGray"
-				Visibility="{Binding Vm.Root.MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}"
+				Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True" 
-				Text="{Binding Vm.Root.MinerProfile.ArgsAssembly, Mode=OneWay}"></TextBox>
+				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></TextBox>
 		</Grid>
 		<Path
 			Grid.Row="1"
@@ -114,7 +114,7 @@
 			Grid.Row="1"
 			FontFamily="Courier New"
 			ToolTip="{DynamicResource KernelNotice}"
-			Text="{Binding Vm.Root.MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
+			Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelNotice, Mode=OneWay, Converter={StaticResource TextIndentConverter}}"
 			BorderThickness="0" AcceptsReturn="True" 
 			TextWrapping="Wrap" IsReadOnly="True" 
 			Padding="4 2 16 2" Foreground="Yellow">

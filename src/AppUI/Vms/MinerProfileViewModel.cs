@@ -41,6 +41,11 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(MinerName));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 });
+            NTMinerRoot.Current.OnReRendMinerProfile += () => {
+                OnPropertyChanged(nameof(CoinVm));
+                MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
+                MainWindowViewModel.Current.OnPropertyChanged(nameof(MainWindowViewModel.Current.MinerProfile));
+            };
         }
 
         public IMineWork MineWork {

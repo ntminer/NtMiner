@@ -84,7 +84,7 @@
 				</WrapPanel>
 			</controls:KbButton>
 			<DataGrid 
-				Grid.Row="1" Margin="0" ItemsSource="{Binding Vm.Root.KernelOutputVms.AllKernelOutputVms}" 
+				Grid.Row="1" Margin="0" ItemsSource="{Binding KernelOutputVms.AllKernelOutputVms}" 
 				BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
 				SelectedItem="{Binding CurrentKernelOutputVm}" AutoGenerateColumns="False"
 				MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -156,7 +156,7 @@
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
-			<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding Vm.Root.KernelOutputVms.AllKernelOutputVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
+			<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVms.AllKernelOutputVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="{DynamicResource TbNoRecord}"></TextBlock>
 		</Grid>
 
 		<Grid Grid.Column="2">
