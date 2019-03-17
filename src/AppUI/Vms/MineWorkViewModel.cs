@@ -141,7 +141,7 @@ namespace NTMiner.Vms {
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     CoinProfileData dualCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId));
                     coinProfiles.Add(dualCoinProfile);
-                    PoolProfileData dualCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(dualCoinProfile.PoolId));
+                    PoolProfileData dualCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId));
                     poolProfiles.Add(dualCoinPoolProfile);
                 }
                 localJsonObj.CoinProfiles = coinProfiles.ToArray();

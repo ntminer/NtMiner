@@ -133,6 +133,7 @@ namespace NTMiner {
             if (isWork) {
                 ReInitMinerProfile();
             }
+            VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
         }
 
         private void ContextInit(bool isWork) {
