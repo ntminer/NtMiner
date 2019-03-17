@@ -15,6 +15,10 @@ namespace NTMiner {
 
         event Action OnContextReInited;
         event Action OnReRendContext;
+        event Action OnMinerProfileReInited;
+        event Action OnReRendMinerProfile;
+
+        void ReInitMinerProfile();
 
         IUserSet UserSet { get; }
 

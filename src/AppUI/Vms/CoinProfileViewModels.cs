@@ -26,13 +26,10 @@ namespace NTMiner.Vms {
                         _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                     }
                 });
-            VirtualRoot.On<MinerProfileReInitedEvent>(
-                "MinerProfile切换后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    _coinKernelProfileDicById.Clear();
-                    _coinProfileDicById.Clear();
-                });
+            NTMinerRoot.Current.OnMinerProfileReInited += ()=> {
+                _coinKernelProfileDicById.Clear();
+                _coinProfileDicById.Clear();
+            };
         }
 
         public CoinProfileViewModel GetOrCreateCoinProfile(Guid coinId) {

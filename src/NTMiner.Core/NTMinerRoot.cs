@@ -29,6 +29,8 @@ namespace NTMiner {
 
         public event Action OnContextReInited;
         public event Action OnReRendContext;
+        public event Action OnMinerProfileReInited;
+        public event Action OnReRendMinerProfile;
 
         public IUserSet UserSet { get; private set; }
 
@@ -101,10 +103,12 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
+            Guid workId = Guid.Empty;
             if (isWork) {
                 LocalJson.Instance.Init();
+                workId = LocalJson.Instance.MineWork.Id;
             }
-            this._minerProfile = new MinerProfile(this, isWork);
+            this._minerProfile = new MinerProfile(this, workId);
             callback?.Invoke();
         }
 
@@ -134,10 +138,17 @@ namespace NTMiner {
             OnContextReInited?.Invoke();
             OnReRendContext?.Invoke();
             if (isWork) {
-                LocalJson.Instance.ReInit();
-                VirtualRoot.Execute(new ReInitMinerProfileCommand());
+                ReInitMinerProfile();
             }
         }
+
+        public void ReInitMinerProfile() {
+            LocalJson.Instance.ReInit();
+            this._minerProfile.ReInit(this, LocalJson.Instance.MineWork.Id);
+            OnMinerProfileReInited?.Invoke();
+            OnReRendMinerProfile?.Invoke();
+        }
+
         #endregion
 
         #region Start

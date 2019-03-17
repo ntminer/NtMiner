@@ -19,20 +19,13 @@ namespace NTMiner.Core.Profiles {
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
 
-        public MinerProfile(INTMinerRoot root, bool isWork) {
+        public MinerProfile(INTMinerRoot root, Guid workId) {
             _root = root;
-            Guid workId = Guid.Empty;
-            if (isWork) {
-                workId = LocalJson.Instance.MineWork.Id;
-            }
             Init(root, workId);
-            VirtualRoot.Accept<ReInitMinerProfileCommand>(
-                "处理切换MinerProfile命令",
-                LogEnum.Console,
-                action: message => {                    
-                    Init(root, LocalJson.Instance.MineWork.Id);
-                    VirtualRoot.Happened(new MinerProfileReInitedEvent());
-                });
+        }
+
+        public void ReInit(INTMinerRoot root, Guid workId) {
+            Init(root, workId);
         }
 
         #region Init

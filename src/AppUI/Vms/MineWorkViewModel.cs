@@ -99,7 +99,7 @@ namespace NTMiner.Vms {
                     else {
                         LocalJson.Instance.ReInit(this);
                     }
-                    VirtualRoot.Execute(new ReInitMinerProfileCommand());
+                    NTMinerRoot.Current.ReInitMinerProfile();
                     this.Sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
                     MineWorkEdit.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
                 }

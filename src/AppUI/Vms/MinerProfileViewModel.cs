@@ -34,12 +34,6 @@ namespace NTMiner.Vms {
                 action: cmd => {
                     this.OnPropertyChanged(nameof(this.ArgsAssembly));
                 });
-            VirtualRoot.On<MinerProfileReInitedEvent>(
-                "MinerProfile切换后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    AllPropertyChanged();
-                });
             VirtualRoot.On<MinerNameSetedEvent>(
                 "矿机名设置后刷新VM内存和命令总成",
                 LogEnum.Console,
@@ -47,6 +41,9 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(MinerName));
                     VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
                 });
+            NTMinerRoot.Current.OnReRendMinerProfile += () => {
+                AllPropertyChanged();
+            };
         }
 
         public IMineWork MineWork {

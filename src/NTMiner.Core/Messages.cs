@@ -1,20 +1,7 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core;
-using System;
 
 namespace NTMiner {
-    [MessageType(messageType: typeof(ReInitMinerProfileCommand), description: "重新初始化MinerProfile命令")]
-    public class ReInitMinerProfileCommand : Cmd {
-        public ReInitMinerProfileCommand() {
-        }
-    }
-
-    [MessageType(messageType: typeof(MinerProfileReInitedEvent), description: "MinerProfile重新初始化后事件")]
-    public class MinerProfileReInitedEvent : EventBase {
-        public MinerProfileReInitedEvent() {
-        }
-    }
-
     [MessageType(messageType: typeof(RefreshArgsAssemblyCommand), description: "刷新参数总成命令")]
     public class RefreshArgsAssemblyCommand : Cmd {
         public RefreshArgsAssemblyCommand() { }

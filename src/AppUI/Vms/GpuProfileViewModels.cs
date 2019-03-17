@@ -35,13 +35,10 @@ namespace NTMiner.Vms {
                     }
                 }
             }
-            VirtualRoot.On<MinerProfileReInitedEvent>(
-                "MinerProfile切换后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    _dicById.Clear();
-                    _gpuAllVmDicByCoinId.Clear();
-                });
+            NTMinerRoot.Current.OnMinerProfileReInited += () => {
+                _dicById.Clear();
+                _gpuAllVmDicByCoinId.Clear();
+            };
         }
 
         public GpuProfileViewModel GpuAllVm(Guid coinId) {
