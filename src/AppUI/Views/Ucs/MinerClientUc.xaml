@@ -151,7 +151,7 @@
 				<TextBlock Style="{StaticResource LblTb}">作业</TextBlock>
 				<ComboBox
 					MinWidth="100"
-					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
+					ItemsSource="{Binding Vm.Root.MineWorkVms.MineWorkVmItems}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMineWork}"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></ComboBox>
@@ -160,7 +160,7 @@
 				<TextBlock Style="{StaticResource LblTb}">分组</TextBlock>
 				<ComboBox 
 					MinWidth="100"
-					ItemsSource="{Binding MinerGroupVms.List}"
+					ItemsSource="{Binding Vm.Root.MinerGroupVms.List}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
 			</WrapPanel>

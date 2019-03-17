@@ -91,9 +91,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinViewModels CoinVms {
+        public Vm Vm {
             get {
-                return CoinViewModels.Current;
+                return Vm.Instance;
             }
         }
     }

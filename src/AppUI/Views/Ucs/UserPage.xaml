@@ -16,7 +16,7 @@
 	</UserControl.Resources>
 	<Grid>
 		<DataGrid 
-			Margin="0" ItemsSource="{Binding UserVms.List}" 
+			Margin="0" ItemsSource="{Binding Vm.Root.UserVms.List}" 
 			BorderThickness="0"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
@@ -28,7 +28,7 @@
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton
 							IsEnabled="{Binding Data.IsControlCenter,Source={StaticResource proxy}}"
-							Command="{Binding Data.UserVms.Add, Source={StaticResource proxy}}" 
+							Command="{Binding Data.Vm.Root.UserVms.Add, Source={StaticResource proxy}}" 
 							Background="Transparent" BorderThickness="0"
 							Margin="2 0"
 							CornerRadius="2" ToolTip="添加">
@@ -122,6 +122,6 @@
 				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Visibility="{Binding UserVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+		<TextBlock Visibility="{Binding Vm.Root.UserVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
 	</Grid>
 </UserControl>

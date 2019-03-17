@@ -23,11 +23,11 @@
 			HorizontalScrollBarVisibility="Auto" 
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<ItemsControl
-				ItemsSource="{Binding HandlerIdVms.List}"
+				ItemsSource="{Binding Vm.Root.HandlerIdVms.List}"
 				BorderThickness="0"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 				<ItemsControl.Resources>
-					<controls:BindingProxy x:Key="proxy" Data="{Binding HandlerIdVms}" />
+					<controls:BindingProxy x:Key="proxy" Data="{Binding Vm.Root.HandlerIdVms}" />
 				</ItemsControl.Resources>
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>

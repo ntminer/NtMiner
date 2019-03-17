@@ -8,21 +8,9 @@
             }
         }
 
-        public CoinViewModels CoinVms {
+        public Vm Vm {
             get {
-                return CoinViewModels.Current;
-            }
-        }
-
-        public MinerProfileViewModel MinerProfile {
-            get {
-                return MinerProfileViewModel.Current;
-            }
-        }
-
-        public StateBarViewModel StateBarVm {
-            get {
-                return StateBarViewModel.Current;
+                return Vm.Instance;
             }
         }
     }

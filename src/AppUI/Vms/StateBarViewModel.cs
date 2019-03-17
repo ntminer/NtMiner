@@ -66,12 +66,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public GpuSpeedViewModels GpuSpeedVms {
-            get {
-                return GpuSpeedViewModels.Current;
-            }
-        }
-
         private static readonly SolidColorBrush s_gray = new SolidColorBrush(Colors.Gray);
         private static readonly SolidColorBrush s_miningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
         public SolidColorBrush GpuStateColor {
@@ -146,12 +140,6 @@ namespace NTMiner.Vms {
         public string QQGroup {
             get {
                 return NTMinerRoot.Current.QQGroup;
-            }
-        }
-
-        public MinerProfileViewModel MinerProfile {
-            get {
-                return MinerProfileViewModel.Current;
             }
         }
 

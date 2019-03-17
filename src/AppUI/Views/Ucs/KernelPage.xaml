@@ -199,7 +199,7 @@
 					<ListBox 
 						Margin="0 0 0 4"
 						Background="Transparent"
-						ItemsSource="{Binding CoinVms.MainCoinPleaseSelect}"
+						ItemsSource="{Binding Vm.Root.CoinVms.MainCoinPleaseSelect}"
 						SelectedItem="{Binding SelectedCoinVm}"
 						MouseDown="ListBox_MouseDown"
 						BorderThickness="0">

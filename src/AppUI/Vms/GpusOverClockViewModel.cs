@@ -25,14 +25,14 @@ namespace NTMiner.Vms {
                             item.Update(data);
                         }
                     }
-                    this.MinerProfile.CoinVm.ApplyOverClock.Execute(null);
+                    Vm.Root.MinerProfile.CoinVm.ApplyOverClock.Execute(null);
                 }, icon: "Icon_Confirm");
             });
         }
 
-        public MinerProfileViewModel MinerProfile {
+        public Vm Vm {
             get {
-                return MinerProfileViewModel.Current;
+                return Vm.Instance;
             }
         }
     }

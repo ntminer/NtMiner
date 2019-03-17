@@ -3,9 +3,9 @@
         public EventPageViewModel() {
         }
 
-        public HandlerIdViewModels HandlerIdVms {
+        public Vm Vm {
             get {
-                return HandlerIdViewModels.Current;
+                return Vm.Instance;
             }
         }
     }

@@ -5,14 +5,10 @@
         private UserPageViewModel() {
         }
 
-        public UserViewModels UserVms {
+        public Vm Vm {
             get {
-                return UserViewModels.Current;
+                return Vm.Instance;
             }
-        }
-
-        public MinerProfileViewModel MinerProfile {
-            get { return MinerProfileViewModel.Current; }
         }
 
         public bool IsControlCenter {

@@ -139,7 +139,8 @@
 				<WrapPanel Margin="4 0 0 0" Visibility="{x:Static vm:AppStatic.IsWorkerClientVisible}">
 					<WrapPanel>
 						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Margin="8 0 0 0">作业：</TextBlock>
-						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" FontSize="14" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
+						<TextBlock VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" FontSize="14" Text="{Binding Vm.Root.MinerProfile.MineWork.Name}" 
+								   ToolTip="{Binding Vm.Root.MinerProfile.MineWork.Description}"></TextBlock>
 					</WrapPanel>
 					<TextBlock 
 						VerticalAlignment="Center" 
@@ -207,7 +208,7 @@
 								Grid.Column="0" Grid.Row="0" Padding="0 4 0 0">
 								<StackPanel>
 									<WrapPanel>
-										<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
+										<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding Vm.Root.StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 											<TextBlock 
 												FontSize="12"
 												Foreground="{StaticResource LableColor}"
@@ -221,8 +222,8 @@
 											<TextBox 
 												Height="30"
 												Width="136" 
-												Background="{Binding StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-												Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
+												Background="{Binding Vm.Root.StateBarVm.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
+												Text="{Binding Vm.Root.MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
 												VerticalContentAlignment="Center">
 												<TextBox.ToolTip>
 													<StackPanel>
@@ -246,20 +247,20 @@
 										</WrapPanel>
 										<StackPanel
 											Margin="42 0 0 0"
-											IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}">
+											IsEnabled="{Binding Vm.Root.MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}">
 											<controls:KbCheckBox
 												Margin="0 2 0 0"
 												Content="{DynamicResource ChkIsAutoBoot}"
 												IconColor="{StaticResource IconFillColor}"
-												IsChecked="{Binding MinerProfile.IsAutoBoot}" />
+												IsChecked="{Binding Vm.Root.MinerProfile.IsAutoBoot}" />
 											<controls:KbCheckBox
 												Margin="0 2 0 0"
 												Content="{DynamicResource ChkIsAutoStart}"
 												IconColor="{StaticResource IconFillColor}"
-												IsChecked="{Binding MinerProfile.IsAutoStart}" />
+												IsChecked="{Binding Vm.Root.MinerProfile.IsAutoStart}" />
 										</StackPanel>
 									</WrapPanel>
-									<uc:MinerProfileIndex IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}" />
+									<uc:MinerProfileIndex IsEnabled="{Binding Vm.Root.MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}" />
 								</StackPanel>
 							</Border>
 							
@@ -272,7 +273,7 @@
 								HorizontalAlignment="Center" 
 								VerticalAlignment="Center" 
 								CornerRadius="80"
-								Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
+								Visibility="{Binding Vm.Root.MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
 								<TextBlock 
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
@@ -286,7 +287,7 @@
 									Width="134"
 									Height="44"
 									Command="{Binding StartMine}" 
-									Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
+									Visibility="{Binding Vm.Root.StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
 									Background="{StaticResource ThemeBackground}">
 									<WrapPanel>
 										<Path
@@ -309,7 +310,7 @@
 								</controls:KbButton>
 								<Button                        
 									Command="{Binding StopMine}" 
-									Visibility="{Binding StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+									Visibility="{Binding Vm.Root.StateBarVm.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
 									<Button.Template>
 										<ControlTemplate>
 											<Border 
@@ -324,7 +325,7 @@
 														x:Name="Icon2"
 														Width="16"
 														Height="16"
-														Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
+														Visibility="{Binding Vm.Root.StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityConverter}}"
 														Data="{StaticResource Icon_Mining2}"
 														Fill="{StaticResource IconFillColor}"
 														Stretch="Fill">
@@ -336,7 +337,7 @@
 														x:Name="Icon1"
 														Width="16"
 														Height="16"
-														Visibility="{Binding StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+														Visibility="{Binding Vm.Root.StateBarVm.IsShovelEmpty, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 														Data="{StaticResource Icon_Mining1}"
 														Fill="{StaticResource IconFillColor}"
 														Stretch="Fill">
@@ -380,7 +381,7 @@
 								<TabItem.Header>
 									<Border Padding="2 0">
 										<WrapPanel>
-											<TextBlock Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
+											<TextBlock Text="{Binding Vm.Root.MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>
@@ -402,12 +403,12 @@
 								<TabItem.Header>
 									<Border Padding="2 0">
 										<WrapPanel>
-											<TextBlock Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+											<TextBlock Text="{Binding Vm.Root.MinerProfile.CoinVm.Code}"></TextBlock>
 											<TextBlock Text="{DynamicResource HOverClock}"></TextBlock>
 											<CheckBox 
 												Margin="4 0 0 0" 
 												ToolTip="开始挖矿时自动应用超频" 
-												IsChecked="{Binding MinerProfile.CoinVm.CoinProfile.IsOverClockEnabled}"></CheckBox>
+												IsChecked="{Binding Vm.Root.MinerProfile.CoinVm.CoinProfile.IsOverClockEnabled}"></CheckBox>
 										</WrapPanel>
 									</Border>
 								</TabItem.Header>

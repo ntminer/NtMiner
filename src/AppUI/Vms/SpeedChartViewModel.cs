@@ -98,12 +98,6 @@ namespace NTMiner.Vms {
             };
         }
 
-        public MinerProfileViewModel MinerProfile {
-            get {
-                return MinerProfileViewModel.Current;
-            }
-        }
-
         public GpuSpeedViewModel GpuSpeedVm {
             get {
                 return _gpuSpeedVm;

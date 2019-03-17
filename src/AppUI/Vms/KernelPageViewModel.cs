@@ -83,15 +83,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public CoinViewModels CoinVms {
+        public Vm Vm {
             get {
-                return CoinViewModels.Current;
-            }
-        }
-
-        public MinerProfileViewModel MinerProfile {
-            get {
-                return MinerProfileViewModel.Current;
+                return Vm.Instance;
             }
         }
 

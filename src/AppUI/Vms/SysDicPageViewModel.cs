@@ -6,7 +6,7 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this._currentSysDic = SysDicVms.List.FirstOrDefault();
+            this._currentSysDic = Vm.Root.SysDicVms.List.FirstOrDefault();
         }
 
         private SysDicViewModel _currentSysDic;
@@ -20,9 +20,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public SysDicViewModels SysDicVms {
+        public Vm Vm {
             get {
-                return SysDicViewModels.Current;
+                return Vm.Instance;
             }
         }
     }
