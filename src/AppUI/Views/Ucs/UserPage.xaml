@@ -16,7 +16,6 @@
 	</UserControl.Resources>
 	<Grid>
 		<DataGrid 
-			IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}"
 			Margin="0" ItemsSource="{Binding UserVms.List}" 
 			BorderThickness="0"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -24,25 +23,8 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="登录名" Binding="{Binding LoginName}">
-				</DataGridTextColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="密码" Binding="{Binding PasswordStar}">
-				</DataGridTextColumn>
-				<DataGridTextColumn
-					Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-					CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="密码" Binding="{Binding Password}">
-				</DataGridTextColumn>
-				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="状态">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Foreground="{Binding IsEnabled,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding IsEnabledText}"></TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
-				</DataGridTextColumn>
 				<DataGridTemplateColumn 
-					MinWidth="100" Width="*" CanUserResize="True" IsReadOnly="True">
+					MinWidth="100" CanUserResize="True" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<controls:KbButton
 							IsEnabled="{Binding Data.IsControlCenter,Source={StaticResource proxy}}"
@@ -125,6 +107,19 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="登录名" Binding="{Binding LoginName}">
+				</DataGridTextColumn>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="密码" Binding="{Binding PasswordStar}">
+				</DataGridTextColumn>
+				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="状态">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Foreground="{Binding IsEnabled,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding IsEnabledText}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
+				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Visibility="{Binding UserVms.List, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
