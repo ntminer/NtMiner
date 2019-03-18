@@ -10,11 +10,11 @@ namespace NTMiner.Vms {
         private int _totalMiningCount;
         private int _totalOnlineCount;
 
-        public ICommand ConfigMinerServerHost { get; private set; }
+        public ICommand ConfigControlCenterHost { get; private set; }
 
         public ChartsWindowViewModel() {
-            this.ConfigMinerServerHost = new DelegateCommand(() => {
-                MinerServerHostConfig.ShowWindow();
+            this.ConfigControlCenterHost = new DelegateCommand(() => {
+                ControlCenterHostConfig.ShowWindow();
             });
         }
 

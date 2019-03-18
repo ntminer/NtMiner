@@ -144,21 +144,21 @@ namespace NTMiner {
         }
         #endregion
 
-        #region MinerServerHost
-        public const string MinerServerHost = "server.ntminer.com";
-        public static string GetMinerServerHost() {
-            object minerServerHostValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "MinerServerHost");
-            if (minerServerHostValue == null) {
-                return MinerServerHost;
+        #region ControlCenterHost
+        public const string DefaultControlCenterHost = "localhost";
+        public static string GetControlCenterHost() {
+            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHost");
+            if (value == null) {
+                return DefaultControlCenterHost;
             }
-            return (string)minerServerHostValue;
+            return (string)value;
         }
 
-        public static void SetMinerServerHost(string host) {
+        public static void SetControlCenterHost(string host) {
             if (string.IsNullOrEmpty(host)) {
-                host = MinerServerHost;
+                host = DefaultControlCenterHost;
             }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "MinerServerHost", host);
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHost", host);
         }
         #endregion
 

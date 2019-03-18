@@ -12,11 +12,11 @@ namespace NTMiner.Vms {
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private bool _isShovelEmpty = true;
 
-        public ICommand ConfigMinerServerHost { get; private set; }
+        public ICommand ConfigControlCenterHost { get; private set; }
 
         private StateBarViewModel() {
-            this.ConfigMinerServerHost = new DelegateCommand(() => {
-                MinerServerHostConfig.ShowWindow();
+            this.ConfigControlCenterHost = new DelegateCommand(() => {
+                ControlCenterHostConfig.ShowWindow();
             });
             VirtualRoot.On<Per1SecondEvent>(
                 "挖矿计时秒表，周期性挥动铲子表示在挖矿中",

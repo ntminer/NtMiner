@@ -82,7 +82,7 @@
 					<controls:KbButton
 						Margin="4 0 10 0"
 						ToolTip="服务器"
-						Command="{Binding ConfigMinerServerHost}"
+						Command="{Binding ConfigControlCenterHost}"
 						Background="Transparent">
 						<Path 
 							Width="16"

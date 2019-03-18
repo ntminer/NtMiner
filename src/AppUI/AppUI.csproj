@@ -215,8 +215,8 @@
     <Compile Include="Views\Ucs\KernelDownloading.xaml.cs">
       <DependentUpon>KernelDownloading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\MinerServerHostConfig.xaml.cs">
-      <DependentUpon>MinerServerHostConfig.xaml</DependentUpon>
+    <Compile Include="Views\Ucs\ControlCenterHostConfig.xaml.cs">
+      <DependentUpon>ControlCenterHostConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\MineWorkEdit.xaml.cs">
       <DependentUpon>MineWorkEdit.xaml</DependentUpon>
@@ -331,7 +331,7 @@
     <Compile Include="Vms\ChartsWindowViewModel.cs" />
     <Compile Include="Vms\MinerGroupViewModel.cs" />
     <Compile Include="Vms\MinerGroupViewModels.cs" />
-    <Compile Include="Vms\MinerServerHostConfigViewModel.cs" />
+    <Compile Include="Vms\ControlCenterHostConfigViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModels.cs" />
     <Compile Include="Vms\MinuteItem.cs" />
@@ -606,7 +606,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\MinerServerHostConfig.xaml">
+    <Page Include="Views\Ucs\ControlCenterHostConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

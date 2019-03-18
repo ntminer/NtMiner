@@ -11,10 +11,10 @@ namespace NTMiner {
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
         public static readonly WrapperMinerClientServiceFace MinerClientService = WrapperMinerClientServiceFace.Instance;
 
-        public static string MinerServerHost {
-            get { return NTMinerRegistry.GetMinerServerHost(); }
+        public static string ControlCenterHost {
+            get { return NTMinerRegistry.GetControlCenterHost(); }
             set {
-                NTMinerRegistry.SetMinerServerHost(value);
+                NTMinerRegistry.SetControlCenterHost(value);
             }
         }
 
@@ -23,7 +23,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message =
-                            client.PostAsJsonAsync($"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api/{controller}/{action}", param);
+                            client.PostAsJsonAsync($"http://{ControlCenterHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -38,7 +38,7 @@ namespace NTMiner {
         private static T Post<T>(string controller, string action, object param) where T : class {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api/{controller}/{action}", param);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{ControlCenterHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
                     T response = message.Result.Content.ReadAsAsync<T>().Result;
                     return response;
                 }
@@ -58,7 +58,7 @@ namespace NTMiner {
                         }
 
                         Task<HttpResponseMessage> message =
-                            client.GetAsync($"http://{MinerServerHost}:{WebApiConst.MinerServerPort}/api/{controller}/{action}{queryString}");
+                            client.GetAsync($"http://{ControlCenterHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}{queryString}");
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }

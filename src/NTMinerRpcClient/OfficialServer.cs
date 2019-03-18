@@ -18,7 +18,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = new HttpClient()) {
                         Task<HttpResponseMessage> message =
-                            client.PostAsJsonAsync($"http://{OfficialServerHost}:{WebApiConst.MinerServerPort}/api/{controller}/{action}", param);
+                            client.PostAsJsonAsync($"http://{OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -33,7 +33,7 @@ namespace NTMiner {
         private static T Post<T>(string controller, string action, object param) where T : class {
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{OfficialServerHost}:{WebApiConst.MinerServerPort}/api/{controller}/{action}", param);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}", param);
                     T response = message.Result.Content.ReadAsAsync<T>().Result;
                     return response;
                 }
@@ -53,7 +53,7 @@ namespace NTMiner {
                         }
 
                         Task<HttpResponseMessage> message =
-                            client.GetAsync($"http://{OfficialServerHost}:{WebApiConst.MinerServerPort}/api/{controller}/{action}{queryString}");
+                            client.GetAsync($"http://{OfficialServerHost}:{WebApiConst.ControlCenterPort}/api/{controller}/{action}{queryString}");
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }

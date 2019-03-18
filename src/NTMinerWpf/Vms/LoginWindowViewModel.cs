@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         public ICommand ActiveAdmin { get; private set; }
 
         public LoginWindowViewModel() {
-            this._hostAndPort = $"{Server.MinerServerHost}:{WebApiConst.MinerServerPort}";
+            this._hostAndPort = $"{Server.ControlCenterHost}:{WebApiConst.ControlCenterPort}";
             this._loginName = "admin";
             this.ActiveAdmin = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Password)) {

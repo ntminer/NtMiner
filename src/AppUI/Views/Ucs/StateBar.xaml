@@ -181,7 +181,7 @@
 						Margin="4 0 0 0"
 						Cursor="Hand"
 						ToolTip="{DynamicResource BtnServerConfig}"
-						Command="{Binding ConfigMinerServerHost}"
+						Command="{Binding ConfigControlCenterHost}"
 						Background="Transparent">
 						<Path 
 							Width="16"

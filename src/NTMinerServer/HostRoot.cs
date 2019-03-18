@@ -9,7 +9,7 @@ using System.IO;
 namespace NTMiner {
     public class HostRoot : IHostRoot {
         static void Main(string[] args) {
-            string baseAddress = $"http://localhost:{WebApiConst.MinerServerPort}";
+            string baseAddress = $"http://localhost:{WebApiConst.ControlCenterPort}";
             Console.Title = baseAddress + " Enter exit or ctrl+c to quit.";
             HttpServer.Start(baseAddress);
             Logger.InfoDebugLine("启动成功");
