@@ -24,7 +24,6 @@ namespace NTMiner {
         private Mutex mutexApp;
 
         public App() {
-            Logger.InfoDebugLine("App.ctor start");
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 var exception = e.ExceptionObject as Exception;
                 if (exception != null) {
@@ -75,7 +74,7 @@ namespace NTMiner {
                     Show(thatProcess);
                 }
                 else {
-                    MessageBox.Show("another Updater is running", "alert", MessageBoxButton.OKCancel);
+                    MessageBox.Show("Another Updater is running", "alert", MessageBoxButton.OKCancel);
                 }
                 Environment.Exit(-1);
                 return;

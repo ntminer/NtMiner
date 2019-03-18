@@ -47,10 +47,6 @@ namespace NTMiner {
             File.WriteAllText(LocalJsonFileFullName, json);
         }
 
-        public static void WriteDaemonUsersJsonFile(string json) {
-            File.WriteAllText(DaemonUsersJsonFileFullName, json);
-        }
-
         public static string LocalDbFileFullName { get; private set; }
         public static string LocalJsonFileFullName { get; private set; }
         public static string ServerDbFileFullName { get; private set; }
