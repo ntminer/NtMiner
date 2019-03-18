@@ -10,6 +10,8 @@ using System.Reflection;
 namespace NTMiner {
     public partial class NTMinerRoot {
         public static IKernelDownloader KernelDownloader;
+        public static Action RefreshArgsAssembly = ()=> { };
+
         public static Func<System.Windows.Forms.Keys, bool> RegHotKey;
         public static string AppName;
         public static bool IsUseDevConsole = false;
@@ -93,7 +95,7 @@ namespace NTMiner {
                 minerName = new string(minerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
             }
             Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", minerName ?? string.Empty);
-            VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
         }
         #endregion
 
@@ -113,8 +115,7 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(value)) {
                 return false;
             }
-            System.Windows.Forms.Keys key;
-            if (Enum.TryParse(value, out key) && key >= System.Windows.Forms.Keys.A && key <= System.Windows.Forms.Keys.Z) {
+            if (Enum.TryParse(value, out System.Windows.Forms.Keys key) && key >= System.Windows.Forms.Keys.A && key <= System.Windows.Forms.Keys.Z) {
                 if (RegHotKey.Invoke(key)) {
                     Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey", value);
                     return true;

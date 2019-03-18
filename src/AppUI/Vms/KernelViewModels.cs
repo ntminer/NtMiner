@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
                         }
                     }
                     if (kernelInputId != entity.KernelInputId) {
-                        VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+                        NTMinerRoot.RefreshArgsAssembly.Invoke();
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             foreach (var item in NTMinerRoot.Current.KernelSet) {

@@ -2,11 +2,6 @@
 using NTMiner.Core;
 
 namespace NTMiner {
-    [MessageType(messageType: typeof(RefreshArgsAssemblyCommand), description: "刷新参数总成命令")]
-    public class RefreshArgsAssemblyCommand : Cmd {
-        public RefreshArgsAssemblyCommand() { }
-    }
-
     [MessageType(messageType: typeof(MineStartedEvent), description: "挖矿开始事件")]
     public class MineStartedEvent : EventBase {
         public MineStartedEvent(IMineContext mineContext) {

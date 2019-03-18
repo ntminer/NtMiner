@@ -24,7 +24,7 @@ namespace NTMiner.Views.Ucs {
             }
             CoinKernelProfileViewModel coinKernelProfileVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile;
             NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfileVm.CoinKernelId, nameof(coinKernelProfileVm.DualCoinWeight), coinKernelProfileVm.DualCoinWeight);
-            VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
         }
 
         private void KbComboBox_DropDownOpened(object sender, System.EventArgs e) {

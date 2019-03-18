@@ -429,7 +429,7 @@ namespace NTMiner.Vms {
                 if (value != null && value.Id != Guid.Empty) {
                     CoinProfile.CoinKernelId = value.Id;
                     OnPropertyChanged(nameof(CoinKernel));
-                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
             }
         }

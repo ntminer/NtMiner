@@ -133,7 +133,6 @@ namespace NTMiner {
             if (isWork) {
                 ReInitMinerProfile();
             }
-            VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
         }
 
         private void ContextInit(bool isWork) {
@@ -158,6 +157,7 @@ namespace NTMiner {
             this._minerProfile.ReInit(this, LocalJson.Instance.MineWork.Id);
             OnMinerProfileReInited?.Invoke();
             OnReRendMinerProfile?.Invoke();
+            RefreshArgsAssembly();
         }
 
         #endregion
@@ -372,7 +372,7 @@ namespace NTMiner {
             Windows.Power.PowerCfgOff();
             Windows.BcdEdit.IgnoreAllFailures();
 
-            VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+            RefreshArgsAssembly.Invoke();
             // 自动开始挖矿
             if ((MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsMining) {
                 StartMine();
@@ -457,24 +457,20 @@ namespace NTMiner {
         public void StartMine() {
             try {
                 IWorkProfile minerProfile = this.MinerProfile;
-                ICoin mainCoin;
-                if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
+                if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
                     Write.UserLine("没有选择主挖币种。", ConsoleColor.Red);
                     return;
                 }
                 ICoinProfile coinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
-                IPool mainCoinPool;
-                if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
+                if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
                     Write.UserLine("没有选择主币矿池。", ConsoleColor.Red);
                     return;
                 }
-                ICoinKernel coinKernel;
-                if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
+                if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
                     Write.UserLine("没有选择挖矿内核。", ConsoleColor.Red);
                     return;
                 }
-                IKernel kernel;
-                if (!this.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
+                if (!this.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
                     Write.UserLine("无效的挖矿内核。", ConsoleColor.Red);
                     return;
                 }
@@ -482,8 +478,7 @@ namespace NTMiner {
                     Write.UserLine($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。", ConsoleColor.Red);
                     return;
                 }
-                IKernelInput kernelInput;
-                if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
                     Write.UserLine("未设置内核输入", ConsoleColor.Red);
                     return;
                 }

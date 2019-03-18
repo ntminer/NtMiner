@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                             if (args != item.Args || dualFullArgs != item.DualFullArgs) {
                                 CoinViewModel coinVm = MinerProfileViewModel.Current.CoinVm;
                                 if (coinVm != null && coinVm.CoinKernel != null && coinVm.CoinKernel.Kernel.KernelInputId == item.Id) {
-                                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+                                    NTMinerRoot.RefreshArgsAssembly.Invoke();
                                 }
                             }
                             if (isSupportDualMine != item.IsSupportDualMine) {

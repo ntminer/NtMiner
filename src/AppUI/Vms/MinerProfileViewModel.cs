@@ -12,6 +12,9 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
+            NTMinerRoot.RefreshArgsAssembly = () => {
+                this.ArgsAssembly = NTMinerRoot.Current.BuildAssembleArgs();
+            };
             NTMinerRoot.Current.OnReRendContext += () => {
                 OnPropertyChanged(nameof(CoinVm));
             };
@@ -28,18 +31,12 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(message.PropertyName);
                 });
 
-            VirtualRoot.Accept<RefreshArgsAssemblyCommand>(
-                "刷新参数总成",
-                LogEnum.Console,
-                action: cmd => {
-                    this.ArgsAssembly = NTMinerRoot.Current.BuildAssembleArgs();
-                });
             VirtualRoot.On<MinerNameSetedEvent>(
                 "矿机名设置后刷新VM内存和命令总成",
                 LogEnum.Console,
                 action: message => {
                     OnPropertyChanged(nameof(MinerName));
-                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
                 });
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
                 OnPropertyChanged(nameof(CoinVm));
@@ -57,6 +54,7 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(IsAutoRestartKernel));
                 MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
             };
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
         }
 
         public IMineWork MineWork {
@@ -271,7 +269,7 @@ namespace NTMiner.Vms {
                 if (value != null) {
                     this.CoinId = value.Id;
                     OnPropertyChanged(nameof(CoinVm));
-                    VirtualRoot.Execute(new RefreshArgsAssemblyCommand());
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
             }
         }
