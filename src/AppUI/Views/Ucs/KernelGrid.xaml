@@ -75,7 +75,6 @@
 		</Grid.RowDefinitions>
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding QueryResults}" 
-			Background="#F5F4F5"
 			ColumnHeaderHeight="0"
 			BorderThickness="0" RowHeight="40"
 			PreviewMouseDown="DataGrid_PreviewMouseDown"
