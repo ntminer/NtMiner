@@ -5,22 +5,46 @@ using NTMiner.Data.Impl;
 using NTMiner.User;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
+        public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
+        public static ExtendedNotifyIcon NotifyIcon;
+        private static Mutex s_mutexApp;
         static void Main(string[] args) {
-            string baseAddress = $"http://localhost:{WebApiConst.ControlCenterPort}";
-            Console.Title = baseAddress + " Enter exit or ctrl+c to quit.";
-            HttpServer.Start(baseAddress);
-            Logger.InfoDebugLine("启动成功");
-            Windows.ConsoleHandler.Register(() => {
-                HttpServer.Stop();
-            });
-            string line = Console.ReadLine();
-            while (line != "exit") {
-                line = Console.ReadLine();
+            try {
+                bool mutexCreated;
+                try {
+                    s_mutexApp = new Mutex(true, "NTMinerServerMutex", out mutexCreated);
+                }
+                catch {
+                    mutexCreated = false;
+                }
+                if (mutexCreated) {
+                    NTMinerRegistry.SetAutoBoot("NTMinerServer", true);
+                    Type thisType = typeof(HostRoot);
+                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner群控服务");
+                    Run();
+                    NotifyIcon.Dispose();
+                }
             }
-            HttpServer.Stop();
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+        }
+        private static void Run() {
+            try {
+                string baseAddress = $"http://localhost:{WebApiConst.ControlCenterPort}";
+                HttpServer.Start(baseAddress);
+                WaitHandle.WaitOne();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+            finally {
+                HttpServer.Stop();
+            }
         }
 
         public DateTime StartedOn { get; private set; } = DateTime.Now;
