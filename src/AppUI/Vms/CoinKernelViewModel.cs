@@ -1,6 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
-using NTMiner.Core.Kernels;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -341,15 +339,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
-            get {
-                return SupportedGpu.AMD.GetEnumItems();
-            }
-        }
-
         public EnumItem<SupportedGpu> SupportedGpuEnumItem {
             get {
-                return SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
+                return AppStatic.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
             }
             set {
                 if (SupportedGpu != value.Value) {

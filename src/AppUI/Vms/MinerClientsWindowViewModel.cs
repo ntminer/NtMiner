@@ -93,7 +93,7 @@ namespace NTMiner.Vms {
             if (this._columnsShow == null) {
                 this._columnsShow = this.ColumnsShows.List.FirstOrDefault();
             }
-            this._mineStatusEnumItem = this.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
+            this._mineStatusEnumItem = AppStatic.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._coinVm = CoinViewModel.PleaseSelect;
             this._selectedMineWork = MineWorkViewModel.PleaseSelect;
             this._selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
@@ -729,12 +729,6 @@ namespace NTMiner.Vms {
                 _selectedMinerGroup = value;
                 OnPropertyChanged(nameof(SelectedMinerGroup));
                 QueryMinerClients();
-            }
-        }
-
-        public IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
-            get {
-                return MineStatus.All.GetEnumItems();
             }
         }
 

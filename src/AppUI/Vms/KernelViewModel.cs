@@ -481,15 +481,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
-            get {
-                return PublishStatus.Published.GetEnumItems();
-            }
-        }
-
         public EnumItem<PublishStatus> PublishStateEnumItem {
             get {
-                return PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
+                return AppStatic.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
             }
             set {
                 if (PublishState != value.Value) {

@@ -2,21 +2,44 @@
 using NTMiner.Core.Impl;
 using NTMiner.Language.Impl;
 using NTMiner.MinerServer;
-using NTMiner.Notifications;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using Console = System.Console;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsControlCenter ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
+
+        public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
+            get {
+                return SupportedGpu.AMD.GetEnumItems();
+            }
+        }
+
+        public static IEnumerable<EnumItem<LogEnum>> LogTypeItems {
+            get {
+                return LogEnum.Console.GetEnumItems();
+            }
+        }
+
+        public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
+            get {
+                return PublishStatus.Published.GetEnumItems();
+            }
+        }
+
+        public static IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
+            get {
+                return MineStatus.All.GetEnumItems();
+            }
+        }
 
         public static double MainWindowHeight {
             get {

@@ -79,7 +79,7 @@
 			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource SupportedGpu}" ToolTip="{DynamicResource SupportedGpu}"></TextBlock>
 			<WrapPanel Width="180" VerticalAlignment="Center">
 				<controls:KbComboBox 
-					Width="130" ItemsSource="{Binding SupportedGpuEnumItems}"
+					Width="130" ItemsSource="{x:Static vm:AppStatic.SupportedGpuEnumItems}"
 					IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 					DisplayMemberPath="Description" Height="26"
 					SelectedItem="{Binding SupportedGpuEnumItem}">

@@ -37,11 +37,5 @@ namespace NTMiner.Vms {
                 return _dicById.Values.OrderBy(a => a.Location.Name + a.MessageType.Name).ToList();
             }
         }
-
-        public IEnumerable<EnumItem<LogEnum>> LogTypeItems {
-            get {
-                return LogEnum.Console.GetEnumItems();
-            }
-        }
     }
 }
