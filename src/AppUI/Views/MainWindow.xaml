@@ -328,9 +328,6 @@
 														Data="{StaticResource Icon_Mining2}"
 														Fill="{StaticResource IconFillColor}"
 														Stretch="Fill">
-														<Path.RenderTransform>
-															<RotateTransform Angle="-20" CenterX="8" CenterY="8"></RotateTransform>
-														</Path.RenderTransform>
 													</Path>
 													<Path
 														x:Name="Icon1"
