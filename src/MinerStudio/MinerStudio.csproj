@@ -164,7 +164,7 @@
       <Project>{b3667589-d9b1-489e-ab4f-d1ec06a40a9d}</Project>
       <Name>AppUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ControlCenterAppSelfHost\MinerStudioSelfHost.csproj">
+    <ProjectReference Include="..\MinerStudioSelfHost\MinerStudioSelfHost.csproj">
       <Project>{526c022a-3c86-4998-a8f1-f5860f183c7c}</Project>
       <Name>MinerStudioSelfHost</Name>
     </ProjectReference>
