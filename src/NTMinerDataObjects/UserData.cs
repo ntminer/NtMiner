@@ -27,13 +27,13 @@ namespace NTMiner {
 
         public string Description { get; set; }
 
-        public string GetSignData() {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(Password)).Append(Password)
                 .Append(nameof(IsEnabled)).Append(IsEnabled)
                 .Append(nameof(Description)).Append(Description);
-            return sb.ToString();
+            return sb;
         }
     }
 }

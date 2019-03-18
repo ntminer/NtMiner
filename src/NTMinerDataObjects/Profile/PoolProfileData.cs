@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using System;
 using NTMiner.Core;
+using System.Text;
 
 namespace NTMiner.Profile {
     public class PoolProfileData : IPoolProfile, IDbEntity<Guid>, IGetSignData {
@@ -35,8 +36,8 @@ namespace NTMiner.Profile {
             return $"{PoolId}{UserName}{Password}";
         }
 
-        public string GetSignData() {
-            return this.ToString();
+        public StringBuilder GetSignData() {
+            return new StringBuilder(this.ToString());
         }
     }
 }

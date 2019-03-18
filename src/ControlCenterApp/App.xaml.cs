@@ -44,10 +44,15 @@ namespace NTMiner {
                 NTMinerRoot.Current.Init(() => {
                     NTMinerRoot.KernelDownloader = new KernelDownloader();
                     UIThread.Execute(() => {
+                        splashWindow?.Close();
                         bool? result = true;
-                        if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
+                        if (Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost())) {
+                            SingleUser.LoginName = "innerip";
+                            SingleUser.SetPasswordSha1("123");
+                            result = true;
+                        }
+                        else if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
                             LoginWindow loginWindow = new LoginWindow();
-                            splashWindow?.Close();
                             result = loginWindow.ShowDialog();
                         }
                         if (result.HasValue && result.Value) {

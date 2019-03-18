@@ -46,10 +46,8 @@ namespace NTMiner {
             // ReSharper disable once InconsistentNaming
             public void RestartNTMinerAsync(IClientData client, Action<ResponseBase, Exception> callback) {
                 WorkRequest innerRequest = new WorkRequest {
-                    LoginName = SingleUser.LoginName,
                     WorkId = client.WorkId
                 };
-                innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                 WrapperRequest<WorkRequest> request = new WrapperRequest<WorkRequest> {
                     ClientId = client.ClientId,
                     LoginName = SingleUser.LoginName,
@@ -79,10 +77,8 @@ namespace NTMiner {
 
             public void StartMineAsync(IClientData client, Guid workId, Action<ResponseBase, Exception> callback) {
                 WorkRequest innerRequest = new WorkRequest {
-                    LoginName = SingleUser.LoginName,
                     WorkId = workId
                 };
-                innerRequest.SignIt(SingleUser.GetRemotePassword(client.ClientId));
                 WrapperRequest<WorkRequest> request = new WrapperRequest<WorkRequest> {
                     ClientId = client.ClientId,
                     LoginName = SingleUser.LoginName,

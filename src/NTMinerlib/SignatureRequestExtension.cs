@@ -7,7 +7,7 @@ namespace NTMiner {
         }
 
         public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, string clientIp, out IUser user, out TResponse response) where TResponse : ResponseBase, new() {
-            if (Ip.Util.IsInnerIP(clientIp)) {
+            if (Ip.Util.IsInnerIp(clientIp)) {
                 user = null;
                 response = null;
                 return true;

@@ -23,7 +23,7 @@ namespace NTMiner.MinerServer {
 
         public int Cool { get; set; }
 
-        public string GetSignData() {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(CoinId)).Append(CoinId)
@@ -32,7 +32,7 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(MemoryClockDelta)).Append(MemoryClockDelta)
                 .Append(nameof(PowerCapacity)).Append(PowerCapacity)
                 .Append(nameof(Cool)).Append(Cool);
-            return sb.ToString();
+            return sb;
         }
     }
 }

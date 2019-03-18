@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner {
-    public interface ISignatureRequest {
+    public interface ISignatureRequest : IGetSignData {
         Guid MessageId { get; }
         string LoginName { get; }
         DateTime Timestamp { get; }

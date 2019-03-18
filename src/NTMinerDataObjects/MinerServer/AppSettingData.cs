@@ -22,11 +22,11 @@ namespace NTMiner.MinerServer {
 
         public object Value { get; set; }
 
-        public string GetSignData() {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Key)).Append(Key)
                 .Append(nameof(Value)).Append(Value);
-            return sb.ToString();
+            return sb;
         }
     }
 }

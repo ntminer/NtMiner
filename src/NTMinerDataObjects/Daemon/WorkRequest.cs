@@ -2,27 +2,21 @@
 using System.Text;
 
 namespace NTMiner.Daemon {
-    public class WorkRequest : RequestBase, ISignatureRequest {
+    public class WorkRequest : RequestBase, IGetSignData {
+        public WorkRequest() { }
+
         public Guid WorkId { get; set; }
-        public string LoginName { get; set; }
         public string LocalJson { get; set; }
         public string ServerJson { get; set; }
-        public string Sign { get; set; }
 
-        public void SignIt(string password) {
-            this.Sign = this.GetSign(password);
-        }
-
-        public string GetSign(string password) {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
-                .Append(nameof(LoginName)).Append(LoginName)
                 .Append(nameof(WorkId)).Append(WorkId)
                 .Append(nameof(LocalJson)).Append(LocalJson)
                 .Append(nameof(ServerJson)).Append(ServerJson)
-                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
-                .Append(nameof(UserData.Password)).Append(password);
-            return HashUtil.Sha1(sb.ToString());
+                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+            return sb;
         }
     }
 }

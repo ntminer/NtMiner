@@ -1,5 +1,7 @@
-﻿namespace NTMiner {
+﻿using System.Text;
+
+namespace NTMiner {
     public interface IGetSignData {
-        string GetSignData();
+        StringBuilder GetSignData();
     }
 }

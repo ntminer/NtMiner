@@ -7,9 +7,12 @@ namespace NTMiner.Ip {
         /// </summary>
         /// <param name="ipAddress">IP地址字符串</param>
         /// <returns></returns>
-        public static bool IsInnerIP(String ipAddress) {
+        public static bool IsInnerIp(String ipAddress) {
             if (string.IsNullOrEmpty(ipAddress)) {
                 return false;
+            }
+            if (ipAddress == "localhost" || ipAddress == "127.0.0.1") {
+                return true;
             }
             bool isInnerIp = false;
             long ipNum = GetIpNum(ipAddress);
@@ -25,7 +28,7 @@ namespace NTMiner.Ip {
             long bEnd = GetIpNum("172.31.255.255");
             long cBegin = GetIpNum("192.168.0.0");
             long cEnd = GetIpNum("192.168.255.255");
-            isInnerIp = IsInner(ipNum, aBegin, aEnd) || IsInner(ipNum, bBegin, bEnd) || IsInner(ipNum, cBegin, cEnd) || ipAddress.Equals("127.0.0.1");
+            isInnerIp = IsInner(ipNum, aBegin, aEnd) || IsInner(ipNum, bBegin, bEnd) || IsInner(ipNum, cBegin, cEnd);
             return isInnerIp;
         }
 

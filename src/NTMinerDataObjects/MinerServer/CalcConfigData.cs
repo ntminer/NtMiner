@@ -44,7 +44,7 @@ namespace NTMiner.MinerServer {
 
         public DateTime ModifiedOn { get; set; }
 
-        public string GetSignData() {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(CoinCode)).Append(CoinCode)
                 .Append(nameof(Speed)).Append(Speed)
@@ -54,7 +54,7 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(IncomeCnyPerDay)).Append(IncomeCnyPerDay)
                 .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
                 .Append(nameof(ModifiedOn)).Append(ModifiedOn.ToUlong());
-            return sb.ToString();
+            return sb;
         }
     }
 }

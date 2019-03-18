@@ -54,7 +54,7 @@ namespace NTMiner.Core {
 
         public string Password { get; set; }
 
-        public string GetSignData() {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(DataLevel)).Append(DataLevel)
@@ -68,7 +68,7 @@ namespace NTMiner.Core {
                 .Append(nameof(IsUserMode)).Append(IsUserMode)
                 .Append(nameof(UserName)).Append(UserName)
                 .Append(nameof(Password)).Append(Password);
-            return sb.ToString();
+            return sb;
         }
     }
 }

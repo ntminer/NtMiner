@@ -86,10 +86,6 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                IUser user = HostRoot.Current.UserSet.GetUser(request.InnerRequest.LoginName);
-                if (user == null) {
-                    return ResponseBase.Forbidden(request.MessageId, $"登录名为{request.InnerRequest.LoginName}的用户不存在");
-                }
                 string localJson = string.Empty, serverJson = string.Empty;
                 Guid workId = request.InnerRequest.WorkId;
                 if (workId != Guid.Empty) {
@@ -98,13 +94,11 @@ namespace NTMiner.Controllers {
                 }
                 WorkRequest innerRequest = new WorkRequest {
                     MessageId = request.InnerRequest.MessageId,
-                    LoginName = request.InnerRequest.LoginName,
                     Timestamp = request.InnerRequest.Timestamp,
                     WorkId = workId,
                     LocalJson = localJson,
                     ServerJson = serverJson
                 };
-                innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
                 response = Client.NTMinerDaemonService.StartMine(request.ClientIp, innerRequest);
                 return response;
             }
@@ -126,10 +120,6 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                IUser user = HostRoot.Current.UserSet.GetUser(request.InnerRequest.LoginName);
-                if (user == null) {
-                    return ResponseBase.Forbidden(request.MessageId, $"登录名为{request.InnerRequest.LoginName}的用户不存在");
-                }
                 string localJson = string.Empty, serverJson = string.Empty;
                 Guid workId = request.InnerRequest.WorkId;
                 if (workId != Guid.Empty) {
@@ -137,14 +127,12 @@ namespace NTMiner.Controllers {
                     serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest {
-                    LoginName = request.InnerRequest.LoginName,
                     MessageId = request.InnerRequest.MessageId,
                     Timestamp = request.InnerRequest.Timestamp,
                     WorkId = workId,
                     LocalJson = localJson,
                     ServerJson = serverJson
                 };
-                innerRequest.SignIt(HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.ClientId));
                 response = Client.NTMinerDaemonService.RestartNTMiner(request.ClientIp, innerRequest);
                 return response;
             }

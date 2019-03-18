@@ -17,13 +17,7 @@ namespace NTMiner.MinerServer {
         }
 
         public string GetSign(string password) {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(nameof(MessageId)).Append(MessageId)
-                .Append(nameof(LoginName)).Append(LoginName)
-                .Append(nameof(ObjectId)).Append(ObjectId)
-                .Append(nameof(Values)).Append(GetValuesString())
-                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong())
-                .Append(nameof(UserData.Password)).Append(password);
+            StringBuilder sb = GetSignData().Append(nameof(UserData.Password)).Append(password);
             return HashUtil.Sha1(sb.ToString());
         }
 
@@ -32,6 +26,16 @@ namespace NTMiner.MinerServer {
                 return string.Empty;
             }
             return $"{string.Join(",", Values.Keys)}:{string.Join(",", Values.Values)}";
+        }
+
+        public StringBuilder GetSignData() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(nameof(MessageId)).Append(MessageId)
+                .Append(nameof(LoginName)).Append(LoginName)
+                .Append(nameof(ObjectId)).Append(ObjectId)
+                .Append(nameof(Values)).Append(GetValuesString())
+                .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
+            return sb;
         }
     }
 }

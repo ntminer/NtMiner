@@ -81,7 +81,7 @@ namespace NTMiner.MinerServer {
 
         public bool KernelCommandLine { get; set; }
 
-        public string GetSignData() {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(Work)).Append(Work)
@@ -117,7 +117,7 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(TotalPowerText)).Append(TotalPowerText)
                 .Append(nameof(MaxTempText)).Append(MaxTempText)
                 .Append(nameof(KernelCommandLine)).Append(KernelCommandLine);
-            return sb.ToString();
+            return sb;
         }
     }
 }

@@ -28,14 +28,14 @@ namespace NTMiner.Core {
 
         public int SortNumber { get; set; }
 
-        public string GetSignData() {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(CoinId)).Append(CoinId)
                 .Append(nameof(Name)).Append(Name)
                 .Append(nameof(Address)).Append(Address)
                 .Append(nameof(SortNumber)).Append(SortNumber);
-            return sb.ToString();
+            return sb;
         }
     }
 }

@@ -20,14 +20,14 @@ namespace NTMiner.MinerServer {
 
         public DateTime ModifiedOn { get; set; }
 
-        public string GetSignData() {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(Name)).Append(Name)
                 .Append(nameof(Description)).Append(Description)
                 .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
                 .Append(nameof(ModifiedOn)).Append(ModifiedOn.ToUlong());
-            return sb.ToString();
+            return sb;
         }
     }
 }

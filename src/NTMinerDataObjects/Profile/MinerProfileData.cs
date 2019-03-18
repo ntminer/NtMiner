@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace NTMiner.Profile {
     public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, IGetSignData {
@@ -53,8 +54,8 @@ namespace NTMiner.Profile {
             return $"{Id}{IsAutoBoot}{IsAutoStart}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}";
         }
 
-        public string GetSignData() {
-            return this.ToString();
+        public StringBuilder GetSignData() {
+            return new StringBuilder(this.ToString());
         }
     }
 }

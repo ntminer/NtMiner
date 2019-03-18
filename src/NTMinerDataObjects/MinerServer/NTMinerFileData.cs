@@ -23,7 +23,7 @@ namespace NTMiner.MinerServer {
 
         public DateTime PublishOn { get; set; }
 
-        public string GetSignData() {
+        public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(FileName)).Append(FileName)
@@ -31,7 +31,7 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(VersionTag)).Append(VersionTag)
                 .Append(nameof(CreatedOn)).Append(CreatedOn.ToUlong())
                 .Append(nameof(PublishOn)).Append(PublishOn.ToUlong());
-            return sb.ToString();
+            return sb;
         }
     }
 }

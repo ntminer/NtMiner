@@ -138,7 +138,6 @@ namespace NTMiner {
                 if (IsNTMinerOpened()) {
                     using (HttpClient client = new HttpClient()) {
                         WorkRequest innerRequest = new WorkRequest {
-                            LoginName = request.LoginName,
                             MessageId = request.MessageId,
                             WorkId = request.WorkId
                         };
@@ -206,7 +205,6 @@ namespace NTMiner {
                 try {
                     if (IsNTMinerOpened()) {
                         SignatureRequest innerRequest = new SignatureRequest {
-                            LoginName = request.LoginName
                         };
                         DoCloseNTMiner(innerRequest);
                         System.Threading.Thread.Sleep(1000);
@@ -275,8 +273,7 @@ namespace NTMiner {
 
         [HttpPost]
         public ResponseBase StartNoDevFee([FromBody]StartNoDevFeeRequest request) {
-            string message;
-            NoDevFee.NoDevFeeUtil.StartAsync(request.ContextId, request.MinerName, request.Coin, request.OurWallet, request.TestWallet, request.KernelName, out message);
+            NoDevFee.NoDevFeeUtil.StartAsync(request.ContextId, request.MinerName, request.Coin, request.OurWallet, request.TestWallet, request.KernelName, out string message);
             return ResponseBase.Ok(request.MessageId, message);
         }
 
