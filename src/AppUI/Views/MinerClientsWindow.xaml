@@ -2048,39 +2048,39 @@
 				</StackPanel>
 			</Border>
 		</Popup>
-		<WrapPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Background="#007ACC">
+		<WrapPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource StateBarBackground}">
 			<WrapPanel Margin="4 0 0 0">
-				<TextBlock VerticalAlignment="Center" Foreground="White">卡温达到</TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="{StaticResource StateBarForeground}">卡温达到</TextBlock>
 				<Slider 
 					Minimum="0" 
 					Maximum="100" 
 					Width="100"
 					IsSnapToTickEnabled="True"
 					Value="{Binding MaxTemp}"></Slider>
-				<TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}" Foreground="White" Width="20"></TextBlock>
-				<TextBlock VerticalAlignment="Center" Foreground="White">℃红色，</TextBlock>
+				<TextBlock VerticalAlignment="Center" Text="{Binding MaxTemp}" Foreground="{StaticResource StateBarForeground}" Width="20"></TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="{StaticResource StateBarForeground}">℃红色，</TextBlock>
 			</WrapPanel>
 			<WrapPanel Margin="20 0 0 0">
-				<TextBlock VerticalAlignment="Center" Foreground="White">卡温低于</TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="{StaticResource StateBarForeground}">卡温低于</TextBlock>
 				<Slider 
 					Minimum="0" 
 					Maximum="100" 
 					Width="100"
 					IsSnapToTickEnabled="True"
 					Value="{Binding MinTemp}"></Slider>
-				<TextBlock VerticalAlignment="Center" Text="{Binding MinTemp}" Foreground="White" Width="20"></TextBlock>
-				<TextBlock VerticalAlignment="Center" Foreground="White">℃蓝色，</TextBlock>
+				<TextBlock VerticalAlignment="Center" Text="{Binding MinTemp}" Foreground="{StaticResource StateBarForeground}" Width="20"></TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="{StaticResource StateBarForeground}">℃蓝色，</TextBlock>
 			</WrapPanel>
 			<WrapPanel Margin="20 0 0 0">
-				<TextBlock VerticalAlignment="Center" Foreground="White">拒绝率达到</TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="{StaticResource StateBarForeground}">拒绝率达到</TextBlock>
 				<Slider 
 					Minimum="0" 
 					Maximum="20" 
 					Width="100"
 					IsSnapToTickEnabled="True"
 					Value="{Binding RejectPercent}"></Slider>
-				<TextBlock VerticalAlignment="Center" Text="{Binding RejectPercent}" Foreground="White" Width="20"></TextBlock>
-				<TextBlock VerticalAlignment="Center" Foreground="White">%红色</TextBlock>
+				<TextBlock VerticalAlignment="Center" Text="{Binding RejectPercent}" Foreground="{StaticResource StateBarForeground}" Width="20"></TextBlock>
+				<TextBlock VerticalAlignment="Center" Foreground="{StaticResource StateBarForeground}">%红色</TextBlock>
 			</WrapPanel>
 		</WrapPanel>
 	</Grid>
