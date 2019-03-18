@@ -131,7 +131,7 @@ namespace NTMiner.Vms {
                     else {
                         url = url.Replace("{wallet}", wallet.Address);
                     }
-                    url = url.Replace("{worker}", NTMinerRoot.GetMinerName());
+                    url = url.Replace("{worker}", NTMinerRoot.Current.MinerProfile.MinerName);
                     Process.Start(url);
                 }
             });

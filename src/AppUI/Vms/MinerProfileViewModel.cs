@@ -31,17 +31,11 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(message.PropertyName);
                 });
 
-            VirtualRoot.On<MinerNameSetedEvent>(
-                "矿机名设置后刷新VM内存和命令总成",
-                LogEnum.Console,
-                action: message => {
-                    OnPropertyChanged(nameof(MinerName));
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
-                });
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
                 MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
                 this.CoinVm.CoinKernel?.OnPropertyChanged(nameof(CoinKernelViewModel.CoinKernelProfile));
                 OnPropertyChanged(nameof(CoinVm));
+                OnPropertyChanged(nameof(MinerName));
                 OnPropertyChanged(nameof(IsFreeClient));
                 OnPropertyChanged(nameof(MineWork));
                 OnPropertyChanged(nameof(IsWorker));
@@ -79,10 +73,12 @@ namespace NTMiner.Vms {
         }
 
         public string MinerName {
-            get => NTMinerRoot.GetMinerName();
+            get => NTMinerRoot.Current.MinerProfile.MinerName;
             set {
-                if (NTMinerRoot.GetMinerName() != value) {
-                    VirtualRoot.Execute(new SetMinerNameCommand(value));
+                if (NTMinerRoot.Current.MinerProfile.MinerName != value) {
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(MinerName), value);
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                    OnPropertyChanged(nameof(MinerName));
                 }
             }
         }
@@ -254,8 +250,7 @@ namespace NTMiner.Vms {
 
         public CoinViewModel CoinVm {
             get {
-                CoinViewModel coinVm;
-                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     coinVm = CoinViewModels.Current.AllCoins.FirstOrDefault();
                     if (coinVm != null) {
                         CoinId = coinVm.Id;

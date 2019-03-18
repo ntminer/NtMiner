@@ -227,6 +227,13 @@ namespace NTMiner.Data.Impl {
             return clientData;
         }
 
+        public ClientData GetByObjectId(string objectId) {
+            InitOnece();
+            ClientData clientData = null;
+            _dicByObjectId.TryGetValue(objectId, out clientData);
+            return clientData;
+        }
+
         public void UpdateClient(string objectId, string propertyName, object value) {
             InitOnece();
             ClientData clientData;

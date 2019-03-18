@@ -62,27 +62,6 @@ namespace NTMiner {
                 });
             }
 
-            public void SetMinerNameAsync(string clientIp, MinerClient.SetMinerNameRequest request, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        var response = SetMinerName(clientIp, request);
-                        callback?.Invoke(response, null);
-                    }
-                    catch (Exception e) {
-                        e = e.GetInnerException();
-                        callback?.Invoke(null, e);
-                    }
-                });
-            }
-
-            public ResponseBase SetMinerName(string clientIp, MinerClient.SetMinerNameRequest request) {
-                using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SetMinerName)}", request);
-                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                    return response;
-                }
-            }
-
             public void RefreshUserSetAsync(Action<Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {

@@ -5,7 +5,6 @@ namespace NTMiner.Controllers {
         string GetDaemonVersion();
         void CloseDaemon();
         void RefreshNotifyIcon();
-        ResponseBase SetMinerName(MinerClient.SetMinerNameRequest request);
         void RefreshUserSet();
         ResponseBase RestartWindows(SignatureRequest request);
         ResponseBase ShutdownWindows(SignatureRequest request);

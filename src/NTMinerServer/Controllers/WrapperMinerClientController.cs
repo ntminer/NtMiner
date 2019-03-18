@@ -2,7 +2,6 @@
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
-using System.IO;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -86,10 +85,14 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
+                IClientData clientData = HostRoot.Current.ClientSet.GetByObjectId(request.ObjectId);
+                if (clientData == null) {
+                    return ResponseBase.ClientError(request.MessageId, "给定标识的矿机不存在");
+                }
                 string localJson = string.Empty, serverJson = string.Empty;
                 Guid workId = request.InnerRequest.WorkId;
                 if (workId != Guid.Empty) {
-                    localJson = SpecialPath.ReadMineWorkLocalJsonFile(workId);
+                    localJson = SpecialPath.ReadMineWorkLocalJsonFile(workId).Replace("{{MinerName}}", clientData.MinerName);
                     serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest {
@@ -120,10 +123,14 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
+                IClientData clientData = HostRoot.Current.ClientSet.GetByObjectId(request.ObjectId);
+                if (clientData == null) {
+                    return ResponseBase.ClientError(request.MessageId, "给定标识的矿机不存在");
+                }
                 string localJson = string.Empty, serverJson = string.Empty;
                 Guid workId = request.InnerRequest.WorkId;
                 if (workId != Guid.Empty) {
-                    localJson = SpecialPath.ReadMineWorkLocalJsonFile(workId);
+                    localJson = SpecialPath.ReadMineWorkLocalJsonFile(workId).Replace("{{MinerName}}", clientData.MinerName);
                     serverJson = SpecialPath.ReadMineWorkServerJsonFile(workId);
                 }
                 WorkRequest innerRequest = new WorkRequest {

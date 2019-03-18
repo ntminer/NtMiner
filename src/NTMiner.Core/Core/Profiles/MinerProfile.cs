@@ -189,6 +189,21 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public string MinerName {
+            get {
+                if (string.IsNullOrEmpty(_data.MinerName)) {
+                    _data.MinerName = NTMinerRoot.GetThisPcName();
+                }
+                return _data.MinerName;
+            }
+            set {
+                if (string.IsNullOrEmpty(value)) {
+                    value = NTMinerRoot.GetThisPcName();
+                }
+                _data.MinerName = value;
+            }
+        }
+
         public bool IsAutoBoot {
             get => _data.IsAutoBoot;
             private set {

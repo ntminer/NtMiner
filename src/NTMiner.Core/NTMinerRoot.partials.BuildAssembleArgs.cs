@@ -8,28 +8,23 @@ using System.Linq;
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         public string BuildAssembleArgs() {
-            ICoin mainCoin;
-            if (!CoinSet.TryGetCoin(this.MinerProfile.CoinId, out mainCoin)) {
+            if (!CoinSet.TryGetCoin(this.MinerProfile.CoinId, out ICoin mainCoin)) {
                 return string.Empty;
             }
             ICoinProfile coinProfile = this.MinerProfile.GetCoinProfile(mainCoin.GetId());
-            IPool mainCoinPool;
-            if (!PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
+            if (!PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
                 return string.Empty;
             }
-            ICoinKernel coinKernel;
-            if (!CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
+            if (!CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
                 return string.Empty;
             }
-            IKernel kernel;
-            if (!KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
+            if (!KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
                 return string.Empty;
             }
             if (!kernel.IsSupported()) {
                 return string.Empty;
             }
-            IKernelInput kernelInput;
-            if (!KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+            if (!KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
                 return string.Empty;
             }
             ICoinKernelProfile coinKernelProfile = this.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
@@ -55,7 +50,7 @@ namespace NTMiner {
                 {"host", mainCoinPool.GetHost() },
                 {"port", mainCoinPool.GetPort().ToString() },
                 {"pool", pool },
-                {"worker", GetMinerName() }
+                {"worker", this.MinerProfile.MinerName }
             };// 这里不要考虑{logfile}，{logfile}往后推迟
             if (coinKernelProfile.IsDualCoinEnabled) {
                 Guid dualCoinGroupId = coinKernel.DualCoinGroupId;
@@ -63,11 +58,9 @@ namespace NTMiner {
                     dualCoinGroupId = kernelInput.DualCoinGroupId;
                 }
                 if (dualCoinGroupId != Guid.Empty) {
-                    ICoin dualCoin;
-                    if (this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
+                    if (this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
                         ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
-                        IPool dualCoinPool;
-                        if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
+                        if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
                             string dualWallet = dualCoinProfile.DualCoinWallet;
                             string dualPool = dualCoinPool.Server;
                             IPoolProfile dualPoolProfile = MinerProfile.GetPoolProfile(dualCoinPool.GetId());

@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerClient;
 using System;
-using LiteDB;
 
 namespace NTMiner.MinerServer {
     public interface IClientData : IEntity<string> {
@@ -20,6 +19,8 @@ namespace NTMiner.MinerServer {
         DateTime? MineStartedOn { get; }
 
         string MinerName { get; }
+
+        string ClientName { get; }
 
         Guid GroupId { get; }
 
@@ -64,6 +65,8 @@ namespace NTMiner.MinerServer {
 
         // ReSharper disable once InconsistentNaming
         int OSVirtualMemoryMb { get; }
+
+        string DiskSpace { get; }
 
         GpuType GpuType { get; }
 

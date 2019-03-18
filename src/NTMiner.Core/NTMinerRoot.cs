@@ -179,15 +179,6 @@ namespace NTMiner {
 
             Report.Init(this);
 
-            #region 处理设置矿机名命令
-            VirtualRoot.Accept<SetMinerNameCommand>(
-                "处理设置矿机名命令",
-                LogEnum.Console,
-                action: message => {
-                    SetMinerName(message.MinerName);
-                    VirtualRoot.Happened(new MinerNameSetedEvent());
-                });
-            #endregion
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
@@ -554,7 +545,7 @@ namespace NTMiner {
                         Logger.WarnDebugLine("UserKernelCommandLine  :" + UserKernelCommandLine);
                         Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
                     }
-                    IMineContext mineContext = new MineContext(GetMinerName(), mainCoin, mainCoinPool, kernel, coinKernel, coinProfile.Wallet, commandLine);
+                    IMineContext mineContext = new MineContext(this.MinerProfile.MinerName, mainCoin, mainCoinPool, kernel, coinKernel, coinProfile.Wallet, commandLine);
                     if (coinKernelProfile.IsDualCoinEnabled) {
                         mineContext = new DualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
                     }

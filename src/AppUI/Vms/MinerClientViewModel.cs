@@ -387,6 +387,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string ClientName {
+            get { return _data.ClientName; }
+            set {
+                _data.ClientName = value;
+                OnPropertyChanged(nameof(ClientName));
+            }
+        }
+
         public string MinerName {
             get => _data.MinerName;
             set {
@@ -394,26 +402,7 @@ namespace NTMiner.Vms {
                     var old = _data.MinerName;
                     _data.MinerName = value;
                     Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
-                        if (response.IsSuccess()) {
-                            var request = new SetMinerNameRequest {
-                                LoginName = SingleUser.LoginName,
-                                MinerName = value
-                            };
-                            request.SignIt(SingleUser.GetRemotePassword(this.ClientId));
-                            Client.NTMinerDaemonService.SetMinerNameAsync(this.MinerIp, request, (response2, exception) => {
-                                if (!response2.IsSuccess()) {
-                                    _data.MinerName = old;
-                                    if (response2 != null) {
-                                        Write.UserLine($"{this.MinerIp} {response2.Description}", ConsoleColor.Red);
-                                    }
-                                    else {
-                                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"{this.MinerIp}更改矿机名失败，已撤销");
-                                    }
-                                }
-                                OnPropertyChanged(nameof(MinerName));
-                            });
-                        }
-                        else {
+                        if (!response.IsSuccess()) {
                             _data.MinerName = old;
                             if (response != null) {
                                 Write.UserLine($"{this.MinerIp} {response.Description}", ConsoleColor.Red);
@@ -884,6 +873,14 @@ namespace NTMiner.Vms {
         public string OSVirtualMemoryGbText {
             get {
                 return (this.OSVirtualMemoryMb / 1024.0).ToString("f1") + " Gb";
+            }
+        }
+
+        public string DiskSpace {
+            get { return _data.DiskSpace; }
+            set {
+                _data.DiskSpace = value;
+                OnPropertyChanged(nameof(DiskSpace));
             }
         }
 

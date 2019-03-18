@@ -6,7 +6,6 @@ namespace NTMiner.Controllers {
         ResponseBase CloseNTMiner(SignatureRequest request);
         ResponseBase StartMine(WorkRequest request);
         ResponseBase StopMine(SignatureRequest request);
-        ResponseBase SetMinerName(SetMinerNameRequest request);
         ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request);
         SpeedData GetSpeed();
     }

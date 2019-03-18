@@ -6,6 +6,7 @@ namespace NTMiner.Profile {
         public static MinerProfileData CreateDefaultData(Guid coinId) {
             return new MinerProfileData {
                 Id = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0"),
+                MinerName = string.Empty,
                 CoinId = coinId,
                 IsAutoBoot = false,
                 IsAutoStart = false,
@@ -23,6 +24,7 @@ namespace NTMiner.Profile {
 
         public MinerProfileData(IMinerProfile data) {
             this.Id = data.CoinId;
+            this.MinerName = data.MinerName;
             this.CoinId = data.CoinId;
             this.IsAutoBoot = data.IsAutoBoot;
             this.IsAutoStart = data.IsAutoStart;
@@ -39,6 +41,7 @@ namespace NTMiner.Profile {
             return this.Id;
         }
         public Guid Id { get; set; }
+        public string MinerName { get; set; }
         public bool IsAutoBoot { get; set; }
         public bool IsAutoStart { get; set; }
         public bool IsAutoRestartKernel { get; set; }
@@ -51,7 +54,7 @@ namespace NTMiner.Profile {
         public int PeriodicRestartComputerHours { get; set; }
 
         public override string ToString() {
-            return $"{Id}{IsAutoBoot}{IsAutoStart}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}";
+            return $"{Id}{MinerName}{IsAutoBoot}{IsAutoStart}{IsAutoRestartKernel}{CoinId}{IsNoShareRestartKernel}{NoShareRestartKernelMinutes}{IsPeriodicRestartKernel}{PeriodicRestartKernelHours}{IsPeriodicRestartComputer}{PeriodicRestartComputerHours}";
         }
 
         public StringBuilder GetSignData() {

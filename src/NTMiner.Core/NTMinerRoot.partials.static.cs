@@ -77,28 +77,6 @@ namespace NTMiner {
             return value;
         }
 
-        #region MinerName
-        public static string GetMinerName() {
-            object locationValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
-            string result = string.Empty;
-            if (locationValue != null) {
-                result =(string)locationValue;
-            }
-            if (string.IsNullOrEmpty(result)) {
-                result = GetThisPcName();
-            }
-            return result;
-        }
-
-        private static void SetMinerName(string minerName) {
-            if (!string.IsNullOrEmpty(minerName)) {
-                minerName = new string(minerName.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
-            }
-            Windows.Registry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", minerName ?? string.Empty);
-            NTMinerRoot.RefreshArgsAssembly.Invoke();
-        }
-        #endregion
-
         #region HotKey
         public static string GetHotKey() {
             object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "HotKey");

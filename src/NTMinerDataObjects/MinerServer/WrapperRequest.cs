@@ -7,6 +7,8 @@ namespace NTMiner.MinerServer {
 
         public string LoginName { get; set; }
 
+        public string ObjectId { get; set; }
+
         public Guid ClientId { get; set; }
 
         public string ClientIp { get; set; }
@@ -28,6 +30,7 @@ namespace NTMiner.MinerServer {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
+                .Append(nameof(ObjectId)).Append(ObjectId)
                 .Append(nameof(ClientId)).Append(ClientId)
                 .Append(nameof(ClientIp)).Append(ClientIp)
                 .Append(nameof(InnerRequest)).Append(nameof(Sign)).Append(InnerRequest.GetSignData())

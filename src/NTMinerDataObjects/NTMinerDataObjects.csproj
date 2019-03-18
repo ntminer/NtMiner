@@ -89,7 +89,6 @@
     <Compile Include="Controllers\IReportController.cs" />
     <Compile Include="IShowMainWindow.cs" />
     <Compile Include="Controllers\IWrapperMinerClientController.cs" />
-    <Compile Include="MinerClient\SetMinerNameRequest.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="DataRequest`1.cs" />
     <Compile Include="MinerNameConst.cs" />

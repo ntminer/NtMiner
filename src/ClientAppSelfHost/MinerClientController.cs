@@ -65,21 +65,6 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase SetMinerName([FromBody]SetMinerNameRequest request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
-            }
-            try {
-                VirtualRoot.Execute(new SetMinerNameCommand(request.MinerName));
-                return ResponseBase.Ok(request.MessageId);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
-            }
-        }
-
-        [HttpPost]
         public ResponseBase SetMinerProfileProperty([FromBody]SetMinerProfilePropertyRequest request) {
             if (request == null || string.IsNullOrEmpty(request.PropertyName)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");

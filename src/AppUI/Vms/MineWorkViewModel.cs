@@ -131,6 +131,7 @@ namespace NTMiner.Vms {
                 LocalJson localJsonObj = LocalJson.NewInstance();
                 var minerProfile = NTMinerRoot.Current.MinerProfile;
                 localJsonObj.MinerProfile = new MinerProfileData(minerProfile);
+                localJsonObj.MinerProfile.MinerName = "{{MinerName}}";
                 localJsonObj.MineWork = new MineWorkData(this);
                 CoinProfileData mainCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(localJsonObj.MinerProfile.CoinId));
                 List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };

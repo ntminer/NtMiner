@@ -3,6 +3,7 @@
 namespace NTMiner.Profile {
     public interface IMinerProfile : IEntity<Guid> {
         Guid CoinId { get; }
+        string MinerName { get; }
         bool IsAutoBoot { get; }
         bool IsAutoStart { get; }
 

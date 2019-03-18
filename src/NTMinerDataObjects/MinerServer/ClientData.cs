@@ -35,7 +35,6 @@ namespace NTMiner.MinerServer {
                 BootOn = speedData.BootOn,
                 MineStartedOn = speedData.MineStartedOn,
                 MinerIp = minerIp,
-                MinerName = speedData.MinerName,
                 CreatedOn = DateTime.Now,
                 ModifiedOn = DateTime.Now,
                 MainCoinCode = speedData.MainCoinCode,
@@ -57,7 +56,9 @@ namespace NTMiner.MinerServer {
                 GroupId = Guid.Empty,
                 WorkId = Guid.Empty,
                 WindowsLoginName = string.Empty,
-                WindowsPassword = string.Empty
+                WindowsPassword = string.Empty,
+                ClientName = speedData.MinerName,
+                DiskSpace = speedData.DiskSpace
             };
         }
 
@@ -91,7 +92,8 @@ namespace NTMiner.MinerServer {
             this.IsMining = speedData.IsMining;
             this.BootOn = speedData.BootOn;
             this.MineStartedOn = speedData.MineStartedOn;
-            this.MinerName = speedData.MinerName;
+            this.ClientName = speedData.MinerName;
+            this.DiskSpace = speedData.DiskSpace;
             this.ModifiedOn = DateTime.Now;
             this.MainCoinCode = speedData.MainCoinCode;
             this.MainCoinTotalShare = speedData.MainCoinTotalShare;
@@ -236,6 +238,7 @@ namespace NTMiner.MinerServer {
         public int PeriodicRestartComputerHours { get; set; }
         public string OSName { get; set; }
         public int OSVirtualMemoryMb { get; set; }
+        public string DiskSpace { get; set; }
         public GpuType GpuType { get; set; }
         public string GpuDriver { get; set; }
         public string GpuInfo { get; set; }
@@ -247,6 +250,8 @@ namespace NTMiner.MinerServer {
         public bool IsMining { get; set; }
 
         public string MinerName { get; set; }
+
+        public string ClientName { get; set; }
 
         public string MinerIp { get; set; }
 
