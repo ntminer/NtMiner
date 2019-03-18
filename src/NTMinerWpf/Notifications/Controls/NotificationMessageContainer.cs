@@ -7,16 +7,14 @@ namespace NTMiner.Notifications.Controls {
     /// The notification message container.
     /// </summary>
     /// <seealso cref="ItemsControl" />
-    public class NotificationMessageContainer : ItemsControl
-    {
+    public class NotificationMessageContainer : ItemsControl {
         /// <summary>
         /// Gets or sets the manager.
         /// </summary>
         /// <value>
         /// The manager.
         /// </value>
-        public INotificationMessageManager Manager
-        {
+        public INotificationMessageManager Manager {
             get => (INotificationMessageManager)this.GetValue(ManagerProperty);
             set => this.SetValue(ManagerProperty, value);
         }
@@ -33,14 +31,13 @@ namespace NTMiner.Notifications.Controls {
         /// <param name="dependencyObject">The dependency object.</param>
         /// <param name="dependencyPropertyChangedEventArgs">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         /// <exception cref="NullReferenceException">Dependency object is not of valid type - expected NotificationMessageContainer.</exception>
-        private static void ManagerPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
+        private static void ManagerPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
             if (!(dependencyObject is NotificationMessageContainer @this))
                 throw new NullReferenceException("Dependency object is not of valid type " + nameof(NotificationMessageContainer));
-            
+
             if (dependencyPropertyChangedEventArgs.OldValue is INotificationMessageManager oldManager)
                 @this.DetachManagerEvents(oldManager);
-            
+
             if (dependencyPropertyChangedEventArgs.NewValue is INotificationMessageManager newManager)
                 @this.AttachManagerEvents(newManager);
         }
@@ -49,8 +46,7 @@ namespace NTMiner.Notifications.Controls {
         /// Attaches the manager events.
         /// </summary>
         /// <param name="newManager">The new manager.</param>
-        private void AttachManagerEvents(INotificationMessageManager newManager)
-        {
+        private void AttachManagerEvents(INotificationMessageManager newManager) {
             newManager.OnMessageQueued += ManagerOnOnMessageQueued;
             newManager.OnMessageDismissed += ManagerOnOnMessageDismissed;
         }
@@ -59,8 +55,7 @@ namespace NTMiner.Notifications.Controls {
         /// Detaches the manager events.
         /// </summary>
         /// <param name="oldManager">The old manager.</param>
-        private void DetachManagerEvents(INotificationMessageManager oldManager)
-        {
+        private void DetachManagerEvents(INotificationMessageManager oldManager) {
             oldManager.OnMessageQueued -= ManagerOnOnMessageQueued;
             oldManager.OnMessageDismissed -= ManagerOnOnMessageDismissed;
         }
@@ -71,36 +66,30 @@ namespace NTMiner.Notifications.Controls {
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="NotificationMessageManagerEventArgs"/> instance containing the event data.</param>
         /// <exception cref="InvalidOperationException">Can't use both ItemsSource and Items collection at the same time.</exception>
-        private void ManagerOnOnMessageDismissed(object sender, NotificationMessageManagerEventArgs args)
-        {
+        private void ManagerOnOnMessageDismissed(object sender, NotificationMessageManagerEventArgs args) {
             if (this.ItemsSource != null)
                 throw new InvalidOperationException(
                     "Can't use both ItemsSource and Items collection at the same time.");
 
-            if (args.Message is INotificationAnimation animatableMessage)
-            {
+            if (args.Message is INotificationAnimation animatableMessage) {
                 var animation = animatableMessage.AnimationOut;
-                if (animation != null && 
-                    animatableMessage.Animates && 
-                    animatableMessage.AnimatableElement != null && 
-                    animatableMessage.AnimationOutDependencyProperty != null)
-                {
+                if (animation != null &&
+                    animatableMessage.Animates &&
+                    animatableMessage.AnimatableElement != null &&
+                    animatableMessage.AnimationOutDependencyProperty != null) {
                     animation.Completed += (s, a) => this.RemoveMessage(args.Message);
                     animatableMessage.AnimatableElement.BeginAnimation(animatableMessage.AnimationOutDependencyProperty, animation);
                 }
-                else
-                {
+                else {
                     this.RemoveMessage(args.Message);
                 }
             }
-            else
-            {
+            else {
                 this.RemoveMessage(args.Message);
             }
         }
 
-        private void RemoveMessage(INotificationMessage message)
-        {
+        private void RemoveMessage(INotificationMessage message) {
             this.Items.Remove(message);
         }
 
@@ -110,20 +99,17 @@ namespace NTMiner.Notifications.Controls {
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="NotificationMessageManagerEventArgs"/> instance containing the event data.</param>
         /// <exception cref="InvalidOperationException">Can't use both ItemsSource and Items collection at the same time.</exception>
-        private void ManagerOnOnMessageQueued(object sender, NotificationMessageManagerEventArgs args)
-        {
+        private void ManagerOnOnMessageQueued(object sender, NotificationMessageManagerEventArgs args) {
             if (this.ItemsSource != null)
                 throw new InvalidOperationException(
                     "Can't use both ItemsSource and Items collection at the same time.");
 
             this.Items.Add(args.Message);
 
-            if (args.Message is INotificationAnimation animatableMessage)
-            {
+            if (args.Message is INotificationAnimation animatableMessage) {
                 var animation = animatableMessage.AnimationIn;
                 if (animatableMessage.Animates && animatableMessage.AnimatableElement != null
-                    && animation != null && animatableMessage.AnimationInDependencyProperty != null)
-                {
+                    && animation != null && animatableMessage.AnimationInDependencyProperty != null) {
                     animatableMessage.AnimatableElement.BeginAnimation(animatableMessage.AnimationInDependencyProperty, animation);
                 }
             }
@@ -132,8 +118,7 @@ namespace NTMiner.Notifications.Controls {
         /// <summary>
         /// Initializes the <see cref="NotificationMessageContainer"/> class.
         /// </summary>
-        static NotificationMessageContainer()
-        {
+        static NotificationMessageContainer() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NotificationMessageContainer), new FrameworkPropertyMetadata(typeof(NotificationMessageContainer)));
         }
     }

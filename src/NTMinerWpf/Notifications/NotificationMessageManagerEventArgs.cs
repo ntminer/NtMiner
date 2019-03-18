@@ -5,8 +5,7 @@ namespace NTMiner.Notifications {
     /// The notification message manager event arguments.
     /// </summary>
     /// <seealso cref="EventArgs" />
-    public class NotificationMessageManagerEventArgs : EventArgs
-    {
+    public class NotificationMessageManagerEventArgs : EventArgs {
         /// <summary>
         /// Gets or sets the message.
         /// </summary>
@@ -20,8 +19,7 @@ namespace NTMiner.Notifications {
         /// Initializes a new instance of the <see cref="NotificationMessageManagerEventArgs"/> class.
         /// </summary>
         /// <param name="message">The message.</param>
-        public NotificationMessageManagerEventArgs(INotificationMessage message)
-        {
+        public NotificationMessageManagerEventArgs(INotificationMessage message) {
             this.Message = message;
         }
     }

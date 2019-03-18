@@ -37,9 +37,7 @@ namespace NTMiner.Vms {
 
         public static void ShowErrorMessage(this INotificationMessageManager manager, string message, int? delaySeconds = null) {
             UIThread.Execute(() => {
-                var builder = NotificationMessageBuilder.CreateMessage();
-                builder.Manager = manager;
-                builder.Message = manager.Factory.GetMessage();
+                var builder = NotificationMessageBuilder.CreateMessage(manager);
                 builder.Error(message ?? string.Empty);
                 if (delaySeconds.HasValue && delaySeconds.Value != 0) {
                     builder
@@ -57,9 +55,7 @@ namespace NTMiner.Vms {
 
         public static void ShowInfo(this INotificationMessageManager manager, string message) {
             UIThread.Execute(() => {
-                var builder = NotificationMessageBuilder.CreateMessage();
-                builder.Manager = manager;
-                builder.Message = manager.Factory.GetMessage();
+                var builder = NotificationMessageBuilder.CreateMessage(manager);
                 builder.Warning(message ?? string.Empty)
                     .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(4))
@@ -69,9 +65,7 @@ namespace NTMiner.Vms {
 
         public static void ShowSuccessMessage(this INotificationMessageManager manager, string message) {
             UIThread.Execute(() => {
-                var builder = NotificationMessageBuilder.CreateMessage();
-                builder.Manager = manager;
-                builder.Message = manager.Factory.GetMessage();
+                var builder = NotificationMessageBuilder.CreateMessage(manager);
                 builder.Success(message)
                     .Dismiss()
                     .WithDelay(TimeSpan.FromSeconds(4))
