@@ -57,8 +57,8 @@ namespace NTMiner {
                         }
                         if (result.HasValue && result.Value) {
                             ChartsWindow.ShowWindow();
-                            System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/ControlCenterApp;component/logo.ico")).Stream);
-                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "NTMiner群控客户端", isControlCenterApp: true);
+                            System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/MinerStudio;component/logo.ico")).Stream);
+                            AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "NTMiner群控客户端", isMinerStudio: true);
                             #region 处理显示主界面命令
                             VirtualRoot.Accept<ShowMainWindowCommand>(
                                 "处理显示主界面命令",
@@ -69,7 +69,7 @@ namespace NTMiner {
                                     });
                                 });
                             #endregion
-                            HttpServer.Start($"http://localhost:{WebApiConst.ControlCenterAppPort}");
+                            HttpServer.Start($"http://localhost:{WebApiConst.MinerStudioPort}");
                             AppHelper.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                         }
                     });
@@ -77,7 +77,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    AppHelper.ShowMainWindow(this, WebApiConst.ControlCenterAppPort);
+                    AppHelper.ShowMainWindow(this, WebApiConst.MinerStudioPort);
                 }
                 catch (Exception) {
                     DialogWindow.ShowDialog(message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。", title: "alert", icon: "Icon_Error");

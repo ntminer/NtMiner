@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerWpf", "src\NTMinerWp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp", "src\ClientApp\ClientApp.csproj", "{128B59A2-FA1A-479C-9136-7EB866B96FB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlCenterApp", "src\ControlCenterApp\ControlCenterApp.csproj", "{6ED1F43A-B43F-4BE4-80DD-49297CF3DC4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinerStudio", "src\ControlCenterApp\MinerStudio.csproj", "{6ED1F43A-B43F-4BE4-80DD-49297CF3DC4F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppUI", "src\AppUI\AppUI.csproj", "{B3667589-D9B1-489E-AB4F-D1EC06A40A9D}"
 EndProject
@@ -44,7 +44,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerRpcClient", "src\NTM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientAppSelfHost", "src\ClientAppSelfHost\ClientAppSelfHost.csproj", "{134D71FC-0B67-4A5A-AC05-67509DE3B86B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlCenterAppSelfHost", "src\ControlCenterAppSelfHost\ControlCenterAppSelfHost.csproj", "{526C022A-3C86-4998-A8F1-F5860F183C7C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinerStudioSelfHost", "src\ControlCenterAppSelfHost\MinerStudioSelfHost.csproj", "{526C022A-3C86-4998-A8F1-F5860F183C7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

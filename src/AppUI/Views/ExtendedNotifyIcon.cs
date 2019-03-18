@@ -6,17 +6,17 @@ using NTMiner.Vms;
 
 namespace NTMiner.Views {
     public class ExtendedNotifyIcon : IDisposable {
-        public static ExtendedNotifyIcon Create(Icon icon, string text, bool isControlCenterApp) {
-            return new ExtendedNotifyIcon(icon, text, isControlCenterApp);
+        public static ExtendedNotifyIcon Create(Icon icon, string text, bool isMinerStudio) {
+            return new ExtendedNotifyIcon(icon, text, isMinerStudio);
         }
 
         private readonly NotifyIcon _targetNotifyIcon;
-        private readonly bool _isControlCenterApp;
-        private ExtendedNotifyIcon(Icon icon, string text, bool isControlCenterApp) {
-            _isControlCenterApp = isControlCenterApp;
+        private readonly bool _isMinerStudio;
+        private ExtendedNotifyIcon(Icon icon, string text, bool isMinerStudio) {
+            _isMinerStudio = isMinerStudio;
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = isControlCenterApp || NTMinerRegistry.GetIsShowNotifyIcon(),
+                Visible = isMinerStudio || NTMinerRegistry.GetIsShowNotifyIcon(),
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
@@ -31,7 +31,7 @@ namespace NTMiner.Views {
         }
 
         public void RefreshIcon() {
-            _targetNotifyIcon.Visible = _isControlCenterApp || NTMinerRegistry.GetIsShowNotifyIcon();
+            _targetNotifyIcon.Visible = _isMinerStudio || NTMinerRegistry.GetIsShowNotifyIcon();
         }
 
         public void ToggleWindow() {

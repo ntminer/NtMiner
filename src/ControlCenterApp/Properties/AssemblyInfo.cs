@@ -6,7 +6,7 @@ using System.Windows;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("ControlCenterApp")]
+[assembly: AssemblyTitle("MinerStudio")]
 // 程序集的版本信息由下面四个值组成:
 //
 //      主版本
@@ -18,12 +18,12 @@ using System.Windows;
 // 方法是按如下所示使用“*”:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion(AssemblyInfo.Version + ".*")]
-[assembly: AssemblyDescription(AssemblyInfo.Tag)]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyFileVersion(AssemblyInfo.Version)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ControlCenterApp")]
-[assembly: AssemblyCopyright(AssemblyInfo.Copyright)]
+[assembly: AssemblyProduct("MinerStudio")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 //下载于mycodes.net
