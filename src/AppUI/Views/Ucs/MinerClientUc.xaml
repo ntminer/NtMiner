@@ -175,7 +175,7 @@
 						SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
 				</WrapPanel>
 				<WrapPanel VerticalAlignment="Center">
-					<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">IP</TextBlock>
+					<TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">IP</TextBlock>
 					<controls:KbButton
 						BorderThickness="0"
 						Background="Transparent"
@@ -189,7 +189,7 @@
 							Stretch="Fill" />
 					</controls:KbButton>
 					<TextBox 
-						Width="122"
+						Width="102"
 						Padding="0"
 						ToolTip="双击打开远程桌面"
 						PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
