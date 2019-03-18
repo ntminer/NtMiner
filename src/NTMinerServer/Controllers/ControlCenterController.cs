@@ -423,8 +423,12 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
+                IMinerGroup minerGroup = HostRoot.Current.MinerGroupSet.GetMinerGroup(request.Data);
+                if (minerGroup == null) {
+                    return ResponseBase.Ok(request.MessageId);
+                }
                 if (HostRoot.Current.ClientSet.IsAnyClientInGroup(request.Data)) {
-                    return ResponseBase.ClientError(request.MessageId, "该组下有矿机，请先移除矿工再做删除操作");
+                    return ResponseBase.ClientError(request.MessageId, $"组{minerGroup.Name}下有矿机，请先移除矿机再做删除操作");
                 }
                 HostRoot.Current.MinerGroupSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);
@@ -468,8 +472,12 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
                     return response;
                 }
+                IMineWork mineWork = HostRoot.Current.MineWorkSet.GetMineWork(request.Data);
+                if (mineWork == null) {
+                    return ResponseBase.Ok(request.MessageId);
+                }
                 if (HostRoot.Current.ClientSet.IsAnyClientInWork(request.Data)) {
-                    return ResponseBase.ClientError(request.MessageId, "该作业下有矿机，请先移除矿工再做删除操作");
+                    return ResponseBase.ClientError(request.MessageId, $"作业{mineWork.Name}下有矿机，请先移除矿机再做删除操作");
                 }
                 HostRoot.Current.MineWorkSet.Remove(request.Data);
                 return ResponseBase.Ok(request.MessageId);

@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
 
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
+        private List<NTMinerFileData> _ntminerFileList;
         private readonly ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
         private MinerClientViewModel _currentMinerClient;
         private MinerClientViewModel[] _selectedMinerClients = new MinerClientViewModel[0];
@@ -107,9 +108,9 @@ namespace NTMiner.Vms {
                     && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect) {
                     this.SelectedMinerClients[0].SelectedMineWork.Edit.Execute(null);
                 }
-            }, () => this.SelectedMinerClients != null 
-                    && this.SelectedMinerClients.Length == 1 
-                    && this.SelectedMinerClients[0].SelectedMineWork != null 
+            }, () => this.SelectedMinerClients != null
+                    && this.SelectedMinerClients.Length == 1
+                    && this.SelectedMinerClients[0].SelectedMineWork != null
                     && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect);
             this.OneKeyWork = new DelegateCommand<MineWorkViewModel>((work) => {
                 foreach (var item in SelectedMinerClients) {
@@ -124,9 +125,11 @@ namespace NTMiner.Vms {
             this.OneKeyOverClock = new DelegateCommand(() => {
 
             }, CanCommand);
-            this.OneKeyUpgrade = new DelegateCommand(() => {
+            this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
 
-            }, CanCommand);
+            }, (ntminerFileData) => {
+                return this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0;
+            });
             this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
             this.RemoveMinerClients = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
@@ -277,6 +280,16 @@ namespace NTMiner.Vms {
 
         private bool CanCommand() {
             return this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0;
+        }
+
+        public List<NTMinerFileData> NTMinerFileList {
+            get {
+                return _ntminerFileList;
+            }
+            set {
+                _ntminerFileList = value;
+                OnPropertyChanged(nameof(NTMinerFileList));
+            }
         }
 
         public int FrozenColumnCount {

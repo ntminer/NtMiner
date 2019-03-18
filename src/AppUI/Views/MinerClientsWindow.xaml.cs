@@ -1,7 +1,9 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Bus;
+using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -95,7 +97,14 @@ namespace NTMiner.Views {
         }
 
         private void PopupButton_Click(object sender, RoutedEventArgs e) {
-            PopMineWork.IsOpen = PopMinerGroup.IsOpen = false;
+            PopMineWork.IsOpen = PopMinerGroup.IsOpen = PopUpgrade.IsOpen = false;
+        }
+
+        private void MenuItemUpgrade_Click(object sender, RoutedEventArgs e) {
+            OfficialServer.FileUrlService.GetNTMinerFilesAsync((ntMinerFiles, ex) => {
+                Vm.NTMinerFileList = ntMinerFiles ?? new List<NTMinerFileData>();
+            });
+            PopUpgrade.IsOpen = !PopUpgrade.IsOpen;
         }
     }
 }
