@@ -2,7 +2,6 @@
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace NTMiner.Data.Impl {
@@ -84,14 +83,8 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<MineWorkData>();
                         col.Delete(id);
                     }
+                    SpecialPath.DeleteMineWorkFiles(id);
                 }
-            }
-            try {
-                string workDbFileFullName = SpecialPath.GetMineWorkDbFileFullName(id);
-                File.Delete(workDbFileFullName);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

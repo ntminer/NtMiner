@@ -21,6 +21,17 @@ namespace NTMiner {
             return Path.Combine(MineWorksDirFullName, workId + ".server");
         }
 
+        public static void DeleteMineWorkFiles(Guid workId) {
+            string[] fileFullNames = new string[] {
+                GetMineWorkDbFileFullName(workId),
+                GetMineWorkLocalJsonFileFullName(workId),
+                GetMineWorkServerJsonFileFullName(workId)
+            };
+            foreach (var fileFullName in fileFullNames) {
+                File.Delete(fileFullName);
+            }
+        }
+
         public static string ReadMineWorkLocalJsonFile(Guid workId) {
             string fileFullName = GetMineWorkLocalJsonFileFullName(workId);
             if (File.Exists(fileFullName)) {
