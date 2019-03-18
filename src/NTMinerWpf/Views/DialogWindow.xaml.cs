@@ -26,8 +26,8 @@ namespace NTMiner.Views {
                         if (left + window.Width > owner.Left + owner.Width) {
                             left = owner.Left + owner.Width - window.Width;
                         }
-                        if (top + window.Height > owner.Top + owner.Height) {
-                            top = owner.Top + owner.Height - window.Height;
+                        if (top + 200 > owner.Top + owner.Height) {
+                            top = owner.Top + owner.Height - 200;
                         }
                         window.Left = left;
                         window.Top = top;
