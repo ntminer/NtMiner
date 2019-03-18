@@ -39,6 +39,8 @@ namespace NTMiner.Vms {
                     NTMinerRoot.RefreshArgsAssembly.Invoke();
                 });
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
+                MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
+                this.CoinVm.CoinKernel?.OnPropertyChanged(nameof(CoinKernelViewModel.CoinKernelProfile));
                 OnPropertyChanged(nameof(CoinVm));
                 OnPropertyChanged(nameof(IsFreeClient));
                 OnPropertyChanged(nameof(MineWork));
@@ -52,7 +54,6 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(PeriodicRestartComputerHours));
                 OnPropertyChanged(nameof(IsAutoStart));
                 OnPropertyChanged(nameof(IsAutoRestartKernel));
-                MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
             };
             NTMinerRoot.RefreshArgsAssembly.Invoke();
         }
