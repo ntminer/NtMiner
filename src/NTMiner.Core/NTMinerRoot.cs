@@ -640,24 +640,29 @@ namespace NTMiner {
         public IGpuSet GpuSet {
             get {
                 if (_gpuSet == null) {
-                    try {
-                        _gpuSet = new NVIDIAGpuSet(this);
-                    }
-                    catch (Exception ex) {
+                    if (VirtualRoot.IsControlCenter) {
                         _gpuSet = EmptyGpuSet.Instance;
-                        Logger.ErrorDebugLine(ex);
                     }
-                    if (_gpuSet == null || _gpuSet.Count == 0) {
+                    else {
                         try {
-                            _gpuSet = new AMDGpuSet(this);
+                            _gpuSet = new NVIDIAGpuSet(this);
                         }
                         catch (Exception ex) {
                             _gpuSet = EmptyGpuSet.Instance;
                             Logger.ErrorDebugLine(ex);
                         }
-                    }
-                    if (_gpuSet == null) {
-                        _gpuSet = EmptyGpuSet.Instance;
+                        if (_gpuSet == null || _gpuSet.Count == 0) {
+                            try {
+                                _gpuSet = new AMDGpuSet(this);
+                            }
+                            catch (Exception ex) {
+                                _gpuSet = EmptyGpuSet.Instance;
+                                Logger.ErrorDebugLine(ex);
+                            }
+                        }
+                        if (_gpuSet == null) {
+                            _gpuSet = EmptyGpuSet.Instance;
+                        }
                     }
                 }
                 return _gpuSet;
