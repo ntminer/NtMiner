@@ -15,7 +15,7 @@
 		ResizeMode="NoResize"  
 		AllowsTransparency="True"
 		Background="Transparent"
-		Width="400"
+		Width="600"
 		Title="通知中心"
 		MouseDown="MetroWindow_MouseDown">
 	<Grid>

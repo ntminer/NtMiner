@@ -36,7 +36,7 @@
 
     <Style x:Key="NotificationMessageTextStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:NotificationMessage}}, Path=Foreground}" />
-        <Setter Property="Margin" Value="0,0,8,2" />
+        <Setter Property="Margin" Value="0,0,8,0" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="FontSize" Value="13"></Setter>
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -105,7 +105,8 @@
                         VerticalAlignment="Top"
                         Background="{TemplateBinding Background}"
                         BorderBrush="#882F2F2F"
-                        BorderThickness="0,0,0,1"
+                        BorderThickness="0"
+                        Margin="0 0 0 1"
                         SnapsToDevicePixels="True"
                         UseLayoutRounding="True">
                         <!--  Outer Grid  -->
@@ -190,7 +191,7 @@
                                     x:Name="badgeGrid"
                                     Grid.Column="0"
                                     HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Stretch">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
@@ -216,7 +217,7 @@
                                     Grid.Column="1"
                                     Margin="10 0"
                                     HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Stretch">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
