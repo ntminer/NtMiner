@@ -13,6 +13,7 @@ namespace NTMiner.Vms {
         private string _columnsShowName;
         private bool _work = true;
         private bool _minerName = true;
+        private bool _clientName = true;
         private bool _minerIp = true;
         private bool _minerGroup = true;
         private bool _mainCoinCode = true;
@@ -95,6 +96,7 @@ namespace NTMiner.Vms {
             _columnsShowName = data.ColumnsShowName;
             _work = data.Work;
             _minerName = data.MinerName;
+            _clientName = data.ClientName;
             _minerIp = data.MinerIp;
             _minerGroup = data.MinerGroup;
             _mainCoinCode = data.MainCoinCode;
@@ -196,6 +198,17 @@ namespace NTMiner.Vms {
                 if (_minerName != value) {
                     _minerName = value;
                     OnPropertyChanged(nameof(MinerName));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool ClientName {
+            get { return _clientName; }
+            set {
+                if (_clientName != value) {
+                    _clientName = value;
+                    OnPropertyChanged(nameof(ClientName));
                     UpdateColumnsShowAsync();
                 }
             }

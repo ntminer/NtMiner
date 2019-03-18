@@ -446,6 +446,10 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Width="50">矿机名</TextBlock>
+					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding ClientName}" Background="White"></TextBox>
+				</WrapPanel>
+				<WrapPanel>
+					<TextBlock Style="{StaticResource LblTb}" Width="50">作业矿机名</TextBlock>
 					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerName}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
@@ -657,6 +661,34 @@
 							</WrapPanel>
 						</DataGridTextColumn.Header>
 					</DataGridTextColumn>
+					<!--ClientName-->
+					<DataGridTextColumn 
+						Visibility="{Binding Data.ColumnsShow.ClientName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+						Binding="{Binding ClientName, UpdateSourceTrigger=LostFocus}" 
+						CanUserResize="True" 
+						CanUserReorder="False" 
+						CanUserSort="False" 
+						IsReadOnly="True">
+						<DataGridTextColumn.Header>
+							<WrapPanel>
+								<TextBlock>矿机名</TextBlock>
+								<controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="ClientName"
+									Background="Transparent">
+									<WrapPanel>
+										<Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+						</DataGridTextColumn.Header>
+					</DataGridTextColumn>
 					<!--MinerName-->
 					<DataGridTextColumn 
 						Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -667,7 +699,7 @@
 						IsReadOnly="False">
 						<DataGridTextColumn.Header>
 							<WrapPanel>
-								<TextBlock>矿机名</TextBlock>
+								<TextBlock>作业矿机名</TextBlock>
 								<controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
@@ -1933,7 +1965,8 @@
 					<CheckBox Visibility="{Binding ColumnsShow.MineTimeSpanText, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MineTimeSpanText}" Margin="0 0 6 0">挖矿时长</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.Work, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.Work}" Margin="0 0 6 0">作业</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MinerGroup, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerGroup}" Margin="0 0 6 0">分组</CheckBox>
-					<CheckBox Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="0 0 6 0">矿机名</CheckBox>
+					<CheckBox Visibility="{Binding ColumnsShow.ClientName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.ClientName}" Margin="0 0 6 0">矿机名</CheckBox>
+					<CheckBox Visibility="{Binding ColumnsShow.MinerName, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerName}" Margin="0 0 6 0">作业矿机名</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MinerIp, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MinerIp}" Margin="0 0 6 0">IP</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.WindowsLoginNameAndPassword, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.WindowsLoginNameAndPassword}" Margin="0 0 6 0">远程桌面用户名密码</CheckBox>
 					<CheckBox Visibility="{Binding ColumnsShow.MainCoinCode, Converter={StaticResource BoolToVisibilityInvertConverter}}" IsChecked="{Binding ColumnsShow.MainCoinCode}" Margin="0 0 6 0">主挖币种</CheckBox>

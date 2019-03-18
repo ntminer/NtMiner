@@ -35,6 +35,7 @@ namespace NTMiner.Data.Impl {
                                 Id = a.Id,
                                 ClientId = a.ClientId,
                                 MinerIp = a.MinerIp,
+                                MinerName = a.MinerName,
                                 WindowsLoginName = a.WindowsLoginName,
                                 WindowsPassword = a.WindowsPassword,
                                 WorkId = a.WorkId
@@ -125,8 +126,7 @@ namespace NTMiner.Data.Impl {
         }
 
         public void Remove(string objectId) {
-            ClientData clientData;
-            if (_dicByObjectId.TryGetValue(objectId, out clientData)) {
+            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
                 _dicByObjectId.Remove(objectId);
                 _dicByClientId.Remove(clientData.ClientId);
                 using (LiteDatabase db = HostRoot.CreateLocalDb()) {
@@ -138,9 +138,8 @@ namespace NTMiner.Data.Impl {
 
         public List<ClientData> RefreshClients(List<string> objectIds) {
             List<ClientData> clientDatas = new List<ClientData>();
-            ClientData item;
             foreach (var objectId in objectIds) {
-                if (_dicByObjectId.TryGetValue(objectId, out item)) {
+                if (_dicByObjectId.TryGetValue(objectId, out ClientData item)) {
                     clientDatas.Add(item);
                 }
             }
@@ -222,22 +221,19 @@ namespace NTMiner.Data.Impl {
 
         public ClientData GetByClientId(Guid clientId) {
             InitOnece();
-            ClientData clientData = null;
-            _dicByClientId.TryGetValue(clientId, out clientData);
+            _dicByClientId.TryGetValue(clientId, out ClientData clientData);
             return clientData;
         }
 
         public ClientData GetByObjectId(string objectId) {
             InitOnece();
-            ClientData clientData = null;
-            _dicByObjectId.TryGetValue(objectId, out clientData);
+            _dicByObjectId.TryGetValue(objectId, out ClientData clientData);
             return clientData;
         }
 
         public void UpdateClient(string objectId, string propertyName, object value) {
             InitOnece();
-            ClientData clientData;
-            if (_dicByObjectId.TryGetValue(objectId, out clientData)) {
+            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
                 PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
                 if (propertyInfo != null) {
                     if (propertyInfo.PropertyType == typeof(Guid)) {
@@ -251,8 +247,7 @@ namespace NTMiner.Data.Impl {
 
         public void UpdateClientProperties(string objectId, Dictionary<string, object> values) {
             InitOnece();
-            ClientData clientData;
-            if (_dicByObjectId.TryGetValue(objectId, out clientData)) {
+            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
                 foreach (var kv in values) {
                     object value = kv.Value;
                     PropertyInfo propertyInfo = typeof(ClientData).GetProperty(kv.Key);

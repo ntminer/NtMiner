@@ -9,6 +9,8 @@ namespace NTMiner.Data {
             return new ClientData() {
                 ClientId = data.ClientId,
                 MinerIp = data.MinerIp,
+                MinerName = data.MinerName,
+                ClientName = string.Empty,
                 CreatedOn = data.CreatedOn,
                 GroupId = data.GroupId,
                 WorkId = data.WorkId,
@@ -33,7 +35,6 @@ namespace NTMiner.Data {
                 IsMining = false,
                 BootOn = DateTime.MinValue,
                 MineStartedOn = DateTime.MinValue,
-                MinerName = String.Empty,
                 ModifiedOn = DateTime.MinValue,
                 MainCoinCode = String.Empty,
                 MainCoinTotalShare = 0,
@@ -56,6 +57,7 @@ namespace NTMiner.Data {
 
         public string Id { get; set; }
         public Guid ClientId { get; set; }
+        public string MinerName { get; set; }
         public Guid WorkId { get; set; }
         public string MinerIp { get; set; }
         public string WindowsLoginName { get; set; }

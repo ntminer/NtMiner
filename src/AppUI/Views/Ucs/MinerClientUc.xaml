@@ -151,6 +151,12 @@
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedMineWork}"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></ComboBox>
+				<TextBlock Style="{StaticResource LblTb}" Width="60" Padding="0 0 10 0">矿机名</TextBlock>
+				<TextBox 
+					VerticalAlignment="Center"
+					ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"
+					Width="120"
+					Text="{Binding MinerName}"></TextBox>
 			</WrapPanel>
 		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
@@ -163,11 +169,12 @@
 			<WrapPanel Grid.Column="1">
 				<TextBox 
 					VerticalAlignment="Center"
-					ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"
-					Width="120"
-					Text="{Binding MinerName}"></TextBox>
+					Width="100"
+					IsReadOnly="False"
+					BorderThickness="0"
+					Text="{Binding ClientName,Mode=OneWay}"></TextBox>
 				<WrapPanel VerticalAlignment="Center">
-					<TextBlock Style="{StaticResource LblTb}" Width="60" Padding="0 0 10 0">分组</TextBlock>
+					<TextBlock Style="{StaticResource LblTb}" Width="40" Padding="0 0 10 0">分组</TextBlock>
 					<ComboBox 
 						MinWidth="100"
 						ItemsSource="{Binding MinerGroupVms.List}"

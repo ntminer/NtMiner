@@ -5,6 +5,7 @@ namespace NTMiner.MinerServer {
         string ColumnsShowName { get; }
         bool Work { get; }
         bool MinerName { get; }
+        bool ClientName { get; }
         bool MinerIp  { get; }
         bool MinerGroup  { get; }
         bool MainCoinCode  { get; }

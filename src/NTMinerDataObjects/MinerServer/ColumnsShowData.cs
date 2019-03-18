@@ -17,6 +17,8 @@ namespace NTMiner.MinerServer {
 
         public bool MinerName{ get; set; }
 
+        public bool ClientName { get; set; }
+
         public bool MinerIp{ get; set; }
 
         public bool MinerGroup{ get; set; }
@@ -86,6 +88,7 @@ namespace NTMiner.MinerServer {
             sb.Append(nameof(Id)).Append(Id)
                 .Append(nameof(Work)).Append(Work)
                 .Append(nameof(MinerName)).Append(MinerName)
+                .Append(nameof(ClientName)).Append(ClientName)
                 .Append(nameof(MinerIp)).Append(MinerIp)
                 .Append(nameof(MinerGroup)).Append(MinerGroup)
                 .Append(nameof(MainCoinCode)).Append(MainCoinCode)
