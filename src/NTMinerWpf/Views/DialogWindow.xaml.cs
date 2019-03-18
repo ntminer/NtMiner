@@ -17,6 +17,22 @@ namespace NTMiner.Views {
             var owner = TopWindow.GetTopWindow();
             if (owner != window) {
                 window.Owner = owner;
+                if (owner != null) {
+                    POINT pt;
+                    if (NativeMethods.GetCursorPos(out pt)) {
+                        window.WindowStartupLocation = WindowStartupLocation.Manual;
+                        double left = pt.X;
+                        double top = pt.Y;
+                        if (left + window.Width > owner.Left + owner.Width) {
+                            left = owner.Left + owner.Width - window.Width;
+                        }
+                        if (top + window.Height > owner.Top + owner.Height) {
+                            top = owner.Top + owner.Height - window.Height;
+                        }
+                        window.Left = left;
+                        window.Top = top;
+                    }
+                }
                 double ownerOpacity = window.Owner.Opacity;
                 window.Owner.Opacity = 0.6;
                 window.ShowDialog();

@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
 namespace NTMiner.Wpf {
     public static class TopWindow {
-        private static class NativeMethods {
-            [DllImport("user32.dll")]
-            public static extern IntPtr GetForegroundWindow();
-        }
-
         public static Window GetTopWindow() {
             IntPtr hwnd = NativeMethods.GetForegroundWindow();
             if (hwnd == IntPtr.Zero)
