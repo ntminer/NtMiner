@@ -7,6 +7,12 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class WrapperMinerClientController : ApiController, IWrapperMinerClientController {
+        private string ClientIp {
+            get {
+                return Request.GetWebClientIp();
+            }
+        }
+
         #region RestartWindows
         [HttpPost]
         public ResponseBase RestartWindows([FromBody]WrapperRequest<SignatureRequest> request) {
@@ -14,8 +20,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.RestartWindows(request.ClientIp, request.InnerRequest);
@@ -36,8 +41,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.ShutdownWindows(request.ClientIp, request.InnerRequest);
@@ -58,8 +62,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.UpgradeNTMiner(request.ClientIp, request.InnerRequest);
@@ -80,8 +83,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 IUser user = HostRoot.Current.UserSet.GetUser(request.InnerRequest.LoginName);
@@ -121,8 +123,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 IUser user = HostRoot.Current.UserSet.GetUser(request.InnerRequest.LoginName);
@@ -162,8 +163,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.NTMinerDaemonService.StopMine(request.ClientIp, request.InnerRequest);
@@ -184,8 +184,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 response = Client.MinerClientService.SetMinerProfileProperty(request.ClientIp, request.InnerRequest);

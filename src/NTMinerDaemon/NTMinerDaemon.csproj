@@ -85,6 +85,9 @@
     <Compile Include="..\NTMiner.Core\Windows\Power.cs">
       <Link>Windows\Power.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\Ip\Util.cs">
+      <Link>Ip\Util.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>

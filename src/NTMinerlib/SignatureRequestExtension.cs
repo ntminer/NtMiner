@@ -2,11 +2,16 @@
 
 namespace NTMiner {
     public static class SignatureRequestExtension {
-        public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, out TResponse response) where TResponse : ResponseBase, new() {
-            return IsValid(request, getUser, out _, out response);
+        public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, string clientIp, out TResponse response) where TResponse : ResponseBase, new() {
+            return IsValid(request, getUser, clientIp, out _, out response);
         }
 
-        public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, out IUser user, out TResponse response) where TResponse : ResponseBase, new() {
+        public static bool IsValid<TResponse>(this ISignatureRequest request, Func<string, IUser> getUser, string clientIp, out IUser user, out TResponse response) where TResponse : ResponseBase, new() {
+            if (Ip.Util.IsInnerIP(clientIp)) {
+                user = null;
+                response = null;
+                return true;
+            }
             if (string.IsNullOrEmpty(request.LoginName)) {
                 response = ResponseBase.InvalidInput<TResponse>(request.MessageId, "登录名不能为空");
                 user = null;

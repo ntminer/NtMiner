@@ -5,20 +5,25 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ReportController : ApiController, IReportController {
+        private string ClientIp {
+            get {
+                return Request.GetWebClientIp();
+            }
+        }
+
         [HttpPost]
         public void ReportSpeed([FromBody]SpeedData speedData) {
             try {
                 if (speedData == null) {
                     return;
                 }
-                string minerIp = Request.GetWebClientIp();
                 ClientData clientData = HostRoot.Current.ClientSet.GetByClientId(speedData.ClientId);
                 if (clientData == null) {
-                    clientData = ClientData.Create(speedData, minerIp);
+                    clientData = ClientData.Create(speedData, ClientIp);
                     HostRoot.Current.ClientSet.Add(clientData);
                 }
                 else {
-                    clientData.Update(speedData, minerIp);
+                    clientData.Update(speedData, ClientIp);
                 }
             }
             catch (Exception e) {
@@ -29,7 +34,6 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public void ReportState([FromBody]ReportState request) {
             try {
-                string minerIp = Request.GetWebClientIp();
                 ClientData clientData = HostRoot.Current.ClientSet.GetByClientId(request.ClientId);
                 if (clientData == null) {
                     clientData = new ClientData {
@@ -37,14 +41,14 @@ namespace NTMiner.Controllers {
                         IsMining = request.IsMining,
                         CreatedOn = DateTime.Now,
                         ModifiedOn = DateTime.Now,
-                        MinerIp = minerIp
+                        MinerIp = ClientIp
                     };
                     HostRoot.Current.ClientSet.Add(clientData);
                 }
                 else {
                     clientData.IsMining = request.IsMining;
                     clientData.ModifiedOn = DateTime.Now;
-                    clientData.MinerIp = minerIp;
+                    clientData.MinerIp = ClientIp;
                 }
             }
             catch (Exception e) {

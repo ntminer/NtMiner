@@ -6,6 +6,12 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class AppSettingController : ApiController, IAppSettingController {
+        private string ClientIp {
+            get {
+                return Request.GetWebClientIp();
+            }
+        }
+
         public DateTime GetTime() {
             return DateTime.Now;
         }
@@ -13,8 +19,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public DataResponse<AppSettingData> AppSetting([FromBody]AppSettingRequest request) {
             try {
-                IAppSetting data;
-                if (!HostRoot.Current.AppSettingSet.TryGetAppSetting(request.Key, out data)) {
+                if (!HostRoot.Current.AppSettingSet.TryGetAppSetting(request.Key, out IAppSetting data)) {
                     data = null;
                 }
                 return DataResponse<AppSettingData>.Ok(request.MessageId, AppSettingData.Create(data));
@@ -43,8 +48,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new ChangeAppSettingCommand(request.Data));

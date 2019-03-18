@@ -1,6 +1,4 @@
-﻿using LiteDB;
-using NTMiner.Core;
-using NTMiner.Data;
+﻿using NTMiner.Core;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
@@ -13,6 +11,12 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ControlCenterController : ApiController, IControlCenterController {
+        private string ClientIp {
+            get {
+                return Request.GetWebClientIp();
+            }
+        }
+
         #region ActiveControlCenterAdmin
         [HttpPost]
         public ResponseBase ActiveControlCenterAdmin([FromBody]string password) {
@@ -43,9 +47,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                IUser user;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out user, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out IUser user, out ResponseBase response)) {
                     return response;
                 }
                 Write.DevLine($"{request.LoginName}登录");
@@ -67,8 +69,7 @@ namespace NTMiner.Controllers {
             try {
                 if (!request.Data.HasValue) {
                     // request.Data是ClientId，如果未传ClientId表示是中控客户端，中控客户端获取用户表需验证身份
-                    DataResponse<List<UserData>> response;
-                    if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                    if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<List<UserData>> response)) {
                         return response;
                     }
                 }
@@ -96,8 +97,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new AddUserCommand(request.Data));
@@ -117,8 +117,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new UpdateUserCommand(request.Data));
@@ -138,8 +137,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 VirtualRoot.Execute(new RemoveUserCommand(request.Data));
@@ -155,7 +153,9 @@ namespace NTMiner.Controllers {
         #region ChangePassword
         [HttpPost]
         public ResponseBase ChangePassword([FromBody]ChangePasswordRequest request) {
-            if (request == null || string.IsNullOrEmpty(request.LoginName) || string.IsNullOrEmpty(request.OldPassword) || string.IsNullOrEmpty(request.NewPassword)) {
+            if (request == null || string.IsNullOrEmpty(request.LoginName) 
+                || string.IsNullOrEmpty(request.OldPassword) 
+                || string.IsNullOrEmpty(request.NewPassword)) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
@@ -186,12 +186,9 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<QueryClientsResponse>(Guid.Empty, "参数错误");
             }
             try {
-                QueryClientsResponse response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out QueryClientsResponse response)) {
                     return response;
                 }
-                int total;
-                int miningCount;
                 var data = HostRoot.Current.ClientSet.QueryClients(
                                request.PageIndex,
                                 request.PageSize,
@@ -205,8 +202,8 @@ namespace NTMiner.Controllers {
                                 request.Wallet,
                                 request.Version,
                                 request.Kernel,
-                                out total,
-                                out miningCount) ?? new List<ClientData>();
+                                out int total,
+                                out int miningCount) ?? new List<ClientData>();
                 return QueryClientsResponse.Ok(request.MessageId, data, total, miningCount);
             }
             catch (Exception e) {
@@ -223,16 +220,13 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>(Guid.Empty, "参数错误");
             }
             try {
-                GetCoinSnapshotsResponse response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out GetCoinSnapshotsResponse response)) {
                     return response;
                 }
-                int totalMiningCount;
-                int totalOnlineCount;
                 List<CoinSnapshotData> data = HostRoot.Current.CoinSnapshotSet.GetLatestSnapshots(
                     request.Limit,
-                    out totalMiningCount,
-                    out totalOnlineCount) ?? new List<CoinSnapshotData>();
+                    out int totalMiningCount,
+                    out int totalOnlineCount) ?? new List<CoinSnapshotData>();
                 return GetCoinSnapshotsResponse.Ok(request.MessageId, data, totalMiningCount, totalOnlineCount);
             }
             catch (Exception e) {
@@ -254,13 +248,11 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(request.MessageId, "最多支持一次添加101个IP");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
 
-                IPAddress ip;
-                if (request.ClientIps.Any(a => !IPAddress.TryParse(a, out ip))) {
+                if (request.ClientIps.Any(a => !IPAddress.TryParse(a, out IPAddress ip))) {
                     return ResponseBase.InvalidInput(request.MessageId, "IP格式不正确");
                 }
 
@@ -288,8 +280,7 @@ namespace NTMiner.Controllers {
             }
 
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
 
@@ -312,8 +303,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.ClientSet.UpdateClient(request.ObjectId, request.PropertyName, request.Value);
@@ -334,8 +324,7 @@ namespace NTMiner.Controllers {
             }
 
             try {
-                DataResponse<List<ClientData>> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<List<ClientData>> response)) {
                     return response;
                 }
 
@@ -356,8 +345,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.ClientSet.UpdateClientProperties(request.ObjectId, request.Values);
@@ -377,8 +365,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<MinerGroupData>>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<List<MinerGroupData>> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<List<MinerGroupData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MinerGroupSet.GetAll();
@@ -398,8 +385,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.MinerGroupSet.AddOrUpdate(request.Data);
@@ -419,8 +405,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 IMinerGroup minerGroup = HostRoot.Current.MinerGroupSet.GetMinerGroup(request.Data);
@@ -447,8 +432,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.MineWorkSet.AddOrUpdate(request.Data);
@@ -468,8 +452,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 IMineWork mineWork = HostRoot.Current.MineWorkSet.GetMineWork(request.Data);
@@ -496,8 +479,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<MineWorkData>>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<List<MineWorkData>> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<List<MineWorkData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineWorkSet.GetAll();
@@ -517,8 +499,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<ResponseBase>(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.MineWorkId);
@@ -540,8 +521,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<string>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<string> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<string> response)) {
                     return response;
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.Data);
@@ -564,8 +544,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<MinerProfileData>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<MinerProfileData> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<MinerProfileData> response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineProfileManager.GetMinerProfile(request.Data);
@@ -585,8 +564,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -609,8 +587,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<CoinProfileData>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<CoinProfileData> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<CoinProfileData> response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineProfileManager.GetCoinProfile(request.WorkId, request.DataId);
@@ -630,8 +607,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -654,8 +630,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<PoolProfileData>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<PoolProfileData> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<PoolProfileData> response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineProfileManager.GetPoolProfile(request.WorkId, request.DataId);
@@ -675,8 +650,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -699,8 +673,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<CoinKernelProfileData>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<CoinKernelProfileData> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<CoinKernelProfileData> response)) {
                     return response;
                 }
                 var data = HostRoot.Current.MineProfileManager.GetCoinKernelProfile(request.WorkId, request.DataId);
@@ -720,8 +693,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -744,8 +716,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -768,8 +739,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -792,8 +762,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -816,8 +785,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 if (!HostRoot.Current.MineWorkSet.Contains(request.WorkId)) {
@@ -840,8 +808,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<PoolData>>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<List<PoolData>> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<List<PoolData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Current.PoolSet.GetAll();
@@ -861,8 +828,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.PoolSet.AddOrUpdate(request.Data);
@@ -882,8 +848,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.PoolSet.Remove(request.Data);
@@ -903,8 +868,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<WalletData>>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<List<WalletData>> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<List<WalletData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Current.WalletSet.GetAll();
@@ -924,8 +888,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.WalletSet.AddOrUpdate(request.Data);
@@ -945,8 +908,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.WalletSet.Remove(request.Data);
@@ -981,8 +943,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.CalcConfigSet.SaveCalcConfigs(request.Data);
@@ -1003,8 +964,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<ColumnsShowData>>>(Guid.Empty, "参数错误");
             }
             try {
-                DataResponse<List<ColumnsShowData>> response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<List<ColumnsShowData>> response)) {
                     return response;
                 }
                 var data = HostRoot.Current.ColumnsShowSet.GetAll();
@@ -1024,8 +984,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.ColumnsShowSet.AddOrUpdate(request.Data);
@@ -1045,8 +1004,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.ColumnsShowSet.Remove(request.Data);

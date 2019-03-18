@@ -5,6 +5,12 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class OverClockDataController : ApiController, IOverClockDataController {
+        private string ClientIp {
+            get {
+                return Request.GetWebClientIp();
+            }
+        }
+
         #region AddOrUpdateOverClockData
         [HttpPost]
         public ResponseBase AddOrUpdateOverClockData([FromBody]DataRequest<OverClockData> request) {
@@ -12,8 +18,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.OverClockDataSet.AddOrUpdate(request.Data);
@@ -33,8 +38,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.OverClockDataSet.Remove(request.Data);

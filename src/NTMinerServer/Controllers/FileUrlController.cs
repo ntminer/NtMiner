@@ -6,6 +6,12 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class FileUrlController : ApiController, IFileUrlController {
+        private string ClientIp {
+            get {
+                return Request.GetWebClientIp();
+            }
+        }
+
         [HttpPost]
         public string MinerJsonPutUrl([FromBody]MinerJsonPutUrlRequest request) {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
@@ -46,8 +52,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.NTMinerFileSet.AddOrUpdate(request.Data);
@@ -65,8 +70,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
             try {
-                ResponseBase response;
-                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, out response)) {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
                 HostRoot.Current.NTMinerFileSet.Remove(request.Data);
@@ -82,8 +86,7 @@ namespace NTMiner.Controllers {
         public string NTMinerUpdaterUrl() {
             try {
                 string ntminerUpdaterFileName;
-                IAppSetting ntminerUpdaterFileNameSetting;
-                if (!HostRoot.Current.AppSettingSet.TryGetAppSetting("ntminerUpdaterFileName", out ntminerUpdaterFileNameSetting)) {
+                if (!HostRoot.Current.AppSettingSet.TryGetAppSetting("ntminerUpdaterFileName", out IAppSetting ntminerUpdaterFileNameSetting)) {
                     ntminerUpdaterFileName = "NTMinerUpdater.exe";
                 }
                 else {
