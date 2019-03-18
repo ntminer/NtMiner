@@ -298,7 +298,7 @@
 							Height="14"
 							Margin="60 -20 0 0" 
 							Data="M98 480.86h829.99v63.79H98z"
-							Fill="Black"
+							Fill="{StaticResource ThemeBackground}"
 							Stretch="Fill"
 							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</WrapPanel>
@@ -371,7 +371,7 @@
 							Height="16"
 							HorizontalAlignment="Left"
 							Data="M98 480.86h829.99v63.79H98z"
-							Fill="Black"
+							Fill="{StaticResource ThemeBackground}"
 							Stretch="Fill"
 							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</Grid>
@@ -394,7 +394,7 @@
 							Height="16"
 							HorizontalAlignment="Left"
 							Data="M98 480.86h829.99v63.79H98z"
-							Fill="Black"
+							Fill="{StaticResource ThemeBackground}"
 							Stretch="Fill"
 							Visibility="{Binding MinerProfile.CoinVm.CoinProfile.IsHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</Grid>
@@ -765,7 +765,7 @@
 									Height="14"
 									Margin="60 -20 0 0" 
 									Data="M98 480.86h829.99v63.79H98z"
-									Fill="Black"
+									Fill="{StaticResource ThemeBackground}"
 									Stretch="Fill"
 									Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 							</WrapPanel>
@@ -837,7 +837,7 @@
 									Height="16"
 									HorizontalAlignment="Left"
 									Data="M98 480.86h829.99v63.79H98z"
-									Fill="Black"
+									Fill="{StaticResource ThemeBackground}"
 									Stretch="Fill"
 									Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 							</Grid>
@@ -860,7 +860,7 @@
 									Height="16"
 									HorizontalAlignment="Left"
 									Data="M98 480.86h829.99v63.79H98z"
-									Fill="Black"
+									Fill="{StaticResource ThemeBackground}"
 									Stretch="Fill"
 									Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.IsDualCoinHideWallet, Converter={StaticResource BoolToVisibilityConverter}}" />
 							</Grid>
