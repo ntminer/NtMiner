@@ -25,7 +25,7 @@
 	<converters:ProfitToBrushConverter x:Key="ProfitToBrushConverter"></converters:ProfitToBrushConverter>
 	<converters:AutoNumberValueConverter x:Key="AutoNumberValueConverter"></converters:AutoNumberValueConverter>
 
-	<SolidColorBrush x:Key="IconFillColor">#1976AC</SolidColorBrush>
+	<SolidColorBrush x:Key="IconFillColor">#005098</SolidColorBrush>
 	<SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
 	<SolidColorBrush x:Key="LableColor" Color="#99000000"></SolidColorBrush>
 	<SolidColorBrush x:Key="LineColor">#D9D9D9</SolidColorBrush>

@@ -86,9 +86,6 @@
 		</Grid>
 		<WrapPanel Grid.Row="1" Grid.Column="2" Background="#EEEEF2">
 			<Menu>
-				<Menu.Resources>
-					<SolidColorBrush x:Key="IconFillColor">#005098</SolidColorBrush>
-				</Menu.Resources>
 				<MenuItem Header="开始挖矿" Padding="4" Margin="0 0 6 0" Command="{Binding StartMine}">
 					<MenuItem.Icon>
 						<Path
@@ -159,7 +156,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="重启客户端" Padding="4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
+				<MenuItem Header="重启挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

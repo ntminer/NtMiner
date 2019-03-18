@@ -15,7 +15,6 @@
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="130"></Setter>
 			<Setter Property="Padding" Value="0 0 20 0"></Setter>
-			<Setter Property="VerticalAlignment" Value="Top"></Setter>
 		</Style>
 		<Style x:Key="Row" TargetType="WrapPanel">
 			<Setter Property="Margin" Value="0 4"></Setter>
@@ -32,123 +31,120 @@
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Center">最后更新</TextBlock>
-			<WrapPanel Grid.Column="1">
-				<TextBlock Width="60" Text="{Binding LastActivedOnText}" VerticalAlignment="Center"></TextBlock>
-				<Border Width="19" Height="19" Background="Green" ToolTip="挖矿中" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityConverter}}"></Border>
-				<Border Width="19" Height="19" Background="Red" ToolTip="未挖矿" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}"></Border>
-				<Menu Margin="20 0 0 0">
-					<Menu.Resources>
-						<SolidColorBrush x:Key="IconFillColor">#005098</SolidColorBrush>
-					</Menu.Resources>
-					<MenuItem Header="刷新" Padding="4" Margin="0 0 6 0" Command="{Binding Refresh}">
-						<MenuItem.Icon>
-							<Path
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Center"></TextBlock>
+			<Menu Grid.Column="1">
+				<MenuItem Header="刷新" Padding="4" Margin="0 0 6 0" Command="{Binding Refresh}">
+					<MenuItem.Icon>
+						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Refresh}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="开始挖矿" Padding="4" Margin="0 0 6 0" Command="{Binding StartMine}">
-						<MenuItem.Icon>
-							<Path
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="开始挖矿" Padding="4" Margin="0 0 6 0" Command="{Binding StartMine}">
+					<MenuItem.Icon>
+						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Start}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="停止挖矿" Padding="4" Margin="0 0 6 0" Command="{Binding StopMine}">
-						<MenuItem.Icon>
-							<Path
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="停止挖矿" Padding="4" Margin="0 0 6 0" Command="{Binding StopMine}">
+					<MenuItem.Icon>
+						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Stop}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="一键超频" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyOverClock}">
-						<MenuItem.Icon>
-							<Path
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="超频" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyOverClock}">
+					<MenuItem.Icon>
+						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_OverClock}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="一键升级" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyUpgrade}">
-						<MenuItem.Icon>
-							<Path
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="升级挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyUpgrade}">
+					<MenuItem.Icon>
+						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Update}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="重启客户端" Padding="4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
-						<MenuItem.Icon>
-							<Path
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="重启挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
+					<MenuItem.Icon>
+						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Restart}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="重启电脑" Padding="4" Margin="0 0 6 0" Command="{Binding RestartWindows}">
-						<MenuItem.Icon>
-							<Path
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="重启电脑" Padding="4" Margin="0 0 6 0" Command="{Binding RestartWindows}">
+					<MenuItem.Icon>
+						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Restart2}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="关闭电脑" Padding="4" Margin="0 0 6 0" Command="{Binding ShutdownWindows}">
-						<MenuItem.Icon>
-							<Path
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="关闭电脑" Padding="4" Margin="0 0 6 0" Command="{Binding ShutdownWindows}">
+					<MenuItem.Icon>
+						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Shutdown}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="删除矿机" Padding="4" Margin="0 0 6 0" Command="{Binding Remove}">
-						<MenuItem.Icon>
-							<Path
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="删除矿机" Padding="4" Margin="0 0 6 0" Command="{Binding Remove}">
+					<MenuItem.Icon>
+						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Delete}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
-						</MenuItem.Icon>
-					</MenuItem>
-				</Menu>
-			</WrapPanel>
+					</MenuItem.Icon>
+				</MenuItem>
+			</Menu>
 		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">运行时长</TextBlock>
-				<TextBlock Text="{Binding BootTimeSpanText}"></TextBlock>
-			</WrapPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">挖矿时长</TextBlock>
-				<TextBlock Text="{Binding MineTimeSpanText}"></TextBlock>
-			</WrapPanel>
-		</WrapPanel>
-		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">作业</TextBlock>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Center">最后更新</TextBlock>
+			<WrapPanel Grid.Column="1">
+				<TextBlock Width="60" Text="{Binding LastActivedOnText}" VerticalAlignment="Center"></TextBlock>
+				<Border Width="40" Height="19" Background="Green" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">挖矿中</TextBlock>
+				</Border>
+				<Border Width="40" Height="19" Background="Red" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}">
+					<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">未挖矿</TextBlock>
+				</Border>
+				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">运行时长</TextBlock>
+				<TextBlock Text="{Binding BootTimeSpanText}" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">挖矿时长</TextBlock>
+				<TextBlock Text="{Binding MineTimeSpanText}" VerticalAlignment="Center"></TextBlock>
+				<TextBlock Style="{StaticResource LblTb}" Width="50" Padding="0 0 10 0">作业</TextBlock>
 				<ComboBox
 					MinWidth="100"
 					ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
@@ -156,52 +152,61 @@
 					SelectedItem="{Binding SelectedMineWork}"
 					Text="{Binding SelectedMineWork.Name, Mode=OneWay}"></ComboBox>
 			</WrapPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">分组</TextBlock>
-				<ComboBox 
-					MinWidth="100"
-					ItemsSource="{Binding MinerGroupVms.List}"
-					DisplayMemberPath="Name"
-					SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
-			</WrapPanel>
-		</WrapPanel>
+		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
-		<WrapPanel Style="{StaticResource Row}">
-			<WrapPanel Width="{StaticResource OneColWidth}">
-				<TextBlock Style="{StaticResource LblTb}">远程桌面</TextBlock>
-				<controls:KbButton
-					BorderThickness="0"
-					Background="Transparent"
-					Command="{Binding RemoteDesktop}"
-					CornerRadius="2">
-					<Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_RemoteDesktop}"
-						Fill="{StaticResource IconFillColor}"
-						Stretch="Fill" />
-				</controls:KbButton>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<TextBlock Style="{StaticResource LblTb}">矿机名</TextBlock>
+			<WrapPanel Grid.Column="1">
 				<TextBox 
-					Width="122"
-					Padding="0"
-					ToolTip="双击打开远程桌面"
-					PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
-					Tag="{Binding}"
-					BorderThickness="0"
-					Background="Transparent"
-					IsReadOnly="True"
-					Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
-				<TextBox x:Name="TbWindowsLoginName" Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}" ToolTip="Windows远程桌面登录名"></TextBox>
-				<PasswordBox Margin="10 0 0 0" Width="100" BorderBrush="{Binding ElementName=TbWindowsLoginName,Path=BorderBrush}" ToolTip="Windows远程桌面密码" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
-			</WrapPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}">矿机名</TextBlock>
-				<TextBox 
+					VerticalAlignment="Center"
 					ToolTip="注意：修改矿机名后需重新开始挖矿才能反应到矿池"
 					Width="120"
 					Text="{Binding MinerName}"></TextBox>
+				<WrapPanel VerticalAlignment="Center">
+					<TextBlock Style="{StaticResource LblTb}" Width="60" Padding="0 0 10 0">分组</TextBlock>
+					<ComboBox 
+						MinWidth="100"
+						ItemsSource="{Binding MinerGroupVms.List}"
+						DisplayMemberPath="Name"
+						SelectedItem="{Binding SelectedMinerGroup}"></ComboBox>
+				</WrapPanel>
+				<WrapPanel VerticalAlignment="Center">
+					<TextBlock Style="{StaticResource LblTb}" Width="80" Padding="0 0 10 0">IP</TextBlock>
+					<controls:KbButton
+						BorderThickness="0"
+						Background="Transparent"
+						Command="{Binding RemoteDesktop}"
+						CornerRadius="2">
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_RemoteDesktop}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</controls:KbButton>
+					<TextBox 
+						Width="122"
+						Padding="0"
+						ToolTip="双击打开远程桌面"
+						PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
+						Tag="{Binding}"
+						BorderThickness="0"
+						Background="Transparent"
+						IsReadOnly="True"
+						Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
+				</WrapPanel>
+				<WrapPanel VerticalAlignment="Center">
+					<TextBlock Style="{StaticResource LblTb}" Width="100" Padding="0 0 4 0">远程桌面登录名</TextBlock>
+					<TextBox x:Name="TbWindowsLoginName" Width="100" Text="{Binding WindowsLoginName,UpdateSourceTrigger=LostFocus}"></TextBox>
+					<TextBlock Style="{StaticResource LblTb}" Width="40" Padding="0 0 4 0">密码</TextBlock>
+					<PasswordBox Width="100" BorderBrush="{Binding ElementName=TbWindowsLoginName,Path=BorderBrush}" VerticalContentAlignment="Center" Background="Transparent" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding WindowsPassword, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}"/>
+				</WrapPanel>
 			</WrapPanel>
-		</WrapPanel>
+		</Grid>
 		<Border Style="{StaticResource RowLine}"></Border>
 		<Grid>
 			<Grid.ColumnDefinitions>
