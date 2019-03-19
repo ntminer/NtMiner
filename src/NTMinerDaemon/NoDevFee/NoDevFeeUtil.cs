@@ -143,14 +143,16 @@ namespace NTMiner.NoDevFee {
                                 if (dwallet != ourWallet) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
+                                    Buffer.BlockCopy(byteTestWallet, 0, packet, position, byteTestWallet.Length);
+#if DEBUG
                                     Logger.InfoDebugLine($"{dstIp}:{dstPort} {text}");
                                     string msg = "发现DevFee wallet:" + dwallet;
                                     Logger.WarnDebugLine(msg);
-                                    Buffer.BlockCopy(byteTestWallet, 0, packet, position, byteTestWallet.Length);
                                     Logger.InfoDebugLine($"::Diverting {kernelFullName} DevFee {++counter}: ({DateTime.Now})");
                                     Logger.InfoDebugLine($"::Destined for: {dwallet}");
                                     Logger.InfoDebugLine($"::Diverted to :  {ourWallet}");
                                     Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
+#endif
                                 }
                             }
                         }
