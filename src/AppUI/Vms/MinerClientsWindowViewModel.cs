@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
         private ColumnsShowViewModel _columnsShow;
         private int _countDown;
         private List<NTMinerFileData> _ntminerFileList;
-        private readonly ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
+        private List<MinerClientViewModel> _minerClients = new List<MinerClientViewModel>();
         private MinerClientViewModel _currentMinerClient;
         private MinerClientViewModel[] _selectedMinerClients = new MinerClientViewModel[0];
         private int _minerClientPageIndex = 1;
@@ -558,6 +558,7 @@ namespace NTMiner.Vms {
                                 foreach (var item in toAdds) {
                                     this.MinerClients.Add(new MinerClientViewModel(item));
                                 }
+                                _minerClients = _minerClients.OrderBy(a => a.MinerName).ToList();
                             }
                             MiningCount = response.MiningCount;
                             RefreshPagingUi(response.Total);
@@ -586,7 +587,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ObservableCollection<MinerClientViewModel> MinerClients {
+        public List<MinerClientViewModel> MinerClients {
             get {
                 return _minerClients;
             }
