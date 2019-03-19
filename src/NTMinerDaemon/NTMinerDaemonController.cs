@@ -31,7 +31,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void RefreshNotifyIcon() {
-            HostRoot.NotifyIcon?.RefreshIcon();
+            //HostRoot.NotifyIcon?.RefreshIcon();
         }
 
         [HttpPost]

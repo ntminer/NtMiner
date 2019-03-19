@@ -17,42 +17,41 @@ namespace NTMiner.NoDevFee {
             string testWallet,
             string kernelFullName,
             out string message) {
-            CoinKernelId coinKernelId;
+            CoinKernelId coinKernelId = CoinKernelId.Undefined;
             if (contextId == 0) {
                 message = "非法的输入：" + nameof(contextId);
-                return;
             }
-            if (contextId == s_contextId) {
+            else if (contextId == s_contextId) {
                 message = "NoDevFee已经在运行中，无需再次启动";
-                return;
             }
-            if (string.IsNullOrEmpty(coin)) {
+            else if (string.IsNullOrEmpty(coin)) {
                 message = "非法的输入：" + nameof(coin);
-                return;
             }
-            if (!IsMatch(coin, kernelFullName, out coinKernelId)) {
+            else if (!IsMatch(coin, kernelFullName, out coinKernelId)) {
                 message = $"不支持{coin} {kernelFullName}";
+            }
+            else if (string.IsNullOrEmpty(ourWallet)) {
+                message = "没有ourWallet";
+                Logger.WarnDebugLine(message);
+            }
+            else if (string.IsNullOrEmpty(testWallet)) {
+                message = "没有testWallet";
+                Logger.WarnDebugLine(message);
+            }
+            else if (testWallet.Length != ourWallet.Length) {
+                message = "测试钱包地址也目标钱包地址长度不同";
+                Logger.WarnDebugLine(message);
+            }
+            else {
+                message = "ok";
+            }
+            if (message != "ok") {
+                Write.DevLine(message);
                 return;
             }
             if (minerName == null) {
                 minerName = string.Empty;
             }
-            if (string.IsNullOrEmpty(ourWallet)) {
-                message = "没有ourWallet";
-                Logger.WarnDebugLine(message);
-                return;
-            }
-            if (string.IsNullOrEmpty(testWallet)) {
-                message = "没有testWallet";
-                Logger.WarnDebugLine(message);
-                return;
-            }
-            if (testWallet.Length != ourWallet.Length) {
-                message = "测试钱包地址也目标钱包地址长度不同";
-                Logger.WarnDebugLine(message);
-                return;
-            }
-            message = "ok";
             s_contextId = contextId;
             WaitHandle.Set();
             WaitHandle = new AutoResetEvent(false);
