@@ -70,13 +70,20 @@ namespace NTMiner {
                             OfficialServer.SaveCalcConfigsAsync(response.Data, null);
                             foreach (IncomeItem incomeItem in incomeItems) {
                                 if (coinCodes.Contains(incomeItem.CoinCode)) {
-                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    continue;
                                 }
                                 Console.WriteLine(incomeItem.ToString());
-                                if (coinCodes.Contains(incomeItem.CoinCode)) {
-                                    Console.ResetColor();
-                                }
                             }
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            foreach (var incomeItem in incomeItems) {
+                                if (!coinCodes.Contains(incomeItem.CoinCode)) {
+                                    continue;
+                                }
+                                Console.WriteLine(incomeItem.ToString());
+                            }
+                            Console.ResetColor();
+
                             Console.WriteLine($"更新了{coinCodes.Count}个币种：{string.Join(",", coinCodes)}");
                             int unUpdatedCount = response.Data.Count - coinCodes.Count;
                             Console.WriteLine($"{unUpdatedCount}个币种未更新{(unUpdatedCount == 0 ? string.Empty: "：" + string.Join(",", response.Data.Select(a => a.CoinCode).Except(coinCodes)))}");
