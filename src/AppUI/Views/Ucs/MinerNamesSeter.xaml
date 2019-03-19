@@ -26,6 +26,7 @@
 			</TextBox>
 		</WrapPanel>
 		<ItemsControl 
+			HorizontalAlignment="Center"
 			ItemsSource="{Binding NamesByObjectId}"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 			ScrollViewer.VerticalScrollBarVisibility="Disabled">

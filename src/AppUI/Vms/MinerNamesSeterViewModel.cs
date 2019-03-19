@@ -60,7 +60,7 @@ namespace NTMiner.Vms {
                     suffix = (number + i).ToString().PadLeft(this.Suffix.Length, '0');
                 }
                 else {
-                    suffix = suffix + i.ToString();
+                    suffix = this.Suffix + i.ToString();
                 }
                 list.Add(new Tuple<string, string>(NamesByObjectId[i].Item1, this.Prefix + suffix));
             }
