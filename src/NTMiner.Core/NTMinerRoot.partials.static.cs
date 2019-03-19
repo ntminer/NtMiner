@@ -91,7 +91,8 @@ namespace NTMiner {
                         if (len != sb.Length) {
                             sb.Append(";");
                         }
-                        sb.Append(item.Name).Append("|").Append((item.AvailableFreeSpace / (double)(1024 * 1024 * 1024)).ToString("f1")).Append(" Gb");
+                        // item.Name like C:\
+                        sb.Append(item.Name).Append((item.AvailableFreeSpace / (double)(1024 * 1024 * 1024)).ToString("f1")).Append(" Gb");
                     }
                     _diskSpace = sb.ToString();
                 }
