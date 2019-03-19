@@ -18,6 +18,7 @@ namespace NTMiner.Controllers {
             }
         }
 
+        #region GetServicesVersion
         private static string s_sha1 = null;
         public static string Sha1 {
             get {
@@ -32,16 +33,21 @@ namespace NTMiner.Controllers {
         public string GetServicesVersion() {
             return Sha1;
         }
+        #endregion
 
+        #region CloseServices
         [HttpPost]
         public void CloseServices() {
             HostRoot.WaitHandle.Set();
         }
+        #endregion
 
+        #region RefreshNotifyIcon
         [HttpPost]
         public void RefreshNotifyIcon() {
             HostRoot.NotifyIcon?.RefreshIcon();
         }
+        #endregion
 
         #region ActiveControlCenterAdmin
         [HttpPost]
@@ -364,9 +370,9 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        #region UpdateClientProperties
+        #region UpdateClients
         [HttpPost]
-        public ResponseBase UpdateClientProperties([FromBody]UpdateClientPropertiesRequest request) {
+        public ResponseBase UpdateClients([FromBody]UpdateClientsRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
             }
@@ -374,7 +380,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                HostRoot.Current.ClientSet.UpdateClientProperties(request.ObjectId, request.Values);
+                HostRoot.Current.ClientSet.UpdateClients(request.PropertyName, request.Values);
                 return ResponseBase.Ok(request.MessageId);
             }
             catch (Exception e) {

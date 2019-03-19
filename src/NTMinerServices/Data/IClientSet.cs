@@ -10,7 +10,7 @@ namespace NTMiner.Data {
 
         void UpdateClient(string objectId, string propertyName, object value);
 
-        void UpdateClientProperties(string objectId, Dictionary<string, object> values);
+        void UpdateClients(string propertyName, Dictionary<string, object> values);
 
         void Remove(string objectId);
 

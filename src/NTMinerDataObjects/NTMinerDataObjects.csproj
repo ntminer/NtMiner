@@ -108,7 +108,7 @@
     <Compile Include="Daemon\WorkRequest.cs" />
     <Compile Include="MinerServer\OverClockData.cs" />
     <Compile Include="MinerServer\OverClockDatasRequest.cs" />
-    <Compile Include="MinerServer\UpdateClientPropertiesRequest.cs" />
+    <Compile Include="MinerServer\UpdateClientsRequest.cs" />
     <Compile Include="Daemon\UpgradeNTMinerRequest.cs" />
     <Compile Include="Core\PoolData.cs" />
     <Compile Include="Profile\CoinKernelProfileData.cs" />

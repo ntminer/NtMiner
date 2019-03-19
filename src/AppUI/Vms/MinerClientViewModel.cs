@@ -394,6 +394,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public void UpdateMinerName(string minerName) {
+            _data.MinerName = minerName;
+        }
+
         public string MinerName {
             get => _data.MinerName;
             set {

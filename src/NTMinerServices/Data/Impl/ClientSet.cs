@@ -247,20 +247,23 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public void UpdateClientProperties(string objectId, Dictionary<string, object> values) {
+        public void UpdateClients(string propertyName, Dictionary<string, object> values) {
             InitOnece();
-            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
-                foreach (var kv in values) {
-                    object value = kv.Value;
-                    PropertyInfo propertyInfo = typeof(ClientData).GetProperty(kv.Key);
-                    if (propertyInfo != null) {
-                        if (propertyInfo.PropertyType == typeof(Guid)) {
-                            value = DictionaryExtensions.ConvertToGuid(value);
-                        }
-                        propertyInfo.SetValue(clientData, value, null);
+            PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
+            if (propertyInfo != null) {
+                if (propertyInfo.PropertyType == typeof(Guid)) {
+                    foreach (var kv in values) {
+                        values[kv.Key] = DictionaryExtensions.ConvertToGuid(kv.Value);
                     }
                 }
-                clientData.ModifiedOn = DateTime.Now;
+                foreach (var kv in values) {
+                    string objectId = kv.Key;
+                    object value = kv.Value;
+                    if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
+                        propertyInfo.SetValue(clientData, value, null);
+                        clientData.ModifiedOn = DateTime.Now;
+                    }
+                }
             }
         }
 

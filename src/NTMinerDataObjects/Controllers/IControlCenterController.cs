@@ -22,7 +22,7 @@ namespace NTMiner.Controllers {
         ResponseBase RemoveClients(MinerIdsRequest request);
         ResponseBase UpdateClient(UpdateClientRequest request);
         DataResponse<List<ClientData>> RefreshClients(MinerIdsRequest request);
-        ResponseBase UpdateClientProperties(UpdateClientPropertiesRequest request);
+        ResponseBase UpdateClients(UpdateClientsRequest request);
         DataResponse<List<MinerGroupData>> MinerGroups(SignatureRequest request);
         ResponseBase AddOrUpdateMinerGroup(DataRequest<MinerGroupData> request);
         ResponseBase RemoveMinerGroup(DataRequest<Guid> request);

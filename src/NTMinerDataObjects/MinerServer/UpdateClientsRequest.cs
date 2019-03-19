@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace NTMiner.MinerServer {
-    public class UpdateClientPropertiesRequest : RequestBase, ISignatureRequest {
-        public UpdateClientPropertiesRequest() {
+    public class UpdateClientsRequest : RequestBase, ISignatureRequest {
+        public UpdateClientsRequest() {
             this.Values = new Dictionary<string, object>();
         }
         public string LoginName { get; set; }
-        public string ObjectId { get; set; }
+        public string PropertyName { get; set; }
         public Dictionary<string, object> Values { get; set; }
         public string Sign { get; set; }
 
@@ -32,7 +31,7 @@ namespace NTMiner.MinerServer {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(MessageId)).Append(MessageId)
                 .Append(nameof(LoginName)).Append(LoginName)
-                .Append(nameof(ObjectId)).Append(ObjectId)
+                .Append(nameof(PropertyName)).Append(PropertyName)
                 .Append(nameof(Values)).Append(GetValuesString())
                 .Append(nameof(Timestamp)).Append(Timestamp.ToUlong());
             return sb;

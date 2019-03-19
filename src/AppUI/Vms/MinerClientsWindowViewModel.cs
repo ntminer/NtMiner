@@ -3,7 +3,6 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Windows.Input;
@@ -107,12 +106,23 @@ namespace NTMiner.Vms {
                     namesByObjectId: this.SelectedMinerClients.Select(a => new Tuple<string, string>(a.Id, string.Empty)).ToList());
                 MinerNamesSeter.ShowWindow(vm);
                 if (vm.IsOk) {
-                    foreach (var item in this.SelectedMinerClients) {
-                        var tuple = vm.NamesByObjectId.FirstOrDefault(a => a.Item1 == item.Id);
-                        if (tuple != null) {
-                            item.MinerName = tuple.Item2;
+                    this.CountDown = 10;
+                    Server.ControlCenterService.UpdateClientsAsync(nameof(MinerClientViewModel.MinerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
+                        if (!response.IsSuccess()) {
+                            if (response != null) {
+                                Write.UserLine(response.Description, ConsoleColor.Red);
+                            }
                         }
-                    }
+                        else {
+                            foreach (var kv in vm.NamesByObjectId) {
+                                var item = this.SelectedMinerClients.FirstOrDefault(a => a.Id == kv.Item1);
+                                if (item != null) {
+                                    item.UpdateMinerName(kv.Item2);
+                                }
+                            }
+                            QueryMinerClients();
+                        }
+                    });
                 }
             });
             this.EditMineWork = new DelegateCommand(() => {
@@ -160,6 +170,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     DialogWindow.ShowDialog(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
+                        this.CountDown = 10;
                         Server.ControlCenterService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
                                 if (response != null) {

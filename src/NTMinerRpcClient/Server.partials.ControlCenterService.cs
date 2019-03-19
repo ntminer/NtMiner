@@ -234,15 +234,15 @@ namespace NTMiner {
             }
             #endregion
 
-            #region UpdateClientPropertiesAsync
-            public void UpdateClientPropertiesAsync(string objectId, Dictionary<string, object> values, Action<ResponseBase, Exception> callback) {
-                UpdateClientPropertiesRequest request = new UpdateClientPropertiesRequest {
+            #region UpdateClientsAsync
+            public void UpdateClientsAsync(string propertyName, Dictionary<string, object> values, Action<ResponseBase, Exception> callback) {
+                UpdateClientsRequest request = new UpdateClientsRequest {
                     LoginName = SingleUser.LoginName,
-                    ObjectId = objectId,
+                    PropertyName = propertyName,
                     Values = values
                 };
                 request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClientProperties), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.UpdateClients), request, callback);
             }
             #endregion
 
