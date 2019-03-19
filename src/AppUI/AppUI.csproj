@@ -131,6 +131,9 @@
     <Compile Include="Views\Ucs\MessageCenter.xaml.cs">
       <DependentUpon>MessageCenter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\MinerNamesSeter.xaml.cs">
+      <DependentUpon>MinerNamesSeter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\MinerClientUc.xaml.cs">
       <DependentUpon>MinerClientUc.xaml</DependentUpon>
     </Compile>
@@ -327,6 +330,7 @@
     <Compile Include="Vms\MinerGroupViewModel.cs" />
     <Compile Include="Vms\MinerGroupViewModels.cs" />
     <Compile Include="Vms\ControlCenterHostConfigViewModel.cs" />
+    <Compile Include="Vms\MinerNamesSeterViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModel.cs" />
     <Compile Include="Vms\MineWorkViewModels.cs" />
     <Compile Include="Vms\MinuteItem.cs" />
@@ -445,6 +449,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Design\MinerClientViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\MinerNamesSeter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

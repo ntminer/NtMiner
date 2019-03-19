@@ -84,10 +84,8 @@ namespace NTMiner.Vms {
                     }
                 });
             Guid columnsShowId = ColumnsShowData.PleaseSelectId;
-            IAppSetting columnsShowAppSetting;
-            if (NTMinerRoot.Current.AppSettingSet.TryGetAppSetting("ColumnsShowId", out columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
-                Guid guid;
-                if (Guid.TryParse(columnsShowAppSetting.Value.ToString(), out guid)) {
+            if (NTMinerRoot.Current.AppSettingSet.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
+                if (Guid.TryParse(columnsShowAppSetting.Value.ToString(), out Guid guid)) {
                     columnsShowId = guid;
                 }
             }
@@ -103,7 +101,17 @@ namespace NTMiner.Vms {
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
             this.OneKeyMinerNames = new DelegateCommand(() => {
-
+                MinerNamesSeterViewModel vm = new MinerNamesSeterViewModel(
+                    prefix: "miner",
+                    suffix: "01",
+                    namesByObjectId: this.SelectedMinerClients.Select(a => new Tuple<string, string>(a.Id, string.Empty)).ToList());
+                MinerNamesSeter.ShowWindow(vm);
+                foreach (var item in this.SelectedMinerClients) {
+                    var tuple = vm.NamesByObjectId.FirstOrDefault(a => a.Item1 == item.Id);
+                    if (tuple != null) {
+                        item.MinerName = tuple.Item2;
+                    }
+                }
             });
             this.EditMineWork = new DelegateCommand(() => {
                 if (this.SelectedMinerClients != null
@@ -684,8 +692,7 @@ namespace NTMiner.Vms {
                     _minerIp = value;
                     OnPropertyChanged(nameof(MinerIp));
                     if (!string.IsNullOrEmpty(value)) {
-                        IPAddress ip;
-                        if (!IPAddress.TryParse(value, out ip)) {
+                        if (!IPAddress.TryParse(value, out IPAddress ip)) {
                             throw new ValidationException("IP地址格式不正确");
                         }
                     }

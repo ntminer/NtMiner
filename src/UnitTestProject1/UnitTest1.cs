@@ -159,5 +159,11 @@ namespace UnitTestProject1 {
             };
             Console.WriteLine(new ObjectJsonSerializer().Serialize(data));
         }
+
+        [TestMethod]
+        public void IntTest() {
+            int i;
+            Assert.IsTrue(int.TryParse("001", out i));
+        }
     }
 }
