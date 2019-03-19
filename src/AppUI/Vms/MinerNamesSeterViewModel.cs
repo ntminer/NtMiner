@@ -8,6 +8,7 @@ namespace NTMiner.Vms {
         private string _prefix;
         private string _suffix;
 
+        public bool IsOk { get; private set; }
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
@@ -18,6 +19,7 @@ namespace NTMiner.Vms {
             _namesByObjectId = namesByObjectId;
             RefreshNames();
             this.Save = new DelegateCommand(() => {
+                this.IsOk = true;
                 CloseWindow?.Invoke();
             });
         }

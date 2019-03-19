@@ -106,10 +106,12 @@ namespace NTMiner.Vms {
                     suffix: "01",
                     namesByObjectId: this.SelectedMinerClients.Select(a => new Tuple<string, string>(a.Id, string.Empty)).ToList());
                 MinerNamesSeter.ShowWindow(vm);
-                foreach (var item in this.SelectedMinerClients) {
-                    var tuple = vm.NamesByObjectId.FirstOrDefault(a => a.Item1 == item.Id);
-                    if (tuple != null) {
-                        item.MinerName = tuple.Item2;
+                if (vm.IsOk) {
+                    foreach (var item in this.SelectedMinerClients) {
+                        var tuple = vm.NamesByObjectId.FirstOrDefault(a => a.Item1 == item.Id);
+                        if (tuple != null) {
+                            item.MinerName = tuple.Item2;
+                        }
                     }
                 }
             });
