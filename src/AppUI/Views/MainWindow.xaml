@@ -198,7 +198,7 @@
 							</Grid.RowDefinitions>
 							<Border
 								Grid.Column="0" Grid.Row="0" Padding="0 4 0 0">
-								<StackPanel>
+								<StackPanel IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}">
 									<WrapPanel>
 										<WrapPanel VerticalAlignment="Center" IsEnabled="{Binding StateBarVm.IsMining, Converter={StaticResource BoolInvertConverter}}">
 											<TextBlock 
@@ -238,8 +238,7 @@
 											</controls:KbButton>
 										</WrapPanel>
 										<StackPanel
-											Margin="42 0 0 0"
-											IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}">
+											Margin="42 0 0 0">
 											<controls:KbCheckBox
 												Margin="0 2 0 0"
 												Content="{DynamicResource ChkIsAutoBoot}"
@@ -252,7 +251,7 @@
 												IsChecked="{Binding MinerProfile.IsAutoStart}" />
 										</StackPanel>
 									</WrapPanel>
-									<uc:MinerProfileIndex IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}" />
+									<uc:MinerProfileIndex />
 								</StackPanel>
 							</Border>
 							
