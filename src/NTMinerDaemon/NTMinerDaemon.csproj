@@ -85,9 +85,6 @@
     <Compile Include="..\NTMiner.Core\Windows\Power.cs">
       <Link>Windows\Power.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Ip\Util.cs">
-      <Link>Ip\Util.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
@@ -96,9 +93,6 @@
     </Compile>
     <Compile Include="..\NTMinerlib\Serialization\ObjectJsonSerializer.cs">
       <Link>Serialization\ObjectJsonSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\SignatureRequestExtension.cs">
-      <Link>SignatureRequestExtension.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\TimeSpanExtensions.cs">
       <Link>TimeSpanExtensions.cs</Link>

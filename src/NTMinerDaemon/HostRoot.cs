@@ -24,7 +24,7 @@ namespace NTMiner {
             this.UserSet = _userSet;
         }
 
-        //public static ExtendedNotifyIcon NotifyIcon;
+        public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex s_mutexApp;
         static void Main(string[] args) {
             try {
@@ -39,7 +39,7 @@ namespace NTMiner {
                 if (mutexCreated) {
                     NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
                     Type thisType = typeof(HostRoot);
-                    //NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner守护进程");
+                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner守护进程");
                     bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
                     if (isAutoBoot) {
                         string location = NTMinerRegistry.GetLocation();
@@ -61,22 +61,32 @@ namespace NTMiner {
             }
         }
 
+        private static bool _isClosed = false;
+        private static void Close() {
+            if (!_isClosed) {
+                _isClosed = true;
+                HttpServer.Stop();
+                WaitHandle?.Close();
+                s_mutexApp?.Dispose();
+                NotifyIcon?.Dispose();
+            }
+        }
+
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         private static void Run() {
             try {
                 HttpServer.Start($"http://localhost:{WebApiConst.NTMinerDaemonPort}");
                 Windows.ConsoleHandler.Register(() => {
-                    //NotifyIcon?.Dispose();
+                    Close();
                 });
                 WaitHandle.WaitOne();
-                //NotifyIcon?.Dispose();
+                Close();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
             }
             finally {
-                HttpServer.Stop();
-                //NotifyIcon?.Dispose();
+                Close();
             }
         }
     }

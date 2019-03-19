@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace NTMiner.Windows {
@@ -10,27 +11,29 @@ namespace NTMiner.Windows {
 
         public delegate bool ControlCtrlDelegate(int ctrlType);
 
-        private bool HandlerRoutine(int ctrlType) {
+        // 静态的，调用前不能被垃圾回收
+        private static readonly List<Action> _actions = new List<Action>();
+        private static readonly ControlCtrlDelegate cancelHandler = new ControlCtrlDelegate(HandlerRoutine);
+
+        private static bool HandlerRoutine(int ctrlType) {
             switch (ctrlType) {
-                case 0:
-                    _onClose?.Invoke(); //Ctrl+C关闭  
+                case 0:// Ctrl+C关闭  
+                    foreach (var item in _actions) {
+                        item?.Invoke();
+                    }
                     break;
-                case 2:
-                    _onClose?.Invoke();//按控制台关闭按钮关闭  
+                case 2:// 按控制台关闭按钮关闭  
+                    foreach (var item in _actions) {
+                        item?.Invoke();
+                    }
                     break;
             }
             return false;
         }
 
-        private readonly Action _onClose;
-        private ConsoleHandler(Action onClose) {
-            _onClose = onClose;
-            ControlCtrlDelegate cancelHandler = new ControlCtrlDelegate(HandlerRoutine);
-            NativeMethods.SetConsoleCtrlHandler(cancelHandler, true);
-        }
-
         public static void Register(Action onClose) {
-            new ConsoleHandler(onClose);
+            _actions.Add(onClose);
+            NativeMethods.SetConsoleCtrlHandler(cancelHandler, true);
         }
     }
 }

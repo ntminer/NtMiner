@@ -38,6 +38,7 @@ namespace NTMiner {
         private static void Close() {
             if (!_isClosed) {
                 _isClosed = true;
+                HttpServer.Stop();
                 WaitHandle?.Close();
                 s_mutexApp?.Dispose();
                 NotifyIcon?.Dispose();
