@@ -136,12 +136,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CalcConfigUpdater\CalcConfigUpdater.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CalcConfigUpdater\pattern.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="FodyWeavers.xml" />
     <EmbeddedResource Include="logo.ico" />
   </ItemGroup>

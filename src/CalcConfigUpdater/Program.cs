@@ -1,5 +1,4 @@
-﻿using LiteDB;
-using NTMiner.MinerServer;
+﻿using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,15 +47,13 @@ namespace NTMiner {
                         double usdCny = PickUsdCny(html);
                         Console.WriteLine($"usdCny={usdCny}");
                         List<IncomeItem> incomeItems = PickIncomeItems(html);
+                        Console.WriteLine($"鱼池首页有{incomeItems.Count}个币种");
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
-                        foreach (IncomeItem incomeItem in incomeItems) {
-                            Console.WriteLine(incomeItem.ToString());
-                        }
-                        Console.WriteLine(incomeItems.Count + "条");
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
                             DataResponse<List<CalcConfigData>> response = OfficialServer.GetCalcConfigs();
+                            Console.WriteLine($"NTMiner有{response.Data.Count}个币种");
                             HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                             foreach (CalcConfigData calcConfigData in response.Data) {
                                 IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
@@ -71,7 +68,18 @@ namespace NTMiner {
                                 }
                             }
                             OfficialServer.SaveCalcConfigsAsync(response.Data, null);
-                            Console.WriteLine($"更新了{string.Join(",", coinCodes)}");
+                            foreach (IncomeItem incomeItem in incomeItems) {
+                                if (coinCodes.Contains(incomeItem.CoinCode)) {
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                }
+                                Console.WriteLine(incomeItem.ToString());
+                                if (coinCodes.Contains(incomeItem.CoinCode)) {
+                                    Console.ResetColor();
+                                }
+                            }
+                            Console.WriteLine($"更新了{coinCodes.Count}个币种：{string.Join(",", coinCodes)}");
+                            int unUpdatedCount = response.Data.Count - coinCodes.Count;
+                            Console.WriteLine($"{unUpdatedCount}个币种未更新{(unUpdatedCount == 0 ? string.Empty: "：" + string.Join(",", response.Data.Select(a => a.CoinCode).Except(coinCodes)))}");
                         }
                     }
                 }
@@ -82,21 +90,14 @@ namespace NTMiner {
         }
 
         private static void Login() {
-            // 约定收益计算器运行在NTMinerServices程序的子目录
-            string ntMinerServerLocalDbFileFullName = Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.FullName, "local.litedb");
-            using (var db = new LiteDatabase($"filename={ntMinerServerLocalDbFileFullName};journal=false")) {
-                var col = db.GetCollection<UserData>();
-                UserData user = col.FindOne(Query.All());
-                if (user != null) {
-                    SingleUser.LoginName = user.LoginName;
-                    SingleUser.SetPasswordSha1(user.Password);
-                    Console.WriteLine($"LoginName:{user.LoginName}");
-                    Console.Write($"Password:");
-                    Console.ForegroundColor = Console.BackgroundColor;
-                    Console.WriteLine(user.Password);
-                    Console.ResetColor();
-                }
-            }
+            // 本机运行，不验证用户名密码
+            SingleUser.LoginName = "CalcConfigUpdater";
+            SingleUser.SetPasswordSha1("123");
+            Console.WriteLine($"LoginName:CalcConfigUpdater");
+            Console.Write($"Password:");
+            Console.ForegroundColor = Console.BackgroundColor;
+            Console.WriteLine("123");
+            Console.ResetColor();
         }
 
         private static void FillCny(List<IncomeItem> incomeItems, double usdCny) {
