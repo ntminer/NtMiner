@@ -53,7 +53,7 @@ namespace NTMiner.Vms {
                             }
                             MainWindowViewModel.Current.Refresh();
                         });
-                    }, icon: "Icon_Confirm");
+                    }, icon: IconConst.IconConfirm);
                 }
             });
         }

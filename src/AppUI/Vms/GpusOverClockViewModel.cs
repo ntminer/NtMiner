@@ -26,7 +26,7 @@ namespace NTMiner.Vms {
                         }
                     }
                     this.MinerProfile.CoinVm.ApplyOverClock.Execute(null);
-                }, icon: "Icon_Confirm");
+                }, icon: IconConst.IconConfirm);
             });
         }
 

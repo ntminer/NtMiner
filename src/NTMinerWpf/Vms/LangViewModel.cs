@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Code}语言吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveLangCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 LangViewModel upOne = LangViewModels.Current.LangVms.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);

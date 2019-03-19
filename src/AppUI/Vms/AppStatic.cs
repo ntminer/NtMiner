@@ -128,7 +128,7 @@ namespace NTMiner.Vms {
                         Logger.ErrorDebugLine(e.Message, e);
                         NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage($"刷新失败");
                     }
-                }, icon: "Icon_Confirm");
+                }, icon: IconConst.IconConfirm);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

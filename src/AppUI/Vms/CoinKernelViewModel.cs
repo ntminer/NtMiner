@@ -71,7 +71,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
                     this.EnvironmentVariables.Remove(environmentVariable);
                     EnvironmentVariables = EnvironmentVariables.ToList();
-                }, icon: "Icon_Confirm");
+                }, icon: IconConst.IconConfirm);
             });
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.CoinKernelSet.Contains(this.Id)) {
@@ -89,7 +89,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinKernelCommand(this.Id));
                     Kernel.OnPropertyChanged(nameof(Kernel.SupportedCoins));
-                }, icon: "Icon_Confirm");
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 CoinKernelViewModel upOne = CoinKernelViewModels.Current.AllCoinKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);

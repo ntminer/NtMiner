@@ -126,7 +126,16 @@ namespace NTMiner.Vms {
 
             }, CanCommand);
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
-
+                DialogWindow.ShowDialog(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
+                    foreach (var item in SelectedMinerClients) {
+                        Daemon.UpgradeNTMinerRequest request = new Daemon.UpgradeNTMinerRequest {
+                            LoginName = SingleUser.LoginName,
+                            NTMinerFileName = ntminerFileData.FileName
+                        };
+                        request.SignIt(SingleUser.GetRemotePassword(item.ClientId));
+                        Client.NTMinerDaemonService.UpgradeNTMiner(item.MinerIp, request);
+                    }
+                }, icon: IconConst.IconConfirm);
             }, (ntminerFileData) => {
                 return this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0;
             });
@@ -147,7 +156,7 @@ namespace NTMiner.Vms {
                                 QueryMinerClients();
                             }
                         });
-                    }, icon: "Icon_Confirm");
+                    }, icon: IconConst.IconConfirm);
                 }
             }, CanCommand);
             this.RefreshMinerClients = new DelegateCommand(() => {
@@ -187,7 +196,7 @@ namespace NTMiner.Vms {
                                 }
                             });
                         }
-                    }, icon: "Icon_Confirm");
+                    }, icon: IconConst.IconConfirm);
                 }
             }, CanCommand);
             this.ShutdownWindows = new DelegateCommand(() => {
@@ -205,7 +214,7 @@ namespace NTMiner.Vms {
                                 }
                             });
                         }
-                    }, icon: "Icon_Confirm");
+                    }, icon: IconConst.IconConfirm);
                 }
             }, CanCommand);
             this.RestartNTMiner = new DelegateCommand(() => {
@@ -223,7 +232,7 @@ namespace NTMiner.Vms {
                                 }
                             });
                         }
-                    }, icon: "Icon_Confirm");
+                    }, icon: IconConst.IconConfirm);
                 }
             }, CanCommand);
             this.StartMine = new DelegateCommand(() => {
@@ -259,7 +268,7 @@ namespace NTMiner.Vms {
                             });
                             Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                         }
-                    }, icon: "Icon_Confirm");
+                    }, icon: IconConst.IconConfirm);
                 }
             }, CanCommand);
             this.PageUp = new DelegateCommand(() => {

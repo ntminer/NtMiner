@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{CoinVm.Code}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinGroupCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 CoinGroupViewModel upOne = CoinGroupViewModels.Current.GetCoinGroupsByGroupId(this.GroupId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);

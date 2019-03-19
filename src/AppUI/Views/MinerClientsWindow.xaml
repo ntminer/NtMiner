@@ -146,7 +146,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem x:Name="MenuItemUpgrade" Header="升级挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyUpgrade}" Click="MenuItemUpgrade_Click">
+				<MenuItem x:Name="MenuItemUpgrade" Header="升级挖矿端" Padding="4" Margin="0 0 6 0" Click="MenuItemUpgrade_Click">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -462,6 +462,107 @@
 				</WrapPanel>
 			</StackPanel>
 		</StackPanel>
+		<Popup x:Name="PopMineWork" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemMineWork}" Placement="Bottom" StaysOpen="False">
+			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
+				<StackPanel>
+					<TextBlock>切换作业</TextBlock>
+					<ItemsControl 
+						ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						ScrollViewer.VerticalScrollBarVisibility="Disabled">
+						<ItemsControl.Resources>
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+						</ItemsControl.Resources>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel>
+								</StackPanel>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button 
+									Click="PopupButton_Click"
+									BorderBrush="{StaticResource LineColor}"
+									Margin="4"
+									Padding="10 2" 
+									Content="{Binding Name}" 
+									ToolTip="{Binding Description}"
+									Command="{Binding Data.OneKeyWork,Source={StaticResource proxy}}"
+									CommandParameter="{Binding}"></Button>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</Border>
+		</Popup>
+		<Popup x:Name="PopMinerGroup" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemMinerGroup}" Placement="Bottom" StaysOpen="False">
+			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
+				<StackPanel>
+					<TextBlock>加入组</TextBlock>
+					<ItemsControl 
+						ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						ScrollViewer.VerticalScrollBarVisibility="Disabled">
+						<ItemsControl.Resources>
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+						</ItemsControl.Resources>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel>
+								</StackPanel>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button 
+									Click="PopupButton_Click"
+									BorderBrush="{StaticResource LineColor}"
+									Margin="4"
+									Padding="10 2" 
+									Content="{Binding Name}" 
+									ToolTip="{Binding Description}" 
+									Command="{Binding Data.OneKeyGroup,Source={StaticResource proxy}}"
+									CommandParameter="{Binding}"></Button>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</Border>
+		</Popup>
+		<Popup x:Name="PopUpgrade" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemUpgrade}" Placement="Bottom" StaysOpen="False">
+			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
+				<StackPanel>
+					<TextBlock>升级挖矿端</TextBlock>
+					<ItemsControl 
+						ItemsSource="{Binding NTMinerFileList}"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+						ScrollViewer.VerticalScrollBarVisibility="Disabled">
+						<ItemsControl.Resources>
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+						</ItemsControl.Resources>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel>
+								</StackPanel>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Button 
+									Click="PopupButton_Click"
+									BorderBrush="{StaticResource LineColor}"
+									Margin="4"
+									Padding="10 2" 
+									Content="{Binding Version}" 
+									Command="{Binding Data.OneKeyUpgrade,Source={StaticResource proxy}}"
+									CommandParameter="{Binding}"></Button>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</Border>
+		</Popup>
 		<GridSplitter Grid.Row="2" Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="6" Background="Transparent"></GridSplitter>
 		<Grid Grid.Row="2" Grid.Column="1" Background="{StaticResource MinerProfileBackground}">
 			<Grid.RowDefinitions>
@@ -2013,107 +2114,6 @@
 				<GridSplitter Grid.Column="1" Width="6" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Stretch"></GridSplitter>
 			</Grid>
 		</Grid>
-		<Popup x:Name="PopMineWork" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemMineWork}" Placement="Bottom" StaysOpen="False">
-			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
-				<StackPanel>
-					<TextBlock>切换作业</TextBlock>
-					<ItemsControl 
-						ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-						ScrollViewer.VerticalScrollBarVisibility="Disabled">
-						<ItemsControl.Resources>
-							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-						</ItemsControl.Resources>
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel>
-								</StackPanel>
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<Button 
-									Click="PopupButton_Click"
-									BorderBrush="{StaticResource LineColor}"
-									Margin="4"
-									Padding="10 2" 
-									Content="{Binding Name}" 
-									ToolTip="{Binding Description}"
-									Command="{Binding Data.OneKeyWork,Source={StaticResource proxy}}"
-									CommandParameter="{Binding}"></Button>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-				</StackPanel>
-			</Border>
-		</Popup>
-		<Popup x:Name="PopMinerGroup" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemMinerGroup}" Placement="Bottom" StaysOpen="False">
-			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
-				<StackPanel>
-					<TextBlock>加入组</TextBlock>
-					<ItemsControl 
-						ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-						ScrollViewer.VerticalScrollBarVisibility="Disabled">
-						<ItemsControl.Resources>
-							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-						</ItemsControl.Resources>
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel>
-								</StackPanel>
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<Button 
-									Click="PopupButton_Click"
-									BorderBrush="{StaticResource LineColor}"
-									Margin="4"
-									Padding="10 2" 
-									Content="{Binding Name}" 
-									ToolTip="{Binding Description}" 
-									Command="{Binding Data.OneKeyGroup,Source={StaticResource proxy}}"
-									CommandParameter="{Binding}"></Button>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-				</StackPanel>
-			</Border>
-		</Popup>
-		<Popup x:Name="PopUpgrade" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemUpgrade}" Placement="Bottom" StaysOpen="False">
-			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
-				<StackPanel>
-					<TextBlock>升级挖矿端</TextBlock>
-					<ItemsControl 
-						ItemsSource="{Binding NTMinerFileList}"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-						ScrollViewer.VerticalScrollBarVisibility="Disabled">
-						<ItemsControl.Resources>
-							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-						</ItemsControl.Resources>
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel>
-								</StackPanel>
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<Button 
-									Click="PopupButton_Click"
-									BorderBrush="{StaticResource LineColor}"
-									Margin="4"
-									Padding="10 2" 
-									Content="{Binding Version}" 
-									Command="{Binding Data.OneKeyUpgrade,Source={StaticResource proxy}}"
-									CommandParameter="{Binding}"></Button>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-				</StackPanel>
-			</Border>
-		</Popup>
 		<WrapPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource StateBarBackground}">
 			<WrapPanel Margin="4 0 0 0">
 				<TextBlock VerticalAlignment="Center" Foreground="{StaticResource StateBarForeground}">卡温达到</TextBlock>
