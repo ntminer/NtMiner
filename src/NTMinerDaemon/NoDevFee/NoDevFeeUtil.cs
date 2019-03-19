@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
     public unsafe static partial class NoDevFeeUtil {
         private static volatile int s_contextId;
+        public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static void StartAsync(
             int contextId, 
             string minerName,
@@ -52,6 +54,8 @@ namespace NTMiner.NoDevFee {
             }
             message = "ok";
             s_contextId = contextId;
+            WaitHandle.Set();
+            WaitHandle = new AutoResetEvent(false);
             Task.Factory.StartNew(() => {
                 WinDivertExtract.Extract();
                 int counter = 0;
@@ -64,19 +68,18 @@ namespace NTMiner.NoDevFee {
                 if (divertHandle != IntPtr.Zero) {
                     Task.Factory.StartNew(() => {
                         Logger.InfoDebugLine($"{coin} divertHandle 守护程序开启");
-                        while (contextId == s_contextId) {
-                            System.Threading.Thread.Sleep(1000);
-                        }
+                        WaitHandle.WaitOne();
                         if (divertHandle != IntPtr.Zero) {
                             WinDivertNativeMethods.WinDivertClose(divertHandle);
                             divertHandle = IntPtr.Zero;
                         }
+                        Logger.InfoDebugLine($"{coin} divertHandle 守护程序结束");
                     });
 
                     Logger.InfoDebugLine($"{Environment.ProcessorCount}并行");
                     Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
                         RunDiversion(
-                            divertHandle: divertHandle, 
+                            divertHandle: ref divertHandle, 
                             contextId: contextId, 
                             workerName: minerName, 
                             coin: coin, 
@@ -97,10 +100,11 @@ namespace NTMiner.NoDevFee {
 
         public static void Stop() {
             s_contextId = Guid.NewGuid().GetHashCode();
+            WaitHandle.Set();
         }
 
         private static void RunDiversion(
-            IntPtr divertHandle, 
+            ref IntPtr divertHandle, 
             int contextId,
             string workerName,
             string coin, 

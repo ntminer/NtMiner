@@ -265,3 +265,5 @@ NTMinerDaemon.exe
 CalcConfigUpdater.exe
 local.litedb
 report.litedb
+/src/NTMiner.Core/Daemon/WinDivert64.sys
+/src/NTMiner.Core/Daemon/WinDivert.dll

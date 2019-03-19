@@ -61,31 +61,22 @@ namespace NTMiner {
             }
         }
 
-        private static bool _isClosed = false;
-        private static void Close() {
-            if (!_isClosed) {
-                _isClosed = true;
-                WaitHandle?.Close();
-                s_mutexApp?.Dispose();
-                NotifyIcon?.Dispose();
-            }
-        }
-
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         private static void Run() {
             try {
                 HttpServer.Start($"http://localhost:{WebApiConst.NTMinerDaemonPort}");
                 Windows.ConsoleHandler.Register(() => {
-                    Close();
+                    NotifyIcon?.Dispose();
                 });
                 WaitHandle.WaitOne();
-                Close();
+                NotifyIcon?.Dispose();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
             }
             finally {
                 HttpServer.Stop();
+                NotifyIcon?.Dispose();
             }
         }
     }
