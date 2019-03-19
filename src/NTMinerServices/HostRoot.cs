@@ -27,23 +27,32 @@ namespace NTMiner {
                     Type thisType = typeof(HostRoot);
                     NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner群控服务", isCanClose: true);
                     Run();
-                    NotifyIcon.Dispose();
                 }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
             }
         }
+
+        private static bool _isClosed = false;
+        private static void Close() {
+            if (!_isClosed) {
+                _isClosed = true;
+                WaitHandle?.Close();
+                s_mutexApp?.Dispose();
+                NotifyIcon?.Dispose();
+            }
+        }
+
         private static void Run() {
             try {
                 string baseAddress = $"http://localhost:{WebApiConst.ControlCenterPort}";
                 HttpServer.Start(baseAddress);
                 Windows.ConsoleHandler.Register(() => {
-                    WaitHandle?.Close();
-                    s_mutexApp?.Dispose();
-                    NotifyIcon?.Dispose();
+                    Close();
                 });
                 WaitHandle.WaitOne();
+                Close();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);

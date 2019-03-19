@@ -54,11 +54,20 @@ namespace NTMiner {
                         }
                     }
                     Run();
-                    NotifyIcon.Dispose();
                 }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
+            }
+        }
+
+        private static bool _isClosed = false;
+        private static void Close() {
+            if (!_isClosed) {
+                _isClosed = true;
+                WaitHandle?.Close();
+                s_mutexApp?.Dispose();
+                NotifyIcon?.Dispose();
             }
         }
 
@@ -67,11 +76,10 @@ namespace NTMiner {
             try {
                 HttpServer.Start($"http://localhost:{WebApiConst.NTMinerDaemonPort}");
                 Windows.ConsoleHandler.Register(() => {
-                    WaitHandle?.Close();
-                    s_mutexApp?.Dispose();
-                    NotifyIcon?.Dispose();
+                    Close();
                 });
                 WaitHandle.WaitOne();
+                Close();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
