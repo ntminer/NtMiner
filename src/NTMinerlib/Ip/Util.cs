@@ -7,7 +7,7 @@ namespace NTMiner.Ip {
         /// </summary>
         /// <param name="ipAddress">IP地址字符串</param>
         /// <returns></returns>
-        public static bool IsInnerIp(String ipAddress) {
+        public static bool IsInnerIp(string ipAddress) {
             if (string.IsNullOrEmpty(ipAddress)) {
                 return false;
             }

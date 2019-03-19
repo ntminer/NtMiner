@@ -541,6 +541,7 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        #region GetLocalJson
         [HttpPost]
         public DataResponse<string> GetLocalJson([FromBody]DataRequest<Guid> request) {
             if (request == null) {
@@ -562,6 +563,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.ServerError<DataResponse<string>>(request.MessageId, e.Message);
             }
         }
+        #endregion
 
         #region MinerProfile
         [HttpPost]
