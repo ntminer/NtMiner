@@ -198,10 +198,22 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (this == PleaseSelect) {
+                if (this == PleaseSelect || VirtualRoot.IsControlCenter) {
                     return true;
                 }
-                return this.IsSupported();
+                foreach (var coinKernel in NTMinerRoot.Current.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
+                    if (coinKernel.SupportedGpu == SupportedGpu.Both) {
+                        return true;
+                    }
+                    if (coinKernel.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
+                        return true;
+                    }
+                    if (coinKernel.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
 

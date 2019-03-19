@@ -446,10 +446,6 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Width="50">矿机名</TextBlock>
-					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding ClientName}" Background="White"></TextBox>
-				</WrapPanel>
-				<WrapPanel>
-					<TextBlock Style="{StaticResource LblTb}" Width="50">作业矿机名</TextBlock>
 					<TextBox VerticalContentAlignment="Center" Width="150" Text="{Binding MinerName}" Background="White"></TextBox>
 				</WrapPanel>
 				<WrapPanel>

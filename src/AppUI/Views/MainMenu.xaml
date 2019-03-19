@@ -386,6 +386,16 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
+				<MenuItem Header="{DynamicResource CoinGroup}" Command="{x:Static vm:AppStatic.ShowGroups}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Group}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<MenuItem Header="{DynamicResource Kernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
 					<MenuItem.Icon>
 						<Path

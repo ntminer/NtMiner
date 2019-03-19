@@ -189,7 +189,9 @@ namespace NTMiner.Data.Impl {
                 query = query.Where(a => a.MinerIp == minerIp);
             }
             if (!string.IsNullOrEmpty(minerName)) {
-                query = query.Where(a => a.MinerName.IndexOf(minerName, StringComparison.OrdinalIgnoreCase) >= 0);
+                query = query.Where(a => 
+                (!string.IsNullOrEmpty(a.MinerName) && a.MinerName.IndexOf(minerName, StringComparison.OrdinalIgnoreCase) != -1) 
+                || (!string.IsNullOrEmpty(a.ClientName) && a.ClientName.IndexOf(minerName, StringComparison.OrdinalIgnoreCase) != -1));
             }
             if (mineState != MineStatus.All) {
                 if (mineState == MineStatus.Mining) {

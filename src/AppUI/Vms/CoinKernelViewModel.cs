@@ -308,6 +308,9 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
+                if (VirtualRoot.IsControlCenter) {
+                    return true;
+                }
                 if (this.SupportedGpu == SupportedGpu.Both) {
                     return true;
                 }

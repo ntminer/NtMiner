@@ -486,17 +486,25 @@ namespace NTMiner.Vms {
 
         public void QueryMinerClients() {
             Guid? groupId = null;
+            if (SelectedMinerGroup == null) {
+                _selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
+                OnPropertyChanged(nameof(SelectedMinerGroup));
+            }
             if (SelectedMinerGroup != MinerGroupViewModel.PleaseSelect) {
                 groupId = SelectedMinerGroup.Id;
             }
             Guid? workId = null;
+            if (SelectedMineWork == null) {
+                _selectedMineWork = MineWorkViewModel.PleaseSelect;
+                OnPropertyChanged(nameof(SelectedMineWork));
+            }
             if (SelectedMineWork != MineWorkViewModel.PleaseSelect) {
                 workId = SelectedMineWork.Id;
             }
             string coin = string.Empty;
             string wallet = string.Empty;
             if (workId == null || workId.Value == Guid.Empty) {
-                if (this.CoinVm != CoinViewModel.PleaseSelect) {
+                if (this.CoinVm != CoinViewModel.PleaseSelect && this.CoinVm != null) {
                     coin = this.CoinVm.Code;
                 }
                 if (!string.IsNullOrEmpty(Wallet)) {
