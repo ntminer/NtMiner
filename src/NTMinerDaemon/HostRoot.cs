@@ -28,6 +28,7 @@ namespace NTMiner {
         private static Mutex s_mutexApp;
         static void Main(string[] args) {
             try {
+                Console.Title = "NTMinerDaemon";
                 bool mutexCreated;
                 try {
                     s_mutexApp = new Mutex(true, "NTMinerDaemonAppMutex", out mutexCreated);
@@ -65,6 +66,11 @@ namespace NTMiner {
         private static void Run() {
             try {
                 HttpServer.Start($"http://localhost:{WebApiConst.NTMinerDaemonPort}");
+                Windows.ConsoleHandler.Register(() => {
+                    WaitHandle?.Close();
+                    s_mutexApp?.Dispose();
+                    NotifyIcon?.Dispose();
+                });
                 WaitHandle.WaitOne();
             }
             catch (Exception e) {

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4B8A3AEC-4021-480A-8C5F-DCA17E6867B0}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>NTMiner</RootNamespace>
     <AssemblyName>NTMinerDaemon</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -111,6 +111,9 @@
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\Windows\ConsoleHandler.cs">
+      <Link>Windows\ConsoleHandler.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Registry.cs">
       <Link>Windows\Registry.cs</Link>

@@ -14,6 +14,7 @@ namespace NTMiner {
         private static Mutex s_mutexApp;
         static void Main(string[] args) {
             try {
+                Console.Title = "NTMinerServices";
                 bool mutexCreated;
                 try {
                     s_mutexApp = new Mutex(true, "NTMinerServicesMutex", out mutexCreated);
@@ -37,6 +38,11 @@ namespace NTMiner {
             try {
                 string baseAddress = $"http://localhost:{WebApiConst.ControlCenterPort}";
                 HttpServer.Start(baseAddress);
+                Windows.ConsoleHandler.Register(() => {
+                    WaitHandle?.Close();
+                    s_mutexApp?.Dispose();
+                    NotifyIcon?.Dispose();
+                });
                 WaitHandle.WaitOne();
             }
             catch (Exception e) {
