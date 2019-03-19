@@ -106,7 +106,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="刷新选中的矿机" x:Name="MenuItemRefresh" Padding="4" Margin="0 0 6 0" Command="{Binding RefreshMinerClients}">
+				<MenuItem Header="刷新" x:Name="MenuItemRefresh" Padding="4" Margin="0 0 6 0" Command="{Binding RefreshMinerClients}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -132,6 +132,16 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_MinerGroup}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Command="{Binding OneKeyMinerNames}" Padding="4" Margin="0 0 6 0" Header="一键作业矿工名">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_MinerName}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
@@ -583,7 +593,7 @@
 				</DataGrid.Resources>
 				<DataGrid.ContextMenu>
 					<ContextMenu>
-						<MenuItem Header="刷新选中的矿机" Command="{Binding Data.RefreshMinerClients,Source={StaticResource proxy}}">
+						<MenuItem Header="刷新" Command="{Binding Data.RefreshMinerClients,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"

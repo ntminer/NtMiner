@@ -58,6 +58,7 @@ namespace NTMiner.Vms {
         public ICommand OneKeyOverClock { get; private set; }
         public ICommand OneKeyUpgrade { get; private set; }
         public ICommand EditMineWork { get; private set; }
+        public ICommand OneKeyMinerNames { get; private set; }
 
         #region ctor
         private MinerClientsWindowViewModel() {
@@ -101,6 +102,9 @@ namespace NTMiner.Vms {
             this._pool = string.Empty;
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
+            this.OneKeyMinerNames = new DelegateCommand(() => {
+
+            });
             this.EditMineWork = new DelegateCommand(() => {
                 if (this.SelectedMinerClients != null
                     && this.SelectedMinerClients.Length == 1
