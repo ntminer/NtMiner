@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
         }
 
         private DateTime _initedOn = DateTime.MinValue;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void Init() {
             DateTime now = DateTime.Now;
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Impl {
                             Speed = 0,
                             SpeedUnit = "H/s"
                         }).ToList();
-                        var response = Server.ControlCenterService.GetCalcConfigs();
+                        var response = OfficialServer.GetCalcConfigs();
                         if (response != null) {
                             foreach (var item in list) {
                                 var exist = response.Data.FirstOrDefault(a => string.Equals(a.CoinCode, item.CoinCode, StringComparison.OrdinalIgnoreCase));
@@ -71,7 +71,7 @@ namespace NTMiner.Core.Impl {
         public void SaveCalcConfigs(List<CalcConfigData> data) {
             lock (_locker) {
                 _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-                Server.ControlCenterService.SaveCalcConfigsAsync(data, null);
+                OfficialServer.SaveCalcConfigsAsync(data, null);
             }
         }
 

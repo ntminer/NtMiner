@@ -643,41 +643,6 @@ namespace NTMiner {
             }
             #endregion
 
-            #region GetCalcConfigs
-            /// <summary>
-            /// 同步方法
-            /// </summary>
-            /// <returns></returns>
-            public DataResponse<List<CalcConfigData>> GetCalcConfigs() {
-                try {
-                    CalcConfigsRequest request = new CalcConfigsRequest {
-                        MessageId = Guid.NewGuid()
-                    };
-                    DataResponse<List<CalcConfigData>> response = Post<DataResponse<List<CalcConfigData>>>(SControllerName, nameof(IControlCenterController.CalcConfigs), request);
-                    return response;
-                }
-                catch (Exception e) {
-                    e = e.GetInnerException();
-                    Logger.ErrorDebugLine(e.Message, e);
-                    return null;
-                }
-            }
-            #endregion
-
-            #region SaveCalcConfigsAsync
-            public void SaveCalcConfigsAsync(List<CalcConfigData> configs, Action<ResponseBase, Exception> callback) {
-                if (configs == null || configs.Count == 0) {
-                    return;
-                }
-                SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
-                    Data = configs,
-                    LoginName = SingleUser.LoginName
-                };
-                request.SignIt(SingleUser.PasswordSha1);
-                PostAsync(SControllerName, nameof(IControlCenterController.SaveCalcConfigs), request, callback);
-            }
-            #endregion
-
             #region GetColumnsShows
             /// <summary>
             /// 同步方法

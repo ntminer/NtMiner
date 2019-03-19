@@ -56,7 +56,7 @@ namespace NTMiner {
                         Console.WriteLine(incomeItems.Count + "条");
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
-                            DataResponse<List<CalcConfigData>> response = Server.ControlCenterService.GetCalcConfigs();
+                            DataResponse<List<CalcConfigData>> response = OfficialServer.GetCalcConfigs();
                             HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                             foreach (CalcConfigData calcConfigData in response.Data) {
                                 IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
@@ -70,7 +70,7 @@ namespace NTMiner {
                                     calcConfigData.ModifiedOn = DateTime.Now;
                                 }
                             }
-                            Server.ControlCenterService.SaveCalcConfigsAsync(response.Data, null);
+                            OfficialServer.SaveCalcConfigsAsync(response.Data, null);
                             Console.WriteLine($"更新了{string.Join(",", coinCodes)}");
                         }
                     }
@@ -172,14 +172,11 @@ namespace NTMiner {
                     incomeItem.CoinCode = "grin2";
                     incomeItem.SpeedUnit = "h/s";
                 }
-                double speed = 0;
-                double.TryParse(match.Groups["speed"].Value, out speed);
+                double.TryParse(match.Groups["speed"].Value, out double speed);
                 incomeItem.Speed = speed;
-                double incomeCoin = 0;
-                double.TryParse(match.Groups["incomeCoin"].Value, out incomeCoin);
+                double.TryParse(match.Groups["incomeCoin"].Value, out double incomeCoin);
                 incomeItem.IncomeCoin = incomeCoin;
-                double incomeUsd = 0;
-                double.TryParse(match.Groups["incomeUsd"].Value, out incomeUsd);
+                double.TryParse(match.Groups["incomeUsd"].Value, out double incomeUsd);
                 incomeItem.IncomeUsd = incomeUsd;
                 return incomeItem;
             }

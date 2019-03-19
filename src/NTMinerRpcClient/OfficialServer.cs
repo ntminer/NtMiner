@@ -11,9 +11,11 @@ namespace NTMiner {
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
 
+        // TODO:上线前改成官网
         public static readonly string OfficialServerHost = "192.168.0.104";
 
-        public static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
+        #region private methods
+        private static void PostAsync<T>(string controller, string action, object param, Action<T, Exception> callback) where T : class {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = new HttpClient()) {
@@ -64,6 +66,7 @@ namespace NTMiner {
                 }
             });
         }
+        #endregion
 
         public static void GetTimeAsync(Action<DateTime> callback) {
             GetAsync("AppSetting", nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
@@ -73,6 +76,41 @@ namespace NTMiner {
                 }
             });
         }
+
+        #region GetCalcConfigs
+        /// <summary>
+        /// 同步方法
+        /// </summary>
+        /// <returns></returns>
+        public static DataResponse<List<CalcConfigData>> GetCalcConfigs() {
+            try {
+                CalcConfigsRequest request = new CalcConfigsRequest {
+                    MessageId = Guid.NewGuid()
+                };
+                DataResponse<List<CalcConfigData>> response = Post<DataResponse<List<CalcConfigData>>>("ControlCenter", nameof(IControlCenterController.CalcConfigs), request);
+                return response;
+            }
+            catch (Exception e) {
+                e = e.GetInnerException();
+                Logger.ErrorDebugLine(e.Message, e);
+                return null;
+            }
+        }
+        #endregion
+
+        #region SaveCalcConfigsAsync
+        public static void SaveCalcConfigsAsync(List<CalcConfigData> configs, Action<ResponseBase, Exception> callback) {
+            if (configs == null || configs.Count == 0) {
+                return;
+            }
+            SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
+                Data = configs,
+                LoginName = SingleUser.LoginName
+            };
+            request.SignIt(SingleUser.PasswordSha1);
+            PostAsync("ControlCenter", nameof(IControlCenterController.SaveCalcConfigs), request, callback);
+        }
+        #endregion
 
         public static void GetJsonFileVersionAsync(string key, Action<string> callback) {
             AppSettingRequest request = new AppSettingRequest {
