@@ -541,7 +541,7 @@ namespace NTMiner.Vms {
                     if (response != null) {
                         UIThread.Execute(() => {
                             if (response.Data.Count == 0) {
-                                this.MinerClients.Clear();
+                                _minerClients = new List<MinerClientViewModel>();
                             }
                             else {
                                 var toRemoves = this.MinerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
