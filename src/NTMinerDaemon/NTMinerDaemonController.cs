@@ -35,11 +35,6 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public void RefreshUserSet() {
-            HostRoot.Current.RefreshUserSet();
-        }
-
-        [HttpPost]
         public ResponseBase RestartWindows([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");

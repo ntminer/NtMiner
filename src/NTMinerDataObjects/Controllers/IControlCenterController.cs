@@ -6,6 +6,9 @@ using NTMiner.Profile;
 
 namespace NTMiner.Controllers {
     public interface IControlCenterController {
+        string GetServicesVersion();
+        void CloseServices();
+        void RefreshNotifyIcon();
         ResponseBase ActiveControlCenterAdmin(string password);
         ResponseBase LoginControlCenter(SignatureRequest request);
         DataResponse<List<UserData>> Users(DataRequest<Guid?> request);

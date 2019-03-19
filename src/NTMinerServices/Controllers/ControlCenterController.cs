@@ -4,6 +4,7 @@ using NTMiner.Profile;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,6 +16,31 @@ namespace NTMiner.Controllers {
             get {
                 return Request.GetWebClientIp();
             }
+        }
+
+        private static string s_sha1 = null;
+        public static string Sha1 {
+            get {
+                if (s_sha1 == null) {
+                    s_sha1 = HashUtil.Sha1(File.ReadAllBytes(Process.GetCurrentProcess().MainModule.FileName));
+                }
+                return s_sha1;
+            }
+        }
+
+        [HttpPost]
+        public string GetServicesVersion() {
+            return Sha1;
+        }
+
+        [HttpPost]
+        public void CloseServices() {
+            HostRoot.WaitHandle.Set();
+        }
+
+        [HttpPost]
+        public void RefreshNotifyIcon() {
+            HostRoot.NotifyIcon?.RefreshIcon();
         }
 
         #region ActiveControlCenterAdmin

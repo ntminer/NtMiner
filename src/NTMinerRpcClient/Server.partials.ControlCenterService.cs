@@ -4,6 +4,8 @@ using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
@@ -13,6 +15,55 @@ namespace NTMiner {
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IControlCenterController>();
 
             private ControlCenterServiceFace() {
+            }
+
+            public void GetServicesVersionAsync(Action<string, Exception> callback) {
+                Process[] processes = Process.GetProcessesByName("NTMinerServices");
+                if (processes.Length == 0) {
+                    callback?.Invoke(string.Empty, null);
+                }
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.ControlCenterPort}/api/{SControllerName}/{nameof(IControlCenterController.GetServicesVersion)}", null);
+                            string response = message.Result.Content.ReadAsAsync<string>().Result;
+                            callback?.Invoke(response, null);
+                        }
+                    }
+                    catch (Exception e) {
+                        e = e.GetInnerException();
+                        callback?.Invoke(string.Empty, e);
+                    }
+                });
+            }
+
+            public void CloseServices() {
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.ControlCenterPort}/api/{SControllerName}/{nameof(IControlCenterController.CloseServices)}", null);
+                        Write.DevLine("CloseServices " + message.Result.ReasonPhrase);
+                    }
+                }
+                catch (Exception e) {
+                    e = e.GetInnerException();
+                    Logger.ErrorDebugLine(e.Message, e);
+                }
+            }
+
+            public void RefreshNotifyIconAsync(Action<Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.ControlCenterPort}/api/{SControllerName}/{nameof(IControlCenterController.RefreshNotifyIcon)}", null);
+                            Write.DevLine("RefreshNotifyIconAsync " + message.Result.ReasonPhrase);
+                            callback?.Invoke(null);
+                        }
+                    }
+                    catch (Exception e) {
+                        e = e.GetInnerException();
+                        callback?.Invoke(e);
+                    }
+                });
             }
 
             #region ActiveControlCenterAdminAsync

@@ -7,8 +7,12 @@ namespace NTMiner {
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
+            string ntminerServicesDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Services");
+            if (!Directory.Exists(ntminerServicesDirFullName)) {
+                Directory.CreateDirectory(ntminerServicesDirFullName);
+            }
             DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");
-            DaemonUsersJsonFileFullName = Path.Combine(daemonDirFullName, "users.json");
+            NTMinerServicesFileFullName = Path.Combine(ntminerServicesDirFullName, "NTMinerServices.exe");
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
 
             TempDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Temp");
@@ -54,8 +58,7 @@ namespace NTMiner {
         public static string ServerJsonFileFullName { get; private set; }
 
         public static string DaemonFileFullName { get; private set; }
-
-        public static string DaemonUsersJsonFileFullName { get; private set; }
+        public static string NTMinerServicesFileFullName { get; private set; }
 
         public static string DevConsoleFileFullName { get; private set; }
 

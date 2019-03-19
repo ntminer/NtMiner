@@ -111,7 +111,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             _dicById.Add(ColumnsShowData.PleaseSelectId, entity);
                             Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                                 if (!response.IsSuccess()) {
-                                    Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + response.Description);
+                                    Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + response?.Description);
                                 }
                             });
                         }

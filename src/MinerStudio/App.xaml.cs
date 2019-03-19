@@ -41,6 +41,7 @@ namespace NTMiner {
                 splashWindow.Show();
                 NotiCenterWindow.Instance.Show();
                 NTMinerRoot.AppName = "开源矿工中控客户端";
+                NTMinerServices.NTMinerServicesUtil.RunNTMinerServices();
                 NTMinerRoot.Current.Init(() => {
                     NTMinerRoot.KernelDownloader = new KernelDownloader();
                     UIThread.Execute(() => {
