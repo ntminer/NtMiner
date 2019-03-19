@@ -4,18 +4,23 @@ using System.Windows.Forms;
 
 namespace NTMiner {
     public class ExtendedNotifyIcon : IDisposable {
-        public static ExtendedNotifyIcon Create(Icon icon, string text) {
-            return new ExtendedNotifyIcon(icon, text);
+        public static ExtendedNotifyIcon Create(Icon icon, string text, bool isCanClose = false) {
+            return new ExtendedNotifyIcon(icon, text, isCanClose);
         }
 
         private readonly NotifyIcon _targetNotifyIcon;
-        private ExtendedNotifyIcon(Icon icon, string text) {
+        private ExtendedNotifyIcon(Icon icon, string text, bool isCanClose) {
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
                 Visible = NTMinerRegistry.GetIsShowDaemonNotifyIcon(),
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
+            if (isCanClose) {
+                _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
+                    HostRoot.WaitHandle.Set();
+                }));
+            }
         }
 
         public void RefreshIcon() {

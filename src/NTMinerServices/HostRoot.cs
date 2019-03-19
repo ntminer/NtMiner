@@ -24,7 +24,7 @@ namespace NTMiner {
                 if (mutexCreated) {
                     NTMinerRegistry.SetAutoBoot("NTMinerServices", true);
                     Type thisType = typeof(HostRoot);
-                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner群控服务");
+                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner群控服务", isCanClose: true);
                     Run();
                     NotifyIcon.Dispose();
                 }
