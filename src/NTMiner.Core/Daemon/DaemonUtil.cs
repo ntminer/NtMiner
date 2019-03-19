@@ -37,7 +37,12 @@ namespace NTMiner.Daemon {
                 foreach (var name in names) {
                     ExtractResource(name);
                 }
-                Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty);
+#if DEBUG
+                bool createNoWindow = false;
+#else
+                bool createNoWindow = true;
+#endif
+                Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty, createNoWindow);
                 Logger.OkDebugLine("守护进程启动成功");
             });
         }

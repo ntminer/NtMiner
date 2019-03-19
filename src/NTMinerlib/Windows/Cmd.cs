@@ -3,10 +3,10 @@ using System.Diagnostics;
 
 namespace NTMiner.Windows {
     public static class Cmd {
-        public static void RunClose(string filePullName, string args) {
+        public static void RunClose(string filePullName, string args, bool createNoWindow = true) {
             try {
                 using (Process proc = new Process()) {
-                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.CreateNoWindow = createNoWindow;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
                     proc.StartInfo.Arguments = $"/C \"{filePullName}\" {args}";
