@@ -48,13 +48,16 @@ namespace NTMiner.Core.Kernels {
                 }
                 return commandName;
             }
-            catch (System.Exception e) {
+            catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
                 return string.Empty;
             }
         }
 
         public static bool IsSupported(this IKernel kernel) {
+            if (VirtualRoot.IsControlCenter) {
+                return true;
+            }
             foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == kernel.GetId())) {
                 if (item.SupportedGpu == SupportedGpu.Both) {
                     return true;
