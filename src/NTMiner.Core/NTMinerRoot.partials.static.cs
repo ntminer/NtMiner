@@ -4,8 +4,10 @@ using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.Repositories;
 using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace NTMiner {
     public partial class NTMinerRoot {
@@ -75,6 +77,27 @@ namespace NTMiner {
             string value = Environment.MachineName.ToLower();
             value = new string(value.ToCharArray().Where(a => !MinerNameConst.InvalidChars.Contains(a)).ToArray());
             return value;
+        }
+
+        private static DateTime _diskSpaceOn = DateTime.MinValue;
+        private static string _diskSpace = string.Empty;
+        public static string DiskSpace {
+            get {
+                if (_diskSpaceOn.AddMinutes(10) < DateTime.Now) {
+                    _diskSpaceOn = DateTime.Now;
+                    StringBuilder sb = new StringBuilder();
+                    int len = sb.Length;
+                    foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
+                        if (len != sb.Length) {
+                            sb.Append(";");
+                        }
+                        sb.Append(item.Name).Append("|").Append((item.AvailableFreeSpace / (double)(1024 * 1024 * 1024)).ToString("f1")).Append(" Gb");
+                    }
+                    _diskSpace = sb.ToString();
+                }
+
+                return _diskSpace;
+            }
         }
 
         #region HotKey

@@ -73,7 +73,13 @@ namespace NTMiner.MinerServer {
         string GpuDriver { get; }
 
         string KernelCommandLine { get; }
-
+        bool IsAutoRestartKernel { get; }
+        bool IsNoShareRestartKernel { get; }
+        int NoShareRestartKernelMinutes { get; }
+        bool IsPeriodicRestartKernel { get; }
+        int PeriodicRestartKernelHours { get; }
+        bool IsPeriodicRestartComputer { get; }
+        int PeriodicRestartComputerHours { get; }
         GpuSpeedData[] GpuTable { get; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
-using NTMiner.Notifications;
 using NTMiner.Views;
 using System;
 using System.Collections.Generic;
@@ -999,6 +998,62 @@ namespace NTMiner.Vms {
             set {
                 _gpuTableVm = value;
                 OnPropertyChanged(nameof(GpuTableVm));
+            }
+        }
+
+        public bool IsAutoRestartKernel {
+            get { return _data.IsAutoRestartKernel; }
+            set {
+                _data.IsAutoRestartKernel = value;
+                OnPropertyChanged(nameof(IsAutoRestartKernel));
+            }
+        }
+
+        public bool IsNoShareRestartKernel {
+            get { return _data.IsNoShareRestartKernel; }
+            set {
+                _data.IsNoShareRestartKernel = value;
+                OnPropertyChanged(nameof(IsNoShareRestartKernel));
+            }
+        }
+
+        public bool IsPeriodicRestartKernel {
+            get { return _data.IsPeriodicRestartKernel; }
+            set {
+                _data.IsPeriodicRestartKernel = value;
+                OnPropertyChanged(nameof(IsPeriodicRestartKernel));
+            }
+        }
+
+        public bool IsPeriodicRestartComputer {
+            get { return _data.IsPeriodicRestartComputer; }
+            set {
+                _data.IsPeriodicRestartComputer = value;
+                OnPropertyChanged(nameof(IsPeriodicRestartComputer));
+            }
+        }
+
+        public int NoShareRestartKernelMinutes {
+            get { return _data.NoShareRestartKernelMinutes; }
+            set {
+                _data.NoShareRestartKernelMinutes = value;
+                OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
+            }
+        }
+
+        public int PeriodicRestartKernelHours {
+            get { return _data.PeriodicRestartKernelHours; }
+            set {
+                _data.PeriodicRestartKernelHours = value;
+                OnPropertyChanged(nameof(PeriodicRestartKernelHours));
+            }
+        }
+
+        public int PeriodicRestartComputerHours {
+            get { return _data.PeriodicRestartComputerHours; }
+            set {
+                _data.PeriodicRestartComputerHours = value;
+                OnPropertyChanged(nameof(PeriodicRestartComputerHours));
             }
         }
 

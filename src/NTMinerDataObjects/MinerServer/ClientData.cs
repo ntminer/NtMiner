@@ -25,6 +25,7 @@ namespace NTMiner.MinerServer {
                 PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours,
                 IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer,
                 PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours,
+                MinerName = string.Empty,
                 GpuDriver = speedData.GpuDriver,
                 GpuType = speedData.GpuType,
                 OSName = speedData.OSName,

@@ -83,6 +83,16 @@ namespace NTMiner.MinerServer {
 
         public bool KernelCommandLine { get; set; }
 
+        public bool DiskSpace { get; set; }
+
+        public bool IsAutoRestartKernel { get; set; }
+
+        public bool IsNoShareRestartKernel { get; set; }
+
+        public bool IsPeriodicRestartKernel { get; set; }
+
+        public bool IsPeriodicRestartComputer { get; set; }
+
         public StringBuilder GetSignData() {
             StringBuilder sb = new StringBuilder();
             sb.Append(nameof(Id)).Append(Id)
@@ -119,7 +129,12 @@ namespace NTMiner.MinerServer {
                 .Append(nameof(GpuDriver)).Append(GpuDriver)
                 .Append(nameof(TotalPowerText)).Append(TotalPowerText)
                 .Append(nameof(MaxTempText)).Append(MaxTempText)
-                .Append(nameof(KernelCommandLine)).Append(KernelCommandLine);
+                .Append(nameof(KernelCommandLine)).Append(KernelCommandLine)
+                .Append(nameof(DiskSpace)).Append(DiskSpace)
+                .Append(nameof(IsAutoRestartKernel)).Append(IsAutoRestartKernel)
+                .Append(nameof(IsNoShareRestartKernel)).Append(IsNoShareRestartKernel)
+                .Append(nameof(IsPeriodicRestartKernel)).Append(IsPeriodicRestartKernel)
+                .Append(nameof(IsPeriodicRestartComputer)).Append(IsPeriodicRestartComputer);
             return sb;
         }
     }

@@ -32,10 +32,15 @@ namespace NTMiner.MinerServer {
         bool IsAutoStart { get; }
         bool OSName { get; }
         bool OSVirtualMemoryGbText { get; }
+        bool DiskSpace { get; }
         bool GpuType { get; }
         bool GpuDriver { get; }
         bool TotalPowerText { get; }
         bool MaxTempText { get; }
         bool KernelCommandLine { get; }
+        bool IsAutoRestartKernel { get; }
+        bool IsNoShareRestartKernel { get; }
+        bool IsPeriodicRestartKernel { get; }
+        bool IsPeriodicRestartComputer { get; }
     }
 }

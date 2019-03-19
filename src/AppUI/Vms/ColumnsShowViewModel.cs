@@ -45,6 +45,11 @@ namespace NTMiner.Vms {
         private bool _totalPowerText = true;
         private bool _maxTempText = true;
         private bool _kernelCommandLine = true;
+        private bool _diskSpace = true;
+        private bool _isAutoRestartKernel = true;
+        private bool _isNoShareRestartKernel = true;
+        private bool _isPeriodicRestartKernel = true;
+        private bool _isPeriodicRestartComputer = true;
 
         public ICommand Hide { get; private set; }
 
@@ -128,6 +133,11 @@ namespace NTMiner.Vms {
             _totalPowerText = data.TotalPowerText;
             _maxTempText = data.MaxTempText;
             _kernelCommandLine = data.KernelCommandLine;
+            _diskSpace = data.DiskSpace;
+            _isAutoRestartKernel = data.IsAutoRestartKernel;
+            _isNoShareRestartKernel = data.IsNoShareRestartKernel;
+            _isPeriodicRestartKernel = data.IsPeriodicRestartKernel;
+            _isPeriodicRestartComputer = data.IsPeriodicRestartComputer;
         }
 
         public bool IsPleaseSelect {
@@ -529,6 +539,61 @@ namespace NTMiner.Vms {
                 if (_gpuInfo != value) {
                     _gpuInfo = value;
                     OnPropertyChanged(nameof(GpuInfo));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool DiskSpace {
+            get => _diskSpace;
+            set {
+                if (_diskSpace != value) {
+                    _diskSpace = value;
+                    OnPropertyChanged(nameof(DiskSpace));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool IsAutoRestartKernel {
+            get => _isAutoRestartKernel;
+            set {
+                if (_isAutoRestartKernel != value) {
+                    _isAutoRestartKernel = value;
+                    OnPropertyChanged(nameof(IsAutoRestartKernel));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool IsNoShareRestartKernel {
+            get => _isNoShareRestartKernel;
+            set {
+                if (_isNoShareRestartKernel != value) {
+                    _isNoShareRestartKernel = value;
+                    OnPropertyChanged(nameof(IsNoShareRestartKernel));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool IsPeriodicRestartKernel {
+            get => _isPeriodicRestartKernel;
+            set {
+                if (_isPeriodicRestartKernel != value) {
+                    _isPeriodicRestartKernel = value;
+                    OnPropertyChanged(nameof(IsPeriodicRestartKernel));
+                    UpdateColumnsShowAsync();
+                }
+            }
+        }
+
+        public bool IsPeriodicRestartComputer {
+            get => _isPeriodicRestartComputer;
+            set {
+                if (_isPeriodicRestartComputer != value) {
+                    _isPeriodicRestartComputer = value;
+                    OnPropertyChanged(nameof(IsPeriodicRestartComputer));
                     UpdateColumnsShowAsync();
                 }
             }
