@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
     public unsafe static partial class NoDevFeeUtil {
-        private static volatile int s_contextId;
+        private static int s_contextId;
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static void StartAsync(
             int contextId, 
@@ -45,8 +45,8 @@ namespace NTMiner.NoDevFee {
             else {
                 message = "ok";
             }
+            Write.DevLine(message);
             if (message != "ok") {
-                Write.DevLine(message);
                 return;
             }
             if (minerName == null) {
