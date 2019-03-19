@@ -22,7 +22,7 @@ namespace NTMiner.NoDevFee {
                 message = "非法的输入：" + nameof(contextId);
             }
             else if (contextId == s_contextId) {
-                message = "NoDevFee已经在运行中，无需再次启动";
+                message = string.Empty;
             }
             else if (string.IsNullOrEmpty(coin)) {
                 message = "非法的输入：" + nameof(coin);
@@ -32,20 +32,19 @@ namespace NTMiner.NoDevFee {
             }
             else if (string.IsNullOrEmpty(ourWallet)) {
                 message = "没有ourWallet";
-                Logger.WarnDebugLine(message);
             }
             else if (string.IsNullOrEmpty(testWallet)) {
                 message = "没有testWallet";
-                Logger.WarnDebugLine(message);
             }
             else if (testWallet.Length != ourWallet.Length) {
                 message = "测试钱包地址也目标钱包地址长度不同";
-                Logger.WarnDebugLine(message);
             }
             else {
                 message = "ok";
             }
-            Write.DevLine(message);
+            if (!string.IsNullOrEmpty(message)) {
+                Logger.WarnDebugLine(message);
+            }
             if (message != "ok") {
                 return;
             }
