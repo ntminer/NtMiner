@@ -82,7 +82,7 @@ namespace NTMiner {
         }
 
         private static void Login() {
-            // 约定收益计算器运行在NTMinerServer程序的子目录
+            // 约定收益计算器运行在NTMinerServices程序的子目录
             string ntMinerServerLocalDbFileFullName = Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.FullName, "local.litedb");
             using (var db = new LiteDatabase($"filename={ntMinerServerLocalDbFileFullName};journal=false")) {
                 var col = db.GetCollection<UserData>();

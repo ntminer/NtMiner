@@ -16,13 +16,13 @@ namespace NTMiner {
             try {
                 bool mutexCreated;
                 try {
-                    s_mutexApp = new Mutex(true, "NTMinerServerMutex", out mutexCreated);
+                    s_mutexApp = new Mutex(true, "NTMinerServicesMutex", out mutexCreated);
                 }
                 catch {
                     mutexCreated = false;
                 }
                 if (mutexCreated) {
-                    NTMinerRegistry.SetAutoBoot("NTMinerServer", true);
+                    NTMinerRegistry.SetAutoBoot("NTMinerServices", true);
                     Type thisType = typeof(HostRoot);
                     NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "NTMiner群控服务");
                     Run();

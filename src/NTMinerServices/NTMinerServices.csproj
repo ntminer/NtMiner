@@ -8,7 +8,7 @@
     <ProjectGuid>{E7B88637-7704-4701-98E0-7875BB6E8C98}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>NTMiner</RootNamespace>
-    <AssemblyName>NTMinerServer</AssemblyName>
+    <AssemblyName>NTMinerServices</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
