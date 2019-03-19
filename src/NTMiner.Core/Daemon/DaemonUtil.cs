@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 namespace NTMiner.Daemon {
     public static class DaemonUtil {
         public static void RunNTMinerDaemon() {
+            if (VirtualRoot.IsControlCenter) {
+                return;
+            }
             string processName = "NTMinerDaemon";
             Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
@@ -48,6 +51,9 @@ namespace NTMiner.Daemon {
         }
 
         public static void RunDevConsoleAsync(string poolIp, string consoleTitle) {
+            if (VirtualRoot.IsControlCenter) {
+                return;
+            }
             Task.Factory.StartNew(() => {
                 if (!File.Exists(SpecialPath.DevConsoleFileFullName)) {
                     string name = "DevConsole.exe";
