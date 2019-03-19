@@ -152,12 +152,13 @@ namespace NTMiner.Vms {
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
                 DialogWindow.ShowDialog(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
                     foreach (var item in SelectedMinerClients) {
-                        Daemon.UpgradeNTMinerRequest request = new Daemon.UpgradeNTMinerRequest {
-                            LoginName = SingleUser.LoginName,
-                            NTMinerFileName = ntminerFileData.FileName
-                        };
-                        request.SignIt(SingleUser.GetRemotePassword(item.ClientId));
-                        Client.NTMinerDaemonService.UpgradeNTMiner(item.MinerIp, request);
+                        Server.MinerClientService.UpgradeNTMinerAsync(item, ntminerFileData.FileName, (response, e) => {
+                            if (!response.IsSuccess()) {
+                                if (response != null) {
+                                    Write.UserLine($"{item.MinerName} {item.MinerIp} {response.Description}", ConsoleColor.Red);
+                                }
+                            }
+                        });
                     }
                 }, icon: IconConst.IconConfirm);
             }, (ntminerFileData) => {
