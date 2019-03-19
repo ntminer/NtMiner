@@ -215,6 +215,51 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
+				<MenuItem Header="{DynamicResource OverClock}" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_OverClock}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource CalcConfig}" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Calc}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem 
+					Header="{DynamicResource SetServerJsonVersion}" 
+					ToolTip="{x:Static vm:AppStatic.ServerJsonFileName}"
+					Command="{x:Static vm:AppStatic.SetServerJsonVersion}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Refresh}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem 
+					Header="{DynamicResource ShowNTMinerUpdaterConfig}" 
+					Command="{x:Static vm:AppStatic.ShowNTMinerUpdaterConfig}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Update}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 			</MenuItem>
 			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientVisible}">
 				<MenuItem.Icon>
@@ -331,16 +376,6 @@
 						</Image>
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="{DynamicResource OverClock}" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_OverClock}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
 				<MenuItem Header="{DynamicResource Coin}" Command="{x:Static vm:AppStatic.ShowCoins}">
 					<MenuItem.Icon>
 						<Path
@@ -357,16 +392,6 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Kernel}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="{DynamicResource CalcConfig}" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Calc}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
@@ -397,31 +422,6 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_About}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem 
-					Header="{DynamicResource SetServerJsonVersion}" 
-					ToolTip="{x:Static vm:AppStatic.ServerJsonFileName}"
-					Command="{x:Static vm:AppStatic.SetServerJsonVersion}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Refresh}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem 
-					Header="{DynamicResource ShowNTMinerUpdaterConfig}" 
-					Command="{x:Static vm:AppStatic.ShowNTMinerUpdaterConfig}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Update}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
