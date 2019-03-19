@@ -56,7 +56,7 @@ namespace NTMiner.Data.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -79,8 +79,7 @@ namespace NTMiner.Data.Impl {
 
         public IUser GetUser(string loginName) {
             InitOnece();
-            UserData userData;
-            if (_dicByLoginName.TryGetValue(loginName, out userData)) {
+            if (_dicByLoginName.TryGetValue(loginName, out UserData userData)) {
                 return userData;
             }
             return null;

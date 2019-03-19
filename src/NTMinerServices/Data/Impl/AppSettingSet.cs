@@ -17,8 +17,7 @@ namespace NTMiner.Data.Impl {
                     if (message.AppSetting == null) {
                         return;
                     }
-                    AppSettingData entity;
-                    if (_dicByKey.TryGetValue(message.AppSetting.Key, out entity)) {
+                    if (_dicByKey.TryGetValue(message.AppSetting.Key, out AppSettingData entity)) {
                         entity.Value = message.AppSetting.Value;
                         using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
                             var col = db.GetCollection<AppSettingData>();
@@ -38,7 +37,7 @@ namespace NTMiner.Data.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -63,8 +62,7 @@ namespace NTMiner.Data.Impl {
 
         public bool TryGetAppSetting(string key, out IAppSetting appSetting) {
             InitOnece();
-            AppSettingData data;
-            var result = _dicByKey.TryGetValue(key, out data);
+            var result = _dicByKey.TryGetValue(key, out AppSettingData data);
             appSetting = data;
             return result;
         }
