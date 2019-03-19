@@ -416,8 +416,8 @@ namespace NTMiner.Vms {
                         }
                         OnPropertyChanged(nameof(MinerName));
                     });
-                    OnPropertyChanged(nameof(MinerName));
                 }
+                OnPropertyChanged(nameof(MinerName));
             }
         }
 
