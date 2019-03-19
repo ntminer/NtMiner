@@ -116,7 +116,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Header="切换作业" Click="MenuItemWork_Click">
+				<MenuItem x:Name="MenuItemMineWork" IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Header="切换作业" Click="MenuItemWork_Click">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -126,7 +126,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Header="加入组" Click="MenuItemGroup_Click">
+				<MenuItem x:Name="MenuItemMinerGroup" IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Padding="4" Margin="0 0 6 0" Header="加入组" Click="MenuItemGroup_Click">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -146,7 +146,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="升级挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyUpgrade}" Click="MenuItemUpgrade_Click">
+				<MenuItem x:Name="MenuItemUpgrade" Header="升级挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding OneKeyUpgrade}" Click="MenuItemUpgrade_Click">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -2013,8 +2013,8 @@
 				<GridSplitter Grid.Column="1" Width="6" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Stretch"></GridSplitter>
 			</Grid>
 		</Grid>
-		<Popup x:Name="PopMineWork" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" Placement="MousePoint" StaysOpen="False">
-			<Border Padding="4" Background="#EEEEF2" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+		<Popup x:Name="PopMineWork" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemMineWork}" Placement="Bottom" StaysOpen="False">
+			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
 				<StackPanel>
 					<TextBlock>切换作业</TextBlock>
 					<ItemsControl 
@@ -2026,8 +2026,8 @@
 						</ItemsControl.Resources>
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
+								<StackPanel>
+								</StackPanel>
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
@@ -2047,8 +2047,8 @@
 				</StackPanel>
 			</Border>
 		</Popup>
-		<Popup x:Name="PopMinerGroup" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" Placement="MousePoint" StaysOpen="False">
-			<Border Padding="4" Background="#EEEEF2" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+		<Popup x:Name="PopMinerGroup" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemMinerGroup}" Placement="Bottom" StaysOpen="False">
+			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
 				<StackPanel>
 					<TextBlock>加入组</TextBlock>
 					<ItemsControl 
@@ -2060,8 +2060,8 @@
 						</ItemsControl.Resources>
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
+								<StackPanel>
+								</StackPanel>
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
@@ -2081,8 +2081,8 @@
 				</StackPanel>
 			</Border>
 		</Popup>
-		<Popup x:Name="PopUpgrade" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" Placement="MousePoint" StaysOpen="False">
-			<Border Padding="4" Background="#EEEEF2" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
+		<Popup x:Name="PopUpgrade" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemUpgrade}" Placement="Bottom" StaysOpen="False">
+			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
 				<StackPanel>
 					<TextBlock>升级挖矿端</TextBlock>
 					<ItemsControl 
@@ -2094,8 +2094,8 @@
 						</ItemsControl.Resources>
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
-								<WrapPanel>
-								</WrapPanel>
+								<StackPanel>
+								</StackPanel>
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
