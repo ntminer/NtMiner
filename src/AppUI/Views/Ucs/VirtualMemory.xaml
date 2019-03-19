@@ -64,8 +64,8 @@
 										<Border x:Name="BorderTotalSpace" Background="#E6E6E6" BorderBrush="{StaticResource LineColor}" BorderThickness="1">
 											<WrapPanel>
 												<Rectangle 
-												Height="16" Width="{Binding HasUsedSpacePercent, ConverterParameter=250, Converter={StaticResource PercentToLengthConverter}}" 
-												HorizontalAlignment="Left" Fill="#26A0DA"></Rectangle>
+												    Height="16" Width="{Binding HasUsedSpacePercent, ConverterParameter=250, Converter={StaticResource PercentToLengthConverter}}" 
+												    HorizontalAlignment="Left" Fill="{StaticResource IconFillColor}"></Rectangle>
 											</WrapPanel>
 										</Border>
 										<WrapPanel>
