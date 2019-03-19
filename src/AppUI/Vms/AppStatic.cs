@@ -180,9 +180,6 @@ namespace NTMiner.Vms {
             Views.Ucs.VirtualMemory.ShowWindow();
         });
 
-        public static ICommand ViewEvent { get; private set; } = new DelegateCommand(() => {
-            EventPage.ShowWindow();
-        });
         public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(() => {
             SysDicPage.ShowWindow();
         });

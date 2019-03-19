@@ -13,7 +13,7 @@ namespace NTMiner {
         private static bool _sIsControlCenter;
 
         public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-        public static bool IsPublishHandlerIdAddedEvent = false;
+        
         public static bool IsControlCenter {
             get => _sIsControlCenter;
             set {

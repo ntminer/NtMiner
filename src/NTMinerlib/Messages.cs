@@ -67,27 +67,6 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(messageType: typeof(UpdateHandlerIdCommand), description: "更新处理器日志配置")]
-    public class UpdateHandlerIdCommand : Cmd {
-        public UpdateHandlerIdCommand(IHandlerId input) {
-            this.Input = input;
-        }
-
-        public IHandlerId Input { get; private set; }
-    }
-
-    [MessageType(messageType: typeof(HandlerIdAddedEvent), description: "新的处理器标识出现后")]
-    public class HandlerIdAddedEvent : DomainEvent<IHandlerId> {
-        public HandlerIdAddedEvent(IHandlerId source) : base(source) {
-        }
-    }
-
-    [MessageType(messageType: typeof(HandlerIdUpdatedEvent), description: "更新了处理器标识信息后")]
-    public class HandlerIdUpdatedEvent : DomainEvent<IHandlerId> {
-        public HandlerIdUpdatedEvent(IHandlerId source) : base(source) {
-        }
-    }
-
     [MessageType(messageType: typeof(HasBoot1SecondEvent), description: "已经启动1秒钟", isCanNoHandler: true)]
     public class HasBoot1SecondEvent : EventBase {
         public readonly int Seconds = 1;

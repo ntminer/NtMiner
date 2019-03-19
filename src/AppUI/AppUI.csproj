@@ -248,9 +248,6 @@
     <Compile Include="Views\Ucs\OuterProperty.xaml.cs">
       <DependentUpon>OuterProperty.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\EventPage.xaml.cs">
-      <DependentUpon>EventPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Ucs\GroupEdit.xaml.cs">
       <DependentUpon>GroupEdit.xaml</DependentUpon>
     </Compile>
@@ -313,8 +310,6 @@
     <Compile Include="Vms\KernelSelectViewModel.cs" />
     <Compile Include="Vms\FileDownloaderViewModel.cs" />
     <Compile Include="Vms\GpuStatusBarViewModel.cs" />
-    <Compile Include="Vms\HandlerIdViewModel.cs" />
-    <Compile Include="Vms\HandlerIdViewModels.cs" />
     <Compile Include="Vms\KernelHelpPageViewModel.cs" />
     <Compile Include="Vms\KernelMenu.cs" />
     <Compile Include="Vms\KernelOutputFilterViewModel.cs" />
@@ -382,7 +377,6 @@
     <Compile Include="Vms\CoinViewModels.cs" />
     <Compile Include="Vms\Drives\Drive.cs" />
     <Compile Include="Vms\OuterPropertyViewModel.cs" />
-    <Compile Include="Vms\EventPageViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
     <Compile Include="Vms\PoolViewModels.cs" />
@@ -651,10 +645,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\OuterProperty.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\EventPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
