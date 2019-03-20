@@ -55,7 +55,7 @@ namespace NTMiner.Core.Profiles {
                     }
                     else {
                         foreach (var overClockData in GpuProfiles.Where(a => a.CoinId == message.CoinId)) {
-                            if (overClockData.IsEnabled && overClockData.Index != NTMinerRoot.GpuAllId) {
+                            if (overClockData.Index != NTMinerRoot.GpuAllId) {
                                 VirtualRoot.Execute(new OverClockCommand(overClockData));
                             }
                         }

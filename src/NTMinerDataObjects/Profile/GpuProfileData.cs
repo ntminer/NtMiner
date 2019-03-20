@@ -12,7 +12,6 @@ namespace NTMiner.Profile {
             this.MemoryClockDelta = 0;
             this.PowerCapacity = 0;
             this.Cool = 0;
-            this.IsEnabled = true;
         }
 
         public GpuProfileData(IGpuProfile data) {
@@ -22,7 +21,6 @@ namespace NTMiner.Profile {
             this.MemoryClockDelta = data.MemoryClockDelta;
             this.PowerCapacity = data.PowerCapacity;
             this.Cool = data.Cool;
-            this.IsEnabled = data.IsEnabled;
         }
 
         public void Update(IGpuProfile data) {
@@ -32,7 +30,6 @@ namespace NTMiner.Profile {
             this.MemoryClockDelta = data.MemoryClockDelta;
             this.PowerCapacity = data.PowerCapacity;
             this.Cool = data.Cool;
-            this.IsEnabled = data.IsEnabled;
         }
 
         public Guid CoinId { get; set; }
@@ -47,10 +44,8 @@ namespace NTMiner.Profile {
 
         public int Cool { get; set; }
 
-        public bool IsEnabled { get; set; }
-
         public override string ToString() {
-            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{Cool}{IsEnabled}";
+            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{PowerCapacity}{Cool}";
         }
     }
 }

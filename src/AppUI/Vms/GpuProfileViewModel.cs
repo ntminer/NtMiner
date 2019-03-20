@@ -1,8 +1,7 @@
 ﻿using NTMiner.Core;
+using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
-using System.Windows.Input;
-using NTMiner.MinerServer;
 
 namespace NTMiner.Vms {
     public class GpuProfileViewModel : ViewModelBase, IGpuProfile {
@@ -12,14 +11,8 @@ namespace NTMiner.Vms {
         private int _memoryClockDelta;
         private int _powerCapacity;
         private int _cool;
-        private bool _isEnabled = true;
-
-        public ICommand Apply { get; private set; }
 
         public GpuProfileViewModel() {
-            this.Apply = new DelegateCommand(() => {
-                VirtualRoot.Execute(new OverClockCommand(this));
-            });
         }
 
         public GpuProfileViewModel(IGpuProfile data) : this() {
@@ -29,7 +22,6 @@ namespace NTMiner.Vms {
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
             _cool = data.Cool;
-            _isEnabled = data.IsEnabled;
             GpuViewModels.Current.TryGetGpuVm(Index, out _gpuVm);
         }
 
@@ -40,7 +32,6 @@ namespace NTMiner.Vms {
             this._memoryClockDelta = data.MemoryClockDelta;
             this._powerCapacity = data.PowerCapacity;
             this._cool = data.Cool;
-            this._isEnabled = data.IsEnabled;
 
             OnPropertyChanged(nameof(CoinId));
             OnPropertyChanged(nameof(Index));
@@ -48,7 +39,6 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(Cool));
-            OnPropertyChanged(nameof(IsEnabled));
         }
 
         public void Update(IOverClockData data) {
@@ -77,15 +67,6 @@ namespace NTMiner.Vms {
                 _index = value;
                 OnPropertyChanged(nameof(Index));
                 OnPropertyChanged(nameof(IndexText));
-            }
-        }
-
-        public bool IsEnabled {
-            get => _isEnabled;
-            set {
-                _isEnabled = value;
-                OnPropertyChanged(nameof(IsEnabled));
-                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
             }
         }
 

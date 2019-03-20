@@ -135,12 +135,7 @@
 							<GroupBox BorderBrush="{StaticResource LineColor}" BorderThickness="1" Padding="0 0 0 4">
 								<GroupBox.Header>
 									<WrapPanel>
-										<controls:KbCheckBox 
-											Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityInvertConverter}}"
-											IsChecked="{Binding IsEnabled}" 
-											IconColor="{StaticResource IconFillColor}"
-											Content="{Binding IndexText}"></controls:KbCheckBox>
-										<TextBlock Text="GPU All" Visibility="{Binding IsGpuAllVm,Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+										<TextBlock Text="{Binding GpuVm.Name}"></TextBlock>
 									</WrapPanel>
 								</GroupBox.Header>
 								<Grid>
@@ -180,22 +175,6 @@
 									</WrapPanel>
 								</Grid>
 							</GroupBox>
-							<controls:KbButton
-								Margin="0 0 2 2"
-								ToolTip="点击应用该卡超频设置"
-								Visibility="{Binding IsGpuAllVm, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-								HorizontalAlignment="Right" VerticalAlignment="Bottom"
-								Command="{Binding Apply}" 
-								CornerRadius="2">
-								<WrapPanel>
-									<Path
-										Width="16"
-										Height="16"
-										Data="{StaticResource Icon_Save}"
-										Fill="{StaticResource IconFillColor}"
-										Stretch="Fill" />
-								</WrapPanel>
-							</controls:KbButton>
 						</Grid>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

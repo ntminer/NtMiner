@@ -12,7 +12,5 @@ namespace NTMiner.Profile {
         int PowerCapacity { get; }
 
         int Cool { get; }
-
-        bool IsEnabled { get; }
     }
 }
