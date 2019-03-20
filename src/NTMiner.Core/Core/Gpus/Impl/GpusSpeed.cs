@@ -11,18 +11,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private readonly INTMinerRoot _root;
         public GpusSpeed(INTMinerRoot root) {
-            _root = root;
-            DateTime now = DateTime.Now;
-            foreach (var gpu in _root.GpuSet) {
-                _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu, new Speed() {
-                    Value = 0,
-                    SpeedOn = now
-                }, new Speed() {
-                    Value = 0,
-                    SpeedOn = now
-                }));
-                _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
-            }
+            _root = root;            
             VirtualRoot.On<Per10MinuteEvent>(
                 "周期清除过期的历史算力",
                 LogEnum.Console,
@@ -34,7 +23,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 "停止挖矿后产生一次0算力",
                 LogEnum.Console,
                 action: message => {
-                    now = DateTime.Now;
+                    var now = DateTime.Now;
                     foreach (var gpu in _root.GpuSet) {
                         SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: false, now: now);
                         if (message.MineContext is IDualMineContext dualMineContext) {
@@ -47,7 +36,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 "挖矿开始时产生一次0算力0份额",
                 LogEnum.Console,
                 action: message => {
-                    now = DateTime.Now;
+                    var now = DateTime.Now;
                     _root.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);
                     foreach (var gpu in _root.GpuSet) {
                         SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: false, now: now);
@@ -61,7 +50,31 @@ namespace NTMiner.Core.Gpus.Impl {
                 });
         }
 
+        private bool _isInited = false;
+        private readonly object _locker = new object();
+        private void InitOnece() {
+            if (!_isInited) {
+                lock (_locker) {
+                    if (!_isInited) {
+                        DateTime now = DateTime.Now;
+                        foreach (var gpu in _root.GpuSet) {
+                            _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu, new Speed() {
+                                Value = 0,
+                                SpeedOn = now
+                            }, new Speed() {
+                                Value = 0,
+                                SpeedOn = now
+                            }));
+                            _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
+                        }
+                        _isInited = true;
+                    }
+                }
+            }
+        }
+
         public void ClearOutOfDateHistory() {
+            InitOnece();
             DateTime now = DateTime.Now;
             foreach (var historyList in _gpuSpeedHistory.Values) {
                 var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(_root.SpeedHistoryLengthByMinute) < now).ToArray();
@@ -72,6 +85,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public IGpuSpeed CurrentSpeed(int gpuIndex) {
+            InitOnece();
             if (!_currentGpuSpeed.ContainsKey(gpuIndex)) {
                 return GpuSpeed.Empty;
             }
@@ -80,6 +94,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private Guid _mainCoinId;
         public void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now) {
+            InitOnece();
             GpuSpeed gpuSpeed = _currentGpuSpeed.Values.First(a => a.Gpu.Index == gpuIndex);
             if (gpuSpeed == null) {
                 return;
@@ -118,6 +133,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public List<IGpuSpeed> GetGpuSpeedHistory(int index) {
+            InitOnece();
             if (!_gpuSpeedHistory.ContainsKey(index)) {
                 return new List<IGpuSpeed>();
             }
@@ -125,10 +141,12 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public IEnumerator<IGpuSpeed> GetEnumerator() {
+            InitOnece();
             return _currentGpuSpeed.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
+            InitOnece();
             return _currentGpuSpeed.Values.GetEnumerator();
         }
     }

@@ -352,13 +352,16 @@ namespace NTMiner {
                     });
             #endregion
 
-            Windows.Error.DisableWindowsErrorUI();
-            Windows.Firewall.DisableFirewall();
-            Windows.UAC.DisableUAC();
-            Windows.WAU.DisableWAUAsync();
-            Windows.Defender.DisableAntiSpyware();
-            Windows.Power.PowerCfgOff();
-            Windows.BcdEdit.IgnoreAllFailures();
+            // 因为这里耗时500毫秒左右
+            Task.Factory.StartNew(() => {
+                Windows.Error.DisableWindowsErrorUI();
+                Windows.Firewall.DisableFirewall();
+                Windows.UAC.DisableUAC();
+                Windows.WAU.DisableWAUAsync();
+                Windows.Defender.DisableAntiSpyware();
+                Windows.Power.PowerCfgOff();
+                Windows.BcdEdit.IgnoreAllFailures();
+            });
 
             RefreshArgsAssembly.Invoke();
             // 自动开始挖矿
