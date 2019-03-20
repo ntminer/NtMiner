@@ -1,6 +1,8 @@
 ﻿using NTMiner.Vms;
+using NTMiner.Wpf;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -19,7 +21,7 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             Write.WriteUserLineMethod = (text, foreground) => {
-                WriteLine(this.RichTextBox, this.ConsoleParagraph, text, foreground);
+                WriteLine(this.FlowDocumentScrollViewer, this.ConsoleParagraph, text, foreground);
                 if (foreground == ConsoleColor.Red) {
                     NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(text, 4);
                 }
@@ -28,18 +30,27 @@ namespace NTMiner.Views.Ucs {
                 }
             };
             Write.WriteDevLineMethod = (text, foreground) => {
-                WriteLine(this.RichTextBoxDebug, this.ConsoleParagraphDebug, text, foreground);
+                WriteLine(this.FlowDocumentScrollViewerDebug, this.ConsoleParagraphDebug, text, foreground);
             };
         }
 
+        private readonly Dictionary<string, ScrollViewer> _scrollView = new Dictionary<string, ScrollViewer>();
+        private ScrollViewer ScrollViewer(FlowDocumentScrollViewer flowDocumentScrollViewer) {
+            if (!_scrollView.ContainsKey(flowDocumentScrollViewer.Name)) {
+                _scrollView.Add(flowDocumentScrollViewer.Name, flowDocumentScrollViewer.GetScrollViewer());
+            }
+            return _scrollView[flowDocumentScrollViewer.Name];
+        }
         protected override void OnRender(DrawingContext drawingContext) {
             base.OnRender(drawingContext);
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                this.RichTextBox.ScrollToEnd();
+                foreach (var item in _scrollView.Values) {
+                    item.ScrollToEnd();
+                }
             }
         }
 
-        private void InnerWrite(RichTextBox rtb, Paragraph p, string text, ConsoleColor foreground) {
+        private void InnerWrite(FlowDocumentScrollViewer rtb, Paragraph p, string text, ConsoleColor foreground) {
             InlineCollection list = p.Inlines;
             // 满1000行删除500行
             if (list.Count > 1000) {
@@ -54,11 +65,11 @@ namespace NTMiner.Views.Ucs {
             list.Add(run);
 
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                rtb.ScrollToEnd();
+                ScrollViewer(rtb).ScrollToEnd();
             }
         }
 
-        public void WriteLine(RichTextBox rtb, Paragraph p, string text, ConsoleColor foreground) {
+        public void WriteLine(FlowDocumentScrollViewer rtb, Paragraph p, string text, ConsoleColor foreground) {
             Dispatcher.Invoke((Action)(() => {
                 if (p.Inlines.Count > 0) {
                     text = "\n" + text;

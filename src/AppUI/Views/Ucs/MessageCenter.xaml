@@ -16,37 +16,27 @@
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<RichTextBox 
-			FontFamily="Courier New"
+		<FlowDocumentScrollViewer 			
 			VerticalScrollBarVisibility="Auto"
-			x:Name="RichTextBoxDebug" 
+			x:Name="FlowDocumentScrollViewerDebug" 
 			BorderThickness="0" 
-			SpellCheck.IsEnabled="False"
-			IsReadOnly="True"
 			Padding="0 0 0 4" Background="Black" Foreground="White">
 			<FlowDocument>
-				<Paragraph x:Name="ConsoleParagraphDebug">
+				<Paragraph x:Name="ConsoleParagraphDebug" FontFamily="Courier New" FontSize="12">
 				</Paragraph>
 			</FlowDocument>
-		</RichTextBox>
-		<RichTextBox 
-			Grid.Row="1"
-			FontFamily="Courier New"
+		</FlowDocumentScrollViewer>
+		<FlowDocumentScrollViewer 
+			Grid.Row="1"			
 			VerticalScrollBarVisibility="Auto"
-			x:Name="RichTextBox" 
+			x:Name="FlowDocumentScrollViewer" 
 			BorderThickness="0" 
-			SpellCheck.IsEnabled="False"
-			IsReadOnly="True"
 			Padding="0 0 0 4" Background="Black" Foreground="White">
-			<RichTextBox.Resources>
-				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">10</sys:Double>
-				<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">0</sys:Double>
-			</RichTextBox.Resources>
 			<FlowDocument>
-				<Paragraph x:Name="ConsoleParagraph">
+				<Paragraph x:Name="ConsoleParagraph" FontFamily="Courier New" FontSize="12">
 				</Paragraph>
 			</FlowDocument>
-		</RichTextBox>
+		</FlowDocumentScrollViewer>
 		<controls:KbCheckBox 
 			Grid.Row="0"
 			Margin="0 2 14 0"

@@ -466,18 +466,16 @@
 		</Grid>
 
 		<Grid Grid.Row="2" Background="Black" Height="320" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-			<RichTextBox 
-				FontFamily="Courier New"
+			<FlowDocumentScrollViewer 				
 				Background="Transparent"
 				VerticalScrollBarVisibility="Auto"
-				x:Name="RichTextBoxDebug" BorderThickness="0" 
-				IsReadOnly="True"
+				x:Name="FlowDocumentScrollViewer" BorderThickness="0" 
 				Padding="0 0 0 4" Foreground="White">
 				<FlowDocument>
-					<Paragraph x:Name="ConsoleParagraphDebug">
+					<Paragraph x:Name="ConsoleParagraphDebug" FontFamily="Courier New" FontSize="12">
 					</Paragraph>
 				</FlowDocument>
-			</RichTextBox>
+			</FlowDocumentScrollViewer>
 			<WrapPanel
 				Margin="0 0 18 0"
 				HorizontalAlignment="Right"

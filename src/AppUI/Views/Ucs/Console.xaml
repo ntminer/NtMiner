@@ -135,20 +135,16 @@
 			Data="{StaticResource Icon_Logo}"
 			Fill="#0FFFFFFF"
 			Stretch="Fill" />
-		<RichTextBox 
-			Grid.Row="2"
-			AcceptsReturn="False"
-			FontFamily="Courier New"
+		<FlowDocumentScrollViewer 
+			Grid.Row="2"			
 			VerticalScrollBarVisibility="Auto"
-			x:Name="RichTextBox" 
+			x:Name="FlowDocumentScrollViewer" 
 			BorderThickness="0" 
-			SpellCheck.IsEnabled="False"
-			IsReadOnly="True"
 			Padding="0 0 0 16" Background="Transparent" Foreground="White">
 			<FlowDocument>
-				<Paragraph x:Name="ConsoleParagraph">
+				<Paragraph x:Name="ConsoleParagraph" FontFamily="Courier New" FontSize="12">
 				</Paragraph>
 			</FlowDocument>
-		</RichTextBox>
+		</FlowDocumentScrollViewer>
 	</Grid>
 </UserControl>

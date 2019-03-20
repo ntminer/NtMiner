@@ -4,6 +4,7 @@ using System.Collections;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using NTMiner.Wpf;
 
 namespace NTMiner.Views.Ucs {
     public partial class Console : UserControl {
@@ -21,10 +22,19 @@ namespace NTMiner.Views.Ucs {
             Write.WriteUserLineMethod = WriteLine;
         }
 
+        private ScrollViewer _scrollView;
+        private ScrollViewer ScrollViewer {
+            get {
+                if (_scrollView == null) {
+                    _scrollView = this.FlowDocumentScrollViewer.GetScrollViewer();
+                }
+                return _scrollView;
+            }
+        }
         protected override void OnRender(DrawingContext drawingContext) {
             base.OnRender(drawingContext);
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                this.RichTextBox.ScrollToEnd();
+                this.ScrollViewer.ScrollToEnd();
             }
         }
 
@@ -43,7 +53,7 @@ namespace NTMiner.Views.Ucs {
             list.Add(run);
 
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                this.RichTextBox.ScrollToEnd();
+                this.ScrollViewer.ScrollToEnd();
             }
         }
 

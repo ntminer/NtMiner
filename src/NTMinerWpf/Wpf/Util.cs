@@ -7,6 +7,13 @@ using System.Windows.Input;
 
 namespace NTMiner.Wpf {
     public static class Util {
+        public static ScrollViewer GetScrollViewer(this FlowDocumentScrollViewer element) {
+            if (element == null) {
+                throw new ArgumentNullException(nameof(element));
+            }
+            return element.Template?.FindName("PART_ContentHost", element) as ScrollViewer;
+        }
+
         public static EventHandler ChangeNotiCenterWindowLocation(Window window) {
             return (sender, e) => {
                 NotiCenterWindow.Instance.Left = window.Left + (window.Width - NotiCenterWindow.Instance.Width) / 2;

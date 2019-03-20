@@ -1,8 +1,10 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Notifications;
 using NTMiner.Vms;
+using NTMiner.Wpf;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -143,11 +145,20 @@ namespace NTMiner.Views {
             }
         }
 
+        private ScrollViewer _scrollView;
+        private ScrollViewer ScrollViewer {
+            get {
+                if (_scrollView == null) {
+                    _scrollView = this.FlowDocumentScrollViewer.GetScrollViewer();
+                }
+                return _scrollView;
+            }
+        }
         protected override void OnRender(DrawingContext drawingContext) {
             base.OnRender(drawingContext);
             if (DevMode.IsDevMode) {
                 if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                    this.RichTextBoxDebug.ScrollToEnd();
+                    this.ScrollViewer.ScrollToEnd();
                 }
             }
         }
@@ -166,7 +177,7 @@ namespace NTMiner.Views {
                 }
             }
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                this.RichTextBoxDebug.ScrollToEnd();
+                this.ScrollViewer.ScrollToEnd();
             }
         }
 
