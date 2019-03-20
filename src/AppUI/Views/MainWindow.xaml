@@ -470,8 +470,8 @@
 				Background="Transparent"
 				VerticalScrollBarVisibility="Auto"
 				x:Name="FlowDocumentScrollViewer" BorderThickness="0" 
-				Padding="0 0 0 4" Foreground="White">
-				<FlowDocument>
+				Foreground="White">
+				<FlowDocument PagePadding="4">
 					<Paragraph x:Name="ConsoleParagraphDebug" FontFamily="Courier New" FontSize="12">
 					</Paragraph>
 				</FlowDocument>
