@@ -23,5 +23,11 @@ namespace NTMiner.Views {
                 this.DragMove();
             }
         }
+
+        private void Window_StateChanged(object sender, System.EventArgs e) {
+            if (WindowState != WindowState.Normal) {
+                WindowState = WindowState.Normal;
+            }
+        }
     }
 }

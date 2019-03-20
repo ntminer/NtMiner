@@ -12,9 +12,10 @@
 		WindowStyle="None" 
 		WindowState="Normal"
 		SnapsToDevicePixels="True" 
-		ResizeMode="NoResize"  
+		ResizeMode="NoResize"
 		AllowsTransparency="True"
 		Background="Transparent"
+		StateChanged="Window_StateChanged"
 		Width="600"
 		Title="通知中心"
 		MouseDown="MetroWindow_MouseDown">
