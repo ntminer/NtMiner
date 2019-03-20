@@ -106,6 +106,7 @@ namespace NTMiner.Core.Profiles {
             GpuProfiles.Clear();
             CoinOverClocks.Clear();
             _isInited = false;
+            VirtualRoot.Happened(new GpuProfileSetRefreshedEvent());
         }
 
         public bool IsOverClockEnabled(Guid coinId) {

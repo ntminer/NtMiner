@@ -60,6 +60,11 @@ namespace NTMiner.Core {
 
         public string PropertyName { get; private set; }
     }
+
+    [MessageType(messageType: typeof(GpuProfileSetRefreshedEvent), description: "Gpu超频集合刷新后")]
+    public class GpuProfileSetRefreshedEvent : EventBase {
+        public GpuProfileSetRefreshedEvent() { }
+    }
     #endregion
 
     #region MineWork Messages

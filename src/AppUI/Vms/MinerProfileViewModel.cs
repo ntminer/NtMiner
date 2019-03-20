@@ -31,6 +31,16 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(message.PropertyName);
                 });
 
+            VirtualRoot.On<GpuProfileSetRefreshedEvent>(
+                "Gpu超频集合刷新后刷新附着在当前币种上的超频数据",
+                LogEnum.Console,
+                action: message => {
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuAllOverClockDataVm));
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuOverClockVms));
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.IsOverClockEnabled));
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.IsOverClockGpuAll));
+                });
+
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
                 MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
                 this.CoinVm.CoinKernel?.OnPropertyChanged(nameof(CoinKernelViewModel.CoinKernelProfile));
