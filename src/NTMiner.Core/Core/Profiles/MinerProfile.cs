@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Impl;
+using NTMiner.Core.Profiles.Impl;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
@@ -67,10 +68,10 @@ namespace NTMiner.Core.Profiles {
                 _poolProfileSet.Refresh(workId);
             }
             if (_walletSet == null) {
-                _walletSet = new WalletSet(root, workId);
+                _walletSet = new WalletSet(root);
             }
             else {
-                _walletSet.Refresh(workId);
+                _walletSet.Refresh();
             }
             if (workId != Guid.Empty) {
                 MineWork = LocalJson.Instance.MineWork;

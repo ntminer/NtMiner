@@ -68,21 +68,16 @@ namespace NTMiner.Core.Profiles {
                 private PoolProfileData _data;
 
                 private static PoolProfileData GetPoolProfileData(INTMinerRoot root, Guid workId, Guid poolId) {
-                    if (VirtualRoot.IsControlCenter) {
-                        return Server.ControlCenterService.GetPoolProfile(workId, poolId);
-                    }
-                    else {
-                        bool isUseJson = workId != Guid.Empty;
-                        IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
-                        var result = repository.GetByKey(poolId);
-                        if (result == null) {
-                            if (root.PoolSet.TryGetPool(poolId, out IPool pool)) {
-                                // 如果本地未设置用户名密码则使用默认的测试用户名密码
-                                result = PoolProfileData.CreateDefaultData(pool);
-                            }
+                    bool isUseJson = workId != Guid.Empty;
+                    IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
+                    var result = repository.GetByKey(poolId);
+                    if (result == null) {
+                        if (root.PoolSet.TryGetPool(poolId, out IPool pool)) {
+                            // 如果本地未设置用户名密码则使用默认的测试用户名密码
+                            result = PoolProfileData.CreateDefaultData(pool);
                         }
-                        return result;
                     }
+                    return result;
                 }
 
                 private PoolProfile(Guid workId, PoolProfileData data) {
@@ -132,17 +127,10 @@ namespace NTMiner.Core.Profiles {
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                if (VirtualRoot.IsControlCenter) {
-                                    Server.ControlCenterService.SetPoolProfilePropertyAsync(_workId, PoolId, propertyName, value, (response, exception) => {
-                                        VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
-                                    });
-                                }
-                                else {
-                                    bool isUseJson = _workId != Guid.Empty;
-                                    IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
-                                    repository.Update(_data);
-                                    VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
-                                }
+                                bool isUseJson = _workId != Guid.Empty;
+                                IRepository<PoolProfileData> repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>(isUseJson);
+                                repository.Update(_data);
+                                VirtualRoot.Happened(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                             }
                         }
                     }

@@ -219,7 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Compile Include="Core\Profiles\MinerProfile.partials.WalletSet.cs" />
+    <Compile Include="Core\Profiles\Impl\WalletSet.cs" />
     <None Include="packages.config" />
     <Compile Include="NTMinerRoot.partials.BuildAssembleArgs.cs" />
   </ItemGroup>

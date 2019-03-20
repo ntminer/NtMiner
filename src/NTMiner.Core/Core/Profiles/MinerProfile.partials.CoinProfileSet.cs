@@ -64,9 +64,6 @@ namespace NTMiner.Core.Profiles {
                                 coinKernelId = coinKernel.GetId();
                             }
                             data = CoinProfileData.CreateDefaultData(coinId, poolId, wallet, coinKernelId);
-                            if (VirtualRoot.IsControlCenter) {
-                                Server.ControlCenterService.SetCoinProfileAsync(workId, data, callback: null);
-                            }
                         }
                         CoinProfile coinProfile = new CoinProfile(workId, data);
 
@@ -81,15 +78,10 @@ namespace NTMiner.Core.Profiles {
                 private CoinProfileData _data;
 
                 private static CoinProfileData GetCoinProfileData(Guid workId, Guid coinId) {
-                    if (VirtualRoot.IsControlCenter) {
-                        return Server.ControlCenterService.GetCoinProfile(workId, coinId);
-                    }
-                    else {
-                        bool isUseJson = workId != Guid.Empty;
-                        IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(isUseJson);
-                        var result = repository.GetByKey(coinId);
-                        return result;
-                    }
+                    bool isUseJson = workId != Guid.Empty;
+                    IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(isUseJson);
+                    var result = repository.GetByKey(coinId);
+                    return result;
                 }
 
                 private CoinProfile(Guid workId, CoinProfileData data) {
@@ -187,17 +179,10 @@ namespace NTMiner.Core.Profiles {
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                if (VirtualRoot.IsControlCenter) {
-                                    Server.ControlCenterService.SetCoinProfilePropertyAsync(_workId, CoinId, propertyName, value, (response, exception) => {
-                                        VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
-                                    });
-                                }
-                                else {
-                                    bool isUseJson = _workId != Guid.Empty;
-                                    IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(isUseJson);
-                                    repository.Update(_data);
-                                    VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
-                                }
+                                bool isUseJson = _workId != Guid.Empty;
+                                IRepository<CoinProfileData> repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>(isUseJson);
+                                repository.Update(_data);
+                                VirtualRoot.Happened(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
                             }
                         }
                     }
