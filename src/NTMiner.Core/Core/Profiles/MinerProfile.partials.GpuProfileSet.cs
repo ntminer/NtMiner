@@ -3,6 +3,7 @@ using NTMiner.Core.Gpus;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.Profile;
+using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,22 +25,18 @@ namespace NTMiner.Core.Profiles {
                     action: message => {
                         IGpu gpu;
                         if (root.GpuSet.TryGetGpu(message.Input.Index, out gpu)) {
+                            bool isUseJson = _workId != Guid.Empty;
+                            IRepository<GpuProfileData> repository = NTMinerRoot.CreateLocalRepository<GpuProfileData>(isUseJson);
                             GpuProfileData data;
                             if (_dicById.ContainsKey(message.Input.GetId())) {
                                 data = _dicById[message.Input.GetId()];
                                 data.Update(message.Input);
-                                using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
-                                    var col = db.GetCollection<GpuProfileData>();
-                                    col.Update(data);
-                                }
+                                repository.Update(data);
                             }
                             else {
                                 data = new GpuProfileData(message.Input);
                                 _dicById.Add(data.Id, data);
-                                using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
-                                    var col = db.GetCollection<GpuProfileData>();
-                                    col.Insert(data);
-                                }
+                                repository.Add(data);
                             }
                             VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
                         }
@@ -89,16 +86,8 @@ namespace NTMiner.Core.Profiles {
                 lock (_locker) {
                     if (!_isInited) {
                         bool isUseJson = _workId != Guid.Empty;
-                        GpuProfileData[] datas;
-                        if (isUseJson) {
-                            datas = LocalJson.Instance.GpuProfiles;
-                        }
-                        else {
-                            using (LiteDatabase db = new LiteDatabase(SpecialPath.LocalDbFileFullName)) {
-                                var col = db.GetCollection<GpuProfileData>();
-                                datas = col.FindAll().ToArray();
-                            }
-                        }
+                        IRepository<GpuProfileData> repository = NTMinerRoot.CreateLocalRepository<GpuProfileData>(isUseJson);
+                        GpuProfileData[] datas = repository.GetAll().ToArray();
                         foreach (var item in datas) {
                             _dicById.Add(item.Id, item);
                         }
