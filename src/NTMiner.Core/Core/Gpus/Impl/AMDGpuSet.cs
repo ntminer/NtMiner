@@ -65,11 +65,14 @@ namespace NTMiner.Core.Gpus.Impl {
                     { "GPU_USE_SYNC_OBJECTS","1" }
                 };
                 foreach (var kv in kvs) {
-                    Environment.SetEnvironmentVariable(kv.Key, kv.Value);
-                    Environment.SetEnvironmentVariable(kv.Key, kv.Value, EnvironmentVariableTarget.User);
                     var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);
                     this.Properties.Add(property);
                 }
+                Task.Factory.StartNew(() => {
+                    foreach (var kv in kvs) {
+                        Environment.SetEnvironmentVariable(kv.Key, kv.Value);
+                    }
+                });
             }
             VirtualRoot.On<Per5SecondEvent>(
                 "周期刷新显卡状态",

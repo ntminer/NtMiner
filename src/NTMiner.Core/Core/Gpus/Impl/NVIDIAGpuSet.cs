@@ -82,11 +82,15 @@ namespace NTMiner.Core.Gpus.Impl {
                         {"CUDA_DEVICE_ORDER","PCI_BUS_ID" }
                     };
                     foreach (var kv in kvs) {
-                        Environment.SetEnvironmentVariable(kv.Key, kv.Value);
-                        Environment.SetEnvironmentVariable(kv.Key, kv.Value, EnvironmentVariableTarget.User);
                         var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);
                         this.Properties.Add(property);
                     }
+                    Task.Factory.StartNew(() => {
+                        // 这里会耗时5秒
+                        foreach (var kv in kvs) {
+                            Environment.SetEnvironmentVariable(kv.Key, kv.Value);
+                        }
+                    });
                 }
             }
             VirtualRoot.On<Per5SecondEvent>(
