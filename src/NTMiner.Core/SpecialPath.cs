@@ -69,6 +69,7 @@ namespace NTMiner {
 
             LocalDbFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.litedb");
             LocalJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "local.json");
+            GpuProfilesJsonFileFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "gpuProfiles.json");
         }
 
         public static string ReadServerJsonFile() {
@@ -91,13 +92,18 @@ namespace NTMiner {
             return string.Empty;
         }
 
-        public static void WriteLocalJsonFile(string json) {
-            File.WriteAllText(LocalJsonFileFullName, json);
+        public static string ReadGpuProfilesJsonFile() {
+            if (File.Exists(GpuProfilesJsonFileFullName)) {
+                return File.ReadAllText(GpuProfilesJsonFileFullName);
+            }
+
+            return string.Empty;
         }
 
         public static string LocalDbFileFullName { get; private set; }
         public static string LocalJsonFileFullName { get; private set; }
         public static string ServerDbFileFullName { get; private set; }
+        public static string GpuProfilesJsonFileFullName { get; private set; }
 
         public static string ServerJsonFileFullName { get; private set; }
 

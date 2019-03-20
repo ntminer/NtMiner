@@ -67,6 +67,7 @@ namespace NTMiner {
                 if (!isWork) {
                     SpecialPath.GetAliyunServerJson((data) => {
                         serverJson = Encoding.UTF8.GetString(data);
+                        SpecialPath.WriteServerJsonFile(serverJson);
                         countdown.Signal();
                     });
                 }

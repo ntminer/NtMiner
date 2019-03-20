@@ -48,7 +48,6 @@ namespace NTMiner.Core.Impl {
                                 this.PoolProfiles = data.PoolProfiles ?? new PoolProfileData[0];
                                 this.Wallets = data.Wallets ?? new WalletData[0];
                                 this.TimeStamp = data.TimeStamp;
-                                SpecialPath.WriteLocalJsonFile(localJson);
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);

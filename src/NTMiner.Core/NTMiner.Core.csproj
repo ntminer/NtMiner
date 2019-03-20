@@ -110,6 +110,7 @@
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAClockDeltaSet.cs" />
+    <Compile Include="Core\Impl\GpuProfilesJson.cs" />
     <Compile Include="Core\Profiles\Impl\GpuProfileExtension.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />
