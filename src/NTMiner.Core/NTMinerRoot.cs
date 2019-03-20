@@ -52,6 +52,7 @@ namespace NTMiner {
                         JsonFileVersion = jsonFileVersion;
                     }
                 });
+                GpuProfileSet.Instance.Register(this);
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
                 if (DevMode.IsDebugMode && !VirtualRoot.IsControlCenter && !isWork) {
                     DoInit(isWork, callback);

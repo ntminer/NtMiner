@@ -137,8 +137,9 @@ namespace NTMiner.Vms {
             try {
                 LocalJson localJsonObj = LocalJson.NewInstance();
                 var minerProfile = NTMinerRoot.Current.MinerProfile;
-                localJsonObj.MinerProfile = new MinerProfileData(minerProfile);
-                localJsonObj.MinerProfile.MinerName = "{{MinerName}}";
+                localJsonObj.MinerProfile = new MinerProfileData(minerProfile) {
+                    MinerName = "{{MinerName}}"
+                };
                 localJsonObj.MineWork = new MineWorkData(this);
                 CoinProfileData mainCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(localJsonObj.MinerProfile.CoinId));
                 List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
@@ -155,7 +156,6 @@ namespace NTMiner.Vms {
                 localJsonObj.CoinProfiles = coinProfiles.ToArray();
                 localJsonObj.CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
                 localJsonObj.PoolProfiles = poolProfiles.ToArray();
-                localJsonObj.GpuProfiles = new GpuProfileData[] { new GpuProfileData(minerProfile.GetGpuProfile(localJsonObj.MinerProfile.CoinId, NTMinerRoot.GpuAllId)) };
                 localJsonObj.TimeStamp = Timestamp.GetTimestamp();
                 localJsonObj.Pools = NTMinerRoot.Current.PoolSet.Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData(a)).ToArray();
                 localJsonObj.Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray();

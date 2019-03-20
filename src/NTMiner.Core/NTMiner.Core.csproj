@@ -110,7 +110,6 @@
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAClockDeltaSet.cs" />
-    <Compile Include="Core\Impl\GpuProfilesJson.cs" />
     <Compile Include="Core\Profiles\Impl\GpuProfileExtension.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\Gpus\IOverClock.cs" />
@@ -152,7 +151,7 @@
     <Compile Include="Core\Profiles\Impl\KernelProfileSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.partials.CoinKernelProfileSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.partials.CoinProfileSet.cs" />
-    <Compile Include="Core\Profiles\MinerProfile.partials.GpuProfileSet.cs" />
+    <Compile Include="Core\Profiles\GpuProfileSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.partials.PoolProfileSet.cs" />
     <Compile Include="Core\Gpus\IGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\Gpu.cs" />

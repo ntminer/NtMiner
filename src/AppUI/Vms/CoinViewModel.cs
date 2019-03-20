@@ -230,8 +230,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("编码是必须的");
                     }
-                    CoinViewModel coinVm;
-                    if (CoinViewModels.Current.TryGetCoinVm(value, out coinVm) && coinVm.Id != this.Id) {
+                    if (CoinViewModels.Current.TryGetCoinVm(value, out CoinViewModel coinVm) && coinVm.Id != this.Id) {
                         throw new ValidationException("重复的币种编码");
                     }
                 }

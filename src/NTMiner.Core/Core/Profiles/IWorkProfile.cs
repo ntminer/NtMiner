@@ -11,7 +11,6 @@ namespace NTMiner.Core.Profiles {
         ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId);
         IPoolProfile GetPoolProfile(Guid poolId);
         bool TryGetWallet(Guid walletId, out IWallet wallet);
-        IGpuProfile GetGpuProfile(Guid coinId, int gpuIndex);
 
         void SetMinerProfileProperty(string propertyName, object value);
         void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value);
@@ -20,7 +19,6 @@ namespace NTMiner.Core.Profiles {
 
         List<ICoinKernelProfile> GetCoinKernelProfiles();
         List<ICoinProfile> GetCoinProfiles();
-        List<IGpuProfile> GetGpuProfiles();
         List<IPool> GetPools();
         List<IPoolProfile> GetPoolProfiles();
         List<IWallet> GetWallets();

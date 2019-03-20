@@ -6,7 +6,6 @@ using NTMiner.MinerServer;
 
 namespace NTMiner.Vms {
     public class GpuProfileViewModel : ViewModelBase, IGpuProfile {
-        private Guid _id;
         private Guid _coinId;
         private int _index;
         private int _coreClockDelta;
@@ -17,14 +16,13 @@ namespace NTMiner.Vms {
 
         public ICommand Apply { get; private set; }
 
-        public GpuProfileViewModel(Guid id) {
-            _id = id;
+        public GpuProfileViewModel() {
             this.Apply = new DelegateCommand(() => {
                 VirtualRoot.Execute(new OverClockCommand(this));
             });
         }
 
-        public GpuProfileViewModel(IGpuProfile data) : this(data.GetId()) {
+        public GpuProfileViewModel(IGpuProfile data) : this() {
             _coinId = data.CoinId;
             _index = data.Index;
             _coreClockDelta = data.CoreClockDelta;
@@ -63,18 +61,6 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(MemoryClockDelta));
             OnPropertyChanged(nameof(PowerCapacity));
             OnPropertyChanged(nameof(Cool));
-        }
-
-        public Guid GetId() {
-            return this.Id;
-        }
-
-        public Guid Id {
-            get => _id;
-            set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
-            }
         }
 
         public Guid CoinId {

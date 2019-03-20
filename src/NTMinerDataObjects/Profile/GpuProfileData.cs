@@ -5,8 +5,7 @@ namespace NTMiner.Profile {
         public GpuProfileData() {
         }
 
-        public GpuProfileData(Guid id, Guid coinId, int index) {
-            this.Id = id;
+        public GpuProfileData(Guid coinId, int index) {
             this.CoinId = coinId;
             this.Index = index;
             this.CoreClockDelta = 0;
@@ -17,7 +16,6 @@ namespace NTMiner.Profile {
         }
 
         public GpuProfileData(IGpuProfile data) {
-            this.Id = data.GetId();
             this.CoinId = data.CoinId;
             this.Index = data.Index;
             this.CoreClockDelta = data.CoreClockDelta;
@@ -36,12 +34,6 @@ namespace NTMiner.Profile {
             this.Cool = data.Cool;
             this.IsEnabled = data.IsEnabled;
         }
-
-        public Guid GetId() {
-            return this.Id;
-        }
-
-        public Guid Id { get; set; }
 
         public Guid CoinId { get; set; }
 
