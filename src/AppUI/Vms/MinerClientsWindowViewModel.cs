@@ -102,7 +102,10 @@ namespace NTMiner.Vms {
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
             this.ReName = new DelegateCommand(() => {
-                // noting need todo
+                var selectedMinerClient = this.SelectedMinerClients[0];
+                InputWindow.ShowDialog("作业矿工名", selectedMinerClient.MinerName, null, minerName => {
+                    selectedMinerClient.MinerName = minerName;
+                });
             }, OnlySelectedOne);
             this.OneKeyMinerNames = new DelegateCommand(() => {
                 MinerNamesSeterViewModel vm = new MinerNamesSeterViewModel(

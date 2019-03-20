@@ -86,7 +86,14 @@ namespace NTMiner.Vms {
                 }
                 MineWorkViewModel mineWorkVm;
                 if (!MineWorkViewModels.Current.TryGetMineWorkVm(this.Id, out mineWorkVm)) {
-                    MineWorkAdd.ShowWindow(formType ?? FormType.Edit, new MineWorkViewModel(this));
+                    InputWindow.ShowDialog("作业名称", string.Empty, workName=> {
+                        if (string.IsNullOrEmpty(workName)) {
+                            return "作业名称是必须的";
+                        }
+                        return string.Empty;
+                    }, workName => {                        
+                        new MineWorkViewModel(this) { Name = workName }.Save.Execute(null);
+                    });
                 }
                 else {
                     // 编辑作业前切换上下文

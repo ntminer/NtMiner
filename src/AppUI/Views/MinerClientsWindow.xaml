@@ -613,7 +613,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem x:Name="MenuItemReName" Header="重命名" Click="MenuItemReName_Click" Command="{Binding Data.ReName,Source={StaticResource proxy}}">
+						<MenuItem x:Name="MenuItemReName" Header="重命名" Command="{Binding Data.ReName,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"

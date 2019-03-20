@@ -14,24 +14,20 @@ namespace NTMiner.Views {
             Action onYes = null,
             Action onNo = null) {
             Window window = new DialogWindow(icon, title, message, onYes, onNo);
-            var owner = TopWindow.GetTopWindow();
-            if (owner != window) {
-                window.Owner = owner;
-                if (owner != null) {
-                    POINT pt;
-                    if (NativeMethods.GetCursorPos(out pt)) {
-                        window.WindowStartupLocation = WindowStartupLocation.Manual;
-                        double left = pt.X;
-                        double top = pt.Y;
-                        if (left + window.Width > owner.Left + owner.Width) {
-                            left = owner.Left + owner.Width - window.Width;
-                        }
-                        if (top + 200 > owner.Top + owner.Height) {
-                            top = owner.Top + owner.Height - 200;
-                        }
-                        window.Left = left;
-                        window.Top = top;
+            if (window.Owner != null) {
+                POINT pt;
+                if (NativeMethods.GetCursorPos(out pt)) {
+                    window.WindowStartupLocation = WindowStartupLocation.Manual;
+                    double left = pt.X;
+                    double top = pt.Y;
+                    if (left + window.Width > window.Owner.Left + window.Owner.Width) {
+                        left = window.Owner.Left + window.Owner.Width - window.Width;
                     }
+                    if (top + 200 > window.Owner.Top + window.Owner.Height) {
+                        top = window.Owner.Top + window.Owner.Height - 200;
+                    }
+                    window.Left = left;
+                    window.Top = top;
                 }
                 double ownerOpacity = window.Owner.Opacity;
                 window.Owner.Opacity = 0.6;

@@ -106,11 +106,5 @@ namespace NTMiner.Views {
             });
             PopUpgrade.IsOpen = !PopUpgrade.IsOpen;
         }
-
-        private MinerClientViewModel _selectedMinerClient;
-        private void MenuItemReName_Click(object sender, RoutedEventArgs e) {
-            _selectedMinerClient = Vm.SelectedMinerClients[0];
-            
-        }
     }
 }
