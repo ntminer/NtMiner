@@ -5,7 +5,6 @@ using System.Text;
 namespace NTMiner.Profile {
     public class CoinProfileData : ICoinProfile, IDbEntity<Guid>, IGetSignData {
         public CoinProfileData() {
-            this.IsOverClockGpuAll = true;
         }
 
         public static CoinProfileData CreateDefaultData(Guid coinId, Guid poolId, string wallet, Guid coinKernelId) {
@@ -17,9 +16,7 @@ namespace NTMiner.Profile {
                 IsHideWallet = false,
                 DualCoinPoolId = Guid.Empty,
                 DualCoinWallet = string.Empty,
-                IsDualCoinHideWallet = false,
-                IsOverClockEnabled = false,
-                IsOverClockGpuAll = true
+                IsDualCoinHideWallet = false
             };
         }
 
@@ -32,8 +29,6 @@ namespace NTMiner.Profile {
             this.DualCoinPoolId = data.DualCoinPoolId;
             this.DualCoinWallet = data.DualCoinWallet;
             this.IsDualCoinHideWallet = data.IsDualCoinHideWallet;
-            this.IsOverClockEnabled = data.IsOverClockEnabled;
-            this.IsOverClockGpuAll = data.IsOverClockGpuAll;
         }
 
         public Guid GetId() {
@@ -51,12 +46,8 @@ namespace NTMiner.Profile {
         public string DualCoinWallet { get; set; }
         public bool IsDualCoinHideWallet { get; set; }
 
-        public bool IsOverClockEnabled { get; set; }
-
-        public bool IsOverClockGpuAll { get; set; }
-
         public override string ToString() {
-            return $"{CoinId}{PoolId}{Wallet}{IsHideWallet}{CoinKernelId}{DualCoinPoolId}{DualCoinWallet}{IsDualCoinHideWallet}{IsOverClockEnabled}{IsOverClockGpuAll}";
+            return $"{CoinId}{PoolId}{Wallet}{IsHideWallet}{CoinKernelId}{DualCoinPoolId}{DualCoinWallet}{IsDualCoinHideWallet}";
         }
 
         public StringBuilder GetSignData() {

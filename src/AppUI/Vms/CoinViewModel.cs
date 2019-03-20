@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Profiles;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -56,6 +57,8 @@ namespace NTMiner.Vms {
 
         public ICommand ApplyOverClock { get; private set; }
 
+        public ICommand OverClock { get; private set; }
+
         public Action CloseWindow { get; set; }
 
         public CoinViewModel() {
@@ -77,6 +80,22 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(Guid id) {
             _id = id;
+            this.OverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
+                DialogWindow.ShowDialog(message: $"确定应用该超频设置吗？", title: "确认", onYes: () => {
+                    if (IsOverClockGpuAll) {
+                        GpuAllOverClockDataVm.Update(data);
+                    }
+                    else {
+                        foreach (var item in GpuOverClockVms) {
+                            if (item.Index == NTMinerRoot.GpuAllId) {
+                                continue;
+                            }
+                            item.Update(data);
+                        }
+                    }
+                    ApplyOverClock.Execute(null);
+                }, icon: IconConst.IconConfirm);
+            });
             this.AddOverClockData = new DelegateCommand(() => {
                 new OverClockDataViewModel(Guid.NewGuid()) {
                     CoinId = this.Id
@@ -163,6 +182,22 @@ namespace NTMiner.Vms {
             this.AddCoinKernel = new DelegateCommand(() => {
                 KernelSelect.ShowWindow(this);
             });
+        }
+
+        public bool IsOverClockEnabled {
+            get { return GpuProfileSet.Instance.IsOverClockEnabled(this.Id); }
+            set {
+                GpuProfileSet.Instance.SetIsOverClockEnabled(this.Id, value);
+                OnPropertyChanged(nameof(IsOverClockEnabled));
+            }
+        }
+
+        public bool IsOverClockGpuAll {
+            get { return GpuProfileSet.Instance.IsOverClockGpuAll(this.Id); }
+            set {
+                GpuProfileSet.Instance.SetIsOverClockGpuAll(this.Id, value);
+                OnPropertyChanged(nameof(IsOverClockGpuAll));
+            }
         }
 
         public GpuProfileViewModel GpuAllOverClockDataVm {

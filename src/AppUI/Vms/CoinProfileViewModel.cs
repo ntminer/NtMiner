@@ -248,22 +248,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsOverClockEnabled {
-            get { return _inner.IsOverClockEnabled; }
-            set {
-                NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(IsOverClockEnabled), value);
-                OnPropertyChanged(nameof(IsOverClockEnabled));
-            }
-        }
-
-        public bool IsOverClockGpuAll {
-            get { return _inner.IsOverClockGpuAll; }
-            set {
-                NTMinerRoot.Current.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(IsOverClockGpuAll), value);
-                OnPropertyChanged(nameof(IsOverClockGpuAll));
-            }
-        }
-
         public PoolViewModel DualCoinPool {
             get {
                 if (!CoinViewModels.Current.TryGetCoinVm(CoinId, out CoinViewModel coinVm)) {

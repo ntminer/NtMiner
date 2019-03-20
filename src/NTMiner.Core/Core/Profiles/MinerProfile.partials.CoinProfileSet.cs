@@ -145,20 +145,6 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                public bool IsOverClockEnabled {
-                    get { return _data.IsOverClockEnabled; }
-                    private set {
-                        _data.IsOverClockEnabled = value;
-                    }
-                }
-
-                public bool IsOverClockGpuAll {
-                    get { return _data.IsOverClockGpuAll; }
-                    private set {
-                        _data.IsOverClockGpuAll = value;
-                    }
-                }
-
                 private static Dictionary<string, PropertyInfo> _sProperties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {

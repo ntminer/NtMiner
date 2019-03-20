@@ -2,13 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class GpusOverClock : UserControl {
-        public GpusOverClockViewModel Vm {
+        public MinerProfileViewModel Vm {
             get {
-                return (GpusOverClockViewModel)this.DataContext;
+                return (MinerProfileViewModel)this.DataContext;
             }
         }
 

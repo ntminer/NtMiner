@@ -191,8 +191,7 @@ namespace NTMiner {
                     shareOn = DateTime.Now;
                     Task.Factory.StartNew(() => {
                         try {
-                            ICoinProfile coinProfile = MinerProfile.GetCoinProfile(message.MineContext.MainCoin.GetId());
-                            if (coinProfile.IsOverClockEnabled) {
+                            if (GpuProfileSet.Instance.IsOverClockEnabled(message.MineContext.MainCoin.GetId())) {
                                 VirtualRoot.Execute(new CoinOverClockCommand(message.MineContext.MainCoin.GetId()));
                             }
                         }

@@ -9,8 +9,6 @@ namespace NTMiner.Profile {
         Guid CoinKernelId { get; }
         Guid DualCoinPoolId { get; }
         string DualCoinWallet { get; }
-        bool IsDualCoinHideWallet { get; }
-        bool IsOverClockEnabled { get; }
-        bool IsOverClockGpuAll { get; }
+        bool IsDualCoinHideWallet { get; }        
     }
 }
