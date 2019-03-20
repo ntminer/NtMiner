@@ -1,7 +1,51 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class SpecialPath {
+        private static readonly string ServerJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.ServerJsonFileName;
+        private static readonly string LangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.LangJsonFileName;
+
+        public static void GetAliyunServerJson(Action<byte[]> callback) {
+            GetFileAsync(ServerJsonFileFullName + "?t=" + DateTime.Now.Ticks, callback);
+        }
+
+        public static void GetAliyunLangJson(Action<byte[]> callback) {
+            GetFileAsync(LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, callback);
+        }
+
+        #region GetFileAsync
+        private static void GetFileAsync(string fileUrl, Action<byte[]> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
+                    webRequest.Method = "GET";
+                    HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
+                    using (MemoryStream ms = new MemoryStream())
+                    using (Stream stream = response.GetResponseStream()) {
+                        byte[] buffer = new byte[1024];
+                        int n = stream.Read(buffer, 0, buffer.Length);
+                        while (n > 0) {
+                            ms.Write(buffer, 0, n);
+                            n = stream.Read(buffer, 0, buffer.Length);
+                        }
+                        byte[] data = new byte[ms.Length];
+                        ms.Position = 0;
+                        ms.Read(data, 0, data.Length);
+                        callback?.Invoke(data);
+                    }
+                    Logger.InfoDebugLine($"下载完成：{fileUrl}");
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                    callback?.Invoke(new byte[0]);
+                }
+            });
+        }
+        #endregion
+
         static SpecialPath() {
             string daemonDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Daemon");
             if (!Directory.Exists(daemonDirFullName)) {

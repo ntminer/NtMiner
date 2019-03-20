@@ -65,15 +65,13 @@ namespace NTMiner {
                 }
                 CountdownEvent countdown = new CountdownEvent(initialCount);
                 if (!isWork) {
-                    GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                    SpecialPath.GetAliyunServerJson((data) => {
                         serverJson = Encoding.UTF8.GetString(data);
-                        Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl}");
                         countdown.Signal();
                     });
                 }
-                GetFileAsync(AssemblyInfo.LangJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                SpecialPath.GetAliyunLangJson((data) => {
                     langJson = Encoding.UTF8.GetString(data);
-                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.LangJsonFileUrl}");
                     countdown.Signal();
                 });
                 Task.Factory.StartNew(() => {
@@ -331,10 +329,9 @@ namespace NTMiner {
                     action: message => {
                         OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                             if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
-                                GetFileAsync(AssemblyInfo.ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, (data) => {
+                                SpecialPath.GetAliyunServerJson((data) => {
                                     Write.DevLine($"有新版本{JsonFileVersion}->{jsonFileVersion}");
                                     string rawJson = Encoding.UTF8.GetString(data);
-                                    Logger.InfoDebugLine($"下载完成：{AssemblyInfo.ServerJsonFileUrl} JsonFileVersion：{jsonFileVersion}");
                                     ServerJson.Instance.ReInit(rawJson);
                                     bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter;
                                     if (isUseJson) {
@@ -368,35 +365,6 @@ namespace NTMiner {
             if ((MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsMining) {
                 StartMine();
             }
-        }
-        #endregion
-
-        #region GetFileAsync
-        public static void GetFileAsync(string fileUrl, Action<byte[]> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
-                    webRequest.Method = "GET";
-                    HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
-                    using (MemoryStream ms = new MemoryStream())
-                    using (Stream stream = response.GetResponseStream()) {
-                        byte[] buffer = new byte[1024];
-                        int n = stream.Read(buffer, 0, buffer.Length);
-                        while (n > 0) {
-                            ms.Write(buffer, 0, n);
-                            n = stream.Read(buffer, 0, buffer.Length);
-                        }
-                        byte[] data = new byte[ms.Length];
-                        ms.Position = 0;
-                        ms.Read(data, 0, data.Length);
-                        callback?.Invoke(data);
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e.Message, e);
-                    callback?.Invoke(new byte[0]);
-                }
-            });
         }
         #endregion
 
