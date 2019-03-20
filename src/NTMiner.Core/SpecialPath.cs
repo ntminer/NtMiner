@@ -20,9 +20,9 @@ namespace NTMiner {
         private static void GetFileAsync(string fileUrl, Action<byte[]> callback) {
             Task.Factory.StartNew(() => {
                 try {
-                    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(fileUrl));
+                    WebRequest webRequest = WebRequest.Create(new Uri(fileUrl));
                     webRequest.Method = "GET";
-                    HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
+                    WebResponse response = webRequest.GetResponse();
                     using (MemoryStream ms = new MemoryStream())
                     using (Stream stream = response.GetResponseStream()) {
                         byte[] buffer = new byte[1024];

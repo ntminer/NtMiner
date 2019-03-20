@@ -11,16 +11,16 @@
 		mc:Ignorable="d" d:DesignHeight="408" d:DesignWidth="408">
 	<UserControl.Resources>
 	</UserControl.Resources>
-	<Grid>
+	<Grid Background="Black">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<FlowDocumentScrollViewer 			
+		<FlowDocumentScrollViewer 	
 			VerticalScrollBarVisibility="Auto"
 			x:Name="FlowDocumentScrollViewerDebug" 
 			BorderThickness="0" 
-			Padding="0 0 0 4" Background="Black" Foreground="White">
+			Padding="0 0 0 4" Foreground="White">
 			<FlowDocument>
 				<Paragraph x:Name="ConsoleParagraphDebug" FontFamily="Courier New" FontSize="12">
 				</Paragraph>
