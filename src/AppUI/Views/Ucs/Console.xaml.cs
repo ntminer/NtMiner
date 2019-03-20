@@ -31,12 +31,6 @@ namespace NTMiner.Views.Ucs {
                 return _scrollView;
             }
         }
-        protected override void OnRender(DrawingContext drawingContext) {
-            base.OnRender(drawingContext);
-            if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                this.ScrollViewer.ScrollToEnd();
-            }
-        }
 
         private void InnerWrite(string text, ConsoleColor foreground) {
             InlineCollection list = this.ConsoleParagraph.Inlines;

@@ -41,14 +41,6 @@ namespace NTMiner.Views.Ucs {
             }
             return _scrollView[flowDocumentScrollViewer.Name];
         }
-        protected override void OnRender(DrawingContext drawingContext) {
-            base.OnRender(drawingContext);
-            if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                foreach (var item in _scrollView.Values) {
-                    item.ScrollToEnd();
-                }
-            }
-        }
 
         private void InnerWrite(FlowDocumentScrollViewer rtb, Paragraph p, string text, ConsoleColor foreground) {
             InlineCollection list = p.Inlines;
