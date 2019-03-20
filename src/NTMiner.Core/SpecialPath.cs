@@ -9,7 +9,7 @@ namespace NTMiner {
         private static readonly string LangJsonFileUrl = "https://minerjson.oss-cn-beijing.aliyuncs.com/" + AssemblyInfo.LangJsonFileName;
 
         public static void GetAliyunServerJson(Action<byte[]> callback) {
-            GetFileAsync(ServerJsonFileFullName + "?t=" + DateTime.Now.Ticks, callback);
+            GetFileAsync(ServerJsonFileUrl + "?t=" + DateTime.Now.Ticks, callback);
         }
 
         public static void GetAliyunLangJson(Action<byte[]> callback) {
@@ -20,9 +20,9 @@ namespace NTMiner {
         private static void GetFileAsync(string fileUrl, Action<byte[]> callback) {
             Task.Factory.StartNew(() => {
                 try {
-                    WebRequest webRequest = WebRequest.Create(new Uri(fileUrl));
+                    var webRequest = WebRequest.Create(fileUrl);
                     webRequest.Method = "GET";
-                    WebResponse response = webRequest.GetResponse();
+                    var response = webRequest.GetResponse();
                     using (MemoryStream ms = new MemoryStream())
                     using (Stream stream = response.GetResponseStream()) {
                         byte[] buffer = new byte[1024];
