@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using NTMiner.MinerServer;
-using NTMiner.Profile;
+using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Controllers {
     public interface IControlCenterController {
         string GetServicesVersion();
         void CloseServices();
-        void RefreshNotifyIcon();
         ResponseBase ActiveControlCenterAdmin(string password);
         ResponseBase LoginControlCenter(SignatureRequest request);
         DataResponse<List<UserData>> Users(DataRequest<Guid?> request);
@@ -31,19 +29,6 @@ namespace NTMiner.Controllers {
         ResponseBase ExportMineWork(ExportMineWorkRequest request);
         DataResponse<string> GetLocalJson(DataRequest<Guid> request);
         DataResponse<List<MineWorkData>> MineWorks(SignatureRequest request);
-        DataResponse<MinerProfileData> MinerProfile(DataRequest<Guid> request);
-        ResponseBase SetMinerProfile(SetWorkProfileRequest<MinerProfileData> request);
-        DataResponse<CoinProfileData> CoinProfile(WorkProfileRequest request);
-        ResponseBase SetCoinProfile(SetWorkProfileRequest<CoinProfileData> request);
-        DataResponse<PoolProfileData> PoolProfile(WorkProfileRequest request);
-        ResponseBase SetPoolProfile(SetWorkProfileRequest<PoolProfileData> request);
-        DataResponse<CoinKernelProfileData> CoinKernelProfile(WorkProfileRequest request);
-        ResponseBase SetCoinKernelProfile(SetWorkProfileRequest<CoinKernelProfileData> request);
-
-        ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request);
-        ResponseBase SetCoinProfileProperty(SetCoinProfilePropertyRequest request);
-        ResponseBase SetPoolProfileProperty(SetPoolProfilePropertyRequest request);
-        ResponseBase SetCoinKernelProfileProperty(SetCoinKernelProfilePropertyRequest request);
         DataResponse<List<WalletData>> Wallets(SignatureRequest request);
         ResponseBase AddOrUpdateWallet(DataRequest<WalletData> request);
         ResponseBase RemoveWallet(DataRequest<Guid> request);

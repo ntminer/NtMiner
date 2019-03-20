@@ -21,7 +21,6 @@ namespace NTMiner {
         IMinerGroupSet MinerGroupSet { get; }
         IPoolSet PoolSet { get; }
         IWalletSet WalletSet { get; }
-        IMineProfileManager MineProfileManager { get; }
         // ReSharper disable once InconsistentNaming
         INTMinerFileSet NTMinerFileSet { get; }
         IOverClockDataSet OverClockDataSet { get; }

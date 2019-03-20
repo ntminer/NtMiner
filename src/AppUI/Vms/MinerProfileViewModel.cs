@@ -104,17 +104,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsShowDaemonNotifyIcon {
-            get { return NTMinerRegistry.GetIsShowDaemonNotifyIcon(); }
-            set {
-                if (NTMinerRegistry.GetIsShowDaemonNotifyIcon() != value) {
-                    NTMinerRegistry.SetIsShowDaemonNotifyIcon(value);
-                    OnPropertyChanged(nameof(IsShowDaemonNotifyIcon));
-                    Client.NTMinerDaemonService.RefreshNotifyIconAsync(callback: null);
-                }
-            }
-        }
-
         public string HotKey {
             get { return NTMinerRoot.GetHotKey(); }
             set {

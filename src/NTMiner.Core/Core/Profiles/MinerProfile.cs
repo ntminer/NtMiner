@@ -45,9 +45,6 @@ namespace NTMiner.Core.Profiles {
                     coinId = coin.GetId();
                 }
                 _data = MinerProfileData.CreateDefaultData(coinId);
-                if (VirtualRoot.IsControlCenter) {
-                    Server.ControlCenterService.SetMinerProfileAsync(workId, _data, callback: null);
-                }
             }
             if (_coinProfileSet == null) {
                 _coinProfileSet = new CoinProfileSet(root, workId);
@@ -292,17 +289,10 @@ namespace NTMiner.Core.Profiles {
                     if (oldValue != value) {
                         Guid workId = LocalJson.Instance.MineWork.Id;
                         propertyInfo.SetValue(this, value, null);
-                        if (VirtualRoot.IsControlCenter) {
-                            Server.ControlCenterService.SetMinerProfilePropertyAsync(workId, propertyName, value, (response, exception) => {
-                                VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
-                            });
-                        }
-                        else {
-                            bool isUseJson = workId != Guid.Empty;
-                            IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
-                            repository.Update(_data);
-                            VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
-                        }
+                        bool isUseJson = workId != Guid.Empty;
+                        IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
+                        repository.Update(_data);
+                        VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
                         Write.DevLine($"SetMinerProfileProperty({propertyName}, {value})");
                     }
                 }

@@ -11,9 +11,6 @@ namespace NTMiner {
             LocalDbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "local.litedb");
         }
 
-        public static string GetMineWorkDbFileFullName(Guid workId) {
-            return Path.Combine(MineWorksDirFullName, workId + ".litedb");
-        }
         public static string GetMineWorkLocalJsonFileFullName(Guid workId) {
             return Path.Combine(MineWorksDirFullName, workId + ".local");
         }
@@ -23,7 +20,6 @@ namespace NTMiner {
 
         public static void DeleteMineWorkFiles(Guid workId) {
             string[] fileFullNames = new string[] {
-                GetMineWorkDbFileFullName(workId),
                 GetMineWorkLocalJsonFileFullName(workId),
                 GetMineWorkServerJsonFileFullName(workId)
             };

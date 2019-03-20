@@ -4,7 +4,6 @@ namespace NTMiner.Controllers {
     public interface INTMinerDaemonController {
         string GetDaemonVersion();
         void CloseDaemon();
-        void RefreshNotifyIcon();
         ResponseBase RestartWindows(SignatureRequest request);
         ResponseBase ShutdownWindows(SignatureRequest request);
         ResponseBase RestartNTMiner(WorkRequest request);

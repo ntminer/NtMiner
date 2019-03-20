@@ -46,22 +46,6 @@ namespace NTMiner {
                 }
             }
 
-            public void RefreshNotifyIconAsync(Action<Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.RefreshNotifyIcon)}", null);
-                            Write.DevLine("RefreshNotifyIconAsync " + message.Result.ReasonPhrase);
-                            callback?.Invoke(null);
-                        }
-                    }
-                    catch (Exception e) {
-                        e = e.GetInnerException();
-                        callback?.Invoke(e);
-                    }
-                });
-            }
-
             public ResponseBase RestartWindows(string clientIp, SignatureRequest request) {
                 using (HttpClient client = new HttpClient()) {
                     Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{clientIp}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.RestartWindows)}", request);

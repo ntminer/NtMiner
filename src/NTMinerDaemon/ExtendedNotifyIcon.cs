@@ -12,7 +12,7 @@ namespace NTMiner {
         private ExtendedNotifyIcon(Icon icon, string text, bool isCanClose) {
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = NTMinerRegistry.GetIsShowDaemonNotifyIcon(),
+                Visible = DevMode.IsDebugMode,
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
@@ -21,10 +21,6 @@ namespace NTMiner {
                     HostRoot.WaitHandle.Set();
                 }));
             }
-        }
-
-        public void RefreshIcon() {
-            _targetNotifyIcon.Visible = NTMinerRegistry.GetIsShowDaemonNotifyIcon();
         }
 
         #region IDisposable Members
