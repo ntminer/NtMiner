@@ -58,6 +58,8 @@ namespace NTMiner.Vms {
         public ICommand OneKeyUpgrade { get; private set; }
         public ICommand EditMineWork { get; private set; }
         public ICommand OneKeyMinerNames { get; private set; }
+        public ICommand RemoteDesktop { get; private set; }
+        public ICommand ReName { get; private set; }
 
         #region ctor
         private MinerClientsWindowViewModel() {
@@ -99,6 +101,9 @@ namespace NTMiner.Vms {
             this._pool = string.Empty;
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
+            this.ReName = new DelegateCommand(() => {
+                // noting need todo
+            }, OnlySelectedOne);
             this.OneKeyMinerNames = new DelegateCommand(() => {
                 MinerNamesSeterViewModel vm = new MinerNamesSeterViewModel(
                     prefix: "miner",
@@ -125,6 +130,11 @@ namespace NTMiner.Vms {
                     });
                 }
             });
+            this.RemoteDesktop = new DelegateCommand(() => {
+                if (this.SelectedMinerClients != null && this.SelectedMinerClients.Length == 1) {
+                    this.SelectedMinerClients[0].RemoteDesktop.Execute(null);
+                }
+            }, OnlySelectedOne);
             this.EditMineWork = new DelegateCommand(() => {
                 if (this.SelectedMinerClients != null
                     && this.SelectedMinerClients.Length == 1
@@ -132,10 +142,7 @@ namespace NTMiner.Vms {
                     && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect) {
                     this.SelectedMinerClients[0].SelectedMineWork.Edit.Execute(null);
                 }
-            }, () => this.SelectedMinerClients != null
-                    && this.SelectedMinerClients.Length == 1
-                    && this.SelectedMinerClients[0].SelectedMineWork != null
-                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect);
+            }, OnlySelectedOne);
             this.OneKeyWork = new DelegateCommand<MineWorkViewModel>((work) => {
                 foreach (var item in SelectedMinerClients) {
                     item.SelectedMineWork = work;
@@ -315,6 +322,13 @@ namespace NTMiner.Vms {
 
         private bool CanCommand() {
             return this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0;
+        }
+
+        private bool OnlySelectedOne() {
+            return this.SelectedMinerClients != null
+                    && this.SelectedMinerClients.Length == 1
+                    && this.SelectedMinerClients[0].SelectedMineWork != null
+                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect;
         }
 
         public List<NTMinerFileData> NTMinerFileList {

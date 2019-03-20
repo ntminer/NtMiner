@@ -25,11 +25,8 @@ namespace NTMiner.Vms {
                         case GpuType.AMD:
                             iconName = "Icon_AMD";
                             break;
-                        case GpuType.Empty:
-                            iconName = "Icom_GpuEmpty";
-                            break;
                         default:
-                            iconName = "Icom_GpuEmpty";
+                            iconName = "Icon_GpuEmpty";
                             break;
                     }
                     _icon = (Geometry)System.Windows.Application.Current.Resources[iconName];

@@ -13,7 +13,7 @@
 			<Setter Property="Width" Value="70"></Setter>
 		</Style>
 		<sys:String x:Key="WindowTitle">
-			批量矿工名
+			批量作业矿工名
 		</sys:String>
 	</UserControl.Resources>
 	<StackPanel Margin="10 10 30 10">
