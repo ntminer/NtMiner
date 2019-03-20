@@ -86,12 +86,12 @@ namespace NTMiner.Vms {
                 }
                 MineWorkViewModel mineWorkVm;
                 if (!MineWorkViewModels.Current.TryGetMineWorkVm(this.Id, out mineWorkVm)) {
-                    InputWindow.ShowDialog("作业名称", string.Empty, workName=> {
+                    InputWindow.ShowDialog("作业名称", string.Empty, workName => {
                         if (string.IsNullOrEmpty(workName)) {
                             return "作业名称是必须的";
                         }
                         return string.Empty;
-                    }, workName => {                        
+                    }, workName => {
                         new MineWorkViewModel(this) { Name = workName }.Save.Execute(null);
                     });
                 }
