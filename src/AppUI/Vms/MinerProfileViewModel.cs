@@ -138,12 +138,18 @@ namespace NTMiner.Vms {
         }
 
         public bool IsAutoBoot {
-            get => NTMinerRoot.Current.MinerProfile.IsAutoBoot;
+            get => NTMinerRegistry.GetIsAutoBoot();
             set {
-                if (NTMinerRoot.Current.MinerProfile.IsAutoBoot != value) {
-                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsAutoBoot), value);
-                    OnPropertyChanged(nameof(IsAutoBoot));
-                }
+                NTMinerRegistry.SetIsAutoBoot(value);
+                OnPropertyChanged(nameof(IsAutoBoot));
+            }
+        }
+
+        public bool IsAutoStart {
+            get => NTMinerRegistry.GetIsAutoStart();
+            set {
+                NTMinerRegistry.SetIsAutoStart(value);
+                OnPropertyChanged(nameof(IsAutoStart));
             }
         }
 
@@ -203,16 +209,6 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Current.MinerProfile.PeriodicRestartComputerHours != value) {
                     NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartComputerHours), value);
                     OnPropertyChanged(nameof(PeriodicRestartComputerHours));
-                }
-            }
-        }
-
-        public bool IsAutoStart {
-            get => NTMinerRoot.Current.MinerProfile.IsAutoStart;
-            set {
-                if (NTMinerRoot.Current.MinerProfile.IsAutoStart != value) {
-                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStart), value);
-                    OnPropertyChanged(nameof(IsAutoStart));
                 }
             }
         }

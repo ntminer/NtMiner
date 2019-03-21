@@ -45,19 +45,7 @@
 					 Text="{Binding Description, Mode=TwoWay}">
 			</TextBox>
 		</WrapPanel>
-		<StackPanel Grid.Row="1" Grid.Column="0">
-			<StackPanel HorizontalAlignment="Right" Margin="0 0 8 0">
-				<controls:KbCheckBox 
-					Content="{DynamicResource ChkIsAutoBoot}"
-					IconColor="{StaticResource IconFillColor}"
-					IsChecked="{Binding MinerProfile.IsAutoBoot}" />
-				<controls:KbCheckBox
-					Content="{DynamicResource ChkIsAutoStart}"
-					IconColor="{StaticResource IconFillColor}"
-					IsChecked="{Binding MinerProfile.IsAutoStart}" />
-			</StackPanel>
-			<uc:MinerProfileIndex BorderBrush="{StaticResource LineColor}" />
-		</StackPanel>
+		<uc:MinerProfileIndex Grid.Row="1" Grid.Column="0" BorderBrush="{StaticResource LineColor}" />
 		<uc:MinerProfileOption Grid.Row="1" Grid.Column="1">
 		</uc:MinerProfileOption>
 		<TextBlock Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Foreground="Red">

@@ -76,8 +76,6 @@ namespace NTMiner.Core.Profiles {
             else {
                 MineWork = null;
             }
-            // 同步数据层开机自动启动项到注册表
-            NTMinerRegistry.SetIsAutoBoot(_data.IsAutoBoot);
         }
         #endregion
 
@@ -187,14 +185,6 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        public bool IsAutoBoot {
-            get => _data.IsAutoBoot;
-            private set {
-                _data.IsAutoBoot = value;
-                NTMinerRegistry.SetIsAutoBoot(value);
-            }
-        }
-
         public bool IsNoShareRestartKernel {
             get => _data.IsNoShareRestartKernel;
             private set {
@@ -229,13 +219,6 @@ namespace NTMiner.Core.Profiles {
             get => _data.PeriodicRestartComputerHours;
             private set {
                 _data.PeriodicRestartComputerHours = value;
-            }
-        }
-
-        public bool IsAutoStart {
-            get => _data.IsAutoStart;
-            private set {
-                _data.IsAutoStart = value;
             }
         }
 

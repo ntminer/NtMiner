@@ -366,7 +366,7 @@ namespace NTMiner {
 
             RefreshArgsAssembly.Invoke();
             // 自动开始挖矿
-            if ((MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart) && !IsMining) {
+            if ((NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart) && !IsMining) {
                 StartMine();
             }
         }

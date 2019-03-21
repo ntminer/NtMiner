@@ -52,8 +52,8 @@ namespace NTMiner {
         public static SpeedData CreateSpeedData() {
             INTMinerRoot root = NTMinerRoot.Current;
             SpeedData data = new SpeedData {
-                IsAutoBoot = root.MinerProfile.IsAutoBoot,
-                IsAutoStart = root.MinerProfile.IsAutoStart,
+                IsAutoBoot = NTMinerRegistry.GetIsAutoBoot(),
+                IsAutoStart = NTMinerRegistry.GetIsAutoStart(),
                 Version = NTMinerRoot.CurrentVersion.ToString(4),
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,

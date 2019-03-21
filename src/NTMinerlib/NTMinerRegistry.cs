@@ -84,12 +84,23 @@ namespace NTMiner {
 
         #region IsAutoBoot
         public static bool GetIsAutoBoot() {
-            object isAutoBootValue = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot");
-            return isAutoBootValue != null && isAutoBootValue.ToString() == "True";
+            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot");
+            return value != null && value.ToString() == "True";
         }
 
         public static void SetIsAutoBoot(bool value) {
             Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoBoot", value);
+        }
+        #endregion
+
+        #region IsAutoStart
+        public static bool GetIsAutoStart() {
+            object value = Windows.Registry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart");
+            return value != null && value.ToString() == "True";
+        }
+
+        public static void SetIsAutoStart(bool value) {
+            Windows.Registry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart", value);
         }
         #endregion
 

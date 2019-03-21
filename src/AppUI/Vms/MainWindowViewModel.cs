@@ -16,6 +16,9 @@ namespace NTMiner.Vms {
         public ICommand UseThisPcName { get; private set; }
 
         private MainWindowViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.StartMine = new DelegateCommand(() => {
                 NTMinerRoot.Current.StartMine();
             });
