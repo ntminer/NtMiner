@@ -108,6 +108,10 @@ namespace NTMiner.Vms {
                 });
             }, OnlySelectedOne);
             this.OneKeyMinerNames = new DelegateCommand(() => {
+                if (this.SelectedMinerClients.Length == 1) {
+                    this.ReName.Execute(null);
+                    return;
+                }
                 MinerNamesSeterViewModel vm = new MinerNamesSeterViewModel(
                     prefix: "miner",
                     suffix: "01",
