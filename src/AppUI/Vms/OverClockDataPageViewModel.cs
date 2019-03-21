@@ -6,6 +6,9 @@ namespace NTMiner.Vms {
         private CoinViewModel _currentCoin;
 
         private OverClockDataPageViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             _currentCoin = CoinVms.MainCoins.FirstOrDefault();
         }
 

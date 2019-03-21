@@ -161,6 +161,9 @@
     <Compile Include="Views\Ucs\GpuSpeedDataTable.xaml.cs">
       <DependentUpon>GpuSpeedDataTable.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Ucs\GpuProfilesPage.xaml.cs">
+      <DependentUpon>GpuProfilesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Ucs\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
@@ -292,6 +295,7 @@
     <Compile Include="Vms\Drives\VirtualMemorySet.cs" />
     <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
     <Compile Include="Vms\GpuClockDeltaViewModel.cs" />
+    <Compile Include="Vms\GpuProfilesPageViewModel.cs" />
     <Compile Include="Vms\GpuProfileViewModel.cs" />
     <Compile Include="Vms\GpuProfileViewModels.cs" />
     <Compile Include="Vms\GpuSpeedDataViewModel.cs" />
@@ -504,6 +508,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\GpuSpeedDataTable.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\GpuProfilesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

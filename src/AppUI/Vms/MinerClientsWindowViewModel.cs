@@ -157,7 +157,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.OneKeyOverClock = new DelegateCommand(() => {
-
+                if (this.SelectedMinerClients.Length == 1) {
+                    GpuProfilesPage.ShowWindow(new GpuProfilesPageViewModel(this.SelectedMinerClients[0]));
+                }
             }, CanCommand);
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
                 DialogWindow.ShowDialog(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
