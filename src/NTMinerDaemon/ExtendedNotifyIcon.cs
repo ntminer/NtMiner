@@ -17,7 +17,7 @@ namespace NTMiner {
                 ContextMenu = new ContextMenu()
             };
             if (isCanClose) {
-                _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
+                _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出" + text, (sender, e) => {
                     HostRoot.Exit();
                 }));
             }

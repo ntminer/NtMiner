@@ -20,7 +20,7 @@ namespace NTMiner.Views {
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
-            _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
+            _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出" + text, (sender, e) => {
                 AppStatic.AppExit.Execute(null);
             }));
             _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
