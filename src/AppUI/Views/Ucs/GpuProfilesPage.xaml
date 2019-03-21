@@ -20,7 +20,7 @@
 		</Grid.RowDefinitions>
 		<ListBox 
 			Background="Transparent"
-			ItemsSource="{Binding CoinVms}"
+			ItemsSource="{Binding CoinVms.MainCoins}"
 			SelectedItem="{Binding CurrentCoin}"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 			ScrollViewer.VerticalScrollBarVisibility="Disabled"
