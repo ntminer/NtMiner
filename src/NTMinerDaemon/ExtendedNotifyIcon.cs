@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace NTMiner {
     public class ExtendedNotifyIcon : IDisposable {
-        public static ExtendedNotifyIcon Create(Icon icon, string text, bool isCanClose = false) {
+        public static ExtendedNotifyIcon Create(Icon icon, string text, bool isCanClose) {
             return new ExtendedNotifyIcon(icon, text, isCanClose);
         }
 
@@ -12,7 +12,7 @@ namespace NTMiner {
         private ExtendedNotifyIcon(Icon icon, string text, bool isCanClose) {
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = DevMode.IsDebugMode,
+                Visible = isCanClose,
                 Text = text,
                 ContextMenu = new ContextMenu()
             };
