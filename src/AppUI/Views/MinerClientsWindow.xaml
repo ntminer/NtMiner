@@ -56,11 +56,12 @@
 					Fill="{StaticResource IconFillColor}"
 					Stretch="Fill" />
 				<TextBlock
-					Margin="4 0 0 0"
+					Margin="4 0 8 0"
 					FontSize="14"
 					Foreground="{StaticResource ThemeForeground}"
 					Text="开源矿工群控 - 矿机列表">
 				</TextBlock>
+				<local:MainBar></local:MainBar>
 			</WrapPanel>
 			<WrapPanel Grid.Column="1">
 				<controls:KbButton 

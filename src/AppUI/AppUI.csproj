@@ -118,6 +118,9 @@
     <Compile Include="Views\ChartsWindow.xaml.cs">
       <DependentUpon>ChartsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainBar.xaml.cs">
+      <DependentUpon>MainBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
@@ -421,6 +424,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Design\ContainerWindowViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -15,9 +15,9 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
-        public static Version CurrentVersion {
+        public static string CurrentVersion {
             get {
-                return NTMinerRoot.CurrentVersion;
+                return NTMinerRoot.CurrentVersion.ToString();
             }
         }
 
