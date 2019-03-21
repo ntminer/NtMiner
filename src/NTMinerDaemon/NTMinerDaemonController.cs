@@ -29,6 +29,19 @@ namespace NTMiner {
             HostRoot.Exit();
         }
 
+        #region GetGpuProfilesJson
+        [HttpPost]
+        public string GetGpuProfilesJson() {
+            try {
+                return SpecialPath.ReadGpuProfilesJsonFile();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return string.Empty;
+            }
+        }
+        #endregion
+
         [HttpPost]
         public ResponseBase RestartWindows([FromBody]SignatureRequest request) {
             if (request == null) {

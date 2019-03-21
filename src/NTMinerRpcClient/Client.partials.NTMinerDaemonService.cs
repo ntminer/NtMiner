@@ -1,5 +1,6 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Daemon;
+using NTMiner.MinerClient;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
@@ -44,6 +45,26 @@ namespace NTMiner {
                     e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
                 }
+            }
+
+            public void GetGpuProfilesJsonAsync(string clientHost, Action<GpuProfilesJson, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            client.Timeout = TimeSpan.FromMilliseconds(3000);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.GetGpuProfilesJson)}", null);
+                            string json = message.Result.Content.ReadAsAsync<string>().Result;
+                            GpuProfilesJson data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJson>(json);
+                            callback?.Invoke(data, null);
+                            return data;
+                        }
+                    }
+                    catch (Exception e) {
+                        e = e.GetInnerException();
+                        callback?.Invoke(null, e);
+                        return null;
+                    }
+                });
             }
 
             public ResponseBase RestartWindows(string clientIp, SignatureRequest request) {

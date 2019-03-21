@@ -5,8 +5,11 @@ namespace NTMiner.Vms {
     public class GpuProfilesPageViewModel : ViewModelBase {
         public GpuProfilesPageViewModel(IClientData client) {
             if (client != null) {
-                Client.MinerClientService.GetGpuProfilesJsonAsync(client.MinerIp, (data, e) => {
-                    if (data != null) {
+                Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(client.MinerIp, (data, e) => {
+                    if (e != null) {
+                        Write.UserLine(e.Message, System.ConsoleColor.Red);
+                    }
+                    else if (data != null) {
                         foreach (var coinOverClock in data.CoinOverClocks) {
                             CoinViewModel coinVm;
                             if (CoinViewModels.Current.TryGetCoinVm(coinOverClock.CoinId, out coinVm)) {

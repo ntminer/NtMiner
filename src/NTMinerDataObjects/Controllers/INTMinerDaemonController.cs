@@ -4,6 +4,7 @@ namespace NTMiner.Controllers {
     public interface INTMinerDaemonController {
         string GetDaemonVersion();
         void CloseDaemon();
+        string GetGpuProfilesJson();
         ResponseBase RestartWindows(SignatureRequest request);
         ResponseBase ShutdownWindows(SignatureRequest request);
         ResponseBase RestartNTMiner(WorkRequest request);
