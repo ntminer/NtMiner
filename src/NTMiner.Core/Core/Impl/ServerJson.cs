@@ -15,14 +15,14 @@ namespace NTMiner.Core.Impl {
             this.Coins = new CoinData[0];
             this.Groups = new GroupData[0];
             this.CoinGroups = new CoinGroupData[0];
-            this.CoinKernels = new CoinKernelData[0];
-            this.Kernels = new KernelData[0];
+            this.CoinKernels = new List<CoinKernelData>();
+            this.Kernels = new List<KernelData>();
             this.KernelInputs = new KernelInputData[0];
             this.KernelOutputs = new KernelOutputData[0];
             this.KernelOutputFilters = new KernelOutputFilterData[0];
             this.KernelOutputTranslaters = new KernelOutputTranslaterData[0];
             this.Pools = new PoolData[0];
-            this.PoolKernels = new PoolKernelData[0];
+            this.PoolKernels = new List<PoolKernelData>();
             this.SysDics = new SysDicData[0];
             this.SysDicItems = new SysDicItemData[0];
             this.TimeStamp = Timestamp.GetTimestamp();
@@ -40,17 +40,31 @@ namespace NTMiner.Core.Impl {
                                 this.Coins = data.Coins ?? new CoinData[0];
                                 this.Groups = data.Groups ?? new GroupData[0];
                                 this.CoinGroups = data.CoinGroups ?? new CoinGroupData[0];
-                                this.CoinKernels = data.CoinKernels ?? new CoinKernelData[0];
-                                this.Kernels = data.Kernels ?? new KernelData[0];
+                                this.CoinKernels = data.CoinKernels ?? new List<CoinKernelData>();
+                                this.Kernels = data.Kernels ?? new List<KernelData>();
                                 this.KernelInputs = data.KernelInputs ?? new KernelInputData[0];
                                 this.KernelOutputs = data.KernelOutputs ?? new KernelOutputData[0];
                                 this.KernelOutputFilters = data.KernelOutputFilters ?? new KernelOutputFilterData[0];
                                 this.KernelOutputTranslaters = data.KernelOutputTranslaters ?? new KernelOutputTranslaterData[0];
                                 this.Pools = data.Pools ?? new PoolData[0];
-                                this.PoolKernels = data.PoolKernels ?? new PoolKernelData[0];
+                                this.PoolKernels = data.PoolKernels ?? new List<PoolKernelData>();
                                 this.SysDics = data.SysDics ?? new SysDicData[0];
                                 this.SysDicItems = data.SysDicItems ?? new SysDicItemData[0];
                                 this.TimeStamp = data.TimeStamp;
+                                if (NTMinerRoot.KernelBrandId != Guid.Empty) {
+                                    var kernelToRemoves = this.Kernels.Where(a => a.BrandId != NTMinerRoot.KernelBrandId).ToArray();
+                                    foreach (var item in kernelToRemoves) {
+                                        this.Kernels.Remove(item);
+                                    }
+                                    var coinKernelToRemoves = this.CoinKernels.Where(a => kernelToRemoves.Any(b => b.Id == a.KernelId)).ToArray();
+                                    foreach (var item in coinKernelToRemoves) {
+                                        this.CoinKernels.Remove(item);
+                                    }
+                                    var poolKernelToRemoves = this.PoolKernels.Where(a => kernelToRemoves.Any(b => b.Id == a.KernelId)).ToArray();
+                                    foreach (var item in poolKernelToRemoves) {
+                                        this.PoolKernels.Remove(item);
+                                    }
+                                }
                             }
                             catch (Exception e) {
                                 Logger.ErrorDebugLine(e.Message, e);
@@ -125,13 +139,13 @@ namespace NTMiner.Core.Impl {
 
         public KernelOutputFilterData[] KernelOutputFilters { get; set; }
 
-        public KernelData[] Kernels { get; set; }
+        public List<KernelData> Kernels { get; set; }
 
-        public CoinKernelData[] CoinKernels { get; set; }
+        public List<CoinKernelData> CoinKernels { get; set; }
+
+        public List<PoolKernelData> PoolKernels { get; set; }
 
         public PoolData[] Pools { get; set; }
-
-        public PoolKernelData[] PoolKernels { get; set; }
 
         public SysDicData[] SysDics { get; set; }
 

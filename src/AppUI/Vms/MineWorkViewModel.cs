@@ -163,7 +163,6 @@ namespace NTMiner.Vms {
 
                 var root = NTMinerRoot.Current;
                 ServerJson serverJsonObj = ServerJson.NewInstance();
-                serverJsonObj.CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToArray();
                 serverJsonObj.Coins = root.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
                 serverJsonObj.CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().Where(a => serverJsonObj.Coins.Any(b => b.Id == a.CoinId)).ToArray();
                 serverJsonObj.Groups = root.GroupSet.Cast<GroupData>().Where(a => serverJsonObj.CoinGroups.Any(b => b.GroupId == a.Id)).ToArray();
@@ -175,9 +174,10 @@ namespace NTMiner.Vms {
                 serverJsonObj.KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
                 serverJsonObj.KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
                 serverJsonObj.KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
-                serverJsonObj.Kernels = new KernelData[] { (KernelData)kernel };
+                serverJsonObj.Kernels = new List<KernelData> { (KernelData)kernel };
+                serverJsonObj.CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
+                serverJsonObj.PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && serverJsonObj.Pools.Any(b => b.Id == a.PoolId)).ToList();
                 serverJsonObj.Pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToArray();
-                serverJsonObj.PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && serverJsonObj.Pools.Any(b => b.Id == a.PoolId)).ToArray();
                 serverJsonObj.SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
                 serverJsonObj.SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
                 serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);

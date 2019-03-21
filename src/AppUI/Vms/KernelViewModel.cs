@@ -17,6 +17,7 @@ namespace NTMiner.Vms {
             _kernelProfileVm = KernelProfileViewModel.Empty,
             _helpArg = string.Empty,
             _code = string.Empty,
+            _brandId = Guid.Empty,
             _notice = string.Empty,
             _id = Guid.Empty,
             _publishState = PublishStatus.UnPublished,
@@ -31,6 +32,7 @@ namespace NTMiner.Vms {
 
         private Guid _id;
         private string _code;
+        private Guid _brandId;
         private string _version;
         private string _helpArg;
         private ulong _publishOn;
@@ -76,6 +78,7 @@ namespace NTMiner.Vms {
         public KernelViewModel(IKernel data) : this(data.GetId()) {
             _helpArg = data.HelpArg;
             _code = data.Code;
+            _brandId = data.BrandId;
             _notice = data.Notice;
             _publishState = data.PublishState;
             _sha1 = data.Sha1;
@@ -342,6 +345,14 @@ namespace NTMiner.Vms {
                         throw new ValidationException("编码是必须的");
                     }
                 }
+            }
+        }
+
+        public Guid BrandId {
+            get { return _brandId; }
+            set {
+                _brandId = value;
+                OnPropertyChanged(nameof(BrandId));
             }
         }
 

@@ -13,6 +13,8 @@ namespace NTMiner.Core {
 
         public string Code { get; set; }
 
+        public Guid BrandId { get; set; }
+
         public string Version { get; set; }
 
         public ulong PublishOn { get; set; }

@@ -131,7 +131,6 @@ namespace NTMiner.Vms {
             try {
                 var root = NTMinerRoot.Current;
                 ServerJson serverJsonObj = ServerJson.NewInstance();
-                serverJsonObj.CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToArray();
                 serverJsonObj.Coins = root.CoinSet.Cast<CoinData>().ToArray();
                 serverJsonObj.Groups = root.GroupSet.Cast<GroupData>().ToArray();
                 serverJsonObj.CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray();
@@ -139,9 +138,10 @@ namespace NTMiner.Vms {
                 serverJsonObj.KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().ToArray();
                 serverJsonObj.KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray();
                 serverJsonObj.KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray();
-                serverJsonObj.Kernels = root.KernelSet.Cast<KernelData>().ToArray();
+                serverJsonObj.Kernels = root.KernelSet.Cast<KernelData>().ToList();
+                serverJsonObj.CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToList();
+                serverJsonObj.PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
                 serverJsonObj.Pools = root.PoolSet.Cast<PoolData>().ToArray();
-                serverJsonObj.PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToArray();
                 serverJsonObj.SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
                 serverJsonObj.SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
                 string json = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
