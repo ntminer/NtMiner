@@ -50,21 +50,78 @@
 					Foreground="{StaticResource ThemeForeground}"
 					Text="{DynamicResource Title}">
 				</TextBlock>
-			</WrapPanel>
-			<WrapPanel Grid.Column="1" Margin="8 0 0 0" VerticalAlignment="Center">
-				<uc:OpenedWindows>
-				</uc:OpenedWindows>
-			</WrapPanel>
-			<WrapPanel Grid.Column="2">
-				<WrapPanel Margin="0"
-					VerticalAlignment="Top">
+				<WrapPanel Margin="8 0 0 0" VerticalAlignment="Center">
 					<controls:KbLinkButton
+						Foreground="{StaticResource ThemeForeground}"
+						ToolTip="点击加入QQ群"
+						Background="Transparent"
+						KbSystemButtonHoverBackground="Transparent"
+						KbDisplayLine="False"
+						Command="{x:Static vm:AppStatic.JoinQQGroup}">
+						<WrapPanel>
+							<Path 
+								Margin="0 -2 2 0"
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_QQ}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbLinkButton>
+					<TextBox VerticalAlignment="Center" IsReadOnly="True" 
+						Foreground="{StaticResource ThemeForeground}"
+						Background="Transparent" 
+						BorderThickness="0" Text="{x:Static vm:AppStatic.QQGroup}">
+					</TextBox>
+					<controls:KbButton 
+						Margin="2 -1 0 0"
+						Cursor="Hand"
+						ToolTip="点击显示QQ群二维码"
+						Background="Transparent" 
+						Foreground="{StaticResource ThemeForeground}"
+						BorderThickness="0"
+						Command="{x:Static vm:AppStatic.ShowQQGroupQrCode}">
+						<Path 
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_QRCode}"
+							Fill="{StaticResource ThemeForeground}"
+							Stretch="Fill" />
+					</controls:KbButton>
+					<controls:KbLinkButton
+						Margin="8 0 0 0"
 						Command="{x:Static vm:AppStatic.OpenOfficialSite}"
-						Content="http://ntminer.com/"
 						Background="Transparent"
 						Foreground="{StaticResource ThemeForeground}"
 						KbSystemButtonHoverBackground="Transparent"
-						KbDisplayLine="False" />
+						KbDisplayLine="False">
+						<WrapPanel>
+							<TextBlock Text="Github"></TextBlock>
+							<Path 
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Github}"
+								Fill="{StaticResource ThemeForeground}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbLinkButton>
+					<controls:KbLinkButton
+						Margin="8 0 0 0"
+						Foreground="{StaticResource ThemeForeground}"
+						Command="{x:Static vm:AppStatic.OpenDiscussSite}"
+						Background="Transparent"
+						KbSystemButtonHoverBackground="Transparent"
+						KbDisplayLine="False">
+						<WrapPanel>
+							<TextBlock Text="Discuss"></TextBlock>
+							<Path 
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Discuss}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbLinkButton>
 					<controls:KbButton 
 						Margin="4 0 0 0"
 						Cursor="Hand"
@@ -80,7 +137,7 @@
 							Stretch="Fill" />
 					</controls:KbButton>
 					<controls:KbButton
-						Margin="4 0 10 0"
+						Margin="4 0 0 0"
 						ToolTip="服务器"
 						Command="{Binding ConfigControlCenterHost}"
 						Background="Transparent">
@@ -91,13 +148,15 @@
 							Fill="{StaticResource ThemeForeground}"
 							Stretch="Fill" />
 					</controls:KbButton>
-					<controls:KbComboBox 
-						Height="26"
-						Background="{StaticResource ThemeBackground}"
-						ItemsSource="{Binding LangVms.LangVms}"
-						DisplayMemberPath="Name" 
-						SelectedItem="{Binding LangVms.CurrentLangVm}">
-					</controls:KbComboBox>
+				</WrapPanel>
+			</WrapPanel>
+			<WrapPanel Grid.Column="1" Margin="8 0 0 0" VerticalAlignment="Center">
+				<uc:OpenedWindows>
+				</uc:OpenedWindows>
+			</WrapPanel>
+			<WrapPanel Grid.Column="2">
+				<WrapPanel Margin="0"
+					VerticalAlignment="Top">
 					<controls:KbButton 
 						ToolTip="矿机列表"
 						Command="{x:Static vm:AppStatic.ShowMinerClients}" 

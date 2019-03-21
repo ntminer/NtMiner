@@ -80,7 +80,7 @@
 					</controls:KbLinkButton>
 					<TextBox VerticalAlignment="Center" IsReadOnly="True" 
 						Background="Transparent" 
-						BorderThickness="0" Text="{Binding QQGroup, Mode=OneWay}">
+						BorderThickness="0" Text="{x:Static vm:AppStatic.QQGroup}">
 					</TextBox>
 					<controls:KbButton 
 						Margin="2 -1 0 0"
@@ -144,7 +144,7 @@
 						Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
-						Text="{Binding CurrentVersion}" />
+						Text="{x:Static vm:AppStatic.CurrentVersion}" />
 					<TextBlock
 						Margin="2 0 0 0"
 						Foreground="{StaticResource LableColor}"
@@ -156,7 +156,7 @@
 						Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
-						Text="{Binding VersionTag}" />
+						Text="{x:Static vm:AppStatic.VersionTag}" />
 					<TextBlock
 						Foreground="{StaticResource LableColor}"
 						HorizontalAlignment="Left"
@@ -436,15 +436,15 @@
 					</WrapPanel>
 				</StackPanel>
 				<WrapPanel HorizontalAlignment="Right">
-					<TextBlock Text="{Binding WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{x:Static vm:AppStatic.WindowsEdition}" ToolTip="操作系统" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-					<TextBlock Text="{Binding TotalVirtualMemoryGbText}" ToolTip="虚拟内存" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{x:Static vm:AppStatic.TotalVirtualMemoryGbText}" ToolTip="虚拟内存" Foreground="{StaticResource LableColor}"></TextBlock>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-					<WrapPanel Visibility="{Binding DriverVersion, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-						<TextBlock Text="{Binding DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
+					<WrapPanel>
+						<TextBlock Text="{x:Static vm:AppStatic.DriverVersion}" ToolTip="显卡驱动版本" Foreground="{StaticResource LableColor}"></TextBlock>
 						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 					</WrapPanel>
-					<TextBlock Text="{Binding GpuSetInfo}" MaxWidth="260" ToolTip="{Binding GpuSetInfo}" Margin="0 0 30 0" Foreground="{StaticResource LableColor}"></TextBlock>
+					<TextBlock Text="{x:Static vm:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static vm:AppStatic.GpuSetInfo}" Margin="0 0 30 0" Foreground="{StaticResource LableColor}"></TextBlock>
 				</WrapPanel>
 			</StackPanel>
 		</Grid>

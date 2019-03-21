@@ -15,6 +15,52 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
+        public static Version CurrentVersion {
+            get {
+                return NTMinerRoot.CurrentVersion;
+            }
+        }
+
+        public static string VersionTag {
+            get {
+                return NTMinerRoot.CurrentVersionTag;
+            }
+        }
+
+        public static string QQGroup {
+            get {
+                return NTMinerRoot.Current.QQGroup;
+            }
+        }
+
+        public static string WindowsEdition {
+            get {
+                return Windows.OS.Current.WindowsEdition;
+            }
+        }
+
+        public static string TotalVirtualMemoryGbText {
+            get {
+                return DriveSet.Current.VirtualMemorySet.TotalVirtualMemoryGbText;
+            }
+        }
+
+        public static string GpuSetInfo {
+            get {
+                return NTMinerRoot.Current.GpuSetInfo;
+            }
+        }
+
+        public static string DriverVersion {
+            get {
+                var driverVersion = NTMinerRoot.Current.GpuSet.Properties.FirstOrDefault(a => a.Code == "DriverVersion");
+                if (driverVersion == null || driverVersion.Value == null) {
+                    return string.Empty;
+                }
+                return driverVersion.Value.ToString();
+            }
+        }
+
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsControlCenter ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
 
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {

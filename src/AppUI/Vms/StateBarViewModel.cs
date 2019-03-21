@@ -1,6 +1,5 @@
 ﻿using NTMiner.Views.Ucs;
 using System;
-using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -131,24 +130,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Version CurrentVersion {
-            get {
-                return NTMinerRoot.CurrentVersion;
-            }
-        }
-
-        public string VersionTag {
-            get {
-                return NTMinerRoot.CurrentVersionTag;
-            }
-        }
-
-        public string QQGroup {
-            get {
-                return NTMinerRoot.Current.QQGroup;
-            }
-        }
-
         public MinerProfileViewModel MinerProfile {
             get {
                 return MinerProfileViewModel.Current;
@@ -158,41 +139,6 @@ namespace NTMiner.Vms {
         public GpuStatusBarViewModel GpuStatusBarVm {
             get {
                 return GpuStatusBarViewModel.Current;
-            }
-        }
-
-        public string WindowsEdition {
-            get {
-                return Windows.OS.Current.WindowsEdition;
-            }
-        }
-
-        public string TotalVirtualMemoryGbText {
-            get {
-                return DriveSet.Current.VirtualMemorySet.TotalVirtualMemoryGbText;
-            }
-        }
-
-        public string GpuSetInfo {
-            get {
-                return NTMinerRoot.Current.GpuSetInfo;
-            }
-        }
-
-        public string DriverVersion {
-            get {
-                var driverVersion = NTMinerRoot.Current.GpuSet.Properties.FirstOrDefault(a => a.Code == "DriverVersion");
-                if (driverVersion == null || driverVersion.Value == null) {
-                    return string.Empty;
-                }
-                if (NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
-                    string v = driverVersion.Value.ToString();
-                    int index = v.IndexOf('-');
-                    if (index != -1) {
-                        return v.Substring(0, index);
-                    }
-                }
-                return driverVersion.Value.ToString();
             }
         }
     }
