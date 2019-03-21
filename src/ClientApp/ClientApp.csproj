@@ -122,6 +122,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Brand\BrandUtil.cs" />
     <Compile Include="OhGodAnETHlargementPill\OhGodAnETHlargementPillUtil.cs" />
     <Compile Include="OverClock\NTMinerOverClockUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -143,6 +144,7 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <EmbeddedResource Include="Brand\KernelBrand.id" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

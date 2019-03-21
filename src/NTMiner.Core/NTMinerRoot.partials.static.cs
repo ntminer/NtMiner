@@ -13,6 +13,7 @@ namespace NTMiner {
     public partial class NTMinerRoot {
         public static IKernelDownloader KernelDownloader;
         public static Action RefreshArgsAssembly = ()=> { };
+        public static Guid KernelBrandId;
 
         public static Func<System.Windows.Forms.Keys, bool> RegHotKey;
         public static string AppName;

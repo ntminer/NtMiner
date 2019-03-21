@@ -165,10 +165,5 @@ namespace UnitTestProject1 {
             int i;
             Assert.IsTrue(int.TryParse("001", out i));
         }
-
-        [TestMethod]
-        public void BrandIdTest() {
-            Console.WriteLine(NTMiner.Brand.BrandUtil.KernelBrandId);
-        }
     }
 }

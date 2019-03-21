@@ -92,7 +92,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brand\BrandUtil.cs" />
     <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
@@ -221,7 +220,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <Compile Include="Core\Profiles\Impl\WalletSet.cs" />
-    <EmbeddedResource Include="Brand\KernelBrand.id" />
     <None Include="packages.config" />
     <Compile Include="NTMinerRoot.partials.BuildAssembleArgs.cs" />
   </ItemGroup>
