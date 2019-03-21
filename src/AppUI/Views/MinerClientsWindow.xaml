@@ -137,7 +137,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Command="{Binding OneKeyMinerNames}" Padding="4" Margin="0 0 6 0" Header="批量作业矿工名">
+				<MenuItem Command="{Binding OneKeyMinerNames}" Padding="4" Margin="0 0 6 0" Header="作业矿工名">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -608,6 +608,7 @@
 				FrozenColumnCount="{Binding FrozenColumnCount}"
 				ItemsSource="{Binding MinerClients}"
 				SelectedItem="{Binding CurrentMinerClient}"
+				MouseDoubleClick="DataGrid_MouseDoubleClick"
 				AutoGenerateColumns="False">
 				<DataGrid.Resources>
 					<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -898,8 +899,6 @@
 									</controls:KbButton>
 									<TextBox 
 										ToolTip="双击打开远程桌面"
-										PreviewMouseDoubleClick="TbIp_PreviewMouseDoubleClick"
-										Tag="{Binding}"
 										BorderThickness="0"
 										Background="Transparent"
 										IsReadOnly="True"

@@ -68,12 +68,6 @@ namespace NTMiner.Views {
             base.OnClosed(e);
         }
 
-        private void TbIp_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            MinerClientViewModel vm = (MinerClientViewModel)((FrameworkElement)sender).Tag;
-            vm.RemoteDesktop.Execute(null);
-            e.Handled = true;
-        }
-
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
@@ -105,6 +99,12 @@ namespace NTMiner.Views {
                 Vm.NTMinerFileList = ntMinerFiles ?? new List<NTMinerFileData>();
             });
             PopUpgrade.IsOpen = !PopUpgrade.IsOpen;
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            if (Vm.SelectedMinerClients != null && Vm.SelectedMinerClients.Length != 0) {
+                Vm.SelectedMinerClients[0].RemoteDesktop.Execute(null);
+            }
         }
     }
 }
