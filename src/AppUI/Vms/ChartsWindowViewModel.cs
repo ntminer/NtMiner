@@ -1,5 +1,4 @@
-﻿using NTMiner.Notifications;
-using NTMiner.Views.Ucs;
+﻿using NTMiner.Views.Ucs;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -16,6 +15,14 @@ namespace NTMiner.Vms {
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 ControlCenterHostConfig.ShowWindow();
             });
+        }
+
+        public bool IsAutoCloseServices {
+            get => NTMinerRegistry.GetIsAutoCloseServices();
+            set {
+                NTMinerRegistry.SetIsAutoCloseServices(value);
+                OnPropertyChanged(nameof(IsAutoCloseServices));
+            }
         }
 
         public LangViewModels LangVms {

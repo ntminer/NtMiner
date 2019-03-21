@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public static class AppStatic {
+        private static bool s_isMinerClient;
+
         public static string CurrentVersion {
             get {
                 return NTMinerRoot.CurrentVersion.ToString();
@@ -418,7 +420,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static bool s_isMinerClient;
         public static bool IsMinerClient {
             get {
                 return s_isMinerClient;
