@@ -184,7 +184,9 @@ namespace NTMiner.Vms {
             }, (ntminerFileData) => {
                 return this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0;
             });
-            this.AddMinerClient = new DelegateCommand(MinerClientAdd.ShowWindow);
+            this.AddMinerClient = new DelegateCommand(()=> {
+                MinerClientAdd.ShowWindow();
+            });
             this.RemoveMinerClients = new DelegateCommand(() => {
                 if (SelectedMinerClients.Length == 0) {
                     ShowNoRecordSelected();

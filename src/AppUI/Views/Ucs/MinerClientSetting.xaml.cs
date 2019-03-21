@@ -32,7 +32,6 @@ namespace NTMiner.Views.Ucs {
             if (this != owner) {
                 this.Owner = owner;
             }
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e) {

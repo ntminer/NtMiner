@@ -1,18 +1,25 @@
-﻿using NTMiner.Vms;
-using System.Windows.Controls;
+﻿using MahApps.Metro.Controls;
+using NTMiner.Vms;
+using NTMiner.Wpf;
+using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
-    public partial class MinerClientAdd : UserControl {
+    public partial class MinerClientAdd : MetroWindow {
         public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                IsDialogWindow = true,
-                CloseVisible = System.Windows.Visibility.Visible,
-                IconName = "Icon_RemoteDesktop"
-            }, ucFactory: (window) => {
-                MinerClientAddViewModel vm = new MinerClientAddViewModel();
-                vm.CloseWindow = () => window.Close();
-                return new MinerClientAdd(vm);
-            }, fixedSize: true);
+            MinerClientAddViewModel vm = new MinerClientAddViewModel();
+            Window window = new MinerClientAdd(vm);
+            vm.CloseWindow = () => window.Close();
+            if (window.Owner != null) {
+                window.MouseBottom();
+                double ownerOpacity = window.Owner.Opacity;
+                window.Owner.Opacity = 0.6;
+                window.ShowDialog();
+                window.Owner.Opacity = ownerOpacity;
+            }
+            else {
+                window.ShowDialog();
+            }
         }
 
         private MinerClientAddViewModel Vm {
@@ -23,7 +30,16 @@ namespace NTMiner.Views.Ucs {
         public MinerClientAdd(MinerClientAddViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+            var owner = TopWindow.GetTopWindow();
+            if (this != owner) {
+                this.Owner = owner;
+            }
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.ButtonState == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
         }
     }
 }
