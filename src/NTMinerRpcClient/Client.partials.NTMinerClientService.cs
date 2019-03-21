@@ -113,13 +113,13 @@ namespace NTMiner {
                 });
             }
 
-            public void GetGpuProfilesJsonAsync(string clientHost, Action<string, Exception> callback) {
+            public void GetGpuProfilesJsonAsync(string clientHost, Action<GpuProfilesJson, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.GetGpuProfilesJson)}", null);
-                            string data = message.Result.Content.ReadAsAsync<string>().Result;
+                            GpuProfilesJson data = message.Result.Content.ReadAsAsync<GpuProfilesJson>().Result;
                             callback?.Invoke(data, null);
                             return data;
                         }

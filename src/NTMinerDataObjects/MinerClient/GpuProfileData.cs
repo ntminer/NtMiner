@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Profile {
+namespace NTMiner.MinerClient {
     public class GpuProfileData : IGpuProfile {
         public GpuProfileData() {
         }

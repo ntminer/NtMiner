@@ -73,10 +73,11 @@
     <Compile Include="DataResponse`1.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
     <Compile Include="MinerServer\MinerIdsRequest.cs" />
-    <Compile Include="Profile\CoinOverClockData.cs" />
-    <Compile Include="Profile\GpuProfileData.cs" />
+    <Compile Include="MinerClient\CoinOverClockData.cs" />
+    <Compile Include="MinerClient\GpuProfileData.cs" />
     <Compile Include="GpuType.cs" />
-    <Compile Include="Profile\IGpuProfile.cs" />
+    <Compile Include="MinerClient\GpuProfilesJson.cs" />
+    <Compile Include="MinerClient\IGpuProfile.cs" />
     <Compile Include="ILevelEntity`1.cs" />
     <Compile Include="Core\IPool.cs" />
     <Compile Include="ISortable.cs" />

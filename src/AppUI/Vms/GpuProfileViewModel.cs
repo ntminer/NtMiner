@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
+using NTMiner.MinerClient;
 using NTMiner.MinerServer;
-using NTMiner.Profile;
 using System;
 
 namespace NTMiner.Vms {

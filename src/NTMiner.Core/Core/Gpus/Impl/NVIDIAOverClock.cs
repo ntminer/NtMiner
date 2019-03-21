@@ -1,4 +1,4 @@
-﻿using NTMiner.Profile;
+﻿using NTMiner.MinerClient;
 using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Gpus.Impl {
@@ -84,8 +84,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             else {
-                IGpu gpu;
-                if (NTMinerRoot.Current.GpuSet.TryGetGpu(gpuIndex, out gpu)) {
+                if (NTMinerRoot.Current.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     RefreshGpuState(gpu);
                 }
             }
@@ -95,19 +94,16 @@ namespace NTMiner.Core.Gpus.Impl {
             const string coreClockDeltaPatter = @"c\[0\]\.freqDelta     = (\d+) kHz";
             const string memoryClockDeltaPatter = @"c\[1\]\.freqDelta     = (\d+) kHz";
             int exitCode = -1;
-            string output;
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out output);
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out string output);
             if (exitCode == 0) {
                 Match match = Regex.Match(output, coreClockDeltaPatter);
                 if (match.Success) {
-                    int coreClockDelta;
-                    int.TryParse(match.Groups[1].Value, out coreClockDelta);
+                    int.TryParse(match.Groups[1].Value, out int coreClockDelta);
                     gpu.CoreClockDelta = coreClockDelta;
                 }
                 match = Regex.Match(output, memoryClockDeltaPatter);
                 if (match.Success) {
-                    int memoryClockDelta;
-                    int.TryParse(match.Groups[1].Value, out memoryClockDelta);
+                    int.TryParse(match.Groups[1].Value, out int memoryClockDelta);
                     gpu.MemoryClockDelta = memoryClockDelta;
                 }
                 VirtualRoot.Happened(new GpuStateChangedEvent(gpu));

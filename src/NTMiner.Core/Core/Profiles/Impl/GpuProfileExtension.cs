@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
-using NTMiner.Profile;
+using NTMiner.MinerClient;
 using System;
 
 namespace NTMiner.Core.Profiles.Impl {

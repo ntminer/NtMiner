@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Profile {
+namespace NTMiner.MinerClient {
     public class CoinOverClockData {
         public Guid CoinId { get; set; }
         public bool IsOverClockEnabled { get; set; }

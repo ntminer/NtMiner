@@ -1,5 +1,5 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Core;
+using NTMiner.Core.Profiles;
 using NTMiner.Daemon;
 using NTMiner.MinerClient;
 using System;
@@ -93,14 +93,13 @@ namespace NTMiner {
 
         #region GetGpuProfilesJson
         [HttpPost]
-        public string GetGpuProfilesJson() {
+        public GpuProfilesJson GetGpuProfilesJson() {
             try {
-                string data = SpecialPath.ReadGpuProfilesJsonFile();
-                return data;
+                return GpuProfileSet.Instance.Data;
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return string.Empty;
+                return null;
             }
         }
         #endregion
