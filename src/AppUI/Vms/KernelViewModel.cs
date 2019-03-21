@@ -356,6 +356,43 @@ namespace NTMiner.Vms {
             }
         }
 
+        public SysDicItemViewModel BrandItem {
+            get {
+                if (this.BrandId == Guid.Empty) {
+                    return _pleaseSelect;
+                }
+                SysDicItemViewModel item;
+                if (SysDicItemViewModels.Current.TryGetValue(this.BrandId, out item)) {
+                    return item;
+                }
+                return _pleaseSelect;
+            }
+            set {
+                if (value == null) {
+                    value = _pleaseSelect;
+                }
+                this.BrandId = value.Id;
+                OnPropertyChanged(nameof(BrandItem));
+            }
+        }
+
+        private readonly SysDicItemViewModel _pleaseSelect = new SysDicItemViewModel(Guid.Empty) {
+            Code = "请选择",
+            Value = "请选择"
+        };
+        public List<SysDicItemViewModel> KernelBrandItems {
+            get {
+                List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
+                    _pleaseSelect
+                };
+                SysDicViewModel sysDic;
+                if (SysDicViewModels.Current.TryGetSysDicVm("KernelBrand", out sysDic)) {
+                    list.AddRange(SysDicItemViewModels.Current.List.Where(a => a.DicId == sysDic.Id));
+                }
+                return list;
+            }
+        }
+
         public string Version {
             get { return _version; }
             set {

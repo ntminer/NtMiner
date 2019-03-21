@@ -77,6 +77,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool TryGetValue(Guid id, out SysDicItemViewModel vm) {
+            return _dicById.TryGetValue(id, out vm);
+        }
+
         public List<SysDicItemViewModel> List {
             get {
                 return _dicById.Values.ToList();

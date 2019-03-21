@@ -93,18 +93,27 @@
 							<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Code}"></TextBlock>
 							<TextBox 
 								Height="26"
-								Width="180"
+								Width="120"
 								IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
 							</TextBox>
-							<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Version}"></TextBlock>
+							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="{DynamicResource Version}"></TextBlock>
 							<TextBox 
-								Width="180"
+								Width="100"
 								IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 								VerticalContentAlignment="Center" 
 								ToolTip="{DynamicResource VersionToolTip}"
 								Text="{Binding Version}">
 							</TextBox>
+							<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="品牌"></TextBlock>
+							<controls:KbComboBox 
+								BorderThickness="0"
+								IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+								Width="120" 
+								Height="26"
+								ItemsSource="{Binding KernelBrandItems}"
+								DisplayMemberPath="Value" SelectedItem="{Binding BrandItem}">
+							</controls:KbComboBox>
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
