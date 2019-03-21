@@ -88,10 +88,8 @@ namespace NTMiner.Core.MinerServer.Impl {
                         if (!VirtualRoot.IsControlCenter) {
                             clientId = ClientId.Id;
                         }
-                        var response = Server.ControlCenterService.GetUsers(clientId);
-                        if (response != null) {
-                            _dicByLoginName = response.Data.ToDictionary(a => a.LoginName, a => a);
-                        }
+                        var result = Server.ControlCenterService.GetUsers(clientId);
+                        _dicByLoginName = result.ToDictionary(a => a.LoginName, a => a);
                         _isInited = true;
                     }
                 }

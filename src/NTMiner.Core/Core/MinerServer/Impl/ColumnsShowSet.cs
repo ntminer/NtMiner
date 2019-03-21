@@ -96,11 +96,9 @@ namespace NTMiner.Core.MinerServer.Impl {
                 lock (_locker) {
                     if (!_isInited) {
                         var result = Server.ControlCenterService.GetColumnsShows();
-                        if (result != null) {
-                            foreach (var item in result.Data) {
-                                if (!_dicById.ContainsKey(item.GetId())) {
-                                    _dicById.Add(item.GetId(), item);
-                                }
+                        foreach (var item in result) {
+                            if (!_dicById.ContainsKey(item.GetId())) {
+                                _dicById.Add(item.GetId(), item);
                             }
                         }
                         if (!_dicById.ContainsKey(ColumnsShowData.PleaseSelectId)) {

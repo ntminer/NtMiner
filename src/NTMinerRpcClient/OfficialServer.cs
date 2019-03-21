@@ -211,18 +211,21 @@ namespace NTMiner {
             /// </summary>
             /// <param name="messageId"></param>
             /// <returns></returns>
-            public DataResponse<List<OverClockData>> GetOverClockDatas(Guid messageId) {
+            public List<OverClockData> GetOverClockDatas(Guid messageId) {
                 try {
                     OverClockDatasRequest request = new OverClockDatasRequest {
                         MessageId = Guid.NewGuid()
                     };
                     DataResponse<List<OverClockData>> response = Post<DataResponse<List<OverClockData>>>(SControllerName, nameof(IOverClockDataController.OverClockDatas), request);
-                    return response;
+                    if (response != null && response.Data != null) {
+                        return response.Data;
+                    }
+                    return new List<OverClockData>();
                 }
                 catch (Exception e) {
                     e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
-                    return null;
+                    return new List<OverClockData>();
                 }
             }
             #endregion

@@ -102,12 +102,10 @@ namespace NTMiner.Core.MinerServer.Impl {
                 lock (_locker) {
                     if (!_isInited) {
                         Guid messageId = Guid.NewGuid();
-                        var response = OfficialServer.OverClockDataService.GetOverClockDatas(messageId);
-                        if (response != null) {
-                            foreach (var item in response.Data) {
-                                if (!_dicById.ContainsKey(item.GetId())) {
-                                    _dicById.Add(item.GetId(), item);
-                                }
+                        var result = OfficialServer.OverClockDataService.GetOverClockDatas(messageId);
+                        foreach (var item in result) {
+                            if (!_dicById.ContainsKey(item.GetId())) {
+                                _dicById.Add(item.GetId(), item);
                             }
                         }
                         _isInited = true;

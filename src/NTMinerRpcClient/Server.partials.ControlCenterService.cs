@@ -72,7 +72,7 @@ namespace NTMiner {
             /// </summary>
             /// <param name="clientId"></param>
             /// <returns></returns>
-            public DataResponse<List<UserData>> GetUsers(Guid? clientId) {
+            public List<UserData> GetUsers(Guid? clientId) {
                 try {
                     DataRequest<Guid?> request = new DataRequest<Guid?> {
                         LoginName = SingleUser.LoginName,
@@ -80,12 +80,15 @@ namespace NTMiner {
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), request);
-                    return response;
+                    if (response != null && response.Data != null) {
+                        return response.Data;
+                    }
+                    return new List<UserData>();
                 }
                 catch (Exception e) {
                     e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
-                    return null;
+                    return new List<UserData>();
                 }
             }
             #endregion
@@ -235,19 +238,22 @@ namespace NTMiner {
             /// 同步方法
             /// </summary>
             /// <returns></returns>
-            public DataResponse<List<MinerGroupData>> GetMinerGroups() {
+            public List<MinerGroupData> GetMinerGroups() {
                 try {
                     SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IControlCenterController.MinerGroups), request);
-                    return response;
+                    if (response != null && response.Data != null) {
+                        return response.Data;
+                    }
+                    return new List<MinerGroupData>();
                 }
                 catch (Exception e) {
                     e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
-                    return null;
+                    return new List<MinerGroupData>();
                 }
             }
             #endregion
@@ -326,7 +332,7 @@ namespace NTMiner {
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IControlCenterController.MineWorks), request);
-                    if (response != null) {
+                    if (response != null && response.Data != null) {
                         return response.Data;
                     }
                     return new List<MineWorkData>();
@@ -466,19 +472,22 @@ namespace NTMiner {
             /// 同步方法
             /// </summary>
             /// <returns></returns>
-            public DataResponse<List<ColumnsShowData>> GetColumnsShows() {
+            public List<ColumnsShowData> GetColumnsShows() {
                 try {
                     SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IControlCenterController.ColumnsShows), request);
-                    return response;
+                    if (response != null && response.Data != null) {
+                        return response.Data;
+                    }
+                    return new List<ColumnsShowData>();
                 }
                 catch (Exception e) {
                     e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
-                    return null;
+                    return new List<ColumnsShowData>();
                 }
             }
             #endregion

@@ -101,12 +101,10 @@ namespace NTMiner.Core.MinerServer.Impl {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
-                        var response = Server.ControlCenterService.GetMinerGroups();
-                        if (response != null) {
-                            foreach (var item in response.Data) {
-                                if (!_dicById.ContainsKey(item.GetId())) {
-                                    _dicById.Add(item.GetId(), item);
-                                }
+                        var result = Server.ControlCenterService.GetMinerGroups();
+                        foreach (var item in result) {
+                            if (!_dicById.ContainsKey(item.GetId())) {
+                                _dicById.Add(item.GetId(), item);
                             }
                         }
                         _isInited = true;
