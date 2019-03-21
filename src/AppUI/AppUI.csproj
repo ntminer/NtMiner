@@ -134,8 +134,8 @@
     <Compile Include="Views\Ucs\MessageCenter.xaml.cs">
       <DependentUpon>MessageCenter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\AutoBootStartSeter.xaml.cs">
-      <DependentUpon>AutoBootStartSeter.xaml</DependentUpon>
+    <Compile Include="Views\Ucs\MinerClientSetting.xaml.cs">
+      <DependentUpon>MinerClientSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\MinerNamesSeter.xaml.cs">
       <DependentUpon>MinerNamesSeter.xaml</DependentUpon>
@@ -283,7 +283,7 @@
     </Compile>
     <Compile Include="Vms\AppSettingViewModel.cs" />
     <Compile Include="Vms\AppSettingViewModels.cs" />
-    <Compile Include="Vms\AutoBootStartSeterViewModel.cs" />
+    <Compile Include="Vms\MinerClientSettingViewModel.cs" />
     <Compile Include="Vms\CalcConfigViewModel.cs" />
     <Compile Include="Vms\CalcConfigViewModels.cs" />
     <Compile Include="Vms\CalcViewModel.cs" />
@@ -463,7 +463,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Ucs\AutoBootStartSeter.xaml">
+    <Page Include="Views\Ucs\MinerClientSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

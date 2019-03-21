@@ -60,6 +60,7 @@ namespace NTMiner.Vms {
         public ICommand OneKeyMinerNames { get; private set; }
         public ICommand RemoteDesktop { get; private set; }
         public ICommand ReName { get; private set; }
+        public ICommand OneKeySetting { get; private set; }
 
         #region ctor
         private MinerClientsWindowViewModel() {
@@ -101,6 +102,9 @@ namespace NTMiner.Vms {
             this._pool = string.Empty;
             this._poolVm = _coinVm.OptionPools.First();
             this._wallet = string.Empty;
+            this.OneKeySetting = new DelegateCommand(() => {
+                MinerClientSetting.ShowWindow(new MinerClientSettingViewModel(this.SelectedMinerClients));
+            });
             this.ReName = new DelegateCommand(() => {
                 var selectedMinerClient = this.SelectedMinerClients[0];
                 InputWindow.ShowDialog("作业矿工名", selectedMinerClient.MinerName, null, minerName => {

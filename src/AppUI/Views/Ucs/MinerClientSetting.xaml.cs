@@ -2,24 +2,24 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class AutoBootStartSeter : UserControl {
-        public static void ShowWindow(AutoBootStartSeterViewModel vm) {
+    public partial class MinerClientSetting : UserControl {
+        public static void ShowWindow(MinerClientSettingViewModel vm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
-                IconName = "Icon_Option"
+                IconName = "Icon_Setting"
             }, ucFactory: (window) => {
                 vm.CloseWindow = () => window.Close();
-                return new AutoBootStartSeter(vm);
+                return new MinerClientSetting(vm);
             }, fixedSize: true);
         }
 
-        private AutoBootStartSeterViewModel Vm {
+        private MinerClientSettingViewModel Vm {
             get {
-                return (AutoBootStartSeterViewModel)this.DataContext;
+                return (MinerClientSettingViewModel)this.DataContext;
             }
         }
-        public AutoBootStartSeter(AutoBootStartSeterViewModel vm) {
+        public MinerClientSetting(MinerClientSettingViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);

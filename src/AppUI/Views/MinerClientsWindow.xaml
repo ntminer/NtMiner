@@ -137,12 +137,22 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" Command="{Binding OneKeyMinerNames}" Padding="4" Margin="0 0 6 0" Header="批量作业矿工名">
+				<MenuItem Command="{Binding OneKeyMinerNames}" Padding="4" Margin="0 0 6 0" Header="批量作业矿工名">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_MinerName}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Command="{Binding OneKeySetting}" Padding="4" Margin="0 0 6 0" Header="远程设置">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Setting}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>

@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class AutoBootStartSeterViewModel : ViewModelBase {
+    public class MinerClientSettingViewModel : ViewModelBase {
         private bool _isAutoBoot;
         private bool _isAutoStart;
 
@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
 
         public ICommand Save { get; private set; }
 
-        public AutoBootStartSeterViewModel(MinerClientViewModel[] minerClients) {
+        public MinerClientSettingViewModel(MinerClientViewModel[] minerClients) {
             this.Save = new DelegateCommand(() => {
                 if (minerClients != null && minerClients.Length != 0) {
                     foreach (var item in minerClients) {
