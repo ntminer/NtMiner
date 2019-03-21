@@ -8,6 +8,7 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerClientSetting : MetroWindow {
         public static void ShowWindow(MinerClientSettingViewModel vm) {
             Window window = new MinerClientSetting(vm);
+            vm.CloseWindow = () => window.Close();
             if (window.Owner != null) {
                 window.MouseBottom();
                 double ownerOpacity = window.Owner.Opacity;
