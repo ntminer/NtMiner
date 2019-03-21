@@ -37,7 +37,7 @@
 					Data="{StaticResource Icon_Setting}"
 					Stretch="Fill"/>
 				<TextBlock
-					Text="远程设置矿机"
+					Text="添加矿机"
 					Foreground="{StaticResource ThemeForeground}"
 					Margin="4 4 0 0"
 					FontSize="16" />
