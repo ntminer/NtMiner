@@ -18,7 +18,7 @@ namespace NTMiner {
             };
             if (isCanClose) {
                 _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
-                    HostRoot.WaitHandle.Set();
+                    HostRoot.Exit();
                 }));
             }
         }

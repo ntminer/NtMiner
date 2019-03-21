@@ -38,7 +38,7 @@ namespace NTMiner.Controllers {
         #region CloseServices
         [HttpPost]
         public void CloseServices() {
-            HostRoot.WaitHandle.Set();
+            HostRoot.Exit();
         }
         #endregion
 

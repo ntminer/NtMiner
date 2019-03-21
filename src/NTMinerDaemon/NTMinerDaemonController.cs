@@ -26,7 +26,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void CloseDaemon() {
-            HostRoot.WaitHandle.Set();
+            HostRoot.Exit();
         }
 
         [HttpPost]

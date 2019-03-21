@@ -6,10 +6,10 @@ using NTMiner.User;
 using System;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
-        public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex s_mutexApp;
         static void Main(string[] args) {
@@ -39,10 +39,14 @@ namespace NTMiner {
             if (!_isClosed) {
                 _isClosed = true;
                 HttpServer.Stop();
-                WaitHandle?.Close();
                 s_mutexApp?.Dispose();
                 NotifyIcon?.Dispose();
             }
+        }
+
+        public static void Exit() {
+            Close();
+            Environment.Exit(0);
         }
 
         private static void Run() {
@@ -52,14 +56,15 @@ namespace NTMiner {
                 Windows.ConsoleHandler.Register(() => {
                     Close();
                 });
-                WaitHandle.WaitOne();
-                Close();
+                while (true) {
+                    Application.DoEvents();
+                }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
             }
             finally {
-                HttpServer.Stop();
+                Close();
             }
         }
 
