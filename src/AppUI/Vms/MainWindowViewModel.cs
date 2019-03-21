@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Views;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
@@ -39,6 +40,22 @@ namespace NTMiner.Vms {
                         this.ServerJsonVersion = NTMinerRoot.JsonFileVersion;
                     });
                 _serverJsonVersion = NTMinerRoot.JsonFileVersion;
+            }
+        }
+
+        public string BrandTitle {
+            get {
+                if (NTMinerRoot.KernelBrandId == Guid.Empty) {
+                    return string.Empty;
+                }
+                ISysDicItem dicItem;
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem(NTMinerRoot.KernelBrandId, out dicItem)) {
+                    if (!string.IsNullOrEmpty(dicItem.Value)) {
+                        return dicItem.Value + "专版";
+                    }
+                    return dicItem.Code + "专版";
+                }
+                return string.Empty;
             }
         }
 

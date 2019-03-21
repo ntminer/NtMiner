@@ -110,6 +110,12 @@
 							VerticalAlignment="Center"
 							FontSize="16"
 							Text="{DynamicResource NTMinerTitle}" />
+						<TextBlock
+							Margin="0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							FontSize="16"
+							Text="{Binding BrandTitle}" />
 					</WrapPanel>
 				</controls:KbLinkButton>
 				<controls:KbButton

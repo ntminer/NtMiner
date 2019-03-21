@@ -15,6 +15,7 @@ namespace NTMiner.Brand {
                             Assembly assembly = type.Assembly;
                             using (var stream = assembly.GetManifestResourceStream(type, "KernelBrand.id")) {
                                 byte[] data = new byte[stream.Length];
+                                NTMinerRoot.KernelBrandRaw = data;
                                 stream.Read(data, 0, data.Length);
                                 string word = System.Text.Encoding.UTF8.GetString(data);
                                 word = word.Substring("KernelBrandId".Length, word.Length - "KernelBrandId".Length * 2);
