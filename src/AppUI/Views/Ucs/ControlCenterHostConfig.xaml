@@ -14,12 +14,12 @@
 	</UserControl.DataContext>
 	<UserControl.Resources>
 		<sys:String x:Key="WindowTitle">
-			从该服务器检查更新
+			将该服务器作为中控服务器
 		</sys:String>
 	</UserControl.Resources>
 	<StackPanel VerticalAlignment="Center">
 		<WrapPanel Margin="0 10 0 0">
-			<Label Width="120" HorizontalContentAlignment="Right">服务器地址：</Label>
+			<Label Width="120" HorizontalContentAlignment="Right">中控服务器地址：</Label>
 			<TextBox Width="150" Text="{Binding ControlCenterHost, ValidatesOnExceptions=True}" VerticalAlignment="Center" ToolTip="主机名或IP地址"></TextBox>
 			<Label>端口：</Label>
 			<TextBlock Width="40" Text="{Binding ControlCenterPort}" VerticalAlignment="Center" ToolTip="端口号固定"></TextBlock>
