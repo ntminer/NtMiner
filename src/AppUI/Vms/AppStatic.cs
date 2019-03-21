@@ -450,5 +450,23 @@ namespace NTMiner.Vms {
         public static Visibility IsMinerClientDevVisible {
             get; private set;
         }
+
+        public static Visibility IsControlCenterVisible {
+            get {
+                if (VirtualRoot.IsControlCenter) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public static Visibility IsControlCenterCollapsed {
+            get {
+                if (VirtualRoot.IsControlCenter) {
+                    return Visibility.Collapsed;
+                }
+                return Visibility.Visible;
+            }
+        }
     }
 }
