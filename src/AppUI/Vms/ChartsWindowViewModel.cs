@@ -1,7 +1,5 @@
-﻿using NTMiner.Views.Ucs;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ChartsWindowViewModel : ViewModelBase {
@@ -9,12 +7,7 @@ namespace NTMiner.Vms {
         private int _totalMiningCount;
         private int _totalOnlineCount;
 
-        public ICommand ConfigControlCenterHost { get; private set; }
-
         public ChartsWindowViewModel() {
-            this.ConfigControlCenterHost = new DelegateCommand(() => {
-                ControlCenterHostConfig.ShowWindow();
-            });
         }
 
         public bool IsAutoCloseServices {

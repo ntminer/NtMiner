@@ -63,6 +63,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public static ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(() => {
+            ControlCenterHostConfig.ShowWindow();
+        });
+
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsControlCenter ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
 
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {

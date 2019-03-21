@@ -131,7 +131,7 @@
 		<controls:KbButton
 			Margin="0 0 4 0"
 			ToolTip="服务器"
-			Command="{Binding ConfigControlCenterHost}"
+			Command="{x:Static vm:AppStatic.ConfigControlCenterHost}"
 			Background="Transparent">
 			<Path 
 				Width="16"
