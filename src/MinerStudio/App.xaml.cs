@@ -23,6 +23,9 @@ namespace NTMiner {
             AppHelper.NotifyIcon?.Dispose();
             NTMinerRoot.Current.Exit();
             HttpServer.Stop();
+            if (NTMinerRegistry.GetIsAutoCloseServices()) {
+                Server.ControlCenterService.CloseServices();
+            }
             base.OnExit(e);
         }
 

@@ -73,7 +73,6 @@ namespace NTMiner {
         }
 
         public static void Exit() {
-            WaitHandle.Set();
             Close();
             Environment.Exit(0);
         }
