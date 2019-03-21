@@ -17,7 +17,7 @@
 		MinWidth="800"
 		d:DesignHeight="1000"
 		UseNoneWindowStyle="True"
-		BorderBrush="{StaticResource LineColor}"
+		BorderBrush="Black"
 		Background="{StaticResource ThemeBackground}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
