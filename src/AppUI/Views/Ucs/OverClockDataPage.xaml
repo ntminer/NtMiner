@@ -15,27 +15,32 @@
 		</sys:String>
 	</UserControl.Resources>
 	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"></ColumnDefinition>
-			<ColumnDefinition Width="*"></ColumnDefinition>
-		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<ListBox 
+			Background="Transparent"
+			ItemsSource="{Binding CoinVms.MainCoins}"
+			SelectedItem="{Binding CurrentCoin}"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			ScrollViewer.VerticalScrollBarVisibility="Disabled"
+			ItemContainerStyle="{StaticResource ListBoxBarItem}"
+			BorderThickness="0">
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel>
+					</WrapPanel>
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Padding="10 2" Text="{Binding Code}" ToolTip="{Binding CodeAlgo}"></TextBlock>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 		<DataGrid 
-			Margin="0" 
-			ItemsSource="{Binding CoinVms.MainCoins}" 
-			BorderThickness="0 0 1 0" 
-			BorderBrush="{StaticResource LineColor}"
-			SelectedItem="{Binding CurrentCoin}" AutoGenerateColumns="False">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="币种" Binding="{Binding Code}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-				</DataGridTextColumn>
-				<DataGridTextColumn Header="算法" Binding="{Binding CodeAlgo}" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-				</DataGridTextColumn>
-			</DataGrid.Columns>
-		</DataGrid>
-		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding CoinVms.MainCoins, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有记录"></TextBlock>
-
-		<DataGrid 
-			Grid.Column="1"
+			Grid.Row="1"
 			Margin="0" ItemsSource="{Binding CurrentCoin.OverClockDatas}" 
 			BorderThickness="0"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -106,6 +111,6 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Column="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentCoin.OverClockDatas, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
+		<TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentCoin.OverClockDatas, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
 	</Grid>
 </UserControl>
