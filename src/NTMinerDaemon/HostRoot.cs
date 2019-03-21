@@ -4,7 +4,6 @@ using NTMiner.User.Impl;
 using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
@@ -25,6 +24,7 @@ namespace NTMiner {
             this.UserSet = _userSet;
         }
 
+        public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static ExtendedNotifyIcon NotifyIcon;
         private static Mutex s_mutexApp;
         static void Main(string[] args) {
@@ -40,7 +40,7 @@ namespace NTMiner {
                 if (mutexCreated) {
                     NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
                     Type thisType = typeof(HostRoot);
-                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "挖矿端守护进程", isCanClose: DevMode.IsDebugMode);
+                    NotifyIcon = ExtendedNotifyIcon.Create(new System.Drawing.Icon(thisType.Assembly.GetManifestResourceStream(thisType, "logo.ico")), "挖矿端守护进程", isShowNotifyIcon: DevMode.IsDebugMode);
                     bool isAutoBoot = NTMinerRegistry.GetIsAutoBoot();
                     if (isAutoBoot) {
                         string location = NTMinerRegistry.GetLocation();
@@ -73,6 +73,7 @@ namespace NTMiner {
         }
 
         public static void Exit() {
+            WaitHandle.Set();
             Close();
             Environment.Exit(0);
         }
@@ -83,9 +84,8 @@ namespace NTMiner {
                 Windows.ConsoleHandler.Register(() => {
                     Close();
                 });
-                while (true) {
-                    Application.DoEvents();
-                }
+                WaitHandle.WaitOne();
+                Close();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
