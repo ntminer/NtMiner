@@ -130,7 +130,7 @@
 		</controls:KbButton>
 		<controls:KbButton
 			Margin="0 0 4 0"
-			ToolTip="中控服务器"
+			ToolTip="群控服务器"
 			Command="{x:Static vm:AppStatic.ConfigControlCenterHost}"
 			Background="Transparent">
 			<Path 

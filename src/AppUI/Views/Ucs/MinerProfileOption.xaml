@@ -119,7 +119,7 @@
 				VerticalAlignment="Center"
 				Foreground="White" 
 				FontWeight="Bold"
-				Text="中控"></TextBlock>
+				Text="群控"></TextBlock>
 		</Border>
 		<GroupBox Grid.Row="1" Header="{DynamicResource GHSysSetting}" Visibility="{x:Static vm:AppStatic.IsControlCenterCollapsed}">
 			<StackPanel>

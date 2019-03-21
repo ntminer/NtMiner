@@ -11,7 +11,7 @@ namespace NTMiner.Views.Ucs {
                 Width = 600,
                 Height = 300,
                 CloseVisible = Visibility.Visible,
-                FooterText = "远程用户是供中控端访问挖矿端的用户"
+                FooterText = "远程用户是供群控端访问挖矿端的用户"
             }, ucFactory: (window) => new UserPage(), fixedSize: true);
         }
 

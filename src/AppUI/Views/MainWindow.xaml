@@ -269,7 +269,7 @@
 									VerticalAlignment="Center"
 									Foreground="White" 
 									FontWeight="Bold"
-									Text="中控"></TextBlock>
+									Text="群控"></TextBlock>
 							</Border>
 
 							<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">

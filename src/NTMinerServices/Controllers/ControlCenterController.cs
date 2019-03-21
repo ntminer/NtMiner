@@ -53,7 +53,7 @@ namespace NTMiner.Controllers {
                 var userData = new UserData {
                     LoginName = "admin",
                     IsEnabled = true,
-                    Description = "中控初始用户",
+                    Description = "群控初始用户",
                     Password = password
                 };
                 VirtualRoot.Execute(new AddUserCommand(userData));
@@ -93,14 +93,14 @@ namespace NTMiner.Controllers {
             }
             try {
                 if (!request.Data.HasValue) {
-                    // request.Data是ClientId，如果未传ClientId表示是中控客户端，中控客户端获取用户表需验证身份
+                    // request.Data是ClientId，如果未传ClientId表示是群控客户端，群控客户端获取用户表需验证身份
                     if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<List<UserData>> response)) {
                         return response;
                     }
                 }
                 var data = HostRoot.Current.UserSet.Cast<UserData>().ToList();
                 if (request.Data.HasValue) {
-                    // request.Data是ClientId，挖矿端获取用户表无需验证身份但获取到的用户表的密码是加密的和中控客户端获取到的不同的
+                    // request.Data是ClientId，挖矿端获取用户表无需验证身份但获取到的用户表的密码是加密的和群控客户端获取到的不同的
                     data = data.Select(a => new UserData(a)).ToList();
                     foreach (var user in data) {
                         user.Password = HashUtil.Sha1(HashUtil.Sha1(user.Password) + request.Data.Value);
