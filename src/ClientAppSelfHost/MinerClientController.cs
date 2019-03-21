@@ -90,5 +90,19 @@ namespace NTMiner {
                 return null;
             }
         }
+
+        #region GetGpuProfilesJson
+        [HttpPost]
+        public string GetGpuProfilesJson() {
+            try {
+                string data = SpecialPath.ReadGpuProfilesJsonFile();
+                return data;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return string.Empty;
+            }
+        }
+        #endregion
     }
 }

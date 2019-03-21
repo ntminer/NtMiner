@@ -8,5 +8,6 @@ namespace NTMiner.Controllers {
         ResponseBase StopMine(SignatureRequest request);
         ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request);
         SpeedData GetSpeed();
+        string GetGpuProfilesJson();
     }
 }

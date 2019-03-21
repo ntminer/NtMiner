@@ -112,6 +112,25 @@ namespace NTMiner {
                     }
                 });
             }
+
+            public void GetGpuProfilesJsonAsync(string clientHost, Action<string, Exception> callback) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            client.Timeout = TimeSpan.FromMilliseconds(3000);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.GetGpuProfilesJson)}", null);
+                            string data = message.Result.Content.ReadAsAsync<string>().Result;
+                            callback?.Invoke(data, null);
+                            return data;
+                        }
+                    }
+                    catch (Exception e) {
+                        e = e.GetInnerException();
+                        callback?.Invoke(null, e);
+                        return null;
+                    }
+                });
+            }
         }
     }
 }
