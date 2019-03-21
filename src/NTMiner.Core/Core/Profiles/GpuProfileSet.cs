@@ -68,7 +68,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         private void Save() {
-            string json = VirtualRoot.JsonSerializer.Serialize(this);
+            string json = VirtualRoot.JsonSerializer.Serialize(Data);
             File.WriteAllText(SpecialPath.GpuProfilesJsonFileFullName, json);
         }
 
@@ -88,7 +88,7 @@ namespace NTMiner.Core.Profiles {
                     string json = SpecialPath.ReadGpuProfilesJsonFile();
                     if (!string.IsNullOrEmpty(json)) {
                         try {
-                            GpuProfileSet data = VirtualRoot.JsonSerializer.Deserialize<GpuProfileSet>(json);
+                            GpuProfilesJson data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJson>(json);
                             this._data.GpuProfiles = _data.GpuProfiles ?? new List<GpuProfileData>();
                             this._data.CoinOverClocks = _data.CoinOverClocks ?? new List<CoinOverClockData>();
                         }
