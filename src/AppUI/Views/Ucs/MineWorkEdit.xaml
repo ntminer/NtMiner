@@ -9,7 +9,7 @@
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/MineWorkViewModel.xaml}"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White" d:DesignHeight="500">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="60"></Setter>
@@ -60,6 +60,9 @@
 		</StackPanel>
 		<uc:MinerProfileOption Grid.Row="1" Grid.Column="1">
 		</uc:MinerProfileOption>
+		<TextBlock Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Foreground="Red">
+			修改了作业后重新开始挖矿即可应用新作业
+		</TextBlock>
 		<TextBox 
 			Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" 
 			IsReadOnly="True"
