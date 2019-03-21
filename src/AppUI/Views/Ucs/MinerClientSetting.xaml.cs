@@ -1,17 +1,23 @@
-﻿using NTMiner.Vms;
-using System.Windows.Controls;
+﻿using MahApps.Metro.Controls;
+using NTMiner.Vms;
+using NTMiner.Wpf;
+using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
-    public partial class MinerClientSetting : UserControl {
+    public partial class MinerClientSetting : MetroWindow {
         public static void ShowWindow(MinerClientSettingViewModel vm) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                IsDialogWindow = true,
-                CloseVisible = System.Windows.Visibility.Visible,
-                IconName = "Icon_Setting"
-            }, ucFactory: (window) => {
-                vm.CloseWindow = () => window.Close();
-                return new MinerClientSetting(vm);
-            }, fixedSize: true);
+            Window window = new MinerClientSetting(vm);
+            if (window.Owner != null) {
+                window.MouseBottom();
+                double ownerOpacity = window.Owner.Opacity;
+                window.Owner.Opacity = 0.6;
+                window.ShowDialog();
+                window.Owner.Opacity = ownerOpacity;
+            }
+            else {
+                window.ShowDialog();
+            }
         }
 
         private MinerClientSettingViewModel Vm {
@@ -22,7 +28,17 @@ namespace NTMiner.Views.Ucs {
         public MinerClientSetting(MinerClientSettingViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            var owner = TopWindow.GetTopWindow();
+            if (this != owner) {
+                this.Owner = owner;
+            }
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.ButtonState == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
         }
     }
 }

@@ -104,7 +104,7 @@ namespace NTMiner.Vms {
             this._wallet = string.Empty;
             this.OneKeySetting = new DelegateCommand(() => {
                 MinerClientSetting.ShowWindow(new MinerClientSettingViewModel(this.SelectedMinerClients));
-            });
+            }, CanCommand);
             this.ReName = new DelegateCommand(() => {
                 var selectedMinerClient = this.SelectedMinerClients[0];
                 InputWindow.ShowDialog("作业矿工名", selectedMinerClient.MinerName, null, minerName => {
