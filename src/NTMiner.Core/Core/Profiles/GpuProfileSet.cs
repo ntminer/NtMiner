@@ -89,8 +89,8 @@ namespace NTMiner.Core.Profiles {
                     if (!string.IsNullOrEmpty(json)) {
                         try {
                             GpuProfilesJson data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJson>(json);
-                            this._data.GpuProfiles = _data.GpuProfiles ?? new List<GpuProfileData>();
-                            this._data.CoinOverClocks = _data.CoinOverClocks ?? new List<CoinOverClockData>();
+                            this._data.GpuProfiles = data.GpuProfiles ?? new List<GpuProfileData>();
+                            this._data.CoinOverClocks = data.CoinOverClocks ?? new List<CoinOverClockData>();
                         }
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e.Message, e);
