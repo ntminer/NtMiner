@@ -359,31 +359,31 @@ namespace NTMiner.Vms {
         public SysDicItemViewModel BrandItem {
             get {
                 if (this.BrandId == Guid.Empty) {
-                    return _pleaseSelect;
+                    return _unknownBrand;
                 }
                 SysDicItemViewModel item;
                 if (SysDicItemViewModels.Current.TryGetValue(this.BrandId, out item)) {
                     return item;
                 }
-                return _pleaseSelect;
+                return _unknownBrand;
             }
             set {
                 if (value == null) {
-                    value = _pleaseSelect;
+                    value = _unknownBrand;
                 }
                 this.BrandId = value.Id;
                 OnPropertyChanged(nameof(BrandItem));
             }
         }
 
-        private readonly SysDicItemViewModel _pleaseSelect = new SysDicItemViewModel(Guid.Empty) {
-            Code = "请选择",
-            Value = "请选择"
+        private readonly SysDicItemViewModel _unknownBrand = new SysDicItemViewModel(Guid.Empty) {
+            Code = "未知",
+            Value = "未知"
         };
         public List<SysDicItemViewModel> KernelBrandItems {
             get {
                 List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
-                    _pleaseSelect
+                    _unknownBrand
                 };
                 SysDicViewModel sysDic;
                 if (SysDicViewModels.Current.TryGetSysDicVm("KernelBrand", out sysDic)) {
