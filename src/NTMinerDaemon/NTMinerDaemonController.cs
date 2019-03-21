@@ -43,6 +43,16 @@ namespace NTMiner {
         #endregion
 
         [HttpPost]
+        public void SetAutoBootStart([FromUri]bool autoBoot, [FromUri]bool autoStart) {
+            NTMinerRegistry.SetIsAutoBoot(autoBoot);
+            NTMinerRegistry.SetIsAutoStart(autoStart);
+            using (HttpClient client = new HttpClient()) {
+                Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/RefreshAutoBootStart", null);
+                Write.DevLine(message.Result.ReasonPhrase);
+            }
+        }
+
+        [HttpPost]
         public ResponseBase RestartWindows([FromBody]SignatureRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput(Guid.Empty, "参数错误");

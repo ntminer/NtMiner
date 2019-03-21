@@ -5,6 +5,7 @@ namespace NTMiner.Controllers {
         string GetDaemonVersion();
         void CloseDaemon();
         string GetGpuProfilesJson();
+        void SetAutoBootStart(bool autoBoot, bool autoStart);
         ResponseBase RestartWindows(SignatureRequest request);
         ResponseBase ShutdownWindows(SignatureRequest request);
         ResponseBase RestartNTMiner(WorkRequest request);

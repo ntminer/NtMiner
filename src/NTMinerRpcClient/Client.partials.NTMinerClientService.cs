@@ -112,6 +112,21 @@ namespace NTMiner {
                     }
                 });
             }
+
+            public void RefreshAutoBootStartAsync() {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (HttpClient client = new HttpClient()) {
+                            client.Timeout = TimeSpan.FromMilliseconds(3000);
+                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/{s_controllerName}/{nameof(IMinerClientController.RefreshAutoBootStart)}", null);
+                            Write.DevLine(message.Result.ReasonPhrase);
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
+                });
+            }
         }
     }
 }

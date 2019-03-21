@@ -25,4 +25,8 @@ namespace NTMiner {
     [MessageType(messageType: typeof(CloseNTMinerCommand), description: "关闭NTMiner客户端")]
     public class CloseNTMinerCommand : Cmd {
     }
+
+    [MessageType(messageType: typeof(RefreshAutoBootStartCommand), description: "刷新开机自动启动和启动后自动开始挖矿")]
+    public class RefreshAutoBootStartCommand : Cmd {
+    }
 }

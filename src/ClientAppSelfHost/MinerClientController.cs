@@ -89,5 +89,10 @@ namespace NTMiner {
                 return null;
             }
         }
+
+        [HttpPost]
+        public void RefreshAutoBootStart() {
+            VirtualRoot.Execute(new RefreshAutoBootStartCommand());
+        }
     }
 }
