@@ -21,6 +21,9 @@ namespace NTMiner.Vms {
             NTMinerRoot.Current.OnReRendContext += () => {
                 AllPropertyChanged();
             };
+            this.Add = new DelegateCommand(() => {
+                new SysDicViewModel(Guid.NewGuid()).Edit.Execute(null);
+            });
             Init();
         }
 

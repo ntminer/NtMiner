@@ -165,7 +165,7 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="InnerProperty" Command="{x:Static vm:AppStatic.ShowInnerProperty}">
+				<MenuItem Header="内属性" Command="{x:Static vm:AppStatic.ShowInnerProperty}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -175,7 +175,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="kernel input" Command="{x:Static vm:AppStatic.ShowKernelInputs}">
+				<MenuItem Header="内核输入" Command="{x:Static vm:AppStatic.ShowKernelInputs}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -185,7 +185,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="kernel output" Command="{x:Static vm:AppStatic.ShowKernelOutputs}">
+				<MenuItem Header="内核输出" Command="{x:Static vm:AppStatic.ShowKernelOutputs}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -195,7 +195,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="notification sample" Command="{x:Static vm:AppStatic.ShowNotificationSample}">
+				<MenuItem Header="通知中心Demo" Command="{x:Static vm:AppStatic.ShowNotificationSample}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -205,7 +205,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="sys dic" Command="{x:Static vm:AppStatic.ShowSysDic}">
+				<MenuItem Header="系统字典" Command="{x:Static vm:AppStatic.ShowSysDic}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
