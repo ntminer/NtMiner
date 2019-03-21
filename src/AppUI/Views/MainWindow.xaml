@@ -416,11 +416,9 @@
 						</TabControl>
 
 						<!--下状态栏-->
-						<local:MainBar Grid.Row="1" Width="150" VerticalAlignment="Bottom" HorizontalAlignment="Left"></local:MainBar>
 						<uc:StateBar 
 							Grid.Row="1" 
 							Grid.ColumnSpan="3" 
-							HorizontalAlignment="Right"
 							Background="{StaticResource MinerProfileBackground}" 
 							BorderBrush="{StaticResource LineColor}" 
 							BorderThickness="0 1 0 0">
