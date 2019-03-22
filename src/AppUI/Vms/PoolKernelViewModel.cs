@@ -82,13 +82,13 @@ namespace NTMiner.Vms {
             }
         }
 
+        private CoinKernelViewModel _coinKernelVm;
         public CoinKernelViewModel CoinKernelVm {
             get {
-                var item = NTMinerRoot.Current.CoinKernelSet.FirstOrDefault(a => a.KernelId == this.KernelId && a.CoinId == this.PoolVm.CoinId);
-                if (item != null) {
-                    return new CoinKernelViewModel(item);
+                if (_coinKernelVm == null) {
+                    _coinKernelVm = CoinKernelViewModels.Current.AllCoinKernels.FirstOrDefault(a => a.KernelId == this.KernelId && a.CoinId == this.PoolVm.CoinId);
                 }
-                return null;
+                return _coinKernelVm;
             }
         }
 

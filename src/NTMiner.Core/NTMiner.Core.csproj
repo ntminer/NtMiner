@@ -95,8 +95,6 @@
     <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="CommandLineArgs.partial.cs" />
-    <Compile Include="Core\CoinKernelExtension.cs" />
-    <Compile Include="Core\CoinKernelProfileExtension.cs" />
     <Compile Include="Core\Gpus\Adl\AdlHelper.cs" />
     <Compile Include="Core\Gpus\Adl\AdlNativeMethods.cs" />
     <Compile Include="Core\Gpus\Adl\AdlTypes.cs" />

@@ -456,15 +456,7 @@ namespace NTMiner.Vms {
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                List<CoinKernelViewModel> list = new List<CoinKernelViewModel>();
-                var data = NTMinerRoot.Current.CoinKernelSet.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList();
-                foreach (var item in data) {
-                    IKernel kernel;
-                    if (NTMinerRoot.Current.KernelSet.TryGetKernel(item.KernelId, out kernel) && kernel.PublishState == PublishStatus.Published) {
-                        list.Add(new CoinKernelViewModel(item));
-                    }
-                }
-                return list;
+                return CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.CoinId == this.Id && a.Kernel.PublishState == PublishStatus.Published).OrderBy(a => a.SortNumber).ToList();
             }
         }
 

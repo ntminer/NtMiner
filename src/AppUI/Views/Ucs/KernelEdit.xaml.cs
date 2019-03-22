@@ -1,7 +1,4 @@
-﻿using NTMiner.Bus;
-using NTMiner.Core;
-using NTMiner.Vms;
-using System.Collections.Generic;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -30,37 +27,11 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        private readonly List<IDelegateHandler> _handlers = new List<IDelegateHandler>();
         public KernelEdit(KernelViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
             this.CbCoins.SelectedItem = CoinViewModel.PleaseSelect;
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources); VirtualRoot.On<CoinKernelAddedEvent>(
-                 "添加了币种内核后刷新VM内存",
-                 LogEnum.Console,
-                 action: (message) => {
-                     Vm.OnPropertyChanged(nameof(Vm.CoinKernels));
-                     Vm.OnPropertyChanged(nameof(Vm.CoinVms));
-                 }).AddToCollection(_handlers);
-            VirtualRoot.On<CoinKernelUpdatedEvent>(
-                "更新了币种内核后刷新VM内存",
-                LogEnum.Console,
-                action: (message) => {
-                    Vm.OnPropertyChanged(nameof(Vm.CoinKernels));
-                    Vm.OnPropertyChanged(nameof(Vm.CoinVms));
-                }).AddToCollection(_handlers);
-            VirtualRoot.On<CoinKernelRemovedEvent>(
-                "移除了币种内核后刷新VM内存",
-                LogEnum.Console,
-                action: (message) => {
-                    Vm.OnPropertyChanged(nameof(Vm.CoinKernels));
-                    Vm.OnPropertyChanged(nameof(Vm.CoinVms));
-                }).AddToCollection(_handlers);
-            this.Unloaded += (object sender, System.Windows.RoutedEventArgs e) => {
-                foreach (var handler in _handlers) {
-                    VirtualRoot.UnPath(handler);
-                }
-            };
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 
         private void CoinKernelDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
