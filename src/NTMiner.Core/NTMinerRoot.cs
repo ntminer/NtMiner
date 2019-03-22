@@ -566,7 +566,6 @@ namespace NTMiner {
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);
-                    VirtualRoot.Happened(new MineStartedEvent(mineContext));
                 }
             }
             catch (Exception e) {
