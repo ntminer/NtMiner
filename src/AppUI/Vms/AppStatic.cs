@@ -241,6 +241,9 @@ namespace NTMiner.Vms {
         public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin) => {
             CoinPage.ShowWindow(currentCoin, "pool");
         });
+        public static ICommand ManageColumnsShows { get; private set; } = new DelegateCommand(() => {
+            ColumnsShowPage.ShowWindow();
+        });
         public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             CoinPage.ShowWindow(coinVm, "pool");
         });
