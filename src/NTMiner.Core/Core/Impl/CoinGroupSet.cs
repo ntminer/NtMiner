@@ -33,22 +33,6 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new CoinGroupAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateCoinGroupCommand>(
-                "修改币组",
-                LogEnum.Console,
-                action: message => {
-                    CoinGroupData entity;
-                    if (_dicById.TryGetValue(message.Input.GetId(), out entity)) {
-                        if (ReferenceEquals(entity, message.Input)) {
-                            return;
-                        }
-                        entity.Update(message.Input);
-                        var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>(isUseJson);
-                        repository.Update(entity);
-
-                        VirtualRoot.Happened(new CoinGroupUpdatedEvent(entity));
-                    }
-                });
             VirtualRoot.Accept<RemoveCoinGroupCommand>(
                 "移除币组",
                 LogEnum.Console,

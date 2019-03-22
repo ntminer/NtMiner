@@ -85,8 +85,8 @@ namespace NTMiner.Vms {
                 if (coinVm == null) {
                     return;
                 }
-                int coinGroupCount = NTMinerRoot.Current.CoinGroupSet.Where(a => a.GroupId == this.Id).Count();
-                int sortNumber = coinGroupCount == 0 ? 1 : coinGroupCount + 1;
+                var coinGroupVms = CoinGroupViewModels.Current.GetCoinGroupsByGroupId(this.Id);
+                int sortNumber = coinGroupVms.Count == 0 ? 1 : coinGroupVms.Count + 1;
                 CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(Guid.NewGuid()) {
                     CoinId = coinVm.Id,
                     GroupId = this.Id,
@@ -98,14 +98,14 @@ namespace NTMiner.Vms {
 
         public List<CoinGroupViewModel> CoinGroupVms {
             get {
-                return NTMinerRoot.Current.CoinGroupSet.Where(a => a.GroupId == this.Id).OrderBy(a => a.SortNumber).Select(a => new CoinGroupViewModel(a)).ToList();
+                return CoinGroupViewModels.Current.GetCoinGroupsByGroupId(this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
         public List<CoinViewModel> CoinVms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
-                var coinGroupVms = NTMinerRoot.Current.CoinGroupSet.Where(a => a.GroupId == this.Id);
+                var coinGroupVms = CoinGroupViewModels.Current.GetCoinGroupsByGroupId(this.Id);
                 foreach (var item in CoinViewModels.Current.AllCoins) {
                     if (coinGroupVms.All(a => a.CoinId != item.Id)) {
                         list.Add(item);
@@ -117,7 +117,8 @@ namespace NTMiner.Vms {
 
         public List<CoinViewModel> DualCoinVms {
             get {
-                return this.CoinGroupVms.Where(a => a.CoinVm != CoinViewModel.Empty).Select(a => a.CoinVm).OrderBy(a => a.SortNumber).ToList();
+                var coinGroupVms = CoinGroupViewModels.Current.GetCoinGroupsByGroupId(this.Id);
+                return coinGroupVms.Where(a => a.CoinVm != CoinViewModel.Empty).Select(a => a.CoinVm).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
