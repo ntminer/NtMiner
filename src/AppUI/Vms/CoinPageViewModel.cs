@@ -5,8 +5,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class CoinPageViewModel : ViewModelBase {
-        public static readonly CoinPageViewModel Current = new CoinPageViewModel();
-
         private string _coinKeyword;
         private bool _isPoolTabSelected;
         private bool _isWalletTabSelected;
@@ -15,7 +13,7 @@ namespace NTMiner.Vms {
         public ICommand Add { get; private set; }
         public ICommand ClearKeyword { get; private set; }
 
-        private CoinPageViewModel() {
+        public CoinPageViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
@@ -69,13 +67,13 @@ namespace NTMiner.Vms {
                 List<CoinViewModel> list;
                 if (!string.IsNullOrEmpty(CoinKeyword)) {
                     string keyword = this.CoinKeyword.ToLower();
-                    list = CoinViewModels.Current.AllCoins.
+                    list = NTMinerRoot.Current.CoinSet.
                         Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.ToLower().Contains(keyword))
                             || (!string.IsNullOrEmpty(a.Algo) && a.Algo.ToLower().Contains(keyword))
-                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.ToLower().Contains(keyword))).OrderBy(a => a.SortNumber).ToList();
+                            || (!string.IsNullOrEmpty(a.EnName) && a.EnName.ToLower().Contains(keyword))).OrderBy(a => a.SortNumber).Select(a => new CoinViewModel(a)).ToList();
                 }
                 else {
-                    list = CoinViewModels.Current.AllCoins.OrderBy(a => a.SortNumber).ToList();
+                    list = NTMinerRoot.Current.CoinSet.OrderBy(a => a.SortNumber).Select(a => new CoinViewModel(a)).ToList();
                 }
                 if (list.Count == 1) {
                     CurrentCoin = list.FirstOrDefault();

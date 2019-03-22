@@ -5,8 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class CoinGroupViewModel : ViewModelBase, ICoinGroup {
-        private Guid _id;
+    public class CoinGroupViewModel : EntityViewModelBase<ICoinGroup, Guid>, ICoinGroup {
         private Guid _groupId;
         private Guid _coinId;
         private int _sortNumber;
@@ -51,20 +50,6 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
                 }
             });
-        }
-
-        public Guid GetId() {
-            return this.Id;
-        }
-
-        public Guid Id {
-            get => _id;
-            set {
-                if (_id != value) {
-                    _id = value;
-                    OnPropertyChanged(nameof(Id));
-                }
-            }
         }
 
         public Guid GroupId {

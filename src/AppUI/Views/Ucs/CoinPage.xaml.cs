@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
     public partial class CoinPage : UserControl {
         public static string ViewId = nameof(CoinPage);
 
-        public static void ShowWindow(CoinViewModel currentCoin) {
+        public static void ShowWindow(CoinViewModel currentCoin, string tabName) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Coin",
                 CloseVisible = System.Windows.Visibility.Visible,
@@ -20,6 +20,18 @@ namespace NTMiner.Views.Ucs {
             beforeShow: uc => {
                 if (currentCoin != null) {
                     CoinPageViewModel vm = (CoinPageViewModel)uc.DataContext;
+                    switch (tabName) {
+                        case "wallet":
+                            vm.IsWalletTabSelected = true;
+                            break;
+                        case "kernel":
+                            vm.IsKernelTabSelected = true;
+                            break;
+                        case "pool":
+                        default:
+                            vm.IsPoolTabSelected = true;
+                            break;
+                    }
                     vm.CurrentCoin = currentCoin;
                 }
             });
@@ -35,6 +47,28 @@ namespace NTMiner.Views.Ucs {
         public CoinPage() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+            VirtualRoot.On<CoinAddedEvent>(
+                 "添加了币种后刷新VM内存",
+                 LogEnum.Console,
+                 action: (message) => {
+                     Vm.OnPropertyChanged(nameof(Vm.List));
+                     Vm.OnPropertyChanged(nameof(Vm.CurrentCoin));
+                 }).AddToCollection(_handlers);
+            VirtualRoot.On<CoinRemovedEvent>(
+                "移除了币种后刷新VM内存",
+                LogEnum.Console,
+                action: message => {
+                    Vm.OnPropertyChanged(nameof(Vm.List));
+                    Vm.OnPropertyChanged(nameof(Vm.CurrentCoin));
+                }).AddToCollection(_handlers);
+            VirtualRoot.On<CoinUpdatedEvent>(
+                "更新了币种后刷新VM内存",
+                LogEnum.Console,
+                action: message => {
+                    Vm.OnPropertyChanged(nameof(Vm.List));
+                    Vm.OnPropertyChanged(nameof(Vm.CurrentCoin));
+                }).AddToCollection(_handlers);
+
             VirtualRoot.On<CoinKernelAddedEvent>(
                 "添加了币种内核后刷新VM内存",
                 LogEnum.Console,

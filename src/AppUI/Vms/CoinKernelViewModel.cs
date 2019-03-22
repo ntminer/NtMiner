@@ -8,8 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class CoinKernelViewModel : ViewModelBase, ICoinKernel, IEditableViewModel {
-        private Guid _id;
+    public class CoinKernelViewModel : EntityViewModelBase<ICoinKernel, Guid>, ICoinKernel, IEditableViewModel {
         private Guid _coinId;
         private Guid _kernelId;
         private int _sortNumber;
@@ -20,10 +19,6 @@ namespace NTMiner.Vms {
         private GroupViewModel _selectedDualCoinGroup;
         private List<EnvironmentVariable> _environmentVariables;
         private CoinViewModel _coinVm;
-
-        public Guid GetId() {
-            return this.Id;
-        }
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -123,16 +118,6 @@ namespace NTMiner.Vms {
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                 }
             });
-        }
-
-        public Guid Id {
-            get => _id;
-            private set {
-                if (_id != value) {
-                    _id = value;
-                    OnPropertyChanged(nameof(Id));
-                }
-            }
         }
 
         public Guid CoinId {
@@ -358,17 +343,6 @@ namespace NTMiner.Vms {
             get {
                 return CoinProfileViewModels.Current.GetOrCreateCoinKernelProfileVm(this.Id);
             }
-        }
-
-        public override int GetHashCode() {
-            return this.Id.GetHashCode();
-        }
-
-        public override bool Equals(object obj) {
-            if (!(obj is CoinKernelViewModel vm)) {
-                return false;
-            }
-            return vm.Id == this.Id;
         }
     }
 }

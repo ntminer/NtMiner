@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class CoinViewModel : ViewModelBase, ICoin, IEditableViewModel {
+    public class CoinViewModel : EntityViewModelBase<ICoin, Guid>, ICoin, IEditableViewModel {
         public static readonly CoinViewModel Empty = new CoinViewModel(Guid.Empty) {
             _algo = string.Empty,
             _code = string.Empty,
@@ -29,7 +29,6 @@ namespace NTMiner.Vms {
             _code = "启用了双挖"
         };
 
-        private Guid _id;
         private string _code;
         private int _sortNumber;
         private string _algo;
@@ -38,10 +37,6 @@ namespace NTMiner.Vms {
         private string _cnName;
         private string _walletRegexPattern;
         private bool _justAsDualCoin;
-
-        public Guid GetId() {
-            return this.Id;
-        }
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -146,7 +141,6 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
                 }
@@ -159,7 +153,6 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
-                    CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.MainCoins));
                     CoinViewModels.Current.OnPropertyChanged(nameof(CoinViewModels.AllCoins));
                 }
@@ -218,16 +211,6 @@ namespace NTMiner.Vms {
         public ShareViewModel ShareVm {
             get {
                 return ShareViewModels.Current.GetOrCreate(this.Id);
-            }
-        }
-
-        public Guid Id {
-            get => _id;
-            private set {
-                if (_id != value) {
-                    _id = value;
-                    OnPropertyChanged(nameof(Id));
-                }
             }
         }
 

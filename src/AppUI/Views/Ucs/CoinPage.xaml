@@ -10,8 +10,10 @@
 			 mc:Ignorable="d"
 			 Background="{StaticResource ThemeBackground}"
 			 TextOptions.TextFormattingMode="Display" 
-			 DataContext="{x:Static vm:CoinPageViewModel.Current}"
 			 d:DesignHeight="520" d:DesignWidth="960">
+	<UserControl.DataContext>
+		<vm:CoinPageViewModel></vm:CoinPageViewModel>
+	</UserControl.DataContext>
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
