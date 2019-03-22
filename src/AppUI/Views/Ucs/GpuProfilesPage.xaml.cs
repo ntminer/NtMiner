@@ -8,8 +8,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IsDialogWindow = true,
                 IconName = "Icon_OverClock",
-                Width = 600,
-                Height = 400,
+                Width = 800,
+                Height = 600,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => new GpuProfilesPage(vm), fixedSize: true);
         }

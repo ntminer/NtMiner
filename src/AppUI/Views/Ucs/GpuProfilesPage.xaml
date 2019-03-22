@@ -34,10 +34,19 @@
 			</ListBox.ItemsPanel>
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Padding="10 2" Text="{Binding Code}" ToolTip="{Binding CodeAlgo}"></TextBlock>
+					<Border Padding="8 0">
+						<WrapPanel>
+							<TextBlock Padding="10 2" Text="{Binding Code}" ToolTip="{Binding CodeAlgo}"></TextBlock>
+							<CheckBox IsChecked="{Binding IsOverClockEnabled}" VerticalAlignment="Center"></CheckBox>
+						</WrapPanel>
+					</Border>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		
+		<StackPanel Grid.Row="1">
+			<WrapPanel>
+				<CheckBox IsChecked="{Binding CurrentCoin.IsOverClockGpuAll}" Content="统一超频"></CheckBox>
+			</WrapPanel>
+		</StackPanel>
 	</Grid>
 </UserControl>
