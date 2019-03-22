@@ -75,7 +75,7 @@ namespace NTMiner.Vms {
                 if (this.CoinId == Guid.Empty) {
                     return false;
                 }
-                return this.Index == NTMinerRoot.GpuAllId;
+                return this == GpuProfileViewModels.Current.GpuAllVm(CoinId);
             }
         }
 
