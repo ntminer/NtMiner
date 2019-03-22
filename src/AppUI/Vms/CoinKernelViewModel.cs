@@ -341,7 +341,7 @@ namespace NTMiner.Vms {
 
         public CoinKernelProfileViewModel CoinKernelProfile {
             get {
-                return CoinProfileViewModels.Current.GetOrCreateCoinKernelProfileVm(this.Id);
+                return new CoinKernelProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinKernelProfile(this.Id));
             }
         }
     }

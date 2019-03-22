@@ -47,6 +47,22 @@ namespace NTMiner.Views.Ucs {
         public CoinPage() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+            VirtualRoot.On<WalletAddedEvent>(
+                "添加了钱包后刷新VM",
+                LogEnum.Console,
+                action: message => {
+                    if (message.Source.CoinId == Vm.CurrentCoin?.Id) {
+                        Vm.OnPropertyChanged(nameof(Vm.CurrentCoin));
+                    }
+                }).AddToCollection(_handlers);
+            VirtualRoot.On<WalletRemovedEvent>(
+                "添加了钱包后刷新VM",
+                LogEnum.Console,
+                action: message => {
+                    if (message.Source.CoinId == Vm.CurrentCoin?.Id) {
+                        Vm.OnPropertyChanged(nameof(Vm.CurrentCoin));
+                    }
+                }).AddToCollection(_handlers);
             VirtualRoot.On<CoinAddedEvent>(
                  "添加了币种后刷新VM内存",
                  LogEnum.Console,

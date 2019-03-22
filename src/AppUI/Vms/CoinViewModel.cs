@@ -411,8 +411,8 @@ namespace NTMiner.Vms {
             if (!string.IsNullOrEmpty(TestWallet)) {
                 yield return TestWalletVm;
             }
-            foreach (var item in WalletViewModels.Current.WalletList.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
-                yield return item;
+            foreach (var item in NTMinerRoot.Current.MinerProfile.GetWallets().Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
+                yield return new WalletViewModel(item);
             }
         }
 

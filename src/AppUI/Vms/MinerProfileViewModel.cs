@@ -18,6 +18,22 @@ namespace NTMiner.Vms {
             NTMinerRoot.Current.OnReRendContext += () => {
                 OnPropertyChanged(nameof(CoinVm));
             };
+            VirtualRoot.On<WalletAddedEvent>(
+                "添加了钱包后刷新VM",
+                LogEnum.Console,
+                action: message => {
+                    if (message.Source.CoinId == CoinVm?.Id) {
+                        OnPropertyChanged(nameof(CoinVm));
+                    }
+                });
+            VirtualRoot.On<WalletRemovedEvent>(
+                "添加了钱包后刷新VM",
+                LogEnum.Console,
+                action: message => {
+                    if (message.Source.CoinId == CoinVm?.Id) {
+                        OnPropertyChanged(nameof(CoinVm));
+                    }
+                });
             VirtualRoot.Accept<RefreshAutoBootStartCommand>(
                 "刷新开机自动启动和启动后自动开始挖矿的展示",
                 LogEnum.Console,
@@ -50,7 +66,7 @@ namespace NTMiner.Vms {
 
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
                 MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
-                this.CoinVm.CoinKernel?.OnPropertyChanged(nameof(CoinKernelViewModel.CoinKernelProfile));
+                this.CoinVm?.OnPropertyChanged(nameof(CoinVm.CoinKernel));
                 OnPropertyChanged(nameof(CoinVm));
                 OnPropertyChanged(nameof(MinerName));
                 OnPropertyChanged(nameof(IsFreeClient));
