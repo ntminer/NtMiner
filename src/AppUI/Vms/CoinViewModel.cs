@@ -355,7 +355,7 @@ namespace NTMiner.Vms {
                 if (!NTMinerRoot.Current.CoinSet.Contains(this.Id)) {
                     return null;
                 }
-                return CoinProfileViewModels.Current.GetOrCreateCoinProfile(this.Id);
+                return new CoinProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinProfile(this.Id));
             }
         }
 
