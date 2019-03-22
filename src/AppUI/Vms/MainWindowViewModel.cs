@@ -100,6 +100,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        public List<GpuSpeedViewModel> GpuSpeedVms {
+            get { return GpuSpeedViewModels.Current.GpuSpeedVms; }
+        }
+
         public string ServerJsonVersion {
             get => _serverJsonVersion;
             set {
