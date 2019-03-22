@@ -10,8 +10,10 @@
 			 mc:Ignorable="d"
 			 Background="White"
 			 TextOptions.TextFormattingMode="Display" 
-			 DataContext="{x:Static vm:KernelInputPageViewModel.Current}"
 			 d:DesignHeight="520" d:DesignWidth="1000">
+	<UserControl.DataContext>
+		<vm:KernelInputPageViewModel></vm:KernelInputPageViewModel>
+	</UserControl.DataContext>
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<sys:String x:Key="WindowTitle">

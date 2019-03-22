@@ -6,7 +6,7 @@ namespace NTMiner.Core {
         string RegexPattern { get; }
         string Replacement { get; }
         string Color { get; }
-        int SortNumber { get; }
+        int SortNumber { get; set; }
         bool IsPre { get; }
     }
 }
