@@ -13,6 +13,7 @@ namespace NTMiner.Vms {
 
         public StateBarViewModel() {
             this.GpuStatusBarVm = new GpuStatusBarViewModel();
+            this.GpuSpeedVms = new GpuSpeedViewModels();
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 ControlCenterHostConfig.ShowWindow();
             });
@@ -65,9 +66,7 @@ namespace NTMiner.Vms {
         }
 
         public GpuSpeedViewModels GpuSpeedVms {
-            get {
-                return GpuSpeedViewModels.Current;
-            }
+            get; private set;
         }
 
         private static readonly SolidColorBrush s_gray = new SolidColorBrush(Colors.Gray);

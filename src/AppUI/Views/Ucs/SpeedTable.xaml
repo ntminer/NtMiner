@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              Background="White"
              TextOptions.TextFormattingMode="Display" 
-             DataContext="{x:Static vm:GpuSpeedViewModels.Current}"
+             DataContext="{x:Static vm:MinerProfileViewModel.Current}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <sys:String x:Key="WindowTitle">
@@ -35,7 +35,7 @@
     </UserControl.Resources>
     <Grid>
         <DataGrid 
-            ItemsSource="{Binding GpuSpeedVms}" 
+            ItemsSource="{Binding StateBarVm.GpuSpeedVms.GpuSpeedVms}" 
             Background="Transparent" 
             ColumnHeaderHeight="32"
             MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
@@ -86,8 +86,8 @@
                 <DataGridTemplateColumn Width="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
-                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
-                            <TextBlock Text="{Binding Data.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                            <TextBlock Text="{Binding Data.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.StateBarVm.GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -97,11 +97,11 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"
-                    Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
+                    Visibility="{Binding Data.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
-                            <TextBlock Text="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
-                            <TextBlock Text="{Binding Data.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                            <TextBlock Text="{Binding Data.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
+                            <TextBlock Text="{Binding Data.StateBarVm.GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                         </StackPanel>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
@@ -139,7 +139,7 @@
                         <DataTemplate>
                             <StackPanel>
                                 <TextBlock Text="{DynamicResource DghGpuTotalPower}" FontSize="12"></TextBlock>
-                                <TextBlock Text="{Binding Data.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
+                                <TextBlock Text="{Binding Data.StateBarVm.GpuSpeedVms.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
@@ -151,6 +151,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Visibility="{Binding GpuSpeedVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
+        <TextBlock Visibility="{Binding StateBarVm.GpuSpeedVms.GpuSpeedVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
     </Grid>
 </UserControl>
