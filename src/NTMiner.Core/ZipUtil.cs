@@ -42,13 +42,6 @@ namespace NTMiner {
                     }
                     else if (theEntry.IsFile) {
                         string destfile = path;
-                        if (File.Exists(destfile)) {
-                            byte[] buffer = new byte[zipInputStream.Length];
-                            StreamUtils.ReadFully(zipInputStream, buffer);
-                            if (HashUtil.Sha1(buffer) == HashUtil.Sha1(File.ReadAllBytes(destfile))) {
-                                continue;
-                            }
-                        }
                         FileStream streamWriter = File.Create(destfile);
                         const int bufferSize = 1024 * 30;
                         byte[] data = new byte[bufferSize];

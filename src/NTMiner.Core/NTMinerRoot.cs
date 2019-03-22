@@ -529,13 +529,8 @@ namespace NTMiner {
                         return;
                     }
                 }
-                if (_currentMineContext != null) {
+                if (IsMining) {
                     this.StopMine();
-                }
-                // kill上一个上下文的进程，上一个上下文进程名不一定和下一个相同
-                if (_currentMineContext != null && _currentMineContext.Kernel != null) {
-                    string processName = _currentMineContext.Kernel.GetProcessName();
-                    Windows.TaskKill.Kill(processName);
                 }
                 if (string.IsNullOrEmpty(kernel.Package)) {
                     Write.UserLine(kernel.GetFullName() + "没有内核包", ConsoleColor.Red);
@@ -570,8 +565,6 @@ namespace NTMiner {
                         mineContext = new DualMineContext(mineContext, dualCoin, dualCoinPool, coinProfile.DualCoinWallet, coinKernelProfile.DualCoinWeight);
                     }
                     _currentMineContext = mineContext;
-                    // kill这一个上下文的进程
-                    Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName());
                     MinerProcess.CreateProcessAsync(mineContext);
                     VirtualRoot.Happened(new MineStartedEvent(mineContext));
                 }

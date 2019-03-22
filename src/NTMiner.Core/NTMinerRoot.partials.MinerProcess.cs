@@ -14,32 +14,39 @@ namespace NTMiner {
             #region CreateProcess
             public static void CreateProcessAsync(IMineContext mineContext) {
                 Task.Factory.StartNew(() => {
-                    Logger.InfoDebugLine("解压内核包");
-                    // 解压内核包
-                    mineContext.Kernel.ExtractPackage();
+                    try {
+                        Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName());
+                        Thread.Sleep(1000);
+                        Logger.InfoDebugLine("解压内核包");
+                        // 解压内核包
+                        mineContext.Kernel.ExtractPackage();
 
-                    string kernelExeFileFullName;
-                    string arguments;
-                    Logger.InfoDebugLine("组装命令");
-                    // 组装命令
-                    BuildCmdLine(mineContext, out kernelExeFileFullName, out arguments);
-                    bool isLogFile = arguments.Contains("{logfile}");
-                    // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
-                    if (!File.Exists(kernelExeFileFullName)) {
-                        Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
+                        string kernelExeFileFullName;
+                        string arguments;
+                        Logger.InfoDebugLine("组装命令");
+                        // 组装命令
+                        BuildCmdLine(mineContext, out kernelExeFileFullName, out arguments);
+                        bool isLogFile = arguments.Contains("{logfile}");
+                        // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
+                        if (!File.Exists(kernelExeFileFullName)) {
+                            Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
+                        }
+                        if (isLogFile) {
+                            Logger.InfoDebugLine("创建日志文件型进程");
+                            // 如果内核支持日志文件
+                            // 推迟打印cmdLine，因为{logfile}变量尚未求值
+                            CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
+                        }
+                        else {
+                            Logger.InfoDebugLine("创建管道型进程");
+                            // 如果内核不支持日志文件
+                            string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
+                            Logger.InfoDebugLine(cmdLine);
+                            CreatePipProcess(mineContext, cmdLine);
+                        }
                     }
-                    if (isLogFile) {
-                        Logger.InfoDebugLine("创建日志文件型进程");
-                        // 如果内核支持日志文件
-                        // 推迟打印cmdLine，因为{logfile}变量尚未求值
-                        CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
-                    }
-                    else {
-                        Logger.InfoDebugLine("创建管道型进程");
-                        // 如果内核不支持日志文件
-                        string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                        Logger.InfoDebugLine(cmdLine);
-                        CreatePipProcess(mineContext, cmdLine);
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             }
@@ -111,7 +118,7 @@ namespace NTMiner {
                 Logger.InfoDebugLine(cmdLine);
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
-                    CreateNoWindow = true,
+                    CreateNoWindow = false,
                     WorkingDirectory = Path.Combine(SpecialPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(mineContext.Kernel.Package))
                 };
                 Process process = new Process();
