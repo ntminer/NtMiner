@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
                     this.BtnCancelVisible = Visibility.Collapsed;
                     if (isSuccess) {
                         this.DownloadMessage = "更新成功，正在重启";
-                        CloseNTMinerMainWindow();
+                        Client.MinerClientService.CloseNTMiner();
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                             string location = NTMinerRegistry.GetLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
@@ -170,22 +170,6 @@ namespace NTMiner.Vms {
                     }
                 }
             });
-        }
-
-        private static void CloseNTMinerMainWindow() {
-            try {
-                string location = NTMinerRegistry.GetLocation();
-                if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                    string processName = Path.GetFileNameWithoutExtension(location);
-                    Process[] processes = Process.GetProcessesByName(processName);
-                    if (processes.Length != 0) {
-                        Windows.TaskKill.Kill(processName);
-                    }
-                }
-            }
-            catch (Exception ex) {
-                Logger.ErrorDebugLine(ex.Message, ex);
-            }
         }
 
         public Visibility IsDebugModeVisible {

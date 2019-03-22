@@ -2,6 +2,7 @@
 using NTMiner.Daemon;
 using NTMiner.MinerClient;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -28,6 +29,32 @@ namespace NTMiner {
                         callback?.Invoke(false, e);
                     }
                 });
+            }
+
+            public void CloseNTMiner() {
+                bool isClosed = false;
+                try {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/CloseNTMiner", new SignatureRequest {});
+                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        isClosed = response.IsSuccess();
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e.Message, e);
+                }
+                if (!isClosed) {
+                    try {
+                        string location = NTMinerRegistry.GetLocation();
+                        if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                            string processName = Path.GetFileNameWithoutExtension(location);
+                            Windows.TaskKill.Kill(processName);
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
+                }
             }
 
             public void StartMineAsync(string clientIp, WorkRequest request, Action<ResponseBase, Exception> callback) {

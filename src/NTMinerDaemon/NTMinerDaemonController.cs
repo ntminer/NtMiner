@@ -177,9 +177,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     if (IsNTMinerOpened()) {
-                        SignatureRequest innerRequest = new SignatureRequest {
-                        };
-                        DoCloseNTMiner(innerRequest);
+                        CloseNTMiner();
                         System.Threading.Thread.Sleep(1000);
                     }
                     string arguments = string.Empty;
@@ -198,11 +196,11 @@ namespace NTMiner {
             return ResponseBase.Ok(request.MessageId);
         }
 
-        private void DoCloseNTMiner(SignatureRequest request) {
+        public void CloseNTMiner() {
             bool isClosed = false;
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/CloseNTMiner", request);
+                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/CloseNTMiner", new SignatureRequest { });
                     ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     isClosed = response.IsSuccess();
                 }

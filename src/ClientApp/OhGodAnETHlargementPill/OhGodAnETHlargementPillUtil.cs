@@ -42,16 +42,8 @@ namespace NTMiner.OhGodAnETHlargementPill {
         public static void Stop() {
             try {
                 if (NTMinerRoot.Current.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
-                    Process[] processes = Process.GetProcessesByName(s_processName);
-                    if (processes != null && processes.Length != 0) {
-                        try {
-                            Windows.TaskKill.Kill(s_processName);
-                        }
-                        catch (Exception e) {
-                            Logger.ErrorDebugLine(e.Message, e);
-                        }
-                        Logger.OkWriteLine("成功停止小药丸");
-                    }
+                    Windows.TaskKill.Kill(s_processName);
+                    Logger.OkWriteLine("成功停止小药丸");
                 }
                 else {
                     Logger.InfoDebugLine("没有发现1080卡，不适用小药丸");

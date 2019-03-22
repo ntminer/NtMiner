@@ -42,10 +42,7 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定卸载{_kernelVm.FullName}内核吗？", title: "确认", onYes: () => {
                     string processName = _kernelVm.GetProcessName();
                     if (!string.IsNullOrEmpty(processName)) {
-                        Process[] processes = Process.GetProcessesByName(processName);
-                        if (processes != null && processes.Length != 0) {
-                            Windows.TaskKill.Kill(processName);
-                        }
+                        Windows.TaskKill.Kill(processName);
                         string packageFileFullName = _kernelVm.GetPackageFileFullName();
                         if (!string.IsNullOrEmpty(packageFileFullName)) {
                             File.Delete(packageFileFullName);

@@ -415,12 +415,19 @@ namespace NTMiner {
 
         #region StopMine
         public void StopMineAsync(Action callback = null) {
+            if (!IsMining) {
+                callback?.Invoke();
+                return;
+            }
             Task.Factory.StartNew(() => {
                 StopMine();
                 callback?.Invoke();
             });
         }
         private void StopMine() {
+            if (!IsMining) {
+                return;
+            }
             try {
                 if (_currentMineContext != null && _currentMineContext.Kernel != null) {
                     string processName = _currentMineContext.Kernel.GetProcessName();
@@ -439,13 +446,21 @@ namespace NTMiner {
 
         #region RestartMine
         public void RestartMine(bool isWork = false) {
-            this.StopMineAsync(() => {
-                Logger.WarnWriteLine("正在重启内核");
+            if (!IsMining) {
                 if (isWork) {
                     ContextReInit(true);
                 }
                 StartMine();
-            });
+            }
+            else {
+                this.StopMineAsync(() => {
+                    Logger.WarnWriteLine("正在重启内核");
+                    if (isWork) {
+                        ContextReInit(true);
+                    }
+                    StartMine();
+                });
+            }
         }
         #endregion
 
