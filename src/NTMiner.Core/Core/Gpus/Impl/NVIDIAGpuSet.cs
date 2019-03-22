@@ -23,7 +23,6 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
         };
-        private readonly nvmlDevice[] _nvmlDevices = new nvmlDevice[0];
 
         private readonly INTMinerRoot _root;
 
@@ -37,7 +36,7 @@ namespace NTMiner.Core.Gpus.Impl {
             this.Properties = new List<GpuSetProperty>();
         }
 
-        private bool _isNvmlInited = false;
+        private uint deviceCount = 0;
         public NVIDIAGpuSet(INTMinerRoot root) : this() {
             _root = root;
             if (Design.IsInDesignMode) {
@@ -47,17 +46,15 @@ namespace NTMiner.Core.Gpus.Impl {
             if (Directory.Exists(nvsmiDir)) {
                 Windows.NativeMethods.SetDllDirectory(nvsmiDir);
                 NvmlNativeMethods.nvmlInit();
-                _isNvmlInited = true;
-                uint deviceCount = 0;
                 NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
-                _nvmlDevices = new nvmlDevice[deviceCount];
                 for (int i = 0; i < deviceCount; i++) {
-                    NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref _nvmlDevices[i]);
+                    nvmlDevice nvmlDevice = new nvmlDevice();
+                    NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
                     string name;
                     uint gClock = 0, mClock = 0;
-                    NvmlNativeMethods.nvmlDeviceGetName(_nvmlDevices[i], out name);
-                    NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(_nvmlDevices[i], nvmlClockType.Graphics, ref gClock);
-                    NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(_nvmlDevices[i], nvmlClockType.Mem, ref mClock);
+                    NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out name);
+                    NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Graphics, ref gClock);
+                    NvmlNativeMethods.nvmlDeviceGetMaxClockInfo(nvmlDevice, nvmlClockType.Mem, ref mClock);
                     if (!string.IsNullOrEmpty(name)) {
                         name = name.Replace("GeForce ", string.Empty);
                     }
@@ -102,34 +99,31 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         ~NVIDIAGpuSet() {
-            if (_isNvmlInited) {
-                NvmlNativeMethods.nvmlShutdown();
-            }
+            NvmlNativeMethods.nvmlShutdown();
         }
 
         private void LoadGpuStateAsync() {
-            Task.Factory.StartNew(() => {
-                for (int i = 0; i < _nvmlDevices.Length; i++) {
-                    var nvmlDevice = _nvmlDevices[i];
-                    uint power = 0;
-                    NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
-                    power = (uint)(power / 1000.0);
-                    uint temp = 0;
-                    NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
-                    uint speed = 0;
-                    NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref speed);
+            for (int i = 0; i < deviceCount; i++) {
+                nvmlDevice nvmlDevice = new nvmlDevice();
+                NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
+                uint power = 0;
+                NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
+                power = (uint)(power / 1000.0);
+                uint temp = 0;
+                NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
+                uint speed = 0;
+                NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref speed);
 
-                    Gpu gpu = (Gpu)_gpus[i];
-                    bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
-                    gpu.Temperature = temp;
-                    gpu.PowerUsage = power;
-                    gpu.FanSpeed = speed;
+                Gpu gpu = (Gpu)_gpus[i];
+                bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
+                gpu.Temperature = temp;
+                gpu.PowerUsage = power;
+                gpu.FanSpeed = speed;
 
-                    if (isChanged) {
-                        VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
-                    }
+                if (isChanged) {
+                    VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
                 }
-            });
+            }
         }
 
         public GpuType GpuType {
