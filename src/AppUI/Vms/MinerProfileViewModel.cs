@@ -44,33 +44,6 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(CoinVm));
                     }
                 });
-            VirtualRoot.On<PoolAddedEvent>(
-                "添加了矿池后刷新VM",
-                LogEnum.Console,
-                action: message => {
-                    if (message.Source.CoinId == CoinVm?.Id) {
-                        CoinVm?.OnPropertyChanged(nameof(CoinVm.Pools));
-                        CoinVm?.OnPropertyChanged(nameof(CoinVm.OptionPools));
-                    }
-                });
-            VirtualRoot.On<PoolUpdatedEvent>(
-                "更新了矿池后刷新VM",
-                LogEnum.Console,
-                action: message => {
-                    if (message.Source.CoinId == CoinVm?.Id) {
-                        CoinVm?.OnPropertyChanged(nameof(CoinVm.Pools));
-                        CoinVm?.OnPropertyChanged(nameof(CoinVm.OptionPools));
-                    }
-                });
-            VirtualRoot.On<PoolRemovedEvent>(
-                "添加了矿池后刷新VM",
-                LogEnum.Console,
-                action: message => {
-                    if (message.Source.CoinId == CoinVm?.Id) {
-                        CoinVm?.OnPropertyChanged(nameof(CoinVm.Pools));
-                        CoinVm?.OnPropertyChanged(nameof(CoinVm.OptionPools));
-                    }
-                });
             VirtualRoot.Accept<RefreshAutoBootStartCommand>(
                 "刷新开机自动启动和启动后自动开始挖矿的展示",
                 LogEnum.Console,

@@ -77,23 +77,33 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                IWallet upOne = NTMinerRoot.Current.MinerProfile.GetWallets().OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
+                WalletViewModel upOne = WalletViewModels.Current.WalletList.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(this));
+                    CoinViewModel coinVm;
+                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                        coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
+                        coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
+                    }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                IWallet nextOne = NTMinerRoot.Current.MinerProfile.GetWallets().OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
+                WalletViewModel nextOne = WalletViewModels.Current.WalletList.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(this));
+                    CoinViewModel coinVm;
+                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                        coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
+                        coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
+                    }
                 }
             });
         }

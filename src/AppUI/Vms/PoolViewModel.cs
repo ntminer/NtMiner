@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class PoolViewModel : EntityViewModelBase<IPool, Guid>, IPool, IEditableViewModel {
+    public class PoolViewModel : ViewModelBase, IPool, IEditableViewModel {
         public static readonly PoolViewModel Empty = new PoolViewModel(Guid.Empty) {
             _coinId = Guid.Empty,
             _name = "无"
@@ -18,6 +18,7 @@ namespace NTMiner.Vms {
             _name = "不指定"
         };
         private DataLevel _dataLevel = DataLevel.UnDefined;
+        private Guid _id;
         private string _name;
         private Guid _coinId;
         private string _server;
@@ -29,6 +30,11 @@ namespace NTMiner.Vms {
         private bool _isUserMode;
         private PublishStatus _publishState;
         private CoinViewModel _coinVm;
+
+
+        public Guid GetId() {
+            return this.Id;
+        }
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -89,23 +95,31 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                IPool upOne = NTMinerRoot.Current.PoolSet.Where(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber).OrderByDescending(a => a.SortNumber).FirstOrDefault();
+                PoolViewModel upOne = PoolViewModels.Current.AllPools.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
+                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                        coinVm.OnPropertyChanged(nameof(coinVm.Pools));
+                        coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));
+                    }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                IPool nextOne = NTMinerRoot.Current.PoolSet.Where(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber).FirstOrDefault();
+                PoolViewModel nextOne = PoolViewModels.Current.AllPools.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
+                    if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                        coinVm.OnPropertyChanged(nameof(coinVm.Pools));
+                        coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));
+                    }
                 }
             });
             this.ViewPoolIncome = new DelegateCommand<WalletViewModel>((wallet) => {
@@ -164,6 +178,16 @@ namespace NTMiner.Vms {
 
         public void SetDataLevel(DataLevel dataLevel) {
             this.DataLevel = dataLevel;
+        }
+
+        public Guid Id {
+            get => _id;
+            private set {
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
+            }
         }
 
         public string Name {

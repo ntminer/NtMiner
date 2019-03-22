@@ -1,11 +1,14 @@
 ﻿namespace NTMiner.Vms {
     public class UserPageViewModel : ViewModelBase {
-        public UserPageViewModel() {
-            this.UserVms = new UserViewModels();
+        public static readonly UserPageViewModel Current = new UserPageViewModel();
+
+        private UserPageViewModel() {
         }
 
         public UserViewModels UserVms {
-            get; private set;
+            get {
+                return UserViewModels.Current;
+            }
         }
 
         public MinerProfileViewModel MinerProfile {

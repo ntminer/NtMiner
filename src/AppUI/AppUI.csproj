@@ -389,6 +389,7 @@
     <Compile Include="Vms\UserPageViewModel.cs" />
     <Compile Include="Vms\UserViewModel.cs" />
     <Compile Include="Vms\UserViewModels.cs" />
+    <Compile Include="Vms\WalletViewModels.cs" />
     <Compile Include="Vms\WalletViewModel.cs" />
     <Compile Include="Vms\SpeedViewModel.cs" />
     <Compile Include="Vms\CoinViewModel.cs" />
