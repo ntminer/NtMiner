@@ -5,9 +5,9 @@ namespace NTMiner.Views.Ucs {
     public partial class MinerProfileIndex : UserControl {
         public static string ViewId = nameof(MinerProfileIndex);
 
-        private MinerProfileIndexViewModel Vm {
+        private MinerProfileViewModel Vm {
             get {
-                return (MinerProfileIndexViewModel)this.DataContext;
+                return (MinerProfileViewModel)this.DataContext;
             }
         }
 
@@ -17,11 +17,11 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DualCoinWeightSlider_LostFocus(object sender, System.Windows.RoutedEventArgs e) {
-            if (Vm.MinerProfile.CoinVm == null
-                || Vm.MinerProfile.CoinVm.CoinKernel == null) {
+            if (Vm.CoinVm == null
+                || Vm.CoinVm.CoinKernel == null) {
                 return;
             }
-            CoinKernelProfileViewModel coinKernelProfileVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile;
+            CoinKernelProfileViewModel coinKernelProfileVm = Vm.CoinVm.CoinKernel.CoinKernelProfile;
             NTMinerRoot.Current.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfileVm.CoinKernelId, nameof(coinKernelProfileVm.DualCoinWeight), coinKernelProfileVm.DualCoinWeight);
             NTMinerRoot.RefreshArgsAssembly.Invoke();
         }

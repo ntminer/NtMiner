@@ -5,13 +5,14 @@ namespace NTMiner.Views.Ucs {
     public partial class StateBar : UserControl {
         public static string ViewId = nameof(StateBar);
 
-        private StateBarViewModel Vm {
+        private MinerProfileViewModel Vm {
             get {
-                return (StateBarViewModel)this.DataContext;
+                return (MinerProfileViewModel)this.DataContext;
             }
         }
 
         public StateBar() {
+            this.DataContext = MinerProfileViewModel.Current;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }

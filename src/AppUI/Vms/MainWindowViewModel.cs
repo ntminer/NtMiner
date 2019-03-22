@@ -48,8 +48,7 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.KernelBrandId == Guid.Empty) {
                     return string.Empty;
                 }
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem(NTMinerRoot.KernelBrandId, out dicItem)) {
+                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem(NTMinerRoot.KernelBrandId, out ISysDicItem dicItem)) {
                     if (!string.IsNullOrEmpty(dicItem.Value)) {
                         return dicItem.Value + "专版";
                     }
@@ -98,12 +97,6 @@ namespace NTMiner.Vms {
         public MinerProfileViewModel MinerProfile {
             get {
                 return MinerProfileViewModel.Current;
-            }
-        }
-
-        public StateBarViewModel StateBarVm {
-            get {
-                return StateBarViewModel.Current;
             }
         }
 

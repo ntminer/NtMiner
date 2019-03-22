@@ -395,7 +395,6 @@
     <Compile Include="Vms\CoinViewModel.cs" />
     <Compile Include="Vms\GpuSpeedViewModel.cs" />
     <Compile Include="Vms\GpuViewModel.cs" />
-    <Compile Include="Vms\MinerProfileIndexViewModel.cs" />
     <Compile Include="Vms\KernelPageViewModel.cs" />
     <Compile Include="Vms\CoinKernelViewModel.cs" />
     <Compile Include="Vms\MainWindowViewModel.cs" />

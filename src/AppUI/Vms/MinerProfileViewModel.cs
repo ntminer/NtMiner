@@ -12,6 +12,7 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
+            this.StateBarVm = new StateBarViewModel();
             NTMinerRoot.RefreshArgsAssembly = () => {
                 this.ArgsAssembly = NTMinerRoot.Current.BuildAssembleArgs();
             };
@@ -74,7 +75,7 @@ namespace NTMiner.Vms {
                 });
 
             NTMinerRoot.Current.OnReRendMinerProfile += () => {
-                MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
+                OnPropertyChanged(nameof(CoinVms));
                 this.CoinVm?.OnPropertyChanged(nameof(CoinVm.CoinKernel));
                 OnPropertyChanged(nameof(CoinVm));
                 OnPropertyChanged(nameof(MinerName));
@@ -92,6 +93,16 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(IsAutoRestartKernel));
             };
             NTMinerRoot.RefreshArgsAssembly.Invoke();
+        }
+
+        public CoinViewModels CoinVms {
+            get {
+                return CoinViewModels.Current;
+            }
+        }
+
+        public StateBarViewModel StateBarVm {
+            get; private set;
         }
 
         public IMineWork MineWork {

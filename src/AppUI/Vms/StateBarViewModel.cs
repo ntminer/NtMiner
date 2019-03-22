@@ -5,15 +5,14 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class StateBarViewModel : ViewModelBase {
-        public static readonly StateBarViewModel Current = new StateBarViewModel();
-
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private bool _isShovelEmpty = true;
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
-        private StateBarViewModel() {
+        public StateBarViewModel() {
+            this.GpuStatusBarVm = new GpuStatusBarViewModel();
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 ControlCenterHostConfig.ShowWindow();
             });
@@ -137,9 +136,7 @@ namespace NTMiner.Vms {
         }
 
         public GpuStatusBarViewModel GpuStatusBarVm {
-            get {
-                return GpuStatusBarViewModel.Current;
-            }
+            get; private set;
         }
     }
 }
