@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Profile {
-    public interface IPoolProfile : IEntity<Guid> {
+    public interface IPoolProfile {
         Guid PoolId { get; }
         string UserName { get; }
         string Password { get; }

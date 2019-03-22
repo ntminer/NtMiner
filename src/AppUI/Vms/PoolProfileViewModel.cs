@@ -2,19 +2,11 @@
 using System;
 
 namespace NTMiner.Vms {
-    public class PoolProfileViewModel : EntityViewModelBase<IPoolProfile, Guid>, IPoolProfile {
+    public class PoolProfileViewModel : ViewModelBase, IPoolProfile {
         private readonly IPoolProfile _inner;
 
         public PoolProfileViewModel(IPoolProfile innerProfile) {
             _inner = innerProfile;
-        }
-
-        public override Guid Id {
-            get { return PoolId; }
-        }
-
-        public override Guid GetId() {
-            return this.Id;
         }
 
         public Guid PoolId {

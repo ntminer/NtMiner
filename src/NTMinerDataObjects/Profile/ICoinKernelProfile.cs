@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Profile {
-    public interface ICoinKernelProfile : IEntity<Guid> {
+    public interface ICoinKernelProfile {
         Guid CoinKernelId { get; }
         bool IsDualCoinEnabled { get; }
         Guid DualCoinId { get; }

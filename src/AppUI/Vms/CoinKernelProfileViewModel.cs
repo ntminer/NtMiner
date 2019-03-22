@@ -5,19 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
-    public class CoinKernelProfileViewModel : EntityViewModelBase<ICoinKernelProfile, Guid>, ICoinKernelProfile {
+    public class CoinKernelProfileViewModel : ViewModelBase, ICoinKernelProfile {
         private readonly ICoinKernelProfile _inner;
         public CoinKernelProfileViewModel(ICoinKernelProfile inner) {
             _inner = inner;
             _dualCoinWeight = inner.DualCoinWeight;
-        }
-
-        public override Guid Id{
-            get { return this.CoinKernelId; }
-        }
-
-        public override Guid GetId() {
-            return this.CoinKernelId;
         }
 
         public Guid CoinKernelId {

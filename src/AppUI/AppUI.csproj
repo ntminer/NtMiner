@@ -339,6 +339,7 @@
     <Compile Include="Vms\PoolKernelViewModel.cs" />
     <Compile Include="Vms\PoolKernelViewModels.cs" />
     <Compile Include="Vms\PoolProfileViewModel.cs" />
+    <Compile Include="Vms\PoolProfileViewModels.cs" />
     <Compile Include="Vms\ShareViewModel.cs" />
     <Compile Include="Vms\ShareViewModels.cs" />
     <Compile Include="Vms\CoinSnapshotDataViewModel.cs" />
