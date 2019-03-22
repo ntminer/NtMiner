@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                IKernelOutputTranslater upOne = NTMinerRoot.Current.KernelOutputTranslaterSet.Where(a=>a.KernelOutputId == this.KernelOutputId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                KernelOutputTranslaterViewModel upOne = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.KernelOutputId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -87,7 +87,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                IKernelOutputTranslater nextOne = NTMinerRoot.Current.KernelOutputTranslaterSet.Where(a => a.KernelOutputId == this.KernelOutputId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                KernelOutputTranslaterViewModel nextOne = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.KernelOutputId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;

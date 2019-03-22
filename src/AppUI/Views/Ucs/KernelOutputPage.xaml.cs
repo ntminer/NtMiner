@@ -24,10 +24,10 @@ namespace NTMiner.Views.Ucs {
         }
 
         public KernelOutputPage(KernelOutputViewModel selectedKernelOutputVm) {
-            InitializeComponent();
             if (selectedKernelOutputVm != null) {
-                Vm.CurrentKernelOutputVm = selectedKernelOutputVm;
+                KernelOutputPageViewModel.Current.CurrentKernelOutputVm = selectedKernelOutputVm;
             }
+            InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 

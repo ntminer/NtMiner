@@ -3,9 +3,11 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelInputPageViewModel : ViewModelBase {
+        public static readonly KernelInputPageViewModel Current = new KernelInputPageViewModel();
+
         public ICommand Add { get; private set; }
 
-        public KernelInputPageViewModel() {
+        private KernelInputPageViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
