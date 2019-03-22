@@ -48,7 +48,7 @@ namespace NTMiner.Core.Impl {
 
                         VirtualRoot.Happened(new CoinGroupUpdatedEvent(entity));
                     }
-                }).AddToCollection(root.ContextHandlers);
+                });
             VirtualRoot.Accept<RemoveCoinGroupCommand>(
                 "移除币组",
                 LogEnum.Console,
