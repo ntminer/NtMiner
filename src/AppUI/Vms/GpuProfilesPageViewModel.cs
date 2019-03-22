@@ -19,7 +19,8 @@ namespace NTMiner.Vms {
                                 if (gpuAllProfile == null) {
                                     gpuAllProfile = new MinerClient.GpuProfileData(coinVm.Id, NTMinerRoot.GpuAllId);
                                 }
-                                coinVm.GpuAllOverClockDataVm = new GpuProfileViewModel(gpuAllProfile);
+                                coinVm.GpuAllProfileVm = new GpuProfileViewModel(gpuAllProfile);
+                                coinVm.GpuProfileVms = data.GpuProfiles.Where(a => a.CoinId == coinVm.Id && a.Index != NTMinerRoot.GpuAllId).OrderBy(a => a.Index).Select(a => new GpuProfileViewModel(a)).ToList();
                             }
                         }
                         this.CurrentCoin = CoinVms.MainCoins.FirstOrDefault(a => a.IsOverClockEnabled);

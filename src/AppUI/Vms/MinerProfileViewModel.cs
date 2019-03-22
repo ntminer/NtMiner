@@ -42,8 +42,8 @@ namespace NTMiner.Vms {
                 "Gpu超频集合刷新后刷新附着在当前币种上的超频数据",
                 LogEnum.Console,
                 action: message => {
-                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuAllOverClockDataVm));
-                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuOverClockVms));
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuAllProfileVm));
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuProfileVms));
                     CoinVm.OnPropertyChanged(nameof(CoinVm.IsOverClockEnabled));
                     CoinVm.OnPropertyChanged(nameof(CoinVm.IsOverClockGpuAll));
                 });

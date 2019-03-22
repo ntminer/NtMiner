@@ -63,22 +63,22 @@
 			<WrapPanel IsEnabled="{Binding CurrentCoin.IsOverClockGpuAll}">
 				<WrapPanel VerticalAlignment="Center">
 					<TextBlock Style="{StaticResource LblTb}">核心</TextBlock>
-					<TextBox VerticalAlignment="Center" ToolTip="{Binding CurrentCoin.GpuAllOverClockDataVm.GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CurrentCoin.GpuAllOverClockDataVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBox VerticalAlignment="Center" Text="{Binding CurrentCoin.GpuAllProfileVm.CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">M</TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">显存</TextBlock>
-					<TextBox VerticalAlignment="Center" ToolTip="{Binding CurrentCoin.GpuAllOverClockDataVm.GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding CurrentCoin.GpuAllOverClockDataVm.MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBox VerticalAlignment="Center" Text="{Binding CurrentCoin.GpuAllProfileVm.MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">M</TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
-					<TextBox VerticalAlignment="Center" ToolTip="50至110" Text="{Binding CurrentCoin.GpuAllOverClockDataVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBox VerticalAlignment="Center" ToolTip="50至110" Text="{Binding CurrentCoin.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-					<TextBox VerticalAlignment="Center" ToolTip="38至100" Text="{Binding CurrentCoin.GpuAllOverClockDataVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBox VerticalAlignment="Center" ToolTip="38至100" Text="{Binding CurrentCoin.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
 			</WrapPanel>
@@ -91,7 +91,7 @@
 				IsEnabled="{Binding CurrentCoin.IsOverClockGpuAll,Converter={StaticResource BoolInvertConverter}}"
 				BorderThickness="0"
 				MouseDown="ItemsControl_MouseDown"
-				ItemsSource="{Binding CurrentCoin.GpuOverClockVms}" 
+				ItemsSource="{Binding CurrentCoin.GpuProfileVms}" 
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>

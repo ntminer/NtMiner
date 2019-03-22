@@ -83,10 +83,10 @@ namespace NTMiner.Vms {
             this.OverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
                 DialogWindow.ShowDialog(message: $"确定应用该超频设置吗？", title: "确认", onYes: () => {
                     if (IsOverClockGpuAll) {
-                        GpuAllOverClockDataVm.Update(data);
+                        GpuAllProfileVm.Update(data);
                     }
                     else {
-                        foreach (var item in GpuOverClockVms) {
+                        foreach (var item in GpuProfileVms) {
                             if (item.Index == NTMinerRoot.GpuAllId) {
                                 continue;
                             }
@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
                 }.Edit.Execute(FormType.Add);
             });
             this.ApplyOverClock = new DelegateCommand(() => {
-                var list = GpuOverClockVms.ToArray();
+                var list = GpuProfileVms.ToArray();
                 foreach (var item in list) {
                     VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
                 }
@@ -199,23 +199,31 @@ namespace NTMiner.Vms {
             }
         }
 
-        private GpuProfileViewModel _gpuAllOverClockDataVm;
-        public GpuProfileViewModel GpuAllOverClockDataVm {
+        private GpuProfileViewModel _gpuAllProfileVm;
+        public GpuProfileViewModel GpuAllProfileVm {
             get {
-                if (_gpuAllOverClockDataVm == null) {
-                    _gpuAllOverClockDataVm = GpuProfileViewModels.Current.GpuAllVm(this.Id);
+                if (_gpuAllProfileVm == null) {
+                    _gpuAllProfileVm = GpuProfileViewModels.Current.GpuAllVm(this.Id);
                 }
-                return _gpuAllOverClockDataVm;
+                return _gpuAllProfileVm;
             }
             set {
-                _gpuAllOverClockDataVm = value;
-                OnPropertyChanged(nameof(GpuAllOverClockDataVm));
+                _gpuAllProfileVm = value;
+                OnPropertyChanged(nameof(GpuAllProfileVm));
             }
         }
 
-        public List<GpuProfileViewModel> GpuOverClockVms {
+        private List<GpuProfileViewModel> _gpuProfileVms;
+        public List<GpuProfileViewModel> GpuProfileVms {
             get {
-                return GpuProfileViewModels.Current.List(this.Id);
+                if (_gpuProfileVms == null) {
+                    _gpuProfileVms = GpuProfileViewModels.Current.List(this.Id);
+                }
+                return _gpuProfileVms;
+            }
+            set {
+                _gpuProfileVms = value;
+                OnPropertyChanged(nameof(GpuProfileVms));
             }
         }
 
