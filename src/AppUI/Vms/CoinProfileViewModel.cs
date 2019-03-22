@@ -1,13 +1,11 @@
-﻿using NTMiner.Core;
-using NTMiner.Notifications;
-using NTMiner.Profile;
+﻿using NTMiner.Profile;
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class CoinProfileViewModel : ViewModelBase, ICoinProfile {
+    public class CoinProfileViewModel : EntityViewModelBase<ICoinProfile, Guid>, ICoinProfile {
         private readonly ICoinProfile _inner;
         public ICommand CopyWallet { get; private set; }
         public ICommand CopyDualCoinWallet { get; private set; }
@@ -68,6 +66,16 @@ namespace NTMiner.Vms {
                     this.SelectedDualCoinWallet = vm;
                 }
             });
+        }
+
+        public override Guid Id {
+            get {
+                return this.CoinId;
+            }
+        }
+
+        public override Guid GetId() {
+            return this.CoinId;
         }
 
         public Guid CoinId {
@@ -159,18 +167,19 @@ namespace NTMiner.Vms {
                 if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     return null;
                 }
-                if (!PoolViewModels.Current.TryGetPoolVm(this.PoolId, out PoolViewModel pool)) {
-                    pool = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
-                    if (pool != null) {
-                        PoolId = pool.Id;
+                var poolVm = coinVm.Pools.FirstOrDefault(a => a.Id == this.PoolId);
+                if (poolVm == null) {
+                    poolVm = coinVm.Pools.FirstOrDefault();
+                    if (poolVm != null) {
+                        this.PoolId = poolVm.Id;
                     }
                 }
-                return pool;
+                return poolVm;
             }
             set {
                 if (value == null) {
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
-                        value = coinVm.Pools.OrderBy(a => a.SortNumber).FirstOrDefault();
+                        value = coinVm.Pools.FirstOrDefault();
                     }
                 }
                 if (value != null) {

@@ -28,11 +28,11 @@ namespace NTMiner.Vms {
             return vm.Id.Equals(this.Id);
         }
 
-        public TId GetId() {
+        public virtual TId GetId() {
             return this.Id;
         }
 
-        public TId Id {
+        public virtual TId Id {
             get => _id;
             set {
                 _id = value;
