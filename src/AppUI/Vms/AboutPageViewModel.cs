@@ -2,7 +2,9 @@
 
 namespace NTMiner.Vms {
     public class AboutPageViewModel : ViewModelBase {
-        public AboutPageViewModel() {
+        public static readonly AboutPageViewModel Current = new AboutPageViewModel();
+
+        private AboutPageViewModel() {
         }
 
         public Version CurrentVersion {
