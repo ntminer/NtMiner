@@ -11,8 +11,7 @@ namespace NTMiner.Vms {
                     }
                     else if (data != null) {
                         foreach (var coinOverClock in data.CoinOverClocks) {
-                            CoinViewModel coinVm;
-                            if (CoinViewModels.Current.TryGetCoinVm(coinOverClock.CoinId, out coinVm)) {
+                            if (CoinViewModels.Current.TryGetCoinVm(coinOverClock.CoinId, out CoinViewModel coinVm)) {
                                 coinVm.IsOverClockEnabled = coinOverClock.IsOverClockEnabled;
                                 coinVm.IsOverClockGpuAll = coinOverClock.IsOverClockGpuAll;
                             }

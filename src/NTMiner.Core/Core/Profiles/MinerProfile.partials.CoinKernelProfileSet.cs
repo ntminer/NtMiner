@@ -82,6 +82,10 @@ namespace NTMiner.Core.Profiles {
                     _data = data ?? throw new ArgumentNullException(nameof(data));
                 }
 
+                public Guid GetId() {
+                    return this.CoinKernelId;
+                }
+
                 [IgnoreReflectionSet]
                 public Guid CoinKernelId {
                     get => _data.CoinKernelId;

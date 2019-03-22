@@ -304,7 +304,7 @@ namespace NTMiner.Vms {
 
         public PoolProfileViewModel PoolProfileVm {
             get {
-                return PoolProfileViewModels.Current.GetOrCreatePoolProfile(this.Id);
+                return new PoolProfileViewModel(NTMinerRoot.Current.MinerProfile.GetPoolProfile(this.Id));
             }
         }
     }

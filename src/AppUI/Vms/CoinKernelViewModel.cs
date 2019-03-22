@@ -55,7 +55,6 @@ namespace NTMiner.Vms {
 
         public CoinKernelViewModel(Guid id) {
             _id = id;
-            this.CoinKernelProfile = new CoinKernelProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinKernelProfile(id));
             _environmentVariables = new List<EnvironmentVariable>();
             this.AddEnvironmentVariable = new DelegateCommand(() => {
                 EnvironmentVariableEdit.ShowWindow(this, new EnvironmentVariable());
@@ -341,7 +340,9 @@ namespace NTMiner.Vms {
         }
 
         public CoinKernelProfileViewModel CoinKernelProfile {
-            get; private set;
+            get {
+                return new CoinKernelProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinKernelProfile(this.Id));
+            }
         }
     }
 }
