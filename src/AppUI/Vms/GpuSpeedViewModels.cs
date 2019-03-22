@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace NTMiner.Vms {
     public class GpuSpeedViewModels : ViewModelBase {
+        public static readonly GpuSpeedViewModels Current = new GpuSpeedViewModels();
         private readonly List<GpuSpeedViewModel> _list = new List<GpuSpeedViewModel>();
         private readonly GpuSpeedViewModel _totalSpeedVm;
 
@@ -17,7 +18,7 @@ namespace NTMiner.Vms {
         private double _incomeDualCoinUsdPerDay;
         private double _incomeDualCoinCnyPerDay;
 
-        public GpuSpeedViewModels() {
+        private GpuSpeedViewModels() {
             if (Design.IsInDesignMode) {
                 return;
             }

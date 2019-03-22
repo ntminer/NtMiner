@@ -6,9 +6,9 @@ namespace NTMiner.Views.Ucs {
     public partial class SpeedTable : UserControl {
         public static string ViewId = nameof(SpeedTable);
 
-        private MinerProfileViewModel Vm {
+        private GpuSpeedViewModels Vm {
             get {
-                return (MinerProfileViewModel)this.DataContext;
+                return (GpuSpeedViewModels)this.DataContext;
             }
         }
 
