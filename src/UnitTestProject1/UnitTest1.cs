@@ -165,5 +165,10 @@ namespace UnitTestProject1 {
             int i;
             Assert.IsTrue(int.TryParse("001", out i));
         }
+
+        [TestMethod]
+        public void ZipTest() {
+            ZipUtil.DecompressZipFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lolminer0.7Alpha5.zip"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp"));
+        }
     }
 }

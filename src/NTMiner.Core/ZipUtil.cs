@@ -9,6 +9,9 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(zipFileFullName)) {
                 throw new ArgumentNullException(nameof(zipFileFullName));
             }
+            if (!Directory.Exists(destDir)) {
+                Directory.CreateDirectory(destDir);
+            }
             FileInfo fileInfo = new FileInfo(zipFileFullName);
             if (!fileInfo.Exists) {
                 throw new FileNotFoundException("file not found", zipFileFullName);
@@ -18,7 +21,7 @@ namespace NTMiner {
             }
         }
 
-        public static void Decompress(Stream stream, string destDir) {
+        private static void Decompress(Stream stream, string destDir) {
             if (stream == null) {
                 throw new ArgumentNullException(nameof(stream));
             }
@@ -39,8 +42,15 @@ namespace NTMiner {
                     }
                     else if (theEntry.IsFile) {
                         string destfile = path;
+                        if (File.Exists(destfile)) {
+                            byte[] buffer = new byte[zipInputStream.Length];
+                            StreamUtils.ReadFully(zipInputStream, buffer);
+                            if (HashUtil.Sha1(buffer) == HashUtil.Sha1(File.ReadAllBytes(destfile))) {
+                                continue;
+                            }
+                        }
                         FileStream streamWriter = File.Create(destfile);
-                        const int bufferSize = 1024 * 30;// 30kb
+                        const int bufferSize = 1024 * 30;
                         byte[] data = new byte[bufferSize];
                         StreamUtils.Copy(zipInputStream, streamWriter, data);
                         streamWriter.Close();
