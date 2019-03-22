@@ -91,6 +91,7 @@ namespace NTMiner.Vms {
                     columnsShowId = guid;
                 }
             }
+            this.ColumnsShows = new ColumnsShowViewModels();
             this._columnsShow = this.ColumnsShows.List.FirstOrDefault(a => a.Id == columnsShowId);
             if (this._columnsShow == null) {
                 this._columnsShow = this.ColumnsShows.List.FirstOrDefault();
@@ -455,9 +456,7 @@ namespace NTMiner.Vms {
         }
 
         public ColumnsShowViewModels ColumnsShows {
-            get {
-                return ColumnsShowViewModels.Current;
-            }
+            get; private set;
         }
 
         public int CountDown {

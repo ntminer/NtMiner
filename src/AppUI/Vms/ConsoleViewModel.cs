@@ -4,10 +4,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ConsoleViewModel : ViewModelBase {
-        public static readonly ConsoleViewModel Current = new ConsoleViewModel();
-
         public ICommand CustomTheme { get; private set; }
-        private ConsoleViewModel() {
+        public ConsoleViewModel() {
             this.CustomTheme = new DelegateCommand(() => {
                 LogColor.ShowWindow();
             });
