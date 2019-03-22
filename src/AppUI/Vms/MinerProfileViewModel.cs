@@ -18,6 +18,15 @@ namespace NTMiner.Vms {
             NTMinerRoot.Current.OnReRendContext += () => {
                 OnPropertyChanged(nameof(CoinVm));
             };
+            VirtualRoot.On<GpuProfileAddedOrUpdatedEvent>(
+                "添加或更新了Gpu超频数据后刷新VM内存",
+                LogEnum.Console,
+                action: message => {
+                    if (message.Source.CoinId == CoinVm?.Id) {
+                        CoinVm?.OnPropertyChanged(nameof(CoinVm.GpuAllOverClockDataVm));
+                        CoinVm?.OnPropertyChanged(nameof(CoinVm.GpuOverClockVms));
+                    }
+                });
             VirtualRoot.On<WalletAddedEvent>(
                 "添加了钱包后刷新VM",
                 LogEnum.Console,

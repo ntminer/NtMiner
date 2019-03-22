@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Profiles;
+using NTMiner.MinerClient;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -75,6 +76,15 @@ namespace NTMiner.Vms {
 
         public CoinViewModel(Guid id) {
             _id = id;
+            this.GpuOverClockVms = new List<GpuProfileViewModel>();
+            foreach (var gpu in NTMinerRoot.Current.GpuSet) {
+                IGpuProfile data = GpuProfileSet.Instance.GetGpuProfile(this.Id, gpu.Index);
+                var vm = new GpuProfileViewModel(data);
+                GpuOverClockVms.Add(vm);
+                if (gpu.Index == NTMinerRoot.GpuAllId) {
+                    GpuAllOverClockDataVm = vm;
+                }
+            }
             this.CoinProfile = new CoinProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinProfile(id));
             this.OverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
                 DialogWindow.ShowDialog(message: $"确定应用该超频设置吗？", title: "确认", onYes: () => {
@@ -195,18 +205,11 @@ namespace NTMiner.Vms {
         }
 
         public GpuProfileViewModel GpuAllOverClockDataVm {
-            get {
-                if (this.Id == Guid.Empty) {
-                    return null;
-                }
-                return GpuProfileViewModels.Current.GpuAllVm(this.Id);
-            }
+            get; private set;
         }
 
         public List<GpuProfileViewModel> GpuOverClockVms {
-            get {
-                return GpuProfileViewModels.Current.List(this.Id);
-            }
+            get; private set;
         }
 
         public ShareViewModel ShareVm {
