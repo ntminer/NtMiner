@@ -77,9 +77,9 @@ namespace NTMiner.Vms {
         public CoinViewModel(Guid id) {
             _id = id;
             this.GpuOverClockVms = new List<GpuProfileViewModel>();
-            foreach (var gpu in NTMinerRoot.Current.GpuSet) {
+            foreach (var gpu in GpuViewModels.Current) {
                 IGpuProfile data = GpuProfileSet.Instance.GetGpuProfile(this.Id, gpu.Index);
-                var vm = new GpuProfileViewModel(data);
+                var vm = new GpuProfileViewModel(data, gpu);
                 GpuOverClockVms.Add(vm);
                 if (gpu.Index == NTMinerRoot.GpuAllId) {
                     GpuAllOverClockDataVm = vm;
