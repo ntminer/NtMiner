@@ -1,6 +1,8 @@
 ﻿namespace NTMiner.Vms {
     public class ColumnsShowPageViewModel : ViewModelBase {
-        public ColumnsShowPageViewModel() { }
+        public static readonly ColumnsShowPageViewModel Current = new ColumnsShowPageViewModel();
+
+        private ColumnsShowPageViewModel() { }
 
         public ColumnsShowViewModels ColumnsShowVms {
             get {
