@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:vm="clr-namespace:NTMiner.Vms"
-        DataContext="{x:Static vm:AboutPageViewModel.Current}"
         mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="280">
     <UserControl.Resources>
         <sys:String x:Key="WindowTitle">
