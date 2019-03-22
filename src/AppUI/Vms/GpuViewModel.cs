@@ -81,7 +81,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     uint min = uint.MaxValue, max = uint.MinValue;
-                    foreach (var item in NTMinerRoot.Current.GpuSet) {
+                    foreach (var item in GpuViewModels.Current) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
@@ -116,7 +116,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     uint min = uint.MaxValue, max = uint.MinValue;
-                    foreach (var item in NTMinerRoot.Current.GpuSet) {
+                    foreach (var item in GpuViewModels.Current) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
@@ -157,7 +157,7 @@ namespace NTMiner.Vms {
                     return "0W";
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                    return $"{(NTMinerRoot.Current.GpuSet.Sum(a => a.PowerUsage)).ToString("f0")}W";
+                    return $"{(GpuViewModels.Current.Sum(a => a.PowerUsage)).ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
             }
@@ -181,7 +181,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in NTMinerRoot.Current.GpuSet) {
+                    foreach (var item in GpuViewModels.Current) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
@@ -216,7 +216,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in NTMinerRoot.Current.GpuSet) {
+                    foreach (var item in GpuViewModels.Current) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }

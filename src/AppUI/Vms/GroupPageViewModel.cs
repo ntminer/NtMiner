@@ -2,6 +2,8 @@
 
 namespace NTMiner.Vms {
     public class GroupPageViewModel : ViewModelBase {
+        public static readonly GroupPageViewModel Current = new GroupPageViewModel();
+
         public GroupPageViewModel() {
             if (Design.IsInDesignMode) {
                 return;

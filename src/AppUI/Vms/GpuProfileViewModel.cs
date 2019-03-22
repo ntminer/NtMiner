@@ -12,14 +12,17 @@ namespace NTMiner.Vms {
         private int _powerCapacity;
         private int _cool;
 
-        public GpuProfileViewModel(IGpuProfile data, GpuViewModel gpuVm) {
+        public GpuProfileViewModel() {
+        }
+
+        public GpuProfileViewModel(IGpuProfile data) : this() {
             _coinId = data.CoinId;
             _index = data.Index;
             _coreClockDelta = data.CoreClockDelta;
             _memoryClockDelta = data.MemoryClockDelta;
             _powerCapacity = data.PowerCapacity;
             _cool = data.Cool;
-            _gpuVm = gpuVm;
+            GpuViewModels.Current.TryGetGpuVm(Index, out _gpuVm);
         }
 
         public void Update(IGpuProfile data) {
@@ -128,6 +131,9 @@ namespace NTMiner.Vms {
         private GpuViewModel _gpuVm;
         public GpuViewModel GpuVm {
             get {
+                if (_gpuVm == null) {
+                    GpuViewModels.Current.TryGetGpuVm(Index, out _gpuVm);
+                }
                 return _gpuVm;
             }
         }
