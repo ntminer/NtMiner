@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -7,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class WalletViewModel : EntityViewModelBase<IWallet, Guid>, IWallet, IEditableViewModel {
+    public class WalletViewModel : ViewModelBase, IWallet, IEditableViewModel {
         public static readonly WalletViewModel PleaseSelect = new WalletViewModel(Guid.Empty) {
             _name = "不指定",
             _address = string.Empty,
@@ -22,10 +23,15 @@ namespace NTMiner.Vms {
             };
         }
 
+        private Guid _id;
         private string _name;
         private Guid _coinId;
         private string _address;
         private int _sortNumber;
+
+        public Guid GetId() {
+            return this.Id;
+        }
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -106,6 +112,16 @@ namespace NTMiner.Vms {
                     }
                 }
             });
+        }
+
+        public Guid Id {
+            get => _id;
+            private set {
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
+            }
         }
 
         public string Name {

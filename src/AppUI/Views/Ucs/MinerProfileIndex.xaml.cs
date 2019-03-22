@@ -18,7 +18,8 @@ namespace NTMiner.Views.Ucs {
 
         private void DualCoinWeightSlider_LostFocus(object sender, System.Windows.RoutedEventArgs e) {
             if (Vm.MinerProfile.CoinVm == null
-                || Vm.MinerProfile.CoinVm.CoinKernel == null) {
+                || Vm.MinerProfile.CoinVm.CoinKernel == null
+                || Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile == null) {
                 return;
             }
             CoinKernelProfileViewModel coinKernelProfileVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile;
