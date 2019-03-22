@@ -11,10 +11,15 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public MinerClientSettingViewModel(MinerClientViewModel[] minerClients) {
+            if (minerClients != null && minerClients.Length == 1) {
+                _isAutoBoot = minerClients[0].IsAutoBoot;
+                _isAutoStart = minerClients[0].IsAutoStart;
+            }
             this.Save = new DelegateCommand(() => {
                 if (minerClients != null && minerClients.Length != 0) {
                     foreach (var item in minerClients) {
                         Client.NTMinerDaemonService.SetAutoBootStartAsync(item.MinerIp, this.IsAutoStart, this.IsAutoStart);
+                        item.Refresh.Execute(null);
                     }
                 }
                 CloseWindow?.Invoke();
