@@ -119,7 +119,7 @@ namespace NTMiner {
                 Logger.InfoDebugLine(cmdLine);
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
-                    CreateNoWindow = false,
+                    CreateNoWindow = true,
                     WorkingDirectory = Path.Combine(SpecialPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(mineContext.Kernel.Package))
                 };
                 Process process = new Process();
