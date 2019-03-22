@@ -28,9 +28,6 @@ namespace NTMiner.Vms {
                     _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                     OnPropertyChanged(nameof(AllKernels));
                     KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
-                    foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
-                        coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
-                    }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelRemovedEvent>(
                 "删除了内核后调整VM内存",
@@ -39,9 +36,6 @@ namespace NTMiner.Vms {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllKernels));
                     KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
-                    foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
-                        coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
-                    }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelUpdatedEvent>(
                 "更新了内核后调整VM内存",
@@ -52,10 +46,8 @@ namespace NTMiner.Vms {
                     Guid kernelInputId = entity.KernelInputId;
                     entity.Update(message.Source);
                     if (publishStatus != entity.PublishState) {
-                        foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == entity.Id)) {
-                            foreach (var coinVm in CoinViewModels.Current.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {
-                                coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
-                            }
+                        foreach (var coinVm in CoinViewModels.Current.AllCoins) {
+                            coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
                         }
                     }
                     if (kernelInputId != entity.KernelInputId) {

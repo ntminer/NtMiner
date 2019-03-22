@@ -1,5 +1,7 @@
-﻿using NTMiner.Profile;
+﻿using NTMiner.Core;
+using NTMiner.Profile;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
@@ -22,7 +24,7 @@ namespace NTMiner.Vms {
 
         public bool IsDualCoinEnabled {
             get {
-                if (CoinKernelViewModels.Current.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm) && !coinKernelVm.IsSupportDualMine) {
+                if (NTMinerRoot.Current.CoinKernelSet.TryGetCoinKernel(this.CoinKernelId, out ICoinKernel coinKernelVm) && !coinKernelVm.IsSupportDualMine()) {
                     return false;
                 }
                 return _inner.IsDualCoinEnabled;
@@ -81,8 +83,9 @@ namespace NTMiner.Vms {
         public CoinViewModel SelectedDualCoin {
             get {
                 if (!CoinViewModels.Current.TryGetCoinVm(this.DualCoinId, out CoinViewModel coin)) {
-                    if (CoinKernelViewModels.Current.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
-                        coin = coinKernelVm.DualCoinGroup.DualCoinVms.FirstOrDefault();
+                    List<ICoin> dualCoins = this.GetDualCoins();
+                    if (dualCoins != null && dualCoins.Count != 0) {
+                        coin = CoinViewModels.Current.AllCoins.FirstOrDefault(a => a.Id == dualCoins[0].GetId());
                     }
                     if (coin != null) {
                         DualCoinId = coin.Id;

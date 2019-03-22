@@ -264,7 +264,7 @@ namespace NTMiner.Vms {
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id).OrderBy(a => a.SortNumber).Select(a => new CoinKernelViewModel(a)).ToList();
             }
         }
 
@@ -273,9 +273,9 @@ namespace NTMiner.Vms {
                 List<CoinViewModel> list = new List<CoinViewModel>() {
                     CoinViewModel.PleaseSelect
                 };
-                var coinKernelVms = CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == this.Id).ToList();
+                var coinKernels = NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id).ToList();
                 foreach (var item in CoinViewModels.Current.AllCoins) {
-                    if (coinKernelVms.All(a => a.CoinId != item.Id)) {
+                    if (coinKernels.All(a => a.CoinId != item.Id)) {
                         list.Add(item);
                     }
                 }

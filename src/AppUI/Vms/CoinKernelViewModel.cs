@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                CoinKernelViewModel upOne = CoinKernelViewModels.Current.AllCoinKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
+                ICoinKernel upOne = NTMinerRoot.Current.CoinKernelSet.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                CoinKernelViewModel nextOne = CoinKernelViewModels.Current.AllCoinKernels.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
+                ICoinKernel nextOne = NTMinerRoot.Current.CoinKernelSet.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -283,13 +283,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupportDualMine {
             get {
-                if (!this.Kernel.KernelInputVm.IsSupportDualMine) {
-                    return false;
-                }
-                if (this.DualCoinGroupId != Guid.Empty) {
-                    return true;
-                }
-                return this.Kernel.KernelInputVm.DualCoinGroupId != Guid.Empty;
+                return this.IsSupportDualMine();
             }
         }
 
@@ -364,6 +358,17 @@ namespace NTMiner.Vms {
             get {
                 return CoinProfileViewModels.Current.GetOrCreateCoinKernelProfileVm(this.Id);
             }
+        }
+
+        public override int GetHashCode() {
+            return this.Id.GetHashCode();
+        }
+
+        public override bool Equals(object obj) {
+            if (!(obj is CoinKernelViewModel vm)) {
+                return false;
+            }
+            return vm.Id == this.Id;
         }
     }
 }

@@ -381,7 +381,6 @@
     </Compile>
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\CoinKernelProfileViewModel.cs" />
-    <Compile Include="Vms\CoinKernelViewModels.cs" />
     <Compile Include="Vms\CoinViewModels.cs" />
     <Compile Include="Vms\Drives\Drive.cs" />
     <Compile Include="Vms\OuterPropertyViewModel.cs" />
