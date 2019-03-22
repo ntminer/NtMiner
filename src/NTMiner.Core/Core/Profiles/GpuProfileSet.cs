@@ -44,7 +44,6 @@ namespace NTMiner.Core.Profiles {
                 action: message => {
                     if (root.GpuSet.TryGetGpu(message.Input.Index, out IGpu gpu)) {
                         message.Input.OverClock(gpu.OverClock);
-                        gpu.OverClock.RefreshGpuState(message.Input.Index);
                     }
                 });
             VirtualRoot.Accept<CoinOverClockCommand>(
