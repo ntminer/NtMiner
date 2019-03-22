@@ -1,6 +1,7 @@
 ﻿using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class GpuProfilesPage : UserControl {
@@ -24,6 +25,16 @@ namespace NTMiner.Views.Ucs {
             this.DataContext = vm;
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void ItemsControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                Window.GetWindow(this).DragMove();
+            }
         }
     }
 }
