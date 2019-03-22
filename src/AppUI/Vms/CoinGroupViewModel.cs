@@ -32,31 +32,23 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
-                CoinGroupViewModel upOne = CoinGroupViewModels.Current.GetCoinGroupsByGroupId(this.GroupId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
+                ICoinGroup upOne = NTMinerRoot.Current.CoinGroupSet.Where(a => a.GroupId == this.GroupId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    VirtualRoot.Execute(new UpdateCoinGroupCommand(upOne));
                     this.SortNumber = sortNumber;
+                    VirtualRoot.Execute(new UpdateCoinGroupCommand(upOne));
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
-                    GroupViewModel groupVm;
-                    if (GroupViewModels.Current.TryGetGroupVm(this.GroupId, out groupVm)) {
-                        groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
-                    }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                CoinGroupViewModel nextOne = CoinGroupViewModels.Current.GetCoinGroupsByGroupId(this.GroupId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
+                ICoinGroup nextOne = NTMinerRoot.Current.CoinGroupSet.Where(a => a.GroupId == this.GroupId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    VirtualRoot.Execute(new UpdateCoinGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
+                    VirtualRoot.Execute(new UpdateCoinGroupCommand(nextOne));
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
-                    GroupViewModel groupVm;
-                    if (GroupViewModels.Current.TryGetGroupVm(this.GroupId, out groupVm)) {
-                        groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
-                    }
                 }
             });
         }
