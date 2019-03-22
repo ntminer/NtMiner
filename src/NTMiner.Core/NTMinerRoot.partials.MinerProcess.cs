@@ -44,7 +44,6 @@ namespace NTMiner {
                             Logger.InfoDebugLine(cmdLine);
                             CreatePipProcess(mineContext, cmdLine);
                         }
-                        VirtualRoot.Happened(new MineStartedEvent(mineContext));
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e.Message, e);
