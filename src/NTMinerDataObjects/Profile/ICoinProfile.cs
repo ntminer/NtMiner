@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Profile {
-    public interface ICoinProfile : IEntity<Guid> {
+    public interface ICoinProfile {
         Guid CoinId { get; }
         Guid PoolId { get; }
         string Wallet { get; }

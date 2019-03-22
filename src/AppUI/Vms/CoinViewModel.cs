@@ -85,6 +85,7 @@ namespace NTMiner.Vms {
                     GpuAllOverClockDataVm = vm;
                 }
             }
+            this.CoinProfile = new CoinProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinProfile(id));
             this.OverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
                 DialogWindow.ShowDialog(message: $"确定应用该超频设置吗？", title: "确认", onYes: () => {
                     if (IsOverClockGpuAll) {
@@ -354,9 +355,7 @@ namespace NTMiner.Vms {
         }
 
         public CoinProfileViewModel CoinProfile {
-            get {
-                return new CoinProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinProfile(this.Id));
-            }
+            get; private set;
         }
 
         public List<PoolViewModel> Pools {
