@@ -360,7 +360,7 @@ namespace NTMiner.Vms {
 
         public List<PoolViewModel> Pools {
             get {
-                return PoolViewModels.Current.AllPools.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return NTMinerRoot.Current.PoolSet.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).Select(a => new PoolViewModel(a)).ToList();
             }
         }
 

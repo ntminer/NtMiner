@@ -1,13 +1,11 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Kernels;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class PoolKernelViewModel : ViewModelBase, IPoolKernel, IEditableViewModel {
-        private Guid _id;
+    public class PoolKernelViewModel : EntityViewModelBase<IPoolKernel, Guid>, IPoolKernel, IEditableViewModel {
         private Guid _poolId;
         private Guid _kernelId;
         private string _args;
@@ -35,20 +33,6 @@ namespace NTMiner.Vms {
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 PoolKernelEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
-        }
-
-        public Guid GetId() {
-            return this.Id;
-        }
-
-        public Guid Id {
-            get => _id;
-            private set {
-                if (_id != value) {
-                    _id = value;
-                    OnPropertyChanged(nameof(Id));
-                }
-            }
         }
 
         public Guid PoolId {

@@ -47,13 +47,12 @@ namespace NTMiner.Vms {
                     Guid id = Guid.NewGuid();
                     var wallets = coinVm.Wallets.Where(a => a.IsTestWallet).ToArray();
                     int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
-                    new WalletViewModel(id) {
+                    var vm = new WalletViewModel(id) {
                         CoinId = CoinId,
                         SortNumber = sortNumber
-                    }.Edit.Execute(FormType.Add);
-                    if (NTMinerRoot.Current.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
-                        this.SelectedWallet = WalletViewModels.Current.WalletList.FirstOrDefault(a => a.Id == id);
-                    }
+                    };
+                    vm.Edit.Execute(FormType.Add);
+                    this.SelectedWallet = vm;
                 }
             });
             this.AddDualCoinWallet = new DelegateCommand(() => {
@@ -61,13 +60,12 @@ namespace NTMiner.Vms {
                     Guid id = Guid.NewGuid();
                     var wallets = coinVm.Wallets.Where(a => a.IsTestWallet).ToArray();
                     int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
-                    new WalletViewModel(id) {
+                    var vm = new WalletViewModel(id) {
                         CoinId = CoinId,
                         SortNumber = sortNumber
-                    }.Edit.Execute(FormType.Add);
-                    if (NTMinerRoot.Current.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
-                        this.SelectedDualCoinWallet = WalletViewModels.Current.WalletList.FirstOrDefault(a => a.Id == id);
-                    }
+                    };
+                    vm.Edit.Execute(FormType.Add);
+                    this.SelectedDualCoinWallet = vm;
                 }
             });
         }

@@ -5,6 +5,6 @@ namespace NTMiner.Core {
         Guid CoinId { get; }
         string Name { get; }
         string Address { get; }
-        int SortNumber { get; }
+        int SortNumber { get; set; }
     }
 }

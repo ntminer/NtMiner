@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Kernels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,6 @@ namespace NTMiner.Vms {
                         PoolViewModel poolVm;
                         if (PoolViewModels.Current.TryGetPoolVm(message.Source.PoolId, out poolVm)) {
                             _dicById.Add(message.Source.GetId(), new PoolKernelViewModel(message.Source));
-                            poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                         }
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
@@ -28,10 +26,6 @@ namespace NTMiner.Vms {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         var vm = _dicById[message.Source.GetId()];
                         _dicById.Remove(message.Source.GetId());
-                        PoolViewModel poolVm;
-                        if (PoolViewModels.Current.TryGetPoolVm(vm.PoolId, out poolVm)) {
-                            poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
-                        }
                     }
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<PoolKernelUpdatedEvent>(

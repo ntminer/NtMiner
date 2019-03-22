@@ -5,13 +5,11 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class UserViewModels : ViewModelBase {
-        public static readonly UserViewModels Current = new UserViewModels();
-
         private readonly Dictionary<string, UserViewModel> _dicByLoginName = new Dictionary<string, UserViewModel>();
 
         public ICommand Add { get; private set; }
 
-        private UserViewModels() {
+        public UserViewModels() {
             if (Design.IsInDesignMode) {
                 return;
             }
