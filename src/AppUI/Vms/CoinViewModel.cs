@@ -200,12 +200,17 @@ namespace NTMiner.Vms {
             }
         }
 
+        private GpuProfileViewModel _gpuAllOverClockDataVm;
         public GpuProfileViewModel GpuAllOverClockDataVm {
             get {
-                if (this.Id == Guid.Empty) {
-                    return null;
+                if (_gpuAllOverClockDataVm == null) {
+                    _gpuAllOverClockDataVm = GpuProfileViewModels.Current.GpuAllVm(this.Id);
                 }
-                return GpuProfileViewModels.Current.GpuAllVm(this.Id);
+                return _gpuAllOverClockDataVm;
+            }
+            set {
+                _gpuAllOverClockDataVm = value;
+                OnPropertyChanged(nameof(GpuAllOverClockDataVm));
             }
         }
 

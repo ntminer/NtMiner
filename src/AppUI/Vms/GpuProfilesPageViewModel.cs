@@ -15,6 +15,11 @@ namespace NTMiner.Vms {
                             if (CoinViewModels.Current.TryGetCoinVm(coinOverClock.CoinId, out coinVm)) {
                                 coinVm.IsOverClockEnabled = coinOverClock.IsOverClockEnabled;
                                 coinVm.IsOverClockGpuAll = coinOverClock.IsOverClockGpuAll;
+                                var gpuAllProfile = data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinVm.Id && a.Index == NTMinerRoot.GpuAllId);
+                                if (gpuAllProfile == null) {
+                                    gpuAllProfile = new MinerClient.GpuProfileData(coinVm.Id, NTMinerRoot.GpuAllId);
+                                }
+                                coinVm.GpuAllOverClockDataVm = new GpuProfileViewModel(gpuAllProfile);
                             }
                         }
                         this.CurrentCoin = CoinVms.MainCoins.FirstOrDefault(a => a.IsOverClockEnabled);
