@@ -239,16 +239,18 @@ namespace NTMiner.Vms {
             GroupPage.ShowWindow();
         });
         public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin) => {
-            CoinPage.ShowWindow(currentCoin, "pool");
+            CoinPage.ShowWindow(currentCoin);
         });
         public static ICommand ManageColumnsShows { get; private set; } = new DelegateCommand(() => {
             ColumnsShowPage.ShowWindow();
         });
         public static ICommand ManagePools { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
-            CoinPage.ShowWindow(coinVm, "pool");
+            CoinPageViewModel.Current.IsPoolTabSelected = true;
+            CoinPage.ShowWindow(coinVm);
         });
         public static ICommand ManageWallet { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
-            CoinPage.ShowWindow(coinVm, "wallet");
+            CoinPageViewModel.Current.IsWalletTabSelected = true;
+            CoinPage.ShowWindow(coinVm);
         });
         public static ICommand ShowKernelInputs { get; private set; } = new DelegateCommand(() => {
             KernelInputPage.ShowWindow();
