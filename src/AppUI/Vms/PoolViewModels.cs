@@ -27,7 +27,8 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(AllPools));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
-                        coinVm.OnPropertyChanged(nameof(coinVm.CoinProfile));
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                     }
@@ -40,7 +41,8 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(AllPools));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
-                        coinVm.OnPropertyChanged(nameof(coinVm.CoinProfile));
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                     }

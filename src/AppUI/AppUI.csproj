@@ -286,6 +286,8 @@
     <Compile Include="Vms\CalcConfigViewModels.cs" />
     <Compile Include="Vms\CalcViewModel.cs" />
     <Compile Include="Vms\CoinGroupViewModel.cs" />
+    <Compile Include="Vms\CoinProfileViewModels.cs" />
+    <Compile Include="Vms\CoinSnapshotDataViewModels.cs" />
     <Compile Include="Vms\ColumnsShowPageViewModel.cs" />
     <Compile Include="Vms\ColumnsShowViewModel.cs" />
     <Compile Include="Vms\ColumnsShowViewModels.cs" />

@@ -23,11 +23,10 @@ namespace NTMiner.Vms {
         public ICommand Hide { get; private set; }
         private readonly ChartValues<MeasureModel> _rejectValues;
         private readonly ChartValues<MeasureModel> _acceptValues;
-        public ChartViewModel(CoinViewModel coinVm, CoinSnapshotDataViewModel snapshotDataVm) {
+        public ChartViewModel(CoinViewModel coinVm) {
             this.Hide = new DelegateCommand(() => {
                 this.IsShow = false;
             });
-            _snapshotDataVm = snapshotDataVm;
             _coinVm = coinVm;
             var mapper = Mappers.Xy<MeasureModel>()
                 .X(model => model.DateTime.Ticks)   //use DateTime.Ticks as X
@@ -156,6 +155,9 @@ namespace NTMiner.Vms {
         private CoinSnapshotDataViewModel _snapshotDataVm;
         public CoinSnapshotDataViewModel SnapshotDataVm {
             get {
+                if (_snapshotDataVm == null) {
+                    CoinSnapshotDataViewModels.Current.TryGetSnapshotDataVm(CoinVm.Code, out _snapshotDataVm);
+                }
                 return _snapshotDataVm;
             }
         }

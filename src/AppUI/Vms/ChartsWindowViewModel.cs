@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
@@ -50,17 +49,7 @@ namespace NTMiner.Vms {
                 if (_chartVms == null) {
                     _chartVms = new List<ChartViewModel>();
                     foreach (var coinVm in MinerClientsWindowViewModel.Current.MineCoinVms.AllCoins.OrderBy(a => a.SortNumber)) {
-                        _chartVms.Add(new ChartViewModel(coinVm, new CoinSnapshotDataViewModel(new MinerServer.CoinSnapshotData {
-                            CoinCode = coinVm.Code,
-                            MainCoinMiningCount = 0,
-                            MainCoinOnlineCount = 0,
-                            DualCoinMiningCount = 0,
-                            DualCoinOnlineCount = 0,
-                            ShareDelta = 0,
-                            RejectShareDelta = 0,
-                            Speed = 0,
-                            Timestamp = DateTime.MinValue
-                        })));
+                        _chartVms.Add(new ChartViewModel(coinVm));
                     }
                 }
                 return _chartVms;
