@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.MinerClient;
+using System.Collections.Generic;
 
-namespace NTMiner.MinerClient {
+namespace NTMiner.JsonDb {
     public class GpuProfilesJson {
         public List<GpuProfileData> GpuProfiles { get; set; }
         public List<CoinOverClockData> CoinOverClocks { get; set; }

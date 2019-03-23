@@ -2,8 +2,12 @@
 using NTMiner.Core;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
+using NTMiner.JsonDb;
+using NTMiner.MinerServer;
+using NTMiner.Profile;
 using NTMiner.Repositories;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,7 +16,7 @@ using System.Text;
 namespace NTMiner {
     public partial class NTMinerRoot {
         public static IKernelDownloader KernelDownloader;
-        public static Action RefreshArgsAssembly = ()=> { };
+        public static Action RefreshArgsAssembly = () => { };
         public static Guid KernelBrandId;
         public static byte[] KernelBrandRaw = new byte[0];
 
@@ -47,12 +51,188 @@ namespace NTMiner {
             }
         }
 
+        private static LocalJson _localJson;
+        public static ILocalJson LocalJson {
+            get {
+                LocalJsonInit();
+                return _localJson;
+            }
+        }
+
+        public static void ReInitLocalJson(MineWorkData mineWorkData = null) {
+            _localJsonInited = false;
+            if (mineWorkData != null) {
+                LocalJsonInit();
+                _localJson.MineWork = mineWorkData;
+            }
+        }
+
+        private static readonly object _localJsonlocker = new object();
+        private static bool _localJsonInited = false;
+        // 从磁盘读取local.json反序列化为LocalJson对象
+        private static void LocalJsonInit() {
+            if (!_localJsonInited) {
+                lock (_localJsonlocker) {
+                    if (!_localJsonInited) {
+                        string localJson = SpecialPath.ReadLocalJsonFile();
+                        if (!string.IsNullOrEmpty(localJson)) {
+                            try {
+                                LocalJson data = VirtualRoot.JsonSerializer.Deserialize<LocalJson>(localJson);
+                                _localJson = data;
+                            }
+                            catch (Exception e) {
+                                Logger.ErrorDebugLine(e.Message, e);
+                            }
+                        }
+                        else {
+                            _localJson = new LocalJson();
+                        }
+                        _localJsonInited = true;
+                    }
+                }
+            }
+        }
+
+        private static ServerJson _serverJson;
+        private static IServerJson ServerJson {
+            get {
+                ServerJsonInit();
+                return _serverJson;
+            }
+        }
+
+        public static void ReInitServerJson() {
+            _serverJsonInited = false;
+        }
+
+        private static readonly object _serverJsonlocker = new object();
+        private static bool _serverJsonInited = false;
+        // 从磁盘读取server.json反序列化为ServerJson对象
+        private static void ServerJsonInit() {
+            if (!_serverJsonInited) {
+                lock (_serverJsonlocker) {
+                    if (!_serverJsonInited) {
+                        string serverJson = SpecialPath.ReadServerJsonFile();
+                        if (!string.IsNullOrEmpty(serverJson)) {
+                            try {
+                                ServerJson data = VirtualRoot.JsonSerializer.Deserialize<ServerJson>(serverJson);
+                                _serverJson = data;
+                                if (KernelBrandId != Guid.Empty) {
+                                    var kernelToRemoves = data.Kernels.Where(a => a.BrandId != NTMinerRoot.KernelBrandId).ToArray();
+                                    foreach (var item in kernelToRemoves) {
+                                        data.Kernels.Remove(item);
+                                    }
+                                    var coinKernelToRemoves = data.CoinKernels.Where(a => kernelToRemoves.Any(b => b.Id == a.KernelId)).ToArray();
+                                    foreach (var item in coinKernelToRemoves) {
+                                        data.CoinKernels.Remove(item);
+                                    }
+                                    var poolKernelToRemoves = data.PoolKernels.Where(a => kernelToRemoves.Any(b => b.Id == a.KernelId)).ToArray();
+                                    foreach (var item in poolKernelToRemoves) {
+                                        data.PoolKernels.Remove(item);
+                                    }
+                                }
+                            }
+                            catch (Exception e) {
+                                Logger.ErrorDebugLine(e.Message, e);
+                            }
+                        }
+                        else {
+                            _serverJson = new ServerJson();
+                        }
+                        _serverJsonInited = true;
+                    }
+                }
+            }
+        }
+
+        // 将当前的系统状态导出为serverVersion.json
+        public static string ExportServerVersionJson() {
+            var root = Current;
+            ServerJson serverJsonObj = new ServerJson {
+                Coins = root.CoinSet.Cast<CoinData>().ToArray(),
+                Groups = root.GroupSet.Cast<GroupData>().ToArray(),
+                CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray(),
+                KernelInputs = root.KernelInputSet.Cast<KernelInputData>().ToArray(),
+                KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().ToArray(),
+                KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray(),
+                KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray(),
+                Kernels = root.KernelSet.Cast<KernelData>().ToList(),
+                CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToList(),
+                PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList(),
+                Pools = root.PoolSet.Cast<PoolData>().ToArray(),
+                SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray(),
+                SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
+            };
+            string json = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
+            File.WriteAllText(AssemblyInfo.ServerVersionJsonFileFullName, json);
+            return AssemblyInfo.ServerVersionJsonFileFullName;
+        }
+
+        public static void ExportWorkJson(MineWorkData mineWorkData, out string localJson, out string serverJson) {
+            localJson = string.Empty;
+            serverJson = string.Empty;
+            try {
+                var root = Current;
+                var minerProfile = root.MinerProfile;
+                CoinProfileData mainCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(minerProfile.CoinId));
+                List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
+                List<PoolProfileData> poolProfiles = new List<PoolProfileData>();
+                CoinKernelProfileData coinKernelProfile = new CoinKernelProfileData(minerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId));
+                PoolProfileData mainCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(mainCoinProfile.PoolId));
+                poolProfiles.Add(mainCoinPoolProfile);
+                if (coinKernelProfile.IsDualCoinEnabled) {
+                    CoinProfileData dualCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId));
+                    coinProfiles.Add(dualCoinProfile);
+                    PoolProfileData dualCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId));
+                    poolProfiles.Add(dualCoinPoolProfile);
+                }
+                LocalJson localJsonObj = new LocalJson {
+                    MinerProfile = new MinerProfileData(minerProfile) {
+                        MinerName = "{{MinerName}}"
+                    },
+                    MineWork = mineWorkData,
+                    CoinProfiles = coinProfiles.ToArray(),
+                    CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile },
+                    PoolProfiles = poolProfiles.ToArray(),
+                    TimeStamp = Timestamp.GetTimestamp(),
+                    Pools = root.PoolSet.Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData(a)).ToArray(),
+                    Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray()
+                };
+                localJson = VirtualRoot.JsonSerializer.Serialize(localJsonObj);
+                root.CoinKernelSet.TryGetCoinKernel(coinKernelProfile.CoinKernelId, out ICoinKernel coinKernel);
+                root.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
+                var coins = root.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
+                var coinGroups = root.CoinGroupSet.Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
+                var pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToArray();
+                ServerJson serverJsonObj = new ServerJson {
+                    Coins = coins,
+                    CoinGroups = coinGroups,
+                    Pools = pools,
+                    TimeStamp = Timestamp.GetTimestamp(),
+                    Groups = root.GroupSet.Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray(),
+                    KernelInputs = root.KernelInputSet.Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray(),
+                    KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray(),
+                    KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray(),
+                    KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray(),
+                    Kernels = new List<KernelData> { (KernelData)kernel },
+                    CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList(),
+                    PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList(),
+                    SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray(),
+                    SysDics = root.SysDicSet.Cast<SysDicData>().ToArray()
+                };
+                serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+        }
+
         public static IRepository<T> CreateLocalRepository<T>(bool isUseJson) where T : class, IDbEntity<Guid> {
             if (!isUseJson) {
                 return new CommonRepository<T>(SpecialPath.LocalDbFileFullName);
             }
             else {
-                return new ReadOnlyRepository<T>(LocalJson.Instance);
+                return new ReadOnlyRepository<T>(LocalJson);
             }
         }
 
@@ -61,18 +241,8 @@ namespace NTMiner {
                 return new CommonRepository<T>(SpecialPath.ServerDbFileFullName);
             }
             else {
-                return new ReadOnlyRepository<T>(ServerJson.Instance);
+                return new ReadOnlyRepository<T>(ServerJson);
             }
-        }
-
-        /// <summary>
-        /// 创建组合仓储，组合仓储由ServerDb和ProfileDb层序组成。
-        /// 如果是开发者则访问ServerDb且只访问GlobalDb，否则将ServerDb和ProfileDb并起来访问且不能修改删除GlobalDb。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static IRepository<T> CreateCompositeRepository<T>(bool isUseJson) where T : class, ILevelEntity<Guid> {
-            return new CompositeRepository<T>(CreateServerRepository<T>(isUseJson), CreateLocalRepository<T>(isUseJson));
         }
 
         public static string GetThisPcName() {

@@ -106,7 +106,6 @@
     <Compile Include="Core\Gpus\Impl\GpuClockDelta.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\IGpuClockDelta.cs" />
-    <Compile Include="Core\IJsonDb.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAClockDeltaSet.cs" />
@@ -121,7 +120,6 @@
     <Compile Include="Core\ICoinShareSet.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
-    <Compile Include="Core\Impl\LocalJson.cs" />
     <Compile Include="Core\MinerServer\Impl\UserSet.cs" />
     <Compile Include="Core\MinerServer\IColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />
@@ -130,7 +128,6 @@
     <Compile Include="Core\MinerServer\Impl\ColumnsShowSet.cs" />
     <Compile Include="Core\MinerServer\Impl\MinerGroupSet.cs" />
     <Compile Include="Core\Impl\ReadOnlyRepository`1.cs" />
-    <Compile Include="Core\Impl\ServerJson.cs" />
     <Compile Include="Core\IncomePerDay.cs" />
     <Compile Include="Core\Kernels\IKernelDownloader.cs" />
     <Compile Include="Core\Kernels\IKernelInputSet.cs" />

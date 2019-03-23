@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Core {
+namespace NTMiner.JsonDb {
     public interface IJsonDb {
         ulong TimeStamp { get; }
         bool Exists<T>(Guid key) where T : IDbEntity<Guid>;

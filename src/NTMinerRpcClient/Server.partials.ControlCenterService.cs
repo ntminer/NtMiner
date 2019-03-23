@@ -427,7 +427,7 @@ namespace NTMiner {
             /// 同步方法
             /// </summary>
             /// <returns></returns>
-            public DataResponse<List<PoolData>> GetPools() {
+            public List<PoolData> GetPools() {
                 try {
                     SignatureRequest request = new SignatureRequest {
                         LoginName = SingleUser.LoginName,
@@ -435,12 +435,15 @@ namespace NTMiner {
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), request);
-                    return response;
+                    if (response != null && response.Data != null) {
+                        return response.Data;
+                    }
+                    return new List<PoolData>();
                 }
                 catch (Exception e) {
                     e = e.GetInnerException();
                     Logger.ErrorDebugLine(e.Message, e);
-                    return null;
+                    return new List<PoolData>();
                 }
             }
             #endregion

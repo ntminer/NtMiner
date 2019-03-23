@@ -74,7 +74,7 @@ namespace NTMiner.Vms {
                     Write.DevLine("检测到MinerProfile状态变更");
                     string localJson;
                     string serverJson;
-                    ExportJson(out localJson, out serverJson);
+                    NTMinerRoot.ExportWorkJson(new MineWorkData(this), out localJson, out serverJson);
                     if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                         Server.ControlCenterService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
                     }
@@ -101,10 +101,11 @@ namespace NTMiner.Vms {
                     string json = Server.ControlCenterService.GetLocalJson(this.Id);
                     if (!string.IsNullOrEmpty(json)) {
                         File.WriteAllText(SpecialPath.LocalJsonFileFullName, json);
-                        LocalJson.Instance.ReInit();
+                        NTMinerRoot.ReInitLocalJson();
                     }
                     else {
-                        LocalJson.Instance.ReInit(this);
+                        File.Delete(SpecialPath.LocalJsonFileFullName);
+                        NTMinerRoot.ReInitLocalJson(new MineWorkData(this));
                     }
                     NTMinerRoot.Current.ReInitMinerProfile();
                     this.Sha1 = NTMinerRoot.Current.MinerProfile.GetSha1();
@@ -129,62 +130,6 @@ namespace NTMiner.Vms {
                 }
                 return true;
             });
-        }
-
-        private void ExportJson(out string localJson, out string serverJson) {
-            localJson = string.Empty;
-            serverJson = string.Empty;
-            try {
-                LocalJson localJsonObj = LocalJson.NewInstance();
-                var minerProfile = NTMinerRoot.Current.MinerProfile;
-                localJsonObj.MinerProfile = new MinerProfileData(minerProfile) {
-                    MinerName = "{{MinerName}}"
-                };
-                localJsonObj.MineWork = new MineWorkData(this);
-                CoinProfileData mainCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(localJsonObj.MinerProfile.CoinId));
-                List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
-                List<PoolProfileData> poolProfiles = new List<PoolProfileData>();
-                CoinKernelProfileData coinKernelProfile = new CoinKernelProfileData(minerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId));
-                PoolProfileData mainCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(mainCoinProfile.PoolId));
-                poolProfiles.Add(mainCoinPoolProfile);
-                if (coinKernelProfile.IsDualCoinEnabled) {
-                    CoinProfileData dualCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId));
-                    coinProfiles.Add(dualCoinProfile);
-                    PoolProfileData dualCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId));
-                    poolProfiles.Add(dualCoinPoolProfile);
-                }
-                localJsonObj.CoinProfiles = coinProfiles.ToArray();
-                localJsonObj.CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
-                localJsonObj.PoolProfiles = poolProfiles.ToArray();
-                localJsonObj.TimeStamp = Timestamp.GetTimestamp();
-                localJsonObj.Pools = NTMinerRoot.Current.PoolSet.Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData(a)).ToArray();
-                localJsonObj.Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray();
-                localJson = VirtualRoot.JsonSerializer.Serialize(localJsonObj);
-
-                var root = NTMinerRoot.Current;
-                ServerJson serverJsonObj = ServerJson.NewInstance();
-                serverJsonObj.Coins = root.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
-                serverJsonObj.CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().Where(a => serverJsonObj.Coins.Any(b => b.Id == a.CoinId)).ToArray();
-                serverJsonObj.Groups = root.GroupSet.Cast<GroupData>().Where(a => serverJsonObj.CoinGroups.Any(b => b.GroupId == a.Id)).ToArray();
-                ICoinKernel coinKernel;
-                root.CoinKernelSet.TryGetCoinKernel(coinKernelProfile.CoinKernelId, out coinKernel);
-                IKernel kernel;
-                root.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel);
-                serverJsonObj.KernelInputs = root.KernelInputSet.Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray();
-                serverJsonObj.KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
-                serverJsonObj.KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
-                serverJsonObj.KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
-                serverJsonObj.Kernels = new List<KernelData> { (KernelData)kernel };
-                serverJsonObj.CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
-                serverJsonObj.PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && serverJsonObj.Pools.Any(b => b.Id == a.PoolId)).ToList();
-                serverJsonObj.Pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToArray();
-                serverJsonObj.SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
-                serverJsonObj.SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
-                serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e.Message, e);
-            }
         }
 
         public Guid GetId() {

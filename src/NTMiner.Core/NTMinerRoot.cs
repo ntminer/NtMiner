@@ -12,6 +12,7 @@ using NTMiner.Core.Profiles.Impl;
 using NTMiner.Core.SysDics;
 using NTMiner.Core.SysDics.Impl;
 using NTMiner.Daemon;
+using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using System;
@@ -78,13 +79,11 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     if (countdown.Wait(30 * 1000)) {
                         Logger.InfoDebugLine("json下载完成");
-                        ServerJson.Instance.Init(serverJson);
                         Language.Impl.LangJson.Instance.Init(langJson);
                         DoInit(isWork, callback);
                     }
                     else {
                         Logger.InfoDebugLine("启动json下载超时");
-                        ServerJson.Instance.Init(serverJson);
                         Language.Impl.LangJson.Instance.Init(langJson);
                         DoInit(isWork, callback);
                     }
@@ -101,8 +100,7 @@ namespace NTMiner {
             ContextInit(isWork);
 
             if (!string.IsNullOrEmpty(CommandLineArgs.KernelBrand)) {
-                ISysDicItem brandItem;
-                if (SysDicItemSet.TryGetDicItem("KernelBrand", CommandLineArgs.KernelBrand, out brandItem)) {
+                if (SysDicItemSet.TryGetDicItem("KernelBrand", CommandLineArgs.KernelBrand, out ISysDicItem brandItem)) {
                     #region KernelBrandId
                     string brand = $"KernelBrandId{brandItem.GetId()}KernelBrandId";
                     byte[] data = Encoding.UTF8.GetBytes(brand);
@@ -142,12 +140,11 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
-            Guid workId = Guid.Empty;
+            MineWorkData mineWorkData = null;
             if (isWork) {
-                LocalJson.Instance.Init();
-                workId = LocalJson.Instance.MineWork.Id;
+                mineWorkData = LocalJson.MineWork;
             }
-            this._minerProfile = new MinerProfile(this, workId);
+            this._minerProfile = new MinerProfile(this, mineWorkData);
             callback?.Invoke();
         }
 
@@ -157,8 +154,7 @@ namespace NTMiner {
             }
             ContextHandlers.Clear();
             if (isWork) {
-                string serverJson = SpecialPath.ReadServerJsonFile();
-                ServerJson.Instance.ReInit(serverJson);
+                ReInitServerJson();
             }
             ContextInit(isWork);
             OnContextReInited?.Invoke();
@@ -186,8 +182,8 @@ namespace NTMiner {
         }
 
         public void ReInitMinerProfile() {
-            LocalJson.Instance.ReInit();
-            this._minerProfile.ReInit(this, LocalJson.Instance.MineWork.Id);
+            ReInitLocalJson();
+            this._minerProfile.ReInit(this, LocalJson.MineWork);
             OnMinerProfileReInited?.Invoke();
             OnReRendMinerProfile?.Invoke();
             RefreshArgsAssembly();
@@ -366,7 +362,8 @@ namespace NTMiner {
                                 SpecialPath.GetAliyunServerJson((data) => {
                                     Write.DevLine($"有新版本{JsonFileVersion}->{jsonFileVersion}");
                                     string rawJson = Encoding.UTF8.GetString(data);
-                                    ServerJson.Instance.ReInit(rawJson);
+                                    SpecialPath.WriteServerJsonFile(rawJson);
+                                    ReInitServerJson();
                                     bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter;
                                     if (isUseJson) {
                                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Repositories;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace NTMiner.Core.Impl {
                         Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
+                        var repository = CreateCompositeRepository<PoolData>(isUseJson);
                         repository.Add(entity);
                     }
 
@@ -84,11 +85,11 @@ namespace NTMiner.Core.Impl {
                     }
                     entity.Update(message.Input);
                     if (VirtualRoot.IsControlCenter) {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
-                        repository.Update(new PoolData().Update(message.Input));
+                        Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
-                        Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
+                        var repository = CreateCompositeRepository<PoolData>(isUseJson);
+                        repository.Update(new PoolData().Update(message.Input));
                     }
 
                     VirtualRoot.Happened(new PoolUpdatedEvent(entity));
@@ -108,11 +109,11 @@ namespace NTMiner.Core.Impl {
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
                     if (VirtualRoot.IsControlCenter) {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(isUseJson);
-                        repository.Remove(message.EntityId);
+                        Server.ControlCenterService.RemovePoolAsync(entity.Id, callback: null);
                     }
                     else {
-                        Server.ControlCenterService.RemovePoolAsync(entity.Id, callback: null);
+                        var repository = CreateCompositeRepository<PoolData>(isUseJson);
+                        repository.Remove(message.EntityId);
                     }
                     VirtualRoot.Happened(new PoolRemovedEvent(entity));
                     Guid[] toRemoves = root.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
@@ -120,6 +121,16 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
                 }).AddToCollection(root.ContextHandlers);
+        }
+
+        /// <summary>
+        /// 创建组合仓储，组合仓储由ServerDb和ProfileDb层序组成。
+        /// 如果是开发者则访问ServerDb且只访问GlobalDb，否则将ServerDb和ProfileDb并起来访问且不能修改删除GlobalDb。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        private static IRepository<T> CreateCompositeRepository<T>(bool isUseJson) where T : class, ILevelEntity<Guid> {
+            return new CompositeRepository<T>(NTMinerRoot.CreateServerRepository<T>(isUseJson), NTMinerRoot.CreateLocalRepository<T>(isUseJson));
         }
 
         private bool _isInited = false;
@@ -137,16 +148,10 @@ namespace NTMiner.Core.Impl {
                 if (!_isInited) {
                     IEnumerable<PoolData> data;
                     if (VirtualRoot.IsControlCenter) {
-                        var repository = NTMinerRoot.CreateServerRepository<PoolData>(_isUseJson);
-                        var list = repository.GetAll().ToList();
-                        var response = Server.ControlCenterService.GetPools();
-                        if (response != null) {
-                            list.AddRange(response.Data);
-                        }
-                        data = list;
+                        data = Server.ControlCenterService.GetPools();
                     }
                     else {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>(_isUseJson);
+                        var repository = CreateCompositeRepository<PoolData>(_isUseJson);
                         data = repository.GetAll();
                     }
                     foreach (var item in data) {

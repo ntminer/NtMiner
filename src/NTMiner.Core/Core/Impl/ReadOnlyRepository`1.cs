@@ -1,4 +1,5 @@
-﻿using NTMiner.Repositories;
+﻿using NTMiner.JsonDb;
+using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
 

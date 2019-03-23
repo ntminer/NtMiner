@@ -129,24 +129,7 @@ namespace NTMiner.Vms {
 
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
-                var root = NTMinerRoot.Current;
-                ServerJson serverJsonObj = ServerJson.NewInstance();
-                serverJsonObj.Coins = root.CoinSet.Cast<CoinData>().ToArray();
-                serverJsonObj.Groups = root.GroupSet.Cast<GroupData>().ToArray();
-                serverJsonObj.CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray();
-                serverJsonObj.KernelInputs = root.KernelInputSet.Cast<KernelInputData>().ToArray();
-                serverJsonObj.KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().ToArray();
-                serverJsonObj.KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray();
-                serverJsonObj.KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray();
-                serverJsonObj.Kernels = root.KernelSet.Cast<KernelData>().ToList();
-                serverJsonObj.CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToList();
-                serverJsonObj.PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
-                serverJsonObj.Pools = root.PoolSet.Cast<PoolData>().ToArray();
-                serverJsonObj.SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
-                serverJsonObj.SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
-                string json = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
-                File.WriteAllText(AssemblyInfo.ServerVersionJsonFileFullName, json);
-                string fileName = Path.GetFileName(AssemblyInfo.ServerVersionJsonFileFullName);
+                string fileName = NTMinerRoot.ExportServerVersionJson();
                 NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage($"导出成功：{fileName}");
             }
             catch (Exception e) {

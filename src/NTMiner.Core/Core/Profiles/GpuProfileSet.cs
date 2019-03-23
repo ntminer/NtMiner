@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.Core.Profiles.Impl;
+using NTMiner.JsonDb;
 using NTMiner.MinerClient;
 using NTMiner.Profile;
 using System;
