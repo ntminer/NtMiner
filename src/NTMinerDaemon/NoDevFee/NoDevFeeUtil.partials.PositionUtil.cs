@@ -12,7 +12,7 @@ namespace NTMiner.NoDevFee {
             if (string.IsNullOrEmpty(coin) || string.IsNullOrEmpty(kernelFullName)) {
                 return false;
             }
-            if (kernelFullName.IndexOf("claymore", StringComparison.OrdinalIgnoreCase) != -1) {
+            if (coin == "ETH" && kernelFullName.IndexOf("claymore", StringComparison.OrdinalIgnoreCase) != -1) {
                 coinKernelId = CoinKernelId.Claymore;
                 return true;
             }

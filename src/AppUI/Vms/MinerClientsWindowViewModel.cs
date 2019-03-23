@@ -85,10 +85,31 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
+            var appSettings = NTMinerRoot.Current.AppSettingSet;
             Guid columnsShowId = ColumnsShowData.PleaseSelectId;
-            if (NTMinerRoot.Current.AppSettingSet.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
+            if (appSettings.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
                 if (Guid.TryParse(columnsShowAppSetting.Value.ToString(), out Guid guid)) {
                     columnsShowId = guid;
+                }
+            }
+            if (appSettings.TryGetAppSetting("FrozenColumnCount", out IAppSetting frozenColumnCountAppSetting) && frozenColumnCountAppSetting.Value != null) {
+                if (int.TryParse(frozenColumnCountAppSetting.Value.ToString(), out int frozenColumnCount)) {
+                    _frozenColumnCount = frozenColumnCount;
+                }
+            }
+            if (appSettings.TryGetAppSetting("MaxTemp", out IAppSetting maxTempAppSetting) && maxTempAppSetting.Value != null) {
+                if (uint.TryParse(maxTempAppSetting.Value.ToString(), out uint maxTemp)) {
+                    _maxTemp = maxTemp;
+                }
+            }
+            if (appSettings.TryGetAppSetting("MinTemp", out IAppSetting minTempAppSetting) && minTempAppSetting.Value != null) {
+                if (uint.TryParse(minTempAppSetting.Value.ToString(), out uint minTemp)) {
+                    _minTemp = minTemp;
+                }
+            }
+            if (appSettings.TryGetAppSetting("RejectPercent", out IAppSetting rejectPercentAppSetting) && rejectPercentAppSetting.Value != null) {
+                if (int.TryParse(rejectPercentAppSetting.Value.ToString(), out int rejectPercent)) {
+                    _rejectPercent = rejectPercent;
                 }
             }
             this._columnsShow = this.ColumnsShows.List.FirstOrDefault(a => a.Id == columnsShowId);

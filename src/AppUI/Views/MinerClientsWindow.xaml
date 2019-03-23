@@ -2060,7 +2060,6 @@
 
 					<controls:KbComboBox Margin="4 0 0 0" ToolTip="冻结列" ItemsSource="{Binding FrozenColumns}" SelectedItem="{Binding FrozenColumnCount}">
 					</controls:KbComboBox>
-					<TextBlock VerticalAlignment="Center" Margin="4 0 0 0">列显</TextBlock>
 					<controls:KbComboBox 
 						Margin="0 0 4 0"
 						ItemsSource="{Binding ColumnsShows.List}"
