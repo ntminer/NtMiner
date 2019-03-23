@@ -11,7 +11,8 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_OverClock",
                 Width = 800,
                 Height = 600,
-                CloseVisible = Visibility.Visible
+                CloseVisible = Visibility.Visible,
+                FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => new GpuProfilesPage(vm), fixedSize: true);
         }
 
