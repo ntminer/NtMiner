@@ -68,10 +68,10 @@ namespace NTMiner.Vms {
             _coreClockDeltaMax = gpuData.CoreClockDeltaMax;
             _memoryClockDeltaMin = gpuData.MemoryClockDeltaMin;
             _memoryClockDeltaMax = gpuData.MemoryClockDeltaMax;
-            _cool = gpuData.Cool;
+            _cool = 0;
             _coolMin = gpuData.CoolMin;
             _coolMax = gpuData.CoolMax;
-            _power = gpuData.Power;
+            _power = 0;
             _powerMin = gpuData.PowerMin;
             _powerMax = gpuData.PowerMax;
         }

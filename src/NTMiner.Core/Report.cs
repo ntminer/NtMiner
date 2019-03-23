@@ -95,7 +95,11 @@ namespace NTMiner {
                     DualCoinSpeed = a.DualCoinSpeed.Value,
                     FanSpeed = a.Gpu.FanSpeed,
                     Temperature = a.Gpu.Temperature,
-                    PowerUsage = a.Gpu.PowerUsage
+                    PowerUsage = a.Gpu.PowerUsage,
+                    Cool = a.Gpu.Cool,
+                    Power = a.Gpu.Power,
+                    CoreClockDelta = a.Gpu.CoreClockDelta,
+                    MemoryClockDelta = a.Gpu.MemoryClockDelta
                 }).ToArray()
             };
             #region 当前选中的币种是什么
