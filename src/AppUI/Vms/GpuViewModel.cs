@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
+using NTMiner.MinerClient;
 using System.Linq;
 
 namespace NTMiner.Vms {
@@ -256,7 +257,7 @@ namespace NTMiner.Vms {
             get {
                 if (_gpuClockDelta == null) {
                     if (!NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.TryGetValue(this.Index, out _gpuClockDelta)) {
-                        _gpuClockDelta = new GpuClockDelta(0, 0, 0, 0);
+                        _gpuClockDelta = MinerClient.GpuClockDelta.Empty;
                     }
                 }
                 return _gpuClockDelta;

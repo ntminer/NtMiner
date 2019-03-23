@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NTMiner.MinerClient;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -13,7 +14,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -32,10 +33,7 @@ namespace NTMiner.Core.Gpus.Impl {
                             continue;
                         }
                         int exitCode = -1;
-                        string output;
-                        Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out output);
-                        int coreClockDelta;
-                        int memoryClockDelta;
+                        Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out string output);
                         int coreClockDeltaMin = 0;
                         int coreClockDeltaMax = 0;
                         int memoryClockDeltaMin = 0;
@@ -43,14 +41,14 @@ namespace NTMiner.Core.Gpus.Impl {
                         if (exitCode == 0) {
                             Match match = Regex.Match(output, coreClockDeltaMinMaxPattern);
                             if (match.Success) {
-                                int.TryParse(match.Groups[1].Value, out coreClockDelta);
+                                int.TryParse(match.Groups[1].Value, out int coreClockDelta);
                                 gpu.CoreClockDelta = coreClockDelta;
                                 int.TryParse(match.Groups[2].Value, out coreClockDeltaMin);
                                 int.TryParse(match.Groups[3].Value, out coreClockDeltaMax);
                             }
                             match = Regex.Match(output, memoryClockDeltaMinMaxPattern);
                             if (match.Success) {
-                                int.TryParse(match.Groups[1].Value, out memoryClockDelta);
+                                int.TryParse(match.Groups[1].Value, out int memoryClockDelta);
                                 gpu.MemoryClockDelta = memoryClockDelta;
                                 int.TryParse(match.Groups[2].Value, out memoryClockDeltaMin);
                                 int.TryParse(match.Groups[3].Value, out memoryClockDeltaMax);
@@ -66,8 +64,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public bool TryGetValue(int gpuIndex, out IGpuClockDelta data) {
             InitOnece();
-            GpuClockDelta value;
-            bool result = _dicByGpuIndex.TryGetValue(gpuIndex, out value);
+            bool result = _dicByGpuIndex.TryGetValue(gpuIndex, out GpuClockDelta value);
             data = value;
             return result;
         }

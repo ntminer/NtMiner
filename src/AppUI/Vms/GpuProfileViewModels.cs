@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Profiles;
 using NTMiner.MinerClient;
-using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,16 +22,18 @@ namespace NTMiner.Vms {
                         vm.Update(message.Source);
                     }
                     else {
-                        _list.Add(new GpuProfileViewModel(message.Source));
+                        if (GpuViewModels.Current.TryGetGpuVm(message.Source.Index, out GpuViewModel gpuVm)) {
+                            _list.Add(new GpuProfileViewModel(message.Source, gpuVm));
+                        }
                     }
                 });
             foreach (var coin in NTMinerRoot.Current.CoinSet) {
                 Guid coinId = coin.GetId();
-                foreach (var gpu in NTMinerRoot.Current.GpuSet) {
-                    IGpuProfile data = GpuProfileSet.Instance.GetGpuProfile(coinId, gpu.Index);
-                    var vm = new GpuProfileViewModel(data);
+                foreach (var gpuVm in GpuViewModels.Current) {
+                    IGpuProfile data = GpuProfileSet.Instance.GetGpuProfile(coinId, gpuVm.Index);
+                    var vm = new GpuProfileViewModel(data, gpuVm);
                     _list.Add(vm);
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                    if (gpuVm.Index == NTMinerRoot.GpuAllId) {
                         _gpuAllVmDicByCoinId.Add(coinId, vm);
                     }
                 }

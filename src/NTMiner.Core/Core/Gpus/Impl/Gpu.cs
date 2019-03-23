@@ -1,4 +1,6 @@
-﻿namespace NTMiner.Core.Gpus.Impl {
+﻿using NTMiner.MinerClient;
+
+namespace NTMiner.Core.Gpus.Impl {
     public class Gpu : IGpu {
         public Gpu() {
         }

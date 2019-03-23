@@ -99,14 +99,11 @@
     <Compile Include="Core\Gpus\Adl\AdlNativeMethods.cs" />
     <Compile Include="Core\Gpus\Adl\AdlTypes.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
-    <Compile Include="Core\Gpus\GpuClockDeltaExtension.cs" />
     <Compile Include="Core\Gpus\IGpuClockDeltaSet.cs" />
     <Compile Include="Core\Gpus\Impl\EmptyClockDeltaSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDClockDeltaSet.cs" />
     <Compile Include="Core\Gpus\Impl\EmptyOverClock.cs" />
-    <Compile Include="Core\Gpus\Impl\GpuClockDelta.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
-    <Compile Include="Core\Gpus\IGpuClockDelta.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAClockDeltaSet.cs" />

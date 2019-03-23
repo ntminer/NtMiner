@@ -1,4 +1,6 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.Gpus.Impl;
+using NTMiner.MinerServer;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
@@ -11,16 +13,49 @@ namespace NTMiner.Vms {
                     }
                     else if (data != null) {
                         foreach (var coinOverClock in data.CoinOverClocks) {
-                            CoinViewModel coinVm;
-                            if (CoinViewModels.Current.TryGetCoinVm(coinOverClock.CoinId, out coinVm)) {
+                            if (CoinViewModels.Current.TryGetCoinVm(coinOverClock.CoinId, out CoinViewModel coinVm)) {
                                 coinVm.IsOverClockEnabled = coinOverClock.IsOverClockEnabled;
                                 coinVm.IsOverClockGpuAll = coinOverClock.IsOverClockGpuAll;
-                                var gpuAllProfile = data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinVm.Id && a.Index == NTMinerRoot.GpuAllId);
-                                if (gpuAllProfile == null) {
-                                    gpuAllProfile = new MinerClient.GpuProfileData(coinVm.Id, NTMinerRoot.GpuAllId);
+                                List<GpuProfileViewModel> gpuProfileVms = new List<GpuProfileViewModel>();
+                                GpuProfileViewModel gpuProfileVm = null;
+                                foreach (var gpu in data.Gpus.OrderBy(a => a.Index)) {
+                                    var gpuProfileData = data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinVm.Id && a.Index == gpu.Index);
+                                    if (gpuProfileData == null) {
+                                        gpuProfileData = new MinerClient.GpuProfileData(coinVm.Id, gpu.Index);
+                                    }
+                                    var gpuVm = new GpuViewModel(new Gpu() {
+                                        Index = gpu.Index,
+                                        CoreClockDelta = 0,
+                                        FanSpeed = 0,
+                                        GpuClockDelta = new MinerClient.GpuClockDelta(gpu.CoreClockDeltaMin, gpu.CoreClockDeltaMax, gpu.MemoryClockDeltaMin, gpu.MemoryClockDeltaMax),
+                                        MemoryClockDelta = 0,
+                                        Name = gpu.Name,
+                                        OverClock = new EmptyOverClock(),
+                                        PowerUsage = 0,
+                                        Temperature = 0
+                                    });
+                                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                                        gpuProfileVm = new GpuProfileViewModel(gpuProfileData, gpuVm);
+                                    }
+                                    else {
+                                        gpuProfileVms.Add(new GpuProfileViewModel(gpuProfileData, gpuVm));
+                                    }
                                 }
-                                coinVm.GpuAllProfileVm = new GpuProfileViewModel(gpuAllProfile);
-                                coinVm.GpuProfileVms = data.GpuProfiles.Where(a => a.CoinId == coinVm.Id && a.Index != NTMinerRoot.GpuAllId).OrderBy(a => a.Index).Select(a => new GpuProfileViewModel(a)).ToList();
+                                if (gpuProfileVm == null) {
+                                    gpuProfileVm = new GpuProfileViewModel(new MinerClient.GpuProfileData(coinVm.Id, NTMinerRoot.GpuAllId), new GpuViewModel(new Gpu() {
+                                        Index = NTMinerRoot.GpuAllId,
+                                        CoreClockDelta = 0,
+                                        FanSpeed = 0,
+                                        GpuClockDelta = MinerClient.GpuClockDelta.Empty,
+                                        MemoryClockDelta = 0,
+                                        Name = "All",
+                                        OverClock = new EmptyOverClock(),
+                                        PowerUsage = 0,
+                                        Temperature = 0
+                                    }));
+                                }
+                                coinVm.GpuAllProfileVm = gpuProfileVm;
+                                coinVm.GpuProfileVms = gpuProfileVms;
                             }
                         }
                         this.CurrentCoin = CoinVms.MainCoins.FirstOrDefault(a => a.IsOverClockEnabled);

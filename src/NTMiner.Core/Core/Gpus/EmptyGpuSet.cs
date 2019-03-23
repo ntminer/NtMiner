@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus.Impl;
+using NTMiner.MinerClient;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace NTMiner.Core.Gpus {
                 PowerUsage = 0,
                 CoreClockDelta = 0,
                 MemoryClockDelta = 0,
-                GpuClockDelta = new GpuClockDelta(0, 0, 0, 0),
+                GpuClockDelta = GpuClockDelta.Empty,
                 OverClock = new EmptyOverClock()
             }
         };

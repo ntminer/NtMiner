@@ -1,4 +1,4 @@
-﻿namespace NTMiner.Core.Gpus {
+﻿namespace NTMiner.MinerClient {
     public interface IGpuClockDelta {
         int CoreClockDeltaMin { get; }
         int CoreClockDeltaMax { get; }

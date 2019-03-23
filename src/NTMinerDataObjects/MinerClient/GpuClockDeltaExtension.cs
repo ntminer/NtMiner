@@ -1,4 +1,4 @@
-﻿namespace NTMiner.Core.Gpus {
+﻿namespace NTMiner.MinerClient {
     public static class GpuClockDeltaExtension {
         public static string CoreClockDeltaMinMText(this IGpuClockDelta gpuClockDelta) {
             return (gpuClockDelta.CoreClockDeltaMin / 1000).ToString();

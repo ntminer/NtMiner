@@ -5,12 +5,14 @@ using System.Linq;
 
 namespace NTMiner.JsonDb {
     public class GpuProfilesJsonDb : IGpuProfilesJsonDb {
+        public GpuData[] Gpus { get; set; }
         public List<GpuProfileData> GpuProfiles { get; set; }
         public List<CoinOverClockData> CoinOverClocks { get; set; }
 
         public ulong TimeStamp { get; set; }
 
         public GpuProfilesJsonDb() {
+            Gpus = new GpuData[0];
             GpuProfiles = new List<GpuProfileData>();
             CoinOverClocks = new List<CoinOverClockData>();
             this.TimeStamp = Timestamp.GetTimestamp();
@@ -27,6 +29,8 @@ namespace NTMiner.JsonDb {
         public IEnumerable<T> GetAll<T>() where T : IDbEntity<Guid> {
             string typeName = typeof(T).Name;
             switch (typeName) {
+                case nameof(GpuData):
+                    return this.Gpus.Cast<T>();
                 case nameof(GpuProfileData):
                     return this.GpuProfiles.Cast<T>();
                 case nameof(CoinOverClockData):
