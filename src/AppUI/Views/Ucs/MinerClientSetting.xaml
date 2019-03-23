@@ -20,6 +20,7 @@
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<DockPanel Background="{StaticResource ThemeBackground}" Height="30">
 			<WrapPanel DockPanel.Dock="Left">
@@ -56,7 +57,6 @@
 			IsDefault="True"
 			Command="{Binding Save}" 
 			Padding="10 0"
-			Margin="0 0 0 10"
 			Background="{StaticResource ThemeBackground}"
 			Foreground="{StaticResource ThemeForeground}"
 			CornerRadius="2">
@@ -74,5 +74,6 @@
 					Text="确定" />
 			</WrapPanel>
 		</controls:KbButton>
+		<TextBlock Grid.Row="3" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Bottom">该操作需挖矿端在线</TextBlock>
 	</Grid>
 </metro:MetroWindow>

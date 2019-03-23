@@ -147,7 +147,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Command="{Binding OneKeySetting}" Padding="4" Margin="0 0 6 0" Header="矿机设置">
+				<MenuItem Command="{Binding OneKeySetting}" Padding="4" Margin="0 0 6 0" Header="远程设置">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

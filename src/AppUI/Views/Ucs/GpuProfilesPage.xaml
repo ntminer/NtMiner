@@ -22,6 +22,7 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<ListBox 
 			Background="Transparent"
@@ -212,5 +213,6 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</ScrollViewer>
+		<TextBlock Grid.Row="4" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Bottom">该操作需挖矿端在线</TextBlock>
 	</Grid>
 </UserControl>
