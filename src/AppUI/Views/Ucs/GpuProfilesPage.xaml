@@ -137,12 +137,12 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
-					<TextBox VerticalAlignment="Center" ToolTip="50至110" Text="{Binding CoinVm.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.PowerMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
-					<TextBox VerticalAlignment="Center" ToolTip="38至100" Text="{Binding CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+					<TextBox VerticalAlignment="Center" ToolTip="{Binding CoinVm.GpuAllProfileVm.GpuVm.CoolMinMaxText}" Text="{Binding CoinVm.GpuAllProfileVm.Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
 					<TextBlock VerticalAlignment="Center">%</TextBlock>
 				</WrapPanel>
 			</WrapPanel>
@@ -194,12 +194,12 @@
 									</WrapPanel>
 									<TextBlock Grid.Row="2" Style="{StaticResource LblTb}">功耗</TextBlock>
 									<WrapPanel Grid.Row="2" Grid.Column="1">
-										<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="80"></TextBox>
+										<TextBox ToolTip="{Binding GpuVm.PowerMinMaxText}" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="80"></TextBox>
 										<TextBlock>%</TextBlock>
 									</WrapPanel>
 									<TextBlock Grid.Row="3" Style="{StaticResource LblTb}">风扇</TextBlock>
 									<WrapPanel Grid.Row="3" Grid.Column="1">
-										<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="80"></TextBox>
+										<TextBox ToolTip="{Binding GpuVm.CoolMinMaxText}" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="80"></TextBox>
 										<TextBlock>%</TextBlock>
 									</WrapPanel>
 								</Grid>

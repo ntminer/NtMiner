@@ -328,6 +328,34 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string CoolMinMaxText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{_gpuDatas.Max(a => a.CoolMin)} - {_gpuDatas.Min(a => a.CoolMax)}%";
+                    }
+                    else {
+                        return $"{NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.CoolMin)} - {NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.CoolMax)}%";
+                    }
+                }
+                return $"{this.CoolMin} - {this.CoolMax}%";
+            }
+        }
+
+        public string PowerMinMaxText {
+            get {
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{_gpuDatas.Max(a => a.PowerMin).ToString("f0")} - {_gpuDatas.Min(a => a.PowerMax).ToString("f0")}%";
+                    }
+                    else {
+                        return $"{NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.PowerMin).ToString("f0")} - {NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.PowerMax).ToString("f0")}%";
+                    }
+                }
+                return $"{this.PowerMin.ToString("f0")} - {this.PowerMax.ToString("f0")}%";
+            }
+        }
+
         public int CoreClockDeltaMin {
             get => _coreClockDeltaMin;
             set {

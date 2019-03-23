@@ -47,6 +47,8 @@ namespace NTMiner.Vms {
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoreClockDeltaMinMaxMText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMinMaxMText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoolMinMaxText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.PowerMinMaxText));
                         }
                     }
                 });
