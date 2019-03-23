@@ -4,24 +4,52 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class AMDClockDeltaSet : IGpuClockDeltaSet {
-        private readonly Dictionary<int, IGpuClockDelta> _dicByGpuIndex = new Dictionary<int, IGpuClockDelta>();
+        private readonly Dictionary<int, GpuClockDelta> _dicByGpuIndex = new Dictionary<int, GpuClockDelta>();
 
-        private readonly INTMinerRoot _root;
+        private readonly IGpuSet _gpuSet;
 
-        public AMDClockDeltaSet(INTMinerRoot root) {
-            _root = root;
+        public AMDClockDeltaSet(IGpuSet gpuSet) {
+            _gpuSet = gpuSet;
+        }
+
+        private bool _isInited = false;
+        private readonly object _locker = new object();
+
+        private void InitOnece() {
+            if (_isInited) {
+                return;
+            }
+            Init();
+        }
+
+        private void Init() {
+            lock (_locker) {
+                if (!_isInited) {
+                    foreach (var gpu in _gpuSet) {
+                        if (gpu.Index == NTMinerRoot.GpuAllId) {
+                            continue;
+                        }
+                        _dicByGpuIndex.Add(gpu.Index, GpuClockDelta.Empty);
+                    }
+                    _isInited = true;
+                }
+            }
         }
 
         public bool TryGetValue(int gpuIndex, out IGpuClockDelta data) {
-            data = null;
-            return false;
+            InitOnece();
+            bool result = _dicByGpuIndex.TryGetValue(gpuIndex, out GpuClockDelta value);
+            data = value;
+            return result;
         }
 
         public IEnumerator<IGpuClockDelta> GetEnumerator() {
+            InitOnece();
             return _dicByGpuIndex.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
+            InitOnece();
             return _dicByGpuIndex.Values.GetEnumerator();
         }
     }

@@ -10,12 +10,35 @@ using System.Linq;
 namespace NTMiner.Core.Profiles {
     public class GpuProfileSet {
         public static readonly GpuProfileSet Instance = new GpuProfileSet();
-        private readonly GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
+        private GpuProfilesJsonDb _data = NewJsonDb();
 
         public GpuProfilesJsonDb Data {
             get {
                 return _data;
             }
+        }
+
+        private static GpuProfilesJsonDb NewJsonDb() {
+            return new GpuProfilesJsonDb();
+        }
+
+        public GpuData[] CreateGpus() {
+            List<GpuData> list = new List<GpuData>();
+            foreach (var gpu in NTMinerRoot.Current.GpuSet) {
+                IGpuClockDelta gpuClockDelta;
+                if (!NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.TryGetValue(gpu.Index, out gpuClockDelta)) {
+                    gpuClockDelta = GpuClockDelta.Empty;
+                }
+                list.Add(new GpuData {
+                    Index = gpu.Index,
+                    Name = gpu.Name,
+                    CoreClockDeltaMax = gpuClockDelta.CoreClockDeltaMax,
+                    CoreClockDeltaMin = gpuClockDelta.CoreClockDeltaMin,
+                    MemoryClockDeltaMax = gpuClockDelta.MemoryClockDeltaMax,
+                    MemoryClockDeltaMin = gpuClockDelta.MemoryClockDeltaMin
+                });
+            }
+            return list.ToArray();
         }
 
         private GpuProfileSet() {
@@ -26,7 +49,7 @@ namespace NTMiner.Core.Profiles {
                 "处理添加或更新Gpu超频数据命令",
                 LogEnum.Console,
                 action: message => {
-                    GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a=>a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
+                    GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
                     if (data != null) {
                         data.Update(message.Input);
                         Save();
@@ -67,6 +90,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         private void Save() {
+            Data.Gpus = CreateGpus();
             string json = VirtualRoot.JsonSerializer.Serialize(Data);
             File.WriteAllText(SpecialPath.GpuProfilesJsonFileFullName, json);
         }
@@ -88,16 +112,14 @@ namespace NTMiner.Core.Profiles {
                     if (!string.IsNullOrEmpty(json)) {
                         try {
                             GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
-                            this._data.GpuProfiles = data.GpuProfiles ?? new List<GpuProfileData>();
-                            this._data.CoinOverClocks = data.CoinOverClocks ?? new List<CoinOverClockData>();
+                            _data = data;
                         }
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e.Message, e);
                         }
                     }
                     else {
-                        _data.GpuProfiles = new List<GpuProfileData>();
-                        _data.CoinOverClocks = new List<CoinOverClockData>();
+                        _data = NewJsonDb();
                     }
                     _isInited = true;
                 }
@@ -105,8 +127,6 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void Refresh() {
-            _data.GpuProfiles.Clear();
-            _data.CoinOverClocks.Clear();
             _isInited = false;
             VirtualRoot.Happened(new GpuProfileSetRefreshedEvent());
         }

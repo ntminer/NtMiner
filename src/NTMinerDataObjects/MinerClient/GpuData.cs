@@ -1,5 +1,7 @@
 ﻿namespace NTMiner.MinerClient {
     public class GpuData : IGpuClockDelta {
+        public GpuData() { }
+
         public int Index { get; set; }
         public string Name { get; set; }
 

@@ -136,7 +136,7 @@ namespace NTMiner.Core.Gpus.Impl {
         public IGpuClockDeltaSet GpuClockDeltaSet {
             get {
                 if (_gpuClockDeltaSet == null) {
-                    _gpuClockDeltaSet = new NVIDIAClockDeltaSet(_root);
+                    _gpuClockDeltaSet = new NVIDIAClockDeltaSet(this);
                 }
                 return _gpuClockDeltaSet;
             }

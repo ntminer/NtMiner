@@ -7,10 +7,10 @@ namespace NTMiner.Core.Gpus.Impl {
     public class NVIDIAClockDeltaSet : IGpuClockDeltaSet {
         private readonly Dictionary<int, GpuClockDelta> _dicByGpuIndex = new Dictionary<int, GpuClockDelta>();
 
-        private readonly INTMinerRoot _root;
+        private readonly IGpuSet _gpuSet;
 
-        public NVIDIAClockDeltaSet(INTMinerRoot root) {
-            _root = root;
+        public NVIDIAClockDeltaSet(IGpuSet gpuSet) {
+            _gpuSet = gpuSet;
         }
 
         private bool _isInited = false;
@@ -28,7 +28,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 if (!_isInited) {
                     const string coreClockDeltaMinMaxPattern = @"c\[0\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
                     const string memoryClockDeltaMinMaxPattern = @"c\[1\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
-                    foreach (var gpu in _root.GpuSet) {
+                    foreach (var gpu in _gpuSet) {
                         if (gpu.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
