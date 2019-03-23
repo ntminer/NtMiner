@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.MinerClient;
+using System;
 using System.Linq;
 
 namespace NTMiner.Vms {
@@ -346,13 +347,13 @@ namespace NTMiner.Vms {
             get {
                 if (Index == NTMinerRoot.GpuAllId) {
                     if (_isGpuData) {
-                        return $"{_gpuDatas.Max(a => a.PowerMin).ToString("f0")} - {_gpuDatas.Min(a => a.PowerMax).ToString("f0")}%";
+                        return $"{Math.Ceiling(_gpuDatas.Max(a => a.PowerMin))} - {(int)_gpuDatas.Min(a => a.PowerMax)}%";
                     }
                     else {
-                        return $"{NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.PowerMin).ToString("f0")} - {NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.PowerMax).ToString("f0")}%";
+                        return $"{Math.Ceiling(NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Max(a => a.PowerMin))} - {(int)NTMinerRoot.Current.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId).Min(a => a.PowerMax)}%";
                     }
                 }
-                return $"{this.PowerMin.ToString("f0")} - {this.PowerMax.ToString("f0")}%";
+                return $"{Math.Ceiling(this.PowerMin)} - {(int)this.PowerMax}%";
             }
         }
 
