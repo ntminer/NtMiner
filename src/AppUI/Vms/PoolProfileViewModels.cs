@@ -21,12 +21,17 @@ namespace NTMiner.Vms {
             };
         }
 
+        private readonly object _poolProfileLocker = new object();
         public PoolProfileViewModel GetOrCreatePoolProfile(Guid poolId) {
-            if (_poolProfileDicById.ContainsKey(poolId)) {
-                return _poolProfileDicById[poolId];
+            PoolProfileViewModel poolProfile;
+            if (!_poolProfileDicById.TryGetValue(poolId, out poolProfile)) {
+                lock (_poolProfileLocker) {
+                    if (!_poolProfileDicById.TryGetValue(poolId, out poolProfile)) {
+                        poolProfile = new PoolProfileViewModel(NTMinerRoot.Current.MinerProfile.GetPoolProfile(poolId));
+                        _poolProfileDicById.Add(poolId, poolProfile);
+                    }
+                }
             }
-            PoolProfileViewModel poolProfile = new PoolProfileViewModel(NTMinerRoot.Current.MinerProfile.GetPoolProfile(poolId));
-            _poolProfileDicById.Add(poolId, poolProfile);
             return poolProfile;
         }
     }

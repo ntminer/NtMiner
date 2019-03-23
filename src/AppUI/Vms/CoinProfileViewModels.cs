@@ -32,22 +32,33 @@ namespace NTMiner.Vms {
             };
         }
 
+        private readonly object _coinProfileDicLocker = new object();
         public CoinProfileViewModel GetOrCreateCoinProfile(Guid coinId) {
-            if (_coinProfileDicById.ContainsKey(coinId)) {
-                return _coinProfileDicById[coinId];
+            CoinProfileViewModel coinProfile;
+            if (!_coinProfileDicById.TryGetValue(coinId, out coinProfile)) {
+                lock (_coinProfileDicLocker) {
+                    if (!_coinProfileDicById.TryGetValue(coinId, out coinProfile)) {
+                        coinProfile = new CoinProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinProfile(coinId));
+                        _coinProfileDicById.Add(coinId, coinProfile);
+                    }
+                }
             }
-            CoinProfileViewModel coinProfile = new CoinProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinProfile(coinId));
-            _coinProfileDicById.Add(coinId, coinProfile);
             return coinProfile;
         }
 
+        private readonly object _coinKernelProfileLocker = new object();
         public CoinKernelProfileViewModel GetOrCreateCoinKernelProfileVm(Guid coinKernelId) {
-            if (_coinKernelProfileDicById.ContainsKey(coinKernelId)) {
-                return _coinKernelProfileDicById[coinKernelId];
+            CoinKernelProfileViewModel coinKernelProfileVm;
+            if (!_coinKernelProfileDicById.TryGetValue(coinKernelId, out coinKernelProfileVm)) {
+                lock (_coinKernelProfileLocker) {
+                    if (!_coinKernelProfileDicById.TryGetValue(coinKernelId, out coinKernelProfileVm)) {
+                        coinKernelProfileVm = new CoinKernelProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinKernelProfile(coinKernelId));
+                        _coinKernelProfileDicById.Add(coinKernelId, coinKernelProfileVm);
+                    }
+                }
             }
-            CoinKernelProfileViewModel coinKernelProfileViewModel = new CoinKernelProfileViewModel(NTMinerRoot.Current.MinerProfile.GetCoinKernelProfile(coinKernelId));
-            _coinKernelProfileDicById.Add(coinKernelId, coinKernelProfileViewModel);
-            return coinKernelProfileViewModel;
+            
+            return coinKernelProfileVm;
         }
     }
 }
