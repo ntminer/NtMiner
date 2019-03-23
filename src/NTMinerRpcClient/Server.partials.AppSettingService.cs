@@ -38,6 +38,17 @@ namespace NTMiner {
                 PostAsync(SControllerName, nameof(IAppSettingController.SetAppSetting), request, callback);
             }
             #endregion
+
+            #region SetAppSettingsAsync
+            public void SetAppSettingsAsync(List<AppSettingData> entities, Action<ResponseBase, Exception> callback) {
+                DataRequest<List<AppSettingData>> request = new DataRequest<List<AppSettingData>>() {
+                    Data = entities,
+                    LoginName = SingleUser.LoginName
+                };
+                request.SignIt(SingleUser.PasswordSha1);
+                PostAsync(SControllerName, nameof(IAppSettingController.SetAppSettings), request, callback);
+            }
+            #endregion
         }
     }
 }

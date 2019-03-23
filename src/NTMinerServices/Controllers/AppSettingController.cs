@@ -60,5 +60,26 @@ namespace NTMiner.Controllers {
                 return ResponseBase.ServerError(e.Message);
             }
         }
+
+        [HttpPost]
+        public ResponseBase SetAppSettings([FromBody]DataRequest<List<AppSettingData>> request) {
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput("参数错误");
+            }
+            try {
+                if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out ResponseBase response)) {
+                    return response;
+                }
+                foreach (var item in request.Data) {
+                    VirtualRoot.Execute(new ChangeAppSettingCommand(item));
+                    Write.DevLine($"{item.Key} {item.Value}");
+                }
+                return ResponseBase.Ok();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+                return ResponseBase.ServerError(e.Message);
+            }
+        }
     }
 }

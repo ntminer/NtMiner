@@ -1,6 +1,7 @@
 ﻿using NTMiner.MinerServer;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Core.MinerServer.Impl {
     public class AppSettingSet : IAppSettingSet {
@@ -44,6 +45,33 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                     VirtualRoot.Happened(new AppSettingChangedEvent(entity));
+                });
+            VirtualRoot.Accept<ChangeAppSettingsCommand>(
+                "处理设置AppSetting命令",
+                LogEnum.Console,
+                action: message => {
+                    if (message.AppSettings == null) {
+                        return;
+                    }
+                    foreach (var item in message.AppSettings) {
+                        AppSettingData entity;
+                        AppSettingData oldValue;
+                        if (_dicByKey.TryGetValue(item.Key, out entity)) {
+                            oldValue = new AppSettingData {
+                                Key = entity.Key,
+                                Value = entity.Value
+                            };
+                            entity.Value = item.Value;
+                        }
+                        else {
+                            entity = AppSettingData.Create(item);
+                            oldValue = null;
+                            _dicByKey.Add(item.Key, entity);
+                        }
+                        VirtualRoot.Happened(new AppSettingChangedEvent(entity));
+                    }
+                    Server.AppSettingService.SetAppSettingsAsync(message.AppSettings.Select(a=>AppSettingData.Create(a)).ToList(), (response, exception) => {
+                    });
                 });
         }
 

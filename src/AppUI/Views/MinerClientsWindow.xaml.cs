@@ -47,21 +47,21 @@ namespace NTMiner.Views {
                 });
             this.Closing += (object sender, System.ComponentModel.CancelEventArgs e)=> {
                 VirtualRoot.UnPath(refreshMinerClients);
-                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
-                    Key = "FrozenColumnCount",
-                    Value = Vm.FrozenColumnCount
-                }));
-                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
-                    Key = "MaxTemp",
-                    Value = Vm.MaxTemp
-                }));
-                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
-                    Key = "MinTemp",
-                    Value = Vm.MinTemp
-                }));
-                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
-                    Key = "RejectPercent",
-                    Value = Vm.RejectPercent
+                VirtualRoot.Execute(new ChangeAppSettingsCommand(
+                    new AppSettingData[]{
+                        new AppSettingData {
+                            Key = "FrozenColumnCount",
+                            Value = Vm.FrozenColumnCount
+                        },new AppSettingData {
+                            Key = "MaxTemp",
+                            Value = Vm.MaxTemp
+                        },new AppSettingData {
+                            Key = "MinTemp",
+                            Value = Vm.MinTemp
+                        },new AppSettingData {
+                            Key = "RejectPercent",
+                            Value = Vm.RejectPercent
+                        }
                 }));
             };
         }
