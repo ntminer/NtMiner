@@ -28,8 +28,14 @@ namespace NTMiner.Vms {
         private readonly bool _isGpuData;
         private readonly GpuData[] _gpuDatas;
         public GpuViewModel(GpuData gpuData, GpuData[] gpuDatas) {
+            if (gpuData == null) {
+                throw new System.ArgumentNullException(nameof(gpuData));
+            }
+            if (gpuDatas == null) {
+                throw new System.ArgumentNullException(nameof(gpuDatas));
+            }
             _isGpuData = true;
-            _gpuDatas = gpuDatas;
+            _gpuDatas = gpuDatas.Where(a => a.Index != NTMinerRoot.GpuAllId).ToArray();
             _gpuClockDelta = gpuData;
             _overClock = new EmptyOverClock();
             _index = gpuData.Index;
