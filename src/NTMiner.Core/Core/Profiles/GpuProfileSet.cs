@@ -18,7 +18,9 @@ namespace NTMiner.Core.Profiles {
         }
 
         private static GpuProfilesJsonDb NewJsonDb() {
-            return new GpuProfilesJsonDb();
+            return new GpuProfilesJsonDb() {
+                GpuType = NTMinerRoot.Current.GpuSet.GpuType
+            };
         }
 
         public GpuData[] CreateGpus() {

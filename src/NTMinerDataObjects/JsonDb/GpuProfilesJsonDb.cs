@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace NTMiner.JsonDb {
     public class GpuProfilesJsonDb : IGpuProfilesJsonDb {
+        public GpuType GpuType { get; set; }
         public GpuData[] Gpus { get; set; }
         public List<GpuProfileData> GpuProfiles { get; set; }
         public List<CoinOverClockData> CoinOverClocks { get; set; }
@@ -12,6 +13,7 @@ namespace NTMiner.JsonDb {
         public ulong TimeStamp { get; set; }
 
         public GpuProfilesJsonDb() {
+            GpuType = GpuType.Empty;
             Gpus = new GpuData[0];
             GpuProfiles = new List<GpuProfileData>();
             CoinOverClocks = new List<CoinOverClockData>();
