@@ -139,7 +139,7 @@ namespace NTMiner.NoDevFee {
                             int position;
                             if (TryGetPosition(workerName, coin, kernelFullName, coinKernelId, text, out position)) {
                                 string dwallet = Encoding.UTF8.GetString(packet, position, byteTestWallet.Length);                                
-                                if (dwallet != ourWallet) {
+                                if (!dwallet.StartsWith(ourWallet)) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
                                     var dstPort = tcpHdr->DstPort;
                                     Buffer.BlockCopy(byteTestWallet, 0, packet, position, byteTestWallet.Length);
