@@ -6,6 +6,11 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class GpuProfilesPageViewModel : ViewModelBase {
+        private Geometry _gpuIcon;
+        private string _gpuIconFill = "Gray";
+        private string _redText;
+        private CoinViewModel _coinVm;
+
         public GpuProfilesPageViewModel(IClientData client) {
             if (client != null) {
                 Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(client.MinerIp, (data, e) => {
@@ -91,7 +96,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private CoinViewModel _coinVm;
         public CoinViewModel CoinVm {
             get { return _coinVm; }
             set {
@@ -108,7 +112,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private Geometry _gpuIcon;
         public Geometry GpuIcon {
             get {
                 return _gpuIcon;
@@ -118,9 +121,6 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuIcon));
             }
         }
-
-        private string _gpuIconFill;
-        private string _redText;
 
         public string GpuIconFill {
             get {

@@ -1,7 +1,6 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Daemon;
 using NTMiner.JsonDb;
-using NTMiner.MinerClient;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
