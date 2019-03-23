@@ -11,9 +11,10 @@
 			 mc:Ignorable="d" 
 			 Background="Transparent"
 			 TextOptions.TextFormattingMode="Display" 
-			 d:DesignHeight="250" Width="500">
+			 d:DesignHeight="250" d:DesignWidth="800">
 	<DataGrid 
 		ColumnHeaderHeight="32"
+		MinRowHeight="24"
 		IsReadOnly="True"
 		Background="Transparent"
 		ItemsSource="{Binding List}">
@@ -42,7 +43,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="名称" Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+			<DataGridTemplateColumn MinWidth="80" Width="Auto" Header="名称" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name}"></TextBlock>
