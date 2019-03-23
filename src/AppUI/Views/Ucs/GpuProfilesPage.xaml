@@ -184,27 +184,23 @@
 									</Grid.RowDefinitions>
 									<TextBlock Grid.Row="0" Style="{StaticResource LblTb}">核心</TextBlock>
 									<WrapPanel Grid.Row="0" Grid.Column="1">
-										<TextBox ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBox ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="80"></TextBox>
 										<TextBlock>M</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
 									</WrapPanel>
 									<TextBlock Grid.Row="1" Style="{StaticResource LblTb}">显存</TextBlock>
 									<WrapPanel Grid.Row="1" Grid.Column="1">
-										<TextBox ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBox ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="80"></TextBox>
 										<TextBlock>M</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
 									</WrapPanel>
 									<TextBlock Grid.Row="2" Style="{StaticResource LblTb}">功耗</TextBlock>
 									<WrapPanel Grid.Row="2" Grid.Column="1">
-										<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="80"></TextBox>
 										<TextBlock>%</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
 									</WrapPanel>
 									<TextBlock Grid.Row="3" Style="{StaticResource LblTb}">风扇</TextBlock>
 									<WrapPanel Grid.Row="3" Grid.Column="1">
-										<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
+										<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="80"></TextBox>
 										<TextBlock>%</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
 									</WrapPanel>
 								</Grid>
 							</GroupBox>
