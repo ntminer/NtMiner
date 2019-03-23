@@ -45,8 +45,24 @@ namespace NTMiner.Views {
                 action: message => {
                     MinerClientsWindowViewModel.Current.QueryMinerClients();
                 });
-            this.Unloaded += (object sender, RoutedEventArgs e) => {
+            this.Closing += (object sender, System.ComponentModel.CancelEventArgs e)=> {
                 VirtualRoot.UnPath(refreshMinerClients);
+                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
+                    Key = "FrozenColumnCount",
+                    Value = Vm.FrozenColumnCount
+                }));
+                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
+                    Key = "MaxTemp",
+                    Value = Vm.MaxTemp
+                }));
+                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
+                    Key = "MinTemp",
+                    Value = Vm.MinTemp
+                }));
+                VirtualRoot.Execute(new ChangeAppSettingCommand(new AppSettingData {
+                    Key = "RejectPercent",
+                    Value = Vm.RejectPercent
+                }));
             };
         }
 
