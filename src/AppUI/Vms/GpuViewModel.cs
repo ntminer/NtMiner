@@ -1,9 +1,9 @@
 ﻿using NTMiner.Core.Gpus;
+using NTMiner.Core.Gpus.Impl;
 using System.Linq;
 
 namespace NTMiner.Vms {
     public class GpuViewModel : ViewModelBase, IGpu {
-        private GpuClockDeltaViewModel _gpuClockDeltaVm;
         private IOverClock _overClock;
         private int _index;
         private string _name;
@@ -238,7 +238,7 @@ namespace NTMiner.Vms {
                 if (Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     return $"{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Max(a => a.CoreClockDeltaMin) / 1000}至{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Min(a => a.CoreClockDeltaMax) / 1000}";
                 }
-                return $"{GpuClockDeltaVm.CoreClockDeltaMinMText} - {GpuClockDeltaVm.CoreClockDeltaMaxMText}";
+                return $"{GpuClockDelta.CoreClockDeltaMinMText()} - {GpuClockDelta.CoreClockDeltaMaxMText()}";
             }
         }
 
@@ -247,22 +247,19 @@ namespace NTMiner.Vms {
                 if (Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
                     return $"{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Max(a => a.MemoryClockDeltaMin) / 1000}至{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Min(a => a.MemoryClockDeltaMax) / 1000}";
                 }
-                return $"{GpuClockDeltaVm.MemoryClockDeltaMinMText} - {GpuClockDeltaVm.MemoryClockDeltaMaxMText}";
+                return $"{GpuClockDelta.MemoryClockDeltaMinMText()} - {GpuClockDelta.MemoryClockDeltaMaxMText()}";
             }
         }
 
-        public GpuClockDeltaViewModel GpuClockDeltaVm {
+        private IGpuClockDelta _gpuClockDelta;
+        public IGpuClockDelta GpuClockDelta {
             get {
-                if (_gpuClockDeltaVm == null) {
-                    IGpuClockDelta delta;
-                    if (NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.TryGetValue(this.Index, out delta)) {
-                        _gpuClockDeltaVm = new GpuClockDeltaViewModel(delta);
-                    }
-                    else {
-                        _gpuClockDeltaVm = GpuClockDeltaViewModel.Empty;
+                if (_gpuClockDelta == null) {
+                    if (!NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.TryGetValue(this.Index, out _gpuClockDelta)) {
+                        _gpuClockDelta = new GpuClockDelta(0, 0, 0, 0);
                     }
                 }
-                return _gpuClockDeltaVm;
+                return _gpuClockDelta;
             }
         }
     }

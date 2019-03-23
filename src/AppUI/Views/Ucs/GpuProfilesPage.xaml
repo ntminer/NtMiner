@@ -7,7 +7,7 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-		mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="600">
+		mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="800">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="40"></Setter>
@@ -122,25 +122,21 @@
 									<WrapPanel Grid.Row="0" Grid.Column="1">
 										<TextBox ToolTip="{Binding GpuVm.CoreClockDeltaMinMaxMText}" Text="{Binding CoreClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 										<TextBlock>M</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
 									</WrapPanel>
 									<TextBlock Grid.Row="1" Style="{StaticResource LblTb}">显存</TextBlock>
 									<WrapPanel Grid.Row="1" Grid.Column="1">
 										<TextBox ToolTip="{Binding GpuVm.MemoryClockDeltaMinMaxMText}" Text="{Binding MemoryClockDelta, ValidatesOnExceptions=True}" Width="50"></TextBox>
 										<TextBlock>M</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
 									</WrapPanel>
 									<TextBlock Grid.Row="2" Style="{StaticResource LblTb}">功耗</TextBlock>
 									<WrapPanel Grid.Row="2" Grid.Column="1">
 										<TextBox ToolTip="50至110" Text="{Binding PowerCapacity, ValidatesOnExceptions=True}" Width="50"></TextBox>
 										<TextBlock>%</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.PowerUsageWText}"></TextBlock>
 									</WrapPanel>
 									<TextBlock Grid.Row="3" Style="{StaticResource LblTb}">风扇</TextBlock>
 									<WrapPanel Grid.Row="3" Grid.Column="1">
 										<TextBox ToolTip="38至100" Text="{Binding Cool, ValidatesOnExceptions=True}" Width="50"></TextBox>
 										<TextBlock>%</TextBlock>
-										<TextBlock Margin="4 0 0 0" Text="{Binding GpuVm.FanSpeedText}"></TextBlock>
 									</WrapPanel>
 								</Grid>
 							</GroupBox>
