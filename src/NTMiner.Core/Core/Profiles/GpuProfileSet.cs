@@ -29,7 +29,13 @@ namespace NTMiner.Core.Profiles {
                     CoreClockDeltaMax = gpu.CoreClockDeltaMax,
                     CoreClockDeltaMin = gpu.CoreClockDeltaMin,
                     MemoryClockDeltaMax = gpu.MemoryClockDeltaMax,
-                    MemoryClockDeltaMin = gpu.MemoryClockDeltaMin
+                    MemoryClockDeltaMin = gpu.MemoryClockDeltaMin,
+                    Cool = gpu.Cool,
+                    CoolMax = gpu.CoolMax,
+                    CoolMin = gpu.CoolMin,
+                    Power = gpu.Power,
+                    PowerMax = gpu.PowerMax,
+                    PowerMin = gpu.PowerMin
                 });
             }
             return list.ToArray();
