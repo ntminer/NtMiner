@@ -89,7 +89,15 @@
 				</ItemsControl>
 			</WrapPanel>
 			<WrapPanel Grid.Column="1">
-				<TextBlock Foreground="Red" VerticalAlignment="Center">超频有风险，操作需谨慎。</TextBlock>
+				<Path
+					Margin="0 2 2 0"
+					Width="16"
+					Height="14"
+					Data="{Binding GpuIcon}"
+					Fill="{Binding GpuIconFill}"
+					Stretch="Fill">
+				</Path>
+				<TextBlock Foreground="Red" VerticalAlignment="Center" Text="{Binding RedText}"></TextBlock>
 				<controls:KbButton
 					Height="22"
 					ToolTip="点击应用超频设置"

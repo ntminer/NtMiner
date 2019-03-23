@@ -46,8 +46,6 @@ namespace NTMiner.Vms {
                         iconFill = "Red";
                         break;
                     case GpuType.Empty:
-                        iconFill = "Gray";
-                        break;
                     default:
                         iconFill = "Gray";
                         break;

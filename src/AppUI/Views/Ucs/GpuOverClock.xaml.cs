@@ -13,6 +13,18 @@ namespace NTMiner.Views.Ucs {
 
         public GpuOverClock() {
             InitializeComponent();
+            switch (NTMinerRoot.Current.GpuSet.GpuType) {
+                case GpuType.NVIDIA:
+                    this.TbRedText.Text = "超频有风险，操作需谨慎";
+                    break;
+                case GpuType.AMD:
+                    this.TbRedText.Text = "暂不支持A卡超频";
+                    break;
+                case GpuType.Empty:
+                default:
+                    this.TbRedText.Text = "没有显卡";
+                    break;
+            }
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
 

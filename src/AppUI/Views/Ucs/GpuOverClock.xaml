@@ -65,7 +65,7 @@
 				</ItemsControl>
 			</WrapPanel>
 			<WrapPanel Grid.Column="1">
-				<TextBlock Foreground="Red" VerticalAlignment="Center">超频有风险，操作需谨慎。</TextBlock>
+				<TextBlock x:Name="TbRedText" Foreground="Red" VerticalAlignment="Center"></TextBlock>
 				<controls:KbButton
 					Height="22"
 					ToolTip="点击应用超频设置"

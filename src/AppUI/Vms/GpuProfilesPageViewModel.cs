@@ -1,8 +1,8 @@
-﻿using NTMiner.Core.Gpus.Impl;
-using NTMiner.MinerClient;
+﻿using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class GpuProfilesPageViewModel : ViewModelBase {
@@ -13,6 +13,26 @@ namespace NTMiner.Vms {
                         Write.UserLine(e.Message, System.ConsoleColor.Red);
                     }
                     else if (data != null) {
+                        string iconName;
+                        switch (data.GpuType) {
+                            case GpuType.NVIDIA:
+                                iconName = "Icon_Nvidia";
+                                GpuIconFill = "Green";
+                                RedText = "超频有风险，操作需谨慎";
+                                break;
+                            case GpuType.AMD:
+                                iconName = "Icon_AMD";
+                                GpuIconFill = "Red";
+                                RedText = "暂不支持A卡超频";
+                                break;
+                            case GpuType.Empty:
+                            default:
+                                iconName = "Icon_GpuEmpty";
+                                GpuIconFill = "Gray";
+                                RedText = "挖矿端没有显卡";
+                                break;
+                        }
+                        GpuIcon = (Geometry)System.Windows.Application.Current.Resources[iconName];
                         foreach (var coinVm in CoinViewModels.Current.MainCoins) {
                             var coinOverClock = data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinVm.Id);
                             var gpuProfiles = data.GpuProfiles.Where(a => a.CoinId == coinVm.Id).ToArray();
@@ -77,6 +97,38 @@ namespace NTMiner.Vms {
             set {
                 _coinVm = value;
                 OnPropertyChanged(nameof(CoinVm));
+            }
+        }
+
+        public string RedText {
+            get => _redText;
+            set {
+                _redText = value;
+                OnPropertyChanged(nameof(RedText));
+            }
+        }
+
+        private Geometry _gpuIcon;
+        public Geometry GpuIcon {
+            get {
+                return _gpuIcon;
+            }
+            set {
+                _gpuIcon = value;
+                OnPropertyChanged(nameof(GpuIcon));
+            }
+        }
+
+        private string _gpuIconFill;
+        private string _redText;
+
+        public string GpuIconFill {
+            get {
+                return _gpuIconFill;
+            }
+            set {
+                _gpuIconFill = value;
+                OnPropertyChanged(nameof(GpuIconFill));
             }
         }
     }
