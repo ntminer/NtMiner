@@ -424,6 +424,13 @@ namespace NTMiner.Vms {
             set {
                 _power = value;
                 OnPropertyChanged(nameof(Power));
+                OnPropertyChanged(nameof(PowerText));
+            }
+        }
+
+        public string PowerText {
+            get {
+                return this.Power.ToString("f0") + "%";
             }
         }
     }

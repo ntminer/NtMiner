@@ -38,33 +38,16 @@
             ItemsSource="{Binding GpuSpeedVms}" 
             Background="Transparent" 
             ColumnHeaderHeight="32"
+            HorizontalScrollBarVisibility="Auto"
             MouseDoubleClick="DataGrid_MouseDoubleClick" BorderThickness="0">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <WrapPanel>
-                                <TextBlock Text="{DynamicResource DghGpuIndex}"></TextBlock>
-                                <controls:KbButton
-                                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
-                                    ToolTip="{x:Static local:SpeedTable.ViewId}"
-                                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                                    CommandParameter="{x:Static local:SpeedTable.ViewId}"
-                                    Padding="8 0"
-                                    Background="Transparent">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="14"
-                                            Height="14"
-                                            Data="{StaticResource Icon_Translate}"
-                                            Fill="{StaticResource ThemeBackground}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                            </WrapPanel>
+                            <TextBlock Text="{DynamicResource DghGpuIndex}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -73,7 +56,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="80" Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource DghGpuName}"></TextBlock>
                     </DataGridTemplateColumn.Header>
@@ -83,7 +66,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
                             <TextBlock Text="{Binding Data.MinerProfile.CoinVm.Code, Source={StaticResource proxy}}" FontSize="12"></TextBlock>
@@ -96,7 +79,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"
+                <DataGridTemplateColumn MinWidth="90" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True"
                     Visibility="{Binding Data.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Source={StaticResource proxy}, Converter={StaticResource BoolToHiddenConverter}}">
                     <DataGridTemplateColumn.Header>
                         <StackPanel>
@@ -110,7 +93,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{DynamicResource DghGpuTemperature}"></TextBlock>
@@ -122,7 +105,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="50" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{DynamicResource DghGpuFan}"></TextBlock>
@@ -134,7 +117,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="60" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -149,8 +132,52 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="40" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource DghGpuTotalPower}" FontSize="12"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.PowerText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="40" Header="核心" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.CoreClockDeltaMText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="40" Header="显存" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GpuVm.MemoryClockDeltaMText}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <controls:KbButton
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+            ToolTip="{x:Static local:SpeedTable.ViewId}"
+            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+            CommandParameter="{x:Static local:SpeedTable.ViewId}"
+            Padding="8 0"
+            Background="Transparent">
+            <WrapPanel>
+                <Path
+                    Width="14"
+                    Height="14"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="{StaticResource ThemeBackground}"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
         <TextBlock Visibility="{Binding GpuSpeedVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
     </Grid>
 </UserControl>
