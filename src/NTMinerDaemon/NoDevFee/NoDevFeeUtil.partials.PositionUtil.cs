@@ -4,7 +4,7 @@ namespace NTMiner.NoDevFee {
     public static partial class NoDevFeeUtil {
         private enum CoinKernelId {
             Undefined,
-            ETHClaymore
+            Claymore
         }
 
         private static bool IsMatch(string coin, string kernelFullName, out CoinKernelId coinKernelId) {
@@ -12,8 +12,8 @@ namespace NTMiner.NoDevFee {
             if (string.IsNullOrEmpty(coin) || string.IsNullOrEmpty(kernelFullName)) {
                 return false;
             }
-            if (coin == "ETH" && kernelFullName.IndexOf("claymore", StringComparison.OrdinalIgnoreCase) != -1) {
-                coinKernelId = CoinKernelId.ETHClaymore;
+            if (kernelFullName.IndexOf("claymore", StringComparison.OrdinalIgnoreCase) != -1) {
+                coinKernelId = CoinKernelId.Claymore;
                 return true;
             }
             return false;
@@ -21,7 +21,7 @@ namespace NTMiner.NoDevFee {
 
         private static bool TryGetPosition(string workerName, string coin, string kernelFullName, CoinKernelId coinKernelId, string ansiText, out int position) {
             position = 0;
-            if (coinKernelId == CoinKernelId.ETHClaymore) {
+            if (coinKernelId == CoinKernelId.Claymore) {
                 if (ansiText.Contains("eth_submitLogin")) {
                     if (ansiText.Contains($": \"{workerName}\",")) {
                         position = 91 + workerName.Length - "eth1.0".Length;
