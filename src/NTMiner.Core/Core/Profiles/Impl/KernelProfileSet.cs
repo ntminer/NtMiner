@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace NTMiner.Core.Profiles.Impl {
     public class KernelProfileSet : IKernelProfileSet {
@@ -12,7 +11,6 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly object _locker = new object();
         public KernelProfileSet(INTMinerRoot root) {
             _root = root;
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public IKernelProfile EmptyKernelProfile {
@@ -59,13 +57,15 @@ namespace NTMiner.Core.Profiles.Impl {
                     if (this.KernelId == Guid.Empty || this.Kernel == null) {
                         return InstallStatus.Installed;
                     }
+                    if (string.IsNullOrEmpty(this.Kernel.Package)) {
+                        return InstallStatus.Uninstalled;
+                    }
                     string packageFullName = this.Kernel.GetPackageFileFullName();
+                    if (string.IsNullOrEmpty(packageFullName)) {
+                        return InstallStatus.Uninstalled;
+                    }
                     if (File.Exists(packageFullName)) {
                         return InstallStatus.Installed;
-                    }
-                    List<string> packageHistoryFileFullNames = this.Kernel.GetPackageHistoryFileFullNames();
-                    if (packageHistoryFileFullNames.Any(a => File.Exists(a))) {
-                        return InstallStatus.CanUpdate;
                     }
                     return InstallStatus.Uninstalled;
                 }

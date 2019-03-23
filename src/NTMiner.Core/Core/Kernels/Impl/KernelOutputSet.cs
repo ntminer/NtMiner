@@ -11,13 +11,14 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly Dictionary<Guid, KernelOutputData> _dicById = new Dictionary<Guid, KernelOutputData>();
 
         private readonly INTMinerRoot _root;
+        private readonly bool _isUseJson;
 
-        public KernelOutputSet(INTMinerRoot root) {
+        public KernelOutputSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
-            Global.Access<AddKernelOutputCommand>(
-                Guid.Parse("142AE86A-C264-40B2-A617-D65E33C7FEE2"),
+            _isUseJson = isUseJson;
+            VirtualRoot.Accept<AddKernelOutputCommand>(
                 "添加内核输出组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -28,15 +29,14 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelOutputData entity = new KernelOutputData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>(isUseJson);
                     repository.Add(entity);
 
-                    Global.Happened(new KernelOutputAddedEvent(entity));
-                });
-            Global.Access<UpdateKernelOutputCommand>(
-                Guid.Parse("2A3CAE7E-D0E2-4E4B-B75B-357EB0BE1AA1"),
+                    VirtualRoot.Happened(new KernelOutputAddedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
+            VirtualRoot.Accept<UpdateKernelOutputCommand>(
                 "更新内核输出组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -49,16 +49,18 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     KernelOutputData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>(isUseJson);
                     repository.Update(entity);
 
-                    Global.Happened(new KernelOutputUpdatedEvent(entity));
-                });
-            Global.Access<RemoveKernelOutputCommand>(
-                Guid.Parse("43B565B4-1509-4DC6-9FA4-55D49C79C60A"),
+                    VirtualRoot.Happened(new KernelOutputUpdatedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
+            VirtualRoot.Accept<RemoveKernelOutputCommand>(
                 "移除内核输出组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -69,24 +71,23 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     IKernel[] outputUsers = root.KernelSet.Where(a => a.KernelOutputId == message.EntityId).ToArray();
                     if (outputUsers.Length != 0) {
-                        throw new ValidationException($"这些内核在使用该内核输出组，删除前请先解除使用：{string.Join(",", outputUsers.Select(a => a.FullName))}");
+                        throw new ValidationException($"这些内核在使用该内核输出组，删除前请先解除使用：{string.Join(",", outputUsers.Select(a => a.GetFullName()))}");
                     }
                     KernelOutputData entity = _dicById[message.EntityId];
                     List<Guid> kernelOutputFilterIds = root.KernelOutputFilterSet.Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
                     List<Guid> kernelOutputTranslaterIds = root.KernelOutputTranslaterSet.Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
                     foreach (var kernelOutputFilterId in kernelOutputFilterIds) {
-                        Global.Execute(new RemoveKernelOutputFilterCommand(kernelOutputFilterId));
+                        VirtualRoot.Execute(new RemoveKernelOutputFilterCommand(kernelOutputFilterId));
                     }
                     foreach (var kernelOutputTranslaterId in kernelOutputTranslaterIds) {
-                        Global.Execute(new RemoveKernelOutputTranslaterCommand(kernelOutputTranslaterId));
+                        VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(kernelOutputTranslaterId));
                     }
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>(isUseJson);
                     repository.Remove(message.EntityId);
 
-                    Global.Happened(new KernelOutputRemovedEvent(entity));
-                });
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
+                    VirtualRoot.Happened(new KernelOutputRemovedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;
@@ -102,7 +103,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -162,7 +163,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 PickRejectPercent(_root, input, kernelOutput, coin, isDual);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
 
@@ -185,17 +186,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     double totalSpeedL = totalSpeed.FromUnitSpeed(totalSpeedUnit);
                     var now = DateTime.Now;
                     GpusSpeed gpuSpeeds = (GpusSpeed)NTMinerRoot.Current.GpusSpeed;
-                    IGpuSpeed totalGpuSpeed = gpuSpeeds.First(a => a.Gpu.Index == NTMinerRoot.GpuAllId);
-                    gpuSpeeds.SetCurrentSpeed(totalGpuSpeed.Clone());
-                    if (isDual) {
-                        totalGpuSpeed.DualCoinSpeed.Value = totalSpeedL;
-                        totalGpuSpeed.DualCoinSpeed.SpeedOn = now;
-                    }
-                    else {
-                        totalGpuSpeed.MainCoinSpeed.Value = totalSpeedL;
-                        totalGpuSpeed.MainCoinSpeed.SpeedOn = now;
-                    }
-                    Global.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: totalGpuSpeed));
+                    gpuSpeeds.SetCurrentSpeed(NTMinerRoot.GpuAllId, totalSpeedL, isDual, now);
                     string gpuSpeedPattern = kernelOutput.GpuSpeedPattern;
                     if (isDual) {
                         gpuSpeedPattern = kernelOutput.DualGpuSpeedPattern;
@@ -205,16 +196,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         double gpuSpeedL = totalSpeedL / root.GpuSet.Count;
                         foreach (var item in gpuSpeeds) {
                             if (item.Gpu.Index != NTMinerRoot.GpuAllId) {
-                                gpuSpeeds.SetCurrentSpeed(item.Clone());
-                                if (isDual) {
-                                    item.DualCoinSpeed.Value = gpuSpeedL;
-                                    item.DualCoinSpeed.SpeedOn = now;
-                                }
-                                else {
-                                    item.MainCoinSpeed.Value = gpuSpeedL;
-                                    item.MainCoinSpeed.SpeedOn = now;
-                                }
-                                Global.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: item));
+                                gpuSpeeds.SetCurrentSpeed(item.Gpu.Index, gpuSpeedL, isDual, now);
                             }
                         }
                     }
@@ -251,17 +233,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     double gpuSpeed;
                     if (double.TryParse(gpuSpeedText, out gpuSpeed)) {
                         double gpuSpeedL = gpuSpeed.FromUnitSpeed(gpuSpeedUnit);
-                        IGpuSpeed gpuSpeedItem = gpuSpeeds.First(a => a.Gpu.Index == gpu);
-                        gpuSpeeds.SetCurrentSpeed(gpuSpeedItem.Clone());
-                        if (isDual) {
-                            gpuSpeedItem.DualCoinSpeed.Value = gpuSpeedL;
-                            gpuSpeedItem.DualCoinSpeed.SpeedOn = now;
-                        }
-                        else {
-                            gpuSpeedItem.MainCoinSpeed.Value = gpuSpeedL;
-                            gpuSpeedItem.MainCoinSpeed.SpeedOn = now;
-                        }
-                        Global.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: gpuSpeedItem));
+                        gpuSpeeds.SetCurrentSpeed(gpu, gpuSpeedL, isDual, now);
                     }
                 }
                 string totalSpeedPattern = kernelOutput.DualTotalSpeedPattern;
@@ -271,16 +243,9 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (string.IsNullOrEmpty(totalSpeedPattern)) {
                     // 求和分算力
                     IGpuSpeed totalGpuSpeed = gpuSpeeds.First(a => a.Gpu.Index == NTMinerRoot.GpuAllId);
-                    gpuSpeeds.SetCurrentSpeed(totalGpuSpeed.Clone());
-                    if (isDual) {
-                        totalGpuSpeed.DualCoinSpeed.Value = gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.DualCoinSpeed.Value);
-                        totalGpuSpeed.DualCoinSpeed.SpeedOn = now;
-                    }
-                    else {
-                        totalGpuSpeed.MainCoinSpeed.Value = gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.MainCoinSpeed.Value); ;
-                        totalGpuSpeed.MainCoinSpeed.SpeedOn = now;
-                    }
-                    Global.Happened(new GpuSpeedChangedEvent(isDualSpeed: isDual, gpuSpeed: totalGpuSpeed));
+                    double speed = isDual? gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.DualCoinSpeed.Value) 
+                                         : gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.MainCoinSpeed.Value);
+                    gpuSpeeds.SetCurrentSpeed(NTMinerRoot.GpuAllId, speed, isDual, now);
                 }
             }
         }
@@ -299,9 +264,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 int totalShare;
                 if (int.TryParse(totalShareText, out totalShare)) {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                    share.AcceptShareCount = totalShare - share.RejectCount;
-                    share.ShareOn = DateTime.Now;
-                    Global.Happened(new ShareChangedEvent(share));
+                    root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: totalShare - share.RejectShareCount, rejectShareCount: null, now: DateTime.Now);
                 }
             }
         }
@@ -319,10 +282,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 string acceptShareText = match.Groups["acceptShare"].Value;
                 int acceptShare;
                 if (int.TryParse(acceptShareText, out acceptShare)) {
-                    ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                    share.AcceptShareCount = acceptShare;
-                    share.ShareOn = DateTime.Now;
-                    Global.Happened(new ShareChangedEvent(share));
+                    root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: acceptShare, rejectShareCount: null, now: DateTime.Now);
                 }
             }
         }
@@ -338,9 +298,7 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = Regex.Match(input, acceptOneShare);
             if (match.Success) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                share.AcceptShareCount = share.AcceptShareCount + 1;
-                share.ShareOn = DateTime.Now;
-                Global.Happened(new ShareChangedEvent(share));
+                root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: share.AcceptShareCount + 1, rejectShareCount: null, now: DateTime.Now);
             }
         }
 
@@ -358,10 +316,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                 int rejectShare;
                 if (int.TryParse(rejectShareText, out rejectShare)) {
-                    ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                    share.RejectCount = rejectShare;
-                    share.ShareOn = DateTime.Now;
-                    Global.Happened(new ShareChangedEvent(share));
+                    root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: null, rejectShareCount: rejectShare, now: DateTime.Now);
                 }
             }
         }
@@ -377,9 +332,7 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = Regex.Match(input, rejectOneShare);
             if (match.Success) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                share.RejectCount = share.RejectCount + 1;
-                share.ShareOn = DateTime.Now;
-                Global.Happened(new ShareChangedEvent(share));
+                root.CoinShareSet.UpdateShare(coin.GetId(), null, share.RejectShareCount + 1, DateTime.Now);
             }
         }
 
@@ -396,9 +349,7 @@ namespace NTMiner.Core.Kernels.Impl {
             double rejectPercent;
             if (double.TryParse(rejectPercentText, out rejectPercent)) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
-                share.RejectCount = (int)(share.TotalShareCount * rejectPercent);
-                share.ShareOn = DateTime.Now;
-                Global.Happened(new ShareChangedEvent(share));
+                root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: null, rejectShareCount: (int)(share.TotalShareCount * rejectPercent), now: DateTime.Now);
             }
         }
         #endregion

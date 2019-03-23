@@ -4,6 +4,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class LangViewItemEdit : MetroWindow {
+        public static string ViewId = nameof(LangViewItemEdit);
+
         public static void ShowWindow(LangViewItemViewModel vm) {
             LangViewItemEdit window = new LangViewItemEdit(vm);
             window.ShowDialog();

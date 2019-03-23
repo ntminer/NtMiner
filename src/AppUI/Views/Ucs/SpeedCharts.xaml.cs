@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
@@ -49,12 +50,11 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
-            DelegateHandler<GpuSpeedChangedEvent> gpuSpeedChangedEventHandler = Global.Access<GpuSpeedChangedEvent>(
-                Guid.Parse("2cb8adb2-1e7e-433e-8904-ae71d9563c20"),
+            DelegateHandler<GpuSpeedChangedEvent> gpuSpeedChangedEventHandler = VirtualRoot.On<GpuSpeedChangedEvent>(
                 "显卡算力变更后刷新算力图界面",
-                LogEnum.None,
+                LogEnum.Console,
                 action: (message) => {
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         if (mainCoinId != NTMinerRoot.Current.MinerProfile.CoinId) {
                             mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
                             foreach (var speedChartVm in Vm.SpeedChartVms) {
@@ -119,7 +119,7 @@ namespace NTMiner.Views.Ucs {
 
             Vm.ItemsPanelColumns = 1;
             this.Unloaded += (object sender, RoutedEventArgs e) => {
-                Global.UnAccess(gpuSpeedChangedEventHandler);
+                VirtualRoot.UnPath(gpuSpeedChangedEventHandler);
                 foreach (var item in Vm.SpeedChartVms) {
                     item.Series = null;
                     item.SeriesShadow = null;
@@ -205,6 +205,10 @@ namespace NTMiner.Views.Ucs {
                     speedChartVm.SetAxisLimits(now);
                 }
             }
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

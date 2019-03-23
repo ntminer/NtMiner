@@ -110,25 +110,13 @@ namespace NTMiner.Notifications {
             return builder;
         }
 
-        public static NotificationMessageBuilder Warning(this NotificationMessageBuilder builder, string message) {
-            builder.Accent("#E0A030")
-                .Background("#333")
-                .HasBadge("提示");
-            builder.SetMessage(message);
-
-            return builder;
-        }
-
         /// <summary>
         /// Creates the message.
         /// </summary>
         /// <param name="manager">The manager.</param>
         /// <returns>Returns the notification message builder.</returns>
-        public static NotificationMessageBuilder CreateMessage(
-            this INotificationMessageManager manager) {
-            var builder = NotificationMessageBuilder.CreateMessage();
-            builder.Manager = manager;
-            builder.Message = manager.Factory.GetMessage();
+        public static NotificationMessageBuilder CreateMessage(this INotificationMessageManager manager) {
+            var builder = NotificationMessageBuilder.CreateMessage(manager);
 
             return builder;
         }
@@ -222,8 +210,7 @@ namespace NTMiner.Notifications {
         private static Action<INotificationMessage> DismissBefore(
             this NotificationMessageBuilder builder,
             Action<INotificationMessage> callback) {
-            return call =>
-            {
+            return call => {
                 builder.Manager.Dismiss(builder.Message);
                 callback?.Invoke(builder.Message);
             };
@@ -241,8 +228,7 @@ namespace NTMiner.Notifications {
         private static Action<INotificationMessageButton> DismissBefore(
             this NotificationMessageBuilder builder,
             Action<INotificationMessageButton> callback) {
-            return button =>
-            {
+            return button => {
                 builder.Manager.Dismiss(builder.Message);
                 callback?.Invoke(button);
             };

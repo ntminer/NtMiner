@@ -8,10 +8,21 @@ namespace NTMiner.Vms {
         public static readonly CoinKernelViewModels Current = new CoinKernelViewModels();
         private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
         private CoinKernelViewModels() {
-            Global.Access<CoinKernelAddedEvent>(
-                Guid.Parse("b3d7280d-3107-4730-a111-f34dd5cf4ede"),
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                AllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
+            VirtualRoot.On<CoinKernelAddedEvent>(
                 "添加了币种内核后刷新VM内存",
-                LogEnum.Log, action: (message) => {
+                LogEnum.Console,
+                action: (message) => {
                     var coinKernelVm = new CoinKernelViewModel(message.Source);
                     _dicById.Add(message.Source.GetId(), coinKernelVm);
                     OnPropertyChanged(nameof(AllCoinKernels));
@@ -28,14 +39,14 @@ namespace NTMiner.Vms {
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.CoinVms));
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoinVms));
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoins));
-                });
-            Global.Access<CoinKernelUpdatedEvent>(
-                Guid.Parse("48afedd3-5005-46a2-ae23-3f6f99a77683"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<CoinKernelUpdatedEvent>(
                 "更新了币种内核后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     CoinKernelViewModel entity = _dicById[message.Source.GetId()];
                     var supportedGpu = entity.SupportedGpu;
+                    int sortNumber = entity.SortNumber;
                     Guid dualCoinGroupId = entity.DualCoinGroupId;
                     entity.Update(message.Source);
                     if (supportedGpu != entity.SupportedGpu) {
@@ -55,11 +66,16 @@ namespace NTMiner.Vms {
                     if (dualCoinGroupId != entity.DualCoinGroupId) {
                         entity.OnPropertyChanged(nameof(entity.DualCoinGroup));
                     }
-                });
-            Global.Access<CoinKernelRemovedEvent>(
-                Guid.Parse("0a2937bc-bb9c-4369-92b1-3c41eeb170ce"),
+                    if (sortNumber != entity.SortNumber) {
+                        CoinViewModel coinVm;
+                        if (CoinViewModels.Current.TryGetCoinVm(entity.CoinId, out coinVm)) {
+                            coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
+                        }
+                    }
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<CoinKernelRemovedEvent>(
                 "移除了币种内核后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     var coinKernelVm = _dicById[message.Source.GetId()];
                     _dicById.Remove(message.Source.GetId());
@@ -77,7 +93,7 @@ namespace NTMiner.Vms {
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.CoinVms));
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoinVms));
                     coinKernelVm.Kernel.OnPropertyChanged(nameof(coinKernelVm.Kernel.SupportedCoins));
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             foreach (var item in NTMinerRoot.Current.CoinKernelSet) {
                 _dicById.Add(item.GetId(), new CoinKernelViewModel(item));
             }

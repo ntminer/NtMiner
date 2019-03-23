@@ -9,7 +9,7 @@ namespace NTMiner.Converters {
             if (value == null) {
                 return string.Empty;
             }
-            return $"    {value}";
+            return $"  {value}";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

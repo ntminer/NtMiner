@@ -1,32 +1,28 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner.ServiceContracts;
+using NTMiner;
+using NTMiner.Controllers;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Security.Cryptography;
-using System.ServiceModel;
 using System.Text.RegularExpressions;
 using System.Windows;
+using NTMiner.Profile;
+using NTMiner.Serialization;
 
 namespace UnitTestProject1 {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
-        public void HttpHeadTest() {
-            string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/server1.1.2.json";
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(url));
-            webRequest.Method = "HEAD";
-            HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
-            string etag = response.GetResponseHeader("ETag");
-            Console.WriteLine(etag);
-        }
-
-        [TestMethod]
         public void Test1() {
             string a = null;
             string s = $"{null}-{a}";
             Assert.AreEqual("-", s);
+        }
+
+        [TestMethod]
+        public void MathTest() {
+            Assert.AreEqual(8, Math.Pow(2, 3));
         }
 
         [TestMethod]
@@ -90,6 +86,9 @@ namespace UnitTestProject1 {
             Console.WriteLine(0.00000012000025222.ToString("f7"));
             Console.WriteLine(1.ToString("f7"));
             Console.WriteLine(1.1.ToString("f0"));
+
+            Console.WriteLine(1.12.ToString("f1"));
+            Console.WriteLine(1.17.ToString("f1"));
         }
 
         [TestMethod]
@@ -117,32 +116,59 @@ namespace UnitTestProject1 {
         }
 
         [TestMethod]
-        public void WcfTest() {
-            BasicHttpBinding BasicHttpBinding = new BasicHttpBinding {
-                TransferMode = TransferMode.Streamed,
-                SendTimeout = new TimeSpan(0, 30, 0),
-                MaxReceivedMessageSize = 10485760,
-                Security = { Mode = BasicHttpSecurityMode.None },
-                Name = "BasicHttpBinding",
-                ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas() {
-                    MaxArrayLength = 1048576,
-                    MaxStringContentLength = 1000000
-                }
-            };
+        public void RunCloseTest() {
+            string location = NTMiner.NTMinerRegistry.GetLocation();
+            NTMiner.Windows.Cmd.RunClose(location, string.Empty);
+        }
 
-            NetTcpBinding NetTcpBinding = new NetTcpBinding {
-                TransferMode = TransferMode.Streamed,
-                SendTimeout = new TimeSpan(0, 30, 0),
-                MaxReceivedMessageSize = 10737418240,
-                Security = { Mode = SecurityMode.None },
-                Name = "TcpBinding",
-                ReaderQuotas = new System.Xml.XmlDictionaryReaderQuotas() {
-                    MaxArrayLength = 1048576,
-                    MaxStringContentLength = 1000000
-                }
+        [TestMethod]
+        public void StringJoinTest() {
+            object[] values = new object[] { "tsss", 1, null, (UnitTest1)null };
+            Console.WriteLine(string.Join(",", values));
+        }
+
+        [TestMethod]
+        public void SpeedChangeTest() {
+            Assert.IsFalse(28.1.IsChange(28, 0.1));
+        }
+
+        [TestMethod]
+        public void GetControllerNameTest() {
+            Assert.AreEqual("FileUrl", ControllerUtil.GetControllerName<IFileUrlController>());
+        }
+
+        [TestMethod]
+        public void HashUtilTest() {
+            string[] values = new[]
+            {
+                "ntminer", "测试", "helloworld", "s d-,"
             };
-            var factory = new ChannelFactory<IControlCenterService>(BasicHttpBinding, new EndpointAddress(new Uri(new Uri($"http://test:111/"), typeof(IControlCenterService).Name)));
-            var channel = factory.CreateChannel();
+            foreach (var value in values) {
+                string v1 = HashUtil.EncDecInOne(value);
+                Console.WriteLine(v1);
+                Assert.AreEqual(value, HashUtil.EncDecInOne(v1));
+            }
+        }
+
+        [TestMethod]
+        public void ObjectJsonSerializerTest() {
+            PoolProfileData data = new PoolProfileData {
+                Password = "sssaaa",
+                PoolId = Guid.NewGuid(),
+                UserName = "test"
+            };
+            Console.WriteLine(new ObjectJsonSerializer().Serialize(data));
+        }
+
+        [TestMethod]
+        public void IntTest() {
+            int i;
+            Assert.IsTrue(int.TryParse("001", out i));
+        }
+
+        [TestMethod]
+        public void ZipTest() {
+            ZipUtil.DecompressZipFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "lolminer0.7Alpha5.zip"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp"));
         }
     }
 }

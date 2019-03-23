@@ -8,9 +8,8 @@
         xmlns:vm="clr-namespace:NTMiner.Vms"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
     <UserControl.Resources>
-        <Style TargetType="Label">
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
             <Setter Property="Width" Value="60"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
         </Style>
         <sys:String x:Key="WindowTitle">
             字典
@@ -18,19 +17,19 @@
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
-            <Label>编码:</Label>
+            <TextBlock Style="{StaticResource LblTb}">编码:</TextBlock>
             <TextBox Width="120" VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
             </TextBox>
-            <Label>名称:</Label>
+            <TextBlock Style="{StaticResource LblTb}">名称:</TextBlock>
             <TextBox Width="120" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
             </TextBox>
-            <Label>排序:</Label>
+            <TextBlock Style="{StaticResource LblTb}">排序:</TextBlock>
             <TextBox Width="60" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
 
         <WrapPanel Margin="0 2">
-            <Label>简介:</Label>
+            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">简介:</TextBlock>
             <TextBox Width="420" Background="Transparent" Padding="0 4"
                      AcceptsReturn="True" TextWrapping="Wrap" 
                      VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
@@ -41,24 +40,24 @@
         <controls:KbButton
             Command="{Binding Save}" 
             VerticalAlignment="Bottom"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
             Margin="0 10 0 0"
-            Width="70" 
-            Height="30"
-            Background="{StaticResource IconFillColor}"
-            Foreground="White"
+            Padding="10 0"
+            HorizontalAlignment="Center"
+            Background="{StaticResource ThemeBackground}"
+            Foreground="{StaticResource ThemeForeground}"
             CornerRadius="2">
             <WrapPanel>
                 <Path
                     Width="12"
                     Height="12"
                     Data="{StaticResource Icon_Ok}"
-                    Fill="White"
+                    Fill="{StaticResource ThemeForeground}"
                     Stretch="Fill" />
                 <TextBlock
                     Padding="4"
                     VerticalAlignment="Center"
-                    Foreground="White"
+                    Foreground="{StaticResource ThemeForeground}"
                     Text="确定" />
             </WrapPanel>
         </controls:KbButton>

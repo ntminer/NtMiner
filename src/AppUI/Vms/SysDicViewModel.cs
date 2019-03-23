@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.SysDics;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class SysDicViewModel : ViewModelBase, ISysDic {
+    public class SysDicViewModel : ViewModelBase, ISysDic, IEditableViewModel {
         private Guid _id;
         private string _code;
         private string _name;
@@ -38,10 +37,10 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.SysDicSet.ContainsKey(this.Id)) {
-                    Global.Execute(new UpdateSysDicCommand(this));
+                    VirtualRoot.Execute(new UpdateSysDicCommand(this));
                 }
                 else {
-                    Global.Execute(new AddSysDicCommand(this));
+                    VirtualRoot.Execute(new AddSysDicCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
@@ -49,27 +48,27 @@ namespace NTMiner.Vms {
                 new SysDicItemViewModel(Guid.NewGuid()) {
                     DicId = id,
                     SortNumber = this.SysDicItems.Count + 1
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
-            this.Edit = new DelegateCommand(() => {
-                SysDicEdit.ShowEditWindow(this);
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
+                SysDicEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Code}系统字典吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveSysDicCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                    VirtualRoot.Execute(new RemoveSysDicCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 SysDicViewModel upOne = SysDicViewModels.Current.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateSysDicCommand(upOne));
+                    VirtualRoot.Execute(new UpdateSysDicCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateSysDicCommand(this));
+                    VirtualRoot.Execute(new UpdateSysDicCommand(this));
                     SysDicViewModels.Current.OnPropertyChanged(nameof(SysDicViewModels.List));
                 }
             });
@@ -78,9 +77,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateSysDicCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateSysDicCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateSysDicCommand(this));
+                    VirtualRoot.Execute(new UpdateSysDicCommand(this));
                     SysDicViewModels.Current.OnPropertyChanged(nameof(SysDicViewModels.List));
                 }
             });
@@ -89,8 +88,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -129,16 +130,20 @@ namespace NTMiner.Vms {
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
             }
         }
 
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 

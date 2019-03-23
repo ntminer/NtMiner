@@ -4,11 +4,14 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelEdit : UserControl {
-        public static void ShowEditWindow(KernelViewModel source) {
+        public static string ViewId = nameof(KernelEdit);
+
+        public static void ShowWindow(FormType formType, KernelViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IconName = "Icon_Kernel",
                 IsDialogWindow = true,
-                Width = 580,
+                Width = 620,
                 Height = 400,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
@@ -32,11 +35,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void CoinKernelDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            if (dg.SelectedItem != null) {
-                CoinKernelViewModel kernelVm = (CoinKernelViewModel)dg.SelectedItem;
-                kernelVm.Edit.Execute(null);
-            }
+            Wpf.Util.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
         }
     }
 }

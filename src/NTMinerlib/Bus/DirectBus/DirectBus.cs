@@ -3,9 +3,8 @@ namespace NTMiner.Bus.DirectBus {
     using System;
     using System.Collections.Generic;
 
-    public abstract class DirectBus : DisposableObject, IBus {
+    public abstract class DirectBus : IBus {
         #region Private Fields
-        private volatile bool _committed = true;
         private readonly IMessageDispatcher _dispatcher;
         private readonly Queue<dynamic> _messageQueue = new Queue<dynamic>();
         private readonly object _queueLock = new object();
@@ -21,16 +20,10 @@ namespace NTMiner.Bus.DirectBus {
         }
         #endregion
 
-        #region Protected Methods
-        protected override void Dispose(bool disposing) {
-        }
-        #endregion
-
         #region IBus Members
         public void Publish<TMessage>(TMessage message) {
             lock (_queueLock) {
                 _messageQueue.Enqueue(message);
-                _committed = false;
             }
         }
 
@@ -39,7 +32,6 @@ namespace NTMiner.Bus.DirectBus {
                 foreach (var message in messages) {
                     _messageQueue.Enqueue(message);
                 }
-                _committed = false;
             }
         }
 
@@ -50,15 +42,6 @@ namespace NTMiner.Bus.DirectBus {
         }
         #endregion
 
-        #region IUnitOfWork Members
-        public bool DistributedTransactionSupported {
-            get { return false; }
-        }
-
-        public bool Committed {
-            get { return this._committed; }
-        }
-
         public void Commit() {
             lock (_queueLock) {
                 _backupMessageArray = new dynamic[_messageQueue.Count];
@@ -66,21 +49,7 @@ namespace NTMiner.Bus.DirectBus {
                 while (_messageQueue.Count > 0) {
                     _dispatcher.DispatchMessage(_messageQueue.Dequeue());
                 }
-                _committed = true;
             }
         }
-
-        public void Rollback() {
-            lock (_queueLock) {
-                if (_backupMessageArray != null && _backupMessageArray.Length > 0) {
-                    _messageQueue.Clear();
-                    foreach (var msg in _backupMessageArray) {
-                        _messageQueue.Enqueue(msg);
-                    }
-                }
-                _committed = false;
-            }
-        }
-        #endregion
     }
 }

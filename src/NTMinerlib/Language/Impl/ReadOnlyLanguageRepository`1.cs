@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Language.Impl {
-    public class ReadOnlyLanguageRepository<T> : IRepository<T> where T : class, IDbEntity<Guid> {
+    public class ReadOnlyLanguageRepository<T> : IRepository<T>, IReadOnlyRepository where T : class, IDbEntity<Guid> {
         public ReadOnlyLanguageRepository() { }
 
         public void Add(T entity) {
-            throw new NotImplementedException();
+            // noting need todo
         }
 
         public bool Exists(Guid key) {
@@ -23,11 +23,11 @@ namespace NTMiner.Language.Impl {
         }
 
         public void Remove(Guid id) {
-            throw new NotImplementedException();
+            // noting need todo
         }
 
         public void Update(T entity) {
-            throw new NotImplementedException();
+            // noting need todo
         }
     }
 }

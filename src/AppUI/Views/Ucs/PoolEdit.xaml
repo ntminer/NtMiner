@@ -1,213 +1,215 @@
 ﻿<UserControl x:Class="NTMiner.Views.Ucs.PoolEdit"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-             xmlns:vm="clr-namespace:NTMiner.Vms"
-		     mc:Ignorable="d"
-		     d:DataContext="{d:DesignData Source=Design/PoolViewModel.xaml}"
-             xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
-             d:DesignWidth="540" d:DesignHeight="400"
-             Background="White">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="Label">
-                <Setter Property="Width" Value="84"></Setter>
-                <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
-            </Style>
-            <sys:String x:Key="WindowTitle">
-                WindowTitle
-            </sys:String>
-            <sys:String x:Key="Pool">
-                Pool
-            </sys:String>
-            <sys:String x:Key="Kernel">
-                Kernel
-            </sys:String>
-            <sys:String x:Key="Args">
-                Args
-            </sys:String>
-            <sys:String x:Key="TbNoRecord">
-                TbNoRecord
-            </sys:String>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Grid>
-        <TabControl 
-		    Padding="0" BorderThickness="0" 
-		    BorderBrush="{StaticResource LineColor}">
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="{DynamicResource Pool}" Padding="10 0"></TextBlock>
-                </TabItem.Header>
-                <Grid Width="504">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackPanel>
-                        <WrapPanel Margin="0 2">
-                            <Label>所属币种:</Label>
-                            <TextBlock VerticalAlignment="Center" Text="{Binding CoinCode}">
-                            </TextBlock>
-                        </WrapPanel>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+			 xmlns:vm="clr-namespace:NTMiner.Vms"
+			 mc:Ignorable="d"
+			 d:DataContext="{d:DesignData Source=Design/PoolViewModel.xaml}"
+			 xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+			 d:DesignWidth="540" d:DesignHeight="400"
+			 Background="White">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/AppUI;component/Styles/KbWallet.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+				<Setter Property="Width" Value="84"></Setter>
+			</Style>
+			<sys:String x:Key="WindowTitle">
+				WindowTitle
+			</sys:String>
+			<sys:String x:Key="Pool">
+				Pool
+			</sys:String>
+			<sys:String x:Key="Kernel">
+				Kernel
+			</sys:String>
+			<sys:String x:Key="Args">
+				Args
+			</sys:String>
+			<sys:String x:Key="TbNoRecord">
+				TbNoRecord
+			</sys:String>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Grid>
+		<TabControl 
+			Padding="0" BorderThickness="0" 
+			BorderBrush="{StaticResource LineColor}">
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="{DynamicResource Pool}" Padding="10 0"></TextBlock>
+				</TabItem.Header>
+				<Grid Width="504">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*"></RowDefinition>
+						<RowDefinition Height="Auto"></RowDefinition>
+					</Grid.RowDefinitions>
+					<StackPanel>
+						<WrapPanel Margin="0 2">
+							<TextBlock Style="{StaticResource LblTb}">所属币种:</TextBlock>
+							<TextBlock VerticalAlignment="Center" Text="{Binding CoinCode}">
+							</TextBlock>
+						</WrapPanel>
 
-                        <WrapPanel Margin="0 2">
-                            <Label>矿池名称:</Label>
-                            <TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
-                            </TextBox>
-                        </WrapPanel>
+						<WrapPanel Margin="0 2">
+							<TextBlock Style="{StaticResource LblTb}">矿池名称:</TextBlock>
+							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+							</TextBox>
+						</WrapPanel>
 
-                        <WrapPanel Margin="0 2">
-                            <Label>矿池地址:</Label>
-                            <TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Server, ValidatesOnExceptions=True}">
-                            </TextBox>
-                        </WrapPanel>
+						<WrapPanel Margin="0 2">
+							<TextBlock Style="{StaticResource LblTb}">矿池地址:</TextBlock>
+							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Server, ValidatesOnExceptions=True}">
+							</TextBox>
+						</WrapPanel>
 
-                        <WrapPanel Margin="0 2">
-                            <Label>收益查看地址:</Label>
-                            <TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Url}">
-                            </TextBox>
-                        </WrapPanel>
+						<WrapPanel Margin="0 2">
+							<TextBlock Style="{StaticResource LblTb}">收益查看地址:</TextBlock>
+							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Url}">
+							</TextBox>
+						</WrapPanel>
 
-                        <WrapPanel Margin="0 2">
-                            <Label>简介:</Label>
-                            <TextBox 
-                                Width="420" Background="Transparent" Padding="0 4"
-                                IsReadOnly="{Binding IsReadOnly}"
-                                AcceptsReturn="True" TextWrapping="Wrap" 
-                                VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-                                Text="{Binding Description, Mode=TwoWay}" Height="100">
-                            </TextBox>
-                        </WrapPanel>
-                        <WrapPanel Margin="0 2" HorizontalAlignment="Right">
-                            <controls:KbCheckBox
-				                Content="用户名密码模式"
-                                IsEnabled="{Binding IsReadOnly, Converter={StaticResource BooleanInvertConverter}}"
-				                IconColor="{StaticResource IconFillColor}"
-				                IsChecked="{Binding IsUserMode}" />
-                            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center">测试用户名</TextBlock>
-                            <TextBox Width="180" Height="26" IsEnabled="{Binding IsUserMode}" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding UserName}">
-                            </TextBox>
-                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center">密码</TextBlock>
-                            <TextBox Width="100" Height="26" IsEnabled="{Binding IsUserMode}" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Password}">
-                            </TextBox>
-                        </WrapPanel>
-                        <WrapPanel>
-                            <TextBlock Foreground="Red" TextWrapping="Wrap">由于添加用户名密码模式的矿池需要填写复杂的矿池级参数，用户添加起来有一定门槛，所以暂不对用户开发这个功能。</TextBlock>
-                        </WrapPanel>
-                    </StackPanel>
-                    
-                    <controls:KbButton
-			            Grid.Row="1"
-                        Command="{Binding Save}" 
-                        Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVisibilityInvertConverter}}"
-                        Margin="0 10 0 0"
-                        Width="70" 
-                        Height="30"
-                        Background="{StaticResource IconFillColor}"
-                        Foreground="White"
-                        CornerRadius="2">
-                        <WrapPanel>
-                            <Path
-                                Width="12"
-                                Height="12"
-                                Data="{StaticResource Icon_Ok}"
-                                Fill="White"
-                                Stretch="Fill" />
-                            <TextBlock
-                                Padding="4"
-                                VerticalAlignment="Center"
-                                Foreground="White"
-                                Text="确定" />
-                        </WrapPanel>
-                    </controls:KbButton>
-                </Grid>
-            </TabItem>
+						<WrapPanel Margin="0 2">
+							<TextBlock Style="{StaticResource LblTb}">简介:</TextBlock>
+							<TextBox 
+								Width="420" Background="Transparent" Padding="0 4"
+								IsReadOnly="{Binding IsReadOnly}"
+								AcceptsReturn="True" TextWrapping="Wrap" 
+								VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+								Text="{Binding Description, Mode=TwoWay}" Height="100">
+							</TextBox>
+						</WrapPanel>
+						<WrapPanel Margin="0 2" HorizontalAlignment="Right" Height="26">
+							<controls:KbCheckBox
+								Content="用户名密码模式"
+								IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
+								IconColor="{StaticResource IconFillColor}"
+								IsChecked="{Binding IsUserMode}" />
+							<WrapPanel Visibility="{Binding IsUserMode,Converter={StaticResource BoolToHiddenConverter}}">
+								<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">测试用户名</TextBlock>
+								<TextBox Width="180" Height="26" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding UserName}">
+								</TextBox>
+								<TextBlock Margin="4 0 0 0" VerticalAlignment="Center">密码</TextBlock>
+								<TextBox Width="100" Height="26" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Password}">
+								</TextBox>
+							</WrapPanel>
+						</WrapPanel>
+					</StackPanel>
+					<WrapPanel Grid.Row="1" Margin="0 10 0 0" HorizontalAlignment="Center">
+						<TextBlock 
+							Visibility="{Binding IsNew,Converter={StaticResource BoolToVisibilityConverter}}"
+							VerticalAlignment="Center" 
+							Foreground="Red" 
+							Text="保存后请根据自带矿池判断是否需要填写矿池级参数"></TextBlock>
+						<controls:KbButton
+							Margin="4 0 0 0"
+							Command="{Binding Save}" 
+							Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVisibilityInvertConverter}}"
+							Padding="10 0"
+							Background="{StaticResource ThemeBackground}"
+							Foreground="{StaticResource ThemeForeground}"
+							CornerRadius="2">
+							<WrapPanel>
+								<Path
+									Width="12"
+									Height="12"
+									Data="{StaticResource Icon_Ok}"
+									Fill="{StaticResource ThemeForeground}"
+									Stretch="Fill" />
+								<TextBlock
+									Padding="4"
+									VerticalAlignment="Center"
+									Foreground="{StaticResource ThemeForeground}"
+									Text="确定" />
+							</WrapPanel>
+						</controls:KbButton>
+					</WrapPanel>
+				</Grid>
+			</TabItem>
 
-            <!--start矿池级参数-->
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Padding="10 0" Text="{DynamicResource Kernel}"></TextBlock>
-                </TabItem.Header>
-                <Grid>
-                    <DataGrid 
-                        ItemsSource="{Binding PoolKernels}" 
-                        BorderThickness="1 0 0 0" 
-                        BorderBrush="{StaticResource LineColor}"
-                        MouseDoubleClick="KernelDataGrid_MouseDoubleClick">
-                        <DataGrid.Resources>
-                            <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
-                        </DataGrid.Resources>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn MinWidth="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
-                                <DataGridTextColumn.Header>
-                                    <WrapPanel>
-                                        <TextBlock Text="{DynamicResource Kernel}"></TextBlock>
-                                    </WrapPanel>
-                                </DataGridTextColumn.Header>
-                            </DataGridTextColumn>
-                            <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{DynamicResource Args}"></TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Args}"></TextBlock>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn 
-                                MinWidth="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
-                                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
-                                            <controls:KbButton Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
-                                                Margin="2 0"
-                                                CornerRadius="2" ToolTip="编辑">
-                                                <WrapPanel>
-                                                    <Path
-                                                        Width="18"
-                                                        Height="18"
-                                                        Data="{StaticResource Icon_Edit}"
-                                                        Fill="{StaticResource IconFillColor}"
-                                                        Stretch="Fill" />
-                                                </WrapPanel>
-                                            </controls:KbButton>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <TextBlock Visibility="{Binding PoolKernels, Converter={StaticResource NoRecordConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
-                </Grid>
-            </TabItem>
-            <!--end矿池级参数-->
-        </TabControl>
-        <controls:KbButton
-		    Margin="4"
-		    VerticalAlignment="Top"
-		    HorizontalAlignment="Right"
-		    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-		    ToolTip="PoolEdit translate"
-		    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-		    CommandParameter="PoolEdit"
-		    Background="Transparent">
-            <WrapPanel>
-                <Path
-				    Width="14"
-				    Height="14"
-				    Data="{StaticResource Icon_Translate}"
-				    Fill="Red"
-				    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
-    </Grid>
+			<!--start矿池级参数-->
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Padding="10 0" Text="{DynamicResource Kernel}"></TextBlock>
+				</TabItem.Header>
+				<Grid>
+					<DataGrid 
+						ItemsSource="{Binding PoolKernels}" 
+						BorderThickness="1 0 0 0" 
+						BorderBrush="{StaticResource LineColor}"
+						MouseDoubleClick="KernelDataGrid_MouseDoubleClick">
+						<DataGrid.Resources>
+							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+						</DataGrid.Resources>
+						<DataGrid.Columns>
+							<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Binding="{Binding Kernel.FullName}">
+								<DataGridTextColumn.Header>
+									<WrapPanel>
+										<TextBlock Text="{DynamicResource Kernel}"></TextBlock>
+									</WrapPanel>
+								</DataGridTextColumn.Header>
+							</DataGridTextColumn>
+							<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+								<DataGridTemplateColumn.Header>
+									<TextBlock Text="{DynamicResource Args}"></TextBlock>
+								</DataGridTemplateColumn.Header>
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Args}"></TextBlock>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTemplateColumn 
+								CanUserResize="True" CanUserSort="False" IsReadOnly="True"
+								Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+											<controls:KbButton Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+												Margin="2 0"
+												CornerRadius="2" ToolTip="编辑">
+												<WrapPanel>
+													<Path
+														Width="18"
+														Height="18"
+														Data="{StaticResource Icon_Edit}"
+														Fill="{StaticResource IconFillColor}"
+														Stretch="Fill" />
+												</WrapPanel>
+											</controls:KbButton>
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+					<TextBlock Visibility="{Binding PoolKernels, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
+				</Grid>
+			</TabItem>
+			<!--end矿池级参数-->
+		</TabControl>
+		<controls:KbButton
+			Margin="4"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Right"
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			ToolTip="{x:Static local:PoolEdit.ViewId}"
+			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+			CommandParameter="{x:Static local:PoolEdit.ViewId}"
+			Background="Transparent">
+			<WrapPanel>
+				<Path
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Translate}"
+					Fill="{StaticResource ThemeBackground}"
+					Stretch="Fill" />
+			</WrapPanel>
+		</controls:KbButton>
+	</Grid>
 </UserControl>

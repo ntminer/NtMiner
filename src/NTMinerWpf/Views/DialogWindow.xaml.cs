@@ -1,19 +1,21 @@
 ﻿using MahApps.Metro.Controls;
+using NTMiner.Wpf;
 using System;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class DialogWindow : MetroWindow {
+        public static readonly string ViewId = nameof(DialogWindow);
+
         public static void ShowDialog(string icon = null,
             string title = null,
             string message = null,
             Action onYes = null,
             Action onNo = null) {
             Window window = new DialogWindow(icon, title, message, onYes, onNo);
-            var owner = TopWindow.GetTopWindow();
-            if (owner != window) {
-                window.Owner = owner;
+            if (window.Owner != null) {
+                window.MouseBottom();
                 double ownerOpacity = window.Owner.Opacity;
                 window.Owner.Opacity = 0.6;
                 window.ShowDialog();
@@ -34,6 +36,7 @@ namespace NTMiner.Views {
             Action onYes, 
             Action onNo) {
             InitializeComponent();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             this.Resources["Title"] = title;
             this.Resources["Message"] = message;
             if (!string.IsNullOrEmpty(icon) && Application.Current.Resources.Contains(icon)) {

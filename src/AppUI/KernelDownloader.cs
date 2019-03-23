@@ -5,7 +5,9 @@ using System;
 namespace NTMiner {
     public class KernelDownloader : IKernelDownloader {
         public void Download(Guid kernelId, Action<bool, string> downloadComplete) {
-            KernelPage.ShowWindow(kernelId, downloadComplete);
+            UIThread.Execute(() => {
+                KernelPage.ShowWindow(kernelId, downloadComplete);
+            });
         }
     }
 }

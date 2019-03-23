@@ -1,0 +1,26 @@
+﻿<Window x:Class="NTMiner.Views.NotiCenterWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:notification="clr-namespace:NTMiner.Notifications.Controls"
+		xmlns:local="clr-namespace:NTMiner.Views"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		mc:Ignorable="d"
+		WindowStartupLocation="Manual" 
+		ShowInTaskbar="False" 
+		WindowStyle="None" 
+		WindowState="Normal"
+		SnapsToDevicePixels="True" 
+		ResizeMode="NoResize"
+		AllowsTransparency="True"
+		Background="Transparent"
+		StateChanged="Window_StateChanged"
+		Width="600"
+		Title="通知中心"
+		MouseDown="MetroWindow_MouseDown">
+	<Grid>
+		<notification:NotificationMessageContainer
+			Manager="{Binding Manager}" />
+	</Grid>
+</Window>

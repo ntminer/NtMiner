@@ -5,134 +5,134 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
-        Background="#DCEAF4"
-        BorderThickness="0 0 1 0"
-	    DataContext="{x:Static vm:KernelPageViewModel.Current}"
+		Background="#DCEAF4"
+		BorderThickness="0 0 1 0"
+		DataContext="{x:Static vm:KernelPageViewModel.Current}"
 		mc:Ignorable="d" d:DesignHeight="520" Width="294">
-    <UserControl.Resources>
-        <sys:String x:Key="Downloading">
-            Downloading
-        </sys:String>
-        <sys:String x:Key="TbNoRecord">
-            TbNoRecord
-        </sys:String>
-        <sys:String x:Key="CancelDownload">
-            CancelDownload
-        </sys:String>
-    </UserControl.Resources>
-    <UserControl.Effect>
-        <DropShadowEffect Color="LightGray" BlurRadius="16" ShadowDepth="0" Opacity="1" />
-    </UserControl.Effect>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource Downloading}"></TextBlock>
-            <controls:KbButton
-                HorizontalAlignment="Right"
-                Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                ToolTip="KernelDownloading translate"
-                Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                CommandParameter="KernelDownloading"
-                Padding="8 0"
-                Background="Transparent">
-                <WrapPanel>
-                    <Path
-                        Width="14"
-                        Height="14"
-                        Data="{StaticResource Icon_Translate}"
-                        Fill="Red"
-                        Stretch="Fill" />
-                </WrapPanel>
-            </controls:KbButton>
-            <controls:KbSystemButton
-                Grid.Column="1"
-                Click="BtnHide_Click"
-			    KbSystemButtonForeground="#385263"
-                KbSystemButtonHoverBackground="Red"
-			    Icon="{StaticResource Icon_Close}"
-			    IconHeight="12"
-			    IconWidth="12">
-            </controls:KbSystemButton>
-        </Grid>
-        <ItemsControl 
-            Grid.Row="1"
-            Margin="4 0 4 0"
+	<UserControl.Resources>
+		<sys:String x:Key="Downloading">
+			Downloading
+		</sys:String>
+		<sys:String x:Key="TbNoRecord">
+			TbNoRecord
+		</sys:String>
+		<sys:String x:Key="CancelDownload">
+			CancelDownload
+		</sys:String>
+	</UserControl.Resources>
+	<UserControl.Effect>
+		<DropShadowEffect Color="LightGray" BlurRadius="16" ShadowDepth="0" Opacity="1" />
+	</UserControl.Effect>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource Downloading}"></TextBlock>
+			<controls:KbButton
+				HorizontalAlignment="Right"
+				Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+				ToolTip="{x:Static local:KernelDownloading.ViewId}"
+				Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+				CommandParameter="{x:Static local:KernelDownloading.ViewId}"
+				Padding="8 0"
+				Background="Transparent">
+				<WrapPanel>
+					<Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Translate}"
+						Fill="{StaticResource ThemeBackground}"
+						Stretch="Fill" />
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbSystemButton
+				Grid.Column="1"
+				Click="BtnHide_Click"
+				KbSystemButtonForeground="#385263"
+				KbSystemButtonHoverBackground="Red"
+				Icon="{StaticResource Icon_Close}"
+				IconHeight="12"
+				IconWidth="12">
+			</controls:KbSystemButton>
+		</Grid>
+		<ItemsControl 
+			Grid.Row="1"
+			Margin="4 0 4 0"
 			ItemsSource="{Binding DownloadingVms}" 
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Background="Transparent">
-                    </StackPanel>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="284" Margin="0 1">
-                        <Grid Background="#EDF4FA">
-                            <Rectangle
-                                Width="{Binding KernelProfileVm.DownloadPercent, ConverterParameter=284, Converter={StaticResource PercentToLengthConverter}}" 
-                                HorizontalAlignment="Left" Fill="#6FBBFE"></Rectangle>
-                        </Grid>
-                        <Border Padding="6 4">
-                            <WrapPanel>
-                                <StackPanel Width="176">
-                                    <WrapPanel>
-                                        <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding FullName}"></TextBlock>
-                                        <Path
-                                            Margin="4 0 0 0"
-				                            Width="18"
-				                            Height="14"
-                                            ToolTip="NVIDIA"
-                                            Visibility="{Binding IsNvidiaIconVisible}"
-				                            Data="{StaticResource Icon_Nvidia}"
-				                            Fill="Green"
-				                            Stretch="Fill" />
-                                        <Path
-                                            Margin="4 0 0 0"
-				                            Width="16"
-				                            Height="14"
-                                            ToolTip="AMD"
-                                            Visibility="{Binding IsAMDIconVisible}"
-				                            Data="{StaticResource Icon_AMD}"
-				                            Fill="Red"
-				                            Stretch="Fill" />
-                                    </WrapPanel>
-                                    <TextBlock Text="{Binding SizeMbText}"></TextBlock>
-                                </StackPanel>
-                                <TextBlock
-                                    TextAlignment="Center"
-                                    Height="26"
-                                    Width="78"
-								    Padding="8 4"
-                                    Text="{Binding KernelProfileVm.DownloadMessage}"></TextBlock>
-                                <controls:KbButton 
-                                    Command="{Binding KernelProfileVm.CancelDownload}"
-                                    ToolTip="{DynamicResource CancelDownload}"
-						            Background="Transparent" BorderThickness="0">
-                                    <Path
-							            Width="14"
-							            Height="14"
-							            Data="{StaticResource Icon_Cancel}"
-							            Fill="{StaticResource IconFillColor}"
-							            Stretch="Fill" />
-                                </controls:KbButton>
-                            </WrapPanel>
-                        </Border>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <TextBlock Grid.Row="1" Visibility="{Binding DownloadingVms, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
-    </Grid>
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Background="Transparent">
+					</StackPanel>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Grid Width="284" Margin="0 1">
+						<Grid Background="#EDF4FA">
+							<Rectangle
+								Width="{Binding KernelProfileVm.DownloadPercent, ConverterParameter=284, Converter={StaticResource PercentToLengthConverter}}" 
+								HorizontalAlignment="Left" Fill="#6FBBFE"></Rectangle>
+						</Grid>
+						<Border Padding="6 4">
+							<WrapPanel>
+								<StackPanel Width="176">
+									<WrapPanel>
+										<TextBlock FontSize="14" FontWeight="Bold" Text="{Binding FullName}"></TextBlock>
+										<Path
+											Margin="4 0 0 0"
+											Width="18"
+											Height="14"
+											ToolTip="NVIDIA"
+											Visibility="{Binding IsNvidiaIconVisible}"
+											Data="{StaticResource Icon_Nvidia}"
+											Fill="Green"
+											Stretch="Fill" />
+										<Path
+											Margin="4 0 0 0"
+											Width="16"
+											Height="14"
+											ToolTip="AMD"
+											Visibility="{Binding IsAMDIconVisible}"
+											Data="{StaticResource Icon_AMD}"
+											Fill="Red"
+											Stretch="Fill" />
+									</WrapPanel>
+									<TextBlock Text="{Binding SizeMbText}"></TextBlock>
+								</StackPanel>
+								<TextBlock
+									TextAlignment="Center"
+									Height="26"
+									Width="78"
+									Padding="8 4"
+									Text="{Binding KernelProfileVm.DownloadMessage}"></TextBlock>
+								<controls:KbButton 
+									Command="{Binding KernelProfileVm.CancelDownload}"
+									ToolTip="{DynamicResource CancelDownload}"
+									Background="Transparent" BorderThickness="0">
+									<Path
+										Width="14"
+										Height="14"
+										Data="{StaticResource Icon_Cancel}"
+										Fill="{StaticResource IconFillColor}"
+										Stretch="Fill" />
+								</controls:KbButton>
+							</WrapPanel>
+						</Border>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+		<TextBlock Grid.Row="1" Visibility="{Binding DownloadingVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{DynamicResource TbNoRecord}"></TextBlock>
+	</Grid>
 </UserControl>

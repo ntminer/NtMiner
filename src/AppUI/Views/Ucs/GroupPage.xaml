@@ -1,294 +1,297 @@
 ﻿<UserControl x:Class="NTMiner.Views.Ucs.GroupPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:vm="clr-namespace:NTMiner.Vms"
-             xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-             Background="White"
-             TextOptions.TextFormattingMode="Display" 
-             DataContext="{x:Static vm:GroupPageViewModel.Current}"
-             mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="660">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <sys:String x:Key="WindowTitle">
-                WindowTitle
-            </sys:String>
-            <sys:String x:Key="Name">
-                Name
-            </sys:String>
-            <sys:String x:Key="Sort">
-                Sort
-            </sys:String>
-            <sys:String x:Key="Coin">
-                Coin
-            </sys:String>
-            <sys:String x:Key="Add">
-                Add
-            </sys:String>
-            <sys:String x:Key="TbNoRecord">
-                TbNoRecord
-            </sys:String>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="4"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <controls:KbButton
-            HorizontalAlignment="Left"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            ToolTip="GroupPage translate"
-            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-            CommandParameter="GroupPage"
-            Padding="8 0"
-            Background="Transparent">
-            <WrapPanel>
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="{StaticResource Icon_Translate}"
-                    Fill="Red"
-                    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
-        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding GroupVms.List}"
-                  SelectedItem="{Binding CurrentGroup}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
-                  MouseDoubleClick="DataGrid_MouseDoubleClick">
-            <DataGrid.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn 
-                    MinWidth="80" CanUserResize="False" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-                    <DataGridTemplateColumn.Header>
-                        <controls:KbButton  
-                            Command="{Binding Data.GroupVms.Add, Source={StaticResource proxy}}" 
-                            Background="Transparent" BorderThickness="0"
-                            Margin="10 0"
-                            CornerRadius="2" ToolTip="{DynamicResource Add}">
-                            <WrapPanel>
-                                <Path
-                                    Width="18"
-                                    Height="18"
-                                    Data="{StaticResource Icon_Add}"
-                                    Fill="{StaticResource IconFillColor}"
-                                    Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel 
-                                HorizontalAlignment="Right" 
-                                Background="Transparent" 
-                                VerticalAlignment="Center" 
-                                Orientation="Horizontal">
-                                <controls:KbButton 
-                                    Margin="2 0"
-                                    Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
-                                    CornerRadius="2" ToolTip="上移">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="18"
-                                            Height="18"
-                                            Data="{StaticResource Icon_SortUp}"
-                                            Fill="{StaticResource IconFillColor}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                                <controls:KbButton 
-                                    Margin="2 0"
-                                    Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
-                                    CornerRadius="2" ToolTip="下移">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="18"
-                                            Height="18"
-                                            Data="{StaticResource Icon_SortDown}"
-                                            Fill="{StaticResource IconFillColor}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                                <controls:KbButton 
-                                    Command="{Binding Edit}" 
-                                    Background="Transparent" 
-                                    BorderThickness="0"
-                                    Margin="2 0"
-                                    CornerRadius="2" ToolTip="编辑">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="18"
-                                            Height="18"
-                                            Data="{StaticResource Icon_Edit}"
-                                            Fill="{StaticResource IconFillColor}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                                <controls:KbButton 
-                                    Command="{Binding Remove}" 
-                                    Background="Transparent" 
-                                    BorderThickness="0"
-                                    Margin="2 0"
-                                    CornerRadius="2" ToolTip="删除">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="18"
-                                            Height="18"
-                                            Data="{StaticResource Icon_Delete}"
-                                            Fill="{StaticResource IconFillColor}"
-                                            Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="200" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource Name}"></TextBlock>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn 
-                        Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                        CanUserSort="False" IsReadOnly="True" >
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{DynamicResource Sort}"></TextBlock>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding SortNumber}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
-        <WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-            <Label Width="40" Content="{DynamicResource Coin}"></Label>
-            <controls:KbComboBox 
-                        x:Name="CbCoins"
-                        BorderThickness="0"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+			 xmlns:vm="clr-namespace:NTMiner.Vms"
+			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+			 Background="White"
+			 TextOptions.TextFormattingMode="Display" 
+			 DataContext="{x:Static vm:GroupPageViewModel.Current}"
+			 mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="660">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<sys:String x:Key="WindowTitle">
+				WindowTitle
+			</sys:String>
+			<sys:String x:Key="Name">
+				Name
+			</sys:String>
+			<sys:String x:Key="Sort">
+				Sort
+			</sys:String>
+			<sys:String x:Key="Coin">
+				Coin
+			</sys:String>
+			<sys:String x:Key="Add">
+				Add
+			</sys:String>
+			<sys:String x:Key="TbNoRecord">
+				TbNoRecord
+			</sys:String>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"></ColumnDefinition>
+			<ColumnDefinition Width="4"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<controls:KbButton
+			HorizontalAlignment="Left"
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			ToolTip="{x:Static local:GroupPage.ViewId}"
+			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+			CommandParameter="{x:Static local:GroupPage.ViewId}"
+			Padding="8 0"
+			Background="Transparent">
+			<WrapPanel>
+				<Path
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Translate}"
+					Fill="{StaticResource ThemeBackground}"
+					Stretch="Fill" />
+			</WrapPanel>
+		</controls:KbButton>
+		<DataGrid 
+			Grid.Row="1" Grid.Column="0" ItemsSource="{Binding GroupVms.List}"
+			SelectedItem="{Binding CurrentGroup}" 
+			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
+			MouseDoubleClick="DataGrid_MouseDoubleClick">
+			<DataGrid.Resources>
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+			</DataGrid.Resources>
+			<DataGrid.Columns>
+				<DataGridTemplateColumn 
+					CanUserResize="True" IsReadOnly="True"
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+					<DataGridTemplateColumn.Header>
+						<controls:KbButton  
+							Command="{Binding Data.GroupVms.Add, Source={StaticResource proxy}}" 
+							Background="Transparent" BorderThickness="0"
+							Margin="10 0"
+							CornerRadius="2" ToolTip="{DynamicResource Add}">
+							<WrapPanel>
+								<Path
+									Width="18"
+									Height="18"
+									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</WrapPanel>
+						</controls:KbButton>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel 
+								HorizontalAlignment="Right" 
+								Background="Transparent" 
+								VerticalAlignment="Center" 
+								Orientation="Horizontal">
+								<controls:KbButton 
+									Margin="2 0"
+									Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
+									CornerRadius="2" ToolTip="上移">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_SortUp}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+								<controls:KbButton 
+									Margin="2 0"
+									Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
+									CornerRadius="2" ToolTip="下移">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_SortDown}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+								<controls:KbButton 
+									Command="{Binding Edit}" 
+									Background="Transparent" 
+									BorderThickness="0"
+									Margin="2 0"
+									CornerRadius="2" ToolTip="编辑">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Edit}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+								<controls:KbButton 
+									Command="{Binding Remove}" 
+									Background="Transparent" 
+									BorderThickness="0"
+									Margin="2 0"
+									CornerRadius="2" ToolTip="删除">
+									<WrapPanel>
+										<Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Delete}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+									</WrapPanel>
+								</controls:KbButton>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource Name}"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn 
+						CanUserResize="True" CanUserReorder="False" 
+						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+						CanUserSort="False" IsReadOnly="True" >
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="{DynamicResource Sort}"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding SortNumber}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding GroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
+		<WrapPanel Grid.Row="0" Grid.Column="2" Margin="0 2" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+			<Label Width="40" Content="{DynamicResource Coin}"></Label>
+			<controls:KbComboBox 
+						x:Name="CbCoins"
+						BorderThickness="0"
 						Width="132" ItemsSource="{Binding CurrentGroup.CoinVms}" 
 						DisplayMemberPath="CodeAlgo">
-                <controls:KbComboBox.ItemContainerStyle>
-                    <Style TargetType="ComboBoxItem">
-                        <Setter Property="Height" Value="30"></Setter>
-                    </Style>
-                </controls:KbComboBox.ItemContainerStyle>
-            </controls:KbComboBox>
-            <controls:KbButton 
-                        Command="{Binding CurrentGroup.AddCoinGroup}" 
-                        CommandParameter="{Binding ElementName=CbCoins, Path=SelectedItem}"
-                        Background="Transparent" BorderThickness="0"
-                        Margin="2 0"
-                        CornerRadius="2" 
-                        Content="{DynamicResource Add}">
-            </controls:KbButton>
-        </WrapPanel>
-        <Grid Grid.Row="1" Grid.Column="2">
-            <DataGrid 
-                ItemsSource="{Binding CurrentGroup.CoinGroupVms}" 
-                BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}">
-                <DataGrid.Resources>
-                    <vm:BindingProxy x:Key="proxy" Data="{Binding CurrentGroup}" />
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource Coin}"></TextBlock>
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding CoinVm.Code}"></TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn 
-                        Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                        CanUserSort="False" IsReadOnly="True">
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource Sort}"></TextBlock>
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding SortNumber}"></TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn 
-                        MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel 
-                                    HorizontalAlignment="Right" 
-                                    Background="Transparent" 
-                                    VerticalAlignment="Center" 
-                                    Orientation="Horizontal">
-                                    <controls:KbButton 
-                                        Margin="2 0"
-                                        Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
-                                        CornerRadius="2" ToolTip="上移">
-                                        <WrapPanel>
-                                            <Path
-                                                Width="18"
-                                                Height="18"
-                                                Data="{StaticResource Icon_SortUp}"
-                                                Fill="{StaticResource IconFillColor}"
-                                                Stretch="Fill" />
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                    <controls:KbButton 
-                                        Margin="2 0"
-                                        Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
-                                        CornerRadius="2" ToolTip="下移">
-                                        <WrapPanel>
-                                            <Path
-                                                Width="18"
-                                                Height="18"
-                                                Data="{StaticResource Icon_SortDown}"
-                                                Fill="{StaticResource IconFillColor}"
-                                                Stretch="Fill" />
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                    <controls:KbButton 
-                                        Command="{Binding Remove}" 
-                                        Background="Transparent" 
-                                        BorderThickness="0"
-                                        Margin="2 0"
-                                        CornerRadius="2" ToolTip="删除">
-                                        <WrapPanel>
-                                            <Path
-                                                Width="18"
-                                                Height="18"
-                                                Data="{StaticResource Icon_Delete}"
-                                                Fill="{StaticResource IconFillColor}"
-                                                Stretch="Fill" />
-                                        </WrapPanel>
-                                    </controls:KbButton>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <TextBlock Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentGroup.CoinGroupVms, Converter={StaticResource NoRecordConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
-        </Grid>
-    </Grid>
+				<controls:KbComboBox.ItemContainerStyle>
+					<Style TargetType="ComboBoxItem">
+						<Setter Property="Height" Value="30"></Setter>
+					</Style>
+				</controls:KbComboBox.ItemContainerStyle>
+			</controls:KbComboBox>
+			<controls:KbButton 
+						Command="{Binding CurrentGroup.AddCoinGroup}" 
+						CommandParameter="{Binding ElementName=CbCoins, Path=SelectedItem}"
+						Background="Transparent" BorderThickness="0"
+						Margin="2 0"
+						CornerRadius="2" 
+						Content="{DynamicResource Add}">
+			</controls:KbButton>
+		</WrapPanel>
+		<Grid Grid.Row="1" Grid.Column="2">
+			<DataGrid 
+				ItemsSource="{Binding CurrentGroup.CoinGroupVms}" 
+				BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}">
+				<DataGrid.Resources>
+					<controls:BindingProxy x:Key="proxy" Data="{Binding CurrentGroup}" />
+				</DataGrid.Resources>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+						<DataGridTemplateColumn.Header>
+							<TextBlock Text="{DynamicResource Coin}"></TextBlock>
+						</DataGridTemplateColumn.Header>
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding CoinVm.Code}"></TextBlock>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn 
+						CanUserResize="True" CanUserReorder="False" 
+						Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+						CanUserSort="False" IsReadOnly="True">
+						<DataGridTemplateColumn.Header>
+							<TextBlock Text="{DynamicResource Sort}"></TextBlock>
+						</DataGridTemplateColumn.Header>
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding SortNumber}"></TextBlock>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn 
+						MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel 
+									Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+									HorizontalAlignment="Right" 
+									Background="Transparent" 
+									VerticalAlignment="Center" 
+									Orientation="Horizontal">
+									<controls:KbButton 
+										Margin="2 0"
+										Command="{Binding SortUp}" Background="Transparent" BorderThickness="0"
+										CornerRadius="2" ToolTip="上移">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_SortUp}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+									<controls:KbButton 
+										Margin="2 0"
+										Command="{Binding SortDown}" Background="Transparent" BorderThickness="0"
+										CornerRadius="2" ToolTip="下移">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_SortDown}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+									<controls:KbButton 
+										Command="{Binding Remove}" 
+										Background="Transparent" 
+										BorderThickness="0"
+										Margin="2 0"
+										CornerRadius="2" ToolTip="删除">
+										<WrapPanel>
+											<Path
+												Width="18"
+												Height="18"
+												Data="{StaticResource Icon_Delete}"
+												Fill="{StaticResource IconFillColor}"
+												Stretch="Fill" />
+										</WrapPanel>
+									</controls:KbButton>
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+			<TextBlock Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentGroup.CoinGroupVms, Converter={StaticResource NoRecordVisibilityConverter}}" Text="{DynamicResource TbNoRecord}"></TextBlock>
+		</Grid>
+	</Grid>
 </UserControl>

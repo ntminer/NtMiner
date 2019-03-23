@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Core.Impl {
-    internal class Speed : ISpeed {
+    public class Speed : ISpeed {
         public static ISpeed Empty = new Speed {
             Value = 0
         };

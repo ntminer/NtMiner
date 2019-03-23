@@ -1,6 +1,4 @@
-﻿using LiteDB;
-using NTMiner.Data.Impl;
-using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,15 +47,13 @@ namespace NTMiner {
                         double usdCny = PickUsdCny(html);
                         Console.WriteLine($"usdCny={usdCny}");
                         List<IncomeItem> incomeItems = PickIncomeItems(html);
+                        Console.WriteLine($"鱼池首页有{incomeItems.Count}个币种");
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
-                        foreach (IncomeItem incomeItem in incomeItems) {
-                            Console.WriteLine(incomeItem.ToString());
-                        }
-                        Console.WriteLine(incomeItems.Count + "条");
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
-                            GetCalcConfigsResponse response = Server.ControlCenterService.GetCalcConfigs();
+                            DataResponse<List<CalcConfigData>> response = OfficialServer.GetCalcConfigs();
+                            Console.WriteLine($"NTMiner有{response.Data.Count}个币种");
                             HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                             foreach (CalcConfigData calcConfigData in response.Data) {
                                 IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
@@ -71,8 +67,26 @@ namespace NTMiner {
                                     calcConfigData.ModifiedOn = DateTime.Now;
                                 }
                             }
-                            Server.ControlCenterService.SaveCalcConfigsAsync(response.Data);
-                            Console.WriteLine($"更新了{string.Join(",", coinCodes)}");
+                            OfficialServer.SaveCalcConfigsAsync(response.Data, null);
+                            foreach (IncomeItem incomeItem in incomeItems) {
+                                if (coinCodes.Contains(incomeItem.CoinCode)) {
+                                    continue;
+                                }
+                                Console.WriteLine(incomeItem.ToString());
+                            }
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            foreach (var incomeItem in incomeItems) {
+                                if (!coinCodes.Contains(incomeItem.CoinCode)) {
+                                    continue;
+                                }
+                                Console.WriteLine(incomeItem.ToString());
+                            }
+                            Console.ResetColor();
+
+                            Console.WriteLine($"更新了{coinCodes.Count}个币种：{string.Join(",", coinCodes)}");
+                            int unUpdatedCount = response.Data.Count - coinCodes.Count;
+                            Console.WriteLine($"{unUpdatedCount}个币种未更新{(unUpdatedCount == 0 ? string.Empty: "：" + string.Join(",", response.Data.Select(a => a.CoinCode).Except(coinCodes)))}");
                         }
                     }
                 }
@@ -83,21 +97,14 @@ namespace NTMiner {
         }
 
         private static void Login() {
-            // 约定收益计算器运行在NTMinerServer程序的子目录
-            string ntMinerServerLocalDbFileFullName = Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.FullName, "local.litedb");
-            using (var db = new LiteDatabase($"filename={ntMinerServerLocalDbFileFullName};journal=false")) {
-                var col = db.GetCollection<UserData>();
-                UserData user = col.FindOne(Query.All());
-                if (user != null) {
-                    Server.LoginName = user.LoginName;
-                    Server.Password = user.Password;
-                    Console.WriteLine($"LoginName:{user.LoginName}");
-                    Console.Write($"Password:");
-                    Console.ForegroundColor = Console.BackgroundColor;
-                    Console.WriteLine(user.Password);
-                    Console.ResetColor();
-                }
-            }
+            // 本机运行，不验证用户名密码
+            SingleUser.LoginName = "CalcConfigUpdater";
+            SingleUser.SetPasswordSha1("123");
+            Console.WriteLine($"LoginName:CalcConfigUpdater");
+            Console.Write($"Password:");
+            Console.ForegroundColor = Console.BackgroundColor;
+            Console.WriteLine("123");
+            Console.ResetColor();
         }
 
         private static void FillCny(List<IncomeItem> incomeItems, double usdCny) {
@@ -173,14 +180,11 @@ namespace NTMiner {
                     incomeItem.CoinCode = "grin2";
                     incomeItem.SpeedUnit = "h/s";
                 }
-                double speed = 0;
-                double.TryParse(match.Groups["speed"].Value, out speed);
+                double.TryParse(match.Groups["speed"].Value, out double speed);
                 incomeItem.Speed = speed;
-                double incomeCoin = 0;
-                double.TryParse(match.Groups["incomeCoin"].Value, out incomeCoin);
+                double.TryParse(match.Groups["incomeCoin"].Value, out double incomeCoin);
                 incomeItem.IncomeCoin = incomeCoin;
-                double incomeUsd = 0;
-                double.TryParse(match.Groups["incomeUsd"].Value, out incomeUsd);
+                double.TryParse(match.Groups["incomeUsd"].Value, out double incomeUsd);
                 incomeItem.IncomeUsd = incomeUsd;
                 return incomeItem;
             }

@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Add = new DelegateCommand(() => {
-                new KernelOutputViewModel(Guid.NewGuid()).Edit.Execute(null);
+                new KernelOutputViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
             _currentKernelOutputVm = KernelOutputViewModels.Current.AllKernelOutputVms.FirstOrDefault();
         }
@@ -25,8 +25,10 @@ namespace NTMiner.Vms {
                 return _currentKernelOutputVm;
             }
             set {
-                _currentKernelOutputVm = value;
-                OnPropertyChanged(nameof(CurrentKernelOutputVm));
+                if (_currentKernelOutputVm != value) {
+                    _currentKernelOutputVm = value;
+                    OnPropertyChanged(nameof(CurrentKernelOutputVm));
+                }
             }
         }
 

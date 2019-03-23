@@ -18,9 +18,11 @@ namespace NTMiner.Vms {
         public double Value {
             get => _speed;
             set {
-                _speed = value;
-                OnPropertyChanged(nameof(Value));
-                OnPropertyChanged(nameof(SpeedText));
+                if (_speed != value) {
+                    _speed = value;
+                    OnPropertyChanged(nameof(Value));
+                    OnPropertyChanged(nameof(SpeedText));
+                }
             }
         }
 
@@ -35,8 +37,10 @@ namespace NTMiner.Vms {
                 return _speedOn;
             }
             set {
-                _speedOn = value;
-                OnPropertyChanged(nameof(SpeedOn));
+                if (_speedOn != value) {
+                    _speedOn = value;
+                    OnPropertyChanged(nameof(SpeedOn));
+                }
             }
         }
     }

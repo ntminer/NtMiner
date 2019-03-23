@@ -12,10 +12,17 @@ namespace NTMiner.Language {
         private readonly List<Lang> _langs = new List<Lang>();
 
         private LangSet() {
-            Global.Access<AddLangCommand>(
-                Guid.Parse("75818F82-D124-48B0-8138-D150D77EC557"),
+            VirtualRoot.Accept<RefreshLangSetCommand>(
+                "处理刷新语言命令",
+                LogEnum.Console,
+                action: message => {
+                    _isInited = false;
+                    VirtualRoot.Happened(new LangSetRefreshedEvent());
+                });
+
+            VirtualRoot.Accept<AddLangCommand>(
                 "处理添加语言命令",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (_langs.All(a => a.GetId() != message.Input.GetId() && a.Code != message.Input.Code)) {
                         Lang entity = new Lang().Update(message.Input);
@@ -23,13 +30,12 @@ namespace NTMiner.Language {
                         var repository = Repository.CreateLanguageRepository<Lang>();
                         repository.Add(entity);
 
-                        Global.Happened(new LangAddedEvent(entity));
+                        VirtualRoot.Happened(new LangAddedEvent(entity));
                     }
                 });
-            Global.Access<UpdateLangCommand>(
-                Guid.Parse("C6D2436E-C255-433F-8FAF-4E1D00570BF1"),
+            VirtualRoot.Accept<UpdateLangCommand>(
                 "处理修改语言命令",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     Lang entity = _langs.FirstOrDefault(a => a.GetId() == message.Input.GetId());
                     if (entity != null) {
@@ -37,13 +43,12 @@ namespace NTMiner.Language {
                         var repository = Repository.CreateLanguageRepository<Lang>();
                         repository.Update(entity);
 
-                        Global.Happened(new LangUpdatedEvent(entity));
+                        VirtualRoot.Happened(new LangUpdatedEvent(entity));
                     }
                 });
-            Global.Access<RemoveLangCommand>(
-                Guid.Parse("8C421769-23EB-4FF0-A634-A5C2DC58CD92"),
+            VirtualRoot.Accept<RemoveLangCommand>(
                 "处理删除语言命令",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     var entity = _langs.FirstOrDefault(a => a.GetId() == message.EntityId);
                     if (entity != null) {
@@ -54,13 +59,13 @@ namespace NTMiner.Language {
                             }
                         }
                         foreach (var id in toRemoveLangItemIds) {
-                            Global.Execute(new RemoveLangViewItemCommand(id));
+                            VirtualRoot.Execute(new RemoveLangViewItemCommand(id));
                         }
                         _langs.Remove(entity);
                         var repository = Repository.CreateLanguageRepository<Lang>();
                         repository.Remove(entity.GetId());
 
-                        Global.Happened(new LangRemovedEvent(entity));
+                        VirtualRoot.Happened(new LangRemovedEvent(entity));
                     }
                 });
         }

@@ -4,11 +4,10 @@ using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class SysDicItemViewModel : ViewModelBase, ISysDicItem {
+    public class SysDicItemViewModel : ViewModelBase, ISysDicItem, IEditableViewModel {
         public static readonly SysDicItemViewModel PleaseSelect = new SysDicItemViewModel(Guid.Empty) {
             _code = string.Empty,
             _value = "请选择",
@@ -49,35 +48,35 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.SysDicItemSet.ContainsKey(this.Id)) {
-                    Global.Execute(new UpdateSysDicItemCommand(this));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                 }
                 else {
-                    Global.Execute(new AddSysDicItemCommand(this));
+                    VirtualRoot.Execute(new AddSysDicItemCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                SysDicItemEdit.ShowEditWindow(this);
+                SysDicItemEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Code}系统字典项吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveSysDicItemCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                    VirtualRoot.Execute(new RemoveSysDicItemCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 SysDicItemViewModel upOne = SysDicItemViewModels.Current.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateSysDicItemCommand(upOne));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateSysDicItemCommand(this));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                     SysDicViewModel sysDicVm;
                     if (SysDicViewModels.Current.TryGetSysDicVm(this.DicId, out sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
@@ -90,9 +89,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateSysDicItemCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateSysDicItemCommand(this));
+                    VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                     SysDicViewModel sysDicVm;
                     if (SysDicViewModels.Current.TryGetSysDicVm(this.DicId, out sysDicVm)) {
                         sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
@@ -105,16 +104,20 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public Guid DicId {
             get => _dicId;
             set {
-                _dicId = value;
-                OnPropertyChanged(nameof(DicId));
+                if (_dicId != value) {
+                    _dicId = value;
+                    OnPropertyChanged(nameof(DicId));
+                }
             }
         }
 
@@ -140,24 +143,30 @@ namespace NTMiner.Vms {
         public string Value {
             get => _value;
             set {
-                _value = value;
-                OnPropertyChanged(nameof(Value));
+                if (_value != value) {
+                    _value = value;
+                    OnPropertyChanged(nameof(Value));
+                }
             }
         }
 
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
             }
         }
 
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 

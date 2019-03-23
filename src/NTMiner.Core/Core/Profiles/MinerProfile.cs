@@ -1,47 +1,163 @@
-﻿using Microsoft.Win32;
+﻿using NTMiner.Core.Profiles.Impl;
+using NTMiner.MinerServer;
+using NTMiner.Profile;
 using NTMiner.Repositories;
-using NTMiner.ServiceContracts.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace NTMiner.Core.Profiles {
-    internal class MinerProfile : IMinerProfile {
+    internal partial class MinerProfile : IWorkProfile {
         private readonly INTMinerRoot _root;
 
-        private MinerProfileData _data;
+        private MinerProfileData _data = null;
+        private CoinKernelProfileSet _coinKernelProfileSet;
+        private CoinProfileSet _coinProfileSet;
+        private PoolProfileSet _poolProfileSet;
+        private WalletSet _walletSet;
 
-        private MinerProfileData GetMinerProfileData() {
-            if (CommandLineArgs.IsWorker) {
-                return Server.ProfileService.GetMinerProfile(CommandLineArgs.WorkId);
+        private bool isUseJson;
+        public MinerProfile(INTMinerRoot root, MineWorkData mineWorkData) {
+            _root = root;
+            Init(root, mineWorkData);
+        }
+
+        public void ReInit(INTMinerRoot root, MineWorkData mineWorkData) {
+            Init(root, mineWorkData);
+        }
+
+        #region Init
+        private void Init(INTMinerRoot root, MineWorkData mineWorkData) {
+            MineWork = mineWorkData;
+            isUseJson = mineWorkData != null;
+            if (isUseJson) {
+                _data = NTMinerRoot.LocalJson.MinerProfile;
             }
             else {
-                IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
-                var result = repository.GetAll().FirstOrDefault();
-                if (result == null) {
-                    result = MinerProfileData.CreateDefaultData();
-                }
-                else if (result.IsAutoThisPCName) {
-                    result.MinerName = GetThisPcName();
-                }
-                return result;
+                IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(false);
+                _data = repository.GetAll().FirstOrDefault();
             }
+            if (_data == null) {
+                Guid coinId = Guid.Empty;
+                ICoin coin = root.CoinSet.OrderBy(a => a.SortNumber).FirstOrDefault();
+                if (coin != null) {
+                    coinId = coin.GetId();
+                }
+                _data = MinerProfileData.CreateDefaultData(coinId);
+            }
+            if (_coinProfileSet == null) {
+                _coinProfileSet = new CoinProfileSet(root, mineWorkData);
+            }
+            else {
+                _coinProfileSet.Refresh(mineWorkData);
+            }
+            if (_coinKernelProfileSet == null) {
+                _coinKernelProfileSet = new CoinKernelProfileSet(root, mineWorkData);
+            }
+            else {
+                _coinKernelProfileSet.Refresh(mineWorkData);
+            }
+            if (_poolProfileSet == null) {
+                _poolProfileSet = new PoolProfileSet(root, mineWorkData);
+            }
+            else {
+                _poolProfileSet.Refresh(mineWorkData);
+            }
+            if (_walletSet == null) {
+                _walletSet = new WalletSet(root);
+            }
+            else {
+                _walletSet.Refresh();
+            }
+        }
+        #endregion
+
+        #region methods
+        public ICoinKernelProfile GetCoinKernelProfile(Guid coinKernelId) {
+            return _coinKernelProfileSet.GetCoinKernelProfile(coinKernelId);
         }
 
-        public MinerProfile(INTMinerRoot root) {
-            _root = root;
-            _data = GetMinerProfileData();
-            if (_data == null) {
-                throw new ValidationException("未获取到MinerProfileData数据，请重试");
+        public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
+            string coinCode = "意外的币种";
+            string kernelName = "意外的内核";
+            if (_root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
+                if (_root.CoinSet.TryGetCoin(coinKernel.CoinId, out ICoin coin)) {
+                    coinCode = coin.Code;
+                }
+                if (_root.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
+                    kernelName = kernel.GetFullName();
+                }
+                _coinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             }
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
+            Write.DevLine($"SetCoinKernelProfileProperty({coinCode}, {kernelName}, {propertyName}, {value})");
         }
+
+        public ICoinProfile GetCoinProfile(Guid coinId) {
+            return _coinProfileSet.GetCoinProfile(coinId);
+        }
+
+        public void SetCoinProfileProperty(Guid coinId, string propertyName, object value) {
+            string coinCode = "意外的币种";
+            if (_root.CoinSet.TryGetCoin(coinId, out ICoin coin)) {
+                _coinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
+                coinCode = coin.Code;
+            }
+            Write.DevLine($"SetCoinProfileProperty({coinCode}, {propertyName}, {value})");
+        }
+
+        public IPoolProfile GetPoolProfile(Guid poolId) {
+            return _poolProfileSet.GetPoolProfile(poolId);
+        }
+
+        public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
+            string poolName = "意外的矿池";
+            if (_root.PoolSet.TryGetPool(poolId, out IPool pool)) {
+                poolName = pool.Name;
+                if (!pool.IsUserMode) {
+                    Write.DevLine("不是用户名密码模式矿池", ConsoleColor.Green);
+                    return;
+                }
+                _poolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
+            }
+            Write.DevLine($"SetPoolProfileProperty({poolName}, {propertyName}, {value})");
+        }
+
+        public bool TryGetWallet(Guid walletId, out IWallet wallet) {
+            return _walletSet.TryGetWallet(walletId, out wallet);
+        }
+
+        public List<IWallet> GetWallets() {
+            return _walletSet.GetWallets().ToList();
+        }
+
+        public List<ICoinKernelProfile> GetCoinKernelProfiles() {
+            return _coinKernelProfileSet.GetCoinKernelProfiles().ToList();
+        }
+
+        public List<ICoinProfile> GetCoinProfiles() {
+            return _coinProfileSet.GetCoinProfiles().ToList();
+        }
+
+        public List<IPool> GetPools() {
+            return _root.PoolSet.ToList();
+        }
+
+        public List<IPoolProfile> GetPoolProfiles() {
+            return _poolProfileSet.GetPoolProfiles().ToList();
+        }
+        #endregion
+
+        #region properties
+        [IgnoreReflectionSet]
+        public IMineWork MineWork { get; private set; }
 
         public Guid GetId() {
             return this.Id;
         }
 
+        [IgnoreReflectionSet]
         public Guid Id {
             get { return _data.Id; }
             private set {
@@ -50,112 +166,54 @@ namespace NTMiner.Core.Profiles {
         }
 
         public string MinerName {
-            get => _data.MinerName;
-            private set {
+            get {
+                if (string.IsNullOrEmpty(_data.MinerName)) {
+                    _data.MinerName = NTMinerRoot.GetThisPcName();
+                }
+                return _data.MinerName;
+            }
+            set {
                 if (string.IsNullOrEmpty(value)) {
-                    value = GetThisPcName();
+                    value = NTMinerRoot.GetThisPcName();
                 }
-                value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
-                if (_data.MinerName != value) {
-                    _data.MinerName = value;
-                    Global.Execute(new RefreshArgsAssemblyCommand());
-                }
-            }
-        }
-
-        private static readonly char[] invalidChars = { '.', ' ', '-', '_' };
-        public string GetThisPcName() {
-            string value = Environment.MachineName.ToLower();
-            value = new string(value.ToCharArray().Where(a => !invalidChars.Contains(a)).ToArray());
-            return value;
-        }
-
-        public bool IsAutoThisPCName {
-            get { return _data.IsAutoThisPCName; }
-            private set {
-                if (_data.IsAutoThisPCName != value) {
-                    _data.IsAutoThisPCName = value;
-                    if (value) {
-                        this.MinerName = string.Empty;
-                    }
-                }
-            }
-        }
-
-        public bool IsShowInTaskbar {
-            get { return _data.IsShowInTaskbar; }
-            private set {
-                if (_data.IsShowInTaskbar != value) {
-                    _data.IsShowInTaskbar = value;
-                }
-            }
-        }
-
-        public bool IsAutoBoot {
-            get => _data.IsAutoBoot;
-            private set {
-                if (_data.IsAutoBoot != value) {
-                    _data.IsAutoBoot = value;
-                    NTMinerRegistry.SetIsAutoBoot(value);
-                }
+                _data.MinerName = value;
             }
         }
 
         public bool IsNoShareRestartKernel {
             get => _data.IsNoShareRestartKernel;
             private set {
-                if (_data.IsNoShareRestartKernel != value) {
-                    _data.IsNoShareRestartKernel = value;
-                }
+                _data.IsNoShareRestartKernel = value;
             }
         }
         public int NoShareRestartKernelMinutes {
             get => _data.NoShareRestartKernelMinutes;
             private set {
-                if (_data.NoShareRestartKernelMinutes != value) {
-                    _data.NoShareRestartKernelMinutes = value;
-                }
+                _data.NoShareRestartKernelMinutes = value;
             }
         }
         public bool IsPeriodicRestartKernel {
             get => _data.IsPeriodicRestartKernel;
             private set {
-                if (_data.IsPeriodicRestartKernel != value) {
-                    _data.IsPeriodicRestartKernel = value;
-                }
+                _data.IsPeriodicRestartKernel = value;
             }
         }
         public int PeriodicRestartKernelHours {
             get => _data.PeriodicRestartKernelHours;
             private set {
-                if (_data.PeriodicRestartKernelHours != value) {
-                    _data.PeriodicRestartKernelHours = value;
-                }
+                _data.PeriodicRestartKernelHours = value;
             }
         }
         public bool IsPeriodicRestartComputer {
             get => _data.IsPeriodicRestartComputer;
             private set {
-                if (_data.IsPeriodicRestartComputer != value) {
-                    _data.IsPeriodicRestartComputer = value;
-                }
+                _data.IsPeriodicRestartComputer = value;
             }
         }
         public int PeriodicRestartComputerHours {
             get => _data.PeriodicRestartComputerHours;
             private set {
-                if (_data.PeriodicRestartComputerHours != value) {
-                    _data.PeriodicRestartComputerHours = value;
-                }
-            }
-        }
-
-        public bool IsAutoStart {
-            get => _data.IsAutoStart;
-            private set {
-                if (_data.IsAutoStart != value) {
-                    _data.IsAutoStart = value;
-                }
+                _data.PeriodicRestartComputerHours = value;
             }
         }
 
@@ -164,89 +222,54 @@ namespace NTMiner.Core.Profiles {
                 return _data.IsAutoRestartKernel;
             }
             private set {
-                if (_data.IsAutoRestartKernel != value) {
-                    _data.IsAutoRestartKernel = value;
-                }
-            }
-        }
-
-        public bool IsShowCommandLine {
-            get { return _data.IsShowCommandLine; }
-            set {
-                _data.IsShowCommandLine = value;
-            }
-        }
-
-        public string ServerHost {
-            get {
-                string host = _data.ServerHost;
-                if (string.IsNullOrEmpty(host)) {
-                    host = Server.MinerServerHost;
-                }
-                return host;
-            }
-            private set {
-                if (_data.ServerHost != value) {
-                    _data.ServerHost = value;
-                }
-            }
-        }
-
-        public int ServerPort {
-            get {
-                int port = _data.ServerPort;
-                if (port == 0) {
-                    port = Server.MinerServerPort;
-                }
-                return port;
-            }
-            private set {
-                if (_data.ServerPort != value) {
-                    _data.ServerPort = value;
-                }
+                _data.IsAutoRestartKernel = value;
             }
         }
 
         public Guid CoinId {
             get => _data.CoinId;
             private set {
-                if (_data.CoinId != value) {
-                    _data.CoinId = value;
-                }
+                _data.CoinId = value;
             }
         }
+        #endregion
 
-        private static Dictionary<string, PropertyInfo> _properties;
+        private static Dictionary<string, PropertyInfo> s_properties;
+        [IgnoreReflectionSet]
         private static Dictionary<string, PropertyInfo> Properties {
             get {
-                if (_properties == null) {
-                    _properties = new Dictionary<string, PropertyInfo>();
-                    foreach (var item in typeof(MinerProfile).GetProperties()) {
-                        _properties.Add(item.Name, item);
-                    }
+                if (s_properties == null) {
+                    s_properties = GetPropertiesCanSet<MinerProfile>();
                 }
-                return _properties;
+                return s_properties;
             }
         }
 
-        public void SetValue(string propertyName, object value) {
+        private static Dictionary<string, PropertyInfo> GetPropertiesCanSet<T>() {
+            var properties = new Dictionary<string, PropertyInfo>();
+            Type attrubuteType = typeof(IgnoreReflectionSetAttribute);
+            foreach (var propertyInfo in typeof(T).GetProperties().Where(a => a.CanWrite)) {
+                if (propertyInfo.GetCustomAttributes(attrubuteType, inherit: false).Length > 0) {
+                    continue;
+                }
+                properties.Add(propertyInfo.Name, propertyInfo);
+            }
+            return properties;
+        }
+
+        public void SetMinerProfileProperty(string propertyName, object value) {
             if (Properties.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
                 if (propertyInfo.CanWrite) {
                     if (propertyInfo.PropertyType == typeof(Guid)) {
                         value = DictionaryExtensions.ConvertToGuid(value);
                     }
-                    propertyInfo.SetValue(this, value, null);
-                    if (CommandLineArgs.IsWorker) {
-                        if (CommandLineArgs.IsControlCenter) {
-                            Server.ControlCenterService.SetMinerProfilePropertyAsync(CommandLineArgs.WorkId, propertyName, value, isSuccess => {
-                                Global.Happened(new MinerProfilePropertyChangedEvent(propertyName));
-                            });
-                        }
-                    }
-                    else {
-                        IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
+                    object oldValue = propertyInfo.GetValue(this, null);
+                    if (oldValue != value) {
+                        propertyInfo.SetValue(this, value, null);
+                        IRepository<MinerProfileData> repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>(isUseJson);
                         repository.Update(_data);
-                        Global.Happened(new MinerProfilePropertyChangedEvent(propertyName));
+                        VirtualRoot.Happened(new MinerProfilePropertyChangedEvent(propertyName));
+                        Write.DevLine($"SetMinerProfileProperty({propertyName}, {value})");
                     }
                 }
             }
@@ -259,6 +282,44 @@ namespace NTMiner.Core.Profiles {
                 }
             }
             return null;
+        }
+
+        public string GetSha1() {
+            StringBuilder sb = new StringBuilder();
+            if (_data != null) {
+                sb.Append(_data.ToString());
+            }
+
+            if (this.CoinId != Guid.Empty) {
+                ICoinProfile coinProfile = GetCoinProfile(this.CoinId);
+                if (coinProfile != null) {
+                    sb.Append(coinProfile.ToString());
+                    ICoinKernelProfile coinKernelProfile = GetCoinKernelProfile(coinProfile.CoinKernelId);
+                    if (coinKernelProfile != null) {
+                        sb.Append(coinKernelProfile.ToString());
+                        if (coinKernelProfile.IsDualCoinEnabled) {
+                            ICoinProfile dualCoinProfile = GetCoinProfile(coinKernelProfile.DualCoinId);
+                            if (dualCoinProfile != null) {
+                                sb.Append(dualCoinProfile.ToString());
+                                IPoolProfile dualCoinPoolProfile = GetPoolProfile(dualCoinProfile.PoolId);
+                                if (dualCoinPoolProfile != null) {
+                                    sb.Append(dualCoinPoolProfile.ToString());
+                                }
+                            }
+                            ICoinKernelProfile dualCoinKernelProfile = GetCoinKernelProfile(coinKernelProfile.DualCoinId);
+                            if (dualCoinKernelProfile != null) {
+                                sb.Append(dualCoinKernelProfile.ToString());
+                            }
+                        }
+                    }
+                    IPoolProfile poolProfile = GetPoolProfile(coinProfile.PoolId);
+                    if (poolProfile != null) {
+                        sb.Append(poolProfile.ToString());
+                    }
+                }
+            }
+
+            return HashUtil.Sha1(sb.ToString());
         }
     }
 }

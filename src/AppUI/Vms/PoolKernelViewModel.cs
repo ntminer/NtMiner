@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class PoolKernelViewModel : ViewModelBase, IPoolKernel {
+    public class PoolKernelViewModel : ViewModelBase, IPoolKernel, IEditableViewModel {
         private Guid _id;
         private Guid _poolId;
         private Guid _kernelId;
@@ -28,12 +28,12 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.PoolKernelSet.Contains(this.Id)) {
-                    Global.Execute(new UpdatePoolKernelCommand(this));
+                    VirtualRoot.Execute(new UpdatePoolKernelCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
-                PoolKernelEdit.ShowEditWindow(this);
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
+                PoolKernelEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
         }
 
@@ -44,8 +44,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -54,8 +56,10 @@ namespace NTMiner.Vms {
                 return _poolId;
             }
             set {
-                _poolId = value;
-                OnPropertyChanged(nameof(PoolId));
+                if (_poolId != value) {
+                    _poolId = value;
+                    OnPropertyChanged(nameof(PoolId));
+                }
             }
         }
 
@@ -91,8 +95,10 @@ namespace NTMiner.Vms {
         public Guid KernelId {
             get => _kernelId;
             set {
-                _kernelId = value;
-                OnPropertyChanged(nameof(KernelId));
+                if (_kernelId != value) {
+                    _kernelId = value;
+                    OnPropertyChanged(nameof(KernelId));
+                }
             }
         }
 
@@ -115,10 +121,12 @@ namespace NTMiner.Vms {
         public string Args {
             get { return _args; }
             set {
-                _args = value;
-                OnPropertyChanged(nameof(Args));
-                if (MinerProfileViewModel.Current.CoinId == this.PoolVm.CoinId) {
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                if (_args != value) {
+                    _args = value;
+                    OnPropertyChanged(nameof(Args));
+                    if (MinerProfileViewModel.Current.CoinId == this.PoolVm.CoinId) {
+                        NTMinerRoot.RefreshArgsAssembly.Invoke();
+                    }
                 }
             }
         }
@@ -126,8 +134,10 @@ namespace NTMiner.Vms {
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
             }
         }
     }

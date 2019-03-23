@@ -1,404 +1,462 @@
-﻿<UserControl x:Class="NTMiner.Views.MainMenu"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-		     xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-             xmlns:local="clr-namespace:NTMiner.Views"
-		     xmlns:vm="clr-namespace:NTMiner.Vms"
-             mc:Ignorable="d">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <sys:String x:Key="MihOption">
-                MihOption
-            </sys:String>
-            <sys:String x:Key="MihCoin">
-                MihCoin
-            </sys:String>
-            <sys:String x:Key="MihCoinGroup">
-                MihCoinGroup
-            </sys:String>
-            <sys:String x:Key="MihKernel">
-                MihKernel
-            </sys:String>
-            <sys:String x:Key="MihSpeedChart">
-                MihSpeedChart
-            </sys:String>
-            <sys:String x:Key="MihOnlineUpdate">
-                MihOnlineUpdate
-            </sys:String>
-            <sys:String x:Key="MihHelp">
-                MihHelp
-            </sys:String>
-            <sys:String x:Key="MihAbout">
-                MihAbout
-            </sys:String>
-            <sys:String x:Key="MihExit">
-                MihExit
-            </sys:String>
-            <sys:String x:Key="MihMiner">
-                MihMiner
-            </sys:String>
-            <sys:String x:Key="MihMinerGroup">
-                MihMinerGroup
-            </sys:String>
-            <sys:String x:Key="MihMineWork">
-                MihMineWork
-            </sys:String>
-            <sys:String x:Key="MihCalcConfig">
-                MihCalcConfig
-            </sys:String>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <WrapPanel>
-        <controls:KbButton
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            ToolTip="MainMenu translate"
-            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-            CommandParameter="MainMenu"
-            Padding="8 0"
-            Background="Transparent">
-            <WrapPanel>
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="{StaticResource Icon_Translate}"
-                    Fill="Red"
-                    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
-        <Menu Background="Transparent" VerticalAlignment="Center">
-            <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientDevVisible}">
-                <MenuItem.Icon>
-                    <Path
-					    Width="14"
-					    Height="14"
-					    Data="{StaticResource Icon_Db}"
-					    Fill="#385263"
-					    Stretch="Fill" />
-                </MenuItem.Icon>
-                <MenuItem Header="global dir" Command="{x:Static vm:AppStatic.ShowGlobalDir}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Dir}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="lang db" Command="{x:Static vm:AppStatic.OpenLangLiteDb}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Db}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="langJson export" Command="{x:Static vm:AppStatic.ExportLangJson}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Json}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="server db" Command="{x:Static vm:AppStatic.OpenServerLiteDb}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Db}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="serverJson export" Command="{x:Static vm:AppStatic.ExportServerJson}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Json}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="local db" Command="{x:Static vm:AppStatic.OpenLocalLiteDb}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Db}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
-                <MenuItem.Icon>
-                    <Path
-					    Width="14"
-					    Height="14"
-					    Data="{StaticResource Icon_Developer}"
-					    Fill="#385263"
-					    Stretch="Fill" />
-                </MenuItem.Icon>
-                <MenuItem Header="kernel input" Command="{x:Static vm:AppStatic.ShowKernelInputs}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_KernelInput}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="kernel output" Command="{x:Static vm:AppStatic.ShowKernelOutputs}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_KernelOutput}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="notification sample" Command="{x:Static vm:AppStatic.ShowNotificationSample}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Info}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="sys dic" Command="{x:Static vm:AppStatic.ShowSysDic}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_SysDic}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="event" Command="{x:Static vm:AppStatic.ViewEvent}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Event}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientVisible}">
-                <MenuItem.Icon>
-                    <Path
-					    Width="14"
-					    Height="8"
-					    Data="{StaticResource Icon_Menu}"
-					    Fill="#385263"
-					    Stretch="Fill" />
-                </MenuItem.Icon>
-                <MenuItem Header="{DynamicResource MihCoin}" Command="{x:Static vm:AppStatic.ShowCoins}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Coin}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihCoinGroup}" Command="{x:Static vm:AppStatic.ShowGroups}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Group}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihKernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Kernel}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihSpeedChart}" Command="{x:Static vm:AppStatic.ShowSpeedChart}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Speed}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihOnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="14"
-                            Height="16"
-                            Data="{StaticResource Icon_Update}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihHelp}" Command="{x:Static vm:AppStatic.ShowHelp}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Help}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihAbout}" Command="{x:Static vm:AppStatic.ShowAbout}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_About}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihExit}" Command="{x:Static vm:AppStatic.AppExit}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Exit}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientNotVisible}">
-                <MenuItem.Icon>
-                    <Path
-					    Width="14"
-					    Height="8"
-					    Data="{StaticResource Icon_Menu}"
-					    Fill="#385263"
-					    Stretch="Fill" />
-                </MenuItem.Icon>
-                <MenuItem Header="{DynamicResource MihMiner}" Command="{x:Static vm:AppStatic.ShowMinerClients}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Miner}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihMinerGroup}" Command="{x:Static vm:AppStatic.ManageMinerGroup}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_MinerGroup}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihMineWork}" Command="{x:Static vm:AppStatic.ManageMineWork}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_MineWork}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihCoin}" Command="{x:Static vm:AppStatic.ShowCoins}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Coin}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihKernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Kernel}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihCalcConfig}" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="16"
-						    Height="16"
-						    Data="{StaticResource Icon_Calc}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihOnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="14"
-                            Height="16"
-                            Data="{StaticResource Icon_Update}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihHelp}" Command="{x:Static vm:AppStatic.ShowHelp}">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="16"
-						    Height="16"
-						    Data="{StaticResource Icon_Help}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihAbout}" Command="{x:Static vm:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_About}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="{DynamicResource MihExit}" Command="{x:Static vm:AppStatic.AppExit}">
-                    <MenuItem.Icon>
-                        <Path
-                            Width="16"
-                            Height="16"
-                            Data="{StaticResource Icon_Exit}"
-                            Fill="{StaticResource IconFillColor}"
-                            Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-        </Menu>
-    </WrapPanel>
+﻿<UserControl 
+	x:Class="NTMiner.Views.MainMenu"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views"
+	xmlns:vm="clr-namespace:NTMiner.Vms"
+	Background="{StaticResource ThemeBackground}"
+	mc:Ignorable="d">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<sys:String x:Key="User">
+				User
+			</sys:String>
+			<sys:String x:Key="Option">
+				Option
+			</sys:String>
+			<sys:String x:Key="Coin">
+				Coin
+			</sys:String>
+			<sys:String x:Key="CoinGroup">
+				CoinGroup
+			</sys:String>
+			<sys:String x:Key="Kernel">
+				Kernel
+			</sys:String>
+			<sys:String x:Key="SpeedChart">
+				SpeedChart
+			</sys:String>
+			<sys:String x:Key="OnlineUpdate">
+				OnlineUpdate
+			</sys:String>
+			<sys:String x:Key="Help">
+				Help
+			</sys:String>
+			<sys:String x:Key="About">
+				About
+			</sys:String>
+			<sys:String x:Key="SetServerJsonVersion">
+				SetServerJsonVersion
+			</sys:String>
+			<sys:String x:Key="ShowNTMinerUpdaterConfig">
+				ShowNTMinerUpdaterConfig
+			</sys:String>
+			<sys:String x:Key="Exit">
+				Exit
+			</sys:String>
+			<sys:String x:Key="Miner">
+				Miner
+			</sys:String>
+			<sys:String x:Key="Charts">
+				Charts
+			</sys:String>
+			<sys:String x:Key="MinerGroup">
+				MinerGroup
+			</sys:String>
+			<sys:String x:Key="MineWork">
+				MineWork
+			</sys:String>
+			<sys:String x:Key="OverClock">
+				OverClock
+			</sys:String>
+			<sys:String x:Key="CalcConfig">
+				CalcConfig
+			</sys:String>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<WrapPanel>
+		<controls:KbButton
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			ToolTip="{x:Static local:MainMenu.ViewId}"
+			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+			CommandParameter="{x:Static local:MainMenu.ViewId}"
+			Padding="8 0"
+			Background="Transparent">
+			<WrapPanel>
+				<Path
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Translate}"
+					Fill="{StaticResource ThemeForeground}"
+					Stretch="Fill" />
+			</WrapPanel>
+		</controls:KbButton>
+		<Menu Background="Transparent" VerticalAlignment="Center">
+			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+				<MenuItem.Icon>
+					<Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Db}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+				</MenuItem.Icon>
+				<MenuItem Header="global dir" Command="{x:Static vm:AppStatic.ShowGlobalDir}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Dir}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="lang db" Command="{x:Static vm:AppStatic.OpenLangLiteDb}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Db}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="langJson export" Command="{x:Static vm:AppStatic.ExportLangJson}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Json}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="server db" Command="{x:Static vm:AppStatic.OpenServerLiteDb}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Db}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="serverJson export" Command="{x:Static vm:AppStatic.ExportServerJson}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Json}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="local db" Command="{x:Static vm:AppStatic.OpenLocalLiteDb}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Db}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+			</MenuItem>
+			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
+				<MenuItem.Icon>
+					<Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Developer}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+				</MenuItem.Icon>
+				<MenuItem Header="内属性" Command="{x:Static vm:AppStatic.ShowInnerProperty}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Property}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="内核输入" Command="{x:Static vm:AppStatic.ShowKernelInputs}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_KernelInput}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="内核输出" Command="{x:Static vm:AppStatic.ShowKernelOutputs}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_KernelOutput}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="通知中心Demo" Command="{x:Static vm:AppStatic.ShowNotificationSample}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Info}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource OverClock}" Command="{x:Static vm:AppStatic.ShowOverClockDatas}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_OverClock}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource CalcConfig}" Command="{x:Static vm:AppStatic.ShowCalcConfig}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Calc}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem 
+					Header="{DynamicResource SetServerJsonVersion}" 
+					ToolTip="{x:Static vm:AppStatic.ServerJsonFileName}"
+					Command="{x:Static vm:AppStatic.SetServerJsonVersion}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Refresh}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem 
+					Header="{DynamicResource ShowNTMinerUpdaterConfig}" 
+					Command="{x:Static vm:AppStatic.ShowNTMinerUpdaterConfig}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Update}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+			</MenuItem>
+			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientVisible}">
+				<MenuItem.Icon>
+					<Path
+						Width="14"
+						Height="8"
+						Data="{StaticResource Icon_Menu}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+				</MenuItem.Icon>
+				<MenuItem Header="{DynamicResource Coin}" Command="{x:Static vm:AppStatic.ShowCoins}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Coin}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource CoinGroup}" Command="{x:Static vm:AppStatic.ShowGroups}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Group}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="系统字典" Command="{x:Static vm:AppStatic.ShowSysDic}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_SysDic}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Kernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Kernel}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource SpeedChart}" Command="{x:Static vm:AppStatic.ShowSpeedChart}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Speed}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource OnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="16"
+							Data="{StaticResource Icon_Update}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Help}" Command="{x:Static vm:AppStatic.ShowHelp}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Help}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource About}" Command="{x:Static vm:AppStatic.ShowAbout}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_About}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Exit}" Command="{x:Static vm:AppStatic.AppExit}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="18"
+							Data="{StaticResource Icon_Exit}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+			</MenuItem>
+			<MenuItem Width="26" Height="30" Visibility="{x:Static vm:AppStatic.IsMinerClientNotVisible}">
+				<MenuItem.Icon>
+					<Path
+						Width="14"
+						Height="8"
+						Data="{StaticResource Icon_Menu}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+				</MenuItem.Icon>
+				<MenuItem Header="{DynamicResource Miner}" Command="{x:Static vm:AppStatic.ShowMinerClients}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Miner}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Charts}" Command="{x:Static vm:AppStatic.ShowChartsWindow}">
+					<MenuItem.Icon>
+						<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+						</Image>
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Coin}" Command="{x:Static vm:AppStatic.ShowCoins}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Coin}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource CoinGroup}" Command="{x:Static vm:AppStatic.ShowGroups}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Group}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Kernel}" Command="{x:Static vm:AppStatic.ShowKernels}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Kernel}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource OnlineUpdate}" Command="{x:Static vm:AppStatic.ShowOnlineUpdate}">
+					<MenuItem.Icon>
+						<Path
+							Width="14"
+							Height="16"
+							Data="{StaticResource Icon_Update}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Help}" Command="{x:Static vm:AppStatic.ShowHelp}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Help}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource About}" Command="{x:Static vm:AppStatic.ShowAbout}" CommandParameter="ControlCenter">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_About}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource User}" Command="{x:Static vm:AppStatic.ShowUsers}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_User}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="{DynamicResource Exit}" Command="{x:Static vm:AppStatic.AppExit}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="18"
+							Data="{StaticResource Icon_Exit}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
+			</MenuItem>
+		</Menu>
+	</WrapPanel>
 </UserControl>

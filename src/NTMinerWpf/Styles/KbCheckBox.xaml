@@ -5,6 +5,7 @@
     <Style TargetType="{x:Type controls:KbCheckBox}">
         <Setter Property="BorderBrush" Value="#DCDFE6" />
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="BorderBrush" Value="{StaticResource IconFillColor}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:KbCheckBox}">

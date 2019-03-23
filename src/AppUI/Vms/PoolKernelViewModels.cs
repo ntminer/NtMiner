@@ -9,10 +9,9 @@ namespace NTMiner.Vms {
         public static readonly PoolKernelViewModels Current = new PoolKernelViewModels();
         private readonly Dictionary<Guid, PoolKernelViewModel> _dicById = new Dictionary<Guid, PoolKernelViewModel>();
         private PoolKernelViewModels() {
-            Global.Access<PoolKernelAddedEvent>(
-                Guid.Parse("75C01641-A50D-4880-826F-83F56C817B82"),
+            VirtualRoot.On<PoolKernelAddedEvent>(
                 "新添了矿池内核后刷新矿池内核VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         PoolViewModel poolVm;
@@ -21,11 +20,10 @@ namespace NTMiner.Vms {
                             poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                         }
                     }
-                });
-            Global.Access<PoolKernelRemovedEvent>(
-                Guid.Parse("777F7A90-CCBA-44C7-877C-471E65828A0B"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<PoolKernelRemovedEvent>(
                 "移除了币种内核后刷新矿池内核VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         var vm = _dicById[message.Source.GetId()];
@@ -35,18 +33,21 @@ namespace NTMiner.Vms {
                             poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                         }
                     }
-                });
-            Global.Access<PoolKernelUpdatedEvent>(
-                Guid.Parse("A5A1F722-735E-4792-BAFC-F050CC4909BB"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<PoolKernelUpdatedEvent>(
                 "更新了矿池内核后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     }
-                });
-            foreach (IPoolKernel poolKernel in NTMinerRoot.Current.PoolKernelSet) {
-                _dicById.Add(poolKernel.GetId(), new PoolKernelViewModel(poolKernel));
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            Init();
+        }
+
+        private void Init() {
+            foreach (IPoolKernel item in NTMinerRoot.Current.PoolKernelSet) {
+                _dicById.Add(item.GetId(), new PoolKernelViewModel(item));
             }
         }
 

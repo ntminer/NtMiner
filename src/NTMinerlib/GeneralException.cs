@@ -15,6 +15,6 @@ namespace NTMiner {
 
         protected GeneralException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        protected Exception Cause { get { return InnerException; } }
+        protected Exception Cause => InnerException;
     }
 }

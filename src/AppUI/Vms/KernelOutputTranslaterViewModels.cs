@@ -11,18 +11,21 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelOutputTranslaterViewModel> _dicById = new Dictionary<Guid, KernelOutputTranslaterViewModel>();
 
         private KernelOutputTranslaterViewModels() {
-            foreach (var item in NTMinerRoot.Current.KernelOutputTranslaterSet) {
-                if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
-                    _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterViewModel>());
-                }
-                var vm = new KernelOutputTranslaterViewModel(item);
-                _dicByKernelOutputId[item.KernelOutputId].Add(vm);
-                _dicById.Add(item.GetId(), vm);
-            }
-            Global.Access<KernelOutputTranslaterAddedEvent>(
-                Guid.Parse("70f5bc18-3536-4306-9af7-256f323c9313"),
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                _dicByKernelOutputId.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                AllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
+            VirtualRoot.On<KernelOutputTranslaterAddedEvent>(
                 "添加了内核输出翻译器后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     KernelOutputViewModel kernelOutputVm;
                     if (KernelOutputViewModels.Current.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
@@ -34,11 +37,10 @@ namespace NTMiner.Vms {
                         _dicById.Add(message.Source.GetId(), vm);
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
-                });
-            Global.Access<KernelOutputTranslaterUpdatedEvent>(
-                Guid.Parse("eef26e4b-af61-436b-9f24-9e128d614598"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<KernelOutputTranslaterUpdatedEvent>(
                 "更新了内核输出翻译器后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
                         var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());
@@ -46,11 +48,10 @@ namespace NTMiner.Vms {
                             item.Update(message.Source);
                         }
                     }
-                });
-            Global.Access<KernelOutputTranslaterRemovedEvent>(
-                Guid.Parse("d77c3aaa-be1f-41b2-9e9f-495fa6a076bf"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<KernelOutputTranslaterRemovedEvent>(
                 "移除了内核输出翻译器后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
                         var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());
@@ -65,7 +66,15 @@ namespace NTMiner.Vms {
                     if (KernelOutputViewModels.Current.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            foreach (var item in NTMinerRoot.Current.KernelOutputTranslaterSet) {
+                if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                    _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterViewModel>());
+                }
+                var vm = new KernelOutputTranslaterViewModel(item);
+                _dicByKernelOutputId[item.KernelOutputId].Add(vm);
+                _dicById.Add(item.GetId(), vm);
+            }
         }
 
         public IEnumerable<KernelOutputTranslaterViewModel> AllKernelOutputTranslaterVms {

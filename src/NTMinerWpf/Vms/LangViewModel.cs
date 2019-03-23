@@ -26,18 +26,18 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Code}系统字典吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveLangCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                DialogWindow.ShowDialog(message: $"您确定删除{this.Code}语言吗？", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new RemoveLangCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 LangViewModel upOne = LangViewModels.Current.LangVms.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateLangCommand(upOne));
+                    VirtualRoot.Execute(new UpdateLangCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateLangCommand(this));
+                    VirtualRoot.Execute(new UpdateLangCommand(this));
                     LangViewModels.Current.OnPropertyChanged(nameof(LangViewModels.LangVms));
                 }
             });
@@ -46,9 +46,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateLangCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateLangCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateLangCommand(this));
+                    VirtualRoot.Execute(new UpdateLangCommand(this));
                     LangViewModels.Current.OnPropertyChanged(nameof(LangViewModels.LangVms));
                 }
             });
@@ -62,7 +62,12 @@ namespace NTMiner.Vms {
 
         public string SelectedView {
             get => _selectedView;
-            set => _selectedView = value;
+            set {
+                if (_selectedView != value) {
+                    _selectedView = value;
+                    OnPropertyChanged(nameof(SelectedView));
+                }
+            }
         }
 
         public Guid GetId() {
@@ -72,8 +77,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -112,8 +119,10 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get { return _sortNumber; }
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
     }

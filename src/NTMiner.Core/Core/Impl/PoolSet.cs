@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.Kernels;
-using NTMiner.Core.Kernels.Impl;
+﻿using NTMiner.Repositories;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,16 +6,16 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     internal class PoolSet : IPoolSet {
-
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, PoolData> _dicById = new Dictionary<Guid, PoolData>();
 
-        public PoolSet(INTMinerRoot root) {
+        private readonly bool _isUseJson;
+        public PoolSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
-            Global.Access<AddPoolCommand>(
-                Guid.Parse("5ee1b14b-4b9e-445f-b6fe-433f6fe44b18"),
+            _isUseJson = isUseJson;
+            VirtualRoot.Accept<AddPoolCommand>(
                 "添加矿池",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -33,10 +32,16 @@ namespace NTMiner.Core.Impl {
                     }
                     PoolData entity = new PoolData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
-                    repository.Add(entity);
 
-                    Global.Happened(new PoolAddedEvent(entity));
+                    if (VirtualRoot.IsControlCenter) {
+                        Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
+                    }
+                    else {
+                        var repository = CreateCompositeRepository<PoolData>(isUseJson);
+                        repository.Add(entity);
+                    }
+
+                    VirtualRoot.Happened(new PoolAddedEvent(entity));
 
                     ICoin coin;
                     if (root.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
@@ -50,14 +55,13 @@ namespace NTMiner.Core.Impl {
                                 KernelId = coinKernel.KernelId,
                                 PoolId = message.Input.GetId()
                             };
-                            Global.Execute(new AddPoolKernelCommand(poolKernel));
+                            VirtualRoot.Execute(new AddPoolKernelCommand(poolKernel));
                         }
                     }
-                });
-            Global.Access<UpdatePoolCommand>(
-                Guid.Parse("62d847f6-2b1f-4891-990b-3beb4c1dc5b0"),
+                }).AddToCollection(root.ContextHandlers);
+            VirtualRoot.Accept<UpdatePoolCommand>(
                 "更新矿池",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -75,18 +79,24 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    // 组合GlobalDb和ProfileDb，Profile用户无权修改GlobalDb中的数据，否则抛出异常终端流程从而确保GlobalDb中的数据不会被后续的流程修改
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
-                    repository.Update(new PoolData().Update(message.Input));
                     PoolData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     entity.Update(message.Input);
+                    if (VirtualRoot.IsControlCenter) {
+                        Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
+                    }
+                    else {
+                        var repository = CreateCompositeRepository<PoolData>(isUseJson);
+                        repository.Update(new PoolData().Update(message.Input));
+                    }
 
-                    Global.Happened(new PoolUpdatedEvent(entity));
-                });
-            Global.Access<RemovePoolCommand>(
-                Guid.Parse("c5ce3c6c-78c4-4e76-81e3-2feeac5d5ced"),
+                    VirtualRoot.Happened(new PoolUpdatedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
+            VirtualRoot.Accept<RemovePoolCommand>(
                 "移除矿池",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -95,19 +105,32 @@ namespace NTMiner.Core.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    // 组合GlobalDb和ProfileDb，Profile用户无权删除GlobalDb中的数据，否则抛出异常终端流程从而确保GlobalDb中的数据不会被后续的流程修改
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
-                    repository.Remove(message.EntityId);
+                    
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-
-                    Global.Happened(new PoolRemovedEvent(entity));
+                    if (VirtualRoot.IsControlCenter) {
+                        Server.ControlCenterService.RemovePoolAsync(entity.Id, callback: null);
+                    }
+                    else {
+                        var repository = CreateCompositeRepository<PoolData>(isUseJson);
+                        repository.Remove(message.EntityId);
+                    }
+                    VirtualRoot.Happened(new PoolRemovedEvent(entity));
                     Guid[] toRemoves = root.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
-                        Global.Execute(new RemovePoolKernelCommand(poolKernelId));
+                        VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
-                });
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
+                }).AddToCollection(root.ContextHandlers);
+        }
+
+        /// <summary>
+        /// 创建组合仓储，组合仓储由ServerDb和ProfileDb层序组成。
+        /// 如果是开发者则访问ServerDb且只访问GlobalDb，否则将ServerDb和ProfileDb并起来访问且不能修改删除GlobalDb。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        private static IRepository<T> CreateCompositeRepository<T>(bool isUseJson) where T : class, ILevelEntity<Guid> {
+            return new CompositeRepository<T>(NTMinerRoot.CreateServerRepository<T>(isUseJson), NTMinerRoot.CreateLocalRepository<T>(isUseJson));
         }
 
         private bool _isInited = false;
@@ -123,8 +146,15 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
-                    foreach (var item in repository.GetAll()) {
+                    IEnumerable<PoolData> data;
+                    if (VirtualRoot.IsControlCenter) {
+                        data = Server.ControlCenterService.GetPools();
+                    }
+                    else {
+                        var repository = CreateCompositeRepository<PoolData>(_isUseJson);
+                        data = repository.GetAll();
+                    }
+                    foreach (var item in data) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
                         }

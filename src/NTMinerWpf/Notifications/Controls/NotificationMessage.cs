@@ -11,16 +11,24 @@ namespace NTMiner.Notifications.Controls {
     /// </summary>
     /// <seealso cref="INotificationMessage" />
     /// <seealso cref="Control" />
-    public class NotificationMessage : Control, INotificationMessage, INotificationAnimation
-    {
+    public class NotificationMessage : Control, INotificationMessage, INotificationAnimation {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotificationMessage" /> class.
+        /// </summary>
+        public NotificationMessage() {
+            this.Buttons = new ObservableCollection<object>();
+
+            // Setting the default text color, if not defined by user.
+            this.Foreground = new BrushConverter().ConvertFromString("#DDDDDD") as Brush;
+        }
+
         /// <summary>
         /// Gets or sets the content of the overlay.
         /// </summary>
         /// <value>
         /// The content of the overlay.
         /// </value>
-        public object OverlayContent
-        {
+        public object OverlayContent {
             get => GetValue(OverlayContentProperty);
             set => SetValue(OverlayContentProperty, value);
         }
@@ -31,8 +39,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The content of the top additional content area.
         /// </value>
-        public object AdditionalContentTop
-        {
+        public object AdditionalContentTop {
             get => GetValue(AdditionalContentTopProperty);
             set => SetValue(AdditionalContentTopProperty, value);
         }
@@ -43,8 +50,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The content of the bottom additional content area.
         /// </value>
-        public object AdditionalContentBottom
-        {
+        public object AdditionalContentBottom {
             get => GetValue(AdditionalContentBottomProperty);
             set => SetValue(AdditionalContentBottomProperty, value);
         }
@@ -55,8 +61,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The content of the left additional content area.
         /// </value>
-        public object AdditionalContentLeft
-        {
+        public object AdditionalContentLeft {
             get => GetValue(AdditionalContentLeftProperty);
             set => SetValue(AdditionalContentLeftProperty, value);
         }
@@ -67,8 +72,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The content of the right additional content area.
         /// </value>
-        public object AdditionalContentRight
-        {
+        public object AdditionalContentRight {
             get => GetValue(AdditionalContentRightProperty);
             set => SetValue(AdditionalContentRightProperty, value);
         }
@@ -79,8 +83,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The content of the center additional content area.
         /// </value>
-        public object AdditionalContentMain
-        {
+        public object AdditionalContentMain {
             get => GetValue(AdditionalContentMainProperty);
             set => SetValue(AdditionalContentMainProperty, value);
         }
@@ -91,8 +94,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The content of the top additional content area.
         /// </value>
-        public object AdditionalContentOverBadge
-        {
+        public object AdditionalContentOverBadge {
             get => GetValue(AdditionalContentOverBadgeProperty);
             set => SetValue(AdditionalContentOverBadgeProperty, value);
         }
@@ -103,8 +105,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The accent brush.
         /// </value>
-        public Brush AccentBrush
-        {
+        public Brush AccentBrush {
             get => (Brush)GetValue(AccentBrushProperty);
             set => SetValue(AccentBrushProperty, value);
         }
@@ -115,8 +116,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The button accent brush.
         /// </value>
-        public Brush ButtonAccentBrush
-        {
+        public Brush ButtonAccentBrush {
             get => (Brush)GetValue(ButtonAccentBrushProperty);
             set => SetValue(ButtonAccentBrushProperty, value);
         }
@@ -127,8 +127,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The badge visibility.
         /// </value>
-        public Visibility BadgeVisibility
-        {
+        public Visibility BadgeVisibility {
             get => (Visibility)GetValue(BadgeVisibilityProperty);
             set => SetValue(BadgeVisibilityProperty, value);
         }
@@ -139,8 +138,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The badge accent brush.
         /// </value>
-        public Brush BadgeAccentBrush
-        {
+        public Brush BadgeAccentBrush {
             get => (Brush)GetValue(BadgeAccentBrushProperty);
             set => SetValue(BadgeAccentBrushProperty, value);
         }
@@ -151,8 +149,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The badge text.
         /// </value>
-        public string BadgeText
-        {
+        public string BadgeText {
             get => (string)GetValue(BadgeTextProperty);
             set => SetValue(BadgeTextProperty, value);
         }
@@ -163,8 +160,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The header visibility.
         /// </value>
-        public Visibility HeaderVisibility
-        {
+        public Visibility HeaderVisibility {
             get => (Visibility)GetValue(HeaderVisibilityProperty);
             set => SetValue(HeaderVisibilityProperty, value);
         }
@@ -175,8 +171,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The header.
         /// </value>
-        public string Header
-        {
+        public string Header {
             get => (string)GetValue(HeaderProperty);
             set => SetValue(HeaderProperty, value);
         }
@@ -187,8 +182,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The message visibility.
         /// </value>
-        public Visibility MessageVisibility
-        {
+        public Visibility MessageVisibility {
             get => (Visibility)GetValue(MessageVisibilityProperty);
             set => SetValue(MessageVisibilityProperty, value);
         }
@@ -199,8 +193,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The message.
         /// </value>
-        public string Message
-        {
+        public string Message {
             get => (string)GetValue(MessageProperty);
             set => SetValue(MessageProperty, value);
         }
@@ -211,8 +204,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// The buttons.
         /// </value>
-        public ObservableCollection<object> Buttons
-        {
+        public ObservableCollection<object> Buttons {
             get => (ObservableCollection<object>)GetValue(ButtonsProperty);
             set => SetValue(ButtonsProperty, value);
         }
@@ -223,8 +215,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// Whether or not the message animates.
         /// </value>
-        public bool Animates
-        {
+        public bool Animates {
             get => (bool)GetValue(AnimatesProperty);
             set => SetValue(AnimatesProperty, value);
         }
@@ -235,8 +226,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// How long the message animates in (in seconds).
         /// </value>
-        public double AnimationInDuration
-        {
+        public double AnimationInDuration {
             get => (double)GetValue(AnimationInDurationProperty);
             set => SetValue(AnimationInDurationProperty, value);
         }
@@ -247,8 +237,7 @@ namespace NTMiner.Notifications.Controls {
         /// <value>
         /// How long the message animates out (in seconds).
         /// </value>
-        public double AnimationOutDuration
-        {
+        public double AnimationOutDuration {
             get => (double)GetValue(AnimationOutDurationProperty);
             set => SetValue(AnimationOutDurationProperty, value);
         }
@@ -261,20 +250,15 @@ namespace NTMiner.Notifications.Controls {
         /// <summary>
         /// The animation in.
         /// </summary>
-        public AnimationTimeline AnimationIn
-        {
-            get
-            {
+        public AnimationTimeline AnimationIn {
+            get {
                 var animation = (AnimationTimeline)GetValue(AnimationInProperty);
-                if (animation != null)
-                {
+                if (animation != null) {
                     animation.Duration = TimeSpan.FromSeconds(AnimationInDuration);
                     return animation;
                 }
-                else
-                {
-                    var doubleAnimation = new DoubleAnimation
-                    {
+                else {
+                    var doubleAnimation = new DoubleAnimation {
                         From = 0,
                         To = 1,
                         BeginTime = TimeSpan.FromSeconds(0),
@@ -290,20 +274,15 @@ namespace NTMiner.Notifications.Controls {
         /// <summary>
         /// The animation out.
         /// </summary>
-        public AnimationTimeline AnimationOut
-        {
-            get
-            {
+        public AnimationTimeline AnimationOut {
+            get {
                 var animation = (AnimationTimeline)GetValue(AnimationOutProperty);
-                if (animation != null)
-                {
+                if (animation != null) {
                     animation.Duration = TimeSpan.FromSeconds(AnimationOutDuration);
                     return animation;
                 }
-                else
-                {
-                    return new DoubleAnimation
-                    {
+                else {
+                    return new DoubleAnimation {
                         From = 1,
                         To = 0,
                         BeginTime = TimeSpan.FromSeconds(0),
@@ -318,10 +297,8 @@ namespace NTMiner.Notifications.Controls {
         /// <summary>
         /// The dependency property on which to animate while animating in.
         /// </summary>
-        public DependencyProperty AnimationInDependencyProperty
-        {
-            get
-            {
+        public DependencyProperty AnimationInDependencyProperty {
+            get {
                 var property = (DependencyProperty)GetValue(AnimationInDependencyPropProperty);
                 return property ?? OpacityProperty;
             }
@@ -331,10 +308,8 @@ namespace NTMiner.Notifications.Controls {
         /// <summary>
         /// The dependency property on which to animate while animating out.
         /// </summary>
-        public DependencyProperty AnimationOutDependencyProperty
-        {
-            get
-            {
+        public DependencyProperty AnimationOutDependencyProperty {
+            get {
                 var property = (DependencyProperty)GetValue(AnimationOutDependencyPropProperty);
                 return property ?? OpacityProperty;
             }
@@ -394,18 +369,15 @@ namespace NTMiner.Notifications.Controls {
         /// </summary>
         /// <param name="dependencyObject">The dependency object.</param>
         /// <param name="dependencyPropertyChangedEventArgs">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-        private static void AccentBrushPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
+        private static void AccentBrushPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
             if (!(dependencyObject is NotificationMessage @this))
                 throw new NullReferenceException("Dependency object is not of valid type " + nameof(NotificationMessage));
 
-            if (@this.BadgeAccentBrush == null)
-            {
+            if (@this.BadgeAccentBrush == null) {
                 @this.BadgeAccentBrush = dependencyPropertyChangedEventArgs.NewValue as Brush;
             }
 
-            if (@this.ButtonAccentBrush == null)
-            {
+            if (@this.ButtonAccentBrush == null) {
                 @this.ButtonAccentBrush = dependencyPropertyChangedEventArgs.NewValue as Brush;
             }
         }
@@ -439,8 +411,7 @@ namespace NTMiner.Notifications.Controls {
         /// </summary>
         /// <param name="dependencyObject">The dependency object.</param>
         /// <param name="dependencyPropertyChangedEventArgs">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-        private static void BadgeTextPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
+        private static void BadgeTextPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
             if (!(dependencyObject is NotificationMessage @this))
                 throw new NullReferenceException("Dependency object is not of valid type " + nameof(NotificationMessage));
 
@@ -466,8 +437,7 @@ namespace NTMiner.Notifications.Controls {
         /// </summary>
         /// <param name="dependencyObject">The dependency object.</param>
         /// <param name="dependencyPropertyChangedEventArgs">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-        private static void HeaderPropertyChangesCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
+        private static void HeaderPropertyChangesCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
             if (!(dependencyObject is NotificationMessage @this))
                 throw new NullReferenceException("Dependency object is not of valid type " + nameof(NotificationMessage));
 
@@ -493,8 +463,7 @@ namespace NTMiner.Notifications.Controls {
         /// </summary>
         /// <param name="dependencyObject">The dependency object.</param>
         /// <param name="dependencyPropertyChangedEventArgs">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
-        private static void MessagePropertyChangesCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
+        private static void MessagePropertyChangesCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
             if (!(dependencyObject is NotificationMessage @this))
                 throw new NullReferenceException("Dependency object is not of valid type " + nameof(NotificationMessage));
 
@@ -555,21 +524,8 @@ namespace NTMiner.Notifications.Controls {
         /// <summary>
         /// Initializes the <see cref="NotificationMessage" /> class.
         /// </summary>
-        static NotificationMessage()
-        {
+        static NotificationMessage() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NotificationMessage), new FrameworkPropertyMetadata(typeof(NotificationMessage)));
-        }
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NotificationMessage" /> class.
-        /// </summary>
-        public NotificationMessage()
-        {
-            this.Buttons = new ObservableCollection<object>();
-
-            // Setting the default text color, if not defined by user.
-            this.Foreground = new BrushConverter().ConvertFromString("#DDDDDD") as Brush;
         }
     }
 }

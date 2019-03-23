@@ -6,6 +6,8 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:controls="clr-namespace:NTMiner.Controls"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
+        xmlns:local="clr-namespace:NTMiner.Views"
         UseNoneWindowStyle="True"
         WindowTransitionsEnabled="False"
         ResizeMode="NoResize"
@@ -44,18 +46,19 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Background="{StaticResource MainColor}" Height="30">
+        <DockPanel Background="{StaticResource ThemeBackground}" Height="30">
             <WrapPanel DockPanel.Dock="Left">
                 <Path 
                     Margin="4 4 0 0"
                     Width="16"
                     Height="16"
                     Visibility="{Binding IsIconVisible}"
-                    Fill="{StaticResource IconFillColor}"
+                    Fill="{StaticResource ThemeForeground}"
                     Data="{DynamicResource Icon}"
                     Stretch="Fill"/>
                 <TextBlock
                     Text="{DynamicResource Title}"
+                    Foreground="{StaticResource ThemeForeground}"
                     Margin="4 4 0 0"
                     FontSize="16" />
             </WrapPanel>
@@ -64,11 +67,13 @@
             <TextBlock Text="{DynamicResource Message}" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
-            <controls:KbButton Padding="4" Width="80" Margin="10 0"
+            <controls:KbButton 
+                Padding="10 0"
+                Margin="10 0"
                 x:Name="BtnOk"
                 Click="KbOkButton_Click"
-                FontSize="12"
-                Background="{StaticResource IconFillColor}"
+                Background="{StaticResource ThemeBackground}"
+                Foreground="{StaticResource ThemeForeground}"
                 VerticalAlignment="Center"
                 CornerRadius="2">
                 <WrapPanel>
@@ -76,20 +81,23 @@
                         Width="14"
                         Height="14"
                         Data="{StaticResource Icon_Ok}"
-                        Fill="White"
+                        Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
                     <Label
                         FontSize="14"
-                        Foreground="White"
+                        Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
                         Content="{DynamicResource OK}" />
                 </WrapPanel>
             </controls:KbButton>
-            <controls:KbButton Padding="4" Width="80" Margin="10 0"
+            <controls:KbButton 
+                Padding="10 0" 
+                Width="80" 
+                Margin="10 0"
                 x:Name="BtnYes"
                 Click="KbYesButton_Click"
-                FontSize="12"
-                Background="{StaticResource IconFillColor}"
+                Background="{StaticResource ThemeBackground}"
+                Foreground="{StaticResource ThemeForeground}"
                 VerticalAlignment="Center"
                 CornerRadius="2">
                 <WrapPanel>
@@ -97,19 +105,21 @@
                         Width="14"
                         Height="14"
                         Data="{StaticResource Icon_Ok}"
-                        Fill="White"
+                        Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
                     <Label
                         FontSize="14"
-                        Foreground="White"
+                        Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
                         Content="{DynamicResource Yes}" />
                 </WrapPanel>
             </controls:KbButton>
-            <controls:KbButton Padding="4" Width="80" Margin="10 0"
+            <controls:KbButton 
+                Padding="10 0" 
+                Width="80" 
+                Margin="10 0"
                 x:Name="BtnNo"
                 Click="KbNoButton_Click"
-                FontSize="12"
                 Background="Red"
                 VerticalAlignment="Center"
                 CornerRadius="2">
@@ -128,5 +138,22 @@
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>
+        <controls:KbButton
+            HorizontalAlignment="Right"
+            ToolTip="{x:Static local:DialogWindow.ViewId}"
+            Command="{x:Static vm:WpfStatic.ShowLangViewItems}"
+            CommandParameter="{x:Static local:DialogWindow.ViewId}"
+            Padding="4 0"
+            Background="{StaticResource ThemeBackground}"
+            Foreground="{StaticResource ThemeForeground}">
+            <WrapPanel>
+                <Path
+                    Width="12"
+                    Height="12"
+                    Data="{StaticResource Icon_Translate}"
+                    Fill="{StaticResource ThemeForeground}"
+                    Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
     </Grid>
 </metro:MetroWindow>

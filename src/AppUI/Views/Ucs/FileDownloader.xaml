@@ -1,71 +1,71 @@
 ﻿<UserControl x:Class="NTMiner.Views.Ucs.FileDownloader"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-        xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-        xmlns:vm="clr-namespace:NTMiner.Vms"
-        mc:Ignorable="d" Height="200" Width="400">
-    <UserControl.Resources>
-        <sys:String x:Key="WindowTitle">
-            file downloader
-        </sys:String>
-        <sys:String x:Key="Cancel">
-            cancel download
-        </sys:String>
-    </UserControl.Resources>
-    <Grid
-        Background="#F5F4F5"
-        Width="400" 
-        Height="30">
-        <controls:KbButton
-            Margin="0 -50 0 0"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            ToolTip="FileDownloader translate"
-            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-            CommandParameter="FileDownloader"
-            Padding="8 0"
-            Background="Transparent">
-            <WrapPanel>
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="{StaticResource Icon_Translate}"
-                    Fill="Red"
-                    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
-        <Rectangle
-            Width="{Binding DownloadPercent, ConverterParameter=400, Converter={StaticResource PercentToLengthConverter}}" 
-            HorizontalAlignment="Left" Fill="#6FBBFE"></Rectangle>
-        <WrapPanel HorizontalAlignment="Center">
-            <StackPanel>
-                <TextBlock
-                    FontSize="22" 
-                    Text="{Binding DownloadMessage}" 
-                    VerticalAlignment="Center">
-                </TextBlock>
-                <TextBlock
-                    Text="{Binding DownloadFileName}" 
-                    VerticalAlignment="Center">
-                </TextBlock>
-            </StackPanel>
-            <controls:KbButton 
-                Visibility="{Binding BtnCancelVisible}"
-                Margin="4 0 0 0"
-                Command="{Binding CancelDownload}"
-                ToolTip="{DynamicResource Cancel}"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		mc:Ignorable="d" Height="200" Width="400">
+	<UserControl.Resources>
+		<sys:String x:Key="WindowTitle">
+			file downloader
+		</sys:String>
+		<sys:String x:Key="Cancel">
+			cancel download
+		</sys:String>
+	</UserControl.Resources>
+	<Grid
+		Background="#F5F4F5"
+		Width="400" 
+		Height="30">
+		<controls:KbButton
+			Margin="0 -50 0 0"
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			ToolTip="{x:Static local:FileDownloader.ViewId}"
+			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+			CommandParameter="{x:Static local:FileDownloader.ViewId}"
+			Padding="8 0"
+			Background="Transparent">
+			<WrapPanel>
+				<Path
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Translate}"
+					Fill="{StaticResource ThemeBackground}"
+					Stretch="Fill" />
+			</WrapPanel>
+		</controls:KbButton>
+		<Rectangle
+			Width="{Binding DownloadPercent, ConverterParameter=400, Converter={StaticResource PercentToLengthConverter}}" 
+			HorizontalAlignment="Left" Fill="#6FBBFE"></Rectangle>
+		<WrapPanel HorizontalAlignment="Center">
+			<StackPanel>
+				<TextBlock
+					FontSize="22" 
+					Text="{Binding DownloadMessage}" 
+					VerticalAlignment="Center">
+				</TextBlock>
+				<TextBlock
+					Text="{Binding DownloadFileName}" 
+					VerticalAlignment="Center">
+				</TextBlock>
+			</StackPanel>
+			<controls:KbButton 
+				Visibility="{Binding BtnCancelVisible}"
+				Margin="4 0 0 0"
+				Command="{Binding CancelDownload}"
+				ToolTip="{DynamicResource Cancel}"
 				Background="Transparent" BorderThickness="0">
-                <Path
+				<Path
 					Width="20"
 					Height="20"
 					Data="{StaticResource Icon_Cancel}"
 					Fill="{StaticResource IconFillColor}"
 					Stretch="Fill" />
-            </controls:KbButton>
-        </WrapPanel>
-    </Grid>
+			</controls:KbButton>
+		</WrapPanel>
+	</Grid>
 </UserControl>

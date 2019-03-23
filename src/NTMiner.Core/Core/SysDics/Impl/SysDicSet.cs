@@ -10,12 +10,13 @@ namespace NTMiner.Core.SysDics.Impl {
         private readonly Dictionary<string, SysDicData> _dicByCode = new Dictionary<string, SysDicData>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, SysDicData> _dicById = new Dictionary<Guid, SysDicData>();
 
-        public SysDicSet(INTMinerRoot root) {
+        private readonly bool _isUseJson;
+        public SysDicSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
-            Global.Access<AddSysDicCommand>(
-                Guid.Parse("9353be1f-707f-455f-ade5-07e081141d47"),
+            _isUseJson = isUseJson;
+            VirtualRoot.Accept<AddSysDicCommand>(
                 "添加系统字典",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -33,15 +34,14 @@ namespace NTMiner.Core.SysDics.Impl {
                     SysDicData entity = new SysDicData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
                     _dicByCode.Add(entity.Code, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>(isUseJson);
                     repository.Add(entity);
 
-                    Global.Happened(new SysDicAddedEvent(entity));
-                });
-            Global.Access<UpdateSysDicCommand>(
-                Guid.Parse("b37df2da-ab45-416e-ba58-d703667f300b"),
+                    VirtualRoot.Happened(new SysDicAddedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
+            VirtualRoot.Accept<UpdateSysDicCommand>(
                 "更新系统字典",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -54,16 +54,18 @@ namespace NTMiner.Core.SysDics.Impl {
                         return;
                     }
                     SysDicData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>(isUseJson);
                     repository.Update(entity);
 
-                    Global.Happened(new SysDicUpdatedEvent(entity));
-                });
-            Global.Access<RemoveSysDicCommand>(
-                Guid.Parse("ac6af880-89a1-47a4-9596-55e33714db45"),
+                    VirtualRoot.Happened(new SysDicUpdatedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
+            VirtualRoot.Accept<RemoveSysDicCommand>(
                 "移除系统字典",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -75,18 +77,17 @@ namespace NTMiner.Core.SysDics.Impl {
                     SysDicData entity = _dicById[message.EntityId];
                     List<Guid> toRemoves = root.SysDicItemSet.GetSysDicItems(entity.Code).Select(a => a.GetId()).ToList();
                     foreach (var id in toRemoves) {
-                        Global.Execute(new RemoveSysDicItemCommand(id));
+                        VirtualRoot.Execute(new RemoveSysDicItemCommand(id));
                     }
                     _dicById.Remove(entity.Id);
                     if (_dicByCode.ContainsKey(entity.Code)) {
                         _dicByCode.Remove(entity.Code);
                     }
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>(isUseJson);
                     repository.Remove(entity.Id);
 
-                    Global.Happened(new SysDicRemovedEvent(entity));
-                });
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
+                    VirtualRoot.Happened(new SysDicRemovedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;
@@ -102,7 +103,7 @@ namespace NTMiner.Core.SysDics.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
+                    var repository = NTMinerRoot.CreateServerRepository<SysDicData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

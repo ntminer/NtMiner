@@ -28,10 +28,9 @@ namespace NTMiner.Vms {
                 this._list.Add(new GpuSpeedViewModel(item));
             }
             _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
-            Global.Access<GpuSpeedChangedEvent>(
-                Guid.Parse("acb2e5fd-a3ed-4ed6-b8c7-583eafd5e579"),
+            VirtualRoot.On<GpuSpeedChangedEvent>(
                 "显卡算力变更后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: (message) => {
                     Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
                     if (_mainCoinId != mainCoinId) {
@@ -73,14 +72,14 @@ namespace NTMiner.Vms {
                         else {
                             if (message.IsDualSpeed) {
                                 if (mineContext is IDualMineContext dualMineContext) {
-                                    IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(dualMineContext.DualCoin);
+                                    IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(dualMineContext.DualCoin.Code);
                                     IncomeDualCoinPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeCoin;
                                     IncomeDualCoinUsdPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeUsd;
                                     IncomeDualCoinCnyPerDay = _totalSpeedVm.DualCoinSpeed.Value * incomePerDay.IncomeCny;
                                 }
                             }
                             else {
-                                IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(mineContext.MainCoin);
+                                IncomePerDay incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(mineContext.MainCoin.Code);
                                 IncomeMainCoinPerDay = _totalSpeedVm.MainCoinSpeed.Value * incomePerDay.IncomeCoin;
                                 IncomeMainCoinUsdPerDay = _totalSpeedVm.MainCoinSpeed.Value * incomePerDay.IncomeUsd;
                                 IncomeMainCoinCnyPerDay = _totalSpeedVm.MainCoinSpeed.Value * incomePerDay.IncomeCny;

@@ -4,9 +4,9 @@ namespace NTMiner.Core {
     public interface ICoinShare {
         Guid CoinId { get; }
         int TotalShareCount { get; }
-        int AcceptShareCount { get; set; }
+        int AcceptShareCount { get; }
         double RejectPercent { get; }
-        int RejectCount { get; set; }
-        DateTime ShareOn { get; set; }
+        int RejectShareCount { get; }
+        DateTime ShareOn { get; }
     }
 }

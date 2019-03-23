@@ -1,11 +1,13 @@
 ﻿using NTMiner.Vms;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelInputEdit : UserControl {
-        public static void ShowEditWindow(KernelInputViewModel source) {
+        public static string ViewId = nameof(KernelInputEdit);
+
+        public static void ShowWindow(FormType formType, KernelInputViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IconName = "Icon_KernelInput",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible

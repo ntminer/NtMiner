@@ -1,6 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
-using NTMiner.Core.Kernels;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -10,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class CoinKernelViewModel : ViewModelBase, ICoinKernel {
+    public class CoinKernelViewModel : ViewModelBase, ICoinKernel, IEditableViewModel {
         private Guid _id;
         private Guid _coinId;
         private Guid _kernelId;
@@ -19,6 +17,9 @@ namespace NTMiner.Vms {
         private string _args;
         private string _description;
         private SupportedGpu _supportedGpu;
+        private GroupViewModel _selectedDualCoinGroup;
+        private List<EnvironmentVariable> _environmentVariables;
+        private CoinViewModel _coinVm;
 
         public Guid GetId() {
             return this.Id;
@@ -30,7 +31,17 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
         public ICommand Save { get; private set; }
 
+        public ICommand AddEnvironmentVariable { get; private set; }
+        public ICommand EditEnvironmentVariable { get; private set; }
+        public ICommand RemoveEnvironmentVariable { get; private set; }
+
         public Action CloseWindow { get; set; }
+
+        public CoinKernelViewModel() {
+            if (!Design.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
 
         public CoinKernelViewModel(ICoinKernel data) : this(data.GetId()) {
             _coinId = data.CoinId;
@@ -40,36 +51,54 @@ namespace NTMiner.Vms {
             _args = data.Args;
             _description = data.Description;
             _supportedGpu = data.SupportedGpu;
+            // 复制，视为值对象，防止直接修改引用
+            _environmentVariables.AddRange(data.EnvironmentVariables.Select(a => new EnvironmentVariable {
+                Key = a.Key,
+                Value = a.Value
+            }));
         }
 
         public CoinKernelViewModel(Guid id) {
             _id = id;
+            _environmentVariables = new List<EnvironmentVariable>();
+            this.AddEnvironmentVariable = new DelegateCommand(() => {
+                EnvironmentVariableEdit.ShowWindow(this, new EnvironmentVariable());
+            });
+            this.EditEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
+                EnvironmentVariableEdit.ShowWindow(this, environmentVariable);
+            });
+            this.RemoveEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
+                DialogWindow.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
+                    this.EnvironmentVariables.Remove(environmentVariable);
+                    EnvironmentVariables = EnvironmentVariables.ToList();
+                }, icon: IconConst.IconConfirm);
+            });
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.CoinKernelSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateCoinKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
-                CoinKernelEdit.ShowEditWindow(this);
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
+                CoinKernelEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveCoinKernelCommand(this.Id));
+                    VirtualRoot.Execute(new RemoveCoinKernelCommand(this.Id));
                     Kernel.OnPropertyChanged(nameof(Kernel.SupportedCoins));
-                }, icon: "Icon_Confirm");
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 CoinKernelViewModel upOne = CoinKernelViewModels.Current.AllCoinKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateCoinKernelCommand(upOne));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateCoinKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
@@ -83,9 +112,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateCoinKernelCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateCoinKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
@@ -99,8 +128,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -109,9 +140,11 @@ namespace NTMiner.Vms {
                 return _coinId;
             }
             set {
-                _coinId = value;
-                OnPropertyChanged(nameof(CoinId));
-                OnPropertyChanged(nameof(CoinCode));
+                if (_coinId != value) {
+                    _coinId = value;
+                    OnPropertyChanged(nameof(CoinId));
+                    OnPropertyChanged(nameof(CoinCode));
+                }
             }
         }
 
@@ -121,7 +154,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private CoinViewModel _coinVm;
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || this.CoinId != _coinVm.Id) {
@@ -137,8 +169,10 @@ namespace NTMiner.Vms {
         public Guid KernelId {
             get => _kernelId;
             set {
-                _kernelId = value;
-                OnPropertyChanged(nameof(KernelId));
+                if (_kernelId != value) {
+                    _kernelId = value;
+                    OnPropertyChanged(nameof(KernelId));
+                }
             }
         }
 
@@ -161,20 +195,23 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 
         public Guid DualCoinGroupId {
             get => _dualCoinGroupId;
             set {
-                _dualCoinGroupId = value;
-                OnPropertyChanged(nameof(DualCoinGroupId));
+                if (_dualCoinGroupId != value) {
+                    _dualCoinGroupId = value;
+                    OnPropertyChanged(nameof(DualCoinGroupId));
+                }
             }
         }
 
-        private GroupViewModel _selectedDualCoinGroup;
         public GroupViewModel SelectedDualCoinGroup {
             get {
                 if (this.DualCoinGroupId == Guid.Empty) {
@@ -219,16 +256,28 @@ namespace NTMiner.Vms {
         public string Args {
             get { return _args; }
             set {
-                _args = value;
-                OnPropertyChanged(nameof(Args));
+                if (_args != value) {
+                    _args = value;
+                    OnPropertyChanged(nameof(Args));
+                }
             }
         }
 
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
+            }
+        }
+
+        public List<EnvironmentVariable> EnvironmentVariables {
+            get => _environmentVariables;
+            set {
+                _environmentVariables = value;
+                OnPropertyChanged(nameof(EnvironmentVariables));
             }
         }
 
@@ -247,16 +296,21 @@ namespace NTMiner.Vms {
         public SupportedGpu SupportedGpu {
             get => _supportedGpu;
             set {
-                _supportedGpu = value;
-                OnPropertyChanged(nameof(SupportedGpu));
-                OnPropertyChanged(nameof(IsNvidiaIconVisible));
-                OnPropertyChanged(nameof(IsAMDIconVisible));
-                OnPropertyChanged(nameof(IsSupported));
+                if (_supportedGpu != value) {
+                    _supportedGpu = value;
+                    OnPropertyChanged(nameof(SupportedGpu));
+                    OnPropertyChanged(nameof(IsNvidiaIconVisible));
+                    OnPropertyChanged(nameof(IsAMDIconVisible));
+                    OnPropertyChanged(nameof(IsSupported));
+                }
             }
         }
 
         public bool IsSupported {
             get {
+                if (VirtualRoot.IsControlCenter) {
+                    return true;
+                }
                 if (this.SupportedGpu == SupportedGpu.Both) {
                     return true;
                 }
@@ -288,19 +342,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
-            get {
-                return SupportedGpu.AMD.GetEnumItems();
-            }
-        }
-
         public EnumItem<SupportedGpu> SupportedGpuEnumItem {
             get {
-                return SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
+                return AppStatic.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
             }
             set {
-                SupportedGpu = value.Value;
-                OnPropertyChanged(nameof(SupportedGpuEnumItem));
+                if (SupportedGpu != value.Value) {
+                    SupportedGpu = value.Value;
+                    OnPropertyChanged(nameof(SupportedGpuEnumItem));
+                }
             }
         }
 

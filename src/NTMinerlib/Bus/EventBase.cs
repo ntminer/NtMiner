@@ -2,7 +2,7 @@
 
 namespace NTMiner.Bus {
     public abstract class EventBase : IEvent {
-        public EventBase() {
+        protected EventBase() {
             this.Id = Guid.NewGuid();
             this.Timestamp = DateTime.Now;
         }

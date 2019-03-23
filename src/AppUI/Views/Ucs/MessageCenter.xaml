@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.MessageCenter"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		DataContext="{x:Static vm:MessageCenterViewModel.Current}"
+		mc:Ignorable="d" d:DesignHeight="408" d:DesignWidth="408">
+	<UserControl.Resources>
+	</UserControl.Resources>
+	<Grid Background="Black">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<FlowDocumentScrollViewer 	
+			VerticalScrollBarVisibility="Auto"
+			x:Name="FlowDocumentScrollViewerDebug" 
+			BorderThickness="0" 
+			Foreground="White">
+			<FlowDocument PagePadding="4">
+				<Paragraph x:Name="ConsoleParagraphDebug" FontFamily="Courier New" FontSize="12">
+				</Paragraph>
+			</FlowDocument>
+		</FlowDocumentScrollViewer>
+		<FlowDocumentScrollViewer 
+			Grid.Row="1"			
+			VerticalScrollBarVisibility="Auto"
+			x:Name="FlowDocumentScrollViewer" 
+			BorderThickness="0" 
+			Background="Black" Foreground="White">
+			<FlowDocument PagePadding="4">
+				<Paragraph x:Name="ConsoleParagraph" FontFamily="Courier New" FontSize="12">
+				</Paragraph>
+			</FlowDocument>
+		</FlowDocumentScrollViewer>
+		<controls:KbCheckBox 
+			Grid.Row="0"
+			Margin="0 2 14 0"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Top"
+			x:Name="ChkbIsConsoleAutoScrollToEnd"
+			IconColor="{StaticResource IconFillColor}"
+			IsChecked="True" />
+	</Grid>
+</UserControl>

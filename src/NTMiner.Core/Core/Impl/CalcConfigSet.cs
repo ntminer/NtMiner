@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.MinerServer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,11 +11,10 @@ namespace NTMiner.Core.Impl {
 
         public CalcConfigSet(INTMinerRoot root) {
             _root = root;
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         private DateTime _initedOn = DateTime.MinValue;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void Init() {
             DateTime now = DateTime.Now;
@@ -30,7 +29,7 @@ namespace NTMiner.Core.Impl {
                             Speed = 0,
                             SpeedUnit = "H/s"
                         }).ToList();
-                        var response = Server.ControlCenterService.GetCalcConfigs();
+                        var response = OfficialServer.GetCalcConfigs();
                         if (response != null) {
                             foreach (var item in list) {
                                 var exist = response.Data.FirstOrDefault(a => string.Equals(a.CoinCode, item.CoinCode, StringComparison.OrdinalIgnoreCase));
@@ -56,12 +55,12 @@ namespace NTMiner.Core.Impl {
             return true;
         }
 
-        public IncomePerDay GetIncomePerHashPerDay(ICoin coin) {
+        public IncomePerDay GetIncomePerHashPerDay(string coinCode) {
             Init();
-            if (!_dicByCoinCode.ContainsKey(coin.Code)) {
+            if (!_dicByCoinCode.ContainsKey(coinCode)) {
                 return IncomePerDay.Zero;
             }
-            CalcConfigData item = _dicByCoinCode[coin.Code];
+            CalcConfigData item = _dicByCoinCode[coinCode];
             if (item.Speed == 0) {
                 return IncomePerDay.Zero;
             }
@@ -72,7 +71,7 @@ namespace NTMiner.Core.Impl {
         public void SaveCalcConfigs(List<CalcConfigData> data) {
             lock (_locker) {
                 _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-                Server.ControlCenterService.SaveCalcConfigsAsync(data);
+                OfficialServer.SaveCalcConfigsAsync(data, null);
             }
         }
 

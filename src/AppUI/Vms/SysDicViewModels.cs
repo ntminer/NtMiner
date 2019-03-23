@@ -13,20 +13,24 @@ namespace NTMiner.Vms {
 
         public ICommand Add { get; private set; }
         private SysDicViewModels() {
-            foreach (var item in NTMinerRoot.Current.SysDicSet) {
-                SysDicViewModel sysDicVm = new SysDicViewModel(item);
-                _dicById.Add(item.GetId(), sysDicVm);
-                _dicByCode.Add(item.Code, sysDicVm);
-            }
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicByCode.Clear();
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                AllPropertyChanged();
+            };
             this.Add = new DelegateCommand(() => {
-                new SysDicViewModel(Guid.NewGuid()) {
-                    SortNumber = this.Count + 1
-                }.Edit.Execute(null);
+                new SysDicViewModel(Guid.NewGuid()).Edit.Execute(null);
             });
-            Global.Access<SysDicAddedEvent>(
-                Guid.Parse("eef03852-17c4-4124-bb64-444f6c4f19ab"),
+            Init();
+        }
+
+        private void Init() {
+            VirtualRoot.On<SysDicAddedEvent>(
                 "添加了系统字典后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         SysDicViewModel sysDicVm = new SysDicViewModel(message.Source);
@@ -37,11 +41,10 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(Count));
                     }
-                });
-            Global.Access<SysDicUpdatedEvent>(
-                Guid.Parse("f34d33e9-981b-4513-9425-e8694a4b5b17"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<SysDicUpdatedEvent>(
                 "更新了系统字典后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         SysDicViewModel entity = _dicById[message.Source.GetId()];
@@ -51,17 +54,21 @@ namespace NTMiner.Vms {
                             this.OnPropertyChanged(nameof(List));
                         }
                     }
-                });
-            Global.Access<SysDicRemovedEvent>(
-                Guid.Parse("25c11087-a479-40de-8ddc-9c807a66afab"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<SysDicRemovedEvent>(
                 "删除了系统字典后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     _dicByCode.Remove(message.Source.Code);
                     OnPropertyChanged(nameof(List));
                     OnPropertyChanged(nameof(Count));
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            foreach (var item in NTMinerRoot.Current.SysDicSet) {
+                SysDicViewModel sysDicVm = new SysDicViewModel(item);
+                _dicById.Add(item.GetId(), sysDicVm);
+                _dicByCode.Add(item.Code, sysDicVm);
+            }
         }
 
         public bool TryGetSysDicVm(Guid dicId, out SysDicViewModel sysDicVm) {

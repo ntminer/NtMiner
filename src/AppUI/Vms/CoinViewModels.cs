@@ -13,44 +13,38 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            Global.Access<CoinSetRefreshedEvent>(
-                Guid.Parse("E1BD1C77-2845-4EC1-9262-BAFBC2C0532C"),
-                "币种数据集刷新后刷新Vm内存",
-                LogEnum.Console,
-                action: message => {
-                    Init();
-                    OnPropertyChangeds();
-                });
-            Global.Access<CoinAddedEvent>(
-                Guid.Parse("1ee6e72d-d98f-42ab-8732-dcee2e42f4b8"),
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                AllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
+            VirtualRoot.On<CoinAddedEvent>(
                 "添加了币种后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
-                    OnPropertyChanged(nameof(AllCoins));
-                    OnPropertyChanged(nameof(MainCoins));
+                    AllPropertyChanged();
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
-                    OnPropertyChanged(nameof(PleaseSelect));
-                    OnPropertyChanged(nameof(DualPleaseSelect));
-                });
-            Global.Access<CoinRemovedEvent>(
-                Guid.Parse("6c966862-6dfa-4473-94b5-1133a16180a1"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<CoinRemovedEvent>(
                 "移除了币种后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     MinerProfileViewModel.Current.OnPropertyChanged(nameof(MinerProfileViewModel.Current.CoinVm));
-                    OnPropertyChanged(nameof(AllCoins));
-                    OnPropertyChanged(nameof(MainCoins));
+                    AllPropertyChanged();
                     CoinPageViewModel.Current.OnPropertyChanged(nameof(CoinPageViewModel.List));
-                    OnPropertyChanged(nameof(PleaseSelect));
-                    OnPropertyChanged(nameof(DualPleaseSelect));
-                });
-            Global.Access<CoinUpdatedEvent>(
-                Guid.Parse("114c90e5-6a0a-4aa4-9ba8-5ed603286c51"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<CoinUpdatedEvent>(
                 "更新了币种后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     CoinViewModel coinVm = _dicById[message.Source.GetId()];
                     bool justAsDualCoin = coinVm.JustAsDualCoin;
@@ -70,27 +64,9 @@ namespace NTMiner.Vms {
                     if (justAsDualCoin != coinVm.JustAsDualCoin) {
                         OnPropertyChanged(nameof(MainCoins));
                     }
-                });
-            Init();
-        }
-
-        private void Init() {
-            _dicById.Clear();
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             foreach (var item in NTMinerRoot.Current.CoinSet) {
                 _dicById.Add(item.GetId(), new CoinViewModel(item));
-            }
-        }
-
-        private void OnPropertyChangeds() {
-            OnPropertyChanged(nameof(AllCoins));
-            OnPropertyChanged(nameof(MainCoins));
-            OnPropertyChanged(nameof(PleaseSelect));
-            OnPropertyChanged(nameof(DualPleaseSelect));
-        }
-
-        public CoinViewModel this[Guid coinId] {
-            get {
-                return _dicById[coinId];
             }
         }
 
@@ -128,6 +104,18 @@ namespace NTMiner.Vms {
         public List<CoinViewModel> PleaseSelect {
             get {
                 return GetPleaseSelect().ToList();
+            }
+        }
+
+        private IEnumerable<CoinViewModel> GetMainCoinPleaseSelect() {
+            yield return CoinViewModel.PleaseSelect;
+            foreach (var item in MainCoins) {
+                yield return item;
+            }
+        }
+        public List<CoinViewModel> MainCoinPleaseSelect {
+            get {
+                return GetMainCoinPleaseSelect().OrderBy(a => a.SortNumber).ToList();
             }
         }
 

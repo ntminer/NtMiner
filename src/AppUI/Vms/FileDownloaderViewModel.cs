@@ -45,8 +45,10 @@ namespace NTMiner.Vms {
                 return _downloadPercent;
             }
             set {
-                _downloadPercent = value;
-                OnPropertyChanged(nameof(DownloadPercent));
+                if (_downloadPercent != value) {
+                    _downloadPercent = value;
+                    OnPropertyChanged(nameof(DownloadPercent));
+                }
             }
         }
 
@@ -55,22 +57,26 @@ namespace NTMiner.Vms {
                 return _downloadMessage;
             }
             set {
-                _downloadMessage = value;
-                OnPropertyChanged(nameof(DownloadMessage));
+                if (_downloadMessage != value) {
+                    _downloadMessage = value;
+                    OnPropertyChanged(nameof(DownloadMessage));
+                }
             }
         }
 
         public Visibility BtnCancelVisible {
             get => _btnCancelVisible;
             set {
-                _btnCancelVisible = value;
-                OnPropertyChanged(nameof(BtnCancelVisible));
+                if (_btnCancelVisible != value) {
+                    _btnCancelVisible = value;
+                    OnPropertyChanged(nameof(BtnCancelVisible));
+                }
             }
         }
 
         private void Download(Action<bool, string, string> downloadComplete) {
-            Global.Logger.InfoDebugLine("下载：" + _downloadFileUrl);
-            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, "LiteDBExplorerPortable.zip");
+            Logger.InfoDebugLine("下载：" + _downloadFileUrl);
+            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, Guid.NewGuid().ToString());
             using (WebClient webClient = new WebClient()) {
                 _cancel = () => {
                     webClient.CancelAsync();
@@ -82,12 +88,12 @@ namespace NTMiner.Vms {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     if (isSuccess) {
-                        Global.Logger.OkDebugLine("LiteDBExplorerPortable.zip下载成功");
+                        Logger.OkDebugLine($"{_downloadFileUrl}下载成功");
                     }
                     string message = "下载成功";
                     if (e.Error != null) {
                         message = "下载失败";
-                        Global.Logger.ErrorDebugLine(e.Error.Message, e.Error);
+                        Logger.ErrorDebugLine(e.Error.Message, e.Error);
                     }
                     if (e.Cancelled) {
                         message = "下载取消";
@@ -95,8 +101,9 @@ namespace NTMiner.Vms {
                     this.DownloadMessage = message;
                     this.DownloadPercent = 0;
                     this.BtnCancelVisible = Visibility.Collapsed;
+                    string etagValue = webClient.ResponseHeaders.Get("ETag").Trim('"');
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
-                        Execute.OnUIThread(() => {
+                        UIThread.Execute(() => {
                             downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                         });
                     });

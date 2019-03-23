@@ -3,179 +3,179 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
-    <UserControl.Resources>
-        <Style x:Key="LblTb" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-            <Setter Property="FontSize" Value="12"></Setter>
-            <Setter Property="Padding" Value="0 0 2 0"></Setter>
-            <Setter Property="Width" Value="90"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="TextAlignment" Value="Right"></Setter>
-            <Setter Property="TextWrapping" Value="Wrap"></Setter>
-        </Style>
-        <sys:String x:Key="WindowTitle">
-            WindowTitle
-        </sys:String>
-        <sys:String x:Key="PoolName">
-            PoolName
-        </sys:String>
-        <sys:String x:Key="Kernel">
-            Kernel
-        </sys:String>
-        <sys:String x:Key="KernelArgs">
-            KernelArgs
-        </sys:String>
-        <sys:String x:Key="CoinKernelArgs">
-            CoinKernelArgs
-        </sys:String>
-        <sys:String x:Key="Args">
-            Args
-        </sys:String>
-        <sys:String x:Key="Description">
-            Description
-        </sys:String>
-    </UserControl.Resources>
+	<UserControl.Resources>
+		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="Padding" Value="0 0 2 0"></Setter>
+			<Setter Property="Width" Value="90"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="TextAlignment" Value="Right"></Setter>
+			<Setter Property="TextWrapping" Value="Wrap"></Setter>
+		</Style>
+		<sys:String x:Key="WindowTitle">
+			WindowTitle
+		</sys:String>
+		<sys:String x:Key="PoolName">
+			PoolName
+		</sys:String>
+		<sys:String x:Key="Kernel">
+			Kernel
+		</sys:String>
+		<sys:String x:Key="KernelArgs">
+			KernelArgs
+		</sys:String>
+		<sys:String x:Key="CoinKernelArgs">
+			CoinKernelArgs
+		</sys:String>
+		<sys:String x:Key="Args">
+			Args
+		</sys:String>
+		<sys:String x:Key="Description">
+			Description
+		</sys:String>
+	</UserControl.Resources>
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
-            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource PoolName}" ToolTip="{DynamicResource PoolName}"></TextBlock>
-            <WrapPanel Width="180" VerticalAlignment="Center">
-                <TextBlock Text="{Binding PoolName}">
-                </TextBlock>
-                <controls:KbButton
-                    Margin="2 0"
-                    HorizontalAlignment="Right"
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                    ToolTip="PoolKernelEdit translate"
-                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                    CommandParameter="PoolKernelEdit"
-                    Background="Transparent">
-                    <WrapPanel>
-                        <Path
-                            Width="14"
-                            Height="14"
-                            Data="{StaticResource Icon_Translate}"
-                            Fill="Red"
-                            Stretch="Fill" />
-                    </WrapPanel>
-                </controls:KbButton>
-            </WrapPanel>
-            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Kernel}" ToolTip="{DynamicResource Kernel}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource PoolName}" ToolTip="{DynamicResource PoolName}"></TextBlock>
+			<WrapPanel Width="180" VerticalAlignment="Center">
+				<TextBlock Text="{Binding PoolName}">
+				</TextBlock>
+				<controls:KbButton
+					Margin="2 0"
+					HorizontalAlignment="Right"
+					Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+					ToolTip="{x:Static local:PoolKernelEdit.ViewId}"
+					Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+					CommandParameter="{x:Static local:PoolKernelEdit.ViewId}"
+					Background="Transparent">
+					<WrapPanel>
+						<Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Translate}"
+							Fill="{StaticResource ThemeBackground}"
+							Stretch="Fill" />
+					</WrapPanel>
+				</controls:KbButton>
+			</WrapPanel>
+			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Kernel}" ToolTip="{DynamicResource Kernel}"></TextBlock>
 			<TextBlock VerticalAlignment="Center"
 					   Text="{Binding Kernel.FullName, Mode=OneWay}">
 			</TextBlock>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
-                <controls:KbLinkButton 
-                    ToolTip="{DynamicResource KernelArgs}"
-				    KbDisplayLine="False"
-				    KbSystemButtonHoverBackground="Transparent" 
-				    Background="Transparent"
-				    Margin="0" 
-				    Command="{Binding Kernel.Edit}">
-				    <WrapPanel>
-					    <Path 
-						    Width="12"
-						    Height="12"
-						    Data="{StaticResource Icon_Kernel}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-					    <TextBlock
-						    Padding="0 4"
-                            MaxWidth="78"
-						    VerticalAlignment="Center"
-                            TextWrapping="Wrap"
-						    Text="{DynamicResource KernelArgs}"
-						    Foreground="{StaticResource LableColor}" />
-				    </WrapPanel>
-			    </controls:KbLinkButton>
-            </TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
+				<controls:KbLinkButton 
+					ToolTip="{DynamicResource KernelArgs}"
+					KbDisplayLine="False"
+					KbSystemButtonHoverBackground="Transparent" 
+					Background="Transparent"
+					Margin="0" 
+					Command="{Binding Kernel.Edit}">
+					<WrapPanel>
+						<Path 
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Kernel}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<TextBlock
+							Padding="0 4"
+							MaxWidth="78"
+							VerticalAlignment="Center"
+							TextWrapping="Wrap"
+							Text="{DynamicResource KernelArgs}"
+							Foreground="{StaticResource LableColor}" />
+					</WrapPanel>
+				</controls:KbLinkButton>
+			</TextBlock>
 			<TextBox IsReadOnly="True" BorderThickness="0" 
 					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
 					 Text="{Binding Kernel.KernelInputVm.Args, Mode=OneWay}">
 			</TextBox>
 		</WrapPanel>
 
-        <WrapPanel Margin="0 2">
-            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
-                <controls:KbLinkButton 
-                    ToolTip="{DynamicResource CoinKernelArgs}"
-				    KbDisplayLine="False"
-				    KbSystemButtonHoverBackground="Transparent" 
-				    Background="Transparent"
-				    Margin="0" 
-				    Command="{Binding CoinKernelVm.Edit}">
-				    <WrapPanel>
-					    <Path 
-						    Width="12"
-						    Height="12"
-						    Data="{StaticResource Icon_Kernel}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-					    <TextBlock
-                            MaxWidth="78"
-						    Padding="0 4"
-						    VerticalAlignment="Center"
-                            TextWrapping="Wrap"
-						    Text="{DynamicResource CoinKernelArgs}"
-						    Foreground="{StaticResource LableColor}" />
-				    </WrapPanel>
-			    </controls:KbLinkButton>
-            </TextBlock>
-            <TextBox IsReadOnly="True" BorderThickness="0" 
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
+				<controls:KbLinkButton 
+					ToolTip="{DynamicResource CoinKernelArgs}"
+					KbDisplayLine="False"
+					KbSystemButtonHoverBackground="Transparent" 
+					Background="Transparent"
+					Margin="0" 
+					Command="{Binding CoinKernelVm.Edit}">
+					<WrapPanel>
+						<Path 
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Kernel}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+						<TextBlock
+							MaxWidth="78"
+							Padding="0 4"
+							VerticalAlignment="Center"
+							TextWrapping="Wrap"
+							Text="{DynamicResource CoinKernelArgs}"
+							Foreground="{StaticResource LableColor}" />
+					</WrapPanel>
+				</controls:KbLinkButton>
+			</TextBlock>
+			<TextBox IsReadOnly="True" BorderThickness="0" 
 					 Background="Transparent" TextWrapping="Wrap" Padding="0 4" Width="420"
 					 Text="{Binding CoinKernelVm.Args, Mode=OneWay}">
-            </TextBox>
-        </WrapPanel>
+			</TextBox>
+		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-            <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Args}" ToolTip="{DynamicResource Args}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Args}" ToolTip="{DynamicResource Args}"></TextBlock>
 			<TextBox 
 				VerticalContentAlignment="Center"
-                Height="30"
+				Height="30"
 				Width="436" Background="Transparent"
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				Text="{Binding Args, Mode=TwoWay}">
 			</TextBox>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
-            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Description}" ToolTip="{DynamicResource Description}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Description}" ToolTip="{DynamicResource Description}"></TextBlock>
 			<TextBox 
 				Width="436" Background="Transparent"
-				IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+				IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 				AcceptsReturn="True" TextWrapping="Wrap" 
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Description, Mode=TwoWay}" Height="60">                
 			</TextBox>
-        </WrapPanel>
-        <controls:KbButton
-            Command="{Binding Save}" 
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            Margin="0 10 0 0"
-            Width="70" 
-            Height="30"
-            Background="{StaticResource IconFillColor}"
-            Foreground="White"
-            CornerRadius="2">
-            <WrapPanel>
-                <Path
-                    Width="12"
-                    Height="12"
-                    Data="{StaticResource Icon_Ok}"
-                    Fill="White"
-                    Stretch="Fill" />
-                <TextBlock
-                    Padding="4"
-                    VerticalAlignment="Center"
-                    Foreground="White"
-                    Text="确定" />
-            </WrapPanel>
-        </controls:KbButton>
-    </StackPanel>
+		</WrapPanel>
+		<controls:KbButton
+			Command="{Binding Save}" 
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			Margin="0 10 0 0"
+			Padding="10 0"
+			HorizontalAlignment="Center"
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="{StaticResource ThemeForeground}"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Foreground="{StaticResource ThemeForeground}"
+					Text="确定" />
+			</WrapPanel>
+		</controls:KbButton>
+	</StackPanel>
 </UserControl>

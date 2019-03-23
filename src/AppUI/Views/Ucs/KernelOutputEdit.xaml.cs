@@ -3,8 +3,11 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelOutputEdit : UserControl {
-        public static void ShowEditWindow(KernelOutputViewModel source) {
+        public static string ViewId = nameof(KernelOutputEdit);
+
+        public static void ShowWindow(FormType formType, KernelOutputViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_KernelOutput"

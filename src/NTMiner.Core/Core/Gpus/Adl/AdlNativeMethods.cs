@@ -50,8 +50,6 @@ namespace NTMiner.Core.Gpus.Adl {
     /// <returns>return ADL Error Code</returns>
     internal delegate int ADL_Display_DisplayInfo_Get(int adapterIndex, ref int numDisplays, out IntPtr displayInfoArray, int forceDetect);
 
-    internal delegate int ADL_Overdrive5_CurrentActivity_Get(int iAdapterIndex, ref ADLPMActivity activity);
-
     internal delegate int ADL_Overdrive5_Temperature_Get(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
 
     internal delegate int ADL_Overdrive5_FanSpeed_Get(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue temperature);
@@ -117,9 +115,6 @@ namespace NTMiner.Core.Gpus.Adl {
             internal static extern int ADL_Display_DisplayInfo_Get(int adapterIndex, ref int numDisplays, out IntPtr displayInfoArray, int forceDetect);
 
             [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
-            internal static extern int ADL_Overdrive5_CurrentActivity_Get(int iAdapterIndex, ref ADLPMActivity activity);
-
-            [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
             internal static extern int ADL_Overdrive5_Temperature_Get(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
 
             [DllImport(Atiadlxx_FileName, CallingConvention = CallingConvention.Cdecl)]
@@ -162,13 +157,13 @@ namespace NTMiner.Core.Gpus.Adl {
                     }
                 }
                 catch (DllNotFoundException e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
                 catch (EntryPointNotFoundException e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
                 catch (Exception e) {
-                    Global.Logger.ErrorDebugLine(e.Message, e);
+                    Logger.ErrorDebugLine(e.Message, e);
                 }
             }
             #endregion Constructor
@@ -397,20 +392,6 @@ namespace NTMiner.Core.Gpus.Adl {
         /// <summary> check flag to indicate the delegate has been checked</summary>
         private static bool ADL_Display_DisplayInfo_Get_Check = false;
         #endregion ADL_Display_DisplayInfo_Get
-
-        internal static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get {
-            get {
-                if (!ADL_Overdrive5_CurrentActivity_Get_Check && null == ADL_Overdrive5_CurrentActivity_Get_) {
-                    ADL_Overdrive5_CurrentActivity_Get_Check = true;
-                    if (ADLCheckLibrary.IsFunctionValid("ADL_Overdrive5_CurrentActivity_Get")) {
-                        ADL_Overdrive5_CurrentActivity_Get_ = ADLImport.ADL_Overdrive5_CurrentActivity_Get;
-                    }
-                }
-                return ADL_Overdrive5_CurrentActivity_Get_;
-            }
-        }
-        private static ADL_Overdrive5_CurrentActivity_Get ADL_Overdrive5_CurrentActivity_Get_ = null;
-        private static bool ADL_Overdrive5_CurrentActivity_Get_Check = false;
 
         internal static ADL_Overdrive5_Temperature_Get ADL_Overdrive5_Temperature_Get {
             get {

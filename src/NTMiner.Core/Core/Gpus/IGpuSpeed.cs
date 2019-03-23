@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
+using NTMiner.MinerClient;
 
 namespace NTMiner.Core.Gpus {
     public interface IGpuSpeed {
@@ -10,16 +11,13 @@ namespace NTMiner.Core.Gpus {
 
     public static class GpuSpeedExtensions {
         internal static IGpuSpeed Clone(this IGpuSpeed gpuSpeed) {
-            return new GpuSpeed(gpuSpeed.Gpu) {
-                MainCoinSpeed = new Speed() {
-                    Value = gpuSpeed.MainCoinSpeed.Value,
-                    SpeedOn = gpuSpeed.MainCoinSpeed.SpeedOn
-                },
-                DualCoinSpeed = new Speed() {
-                    Value = gpuSpeed.DualCoinSpeed.Value,
-                    SpeedOn = gpuSpeed.DualCoinSpeed.SpeedOn
-                }
-            };
+            return new GpuSpeed(gpuSpeed.Gpu, new Speed() {
+                Value = gpuSpeed.MainCoinSpeed.Value,
+                SpeedOn = gpuSpeed.MainCoinSpeed.SpeedOn
+            }, new Speed() {
+                Value = gpuSpeed.DualCoinSpeed.Value,
+                SpeedOn = gpuSpeed.DualCoinSpeed.SpeedOn
+            });
         }
     }
 }

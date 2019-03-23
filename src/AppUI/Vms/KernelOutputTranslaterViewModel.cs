@@ -8,7 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class KernelOutputTranslaterViewModel : ViewModelBase, IKernelOutputTranslater {
+    public class KernelOutputTranslaterViewModel : ViewModelBase, IKernelOutputTranslater, IEditableViewModel {
         private string _regexPattern;
         private Guid _id;
         private string _replacement;
@@ -49,10 +49,10 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 int sortNumber = this.SortNumber;
                 if (NTMinerRoot.Current.KernelOutputTranslaterSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                 }
                 else {
-                    Global.Execute(new AddKernelOutputTranslaterCommand(this));
+                    VirtualRoot.Execute(new AddKernelOutputTranslaterCommand(this));
                 }
                 if (sortNumber != this.SortNumber) {
                     if (KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
@@ -61,25 +61,25 @@ namespace NTMiner.Vms {
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
-                KernelOutputTranslaterEdit.ShowEditWindow(this);
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
+                KernelOutputTranslaterEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出翻译器吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveKernelOutputTranslaterCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                    VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 KernelOutputTranslaterViewModel upOne = KernelOutputTranslaterViewModels.Current.GetListByKernelId(this.KernelOutputId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(upOne));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                     KernelOutputTranslaterViewModels.Current.OnPropertyChanged(nameof(KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
                     if (KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
@@ -91,9 +91,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateKernelOutputTranslaterCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                     KernelOutputTranslaterViewModels.Current.OnPropertyChanged(nameof(KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
                     if (KernelOutputViewModels.Current.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
@@ -105,8 +105,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -114,48 +116,56 @@ namespace NTMiner.Vms {
         public Guid KernelOutputId {
             get => _kernelOutputId;
             set {
-                _kernelOutputId = value;
-                OnPropertyChanged(nameof(KernelOutputId));
+                if (_kernelOutputId != value) {
+                    _kernelOutputId = value;
+                    OnPropertyChanged(nameof(KernelOutputId));
+                }
             }
         }
 
         public string RegexPattern {
             get => _regexPattern;
             set {
-                _regexPattern = value;
-                OnPropertyChanged(nameof(RegexPattern));
+                if (_regexPattern != value) {
+                    _regexPattern = value;
+                    OnPropertyChanged(nameof(RegexPattern));
+                }
             }
         }
 
         public string Replacement {
             get => _replacement;
             set {
-                _replacement = value;
-                OnPropertyChanged(nameof(Replacement));
+                if (_replacement != value) {
+                    _replacement = value;
+                    OnPropertyChanged(nameof(Replacement));
+                }
             }
         }
 
         public string Color {
             get => _color;
             set {
-                _color = value;
-                OnPropertyChanged(nameof(Color));
-                OnPropertyChanged(nameof(ColorBrush));
-                OnPropertyChanged(nameof(ColorDicItem));
-                OnPropertyChanged(nameof(ColorDescription));
+                if (_color != value) {
+                    _color = value;
+                    OnPropertyChanged(nameof(Color));
+                    OnPropertyChanged(nameof(ColorBrush));
+                    OnPropertyChanged(nameof(ColorDicItem));
+                    OnPropertyChanged(nameof(ColorDescription));
+                }
             }
         }
 
-        private static readonly SolidColorBrush White = new SolidColorBrush(Colors.White);
+        private static readonly SolidColorBrush s_white = new SolidColorBrush(Colors.White);
         public SolidColorBrush ColorBrush {
             get {
                 if (string.IsNullOrEmpty(this.Color)) {
-                    return White;
+                    return s_white;
                 }
                 if (ColorDicItem != null && ColorDicItem.Value.TryParse(out ConsoleColor consoleColor)) {
                     return new SolidColorBrush(consoleColor.ToMediaColor());
                 }
-                return White;
+                return s_white;
             }
         }
 
@@ -195,17 +205,21 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 
         public bool IsPre {
             get { return _isPre; }
             set {
-                _isPre = value;
-                OnPropertyChanged(nameof(IsPre));
-                OnPropertyChanged(nameof(IsPreText));
+                if (_isPre != value) {
+                    _isPre = value;
+                    OnPropertyChanged(nameof(IsPre));
+                    OnPropertyChanged(nameof(IsPreText));
+                }
             }
         }
 

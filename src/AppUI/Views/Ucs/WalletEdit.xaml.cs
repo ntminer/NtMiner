@@ -3,8 +3,9 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class WalletEdit : UserControl {
-        public static void ShowEditWindow(WalletViewModel source) {
+        public static void ShowWindow(FormType formType, WalletViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IconName = "Icon_Wallet",
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible

@@ -1,42 +1,43 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
+using NTMiner.Vms;
 
 namespace NTMiner.Views {
     public class ExtendedNotifyIcon : IDisposable {
-        public void Init() {
-            // nothing need todo
+        public static ExtendedNotifyIcon Create(Icon icon, string text, bool isMinerStudio) {
+            return new ExtendedNotifyIcon(icon, text, isMinerStudio);
         }
 
         private readonly NotifyIcon _targetNotifyIcon;
-        public ExtendedNotifyIcon(string iconUrl) {
+        private readonly bool _isMinerStudio;
+        private ExtendedNotifyIcon(Icon icon, string text, bool isMinerStudio) {
+            _isMinerStudio = isMinerStudio;
             _targetNotifyIcon = new NotifyIcon {
-                Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new Uri(iconUrl)).Stream),
-                Visible = true,
-                Text = "NTMiner",
+                Icon = icon,
+                Visible = isMinerStudio || NTMinerRegistry.GetIsShowNotifyIcon(),
+                Text = text,
                 ContextMenu = new ContextMenu()
             };
-            _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出", (sender, e) => {
-                System.Windows.Application.Current.MainWindow.Close();
+            _targetNotifyIcon.ContextMenu.MenuItems.Add(new MenuItem("退出" + text, (sender, e) => {
+                AppStatic.AppExit.Execute(null);
             }));
-            _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e)=> {
+            _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
                 if (e.Button == MouseButtons.Left) {
                     ToggleWindow();
                 }
             };
-            DateTime t = DateTime.Now;
-            _targetNotifyIcon.MouseMove += (object sender, MouseEventArgs e)=> {
-                if (t.AddSeconds(2) < DateTime.Now) {
-                    t = DateTime.Now;
-                    // TODO:显示基本信息
-                    _targetNotifyIcon.Text = "NTMiner";
-                }
-            };
+        }
+
+        public void RefreshIcon() {
+            _targetNotifyIcon.Visible = _isMinerStudio || NTMinerRegistry.GetIsShowNotifyIcon();
         }
 
         public void ToggleWindow() {
             Window mainWindow = System.Windows.Application.Current.MainWindow;
             if (mainWindow == null) {
+                VirtualRoot.Execute(new ShowMainWindowCommand());
                 return;
             }
             if (mainWindow.WindowState == WindowState.Minimized) {
@@ -53,7 +54,7 @@ namespace NTMiner.Views {
         /// Standard IDisposable interface implementation. If you dont dispose the windows notify icon, the application
         /// closes but the icon remains in the task bar until such time as you mouse over it.
         /// </summary>
-        private bool _IsDisposed = false;
+        private bool _isDisposed = false;
 
         ~ExtendedNotifyIcon() {
             Dispose(false);
@@ -66,16 +67,16 @@ namespace NTMiner.Views {
             GC.SuppressFinalize(true);
         }
 
-        protected virtual void Dispose(bool IsDisposing) {
-            if (_IsDisposed)
+        protected virtual void Dispose(bool isDisposing) {
+            if (_isDisposed)
                 return;
 
-            if (IsDisposing) {
+            if (isDisposing) {
                 _targetNotifyIcon.Dispose();
             }
 
             // Free any unmanaged resources in this section
-            _IsDisposed = true;
+            _isDisposed = true;
         }
 
         #endregion

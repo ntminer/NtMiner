@@ -7,13 +7,14 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly Dictionary<Guid, KernelInputData> _dicById = new Dictionary<Guid, KernelInputData>();
 
         private readonly INTMinerRoot _root;
+        private readonly bool _isUseJson;
 
-        public KernelInputSet(INTMinerRoot root) {
+        public KernelInputSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
-            Global.Access<AddKernelInputCommand>(
-                Guid.Parse("62D0B345-26F8-42BA-B7CD-E547C2B298C9"),
+            _isUseJson = isUseJson;
+            VirtualRoot.Accept<AddKernelInputCommand>(
                 "添加内核输入组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -24,15 +25,14 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelInputData entity = new KernelInputData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelInputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelInputData>(isUseJson);
                     repository.Add(entity);
 
-                    Global.Happened(new KernelInputAddedEvent(entity));
-                });
-            Global.Access<UpdateKernelInputCommand>(
-                Guid.Parse("FED12C08-7BD7-4A8E-BD0B-A19075F4E8C4"),
+                    VirtualRoot.Happened(new KernelInputAddedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
+            VirtualRoot.Accept<UpdateKernelInputCommand>(
                 "更新内核输入组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -45,16 +45,18 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     KernelInputData entity = _dicById[message.Input.GetId()];
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelInputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelInputData>(isUseJson);
                     repository.Update(entity);
 
-                    Global.Happened(new KernelInputUpdatedEvent(entity));
-                });
-            Global.Access<RemoveKernelInputCommand>(
-                Guid.Parse("2227F6B9-5A2A-42AB-8147-05E245E2872F"),
+                    VirtualRoot.Happened(new KernelInputUpdatedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
+            VirtualRoot.Accept<RemoveKernelInputCommand>(
                 "移除内核输入组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -65,12 +67,11 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelInputData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelInputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelInputData>(isUseJson);
                     repository.Remove(message.EntityId);
 
-                    Global.Happened(new KernelInputRemovedEvent(entity));
-                });
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
+                    VirtualRoot.Happened(new KernelInputRemovedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;
@@ -86,7 +87,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelInputData>();
+                    var repository = NTMinerRoot.CreateServerRepository<KernelInputData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

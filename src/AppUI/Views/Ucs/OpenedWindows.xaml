@@ -1,53 +1,53 @@
 ﻿<UserControl x:Class="NTMiner.Views.Ucs.OpenedWindows"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-        xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-        xmlns:view="clr-namespace:NTMiner.Views"
-        xmlns:vm="clr-namespace:NTMiner.Vms"
-        mc:Ignorable="d" d:DesignHeight="30" d:DesignWidth="520">
-    <UserControl.DataContext>
-        <vm:OpenedWindowsViewModel></vm:OpenedWindowsViewModel>
-    </UserControl.DataContext>
-    <ItemsControl 
-			BorderThickness="0"
-			Background="Transparent"
-			ItemsSource="{Binding Windows}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <StackPanel Orientation="Horizontal" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <Button 
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:view="clr-namespace:NTMiner.Views"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		mc:Ignorable="d" d:DesignHeight="30" d:DesignWidth="520">
+	<UserControl.DataContext>
+		<vm:OpenedWindowsViewModel></vm:OpenedWindowsViewModel>
+	</UserControl.DataContext>
+	<ItemsControl 
+		BorderThickness="0"
+		Background="{StaticResource ThemeBackground}"
+		ItemsSource="{Binding Windows}">
+		<ItemsControl.ItemsPanel>
+			<ItemsPanelTemplate>
+				<StackPanel Orientation="Horizontal" />
+			</ItemsPanelTemplate>
+		</ItemsControl.ItemsPanel>
+		<ItemsControl.ItemTemplate>
+			<DataTemplate>
+				<Button 
 					Command="{Binding ShowWindow}"
 					Background="Transparent"
 					Margin="3 0"
 					BorderThickness="0"
 					ToolTip="{Binding Title}">
-                    <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem
+					<Button.ContextMenu>
+						<ContextMenu>
+							<MenuItem
 								Icon="{x:Null}"
 								Header="关闭"
 								Command="{x:Static view:ContainerWindow.CloseWindow}" 
 								CommandParameter="{Binding}">
-                            </MenuItem>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                    <Path
+							</MenuItem>
+						</ContextMenu>
+					</Button.ContextMenu>
+					<Path
 						Width="16"
 						Height="16"
 						Data="{Binding Icon}"
-						Fill="{StaticResource IconFillColor}"
+						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill">
-                    </Path>
-                </Button>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+					</Path>
+				</Button>
+			</DataTemplate>
+		</ItemsControl.ItemTemplate>
+	</ItemsControl>
 </UserControl>

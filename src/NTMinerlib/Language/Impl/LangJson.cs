@@ -12,9 +12,9 @@ namespace NTMiner.Language.Impl {
                 Langs = LangSet.Instance.Cast<Lang>().ToArray(),
                 LangViewItems = LangViewItemSet.Instance.Cast<LangViewItem>().ToArray()
             };
-            string json = Global.JsonSerializer.Serialize(data);
-            File.WriteAllText(ClientId.ServerLangJsonFileFullName, json);
-            return Path.GetFileName(ClientId.ServerLangJsonFileFullName);
+            string json = VirtualRoot.JsonSerializer.Serialize(data);
+            File.WriteAllText(AssemblyInfo.LangVersionJsonFileFullName, json);
+            return Path.GetFileName(AssemblyInfo.LangVersionJsonFileFullName);
         }
 
         // 私有构造函数不影响序列化反序列化
@@ -31,19 +31,24 @@ namespace NTMiner.Language.Impl {
                     if (!_inited) {
                         if (!string.IsNullOrEmpty(rawJson)) {
                             try {
-                                LangJson data = Global.JsonSerializer.Deserialize<LangJson>(rawJson);
+                                LangJson data = VirtualRoot.JsonSerializer.Deserialize<LangJson>(rawJson);
                                 this.Langs = data.Langs ?? new Lang[0];
                                 this.LangViewItems = data.LangViewItems ?? new LangViewItem[0];
-                                File.WriteAllText(ClientId.LocalLangJsonFileFullName, rawJson);
+                                ClientId.WriteLocalLangJsonFile(rawJson);
                             }
                             catch (Exception e) {
-                                Global.Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e.Message, e);
                             }
                         }
                         _inited = true;
                     }
                 }
             }
+        }
+
+        public void ReInit(string rawJson) {
+            _inited = false;
+            Init(rawJson);
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {

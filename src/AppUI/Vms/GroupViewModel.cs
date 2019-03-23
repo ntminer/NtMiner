@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class GroupViewModel : ViewModelBase, IGroup {
+    public class GroupViewModel : ViewModelBase, IGroup, IEditableViewModel {
         public static readonly GroupViewModel PleaseSelect = new GroupViewModel(Guid.Empty) {
             _name = "由下级决定",
             _sortNumber = 0
@@ -38,35 +38,35 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.GroupSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateGroupCommand(this));
+                    VirtualRoot.Execute(new UpdateGroupCommand(this));
                 }
                 else {
-                    Global.Execute(new AddGroupCommand(this));
+                    VirtualRoot.Execute(new AddGroupCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                GroupEdit.ShowEditWindow(this);
+                GroupEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveGroupCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                    VirtualRoot.Execute(new RemoveGroupCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 GroupViewModel upOne = GroupViewModels.Current.List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateGroupCommand(upOne));
+                    VirtualRoot.Execute(new UpdateGroupCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateGroupCommand(this));
+                    VirtualRoot.Execute(new UpdateGroupCommand(this));
                     GroupViewModels.Current.OnPropertyChanged(nameof(GroupViewModels.List));
                 }
             });
@@ -75,9 +75,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateGroupCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateGroupCommand(this));
+                    VirtualRoot.Execute(new UpdateGroupCommand(this));
                     GroupViewModels.Current.OnPropertyChanged(nameof(GroupViewModels.List));
                 }
             });
@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                     GroupId = this.Id,
                     SortNumber = sortNumber
                 };
-                Global.Execute(new AddCoinGroupCommand(coinGroupVm));
+                VirtualRoot.Execute(new AddCoinGroupCommand(coinGroupVm));
             });
         }
 
@@ -129,18 +129,22 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public string Name {
             get => _name;
             set {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
-                if (string.IsNullOrEmpty(value)) {
-                    throw new ValidationException("名称不能为空");
+                if (_name != value) {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                    if (string.IsNullOrEmpty(value)) {
+                        throw new ValidationException("名称不能为空");
+                    }
                 }
             }
         }
@@ -148,8 +152,10 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
     }

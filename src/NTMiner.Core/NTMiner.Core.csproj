@@ -69,83 +69,80 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.SelfHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.SelfHost.4.0.30506.0\lib\net40\System.Web.Http.SelfHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NTMinerDaemon\INTMinerDaemonService.cs">
-      <Link>INTMinerDaemonService.cs</Link>
-    </Compile>
     <Compile Include="Cleaner.cs" />
     <Compile Include="CommandLineArgs.cs" />
-    <Compile Include="Core\CoinExtensions.cs" />
+    <Compile Include="CommandLineArgs.partial.cs" />
     <Compile Include="Core\Gpus\Adl\AdlHelper.cs" />
     <Compile Include="Core\Gpus\Adl\AdlNativeMethods.cs" />
     <Compile Include="Core\Gpus\Adl\AdlTypes.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
+    <Compile Include="Core\Gpus\Impl\EmptyOverClock.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
+    <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
+    <Compile Include="Core\Profiles\Impl\GpuProfileExtension.cs" />
+    <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
-    <Compile Include="Core\ICoinGroup.cs" />
     <Compile Include="Core\ICoinGroupSet.cs" />
-    <Compile Include="Core\IGroup.cs" />
     <Compile Include="Core\IGroupSet.cs" />
     <Compile Include="Core\Impl\CalcConfigSet.cs" />
-    <Compile Include="Core\Impl\CoinData.cs" />
     <Compile Include="Core\Gpus\GpuSpeedExtension.cs" />
     <Compile Include="Core\ICoinShareSet.cs" />
-    <Compile Include="Core\Impl\CoinGroupData.cs" />
     <Compile Include="Core\Impl\CoinGroupSet.cs" />
     <Compile Include="Core\Impl\CoinShareSet.cs" />
-    <Compile Include="Core\IMinerGroupSet.cs" />
-    <Compile Include="Core\IMinerClientService.cs" />
-    <Compile Include="Core\Impl\GroupData.cs" />
+    <Compile Include="Core\MinerServer\Impl\UserSet.cs" />
+    <Compile Include="Core\MinerServer\IColumnsShowSet.cs" />
+    <Compile Include="Core\MinerServer\IMinerGroupSet.cs" />
     <Compile Include="Core\Impl\GroupSet.cs" />
-    <Compile Include="Core\Impl\MinerGroupSet.cs" />
-    <Compile Include="Core\Impl\ReadOnlyServerRepository`1.cs" />
-    <Compile Include="Core\Impl\ServerJson.cs" />
+    <Compile Include="Core\MinerServer\Impl\AppSettingSet.cs" />
+    <Compile Include="Core\MinerServer\Impl\ColumnsShowSet.cs" />
+    <Compile Include="Core\MinerServer\Impl\MinerGroupSet.cs" />
+    <Compile Include="Core\Impl\ReadOnlyRepository`1.cs" />
     <Compile Include="Core\IncomePerDay.cs" />
     <Compile Include="Core\Kernels\IKernelDownloader.cs" />
-    <Compile Include="Core\Kernels\IKernelInput.cs" />
     <Compile Include="Core\Kernels\IKernelInputSet.cs" />
-    <Compile Include="Core\Kernels\IKernelOutput.cs" />
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />
-    <Compile Include="Core\Kernels\Impl\CoinKernelData.cs" />
-    <Compile Include="Core\Impl\MinerClientService.cs" />
-    <Compile Include="Core\Kernels\Impl\KernelData.cs" />
-    <Compile Include="Core\Kernels\Impl\KernelInputData.cs" />
+    <Compile Include="Core\MinerServer\Impl\OverClockDataSet.cs" />
+    <Compile Include="Core\MinerServer\IOverClockDataSet.cs" />
+    <Compile Include="Core\Profiles\IWorkProfile.cs" />
     <Compile Include="Core\Kernels\Impl\KernelInputSet.cs" />
-    <Compile Include="Core\Kernels\Impl\KernelOutputData.cs" />
-    <Compile Include="Core\Kernels\Impl\KernelOutputFilterData.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputSet.cs" />
-    <Compile Include="Core\Kernels\Impl\KernelOutputTranslaterData.cs" />
     <Compile Include="Core\Kernels\Impl\PackageDownloader.cs" />
-    <Compile Include="Core\Kernels\Impl\PoolKernelData.cs" />
     <Compile Include="Core\Kernels\Impl\PoolKernelSet.cs" />
     <Compile Include="Core\Kernels\IPackageDownloader.cs" />
-    <Compile Include="Core\Kernels\IPoolKernel.cs" />
     <Compile Include="Core\Kernels\IPoolKernelSet.cs" />
-    <Compile Include="Core\Profiles\ICoinKernelProfileSet.cs" />
-    <Compile Include="Core\IMineWorkSet.cs" />
-    <Compile Include="Core\Profiles\ICoinProfileSet.cs" />
+    <Compile Include="Core\MinerServer\IMineWorkSet.cs" />
     <Compile Include="Core\Profiles\IKernelProfile.cs" />
     <Compile Include="Core\Profiles\IKernelProfileSet.cs" />
-    <Compile Include="Core\Profiles\Impl\CoinKernelProfileSet.cs" />
-    <Compile Include="Core\Impl\MineWorkSet.cs" />
-    <Compile Include="Core\Impl\PoolData.cs" />
-    <Compile Include="Core\Profiles\Impl\CoinProfileSet.cs" />
+    <Compile Include="Core\MinerServer\Impl\MineWorkSet.cs" />
     <Compile Include="Core\Profiles\Impl\KernelProfileSet.cs" />
-    <Compile Include="Core\Profiles\Impl\PoolProfileSet.cs" />
-    <Compile Include="Core\Profiles\IPoolProfileSet.cs" />
-    <Compile Include="Core\PublishStatus.cs" />
-    <Compile Include="Core\SysDics\Impl\SysDicData.cs" />
-    <Compile Include="Core\SysDics\Impl\SysDicItemData.cs" />
+    <Compile Include="Core\Profiles\MinerProfile.partials.CoinKernelProfileSet.cs" />
+    <Compile Include="Core\Profiles\MinerProfile.partials.CoinProfileSet.cs" />
+    <Compile Include="Core\Profiles\GpuProfileSet.cs" />
+    <Compile Include="Core\Profiles\MinerProfile.partials.PoolProfileSet.cs" />
     <Compile Include="Core\Gpus\IGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\Gpu.cs" />
     <Compile Include="Core\Impl\CoinShare.cs" />
@@ -156,9 +153,6 @@
     <Compile Include="Core\IMineContext.cs" />
     <Compile Include="Daemon\DaemonUtil.cs" />
     <Compile Include="DoubleExtension.cs" />
-    <Compile Include="LongExtension.cs" />
-    <Compile Include="MinerClientService.cs" />
-    <Compile Include="NTMinerClientDaemon.cs" />
     <Compile Include="NTMinerRoot.partials.MineContext.cs" />
     <Compile Include="NTMinerRoot.partials.MinerProcess.cs" />
     <Compile Include="Report.cs" />
@@ -170,22 +164,14 @@
     <Compile Include="Core\Profiles\MinerProfile.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicItemSet.cs" />
     <Compile Include="Core\SysDics\Impl\SysDicSet.cs" />
-    <Compile Include="Core\Impl\WalletSet.cs" />
     <Compile Include="Core\Impl\Speed.cs" />
-    <Compile Include="Core\Kernels\IKernelOutputFilter.cs" />
     <Compile Include="Core\Kernels\IKernelOutputFilterSet.cs" />
-    <Compile Include="Core\Kernels\IKernelOutputTranslater.cs" />
     <Compile Include="Core\Kernels\IKernelOutputTranslaterSet.cs" />
-    <Compile Include="Core\SysDics\ISysDic.cs" />
-    <Compile Include="Core\SysDics\ISysDicItem.cs" />
     <Compile Include="Core\SysDics\ISysDicItemSet.cs" />
-    <Compile Include="Core\IWalletSet.cs" />
     <Compile Include="Core\SysDics\ISysDicSet.cs" />
-    <Compile Include="Core\Gpus\SupportedGpu.cs" />
     <Compile Include="Core\Gpus\Nvml\NvmlNativeMethods.cs" />
     <Compile Include="Core\Gpus\Nvml\NvmlTypes.cs" />
     <Compile Include="Core\DuplicateCodeException.cs" />
-    <Compile Include="Core\Gpus\IGpu.cs" />
     <Compile Include="Core\Gpus\IGpuSpeed.cs" />
     <Compile Include="Core\Gpus\IGpusSpeed.cs" />
     <Compile Include="Core\ISpeed.cs" />
@@ -193,17 +179,12 @@
     <Compile Include="Core\Kernels\Impl\CoinKernelSet.cs" />
     <Compile Include="Core\Kernels\Impl\KernelSet.cs" />
     <Compile Include="Core\Impl\PoolSet.cs" />
-    <Compile Include="Core\Kernels\IKernel.cs" />
     <Compile Include="Core\Kernels\IKernelSet.cs" />
     <Compile Include="Core\Messages.cs" />
-    <Compile Include="Core\Gpus\GpuType.cs" />
     <Compile Include="Core\ICoinSet.cs" />
     <Compile Include="Core\Kernels\ICoinKernelSet.cs" />
     <Compile Include="Core\IPoolSet.cs" />
     <Compile Include="Core\Kernels\KernelStatus.cs" />
-    <Compile Include="Core\ICoin.cs" />
-    <Compile Include="Core\Kernels\ICoinKernel.cs" />
-    <Compile Include="Core\IPool.cs" />
     <Compile Include="INTMinerRoot.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -212,22 +193,22 @@
     <Compile Include="SpecialPath.cs" />
     <Compile Include="Windows\BcdEdit.cs" />
     <Compile Include="Windows\Defender.cs" />
-    <Compile Include="Windows\DllDirectory.cs" />
+    <Compile Include="Windows\NativeMethods.cs" />
     <Compile Include="Windows\Error.cs" />
     <Compile Include="Windows\Firewall.cs" />
     <Compile Include="Windows\Power.cs" />
     <Compile Include="Windows\UAC.cs" />
     <Compile Include="Windows\WAU.cs" />
     <Compile Include="Windows\Bios.cs" />
-    <Compile Include="Windows\ExtensionMethods.cs" />
     <Compile Include="Windows\DiskSpaceFlags.cs" />
-    <Compile Include="Windows\HardDisk.cs" />
     <Compile Include="Windows\OS.cs" />
     <Compile Include="Windows\Processor.cs" />
     <Compile Include="Windows\Ram.cs" />
     <Compile Include="ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <Compile Include="Core\Profiles\Impl\WalletSet.cs" />
     <None Include="packages.config" />
     <Compile Include="NTMinerRoot.partials.BuildAssembleArgs.cs" />
   </ItemGroup>
@@ -246,9 +227,21 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+      <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
+      <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
       <Name>NTMinerlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
+      <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
+      <Name>NTMinerLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
+      <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
+      <Name>NTMinerRpcClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
@@ -261,5 +254,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Daemon\NTMinerDaemon.exe" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

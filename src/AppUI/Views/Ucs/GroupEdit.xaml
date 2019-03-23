@@ -8,9 +8,8 @@
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
     <UserControl.Resources>
-        <Style TargetType="Label">
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
             <Setter Property="Width" Value="60"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
         </Style>
         <sys:String x:Key="WindowTitle">
             WindowTitle
@@ -24,40 +23,39 @@
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
-            <Label Content="{DynamicResource Name}"></Label>
+            <TextBlock Text="{DynamicResource Name}" Style="{StaticResource LblTb}"></TextBlock>
             <TextBox Width="180" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
             </TextBox>
-            <Label Content="{DynamicResource Sort}"></Label>
+            <TextBlock Text="{DynamicResource Sort}" Style="{StaticResource LblTb}"></TextBlock>
             <TextBox Width="60" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
         <WrapPanel Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <controls:KbButton
                 Command="{Binding Save}" 
-                Width="70" 
-                Height="30"
-                Background="{StaticResource IconFillColor}"
-                Foreground="White"
+                Padding="10 0"
+                Background="{StaticResource ThemeBackground}"
+                Foreground="{StaticResource ThemeForeground}"
                 CornerRadius="2">
                 <WrapPanel>
                     <Path
                         Width="12"
                         Height="12"
                         Data="{StaticResource Icon_Ok}"
-                        Fill="White"
+                        Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
                     <TextBlock
                         Padding="4"
                         VerticalAlignment="Center"
-                        Foreground="White"
+                        Foreground="{StaticResource ThemeForeground}"
                         Text="确定" />
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                    ToolTip="GroupEdit translate"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                    ToolTip="{x:Static local:GroupEdit.ViewId}"
                     Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-                    CommandParameter="GroupEdit"
+                    CommandParameter="{x:Static local:GroupEdit.ViewId}"
                     Padding="8 0"
                     Background="Transparent">
                 <WrapPanel>
@@ -65,7 +63,7 @@
                         Width="14"
                         Height="14"
                         Data="{StaticResource Icon_Translate}"
-                        Fill="Red"
+                        Fill="{StaticResource ThemeBackground}"
                         Stretch="Fill" />
                 </WrapPanel>
             </controls:KbButton>

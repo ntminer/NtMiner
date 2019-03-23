@@ -6,7 +6,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:vm="clr-namespace:NTMiner.Vms"
              xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-             Background="{StaticResource MainColor}"
+             Background="{StaticResource ThemeBackground}"
              TextOptions.TextFormattingMode="Display" 
              mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
     <UserControl.DataContext>
@@ -23,16 +23,18 @@
             <ColumnDefinition Width="4"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding SysDicVms.List}"
-                  SelectedItem="{Binding CurrentSysDic}" BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
-                  MouseDoubleClick="DataGrid_MouseDoubleClick">
+        <DataGrid 
+            Grid.Column="0" ItemsSource="{Binding SysDicVms.List}"
+            SelectedItem="{Binding CurrentSysDic}" 
+            BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
+            MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn 
-                    MinWidth="80" CanUserResize="False" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                    MinWidth="100" CanUserResize="True" IsReadOnly="True"
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
                             Command="{Binding Data.SysDicVms.Add, Source={StaticResource proxy}}" 
@@ -116,41 +118,44 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="120" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="名称" Binding="{Binding Name}">
                 </DataGridTextColumn>
                 <DataGridTextColumn 
-                        Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
+                        CanUserResize="True" CanUserReorder="False" 
+                        Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                         CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SysDicVms, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+        <TextBlock Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SysDicVms, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
 
-        <DataGrid Grid.Column="2" ItemsSource="{Binding CurrentSysDic.SysDicItems}" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
-                  MouseDoubleClick="SysDicItemDataGrid_MouseDoubleClick">
+        <DataGrid 
+            Grid.Column="2" 
+            ItemsSource="{Binding CurrentSysDic.SysDicItems}" 
+            BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
+            MouseDoubleClick="SysDicItemDataGrid_MouseDoubleClick">
             <DataGrid.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding CurrentSysDic}" />
+                <controls:BindingProxy x:Key="proxy" Data="{Binding CurrentSysDic}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="100" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="编码" Binding="{Binding Code}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="200" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
+                <DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
                 </DataGridTextColumn>
                 <DataGridTextColumn 
-                        Width="40" CanUserResize="False" CanUserReorder="False" 
-                        Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-                        CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
+                    CanUserResize="True" CanUserReorder="False" 
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                    CanUserSort="False" IsReadOnly="True" Header="排序" Binding="{Binding SortNumber}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    MinWidth="80" CanUserResize="False" CanUserSort="False" IsReadOnly="True"
-                    Visibility="{x:Static vm:AppStatic.IsDevModeVisible}">
+                    MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton 
+                            Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                             Command="{Binding Data.AddSysDicItem, Source={StaticResource proxy}}" 
                             Background="Transparent" BorderThickness="0"
                             Margin="10 0"
@@ -168,6 +173,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel 
+                                Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
                                 HorizontalAlignment="Right" 
                                 Background="Transparent" 
                                 VerticalAlignment="Center" 
@@ -234,6 +240,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Column="2" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentSysDic.SysDicItems, Converter={StaticResource NoRecordConverter}}">没有记录</TextBlock>
+        <TextBlock Grid.Column="2" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentSysDic.SysDicItems, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
     </Grid>
 </UserControl>

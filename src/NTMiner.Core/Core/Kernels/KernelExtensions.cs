@@ -48,21 +48,24 @@ namespace NTMiner.Core.Kernels {
                 }
                 return commandName;
             }
-            catch (System.Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
                 return string.Empty;
             }
         }
 
         public static bool IsSupported(this IKernel kernel) {
+            if (VirtualRoot.IsControlCenter) {
+                return true;
+            }
             foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == kernel.GetId())) {
-                if (item.SupportedGpu == Gpus.SupportedGpu.Both) {
+                if (item.SupportedGpu == SupportedGpu.Both) {
                     return true;
                 }
-                if (item.SupportedGpu == Gpus.SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == Gpus.GpuType.NVIDIA) {
+                if (item.SupportedGpu == SupportedGpu.NVIDIA && NTMinerRoot.Current.GpuSet.GpuType == GpuType.NVIDIA) {
                     return true;
                 }
-                if (item.SupportedGpu == Gpus.SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == Gpus.GpuType.AMD) {
+                if (item.SupportedGpu == SupportedGpu.AMD && NTMinerRoot.Current.GpuSet.GpuType == GpuType.AMD) {
                     return true;
                 }
             }
@@ -70,44 +73,53 @@ namespace NTMiner.Core.Kernels {
         }
 
         public static string GetKernelDirFullName(this IKernel kernel) {
+            if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
+                return string.Empty;
+            }
             return Path.Combine(SpecialPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(kernel.Package));
         }
 
         public static string GetPackageFileFullName(this IKernel kernel) {
+            if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
+                return string.Empty;
+            }
             return Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
         }
 
         public static bool IsPackageFileExist(this IKernel kernel) {
-            return File.Exists(GetPackageFileFullName(kernel));
+            if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
+                return false;
+            }
+            string fileFullName = GetPackageFileFullName(kernel);
+            return File.Exists(fileFullName);
         }
 
         public static string GetDownloadFileFullName(this IKernel kernel) {
-            return Path.Combine(SpecialPath.DownloadDirFullName, kernel.Package);
-        }
-
-        public static List<string> GetPackageHistoryFileFullNames(this IKernel kernel) {
-            return GetPackageHistories(kernel).Select(a => Path.Combine(SpecialPath.PackagesDirFullName, a)).ToList();
-        }
-
-        public static List<string> GetPackageHistories(this IKernel kernel) {
-            string packageHistory = kernel.PackageHistory;
-            if (string.IsNullOrEmpty(packageHistory)) {
-                return new List<string>();
+            if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
+                return string.Empty;
             }
-            return packageHistory.Split(new char[] { ';' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
+            return Path.Combine(SpecialPath.DownloadDirFullName, kernel.Package);
         }
 
         public static void ExtractPackage(this IKernel kernel) {
             try {
                 string kernelDir = GetKernelDirFullName(kernel);
+                if (string.IsNullOrEmpty(kernelDir)) {
+                    return;
+                }
                 if (!Directory.Exists(kernelDir)) {
                     Directory.CreateDirectory(kernelDir);
                 }
                 string packageZipFileFullName = GetPackageFileFullName(kernel);
-                ZipUtil.DecompressZipFile(packageZipFileFullName, kernelDir);
+                if (string.IsNullOrEmpty(packageZipFileFullName)) {
+                    return;
+                }
+                if (File.Exists(packageZipFileFullName)) {
+                    ZipUtil.DecompressZipFile(packageZipFileFullName, kernelDir);
+                }
             }
-            catch (System.Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

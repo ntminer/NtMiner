@@ -21,38 +21,37 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{StaticResource MainColor}">
+        <DockPanel Grid.Row="0" Background="{StaticResource ThemeBackground}">
             <Path
                 Margin="4 0 0 0"
                 Width="14"
                 Height="14"
                 Data="{StaticResource Icon_Translate}"
-                Fill="Red"
+                Fill="{StaticResource ThemeForeground}"
                 Stretch="Fill" />
-            <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
-            <WrapPanel DockPanel.Dock="Right"
-                       HorizontalAlignment="Right">
+            <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Foreground="{StaticResource ThemeForeground}" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
+            <WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
                 <controls:KbComboBox 
                     Height="26"
                     ItemsSource="{Binding LangVms.LangVms}"
-                    DisplayMemberPath="Name" SelectedItem="{Binding LangVms.CurrentLangVm}"
+                    DisplayMemberPath="Name" 
+                    SelectedItem="{Binding LangVms.CurrentLangVm}"
                     SelectionChanged="CbLanguage_SelectionChanged">
                 </controls:KbComboBox>
-                <controls:KbSystemCloseButton
-                    Height="30"
-                    KbSystemButtonForeground="#385263" />
+                <controls:KbSystemCloseButton Height="30" />
             </WrapPanel>
         </DockPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding LangViewItemVms}" 
-                  BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
-                  MouseDoubleClick="LangViewItemDataGrid_MouseDoubleClick">
+        <DataGrid 
+            Grid.Row="1" ItemsSource="{Binding LangViewItemVms}" 
+            BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
+            MouseDoubleClick="LangViewItemDataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="200" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="键" Binding="{Binding Key}">
+                <DataGridTextColumn MinWidth="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="键" Binding="{Binding Key}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
+                <DataGridTextColumn MinWidth="100" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="值" Binding="{Binding Value}">
                 </DataGridTextColumn>
                 <DataGridTemplateColumn 
-                    Width="40" CanUserResize="False" CanUserSort="False" IsReadOnly="True">
+                    MinWidth="100" Width="*" CanUserResize="True" CanUserSort="False" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <controls:KbButton 

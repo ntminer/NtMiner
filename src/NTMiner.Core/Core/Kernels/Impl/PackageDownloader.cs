@@ -8,12 +8,12 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public PackageDownloader(INTMinerRoot root) {
             _root = root;
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public void Download(
             string package,
             Action<int> progressChanged,
+            // isSuccess, message, saveFileFullName
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
             string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, package);
@@ -23,32 +23,33 @@ namespace NTMiner.Core.Kernels.Impl {
                     webClient.CancelAsync();
                 };
                 webClient.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) => {
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         progressChanged?.Invoke(e.ProgressPercentage);
                     });
                 };
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                    Execute.OnUIThread(() => {
+                    UIThread.Execute(() => {
                         bool isSuccess = !e.Cancelled && e.Error == null;
                         if (isSuccess) {
-                            Global.Logger.OkDebugLine(package + "下载成功");
+                            Logger.OkDebugLine(package + "下载成功");
                         }
                         string message = "下载成功";
                         if (e.Error != null) {
                             message = "下载失败";
-                            Global.Logger.ErrorDebugLine(e.Error.Message, e.Error);
+                            Logger.ErrorDebugLine(e.Error.Message, e.Error);
                         }
                         if (e.Cancelled) {
                             message = "下载取消";
                         }
+                        string etag = webClient.ResponseHeaders.Get("ETag").Trim('"');
                         downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                     });
                 };
-                Server.FileUrlService.GetPackageUrlAsync(package, packageUrl => {
+                OfficialServer.FileUrlService.GetPackageUrlAsync(package, (packageUrl, e) => {
                     if (string.IsNullOrEmpty(packageUrl)) {
                         downloadComplete?.Invoke(false, "未获取到内核包下载地址", saveFileFullName);
                     }
-                    Global.Logger.InfoDebugLine("下载：" + packageUrl);
+                    Logger.InfoDebugLine("下载：" + packageUrl);
                     webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
                 });
             }

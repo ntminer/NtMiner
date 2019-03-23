@@ -263,3 +263,9 @@ __pycache__/
 DevConsole.exe
 NTMinerDaemon.exe
 CalcConfigUpdater.exe
+local.litedb
+report.litedb
+/src/NTMiner.Core/Daemon/WinDivert64.sys
+/src/NTMiner.Core/Daemon/WinDivert.dll
+/src/MinerStudio/NTMinerServices/NTMinerServices.exe.config
+/src/MinerStudio/NTMinerServices/NTMinerServices.exe

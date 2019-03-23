@@ -4,19 +4,32 @@ using System.Collections;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using NTMiner.Wpf;
 
 namespace NTMiner.Views.Ucs {
     public partial class Console : UserControl {
-        private MinerProfileViewModel Vm {
+        public static string ViewId = nameof(Console);
+
+        private ConsoleViewModel Vm {
             get {
-                return (MinerProfileViewModel)this.DataContext;
+                return (ConsoleViewModel)this.DataContext;
             }
         }
 
         public Console() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            Global.WriteLineMethod = WriteLine;
+            Write.WriteUserLineMethod = WriteLine;
+        }
+
+        private ScrollViewer _scrollView;
+        private ScrollViewer ScrollViewer {
+            get {
+                if (_scrollView == null) {
+                    _scrollView = this.FlowDocumentScrollViewer.GetScrollViewer();
+                }
+                return _scrollView;
+            }
         }
 
         private void InnerWrite(string text, ConsoleColor foreground) {
@@ -34,7 +47,7 @@ namespace NTMiner.Views.Ucs {
             list.Add(run);
 
             if (ChkbIsConsoleAutoScrollToEnd.IsChecked.HasValue && ChkbIsConsoleAutoScrollToEnd.IsChecked.Value) {
-                this.RichTextBox.ScrollToEnd();
+                this.ScrollViewer.ScrollToEnd();
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.MinerServer;
 using System;
 
 namespace NTMiner.Vms {
@@ -26,8 +26,10 @@ namespace NTMiner.Vms {
         public string CoinCode {
             get => _coinCode;
             set {
-                _coinCode = value;
-                OnPropertyChanged(nameof(CoinCode));
+                if (_coinCode != value) {
+                    _coinCode = value;
+                    OnPropertyChanged(nameof(CoinCode));
+                }
             }
         }
 
@@ -44,9 +46,11 @@ namespace NTMiner.Vms {
         public string SpeedUnit {
             get => _speedUnit;
             set {
-                _speedUnit = value;
-                OnPropertyChanged(nameof(SpeedUnit));
-                OnPropertyChanged(nameof(SpeedUnitVm));
+                if (_speedUnit != value) {
+                    _speedUnit = value;
+                    OnPropertyChanged(nameof(SpeedUnit));
+                    OnPropertyChanged(nameof(SpeedUnitVm));
+                }
             }
         }
 
@@ -62,40 +66,50 @@ namespace NTMiner.Vms {
         public double IncomePerDay {
             get => _incomePerDay;
             set {
-                _incomePerDay = value;
-                OnPropertyChanged(nameof(IncomePerDay));
+                if (_incomePerDay != value) {
+                    _incomePerDay = value;
+                    OnPropertyChanged(nameof(IncomePerDay));
+                }
             }
         }
 
         public double IncomeUsdPerDay {
             get { return _incomeUsdPerDay; }
             set {
-                _incomeUsdPerDay = value;
-                OnPropertyChanged(nameof(IncomeUsdPerDay));
+                if (_incomeUsdPerDay != value) {
+                    _incomeUsdPerDay = value;
+                    OnPropertyChanged(nameof(IncomeUsdPerDay));
+                }
             }
         }
 
         public double IncomeCnyPerDay {
             get { return _incomeCnyPerDay; }
             set {
-                _incomeCnyPerDay = value;
-                OnPropertyChanged(nameof(IncomeCnyPerDay));
+                if (_incomeCnyPerDay != value) {
+                    _incomeCnyPerDay = value;
+                    OnPropertyChanged(nameof(IncomeCnyPerDay));
+                }
             }
         }
 
         public DateTime CreatedOn {
             get => _createdOn;
             set {
-                _createdOn = value;
-                OnPropertyChanged(nameof(CreatedOn));
+                if (_createdOn != value) {
+                    _createdOn = value;
+                    OnPropertyChanged(nameof(CreatedOn));
+                }
             }
         }
 
         public DateTime ModifiedOn {
             get => _modifiedOn;
             set {
-                _modifiedOn = value;
-                OnPropertyChanged(nameof(ModifiedOn));
+                if (_modifiedOn != value) {
+                    _modifiedOn = value;
+                    OnPropertyChanged(nameof(ModifiedOn));
+                }
             }
         }
     }

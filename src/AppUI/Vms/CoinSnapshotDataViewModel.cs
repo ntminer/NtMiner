@@ -1,4 +1,4 @@
-﻿using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.MinerServer;
 using System;
 
 namespace NTMiner.Vms {
@@ -21,16 +21,20 @@ namespace NTMiner.Vms {
         public string CoinCode {
             get => _data.CoinCode;
             set {
-                _data.CoinCode = value;
-                OnPropertyChanged(nameof(CoinCode));
+                if (_data.CoinCode != value) {
+                    _data.CoinCode = value;
+                    OnPropertyChanged(nameof(CoinCode));
+                }
             }
         }
-        public long Speed {
+        public double Speed {
             get => _data.Speed;
             set {
-                _data.Speed = value;
-                OnPropertyChanged(nameof(Speed));
-                OnPropertyChanged(nameof(SpeedText));
+                if (_data.Speed != value) {
+                    _data.Speed = value;
+                    OnPropertyChanged(nameof(Speed));
+                    OnPropertyChanged(nameof(SpeedText));
+                }
             }
         }
 
@@ -43,38 +47,48 @@ namespace NTMiner.Vms {
         public int MainCoinOnlineCount {
             get => _data.MainCoinOnlineCount;
             set {
-                _data.MainCoinOnlineCount = value;
-                OnPropertyChanged(nameof(MainCoinOnlineCount));
+                if (_data.MainCoinOnlineCount != value) {
+                    _data.MainCoinOnlineCount = value;
+                    OnPropertyChanged(nameof(MainCoinOnlineCount));
+                }
             }
         }
         public int MainCoinMiningCount {
             get => _data.MainCoinMiningCount;
             set {
-                _data.MainCoinMiningCount = value;
-                OnPropertyChanged(nameof(MainCoinMiningCount));
+                if (_data.MainCoinMiningCount != value) {
+                    _data.MainCoinMiningCount = value;
+                    OnPropertyChanged(nameof(MainCoinMiningCount));
+                }
             }
         }
 
         public int DualCoinOnlineCount {
             get => _data.DualCoinOnlineCount;
             set {
-                _data.DualCoinOnlineCount = value;
-                OnPropertyChanged(nameof(DualCoinOnlineCount));
+                if (_data.DualCoinOnlineCount != value) {
+                    _data.DualCoinOnlineCount = value;
+                    OnPropertyChanged(nameof(DualCoinOnlineCount));
+                }
             }
         }
         public int DualCoinMiningCount {
             get => _data.DualCoinMiningCount;
             set {
-                _data.DualCoinMiningCount = value;
-                OnPropertyChanged(nameof(DualCoinMiningCount));
+                if (_data.DualCoinMiningCount != value) {
+                    _data.DualCoinMiningCount = value;
+                    OnPropertyChanged(nameof(DualCoinMiningCount));
+                }
             }
         }
 
         public DateTime Timestamp {
             get => _data.Timestamp;
             set {
-                _data.Timestamp = value;
-                OnPropertyChanged(nameof(Timestamp));
+                if (_data.Timestamp != value) {
+                    _data.Timestamp = value;
+                    OnPropertyChanged(nameof(Timestamp));
+                }
             }
         }
     }

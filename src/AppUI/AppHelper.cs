@@ -7,6 +7,9 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public static class AppHelper {
+        public static ExtendedNotifyIcon NotifyIcon;
+        public static Action<RemoteDesktopInput> RemoteDesktop;
+
         public static void RunAsAdministrator() {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = ClientId.AppFileFullName;
@@ -18,7 +21,6 @@ namespace NTMiner {
 
         #region Init
         public static void Init(Application app) {
-            Global.Logger.InfoDebugLine("AppHelper.Init start");
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 var exception = e.ExceptionObject as Exception;
                 if (exception != null) {
@@ -31,25 +33,26 @@ namespace NTMiner {
                 e.Handled = true;
             };
 
-            Execute.InitializeWithDispatcher();
+            UIThread.InitializeWithDispatcher();
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
-            Global.Logger.InfoDebugLine("AppHelper.Init end");
         }
         #endregion
 
         #region ShowMainWindow
-        public static void ShowMainWindow(Application app, string appPipName) {
+        public static void ShowMainWindow(Application app, int clientPort) {
             try {
-                if (!MinerClientService.Instance.ShowMainWindow(Global.Localhost)) {
-                    RestartNTMiner();
-                }
-                Execute.OnUIThread(() => {
-                    app.Shutdown();
+                Client.MinerClientService.ShowMainWindowAsync(clientPort, (isSuccess, exception) => {
+                    if (!isSuccess) {
+                        RestartNTMiner();
+                    }
+                    UIThread.Execute(() => {
+                        app.Shutdown();
+                    });
                 });
             }
             catch (Exception ex) {
                 RestartNTMiner();
-                Global.Logger.ErrorDebugLine(ex.Message, ex);
+                Logger.ErrorDebugLine(ex.Message, ex);
             }
         }
 
@@ -77,7 +80,7 @@ namespace NTMiner {
                 DialogWindow.ShowDialog(title: "验证失败", message: e.Message, icon: "Icon_Error");
             }
             else {
-                Global.Logger.ErrorDebugLine(e);
+                Logger.ErrorDebugLine(e);
             }
         }
         #endregion

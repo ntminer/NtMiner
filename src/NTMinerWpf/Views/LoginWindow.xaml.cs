@@ -1,21 +1,23 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
+using NTMiner.Wpf;
 using System;
 using System.Windows;
 
 namespace NTMiner.Views {
     public partial class LoginWindow : MetroWindow {
-        public LoginWindowViewModel Vm {
-            get {
-                return (LoginWindowViewModel)this.DataContext;
-            }
-        }
+        public static string ViewId = nameof(LoginWindow);
 
+        private readonly LoginWindowViewModel _vm;
         public LoginWindow() {
+            _vm = new LoginWindowViewModel();
+            this.DataContext = _vm;
+            EventHandler ChangeNotiCenterWindowLocation = Util.ChangeNotiCenterWindowLocation(this);
+            this.Activated += ChangeNotiCenterWindowLocation;
+            this.LocationChanged += ChangeNotiCenterWindowLocation;
             InitializeComponent();
-            UILanguageInit();
-
-            this.TxtPassword.Focus();
+            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+            this.PbPassword.Focus();
         }
 
         private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -24,50 +26,45 @@ namespace NTMiner.Views {
             }
         }
 
-        private void KbButtonLogin_Click(object sender, RoutedEventArgs e) {
-            string passwordSha1 = HashUtil.Sha1(TxtPassword.Password);
-            Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, response => {
-                Execute.OnUIThread(() => {
-                    if (response == null) {
-                        Vm.Message = "服务器忙";
-                        Vm.MessageVisible = Visibility.Visible;
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            Execute.OnUIThread(() => {
-                                Vm.MessageVisible = Visibility.Collapsed;
-                            });
-                        });
-                        return;
-                    }
-                    if (response.IsSuccess()) {
-                        Server.LoginName = Vm.LoginName;
-                        Server.Password = passwordSha1;
-                        this.DialogResult = true;
-                        this.Close();
-                    }
-                    else {
-                        Vm.Message = response.Description;
-                        Vm.MessageVisible = Visibility.Visible;
-                        TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                            Execute.OnUIThread(() => {
-                                Vm.MessageVisible = Visibility.Collapsed;
-                            });
-                        });
-                        return;
-                    }
-                });
-            });
+        protected override void OnClosed(EventArgs e) {
+            base.OnClosed(e);
+            if ((!this.DialogResult.HasValue || !this.DialogResult.Value) && Application.Current.ShutdownMode != ShutdownMode.OnMainWindowClose) {
+                Application.Current.Shutdown();
+            }
         }
 
         private void CbLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
             LangViewModel selectedItem = (LangViewModel)e.AddedItems[0];
-            if (selectedItem != Global.Lang) {
-                Global.Lang = selectedItem;
-                UILanguageInit();
+            if (selectedItem != VirtualRoot.Lang) {
+                VirtualRoot.Lang = selectedItem;
+                ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             }
         }
 
-        private void UILanguageInit() {
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+        private void BtnLogin_OnClick(object sender, RoutedEventArgs e) {
+            string passwordSha1 = HashUtil.Sha1(_vm.Password);
+            Server.ControlCenterService.LoginAsync(_vm.LoginName, passwordSha1, (response, exception) => {
+                UIThread.Execute(() => {
+                    if (response == null) {
+                        _vm.ShowMessage("服务器忙");
+                        return;
+                    }
+                    if (response.IsSuccess()) {
+                        SingleUser.LoginName = _vm.LoginName;
+                        SingleUser.SetPasswordSha1(passwordSha1);
+                        this.DialogResult = true;
+                        this.Close();
+                    }
+                    else if (_vm.LoginName == "admin" && response.StateCode == 404) {
+                        _vm.IsPasswordAgainVisible = Visibility.Visible;
+                        _vm.ShowMessage(response.Description);
+                    }
+                    else {
+                        _vm.IsPasswordAgainVisible = Visibility.Collapsed;
+                        _vm.ShowMessage(response.Description);
+                    }
+                });
+            });
         }
     }
 }

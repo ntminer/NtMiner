@@ -30,16 +30,6 @@ namespace NTMiner.Core.Gpus.Adl {
         #endregion Internal Constant
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ADLVersionsInfo {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = AdlTypes.ADL_MAX_PATH)]
-        public string strDriverVer;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = AdlTypes.ADL_MAX_PATH)]
-        public string strCatalystVersion;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = AdlTypes.ADL_MAX_PATH)]
-        public string strCatalystWebLink;
-    }
-
     #region ADLAdapterInfo
     /// <summary> ADLAdapterInfo Structure</summary>
     [StructLayout(LayoutKind.Sequential)]
@@ -82,73 +72,7 @@ namespace NTMiner.Core.Gpus.Adl {
         internal int OSDisplayIndex;
     }
 
-
-    /// <summary> ADLAdapterInfo Array</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLAdapterInfoArray {
-        /// <summary> ADLAdapterInfo Array </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AdlTypes.ADL_MAX_ADAPTERS)]
-        internal ADLAdapterInfo[] ADLAdapterInfo;
-    }
     #endregion ADLAdapterInfo
-
-
-    #region ADLDisplayInfo
-    /// <summary> ADLDisplayID Structure</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLDisplayID {
-        /// <summary> Display Logical Index </summary>
-        internal int DisplayLogicalIndex;
-        /// <summary> Display Physical Index </summary>
-        internal int DisplayPhysicalIndex;
-        /// <summary> Adapter Logical Index </summary>
-        internal int DisplayLogicalAdapterIndex;
-        /// <summary> Adapter Physical Index </summary>
-        internal int DisplayPhysicalAdapterIndex;
-    }
-
-    /// <summary> ADLDisplayInfo Structure</summary>
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLDisplayInfo {
-        /// <summary> Display Index </summary>
-        internal ADLDisplayID DisplayID;
-        /// <summary> Display Controller Index </summary>
-        internal int DisplayControllerIndex;
-        /// <summary> Display Name </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)AdlTypes.ADL_MAX_PATH)]
-        internal string DisplayName;
-        /// <summary> Display Manufacturer Name </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = (int)AdlTypes.ADL_MAX_PATH)]
-        internal string DisplayManufacturerName;
-        /// <summary> Display Type : < The Display type. CRT, TV,CV,DFP are some of display types,</summary>
-        internal int DisplayType;
-        /// <summary> Display output type </summary>
-        internal int DisplayOutputType;
-        /// <summary> Connector type</summary>
-        internal int DisplayConnector;
-        ///<summary> Indicating the display info bits' mask.<summary>
-        internal int DisplayInfoMask;
-        ///<summary> Indicating the display info value.<summary>
-        internal int DisplayInfoValue;
-    }
-    #endregion ADLDisplayInfo
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLPMActivity {
-        public int Size;
-        public int EngineClock;
-        public int MemoryClock;
-        public int Vddc;
-        /// <summary>
-        /// GPU Utilization
-        /// </summary>
-        public int ActivityPercent;
-        public int CurrentPerformanceLevel;
-        public int CurrentBusSpeed;
-        public int CurrentBusLanes;
-        public int MaximumBusLanes;
-        public int Reserved;
-    }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct ADLTemperature {

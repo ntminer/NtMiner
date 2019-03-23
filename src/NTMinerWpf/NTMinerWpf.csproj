@@ -42,13 +42,11 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -63,15 +61,23 @@
     <Compile Include="Controls\KbSystemMaxButton.cs" />
     <Compile Include="Controls\KbSystemMinButton.cs" />
     <Compile Include="Controls\KbTextBox.cs" />
+    <Compile Include="Controls\PasswordBoxHelper.cs" />
+    <Compile Include="Converters\AutoNumberValueConverter.cs" />
+    <Compile Include="Converters\ProfitToBrushConverter.cs" />
+    <Compile Include="Converters\GreatToVisibleConverter.cs" />
+    <Compile Include="Converters\TrueTransparentElseWhiteConverter.cs" />
+    <Compile Include="Converters\BoolToBrushConverter.cs" />
+    <Compile Include="Converters\BoolToHiddenInvertConverter.cs" />
+    <Compile Include="Converters\NoRecordInvertVisibilityConverter.cs" />
     <Compile Include="Converters\TextIndentConverter.cs" />
-    <Compile Include="Converters\BooleanInvertConverter.cs" />
+    <Compile Include="Converters\BoolInvertConverter.cs" />
     <Compile Include="Converters\BoolToHiddenConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityInvertConverter.cs" />
     <Compile Include="Converters\ByteToGbConverter.cs" />
     <Compile Include="Converters\ByteToMbConverter.cs" />
     <Compile Include="Converters\ConsoleColorToMediaColorConverter.cs" />
-    <Compile Include="Converters\NoRecordConverter.cs" />
+    <Compile Include="Converters\NoRecordVisibilityConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyBooleanConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyVisibilityConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyVisibilityInvertConverter.cs" />
@@ -81,7 +87,8 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DelegateCommand`1.cs" />
     <Compile Include="Design.cs" />
-    <Compile Include="Execute.cs" />
+    <Compile Include="IconConst.cs" />
+    <Compile Include="UIThread.cs" />
     <Compile Include="Notifications\ContentLocation.cs" />
     <Compile Include="Notifications\Controls\NotificationMessage.cs" />
     <Compile Include="Notifications\Controls\NotificationMessageButton.cs" />
@@ -99,17 +106,28 @@
     <Compile Include="Notifications\NotificationMessageManagerEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceDictionarySet.cs" />
-    <Compile Include="TimeSpanExtensions.cs" />
-    <Compile Include="TopWindow.cs" />
+    <Compile Include="Views\InputWindow.xaml.cs">
+      <DependentUpon>InputWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wpf\NativeMethods.cs" />
+    <Compile Include="Wpf\TopWindow.cs" />
     <Compile Include="Views\LangEdit.xaml.cs">
       <DependentUpon>LangEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LangViewItemEdit.xaml.cs">
       <DependentUpon>LangViewItemEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NotiCenterWindow.xaml.cs">
+      <DependentUpon>NotiCenterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ViewLang.xaml.cs">
       <DependentUpon>ViewLang.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\NotiCenterWindowViewModel.cs" />
+    <Compile Include="Vms\NotificationMessageManagerExtension.cs" />
+    <Compile Include="Vms\WpfStatic.cs" />
+    <Compile Include="Vms\FormType.cs" />
+    <Compile Include="Vms\IEditableViewModel.cs" />
     <Compile Include="Vms\LangViewItemViewModel.cs" />
     <Compile Include="Vms\LangViewItemViewModels.cs" />
     <Compile Include="Vms\LangViewModel.cs" />
@@ -123,7 +141,9 @@
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowExtensions.cs" />
+    <Compile Include="Wpf\WindowExtensions.cs" />
+    <Compile Include="Wpf\Util.cs" />
+    <Compile Include="Controls\BindingProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Notifications\Themes\Generic.xaml">
@@ -166,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\InputWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DialogWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -177,6 +201,10 @@
     <Page Include="Views\LangViewItemEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NotiCenterWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ViewLang.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -202,12 +230,21 @@
     <Resource Include="Styles\Images\cc64.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+      <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
+      <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
       <Name>NTMinerlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
+      <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
+      <Name>NTMinerRpcClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

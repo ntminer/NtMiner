@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelOutputViewModel : ViewModelBase, IKernelOutput {
+    public class KernelOutputViewModel : ViewModelBase, IKernelOutput, IEditableViewModel {
         public static readonly KernelOutputViewModel PleaseSelect = new KernelOutputViewModel(Guid.Empty) {
             _name = "请选择"
         };
@@ -82,38 +82,38 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.KernelOutputSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateKernelOutputCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelOutputCommand(this));
                 }
                 else {
-                    Global.Execute(new AddKernelOutputCommand(this));
+                    VirtualRoot.Execute(new AddKernelOutputCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                KernelOutputEdit.ShowEditWindow(this);
+                KernelOutputEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核输出组吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveKernelOutputCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核输出吗？", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new RemoveKernelOutputCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
             });
             this.AddKernelOutputFilter = new DelegateCommand(() => {
                 new KernelOutputFilterViewModel(Guid.NewGuid()) {
                     KernelOutputId = this.Id
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             this.AddKernelOutputTranslater = new DelegateCommand(() => {
                 int sortNumber = this.KernelOutputTranslaters.Count == 0 ? 1 : this.KernelOutputTranslaters.Count + 1;
                 new KernelOutputTranslaterViewModel(Guid.NewGuid()) {
                     KernelOutputId = this.Id,
                     SortNumber = sortNumber
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             this.ClearTranslaterKeyword = new DelegateCommand(() => {
                 this.TranslaterKeyword = string.Empty;
@@ -129,9 +129,11 @@ namespace NTMiner.Vms {
         public string TranslaterKeyword {
             get { return _translaterKeyword; }
             set {
-                _translaterKeyword = value;
-                OnPropertyChanged(nameof(TranslaterKeyword));
-                OnPropertyChanged(nameof(KernelOutputTranslaters));
+                if (_translaterKeyword != value) {
+                    _translaterKeyword = value;
+                    OnPropertyChanged(nameof(TranslaterKeyword));
+                    OnPropertyChanged(nameof(KernelOutputTranslaters));
+                }
             }
         }
 
@@ -153,18 +155,22 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public string Name {
             get { return _name; }
             set {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
-                if (string.IsNullOrEmpty(value)) {
-                    throw new ValidationException("名称是必须的");
+                if (_name != value) {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                    if (string.IsNullOrEmpty(value)) {
+                        throw new ValidationException("名称是必须的");
+                    }
                 }
             }
         }
@@ -172,136 +178,170 @@ namespace NTMiner.Vms {
         public bool PrependDateTime {
             get { return _prependDateTime; }
             set {
-                _prependDateTime = value;
-                OnPropertyChanged(nameof(PrependDateTime));
+                if (_prependDateTime != value) {
+                    _prependDateTime = value;
+                    OnPropertyChanged(nameof(PrependDateTime));
+                }
             }
         }
 
         public string TotalSpeedPattern {
             get => _totalSpeedPattern;
             set {
-                _totalSpeedPattern = value;
-                OnPropertyChanged(nameof(TotalSpeedPattern));
+                if (_totalSpeedPattern != value) {
+                    _totalSpeedPattern = value;
+                    OnPropertyChanged(nameof(TotalSpeedPattern));
+                }
             }
         }
 
         public string TotalSharePattern {
             get { return _totalSharePattern; }
             set {
-                _totalSharePattern = value;
-                OnPropertyChanged(nameof(TotalSharePattern));
+                if (_totalSharePattern != value) {
+                    _totalSharePattern = value;
+                    OnPropertyChanged(nameof(TotalSharePattern));
+                }
             }
         }
 
         public string AcceptSharePattern {
             get { return _acceptSharePattern; }
             set {
-                _acceptSharePattern = value;
-                OnPropertyChanged(nameof(AcceptSharePattern));
+                if (_acceptSharePattern != value) {
+                    _acceptSharePattern = value;
+                    OnPropertyChanged(nameof(AcceptSharePattern));
+                }
             }
         }
 
         public string AcceptOneShare {
             get { return _acceptOneShare; }
             set {
-                _acceptOneShare = value;
-                OnPropertyChanged(nameof(AcceptOneShare));
+                if (_acceptOneShare != value) {
+                    _acceptOneShare = value;
+                    OnPropertyChanged(nameof(AcceptOneShare));
+                }
             }
         }
 
         public string RejectSharePattern {
             get { return _rejectSharePattern; }
             set {
-                _rejectSharePattern = value;
-                OnPropertyChanged(nameof(RejectSharePattern));
+                if (_rejectSharePattern != value) {
+                    _rejectSharePattern = value;
+                    OnPropertyChanged(nameof(RejectSharePattern));
+                }
             }
         }
 
         public string RejectOneShare {
             get { return _rejectOneShare; }
             set {
-                _rejectOneShare = value;
-                OnPropertyChanged(nameof(RejectOneShare));
+                if (_rejectOneShare != value) {
+                    _rejectOneShare = value;
+                    OnPropertyChanged(nameof(RejectOneShare));
+                }
             }
         }
 
         public string RejectPercentPattern {
             get { return _rejectPercentPattern; }
             set {
-                _rejectPercentPattern = value;
-                OnPropertyChanged(nameof(RejectPercentPattern));
+                if (_rejectPercentPattern != value) {
+                    _rejectPercentPattern = value;
+                    OnPropertyChanged(nameof(RejectPercentPattern));
+                }
             }
         }
 
         public string GpuSpeedPattern {
             get => _gpuSpeedPattern;
             set {
-                _gpuSpeedPattern = value;
-                OnPropertyChanged(nameof(GpuSpeedPattern));
+                if (_gpuSpeedPattern != value) {
+                    _gpuSpeedPattern = value;
+                    OnPropertyChanged(nameof(GpuSpeedPattern));
+                }
             }
         }
 
         public string DualTotalSpeedPattern {
             get => _dualTotalSpeedPattern;
             set {
-                _dualTotalSpeedPattern = value;
-                OnPropertyChanged(nameof(DualTotalSpeedPattern));
+                if (_dualTotalSpeedPattern != value) {
+                    _dualTotalSpeedPattern = value;
+                    OnPropertyChanged(nameof(DualTotalSpeedPattern));
+                }
             }
         }
 
         public string DualTotalSharePattern {
             get { return _dualTotalSharePattern; }
             set {
-                _dualTotalSharePattern = value;
-                OnPropertyChanged(nameof(DualTotalSharePattern));
+                if (_dualTotalSharePattern != value) {
+                    _dualTotalSharePattern = value;
+                    OnPropertyChanged(nameof(DualTotalSharePattern));
+                }
             }
         }
 
         public string DualAcceptOneShare {
             get { return _dualAcceptOneShare; }
             set {
-                _dualAcceptOneShare = value;
-                OnPropertyChanged(nameof(DualAcceptOneShare));
+                if (_dualAcceptOneShare != value) {
+                    _dualAcceptOneShare = value;
+                    OnPropertyChanged(nameof(DualAcceptOneShare));
+                }
             }
         }
 
         public string DualAcceptSharePattern {
             get { return _dualAcceptSharePattern; }
             set {
-                _dualAcceptSharePattern = value;
-                OnPropertyChanged(nameof(DualAcceptSharePattern));
+                if (_dualAcceptSharePattern != value) {
+                    _dualAcceptSharePattern = value;
+                    OnPropertyChanged(nameof(DualAcceptSharePattern));
+                }
             }
         }
 
         public string DualRejectSharePattern {
             get { return _dualRejectSharePattern; }
             set {
-                _dualRejectSharePattern = value;
-                OnPropertyChanged(nameof(DualRejectSharePattern));
+                if (_dualRejectSharePattern != value) {
+                    _dualRejectSharePattern = value;
+                    OnPropertyChanged(nameof(DualRejectSharePattern));
+                }
             }
         }
 
         public string DualRejectOneShare {
             get { return _dualRejectOneShare; }
             set {
-                _dualRejectOneShare = value;
-                OnPropertyChanged(nameof(DualRejectOneShare));
+                if (_dualRejectOneShare != value) {
+                    _dualRejectOneShare = value;
+                    OnPropertyChanged(nameof(DualRejectOneShare));
+                }
             }
         }
 
         public string DualRejectPercentPattern {
             get { return _dualRejectPercentPattern; }
             set {
-                _dualRejectPercentPattern = value;
-                OnPropertyChanged(nameof(DualRejectPercentPattern));
+                if (_dualRejectPercentPattern != value) {
+                    _dualRejectPercentPattern = value;
+                    OnPropertyChanged(nameof(DualRejectPercentPattern));
+                }
             }
         }
 
         public string DualGpuSpeedPattern {
             get => _dualGpuSpeedPattern;
             set {
-                _dualGpuSpeedPattern = value;
-                OnPropertyChanged(nameof(DualGpuSpeedPattern));
+                if (_dualGpuSpeedPattern != value) {
+                    _dualGpuSpeedPattern = value;
+                    OnPropertyChanged(nameof(DualGpuSpeedPattern));
+                }
             }
         }
     }

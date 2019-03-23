@@ -1,116 +1,116 @@
 ﻿<UserControl x:Class="NTMiner.Views.Ucs.KernelSelect"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-        xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-        xmlns:vm="clr-namespace:NTMiner.Vms"
-        mc:Ignorable="d" Height="320" Width="620">
-    <UserControl.DataContext>
-        <vm:KernelSelectViewModel></vm:KernelSelectViewModel>
-    </UserControl.DataContext>
-    <UserControl.Resources>
-        <sys:String x:Key="WindowTitle">
-            选择内核
-        </sys:String>
-    </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="{StaticResource LineColor}">
-            <WrapPanel>
-                <Path Margin="4 0 0 0"
-				    Width="12"
-				    Height="12"
-				    Fill="{StaticResource IconFillColor}"
-				    Stretch="Fill"
-				    Data="{StaticResource Icon_Serach}"></Path>
-                <Label Padding="2 6">搜索</Label>
-                <controls:KbTextBox 
-                    x:Name="TbKeyword" Width="154" Height="20"
-				    Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
-				    VerticalContentAlignment="Center"
-				    Hint="请输入想搜索的内核"
-				    BorderBrush="{StaticResource LineColor}"
-				    BorderThickness="1"
-				    Background="White"
-				    SelectedColor="#409EFF" />
-                <controls:KbButton 
-                    Height="20"
-                    Background="Transparent" BorderThickness="0"
-				    Command="{Binding ClearKeyword}"
-				    Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-				    Margin="-14 0 0 0" HorizontalAlignment="Left">
-                    <Path
-					    Width="8"
-					    Height="8"
-					    Data="{StaticResource Icon_Close}"
-					    Fill="{StaticResource IconFillColor}"
-					    Stretch="Fill" />
-                </controls:KbButton>
-            </WrapPanel>
-        </Border>
-        <DataGrid 
-            Grid.Row="1"
-            Margin="0" 
-            ItemsSource="{Binding QueryResults}" 
-            SelectedItem="{Binding SelectedResult}"
-            ColumnHeaderHeight="0"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		mc:Ignorable="d" Height="320" Width="620">
+	<UserControl.DataContext>
+		<vm:KernelSelectViewModel></vm:KernelSelectViewModel>
+	</UserControl.DataContext>
+	<UserControl.Resources>
+		<sys:String x:Key="WindowTitle">
+			选择内核
+		</sys:String>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="{StaticResource LineColor}">
+			<WrapPanel>
+				<Path Margin="4 0 0 0"
+					Width="12"
+					Height="12"
+					Fill="{StaticResource IconFillColor}"
+					Stretch="Fill"
+					Data="{StaticResource Icon_Serach}"></Path>
+				<Label Padding="2 6">搜索</Label>
+				<controls:KbTextBox 
+					x:Name="TbKeyword" Width="154" Height="20"
+					Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+					VerticalContentAlignment="Center"
+					Hint="请输入想搜索的内核"
+					BorderBrush="{StaticResource LineColor}"
+					BorderThickness="1"
+					Background="White"
+					SelectedColor="#409EFF" />
+				<controls:KbButton 
+					Height="20"
+					Background="Transparent" BorderThickness="0"
+					Command="{Binding ClearKeyword}"
+					Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+					Margin="-14 0 0 0" HorizontalAlignment="Left">
+					<Path
+						Width="8"
+						Height="8"
+						Data="{StaticResource Icon_Close}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+				</controls:KbButton>
+			</WrapPanel>
+		</Border>
+		<DataGrid 
+			Grid.Row="1"
+			Margin="0" 
+			ItemsSource="{Binding QueryResults}" 
+			SelectedItem="{Binding SelectedResult}"
+			ColumnHeaderHeight="0"
 			BorderThickness="0" RowHeight="40">
-            <DataGrid.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Width="*" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <WrapPanel>
-                            <TextBlock>编码</TextBlock>
-                            <TextBlock Margin="4 0 0 0" Text="{Binding Data.QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
-                        </WrapPanel>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-                                    <Path
-                                        Margin="4 0 0 0"
-				                        Width="18"
-				                        Height="14"
-                                        ToolTip="支持N卡"
-                                        Visibility="{Binding IsNvidiaIconVisible}"
-				                        Data="{StaticResource Icon_Nvidia}"
-				                        Fill="Green"
-				                        Stretch="Fill" />
-                                    <Path
-                                        Margin="4 0 0 0"
-				                        Width="16"
-				                        Height="14"
-                                        ToolTip="支持A卡"
-                                        Visibility="{Binding IsAMDIconVisible}"
-				                        Data="{StaticResource Icon_AMD}"
-				                        Fill="Red"
-				                        Stretch="Fill" />
-                                    <TextBlock Text="{Binding Package}" Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"></TextBlock>
-                                </WrapPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding SupportedCoins}" ToolTip="支持币种"></TextBlock>
-                                </WrapPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Width="80" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="尺寸" Binding="{Binding SizeMbText}">
-                </DataGridTextColumn>
-                <DataGridTextColumn MinWidth="140" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="发布时间" Binding="{Binding PublishOnText}">
-                </DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
-    </Grid>
+			<DataGrid.Resources>
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+			</DataGrid.Resources>
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<WrapPanel>
+							<TextBlock>编码</TextBlock>
+							<TextBlock Margin="4 0 0 0" Text="{Binding Data.QueryResults.Count, Source={StaticResource proxy}}"></TextBlock>
+						</WrapPanel>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<WrapPanel>
+									<TextBlock Text="{Binding FullName}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
+									<Path
+										Margin="4 0 0 0"
+										Width="18"
+										Height="14"
+										ToolTip="支持N卡"
+										Visibility="{Binding IsNvidiaIconVisible}"
+										Data="{StaticResource Icon_Nvidia}"
+										Fill="Green"
+										Stretch="Fill" />
+									<Path
+										Margin="4 0 0 0"
+										Width="16"
+										Height="14"
+										ToolTip="支持A卡"
+										Visibility="{Binding IsAMDIconVisible}"
+										Data="{StaticResource Icon_AMD}"
+										Fill="Red"
+										Stretch="Fill" />
+									<TextBlock Text="{Binding Package}" Margin="4 0 0 0" VerticalAlignment="Center" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"></TextBlock>
+								</WrapPanel>
+								<WrapPanel>
+									<TextBlock Text="{Binding SupportedCoins}" ToolTip="支持币种"></TextBlock>
+								</WrapPanel>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="尺寸" Binding="{Binding SizeMbText}">
+				</DataGridTextColumn>
+				<DataGridTextColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True" Header="发布时间" Binding="{Binding PublishOnText}">
+				</DataGridTextColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
+	</Grid>
 </UserControl>

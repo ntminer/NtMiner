@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.MinerServer;
 
 namespace NTMiner.Vms {
     public class CalcViewModel : ViewModelBase {
@@ -10,12 +10,14 @@ namespace NTMiner.Vms {
         public CoinViewModel SelectedCoinVm {
             get => _selectedCoinVm;
             set {
-                _selectedCoinVm = value;
-                OnPropertyChanged(nameof(SelectedCoinVm));
-                ICalcConfig calcConfig;
-                if (NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(value, out calcConfig)) {
-                    this.SpeedUnitVm = SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
-                    this.Speed = 1;
+                if (_selectedCoinVm != value) {
+                    _selectedCoinVm = value;
+                    OnPropertyChanged(nameof(SelectedCoinVm));
+                    ICalcConfig calcConfig;
+                    if (NTMinerRoot.Current.CalcConfigSet.TryGetCalcConfig(value, out calcConfig)) {
+                        this.SpeedUnitVm = SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
+                        this.Speed = 1;
+                    }
                 }
             }
         }
@@ -23,11 +25,13 @@ namespace NTMiner.Vms {
         public double Speed {
             get => _speed;
             set {
-                _speed = value;
-                OnPropertyChanged(nameof(Speed));
-                OnPropertyChanged(nameof(IncomePerDayText));
-                OnPropertyChanged(nameof(IncomeUsdPerDayText));
-                OnPropertyChanged(nameof(IncomeCnyPerDayText));
+                if (_speed != value) {
+                    _speed = value;
+                    OnPropertyChanged(nameof(Speed));
+                    OnPropertyChanged(nameof(IncomePerDayText));
+                    OnPropertyChanged(nameof(IncomeUsdPerDayText));
+                    OnPropertyChanged(nameof(IncomeCnyPerDayText));
+                }
             }
         }
 
@@ -35,11 +39,13 @@ namespace NTMiner.Vms {
         public SpeedUnitViewModel SpeedUnitVm {
             get => _speedUnitVm;
             set {
-                _speedUnitVm = value;
-                OnPropertyChanged(nameof(SpeedUnitVm));
-                OnPropertyChanged(nameof(IncomePerDayText));
-                OnPropertyChanged(nameof(IncomeUsdPerDayText));
-                OnPropertyChanged(nameof(IncomeCnyPerDayText));
+                if (_speedUnitVm != value) {
+                    _speedUnitVm = value;
+                    OnPropertyChanged(nameof(SpeedUnitVm));
+                    OnPropertyChanged(nameof(IncomePerDayText));
+                    OnPropertyChanged(nameof(IncomeUsdPerDayText));
+                    OnPropertyChanged(nameof(IncomeCnyPerDayText));
+                }
             }
         }
 
@@ -49,7 +55,7 @@ namespace NTMiner.Vms {
             get {
                 if (_incomeCoinVm == null || this.SelectedCoinVm != _incomeCoinVm) {
                     _incomeCoinVm = SelectedCoinVm;
-                    _incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(_incomeCoinVm);
+                    _incomePerDay = NTMinerRoot.Current.CalcConfigSet.GetIncomePerHashPerDay(_incomeCoinVm.Code);
                 }
                 return _incomePerDay;
             }

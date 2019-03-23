@@ -24,22 +24,24 @@
             <TextBlock VerticalAlignment="Center">秒钟后重启！</TextBlock>
         </WrapPanel>
         <WrapPanel HorizontalAlignment="Center" Margin="4">
-            <controls:KbButton Margin="0"
-                               Click="KbCancelButton_Click"
-                               Width="80"
-                               FontSize="12"
-                               VerticalAlignment="Center"
-                               CornerRadius="2">
+            <controls:KbButton 
+                Padding="8 4"
+                Click="KbCancelButton_Click"
+                VerticalAlignment="Center"
+                Background="{StaticResource ThemeBackground}"
+                CornerRadius="2">
                 <WrapPanel>
                     <Path
                         Width="14"
                         Height="14"
                         Data="{StaticResource Icon_Close}"
-                        Fill="{StaticResource IconFillColor}"
+                        Fill="{StaticResource ThemeForeground}"
                         Stretch="Fill" />
-                    <Label
+                    <TextBlock
                         VerticalAlignment="Center"
-                        Content="取消重启" />
+                        FontSize="14"
+                        Foreground="{StaticResource ThemeForeground}"
+                        Text="取消重启" />
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>

@@ -25,18 +25,11 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            if (dg.SelectedItem != null) {
-                ((SysDicViewModel)dg.SelectedItem).Edit.Execute(null);
-            }
+            Wpf.Util.DataGrid_MouseDoubleClick<SysDicViewModel>(sender, e);
         }
 
         private void SysDicItemDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            if (dg.SelectedItem != null) {
-                SysDicItemViewModel poolVm = (SysDicItemViewModel)dg.SelectedItem;
-                poolVm.Edit.Execute(null);
-            }
+            Wpf.Util.DataGrid_MouseDoubleClick<SysDicItemViewModel>(sender, e);
         }
     }
 }

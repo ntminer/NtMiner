@@ -3,11 +3,16 @@
 namespace NTMiner.Serialization {
     public class ObjectJsonSerializer : IObjectSerializer {
         public ObjectJsonSerializer() {
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
         }
 
         public virtual string Serialize<TObject>(TObject obj) {
-            return JsonConvert.SerializeObject(obj, Formatting.None);
+#if DEBUG
+            return JsonConvert.SerializeObject(obj, new JsonSerializerSettings() {
+                Formatting = Formatting.Indented
+            });
+#else
+            return JsonConvert.SerializeObject(obj);
+#endif
         }
 
         public virtual TObject Deserialize<TObject>(string json) {

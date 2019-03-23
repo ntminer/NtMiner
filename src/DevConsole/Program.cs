@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     internal unsafe class Program {
-        public static volatile bool running = true;
-        public static string poolIp;
-        public static int counter = 0;
-        public static bool ranOnce = false;
+        private static bool s_running = true;
+        private static string s_poolIp;
+        private static bool s_ranOnce = false;
 
         private static void Main(string[] args) {
-            Console.CancelKeyPress += delegate { running = false; };
+            Console.CancelKeyPress += delegate { s_running = false; };
 
             if (args.Length >= 1) {
-                poolIp = args[0];
+                s_poolIp = args[0];
             }
             else {
                 Console.WriteLine("ERROR: No poolIp argument was found.");
@@ -32,24 +31,24 @@ namespace NTMiner {
 
             WinDivertExtract.Extract();
 
-            string filter = $"ip && (ip.DstAddr = {poolIp} || ip.SrcAddr = {poolIp}) && tcp && tcp.PayloadLength > 100";
+            string filter = $"ip && (ip.DstAddr = {s_poolIp} || ip.SrcAddr = {s_poolIp}) && tcp && tcp.PayloadLength > 100";
             Console.WriteLine(filter);
-            var divertHandle = WinDivertMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
+            var divertHandle = WinDivertNativeMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
 
             try {
                 if (divertHandle != IntPtr.Zero) {
-                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), x => RunDiversion(divertHandle));
+                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), x => RunDiversion(divertHandle, ref s_ranOnce, ref s_poolIp, ref s_running));
                 }
             }
             catch (Exception e) {
                 Console.WriteLine(e.Message, e.StackTrace);
             }
             finally {
-                WinDivertMethods.WinDivertClose(divertHandle);
+                WinDivertNativeMethods.WinDivertClose(divertHandle);
             }
         }
 
-        private static void RunDiversion(IntPtr handle) {
+        private static void RunDiversion(IntPtr handle, ref bool ranOnce, ref string poolIp, ref bool running) {
             byte[] packet = new byte[65535];
             try {
                 while (running) {
@@ -58,7 +57,7 @@ namespace NTMiner {
                     WINDIVERT_TCPHDR* tcpHdr = null;
                     WINDIVERT_ADDRESS addr = new WINDIVERT_ADDRESS();
 
-                    if (!WinDivertMethods.WinDivertRecv(handle, packet, (uint)packet.Length, ref addr, ref readLength)) continue;
+                    if (!WinDivertNativeMethods.WinDivertRecv(handle, packet, (uint)packet.Length, ref addr, ref readLength)) continue;
 
                     if (!ranOnce && readLength > 1) {
                         ranOnce = true;
@@ -67,9 +66,10 @@ namespace NTMiner {
 
                     fixed (byte* inBuf = packet) {
                         byte* payload = null;
-                        WinDivertMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
+                        WinDivertNativeMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
+                            string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             string dstIp = ipv4Header->DstAddr.ToString();
                             var dstPort = tcpHdr->DstPort;
                             string arrow = $"->{dstIp}:{dstPort}";
@@ -80,15 +80,14 @@ namespace NTMiner {
                             else {
                                 Console.WriteLine($"->->->->->->->->->->->->->{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}->->->->->->->->->->->->->->->");
                             }
-                            string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             Console.WriteLine(arrow + text);
                             Console.WriteLine();
                             Console.WriteLine();
                         }
                     }
 
-                    WinDivertMethods.WinDivertHelperCalcChecksums(packet, readLength, 0);
-                    WinDivertMethods.WinDivertSendEx(handle, packet, readLength, 0, ref addr, IntPtr.Zero, IntPtr.Zero);
+                    WinDivertNativeMethods.WinDivertHelperCalcChecksums(packet, readLength, 0);
+                    WinDivertNativeMethods.WinDivertSendEx(handle, packet, readLength, 0, ref addr, IntPtr.Zero, IntPtr.Zero);
                 }
 
             }

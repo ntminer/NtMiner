@@ -21,10 +21,7 @@ namespace NTMiner {
 
     public abstract class AddEntityCommand<TEntity> : Cmd where TEntity : class, IEntity<Guid> {
         protected AddEntityCommand(TEntity input) {
-            if (input == null) {
-                throw new ArgumentNullException("input");
-            }
-            this.Input = input;
+            this.Input = input ?? throw new ArgumentNullException(nameof(input));
         }
 
         public TEntity Input { get; private set; }
@@ -40,31 +37,33 @@ namespace NTMiner {
 
     public abstract class UpdateEntityCommand<TEntity> : Cmd where TEntity : class, IEntity<Guid> {
         protected UpdateEntityCommand(TEntity input) {
-            if (input == null) {
-                throw new ArgumentNullException("input");
-            }
-            this.Input = input;
+            this.Input = input ?? throw new ArgumentNullException(nameof(input));
         }
 
         public TEntity Input { get; private set; }
     }
     #endregion
 
-    [MessageType(messageType: typeof(UpdateHandlerIdCommand), description: "更新处理器日志配置")]
-    public class UpdateHandlerIdCommand : UpdateEntityCommand<IHandlerId> {
-        public UpdateHandlerIdCommand(IHandlerId input) : base(input) {
+    [MessageType(messageType: typeof(ChangeAppSettingCommand), description: "设置AppSetting")]
+    public class ChangeAppSettingCommand : Cmd {
+        public ChangeAppSettingCommand(IAppSetting appSetting) {
+            this.AppSetting = appSetting;
+        }
+
+        public IAppSetting AppSetting {
+            get; private set;
         }
     }
 
-    [MessageType(messageType: typeof(HandlerIdAddedEvent), description: "新的处理器标识出现后")]
-    public class HandlerIdAddedEvent : DomainEvent<IHandlerId> {
-        public HandlerIdAddedEvent(IHandlerId source) : base(source) {
+    [MessageType(messageType: typeof(AppSettingChangedEvent), description: "AppSetting变更后")]
+    public class AppSettingChangedEvent : DomainEvent<IAppSetting> {
+        public AppSettingChangedEvent(IAppSetting source) : base(source) {
         }
     }
 
-    [MessageType(messageType: typeof(HandlerIdUpdatedEvent), description: "更新了处理器标识信息后")]
-    public class HandlerIdUpdatedEvent : DomainEvent<IHandlerId> {
-        public HandlerIdUpdatedEvent(IHandlerId source) : base(source) {
+    [MessageType(messageType: typeof(UserActionEvent), description: "发生了用户活动后")]
+    public class UserActionEvent : EventBase {
+        public UserActionEvent() {
         }
     }
 

@@ -1,13 +1,14 @@
 ﻿using NTMiner.Vms;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class CalcConfig : UserControl {
+        public static string ViewId = nameof(CalcConfig);
+
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Calc",
-                Width = 560,
-                Height = 450,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new CalcConfig();
@@ -19,7 +20,7 @@ namespace NTMiner.Views.Ucs {
                     }
                 };
                 return uc;
-            }, fixedSize: false);
+            }, fixedSize: true);
         }
 
         public CalcConfigViewModels Vm {
@@ -31,6 +32,10 @@ namespace NTMiner.Views.Ucs {
         private CalcConfig() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

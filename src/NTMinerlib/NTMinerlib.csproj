@@ -34,21 +34,16 @@
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bus\IDelegateHandler.cs" />
+    <Compile Include="IAppSettingSet.cs" />
     <Compile Include="Bus\Cmd.cs" />
     <Compile Include="Bus\DelegateHandler`1.cs" />
     <Compile Include="Bus\DirectBus\DirectBus.cs" />
@@ -56,7 +51,10 @@
     <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
     <Compile Include="Bus\EventBase.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ISortable.cs" />
+    <Compile Include="Ip\Util.cs" />
+    <Compile Include="SignatureRequestExtension.cs" />
+    <Compile Include="TimeSpanExtensions.cs" />
+    <Compile Include="User\IUserSet.cs" />
     <Compile Include="Language\ILang.cs" />
     <Compile Include="Language\ILangViewItem.cs" />
     <Compile Include="Language\Impl\Lang.cs" />
@@ -67,18 +65,10 @@
     <Compile Include="Language\LangSet.cs" />
     <Compile Include="Language\Messages.cs" />
     <Compile Include="Language\Repository.cs" />
-    <Compile Include="Logging\LogDir.cs" />
     <Compile Include="NTMinerRegistry.cs" />
-    <Compile Include="ServiceContracts\DataObjects\IPoolProfile.cs" />
-    <Compile Include="ServiceContracts\DataObjects\PoolProfileData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\SetPoolProfilePropertyRequest.cs" />
+    <Compile Include="Repositories\IReadOnlyRepository.cs" />
     <Compile Include="SortNumberComparer.cs" />
-    <Compile Include="Server.partials.ControlCenterService.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DictionaryExtensions.cs" />
-    <Compile Include="Server.partials.FileUrlService.cs" />
-    <Compile Include="HashUtil.cs" />
-    <Compile Include="DevMode.cs" />
     <Compile Include="HandlerId.cs" />
     <Compile Include="Bus\IBus.cs" />
     <Compile Include="Bus\ICmd.cs" />
@@ -88,99 +78,28 @@
     <Compile Include="Bus\IMessage.cs" />
     <Compile Include="Bus\IMessageDispatcher.cs" />
     <Compile Include="IHandlerId.cs" />
-    <Compile Include="ITimestampEntity·1.cs" />
     <Compile Include="ClientId.cs" />
     <Compile Include="LogEnum.cs" />
     <Compile Include="Bus\MessageDispatcher.cs" />
     <Compile Include="Bus\MessageDispatcherExtensions.cs" />
     <Compile Include="Bus\MessageDispatchEventArgs.cs" />
     <Compile Include="Bus\MessageTypeAttribute.cs" />
-    <Compile Include="DataLevel.cs" />
-    <Compile Include="Bus\DisposableObject.cs" />
     <Compile Include="EntityExtensions.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="GeneralException.cs" />
-    <Compile Include="IDbEntity`1.cs" />
-    <Compile Include="IEntity`1.cs" />
-    <Compile Include="ILevelEntity`1.cs" />
-    <Compile Include="Logging\ILoggingService.cs" />
-    <Compile Include="Logging\Log4NetLoggingService.cs" />
     <Compile Include="Messages.cs" />
-    <Compile Include="Server.partials.ProfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.partials.ReportService.cs" />
     <Compile Include="Repositories\CommonRepository`1.cs" />
     <Compile Include="Repositories\CompositeRepository`1.cs" />
     <Compile Include="Repositories\DuplicateIdException.cs" />
     <Compile Include="Repositories\IRepository`1.cs" />
-    <Compile Include="Security\AESHelper.cs" />
-    <Compile Include="Security\BigInteger.cs" />
-    <Compile Include="Security\RSAHelper.cs" />
     <Compile Include="Serialization\IObjectSerializer.cs" />
     <Compile Include="Serialization\ObjectJsonSerializer.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="ServiceContracts\DataObjects\AddOrUpdateMinerGroupRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\AddOrUpdateMineWorkRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\AddOrUpdateNTMinerFileRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\AddOrUpdateWalletRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\CalcConfigData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\ClientData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\CoinKernelProfileData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\CoinProfileData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\CoinSnapshotData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\GetCalcConfigsResponse.cs" />
-    <Compile Include="ServiceContracts\DataObjects\GetCoinSnapshotsRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\GetCoinSnapshotsResponse.cs" />
-    <Compile Include="ServiceContracts\DataObjects\GetMinerGroupsResponse.cs" />
-    <Compile Include="ServiceContracts\DataObjects\GetWalletsResponse.cs" />
-    <Compile Include="ServiceContracts\DataObjects\LoadClientRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\LoadClientResponse.cs" />
-    <Compile Include="ServiceContracts\DataObjects\LoadClientsRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\LoadClientsResponse.cs" />
-    <Compile Include="ServiceContracts\DataObjects\LoginControlCenterRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\NTMinerFileData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\ICalcConfig.cs" />
-    <Compile Include="ServiceContracts\DataObjects\IClientData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\ICoinKernelProfile.cs" />
-    <Compile Include="ServiceContracts\DataObjects\ICoinProfile.cs" />
-    <Compile Include="ServiceContracts\DataObjects\IMinerGroup.cs" />
-    <Compile Include="ServiceContracts\DataObjects\IMinerProfile.cs" />
-    <Compile Include="ServiceContracts\DataObjects\IMineWork.cs" />
-    <Compile Include="ServiceContracts\DataObjects\INTMinerFile.cs" />
-    <Compile Include="ServiceContracts\DataObjects\IUser.cs" />
-    <Compile Include="ServiceContracts\DataObjects\IWallet.cs" />
-    <Compile Include="ServiceContracts\DataObjects\LoginData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\MinerGroupData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\MinerProfileData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\MineStatus.cs" />
-    <Compile Include="ServiceContracts\DataObjects\MineWorkData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\QueryClientsRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\QueryClientsResponse.cs" />
-    <Compile Include="ServiceContracts\DataObjects\RemoveMinerGroupRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\RemoveMineWorkRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\RemoveNTMinerFileRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\RemoveWalletRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\RequestBase.cs" />
-    <Compile Include="ServiceContracts\DataObjects\ResponseBase.cs" />
-    <Compile Include="ServiceContracts\DataObjects\SaveCalcConfigsRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\SetClientMinerProfilePropertyRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\SetCoinKernelProfilePropertyRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\SetCoinProfilePropertyRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\SetMinerProfilePropertyRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\SpeedData.cs" />
-    <Compile Include="ServiceContracts\DataObjects\StartMineRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\StopMineRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\UpdateClientRequest.cs" />
-    <Compile Include="ServiceContracts\DataObjects\WalletData.cs" />
-    <Compile Include="ServiceContracts\IControlCenterService.cs" />
-    <Compile Include="ServiceContracts\IProfileService.cs" />
-    <Compile Include="ServiceContracts\IReportService.cs" />
-    <Compile Include="ServiceContracts\IFileUrlService.cs" />
-    <Compile Include="Global.cs" />
-    <Compile Include="ServiceContracts\ITimeService.cs" />
-    <Compile Include="Server.partials.TimeService.cs" />
+    <Compile Include="VirtualRoot.cs" />
+    <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
-    <Compile Include="ChannelFactory.cs" />
+    <Compile Include="WebApiConst.cs" />
+    <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\Registry.cs" />
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />
@@ -189,5 +108,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+      <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
+      <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
+      <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
+      <Name>NTMinerLogging</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

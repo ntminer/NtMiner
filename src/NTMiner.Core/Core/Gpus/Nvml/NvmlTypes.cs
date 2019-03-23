@@ -1175,7 +1175,7 @@ namespace NTMiner.Core.Gpus.Nvml {
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr Pointer;
+        private IntPtr Pointer;
     }
 
     /// <summary>
@@ -1186,7 +1186,7 @@ namespace NTMiner.Core.Gpus.Nvml {
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr Pointer;
+        private IntPtr Pointer;
     }
 
     /// <summary>
@@ -1197,7 +1197,7 @@ namespace NTMiner.Core.Gpus.Nvml {
         /// <summary>
         /// 
         /// </summary>
-        public IntPtr Pointer;
+        private IntPtr Pointer;
     }
     #endregion
 

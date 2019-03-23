@@ -17,28 +17,26 @@ namespace NTMiner.Vms {
             _kernelProfileVm = KernelProfileViewModel.Empty,
             _helpArg = string.Empty,
             _code = string.Empty,
+            _brandId = Guid.Empty,
             _notice = string.Empty,
             _id = Guid.Empty,
             _publishState = PublishStatus.UnPublished,
             _sha1 = string.Empty,
             _size = 0,
-            _sortNumber = 0,
             _publishOn = 0,
             _version = string.Empty,
             _package = string.Empty,
-            _packageHistory = string.Empty,
             _kernelOutputId = Guid.Empty,
             _kernelInputId = Guid.Empty
         };
 
         private Guid _id;
         private string _code;
+        private Guid _brandId;
         private string _version;
-        private int _sortNumber;
         private string _helpArg;
         private ulong _publishOn;
         private string _package;
-        private string _packageHistory;
         private string _sha1;
         private long _size;
         private PublishStatus _publishState = PublishStatus.UnPublished;
@@ -55,8 +53,6 @@ namespace NTMiner.Vms {
         #region Commands
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
-        public ICommand SortUp { get; private set; }
-        public ICommand SortDown { get; private set; }
 
         public ICommand Publish { get; private set; }
         public ICommand UnPublish { get; private set; }
@@ -82,15 +78,14 @@ namespace NTMiner.Vms {
         public KernelViewModel(IKernel data) : this(data.GetId()) {
             _helpArg = data.HelpArg;
             _code = data.Code;
+            _brandId = data.BrandId;
             _notice = data.Notice;
             _publishState = data.PublishState;
             _sha1 = data.Sha1;
             _size = data.Size;
-            _sortNumber = data.SortNumber;
             _publishOn = data.PublishOn;
             _version = data.Version;
             _package = data.Package;
-            _packageHistory = data.PackageHistory;
             _kernelOutputId = data.KernelOutputId;
             _kernelInputId = data.KernelInputId;
         }
@@ -99,65 +94,39 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (NTMinerRoot.Current.KernelSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateKernelCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }
                 else {
-                    Global.Execute(new AddKernelCommand(this));
+                    VirtualRoot.Execute(new AddKernelCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this == Empty) {
                     return;
                 }
-                KernelEdit.ShowEditWindow(this);
+                KernelEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.FullName}内核吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveKernelCommand(this.Id));
-                }, icon: "Icon_Confirm");
-            });
-            this.SortUp = new DelegateCommand(() => {
-                KernelViewModel upOne = KernelViewModels.Current.AllKernels.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < this.SortNumber);
-                if (upOne != null) {
-                    int sortNumber = upOne.SortNumber;
-                    upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateKernelCommand(upOne));
-                    this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateKernelCommand(this));
-                    KernelViewModels.Current.OnPropertyChanged(nameof(KernelViewModels.AllKernels));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.DownloadingVms));
-                }
-            });
-            this.SortDown = new DelegateCommand(() => {
-                KernelViewModel nextOne = KernelViewModels.Current.AllKernels.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > this.SortNumber);
-                if (nextOne != null) {
-                    int sortNumber = nextOne.SortNumber;
-                    nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateKernelCommand(nextOne));
-                    this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateKernelCommand(this));
-                    KernelViewModels.Current.OnPropertyChanged(nameof(KernelViewModels.AllKernels));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
-                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.DownloadingVms));
-                }
+                    VirtualRoot.Execute(new RemoveKernelCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
             });
             this.Publish = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.Published;
-                    this.PublishOn = Global.GetTimestamp();
-                    Global.Execute(new UpdateKernelCommand(this));
-                }, icon: "Icon_Confirm");
+                    this.PublishOn = Timestamp.GetTimestamp();
+                    VirtualRoot.Execute(new UpdateKernelCommand(this));
+                }, icon: IconConst.IconConfirm);
             });
             this.UnPublish = new DelegateCommand(() => {
                 DialogWindow.ShowDialog(message: $"您确定取消发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.UnPublished;
-                    Global.Execute(new UpdateKernelCommand(this));
-                }, icon: "Icon_Confirm");
+                    VirtualRoot.Execute(new UpdateKernelCommand(this));
+                }, icon: IconConst.IconConfirm);
             });
             this.BrowsePackage = new DelegateCommand(() => {
                 OpenFileDialog openFileDialog = new OpenFileDialog {
@@ -178,7 +147,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 int sortNumber = coinVm.CoinKernels.Count == 0 ? 1 : coinVm.CoinKernels.Max(a => a.SortNumber) + 1;
-                Global.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
+                VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
                     Args = string.Empty,
                     CoinId = coinVm.Id,
                     Description = string.Empty,
@@ -190,8 +159,12 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(HelpArg)) {
                     return;
                 }
+                string kernelDirFullName = this.GetKernelDirFullName();
+                if (string.IsNullOrEmpty(kernelDirFullName)) {
+                    return;
+                }
                 string helpArg = this.HelpArg.Trim();
-                string asFileFullName = Path.Combine(this.GetKernelDirFullName(), helpArg);
+                string asFileFullName = Path.Combine(kernelDirFullName, helpArg);
                 // 如果当前内核不处在挖矿中则可以解压缩，否则不能解压缩因为内核文件处在使用中无法覆盖
                 if (!NTMinerRoot.Current.IsMining || NTMinerRoot.Current.CurrentMineContext.Kernel.GetId() != this.GetId()) {
                     if (!this.IsPackageFileExist()) {
@@ -207,7 +180,7 @@ namespace NTMiner.Vms {
                 }
                 else {
                     string commandName = this.GetCommandName(fromHelpArg: true);
-                    string kernelExeFileFullName = Path.Combine(this.GetKernelDirFullName(), commandName);
+                    string kernelExeFileFullName = Path.Combine(kernelDirFullName, commandName);
                     int exitCode = -1;
                     Windows.Cmd.RunClose(kernelExeFileFullName, helpArg.Substring(commandName.Length), ref exitCode, out helpText);
                 }
@@ -237,9 +210,11 @@ namespace NTMiner.Vms {
                 return _kernelOutputVm;
             }
             set {
-                _kernelOutputVm = value;
-                this.KernelOutputId = value.Id;
-                OnPropertyChanged(nameof(KernelOutputVm));
+                if (_kernelOutputVm != value) {
+                    _kernelOutputVm = value;
+                    this.KernelOutputId = value.Id;
+                    OnPropertyChanged(nameof(KernelOutputVm));
+                }
             }
         }
 
@@ -261,9 +236,11 @@ namespace NTMiner.Vms {
                 return _kernelInputVm;
             }
             set {
-                _kernelInputVm = value;
-                this.KernelInputId = value.Id;
-                OnPropertyChanged(nameof(KernelInputVm));
+                if (_kernelInputVm != value) {
+                    _kernelInputVm = value;
+                    this.KernelInputId = value.Id;
+                    OnPropertyChanged(nameof(KernelInputVm));
+                }
             }
         }
 
@@ -281,7 +258,7 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> OtherVersionKernelVms {
             get {
-                return KernelViewModels.Current.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.SortNumber).ToList();
+                return KernelViewModels.Current.AllKernels.Where(a => a.Code == this.Code && a.Id != this.Id).OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 
@@ -309,10 +286,10 @@ namespace NTMiner.Vms {
         public Visibility IsNvidiaIconVisible {
             get {
                 foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.Both) {
+                    if (item.SupportedGpu == SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.NVIDIA) {
+                    if (item.SupportedGpu == SupportedGpu.NVIDIA) {
                         return Visibility.Visible;
                     }
                 }
@@ -323,10 +300,10 @@ namespace NTMiner.Vms {
         public Visibility IsAMDIconVisible {
             get {
                 foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.Both) {
+                    if (item.SupportedGpu == SupportedGpu.Both) {
                         return Visibility.Visible;
                     }
-                    if (item.SupportedGpu == Core.Gpus.SupportedGpu.AMD) {
+                    if (item.SupportedGpu == SupportedGpu.AMD) {
                         return Visibility.Visible;
                     }
                 }
@@ -337,8 +314,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -369,6 +348,51 @@ namespace NTMiner.Vms {
             }
         }
 
+        public Guid BrandId {
+            get { return _brandId; }
+            set {
+                _brandId = value;
+                OnPropertyChanged(nameof(BrandId));
+            }
+        }
+
+        public SysDicItemViewModel BrandItem {
+            get {
+                if (this.BrandId == Guid.Empty) {
+                    return _unknownBrand;
+                }
+                SysDicItemViewModel item;
+                if (SysDicItemViewModels.Current.TryGetValue(this.BrandId, out item)) {
+                    return item;
+                }
+                return _unknownBrand;
+            }
+            set {
+                if (value == null) {
+                    value = _unknownBrand;
+                }
+                this.BrandId = value.Id;
+                OnPropertyChanged(nameof(BrandItem));
+            }
+        }
+
+        private readonly SysDicItemViewModel _unknownBrand = new SysDicItemViewModel(Guid.Empty) {
+            Code = "未知",
+            Value = "未知"
+        };
+        public List<SysDicItemViewModel> KernelBrandItems {
+            get {
+                List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
+                    _unknownBrand
+                };
+                SysDicViewModel sysDic;
+                if (SysDicViewModels.Current.TryGetSysDicVm("KernelBrand", out sysDic)) {
+                    list.AddRange(SysDicItemViewModels.Current.List.Where(a => a.DicId == sysDic.Id));
+                }
+                return list;
+            }
+        }
+
         public string Version {
             get { return _version; }
             set {
@@ -396,34 +420,31 @@ namespace NTMiner.Vms {
         public string Package {
             get { return _package; }
             set {
-                _package = value;
-                OnPropertyChanged(nameof(Package));
-            }
-        }
-
-        public string PackageHistory {
-            get { return _packageHistory; }
-            set {
-                _packageHistory = value;
-                OnPropertyChanged(nameof(PackageHistory));
-                KernelProfileVm.Refresh();
+                if (_package != value) {
+                    _package = value;
+                    OnPropertyChanged(nameof(Package));
+                }
             }
         }
 
         public string Sha1 {
             get => _sha1;
             set {
-                _sha1 = value;
-                OnPropertyChanged(nameof(Sha1));
+                if (_sha1 != value) {
+                    _sha1 = value;
+                    OnPropertyChanged(nameof(Sha1));
+                }
             }
         }
 
         public long Size {
             get => _size;
             set {
-                _size = value;
-                OnPropertyChanged(nameof(Size));
-                OnPropertyChanged(nameof(SizeMbText));
+                if (_size != value) {
+                    _size = value;
+                    OnPropertyChanged(nameof(Size));
+                    OnPropertyChanged(nameof(SizeMbText));
+                }
             }
         }
 
@@ -462,10 +483,12 @@ namespace NTMiner.Vms {
         public ulong PublishOn {
             get => _publishOn;
             set {
-                _publishOn = value;
-                OnPropertyChanged(nameof(PublishOn));
-                OnPropertyChanged(nameof(PublishOnText));
-                OnPropertyChanged(nameof(IsPublished));
+                if (_publishOn != value) {
+                    _publishOn = value;
+                    OnPropertyChanged(nameof(PublishOn));
+                    OnPropertyChanged(nameof(PublishOnText));
+                    OnPropertyChanged(nameof(IsPublished));
+                }
             }
         }
 
@@ -480,7 +503,7 @@ namespace NTMiner.Vms {
 
         public string PublishOnText {
             get {
-                return Global.UnixBaseTime.AddSeconds(this.PublishOn).ToString("yyyy-MM-dd HH:mm");
+                return Timestamp.UnixBaseTime.AddSeconds(this.PublishOn).ToString("yyyy-MM-dd HH:mm");
             }
         }
 
@@ -496,27 +519,25 @@ namespace NTMiner.Vms {
         public PublishStatus PublishState {
             get => _publishState;
             set {
-                _publishState = value;
-                OnPropertyChanged(nameof(PublishState));
-                OnPropertyChanged(nameof(PublishStateDescription));
-                OnPropertyChanged(nameof(IsBtnPublishVisible));
-                OnPropertyChanged(nameof(PublishOnText));
-            }
-        }
-
-        public IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
-            get {
-                return PublishStatus.Published.GetEnumItems();
+                if (_publishState != value) {
+                    _publishState = value;
+                    OnPropertyChanged(nameof(PublishState));
+                    OnPropertyChanged(nameof(PublishStateDescription));
+                    OnPropertyChanged(nameof(IsBtnPublishVisible));
+                    OnPropertyChanged(nameof(PublishOnText));
+                }
             }
         }
 
         public EnumItem<PublishStatus> PublishStateEnumItem {
             get {
-                return PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
+                return AppStatic.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
             }
             set {
-                PublishState = value.Value;
-                OnPropertyChanged(nameof(PublishStateEnumItem));
+                if (PublishState != value.Value) {
+                    PublishState = value.Value;
+                    OnPropertyChanged(nameof(PublishStateEnumItem));
+                }
             }
         }
 
@@ -532,35 +553,31 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int SortNumber {
-            get => _sortNumber;
-            set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
-            }
-        }
-
         public string HelpArg {
             get { return _helpArg; }
             set {
-                _helpArg = value;
-                OnPropertyChanged(nameof(HelpArg));
+                if (_helpArg != value) {
+                    _helpArg = value;
+                    OnPropertyChanged(nameof(HelpArg));
+                }
             }
         }
 
         public string Notice {
             get => _notice;
             set {
-                _notice = value;
-                OnPropertyChanged(nameof(Notice));
-                OnPropertyChanged(nameof(KernelNotice));
+                if (_notice != value) {
+                    _notice = value;
+                    OnPropertyChanged(nameof(Notice));
+                    OnPropertyChanged(nameof(KernelNotice));
+                }
             }
         }
 
         public string KernelNotice {
             get {
                 if (string.IsNullOrEmpty(this.Notice)) {
-                    return string.Empty;
+                    return this.FullName;
                 }
                 return $"{this.FullName}：{this.Notice}";
             }
@@ -569,18 +586,22 @@ namespace NTMiner.Vms {
         public Guid KernelInputId {
             get { return _kernelInputId; }
             set {
-                _kernelInputId = value;
-                OnPropertyChanged(nameof(KernelInputId));
-                OnPropertyChanged(nameof(KernelInputVm));
+                if (_kernelInputId != value) {
+                    _kernelInputId = value;
+                    OnPropertyChanged(nameof(KernelInputId));
+                    OnPropertyChanged(nameof(KernelInputVm));
+                }
             }
         }
 
         public Guid KernelOutputId {
             get { return _kernelOutputId; }
             set {
-                _kernelOutputId = value;
-                OnPropertyChanged(nameof(KernelOutputId));
-                OnPropertyChanged(nameof(KernelOutputVm));
+                if (_kernelOutputId != value) {
+                    _kernelOutputId = value;
+                    OnPropertyChanged(nameof(KernelOutputId));
+                    OnPropertyChanged(nameof(KernelOutputVm));
+                }
             }
         }
     }

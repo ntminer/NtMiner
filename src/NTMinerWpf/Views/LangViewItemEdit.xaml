@@ -21,42 +21,38 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{StaticResource MainColor}">
+        <DockPanel Grid.Row="0" Background="{StaticResource ThemeBackground}">
             <Path
                 Margin="4 0 0 0"
                 Width="14"
                 Height="14"
                 Data="{StaticResource Icon_Translate}"
-                Fill="Red"
+                Fill="{StaticResource ThemeForeground}"
                 Stretch="Fill" />
-            <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
-            <TextBlock Text=" - " DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
-            <TextBlock Text="{Binding LangVm.Name}" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
-            <WrapPanel DockPanel.Dock="Right"
-                       HorizontalAlignment="Right">
-                <controls:KbSystemCloseButton
-                    Height="30"
-                    KbSystemButtonForeground="#385263" />
+            <TextBlock Text="{Binding ViewId}" DockPanel.Dock="Left" Foreground="{StaticResource ThemeForeground}" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text=" - " DockPanel.Dock="Left" Margin="4 0 0 0" Foreground="{StaticResource ThemeForeground}" FontSize="14" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding LangVm.Name}" DockPanel.Dock="Left" Foreground="{StaticResource ThemeForeground}" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
+            <WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <controls:KbSystemCloseButton Height="30" />
             </WrapPanel>
         </DockPanel>
         <StackPanel Grid.Row="1" Margin="10">
             <StackPanel.Resources>
-                <Style TargetType="Label">
+                <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
                     <Setter Property="Width" Value="60"></Setter>
-                    <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
                 </Style>
             </StackPanel.Resources>
             <WrapPanel Margin="0 2">
-                <Label>ViewId:</Label>
+                <TextBlock Style="{StaticResource LblTb}">ViewId:</TextBlock>
                 <TextBlock VerticalAlignment="Center" Text="{Binding ViewId}"></TextBlock>
             </WrapPanel>
             <WrapPanel Margin="0 2">
-                <Label>Key:</Label>
+                <TextBlock Style="{StaticResource LblTb}">Key:</TextBlock>
                 <TextBlock Text="{Binding Key}" VerticalAlignment="Center"></TextBlock>
             </WrapPanel>
 
             <WrapPanel Margin="0 2">
-                <Label>Value:</Label>
+                <TextBlock Style="{StaticResource LblTb}">Value:</TextBlock>
                 <TextBox Width="300" VerticalContentAlignment="Center" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
                 </TextBox>
             </WrapPanel>
@@ -65,21 +61,22 @@
             Grid.Row="2"
             IsDefault="True"
             Command="{Binding Save}"
+            Padding="10 0"
             Margin="0 2 22 10"
             HorizontalAlignment="Right"
-            Background="{StaticResource IconFillColor}"
-            Foreground="White"
+            Background="{StaticResource ThemeBackground}"
+            Foreground="{StaticResource ThemeForeground}"
             CornerRadius="2">
             <WrapPanel>
                 <Path
                     Width="12"
                     Height="12"
                     Data="{StaticResource Icon_Ok}"
-                    Fill="White"
+                    Fill="{StaticResource ThemeForeground}"
                     Stretch="Fill" />
                 <Label
                     VerticalAlignment="Center"
-                    Foreground="White"
+                    Foreground="{StaticResource ThemeForeground}"
                     Content="Save" />
             </WrapPanel>
         </controls:KbButton>

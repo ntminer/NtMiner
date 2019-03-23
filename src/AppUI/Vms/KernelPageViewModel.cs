@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
     public class KernelPageViewModel : ViewModelBase {
@@ -12,8 +13,11 @@ namespace NTMiner.Vms {
         private string _keyword;
         private List<KernelMenu> _kernelMenus = new List<KernelMenu>();
         private KernelMenu _currentKernelMenu;
-        private Visibility _isBtnUnInstallVisible = Visibility.Collapsed;
         private Visibility _kernelDownloadingVisible = Visibility.Collapsed;
+        private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
+        private int _pageIndex;
+        private int _pageSize = 15;
+        private ObservableCollection<int> _pageNumbers;
 
         public ICommand Home { get; private set; }
         public ICommand ChangeCurrentKernelMenu { get; private set; }
@@ -21,14 +25,18 @@ namespace NTMiner.Vms {
         public ICommand Add { get; private set; }
         public ICommand ClearKeyword { get; private set; }
 
+        public ICommand PageSub { get; private set; }
+        public ICommand PageAdd { get; private set; }
+
+        public ICommand Search { get; private set; }
+
         private readonly KernelMenu _repositoryKernelMenu = new KernelMenu("宝库", "Icon_Kernel");
-        private readonly KernelMenu _updateKernelMenu = new KernelMenu("升级", "Icon_Update");
         private readonly KernelMenu _uninstallKernelMenu = new KernelMenu("卸载", "Icon_Delete");
 
         private KernelPageViewModel() {
             this.ChangeCurrentKernelMenu = new DelegateCommand<KernelMenu>((kernelMenu) => {
                 SetCurrentKernelMenu(kernelMenu);
-                OnPropertyChanged(nameof(QueryResults));
+                this.PageNumber = 1;
                 KernelDownloadingVisible = Visibility.Collapsed;
             });
             this.Home = new DelegateCommand(() => {
@@ -36,24 +44,22 @@ namespace NTMiner.Vms {
             });
 
             this._kernelMenus.Add(_repositoryKernelMenu);
-            this._kernelMenus.Add(_updateKernelMenu);
             this._kernelMenus.Add(_uninstallKernelMenu);
             this.Add = new DelegateCommand(() => {
-                int sortNumber = NTMinerRoot.Current.KernelSet.Count == 0 ? 1 : NTMinerRoot.Current.KernelSet.Max(a => a.SortNumber) + 1;
-                new KernelViewModel(Guid.NewGuid()) {
-                    SortNumber = sortNumber
-                }.Edit.Execute(null);
+                new KernelViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
+            });
+            this.Search = new DelegateCommand(() => {
+                this.PageNumber = 1;
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 Keyword = string.Empty;
             });
-            if (!Design.IsInDesignMode) {
-                KernelViewModels.Current.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
-                    if (e.PropertyName == nameof(KernelViewModels.AllKernels)) {
-                        OnPropertyChanged(nameof(QueryResults));
-                    }
-                };
-            }
+            this.PageSub = new DelegateCommand(() => {
+                this.PageNumber = this.PageNumber - 1;
+            });
+            this.PageAdd = new DelegateCommand(() => {
+                this.PageNumber = this.PageNumber + 1;
+            });
             this.Home.Execute(null);
         }
 
@@ -65,46 +71,111 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool CanPageSub {
+            get {
+                return PageNumber != 1;
+            }
+        }
+
+        public bool CanPageAdd {
+            get {
+                return PageNumbers.Count > PageNumber;
+            }
+        }
+
+        public CoinViewModels CoinVms {
+            get {
+                return CoinViewModels.Current;
+            }
+        }
+
         public MinerProfileViewModel MinerProfile {
             get {
                 return MinerProfileViewModel.Current;
             }
         }
 
-        private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
         public CoinViewModel SelectedCoinVm {
             get {
                 return _selectedCoinVm;
             }
             set {
-                _selectedCoinVm = value;
-                OnPropertyChanged(nameof(SelectedCoinVm));
-                OnPropertyChanged(nameof(QueryResults));
+                if (_selectedCoinVm != value) {
+                    _selectedCoinVm = value;
+                    OnPropertyChanged(nameof(SelectedCoinVm));
+                    this.PageNumber = 1;
+                }
             }
         }
 
         public Visibility KernelDownloadingVisible {
             get => _kernelDownloadingVisible;
             set {
-                _kernelDownloadingVisible = value;
-                OnPropertyChanged(nameof(KernelDownloadingVisible));
+                if (_kernelDownloadingVisible != value) {
+                    _kernelDownloadingVisible = value;
+                    OnPropertyChanged(nameof(KernelDownloadingVisible));
+                }
             }
         }
 
         public string Keyword {
             get => _keyword;
             set {
-                _keyword = value;
-                OnPropertyChanged(nameof(Keyword));
+                if (_keyword != value) {
+                    _keyword = value;
+                    OnPropertyChanged(nameof(Keyword));
+                }
+            }
+        }
+
+        public int PageIndex {
+            get => _pageIndex;
+            set {
+                if (_pageIndex != value) {
+                    _pageIndex = value;
+                    OnPropertyChanged(nameof(PageIndex));
+                }
+            }
+        }
+
+        public int PageNumber {
+            get {
+                return PageIndex + 1;
+            }
+            set {
+                PageIndex = value - 1;
+                OnPropertyChanged(nameof(PageNumber));
                 OnPropertyChanged(nameof(QueryResults));
+            }
+        }
+
+        public int PageSize {
+            get => _pageSize;
+            set {
+                _pageSize = value;
+                OnPropertyChanged(nameof(PageSize));
+            }
+        }
+
+        public ObservableCollection<int> PageNumbers {
+            get => _pageNumbers;
+            set {
+                _pageNumbers = value;
+                OnPropertyChanged(nameof(PageNumbers));
+            }
+        }
+
+        public bool IsPageNumbersEmpty {
+            get {
+                return PageNumbers.Count == 0;
             }
         }
 
         public List<KernelViewModel> QueryResults {
             get {
                 IQueryable<KernelViewModel> query = KernelViewModels.Current.AllKernels.AsQueryable();
-                if (!AppStatic.IsDevMode) {
-                    query = query.Where(a => a.PublishState == Core.PublishStatus.Published);
+                if (!AppStatic.IsDebugMode) {
+                    query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {
                     string keyword = this.Keyword.ToLower();
@@ -116,32 +187,60 @@ namespace NTMiner.Vms {
                 if (SelectedCoinVm != null && SelectedCoinVm != CoinViewModel.PleaseSelect) {
                     query = query.Where(a => a.SupportedCoinVms.Contains(SelectedCoinVm));
                 }
-                if (CurrentKernelMenu == _updateKernelMenu) {
-                    IsBtnUnInstallVisible = Visibility.Collapsed;
-                    query = query.Where(a => a.KernelProfileVm.InstallStatus == InstallStatus.CanUpdate);
+                if (CurrentKernelMenu == _uninstallKernelMenu) {
+                    query = query.Where(a => a.KernelProfileVm.InstallStatus == InstallStatus.Installed);
                 }
-                else if (CurrentKernelMenu == _uninstallKernelMenu) {
-                    IsBtnUnInstallVisible = Visibility.Visible;
-                    query = query.Where(a => a.KernelProfileVm.InstallStatus == InstallStatus.CanUpdate || a.KernelProfileVm.InstallStatus == InstallStatus.Installed);
+                int total = query.Count();
+                int pages = (int)Math.Ceiling((double)total / PageSize);
+                if (PageNumbers == null) {
+                    List<int> pageNumbers = new List<int>();
+                    for (int i = 1; i <= pages; i++) {
+                        pageNumbers.Add(i);
+                    }
+                    PageNumbers = new ObservableCollection<int>(pageNumbers);
                 }
                 else {
-                    IsBtnUnInstallVisible = Visibility.Collapsed;
+                    int count = PageNumbers.Count;
+                    if (pages < count) {
+                        for (int n = pages + 1; n <= count; n++) {
+                            PageNumbers.Remove(n);
+                        }
+                    }
+                    else {
+                        for (int n = count + 1; n <= pages; n++) {
+                            PageNumbers.Add(n);
+                        }
+                    }
                 }
-                return query.OrderBy(a => a.SortNumber).ToList();
+                OnPropertyChanged(nameof(CanPageSub));
+                OnPropertyChanged(nameof(CanPageAdd));
+                OnPropertyChanged(nameof(IsPageNumbersEmpty));
+
+                List<KernelViewModel> orderedList = new List<KernelViewModel>();
+                var groups = query.GroupBy(a => a.Code);
+                foreach (var g in groups.OrderBy(a => a.Key)) {
+                    foreach (var item in g.OrderByDescending(a => a.Version)) {
+                        orderedList.Add(item);
+                    }
+                }
+
+                return orderedList.Skip(PageIndex * PageSize).Take(PageSize).ToList();
             }
         }
 
         public List<KernelViewModel> DownloadingVms {
             get {
-                return KernelViewModels.Current.AllKernels.Where(a => a.KernelProfileVm.IsDownloading).OrderBy(a => a.SortNumber).ToList();
+                return KernelViewModels.Current.AllKernels.Where(a => a.KernelProfileVm.IsDownloading).OrderBy(a => a.Code + a.Version).ToList();
             }
         }
 
         public List<KernelMenu> KernelMenus {
             get { return _kernelMenus; }
             set {
-                _kernelMenus = value;
-                OnPropertyChanged(nameof(KernelMenus));
+                if (_kernelMenus != value) {
+                    _kernelMenus = value;
+                    OnPropertyChanged(nameof(KernelMenus));
+                }
             }
         }
 
@@ -155,19 +254,13 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Visibility IsBtnUnInstallVisible {
-            get => _isBtnUnInstallVisible;
-            set {
-                _isBtnUnInstallVisible = value;
-                OnPropertyChanged(nameof(IsBtnUnInstallVisible));
-            }
-        }
-
         public KernelMenu CurrentKernelMenu {
             get => _currentKernelMenu;
             set {
-                _currentKernelMenu = value;
-                OnPropertyChanged(nameof(CurrentKernelMenu));
+                if (_currentKernelMenu != value) {
+                    _currentKernelMenu = value;
+                    OnPropertyChanged(nameof(CurrentKernelMenu));
+                }
             }
         }
     }

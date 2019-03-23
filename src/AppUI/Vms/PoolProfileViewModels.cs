@@ -8,22 +8,24 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, PoolProfileViewModel> _poolProfileDicById = new Dictionary<Guid, PoolProfileViewModel>();
 
         private PoolProfileViewModels() {
-            Global.Access<PoolProfilePropertyChangedEvent>(
-                Guid.Parse("EC4B0EAE-E8BA-48DA-B6FA-749A5346A669"),
+            VirtualRoot.On<PoolProfilePropertyChangedEvent>(
                 "矿池设置变更后刷新VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     if (_poolProfileDicById.ContainsKey(message.PoolId)) {
                         _poolProfileDicById[message.PoolId].OnPropertyChanged(message.PropertyName);
                     }
                 });
+            NTMinerRoot.Current.OnMinerProfileReInited += () => {
+                _poolProfileDicById.Clear();
+            };
         }
 
         public PoolProfileViewModel GetOrCreatePoolProfile(Guid poolId) {
             if (_poolProfileDicById.ContainsKey(poolId)) {
                 return _poolProfileDicById[poolId];
             }
-            PoolProfileViewModel poolProfile = new PoolProfileViewModel(NTMinerRoot.Current.PoolProfileSet.GetPoolProfile(poolId));
+            PoolProfileViewModel poolProfile = new PoolProfileViewModel(NTMinerRoot.Current.MinerProfile.GetPoolProfile(poolId));
             _poolProfileDicById.Add(poolId, poolProfile);
             return poolProfile;
         }

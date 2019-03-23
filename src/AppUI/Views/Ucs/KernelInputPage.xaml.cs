@@ -3,6 +3,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelInputPage : UserControl {
+        public static string ViewId = nameof(KernelInputPage);
+
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_KernelInput",
@@ -26,10 +28,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            if (dg.SelectedItem != null) {
-                ((KernelInputViewModel)dg.SelectedItem).Edit.Execute(null);
-            }
+            Wpf.Util.DataGrid_MouseDoubleClick<KernelInputViewModel>(sender, e);
         }
     }
 }

@@ -15,8 +15,10 @@ namespace NTMiner.Vms {
         public GroupViewModel CurrentGroup {
             get { return _currentGroup; }
             set {
-                _currentGroup = value;
-                OnPropertyChanged(nameof(CurrentGroup));
+                if (_currentGroup != value) {
+                    _currentGroup = value;
+                    OnPropertyChanged(nameof(CurrentGroup));
+                }
             }
         }
 

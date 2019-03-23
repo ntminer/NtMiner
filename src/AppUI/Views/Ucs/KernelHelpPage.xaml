@@ -1,43 +1,43 @@
 ﻿<UserControl x:Class="NTMiner.Views.Ucs.KernelHelpPage"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-        xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-        xmlns:vm="clr-namespace:NTMiner.Vms"
-        mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="500">
-    <UserControl.Resources>
-        <sys:String x:Key="WindowTitle">
-            WindowTitle
-        </sys:String>
-    </UserControl.Resources>
-    <Grid>
-        <TextBox 
-            Text="{Binding HelpText, Mode=OneWay}"
-            BorderThickness="0" AcceptsReturn="True" 
-            TextWrapping="Wrap" IsReadOnly="True" 
-            Background="White" FontSize="14" 
-            Padding="4" VerticalScrollBarVisibility="Auto">
-        </TextBox>
-        <controls:KbButton
-            Margin="0 4 20 0"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Right"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            ToolTip="KernelHelpPage translate"
-            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-            CommandParameter="KernelHelpPage"
-            Background="Transparent">
-            <WrapPanel>
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="{StaticResource Icon_Translate}"
-                    Fill="Red"
-                    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
-    </Grid>
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="500">
+	<UserControl.Resources>
+		<sys:String x:Key="WindowTitle">
+			WindowTitle
+		</sys:String>
+	</UserControl.Resources>
+	<Grid>
+		<TextBox 
+			Text="{Binding HelpText, Mode=OneWay}"
+			BorderThickness="0" AcceptsReturn="True" 
+			TextWrapping="Wrap" IsReadOnly="True" 
+			Background="White" FontSize="14" 
+			Padding="4" VerticalScrollBarVisibility="Auto">
+		</TextBox>
+		<controls:KbButton
+			Margin="0 4 20 0"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Right"
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			ToolTip="{x:Static local:KernelHelpPage.ViewId}"
+			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+			CommandParameter="{x:Static local:KernelHelpPage.ViewId}"
+			Background="Transparent">
+			<WrapPanel>
+				<Path
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Translate}"
+					Fill="{StaticResource ThemeBackground}"
+					Stretch="Fill" />
+			</WrapPanel>
+		</controls:KbButton>
+	</Grid>
 </UserControl>

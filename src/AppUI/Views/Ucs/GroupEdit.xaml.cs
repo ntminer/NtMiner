@@ -3,8 +3,11 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class GroupEdit : UserControl {
-        public static void ShowEditWindow(GroupViewModel source) {
+        public static string ViewId = nameof(GroupEdit);
+
+        public static void ShowWindow(FormType formType, GroupViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Group"

@@ -1,10 +1,11 @@
 ﻿using NTMiner.Language;
 using NTMiner.Views;
+using NTMiner.Wpf;
 using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class LangViewItemViewModel : ViewModelBase, ILangViewItem {
+    public class LangViewItemViewModel : ViewModelBase, ILangViewItem, IEditableViewModel {
         private Guid _id;
         private Guid _langId;
         private string _viewId;
@@ -21,10 +22,10 @@ namespace NTMiner.Vms {
             });
             this.Save = new DelegateCommand(() => {
                 if (LangViewItemViewModels.Current.Contains(this.Id)) {
-                    Global.Execute(new UpdateLangViewItemCommand(this));
+                    VirtualRoot.Execute(new UpdateLangViewItemCommand(this));
                 }
                 else {
-                    Global.Execute(new AddLangViewItemCommand(this));
+                    VirtualRoot.Execute(new AddLangViewItemCommand(this));
                 }
                 TopWindow.GetTopWindow()?.Close();
             });
@@ -54,40 +55,50 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public Guid LangId {
             get => _langId;
             set {
-                _langId = value;
-                OnPropertyChanged(nameof(LangId));
+                if (_langId != value) {
+                    _langId = value;
+                    OnPropertyChanged(nameof(LangId));
+                }
             }
         }
 
         public string ViewId {
             get => _viewId;
             set {
-                _viewId = value;
-                OnPropertyChanged(nameof(ViewId));
+                if (_viewId != value) {
+                    _viewId = value;
+                    OnPropertyChanged(nameof(ViewId));
+                }
             }
         }
 
         public string Key {
             get => _key;
             set {
-                _key = value;
-                OnPropertyChanged(nameof(Key));
+                if (_key != value) {
+                    _key = value;
+                    OnPropertyChanged(nameof(Key));
+                }
             }
         }
 
         public string Value {
             get => _value;
             set {
-                _value = value;
-                OnPropertyChanged(nameof(Value));
+                if (_value != value) {
+                    _value = value;
+                    OnPropertyChanged(nameof(Value));
+                }
             }
         }
     }

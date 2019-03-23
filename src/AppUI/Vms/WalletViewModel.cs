@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class WalletViewModel : ViewModelBase, IWallet {
+    public class WalletViewModel : ViewModelBase, IWallet, IEditableViewModel {
         public static readonly WalletViewModel PleaseSelect = new WalletViewModel(Guid.Empty) {
             _name = "不指定",
             _address = string.Empty,
@@ -55,20 +55,21 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (!this.IsTestWallet) {
-                    if (NTMinerRoot.Current.WalletSet.Contains(this.Id)) {
-                        Global.Execute(new UpdateWalletCommand(this));
+                    IWallet wallet;
+                    if (NTMinerRoot.Current.MinerProfile.TryGetWallet(this.Id, out wallet)) {
+                        VirtualRoot.Execute(new UpdateWalletCommand(this));
                     }
                     else {
-                        Global.Execute(new AddWalletCommand(this));
+                        VirtualRoot.Execute(new AddWalletCommand(this));
                     }
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                WalletEdit.ShowEditWindow(this);
+                WalletEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -78,17 +79,17 @@ namespace NTMiner.Vms {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}钱包吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveWalletCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                    VirtualRoot.Execute(new RemoveWalletCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
             });
             this.SortUp = new DelegateCommand(() => {
                 WalletViewModel upOne = WalletViewModels.Current.WalletList.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == this.CoinId && a.SortNumber < this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateWalletCommand(upOne));
+                    VirtualRoot.Execute(new UpdateWalletCommand(upOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateWalletCommand(this));
+                    VirtualRoot.Execute(new UpdateWalletCommand(this));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
@@ -101,9 +102,9 @@ namespace NTMiner.Vms {
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
-                    Global.Execute(new UpdateWalletCommand(nextOne));
+                    VirtualRoot.Execute(new UpdateWalletCommand(nextOne));
                     this.SortNumber = sortNumber;
-                    Global.Execute(new UpdateWalletCommand(this));
+                    VirtualRoot.Execute(new UpdateWalletCommand(this));
                     CoinViewModel coinVm;
                     if (CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
@@ -116,8 +117,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -137,17 +140,21 @@ namespace NTMiner.Vms {
         public int SortNumber {
             get => _sortNumber;
             set {
-                _sortNumber = value;
-                OnPropertyChanged(nameof(SortNumber));
+                if (_sortNumber != value) {
+                    _sortNumber = value;
+                    OnPropertyChanged(nameof(SortNumber));
+                }
             }
         }
 
         public Guid CoinId {
             get => _coinId;
             set {
-                _coinId = value;
-                OnPropertyChanged(nameof(CoinId));
-                OnPropertyChanged(nameof(CoinCode));
+                if (_coinId != value) {
+                    _coinId = value;
+                    OnPropertyChanged(nameof(CoinId));
+                    OnPropertyChanged(nameof(CoinCode));
+                }
             }
         }
 
@@ -204,7 +211,8 @@ namespace NTMiner.Vms {
                 if (IsTestWallet) {
                     return false;
                 }
-                if (NTMinerRoot.Current.WalletSet.Contains(this.Id)) {
+                IWallet wallet;
+                if (NTMinerRoot.Current.MinerProfile.TryGetWallet(this.Id, out wallet)) {
                     return false;
                 }
                 return true;

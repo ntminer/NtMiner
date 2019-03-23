@@ -19,17 +19,15 @@ namespace NTMiner.Vms {
                 if (_icon == null) {
                     string iconName;
                     switch (NTMinerRoot.Current.GpuSet.GpuType) {
-                        case Core.Gpus.GpuType.NVIDIA:
+                        case GpuType.NVIDIA:
                             iconName = "Icon_Nvidia";
                             break;
-                        case Core.Gpus.GpuType.AMD:
+                        case GpuType.AMD:
                             iconName = "Icon_AMD";
                             break;
-                        case Core.Gpus.GpuType.Empty:
-                            iconName = "Icom_GpuEmpty";
-                            break;
                         default:
-                            throw new System.InvalidProgramException();
+                            iconName = "Icon_GpuEmpty";
+                            break;
                     }
                     _icon = (Geometry)System.Windows.Application.Current.Resources[iconName];
                 }
@@ -41,17 +39,16 @@ namespace NTMiner.Vms {
             get {
                 string iconFill;
                 switch (NTMinerRoot.Current.GpuSet.GpuType) {
-                    case Core.Gpus.GpuType.NVIDIA:
+                    case GpuType.NVIDIA:
                         iconFill = "Green";
                         break;
-                    case Core.Gpus.GpuType.AMD:
+                    case GpuType.AMD:
                         iconFill = "Red";
                         break;
-                    case Core.Gpus.GpuType.Empty:
+                    case GpuType.Empty:
+                    default:
                         iconFill = "Gray";
                         break;
-                    default:
-                        throw new System.InvalidProgramException();
                 }
                 return iconFill;
             }
@@ -60,6 +57,12 @@ namespace NTMiner.Vms {
         public string GpuSetName {
             get {
                 return NTMinerRoot.Current.GpuSet.GpuType.GetDescription();
+            }
+        }
+
+        public string GpuSetInfo {
+            get {
+                return NTMinerRoot.Current.GpuSetInfo;
             }
         }
 

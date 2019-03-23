@@ -8,9 +8,8 @@
         xmlns:vm="clr-namespace:NTMiner.Vms"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
     <UserControl.Resources>
-        <Style TargetType="Label">
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
             <Setter Property="Width" Value="70"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
         </Style>
         <sys:String x:Key="WindowTitle">
             钱包
@@ -18,13 +17,13 @@
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
-            <Label>所属币种:</Label>
+            <TextBlock Style="{StaticResource LblTb}">所属币种:</TextBlock>
             <TextBlock VerticalAlignment="Center" Text="{Binding CoinCode}">
             </TextBlock>
         </WrapPanel>
 
         <WrapPanel Margin="0 2">
-            <Label>钱包别名:</Label>
+            <TextBlock Style="{StaticResource LblTb}">钱包别名:</TextBlock>
             <TextBox 
                 IsReadOnly="{Binding IsTestWallet}"
                 ToolTip="别名用于帮助人类识别"
@@ -34,10 +33,10 @@
         </WrapPanel>
 
         <WrapPanel Margin="0 2">
-            <Label>钱包地址:</Label>
+            <TextBlock Style="{StaticResource LblTb}">钱包地址:</TextBlock>
             <TextBox 
                 ToolTip="钱包地址保存后不可修改"
-                IsReadOnly="{Binding IsAddressEditable, Converter={StaticResource BooleanInvertConverter}}"
+                IsReadOnly="{Binding IsAddressEditable, Converter={StaticResource BoolInvertConverter}}"
                 x:Name="TbAddress" Width="380"
                 VerticalContentAlignment="Center" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
             </TextBox>
@@ -48,29 +47,29 @@
             </WrapPanel>
         </WrapPanel>
         <WrapPanel Visibility="{Binding IsAddressEditable, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Label Foreground="Red">注意:</Label>
+            <TextBlock Style="{StaticResource LblTb}" Foreground="Red">注意:</TextBlock>
             <TextBlock VerticalAlignment="Center" Foreground="Red">钱包地址保存后不可修改</TextBlock>
         </WrapPanel>
         <controls:KbButton
             Command="{Binding Save}" 
             Visibility="{Binding IsTestWallet, Converter={StaticResource BoolToVisibilityInvertConverter}}"
             Margin="0 10 0 0"
-            Width="70" 
-            Height="30"
-            Background="{StaticResource IconFillColor}"
-            Foreground="White"
+            Padding="10 0"
+            HorizontalAlignment="Center"
+            Background="{StaticResource ThemeBackground}"
+            Foreground="{StaticResource ThemeForeground}"
             CornerRadius="2">
             <WrapPanel>
                 <Path
                     Width="12"
                     Height="12"
                     Data="{StaticResource Icon_Ok}"
-                    Fill="White"
+                    Fill="{StaticResource ThemeForeground}"
                     Stretch="Fill" />
                 <TextBlock
                     Padding="4"
                     VerticalAlignment="Center"
-                    Foreground="White"
+                    Foreground="{StaticResource ThemeForeground}"
                     Text="确定" />
             </WrapPanel>
         </controls:KbButton>

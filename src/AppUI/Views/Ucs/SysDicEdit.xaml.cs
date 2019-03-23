@@ -3,8 +3,9 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class SysDicEdit : UserControl {
-        public static void ShowEditWindow(SysDicViewModel source) {
+        public static void ShowWindow(FormType formType, SysDicViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_SysDic"

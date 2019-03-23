@@ -1,6 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
-using System.Windows.Controls;
+using NTMiner.Wpf;
 
 namespace NTMiner.Views {
     public partial class ViewLang : MetroWindow {
@@ -29,18 +29,14 @@ namespace NTMiner.Views {
 
         private void CbLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
             LangViewModel selectedItem = (LangViewModel)e.AddedItems[0];
-            if (selectedItem != Global.Lang) {
-                Global.Lang = selectedItem;
+            if (selectedItem != VirtualRoot.Lang) {
+                VirtualRoot.Lang = selectedItem;
             }
             Vm.OnPropertyChanged(nameof(Vm.LangViewItemVms));
         }
 
         private void LangViewItemDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            if (dg.SelectedItem != null) {
-                LangViewItemViewModel poolVm = (LangViewItemViewModel)dg.SelectedItem;
-                poolVm.Edit.Execute(null);
-            }
+            Util.DataGrid_MouseDoubleClick<LangViewItemViewModel>(sender, e);
         }
     }
 }

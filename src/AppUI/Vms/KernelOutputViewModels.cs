@@ -10,20 +10,29 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelOutputViewModel> _dicById = new Dictionary<Guid, KernelOutputViewModel>();
 
         private KernelOutputViewModels() {
-            Global.Access<KernelOutputAddedEvent>(
-                Guid.Parse("E1864E02-ED87-49D6-AD9F-A54953D6BC7E"),
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                AllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
+            VirtualRoot.On<KernelOutputAddedEvent>(
                 "添加了内核输出组后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     var vm = new KernelOutputViewModel(message.Source);
                     _dicById.Add(message.Source.GetId(), vm);
                     OnPropertyChanged(nameof(AllKernelOutputVms));
                     OnPropertyChanged(nameof(PleaseSelectVms));
-                });
-            Global.Access<KernelOutputUpdatedEvent>(
-                Guid.Parse("AA98F304-B7E1-4E93-8AFB-55F72EA37689"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<KernelOutputUpdatedEvent>(
                 "更新了内核输出组后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         var item = _dicById[message.Source.GetId()];
@@ -31,18 +40,17 @@ namespace NTMiner.Vms {
                             item.Update(message.Source);
                         }
                     }
-                });
-            Global.Access<KernelOutputRemovedEvent>(
-                Guid.Parse("BE4A8820-AA3E-474B-AF04-9798D4B08DFC"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<KernelOutputRemovedEvent>(
                 "移除了内核输出组后刷新VM内存",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllKernelOutputVms));
                         OnPropertyChanged(nameof(PleaseSelectVms));
                     }
-                });
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             foreach (var item in NTMinerRoot.Current.KernelOutputSet) {
                 _dicById.Add(item.GetId(), new KernelOutputViewModel(item));
             }

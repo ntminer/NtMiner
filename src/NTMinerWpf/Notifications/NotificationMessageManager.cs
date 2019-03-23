@@ -5,8 +5,7 @@ namespace NTMiner.Notifications {
     /// The notification message manager.
     /// </summary>
     /// <seealso cref="INotificationMessageManager" />
-    public class NotificationMessageManager : INotificationMessageManager
-    {
+    public class NotificationMessageManager : INotificationMessageManager {
         private readonly List<INotificationMessage> queuedMessages = new List<INotificationMessage>();
 
 
@@ -34,8 +33,7 @@ namespace NTMiner.Notifications {
         /// This will ignore the <c>null</c> message or already queued notification message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void Queue(INotificationMessage message)
-        {
+        public void Queue(INotificationMessage message) {
             if (message == null || this.queuedMessages.Contains(message))
                 return;
 
@@ -48,8 +46,7 @@ namespace NTMiner.Notifications {
         /// Triggers the message queued event.
         /// </summary>
         /// <param name="message">The message.</param>
-        private void TriggerMessageQueued(INotificationMessage message)
-        {
+        private void TriggerMessageQueued(INotificationMessage message) {
             this.OnMessageQueued?.Invoke(this, new NotificationMessageManagerEventArgs(message));
         }
 
@@ -58,8 +55,7 @@ namespace NTMiner.Notifications {
         /// This will ignore the <c>null</c> or not queued notification message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void Dismiss(INotificationMessage message)
-        {
+        public void Dismiss(INotificationMessage message) {
             if (message == null || !this.queuedMessages.Contains(message))
                 return;
 
@@ -72,8 +68,7 @@ namespace NTMiner.Notifications {
         /// Triggers the message dismissed event.
         /// </summary>
         /// <param name="message">The message.</param>
-        private void TriggerMessageDismissed(INotificationMessage message)
-        {
+        private void TriggerMessageDismissed(INotificationMessage message) {
             this.OnMessageDismissed?.Invoke(this, new NotificationMessageManagerEventArgs(message));
         }
     }

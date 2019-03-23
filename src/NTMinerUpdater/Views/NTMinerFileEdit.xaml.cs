@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
+using NTMiner.Wpf;
 using System.Windows;
 using System.Windows.Media;
 

@@ -1,0 +1,281 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.OuterProperty"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+        xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
+        DataContext="{x:Static vm:OuterPropertyViewModel.Current}"
+        Background="White"
+        mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
+    <UserControl.Resources>
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+            <Setter Property="Width" Value="130"></Setter>
+            <Setter Property="TextAlignment" Value="Left"></Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+        <sys:String x:Key="WindowTitle">
+            OuterProperty
+        </sys:String>
+        <sys:String x:Key="LblMachineName">
+            LblMachineName
+        </sys:String>
+        <sys:String x:Key="LblOS">
+            LblOS
+        </sys:String>
+        <sys:String x:Key="LblPhysicalMemory">
+            LblPhysicalMemory
+        </sys:String>
+        <sys:String x:Key="LblVirtualMemory">
+            LblVirtualMemory
+        </sys:String>
+        <sys:String x:Key="LblModify">
+            LblModify
+        </sys:String>
+        <sys:String x:Key="LblProcessorVendor">
+            LblProcessorVendor
+        </sys:String>
+        <sys:String x:Key="LblProcessorName">
+            LblProcessorName
+        </sys:String>
+        <sys:String x:Key="LblNumberOfLogicalCores">
+            LblNumberOfLogicalCores
+        </sys:String>
+        <sys:String x:Key="LblBiosMotherboardModel">
+            LblBiosMotherboardModel
+        </sys:String>
+        <sys:String x:Key="LblBiosMotherboardManufacturer">
+            LblBiosMotherboardManufacturer
+        </sys:String>
+        <sys:String x:Key="LblBiosReleaseDate">
+            LblBiosReleaseDate
+        </sys:String>
+        <sys:String x:Key="LblBiosVendor">
+            LblBiosVendor
+        </sys:String>
+        <sys:String x:Key="LblBiosVersion">
+            LblBiosVersion
+        </sys:String>
+        <sys:String x:Key="LblGpuIndex">
+            LblGpuIndex
+        </sys:String>
+        <sys:String x:Key="LblGpuName">
+            LblGpuName
+        </sys:String>
+        <sys:String x:Key="LblGpuTemp">
+            LblGpuTemp
+        </sys:String>
+        <sys:String x:Key="LblGpuFan">
+            LblFan
+        </sys:String>
+        <sys:String x:Key="LblGpuPower">
+            LblPower
+        </sys:String>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="420"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblMachineName}" ToolTip="{DynamicResource LblMachineName}"></TextBlock>
+                <TextBlock Text="{Binding MachineName}"></TextBlock>
+                <controls:KbButton
+                    Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+                    ToolTip="{x:Static local:OuterProperty.ViewId}"
+                    Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+                    CommandParameter="{x:Static local:OuterProperty.ViewId}"
+                    Padding="8 0"
+                    Background="Transparent">
+                    <WrapPanel>
+                        <Path
+                            Width="14"
+                            Height="14"
+                            Data="{StaticResource Icon_Translate}"
+                            Fill="{StaticResource ThemeBackground}"
+                            Stretch="Fill" />
+                    </WrapPanel>
+                </controls:KbButton>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblOS}" ToolTip="{DynamicResource LblOS}"></TextBlock>
+                <TextBlock Text="{Binding OS.WindowsEdition}"></TextBlock>
+                <TextBlock Text="{Binding OS.Is64BitOperatingSystem}" Margin="4 0 0 0"></TextBlock>
+                <TextBlock Text="{Binding OS.CurrentBuild}" Margin="4 0 0 0"></TextBlock>
+                <TextBlock Text="{Binding OS.CSDVersion}" Margin="4 0 0 0"></TextBlock>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblPhysicalMemory}" ToolTip="{DynamicResource LblPhysicalMemory}"></TextBlock>
+                <TextBlock Text="{Binding Ram.TotalPhysicalMemory}"></TextBlock>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblVirtualMemory}" ToolTip="{DynamicResource LblVirtualMemory}"></TextBlock>
+                <TextBlock Text="{Binding DriveSet.VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
+                <controls:KbButton 
+                    Margin="8 0 0 0"
+                    Padding="6 0"
+                    Height="20"
+                    Command="{x:Static vm:AppStatic.ShowVirtualMemory}"
+                    Background="{StaticResource ThemeBackground}"
+                    CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+                            Width="12"
+                            Height="12"
+                            Data="{StaticResource Icon_VirtualMemory}"
+                            Fill="{StaticResource ThemeForeground}"
+                            Stretch="Fill" />
+                        <TextBlock
+                            Padding="2 0"
+                            VerticalAlignment="Center"
+                            Foreground="{StaticResource ThemeForeground}"
+                            Text="{DynamicResource LblModify}" />
+                    </WrapPanel>
+                </controls:KbButton>
+            </WrapPanel>
+            <GroupBox Header="CPU">
+                <StackPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblProcessorVendor}" ToolTip="{DynamicResource LblProcessorVendor}"></TextBlock>
+                        <TextBlock Text="{Binding Processor.VendorIdentifier}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblProcessorName}" ToolTip="{DynamicResource LblProcessorName}"></TextBlock>
+                        <TextBlock Text="{Binding Processor.Name}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblNumberOfLogicalCores}" ToolTip="{DynamicResource LblNumberOfLogicalCores}"></TextBlock>
+                        <TextBlock Text="{Binding Processor.NumberOfLogicalCores}"></TextBlock>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="BIOS">
+                <StackPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosMotherboardModel}" ToolTip="{DynamicResource LblBiosMotherboardModel}"></TextBlock>
+                        <TextBlock Text="{Binding Bios.MotherboardModel}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosMotherboardManufacturer}" ToolTip="{DynamicResource LblBiosMotherboardManufacturer}"></TextBlock>
+                        <TextBlock Text="{Binding Bios.MotherboardManufacturer}" ToolTip="{Binding Bios.MotherboardManufacturer}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosReleaseDate}" ToolTip="{DynamicResource LblBiosReleaseDate}"></TextBlock>
+                        <TextBlock Text="{Binding Bios.BiosReleaseDate}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosVendor}" ToolTip="{DynamicResource LblBiosVendor}"></TextBlock>
+                        <TextBlock Text="{Binding Bios.BiosVendor}" ToolTip="{Binding Bios.BiosVendor}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource LblBiosVersion}" ToolTip="{DynamicResource LblBiosVersion}"></TextBlock>
+                        <TextBlock Text="{Binding Bios.BiosVersion}" ToolTip="{Binding Bios.BiosVersion}"></TextBlock>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="200"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <DataGrid 
+                    MinHeight="200"
+                    ItemsSource="{Binding GpuVms}" 
+                    Background="Transparent" 
+                    BorderBrush="{StaticResource LineColor}">
+                    <DataGrid.Resources>
+                        <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource LblGpuIndex}"></TextBlock>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding IndexText}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource LblGpuName}"></TextBlock>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource LblGpuTemp}"></TextBlock>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TemperatureText}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource LblGpuFan}"></TextBlock>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FanSpeedText}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource LblGpuPower}"></TextBlock>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PowerUsageWText}"></TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock Visibility="{Binding GpuVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有矿卡</TextBlock>
+            </Grid>
+            <DataGrid 
+                Grid.Row="1"
+                ItemsSource="{Binding GpuSetProperties}" 
+                Background="Transparent" 
+                GridLinesVisibility="None"
+                HeadersVisibility="None"
+                VerticalScrollBarVisibility="Auto"
+                BorderThickness="0">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Value}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

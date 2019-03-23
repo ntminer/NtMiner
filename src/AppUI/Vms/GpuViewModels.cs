@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -19,8 +18,7 @@ namespace NTMiner.Vms {
             if (_gpuVms.ContainsKey(NTMinerRoot.GpuAllId)) {
                 _totalGpuVm = _gpuVms[NTMinerRoot.GpuAllId];
             }
-            Global.Access<GpuStateChangedEvent>(
-                Guid.Parse("57a0dc71-08ca-4cde-9e7e-214ed3cfaf04"),
+            VirtualRoot.On<GpuStateChangedEvent>(
                 "显卡状态变更后刷新VM内存",
                 LogEnum.None,
                 action: message => {
@@ -29,10 +27,26 @@ namespace NTMiner.Vms {
                         vm.Temperature = message.Source.Temperature;
                         vm.FanSpeed = message.Source.FanSpeed;
                         vm.PowerUsage = message.Source.PowerUsage;
+                        vm.CoreClockDelta = message.Source.CoreClockDelta;
+                        vm.MemoryClockDelta = message.Source.MemoryClockDelta;
+                        vm.CoreClockDeltaMin = message.Source.CoreClockDeltaMin;
+                        vm.CoreClockDeltaMax = message.Source.CoreClockDeltaMax;
+                        vm.MemoryClockDeltaMin = message.Source.MemoryClockDeltaMin;
+                        vm.MemoryClockDeltaMax = message.Source.MemoryClockDeltaMax;
+                        vm.Cool = message.Source.Cool;
+                        vm.CoolMin = message.Source.CoolMin;
+                        vm.CoolMax = message.Source.CoolMax;
+                        vm.Power = message.Source.Power;
+                        vm.PowerMin = message.Source.PowerMin;
+                        vm.PowerMax = message.Source.PowerMax;
                         if (_totalGpuVm != null) {
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.TemperatureText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.FanSpeedText));
                             _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.PowerUsageWText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoreClockDeltaMText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.CoreClockDeltaMinMaxMText));
+                            _totalGpuVm.OnPropertyChanged(nameof(_totalGpuVm.MemoryClockDeltaMinMaxMText));
                         }
                     }
                 });
@@ -45,6 +59,10 @@ namespace NTMiner.Vms {
                 }
                 return _gpuVms.Count;
             }
+        }
+
+        public bool TryGetGpuVm(int index, out GpuViewModel gpuVm) {
+            return _gpuVms.TryGetValue(index, out gpuVm);
         }
 
         public IEnumerator<GpuViewModel> GetEnumerator() {

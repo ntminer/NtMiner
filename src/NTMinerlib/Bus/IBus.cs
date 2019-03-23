@@ -3,7 +3,7 @@ namespace NTMiner.Bus {
     using System;
     using System.Collections.Generic;
 
-    public interface IBus : IDisposable {
+    public interface IBus {
         void Publish<TMessage>(TMessage message);
 
         void Publish<TMessage>(IEnumerable<TMessage> messages);

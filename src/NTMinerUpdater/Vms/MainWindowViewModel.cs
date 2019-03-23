@@ -1,6 +1,6 @@
-﻿using Microsoft.Win32;
-using NTMiner.ServiceContracts.DataObjects;
+﻿using NTMiner.MinerServer;
 using NTMiner.Views;
+using NTMiner.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,24 +26,6 @@ namespace NTMiner.Vms {
 
         private string _downloadMessage;
         private Visibility _btnCancelVisible = Visibility.Visible;
-
-        private static readonly string _ntminerDirFullName;
-        private static readonly string _downloadDirFullName;
-
-        static MainWindowViewModel() {
-            _ntminerDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-            if (!Directory.Exists(_ntminerDirFullName)) {
-                Directory.CreateDirectory(_ntminerDirFullName);
-            }
-            string tempDirFullName = Path.Combine(_ntminerDirFullName, "Temp");
-            if (!Directory.Exists(tempDirFullName)) {
-                Directory.CreateDirectory(tempDirFullName);
-            }
-            _downloadDirFullName = Path.Combine(tempDirFullName, "Download");
-            if (!Directory.Exists(_downloadDirFullName)) {
-                Directory.CreateDirectory(_downloadDirFullName);
-            }
-        }
 
         private Action cancel;
         public ICommand Install { get; private set; }
@@ -86,7 +68,7 @@ namespace NTMiner.Vms {
                     this.BtnCancelVisible = Visibility.Collapsed;
                     if (isSuccess) {
                         this.DownloadMessage = "更新成功，正在重启";
-                        CloseNTMinerMainWindow();
+                        Client.MinerClientService.CloseNTMiner();
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                             string location = NTMinerRegistry.GetLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
@@ -97,7 +79,7 @@ namespace NTMiner.Vms {
                             string arguments = NTMinerRegistry.GetArguments();
                             Process.Start(location, arguments);
                             this.IsDownloading = false;
-                            Execute.OnUIThread(() => {
+                            UIThread.Execute(() => {
                                 Application.Current.MainWindow.Close();
                             });
                         });
@@ -129,8 +111,8 @@ namespace NTMiner.Vms {
             Action<int> progressChanged,
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
-            Global.Logger.InfoDebugLine("下载：" + fileName);
-            string saveFileFullName = Path.Combine(_downloadDirFullName, "NTMiner" + version);
+            Logger.InfoDebugLine("下载：" + fileName);
+            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, "NTMiner" + version);
             progressChanged?.Invoke(0);
             using (WebClient webClient = new WebClient()) {
                 cancel = () => {
@@ -142,26 +124,26 @@ namespace NTMiner.Vms {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     if (isSuccess) {
-                        Global.Logger.OkDebugLine("NTMiner" + version + "下载成功");
+                        Logger.OkDebugLine("NTMiner" + version + "下载成功");
                     }
                     string message = "下载成功";
                     if (e.Error != null) {
                         message = "下载失败";
-                        Global.Logger.ErrorDebugLine(e.Error.Message, e.Error);
+                        Logger.ErrorDebugLine(e.Error.Message, e.Error);
                     }
                     if (e.Cancelled) {
                         message = "下载取消";
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };
-                Server.FileUrlService.GetNTMinerUrlAsync(fileName, url => {
+                OfficialServer.FileUrlService.GetNTMinerUrlAsync(fileName, (url, e) => {
                     webClient.DownloadFileAsync(new Uri(url), saveFileFullName);
                 });
             }
         }
 
         public void Refresh() {
-            Server.FileUrlService.GetNTMinerFilesAsync(ntMinerFiles => {
+            OfficialServer.FileUrlService.GetNTMinerFilesAsync((ntMinerFiles, e) => {
                 this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;
@@ -169,7 +151,7 @@ namespace NTMiner.Vms {
                 else {
                     ServerLatestVm = this.NTMinerFiles.OrderByDescending(a => a.VersionData).FirstOrDefault();
                     if (ServerLatestVm.VersionData > LocalNTMinerVersion) {
-                        Global.Logger.WarnDebugLine("发现新版本" + ServerLatestVm.Version);
+                        Logger.WarnDebugLine("发现新版本" + ServerLatestVm.Version);
                         this.SelectedNTMinerFile = ServerLatestVm;
                         LocalIsLatest = false;
                     }
@@ -179,28 +161,20 @@ namespace NTMiner.Vms {
                 }
                 OnPropertyChanged(nameof(IsBtnInstallVisible));
                 IsReady = true;
+                if (!string.IsNullOrEmpty(CommandLineArgs.NTMinerFileName)) {
+                    NTMinerFileViewModel ntminerFileVm = this.NTMinerFiles.FirstOrDefault(a => a.FileName == CommandLineArgs.NTMinerFileName);
+                    if (ntminerFileVm != null) {
+                        IsHistoryVisible = Visibility.Visible;
+                        this.SelectedNTMinerFile = ntminerFileVm;
+                        Install.Execute(null);
+                    }
+                }
             });
         }
 
-        private static void CloseNTMinerMainWindow() {
-            try {
-                string location = NTMinerRegistry.GetLocation();
-                if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                    string processName = Path.GetFileNameWithoutExtension(location);
-                    Process[] processes = Process.GetProcessesByName(processName);
-                    if (processes.Length != 0) {
-                        Windows.TaskKill.Kill(processName);
-                    }
-                }
-            }
-            catch (Exception ex) {
-                Global.Logger.ErrorDebugLine(ex.Message, ex);
-            }
-        }
-
-        public Visibility IsDevModeVisible {
+        public Visibility IsDebugModeVisible {
             get {
-                if (DevMode.IsDevMode) {
+                if (DevMode.IsDebugMode) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;

@@ -10,45 +10,58 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, KernelViewModel> _dicById = new Dictionary<Guid, KernelViewModel>();
 
         private KernelViewModels() {
-            Global.Access<KernelAddedEvent>(
-                Guid.Parse("35917be2-7373-440d-b083-8edc1050f2cc"),
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                AllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
+            VirtualRoot.On<KernelAddedEvent>(
                 "添加了内核后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                     OnPropertyChanged(nameof(AllKernels));
+                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
                     foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
-                });
-            Global.Access<KernelRemovedEvent>(
-                Guid.Parse("c8a5fdca-85c3-40ae-8c79-41af2aa1d4da"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<KernelRemovedEvent>(
                 "删除了内核后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllKernels));
+                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
                     foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                     }
-                });
-            Global.Access<KernelUpdatedEvent>(
-                Guid.Parse("98b29a2f-fbcf-466d-81a4-ddbbc4594225"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<KernelUpdatedEvent>(
                 "更新了内核后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: message => {
                     var entity = _dicById[message.Source.GetId()];
-                    int sortNumber = entity.SortNumber;
+                    PublishStatus publishStatus = entity.PublishState;
                     Guid kernelInputId = entity.KernelInputId;
                     entity.Update(message.Source);
-                    if (sortNumber != entity.SortNumber) {
-                        KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
+                    if (publishStatus != entity.PublishState) {
+                        foreach (var coinKernelVm in CoinKernelViewModels.Current.AllCoinKernels.Where(a => a.KernelId == entity.Id)) {
+                            foreach (var coinVm in CoinViewModels.Current.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {
+                                coinVm.OnPropertyChanged(nameof(coinVm.CoinKernels));
+                            }
+                        }
                     }
                     if (kernelInputId != entity.KernelInputId) {
-                        Global.Execute(new RefreshArgsAssemblyCommand());
+                        NTMinerRoot.RefreshArgsAssembly.Invoke();
                     }
-                });
-
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             foreach (var item in NTMinerRoot.Current.KernelSet) {
                 _dicById.Add(item.GetId(), new KernelViewModel(item));
             }

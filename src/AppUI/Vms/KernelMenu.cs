@@ -18,36 +18,44 @@ namespace NTMiner.Vms {
         public string Name {
             get => _name;
             set {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                if (_name != value) {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
             }
         }
         public string IconName {
             get => _iconName;
             set {
-                _iconName = value;
-                OnPropertyChanged(nameof(IconName));
+                if (_iconName != value) {
+                    _iconName = value;
+                    OnPropertyChanged(nameof(IconName));
+                }
             }
         }
 
         public Geometry Icon {
             get { return _icon; }
             private set {
-                _icon = value;
-                OnPropertyChanged(nameof(Icon));
+                if (_icon != value) {
+                    _icon = value;
+                    OnPropertyChanged(nameof(Icon));
+                }
             }
         }
 
-        private static readonly SolidColorBrush Transparent = new SolidColorBrush(Colors.Transparent);
-        private static readonly SolidColorBrush SelectedBackground = new SolidColorBrush(Color.FromRgb(0x04, 0x35, 0x5B));
-        private SolidColorBrush _itemBackground = Transparent;
+        private static readonly SolidColorBrush s_transparent = new SolidColorBrush(Colors.Transparent);
+        private static readonly SolidColorBrush s_selectedBackground = new SolidColorBrush(Color.FromRgb(0x04, 0x35, 0x5B));
+        private SolidColorBrush _itemBackground = s_transparent;
         public SolidColorBrush ItemBackground {
             get {
                 return _itemBackground;
             }
             set {
-                _itemBackground = value;
-                OnPropertyChanged(nameof(ItemBackground));
+                if (_itemBackground != value) {
+                    _itemBackground = value;
+                    OnPropertyChanged(nameof(ItemBackground));
+                }
             }
         }
 
@@ -59,33 +67,37 @@ namespace NTMiner.Vms {
                 return _itemForeground;
             }
             set {
-                _itemForeground = value;
-                OnPropertyChanged(nameof(ItemForeground));
+                if (_itemForeground != value) {
+                    _itemForeground = value;
+                    OnPropertyChanged(nameof(ItemForeground));
+                }
             }
         }
 
         private static readonly SolidColorBrush SelectedBorderColor = new SolidColorBrush(Color.FromRgb(0x2C, 0xA2, 0xFC));
-        private SolidColorBrush _borderBrush = Transparent;
+        private SolidColorBrush _borderBrush = s_transparent;
         public SolidColorBrush BorderBrush {
             get {
                 return _borderBrush;
             }
             set {
-                _borderBrush = value;
-                OnPropertyChanged(nameof(BorderBrush));
+                if (_borderBrush != value) {
+                    _borderBrush = value;
+                    OnPropertyChanged(nameof(BorderBrush));
+                }
             }
         }
 
         public void SetSelectedBackground() {
-            ItemBackground = SelectedBackground;
+            ItemBackground = s_selectedBackground;
             ItemForeground = SelectedForeground;
             BorderBrush = SelectedBorderColor;
         }
 
         public void SetDefaultBackground() {
-            ItemBackground = Transparent;
+            ItemBackground = s_transparent;
             ItemForeground = White;
-            BorderBrush = Transparent;
+            BorderBrush = s_transparent;
         }
     }
 }

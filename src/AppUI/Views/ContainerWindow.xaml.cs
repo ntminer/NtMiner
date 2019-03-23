@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
+using NTMiner.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,11 +11,13 @@ using System.Windows.Input;
 namespace NTMiner.Views {
     public partial class ContainerWindow : MetroWindow {
         #region static
-        private static readonly Dictionary<Type, ContainerWindow> _windowDicByType = new Dictionary<Type, ContainerWindow>();
-        private static readonly Dictionary<Type, double> _windowLeftDic = new Dictionary<Type, double>();
-        private static readonly Dictionary<Type, double> _windowTopDic = new Dictionary<Type, double>();
+        private static readonly Dictionary<Type, ContainerWindow> s_windowDicByType = new Dictionary<Type, ContainerWindow>();
+        private static readonly Dictionary<Type, double> s_windowLeftDic = new Dictionary<Type, double>();
+        private static readonly Dictionary<Type, double> s_windowTopDic = new Dictionary<Type, double>();
+        private static readonly Dictionary<ContainerWindowViewModel, ContainerWindow> s_windowDic = new Dictionary<ContainerWindowViewModel, ContainerWindow>();
+
+        private static readonly List<ContainerWindowViewModel> s_windows = new List<ContainerWindowViewModel>();
         public static readonly ObservableCollection<ContainerWindowViewModel> Windows = new ObservableCollection<ContainerWindowViewModel>();
-        private static readonly Dictionary<ContainerWindowViewModel, ContainerWindow> _windowDic = new Dictionary<ContainerWindowViewModel, ContainerWindow>();
 
         public static ICommand CloseWindow { get; private set; }
 
@@ -23,22 +26,21 @@ namespace NTMiner.Views {
                 ContainerWindow window = GetWindow(vm);
                 window?.Close();
             });
-            Global.Access<Language.GlobalLangChangedEvent>(
-                Guid.Parse("9EE73F13-F1E1-4B20-86F2-A06B69ED4D45"),
+            VirtualRoot.On<Language.GlobalLangChangedEvent>(
                 "全局语言变更时调整窗口的标题",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
-                    foreach (var item in Windows) {
+                    foreach (var item in s_windows) {
                         item.OnPropertyChanged(nameof(item.Title));
                     }
                 });
         }
 
         public static ContainerWindow GetWindow(ContainerWindowViewModel vm) {
-            if (!_windowDic.ContainsKey(vm)) {
+            if (!s_windowDic.ContainsKey(vm)) {
                 return null;
             }
-            return _windowDic[vm];
+            return s_windowDic[vm];
         }
 
         public static ContainerWindow ShowWindow<TUc>(
@@ -54,27 +56,33 @@ namespace NTMiner.Views {
             }
             ContainerWindow window;
             Type ucType = typeof(TUc);
-            if (_windowDicByType.ContainsKey(ucType)) {
-                window = _windowDicByType[ucType];
+            if (s_windowDicByType.ContainsKey(ucType)) {
+                window = s_windowDicByType[ucType];
             }
             else {
                 window = new ContainerWindow(vm, ucFactory, fixedSize) {
                     WindowStartupLocation = WindowStartupLocation.Manual,
                     Owner = null
                 };
-                _windowDic.Add(vm, window);
-                Windows.Add(vm);
+                s_windowDic.Add(vm, window);
+                if (!vm.IsDialogWindow) {
+                    Windows.Add(vm);
+                }
+                s_windows.Add(vm);
                 window.Closed += (object sender, EventArgs e) => {
-                    _windowDic.Remove(vm);
-                    Windows.Remove(vm);
+                    s_windowDic.Remove(vm);
+                    if (!vm.IsDialogWindow) {
+                        Windows.Remove(vm);
+                    }
+                    s_windows.Remove(vm);
                 };
-                _windowDicByType.Add(ucType, window);
-                if (_windowLeftDic.ContainsKey(ucType)) {
-                    _windowDicByType[ucType].Left = _windowLeftDic[ucType];
-                    _windowDicByType[ucType].Top = _windowTopDic[ucType];
+                s_windowDicByType.Add(ucType, window);
+                if (s_windowLeftDic.ContainsKey(ucType)) {
+                    s_windowDicByType[ucType].Left = s_windowLeftDic[ucType];
+                    s_windowDicByType[ucType].Top = s_windowTopDic[ucType];
                 }
                 else {
-                    _windowDicByType[ucType].WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    s_windowDicByType[ucType].WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 }
             }
             window.ShowWindow(beforeShow);
@@ -108,12 +116,22 @@ namespace NTMiner.Views {
             else {
                 if (vm.Height != 0) {
                     this.Height = vm.Height;
-                    this.MinHeight = vm.Height / 2;
+                    if (vm.MinHeight == 0) {
+                        this.MinHeight = vm.Height / 2;
+                    }
                 }
                 if (vm.Width != 0) {
                     this.Width = vm.Width;
-                    this.MinWidth = vm.Width / 2;
+                    if (vm.MinWidth == 0) {
+                        this.MinWidth = vm.Width / 2;
+                    }
                 }
+            }
+            if (vm.MinHeight != 0) {
+                this.MinHeight = vm.MinHeight;
+            }
+            if (vm.MinWidth != 0) {
+                this.MinWidth = vm.MinWidth;
             }
 
             InitializeComponent();
@@ -157,13 +175,18 @@ namespace NTMiner.Views {
                 this.ShowInTaskbar = false;
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 var owner = TopWindow.GetTopWindow();
-                if (this != owner) {
+                if (this != owner && owner != null) {
                     this.Owner = owner;
                 }
-                double ownerOpacity = this.Owner.Opacity;
-                this.Owner.Opacity = 0.6;
-                this.ShowDialog();
-                this.Owner.Opacity = ownerOpacity;
+                if (this.Owner != null) {
+                    double ownerOpacity = this.Owner.Opacity;
+                    this.Owner.Opacity = 0.6;
+                    this.ShowDialog();
+                    this.Owner.Opacity = ownerOpacity;
+                }
+                else {
+                    this.ShowDialog();
+                }
             }
             else {
                 this.ShowActivated = true;
@@ -178,20 +201,20 @@ namespace NTMiner.Views {
         protected override void OnClosed(EventArgs e) {
             Vm.OnClose?.Invoke(_uc);
             Type ucType = _uc.GetType();
-            if (_windowDicByType.ContainsKey(ucType)) {
-                if (_windowLeftDic.ContainsKey(ucType)) {
-                    _windowLeftDic[ucType] = this.Left;
+            if (s_windowDicByType.ContainsKey(ucType)) {
+                if (s_windowLeftDic.ContainsKey(ucType)) {
+                    s_windowLeftDic[ucType] = this.Left;
                 }
                 else {
-                    _windowLeftDic.Add(ucType, this.Left);
+                    s_windowLeftDic.Add(ucType, this.Left);
                 }
-                if (_windowTopDic.ContainsKey(ucType)) {
-                    _windowTopDic[ucType] = this.Top;
+                if (s_windowTopDic.ContainsKey(ucType)) {
+                    s_windowTopDic[ucType] = this.Top;
                 }
                 else {
-                    _windowTopDic.Add(ucType, this.Top);
+                    s_windowTopDic.Add(ucType, this.Top);
                 }
-                _windowDicByType.Remove(ucType);
+                s_windowDicByType.Remove(ucType);
             }
             base.OnClosed(e);
         }

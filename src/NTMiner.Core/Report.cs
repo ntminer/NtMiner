@@ -1,203 +1,196 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
-using NTMiner.Core.Kernels;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.MinerClient;
+using NTMiner.Profile;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner {
     public static class Report {
-        private class CoinShareData {
-            public int TotalShareCount { get; set; }
-        }
-
         public static void Init(INTMinerRoot root) {
             if (Design.IsInDesignMode) {
                 return;
             }
 
-            Global.Access<HasBoot2SecondEvent>(
-                Guid.Parse("b4efba26-1f02-42f2-822a-dd38cffd466d"),
+            VirtualRoot.On<HasBoot5SecondEvent>(
                 "登录服务器并报告一次0算力",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
-                    Login(root);
                     // 报告0算力从而告知服务器该客户端当前在线的币种
-                    ReportSpeed(root);
+                    ReportSpeed();
                 });
 
-            Global.Access<Per2MinuteEvent>(
-                Guid.Parse("0b16bbd3-329b-4b46-9ebe-c403cae26018"),
+            VirtualRoot.On<Per2MinuteEvent>(
                 "每两分钟上报一次",
-                LogEnum.None,
+                LogEnum.Console,
                 action: message => {
-                    ReportSpeed(root);
+                    ReportSpeed();
                 });
 
-            Global.Access<MineStartedEvent>(
-                Guid.Parse("6e8ab8a2-7d08-41bd-9410-107793639f7f"),
+            VirtualRoot.On<MineStartedEvent>(
                 "开始挖矿后报告状态",
                 LogEnum.Console,
                 action: message => {
-                    Login(root);
-                    ReportSpeed(root);
+                    ReportSpeed();
                 });
 
-            Global.Access<MineStopedEvent>(
-                Guid.Parse("5ff27468-2a01-4ce4-91a3-aa354791d0eb"),
+            VirtualRoot.On<MineStopedEvent>(
                 "停止挖矿后报告状态",
                 LogEnum.Console,
                 action: message => {
-                    ReportState(root);
+                    try {
+                        Server.ReportService.ReportStateAsync(OfficialServer.OfficialServerHost, ClientId.Id, isMining: false);
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
+                    }
                 });
-            Global.Logger.InfoDebugLine(typeof(Report).FullName + "接入总线");
         }
 
-        private static void Login(INTMinerRoot root) {
-            try {
-                Server.ReportService.LoginAsync(new LoginData() {
-                    WorkId = CommandLineArgs.WorkId,
-                    MessageId = Guid.NewGuid(),
-                    ClientId = ClientId.Id,
-                    Timestamp = DateTime.Now,
-                    Version = NTMinerRoot.CurrentVersion.ToString(4),
-                    PublicKey = ClientId.PublicKey,
-                    MinerName = root.MinerProfile.MinerName,
-                    GpuInfo = root.GpuSetInfo
-                });
-            }
-            catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
-            }
-        }
-
-        private static readonly Dictionary<Guid, CoinShareData> _coinShareDic = new Dictionary<Guid, CoinShareData>();
-        private static ICoin _lastSpeedMainCoin;
-        private static ICoin _lastSpeedDualCoin;
-        private static void ReportSpeed(INTMinerRoot root) {
-            try {
-                SpeedData data = new SpeedData {
-                    MessageId = Guid.NewGuid(),
-                    MinerName = root.MinerProfile.MinerName,
-                    ClientId = ClientId.Id,
-                    Timestamp = DateTime.Now,
-                    MainCoinCode = string.Empty,
-                    MainCoinShareDelta = 0,
-                    MainCoinSpeed = 0,
-                    DualCoinCode = string.Empty,
-                    DualCoinShareDelta = 0,
-                    DualCoinSpeed = 0,
-                    IsMining = root.IsMining,
-                    DualCoinPool = string.Empty,
-                    DualCoinWallet = string.Empty,
-                    IsDualCoinEnabled = false,
-                    Kernel = string.Empty,
-                    MainCoinPool = string.Empty,
-                    MainCoinWallet = string.Empty
-                };
-                #region 当前选中的币种是什么
-                ICoin mainCoin;
-                if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out mainCoin)) {
-                    data.MainCoinCode = mainCoin.Code;
-                    ICoinProfile coinProfile = root.CoinProfileSet.GetCoinProfile(mainCoin.GetId());
-                    IPool mainCoinPool;
-                    if (root.PoolSet.TryGetPool(coinProfile.PoolId, out mainCoinPool)) {
-                        data.MainCoinPool = mainCoinPool.Server;
+        private static ICoin _sLastSpeedMainCoin;
+        private static ICoin _sLastSpeedDualCoin;
+        public static SpeedData CreateSpeedData() {
+            INTMinerRoot root = NTMinerRoot.Current;
+            SpeedData data = new SpeedData {
+                IsAutoBoot = NTMinerRegistry.GetIsAutoBoot(),
+                IsAutoStart = NTMinerRegistry.GetIsAutoStart(),
+                Version = NTMinerRoot.CurrentVersion.ToString(4),
+                BootOn = root.CreatedOn,
+                MineStartedOn = null,
+                IsMining = root.IsMining,
+                MinerName = root.MinerProfile.MinerName,
+                GpuInfo = root.GpuSetInfo,
+                ClientId = ClientId.Id,
+                MainCoinCode = string.Empty,
+                MainCoinWallet = string.Empty,
+                MainCoinTotalShare = 0,
+                MainCoinRejectShare = 0,
+                MainCoinSpeed = 0,
+                DualCoinCode = string.Empty,
+                DualCoinTotalShare = 0,
+                DualCoinRejectShare = 0,
+                DualCoinSpeed = 0,
+                DualCoinPool = string.Empty,
+                DualCoinWallet = string.Empty,
+                IsDualCoinEnabled = false,
+                Kernel = string.Empty,
+                MainCoinPool = string.Empty,
+                OSName = Windows.OS.Current.WindowsEdition,
+                GpuDriver = root.GpuSet.GetProperty("DriverVersion"),
+                GpuType = root.GpuSet.GpuType,
+                OSVirtualMemoryMb = NTMinerRoot.OSVirtualMemoryMb,
+                KernelCommandLine = NTMinerRoot.UserKernelCommandLine,
+                DiskSpace = NTMinerRoot.DiskSpace,
+                IsAutoRestartKernel = root.MinerProfile.IsAutoRestartKernel,
+                IsNoShareRestartKernel = root.MinerProfile.IsNoShareRestartKernel,
+                IsPeriodicRestartComputer = root.MinerProfile.IsPeriodicRestartComputer,
+                IsPeriodicRestartKernel = root.MinerProfile.IsPeriodicRestartKernel,
+                NoShareRestartKernelMinutes = root.MinerProfile.NoShareRestartKernelMinutes,
+                PeriodicRestartComputerHours = root.MinerProfile.PeriodicRestartComputerHours,
+                PeriodicRestartKernelHours = root.MinerProfile.PeriodicRestartKernelHours,
+                GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => new GpuSpeedData {
+                    Index = a.Gpu.Index,
+                    Name = a.Gpu.Name,
+                    MainCoinSpeed = a.MainCoinSpeed.Value,
+                    DualCoinSpeed = a.DualCoinSpeed.Value,
+                    FanSpeed = a.Gpu.FanSpeed,
+                    Temperature = a.Gpu.Temperature,
+                    PowerUsage = a.Gpu.PowerUsage,
+                    Cool = a.Gpu.Cool,
+                    Power = a.Gpu.Power,
+                    CoreClockDelta = a.Gpu.CoreClockDelta,
+                    MemoryClockDelta = a.Gpu.MemoryClockDelta
+                }).ToArray()
+            };
+            #region 当前选中的币种是什么
+            if (root.CoinSet.TryGetCoin(root.MinerProfile.CoinId, out ICoin mainCoin)) {
+                data.MainCoinCode = mainCoin.Code;
+                ICoinProfile coinProfile = root.MinerProfile.GetCoinProfile(mainCoin.GetId());
+                data.MainCoinWallet = coinProfile.Wallet;
+                if (root.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
+                    data.MainCoinPool = mainCoinPool.Server;
+                    if (mainCoinPool.IsUserMode) {
+                        IPoolProfile mainCoinPoolProfile = root.MinerProfile.GetPoolProfile(coinProfile.PoolId);
+                        data.MainCoinWallet = mainCoinPoolProfile.UserName;
                     }
-                    else {
-                        data.MainCoinPool = string.Empty;
-                    }
-                    data.MainCoinWallet = coinProfile.Wallet;
-                    ICoinKernel coinKernel;
-                    if (root.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out coinKernel)) {
-                        IKernel kernel;
-                        if (root.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
-                            data.Kernel = kernel.FullName;
-                            ICoinKernelProfile coinKernelProfile = root.CoinKernelProfileSet.GetCoinKernelProfile(coinProfile.CoinKernelId);
-                            data.IsDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
-                            if (coinKernelProfile.IsDualCoinEnabled) {
-                                ICoin dualCoin;
-                                if (root.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                                    data.DualCoinCode = dualCoin.Code;
-                                    ICoinProfile dualCoinProfile = root.CoinProfileSet.GetCoinProfile(dualCoin.GetId());
-                                    data.DualCoinWallet = dualCoinProfile.DualCoinWallet;
-                                    IPool dualCoinPool;
-                                    if (root.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
-                                        data.DualCoinPool = dualCoinPool.Server;
+                }
+                else {
+                    data.MainCoinPool = string.Empty;
+                }
+                if (root.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
+                    if (root.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
+                        data.Kernel = kernel.GetFullName();
+                        ICoinKernelProfile coinKernelProfile = root.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
+                        data.IsDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
+                        if (coinKernelProfile.IsDualCoinEnabled) {
+                            if (root.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
+                                data.DualCoinCode = dualCoin.Code;
+                                ICoinProfile dualCoinProfile = root.MinerProfile.GetCoinProfile(dualCoin.GetId());
+                                data.DualCoinWallet = dualCoinProfile.DualCoinWallet;
+                                if (root.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
+                                    data.DualCoinPool = dualCoinPool.Server;
+                                    if (dualCoinPool.IsUserMode) {
+                                        IPoolProfile dualCoinPoolProfile = root.MinerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId);
+                                        data.DualCoinWallet = dualCoinPoolProfile.UserName;
                                     }
-                                    else {
-                                        data.DualCoinPool = string.Empty;
-                                    }
+                                }
+                                else {
+                                    data.DualCoinPool = string.Empty;
                                 }
                             }
                         }
                     }
                 }
-                #endregion
+            }
+            #endregion
 
-                if (root.IsMining) {
+            if (root.IsMining) {
+                var mineContext = root.CurrentMineContext;
+                if (mineContext != null) {
+                    data.MineStartedOn = mineContext.CreatedOn;
+                    data.KernelCommandLine = mineContext.CommandLine;
+                }
+                // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
+                if (_sLastSpeedMainCoin == null || _sLastSpeedMainCoin == root.CurrentMineContext.MainCoin) {
+                    _sLastSpeedMainCoin = root.CurrentMineContext.MainCoin;
+                    Guid coinId = root.CurrentMineContext.MainCoin.GetId();
+                    IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
+                    IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
+                    data.MainCoinSpeed = totalSpeed.MainCoinSpeed.Value;
+                    ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
+                    data.MainCoinTotalShare = share.TotalShareCount;
+                    data.MainCoinRejectShare = share.RejectShareCount;
+                }
+                else {
+                    _sLastSpeedMainCoin = root.CurrentMineContext.MainCoin;
+                }
+                if (root.CurrentMineContext is IDualMineContext dualMineContext) {
                     // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
-                    if (_lastSpeedMainCoin == null || _lastSpeedMainCoin == root.CurrentMineContext.MainCoin) {
-                        _lastSpeedMainCoin = root.CurrentMineContext.MainCoin;
-                        CoinShareData preCoinShare;
-                        Guid coinId = root.CurrentMineContext.MainCoin.GetId();
+                    if (_sLastSpeedDualCoin == null || _sLastSpeedDualCoin == dualMineContext.DualCoin) {
+                        _sLastSpeedDualCoin = dualMineContext.DualCoin;
+                        Guid coinId = dualMineContext.DualCoin.GetId();
                         IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
                         IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
-                        data.MainCoinSpeed = (int)totalSpeed.MainCoinSpeed.Value;
+                        data.DualCoinSpeed = totalSpeed.DualCoinSpeed.Value;
                         ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
-                        if (!_coinShareDic.TryGetValue(coinId, out preCoinShare)) {
-                            preCoinShare = new CoinShareData() {
-                                TotalShareCount = share.TotalShareCount
-                            };
-                            _coinShareDic.Add(coinId, preCoinShare);
-                            data.MainCoinShareDelta = share.TotalShareCount;
-                        }
-                        else {
-                            data.MainCoinShareDelta = share.TotalShareCount - preCoinShare.TotalShareCount;
-                        }
+                        data.DualCoinTotalShare = share.TotalShareCount;
+                        data.DualCoinRejectShare = share.RejectShareCount;
                     }
                     else {
-                        _lastSpeedMainCoin = root.CurrentMineContext.MainCoin;
-                    }
-                    if (root.CurrentMineContext is IDualMineContext dualMineContext) {
-                        // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
-                        if (_lastSpeedDualCoin == null || _lastSpeedDualCoin == dualMineContext.DualCoin) {
-                            _lastSpeedDualCoin = dualMineContext.DualCoin;
-                            CoinShareData preCoinShare;
-                            Guid coinId = dualMineContext.DualCoin.GetId();
-                            IGpusSpeed gpuSpeeds = NTMinerRoot.Current.GpusSpeed;
-                            IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
-                            data.DualCoinSpeed = (int)totalSpeed.DualCoinSpeed.Value;
-                            ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
-                            if (!_coinShareDic.TryGetValue(coinId, out preCoinShare)) {
-                                preCoinShare = new CoinShareData() {
-                                    TotalShareCount = share.TotalShareCount
-                                };
-                                _coinShareDic.Add(coinId, preCoinShare);
-                                data.DualCoinShareDelta = share.TotalShareCount;
-                            }
-                            else {
-                                data.DualCoinShareDelta = share.TotalShareCount - preCoinShare.TotalShareCount;
-                            }
-                        }
-                        else {
-                            _lastSpeedDualCoin = dualMineContext.DualCoin;
-                        }
+                        _sLastSpeedDualCoin = dualMineContext.DualCoin;
                     }
                 }
-                Server.ReportService.ReportSpeedAsync(data);
             }
-            catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
-            }
+            return data;
         }
 
-        private static void ReportState(INTMinerRoot root) {
+        private static void ReportSpeed() {
             try {
-                Server.ReportService.ReportStateAsync(ClientId.Id, root.IsMining);
+                SpeedData data = CreateSpeedData();
+                Server.ReportService.ReportSpeedAsync(OfficialServer.OfficialServerHost, data);
             }
             catch (Exception e) {
-                Global.Logger.ErrorDebugLine(e.Message, e);
+                Logger.ErrorDebugLine(e.Message, e);
             }
         }
     }

@@ -10,33 +10,36 @@ namespace NTMiner.Vms {
 
         private readonly Dictionary<Guid, GroupViewModel> _dicById = new Dictionary<Guid, GroupViewModel>();
         public ICommand Add { get; private set; }
-        private GroupViewModels() {
-            foreach (var item in NTMinerRoot.Current.GroupSet) {
-                GroupViewModel groupVm = new GroupViewModel(item);
-                _dicById.Add(item.GetId(), groupVm);
-            }
+        private GroupViewModels() {            
             this.Add = new DelegateCommand(() => {
                 new GroupViewModel(Guid.NewGuid()) {
                     SortNumber = Count + 1
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
-            Global.Access<GroupAddedEvent>(
-                Guid.Parse("285077b7-b6ce-4b2a-8033-29650ea701ec"),
+            NTMinerRoot.Current.OnContextReInited += () => {
+                _dicById.Clear();
+                Init();
+            };
+            NTMinerRoot.Current.OnReRendContext += () => {
+                AllPropertyChanged();
+            };
+            Init();
+        }
+
+        private void Init() {
+            VirtualRoot.On<GroupAddedEvent>(
                 "添加了组后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         GroupViewModel groupVm = new GroupViewModel(message.Source);
                         _dicById.Add(message.Source.GetId(), groupVm);
-                        OnPropertyChanged(nameof(List));
-                        OnPropertyChanged(nameof(SelectionOptions));
-                        OnPropertyChanged(nameof(Count));
+                        OnPropertyChangeds();
                     }
-                });
-            Global.Access<GroupUpdatedEvent>(
-                Guid.Parse("cc692b24-3771-4e86-bbd8-0af452452456"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<GroupUpdatedEvent>(
                 "更新了组后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         GroupViewModel entity = _dicById[message.Source.GetId()];
@@ -47,17 +50,24 @@ namespace NTMiner.Vms {
                             OnPropertyChanged(nameof(SelectionOptions));
                         }
                     }
-                });
-            Global.Access<GroupRemovedEvent>(
-                Guid.Parse("9ae5c909-9d4f-4082-be86-a5003e7c6f7e"),
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            VirtualRoot.On<GroupRemovedEvent>(
                 "删除了组后调整VM内存",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
-                    OnPropertyChanged(nameof(List));
-                    OnPropertyChanged(nameof(SelectionOptions));
-                    OnPropertyChanged(nameof(Count));
-                });
+                    OnPropertyChangeds();
+                }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
+            foreach (var item in NTMinerRoot.Current.GroupSet) {
+                GroupViewModel groupVm = new GroupViewModel(item);
+                _dicById.Add(item.GetId(), groupVm);
+            }
+        }
+
+        private void OnPropertyChangeds() {
+            OnPropertyChanged(nameof(List));
+            OnPropertyChanged(nameof(SelectionOptions));
+            OnPropertyChanged(nameof(Count));
         }
 
         public bool TryGetGroupVm(Guid groupId, out GroupViewModel groupVm) {

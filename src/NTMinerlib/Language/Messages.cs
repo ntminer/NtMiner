@@ -2,6 +2,30 @@
 using System;
 
 namespace NTMiner.Language {
+    [MessageType(messageType: typeof(RefreshLangSetCommand), description: "刷新语言")]
+    public class RefreshLangSetCommand : Cmd {
+        public RefreshLangSetCommand() {
+        }
+    }
+
+    [MessageType(messageType: typeof(LangSetRefreshedEvent), description: "语言刷新后")]
+    public class LangSetRefreshedEvent : EventBase {
+        public LangSetRefreshedEvent() {
+        }
+    }
+
+    [MessageType(messageType: typeof(RefreshLangViewItemSetCommand), description: "刷新语言项")]
+    public class RefreshLangViewItemSetCommand : Cmd {
+        public RefreshLangViewItemSetCommand() {
+        }
+    }
+
+    [MessageType(messageType: typeof(LangViewItemSetRefreshedEvent), description: "语言项刷新后")]
+    public class LangViewItemSetRefreshedEvent : EventBase {
+        public LangViewItemSetRefreshedEvent() {
+        }
+    }
+
     [MessageType(messageType: typeof(GlobalLangChangedEvent), description: "切换语言后")]
     public class GlobalLangChangedEvent : DomainEvent<ILang> {
         public GlobalLangChangedEvent(ILang source) : base(source) {

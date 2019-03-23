@@ -1,14 +1,30 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Bus;
+using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
+using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.SysDics;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.User;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner {
     public interface INTMinerRoot {
+        List<IDelegateHandler> ContextHandlers { get; }
+
+        event Action OnContextReInited;
+        event Action OnReRendContext;
+        event Action OnMinerProfileReInited;
+        event Action OnReRendMinerProfile;
+
+        void ReInitMinerProfile();
+
+        IUserSet UserSet { get; }
+
         DateTime CreatedOn { get; }
+
+        IAppSettingSet AppSettingSet { get; }
 
         void Init(Action callback);
 
@@ -16,11 +32,11 @@ namespace NTMiner {
 
         void Start();
 
-        void StartMine(Guid workId);
+        void StartMine();
+
+        void RestartMine(bool isWork = false);
 
         void StopMineAsync(Action callback = null);
-
-        void RestartMine();
 
         IPackageDownloader PackageDownloader { get; }
 
@@ -28,11 +44,15 @@ namespace NTMiner {
 
         bool IsMining { get; }
 
-        IMinerProfile MinerProfile { get; }
+        IWorkProfile MinerProfile { get; }
 
         IMineWorkSet MineWorkSet { get; }
 
         IMinerGroupSet MinerGroupSet { get; }
+
+        IColumnsShowSet ColumnsShowSet { get; }
+
+        IOverClockDataSet OverClockDataSet { get; }
 
         string QQGroup { get; }
 
@@ -53,8 +73,6 @@ namespace NTMiner {
         ICoinGroupSet CoinGroupSet { get; }
 
         ICalcConfigSet CalcConfigSet { get; }
-
-        IWalletSet WalletSet { get; }
 
         IPoolSet PoolSet { get; }
 
@@ -77,37 +95,6 @@ namespace NTMiner {
         IKernelOutputFilterSet KernelOutputFilterSet { get; }
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
-
-        ICoinProfileSet CoinProfileSet { get; }
-
-        IPoolProfileSet PoolProfileSet { get; }
-
-        ICoinKernelProfileSet CoinKernelProfileSet { get; }
-
-        void SetMinerProfileProperty(string propertyName, object value);
-
-        object GetMineWorkProperty(string propertyName);
-
-        void SetCoinProfileProperty(Guid coinId, string propertyName, object value);
-
-        void SetPoolProfileProperty(Guid poolId, string propertyName, object value);
-
-        void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value);
-
-        IMineContext CreateMineContext(
-            string minerName,
-            ICoin mainCoin,
-            IPool mainCoinPool,
-            IKernel kernel,
-            ICoinKernel coinKernel,
-            string mainCoinWallet);
-
-        IDualMineContext CreateDualMineContext(
-            IMineContext mineContext,
-            ICoin dualCoin,
-            IPool dualCoinPool,
-            string dualCoinWallet,
-            double dualCoinWeight);
 
         string BuildAssembleArgs();
     }

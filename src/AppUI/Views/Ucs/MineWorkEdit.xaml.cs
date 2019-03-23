@@ -3,15 +3,20 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class MineWorkEdit : UserControl {
-        public static void ShowEditWindow(MineWorkViewModel source) {
+        public static void ShowWindow(FormType formType, MineWorkViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
-                IconName = "Icon_MineWork"
+                FooterVisible = System.Windows.Visibility.Collapsed,
+                IconName = "Icon_MineWork",
+                OnClose = (uc) => {
+                    MineWorkViewModel vm = (MineWorkViewModel)uc.DataContext;
+                    vm.Save.Execute(null);
+                }
             }, ucFactory: (window) =>
             {
                 MineWorkViewModel vm = new MineWorkViewModel(source);
-                vm.CloseWindow = () => window.Close();
                 return new MineWorkEdit(vm);
             }, fixedSize: true);
         }

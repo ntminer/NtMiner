@@ -1,24 +1,19 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core.Gpus;
-using NTMiner.Core.Kernels;
-using NTMiner.Core.SysDics;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.MinerClient;
+using NTMiner.MinerServer;
 using System;
 
 namespace NTMiner.Core {
-    #region Refresh
-    [MessageType(messageType: typeof(RefreshCoinSetCommand), description: "刷新币种数据集")]
-    public class RefreshCoinSetCommand : Cmd {
-        public RefreshCoinSetCommand() {
+    public class ServerJsonVersionChangedEvent : EventBase {
+        public ServerJsonVersionChangedEvent(string oldVersion, string newVersion) {
+            this.OldVersion = oldVersion;
+            this.NewVersion = newVersion;
         }
-    }
 
-    [MessageType(messageType: typeof(CoinSetRefreshedEvent), description: "币种数据集刷新后")]
-    public class CoinSetRefreshedEvent : EventBase {
-        public CoinSetRefreshedEvent() {
-        }
+        public string OldVersion { get; private set; }
+        public string NewVersion { get; private set; }
     }
-    #endregion
 
     #region profile Messages
     [MessageType(messageType: typeof(MinerProfilePropertyChangedEvent), description: "MinerProfile设置变更后")]
@@ -64,6 +59,11 @@ namespace NTMiner.Core {
         public Guid CoinKernelId { get; }
 
         public string PropertyName { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(GpuProfileSetRefreshedEvent), description: "Gpu超频集合刷新后")]
+    public class GpuProfileSetRefreshedEvent : EventBase {
+        public GpuProfileSetRefreshedEvent() { }
     }
     #endregion
 
@@ -115,39 +115,150 @@ namespace NTMiner.Core {
     #endregion
 
     #region MinerGroup Messages
-    [MessageType(messageType: typeof(AddMinerGroupCommand), description: "添加矿工组")]
+    [MessageType(messageType: typeof(AddMinerGroupCommand), description: "添加矿机分组")]
     public class AddMinerGroupCommand : AddEntityCommand<IMinerGroup> {
         public AddMinerGroupCommand(IMinerGroup input) : base(input) {
         }
     }
 
-    [MessageType(messageType: typeof(UpdateMinerGroupCommand), description: "更新矿工组")]
+    [MessageType(messageType: typeof(UpdateMinerGroupCommand), description: "更新矿机分组")]
     public class UpdateMinerGroupCommand : UpdateEntityCommand<IMinerGroup> {
         public UpdateMinerGroupCommand(IMinerGroup input) : base(input) {
         }
     }
 
-    [MessageType(messageType: typeof(RemoveMinerGroupCommand), description: "删除矿工组")]
+    [MessageType(messageType: typeof(RemoveMinerGroupCommand), description: "删除矿机分组")]
     public class RemoveMinerGroupCommand : RemoveEntityCommand {
         public RemoveMinerGroupCommand(Guid entityId) : base(entityId) {
         }
     }
 
-    [MessageType(messageType: typeof(MinerGroupAddedEvent), description: "添加矿工组后")]
+    [MessageType(messageType: typeof(MinerGroupAddedEvent), description: "添加矿机分组后")]
     public class MinerGroupAddedEvent : DomainEvent<IMinerGroup> {
         public MinerGroupAddedEvent(IMinerGroup source) : base(source) {
         }
     }
 
-    [MessageType(messageType: typeof(MinerGroupUpdatedEvent), description: "更新矿工组后")]
+    [MessageType(messageType: typeof(MinerGroupUpdatedEvent), description: "更新矿机分组后")]
     public class MinerGroupUpdatedEvent : DomainEvent<IMinerGroup> {
         public MinerGroupUpdatedEvent(IMinerGroup source) : base(source) {
         }
     }
 
-    [MessageType(messageType: typeof(MinerGroupRemovedEvent), description: "删除矿工组后")]
+    [MessageType(messageType: typeof(MinerGroupRemovedEvent), description: "删除矿机分组后")]
     public class MinerGroupRemovedEvent : DomainEvent<IMinerGroup> {
         public MinerGroupRemovedEvent(IMinerGroup source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region OverClockData Messages
+    [MessageType(messageType: typeof(AddOverClockDataCommand), description: "添加超频建议")]
+    public class AddOverClockDataCommand : AddEntityCommand<IOverClockData> {
+        public AddOverClockDataCommand(IOverClockData input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(UpdateOverClockDataCommand), description: "更新超频建议")]
+    public class UpdateOverClockDataCommand : UpdateEntityCommand<IOverClockData> {
+        public UpdateOverClockDataCommand(IOverClockData input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(RemoveOverClockDataCommand), description: "删除超频建议")]
+    public class RemoveOverClockDataCommand : RemoveEntityCommand {
+        public RemoveOverClockDataCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(messageType: typeof(OverClockDataAddedEvent), description: "添加超频建议后")]
+    public class OverClockDataAddedEvent : DomainEvent<IOverClockData> {
+        public OverClockDataAddedEvent(IOverClockData source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(OverClockDataUpdatedEvent), description: "更新超频建议后")]
+    public class OverClockDataUpdatedEvent : DomainEvent<IOverClockData> {
+        public OverClockDataUpdatedEvent(IOverClockData source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(OverClockDataRemovedEvent), description: "删除超频建议后")]
+    public class OverClockDataRemovedEvent : DomainEvent<IOverClockData> {
+        public OverClockDataRemovedEvent(IOverClockData source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region ColumnsShow Messages
+    [MessageType(messageType: typeof(AddColumnsShowCommand), description: "添加矿机分组")]
+    public class AddColumnsShowCommand : AddEntityCommand<IColumnsShow> {
+        public AddColumnsShowCommand(IColumnsShow input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(UpdateColumnsShowCommand), description: "更新列显")]
+    public class UpdateColumnsShowCommand : UpdateEntityCommand<IColumnsShow> {
+        public UpdateColumnsShowCommand(IColumnsShow input) : base(input) {
+        }
+    }
+
+    [MessageType(messageType: typeof(RemoveColumnsShowCommand), description: "删除列显")]
+    public class RemoveColumnsShowCommand : RemoveEntityCommand {
+        public RemoveColumnsShowCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(messageType: typeof(ColumnsShowAddedEvent), description: "添加列显后")]
+    public class ColumnsShowAddedEvent : DomainEvent<IColumnsShow> {
+        public ColumnsShowAddedEvent(IColumnsShow source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(ColumnsShowUpdatedEvent), description: "更新列显后")]
+    public class ColumnsShowUpdatedEvent : DomainEvent<IColumnsShow> {
+        public ColumnsShowUpdatedEvent(IColumnsShow source) : base(source) {
+        }
+    }
+
+    [MessageType(messageType: typeof(ColumnsShowRemovedEvent), description: "删除列显后")]
+    public class ColumnsShowRemovedEvent : DomainEvent<IColumnsShow> {
+        public ColumnsShowRemovedEvent(IColumnsShow source) : base(source) {
+        }
+    }
+    #endregion
+
+    #region gpu overclock
+    [MessageType(messageType: typeof(AddOrUpdateGpuProfileCommand), description: "添加或更新Gpu超频数据")]
+    public class AddOrUpdateGpuProfileCommand : Cmd {
+        public AddOrUpdateGpuProfileCommand(IGpuProfile input) {
+            this.Input = input;
+        }
+
+        public IGpuProfile Input { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(OverClockCommand), description: "超频")]
+    public class OverClockCommand : Cmd {
+        public OverClockCommand(IGpuProfile input) {
+            this.Input = input;
+        }
+
+        public IGpuProfile Input { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(CoinOverClockCommand), description: "币种超频")]
+    public class CoinOverClockCommand : Cmd {
+        public CoinOverClockCommand(Guid coinId) {
+            this.CoinId = coinId;
+        }
+
+        public Guid CoinId { get; private set; }
+    }
+
+    [MessageType(messageType: typeof(AddOrUpdateGpuProfileCommand), description: "Gpu超频数据添加或更新后")]
+    public class GpuProfileAddedOrUpdatedEvent : DomainEvent<IGpuProfile> {
+        public GpuProfileAddedOrUpdatedEvent(IGpuProfile source) : base(source) {
         }
     }
     #endregion

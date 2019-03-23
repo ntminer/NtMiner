@@ -1,244 +1,83 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.SysDics;
-using NTMiner.ServiceContracts.DataObjects;
-using NTMiner.Views.Ucs;
+using NTMiner.MinerServer;
+using NTMiner.Profile;
 using System;
 using System.Linq;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MinerProfileViewModel : ViewModelBase, IMinerProfile {
         public static readonly MinerProfileViewModel Current = new MinerProfileViewModel();
 
-        private TimeSpan _mineTimeSpan = TimeSpan.Zero;
-        private TimeSpan _bootTimeSpan = TimeSpan.Zero;
-        private double _logoRotateTransformAngle;
-        private MineWorkData _mineWork;
-        private Visibility _isWatermarkVisible = Visibility.Visible;
-
-        public ICommand CustomTheme { get; private set; }
-
         private MinerProfileViewModel() {
             if (Design.IsInDesignMode) {
                 return;
             }
-            this.CustomTheme = new DelegateCommand(() => {
-                LogColor.ShowWindow();
-            });
-            Global.Access<Per1SecondEvent>(
-                Guid.Parse("479A35A1-5A5A-48AF-B184-F1EC568BE181"),
-                "挖矿计时秒表",
-                LogEnum.None,
-                action: message => {
-                    DateTime now = DateTime.Now;
-                    this.BootTimeSpan = now - NTMinerRoot.Current.CreatedOn;
-
-                    var mineContext = NTMinerRoot.Current.CurrentMineContext;
-                    if (mineContext != null) {
-                        this.MineTimeSpan = now - mineContext.CreatedOn;
-                    }
-                });
-            Global.Access<MinerProfilePropertyChangedEvent>(
-                Guid.Parse("00F1C9F7-ADC8-438D-8B7E-942F6EE5F9A4"),
-                "MinerProfile设置变更后刷新VM内存",
-                LogEnum.Log,
-                action: message => {
-                    OnPropertyChanged(message.PropertyName);
-                });
-            Global.Access<MineWorkPropertyChangedEvent>(
-                Guid.Parse("7F96F755-E292-4146-9390-75635D150A4B"),
-                "MineWork设置变更后刷新VM内存",
-                LogEnum.Log,
-                action: message => {
-                    OnPropertyChanged(message.PropertyName);
-                });
-            Global.Access<MineStartedEvent>(
-                Guid.Parse("36B6B69F-37E3-44BE-9CA9-20D6764E7058"),
-                "挖矿开始后刷新MinerProfileVM的IsMinig属性",
-                LogEnum.None,
-                action: message => {
-                    this.OnPropertyChanged(nameof(this.IsMining));
-                    this.IsWatermarkVisible = Visibility.Collapsed;
-                });
-            Global.Access<MineStopedEvent>(
-                Guid.Parse("C4C1308A-1C04-4094-91A2-D11993C626A0"),
-                "挖矿停止后刷新MinerProfileVM的IsMinig属性",
-                LogEnum.None,
-                action: message => {
-                    this.OnPropertyChanged(nameof(this.IsMining));
-                });
-
-            Global.Access<RefreshArgsAssemblyCommand>(
-                Guid.Parse("4931C5C3-178F-4867-B615-215F0744C1EB"),
-                "刷新参数总成",
-                LogEnum.Log,
-                action: cmd => {
-                    this.OnPropertyChanged(nameof(this.ArgsAssembly));
-                });
-            System.Timers.Timer t = new System.Timers.Timer(100);
-            t.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
-                if (this._logoRotateTransformAngle > 3600000) {
-                    this._logoRotateTransformAngle = 0;
-                }
-                this.LogoRotateTransformAngle += 50;
+            NTMinerRoot.RefreshArgsAssembly = () => {
+                this.ArgsAssembly = NTMinerRoot.Current.BuildAssembleArgs();
             };
-            Global.Access<MineStartedEvent>(
-                Guid.Parse("D8CC83D6-B9B5-4739-BD66-0F772A22BBF8"),
-                "挖矿开始后将风扇转起来",
-                LogEnum.None,
+            NTMinerRoot.Current.OnReRendContext += () => {
+                OnPropertyChanged(nameof(CoinVm));
+            };
+            VirtualRoot.Accept<RefreshAutoBootStartCommand>(
+                "刷新开机自动启动和启动后自动开始挖矿的展示",
+                LogEnum.Console,
                 action: message => {
-                    t.Start();
-                    OnPropertyChanged(nameof(GpuStateColor));
+                    OnPropertyChanged(nameof(IsAutoBoot));
+                    OnPropertyChanged(nameof(IsAutoStart));
                 });
-            Global.Access<MineStopedEvent>(
-                Guid.Parse("0BB360E4-92A6-4629-861F-B3E4C9BE1203"),
-                "挖矿停止后将风扇停转",
-                LogEnum.None,
+            VirtualRoot.On<MinerProfilePropertyChangedEvent>(
+                "MinerProfile设置变更后刷新VM内存",
+                LogEnum.Console,
                 action: message => {
-                    t.Stop();
-                    OnPropertyChanged(nameof(GpuStateColor));
+                    OnPropertyChanged(message.PropertyName);
                 });
-            if (CommandLineArgs.IsWorker) {
-                Server.ProfileService.GetMineWorkAsync(CommandLineArgs.WorkId, mineWorkData => {
-                    if (mineWorkData != null) {
-                        this.MineWork = mineWorkData;
-                    }
+            VirtualRoot.On<MineWorkPropertyChangedEvent>(
+                "MineWork设置变更后刷新VM内存",
+                LogEnum.Console,
+                action: message => {
+                    OnPropertyChanged(message.PropertyName);
                 });
-            }
+
+            VirtualRoot.On<GpuProfileSetRefreshedEvent>(
+                "Gpu超频集合刷新后刷新附着在当前币种上的超频数据",
+                LogEnum.Console,
+                action: message => {
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuAllProfileVm));
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.GpuProfileVms));
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.IsOverClockEnabled));
+                    CoinVm.OnPropertyChanged(nameof(CoinVm.IsOverClockGpuAll));
+                });
+
+            NTMinerRoot.Current.OnReRendMinerProfile += () => {
+                MinerProfileIndexViewModel.Current.OnPropertyChanged(nameof(MinerProfileIndexViewModel.CoinVms));
+                this.CoinVm.CoinKernel?.OnPropertyChanged(nameof(CoinKernelViewModel.CoinKernelProfile));
+                OnPropertyChanged(nameof(CoinVm));
+                OnPropertyChanged(nameof(MinerName));
+                OnPropertyChanged(nameof(IsFreeClient));
+                OnPropertyChanged(nameof(MineWork));
+                OnPropertyChanged(nameof(IsWorker));
+                OnPropertyChanged(nameof(IsAutoBoot));
+                OnPropertyChanged(nameof(IsNoShareRestartKernel));
+                OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
+                OnPropertyChanged(nameof(IsPeriodicRestartKernel));
+                OnPropertyChanged(nameof(PeriodicRestartKernelHours));
+                OnPropertyChanged(nameof(IsPeriodicRestartComputer));
+                OnPropertyChanged(nameof(PeriodicRestartComputerHours));
+                OnPropertyChanged(nameof(IsAutoStart));
+                OnPropertyChanged(nameof(IsAutoRestartKernel));
+            };
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
         }
 
-        public Visibility IsWatermarkVisible {
+        public IMineWork MineWork {
             get {
-                return _isWatermarkVisible;
-            }
-            set {
-                _isWatermarkVisible = value;
-                OnPropertyChanged(nameof(IsWatermarkVisible));
-            }
-        }
-
-        public GpuSpeedViewModels GpuSpeedVms {
-            get {
-                return GpuSpeedViewModels.Current;
-            }
-        }
-
-        private static readonly SolidColorBrush Gray = new SolidColorBrush(Colors.Gray);
-        private static readonly SolidColorBrush MiningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
-        public SolidColorBrush GpuStateColor {
-            get {
-                if (IsMining) {
-                    return MiningColor;
-                }
-                return Gray;
-            }
-        }
-
-        public double LogoRotateTransformAngle {
-            get => _logoRotateTransformAngle;
-            set {
-                _logoRotateTransformAngle = value;
-                OnPropertyChanged(nameof(LogoRotateTransformAngle));
-            }
-        }
-
-        public TimeSpan BootTimeSpan {
-            get { return _bootTimeSpan; }
-            set {
-                _bootTimeSpan = value;
-                OnPropertyChanged(nameof(BootTimeSpan));
-                OnPropertyChanged(nameof(BootTimeSpanText));
-            }
-        }
-
-        public string BootTimeSpanText {
-            get {
-                TimeSpan time = new TimeSpan(this.BootTimeSpan.Hours, this.BootTimeSpan.Minutes, this.BootTimeSpan.Seconds);
-                if (this.BootTimeSpan.Days > 0) {
-                    return $"{this.BootTimeSpan.Days}天{time.ToString()}";
-                }
-                else {
-                    return time.ToString();
-                }
-            }
-        }
-
-        public TimeSpan MineTimeSpan {
-            get {
-                return _mineTimeSpan;
-            }
-            set {
-                _mineTimeSpan = value;
-                OnPropertyChanged(nameof(MineTimeSpan));
-                OnPropertyChanged(nameof(MineTimeSpanText));
-            }
-        }
-
-        public string MineTimeSpanText {
-            get {
-                TimeSpan time = new TimeSpan(this.MineTimeSpan.Hours, this.MineTimeSpan.Minutes, this.MineTimeSpan.Seconds);
-                if (this.MineTimeSpan.Days > 0) {
-                    return $"{this.MineTimeSpan.Days}天{time.ToString()}";
-                }
-                else {
-                    return time.ToString();
-                }
-            }
-        }
-
-        public string ControlCenterStatusText {
-            get {
-                return "已连接";
-            }
-        }
-
-        public bool IsReadOnly {
-            get {
-                if (CommandLineArgs.IsWorkEdit) {
-                    return false;
-                }
-                if (CommandLineArgs.IsWorker) {
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        public bool IsNotReadOnly {
-            get {
-                return !IsReadOnly;
-            }
-        }
-
-        public bool JustClientWorker {
-            get {
-                return CommandLineArgs.JustClientWorker;
-            }
-        }
-
-        public bool IsWorkEdit {
-            get {
-                return CommandLineArgs.IsWorkEdit;
+                return NTMinerRoot.Current.MinerProfile.MineWork;
             }
         }
 
         public bool IsFreeClient {
             get {
-                return CommandLineArgs.IsFreeClient;
-            }
-        }
-
-        public bool IsWorkEditOrFreeClient {
-            get {
-                if (IsWorkEdit) {
-                    return true;
-                }
-                if (CommandLineArgs.IsFreeClient) {
-                    return true;
-                }
-                return false;
+                return MineWork == null || VirtualRoot.IsControlCenter;
             }
         }
 
@@ -250,107 +89,74 @@ namespace NTMiner.Vms {
             return this.Id;
         }
 
-        public MineWorkData MineWork {
-            get => _mineWork;
-            set {
-                _mineWork = value;
-                OnPropertyChanged(nameof(MineWork));
-            }
-        }
-
         public string MinerName {
             get => NTMinerRoot.Current.MinerProfile.MinerName;
             set {
                 if (NTMinerRoot.Current.MinerProfile.MinerName != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(MinerName), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(MinerName), value);
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
                     OnPropertyChanged(nameof(MinerName));
                 }
             }
         }
 
-        public bool IsAutoThisPCName {
-            get {
-                return NTMinerRoot.Current.MinerProfile.IsAutoThisPCName;
-            }
-            set {
-                if (NTMinerRoot.Current.MinerProfile.IsAutoThisPCName != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsAutoThisPCName), value);
-                    OnPropertyChanged(nameof(IsAutoThisPCName));
-                    if (value) {
-                        OnPropertyChanged(nameof(MinerName));
-                    }
-                }
-            }
-        }
-
         public bool IsShowInTaskbar {
-            get => NTMinerRoot.Current.MinerProfile.IsShowInTaskbar;
+            get => NTMinerRegistry.GetIsShowInTaskbar();
             set {
-                if (NTMinerRoot.Current.MinerProfile.IsShowInTaskbar != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsShowInTaskbar), value);
+                if (NTMinerRegistry.GetIsShowInTaskbar() != value) {
+                    NTMinerRegistry.SetIsShowInTaskbar(value);
                     OnPropertyChanged(nameof(IsShowInTaskbar));
                 }
             }
         }
 
-        public CoinViewModels CoinVms {
-            get {
-                return CoinViewModels.Current;
+        public bool IsShowNotifyIcon {
+            get => NTMinerRegistry.GetIsShowNotifyIcon();
+            set {
+                if (NTMinerRegistry.GetIsShowNotifyIcon() != value) {
+                    NTMinerRegistry.SetIsShowNotifyIcon(value);
+                    OnPropertyChanged(nameof(IsShowNotifyIcon));
+                    AppHelper.NotifyIcon.RefreshIcon();
+                }
             }
         }
 
-        public bool IsMining {
-            get {
-                return NTMinerRoot.Current.IsMining;
+        public string HotKey {
+            get { return NTMinerRoot.GetHotKey(); }
+            set {
+                if (NTMinerRoot.GetHotKey() != value) {
+                    if (NTMinerRoot.SetHotKey(value)) {
+                        OnPropertyChanged(nameof(HotKey));
+                    }
+                }
             }
         }
 
+        private string _argsAssembly;
         public string ArgsAssembly {
             get {
-                return NTMinerRoot.Current.BuildAssembleArgs();
-            }
-        }
-
-        public string ServerHost {
-            get {
-                return NTMinerRoot.Current.MinerProfile.ServerHost;
+                return _argsAssembly;
             }
             set {
-                if (NTMinerRoot.Current.MinerProfile.ServerHost != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(ServerHost), value);
-                    OnPropertyChanged(nameof(ServerHost));
-                }
-            }
-        }
-
-        public int ServerPort {
-            get {
-                return NTMinerRoot.Current.MinerProfile.ServerPort;
-            }
-            set {
-                if (NTMinerRoot.Current.MinerProfile.ServerPort != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(ServerPort), value);
-                    OnPropertyChanged(nameof(ServerPort));
-                }
+                _argsAssembly = value;
+                OnPropertyChanged(nameof(ArgsAssembly));
+                NTMinerRoot.UserKernelCommandLine = value;
             }
         }
 
         public bool IsAutoBoot {
-            get => NTMinerRoot.Current.MinerProfile.IsAutoBoot;
+            get => NTMinerRegistry.GetIsAutoBoot();
             set {
-                if (NTMinerRoot.Current.MinerProfile.IsAutoBoot != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsAutoBoot), value);
-                    OnPropertyChanged(nameof(IsAutoBoot));
-                }
+                NTMinerRegistry.SetIsAutoBoot(value);
+                OnPropertyChanged(nameof(IsAutoBoot));
             }
         }
 
-        public string IsAutoBootText {
-            get {
-                if (IsAutoBoot) {
-                    return "是";
-                }
-                return "否";
+        public bool IsAutoStart {
+            get => NTMinerRegistry.GetIsAutoStart();
+            set {
+                NTMinerRegistry.SetIsAutoStart(value);
+                OnPropertyChanged(nameof(IsAutoStart));
             }
         }
 
@@ -358,7 +164,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsNoShareRestartKernel;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsNoShareRestartKernel != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsNoShareRestartKernel), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsNoShareRestartKernel), value);
                     OnPropertyChanged(nameof(IsNoShareRestartKernel));
                 }
             }
@@ -368,7 +174,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.NoShareRestartKernelMinutes;
             set {
                 if (NTMinerRoot.Current.MinerProfile.NoShareRestartKernelMinutes != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(NoShareRestartKernelMinutes), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(NoShareRestartKernelMinutes), value);
                     OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
                 }
             }
@@ -378,7 +184,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsPeriodicRestartKernel;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsPeriodicRestartKernel != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsPeriodicRestartKernel), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsPeriodicRestartKernel), value);
                     OnPropertyChanged(nameof(IsPeriodicRestartKernel));
                 }
             }
@@ -388,7 +194,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.PeriodicRestartKernelHours;
             set {
                 if (NTMinerRoot.Current.MinerProfile.PeriodicRestartKernelHours != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(PeriodicRestartKernelHours), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartKernelHours), value);
                     OnPropertyChanged(nameof(PeriodicRestartKernelHours));
                 }
             }
@@ -398,7 +204,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsPeriodicRestartComputer;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsPeriodicRestartComputer != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsPeriodicRestartComputer), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsPeriodicRestartComputer), value);
                     OnPropertyChanged(nameof(IsPeriodicRestartComputer));
                 }
             }
@@ -408,18 +214,8 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.PeriodicRestartComputerHours;
             set {
                 if (NTMinerRoot.Current.MinerProfile.PeriodicRestartComputerHours != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(PeriodicRestartComputerHours), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartComputerHours), value);
                     OnPropertyChanged(nameof(PeriodicRestartComputerHours));
-                }
-            }
-        }
-
-        public bool IsAutoStart {
-            get => NTMinerRoot.Current.MinerProfile.IsAutoStart;
-            set {
-                if (NTMinerRoot.Current.MinerProfile.IsAutoStart != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsAutoStart), value);
-                    OnPropertyChanged(nameof(IsAutoStart));
                 }
             }
         }
@@ -428,158 +224,27 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Current.MinerProfile.IsAutoRestartKernel;
             set {
                 if (NTMinerRoot.Current.MinerProfile.IsAutoRestartKernel != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsAutoRestartKernel), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(IsAutoRestartKernel), value);
                     OnPropertyChanged(nameof(IsAutoRestartKernel));
                 }
             }
         }
 
         public bool IsShowCommandLine {
-            get { return NTMinerRoot.Current.MinerProfile.IsShowCommandLine; }
+            get { return NTMinerRoot.GetIsShowCommandLine(); }
             set {
-                if (NTMinerRoot.Current.MinerProfile.IsShowCommandLine != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(IsShowCommandLine), value);
+                if (NTMinerRoot.GetIsShowCommandLine() != value) {
+                    NTMinerRoot.SetIsShowCommandLine(value);
                     OnPropertyChanged(nameof(IsShowCommandLine));
                 }
             }
         }
 
-        public ConsoleColor SpeedColor {
-            get {
-                ConsoleColor color = ConsoleColor.White;
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SpeedColor), out dicItem)) {
-                    if (!dicItem.Value.TryParse(out color)) {
-                        color = ConsoleColor.White;
-                    }
-                }
-                return color;
-            }
-            set {
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SpeedColor), out dicItem)) {
-                    if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
-                        OnPropertyChanged(nameof(SpeedColor));
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// TFP: Time Fan Pow
-        /// </summary>
-        public ConsoleColor TFPColor {
-            get {
-                ConsoleColor color = ConsoleColor.White;
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(TFPColor), out dicItem)) {
-                    if (!dicItem.Value.TryParse(out color)) {
-                        color = ConsoleColor.White;
-                    }
-                }
-                return color;
-            }
-            set {
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(TFPColor), out dicItem)) {
-                    if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
-                        OnPropertyChanged(nameof(TFPColor));
-                    }
-                }
-            }
-        }
-
-        public ConsoleColor SuccessColor {
-            get {
-                ConsoleColor color = ConsoleColor.White;
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SuccessColor), out dicItem)) {
-                    if (!dicItem.Value.TryParse(out color)) {
-                        color = ConsoleColor.White;
-                    }
-                }
-                return color;
-            }
-            set {
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(SuccessColor), out dicItem)) {
-                    if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
-                        OnPropertyChanged(nameof(SuccessColor));
-                    }
-                }
-            }
-        }
-        public ConsoleColor FailColor {
-            get {
-                ConsoleColor color = ConsoleColor.White;
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(FailColor), out dicItem)) {
-                    if (!dicItem.Value.TryParse(out color)) {
-                        color = ConsoleColor.White;
-                    }
-                }
-                return color;
-            }
-            set {
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(FailColor), out dicItem)) {
-                    if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
-                        OnPropertyChanged(nameof(FailColor));
-                    }
-                }
-            }
-        }
-        public ConsoleColor ErrorColor {
-            get {
-                ConsoleColor color = ConsoleColor.White;
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(ErrorColor), out dicItem)) {
-                    if (!dicItem.Value.TryParse(out color)) {
-                        color = ConsoleColor.White;
-                    }
-                }
-                return color;
-            }
-            set {
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(ErrorColor), out dicItem)) {
-                    if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
-                        OnPropertyChanged(nameof(ErrorColor));
-                    }
-                }
-            }
-        }
-        public ConsoleColor InfoColor {
-            get {
-                ConsoleColor color = ConsoleColor.White;
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(InfoColor), out dicItem)) {
-                    if (!dicItem.Value.TryParse(out color)) {
-                        color = ConsoleColor.White;
-                    }
-                }
-                return color;
-            }
-            set {
-                ISysDicItem dicItem;
-                if (NTMinerRoot.Current.SysDicItemSet.TryGetDicItem("LogColor", nameof(InfoColor), out dicItem)) {
-                    if (dicItem.Value != value.GetName()) {
-                        Global.Execute(new UpdateSysDicItemCommand(new SysDicItemViewModel(dicItem) { Value = value.GetName() }));
-                        OnPropertyChanged(nameof(InfoColor));
-                    }
-                }
-            }
-        }
         public Guid CoinId {
             get => NTMinerRoot.Current.MinerProfile.CoinId;
             set {
                 if (NTMinerRoot.Current.MinerProfile.CoinId != value) {
-                    NTMinerRoot.Current.SetMinerProfileProperty(nameof(CoinId), value);
+                    NTMinerRoot.Current.MinerProfile.SetMinerProfileProperty(nameof(CoinId), value);
                     OnPropertyChanged(nameof(CoinId));
                 }
             }
@@ -587,27 +252,29 @@ namespace NTMiner.Vms {
 
         public CoinViewModel CoinVm {
             get {
-                CoinViewModel coinVm;
-                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out coinVm)) {
+                if (!CoinViewModels.Current.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                     coinVm = CoinViewModels.Current.AllCoins.FirstOrDefault();
                     if (coinVm != null) {
                         CoinId = coinVm.Id;
                     }
                 }
-                if (coinVm != null && !coinVm.IsCurrentCoin) {
-                    foreach (var item in CoinViewModels.Current.AllCoins) {
-                        item.IsCurrentCoin = false;
-                    }
-                    coinVm.IsCurrentCoin = true;
-                }
                 return coinVm;
             }
             set {
-                if (value != null && !string.IsNullOrEmpty(value.Code)) {
+                if (value == null) {
+                    value = CoinViewModels.Current.MainCoins.OrderBy(a => a.SortNumber).FirstOrDefault();
+                }
+                if (value != null) {
                     this.CoinId = value.Id;
                     OnPropertyChanged(nameof(CoinVm));
-                    Global.Execute(new RefreshArgsAssemblyCommand());
+                    NTMinerRoot.RefreshArgsAssembly.Invoke();
                 }
+            }
+        }
+
+        public bool IsWorker {
+            get {
+                return MineWork != null && !VirtualRoot.IsControlCenter;
             }
         }
     }

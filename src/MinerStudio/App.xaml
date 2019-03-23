@@ -1,0 +1,25 @@
+﻿<Application x:Class="NTMiner.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;Component/Styles/KbSkin.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbIcon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbCheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbTextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbComboBox.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbRadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbDataGrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Notifications/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Label">
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

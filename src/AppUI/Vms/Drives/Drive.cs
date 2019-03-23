@@ -6,33 +6,22 @@ namespace NTMiner.Vms {
     public class Drive : ViewModelBase {
         private DriveInfo _driveInfo;
 
-        public ICommand ClearVirtualMemory { get; private set; }
+        public ICommand Set { get; private set; }
 
         public Drive(DriveInfo driveInfo) {
             _driveInfo = driveInfo;
             if (driveInfo.DriveType != DriveType.Fixed) {
                 throw new InvalidProgramException();
             }
-            this.ClearVirtualMemory = new DelegateCommand(() => {
-                VirtualMemory.ClearVirtualMemory(this);
+            this.Set = new DelegateCommand<string>(parameter => {
+                double i = double.Parse(parameter);
+                if (i == 0) {
+                    VirtualMemory.MaxSizeMb = 0;
+                }
+                else {
+                    VirtualMemory.MaxSizeMb = (int)(Math.Pow(2.0, i) * 1024);
+                }
             });
-        }
-
-        public void Refresh(DriveInfo driveInfo) {
-            _driveInfo = driveInfo;
-            if (driveInfo.DriveType != DriveType.Fixed) {
-                throw new InvalidProgramException();
-            }
-            OnPropertyChanged(nameof(Name));
-            OnPropertyChanged(nameof(VirtualMemory));
-            OnPropertyChanged(nameof(HasVirtualMemory));
-            OnPropertyChanged(nameof(DriveFormat));
-            OnPropertyChanged(nameof(AvailableFreeSpace));
-            OnPropertyChanged(nameof(TotalSize));
-            OnPropertyChanged(nameof(HasUsedSpacePercent));
-            OnPropertyChanged(nameof(VirtualMemoryPercent));
-            OnPropertyChanged(nameof(VolumeLabel));
-            OnPropertyChanged(nameof(IsSystemDisk));
         }
 
         public string Name {
@@ -41,16 +30,10 @@ namespace NTMiner.Vms {
 
         public VirtualMemory VirtualMemory {
             get {
-                if (VirtualMemories.Instance.Contains(this.Name)) {
-                    return VirtualMemories.Instance[this.Name];
+                if (VirtualMemorySet.Instance.Contains(this.Name)) {
+                    return VirtualMemorySet.Instance[this.Name];
                 }
                 return VirtualMemory.Empty;
-            }
-        }
-
-        public bool HasVirtualMemory {
-            get {
-                return this.VirtualMemory != null && this.VirtualMemory != VirtualMemory.Empty;
             }
         }
 
@@ -66,13 +49,7 @@ namespace NTMiner.Vms {
 
         public double HasUsedSpacePercent {
             get {
-                return 1 - (double)(AvailableFreeSpace + VirtualMemory.MaxSizeB) / TotalSize;
-            }
-        }
-
-        public double VirtualMemoryPercent {
-            get {
-                return (double)VirtualMemory.MaxSizeB / TotalSize;
+                return 1 - (double)(AvailableFreeSpace) / TotalSize;
             }
         }
 
@@ -84,19 +61,6 @@ namespace NTMiner.Vms {
             get {
                 string systemFolder = Environment.GetFolderPath(Environment.SpecialFolder.System);
                 return systemFolder.StartsWith(this.Name);
-            }
-        }
-
-        private const long _m = 1024 * 1024;
-        private const long _g = _m * 1024;
-        private OptionalVirtualMemories _optionalVirtualMemories;
-        public OptionalVirtualMemories OptionalVirtualMemories {
-            get {
-                if (_optionalVirtualMemories == null) {
-                    long value = this.AvailableFreeSpace + VirtualMemory.MaxSizeMb * _m - _g;
-                    _optionalVirtualMemories = new OptionalVirtualMemories(this, value, this.VirtualMemory);
-                }
-                return _optionalVirtualMemories;
             }
         }
     }

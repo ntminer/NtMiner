@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.ServiceContracts.DataObjects;
+using NTMiner.MinerServer;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using System;
@@ -7,9 +7,9 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class MinerGroupViewModel : ViewModelBase, IMinerGroup {
+    public class MinerGroupViewModel : ViewModelBase, IMinerGroup, IEditableViewModel {
         public static readonly MinerGroupViewModel PleaseSelect = new MinerGroupViewModel(Guid.Empty) {
-            _name = "请选择"
+            _name = "不指定"
         };
 
         private Guid _id;
@@ -34,27 +34,32 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Current.MinerGroupSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateMinerGroupCommand(this));
+                IMinerGroup group;
+                if (NTMinerRoot.Current.MinerGroupSet.TryGetMinerGroup(this.Id, out group)) {
+                    VirtualRoot.Execute(new UpdateMinerGroupCommand(this));
                 }
                 else {
-                    Global.Execute(new AddMinerGroupCommand(this));
+                    VirtualRoot.Execute(new AddMinerGroupCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                MinerGroupEdit.ShowEditWindow(this);
+                MinerGroupEdit.ShowWindow(formType ?? FormType.Edit, this);
+            }, (formType) => {
+                return this != PleaseSelect;
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveMinerGroupCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                    VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
+            }, () => {
+                return this != PleaseSelect;
             });
         }
 
@@ -70,8 +75,10 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
@@ -97,8 +104,10 @@ namespace NTMiner.Vms {
         public string Description {
             get => _description;
             set {
-                _description = value;
-                OnPropertyChanged(nameof(Description));
+                if (_description != value) {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
             }
         }
     }

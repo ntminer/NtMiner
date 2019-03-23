@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Kernels;
 using System;
 
 namespace NTMiner {
@@ -11,7 +10,8 @@ namespace NTMiner {
                 IPool mainCoinPool,
                 IKernel kernel,
                 ICoinKernel coinKernel,
-                string mainCoinWallet) {
+                string mainCoinWallet,
+                string commandLine) {
 
                 this.Id = Guid.NewGuid();
                 this.MinerName = minerName;
@@ -21,13 +21,9 @@ namespace NTMiner {
                 this.CoinKernel = coinKernel;
                 this.MainCoinWallet = mainCoinWallet;
                 this.ProcessDisappearedCound = 0;
+                this.CommandLine = commandLine;
                 this.CreatedOn = DateTime.Now;
                 this.PipeFileName = "pip_" + DateTime.Now.Ticks.ToString() + ".log";
-            }
-
-            public MineContext(IMineContext mineContext) :
-                this(mineContext.MinerName, mineContext.MainCoin, mineContext.MainCoinPool,
-                    mineContext.Kernel, mineContext.CoinKernel, mineContext.MainCoinWallet) {
             }
 
             public Guid Id { get; private set; }
@@ -48,6 +44,8 @@ namespace NTMiner {
 
             public string PipeFileName { get; private set; }
 
+            public string CommandLine { get; private set; }
+
             public DateTime CreatedOn { get; private set; }
         }
 
@@ -63,7 +61,8 @@ namespace NTMiner {
                     mineContext.MainCoinPool,
                     mineContext.Kernel,
                     mineContext.CoinKernel,
-                    mineContext.MainCoinWallet) {
+                    mineContext.MainCoinWallet,
+                    mineContext.CommandLine) {
                 this.DualCoin = dualCoin;
                 this.DualCoinPool = dualCoinPool;
                 this.DualCoinWallet = dualCoinWallet;

@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace NTMiner.Bus {
     public class MessageTypeAttribute : Attribute {
-        private static readonly Dictionary<Type, MessageTypeAttribute> _messageTypeDescriptionDic = new Dictionary<Type, MessageTypeAttribute>();
+        private static readonly Dictionary<Type, MessageTypeAttribute> SMessageTypeDescriptionDic = new Dictionary<Type, MessageTypeAttribute>();
         public static MessageTypeAttribute GetMessageTypeDescription(Type messageType) {
-            if (_messageTypeDescriptionDic.ContainsKey(messageType)) {
-                return _messageTypeDescriptionDic[messageType];
+            if (SMessageTypeDescriptionDic.ContainsKey(messageType)) {
+                return SMessageTypeDescriptionDic[messageType];
             }
             object atrrObj = messageType.GetCustomAttributes(typeof(MessageTypeAttribute), false).FirstOrDefault();
             MessageTypeAttribute messageTypeDescription;
@@ -17,7 +17,7 @@ namespace NTMiner.Bus {
             else {
                 messageTypeDescription = (MessageTypeAttribute)atrrObj;
             }
-            _messageTypeDescriptionDic.Add(messageType, messageTypeDescription);
+            SMessageTypeDescriptionDic.Add(messageType, messageTypeDescription);
 
             return messageTypeDescription;
         }

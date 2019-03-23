@@ -2,64 +2,43 @@
 using System.Collections.Generic;
 
 namespace NTMiner {
-    public class HandlerId : IHandlerId, IDbEntity<Guid> {
-        private static readonly Dictionary<Guid, HandlerId> _dicById = new Dictionary<Guid, HandlerId>();
+    public class HandlerId : IHandlerId {
+        private static readonly Dictionary<string, HandlerId> SDicById = new Dictionary<string, HandlerId>();
 
-        static HandlerId() {
-            Global.Access<UpdateHandlerIdCommand>(
-                Guid.Parse("77acf9fd-5e2f-464e-be81-5095d830962b"),
-                "更新处理器日志配置",
-                LogEnum.Log,
-                action: message => {
-                    if (_dicById.ContainsKey(message.Input.Id)) {
-                        _dicById[message.Input.Id].LogType = message.Input.LogType;
-                    }
-                    else {
-                        Create(typeof(UpdateHandlerIdCommand), typeof(HandlerId), message.Input.Id, message.Input.Description, message.Input.LogType);
-                    }
-                });
-        }
-
-        public static IHandlerId Create(Type messageType, Type location, Guid id, string description, LogEnum logType) {
-            if (_dicById.ContainsKey(id)) {
-                var item = _dicById[id];
+        public static IHandlerId Create(Type messageType, Type location, string description, LogEnum logType) {
+            string path = $"{location.FullName}[{messageType.FullName}]";
+            if (SDicById.ContainsKey(path)) {
+                var item = SDicById[path];
                 item.MessageType = messageType;
                 item.Location = location;
                 item.Description = description;
-                Global.Happened(new HandlerIdUpdatedEvent(item));
+                item.HandlerPath = path;
                 return item;
             }
             else {
                 var item = new HandlerId {
                     MessageType = messageType,
                     Location = location,
-                    Id = id,
+                    HandlerPath = path,
                     Description = description,
                     LogType = logType
                 };
-                _dicById.Add(id, item);
-                if (Global.IsPublishHandlerIdAddedEvent) {
-                    Global.Happened(new HandlerIdAddedEvent(item));
-                }
+                SDicById.Add(path, item);
                 return item;
             }
         }
 
         public static IEnumerable<IHandlerId> GetHandlerIds() {
-            return _dicById.Values;
+            return SDicById.Values;
         }
 
         private HandlerId() {
         }
 
-        public Guid GetId() {
-            return this.Id;
-        }
-
-        public Guid Id { get; set; }
         public Type MessageType { get; set; }
         [LiteDB.BsonIgnore]
         public Type Location { get; set; }
+        public string HandlerPath { get; set; }
         public LogEnum LogType { get; set; }
         public string Description { get; set; }
     }

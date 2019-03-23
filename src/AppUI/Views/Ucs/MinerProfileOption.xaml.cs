@@ -3,6 +3,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileOption : UserControl {
+        public static string ViewId = nameof(MinerProfileOption);
+
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_MinerProfile",
@@ -21,6 +23,12 @@ namespace NTMiner.Views.Ucs {
         public MinerProfileOption() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
+        }
+
+        private void ButtonHotKey_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+            if (e.Key >= System.Windows.Input.Key.A && e.Key <= System.Windows.Input.Key.Z) {
+                Vm.HotKey = e.Key.ToString();
+            }
         }
     }
 }

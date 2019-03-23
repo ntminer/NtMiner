@@ -14,32 +14,40 @@ namespace NTMiner {
             #region CreateProcess
             public static void CreateProcessAsync(IMineContext mineContext) {
                 Task.Factory.StartNew(() => {
-                    Global.Logger.InfoDebugLine("解压内核包");
-                    // 解压内核包
-                    mineContext.Kernel.ExtractPackage();
+                    try {
+                        Windows.TaskKill.Kill(mineContext.Kernel.GetProcessName());
+                        Thread.Sleep(1000);
+                        Logger.InfoDebugLine("解压内核包");
+                        // 解压内核包
+                        mineContext.Kernel.ExtractPackage();
 
-                    string kernelExeFileFullName;
-                    string arguments;
-                    Global.Logger.InfoDebugLine("组装命令");
-                    // 组装命令
-                    BuildCmdLine(mineContext, out kernelExeFileFullName, out arguments);
-                    bool isLogFile = arguments.Contains("{logfile}");
-                    // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
-                    if (!File.Exists(kernelExeFileFullName)) {
-                        Global.Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
+                        string kernelExeFileFullName;
+                        string arguments;
+                        Logger.InfoDebugLine("组装命令");
+                        // 组装命令
+                        BuildCmdLine(mineContext, out kernelExeFileFullName, out arguments);
+                        bool isLogFile = arguments.Contains("{logfile}");
+                        // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
+                        if (!File.Exists(kernelExeFileFullName)) {
+                            Logger.ErrorDebugLine(kernelExeFileFullName + "文件不存在，请检查是否有拼写错误");
+                        }
+                        if (isLogFile) {
+                            Logger.InfoDebugLine("创建日志文件型进程");
+                            // 如果内核支持日志文件
+                            // 推迟打印cmdLine，因为{logfile}变量尚未求值
+                            CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
+                        }
+                        else {
+                            Logger.InfoDebugLine("创建管道型进程");
+                            // 如果内核不支持日志文件
+                            string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
+                            Logger.InfoDebugLine(cmdLine);
+                            CreatePipProcess(mineContext, cmdLine);
+                        }
+                        VirtualRoot.Happened(new MineStartedEvent(mineContext));
                     }
-                    if (isLogFile) {
-                        Global.Logger.InfoDebugLine("创建日志文件型进程");
-                        // 如果内核支持日志文件
-                        // 推迟打印cmdLine，因为{logfile}变量尚未求值
-                        CreateLogfileProcess(mineContext, kernelExeFileFullName, arguments);
-                    }
-                    else {
-                        Global.Logger.InfoDebugLine("创建管道型进程");
-                        // 如果内核不支持日志文件
-                        string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                        Global.Logger.InfoDebugLine(cmdLine);
-                        CreatePipProcess(mineContext, cmdLine);
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e.Message, e);
                     }
                 });
             }
@@ -54,42 +62,50 @@ namespace NTMiner {
                 if (!kernelExeFileFullName.EndsWith(".exe")) {
                     kernelExeFileFullName += ".exe";
                 }
-                var args = Current.BuildAssembleArgs();
+                var args = mineContext.CommandLine;
                 arguments = args.Substring(kernelCommandName.Length).Trim();
             }
             #endregion
 
             #region Daemon
+            private static Bus.DelegateHandler<Per1MinuteEvent> s_daemon = null;
             private static void Daemon(IMineContext mineContext, Action clear) {
+                if (s_daemon != null) {
+                    VirtualRoot.UnPath(s_daemon);
+                    s_daemon = null;
+                    clear?.Invoke();
+                }
                 string processName = mineContext.Kernel.GetProcessName();
-                Bus.DelegateHandler<Per1MinuteEvent> daemon = null;
-                daemon = Global.Access<Per1MinuteEvent>(
-                    Guid.Parse("a4761e90-dc3c-4483-b055-546084863640"),
+                s_daemon = VirtualRoot.On<Per1MinuteEvent>(
                     "周期性检查挖矿内核是否消失，如果消失尝试重启",
-                    LogEnum.None,
+                    LogEnum.Console,
                     action: message => {
                         if (mineContext == Current.CurrentMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
                                 Process[] processes = Process.GetProcessesByName(processName);
                                 if (processes.Length == 0) {
                                     mineContext.ProcessDisappearedCound = mineContext.ProcessDisappearedCound + 1;
-                                    Global.Logger.ErrorWriteLine(processName + $"挖矿内核进程消失");
+                                    Logger.ErrorWriteLine(processName + $"挖矿内核进程消失");
                                     if (Current.MinerProfile.IsAutoRestartKernel && mineContext.ProcessDisappearedCound <= 3) {
-                                        Global.Logger.WarnWriteLine($"尝试第{mineContext.ProcessDisappearedCound}次重启，共3次");
+                                        Logger.WarnWriteLine($"尝试第{mineContext.ProcessDisappearedCound}次重启，共3次");
                                         Current.RestartMine();
                                         Current.CurrentMineContext.ProcessDisappearedCound = mineContext.ProcessDisappearedCound;
                                     }
                                     else {
                                         Current.StopMineAsync();
                                     }
-                                    Global.UnAccess(daemon);
-                                    clear?.Invoke();
+                                    if (s_daemon != null) {
+                                        VirtualRoot.UnPath(s_daemon);
+                                        clear?.Invoke();
+                                    }
                                 }
                             }
                         }
                         else {
-                            Global.UnAccess(daemon);
-                            clear?.Invoke();
+                            if (s_daemon != null) {
+                                VirtualRoot.UnPath(s_daemon);
+                                clear?.Invoke();
+                            }
                         }
                     });
             }
@@ -100,7 +116,7 @@ namespace NTMiner {
                 string logFile = Path.Combine(SpecialPath.LogsDirFullName, "logfile_" + DateTime.Now.Ticks.ToString() + ".log");
                 arguments = arguments.Replace("{logfile}", logFile);
                 string cmdLine = $"\"{kernelExeFileFullName}\" {arguments}";
-                Global.Logger.InfoDebugLine(cmdLine);
+                Logger.InfoDebugLine(cmdLine);
                 ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                     UseShellExecute = false,
                     CreateNoWindow = true,
@@ -133,7 +149,7 @@ namespace NTMiner {
                         n++;
                     }
                     if (isLogFileCreated) {
-                        using (FileStream stream = File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        FileStream stream = File.Open(logFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         using (StreamReader sreader = new StreamReader(stream, Encoding.Default)) {
                             while (mineContext == Current.CurrentMineContext) {
                                 string outline = sreader.ReadLine();
@@ -158,20 +174,20 @@ namespace NTMiner {
                                         IKernelOutput kernelOutput;
                                         if (Current.KernelOutputSet.TryGetKernelOutput(kernelOutputId, out kernelOutput)) {
                                             if (kernelOutput.PrependDateTime) {
-                                                Global.WriteLine($"{DateTime.Now}    {input}", color);
+                                                Write.UserLine($"{DateTime.Now}    {input}", color);
                                             }
                                             else {
-                                                Global.WriteLine(input, color);
+                                                Write.UserLine(input, color);
                                             }
                                         }
                                         else {
-                                            Global.WriteLine(input, color);
+                                            Write.UserLine(input, color);
                                         }
                                     }
                                 }
                             }
                         }
-                        Global.Logger.WarnWriteLine("日志输出结束");
+                        Logger.WarnWriteLine("日志输出结束");
                     }
                 });
             }
@@ -230,22 +246,26 @@ namespace NTMiner {
                                 CloseHandle(hWriteOut);
                                 isHWriteOutHasClosed = true;
                             }
-                            Global.UnAccess(closeHandle);
+                            VirtualRoot.UnPath(closeHandle);
                         });
-                        closeHandle = Global.Access<MineStopedEvent>(
-                            Guid.Parse("91642027-fd28-4bdd-a05a-31caac6609b1"),
+                        closeHandle = VirtualRoot.On<MineStopedEvent>(
                             "挖矿停止后关闭非托管的日志句柄",
-                            LogEnum.Log,
+                            LogEnum.Console,
                             action: message => {
+                                // 挖矿停止后摘除挖矿内核进程守护器
+                                if (s_daemon != null) {
+                                    VirtualRoot.UnPath(s_daemon);
+                                    s_daemon = null;
+                                }
                                 if (!isHWriteOutHasClosed) {
                                     CloseHandle(hWriteOut);
                                     isHWriteOutHasClosed = true;
                                 }
-                                Global.UnAccess(closeHandle);
+                                VirtualRoot.UnPath(closeHandle);
                             });
                         string pipLogFileFullName = Path.Combine(SpecialPath.LogsDirFullName, mineContext.PipeFileName);
                         Task.Factory.StartNew(() => {
-                            using (FileStream fs = new FileStream(pipLogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                            FileStream fs = new FileStream(pipLogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                             using (StreamReader sr = new StreamReader(fs)) {
                                 byte[] buffer = new byte[1024];
                                 int ret;
@@ -263,7 +283,7 @@ namespace NTMiner {
                     }
                 }
                 else {
-                    Global.Logger.ErrorWriteLine("内核启动失败，请重试");
+                    Logger.ErrorWriteLine("内核启动失败，请重试");
                 }
             }
 
@@ -313,7 +333,7 @@ namespace NTMiner {
                 void* pBuffer,
                 int NumberOfBytesToRead,
                 int* pNumberOfBytesRead,
-                int pOverlapped
+                NativeOverlapped* lpOverlapped
             );
             [DllImport("kernel32.dll")]
             private static extern bool CreateProcess(
@@ -334,7 +354,7 @@ namespace NTMiner {
             private static unsafe int Read(byte[] buffer, int index, int count, IntPtr hStdOut) {
                 int n = 0;
                 fixed (byte* p = buffer) {
-                    if (!ReadFile(hStdOut, p + index, count, &n, 0))
+                    if (!ReadFile(hStdOut, p + index, count, &n, (NativeOverlapped*)0))
                         return 0;
                 }
                 return n;

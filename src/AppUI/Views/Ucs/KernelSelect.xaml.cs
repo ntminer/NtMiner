@@ -20,7 +20,7 @@ namespace NTMiner.Views.Ucs {
             if (uc != null) {
                 if (uc.Vm.SelectedResult != null) {
                     int sortNumber = coin.CoinKernels.Count == 0 ? 1 : coin.CoinKernels.Max(a => a.SortNumber) + 1;
-                    Global.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
+                    VirtualRoot.Execute(new AddCoinKernelCommand(new CoinKernelViewModel(Guid.NewGuid()) {
                         Args = string.Empty,
                         CoinId = coin.Id,
                         Description = string.Empty,

@@ -23,19 +23,26 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="{StaticResource MainColor}">
+        <DockPanel Grid.Row="0" Background="{StaticResource ThemeBackground}">
             <Path
                 x:Name="PathIcon"
                 Width="16"
                 Height="16"
-                Fill="{StaticResource IconFillColor}"
+                Fill="{StaticResource ThemeForeground}"
                 Stretch="Fill"/>
-            <TextBlock x:Name="TbTitle" DockPanel.Dock="Left" Margin="4 0 0 0" FontSize="14" VerticalAlignment="Center"></TextBlock>
-            <WrapPanel DockPanel.Dock="Right"
-                       HorizontalAlignment="Right">
+            <TextBlock 
+                x:Name="TbTitle" 
+                DockPanel.Dock="Left" 
+                Margin="4 0 0 0" 
+                Foreground="{StaticResource ThemeForeground}" 
+                FontSize="14" 
+                VerticalAlignment="Center"></TextBlock>
+            <WrapPanel 
+                DockPanel.Dock="Right"
+                HorizontalAlignment="Right">
                 <controls:KbSystemCloseButton
                     Height="30"
-                    KbSystemButtonForeground="#385263" />
+                    KbSystemButtonForeground="{StaticResource ThemeForeground}" />
             </WrapPanel>
         </DockPanel>
         <StackPanel Grid.Row="1" Background="White" VerticalAlignment="Center">
@@ -59,10 +66,10 @@
         <Grid Grid.Row="2" Background="White" Height="40">
             <WrapPanel HorizontalAlignment="Right">
                 <controls:KbButton
-                    Command="{Binding Save}" 
-                    Width="70" 
-                    Background="{StaticResource IconFillColor}"
-                    Foreground="White"
+                    Command="{Binding Save}"
+                    Padding="10 0"
+                    Background="{StaticResource ThemeBackground}"
+                    Foreground="{StaticResource ThemeForeground}"
                     Margin="0 4 10 4"
                     CornerRadius="2">
                     <WrapPanel>
@@ -70,12 +77,12 @@
                             Width="12"
                             Height="12"
                             Data="{StaticResource Icon_Ok}"
-                            Fill="White"
+                            Fill="{StaticResource ThemeForeground}"
                             Stretch="Fill" />
                         <Label
                             Width="40"
                             VerticalAlignment="Center"
-                            Foreground="White"
+                            Foreground="{StaticResource ThemeForeground}"
                             Content="保存" />
                     </WrapPanel>
                 </controls:KbButton>

@@ -3,11 +3,14 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class PoolEdit : UserControl {
-        public static void ShowEditWindow(PoolViewModel source) {
+        public static string ViewId = nameof(PoolEdit);
+
+        public static void ShowWindow(FormType formType, PoolViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IconName = "Icon_Pool",
                 IsDialogWindow = true,
-                Width = 540,
+                Width = 580,
                 Height = 400,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
@@ -31,11 +34,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            if (dg.SelectedItem != null) {
-                PoolKernelViewModel kernelVm = (PoolKernelViewModel)dg.SelectedItem;
-                kernelVm.Edit.Execute(null);
-            }
+            Wpf.Util.DataGrid_MouseDoubleClick<PoolKernelViewModel>(sender, e);
         }
     }
 }

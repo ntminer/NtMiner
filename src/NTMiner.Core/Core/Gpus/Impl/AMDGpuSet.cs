@@ -1,13 +1,27 @@
 ﻿using NTMiner.Core.Gpus.Adl;
+using NTMiner.MinerClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Management;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Gpus.Impl {
     internal class AMDGpuSet : IGpuSet {
         private readonly Dictionary<int, IGpu> _gpus = new Dictionary<int, IGpu>() {
-            { Gpu.Total.Index, Gpu.Total }
+            {
+                NTMinerRoot.GpuAllId, new Gpu{
+                    Index = NTMinerRoot.GpuAllId,
+                    Name = "全部显卡",
+                    Temperature = 0,
+                    FanSpeed = 0,
+                    PowerUsage = 0,
+                    CoreClockDelta = 0,
+                    MemoryClockDelta = 0,
+                    OverClock = new AMDOverClock()
+                }
+            }
         };
 
         private readonly INTMinerRoot _root;
@@ -18,12 +32,13 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        private AMDGpuSet() { }
+        private AMDGpuSet() {
+            this.Properties = new List<GpuSetProperty>();
+        }
 
         private AdlHelper adlHelper = new AdlHelper();
-        public AMDGpuSet(INTMinerRoot root) {
+        public AMDGpuSet(INTMinerRoot root) : this() {
             _root = root;
-            this.Properties = new List<GpuSetProperty>();
             if (Design.IsInDesignMode) {
                 return;
             }
@@ -36,16 +51,48 @@ namespace NTMiner.Core.Gpus.Impl {
                     Name = adlHelper.GetGpuName(i),
                     Temperature = 0,
                     PowerUsage = 0,
-                    FanSpeed = 0
+                    FanSpeed = 0,
+                    OverClock = new AMDOverClock()
                 });
             }
-            Global.Access<Per5SecondEvent>(
-                Guid.Parse("7C379223-D494-4213-9659-A086FFDE36DF"),
+            if (deviceCount > 0) {
+                this.Properties.Add(new GpuSetProperty("DriverVersion", "driver version", GetDriverVersion()));
+                Dictionary<string, string> kvs = new Dictionary<string, string> {
+                    {"GPU_FORCE_64BIT_PTR","0" },
+                    {"GPU_MAX_ALLOC_PERCENT","100" },
+                    {"GPU_MAX_HEAP_SIZE","100" },
+                    {"GPU_SINGLE_ALLOC_PERCENT","100" },
+                    { "GPU_USE_SYNC_OBJECTS","1" }
+                };
+                foreach (var kv in kvs) {
+                    var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);
+                    this.Properties.Add(property);
+                }
+                Task.Factory.StartNew(() => {
+                    foreach (var kv in kvs) {
+                        Environment.SetEnvironmentVariable(kv.Key, kv.Value);
+                    }
+                });
+            }
+            VirtualRoot.On<Per5SecondEvent>(
                 "周期刷新显卡状态",
                 LogEnum.None,
                 action: message => {
                     LoadGpuStateAsync();
                 });
+        }
+
+        public string GetDriverVersion() {
+            try {
+                ManagementObjectSearcher videos = new ManagementObjectSearcher("select DriverVersion from Win32_VideoController");
+                foreach (var obj in videos.Get()) {
+                    return obj["DriverVersion"] ?.ToString();
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+            return "0.0";
         }
 
         private void LoadGpuStateAsync() {
@@ -62,7 +109,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     gpu.FanSpeed = speed;
 
                     if (isChanged) {
-                        Global.Happened(new GpuStateChangedEvent(gpu));
+                        VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
                     }
                 }
             });
@@ -74,16 +121,19 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        public IGpu this[int index] {
-            get {
-                if (!_gpus.ContainsKey(index)) {
-                    return Gpu.Total;
-                }
-                return _gpus[index];
-            }
+        public bool TryGetGpu(int index, out IGpu gpu) {
+            return _gpus.TryGetValue(index, out gpu);
         }
 
         public List<GpuSetProperty> Properties { get; private set; }
+
+        public string GetProperty(string key) {
+            GpuSetProperty item = this.Properties.FirstOrDefault(a => a.Code == key);
+            if (item == null || item.Value == null) {
+                return string.Empty;
+            }
+            return item.Value.ToString();
+        }
 
         public IEnumerator<IGpu> GetEnumerator() {
             return _gpus.Values.GetEnumerator();

@@ -8,12 +8,13 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, CoinGroupData> _dicById = new Dictionary<Guid, CoinGroupData>();
 
         private readonly INTMinerRoot _root;
-        public CoinGroupSet(INTMinerRoot root) {
+        private readonly bool _isUseJson;
+        public CoinGroupSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
-            Global.Access<AddCoinGroupCommand>(
-                Guid.Parse("2dd8f7e9-c79d-4621-954f-9fc45b0207dd"),
+            _isUseJson = isUseJson;
+            VirtualRoot.Accept<AddCoinGroupCommand>(
                 "添加币组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -23,16 +24,18 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     CoinGroupData entity = new CoinGroupData().Update(message.Input);
+                    if (ReferenceEquals(entity, message.Input)) {
+                        return;
+                    }
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>();
+                    var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>(isUseJson);
                     repository.Add(entity);
 
-                    Global.Happened(new CoinGroupAddedEvent(entity));
-                });
-            Global.Access<RemoveCoinGroupCommand>(
-                Guid.Parse("e52874f4-37d8-4d49-a637-5b95aa89367e"),
+                    VirtualRoot.Happened(new CoinGroupAddedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
+            VirtualRoot.Accept<RemoveCoinGroupCommand>(
                 "移除币组",
-                LogEnum.Log,
+                LogEnum.Console,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -43,12 +46,11 @@ namespace NTMiner.Core.Impl {
                     }
                     CoinGroupData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>();
+                    var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>(isUseJson);
                     repository.Remove(message.EntityId);
 
-                    Global.Happened(new CoinGroupRemovedEvent(entity));
-                });
-            Global.Logger.InfoDebugLine(this.GetType().FullName + "接入总线");
+                    VirtualRoot.Happened(new CoinGroupRemovedEvent(entity));
+                }).AddToCollection(root.ContextHandlers);
         }
 
         private bool _isInited = false;
@@ -64,7 +66,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>();
+                    var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>(_isUseJson);
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

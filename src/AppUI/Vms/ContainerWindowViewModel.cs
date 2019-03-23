@@ -13,6 +13,8 @@ namespace NTMiner.Vms {
         private Visibility _closeVisible = Visibility.Visible;
         private Visibility _headerVisible = Visibility.Visible;
         private Visibility _footerVisible = Visibility.Visible;
+        private Visibility _isIconEditVisible = Visibility.Collapsed;
+        private Visibility _isIconAddVisible = Visibility.Collapsed;
         private double _width = 0;
         private double _height = 0;
         private Geometry _icon;
@@ -27,6 +29,18 @@ namespace NTMiner.Vms {
                 ContainerWindow window = ContainerWindow.GetWindow(this);
                 window?.ShowWindow();
             });
+        }
+
+        public double MaxWidth {
+            get {
+                return SystemParameters.WorkArea.Size.Width;
+            }
+        }
+
+        public double MaxHeight {
+            get {
+                return SystemParameters.WorkArea.Size.Height;
+            }
         }
 
         public ResourceDictionary UcResourceDic { get; set; }
@@ -48,8 +62,40 @@ namespace NTMiner.Vms {
                 return _isDialogWindow;
             }
             set {
-                _isDialogWindow = value;
-                OnPropertyChanged(nameof(IsDialogWindow));
+                if (_isDialogWindow != value) {
+                    _isDialogWindow = value;
+                    OnPropertyChanged(nameof(IsDialogWindow));
+                }
+            }
+        }
+
+        public FormType FormType {
+            get => _formType;
+            set {
+                _formType = value;
+                switch (value) {
+                    case FormType.Add:
+                        _isIconAddVisible = Visibility.Visible;
+                        break;
+                    case FormType.Edit:
+                        _isIconEditVisible = Visibility.Visible;
+                        break;
+                    default:
+                        break;
+                }
+                OnPropertyChanged(nameof(FormType));
+            }
+        }
+
+        public Visibility IsIconEditVisible {
+            get {
+                return _isIconEditVisible;
+            }
+        }
+
+        public Visibility IsIconAddVisible {
+            get {
+                return _isIconAddVisible;
             }
         }
 
@@ -59,40 +105,53 @@ namespace NTMiner.Vms {
         public string IconName {
             get { return _iconName; }
             set {
-                _iconName = value;
-                if (!string.IsNullOrEmpty(value)) {
-                    Icon = (Geometry)Application.Current.Resources[value];
+                if (_iconName != value) {
+                    _iconName = value;
+                    if (!string.IsNullOrEmpty(value)) {
+                        Icon = (Geometry)Application.Current.Resources[value];
+                    }
+                    OnPropertyChanged(nameof(IconName));
                 }
-                OnPropertyChanged(nameof(IconName));
             }
         }
 
         public Geometry Icon {
             get { return _icon; }
             private set {
-                _icon = value;
-                OnPropertyChanged(nameof(Icon));
+                if (_icon != value) {
+                    _icon = value;
+                    OnPropertyChanged(nameof(Icon));
+                }
             }
         }
 
         public string IconImage {
             get => _iconImage;
             set {
-                _iconImage = value;
-                if (!string.IsNullOrEmpty(value)) {
-                    IconImageSource = new BitmapImage(new Uri(IconImage, UriKind.RelativeOrAbsolute));
+                if (_iconImage != value) {
+                    _iconImage = value;
+                    if (!string.IsNullOrEmpty(value)) {
+                        IconImageSource = new BitmapImage(new Uri(IconImage, UriKind.RelativeOrAbsolute));
+                    }
+                    OnPropertyChanged(nameof(IconImage));
                 }
-                OnPropertyChanged(nameof(IconImage));
             }
         }
         private ImageSource _iconImageSource = null;
+        private double _minHeight;
+        private double _minWidth;
+        private FormType _formType;
+        private string _footerText;
+
         public ImageSource IconImageSource {
             get {
                 return _iconImageSource;
             }
             set {
-                _iconImageSource = value;
-                OnPropertyChanged(nameof(IconImageSource));
+                if (_iconImageSource != value) {
+                    _iconImageSource = value;
+                    OnPropertyChanged(nameof(IconImageSource));
+                }
             }
         }
 
@@ -108,53 +167,89 @@ namespace NTMiner.Vms {
         public double Width {
             get => _width;
             set {
-                _width = value;
-                OnPropertyChanged(nameof(Width));
+                if (_width != value) {
+                    _width = value;
+                    OnPropertyChanged(nameof(Width));
+                }
+            }
+        }
+        public double MinWidth {
+            get => _minWidth;
+            set {
+                _minWidth = value;
+                OnPropertyChanged(nameof(MinWidth));
             }
         }
         public double Height {
             get => _height;
             set {
-                _height = value;
-                OnPropertyChanged(nameof(Height));
+                if (_height != value) {
+                    _height = value;
+                    OnPropertyChanged(nameof(Height));
+                }
+            }
+        }
+        public double MinHeight {
+            get => _minHeight;
+            set {
+                _minHeight = value;
+                OnPropertyChanged(nameof(MinHeight));
             }
         }
         public Visibility MinVisible {
             get => _minVisible;
             set {
-                _minVisible = value;
-                OnPropertyChanged(nameof(MinVisible));
+                if (_minVisible != value) {
+                    _minVisible = value;
+                    OnPropertyChanged(nameof(MinVisible));
+                }
             }
         }
         public Visibility MaxVisible {
             get => _maxVisible;
             set {
-                _maxVisible = value;
-                OnPropertyChanged(nameof(MaxVisible));
+                if (_maxVisible != value) {
+                    _maxVisible = value;
+                    OnPropertyChanged(nameof(MaxVisible));
+                }
             }
         }
 
         public Visibility HeaderVisible {
             get { return _headerVisible; }
             set {
-                _headerVisible = value;
-                OnPropertyChanged(nameof(HeaderVisible));
+                if (_headerVisible != value) {
+                    _headerVisible = value;
+                    OnPropertyChanged(nameof(HeaderVisible));
+                }
             }
         }
 
         public Visibility FooterVisible {
             get { return _footerVisible; }
             set {
-                _footerVisible = value;
-                OnPropertyChanged(nameof(FooterVisible));
+                if (_footerVisible != value) {
+                    _footerVisible = value;
+                    OnPropertyChanged(nameof(FooterVisible));
+                }
+            }
+        }
+
+        public string FooterText {
+            get => _footerText;
+            set {
+                _footerText = value;
+                OnPropertyChanged(nameof(FooterText));
             }
         }
 
         public Visibility CloseVisible {
             get { return _closeVisible; }
             set {
-                _closeVisible = value;
-                OnPropertyChanged(nameof(CloseVisible));
+                if (_closeVisible != value) {
+                    _closeVisible = value;
+                    OnPropertyChanged(nameof(CloseVisible));
+                }
             }
         }
     }

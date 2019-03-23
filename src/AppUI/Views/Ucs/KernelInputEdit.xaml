@@ -3,231 +3,232 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/KernelInputViewModel.xaml}"
-        Background="White"
+		Background="White"
 		d:DesignWidth="660" d:DesignHeight="360">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Style x:Key="LblTb" TargetType="TextBlock">
-                <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
-                <Setter Property="FontSize" Value="12"></Setter>
-                <Setter Property="Padding" Value="0 0 2 0"></Setter>
-                <Setter Property="Width" Value="90"></Setter>
-                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                <Setter Property="TextAlignment" Value="Right"></Setter>
-                <Setter Property="TextWrapping" Value="Wrap"></Setter>
-            </Style>
-            <sys:String x:Key="WindowTitle">
-                WindowTitle
-            </sys:String>
-            <sys:String x:Key="Name">
-                Name
-            </sys:String>
-            <sys:String x:Key="Args">
-                Args
-            </sys:String>
-            <sys:String x:Key="IsSupportDualMine">
-                IsSupportDualMine
-            </sys:String>
-            <sys:String x:Key="DualWeightArg">
-                DualWeightArg
-            </sys:String>
-            <sys:String x:Key="IsAutoDualWeight">
-                IsAutoDualWeight
-            </sys:String>
-            <sys:String x:Key="DualWeightMin">
-                DualWeightMin
-            </sys:String>
-            <sys:String x:Key="DualWeightMax">
-                DualWeightMax
-            </sys:String>
-            <sys:String x:Key="DualCoinGroup">
-                DualCoinGroup
-            </sys:String>
-            <sys:String x:Key="DualFullArgs">
-                DualFullArgs
-            </sys:String>
-            <sys:String x:Key="Manage">
-                Manage
-            </sys:String>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="560"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <StackPanel Margin="0 0 10 10">
-            <WrapPanel Margin="0 2">
-                <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Name}" ToolTip="{DynamicResource Name}"></TextBlock>
-                <TextBox Width="450" Height='26' VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
-                </TextBox>
-            </WrapPanel>
-            <WrapPanel Margin="0 2">
-                <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Args}"></TextBlock>
-                <TextBox 
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+				<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+				<Setter Property="FontSize" Value="12"></Setter>
+				<Setter Property="Padding" Value="0 0 2 0"></Setter>
+				<Setter Property="Width" Value="90"></Setter>
+				<Setter Property="VerticalAlignment" Value="Center"></Setter>
+				<Setter Property="TextAlignment" Value="Right"></Setter>
+				<Setter Property="TextWrapping" Value="Wrap"></Setter>
+			</Style>
+			<sys:String x:Key="WindowTitle">
+				WindowTitle
+			</sys:String>
+			<sys:String x:Key="Name">
+				Name
+			</sys:String>
+			<sys:String x:Key="Args">
+				Args
+			</sys:String>
+			<sys:String x:Key="IsSupportDualMine">
+				IsSupportDualMine
+			</sys:String>
+			<sys:String x:Key="DualWeightArg">
+				DualWeightArg
+			</sys:String>
+			<sys:String x:Key="IsAutoDualWeight">
+				IsAutoDualWeight
+			</sys:String>
+			<sys:String x:Key="DualWeightMin">
+				DualWeightMin
+			</sys:String>
+			<sys:String x:Key="DualWeightMax">
+				DualWeightMax
+			</sys:String>
+			<sys:String x:Key="DualCoinGroup">
+				DualCoinGroup
+			</sys:String>
+			<sys:String x:Key="DualFullArgs">
+				DualFullArgs
+			</sys:String>
+			<sys:String x:Key="Manage">
+				Manage
+			</sys:String>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="560"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+		<StackPanel Margin="0 0 10 10">
+			<WrapPanel Margin="0 2">
+				<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource Name}" ToolTip="{DynamicResource Name}"></TextBlock>
+				<TextBox Width="450" Height='26' VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+				</TextBox>
+			</WrapPanel>
+			<WrapPanel Margin="0 2">
+				<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource Args}"></TextBlock>
+				<TextBox 
 					Width="450" Background="Transparent" Padding="0 4"
-					IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+					IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 					AcceptsReturn="True" TextWrapping="Wrap" 
 					VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 					Text="{Binding Args, Mode=TwoWay}" Height="60">
-                </TextBox>
-            </WrapPanel>
+				</TextBox>
+			</WrapPanel>
 
-            <WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMineVisible}">
-                <TextBlock Style="{StaticResource LblTb}"></TextBlock>
-                <controls:KbCheckBox 
-                    Height="26"
-				    IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
-				    Content="{DynamicResource IsSupportDualMine}"
-				    IconColor="{StaticResource IconFillColor}"
-				    IsChecked="{Binding IsSupportDualMine}" />
-                <WrapPanel 
-                    Margin="10 0 0 0" 
-                    Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="{DynamicResource DualWeightArg}"></TextBlock>
-                    <TextBox 
-                        Height="26"
+			<WrapPanel Margin="0 2" Visibility="{Binding IsSupportDualMineVisible}">
+				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
+				<controls:KbCheckBox 
+					Height="26"
+					IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+					Content="{DynamicResource IsSupportDualMine}"
+					IconColor="{StaticResource IconFillColor}"
+					IsChecked="{Binding IsSupportDualMine}" />
+				<WrapPanel 
+					Margin="10 0 0 0" 
+					Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock Style="{StaticResource LblTb}" Width="Auto" Text="{DynamicResource DualWeightArg}"></TextBlock>
+					<TextBox 
+						Height="26"
 						Width="120"
-						IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightArg}">
-                    </TextBox>
-                </WrapPanel>
-            </WrapPanel>
+					</TextBox>
+				</WrapPanel>
+			</WrapPanel>
 
-            <StackPanel Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                <WrapPanel Margin="0 2">
-                    <TextBlock Style="{StaticResource LblTb}"></TextBlock>
-                    <controls:KbCheckBox 
-				        IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
-				        Content="{DynamicResource IsAutoDualWeight}"
-				        IconColor="{StaticResource IconFillColor}"
-				        IsChecked="{Binding IsAutoDualWeight}" />
-                    <TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMin}" VerticalAlignment="Center"></TextBlock>
-                    <TextBox 
-                        Height="26"
+			<StackPanel Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
+				<WrapPanel Margin="0 2">
+					<TextBlock Style="{StaticResource LblTb}"></TextBlock>
+					<controls:KbCheckBox 
+						IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
+						Content="{DynamicResource IsAutoDualWeight}"
+						IconColor="{StaticResource IconFillColor}"
+						IsChecked="{Binding IsAutoDualWeight}" />
+					<TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMin}" VerticalAlignment="Center"></TextBlock>
+					<TextBox 
+						Height="26"
 						Width="50"
-						IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightMin}">
-                    </TextBox>
-                    <TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMax}" VerticalAlignment="Center"></TextBlock>
-                    <TextBox 
-                        Height="26"
+					</TextBox>
+					<TextBlock Margin="8 0 0 0" Text="{DynamicResource DualWeightMax}" VerticalAlignment="Center"></TextBlock>
+					<TextBox 
+						Height="26"
 						Width="50"
-						IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
+						IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
 						VerticalContentAlignment="Center" Text="{Binding DualWeightMax}">
-                    </TextBox>
-                </WrapPanel>
+					</TextBox>
+				</WrapPanel>
 
-                <WrapPanel Margin="0 2">
-                    <TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></TextBlock>
-                    <controls:KbComboBox 
-                        BorderThickness="0"
-				        IsEnabled="{x:Static vm:AppStatic.IsDevMode}"
+				<WrapPanel Margin="0 2">
+					<TextBlock Style="{StaticResource LblTb}" Text="{DynamicResource DualCoinGroup}" ToolTip="{DynamicResource DualCoinGroup}"></TextBlock>
+					<controls:KbComboBox 
+						BorderThickness="0"
+						IsEnabled="{x:Static vm:AppStatic.IsDebugMode}"
 						Width="200" 
-                        Height="26"
-                        ItemsSource="{Binding GroupVms.SelectionOptions}"
-                        DisplayMemberPath="Name"
-                        SelectedItem="{Binding DualCoinGroup}">
-                        <controls:KbComboBox.Toolbar>
-                            <WrapPanel HorizontalAlignment="Right">
-                                <controls:KbButton
-                                    Margin="4 2"
-                                    BorderThickness="0"
-                                    Height="24"
-                                    Padding="4 0"
-                                    Background="{StaticResource IconFillColor}"
-                                    Command="{x:Static vm:AppStatic.ShowGroups}"
-                                    CornerRadius="2">
-                                    <WrapPanel>
-                                        <Path
-                                            Width="14"
-                                            Height="14"
-                                            Data="{StaticResource Icon_Group}"
-                                            Fill="White"
-                                            Stretch="Fill" />
-                                        <TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="White"></TextBlock>
-                                    </WrapPanel>
-                                </controls:KbButton>
-                            </WrapPanel>
-                        </controls:KbComboBox.Toolbar>
-                    </controls:KbComboBox>
-                </WrapPanel>
+						Height="26"
+						ItemsSource="{Binding GroupVms.SelectionOptions}"
+						DisplayMemberPath="Name"
+						SelectedItem="{Binding DualCoinGroup}">
+						<controls:KbComboBox.Toolbar>
+							<WrapPanel HorizontalAlignment="Right">
+								<controls:KbButton
+									Margin="4 2"
+									BorderThickness="0"
+									Height="24"
+									Padding="4 0"
+									Background="{StaticResource ThemeBackground}"
+									Command="{x:Static vm:AppStatic.ShowGroups}"
+									CornerRadius="2">
+									<WrapPanel>
+										<Path
+											Width="14"
+											Height="14"
+											Data="{StaticResource Icon_Group}"
+											Fill="{StaticResource ThemeForeground}"
+											Stretch="Fill" />
+										<TextBlock Margin="4 0 0 0" Text="{DynamicResource Manage}" Foreground="{StaticResource ThemeForeground}"></TextBlock>
+									</WrapPanel>
+								</controls:KbButton>
+							</WrapPanel>
+						</controls:KbComboBox.Toolbar>
+					</controls:KbComboBox>
+				</WrapPanel>
 
-                <WrapPanel Margin="0 2">
-                    <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource DualFullArgs}" ToolTip="{DynamicResource DualFullArgs}"></TextBlock>
-                    <TextBox 
-				        Width="450" Background="Transparent"
-				        IsReadOnly="{x:Static vm:AppStatic.IsNotDevMode}"
-				        AcceptsReturn="True" TextWrapping="Wrap" 
-				        VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
-				        Text="{Binding DualFullArgs, Mode=TwoWay}" Height="80">
-                    </TextBox>
-                </WrapPanel>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left">
-            <TextBox 
-                Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True" 
-                AcceptsReturn="True" TextWrapping="Wrap">mainCoin、mainAlgo、wallet、userName、password、host、port、pool、worker</TextBox>
-            <TextBox 
-                Margin="0"
-                Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
-                Width="100" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" 
-                TextWrapping="Wrap">dualCoin、dualAlgo、dualWallet、dualUserName、dualPassword、dualHost、dualPort、dualPool</TextBox>
-        </StackPanel>
+				<WrapPanel Margin="0 2">
+					<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="{DynamicResource DualFullArgs}" ToolTip="{DynamicResource DualFullArgs}"></TextBlock>
+					<TextBox 
+						Width="450" Background="Transparent"
+						IsReadOnly="{x:Static vm:AppStatic.IsNotDebugMode}"
+						AcceptsReturn="True" TextWrapping="Wrap" 
+						VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+						Text="{Binding DualFullArgs, Mode=TwoWay}" Height="80">
+					</TextBox>
+				</WrapPanel>
+			</StackPanel>
+		</StackPanel>
+		<StackPanel Grid.Column="1" Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}" HorizontalAlignment="Left">
+			<TextBox 
+				Width="100" Margin="0 6 0 0" BorderThickness="0" IsReadOnly="True" 
+				AcceptsReturn="True" TextWrapping="Wrap">mainCoin、mainAlgo、wallet、userName、password、host、port、pool、worker</TextBox>
+			<TextBox 
+				Margin="0"
+				Visibility="{Binding IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"
+				Width="100" BorderThickness="0" IsReadOnly="True" AcceptsReturn="True" 
+				TextWrapping="Wrap">dualCoin、dualAlgo、dualWallet、dualUserName、dualPassword、dualHost、dualPort、dualPool</TextBox>
+		</StackPanel>
 
-        <controls:KbButton
-            Grid.Row="1"
-            VerticalAlignment="Bottom"
-            Command="{Binding Save}" 
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            Margin="0 10 0 0"
-            Width="70" 
-            Height="30"
-            Background="{StaticResource IconFillColor}"
-            Foreground="White"
-            CornerRadius="2">
-            <WrapPanel>
-                <Path
-                    Width="12"
-                    Height="12"
-                    Data="{StaticResource Icon_Ok}"
-                    Fill="White"
-                    Stretch="Fill" />
-                <TextBlock
-                    Padding="4"
-                    VerticalAlignment="Center"
-                    Foreground="White"
-                    Text="确定" />
-            </WrapPanel>
-        </controls:KbButton>
-        <controls:KbButton
-            Grid.Column="1"
-            Margin="4"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Right"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            ToolTip="KernelInputEdit translate"
-            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-            CommandParameter="KernelInputEdit"
-            Background="Transparent">
-            <WrapPanel>
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="{StaticResource Icon_Translate}"
-                    Fill="Red"
-                    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
-    </Grid>
+		<controls:KbButton
+			Grid.Row="1"
+			VerticalAlignment="Bottom"
+			Command="{Binding Save}" 
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			Margin="0 10 0 0"
+			Padding="10 0"
+			HorizontalAlignment="Center"
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="{StaticResource ThemeForeground}"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Foreground="{StaticResource ThemeForeground}"
+					Text="确定" />
+			</WrapPanel>
+		</controls:KbButton>
+		<controls:KbButton
+			Grid.Column="1"
+			Margin="4"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Right"
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			ToolTip="{x:Static local:KernelInputEdit.ViewId}"
+			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+			CommandParameter="{x:Static local:KernelInputEdit.ViewId}"
+			Background="Transparent">
+			<WrapPanel>
+				<Path
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Translate}"
+					Fill="{StaticResource ThemeBackground}"
+					Stretch="Fill" />
+			</WrapPanel>
+		</controls:KbButton>
+	</Grid>
 </UserControl>

@@ -10,92 +10,134 @@
              xmlns:vm="clr-namespace:NTMiner.Vms"
              xmlns:local="clr-namespace:NTMiner.Views.Ucs"
              mc:Ignorable="d" 
-             d:DesignHeight="520" d:DesignWidth="860">
+             d:DesignHeight="520" d:DesignWidth="960">
     <UserControl.DataContext>
         <vm:SpeedChartsViewModel></vm:SpeedChartsViewModel>
     </UserControl.DataContext>
     <UserControl.Resources>
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+            <Setter Property="Width" Value="40"></Setter>
+        </Style>
         <sys:String x:Key="WindowTitle">
             算力图表
         </sys:String>
     </UserControl.Resources>
-    <Grid Background="{x:Static vm:SpeedChartViewModel.Background}">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="220"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ItemsControl 
-            x:Name="LvGpus"
-            BorderThickness="0"
-            ItemsSource="{Binding SpeedChartVms}" 
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl.Resources>
-                <vm:BindingProxy x:Key="proxy" Data="{Binding}" />
-            </ItemsControl.Resources>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding ItemsPanelColumns}" VerticalAlignment="Top">
-                    </UniformGrid>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <controls:KbButton 
-                        Background="{Binding ItemBackground}" 
-                        KbButtonHoverBackground="White"
-                        BorderThickness="0" Margin="0"
-                        Command="{Binding Data.ChangeCurrentSpeedChartVm, Source={StaticResource proxy}}"
-                        CommandParameter="{Binding}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="130"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Border BorderThickness="1" BorderBrush="{StaticResource LineColor}" ToolTip="{Binding GpuSpeedVm.GpuVm.Name}">
-                                <lvc:CartesianChart DisableAnimations="True"                                            
-                                            Hoverable="False" DataTooltip="{x:Null}"
-                                            Series="{Binding Series}"
-                                            AxisY="{Binding AxisY}"
-                                            AxisX="{Binding AxisX}">
-                                </lvc:CartesianChart>
-                            </Border>
-                            <WrapPanel Margin="4 2" VerticalAlignment="Top">
-                                <TextBlock Text="{Binding GpuSpeedVm.GpuVm.IndexText}"></TextBlock>
-                                <TextBlock Text="{Binding GpuSpeedVm.GpuVm.PowerUsageWText}" Margin="10 0 0 0"></TextBlock>
-                            </WrapPanel>
-                            <StackPanel Grid.Column="1" Margin="2 0">
-                                <WrapPanel>
-                                    <TextBlock Foreground="Blue" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
-                                    <TextBlock Foreground="Blue" Text="{Binding GpuSpeedVm.MainCoinSpeed.SpeedText}" FontWeight="Bold" Margin="4 0 0 0"></TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollViewer 
+            Grid.Row="0" 
+            Grid.Column="0" 
+            Grid.RowSpan="2" 
+            Background="{StaticResource MinerProfileBackground}" 
+            VerticalScrollBarVisibility="Auto" 
+            PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+            <ItemsControl 
+                x:Name="LvGpus"
+                BorderThickness="0 0 1 0" 
+                BorderBrush="{StaticResource LineColor}"
+                ItemsSource="{Binding SpeedChartVms}" 
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl.Resources>
+                    <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </ItemsControl.Resources>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="{Binding ItemsPanelColumns}" VerticalAlignment="Top">
+                        </UniformGrid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:KbButton 
+                            Background="{Binding ItemBackground}" 
+                            KbButtonHoverBackground="White"
+                            BorderThickness="0" Margin="0"
+                            Command="{Binding Data.ChangeCurrentSpeedChartVm, Source={StaticResource proxy}}"
+                            CommandParameter="{Binding}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="130"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border BorderThickness="1" BorderBrush="{StaticResource LineColor}" ToolTip="{Binding GpuSpeedVm.GpuVm.Name}">
+                                    <lvc:CartesianChart DisableAnimations="True"                                            
+                                        Hoverable="False" DataTooltip="{x:Null}"
+                                        Series="{Binding Series}"
+                                        AxisY="{Binding AxisY}"
+                                        AxisX="{Binding AxisX}">
+                                    </lvc:CartesianChart>
+                                </Border>
+                                <WrapPanel Grid.Column="0" Margin="4 2" VerticalAlignment="Top">
+                                    <TextBlock Text="{Binding GpuSpeedVm.GpuVm.IndexText}"></TextBlock>
+                                    <TextBlock Text="{Binding GpuSpeedVm.GpuVm.PowerUsageWText}" Margin="10 0 0 0"></TextBlock>
                                 </WrapPanel>
-                                <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBlock Foreground="Green" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
-                                    <TextBlock Foreground="Green" Text="{Binding GpuSpeedVm.DualCoinSpeed.SpeedText}" FontWeight="Bold" Margin="4 0 0 0"></TextBlock>
-                                </WrapPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding GpuSpeedVm.GpuVm.TemperatureText}"></TextBlock>
-                                    <TextBlock Margin="2 0">/</TextBlock>
-                                    <TextBlock Text="{Binding GpuSpeedVm.GpuVm.FanSpeedText}"></TextBlock>
-                                </WrapPanel>
-                            </StackPanel>
-                        </Grid>
-                    </controls:KbButton>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <Grid x:Name="DetailsGrid" Grid.Column="1">
-        </Grid>
-        <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 10 10 0">
-            <WrapPanel 
-                HorizontalAlignment="Left" Margin="0 0 20 0"
-                Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
+                                <StackPanel Grid.Column="1" Margin="2 0">
+                                    <WrapPanel>
+                                        <TextBlock Foreground="Blue" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+                                        <TextBlock Foreground="Blue" Text="{Binding GpuSpeedVm.MainCoinSpeed.SpeedText}" FontWeight="Bold" Margin="4 0 0 0"></TextBlock>
+                                    </WrapPanel>
+                                    <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock Foreground="Green" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
+                                        <TextBlock Foreground="Green" Text="{Binding GpuSpeedVm.DualCoinSpeed.SpeedText}" FontWeight="Bold" Margin="4 0 0 0"></TextBlock>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="{Binding GpuSpeedVm.GpuVm.TemperatureText}"></TextBlock>
+                                        <TextBlock Margin="2 0">/</TextBlock>
+                                        <TextBlock Text="{Binding GpuSpeedVm.GpuVm.FanSpeedText}"></TextBlock>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Grid>
+                        </controls:KbButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <WrapPanel>
+                    <TextBlock Style="{StaticResource LblTb}" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.GpuVm.IndexText}"></TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.GpuVm.Name}"></TextBlock>
+                </WrapPanel>
+                <WrapPanel>
+                    <WrapPanel Margin="0 0 10 0">
+                        <TextBlock Style="{StaticResource LblTb}">功耗</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.GpuVm.PowerUsageWText}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 0 10 0">
+                        <TextBlock Style="{StaticResource LblTb}">温度</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.GpuVm.TemperatureText}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Style="{StaticResource LblTb}">风扇</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.GpuVm.FanSpeedText}"></TextBlock>
+                    </WrapPanel>
+                </WrapPanel>
+            </StackPanel>
+            <WrapPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 10 10 0">
+                <WrapPanel 
+                    HorizontalAlignment="Left" Margin="0 0 20 0"
+                    Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.Code}"></TextBlock>
+                    <TextBlock FontSize="20" Text="："></TextBlock>
+                    <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.DualCoinSpeed.SpeedText}"></TextBlock>
+                </WrapPanel>
+                <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
                 <TextBlock FontSize="20" Text="："></TextBlock>
-                <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.DualCoinSpeed.SpeedText}"></TextBlock>
+                <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.MainCoinSpeed.SpeedText}"></TextBlock>
             </WrapPanel>
-            <TextBlock FontSize="20" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
-            <TextBlock FontSize="20" Text="："></TextBlock>
-            <TextBlock FontSize="20" Text="{Binding CurrentSpeedChartVm.GpuSpeedVm.MainCoinSpeed.SpeedText}"></TextBlock>
-        </WrapPanel>
+        </Grid>
+        <Grid x:Name="DetailsGrid" Grid.Row="1" Grid.Column="1">
+        </Grid>
     </Grid>
 </UserControl>

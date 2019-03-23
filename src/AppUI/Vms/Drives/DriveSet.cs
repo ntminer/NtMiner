@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class DriveSet : ViewModelBase {
@@ -8,21 +9,15 @@ namespace NTMiner.Vms {
 
         private readonly List<Drive> _drives = new List<Drive>();
 
+        public ICommand Apply { get; private set; }
+
         public DriveSet() {
             foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
                 _drives.Add(new Drive(item));
             }
-        }
-
-        public void Refresh() {
-            VirtualMemory.RefreshVirtualMemories();
-            foreach (var driveInfo in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
-                Drive drive = _drives.FirstOrDefault(a => a.Name == driveInfo.Name);
-                drive?.Refresh(driveInfo);
-            }
-            OnPropertyChanged(nameof(Drives));
-            OnPropertyChanged(nameof(TotalVirtualMemoryGb));
-            OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
+            this.Apply = new DelegateCommand(() => {
+                VirtualMemorySet.Instance.SetVirtualMemoryOfDrive();
+            });
         }
 
         public List<Drive> Drives {
@@ -31,15 +26,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int TotalVirtualMemoryGb {
+        public VirtualMemorySet VirtualMemorySet {
             get {
-                return _drives.Sum(a => a.VirtualMemory.MaxSizeGb);
-            }
-        }
-
-        public string TotalVirtualMemoryGbText {
-            get {
-                return TotalVirtualMemoryGb + " G";
+                return VirtualMemorySet.Instance;
             }
         }
     }

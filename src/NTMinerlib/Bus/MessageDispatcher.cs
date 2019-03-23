@@ -5,6 +5,7 @@ namespace NTMiner.Bus {
 
     public class MessageDispatcher : IMessageDispatcher {
         private readonly Dictionary<Type, List<object>> _handlers = new Dictionary<Type, List<object>>();
+        private readonly HashSet<string> _paths = new HashSet<string>();
 
         #region IMessageDispatcher Members
         public void DispatchMessage<TMessage>(TMessage message) {
@@ -19,25 +20,16 @@ namespace NTMiner.Bus {
                     var tMessageHandler = (DelegateHandler<TMessage>)messageHandler;
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Log) {
-                        Global.Logger.InfoDebugLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                        Logger.InfoDebugLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                     }
                     if (tMessageHandler.HandlerId.LogType == LogEnum.Console) {
-                        Global.DebugLine($"{messageTypeDescription.Description}({messageType.Name}) -> ({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                        Write.DevLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
                     }
-                    this.Dispatching?.Invoke(this, evtArgs);
-                    try {
-                        tMessageHandler.Handle(message);
-                        this.Dispatched?.Invoke(this, evtArgs);
-                    }
-                    catch (Exception e) {
-                        this.DispatchFailed?.Invoke(this, evtArgs);
-                        Global.Logger.ErrorDebugLine(tMessageHandler.GetType().FullName + ":" + messageType.FullName + ":" + e.Message, e);
-                        throw;
-                    }
+                    tMessageHandler.Handle(message);
                 }
             }
             else if (!messageTypeDescription.IsCanNoHandler) {
-                Global.Logger.WarnDebugLine(messageType.FullName + "类型的消息没有对应的处理器");
+                Write.DevLine(messageType.FullName + "类型的消息没有对应的处理器");
             }
         }
 
@@ -47,11 +39,18 @@ namespace NTMiner.Bus {
             }
             var keyType = typeof(TMessage);
 
+            var handlerId = handler.HandlerId;
+            if (!_paths.Contains(handlerId.HandlerPath)) {
+                _paths.Add(handlerId.HandlerPath);
+            }
+            else {
+                Write.DevLine($"重复的路径:{handlerId.HandlerPath}", ConsoleColor.Red);
+            }
             if (_handlers.ContainsKey(keyType)) {
-                if (typeof(ICmd).IsAssignableFrom(keyType)) {
+                var registeredHandlers = _handlers[keyType];
+                if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(keyType)) {
                     throw new Exception($"one {typeof(TMessage).Name} cmd can be handle and only be handle by one handler");
                 }
-                var registeredHandlers = _handlers[keyType];
                 if (registeredHandlers != null) {
                     if (!registeredHandlers.Contains(handler))
                         registeredHandlers.Add(handler);
@@ -67,11 +66,13 @@ namespace NTMiner.Bus {
             }
         }
 
-        public void UnRegister<TMessage>(DelegateHandler<TMessage> handler) {
+        public void UnRegister(IDelegateHandler handler) {
             if (handler == null) {
                 return;
             }
-            var keyType = typeof(TMessage);
+            var handlerId = handler.HandlerId;
+            _paths.Remove(handlerId.HandlerPath);
+            var keyType = handlerId.MessageType;
             if (_handlers.ContainsKey(keyType) &&
                 _handlers[keyType] != null &&
                 _handlers[keyType].Count > 0 &&
@@ -79,12 +80,6 @@ namespace NTMiner.Bus {
                 _handlers[keyType].Remove(handler);
             }
         }
-
-        public event EventHandler<MessageDispatchEventArgs> Dispatching;
-
-        public event EventHandler<MessageDispatchEventArgs> DispatchFailed;
-
-        public event EventHandler<MessageDispatchEventArgs> Dispatched;
         #endregion
     }
 }

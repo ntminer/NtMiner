@@ -1,4 +1,6 @@
-﻿namespace NTMiner {
+﻿using System;
+
+namespace NTMiner {
     public static class DoubleExtension {
         public static string ToUnitSpeedText(this double speed) {
             if (speed >= 10000000000000) {
@@ -46,5 +48,19 @@
                     return 0;
             }
         }
+
+        /// <summary>
+        /// Math.Abs(speed - newSpeed) / speed >= percnet
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <param name="newSpeed"></param>
+        /// <param name="minChangeScopPercent">以小数表示百分比，即1%是0.01</param>
+        /// <returns></returns>
+        public static bool IsChange(this double speed, double newSpeed, double minChangeScopPercent) {
+            if (speed == 0 && newSpeed != 0) {
+                return true;
+            }
+            return Math.Abs(speed - newSpeed) / speed >= minChangeScopPercent
+;        }
     }
 }

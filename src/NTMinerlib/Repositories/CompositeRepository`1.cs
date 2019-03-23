@@ -13,13 +13,14 @@ namespace NTMiner.Repositories {
 
         public IEnumerable<T> GetAll() {
             var globalResults = _globalRepository.GetAll();
-            foreach (var item in globalResults) {
+            var enumerable = globalResults as T[] ?? globalResults.ToArray();
+            foreach (var item in enumerable) {
                 item.SetDataLevel(DataLevel.Global);
             }
-            if (DevMode.IsDevMode) {
-                return globalResults;
+            if (DevMode.IsDebugMode) {
+                return enumerable;
             }
-            var list = globalResults.ToList();
+            var list = enumerable.ToList();
             foreach (var item in _profileRepository.GetAll()) {
                 item.SetDataLevel(DataLevel.Profile);
                 list.Add(item);
@@ -28,7 +29,7 @@ namespace NTMiner.Repositories {
         }
 
         public void Add(T entity) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 entity.SetDataLevel(DataLevel.Global);
                 _globalRepository.Add(entity);
             }
@@ -39,19 +40,15 @@ namespace NTMiner.Repositories {
         }
 
         public T GetByKey(Guid id) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 var entity = _globalRepository.GetByKey(id);
-                if (entity != null) {
-                    entity.SetDataLevel(DataLevel.Global);
-                }
+                entity?.SetDataLevel(DataLevel.Global);
                 return entity;
             }
             T result = _globalRepository.GetByKey(id);
             if (result == null) {
                 result = _profileRepository.GetByKey(id);
-                if (result != null) {
-                    result.SetDataLevel(DataLevel.Profile);
-                }
+                result?.SetDataLevel(DataLevel.Profile);
             }
             else {
                 result.SetDataLevel(DataLevel.Global);
@@ -60,7 +57,7 @@ namespace NTMiner.Repositories {
         }
 
         public bool Exists(Guid key) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 return _globalRepository.Exists(key);
             }
             bool result = _globalRepository.Exists(key);
@@ -71,28 +68,24 @@ namespace NTMiner.Repositories {
         }
 
         public void Remove(Guid id) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 _globalRepository.Remove(id);
             }
             else {
-                if (_globalRepository.Exists(id)) {
-                    throw new ValidationException("系统记录不能被删除，如果该条记录不满足您的需求您可自定义添加新记录。");
-                }
                 _profileRepository.Remove(id);
             }
         }
 
         public void Update(T entity) {
-            if (DevMode.IsDevMode) {
+            if (DevMode.IsDebugMode) {
                 entity.SetDataLevel(DataLevel.Global);
                 _globalRepository.Update(entity);
             }
             else {
-                if (_globalRepository.Exists(entity.GetId())) {
-                    throw new ValidationException("系统记录不能修改，如果该条记录不满足您的需求您可自定义添加新记录。");
+                if (_profileRepository.Exists(entity.GetId())) {
+                    entity.SetDataLevel(DataLevel.Profile);
+                    _profileRepository.Update(entity);
                 }
-                entity.SetDataLevel(DataLevel.Profile);
-                _profileRepository.Update(entity);
             }
         }
     }

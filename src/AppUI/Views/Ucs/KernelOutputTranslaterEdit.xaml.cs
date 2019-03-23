@@ -3,9 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelOutputTranslaterEdit : UserControl {
-        public static void ShowEditWindow(KernelOutputTranslaterViewModel source) {
+        public static void ShowWindow(FormType formType, KernelOutputTranslaterViewModel source) {
             int sortNumber = source.SortNumber;
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
+                FormType = formType,
                 IsDialogWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Coin"

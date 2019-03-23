@@ -4,8 +4,13 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class FileDownloader : UserControl {
-        public static void ShowWindow(string downloadFileUrl, string fileTitle, Action<ContainerWindow, bool, string, string> downloadComplete) {
-            Execute.OnUIThread(() => {
+        public static string ViewId = nameof(FileDownloader);
+
+        public static void ShowWindow(
+            string downloadFileUrl, string fileTitle,
+            // window, isSuccess, message, saveFileFullName, etagValue
+            Action<ContainerWindow, bool, string, string> downloadComplete) {
+            UIThread.Execute(() => {
                 ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                     IconName = "Icon_Download",
                     CloseVisible = System.Windows.Visibility.Visible,

@@ -42,24 +42,28 @@ namespace NTMiner.Vms {
                 DialogWindow.ShowDialog(message: $"您确定卸载{_kernelVm.FullName}内核吗？", title: "确认", onYes: () => {
                     string processName = _kernelVm.GetProcessName();
                     if (!string.IsNullOrEmpty(processName)) {
-                        Process[] processes = Process.GetProcessesByName(processName);
-                        if (processes != null && processes.Length != 0) {
-                            Windows.TaskKill.Kill(processName);
+                        Windows.TaskKill.Kill(processName);
+                        string packageFileFullName = _kernelVm.GetPackageFileFullName();
+                        if (!string.IsNullOrEmpty(packageFileFullName)) {
+                            File.Delete(packageFileFullName);
                         }
-                        File.Delete(_kernelVm.GetPackageFileFullName());
-                        if (Directory.Exists(_kernelVm.GetKernelDirFullName())) {
+                        string kernelDirFullName = _kernelVm.GetKernelDirFullName();
+                        if (!string.IsNullOrEmpty(kernelDirFullName) && Directory.Exists(kernelDirFullName)) {
                             try {
-                                Directory.Delete(_kernelVm.GetKernelDirFullName(), recursive: true);
+                                Directory.Delete(kernelDirFullName, recursive: true);
                             }
                             catch (Exception e) {
-                                Global.Logger.ErrorDebugLine(e.Message, e);
+                                Logger.ErrorDebugLine(e.Message, e);
                             }
                         }
-                        File.Delete(_kernelVm.GetDownloadFileFullName());
+                        string downloadFileFullName = _kernelVm.GetDownloadFileFullName();
+                        if (!string.IsNullOrEmpty(downloadFileFullName)) {
+                            File.Delete(downloadFileFullName);
+                        }
                     }
                     Refresh();
                     KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.QueryResults));
-                }, icon: "Icon_Confirm");
+                }, icon: IconConst.IconConfirm);
             });
         }
 
@@ -67,7 +71,6 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(InstallStatus));
             OnPropertyChanged(nameof(InstallStatusDescription));
             OnPropertyChanged(nameof(BtnInstallVisible));
-            OnPropertyChanged(nameof(BtnUpdateVisible));
             OnPropertyChanged(nameof(BtnInstalledVisible));
         }
 
@@ -94,15 +97,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Visibility BtnUpdateVisible {
-            get {
-                if (InstallStatus == InstallStatus.CanUpdate) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
         public Visibility BtnInstalledVisible {
             get {
                 if (InstallStatus == InstallStatus.Installed) {
@@ -115,10 +109,12 @@ namespace NTMiner.Vms {
         public bool IsDownloading {
             get { return _isDownloading; }
             set {
-                _isDownloading = value;
-                OnPropertyChanged(nameof(IsDownloading));
-                Refresh();
-                KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.DownloadingVms));
+                if (_isDownloading != value) {
+                    _isDownloading = value;
+                    OnPropertyChanged(nameof(IsDownloading));
+                    Refresh();
+                    KernelPageViewModel.Current.OnPropertyChanged(nameof(KernelPageViewModel.DownloadingVms));
+                }
             }
         }
 
@@ -127,8 +123,10 @@ namespace NTMiner.Vms {
                 return _downloadPercent;
             }
             set {
-                _downloadPercent = value;
-                OnPropertyChanged(nameof(DownloadPercent));
+                if (_downloadPercent != value) {
+                    _downloadPercent = value;
+                    OnPropertyChanged(nameof(DownloadPercent));
+                }
             }
         }
 
@@ -137,8 +135,10 @@ namespace NTMiner.Vms {
                 return _downloadMessage;
             }
             set {
-                _downloadMessage = value;
-                OnPropertyChanged(nameof(DownloadMessage));
+                if (_downloadMessage != value) {
+                    _downloadMessage = value;
+                    OnPropertyChanged(nameof(DownloadMessage));
+                }
             }
         }
 

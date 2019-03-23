@@ -1,96 +1,106 @@
 ﻿<UserControl 
-    x:Class="NTMiner.Views.Ucs.Calc"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	x:Class="NTMiner.Views.Ucs.Calc"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-    xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-    xmlns:vm="clr-namespace:NTMiner.Vms"
-	FontSize="12"
-    mc:Ignorable="d" d:DesignHeight="250" d:DesignWidth="650">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <sys:String x:Key="WindowTitle">
-                收益计算器
-            </sys:String>
-            <sys:String x:Key="LblCoin">
-                LblCoin
-            </sys:String>
-            <sys:String x:Key="LblSpeed">
-                LblSpeed
-            </sys:String>
-            <sys:String x:Key="TbDay">
-                TbDay
-            </sys:String>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <UserControl.DataContext>
-        <vm:CalcViewModel></vm:CalcViewModel>
-    </UserControl.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <controls:KbButton
-            Margin="2 0"
-            HorizontalAlignment="Right"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            ToolTip="Calc translate"
-            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-            CommandParameter="Calc"
-            Background="Transparent">
-            <WrapPanel>
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="{StaticResource Icon_Translate}"
-                    Fill="Red"
-                    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
-        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Content="{DynamicResource LblCoin}"></Label>
-            <controls:KbComboBox 
-                BorderThickness="0"
-			    Width="150" ItemsSource="{Binding CoinVms.AllCoins}" 
-                DisplayMemberPath="CodeAlgo"
-			    SelectedItem="{Binding SelectedCoinVm}">
-            </controls:KbComboBox>
-        </WrapPanel>
-        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Label Content="{DynamicResource LblSpeed}"></Label>
-            <TextBox Width="100" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
-            <controls:KbComboBox 
-                Height="30"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms"
+	mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="650">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<sys:String x:Key="WindowTitle">
+				收益计算器
+			</sys:String>
+			<sys:String x:Key="LblCoin">
+				LblCoin
+			</sys:String>
+			<sys:String x:Key="LblSpeed">
+				LblSpeed
+			</sys:String>
+			<sys:String x:Key="TbDay">
+				TbDay
+			</sys:String>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<UserControl.DataContext>
+		<vm:CalcViewModel></vm:CalcViewModel>
+	</UserControl.DataContext>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<controls:KbButton
+			Margin="2 0"
+			HorizontalAlignment="Right"
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			ToolTip="{x:Static local:Calc.ViewId}"
+			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+			CommandParameter="{x:Static local:Calc.ViewId}"
+			Background="Transparent">
+			<WrapPanel>
+				<Path
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Translate}"
+					Fill="{StaticResource ThemeBackground}"
+					Stretch="Fill" />
+			</WrapPanel>
+		</controls:KbButton>
+		<ListBox 
+			Background="Transparent"
+			ItemsSource="{Binding CoinVms.AllCoins}"
+			SelectedItem="{Binding SelectedCoinVm}"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			ScrollViewer.VerticalScrollBarVisibility="Disabled"
+			ItemContainerStyle="{StaticResource ListBoxBarItem}"
+			BorderThickness="0">
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel HorizontalAlignment="Center">
+					</WrapPanel>
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Padding="10 2" Text="{Binding Code}" ToolTip="{Binding CodeAlgo}"></TextBlock>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+		<WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+			<Label Content="{DynamicResource LblSpeed}"></Label>
+			<TextBox Width="100" Text="{Binding Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
+			<controls:KbComboBox 
+				Height="30"
 				Width="60"
 				VerticalAlignment="Center"
-                ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
-                DisplayMemberPath="Unit"
-                SelectedValue="{Binding SpeedUnitVm}">
-            </controls:KbComboBox>
-            <Path
-                Margin="10 0"
-                Width="30"
-                Height="20"
-                Data="{StaticResource Icon_ArrowRight}"
-                Fill="{StaticResource IconFillColor}"
-                Stretch="Fill"/>
-            <WrapPanel VerticalAlignment="Center">
-                <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
-                <TextBlock Text="{Binding SelectedCoinVm.Code}"></TextBlock>
-                <TextBlock Text="，"></TextBlock>
-                <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeUsdPerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
-                <TextBlock Text="USD"></TextBlock>
-                <TextBlock Text="，"></TextBlock>
-                <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeCnyPerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
-                <TextBlock Text="CNY"></TextBlock>
-                <TextBlock Text="/"></TextBlock>
-                <TextBlock Text="{DynamicResource TbDay}"></TextBlock>
-            </WrapPanel>
-        </WrapPanel>
-    </Grid>
+				ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
+				DisplayMemberPath="Unit"
+				SelectedValue="{Binding SpeedUnitVm}">
+			</controls:KbComboBox>
+			<Path
+				Margin="10 0"
+				Width="30"
+				Height="20"
+				Data="{StaticResource Icon_ArrowRight}"
+				Fill="{StaticResource IconFillColor}"
+				Stretch="Fill"/>
+			<WrapPanel VerticalAlignment="Center">
+				<TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomePerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Text="{Binding SelectedCoinVm.Code}"></TextBlock>
+				<TextBlock Text="，"></TextBlock>
+				<TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeUsdPerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Text="USD"></TextBlock>
+				<TextBlock Text="，"></TextBlock>
+				<TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding IncomeCnyPerDayText, Mode=OneWay}" VerticalContentAlignment="Center"></TextBox>
+				<TextBlock Text="CNY"></TextBlock>
+				<TextBlock Text="/"></TextBlock>
+				<TextBlock Text="{DynamicResource TbDay}"></TextBlock>
+			</WrapPanel>
+		</WrapPanel>
+	</Grid>
 </UserControl>

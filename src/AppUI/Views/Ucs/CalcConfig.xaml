@@ -1,141 +1,151 @@
 ﻿<UserControl 
-    x:Class="NTMiner.Views.Ucs.CalcConfig"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Class="NTMiner.Views.Ucs.CalcConfig"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-    xmlns:vm="clr-namespace:NTMiner.Vms"
-	FontSize="12"
-    mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="560">
-    <UserControl.DataContext>
-        <vm:CalcConfigViewModels></vm:CalcConfigViewModels>
-    </UserControl.DataContext>
-    <UserControl.Resources>
-        <sys:String x:Key="WindowTitle">
-            WindowTitle
-        </sys:String>
-        <sys:String x:Key="LblSpeed">
-            LblSpeed
-        </sys:String>
-        <sys:String x:Key="LblIncome">
-            LblIncome
-        </sys:String>
-        <sys:String x:Key="TbDay">
-            TbDay
-        </sys:String>
-    </UserControl.Resources>
-    <Grid>
-        <ScrollViewer 
-            Padding="0 0 0 30"
-            Background="White"
-			VerticalScrollBarVisibility="Auto">
-            <ItemsControl 
-                HorizontalAlignment="Center"
-                x:Name="ItemsControl"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms"
+	mc:Ignorable="d">
+	<UserControl.DataContext>
+		<vm:CalcConfigViewModels></vm:CalcConfigViewModels>
+	</UserControl.DataContext>
+	<UserControl.Resources>
+		<sys:String x:Key="WindowTitle">
+			WindowTitle
+		</sys:String>
+		<sys:String x:Key="LblSpeed">
+			LblSpeed
+		</sys:String>
+		<sys:String x:Key="LblIncome">
+			LblIncome
+		</sys:String>
+		<sys:String x:Key="TbDay">
+			TbDay
+		</sys:String>
+	</UserControl.Resources>
+	<Grid Background="White">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+		<ScrollViewer 
+			VerticalScrollBarVisibility="Auto" 
+			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+			<ItemsControl 
+				Padding="70 0 0 0"
+				Width="600"
+				Height="600"
+				HorizontalContentAlignment="Center"
+				x:Name="ItemsControl"
 				Background="White"
 				ItemsSource="{Binding CalcConfigVms}"
 				BorderThickness="0"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl.Resources>
-                    <Style TargetType="Label">
-                        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                        <Setter Property="Height" Value="30"></Setter>
-                    </Style>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="TextAlignment" Value="Right"></Setter>
-                    </Style>
-                    <Style TargetType="TextBox">
-                        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-                        <Setter Property="Width" Value="100"></Setter>
-                        <Setter Property="Height" Value="30"></Setter>
-                        <Setter Property="Background" Value="Transparent"></Setter>
-                    </Style>
-                </ItemsControl.Resources>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel>
-                        </WrapPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel Margin="0 4">
-                            <Label Content="{DynamicResource LblSpeed}"></Label>
-                            <TextBox Text="{Binding Speed, ValidatesOnExceptions=True}">
-                            </TextBox>
-                            <controls:KbComboBox 
-                                Height="30"
-							    Width="60"
-							    VerticalAlignment="Center"
-                                ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
-                                DisplayMemberPath="Unit"
-                                SelectedValue="{Binding SpeedUnitVm}">
-                            </controls:KbComboBox>
-                            <Path
-                                Margin="10 0"
-                                Width="30"
-                                Height="20"
-                                Data="{StaticResource Icon_ArrowRight}"
-                                Fill="{StaticResource IconFillColor}"
-                                Stretch="Fill"/>
-                            <Label Content="{DynamicResource LblIncome}"></Label>
-                            <TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}"></TextBox>
-                            <Label>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding CoinCode}"></TextBlock>
-                                    <TextBlock Text="/"></TextBlock>
-                                    <TextBlock Text="{DynamicResource TbDay}"></TextBlock>
-                                </WrapPanel>
-                            </Label>
-                        </WrapPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-        <controls:KbButton
-            Margin="2 0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Visibility="{x:Static vm:AppStatic.IsDevModeVisible}"
-            ToolTip="CalcConfig translate"
-            Command="{x:Static vm:AppStatic.ShowLangViewItems}"
-            CommandParameter="CalcConfig"
-            Background="Transparent">
-            <WrapPanel>
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="{StaticResource Icon_Translate}"
-                    Fill="Red"
-                    Stretch="Fill" />
-            </WrapPanel>
-        </controls:KbButton>
-        <controls:KbButton
-            Command="{Binding Save}" 
-            VerticalAlignment="Bottom"
-            Margin="0 10 0 0"
-            Width="70" 
-            Height="30"
-            Background="{StaticResource IconFillColor}"
-            Foreground="White"
-            CornerRadius="2">
-            <WrapPanel>
-                <Path
-                    Width="12"
-                    Height="12"
-                    Data="{StaticResource Icon_Ok}"
-                    Fill="White"
-                    Stretch="Fill" />
-                <TextBlock
-                    Padding="4"
-                    VerticalAlignment="Center"
-                    Foreground="White"
-                    Text="确定" />
-            </WrapPanel>
-        </controls:KbButton>
-    </Grid>
+				<ItemsControl.Resources>
+					<Style TargetType="Label">
+						<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+						<Setter Property="Height" Value="30"></Setter>
+					</Style>
+					<Style TargetType="TextBlock">
+						<Setter Property="TextAlignment" Value="Right"></Setter>
+					</Style>
+					<Style TargetType="TextBox">
+						<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+						<Setter Property="Width" Value="100"></Setter>
+						<Setter Property="Height" Value="30"></Setter>
+						<Setter Property="Background" Value="Transparent"></Setter>
+					</Style>
+				</ItemsControl.Resources>
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel>
+						</WrapPanel>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<WrapPanel Margin="0 4">
+							<Label Content="{DynamicResource LblSpeed}"></Label>
+							<TextBox Text="{Binding Speed, ValidatesOnExceptions=True}" IsReadOnly="True">
+							</TextBox>
+							<controls:KbComboBox 
+								IsReadOnly="True"
+								Height="30"
+								Width="60"
+								VerticalAlignment="Center"
+								ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
+								DisplayMemberPath="Unit"
+								SelectedValue="{Binding SpeedUnitVm}">
+							</controls:KbComboBox>
+							<Path
+								Margin="10 0"
+								Width="30"
+								Height="20"
+								Data="{StaticResource Icon_ArrowRight}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill"/>
+							<Label Content="{DynamicResource LblIncome}"></Label>
+							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}" IsReadOnly="True"></TextBox>
+							<Label>
+								<WrapPanel>
+									<TextBlock Text="{Binding CoinCode}"></TextBlock>
+									<TextBlock Text="/"></TextBlock>
+									<TextBlock Text="{DynamicResource TbDay}"></TextBlock>
+								</WrapPanel>
+							</Label>
+						</WrapPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+		<controls:KbButton
+			Margin="2 0"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Top"
+			Visibility="{x:Static vm:AppStatic.IsDebugModeVisible}"
+			ToolTip="{x:Static local:CalcConfig.ViewId}"
+			Command="{x:Static vm:AppStatic.ShowLangViewItems}"
+			CommandParameter="{x:Static local:CalcConfig.ViewId}"
+			Background="Transparent">
+			<WrapPanel>
+				<Path
+					Width="14"
+					Height="14"
+					Data="{StaticResource Icon_Translate}"
+					Fill="{StaticResource ThemeBackground}"
+					Stretch="Fill" />
+			</WrapPanel>
+		</controls:KbButton>
+		<TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="数据来自鱼池首页，每10分钟自动刷新一次" Foreground="Red"></TextBlock>
+		<controls:KbButton
+			Grid.Row="2"
+			IsEnabled="False"
+			Command="{Binding Save}" 
+			VerticalAlignment="Bottom"
+			HorizontalAlignment="Center"
+			Margin="0 10 0 0"
+			Padding="10 0"
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="{StaticResource ThemeForeground}"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Foreground="{StaticResource ThemeForeground}"
+					Text="确定" />
+			</WrapPanel>
+		</controls:KbButton>
+	</Grid>
 </UserControl>

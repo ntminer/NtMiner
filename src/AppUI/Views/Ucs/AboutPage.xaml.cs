@@ -3,6 +3,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class AboutPage : UserControl {
+        public static string ViewId = nameof(AboutPage);
+
         public static void ShowWindow(string appType) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_About",
@@ -20,9 +22,6 @@ namespace NTMiner.Views.Ucs {
         public AboutPage(string appType) {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
-            if (appType == "ControlCenter") {
-                Vm.ImageSource = "/NTMinerWpf;component/Styles/Images/cc128.png";
-            }
         }
     }
 }

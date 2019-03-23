@@ -8,16 +8,22 @@ namespace NTMiner.Vms {
         public static readonly CoinPageViewModel Current = new CoinPageViewModel();
 
         private string _coinKeyword;
+        private bool _isPoolTabSelected;
+        private bool _isWalletTabSelected;
+        private bool _isKernelTabSelected;
 
         public ICommand Add { get; private set; }
         public ICommand ClearKeyword { get; private set; }
 
         private CoinPageViewModel() {
+            if (Design.IsInDesignMode) {
+                return;
+            }
             this.Add = new DelegateCommand(() => {
                 int sortNumber = NTMinerRoot.Current.CoinSet.Count == 0 ? 1 : NTMinerRoot.Current.CoinSet.Max(a => a.SortNumber) + 1;
                 new CoinViewModel(Guid.NewGuid()) {
                     SortNumber = sortNumber
-                }.Edit.Execute(null);
+                }.Edit.Execute(FormType.Add);
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 this.CoinKeyword = string.Empty;
@@ -39,9 +45,11 @@ namespace NTMiner.Vms {
         public string CoinKeyword {
             get => _coinKeyword;
             set {
-                _coinKeyword = value;
-                OnPropertyChanged(nameof(CoinKeyword));
-                OnPropertyChanged(nameof(List));
+                if (_coinKeyword != value) {
+                    _coinKeyword = value;
+                    OnPropertyChanged(nameof(CoinKeyword));
+                    OnPropertyChanged(nameof(List));
+                }
             }
         }
 
@@ -49,8 +57,10 @@ namespace NTMiner.Vms {
         public CoinViewModel CurrentCoin {
             get { return _currentCoin; }
             set {
-                _currentCoin = value;
-                OnPropertyChanged(nameof(CurrentCoin));
+                if (_currentCoin != value && value != null && value.Id != Guid.Empty) {
+                    _currentCoin = value;
+                    OnPropertyChanged(nameof(CurrentCoin));
+                }
             }
         }
 
@@ -81,49 +91,33 @@ namespace NTMiner.Vms {
         }
         #endregion
 
-        private bool _isPoolTabSelected;
-        private bool _isWalletTabSelected;
-        private bool _isKernelTabSelected;
         public bool IsPoolTabSelected {
             get => _isPoolTabSelected;
             set {
-                _isPoolTabSelected = value;
-                OnPropertyChanged(nameof(IsPoolTabSelected));
+                if (_isPoolTabSelected != value) {
+                    _isPoolTabSelected = value;
+                    OnPropertyChanged(nameof(IsPoolTabSelected));
+                }
             }
         }
         public bool IsWalletTabSelected {
             get => _isWalletTabSelected;
             set {
-                _isWalletTabSelected = value;
-                OnPropertyChanged(nameof(IsWalletTabSelected));
+                if (_isWalletTabSelected != value) {
+                    _isWalletTabSelected = value;
+                    OnPropertyChanged(nameof(IsWalletTabSelected));
+                }
             }
         }
 
         public bool IsKernelTabSelected {
             get => _isKernelTabSelected;
             set {
-                _isKernelTabSelected = value;
-                OnPropertyChanged(nameof(IsKernelTabSelected));
+                if (_isKernelTabSelected != value) {
+                    _isKernelTabSelected = value;
+                    OnPropertyChanged(nameof(IsKernelTabSelected));
+                }
             }
-        }
-
-
-        public void SwitchToPoolTab() {
-            this.IsWalletTabSelected = false;
-            this.IsKernelTabSelected = false;
-            this.IsPoolTabSelected = true;
-        }
-
-        public void SwitchToWalletTab() {
-            this.IsPoolTabSelected = false;
-            this.IsKernelTabSelected = false;
-            this.IsWalletTabSelected = true;
-        }
-
-        public void SwitchToKernelTab() {
-            this.IsPoolTabSelected = false;
-            this.IsWalletTabSelected = false;
-            this.IsKernelTabSelected = true;
         }
     }
 }

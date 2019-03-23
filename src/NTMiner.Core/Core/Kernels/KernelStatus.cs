@@ -5,8 +5,6 @@ namespace NTMiner.Core.Kernels {
         [Description("未安装")]
         Uninstalled,
         [Description("已安装")]
-        Installed,
-        [Description("可升级")]
-        CanUpdate
+        Installed
     }
 }

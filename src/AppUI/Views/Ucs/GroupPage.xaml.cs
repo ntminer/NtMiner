@@ -3,6 +3,8 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class GroupPage : UserControl {
+        public static string ViewId = nameof(GroupPage);
+
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 IconName = "Icon_Group",
@@ -25,10 +27,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            if (dg.SelectedItem != null) {
-                ((GroupViewModel)dg.SelectedItem).Edit.Execute(null);
-            }
+            Wpf.Util.DataGrid_MouseDoubleClick<GroupViewModel>(sender, e);
         }
     }
 }

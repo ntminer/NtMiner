@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelInputViewModel : ViewModelBase, IKernelInput {
+    public class KernelInputViewModel : ViewModelBase, IKernelInput, IEditableViewModel {
         public static readonly KernelInputViewModel PleaseSelect = new KernelInputViewModel(Guid.Empty) {
             _name = "请选择"
         };
@@ -56,26 +56,26 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (NTMinerRoot.Current.KernelInputSet.Contains(this.Id)) {
-                    Global.Execute(new UpdateKernelInputCommand(this));
+                    VirtualRoot.Execute(new UpdateKernelInputCommand(this));
                 }
                 else {
-                    Global.Execute(new AddKernelInputCommand(this));
+                    VirtualRoot.Execute(new AddKernelInputCommand(this));
                 }
                 CloseWindow?.Invoke();
             });
-            this.Edit = new DelegateCommand(() => {
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                KernelInputEdit.ShowEditWindow(this);
+                KernelInputEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.Name}内核输入吗？", title: "确认", onYes: () => {
-                    Global.Execute(new RemoveKernelInputCommand(this.Id));
-                }, icon: "Icon_Confirm");
+                    VirtualRoot.Execute(new RemoveKernelInputCommand(this.Id));
+                }, icon: IconConst.IconConfirm);
             });
         }
 
@@ -92,24 +92,30 @@ namespace NTMiner.Vms {
         public Guid Id {
             get => _id;
             private set {
-                _id = value;
-                OnPropertyChanged(nameof(Id));
+                if (_id != value) {
+                    _id = value;
+                    OnPropertyChanged(nameof(Id));
+                }
             }
         }
 
         public string Name {
             get { return _name; }
             set {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                if (_name != value) {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
             }
         }
 
         public Guid DualCoinGroupId {
             get => _dualCoinGroupId;
             set {
-                _dualCoinGroupId = value;
-                OnPropertyChanged(nameof(DualCoinGroupId));
+                if (_dualCoinGroupId != value) {
+                    _dualCoinGroupId = value;
+                    OnPropertyChanged(nameof(DualCoinGroupId));
+                }
             }
         }
 
@@ -137,22 +143,26 @@ namespace NTMiner.Vms {
         public string Args {
             get { return _args; }
             set {
-                _args = value;
-                OnPropertyChanged(nameof(Args));
+                if (_args != value) {
+                    _args = value;
+                    OnPropertyChanged(nameof(Args));
+                }
             }
         }
 
         public bool IsSupportDualMine {
             get => _isSupportDualMine;
             set {
-                _isSupportDualMine = value;
-                OnPropertyChanged(nameof(IsSupportDualMine));
+                if (_isSupportDualMine != value) {
+                    _isSupportDualMine = value;
+                    OnPropertyChanged(nameof(IsSupportDualMine));
+                }
             }
         }
 
         public Visibility IsSupportDualMineVisible {
             get {
-                if (DevMode.IsDevMode) {
+                if (DevMode.IsDebugMode) {
                     return Visibility.Visible;
                 }
                 if (IsSupportDualMine) {
@@ -165,24 +175,30 @@ namespace NTMiner.Vms {
         public double DualWeightMin {
             get => _dualWeightMin;
             set {
-                _dualWeightMin = value;
-                OnPropertyChanged(nameof(DualWeightMin));
+                if (_dualWeightMin != value) {
+                    _dualWeightMin = value;
+                    OnPropertyChanged(nameof(DualWeightMin));
+                }
             }
         }
 
         public double DualWeightMax {
             get => _dualWeightMax;
             set {
-                _dualWeightMax = value;
-                OnPropertyChanged(nameof(DualWeightMax));
+                if (_dualWeightMax != value) {
+                    _dualWeightMax = value;
+                    OnPropertyChanged(nameof(DualWeightMax));
+                }
             }
         }
 
         public bool IsAutoDualWeight {
             get => _isAutoDualWeight;
             set {
-                _isAutoDualWeight = value;
-                OnPropertyChanged(nameof(IsAutoDualWeight));
+                if (_isAutoDualWeight != value) {
+                    _isAutoDualWeight = value;
+                    OnPropertyChanged(nameof(IsAutoDualWeight));
+                }
             }
         }
 
@@ -191,16 +207,20 @@ namespace NTMiner.Vms {
                 return _dualWeightArg;
             }
             set {
-                _dualWeightArg = value;
-                OnPropertyChanged(nameof(DualWeightArg));
+                if (_dualWeightArg != value) {
+                    _dualWeightArg = value;
+                    OnPropertyChanged(nameof(DualWeightArg));
+                }
             }
         }
 
         public string DualFullArgs {
             get { return _dualFullArgs; }
             set {
-                _dualFullArgs = value;
-                OnPropertyChanged(nameof(DualFullArgs));
+                if (_dualFullArgs != value) {
+                    _dualFullArgs = value;
+                    OnPropertyChanged(nameof(DualFullArgs));
+                }
             }
         }
     }

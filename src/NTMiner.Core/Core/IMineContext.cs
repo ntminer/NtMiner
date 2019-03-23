@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.Kernels;
-using System;
+﻿using System;
 
 namespace NTMiner.Core {
     public interface IMineContext {
@@ -12,6 +11,9 @@ namespace NTMiner.Core {
         string MainCoinWallet { get; }
         int ProcessDisappearedCound { get; set; }
         string PipeFileName { get; }
+
+        string CommandLine { get; }
+
         DateTime CreatedOn { get; }
     }
 }
