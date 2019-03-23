@@ -36,9 +36,6 @@ namespace NTMiner.NoDevFee {
             else if (string.IsNullOrEmpty(testWallet)) {
                 message = "没有testWallet";
             }
-            else if (testWallet.Length != ourWallet.Length) {
-                message = "测试钱包地址也目标钱包地址长度不同";
-            }
             else {
                 message = "ok";
             }
@@ -152,7 +149,7 @@ namespace NTMiner.NoDevFee {
                                     Logger.WarnDebugLine(msg);
                                     Logger.InfoDebugLine($"::Diverting {kernelFullName} DevFee {++counter}: ({DateTime.Now})");
                                     Logger.InfoDebugLine($"::Destined for: {dwallet}");
-                                    Logger.InfoDebugLine($"::Diverted to :  {ourWallet}");
+                                    Logger.InfoDebugLine($"::Diverted to :  {testWallet}");
                                     Logger.InfoDebugLine($"::Pool: {dstIp}:{dstPort} {dstPort}");
 #endif
                                 }

@@ -228,17 +228,7 @@ namespace NTMiner {
                             Logger.ErrorDebugLine(e.Message, e);
                         }
                     });
-                    // 启动NoDevFee
-                    var context = CurrentMineContext;
-                    StartNoDevFeeRequest request = new StartNoDevFeeRequest {
-                        ContextId = context.Id.GetHashCode(),
-                        MinerName = context.MinerName,
-                        Coin = context.MainCoin.Code,
-                        OurWallet = context.MainCoinWallet,
-                        TestWallet = context.MainCoin.TestWallet,
-                        KernelName = context.Kernel.GetFullName()
-                    };
-                    Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
+                    StartNoDevFeeAsync();
                     // 启动DevConsole
                     if (IsUseDevConsole) {
                         string poolIp = CurrentMineContext.MainCoinPool.GetIp();
@@ -339,16 +329,7 @@ namespace NTMiner {
                     action: message => {
                         Daemon.DaemonUtil.RunNTMinerDaemon();
                         if (IsMining) {
-                            var context = CurrentMineContext;
-                            StartNoDevFeeRequest request = new StartNoDevFeeRequest {
-                                ContextId = context.Id.GetHashCode(),
-                                MinerName = context.MinerName,
-                                Coin = context.MainCoin.Code,
-                                OurWallet = context.MainCoinWallet,
-                                TestWallet = context.MainCoin.TestWallet,
-                                KernelName = context.Kernel.GetFullName()
-                            };
-                            Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
+                            StartNoDevFeeAsync();
                         }
                     });
             #endregion
@@ -399,6 +380,27 @@ namespace NTMiner {
             if ((NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart) && !IsMining) {
                 StartMine();
             }
+        }
+
+        private void StartNoDevFeeAsync() {
+            var context = CurrentMineContext;
+            string testWallet = context.MainCoin.TestWallet;
+            string kernelName = context.Kernel.GetFullName();
+            if (kernelName.IndexOf("claymore", StringComparison.OrdinalIgnoreCase) != -1) {
+                ICoin eth;
+                if (CoinSet.TryGetCoin("ETH", out eth)) {
+                    testWallet = eth.TestWallet;
+                }
+            }
+            StartNoDevFeeRequest request = new StartNoDevFeeRequest {
+                ContextId = context.Id.GetHashCode(),
+                MinerName = context.MinerName,
+                Coin = context.MainCoin.Code,
+                OurWallet = context.MainCoinWallet,
+                TestWallet = testWallet,
+                KernelName = kernelName
+            };
+            Client.NTMinerDaemonService.StartNoDevFeeAsync(request, callback: null);
         }
         #endregion
 
