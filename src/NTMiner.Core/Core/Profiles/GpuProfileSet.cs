@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.Gpus;
-using NTMiner.Core.Profiles.Impl;
+﻿using NTMiner.Core.Profiles.Impl;
 using NTMiner.JsonDb;
 using NTMiner.MinerClient;
 using System;
@@ -24,17 +23,13 @@ namespace NTMiner.Core.Profiles {
         public GpuData[] CreateGpus() {
             List<GpuData> list = new List<GpuData>();
             foreach (var gpu in NTMinerRoot.Current.GpuSet) {
-                IGpuClockDelta gpuClockDelta;
-                if (!NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.TryGetValue(gpu.Index, out gpuClockDelta)) {
-                    gpuClockDelta = GpuClockDelta.Empty;
-                }
                 list.Add(new GpuData {
                     Index = gpu.Index,
                     Name = gpu.Name,
-                    CoreClockDeltaMax = gpuClockDelta.CoreClockDeltaMax,
-                    CoreClockDeltaMin = gpuClockDelta.CoreClockDeltaMin,
-                    MemoryClockDeltaMax = gpuClockDelta.MemoryClockDeltaMax,
-                    MemoryClockDeltaMin = gpuClockDelta.MemoryClockDeltaMin
+                    CoreClockDeltaMax = gpu.CoreClockDeltaMax,
+                    CoreClockDeltaMin = gpu.CoreClockDeltaMin,
+                    MemoryClockDeltaMax = gpu.MemoryClockDeltaMax,
+                    MemoryClockDeltaMin = gpu.MemoryClockDeltaMin
                 });
             }
             return list.ToArray();

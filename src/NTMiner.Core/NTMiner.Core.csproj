@@ -99,17 +99,12 @@
     <Compile Include="Core\Gpus\Adl\AdlNativeMethods.cs" />
     <Compile Include="Core\Gpus\Adl\AdlTypes.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
-    <Compile Include="Core\Gpus\IGpuClockDeltaSet.cs" />
-    <Compile Include="Core\Gpus\Impl\EmptyClockDeltaSet.cs" />
-    <Compile Include="Core\Gpus\Impl\AMDClockDeltaSet.cs" />
     <Compile Include="Core\Gpus\Impl\EmptyOverClock.cs" />
     <Compile Include="Core\Gpus\GpuSetProperty.cs" />
     <Compile Include="Core\Gpus\Impl\AMDGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\AMDOverClock.cs" />
-    <Compile Include="Core\Gpus\Impl\NVIDIAClockDeltaSet.cs" />
     <Compile Include="Core\Profiles\Impl\GpuProfileExtension.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAOverClock.cs" />
-    <Compile Include="Core\Gpus\IOverClock.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
     <Compile Include="Core\ICoinGroupSet.cs" />
     <Compile Include="Core\IGroupSet.cs" />
@@ -177,7 +172,6 @@
     <Compile Include="Core\Gpus\Nvml\NvmlNativeMethods.cs" />
     <Compile Include="Core\Gpus\Nvml\NvmlTypes.cs" />
     <Compile Include="Core\DuplicateCodeException.cs" />
-    <Compile Include="Core\Gpus\IGpu.cs" />
     <Compile Include="Core\Gpus\IGpuSpeed.cs" />
     <Compile Include="Core\Gpus\IGpusSpeed.cs" />
     <Compile Include="Core\ISpeed.cs" />

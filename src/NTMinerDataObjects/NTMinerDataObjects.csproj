@@ -77,10 +77,9 @@
     <Compile Include="JsonDb\IServerJsonDb.cs" />
     <Compile Include="JsonDb\LocalJsonDb.cs" />
     <Compile Include="JsonDb\ServerJsonDb.cs" />
-    <Compile Include="MinerClient\GpuClockDelta.cs" />
-    <Compile Include="MinerClient\GpuClockDeltaExtension.cs" />
     <Compile Include="MinerClient\GpuData.cs" />
-    <Compile Include="MinerClient\IGpuClockDelta.cs" />
+    <Compile Include="MinerClient\IGpu.cs" />
+    <Compile Include="MinerClient\IOverClock.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
     <Compile Include="MinerServer\MinerIdsRequest.cs" />
     <Compile Include="MinerClient\CoinOverClockData.cs" />

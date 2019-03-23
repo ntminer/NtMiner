@@ -25,16 +25,6 @@ namespace NTMiner.Core.Gpus {
             this.Properties = new List<GpuSetProperty>();
         }
 
-        private IGpuClockDeltaSet _gpuClockDeltaSet;
-        public IGpuClockDeltaSet GpuClockDeltaSet {
-            get {
-                if (_gpuClockDeltaSet == null) {
-                    _gpuClockDeltaSet = new EmptyClockDeltaSet(NTMinerRoot.Current);
-                }
-                return _gpuClockDeltaSet;
-            }
-        }
-
         public IGpu this[int index] {
             get {
                 return _list[0];

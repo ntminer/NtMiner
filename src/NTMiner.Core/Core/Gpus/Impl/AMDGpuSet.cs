@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus.Adl;
+using NTMiner.MinerClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -117,16 +118,6 @@ namespace NTMiner.Core.Gpus.Impl {
         public GpuType GpuType {
             get {
                 return GpuType.AMD;
-            }
-        }
-
-        private IGpuClockDeltaSet _gpuClockDeltaSet;
-        public IGpuClockDeltaSet GpuClockDeltaSet {
-            get {
-                if (_gpuClockDeltaSet == null) {
-                    _gpuClockDeltaSet = new AMDClockDeltaSet(this);
-                }
-                return _gpuClockDeltaSet;
             }
         }
 

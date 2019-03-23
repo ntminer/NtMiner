@@ -1,4 +1,4 @@
-﻿namespace NTMiner.Core.Gpus {
+﻿namespace NTMiner.MinerClient {
     public interface IGpu {
         IOverClock OverClock { get; }
         int Index { get; }
@@ -8,5 +8,9 @@
         uint PowerUsage { get; set; }
         int CoreClockDelta { get; set; }
         int MemoryClockDelta { get; set; }
+        int CoreClockDeltaMin { get; set; }
+        int CoreClockDeltaMax { get; set; }
+        int MemoryClockDeltaMin { get; set; }
+        int MemoryClockDeltaMax { get; set; }
     }
 }

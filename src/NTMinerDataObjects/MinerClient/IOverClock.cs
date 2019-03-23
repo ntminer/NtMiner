@@ -1,6 +1,6 @@
 ﻿using NTMiner.MinerClient;
 
-namespace NTMiner.Core.Gpus {
+namespace NTMiner.MinerClient {
     public interface IOverClock {
         void SetCoreClock(IGpuProfile data);
         void SetMemoryClock(IGpuProfile data);

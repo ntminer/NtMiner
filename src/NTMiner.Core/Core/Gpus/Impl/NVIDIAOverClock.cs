@@ -90,22 +90,37 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         }
 
-        private static void RefreshGpuState(IGpu gpu) {
-            const string coreClockDeltaPatter = @"c\[0\]\.freqDelta     = (\d+) kHz";
-            const string memoryClockDeltaPatter = @"c\[1\]\.freqDelta     = (\d+) kHz";
+        public static void RefreshGpuState(IGpu gpu) {
+            const string coreClockDeltaMinMaxPattern = @"c\[0\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
+            const string memoryClockDeltaMinMaxPattern = @"c\[1\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
+            if (gpu.Index == NTMinerRoot.GpuAllId) {
+                return;
+            }
             int exitCode = -1;
             Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out string output);
+            int coreClockDeltaMin = 0;
+            int coreClockDeltaMax = 0;
+            int memoryClockDeltaMin = 0;
+            int memoryClockDeltaMax = 0;
             if (exitCode == 0) {
-                Match match = Regex.Match(output, coreClockDeltaPatter);
+                Match match = Regex.Match(output, coreClockDeltaMinMaxPattern);
                 if (match.Success) {
                     int.TryParse(match.Groups[1].Value, out int coreClockDelta);
                     gpu.CoreClockDelta = coreClockDelta;
+                    int.TryParse(match.Groups[2].Value, out coreClockDeltaMin);
+                    int.TryParse(match.Groups[3].Value, out coreClockDeltaMax);
                 }
-                match = Regex.Match(output, memoryClockDeltaPatter);
+                match = Regex.Match(output, memoryClockDeltaMinMaxPattern);
                 if (match.Success) {
                     int.TryParse(match.Groups[1].Value, out int memoryClockDelta);
                     gpu.MemoryClockDelta = memoryClockDelta;
+                    int.TryParse(match.Groups[2].Value, out memoryClockDeltaMin);
+                    int.TryParse(match.Groups[3].Value, out memoryClockDeltaMax);
                 }
+                gpu.CoreClockDeltaMin = coreClockDeltaMin;
+                gpu.CoreClockDeltaMax = coreClockDeltaMax;
+                gpu.MemoryClockDeltaMin = memoryClockDeltaMin;
+                gpu.MemoryClockDeltaMax = memoryClockDeltaMax;
                 VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
             }
         }

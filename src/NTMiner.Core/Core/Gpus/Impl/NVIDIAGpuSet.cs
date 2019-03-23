@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus.Nvml;
+using NTMiner.MinerClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -86,6 +87,9 @@ namespace NTMiner.Core.Gpus.Impl {
                         foreach (var kv in kvs) {
                             Environment.SetEnvironmentVariable(kv.Key, kv.Value);
                         }
+                        foreach (var gpu in _gpus.Values) {
+                            NVIDIAOverClock.RefreshGpuState(gpu);
+                        }
                     });
                 }
             }
@@ -128,16 +132,6 @@ namespace NTMiner.Core.Gpus.Impl {
         public GpuType GpuType {
             get {
                 return GpuType.NVIDIA;
-            }
-        }
-
-        private IGpuClockDeltaSet _gpuClockDeltaSet;
-        public IGpuClockDeltaSet GpuClockDeltaSet {
-            get {
-                if (_gpuClockDeltaSet == null) {
-                    _gpuClockDeltaSet = new NVIDIAClockDeltaSet(this);
-                }
-                return _gpuClockDeltaSet;
             }
         }
 

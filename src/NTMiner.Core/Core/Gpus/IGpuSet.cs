@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.MinerClient;
+using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus {
     public interface IGpuSet : IEnumerable<IGpu> {
         GpuType GpuType { get; }
         int Count { get; }
-
-        IGpuClockDeltaSet GpuClockDeltaSet { get; }
 
         bool TryGetGpu(int index, out IGpu gpu);
 
