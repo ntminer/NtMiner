@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
                                 coinVm.IsOverClockEnabled = coinOverClock.IsOverClockEnabled;
                                 coinVm.IsOverClockGpuAll = coinOverClock.IsOverClockGpuAll;
                                 List<GpuProfileViewModel> gpuProfileVms = new List<GpuProfileViewModel>();
-                                GpuProfileViewModel gpuProfileVm = null;
+                                GpuProfileViewModel gpuAllProfileVm = null;
                                 foreach (var gpu in data.Gpus.OrderBy(a => a.Index)) {
                                     var gpuProfileData = data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinVm.Id && a.Index == gpu.Index);
                                     if (gpuProfileData == null) {
@@ -35,14 +35,14 @@ namespace NTMiner.Vms {
                                         Temperature = 0
                                     });
                                     if (gpu.Index == NTMinerRoot.GpuAllId) {
-                                        gpuProfileVm = new GpuProfileViewModel(gpuProfileData, gpuVm);
+                                        gpuAllProfileVm = new GpuProfileViewModel(gpuProfileData, gpuVm);
                                     }
                                     else {
                                         gpuProfileVms.Add(new GpuProfileViewModel(gpuProfileData, gpuVm));
                                     }
                                 }
-                                if (gpuProfileVm == null) {
-                                    gpuProfileVm = new GpuProfileViewModel(new MinerClient.GpuProfileData(coinVm.Id, NTMinerRoot.GpuAllId), new GpuViewModel(new Gpu() {
+                                if (gpuAllProfileVm == null) {
+                                    gpuAllProfileVm = new GpuProfileViewModel(new MinerClient.GpuProfileData(coinVm.Id, NTMinerRoot.GpuAllId), new GpuViewModel(new Gpu() {
                                         Index = NTMinerRoot.GpuAllId,
                                         CoreClockDelta = 0,
                                         FanSpeed = 0,
@@ -54,13 +54,13 @@ namespace NTMiner.Vms {
                                         Temperature = 0
                                     }));
                                 }
-                                coinVm.GpuAllProfileVm = gpuProfileVm;
+                                coinVm.GpuAllProfileVm = gpuAllProfileVm;
                                 coinVm.GpuProfileVms = gpuProfileVms;
                             }
                         }
-                        this.CurrentCoin = CoinVms.MainCoins.FirstOrDefault(a => a.IsOverClockEnabled);
-                        if (this.CurrentCoin == null) {
-                            this.CurrentCoin = CoinVms.MainCoins.FirstOrDefault();
+                        this.CoinVm = CoinVms.MainCoins.FirstOrDefault(a => a.IsOverClockEnabled);
+                        if (this.CoinVm == null) {
+                            this.CoinVm = CoinVms.MainCoins.FirstOrDefault();
                         }
                     }
                 });
@@ -73,12 +73,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        private CoinViewModel _currentCoin;
-        public CoinViewModel CurrentCoin {
-            get { return _currentCoin; }
+        private CoinViewModel _coinVm;
+        public CoinViewModel CoinVm {
+            get { return _coinVm; }
             set {
-                _currentCoin = value;
-                OnPropertyChanged(nameof(CurrentCoin));
+                _coinVm = value;
+                OnPropertyChanged(nameof(CoinVm));
             }
         }
     }

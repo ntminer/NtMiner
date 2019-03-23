@@ -4,7 +4,6 @@ using NTMiner.JsonDb;
 using NTMiner.MinerClient;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace NTMiner.Core.Profiles {
@@ -92,7 +91,7 @@ namespace NTMiner.Core.Profiles {
         private void Save() {
             Data.Gpus = CreateGpus();
             string json = VirtualRoot.JsonSerializer.Serialize(Data);
-            File.WriteAllText(SpecialPath.GpuProfilesJsonFileFullName, json);
+            SpecialPath.WriteGpuProfilesJsonFile(json);
         }
 
         private bool _isInited = false;
@@ -120,6 +119,7 @@ namespace NTMiner.Core.Profiles {
                     }
                     else {
                         _data = NewJsonDb();
+                        Save();
                     }
                     _isInited = true;
                 }

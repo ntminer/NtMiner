@@ -100,6 +100,10 @@ namespace NTMiner {
             return string.Empty;
         }
 
+        public static void WriteGpuProfilesJsonFile(string json) {
+            File.WriteAllText(GpuProfilesJsonFileFullName, json);
+        }
+
         public static string LocalDbFileFullName { get; private set; }
         public static string LocalJsonFileFullName { get; private set; }
         public static string ServerDbFileFullName { get; private set; }
