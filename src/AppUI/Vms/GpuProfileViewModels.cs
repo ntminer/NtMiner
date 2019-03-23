@@ -57,10 +57,9 @@ namespace NTMiner.Vms {
             if (!_gpuAllVmDicByCoinId.TryGetValue(coinId, out result)) {
                 lock (_locker) {
                     if (!_gpuAllVmDicByCoinId.TryGetValue(coinId, out result)) {
-                        IGpuProfile data = GpuProfileSet.Instance.GetGpuProfile(coinId, NTMinerRoot.GpuAllId);
                         GpuViewModel gpuVm;
                         GpuViewModels.Current.TryGetGpuVm(NTMinerRoot.GpuAllId, out gpuVm);
-                        result = new GpuProfileViewModel(data, gpuVm);
+                        result = GetGpuProfileVm(coinId, gpuVm);
                         _gpuAllVmDicByCoinId.Add(coinId, result);
                     }
                 }
@@ -71,9 +70,24 @@ namespace NTMiner.Vms {
         public List<GpuProfileViewModel> List(Guid coinId) {
             List<GpuProfileViewModel> list;
             if (!_listByCoinId.TryGetValue(coinId, out list)) {
-                return new List<GpuProfileViewModel>();
+                lock (_locker) {
+                    if (!_listByCoinId.TryGetValue(coinId, out list)) {
+                        list = new List<GpuProfileViewModel>();
+                        foreach (var gpu in GpuViewModels.Current) {
+                            GpuProfileViewModel gpuProfileVm = GetGpuProfileVm(coinId, gpu);
+                            list.Add(gpuProfileVm);
+                        }
+                        list.Sort(new CompareByGpuIndex());
+                        _listByCoinId.Add(coinId, list);
+                    }
+                }
             }
             return list;
+        }
+
+        private GpuProfileViewModel GetGpuProfileVm(Guid coinId, GpuViewModel gpuVm) {
+            IGpuProfile data = GpuProfileSet.Instance.GetGpuProfile(coinId, gpuVm.Index);
+            return new GpuProfileViewModel(data, gpuVm);
         }
 
         private class CompareByGpuIndex : IComparer<GpuProfileViewModel> {
