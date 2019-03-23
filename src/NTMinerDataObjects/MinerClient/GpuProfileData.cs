@@ -32,6 +32,10 @@ namespace NTMiner.MinerClient {
             this.Cool = data.Cool;
         }
 
+        public string GetId() {
+            return $"{CoinId}_{Index}";
+        }
+
         public Guid CoinId { get; set; }
 
         public int Index { get; set; }

@@ -53,6 +53,10 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(Cool));
         }
 
+        public string GetId() {
+            return $"{CoinId}_{Index}";
+        }
+
         public Guid CoinId {
             get => _coinId;
             set {
