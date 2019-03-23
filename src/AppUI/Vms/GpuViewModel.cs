@@ -25,6 +25,22 @@ namespace NTMiner.Vms {
             _memoryClockDelta = data.MemoryClockDelta;
         }
 
+        private readonly bool _isGpuData;
+        private readonly GpuData[] _gpuDatas;
+        public GpuViewModel(GpuData gpuData, GpuData[] gpuDatas) {
+            _isGpuData = true;
+            _gpuDatas = gpuDatas;
+            _gpuClockDelta = gpuData;
+            _overClock = new EmptyOverClock();
+            _index = gpuData.Index;
+            _name = gpuData.Name;
+            _temperature = 0;
+            _fanSpeed = 0;
+            _powerUsage = 0;
+            _coreClockDelta = 0;
+            _memoryClockDelta = 0;
+        }
+
         public IOverClock OverClock {
             get => _overClock;
             set {
@@ -77,6 +93,9 @@ namespace NTMiner.Vms {
 
         public string TemperatureText {
             get {
+                if (_isGpuData) {
+                    return "0℃";
+                }
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0℃";
                 }
@@ -112,6 +131,9 @@ namespace NTMiner.Vms {
 
         public string FanSpeedText {
             get {
+                if (_isGpuData) {
+                    return "0%";
+                }
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0%";
                 }
@@ -154,6 +176,9 @@ namespace NTMiner.Vms {
 
         public string PowerUsageWText {
             get {
+                if (_isGpuData) {
+                    return "0W";
+                }
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0W";
                 }
@@ -177,6 +202,9 @@ namespace NTMiner.Vms {
 
         public string CoreClockDeltaMText {
             get {
+                if (_isGpuData) {
+                    return "0M";
+                }
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0M";
                 }
@@ -212,6 +240,9 @@ namespace NTMiner.Vms {
 
         public string MemoryClockDeltaMText {
             get {
+                if (_isGpuData) {
+                    return "0M";
+                }
                 if (NTMinerRoot.Current.GpuSet == EmptyGpuSet.Instance) {
                     return "0M";
                 }
@@ -236,8 +267,13 @@ namespace NTMiner.Vms {
 
         public string CoreClockDeltaMinMaxMText {
             get {
-                if (Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                    return $"{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Max(a => a.CoreClockDeltaMin) / 1000}至{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Min(a => a.CoreClockDeltaMax) / 1000}";
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{_gpuDatas.Max(a => a.CoreClockDeltaMin) / 1000}至{_gpuDatas.Min(a => a.CoreClockDeltaMax) / 1000}";
+                    }
+                    else {
+                        return $"{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Max(a => a.CoreClockDeltaMin) / 1000}至{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Min(a => a.CoreClockDeltaMax) / 1000}";
+                    }
                 }
                 return $"{GpuClockDelta.CoreClockDeltaMinMText()} - {GpuClockDelta.CoreClockDeltaMaxMText()}";
             }
@@ -245,8 +281,13 @@ namespace NTMiner.Vms {
 
         public string MemoryClockDeltaMinMaxMText {
             get {
-                if (Index == NTMinerRoot.GpuAllId && NTMinerRoot.Current.GpuSet.Count != 0) {
-                    return $"{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Max(a => a.MemoryClockDeltaMin) / 1000}至{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Min(a => a.MemoryClockDeltaMax) / 1000}";
+                if (Index == NTMinerRoot.GpuAllId) {
+                    if (_isGpuData) {
+                        return $"{_gpuDatas.Max(a => a.MemoryClockDeltaMin) / 1000}至{_gpuDatas.Min(a => a.MemoryClockDeltaMax) / 1000}";
+                    }
+                    else {
+                        return $"{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Max(a => a.MemoryClockDeltaMin) / 1000}至{NTMinerRoot.Current.GpuSet.GpuClockDeltaSet.Min(a => a.MemoryClockDeltaMax) / 1000}";
+                    }
                 }
                 return $"{GpuClockDelta.MemoryClockDeltaMinMText()} - {GpuClockDelta.MemoryClockDeltaMaxMText()}";
             }

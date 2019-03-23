@@ -11,7 +11,6 @@ namespace NTMiner.Core.Gpus.Impl {
             PowerUsage = 0,
             CoreClockDelta = 0,
             MemoryClockDelta = 0,
-            GpuClockDelta = MinerClient.GpuClockDelta.Empty,
             OverClock = new EmptyOverClock()
         }, new Speed(), new Speed());
 

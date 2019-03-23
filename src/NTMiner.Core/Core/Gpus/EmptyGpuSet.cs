@@ -17,7 +17,6 @@ namespace NTMiner.Core.Gpus {
                 PowerUsage = 0,
                 CoreClockDelta = 0,
                 MemoryClockDelta = 0,
-                GpuClockDelta = GpuClockDelta.Empty,
                 OverClock = new EmptyOverClock()
             }
         };

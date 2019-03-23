@@ -1,6 +1,4 @@
-﻿using NTMiner.MinerClient;
-
-namespace NTMiner.Core.Gpus.Impl {
+﻿namespace NTMiner.Core.Gpus.Impl {
     public class Gpu : IGpu {
         public Gpu() {
         }
@@ -18,7 +16,5 @@ namespace NTMiner.Core.Gpus.Impl {
         public uint PowerUsage { get; set; }
         public int CoreClockDelta { get; set; }
         public int MemoryClockDelta { get; set; }
-
-        public GpuClockDelta GpuClockDelta { get; set; }
     }
 }
