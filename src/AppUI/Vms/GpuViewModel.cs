@@ -17,6 +17,12 @@ namespace NTMiner.Vms {
         private int _coreClockDeltaMax;
         private int _memoryClockDeltaMin;
         private int _memoryClockDeltaMax;
+        private int _cool;
+        private int _coolMin;
+        private int _coolMax;
+        private double _powerMin;
+        private double _powerMax;
+        private double _power;
 
         public GpuViewModel(IGpu data) {
             _overClock = data.OverClock;
@@ -31,6 +37,12 @@ namespace NTMiner.Vms {
             _coreClockDeltaMax = data.CoreClockDeltaMax;
             _memoryClockDeltaMin = data.MemoryClockDeltaMin;
             _memoryClockDeltaMax = data.MemoryClockDeltaMax;
+            _cool = data.Cool;
+            _coolMin = data.CoolMin;
+            _coolMax = data.CoolMax;
+            _power = data.Power;
+            _powerMin = data.PowerMin;
+            _powerMax = data.PowerMax;
         }
 
         private readonly bool _isGpuData;
@@ -56,6 +68,12 @@ namespace NTMiner.Vms {
             _coreClockDeltaMax = gpuData.CoreClockDeltaMax;
             _memoryClockDeltaMin = gpuData.MemoryClockDeltaMin;
             _memoryClockDeltaMax = gpuData.MemoryClockDeltaMax;
+            _cool = gpuData.Cool;
+            _coolMin = gpuData.CoolMin;
+            _coolMax = gpuData.CoolMax;
+            _power = gpuData.Power;
+            _powerMin = gpuData.PowerMin;
+            _powerMax = gpuData.PowerMax;
         }
 
         public IOverClock OverClock {
@@ -363,6 +381,49 @@ namespace NTMiner.Vms {
         public string MemoryClockDeltaMaxMText {
             get {
                 return (this.MemoryClockDeltaMax / 1000).ToString();
+            }
+        }
+
+        public int Cool {
+            get => _cool;
+            set {
+                _cool = value;
+                OnPropertyChanged(nameof(Cool));
+            }
+        }
+        public int CoolMin {
+            get => _coolMin;
+            set {
+                _coolMin = value;
+                OnPropertyChanged(nameof(CoolMin));
+            }
+        }
+        public int CoolMax {
+            get => _coolMax;
+            set {
+                _coolMax = value;
+                OnPropertyChanged(nameof(CoolMax));
+            }
+        }
+        public double PowerMin {
+            get => _powerMin;
+            set {
+                _powerMin = value;
+                OnPropertyChanged(nameof(PowerMin));
+            }
+        }
+        public double PowerMax {
+            get => _powerMax;
+            set {
+                _powerMax = value;
+                OnPropertyChanged(nameof(PowerMax));
+            }
+        }
+        public double Power {
+            get => _power;
+            set {
+                _power = value;
+                OnPropertyChanged(nameof(Power));
             }
         }
     }

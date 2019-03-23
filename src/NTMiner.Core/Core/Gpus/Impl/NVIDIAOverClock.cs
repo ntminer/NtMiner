@@ -93,15 +93,26 @@ namespace NTMiner.Core.Gpus.Impl {
         public static void RefreshGpuState(IGpu gpu) {
             const string coreClockDeltaMinMaxPattern = @"c\[0\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
             const string memoryClockDeltaMinMaxPattern = @"c\[1\]\.freqDelta     = (\d+) kHz \[(-?\d+) .. (\d+)\]";
+            const string coolSpeedMinMaxPattern = @"cooler\[0\]\.speed   = (\d+) % \[(-?\d+) .. (\d+)\]";
+            const string powerMinPattern = @"policy\[0\]\.pwrLimitMin     = (\d+\.?\d*) %";
+            const string powerMaxPattern = @"policy\[0\]\.pwrLimitMax     = (\d+\.?\d*) %";
+            const string powerLimitCurrentPattern = @"policy\[0\]\.pwrLimitCurrent = (\d+\.?\d*) %";
             if (gpu.Index == NTMinerRoot.GpuAllId) {
                 return;
             }
             int exitCode = -1;
-            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out string output);
+            string output;
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} ps20e", ref exitCode, out output);
             int coreClockDeltaMin = 0;
             int coreClockDeltaMax = 0;
             int memoryClockDeltaMin = 0;
             int memoryClockDeltaMax = 0;
+            int cool = 0;
+            int coolMin = 0;
+            int coolMax = 0;
+            double powerMin = 0;
+            double powerMax = 0;
+            double power = 0;
             if (exitCode == 0) {
                 Match match = Regex.Match(output, coreClockDeltaMinMaxPattern);
                 if (match.Success) {
@@ -121,8 +132,38 @@ namespace NTMiner.Core.Gpus.Impl {
                 gpu.CoreClockDeltaMax = coreClockDeltaMax;
                 gpu.MemoryClockDeltaMin = memoryClockDeltaMin;
                 gpu.MemoryClockDeltaMax = memoryClockDeltaMax;
-                VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
             }
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} coolers", ref exitCode, out output);
+            if (exitCode == 0) {
+                Match match = Regex.Match(output, coolSpeedMinMaxPattern);
+                if (match.Success) {
+                    int.TryParse(match.Groups[1].Value, out cool);
+                    int.TryParse(match.Groups[2].Value, out coolMin);
+                    int.TryParse(match.Groups[3].Value, out coolMax);
+                }
+                gpu.Cool = cool;
+                gpu.CoolMin = coolMin;
+                gpu.CoolMax = coolMax;
+            }
+            Windows.Cmd.RunClose(SpecialPath.NTMinerOverClockFileFullName, $"gpu:{gpu.Index} pwrinfo", ref exitCode, out output);
+            if (exitCode == 0) {
+                Match match = Regex.Match(output, powerMinPattern);
+                if (match.Success) {
+                    double.TryParse(match.Groups[1].Value, out powerMin);
+                }
+                match = Regex.Match(output, powerMaxPattern);
+                if (match.Success) {
+                    double.TryParse(match.Groups[1].Value, out powerMax);
+                }
+                match = Regex.Match(output, powerLimitCurrentPattern);
+                if (match.Success) {
+                    double.TryParse(match.Groups[1].Value, out power);
+                }
+                gpu.PowerMin = powerMin;
+                gpu.PowerMax = powerMax;
+                gpu.Power = power;
+            }
+            VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
         }
     }
 }
