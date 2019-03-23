@@ -3,7 +3,7 @@ using NTMiner.MinerServer;
 using NTMiner.Profile;
 
 namespace NTMiner.JsonDb {
-    public interface ILocalJson : IJsonDb {
+    public interface ILocalJsonDb : IJsonDb {
         CoinKernelProfileData[] CoinKernelProfiles { get; }
         CoinProfileData[] CoinProfiles { get; }
         MinerProfileData MinerProfile { get; }

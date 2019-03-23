@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.JsonDb {
-    public interface IServerJson : IJsonDb {
+    public interface IServerJsonDb : IJsonDb {
         CoinGroupData[] CoinGroups { get; }
         List<CoinKernelData> CoinKernels { get; }
         CoinData[] Coins { get; }

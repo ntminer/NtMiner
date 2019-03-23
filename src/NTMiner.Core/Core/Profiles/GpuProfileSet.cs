@@ -11,9 +11,9 @@ using System.Linq;
 namespace NTMiner.Core.Profiles {
     public class GpuProfileSet {
         public static readonly GpuProfileSet Instance = new GpuProfileSet();
-        private readonly GpuProfilesJson _data = new GpuProfilesJson();
+        private readonly GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
-        public GpuProfilesJson Data {
+        public GpuProfilesJsonDb Data {
             get {
                 return _data;
             }
@@ -88,7 +88,7 @@ namespace NTMiner.Core.Profiles {
                     string json = SpecialPath.ReadGpuProfilesJsonFile();
                     if (!string.IsNullOrEmpty(json)) {
                         try {
-                            GpuProfilesJson data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJson>(json);
+                            GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
                             this._data.GpuProfiles = data.GpuProfiles ?? new List<GpuProfileData>();
                             this._data.CoinOverClocks = data.CoinOverClocks ?? new List<CoinOverClockData>();
                         }

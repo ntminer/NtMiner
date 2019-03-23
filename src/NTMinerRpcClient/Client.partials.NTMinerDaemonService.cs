@@ -48,14 +48,14 @@ namespace NTMiner {
                 }
             }
 
-            public void GetGpuProfilesJsonAsync(string clientHost, Action<GpuProfilesJson, Exception> callback) {
+            public void GetGpuProfilesJsonAsync(string clientHost, Action<GpuProfilesJsonDb, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
                             client.Timeout = TimeSpan.FromMilliseconds(3000);
                             Task<HttpResponseMessage> message = client.PostAsync($"http://{clientHost}:{WebApiConst.NTMinerDaemonPort}/api/{s_controllerName}/{nameof(INTMinerDaemonController.GetGpuProfilesJson)}", null);
                             string json = message.Result.Content.ReadAsAsync<string>().Result;
-                            GpuProfilesJson data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJson>(json);
+                            GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
                             callback?.Invoke(data, null);
                             return data;
                         }

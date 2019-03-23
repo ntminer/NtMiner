@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.JsonDb {
-    public class LocalJson : ILocalJson {
-        public LocalJson() {
+    public class LocalJsonDb : ILocalJsonDb {
+        public LocalJsonDb() {
             this.CoinKernelProfiles = new CoinKernelProfileData[0];
             this.CoinProfiles = new CoinProfileData[0];
             this.MinerProfile = new MinerProfileData();

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.JsonDb {
-    public class ServerJson : IServerJson {
-        public ServerJson() {
+    public class ServerJsonDb : IServerJsonDb {
+        public ServerJsonDb() {
             this.Coins = new CoinData[0];
             this.Groups = new GroupData[0];
             this.CoinGroups = new CoinGroupData[0];

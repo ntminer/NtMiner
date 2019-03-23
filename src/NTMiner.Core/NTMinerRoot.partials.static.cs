@@ -51,8 +51,8 @@ namespace NTMiner {
             }
         }
 
-        private static LocalJson _localJson;
-        public static ILocalJson LocalJson {
+        private static LocalJsonDb _localJson;
+        public static ILocalJsonDb LocalJson {
             get {
                 LocalJsonInit();
                 return _localJson;
@@ -77,7 +77,7 @@ namespace NTMiner {
                         string localJson = SpecialPath.ReadLocalJsonFile();
                         if (!string.IsNullOrEmpty(localJson)) {
                             try {
-                                LocalJson data = VirtualRoot.JsonSerializer.Deserialize<LocalJson>(localJson);
+                                LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
                                 _localJson = data;
                             }
                             catch (Exception e) {
@@ -85,7 +85,7 @@ namespace NTMiner {
                             }
                         }
                         else {
-                            _localJson = new LocalJson();
+                            _localJson = new LocalJsonDb();
                         }
                         _localJsonInited = true;
                     }
@@ -93,8 +93,8 @@ namespace NTMiner {
             }
         }
 
-        private static ServerJson _serverJson;
-        private static IServerJson ServerJson {
+        private static ServerJsonDb _serverJson;
+        private static IServerJsonDb ServerJson {
             get {
                 ServerJsonInit();
                 return _serverJson;
@@ -115,7 +115,7 @@ namespace NTMiner {
                         string serverJson = SpecialPath.ReadServerJsonFile();
                         if (!string.IsNullOrEmpty(serverJson)) {
                             try {
-                                ServerJson data = VirtualRoot.JsonSerializer.Deserialize<ServerJson>(serverJson);
+                                ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson);
                                 _serverJson = data;
                                 if (KernelBrandId != Guid.Empty) {
                                     var kernelToRemoves = data.Kernels.Where(a => a.BrandId != NTMinerRoot.KernelBrandId).ToArray();
@@ -137,7 +137,7 @@ namespace NTMiner {
                             }
                         }
                         else {
-                            _serverJson = new ServerJson();
+                            _serverJson = new ServerJsonDb();
                         }
                         _serverJsonInited = true;
                     }
@@ -148,7 +148,7 @@ namespace NTMiner {
         // 将当前的系统状态导出为serverVersion.json
         public static string ExportServerVersionJson() {
             var root = Current;
-            ServerJson serverJsonObj = new ServerJson {
+            ServerJsonDb serverJsonObj = new ServerJsonDb {
                 Coins = root.CoinSet.Cast<CoinData>().ToArray(),
                 Groups = root.GroupSet.Cast<GroupData>().ToArray(),
                 CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray(),
@@ -186,7 +186,7 @@ namespace NTMiner {
                     PoolProfileData dualCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId));
                     poolProfiles.Add(dualCoinPoolProfile);
                 }
-                LocalJson localJsonObj = new LocalJson {
+                LocalJsonDb localJsonObj = new LocalJsonDb {
                     MinerProfile = new MinerProfileData(minerProfile) {
                         MinerName = "{{MinerName}}"
                     },
@@ -204,7 +204,7 @@ namespace NTMiner {
                 var coins = root.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
                 var coinGroups = root.CoinGroupSet.Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
                 var pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToArray();
-                ServerJson serverJsonObj = new ServerJson {
+                ServerJsonDb serverJsonObj = new ServerJsonDb {
                     Coins = coins,
                     CoinGroups = coinGroups,
                     Pools = pools,

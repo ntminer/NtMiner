@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 
 namespace NTMiner.JsonDb {
-    public class GpuProfilesJson {
+    public class GpuProfilesJsonDb {
         public List<GpuProfileData> GpuProfiles { get; set; }
         public List<CoinOverClockData> CoinOverClocks { get; set; }
 
-        public GpuProfilesJson() {
+        public GpuProfilesJsonDb() {
             GpuProfiles = new List<GpuProfileData>();
             CoinOverClocks = new List<CoinOverClockData>();
         }
