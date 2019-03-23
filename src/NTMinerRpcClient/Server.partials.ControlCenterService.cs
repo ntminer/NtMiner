@@ -385,8 +385,7 @@ namespace NTMiner {
             public DataResponse<List<WalletData>> GetWallets() {
                 try {
                     SignatureRequest request = new SignatureRequest {
-                        LoginName = SingleUser.LoginName,
-                        MessageId = Guid.NewGuid()
+                        LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IControlCenterController.Wallets), request);
@@ -430,8 +429,7 @@ namespace NTMiner {
             public List<PoolData> GetPools() {
                 try {
                     SignatureRequest request = new SignatureRequest {
-                        LoginName = SingleUser.LoginName,
-                        MessageId = Guid.NewGuid()
+                        LoginName = SingleUser.LoginName
                     };
                     request.SignIt(SingleUser.PasswordSha1);
                     DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IControlCenterController.Pools), request);

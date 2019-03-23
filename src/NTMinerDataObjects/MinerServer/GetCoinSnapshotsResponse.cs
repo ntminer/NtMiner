@@ -7,9 +7,8 @@ namespace NTMiner.MinerServer {
             this.Data = new List<CoinSnapshotData>();
         }
 
-        public static GetCoinSnapshotsResponse Ok(Guid messageId, List<CoinSnapshotData> data, int totalMiningCount, int totalOnlineCount) {
+        public static GetCoinSnapshotsResponse Ok(List<CoinSnapshotData> data, int totalMiningCount, int totalOnlineCount) {
             return new GetCoinSnapshotsResponse() {
-                MessageId = messageId,
                 StateCode = 200,
                 ReasonPhrase = "Ok",
                 Description = "成功",

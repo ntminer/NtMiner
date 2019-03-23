@@ -20,7 +20,7 @@ namespace NTMiner {
                 return true;
             }
             if (string.IsNullOrEmpty(request.LoginName)) {
-                response = ResponseBase.InvalidInput<TResponse>(request.MessageId, "登录名不能为空");
+                response = ResponseBase.InvalidInput<TResponse>("登录名不能为空");
                 user = null;
                 return false;
             }
@@ -31,18 +31,18 @@ namespace NTMiner {
                     message = "第一次使用，请先设置密码";
                 }
                 Write.DevLine($"{request.LoginName} {message}");
-                response = ResponseBase.NotExist<TResponse>(request.MessageId, message);
+                response = ResponseBase.NotExist<TResponse>(message);
                 return false;
             }
             if (!request.Timestamp.IsInTime()) {
                 Write.DevLine($"过期的请求 {request.Timestamp}");
-                response = ResponseBase.Expired<TResponse>(request.MessageId);
+                response = ResponseBase.Expired<TResponse>();
                 return false;
             }
             if (request.Sign != request.GetSign(user.Password)) {
                 string message = "用户名或密码错误";
                 Write.DevLine($"{request.LoginName} {message}");
-                response = ResponseBase.Forbidden<TResponse>(request.MessageId, message);
+                response = ResponseBase.Forbidden<TResponse>(message);
                 return false;
             }
             response = null;

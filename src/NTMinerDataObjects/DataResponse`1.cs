@@ -5,9 +5,8 @@ namespace NTMiner {
         public DataResponse() {
         }
 
-        public static DataResponse<T> Ok(Guid messageId, T data) {
+        public static DataResponse<T> Ok(T data) {
             return new DataResponse<T> {
-                MessageId = messageId,
                 StateCode = 200,
                 ReasonPhrase = "Ok",
                 Description = "成功",

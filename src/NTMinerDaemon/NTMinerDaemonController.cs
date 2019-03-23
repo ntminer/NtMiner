@@ -55,34 +55,34 @@ namespace NTMiner {
         [HttpPost]
         public ResponseBase RestartWindows([FromBody]SignatureRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                     Windows.Power.Restart();
                 });
-                return ResponseBase.Ok(request.MessageId);
+                return ResponseBase.Ok();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
 
         [HttpPost]
         public ResponseBase ShutdownWindows([FromBody]SignatureRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
                     Windows.Power.Shutdown();
                 });
-                return ResponseBase.Ok(request.MessageId);
+                return ResponseBase.Ok();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
 
@@ -99,7 +99,7 @@ namespace NTMiner {
         [HttpPost]
         public ResponseBase StartMine([FromBody]WorkRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 ResponseBase response;
@@ -111,7 +111,6 @@ namespace NTMiner {
                 if (IsNTMinerOpened()) {
                     using (HttpClient client = new HttpClient()) {
                         WorkRequest innerRequest = new WorkRequest {
-                            MessageId = request.MessageId,
                             WorkId = request.WorkId
                         };
                         Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/StartMine", innerRequest);
@@ -126,26 +125,26 @@ namespace NTMiner {
                             arguments += " --work";
                         }
                         Windows.Cmd.RunClose(location, arguments);
-                        return ResponseBase.Ok(request.MessageId);
+                        return ResponseBase.Ok();
                     }
-                    return ResponseBase.ServerError(request.MessageId, "挖矿端程序不存在");
+                    return ResponseBase.ServerError("挖矿端程序不存在");
                 }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
 
         [HttpPost]
         public ResponseBase StopMine([FromBody]SignatureRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             try {
                 ResponseBase response;
                 if (!IsNTMinerOpened()) {
-                    return ResponseBase.Ok(request.MessageId);
+                    return ResponseBase.Ok();
                 }
                 try {
                     using (HttpClient client = new HttpClient()) {
@@ -157,18 +156,18 @@ namespace NTMiner {
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e.Message, e);
                 }
-                return ResponseBase.Ok(request.MessageId);
+                return ResponseBase.Ok();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e.Message, e);
-                return ResponseBase.ServerError(request.MessageId, e.Message);
+                return ResponseBase.ServerError(e.Message);
             }
         }
 
         [HttpPost]
         public ResponseBase RestartNTMiner([FromBody]WorkRequest request) {
             if (request == null) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             if (request.WorkId != Guid.Empty) {
                 File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
@@ -193,7 +192,7 @@ namespace NTMiner {
                     Logger.ErrorDebugLine(e.Message, e);
                 }
             });
-            return ResponseBase.Ok(request.MessageId);
+            return ResponseBase.Ok();
         }
 
         public void CloseNTMiner() {
@@ -225,7 +224,7 @@ namespace NTMiner {
         [HttpPost]
         public ResponseBase UpgradeNTMiner([FromBody]UpgradeNTMinerRequest request) {
             if (request == null || string.IsNullOrEmpty(request.NTMinerFileName)) {
-                return ResponseBase.InvalidInput(Guid.Empty, "参数错误");
+                return ResponseBase.InvalidInput("参数错误");
             }
             Task.Factory.StartNew(() => {
                 try {
@@ -239,19 +238,19 @@ namespace NTMiner {
                     Logger.ErrorDebugLine(e.Message, e);
                 }
             });
-            return ResponseBase.Ok(request.MessageId);
+            return ResponseBase.Ok();
         }
 
         [HttpPost]
         public ResponseBase StartNoDevFee([FromBody]StartNoDevFeeRequest request) {
             NoDevFee.NoDevFeeUtil.StartAsync(request.ContextId, request.MinerName, request.Coin, request.OurWallet, request.TestWallet, request.KernelName, out string message);
-            return ResponseBase.Ok(request.MessageId, message);
+            return ResponseBase.Ok(message);
         }
 
         [HttpPost]
         public ResponseBase StopNoDevFee([FromBody]RequestBase request) {
             NoDevFee.NoDevFeeUtil.Stop();
-            return ResponseBase.Ok(request.MessageId);
+            return ResponseBase.Ok();
         }
     }
 }
