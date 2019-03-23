@@ -2,7 +2,6 @@
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.JsonDb;
 using NTMiner.MinerClient;
-using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
 using System.IO;

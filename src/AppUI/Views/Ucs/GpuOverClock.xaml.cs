@@ -4,14 +4,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
-    public partial class GpusOverClock : UserControl {
+    public partial class GpuOverClock : UserControl {
         public MinerProfileViewModel Vm {
             get {
                 return (MinerProfileViewModel)this.DataContext;
             }
         }
 
-        public GpusOverClock() {
+        public GpuOverClock() {
             InitializeComponent();
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
         }
