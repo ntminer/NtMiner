@@ -1,9 +1,9 @@
 ﻿using NTMiner.JsonDb;
 using NTMiner.MinerClient;
-using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -15,15 +15,20 @@ namespace NTMiner.Vms {
         private CoinViewModel _coinVm;
         private GpuProfilesJsonDb _data;
         private bool _isEnabled;
+        private Visibility _isMinerClientVmVisible = Visibility.Visible;
+        private readonly MinerClientsWindowViewModel _minerClientsWindowVm;
+        private readonly MinerClientViewModel _minerClientVm;
 
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
 
-        public GpuProfilesPageViewModel(IClientData client) {
-            if (client == null) {
-                throw new ArgumentNullException(nameof(client));
+        public GpuProfilesPageViewModel(MinerClientsWindowViewModel minerClientsWindowVm) {
+            _minerClientsWindowVm = minerClientsWindowVm;
+            if (minerClientsWindowVm.SelectedMinerClients == null && minerClientsWindowVm.SelectedMinerClients.Length != 1) {
+                throw new InvalidProgramException();
             }
+            _minerClientVm = minerClientsWindowVm.SelectedMinerClients[0];
             this.Save = new DelegateCommand(() => {
                 if (_data == null) {
                     return;
@@ -46,10 +51,10 @@ namespace NTMiner.Vms {
                     }
                 }
                 string json = VirtualRoot.JsonSerializer.Serialize(jsonObj);
-                Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
+                Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(_minerClientVm.MinerIp, json);
                 CloseWindow?.Invoke();
             });
-            Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(client.MinerIp, (data, e) => {
+            Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {
                 _data = data;
                 if (e != null) {
                     Write.UserLine(e.Message, System.ConsoleColor.Red);
@@ -125,6 +130,26 @@ namespace NTMiner.Vms {
                     }
                 }
             });
+        }
+
+        public MinerClientViewModel MinerClientVm {
+            get {
+                return _minerClientVm;
+            }
+        }
+
+        public Visibility IsMinerClientVmVisible {
+            get => _isMinerClientVmVisible;
+            set {
+                _isMinerClientVmVisible = value;
+                OnPropertyChanged(nameof(IsMinerClientVmVisible));
+            }
+        }
+
+        public MinerClientsWindowViewModel MinerClientsWindowVm {
+            get {
+                return _minerClientsWindowVm;
+            }
         }
 
         public bool IsEnabled {
