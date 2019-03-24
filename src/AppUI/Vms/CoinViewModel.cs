@@ -59,6 +59,8 @@ namespace NTMiner.Vms {
 
         public ICommand OverClock { get; private set; }
 
+        public ICommand FillOverClockForm { get; private set; }
+
         public Action CloseWindow { get; set; }
 
         public CoinViewModel() {
@@ -82,19 +84,22 @@ namespace NTMiner.Vms {
             _id = id;
             this.OverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
                 DialogWindow.ShowDialog(message: $"确定应用该超频设置吗？", title: "确认", onYes: () => {
-                    if (IsOverClockGpuAll) {
-                        GpuAllProfileVm.Update(data);
-                    }
-                    else {
-                        foreach (var item in GpuProfileVms) {
-                            if (item.Index == NTMinerRoot.GpuAllId) {
-                                continue;
-                            }
-                            item.Update(data);
-                        }
-                    }
+                    FillOverClockForm.Execute(data);
                     ApplyOverClock.Execute(null);
                 }, icon: IconConst.IconConfirm);
+            });
+            this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {
+                if (IsOverClockGpuAll) {
+                    GpuAllProfileVm.Update(data);
+                }
+                else {
+                    foreach (var item in GpuProfileVms) {
+                        if (item.Index == NTMinerRoot.GpuAllId) {
+                            continue;
+                        }
+                        item.Update(data);
+                    }
+                }
             });
             this.AddOverClockData = new DelegateCommand(() => {
                 new OverClockDataViewModel(Guid.NewGuid()) {
