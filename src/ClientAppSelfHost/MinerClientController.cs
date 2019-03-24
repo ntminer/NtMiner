@@ -1,4 +1,5 @@
 ﻿using NTMiner.Controllers;
+using NTMiner.Core.Profiles;
 using NTMiner.Daemon;
 using NTMiner.MinerClient;
 using System;
@@ -93,6 +94,11 @@ namespace NTMiner {
         [HttpPost]
         public void RefreshAutoBootStart() {
             VirtualRoot.Execute(new RefreshAutoBootStartCommand());
+        }
+
+        [HttpPost]
+        public void OverClock() {
+            GpuProfileSet.Instance.Refresh();
         }
     }
 }

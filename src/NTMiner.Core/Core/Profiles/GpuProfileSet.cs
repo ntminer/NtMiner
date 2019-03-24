@@ -20,7 +20,7 @@ namespace NTMiner.Core.Profiles {
             return new GpuProfilesJsonDb();
         }
 
-        public GpuData[] CreateGpus() {
+        private GpuData[] CreateGpus() {
             List<GpuData> list = new List<GpuData>();
             foreach (var gpu in NTMinerRoot.Current.GpuSet) {
                 list.Add(new GpuData {
