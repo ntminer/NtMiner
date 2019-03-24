@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
         private CoinViewModel _coinVm;
         private GpuProfilesJsonDb _data;
         private bool _isEnabled;
-        private Visibility _isMinerClientVmVisible = Visibility.Visible;
+        private Visibility _isMinerClientVmVisible = Visibility.Collapsed;
         private readonly MinerClientsWindowViewModel _minerClientsWindowVm;
         private readonly MinerClientViewModel _minerClientVm;
 
