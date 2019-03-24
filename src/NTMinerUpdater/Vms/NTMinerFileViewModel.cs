@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
         private string _versionTag;
         private DateTime _createdOn;
         private Guid _id;
+        private NTMinerAppType _appType;
         private DateTime _publishOn;
 
         public ICommand Save { get; private set; }
@@ -72,6 +73,7 @@ namespace NTMiner.Vms {
 
         public NTMinerFileViewModel(INTMinerFile data) : this() {
             _id = data.Id;
+            _appType = data.AppType;
             _version = data.Version;
             _fileName = data.FileName;
             _versionTag = data.VersionTag;
@@ -87,6 +89,14 @@ namespace NTMiner.Vms {
             set {
                 _id = value;
                 OnPropertyChanged(nameof(Id));
+            }
+        }
+
+        public NTMinerAppType AppType {
+            get { return _appType; }
+            set {
+                _appType = value;
+                OnPropertyChanged(nameof(AppType));
             }
         }
 

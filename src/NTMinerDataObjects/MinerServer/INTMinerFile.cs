@@ -4,6 +4,8 @@ namespace NTMiner.MinerServer {
     public interface INTMinerFile {
         Guid Id { get; }
 
+        NTMinerAppType AppType { get; }
+
         string FileName { get; }
 
         string Version { get; }

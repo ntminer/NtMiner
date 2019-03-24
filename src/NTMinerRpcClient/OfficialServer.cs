@@ -147,8 +147,13 @@ namespace NTMiner {
 
             #region GetNTMinerFilesAsync
             // ReSharper disable once InconsistentNaming
-            public void GetNTMinerFilesAsync(Action<List<NTMinerFileData>, Exception> callback) {
-                PostAsync(SControllerName, nameof(IFileUrlController.NTMinerFiles), null, callback);
+            public void GetNTMinerFilesAsync(NTMinerAppType appType, Action<List<NTMinerFileData>, Exception> callback) {
+                PostAsync<List<NTMinerFileData>>(SControllerName, nameof(IFileUrlController.NTMinerFiles), null, callback: (data, e)=> {
+                    if (data != null) {
+                        data = data.Where(a => a.AppType == appType).ToList();
+                    }
+                    callback?.Invoke(data, e);
+                });
             }
             #endregion
 

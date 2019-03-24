@@ -14,6 +14,8 @@ namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         public static readonly MainWindowViewModel Current = new MainWindowViewModel();
 
+        private static readonly NTMinerAppType AppType = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 ? NTMinerAppType.MinerStudio : NTMinerAppType.MinerClient;
+
         private double _downloadPercent;
         private bool _isDownloading = false;
         private NTMinerFileViewModel _selectedNTMinerFile;
@@ -100,7 +102,9 @@ namespace NTMiner.Vms {
                 }
             });
             this.AddNTMinerFile = new DelegateCommand(() => {
-                NTMinerFileEdit window = new NTMinerFileEdit("添加", "Icon_Add", new NTMinerFileViewModel());
+                NTMinerFileEdit window = new NTMinerFileEdit("添加", "Icon_Add", new NTMinerFileViewModel() {
+                    AppType = AppType
+                });
                 window.ShowDialogEx();
             });
         }
@@ -143,7 +147,7 @@ namespace NTMiner.Vms {
         }
 
         public void Refresh() {
-            OfficialServer.FileUrlService.GetNTMinerFilesAsync((ntMinerFiles, e) => {
+            OfficialServer.FileUrlService.GetNTMinerFilesAsync(AppType, (ntMinerFiles, e) => {
                 this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;
