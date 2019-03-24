@@ -68,9 +68,7 @@ namespace NTMiner {
                                 "处理显示主界面命令",
                                 LogEnum.None,
                                 action: message => {
-                                    UIThread.Execute(() => {
-                                        Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
-                                    });
+                                    Dispatcher.Invoke((ThreadStart)ChartsWindow.ShowWindow);
                                 });
                             #endregion
                             HttpServer.Start($"http://localhost:{WebApiConst.MinerStudioPort}");

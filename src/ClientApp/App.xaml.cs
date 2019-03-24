@@ -81,17 +81,14 @@ namespace NTMiner {
                     });
                     VirtualRoot.Window<CloseNTMinerCommand>(
                         "处理关闭NTMiner客户端命令",
-                        LogEnum.DevConsole,
+                        LogEnum.UserConsole,
                         action: message => {
-                            Write.DevLine("关闭客NTMiner客户端");
                             UIThread.Execute(() => {
                                 if (MainWindow != null) {
                                     MainWindow.Close();
                                 }
-                                else {
-                                    Shutdown();
-                                    Environment.Exit(0);
-                                }
+                                Shutdown();
+                                Environment.Exit(0);
                             });
                         });
                     VirtualRoot.On<MineStartedEvent>(
