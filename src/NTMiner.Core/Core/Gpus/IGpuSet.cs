@@ -11,5 +11,7 @@ namespace NTMiner.Core.Gpus {
         List<GpuSetProperty> Properties { get; }
 
         string GetProperty(string key);
+
+        void LoadGpuState();
     }
 }

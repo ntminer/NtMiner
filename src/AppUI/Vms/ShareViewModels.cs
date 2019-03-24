@@ -9,28 +9,30 @@ namespace NTMiner.Vms {
         private readonly Dictionary<Guid, ShareViewModel> _dicByCoinId = new Dictionary<Guid, ShareViewModel>();
 
         private ShareViewModels() {
-            VirtualRoot.On<ShareChangedEvent>("收益变更后调整VM内存",
-                LogEnum.DevConsole,
+            VirtualRoot.On<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                 action: message => {
                     ShareViewModel shareVm;
                     if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {
-                        shareVm.AcceptShareCount = message.Source.AcceptShareCount;
-                        shareVm.RejectShareCount = message.Source.RejectShareCount;
-                        shareVm.ShareOn = message.Source.ShareOn;
+                        shareVm.Update(message.Source);
                     }
                 });
         }
 
+        private readonly object _locker = new object();
         public ShareViewModel GetOrCreate(Guid coinId) {
             if (!NTMinerRoot.Current.CoinSet.Contains(coinId)) {
                 return new ShareViewModel(coinId);
             }
-            if (_dicByCoinId.ContainsKey(coinId)) {
-                return _dicByCoinId[coinId];
+            ShareViewModel shareVm;
+            if (!_dicByCoinId.TryGetValue(coinId, out shareVm)) {
+                lock (_locker) {
+                    if (!_dicByCoinId.TryGetValue(coinId, out shareVm)) {
+                        shareVm = new ShareViewModel(coinId);
+                        _dicByCoinId.Add(coinId, shareVm);
+                    }
+                }
             }
-            ShareViewModel item = new ShareViewModel(coinId);
-            _dicByCoinId.Add(coinId, item);
-            return item;
+            return shareVm;
         }
     }
 }

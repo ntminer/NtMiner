@@ -12,31 +12,23 @@ namespace NTMiner {
                 return;
             }
 
-            VirtualRoot.On<HasBoot5SecondEvent>(
-                "登录服务器并报告一次0算力",
-                LogEnum.DevConsole,
+            VirtualRoot.On<HasBoot5SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
                     ReportSpeed();
                 });
 
-            VirtualRoot.On<Per2MinuteEvent>(
-                "每两分钟上报一次",
-                LogEnum.DevConsole,
+            VirtualRoot.On<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
                 action: message => {
                     ReportSpeed();
                 });
 
-            VirtualRoot.On<MineStartedEvent>(
-                "开始挖矿后报告状态",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MineStartedEvent>("开始挖矿后报告状态", LogEnum.DevConsole,
                 action: message => {
                     ReportSpeed();
                 });
 
-            VirtualRoot.On<MineStopedEvent>(
-                "停止挖矿后报告状态",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
                 action: message => {
                     try {
                         Server.ReportService.ReportStateAsync(OfficialServer.OfficialServerHost, ClientId.Id, isMining: false);

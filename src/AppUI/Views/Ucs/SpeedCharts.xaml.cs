@@ -51,9 +51,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
-            VirtualRoot.On<GpuSpeedChangedEvent>(
-                "显卡算力变更后刷新算力图界面",
-                LogEnum.DevConsole,
+            VirtualRoot.On<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
                 action: (message) => {
                     UIThread.Execute(() => {
                         if (mainCoinId != NTMinerRoot.Current.MinerProfile.CoinId) {

@@ -21,9 +21,7 @@ namespace NTMiner.Vms {
             this.Add = new DelegateCommand(() => {
                 new MinerGroupViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
-            VirtualRoot.On<MinerGroupAddedEvent>(
-                "添加矿机分组后刷新VM内存",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MinerGroupAddedEvent>("添加矿机分组后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Add(message.Source.GetId(), new MinerGroupViewModel(message.Source));
@@ -32,15 +30,11 @@ namespace NTMiner.Vms {
                         MinerClientsWindowViewModel.Current.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                     }
                 });
-            VirtualRoot.On<MinerGroupUpdatedEvent>(
-                "更新矿机分组后刷新VM内存",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MinerGroupUpdatedEvent>("更新矿机分组后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 });
-            VirtualRoot.On<MinerGroupRemovedEvent>(
-                "删除矿机分组后刷新VM内存",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MinerGroupRemovedEvent>("删除矿机分组后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(List));

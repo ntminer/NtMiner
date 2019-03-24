@@ -6,8 +6,8 @@ using System.Windows.Media;
 namespace NTMiner.Vms {
     public class StateBarViewModel : ViewModelBase {
         public static readonly StateBarViewModel Current = new StateBarViewModel();
-        private static readonly SolidColorBrush s_gray = new SolidColorBrush(Colors.Gray);
-        private static readonly SolidColorBrush s_miningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
+        private static readonly SolidColorBrush Gray = new SolidColorBrush(Colors.Gray);
+        private static readonly SolidColorBrush MiningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
 
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
@@ -21,9 +21,7 @@ namespace NTMiner.Vms {
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 ControlCenterHostConfig.ShowWindow();
             });
-            VirtualRoot.On<Per1SecondEvent>(
-                "挖矿计时秒表，周期性挥动铲子表示在挖矿中",
-                LogEnum.None,
+            VirtualRoot.On<Per1SecondEvent>("挖矿计时秒表，周期性挥动铲子表示在挖矿中", LogEnum.None,
                 action: message => {
                     DateTime now = DateTime.Now;
                     this.BootTimeSpan = now - NTMinerRoot.Current.CreatedOn;
@@ -37,19 +35,15 @@ namespace NTMiner.Vms {
                         IsShovelEmpty = !IsShovelEmpty;
                     }
                 });
-            VirtualRoot.On<MineStartedEvent>(
-                "挖矿开始后将风扇转起来",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MineStartedEvent>("挖矿开始后将风扇转起来", LogEnum.DevConsole,
                 action: message => {
                     this.IsMining = true;
-                    GpuStateColor = s_miningColor;
+                    GpuStateColor = MiningColor;
                 });
-            VirtualRoot.On<MineStopedEvent>(
-                "挖矿停止后将风扇停转",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MineStopedEvent>("挖矿停止后将风扇停转", LogEnum.DevConsole,
                 action: message => {
                     this.IsMining = false;
-                    GpuStateColor = s_gray;
+                    GpuStateColor = Gray;
                 });
         }
 

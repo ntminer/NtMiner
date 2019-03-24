@@ -211,9 +211,7 @@ namespace NTMiner {
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            VirtualRoot.On<MineStartedEvent>(
-                "挖矿开始后将无份额内核重启份额计数置0，应用超频，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0，应用超频，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel", LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
@@ -240,9 +238,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 每10秒钟检查是否需要重启
-            VirtualRoot.On<Per10SecondEvent>(
-                "每10秒钟检查是否需要重启",
-                LogEnum.None,
+            VirtualRoot.On<Per10SecondEvent>("每10秒钟检查是否需要重启", LogEnum.None,
                 action: message => {
                     #region 重启电脑
                     try {
@@ -304,9 +300,7 @@ namespace NTMiner {
                 });
             #endregion
             #region 每50分钟执行一次过期日志清理工作
-            VirtualRoot.On<Per50MinuteEvent>(
-                "每50分钟执行一次过期日志清理工作",
-                LogEnum.DevConsole,
+            VirtualRoot.On<Per50MinuteEvent>("每50分钟执行一次过期日志清理工作", LogEnum.DevConsole,
                 action: message => {
                     Cleaner.ClearKernelLogs();
                     Cleaner.ClearRootLogs();
@@ -314,29 +308,23 @@ namespace NTMiner {
                 });
             #endregion
             #region 停止挖矿后停止NoDevFee
-            VirtualRoot.On<MineStopedEvent>(
-                "停止挖矿后停止NoDevFee",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MineStopedEvent>("停止挖矿后停止NoDevFee", LogEnum.DevConsole,
                  action: message => {
                      Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
                  });
             #endregion
             #region 周期确保守护进程在运行
-            Daemon.DaemonUtil.RunNTMinerDaemon();
-            VirtualRoot.On<Per20SecondEvent>(
-                    "周期确保守护进程在运行",
-                    LogEnum.None,
-                    action: message => {
-                        Daemon.DaemonUtil.RunNTMinerDaemon();
-                        if (IsMining) {
-                            StartNoDevFeeAsync();
-                        }
-                    });
+            DaemonUtil.RunNTMinerDaemon();
+            VirtualRoot.On<Per20SecondEvent>("周期确保守护进程在运行", LogEnum.None,
+                action: message => {
+                    DaemonUtil.RunNTMinerDaemon();
+                    if (IsMining) {
+                        StartNoDevFeeAsync();
+                    }
+                });
             #endregion
             #region 发生了用户活动时检查serverJson是否有新版本
-            VirtualRoot.On<UserActionEvent>(
-                    "发生了用户活动时检查serverJson是否有新版本",
-                    LogEnum.DevConsole,
+            VirtualRoot.On<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                     action: message => {
                         OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                             if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {
@@ -386,12 +374,6 @@ namespace NTMiner {
             var context = CurrentMineContext;
             string testWallet = context.MainCoin.TestWallet;
             string kernelName = context.Kernel.GetFullName();
-            if (kernelName.IndexOf("claymore", StringComparison.OrdinalIgnoreCase) != -1) {
-                ICoin eth;
-                if (CoinSet.TryGetCoin("ETH", out eth)) {
-                    testWallet = eth.TestWallet;
-                }
-            }
             StartNoDevFeeRequest request = new StartNoDevFeeRequest {
                 ContextId = context.Id.GetHashCode(),
                 MinerName = context.MinerName,
@@ -671,10 +653,14 @@ namespace NTMiner {
                                 Logger.ErrorDebugLine(ex);
                             }
                         }
-                        if (_gpuSet == null) {
-                            _gpuSet = EmptyGpuSet.Instance;
-                        }
                     }
+                    if (_gpuSet == null) {
+                        _gpuSet = EmptyGpuSet.Instance;
+                    }
+                    VirtualRoot.On<Per5SecondEvent>("周期刷新显卡状态", LogEnum.None,
+                        action: message => {
+                            _gpuSet.LoadGpuState();
+                        });
                 }
                 return _gpuSet;
             }

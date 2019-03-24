@@ -11,9 +11,7 @@ namespace NTMiner {
         private readonly Dictionary<string, ResourceDictionary> _dicByViewId = new Dictionary<string, ResourceDictionary>();
 
         private ResourceDictionarySet() {
-            VirtualRoot.On<LangViewItemUpdatedEvent>(
-                "更新了语言视图项后刷新WPF动态资源集",
-                LogEnum.None,
+            VirtualRoot.On<LangViewItemUpdatedEvent>("更新了语言视图项后刷新WPF动态资源集", LogEnum.None,
                 action: message => {
                     ResourceDictionary resourceDictionary;
                     if (TryGetResourceDic(message.Source.ViewId, out resourceDictionary)) {
@@ -22,17 +20,13 @@ namespace NTMiner {
                         }
                     }
                 });
-            VirtualRoot.On<GlobalLangChangedEvent>(
-                "切换语言后刷新视图语言资源",
-                LogEnum.None,
+            VirtualRoot.On<GlobalLangChangedEvent>("切换语言后刷新视图语言资源", LogEnum.None,
                 action: message => {
                     foreach (var kv in _dicByViewId) {
                         FillResourceDic(kv.Key, kv.Value);
                     }
                 });
-            VirtualRoot.On<LangViewItemSetRefreshedEvent>(
-                "语言项数据集变更后刷新WPF资源集",
-                LogEnum.None,
+            VirtualRoot.On<LangViewItemSetRefreshedEvent>("语言项数据集变更后刷新WPF资源集", LogEnum.None,
                 action: message => {
                     foreach (var kv in _dicByViewId) {
                         FillResourceDic(kv.Key, kv.Value);

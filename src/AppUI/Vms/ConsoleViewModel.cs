@@ -11,9 +11,7 @@ namespace NTMiner.Vms {
             this.CustomTheme = new DelegateCommand(() => {
                 LogColor.ShowWindow();
             });
-            VirtualRoot.On<MineStartedEvent>(
-                "挖矿开始后因此日志窗口的水印",
-                LogEnum.DevConsole,
+            VirtualRoot.On<MineStartedEvent>("挖矿开始后因此日志窗口的水印", LogEnum.DevConsole,
                 action: message => {
                     this.IsWatermarkVisible = Visibility.Collapsed;
                 });

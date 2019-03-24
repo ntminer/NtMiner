@@ -74,12 +74,6 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                 });
             }
-            VirtualRoot.On<Per5SecondEvent>(
-                "周期刷新显卡状态",
-                LogEnum.None,
-                action: message => {
-                    LoadGpuStateAsync();
-                });
         }
 
         public string GetDriverVersion() {
@@ -95,24 +89,22 @@ namespace NTMiner.Core.Gpus.Impl {
             return "0.0";
         }
 
-        private void LoadGpuStateAsync() {
-            Task.Factory.StartNew(() => {
-                for (int i = 0; i < Count; i++) {
-                    uint power = adlHelper.GetPowerUsageByIndex(i);
-                    uint temp = adlHelper.GetTemperatureByIndex(i);
-                    uint speed = adlHelper.GetFanSpeedByIndex(i);
+        public void LoadGpuState() {
+            for (int i = 0; i < Count; i++) {
+                uint power = adlHelper.GetPowerUsageByIndex(i);
+                uint temp = adlHelper.GetTemperatureByIndex(i);
+                uint speed = adlHelper.GetFanSpeedByIndex(i);
 
-                    Gpu gpu = (Gpu)_gpus[i];
-                    bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
-                    gpu.Temperature = temp;
-                    gpu.PowerUsage = power;
-                    gpu.FanSpeed = speed;
+                Gpu gpu = (Gpu)_gpus[i];
+                bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != speed;
+                gpu.Temperature = temp;
+                gpu.PowerUsage = power;
+                gpu.FanSpeed = speed;
 
-                    if (isChanged) {
-                        VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
-                    }
+                if (isChanged) {
+                    VirtualRoot.Happened(new GpuStateChangedEvent(gpu));
                 }
-            });
+            }
         }
 
         public GpuType GpuType {

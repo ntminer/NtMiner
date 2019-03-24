@@ -41,9 +41,7 @@ namespace NTMiner.Views {
             this.LocationChanged += ChangeNotiCenterWindowLocation;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             #region 总算力
-            VirtualRoot.On<Per10SecondEvent>(
-                "周期刷新总算力图",
-                LogEnum.DevConsole,
+            VirtualRoot.On<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
                 action: message => {
                     RefreshTotalSpeedChart(limit: 1);
                 }).AddToCollection(_handlers);
