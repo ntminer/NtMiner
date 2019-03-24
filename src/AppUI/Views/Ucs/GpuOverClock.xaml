@@ -36,25 +36,6 @@
 				<TextBlock 
 					Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordVisibilityConverter}}"
 					Style="{StaticResource LblTb}" Width="Auto">没有推荐</TextBlock>
-				<controls:KbButton
-					Height="21"
-					Padding="6 2"
-					Margin="10 0"
-					ToolTip="点击应用超频设置"
-					Command="{Binding CoinVm.ApplyCustomOverClock}" 
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
-					CornerRadius="2">
-					<WrapPanel>
-						<Path
-							Width="12"
-							Height="12"
-							Data="{StaticResource Icon_Ok}"
-							Fill="{StaticResource ThemeForeground}"
-							Stretch="Fill" />
-						<TextBlock>应用</TextBlock>
-					</WrapPanel>
-				</controls:KbButton>
 				<ItemsControl
 					VerticalAlignment="Center"
 					BorderThickness="0"
@@ -88,6 +69,25 @@
 			</WrapPanel>
 			<WrapPanel Grid.Column="1">
 				<TextBlock x:Name="TbRedText" Foreground="Red" VerticalAlignment="Center"></TextBlock>
+				<controls:KbButton
+					Height="21"
+					Padding="6 2"
+					Margin="10 0"
+					ToolTip="点击应用超频设置"
+					Command="{Binding CoinVm.ApplyCustomOverClock}" 
+					Background="{StaticResource ThemeBackground}"
+					Foreground="{StaticResource ThemeForeground}"
+					CornerRadius="2">
+					<WrapPanel>
+						<Path
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Ok}"
+							Fill="{StaticResource ThemeForeground}"
+							Stretch="Fill" />
+						<TextBlock>应用</TextBlock>
+					</WrapPanel>
+				</controls:KbButton>
 			</WrapPanel>
 		</Grid>
 		<WrapPanel Grid.Row="1" Margin="0 0 0 4">
