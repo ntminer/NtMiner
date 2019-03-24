@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
             NTMinerRoot.Current.OnReRendContext += () => {
                 OnPropertyChanged(nameof(CoinVm));
             };
-            VirtualRoot.Accept<RefreshAutoBootStartCommand>(
+            VirtualRoot.Door<RefreshAutoBootStartCommand>(
                 "刷新开机自动启动和启动后自动开始挖矿的展示",
                 LogEnum.Console,
                 action: message => {

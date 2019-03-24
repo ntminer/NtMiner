@@ -11,7 +11,7 @@ namespace NTMiner.Data.Impl {
         private readonly string _dbFileFullName;
         public UserSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.Accept<AddUserCommand>(
+            VirtualRoot.Door<AddUserCommand>(
                 "处理添加用户命令",
                 LogEnum.Console,
                 action: message => {
@@ -25,7 +25,7 @@ namespace NTMiner.Data.Impl {
                         VirtualRoot.Happened(new UserAddedEvent(entity));
                     }
                 });
-            VirtualRoot.Accept<UpdateUserCommand>(
+            VirtualRoot.Door<UpdateUserCommand>(
                 "处理修改用户命令",
                 LogEnum.Console,
                 action: message => {
@@ -39,7 +39,7 @@ namespace NTMiner.Data.Impl {
                         VirtualRoot.Happened(new UserUpdatedEvent(entity));
                     }
                 });
-            VirtualRoot.Accept<RemoveUserCommand>(
+            VirtualRoot.Door<RemoveUserCommand>(
                 "处理删除用户命令",
                 LogEnum.Console,
                 action: message => {

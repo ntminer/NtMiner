@@ -151,16 +151,26 @@ namespace NTMiner {
             t.Start();
         }
 
+        /// <summary>
+        /// 发生某个事件
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <param name="evnt"></param>
         public static void Happened<TEvent>(TEvent evnt) where TEvent : class, IEvent {
             EventBus.Publish(evnt);
             EventBus.Commit();
         }
 
+        /// <summary>
+        /// 执行某个命令
+        /// </summary>
+        /// <param name="command"></param>
         public static void Execute(ICmd command) {
             CommandBus.Publish(command);
             CommandBus.Commit();
         }
 
+        // 修建消息（命令或事件）的运动路径
         private static DelegateHandler<TMessage> Path<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
             // 0是Path，1是Accpt或On，2是当地
@@ -169,16 +179,23 @@ namespace NTMiner {
             return MessageDispatcher.Register(handlerId, action);
         }
 
-        public static DelegateHandler<TCmd> Accept<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        /// <summary>
+        /// 命令入口
+        /// </summary>
+        public static DelegateHandler<TCmd> Door<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return Path(description, logType, action);
         }
 
+        /// <summary>
+        /// 事件响应
+        /// </summary>
         public static DelegateHandler<TEvent> On<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             return Path(description, logType, action);
         }
 
+        // 拆除消息（命令或事件）的运动路径
         public static void UnPath(IDelegateHandler handler) {
             MessageDispatcher.UnRegister(handler);
         }

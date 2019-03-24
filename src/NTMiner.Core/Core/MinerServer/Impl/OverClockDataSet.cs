@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public OverClockDataSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Accept<AddOverClockDataCommand>(
+            VirtualRoot.Door<AddOverClockDataCommand>(
                 "添加超频建议",
                 LogEnum.Console,
                 action: (message) => {
@@ -35,7 +35,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                 });
-            VirtualRoot.Accept<UpdateOverClockDataCommand>(
+            VirtualRoot.Door<UpdateOverClockDataCommand>(
                 "更新超频建议",
                 LogEnum.Console,
                 action: (message) => {
@@ -63,7 +63,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                     VirtualRoot.Happened(new OverClockDataUpdatedEvent(entity));
                 });
-            VirtualRoot.Accept<RemoveOverClockDataCommand>(
+            VirtualRoot.Door<RemoveOverClockDataCommand>(
                 "移除超频建议",
                 LogEnum.Console,
                 action: (message) => {

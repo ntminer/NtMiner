@@ -13,7 +13,7 @@ namespace NTMiner.Core.Impl {
         public PoolSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddPoolCommand>(
+            VirtualRoot.Door<AddPoolCommand>(
                 "添加矿池",
                 LogEnum.Console,
                 action: (message) => {
@@ -59,7 +59,7 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdatePoolCommand>(
+            VirtualRoot.Door<UpdatePoolCommand>(
                 "更新矿池",
                 LogEnum.Console,
                 action: (message) => {
@@ -94,7 +94,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new PoolUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemovePoolCommand>(
+            VirtualRoot.Door<RemovePoolCommand>(
                 "移除矿池",
                 LogEnum.Console,
                 action: (message) => {

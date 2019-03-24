@@ -60,7 +60,7 @@ namespace NTMiner {
                             System.Drawing.Icon icon = new System.Drawing.Icon(GetResourceStream(new Uri("pack://application:,,,/NTMiner;component/logo.ico")).Stream);
                             AppHelper.NotifyIcon = ExtendedNotifyIcon.Create(icon, "挖矿端", isMinerStudio: false);
                             #region 处理显示主界面命令
-                            VirtualRoot.Accept<ShowMainWindowCommand>(
+                            VirtualRoot.Door<ShowMainWindowCommand>(
                                 "处理显示主界面命令",
                                 LogEnum.None,
                                 action: message => {
@@ -81,7 +81,7 @@ namespace NTMiner {
                             });
                         });
                     });
-                    VirtualRoot.Accept<CloseNTMinerCommand>(
+                    VirtualRoot.Door<CloseNTMinerCommand>(
                         "处理关闭NTMiner客户端命令",
                         LogEnum.Console,
                         action: message => {

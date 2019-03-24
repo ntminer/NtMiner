@@ -15,7 +15,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelOutputTranslaterSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddKernelOutputTranslaterCommand>(
+            VirtualRoot.Door<AddKernelOutputTranslaterCommand>(
                 "添加内核输出翻译器",
                 LogEnum.Console,
                 action: (message) => {
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateKernelOutputTranslaterCommand>(
+            VirtualRoot.Door<UpdateKernelOutputTranslaterCommand>(
                 "更新内核输出翻译器",
                 LogEnum.Console,
                 action: (message) => {
@@ -73,7 +73,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputTranslaterUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemoveKernelOutputTranslaterCommand>(
+            VirtualRoot.Door<RemoveKernelOutputTranslaterCommand>(
                 "移除内核输出翻译器",
                 LogEnum.Console,
                 action: (message) => {

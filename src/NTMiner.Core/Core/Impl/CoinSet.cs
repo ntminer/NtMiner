@@ -13,7 +13,7 @@ namespace NTMiner.Core.Impl {
         public CoinSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddCoinCommand>(
+            VirtualRoot.Door<AddCoinCommand>(
                 "添加币种",
                 LogEnum.Console,
                 action: message => {
@@ -38,7 +38,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new CoinAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateCoinCommand>(
+            VirtualRoot.Door<UpdateCoinCommand>(
                 "更新币种",
                 LogEnum.Console,
                 action: message => {
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new CoinUpdatedEvent(message.Input));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemoveCoinCommand>(
+            VirtualRoot.Door<RemoveCoinCommand>(
                 "移除币种",
                 LogEnum.Console,
                 action: message => {

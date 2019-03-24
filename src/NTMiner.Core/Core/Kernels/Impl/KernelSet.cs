@@ -13,7 +13,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddKernelCommand>(
+            VirtualRoot.Door<AddKernelCommand>(
                 "添加内核",
                 LogEnum.Console,
                 action: message => {
@@ -34,7 +34,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateKernelCommand>(
+            VirtualRoot.Door<UpdateKernelCommand>(
                 "更新内核",
                 LogEnum.Console,
                 action: message => {
@@ -58,7 +58,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemoveKernelCommand>(
+            VirtualRoot.Door<RemoveKernelCommand>(
                 "移除内核",
                 LogEnum.Console,
                 action: message => {

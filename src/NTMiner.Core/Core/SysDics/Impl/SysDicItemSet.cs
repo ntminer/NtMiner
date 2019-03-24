@@ -14,7 +14,7 @@ namespace NTMiner.Core.SysDics.Impl {
         public SysDicItemSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddSysDicItemCommand>(
+            VirtualRoot.Door<AddSysDicItemCommand>(
                 "添加系统字典项",
                 LogEnum.Console,
                 action: (message) => {
@@ -42,7 +42,7 @@ namespace NTMiner.Core.SysDics.Impl {
 
                     VirtualRoot.Happened(new SysDicItemAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateSysDicItemCommand>(
+            VirtualRoot.Door<UpdateSysDicItemCommand>(
                 "更新系统字典项",
                 LogEnum.Console,
                 action: (message) => {
@@ -66,7 +66,7 @@ namespace NTMiner.Core.SysDics.Impl {
 
                     VirtualRoot.Happened(new SysDicItemUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemoveSysDicItemCommand>(
+            VirtualRoot.Door<RemoveSysDicItemCommand>(
                 "移除系统字典项",
                 LogEnum.Console,
                 action: (message) => {

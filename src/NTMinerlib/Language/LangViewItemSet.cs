@@ -13,14 +13,14 @@ namespace NTMiner.Language {
         private readonly Dictionary<Guid, LangViewItem> _dicById = new Dictionary<Guid, LangViewItem>();
 
         private LangViewItemSet() {
-            VirtualRoot.Accept<RefreshLangViewItemSetCommand>(
+            VirtualRoot.Door<RefreshLangViewItemSetCommand>(
                 "处理刷新语言项命令",
                 LogEnum.Console,
                 action: message => {
                     _isInited = false;
                     VirtualRoot.Happened(new LangViewItemSetRefreshedEvent());
                 });
-            VirtualRoot.Accept<AddLangViewItemCommand>(
+            VirtualRoot.Door<AddLangViewItemCommand>(
                 "处理添加语言项命令",
                 LogEnum.Console,
                 action: message=> {
@@ -45,7 +45,7 @@ namespace NTMiner.Language {
                         VirtualRoot.Happened(new LangViewItemAddedEvent(entity));
                     }
                 });
-            VirtualRoot.Accept<UpdateLangViewItemCommand>(
+            VirtualRoot.Door<UpdateLangViewItemCommand>(
                 "处理修改语言项命令",
                 LogEnum.Console,
                 action: message => {
@@ -58,7 +58,7 @@ namespace NTMiner.Language {
                         VirtualRoot.Happened(new LangViewItemUpdatedEvent(entity));
                     }
                 });
-            VirtualRoot.Accept<RemoveLangViewItemCommand>(
+            VirtualRoot.Door<RemoveLangViewItemCommand>(
                 "处理删除语言项命令",
                 LogEnum.Console,
                 action: message => {

@@ -12,7 +12,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public CoinKernelSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddCoinKernelCommand>(
+            VirtualRoot.Door<AddCoinKernelCommand>(
                 "添加币种内核",
                 LogEnum.Console,
                 action: (message) => {
@@ -52,7 +52,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateCoinKernelCommand>(
+            VirtualRoot.Door<UpdateCoinKernelCommand>(
                 "更新币种内核",
                 LogEnum.Console,
                 action: (message) => {
@@ -76,7 +76,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new CoinKernelUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemoveCoinKernelCommand>(
+            VirtualRoot.Door<RemoveCoinKernelCommand>(
                 "移除币种内核",
                 LogEnum.Console,
                 action: (message) => {

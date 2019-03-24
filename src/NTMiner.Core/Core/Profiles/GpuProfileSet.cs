@@ -43,7 +43,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void Register(INTMinerRoot root) {
-            VirtualRoot.Accept<AddOrUpdateGpuProfileCommand>(
+            VirtualRoot.Door<AddOrUpdateGpuProfileCommand>(
                 "处理添加或更新Gpu超频数据命令",
                 LogEnum.Console,
                 action: message => {
@@ -59,7 +59,7 @@ namespace NTMiner.Core.Profiles {
                     }
                     VirtualRoot.Happened(new GpuProfileAddedOrUpdatedEvent(data));
                 });
-            VirtualRoot.Accept<OverClockCommand>(
+            VirtualRoot.Door<OverClockCommand>(
                 "处理超频命令",
                 LogEnum.Console,
                 action: message => {
@@ -67,7 +67,7 @@ namespace NTMiner.Core.Profiles {
                         message.Input.OverClock(gpu.OverClock);
                     }
                 });
-            VirtualRoot.Accept<CoinOverClockCommand>(
+            VirtualRoot.Door<CoinOverClockCommand>(
                 "处理币种超频命令",
                 LogEnum.Console,
                 action: message => {

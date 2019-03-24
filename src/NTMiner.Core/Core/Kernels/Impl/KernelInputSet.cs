@@ -12,7 +12,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelInputSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Accept<AddKernelInputCommand>(
+            VirtualRoot.Door<AddKernelInputCommand>(
                 "添加内核输入组",
                 LogEnum.Console,
                 action: (message) => {
@@ -30,7 +30,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelInputAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<UpdateKernelInputCommand>(
+            VirtualRoot.Door<UpdateKernelInputCommand>(
                 "更新内核输入组",
                 LogEnum.Console,
                 action: (message) => {
@@ -54,7 +54,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelInputUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Accept<RemoveKernelInputCommand>(
+            VirtualRoot.Door<RemoveKernelInputCommand>(
                 "移除内核输入组",
                 LogEnum.Console,
                 action: (message) => {
