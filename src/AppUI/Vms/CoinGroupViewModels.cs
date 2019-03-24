@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
         private void Init() {
             VirtualRoot.On<CoinGroupAddedEvent>(
                 "添加了币组后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Source);
@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinGroupUpdatedEvent>(
                 "更新了币组后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         CoinGroupViewModel entity = _dicById[message.Source.GetId()];
@@ -53,7 +53,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinGroupRemovedEvent>(
                 "删除了币组后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         var entity = _dicById[message.Source.GetId()];

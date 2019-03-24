@@ -13,7 +13,7 @@ namespace NTMiner.Core.Impl {
             _root = root;
             VirtualRoot.Window<AddGroupCommand>(
                 "添加组",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -31,7 +31,7 @@ namespace NTMiner.Core.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<UpdateGroupCommand>(
                 "更新组",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -55,7 +55,7 @@ namespace NTMiner.Core.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<RemoveGroupCommand>(
                 "移除组",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

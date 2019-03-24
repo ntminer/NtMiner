@@ -13,7 +13,7 @@ namespace NTMiner.Data.Impl {
             _dbFileFullName = dbFileFullName;
             VirtualRoot.Window<AddUserCommand>(
                 "处理添加用户命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
                         UserData entity = new UserData(message.User);
@@ -27,7 +27,7 @@ namespace NTMiner.Data.Impl {
                 });
             VirtualRoot.Window<UpdateUserCommand>(
                 "处理修改用户命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
                         UserData entity = _dicByLoginName[message.User.LoginName];
@@ -41,7 +41,7 @@ namespace NTMiner.Data.Impl {
                 });
             VirtualRoot.Window<RemoveUserCommand>(
                 "处理删除用户命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.LoginName)) {
                         UserData entity = _dicByLoginName[message.LoginName];

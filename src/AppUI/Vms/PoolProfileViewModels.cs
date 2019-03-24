@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         private PoolProfileViewModels() {
             VirtualRoot.On<PoolProfilePropertyChangedEvent>(
                 "矿池设置变更后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_poolProfileDicById.ContainsKey(message.PoolId)) {
                         _poolProfileDicById[message.PoolId].OnPropertyChanged(message.PropertyName);

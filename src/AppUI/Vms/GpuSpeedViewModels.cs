@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
             _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
             VirtualRoot.On<GpuSpeedChangedEvent>(
                 "显卡算力变更后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
                     if (_mainCoinId != mainCoinId) {

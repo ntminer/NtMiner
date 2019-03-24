@@ -14,7 +14,7 @@ namespace NTMiner.Core.Kernels.Impl {
             _isUseJson = isUseJson;
             VirtualRoot.Window<AddPoolKernelCommand>(
                 "处理添加矿池级内核命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         var entity = new PoolKernelData().Update(message.Input);
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<RemovePoolKernelCommand>(
                 "处理移除矿池级内核命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.ContainsKey(message.EntityId)) {
                         var entity = _dicById[message.EntityId];
@@ -38,7 +38,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<UpdatePoolKernelCommand>(
                 "更新矿池内核",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {

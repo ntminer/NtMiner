@@ -13,7 +13,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             _root = root;
             VirtualRoot.Window<AddMineWorkCommand>(
                 "添加工作",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -34,7 +34,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<UpdateMineWorkCommand>(
                 "更新工作",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -59,7 +59,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<RemoveMineWorkCommand>(
                 "移除工作",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

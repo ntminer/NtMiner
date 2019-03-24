@@ -16,7 +16,7 @@ namespace NTMiner.Core.SysDics.Impl {
             _isUseJson = isUseJson;
             VirtualRoot.Window<AddSysDicItemCommand>(
                 "添加系统字典项",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -44,7 +44,7 @@ namespace NTMiner.Core.SysDics.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<UpdateSysDicItemCommand>(
                 "更新系统字典项",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -68,7 +68,7 @@ namespace NTMiner.Core.SysDics.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<RemoveSysDicItemCommand>(
                 "移除系统字典项",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

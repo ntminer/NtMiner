@@ -14,14 +14,14 @@ namespace NTMiner.Core.Gpus.Impl {
             _root = root;            
             VirtualRoot.On<Per10MinuteEvent>(
                 "周期清除过期的历史算力",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     ClearOutOfDateHistory();
                 });
 
             VirtualRoot.On<MineStopedEvent>(
                 "停止挖矿后产生一次0算力",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     var now = DateTime.Now;
                     foreach (var gpu in _root.GpuSet) {
@@ -34,7 +34,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
             VirtualRoot.On<MineStartedEvent>(
                 "挖矿开始时产生一次0算力0份额",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     var now = DateTime.Now;
                     _root.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);

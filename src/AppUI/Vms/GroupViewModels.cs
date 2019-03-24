@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
         private void Init() {
             VirtualRoot.On<GroupAddedEvent>(
                 "添加了组后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         GroupViewModel groupVm = new GroupViewModel(message.Source);
@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<GroupUpdatedEvent>(
                 "更新了组后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         GroupViewModel entity = _dicById[message.Source.GetId()];
@@ -53,7 +53,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<GroupRemovedEvent>(
                 "删除了组后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChangeds();

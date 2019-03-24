@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
         private void Init() {
             VirtualRoot.On<KernelInputAddedEvent>(
                 "添加了内核输入后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     var vm = new KernelInputViewModel(message.Source);
                     _dicById.Add(message.Source.GetId(), vm);
@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelInputUpdatedEvent>(
                 "更新了内核输入后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         var item = _dicById[message.Source.GetId()];
@@ -57,7 +57,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelInputRemovedEvent>(
                 "移除了内核输入后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Remove(message.Source.GetId());

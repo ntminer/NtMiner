@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
             });
             VirtualRoot.On<MineStartedEvent>(
                 "挖矿开始后因此日志窗口的水印",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     this.IsWatermarkVisible = Visibility.Collapsed;
                 });

@@ -17,7 +17,7 @@ namespace NTMiner.Core.Kernels.Impl {
             _isUseJson = isUseJson;
             VirtualRoot.Window<AddKernelOutputTranslaterCommand>(
                 "添加内核输出翻译器",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -42,7 +42,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<UpdateKernelOutputTranslaterCommand>(
                 "更新内核输出翻译器",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -75,7 +75,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<RemoveKernelOutputTranslaterCommand>(
                 "移除内核输出翻译器",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -97,7 +97,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.On<SysDicItemUpdatedEvent>(
                 "LogColor字典项更新后刷新翻译器内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     ISysDic dic;
                     if (!_root.SysDicSet.TryGetSysDic("LogColor", out dic)) {

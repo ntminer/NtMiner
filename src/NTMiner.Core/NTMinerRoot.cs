@@ -213,7 +213,7 @@ namespace NTMiner {
             DateTime shareOn = DateTime.Now;
             VirtualRoot.On<MineStartedEvent>(
                 "挖矿开始后将无份额内核重启份额计数置0，应用超频，启动NoDevFee，启动DevConsole，清理除当前外的Temp/Kernel",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
@@ -306,7 +306,7 @@ namespace NTMiner {
             #region 每50分钟执行一次过期日志清理工作
             VirtualRoot.On<Per50MinuteEvent>(
                 "每50分钟执行一次过期日志清理工作",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     Cleaner.ClearKernelLogs();
                     Cleaner.ClearRootLogs();
@@ -316,7 +316,7 @@ namespace NTMiner {
             #region 停止挖矿后停止NoDevFee
             VirtualRoot.On<MineStopedEvent>(
                 "停止挖矿后停止NoDevFee",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                  action: message => {
                      Client.NTMinerDaemonService.StopNoDevFeeAsync(callback: null);
                  });
@@ -336,7 +336,7 @@ namespace NTMiner {
             #region 发生了用户活动时检查serverJson是否有新版本
             VirtualRoot.On<UserActionEvent>(
                     "发生了用户活动时检查serverJson是否有新版本",
-                    LogEnum.Console,
+                    LogEnum.DevConsole,
                     action: message => {
                         OfficialServer.GetJsonFileVersionAsync(AssemblyInfo.ServerJsonFileName, (jsonFileVersion) => {
                             if (!string.IsNullOrEmpty(jsonFileVersion) && JsonFileVersion != jsonFileVersion) {

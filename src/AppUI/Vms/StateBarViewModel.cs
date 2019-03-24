@@ -35,14 +35,14 @@ namespace NTMiner.Vms {
                 });
             VirtualRoot.On<MineStartedEvent>(
                 "挖矿开始后将风扇转起来",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     this.OnPropertyChanged(nameof(this.IsMining));
                     OnPropertyChanged(nameof(GpuStateColor));
                 });
             VirtualRoot.On<MineStopedEvent>(
                 "挖矿停止后将风扇停转",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     this.OnPropertyChanged(nameof(this.IsMining));
                     OnPropertyChanged(nameof(GpuStateColor));

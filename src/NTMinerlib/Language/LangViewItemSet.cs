@@ -15,14 +15,14 @@ namespace NTMiner.Language {
         private LangViewItemSet() {
             VirtualRoot.Window<RefreshLangViewItemSetCommand>(
                 "处理刷新语言项命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     _isInited = false;
                     VirtualRoot.Happened(new LangViewItemSetRefreshedEvent());
                 });
             VirtualRoot.Window<AddLangViewItemCommand>(
                 "处理添加语言项命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message=> {
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
@@ -47,7 +47,7 @@ namespace NTMiner.Language {
                 });
             VirtualRoot.Window<UpdateLangViewItemCommand>(
                 "处理修改语言项命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         var entity = _dicById[message.Input.GetId()];
@@ -60,7 +60,7 @@ namespace NTMiner.Language {
                 });
             VirtualRoot.Window<RemoveLangViewItemCommand>(
                 "处理删除语言项命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.ContainsKey(message.EntityId)) {
                         var entity = _dicById[message.EntityId];

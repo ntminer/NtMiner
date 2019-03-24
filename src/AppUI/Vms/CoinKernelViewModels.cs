@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
         private void Init() {
             VirtualRoot.On<CoinKernelAddedEvent>(
                 "添加了币种内核后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     var coinKernelVm = new CoinKernelViewModel(message.Source);
                     _dicById.Add(message.Source.GetId(), coinKernelVm);
@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinKernelUpdatedEvent>(
                 "更新了币种内核后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     CoinKernelViewModel entity = _dicById[message.Source.GetId()];
                     var supportedGpu = entity.SupportedGpu;
@@ -75,7 +75,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<CoinKernelRemovedEvent>(
                 "移除了币种内核后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     var coinKernelVm = _dicById[message.Source.GetId()];
                     _dicById.Remove(message.Source.GetId());

@@ -12,7 +12,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         public UserSet() {
             VirtualRoot.Window<AddUserCommand>(
                 "处理添加用户命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
                         Server.ControlCenterService.AddUserAsync(new UserData {
@@ -34,7 +34,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<UpdateUserCommand>(
                 "处理修改用户命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
                         UserData entity = _dicByLoginName[message.User.LoginName];
@@ -59,7 +59,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<RemoveUserCommand>(
                 "处理删除用户命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicByLoginName.ContainsKey(message.LoginName)) {
                         UserData entity = _dicByLoginName[message.LoginName];

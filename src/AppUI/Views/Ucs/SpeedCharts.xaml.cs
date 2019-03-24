@@ -52,7 +52,7 @@ namespace NTMiner.Views.Ucs {
             Guid mainCoinId = NTMinerRoot.Current.MinerProfile.CoinId;
             DelegateHandler<GpuSpeedChangedEvent> gpuSpeedChangedEventHandler = VirtualRoot.On<GpuSpeedChangedEvent>(
                 "显卡算力变更后刷新算力图界面",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     UIThread.Execute(() => {
                         if (mainCoinId != NTMinerRoot.Current.MinerProfile.CoinId) {

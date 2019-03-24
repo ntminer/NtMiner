@@ -22,7 +22,7 @@ namespace NTMiner.Data.Impl {
             GetSpeed();
             VirtualRoot.On<Per20SecondEvent>(
                 "周期性将内存中的ClientData列表刷入磁盘",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     lock (_locker) {

@@ -56,7 +56,7 @@ namespace NTMiner.Views {
                 }).AddToCollection(_handlers);
             VirtualRoot.On<Per10SecondEvent>(
                 "周期刷新在线客户端列表",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     MinerClientsWindowViewModel.Current.QueryMinerClients();
                 }).AddToCollection(_handlers);

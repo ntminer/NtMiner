@@ -20,20 +20,20 @@ namespace NTMiner.Vms {
             };
             VirtualRoot.Window<RefreshAutoBootStartCommand>(
                 "刷新开机自动启动和启动后自动开始挖矿的展示",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(nameof(IsAutoBoot));
                     OnPropertyChanged(nameof(IsAutoStart));
                 });
             VirtualRoot.On<MinerProfilePropertyChangedEvent>(
                 "MinerProfile设置变更后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });
             VirtualRoot.On<MineWorkPropertyChangedEvent>(
                 "MineWork设置变更后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 });

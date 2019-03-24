@@ -81,7 +81,7 @@ namespace NTMiner {
                     });
                     VirtualRoot.Window<CloseNTMinerCommand>(
                         "处理关闭NTMiner客户端命令",
-                        LogEnum.Console,
+                        LogEnum.DevConsole,
                         action: message => {
                             Write.DevLine("关闭客NTMiner客户端");
                             UIThread.Execute(() => {
@@ -96,13 +96,13 @@ namespace NTMiner {
                         });
                     VirtualRoot.On<MineStartedEvent>(
                         "开始挖矿后启动1080ti小药丸",
-                        LogEnum.Console,
+                        LogEnum.DevConsole,
                         action: message => {
                             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
                         });
                     VirtualRoot.On<MineStopedEvent>(
                         "停止挖矿后停止1080ti小药丸",
-                        LogEnum.Console,
+                        LogEnum.DevConsole,
                         action: message => {
                             OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
                         });

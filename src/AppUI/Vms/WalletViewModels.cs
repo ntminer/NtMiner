@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         private WalletViewModels() {
             VirtualRoot.On<WalletAddedEvent>(
                 "添加了钱包后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                     OnPropertyChanged(nameof(WalletList));
@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
                 });
             VirtualRoot.On<WalletRemovedEvent>(
                 "删除了钱包后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(WalletList));
@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
                 });
             VirtualRoot.On<WalletUpdatedEvent>(
                 "更新了钱包后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 });

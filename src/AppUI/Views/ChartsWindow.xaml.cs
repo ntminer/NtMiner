@@ -43,7 +43,7 @@ namespace NTMiner.Views {
             #region 总算力
             VirtualRoot.On<Per10SecondEvent>(
                 "周期刷新总算力图",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     RefreshTotalSpeedChart(limit: 1);
                 }).AddToCollection(_handlers);

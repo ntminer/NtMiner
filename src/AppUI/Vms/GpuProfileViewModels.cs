@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
         private GpuProfileViewModels() {
             VirtualRoot.On<GpuProfileSetRefreshedEvent>(
                 "Gpu超频集合刷新后刷新附着在当前币种上的超频数据",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     lock (_locker) {
                         _listByCoinId.Clear();
@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
                 });
             VirtualRoot.On<GpuProfileAddedOrUpdatedEvent>(
                 "添加或更新了Gpu超频数据后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     lock (_locker) {
                         List<GpuProfileViewModel> list;

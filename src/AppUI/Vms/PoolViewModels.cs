@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
         private void Init() {
             VirtualRoot.On<PoolAddedEvent>(
                 "添加矿池后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));
                     OnPropertyChanged(nameof(AllPools));
@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<PoolRemovedEvent>(
                 "删除矿池后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(AllPools));
@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<PoolUpdatedEvent>(
                 "更新矿池后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);

@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
         private ShareViewModels() {
             VirtualRoot.On<ShareChangedEvent>(
                 "收益变更后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     ShareViewModel shareVm;
                     if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {

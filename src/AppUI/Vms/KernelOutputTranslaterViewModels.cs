@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
         private void Init() {
             VirtualRoot.On<KernelOutputTranslaterAddedEvent>(
                 "添加了内核输出翻译器后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     KernelOutputViewModel kernelOutputVm;
                     if (KernelOutputViewModels.Current.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelOutputTranslaterUpdatedEvent>(
                 "更新了内核输出翻译器后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
                         var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());
@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelOutputTranslaterRemovedEvent>(
                 "移除了内核输出翻译器后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
                         var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());

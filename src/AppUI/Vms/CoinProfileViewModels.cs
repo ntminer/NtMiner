@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         private CoinProfileViewModels() {
             VirtualRoot.On<CoinKernelProfilePropertyChangedEvent>(
                 "币种内核设置变更后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {
                         _coinKernelProfileDicById[message.CoinKernelId].OnPropertyChanged(message.PropertyName);
@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
                 });
             VirtualRoot.On<CoinProfilePropertyChangedEvent>(
                 "币种设置变更后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_coinProfileDicById.ContainsKey(message.CoinId)) {
                         _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);

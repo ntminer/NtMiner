@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
         private void Init() {
             VirtualRoot.On<KernelOutputAddedEvent>(
                 "添加了内核输出组后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     var vm = new KernelOutputViewModel(message.Source);
                     _dicById.Add(message.Source.GetId(), vm);
@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelOutputUpdatedEvent>(
                 "更新了内核输出组后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         var item = _dicById[message.Source.GetId()];
@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<KernelOutputRemovedEvent>(
                 "移除了内核输出组后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Remove(message.Source.GetId());

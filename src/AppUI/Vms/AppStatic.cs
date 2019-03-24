@@ -77,7 +77,7 @@ namespace NTMiner.Vms {
 
         public static IEnumerable<EnumItem<LogEnum>> LogTypeItems {
             get {
-                return LogEnum.Console.GetEnumItems();
+                return LogEnum.DevConsole.GetEnumItems();
             }
         }
 

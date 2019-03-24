@@ -28,7 +28,7 @@ namespace NTMiner.Views {
             });
             VirtualRoot.On<Language.GlobalLangChangedEvent>(
                 "全局语言变更时调整窗口的标题",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     foreach (var item in s_windows) {
                         item.OnPropertyChanged(nameof(item.Title));

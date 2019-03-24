@@ -11,7 +11,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             _root = root;
             VirtualRoot.Window<ChangeAppSettingCommand>(
                 "处理设置AppSetting命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (message.AppSetting == null) {
                         return;
@@ -48,7 +48,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<ChangeAppSettingsCommand>(
                 "处理设置AppSetting命令",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (message.AppSettings == null) {
                         return;

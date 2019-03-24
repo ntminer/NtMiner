@@ -12,7 +12,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             _root = root;
             VirtualRoot.Window<AddOverClockDataCommand>(
                 "添加超频建议",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -37,7 +37,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<UpdateOverClockDataCommand>(
                 "更新超频建议",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -65,7 +65,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<RemoveOverClockDataCommand>(
                 "移除超频建议",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
         private void Init() {
             VirtualRoot.On<SysDicAddedEvent>(
                 "添加了系统字典后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         SysDicViewModel sysDicVm = new SysDicViewModel(message.Source);
@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<SysDicUpdatedEvent>(
                 "更新了系统字典后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     if (_dicById.ContainsKey(message.Source.GetId())) {
                         SysDicViewModel entity = _dicById[message.Source.GetId()];
@@ -57,7 +57,7 @@ namespace NTMiner.Vms {
                 }).AddToCollection(NTMinerRoot.Current.ContextHandlers);
             VirtualRoot.On<SysDicRemovedEvent>(
                 "删除了系统字典后调整VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     _dicById.Remove(message.Source.GetId());
                     _dicByCode.Remove(message.Source.Code);

@@ -16,7 +16,7 @@ namespace NTMiner.Core.Kernels.Impl {
             _isUseJson = isUseJson;
             VirtualRoot.Window<AddKernelOutputFilterCommand>(
                 "添加内核输出过滤器",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -41,7 +41,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<UpdateKernelOutputFilterCommand>(
                 "更新内核输出过滤器",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -65,7 +65,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<RemoveKernelOutputFilterCommand>(
                 "移除内核输出过滤器",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

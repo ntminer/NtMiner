@@ -12,7 +12,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             _root = root;
             VirtualRoot.Window<AddMinerGroupCommand>(
                 "添加矿机分组",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -37,7 +37,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<UpdateMinerGroupCommand>(
                 "更新矿机分组",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -65,7 +65,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
             VirtualRoot.Window<RemoveMinerGroupCommand>(
                 "移除矿机分组",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

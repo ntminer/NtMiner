@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
             _isUseJson = isUseJson;
             VirtualRoot.Window<AddCoinGroupCommand>(
                 "添加币组",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -35,7 +35,7 @@ namespace NTMiner.Core.Impl {
                 }).AddToCollection(root.ContextHandlers);
             VirtualRoot.Window<RemoveCoinGroupCommand>(
                 "移除币组",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

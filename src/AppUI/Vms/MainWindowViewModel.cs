@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
             if (DevMode.IsDevMode) {
                 VirtualRoot.On<ServerJsonVersionChangedEvent>(
                     "在开发者调试区展示ServerJsonVersion",
-                    LogEnum.Console,
+                    LogEnum.DevConsole,
                     action: message => {
                         this.ServerJsonVersion = NTMinerRoot.JsonFileVersion;
                     });

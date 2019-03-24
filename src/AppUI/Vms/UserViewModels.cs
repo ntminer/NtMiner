@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
             });
             VirtualRoot.On<UserAddedEvent>(
                 "添加了用户后",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (!_dicByLoginName.ContainsKey(message.Source.LoginName)) {
                         _dicByLoginName.Add(message.Source.LoginName, new UserViewModel(message.Source));
@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                 });
             VirtualRoot.On<UserUpdatedEvent>(
                 "更新了用户后",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     UserViewModel vm;
                     if (_dicByLoginName.TryGetValue(message.Source.LoginName, out vm)) {
@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
                 });
             VirtualRoot.On<UserRemovedEvent>(
                 "移除了用户后",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     _dicByLoginName.Remove(message.Source.LoginName);
                     OnPropertyChanged(nameof(List));

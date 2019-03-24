@@ -7,7 +7,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<string, AppSettingViewModel> _dicByKey = new Dictionary<string, AppSettingViewModel>();
 
         private AppSettingViewModels() {
-            VirtualRoot.On<AppSettingChangedEvent>("AppSetting变更后刷新Vm内存", LogEnum.Console, action: message => {
+            VirtualRoot.On<AppSettingChangedEvent>("AppSetting变更后刷新Vm内存", LogEnum.DevConsole, action: message => {
                 if (_dicByKey.TryGetValue(message.Source.Key, out AppSettingViewModel vm)) {
                     vm.Value = message.Source.Value;
                 }

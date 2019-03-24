@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
             }
             VirtualRoot.On<OverClockDataAddedEvent>(
                 "添加超频建议后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     if (!_dicById.ContainsKey(message.Source.GetId())) {
                         _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
@@ -32,13 +32,13 @@ namespace NTMiner.Vms {
                 });
             VirtualRoot.On<OverClockDataUpdatedEvent>(
                 "更新超频建议后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     _dicById[message.Source.GetId()].Update(message.Source);
                 });
             VirtualRoot.On<OverClockDataRemovedEvent>(
                 "删除超频建议后刷新VM内存",
-                LogEnum.Console,
+                LogEnum.DevConsole,
                 action: message => {
                     _dicById.Remove(message.Source.GetId());
                     OnPropertyChanged(nameof(List));
