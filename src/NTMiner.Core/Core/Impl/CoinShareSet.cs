@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace NTMiner.Core.Impl {
     public class CoinShareSet : ICoinShareSet {
         private readonly Dictionary<Guid, CoinShare> _dicByCoinId = new Dictionary<Guid, CoinShare>();
+        private readonly object _locker = new object();
         private readonly INTMinerRoot _root;
 
         public CoinShareSet(INTMinerRoot root) {
@@ -20,17 +21,21 @@ namespace NTMiner.Core.Impl {
                     AcceptShareCount = 0
                 };
             }
-            if (_dicByCoinId.ContainsKey(coinId)) {
-                return _dicByCoinId[coinId];
+            CoinShare share;
+            if (!_dicByCoinId.TryGetValue(coinId, out share)) {
+                lock (_locker) {
+                    if (!_dicByCoinId.TryGetValue(coinId, out share)) {
+                        share = new CoinShare {
+                            CoinId = coinId,
+                            RejectShareCount = 0,
+                            RejectPercent = 0,
+                            ShareOn = DateTime.Now,
+                            AcceptShareCount = 0
+                        };
+                        _dicByCoinId.Add(coinId, share);
+                    }
+                }
             }
-            CoinShare share = new CoinShare {
-                CoinId = coinId,
-                RejectShareCount = 0,
-                RejectPercent = 0,
-                ShareOn = DateTime.Now,
-                AcceptShareCount = 0
-            };
-            _dicByCoinId.Add(coinId, share);
             return share;
         }
 
