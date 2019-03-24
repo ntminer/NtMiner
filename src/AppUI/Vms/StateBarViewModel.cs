@@ -1,19 +1,15 @@
 ﻿using NTMiner.Views.Ucs;
 using System;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class StateBarViewModel : ViewModelBase {
         public static readonly StateBarViewModel Current = new StateBarViewModel();
-        private static readonly SolidColorBrush Gray = new SolidColorBrush(Colors.Gray);
-        private static readonly SolidColorBrush MiningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
 
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private bool _isShovelEmpty = true;
         private bool _isMining;
-        private SolidColorBrush _gpuStateColor;
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
@@ -38,12 +34,10 @@ namespace NTMiner.Vms {
             VirtualRoot.On<MineStartedEvent>("挖矿开始后将风扇转起来", LogEnum.DevConsole,
                 action: message => {
                     this.IsMining = true;
-                    GpuStateColor = MiningColor;
                 });
             VirtualRoot.On<MineStopedEvent>("挖矿停止后将风扇停转", LogEnum.DevConsole,
                 action: message => {
                     this.IsMining = false;
-                    GpuStateColor = Gray;
                 });
         }
 
@@ -68,14 +62,6 @@ namespace NTMiner.Vms {
         public GpuSpeedViewModels GpuSpeedVms {
             get {
                 return GpuSpeedViewModels.Current;
-            }
-        }
-
-        public SolidColorBrush GpuStateColor {
-            get => _gpuStateColor;
-            set {
-                _gpuStateColor = value;
-                OnPropertyChanged(nameof(GpuStateColor));
             }
         }
 
