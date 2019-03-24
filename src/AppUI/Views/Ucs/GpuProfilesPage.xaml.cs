@@ -13,7 +13,12 @@ namespace NTMiner.Views.Ucs {
                 Height = 600,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
-            }, ucFactory: (window) => new GpuProfilesPage(vm), fixedSize: true);
+            }, ucFactory: (window) => {
+                vm.CloseWindow = () => {
+                    window.Close();
+                };
+                return new GpuProfilesPage(vm);
+            }, fixedSize: true);
         }
 
         public GpuProfilesPageViewModel Vm {

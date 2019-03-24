@@ -1,7 +1,10 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.JsonDb;
+using NTMiner.MinerClient;
 using NTMiner.MinerServer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -10,6 +13,10 @@ namespace NTMiner.Vms {
         private string _gpuIconFill = "Gray";
         private string _redText;
         private CoinViewModel _coinVm;
+
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
 
         public GpuProfilesPageViewModel(IClientData client) {
             if (client != null) {
@@ -85,6 +92,26 @@ namespace NTMiner.Vms {
                         if (this.CoinVm == null) {
                             this.CoinVm = CoinVms.MainCoins.FirstOrDefault();
                         }
+                        this.Save = new DelegateCommand(() => {
+                            GpuProfilesJsonDb jsonObj = new GpuProfilesJsonDb() {
+                                GpuType = data.GpuType,
+                                Gpus = data.Gpus
+                            };
+                            foreach (var coinVm in CoinVms.MainCoins) {
+                                if (coinVm.IsOverClockEnabled) {
+                                    jsonObj.CoinOverClocks.Add(new CoinOverClockData() {
+                                        CoinId = coinVm.Id,
+                                        IsOverClockEnabled = coinVm.IsOverClockEnabled,
+                                        IsOverClockGpuAll = coinVm.IsOverClockGpuAll
+                                    });
+                                    jsonObj.GpuProfiles.Add(new GpuProfileData(coinVm.GpuAllProfileVm));
+                                    jsonObj.GpuProfiles.AddRange(coinVm.GpuProfileVms.Select(a => new GpuProfileData(a)));
+                                }
+                            }
+                            string json = VirtualRoot.JsonSerializer.Serialize(jsonObj);
+                            Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
+                            CloseWindow?.Invoke();
+                        });
                     }
                 });
             }
