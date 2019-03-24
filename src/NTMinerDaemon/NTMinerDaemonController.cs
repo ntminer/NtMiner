@@ -42,6 +42,19 @@ namespace NTMiner {
         }
         #endregion
 
+        #region SaveGpuProfilesJson
+        [HttpPost]
+        public void SaveGpuProfilesJson() {
+            try {
+                string json = Request.Content.ReadAsStringAsync().Result;
+                SpecialPath.SaveGpuProfilesJsonFile(json);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e.Message, e);
+            }
+        }
+        #endregion
+
         [HttpPost]
         public void SetAutoBootStart([FromUri]bool autoBoot, [FromUri]bool autoStart) {
             NTMinerRegistry.SetIsAutoBoot(autoBoot);

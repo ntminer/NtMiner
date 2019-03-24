@@ -14,5 +14,9 @@ namespace NTMiner {
 
             return string.Empty;
         }
+
+        public static void SaveGpuProfilesJsonFile(string json) {
+            File.WriteAllText(GpuProfilesJsonFileFullName, json);
+        }
     }
 }
