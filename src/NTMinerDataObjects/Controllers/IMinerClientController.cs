@@ -9,5 +9,6 @@ namespace NTMiner.Controllers {
         ResponseBase SetMinerProfileProperty(SetMinerProfilePropertyRequest request);
         SpeedData GetSpeed();
         void RefreshAutoBootStart();
+        void OverClock();
     }
 }
