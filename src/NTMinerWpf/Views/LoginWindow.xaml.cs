@@ -16,7 +16,6 @@ namespace NTMiner.Views {
             this.Activated += ChangeNotiCenterWindowLocation;
             this.LocationChanged += ChangeNotiCenterWindowLocation;
             InitializeComponent();
-            ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             this.PbPassword.Focus();
         }
 

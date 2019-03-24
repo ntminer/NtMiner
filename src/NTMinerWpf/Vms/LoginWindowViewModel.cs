@@ -51,10 +51,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public LangViewModels LangVms {
-            get { return LangViewModels.Current; }
-        }
-
         public Visibility IsPasswordAgainVisible {
             get => _isPasswordAgainVisible;
             set {

@@ -7,6 +7,10 @@ namespace NTMiner {
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
+            TempDirFullName = Path.Combine(VirtualRoot.GlobalDirFullName, "Temp");
+            if (!Directory.Exists(TempDirFullName)) {
+                Directory.CreateDirectory(TempDirFullName);
+            }
         }
 
         public static string TempDirFullName { get; private set; }
