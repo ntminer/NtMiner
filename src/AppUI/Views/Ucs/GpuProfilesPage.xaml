@@ -101,8 +101,8 @@
 				<TextBlock Foreground="Red" VerticalAlignment="Center" Text="{Binding RedText}"></TextBlock>
 				<controls:KbButton
 					Height="22"
-					ToolTip="点击应用超频设置"
-					Command="{Binding CoinVm.ApplyOverClock}" 
+					ToolTip="点击将超频设置发送到矿机并应用"
+					Command="{Binding Save}" 
 					Background="Transparent"
 					Foreground="{StaticResource IconFillColor}"
 					CornerRadius="2">

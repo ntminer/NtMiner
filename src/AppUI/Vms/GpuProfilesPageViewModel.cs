@@ -13,14 +13,41 @@ namespace NTMiner.Vms {
         private string _gpuIconFill = "Gray";
         private string _redText;
         private CoinViewModel _coinVm;
+        private GpuProfilesJsonDb _data;
 
         public ICommand Save { get; private set; }
 
         public Action CloseWindow { get; set; }
 
         public GpuProfilesPageViewModel(IClientData client) {
+            this.Save = new DelegateCommand(() => {
+                if (_data == null) {
+                    return;
+                }
+                GpuProfilesJsonDb jsonObj = new GpuProfilesJsonDb() {
+                    GpuType = _data.GpuType,
+                    Gpus = _data.Gpus
+                };
+                foreach (var coinVm in CoinVms.MainCoins) {
+                    if (coinVm.IsOverClockEnabled) {
+                        jsonObj.CoinOverClocks.Add(new CoinOverClockData() {
+                            CoinId = coinVm.Id,
+                            IsOverClockEnabled = coinVm.IsOverClockEnabled,
+                            IsOverClockGpuAll = coinVm.IsOverClockGpuAll
+                        });
+                        if (CoinVm.IsOverClockGpuAll) {
+                            jsonObj.GpuProfiles.Add(new GpuProfileData(coinVm.GpuAllProfileVm));
+                        }
+                        jsonObj.GpuProfiles.AddRange(coinVm.GpuProfileVms.Select(a => new GpuProfileData(a)));
+                    }
+                }
+                string json = VirtualRoot.JsonSerializer.Serialize(jsonObj);
+                Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
+                CloseWindow?.Invoke();
+            });
             if (client != null) {
                 Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(client.MinerIp, (data, e) => {
+                    _data = data;
                     if (e != null) {
                         Write.UserLine(e.Message, System.ConsoleColor.Red);
                     }
@@ -92,26 +119,6 @@ namespace NTMiner.Vms {
                         if (this.CoinVm == null) {
                             this.CoinVm = CoinVms.MainCoins.FirstOrDefault();
                         }
-                        this.Save = new DelegateCommand(() => {
-                            GpuProfilesJsonDb jsonObj = new GpuProfilesJsonDb() {
-                                GpuType = data.GpuType,
-                                Gpus = data.Gpus
-                            };
-                            foreach (var coinVm in CoinVms.MainCoins) {
-                                if (coinVm.IsOverClockEnabled) {
-                                    jsonObj.CoinOverClocks.Add(new CoinOverClockData() {
-                                        CoinId = coinVm.Id,
-                                        IsOverClockEnabled = coinVm.IsOverClockEnabled,
-                                        IsOverClockGpuAll = coinVm.IsOverClockGpuAll
-                                    });
-                                    jsonObj.GpuProfiles.Add(new GpuProfileData(coinVm.GpuAllProfileVm));
-                                    jsonObj.GpuProfiles.AddRange(coinVm.GpuProfileVms.Select(a => new GpuProfileData(a)));
-                                }
-                            }
-                            string json = VirtualRoot.JsonSerializer.Serialize(jsonObj);
-                            Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
-                            CloseWindow?.Invoke();
-                        });
                     }
                 });
             }
