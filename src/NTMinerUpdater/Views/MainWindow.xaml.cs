@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using NTMiner.Vms;
+using System;
 using System.Windows;
 
 namespace NTMiner.Views {
@@ -12,6 +13,9 @@ namespace NTMiner.Views {
 
         public MainWindow() {
             InitializeComponent();
+            EventHandler ChangeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
+            this.Activated += ChangeNotiCenterWindowLocation;
+            this.LocationChanged += ChangeNotiCenterWindowLocation;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) {

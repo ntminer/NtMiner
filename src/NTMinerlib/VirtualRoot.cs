@@ -18,8 +18,6 @@ namespace NTMiner {
             get => _sIsControlCenter;
             set {
                 _sIsControlCenter = value;
-                GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
-                Logging.LogDir.SetDir(System.IO.Path.Combine(GlobalDirFullName, "Logs"));
             }
         }
 

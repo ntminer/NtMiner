@@ -126,9 +126,6 @@ namespace NTMiner.Vms {
                 };
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     bool isSuccess = !e.Cancelled && e.Error == null;
-                    if (isSuccess) {
-                        Logger.OkDebugLine(App.AppType.ToString() + version + "下载成功");
-                    }
                     string message = "下载成功";
                     if (e.Error != null) {
                         message = "下载失败";
@@ -136,6 +133,12 @@ namespace NTMiner.Vms {
                     }
                     if (e.Cancelled) {
                         message = "下载取消";
+                    }
+                    if (isSuccess) {
+                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage(App.AppType.ToString() + version + "下载成功");
+                    }
+                    else {
+                        NotiCenterWindowViewModel.Current.Manager.ShowErrorMessage(message, 4);
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };

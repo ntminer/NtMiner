@@ -92,6 +92,7 @@ namespace NTMiner {
 
             base.OnStartup(e);
 
+            NotiCenterWindow.Instance.Show();
             this.MainWindow = new MainWindow();
             this.MainWindow.Show();
         }
