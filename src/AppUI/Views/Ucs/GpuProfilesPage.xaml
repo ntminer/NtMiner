@@ -82,7 +82,7 @@
 							<DataTemplate>
 								<controls:KbButton
 									ToolTip="{Binding Tooltip}"
-									Command="{Binding Data.CoinVm.OverClock,Source={StaticResource proxy}}"
+									Command="{Binding Data.CoinVm.FillOverClockForm,Source={StaticResource proxy}}"
 									CommandParameter="{Binding}"
 									Margin="10 0"
 									Padding="6 2"

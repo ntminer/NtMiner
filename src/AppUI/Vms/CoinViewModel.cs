@@ -55,9 +55,9 @@ namespace NTMiner.Vms {
 
         public ICommand AddOverClockData { get; private set; }
 
-        public ICommand ApplyOverClock { get; private set; }
+        public ICommand ApplyTemplateOverClock { get; private set; }
 
-        public ICommand OverClock { get; private set; }
+        public ICommand ApplyCustomOverClock { get; private set; }
 
         public ICommand FillOverClockForm { get; private set; }
 
@@ -80,12 +80,25 @@ namespace NTMiner.Vms {
             _justAsDualCoin = data.JustAsDualCoin;
         }
 
+        private void ApplyOverClock() {
+            var list = GpuProfileVms.ToArray();
+            foreach (var item in list) {
+                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
+            }
+            VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
+        }
+
         public CoinViewModel(Guid id) {
             _id = id;
-            this.OverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
+            this.ApplyTemplateOverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
                 DialogWindow.ShowDialog(message: $"确定应用该超频设置吗？", title: "确认", onYes: () => {
                     FillOverClockForm.Execute(data);
-                    ApplyOverClock.Execute(null);
+                    ApplyOverClock();
+                }, icon: IconConst.IconConfirm);
+            });
+            this.ApplyCustomOverClock = new DelegateCommand(() => {
+                DialogWindow.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认", onYes: () => {
+                    ApplyOverClock();
                 }, icon: IconConst.IconConfirm);
             });
             this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {
@@ -105,13 +118,6 @@ namespace NTMiner.Vms {
                 new OverClockDataViewModel(Guid.NewGuid()) {
                     CoinId = this.Id
                 }.Edit.Execute(FormType.Add);
-            });
-            this.ApplyOverClock = new DelegateCommand(() => {
-                var list = GpuProfileVms.ToArray();
-                foreach (var item in list) {
-                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
-                }
-                VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
             });
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
