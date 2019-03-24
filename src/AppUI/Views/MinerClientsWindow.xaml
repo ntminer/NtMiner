@@ -647,7 +647,7 @@
 				</DataGrid.Resources>
 				<DataGrid.ContextMenu>
 					<ContextMenu>
-						<MenuItem Header="刷新" Command="{Binding Data.RefreshMinerClients,Source={StaticResource proxy}}">
+						<MenuItem Header="刷新" Padding="4" Margin="0 0 6 0" Command="{Binding Data.RefreshMinerClients,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -677,7 +677,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="重命名" Command="{Binding Data.OneKeyMinerNames,Source={StaticResource proxy}}">
+						<MenuItem Header="重命名" Padding="4" Margin="0 0 6 0" Command="{Binding Data.OneKeyMinerNames,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -757,7 +757,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="添加矿机" Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}">
+						<MenuItem Header="添加矿机" Padding="4" Margin="0 0 6 0" Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
