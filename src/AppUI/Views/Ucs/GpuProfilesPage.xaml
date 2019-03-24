@@ -16,7 +16,7 @@
 			远程超频
 		</sys:String>
 	</UserControl.Resources>
-	<Grid>
+	<Grid IsEnabled="{Binding IsEnabled}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
