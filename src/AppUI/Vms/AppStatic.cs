@@ -272,6 +272,9 @@ namespace NTMiner.Vms {
                         if (!string.IsNullOrEmpty(ntminerFileName)) {
                             argument = "ntminerFileName=" + ntminerFileName;
                         }
+                        if (VirtualRoot.IsMinerStudio) {
+                            argument += " --minerstudio";
+                        }
                         string ntMinerUpdaterFileFullName = Path.Combine(updaterDirFullName, "NTMinerUpdater.exe");
                         Uri uri = new Uri(downloadFileUrl);
                         string updaterVersion = NTMinerRegistry.GetUpdaterVersion();
