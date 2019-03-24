@@ -22,7 +22,9 @@ namespace NTMiner.Bus {
                     var evtArgs = new MessageDispatchEventArgs(message, messageHandler.GetType(), messageHandler);
                     switch (tMessageHandler.HandlerId.LogType) {
                         case LogEnum.DevConsole:
-                            Write.DevLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                            if (DevMode.IsDevMode) {
+                                Write.DevLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}");
+                            }
                             break;
                         case LogEnum.UserConsole:
                             Write.UserLine($"({messageType.Name})->({tMessageHandler.HandlerId.Location.Name}){tMessageHandler.HandlerId.Description}", ConsoleColor.Gray);

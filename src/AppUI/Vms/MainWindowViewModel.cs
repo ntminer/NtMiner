@@ -21,6 +21,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.StartMine = new DelegateCommand(() => {
+                this.StateBarVm.IsMining = true;
                 NTMinerRoot.Current.StartMine();
             });
             this.StopMine = new DelegateCommand(() => {

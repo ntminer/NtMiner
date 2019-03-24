@@ -6,10 +6,14 @@ using System.Windows.Media;
 namespace NTMiner.Vms {
     public class StateBarViewModel : ViewModelBase {
         public static readonly StateBarViewModel Current = new StateBarViewModel();
+        private static readonly SolidColorBrush s_gray = new SolidColorBrush(Colors.Gray);
+        private static readonly SolidColorBrush s_miningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
 
         private TimeSpan _mineTimeSpan = TimeSpan.Zero;
         private TimeSpan _bootTimeSpan = TimeSpan.Zero;
         private bool _isShovelEmpty = true;
+        private bool _isMining;
+        private SolidColorBrush _gpuStateColor;
 
         public ICommand ConfigControlCenterHost { get; private set; }
 
@@ -37,15 +41,15 @@ namespace NTMiner.Vms {
                 "挖矿开始后将风扇转起来",
                 LogEnum.DevConsole,
                 action: message => {
-                    this.OnPropertyChanged(nameof(this.IsMining));
-                    OnPropertyChanged(nameof(GpuStateColor));
+                    this.IsMining = true;
+                    GpuStateColor = s_miningColor;
                 });
             VirtualRoot.On<MineStopedEvent>(
                 "挖矿停止后将风扇停转",
                 LogEnum.DevConsole,
                 action: message => {
-                    this.OnPropertyChanged(nameof(this.IsMining));
-                    OnPropertyChanged(nameof(GpuStateColor));
+                    this.IsMining = false;
+                    GpuStateColor = s_gray;
                 });
         }
 
@@ -60,8 +64,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsMining {
-            get {
-                return NTMinerRoot.Current.IsMining;
+            get => _isMining;
+            set {
+                _isMining = value;
+                OnPropertyChanged(nameof(IsMining));
             }
         }
 
@@ -71,14 +77,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush s_gray = new SolidColorBrush(Colors.Gray);
-        private static readonly SolidColorBrush s_miningColor = (SolidColorBrush)System.Windows.Application.Current.Resources["IconFillColor"];
         public SolidColorBrush GpuStateColor {
-            get {
-                if (NTMinerRoot.Current.IsMining) {
-                    return s_miningColor;
-                }
-                return s_gray;
+            get => _gpuStateColor;
+            set {
+                _gpuStateColor = value;
+                OnPropertyChanged(nameof(GpuStateColor));
             }
         }
 
