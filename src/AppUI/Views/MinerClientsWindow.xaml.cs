@@ -4,6 +4,7 @@ using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,25 +31,48 @@ namespace NTMiner.Views {
             }
         }
 
+        private readonly List<IDelegateHandler> _handlers = new List<IDelegateHandler>();
         private MinerClientsWindow() {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
+            VirtualRoot.On<Per1SecondEvent>(
+                "刷新倒计时秒表，周期性挥动铲子表示在挖矿中",
+                LogEnum.None,
+                action: message => {
+                    var minerClients = Vm.MinerClients.ToArray();
+                    if (Vm.CountDown > 0) {
+                        Vm.CountDown = Vm.CountDown - 1;
+                        foreach (var item in minerClients) {
+                            item.OnPropertyChanged(nameof(item.LastActivedOnText));
+                        }
+                    }
+                    // 周期性挥动铲子表示在挖矿中
+                    foreach (var item in minerClients) {
+                        if (item.IsMining) {
+                            item.IsShovelEmpty = !item.IsShovelEmpty;
+                        }
+                    }
+                }).AddToCollection(_handlers);
+            VirtualRoot.On<Per10SecondEvent>(
+                "周期刷新在线客户端列表",
+                LogEnum.Console,
+                action: message => {
+                    MinerClientsWindowViewModel.Current.QueryMinerClients();
+                }).AddToCollection(_handlers);
             EventHandler ChangeNotiCenterWindowLocation = Wpf.Util.ChangeNotiCenterWindowLocation(this);
             this.Activated += ChangeNotiCenterWindowLocation;
             this.LocationChanged += ChangeNotiCenterWindowLocation;
             ResourceDictionarySet.Instance.FillResourceDic(this, this.Resources);
             MinerClientsWindowViewModel.Current.QueryMinerClients();
-            DelegateHandler<Per10SecondEvent> refreshMinerClients = VirtualRoot.On<Per10SecondEvent>(
-                "周期刷新在线客户端列表",
-                LogEnum.Console,
-                action: message => {
-                    MinerClientsWindowViewModel.Current.QueryMinerClients();
-                });
-            this.Closing += (object sender, System.ComponentModel.CancelEventArgs e)=> {
-                VirtualRoot.UnPath(refreshMinerClients);
-                VirtualRoot.Execute(new ChangeAppSettingsCommand(
-                    new AppSettingData[]{
+        }
+
+        protected override void OnClosing(CancelEventArgs e) {
+            foreach (var handler in _handlers) {
+                VirtualRoot.UnPath(handler);
+            }
+            VirtualRoot.Execute(new ChangeAppSettingsCommand(
+                new AppSettingData[]{
                         new AppSettingData {
                             Key = "FrozenColumnCount",
                             Value = Vm.FrozenColumnCount
@@ -62,8 +86,8 @@ namespace NTMiner.Views {
                             Key = "RejectPercent",
                             Value = Vm.RejectPercent
                         }
-                }));
-            };
+            }));
+            base.OnClosing(e);
         }
 
         public void ShowThisWindow() {

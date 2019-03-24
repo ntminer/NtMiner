@@ -67,24 +67,6 @@ namespace NTMiner.Vms {
             if (Design.IsInDesignMode) {
                 return;
             }
-            VirtualRoot.On<Per1SecondEvent>(
-                "刷新倒计时秒表，周期性挥动铲子表示在挖矿中",
-                LogEnum.None,
-                action: message => {
-                    var minerClients = this.MinerClients.ToArray();
-                    if (this.CountDown > 0) {
-                        this.CountDown = this.CountDown - 1;
-                        foreach (var item in minerClients) {
-                            item.OnPropertyChanged(nameof(item.LastActivedOnText));
-                        }
-                    }
-                    // 周期性挥动铲子表示在挖矿中
-                    foreach (var item in minerClients) {
-                        if (item.IsMining) {
-                            item.IsShovelEmpty = !item.IsShovelEmpty;
-                        }
-                    }
-                });
             var appSettings = NTMinerRoot.Current.AppSettingSet;
             Guid columnsShowId = ColumnsShowData.PleaseSelectId;
             if (appSettings.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
