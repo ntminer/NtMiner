@@ -61,7 +61,7 @@
 				<WrapPanel VerticalAlignment="Center">
 					<TextBlock 
 						Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordInvertVisibilityConverter}}"
-						Style="{StaticResource LblTb}" Width="Auto">推荐</TextBlock>
+						Style="{StaticResource LblTb}" Width="Auto">背包</TextBlock>
 					<TextBlock 
 						Visibility="{Binding CoinVm.OverClockDatas,Converter={StaticResource NoRecordVisibilityConverter}}"
 						Style="{StaticResource LblTb}" Width="Auto">没有推荐</TextBlock>
