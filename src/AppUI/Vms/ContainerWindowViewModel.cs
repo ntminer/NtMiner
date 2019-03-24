@@ -64,10 +64,18 @@ namespace NTMiner.Vms {
             set {
                 if (_isDialogWindow != value) {
                     _isDialogWindow = value;
-                    OnPropertyChanged(nameof(IsDialogWindow));
                 }
             }
         }
+
+        public bool IsTopMost {
+            get => _isTopMost;
+            set {
+                _isTopMost = value;
+            }
+        }
+
+        public bool HasOwner { get; set; }
 
         public FormType FormType {
             get => _formType;
@@ -142,6 +150,7 @@ namespace NTMiner.Vms {
         private double _minWidth;
         private FormType _formType;
         private string _footerText;
+        private bool _isTopMost;
 
         public ImageSource IconImageSource {
             get {

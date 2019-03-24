@@ -169,7 +169,7 @@ namespace NTMiner.Vms {
             });
             this.OneKeyOverClock = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
-                    GpuProfilesPage.ShowWindow(new GpuProfilesPageViewModel(this.SelectedMinerClients[0]));
+                    GpuProfilesPage.ShowWindow(this.SelectedMinerClients[0]);
                 }
             }, OnlySelectedOne);
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
