@@ -21,16 +21,16 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
-                var vm = new GpuProfilesPageViewModel(minerClientsWindowVm);
-                vm.CloseWindow = () => {
-                    window.Close();
+                var vm = new GpuProfilesPageViewModel(minerClientsWindowVm) {
+                    CloseWindow = () => {
+                        window.Close();
+                    }
                 };
                 var uc = new GpuProfilesPage(vm);
                 ResourceDictionarySet.Instance.TryGetResourceDic(nameof(GpuProfilesPage), out ResourceDictionary resourceDictionary);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];
                 resourceDictionary["WindowTitle"] = $"超频 - 基于矿机{client.MinerName}({client.MinerIp})";
-                PropertyChangedEventHandler handler = null;
-                handler = (object sender, PropertyChangedEventArgs e) => {
+                void handler(object sender, PropertyChangedEventArgs e) {
                     if (e.PropertyName == nameof(minerClientsWindowVm.SelectedMinerClients)) {
                         if (minerClientsWindowVm.SelectedMinerClients.Contains(minerClientVm)) {
                             vm.IsMinerClientVmVisible = Visibility.Collapsed;
@@ -39,7 +39,8 @@ namespace NTMiner.Views.Ucs {
                             vm.IsMinerClientVmVisible = Visibility.Visible;
                         }
                     }
-                };
+                }
+
                 minerClientsWindowVm.PropertyChanged += handler;
                 uc.Unloaded += (object sender, RoutedEventArgs e)=> {
                     minerClientsWindowVm.PropertyChanged -= handler;

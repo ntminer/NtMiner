@@ -7,7 +7,6 @@ namespace NTMiner {
     public static partial class Client {
         public partial class MinerStudioServiceFace {
             public static readonly MinerStudioServiceFace Instance = new MinerStudioServiceFace();
-            private static readonly string s_controllerName = "MinerStudio";
 
             private MinerStudioServiceFace() {
             }

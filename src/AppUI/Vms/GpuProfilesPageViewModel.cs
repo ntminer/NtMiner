@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         private string _redText;
         private CoinViewModel _coinVm;
         private GpuProfilesJsonDb _data;
-        private bool _isEnabled;
+        private bool _isEnabled = false;
         private Visibility _isMinerClientVmVisible = Visibility.Collapsed;
         private readonly MinerClientsWindowViewModel _minerClientsWindowVm;
         private readonly MinerClientViewModel _minerClientVm;
@@ -34,7 +34,6 @@ namespace NTMiner.Vms {
                     return;
                 }
                 GpuProfilesJsonDb jsonObj = new GpuProfilesJsonDb() {
-                    GpuType = _data.GpuType,
                     Gpus = _data.Gpus
                 };
                 foreach (var coinVm in CoinVms.MainCoins) {
@@ -64,7 +63,7 @@ namespace NTMiner.Vms {
                 }
                 else if (data != null) {
                     string iconName;
-                    switch (data.GpuType) {
+                    switch (_minerClientVm.GpuType) {
                         case GpuType.NVIDIA:
                             iconName = "Icon_Nvidia";
                             GpuIconFill = "Green";
@@ -75,12 +74,14 @@ namespace NTMiner.Vms {
                             iconName = "Icon_AMD";
                             GpuIconFill = "Red";
                             RedText = "暂不支持A卡超频";
+                            IsEnabled = false;
                             break;
                         case GpuType.Empty:
                         default:
                             iconName = "Icon_GpuEmpty";
                             GpuIconFill = "Gray";
                             RedText = "挖矿端没有显卡";
+                            IsEnabled = false;
                             break;
                     }
                     GpuIcon = (Geometry)System.Windows.Application.Current.Resources[iconName];

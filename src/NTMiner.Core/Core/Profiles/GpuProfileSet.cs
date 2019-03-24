@@ -82,7 +82,6 @@ namespace NTMiner.Core.Profiles {
         }
 
         private void Save() {
-            Data.GpuType = NTMinerRoot.Current.GpuSet.GpuType;
             Data.Gpus = CreateGpus();
             string json = VirtualRoot.JsonSerializer.Serialize(Data);
             SpecialPath.WriteGpuProfilesJsonFile(json);
