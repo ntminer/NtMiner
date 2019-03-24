@@ -207,6 +207,16 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
+				<MenuItem Header="远程桌面" Padding="4" Margin="0 0 6 0" Command="{Binding RemoteDesktop}">
+					<MenuItem.Icon>
+						<Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_RemoteDesktop}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+					</MenuItem.Icon>
+				</MenuItem>
 				<MenuItem Header="添加矿机" Padding="4" Margin="0 0 6 0" Command="{Binding AddMinerClient}">
 					<MenuItem.Icon>
 						<Path
@@ -233,16 +243,6 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Edit}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="远程桌面" Padding="4" Margin="0 0 6 0" Command="{Binding RemoteDesktop}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_RemoteDesktop}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
@@ -657,6 +657,26 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
+						<MenuItem Header="开始挖矿" Padding="4" Margin="0 0 6 0" Command="{Binding Data.StartMine,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Start}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="停止挖矿" Padding="4" Margin="0 0 6 0" Command="{Binding Data.StopMine,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Stop}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
 						<MenuItem Header="重命名" Command="{Binding Data.OneKeyMinerNames,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
@@ -667,12 +687,92 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
+						<MenuItem Header="超频" Padding="4" Margin="0 0 6 0" Command="{Binding Data.OneKeyOverClock,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_OverClock}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="编辑作业" Padding="4" Margin="0 0 6 0" Command="{Binding Data.EditMineWork,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Edit}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Command="{Binding Data.OneKeySetting,Source={StaticResource proxy}}" Padding="4" Margin="0 0 6 0" Header="远程设置">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Setting}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="重启挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding Data.RestartNTMiner,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Restart}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="重启电脑" Padding="4" Margin="0 0 6 0" Command="{Binding Data.RestartWindows,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Restart2}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="关闭电脑" Padding="4" Margin="0 0 6 0" Command="{Binding Data.ShutdownWindows,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Shutdown}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="远程桌面" Padding="4" Margin="0 0 6 0" Command="{Binding Data.RemoteDesktop,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_RemoteDesktop}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
 						<MenuItem Header="添加矿机" Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
 									Height="16"
 									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource IconFillColor}"
+									Stretch="Fill" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="删除矿机" Padding="4" Margin="0 0 6 0" Command="{Binding Data.RemoveMinerClients,Source={StaticResource proxy}}">
+							<MenuItem.Icon>
+								<Path
+									Width="16"
+									Height="16"
+									Data="{StaticResource Icon_Delete}"
 									Fill="{StaticResource IconFillColor}"
 									Stretch="Fill" />
 							</MenuItem.Icon>
