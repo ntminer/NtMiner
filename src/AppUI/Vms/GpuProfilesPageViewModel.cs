@@ -51,7 +51,9 @@ namespace NTMiner.Vms {
                     }
                 }
                 string json = VirtualRoot.JsonSerializer.Serialize(jsonObj);
-                Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(_minerClientVm.MinerIp, json);
+                foreach (var client in minerClientsWindowVm.SelectedMinerClients) {
+                    Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
+                }
                 CloseWindow?.Invoke();
             });
             Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {
