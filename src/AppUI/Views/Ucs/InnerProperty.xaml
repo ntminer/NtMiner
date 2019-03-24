@@ -37,8 +37,8 @@
 		</WrapPanel>
 
 		<WrapPanel>
-			<TextBlock Style="{StaticResource LblTb}" Text="IsControlCenter"></TextBlock>
-			<TextBlock Text="{Binding IsControlCenter}"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}" Text="IsMinerStudio"></TextBlock>
+			<TextBlock Text="{Binding IsMinerStudio}"></TextBlock>
 		</WrapPanel>
 		
 		<WrapPanel>

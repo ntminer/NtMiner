@@ -10,14 +10,14 @@ using System.Timers;
 namespace NTMiner {
     public static partial class VirtualRoot {
         private static ILang _sLang = null;
-        private static bool _sIsControlCenter;
+        private static bool _sIsMinerStudio;
 
         public static string GlobalDirFullName { get; set; } = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
         
-        public static bool IsControlCenter {
-            get => _sIsControlCenter;
+        public static bool IsMinerStudio {
+            get => _sIsMinerStudio;
             set {
-                _sIsControlCenter = value;
+                _sIsMinerStudio = value;
             }
         }
 

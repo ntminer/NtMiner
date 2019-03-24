@@ -57,7 +57,7 @@
     <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
     </Compile>
-    <Compile Include="MinerClientController.cs" />
+    <Compile Include="MinerStudioController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -61,7 +61,7 @@ namespace NTMiner.Vms {
 
         public bool IsFreeClient {
             get {
-                return MineWork == null || VirtualRoot.IsControlCenter;
+                return MineWork == null || VirtualRoot.IsMinerStudio;
             }
         }
 
@@ -258,7 +258,7 @@ namespace NTMiner.Vms {
 
         public bool IsWorker {
             get {
-                return MineWork != null && !VirtualRoot.IsControlCenter;
+                return MineWork != null && !VirtualRoot.IsMinerStudio;
             }
         }
     }

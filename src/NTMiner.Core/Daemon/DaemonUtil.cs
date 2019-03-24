@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NTMiner.Daemon {
     public static class DaemonUtil {
         public static void RunNTMinerDaemon() {
-            if (VirtualRoot.IsControlCenter) {
+            if (VirtualRoot.IsMinerStudio) {
                 return;
             }
             string processName = "NTMinerDaemon";
@@ -51,7 +51,7 @@ namespace NTMiner.Daemon {
         }
 
         public static void RunDevConsoleAsync(string poolIp, string consoleTitle) {
-            if (VirtualRoot.IsControlCenter) {
+            if (VirtualRoot.IsMinerStudio) {
                 return;
             }
             Task.Factory.StartNew(() => {

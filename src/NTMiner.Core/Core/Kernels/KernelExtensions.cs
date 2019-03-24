@@ -55,7 +55,7 @@ namespace NTMiner.Core.Kernels {
         }
 
         public static bool IsSupported(this IKernel kernel) {
-            if (VirtualRoot.IsControlCenter) {
+            if (VirtualRoot.IsMinerStudio) {
                 return true;
             }
             foreach (var item in NTMinerRoot.Current.CoinKernelSet.Where(a => a.KernelId == kernel.GetId())) {

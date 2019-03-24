@@ -69,7 +69,12 @@ namespace NTMiner.Vms {
                     this.BtnCancelVisible = Visibility.Collapsed;
                     if (isSuccess) {
                         this.DownloadMessage = "更新成功，正在重启";
-                        Client.MinerClientService.CloseNTMiner();
+                        if (VirtualRoot.IsMinerStudio) {
+                            Client.MinerStudioService.CloseMinerStudio();
+                        }
+                        else {
+                            Client.MinerClientService.CloseNTMiner();
+                        }
                         TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
                             string location = NTMinerRegistry.GetLocation();
                             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {

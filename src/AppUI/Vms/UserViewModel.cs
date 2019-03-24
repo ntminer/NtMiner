@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
 
         public UserViewModel() {
             this.Save = new DelegateCommand(() => {
-                if (!VirtualRoot.IsControlCenter) {
+                if (!VirtualRoot.IsMinerStudio) {
                     return;
                 }
                 if (string.IsNullOrEmpty(this.LoginName)) {
@@ -44,13 +44,13 @@ namespace NTMiner.Vms {
                 UserEdit.ShowWindow(formType ?? FormType.Edit, this);
             });
             this.Remove = new DelegateCommand(() => {
-                if (!VirtualRoot.IsControlCenter) {
+                if (!VirtualRoot.IsMinerStudio) {
                     return;
                 }
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
                 }
-                if (VirtualRoot.IsControlCenter && this.LoginName == SingleUser.LoginName) {
+                if (VirtualRoot.IsMinerStudio && this.LoginName == SingleUser.LoginName) {
                     throw new ValidationException("不能删除自己");
                 }
                 DialogWindow.ShowDialog(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
@@ -58,7 +58,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.Enable = new DelegateCommand(() => {
-                if (!VirtualRoot.IsControlCenter) {
+                if (!VirtualRoot.IsMinerStudio) {
                     return;
                 }
                 if (this.IsEnabled) {
@@ -70,7 +70,7 @@ namespace NTMiner.Vms {
                 }, icon: IconConst.IconConfirm);
             });
             this.Disable = new DelegateCommand(() => {
-                if (!VirtualRoot.IsControlCenter) {
+                if (!VirtualRoot.IsMinerStudio) {
                     return;
                 }
                 if (!this.IsEnabled) {
@@ -112,9 +112,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsControlCenter {
+        public bool IsMinerStudio {
             get {
-                return VirtualRoot.IsControlCenter;
+                return VirtualRoot.IsMinerStudio;
             }
         }
 
@@ -142,7 +142,7 @@ namespace NTMiner.Vms {
                 if (_passwordStar != value) {
                     _passwordStar = value;
                     OnPropertyChanged(nameof(PasswordStar));
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         this.Password = HashUtil.Sha1(value);
                     }
                     else {

@@ -16,7 +16,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Add = new DelegateCommand(() => {
-                if (!VirtualRoot.IsControlCenter) {
+                if (!VirtualRoot.IsMinerStudio) {
                     return;
                 }
                 new UserViewModel().Edit.Execute(FormType.Add);

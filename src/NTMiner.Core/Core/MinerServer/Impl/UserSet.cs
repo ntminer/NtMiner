@@ -79,7 +79,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 lock (_locker) {
                     if (!_isInited) {
                         Guid? clientId = null;
-                        if (!VirtualRoot.IsControlCenter) {
+                        if (!VirtualRoot.IsMinerStudio) {
                             clientId = ClientId.Id;
                         }
                         var result = Server.ControlCenterService.GetUsers(clientId);

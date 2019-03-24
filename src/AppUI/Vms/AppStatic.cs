@@ -438,18 +438,18 @@ namespace NTMiner.Vms {
             get; private set;
         }
 
-        public static Visibility IsControlCenterVisible {
+        public static Visibility IsMinerStudioVisible {
             get {
-                if (VirtualRoot.IsControlCenter) {
+                if (VirtualRoot.IsMinerStudio) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
             }
         }
 
-        public static Visibility IsControlCenterCollapsed {
+        public static Visibility IsMinerStudioCollapsed {
             get {
-                if (VirtualRoot.IsControlCenter) {
+                if (VirtualRoot.IsMinerStudio) {
                     return Visibility.Collapsed;
                 }
                 return Visibility.Visible;

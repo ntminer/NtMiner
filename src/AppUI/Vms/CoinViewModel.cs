@@ -270,7 +270,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (this == PleaseSelect || VirtualRoot.IsControlCenter) {
+                if (this == PleaseSelect || VirtualRoot.IsMinerStudio) {
                     return true;
                 }
                 foreach (var coinKernel in NTMinerRoot.Current.CoinKernelSet.Where(a => a.CoinId == this.Id)) {

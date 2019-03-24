@@ -71,7 +71,7 @@ namespace NTMiner.Core.Profiles.Impl {
         }
 
         private void AddWallet(WalletData entity) {
-            if (VirtualRoot.IsControlCenter) {
+            if (VirtualRoot.IsMinerStudio) {
                 Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
             }
             else {
@@ -81,7 +81,7 @@ namespace NTMiner.Core.Profiles.Impl {
         }
 
         private void UpdateWallet(WalletData entity) {
-            if (VirtualRoot.IsControlCenter) {
+            if (VirtualRoot.IsMinerStudio) {
                 Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
             }
             else {
@@ -91,7 +91,7 @@ namespace NTMiner.Core.Profiles.Impl {
         }
 
         private void RemoveWallet(Guid id) {
-            if (VirtualRoot.IsControlCenter) {
+            if (VirtualRoot.IsMinerStudio) {
                 Server.ControlCenterService.RemoveWalletAsync(id, null);
             }
             else {
@@ -117,7 +117,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
         private void Init() {
             if (!_isInited) {
-                if (VirtualRoot.IsControlCenter) {
+                if (VirtualRoot.IsMinerStudio) {
                     lock (_locker) {
                         if (!_isInited) {
                             var response = Server.ControlCenterService.GetWallets();

@@ -31,7 +31,7 @@ namespace NTMiner.Core.Impl {
                     PoolData entity = new PoolData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
 
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
@@ -80,7 +80,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
@@ -102,7 +102,7 @@ namespace NTMiner.Core.Impl {
                     
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         Server.ControlCenterService.RemovePoolAsync(entity.Id, callback: null);
                     }
                     else {
@@ -142,7 +142,7 @@ namespace NTMiner.Core.Impl {
                 if (!_isInited) {
                     var repository = CreateCompositeRepository<PoolData>(_isUseJson);
                     List<PoolData> data = repository.GetAll().ToList();
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         foreach (var item in Server.ControlCenterService.GetPools()) {
                             data.Add(item);
                         }

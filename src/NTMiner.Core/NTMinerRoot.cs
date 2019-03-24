@@ -54,7 +54,7 @@ namespace NTMiner {
                 });
                 GpuProfileSet.Instance.Register(this);
                 bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
-                if (DevMode.IsDebugMode && !VirtualRoot.IsControlCenter && !isWork) {
+                if (DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio && !isWork) {
                     DoInit(isWork, callback);
                     return;
                 }
@@ -171,7 +171,7 @@ namespace NTMiner {
         }
 
         private void ContextInit(bool isWork) {
-            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter || isWork;
+            bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.SysDicSet = new SysDicSet(this, isUseJson);
             this.SysDicItemSet = new SysDicItemSet(this, isUseJson);
             this.CoinSet = new CoinSet(this, isUseJson);
@@ -335,7 +335,7 @@ namespace NTMiner {
                                     string rawJson = Encoding.UTF8.GetString(data);
                                     SpecialPath.WriteServerJsonFile(rawJson);
                                     ReInitServerJson();
-                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsControlCenter;
+                                    bool isUseJson = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio;
                                     if (isUseJson) {
                                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
                                         ContextReInit(isWork: false);
@@ -635,7 +635,7 @@ namespace NTMiner {
         public IGpuSet GpuSet {
             get {
                 if (_gpuSet == null) {
-                    if (VirtualRoot.IsControlCenter) {
+                    if (VirtualRoot.IsMinerStudio) {
                         _gpuSet = EmptyGpuSet.Instance;
                     }
                     else {

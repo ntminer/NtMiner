@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="Client.partials.MinerStudioService.cs" />
     <Compile Include="Client.partials.NTMinerClientService.cs" />
     <Compile Include="Client.partials.NTMinerDaemonService.cs" />
     <Compile Include="ControllerUtil.cs" />

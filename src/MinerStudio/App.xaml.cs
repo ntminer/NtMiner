@@ -10,7 +10,7 @@ using System.Windows.Threading;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         public App() {
-            VirtualRoot.IsControlCenter = true;
+            VirtualRoot.IsMinerStudio = true;
             VirtualRoot.GlobalDirFullName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner");
             Logging.LogDir.SetDir(System.IO.Path.Combine(VirtualRoot.GlobalDirFullName, "Logs"));
             AppHelper.Init(this);
@@ -76,6 +76,16 @@ namespace NTMiner {
                         }
                     });
                 });
+                VirtualRoot.Window<CloseNTMinerCommand>("处理关闭群控客户端命令", LogEnum.UserConsole,
+                    action: message => {
+                        UIThread.Execute(() => {
+                            if (MainWindow != null) {
+                                MainWindow.Close();
+                            }
+                            Shutdown();
+                            Environment.Exit(0);
+                        });
+                    });
             }
             else {
                 try {
