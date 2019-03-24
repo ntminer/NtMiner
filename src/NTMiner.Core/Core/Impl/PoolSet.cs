@@ -140,13 +140,12 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    IEnumerable<PoolData> data;
+                    var repository = CreateCompositeRepository<PoolData>(_isUseJson);
+                    List<PoolData> data = repository.GetAll().ToList();
                     if (VirtualRoot.IsControlCenter) {
-                        data = Server.ControlCenterService.GetPools();
-                    }
-                    else {
-                        var repository = CreateCompositeRepository<PoolData>(_isUseJson);
-                        data = repository.GetAll();
+                        foreach (var item in Server.ControlCenterService.GetPools()) {
+                            data.Add(item);
+                        }
                     }
                     foreach (var item in data) {
                         if (!_dicById.ContainsKey(item.GetId())) {

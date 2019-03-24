@@ -171,7 +171,7 @@ namespace NTMiner.Vms {
                 if (this.SelectedMinerClients.Length == 1) {
                     GpuProfilesPage.ShowWindow(new GpuProfilesPageViewModel(this.SelectedMinerClients[0]));
                 }
-            }, CanCommand);
+            }, OnlySelectedOne);
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
                 DialogWindow.ShowDialog(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
                     foreach (var item in SelectedMinerClients) {
