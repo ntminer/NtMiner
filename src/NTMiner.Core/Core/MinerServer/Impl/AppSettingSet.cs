@@ -47,7 +47,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     VirtualRoot.Happened(new AppSettingChangedEvent(entity));
                 });
             VirtualRoot.Window<ChangeAppSettingsCommand>(
-                "处理设置AppSetting命令",
+                "处理批量设置AppSetting命令",
                 LogEnum.DevConsole,
                 action: message => {
                     if (message.AppSettings == null) {
