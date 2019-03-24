@@ -55,13 +55,13 @@ namespace NTMiner.Vms {
                     Write.UserLine(e.Message, System.ConsoleColor.Red);
                 }
                 else if (data != null) {
-                    IsEnabled = true;
                     string iconName;
                     switch (data.GpuType) {
                         case GpuType.NVIDIA:
                             iconName = "Icon_Nvidia";
                             GpuIconFill = "Green";
                             RedText = "超频有风险，操作需谨慎";
+                            IsEnabled = true;
                             break;
                         case GpuType.AMD:
                             iconName = "Icon_AMD";
