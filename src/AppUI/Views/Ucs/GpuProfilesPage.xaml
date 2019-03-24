@@ -215,26 +215,26 @@
 				</ItemsControl>
 			</ScrollViewer>
 		</Grid>
-		<TextBlock Grid.Row="2" Foreground="Red">应用于以下矿机，请在该窗口后面的主窗口中选择要应用的矿机。</TextBlock>
+		<TextBlock Grid.Row="2" Foreground="Red">应用于以下矿机，请在该窗口后面的主窗口中选中要应用的其他矿机。</TextBlock>
 		<Grid Grid.Row="3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<Border Grid.Column="0" BorderBrush="{StaticResource LineColor}" BorderThickness="1" Margin="4"
-					Visibility="{Binding IsMinerClientVmVisible}">
+					Visibility="{Binding IsMinerClientVmVisible}" Background="{StaticResource ThemeBackground}">
 				<StackPanel>
 					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}" Width="80">IP</TextBlock>
-						<TextBlock Text="{Binding MinerClientVm.MinerIp}" VerticalAlignment="Center"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">矿机名</TextBlock>
+						<TextBlock Text="{Binding MinerClientVm.ClientName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 					</WrapPanel>
 					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}" Width="80">矿机名</TextBlock>
-						<TextBlock Text="{Binding MinerClientVm.ClientName}" VerticalAlignment="Center"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">作业矿机名</TextBlock>
+						<TextBlock Text="{Binding MinerClientVm.MinerName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 					</WrapPanel>
 					<WrapPanel>
-						<TextBlock Style="{StaticResource LblTb}" Width="80">作业矿机名</TextBlock>
-						<TextBlock Text="{Binding MinerClientVm.MinerName}" VerticalAlignment="Center"></TextBlock>
+						<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">IP</TextBlock>
+						<TextBlock Text="{Binding MinerClientVm.MinerIp}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 					</WrapPanel>
 				</StackPanel>
 			</Border>
@@ -254,19 +254,19 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Border BorderBrush="{StaticResource LineColor}" BorderThickness="1" Margin="4">
+						<Border BorderBrush="{StaticResource LineColor}" BorderThickness="1" Margin="4" Background="{StaticResource ThemeBackground}">
 							<StackPanel>
 								<WrapPanel>
-									<TextBlock Style="{StaticResource LblTb}" Width="80">IP</TextBlock>
-									<TextBlock Text="{Binding MinerIp}" VerticalAlignment="Center"></TextBlock>
+									<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">IP</TextBlock>
+									<TextBlock Text="{Binding MinerIp}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 								</WrapPanel>
 								<WrapPanel>
-									<TextBlock Style="{StaticResource LblTb}" Width="80">矿机名</TextBlock>
-									<TextBlock Text="{Binding ClientName}" VerticalAlignment="Center"></TextBlock>
+									<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">矿机名</TextBlock>
+									<TextBlock Text="{Binding ClientName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 								</WrapPanel>
 								<WrapPanel>
-									<TextBlock Style="{StaticResource LblTb}" Width="80">作业矿机名</TextBlock>
-									<TextBlock Text="{Binding MinerName}" VerticalAlignment="Center"></TextBlock>
+									<TextBlock Style="{StaticResource LblTb}" Width="70" Foreground="{StaticResource ThemeForeground}">作业矿机名</TextBlock>
+									<TextBlock Text="{Binding MinerName}" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 								</WrapPanel>
 							</StackPanel>
 						</Border>

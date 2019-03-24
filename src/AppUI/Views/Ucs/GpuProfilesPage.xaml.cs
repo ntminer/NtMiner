@@ -28,7 +28,7 @@ namespace NTMiner.Views.Ucs {
                 var uc = new GpuProfilesPage(vm);
                 ResourceDictionarySet.Instance.TryGetResourceDic(nameof(GpuProfilesPage), out ResourceDictionary resourceDictionary);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];
-                resourceDictionary["WindowTitle"] = $"超频 - {client.MinerName}({client.MinerIp})";
+                resourceDictionary["WindowTitle"] = $"超频 - 基于矿机{client.MinerName}({client.MinerIp})";
                 PropertyChangedEventHandler handler = null;
                 handler = (object sender, PropertyChangedEventArgs e) => {
                     if (e.PropertyName == nameof(minerClientsWindowVm.SelectedMinerClients)) {
