@@ -39,7 +39,10 @@
 			<DataGridTemplateColumn Header="编号" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding Index}"></TextBlock>
+						<WrapPanel>
+							<TextBlock Text="GPU"></TextBlock>
+							<TextBlock Text="{Binding Index}"></TextBlock>
+						</WrapPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>

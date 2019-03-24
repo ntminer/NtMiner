@@ -59,7 +59,6 @@ namespace NTMiner.Vms {
         public ICommand EditMineWork { get; private set; }
         public ICommand OneKeyMinerNames { get; private set; }
         public ICommand RemoteDesktop { get; private set; }
-        public ICommand ReName { get; private set; }
         public ICommand OneKeySetting { get; private set; }
 
         #region ctor
@@ -108,16 +107,13 @@ namespace NTMiner.Vms {
             this.OneKeySetting = new DelegateCommand(() => {
                 MinerClientSetting.ShowWindow(new MinerClientSettingViewModel(this.SelectedMinerClients));
             }, CanCommand);
-            this.ReName = new DelegateCommand(() => {
-                var selectedMinerClient = this.SelectedMinerClients[0];
-                InputWindow.ShowDialog("作业矿工名 注意：修改的作业矿工名在重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
-                    selectedMinerClient.MinerName = minerName;
-                    NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("设置作业矿工名成功，重新开始挖矿时生效。");
-                });
-            }, OnlySelectedOne);
             this.OneKeyMinerNames = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
-                    this.ReName.Execute(null);
+                    var selectedMinerClient = this.SelectedMinerClients[0];
+                    InputWindow.ShowDialog("作业矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
+                        selectedMinerClient.MinerName = minerName;
+                        NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("设置作业矿工名成功，重新开始挖矿时生效。");
+                    });
                     return;
                 }
                 MinerNamesSeterViewModel vm = new MinerNamesSeterViewModel(
@@ -144,7 +140,7 @@ namespace NTMiner.Vms {
                         }
                     });
                 }
-            });
+            }, CanCommand);
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (this.SelectedMinerClients != null && this.SelectedMinerClients.Length == 1) {
                     this.SelectedMinerClients[0].RemoteDesktop.Execute(null);

@@ -625,7 +625,7 @@
 									Stretch="Fill" />
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem x:Name="MenuItemReName" Header="重命名" Command="{Binding Data.ReName,Source={StaticResource proxy}}">
+						<MenuItem Header="重命名" Command="{Binding Data.OneKeyMinerNames,Source={StaticResource proxy}}">
 							<MenuItem.Icon>
 								<Path
 									Width="16"
@@ -648,17 +648,6 @@
 					</ContextMenu>
 				</DataGrid.ContextMenu>
 				<DataGrid.Columns>
-					<!--操作-->
-					<DataGridTemplateColumn Width="18" CanUserResize="True" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<WrapPanel>
-									<Border Width="10" Height="10" Background="Green" ToolTip="挖矿中，在行上右键操作矿机" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityConverter}}"></Border>
-									<Border Width="10" Height="10" Background="Red" ToolTip="未挖矿，在行上右键操作矿机" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}"></Border>
-								</WrapPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
 					<!--LastActivedOnText-->
 					<DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
@@ -690,7 +679,11 @@
 						</DataGridTemplateColumn.Header>
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
+								<WrapPanel>
+									<Border Width="10" Height="10" Background="Green" ToolTip="挖矿中" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityConverter}}"></Border>
+									<Border Width="10" Height="10" Background="Red" ToolTip="未挖矿" Visibility="{Binding IsMining,Converter={StaticResource BoolToVisibilityInvertConverter}}"></Border>
+									<TextBlock Text="{Binding LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
+								</WrapPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
