@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public MinerGroupSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Door<AddMinerGroupCommand>(
+            VirtualRoot.Window<AddMinerGroupCommand>(
                 "添加矿机分组",
                 LogEnum.Console,
                 action: (message) => {
@@ -35,7 +35,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                 });
-            VirtualRoot.Door<UpdateMinerGroupCommand>(
+            VirtualRoot.Window<UpdateMinerGroupCommand>(
                 "更新矿机分组",
                 LogEnum.Console,
                 action: (message) => {
@@ -63,7 +63,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                     VirtualRoot.Happened(new MinerGroupUpdatedEvent(entity));
                 });
-            VirtualRoot.Door<RemoveMinerGroupCommand>(
+            VirtualRoot.Window<RemoveMinerGroupCommand>(
                 "移除矿机分组",
                 LogEnum.Console,
                 action: (message) => {

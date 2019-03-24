@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public ColumnsShowSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Door<AddColumnsShowCommand>(
+            VirtualRoot.Window<AddColumnsShowCommand>(
                 "添加列显",
                 LogEnum.Console,
                 action: (message) => {
@@ -32,7 +32,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                 });
-            VirtualRoot.Door<UpdateColumnsShowCommand>(
+            VirtualRoot.Window<UpdateColumnsShowCommand>(
                 "更新列显",
                 LogEnum.Console,
                 action: (message) => {
@@ -57,7 +57,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                     VirtualRoot.Happened(new ColumnsShowUpdatedEvent(entity));
                 });
-            VirtualRoot.Door<RemoveColumnsShowCommand>(
+            VirtualRoot.Window<RemoveColumnsShowCommand>(
                 "移除列显",
                 LogEnum.Console,
                 action: (message) => {

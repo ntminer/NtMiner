@@ -12,7 +12,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public PoolKernelSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Door<AddPoolKernelCommand>(
+            VirtualRoot.Window<AddPoolKernelCommand>(
                 "处理添加矿池级内核命令",
                 LogEnum.Console,
                 action: message => {
@@ -24,7 +24,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.Happened(new PoolKernelAddedEvent(message.Input));
                     }
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Door<RemovePoolKernelCommand>(
+            VirtualRoot.Window<RemovePoolKernelCommand>(
                 "处理移除矿池级内核命令",
                 LogEnum.Console,
                 action: message => {
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.Happened(new PoolKernelRemovedEvent(entity));
                     }
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Door<UpdatePoolKernelCommand>(
+            VirtualRoot.Window<UpdatePoolKernelCommand>(
                 "更新矿池内核",
                 LogEnum.Console,
                 action: (message) => {

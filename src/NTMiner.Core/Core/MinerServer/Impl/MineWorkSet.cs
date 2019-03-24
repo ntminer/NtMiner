@@ -11,7 +11,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public MineWorkSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.Door<AddMineWorkCommand>(
+            VirtualRoot.Window<AddMineWorkCommand>(
                 "添加工作",
                 LogEnum.Console,
                 action: (message) => {
@@ -32,7 +32,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         Write.UserLine(response?.Description, ConsoleColor.Red);
                     }
                 });
-            VirtualRoot.Door<UpdateMineWorkCommand>(
+            VirtualRoot.Window<UpdateMineWorkCommand>(
                 "更新工作",
                 LogEnum.Console,
                 action: (message) => {
@@ -57,7 +57,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                     VirtualRoot.Happened(new MineWorkUpdatedEvent(entity));
                 });
-            VirtualRoot.Door<RemoveMineWorkCommand>(
+            VirtualRoot.Window<RemoveMineWorkCommand>(
                 "移除工作",
                 LogEnum.Console,
                 action: (message) => {

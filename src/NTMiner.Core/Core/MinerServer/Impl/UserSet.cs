@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
         public UserSet() {
-            VirtualRoot.Door<AddUserCommand>(
+            VirtualRoot.Window<AddUserCommand>(
                 "处理添加用户命令",
                 LogEnum.Console,
                 action: message => {
@@ -32,7 +32,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         });
                     }
                 });
-            VirtualRoot.Door<UpdateUserCommand>(
+            VirtualRoot.Window<UpdateUserCommand>(
                 "处理修改用户命令",
                 LogEnum.Console,
                 action: message => {
@@ -57,7 +57,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.Happened(new UserUpdatedEvent(entity));
                     }
                 });
-            VirtualRoot.Door<RemoveUserCommand>(
+            VirtualRoot.Window<RemoveUserCommand>(
                 "处理删除用户命令",
                 LogEnum.Console,
                 action: message => {

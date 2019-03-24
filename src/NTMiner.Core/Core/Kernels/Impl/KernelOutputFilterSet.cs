@@ -14,7 +14,7 @@ namespace NTMiner.Core.Kernels.Impl {
         public KernelOutputFilterSet(INTMinerRoot root, bool isUseJson) {
             _root = root;
             _isUseJson = isUseJson;
-            VirtualRoot.Door<AddKernelOutputFilterCommand>(
+            VirtualRoot.Window<AddKernelOutputFilterCommand>(
                 "添加内核输出过滤器",
                 LogEnum.Console,
                 action: (message) => {
@@ -39,7 +39,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputFilterAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Door<UpdateKernelOutputFilterCommand>(
+            VirtualRoot.Window<UpdateKernelOutputFilterCommand>(
                 "更新内核输出过滤器",
                 LogEnum.Console,
                 action: (message) => {
@@ -63,7 +63,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.Happened(new KernelOutputFilterUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Door<RemoveKernelOutputFilterCommand>(
+            VirtualRoot.Window<RemoveKernelOutputFilterCommand>(
                 "移除内核输出过滤器",
                 LogEnum.Console,
                 action: (message) => {

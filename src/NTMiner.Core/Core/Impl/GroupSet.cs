@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
         public GroupSet(INTMinerRoot root, bool isUseJson) {
             _isUseJson = isUseJson;
             _root = root;
-            VirtualRoot.Door<AddGroupCommand>(
+            VirtualRoot.Window<AddGroupCommand>(
                 "添加组",
                 LogEnum.Console,
                 action: (message) => {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new GroupAddedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Door<UpdateGroupCommand>(
+            VirtualRoot.Window<UpdateGroupCommand>(
                 "更新组",
                 LogEnum.Console,
                 action: (message) => {
@@ -53,7 +53,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.Happened(new GroupUpdatedEvent(entity));
                 }).AddToCollection(root.ContextHandlers);
-            VirtualRoot.Door<RemoveGroupCommand>(
+            VirtualRoot.Window<RemoveGroupCommand>(
                 "移除组",
                 LogEnum.Console,
                 action: (message) => {

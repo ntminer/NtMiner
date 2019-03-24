@@ -180,9 +180,9 @@ namespace NTMiner {
         }
 
         /// <summary>
-        /// 命令入口
+        /// 命令窗口
         /// </summary>
-        public static DelegateHandler<TCmd> Door<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public static DelegateHandler<TCmd> Window<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             return Path(description, logType, action);
         }
