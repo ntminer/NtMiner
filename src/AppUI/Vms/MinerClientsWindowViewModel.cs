@@ -110,8 +110,9 @@ namespace NTMiner.Vms {
             }, CanCommand);
             this.ReName = new DelegateCommand(() => {
                 var selectedMinerClient = this.SelectedMinerClients[0];
-                InputWindow.ShowDialog("作业矿工名", selectedMinerClient.MinerName, null, minerName => {
+                InputWindow.ShowDialog("作业矿工名 注意：修改的作业矿工名在重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
                     selectedMinerClient.MinerName = minerName;
+                    NotiCenterWindowViewModel.Current.Manager.ShowSuccessMessage("设置作业矿工名成功，重新开始挖矿时生效。");
                 });
             }, OnlySelectedOne);
             this.OneKeyMinerNames = new DelegateCommand(() => {
