@@ -400,7 +400,7 @@
 											<TextBlock Text="{DynamicResource HOverClock}"></TextBlock>
 											<CheckBox 
 												Margin="4 0 0 0" 
-												ToolTip="开始挖矿时自动应用超频" 
+												ToolTip="启用超频" 
 												IsChecked="{Binding MinerProfile.CoinVm.IsOverClockEnabled}"></CheckBox>
 										</WrapPanel>
 									</Border>

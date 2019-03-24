@@ -18,7 +18,7 @@
 			超频
 		</sys:String>
 	</UserControl.Resources>
-	<Grid>
+	<Grid IsEnabled="{Binding CoinVm.IsOverClockEnabled}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
