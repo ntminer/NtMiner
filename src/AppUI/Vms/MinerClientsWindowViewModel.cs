@@ -147,13 +147,9 @@ namespace NTMiner.Vms {
                 }
             }, OnlySelectedOne);
             this.EditMineWork = new DelegateCommand(() => {
-                if (this.SelectedMinerClients != null
-                    && this.SelectedMinerClients.Length == 1
-                    && this.SelectedMinerClients[0].SelectedMineWork != null
-                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect) {
-                    this.SelectedMinerClients[0].SelectedMineWork.Edit.Execute(null);
-                }
-            }, OnlySelectedOne);
+                this.SelectedMinerClients[0].SelectedMineWork.Edit.Execute(null);
+            }, () => OnlySelectedOne() && this.SelectedMinerClients[0].SelectedMineWork != null
+                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect);
             this.OneKeyWork = new DelegateCommand<MineWorkViewModel>((work) => {
                 foreach (var item in SelectedMinerClients) {
                     item.SelectedMineWork = work;
@@ -341,9 +337,7 @@ namespace NTMiner.Vms {
 
         private bool OnlySelectedOne() {
             return this.SelectedMinerClients != null
-                    && this.SelectedMinerClients.Length == 1
-                    && this.SelectedMinerClients[0].SelectedMineWork != null
-                    && this.SelectedMinerClients[0].SelectedMineWork != MineWorkViewModel.PleaseSelect;
+                    && this.SelectedMinerClients.Length == 1;
         }
 
         public List<NTMinerFileData> NTMinerFileList {
