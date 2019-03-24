@@ -48,12 +48,15 @@ namespace NTMiner {
             try {
                 string json = Request.Content.ReadAsStringAsync().Result;
                 SpecialPath.SaveGpuProfilesJsonFile(json);
-                using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/OverClock", null);
-                    Write.DevLine(message.Result.ReasonPhrase);
+                if (IsNTMinerOpened()) {
+                    using (HttpClient client = new HttpClient()) {
+                        Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/OverClock", null);
+                        Write.DevLine(message.Result.ReasonPhrase);
+                    }
                 }
             }
             catch (Exception e) {
+                e = e.GetInnerException();
                 Logger.ErrorDebugLine(e.Message, e);
             }
         }
@@ -63,9 +66,11 @@ namespace NTMiner {
         public void SetAutoBootStart([FromUri]bool autoBoot, [FromUri]bool autoStart) {
             NTMinerRegistry.SetIsAutoBoot(autoBoot);
             NTMinerRegistry.SetIsAutoStart(autoStart);
-            using (HttpClient client = new HttpClient()) {
-                Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/RefreshAutoBootStart", null);
-                Write.DevLine(message.Result.ReasonPhrase);
+            if (IsNTMinerOpened()) {
+                using (HttpClient client = new HttpClient()) {
+                    Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{WebApiConst.MinerClientAppPort}/api/MinerClient/RefreshAutoBootStart", null);
+                    Write.DevLine(message.Result.ReasonPhrase);
+                }
             }
         }
 
@@ -212,7 +217,7 @@ namespace NTMiner {
             return ResponseBase.Ok();
         }
 
-        public void CloseNTMiner() {
+        private void CloseNTMiner() {
             bool isClosed = false;
             try {
                 using (HttpClient client = new HttpClient()) {
