@@ -54,7 +54,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ClientAppSelfHost\HttpServer.cs">
+    <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
     </Compile>
     <Compile Include="MinerClientController.cs" />
