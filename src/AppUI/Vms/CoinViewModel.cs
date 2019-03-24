@@ -183,6 +183,15 @@ namespace NTMiner.Vms {
             });
         }
 
+        public void OnOverClockPropertiesChanges() {
+            OnPropertyChanged(nameof(IsOverClockEnabled));
+            OnPropertyChanged(nameof(IsOverClockGpuAll));
+            _gpuAllProfileVm = null;
+            _gpuProfileVms = null;
+            OnPropertyChanged(nameof(GpuAllProfileVm));
+            OnPropertyChanged(nameof(GpuProfileVms));
+        }
+
         public bool IsOverClockEnabled {
             get { return GpuProfileSet.Instance.IsOverClockEnabled(this.Id); }
             set {

@@ -23,10 +23,7 @@ namespace NTMiner.Vms {
                     }
                     var coinVm = MinerProfileViewModel.Current.CoinVm;
                     if (coinVm != null) {
-                        coinVm.OnPropertyChanged(nameof(coinVm.GpuAllProfileVm));
-                        coinVm.OnPropertyChanged(nameof(coinVm.GpuProfileVms));
-                        coinVm.OnPropertyChanged(nameof(coinVm.IsOverClockEnabled));
-                        coinVm.OnPropertyChanged(nameof(coinVm.IsOverClockGpuAll));
+                        coinVm.OnOverClockPropertiesChanges();
                     }
                 });
             VirtualRoot.On<GpuProfileAddedOrUpdatedEvent>(
