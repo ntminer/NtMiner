@@ -347,7 +347,9 @@ namespace NTMiner.Controllers {
             if (request == null || request.ObjectIds == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<ClientData>>>("参数错误");
             }
-
+            if (!HostRoot.Current.HostConfig.IsPull) {
+                return ResponseBase.InvalidInput<DataResponse<List<ClientData>>>("服务端配置为不支持刷新");
+            }
             try {
                 if (!request.IsValid(HostRoot.Current.UserSet.GetUser, ClientIp, out DataResponse<List<ClientData>> response)) {
                     return response;
