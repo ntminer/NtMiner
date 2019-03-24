@@ -81,6 +81,7 @@ namespace NTMiner.Vms {
         }
 
         private void ApplyOverClock() {
+            VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(GpuAllProfileVm));
             var list = GpuProfileVms.ToArray();
             foreach (var item in list) {
                 VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
@@ -107,7 +108,6 @@ namespace NTMiner.Vms {
             this.ApplyTemplateOverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
                 DialogWindow.ShowDialog(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
                     FillOverClock(data);
-                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(GpuAllProfileVm));
                     ApplyOverClock();
                 }, icon: IconConst.IconConfirm);
             });

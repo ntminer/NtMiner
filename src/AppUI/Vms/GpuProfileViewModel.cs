@@ -98,7 +98,6 @@ namespace NTMiner.Vms {
                 if (_coreClockDelta != value) {
                     _coreClockDelta = value;
                     OnPropertyChanged(nameof(CoreClockDelta));
-                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
                 }
             }
         }
@@ -109,7 +108,6 @@ namespace NTMiner.Vms {
                 if (_memoryClockDelta != value) {
                     _memoryClockDelta = value;
                     OnPropertyChanged(nameof(MemoryClockDelta));
-                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
                 }
             }
         }
@@ -119,7 +117,6 @@ namespace NTMiner.Vms {
             set {
                 _powerCapacity = value;
                 OnPropertyChanged(nameof(PowerCapacity));
-                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
             }
         }
 
@@ -128,7 +125,6 @@ namespace NTMiner.Vms {
             set {
                 _cool = value;
                 OnPropertyChanged(nameof(Cool));
-                VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(this));
             }
         }
 
