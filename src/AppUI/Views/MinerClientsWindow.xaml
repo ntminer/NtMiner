@@ -492,7 +492,23 @@
 		<Popup x:Name="PopMineWork" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemMineWork}" Placement="Bottom" StaysOpen="False">
 			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
 				<StackPanel>
-					<TextBlock>切换作业</TextBlock>
+					<controls:KbButton  
+						HorizontalAlignment="Left"
+						Command="{Binding MineWorkVms.Add}" 
+						Background="Transparent" 
+						BorderThickness="0"
+						Margin="2 0"
+						CornerRadius="2">
+						<WrapPanel>
+							<Path
+								Width="18"
+								Height="18"
+								ToolTip="新建作业"
+								Data="{StaticResource Icon_Add}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
 					<ItemsControl 
 						ItemsSource="{Binding MineWorkVms.MineWorkVmItems}"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -526,7 +542,23 @@
 		<Popup x:Name="PopMinerGroup" Grid.Row="2" Grid.Column="1" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=MenuItemMinerGroup}" Placement="Bottom" StaysOpen="False">
 			<Border Padding="4" MinWidth="100" Background="#EEEEF2" BorderBrush="{StaticResource IconFillColor}" BorderThickness="1">
 				<StackPanel>
-					<TextBlock>加入组</TextBlock>
+					<controls:KbButton  
+						HorizontalAlignment="Left"
+						Command="{Binding MinerGroupVms.Add}" 
+						Background="Transparent" 
+						ToolTip="新建组"
+						BorderThickness="0"
+						Margin="2 0"
+						CornerRadius="2">
+						<WrapPanel>
+							<Path
+								Width="18"
+								Height="18"
+								Data="{StaticResource Icon_Add}"
+								Fill="{StaticResource IconFillColor}"
+								Stretch="Fill" />
+						</WrapPanel>
+					</controls:KbButton>
 					<ItemsControl 
 						ItemsSource="{Binding MinerGroupVms.MinerGroupItems}"
 						ScrollViewer.HorizontalScrollBarVisibility="Disabled"
