@@ -1,4 +1,5 @@
-﻿using NTMiner.Views;
+﻿using NTMiner.MinerServer;
+using NTMiner.Views;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -19,7 +20,16 @@ namespace NTMiner {
             public static extern bool SetForegroundWindow(IntPtr hWnd);
         }
 
+        public static readonly NTMinerAppType AppType;
         public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
+
+        static App() {
+            AppType = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 ? NTMinerAppType.MinerStudio : NTMinerAppType.MinerClient;
+            // 读取注册表中的Location的时候会根据VirtualRoot.IsControlCenter而变化所以需要赋值
+            if (AppType == NTMinerAppType.MinerStudio) {
+                VirtualRoot.IsControlCenter = true;
+            }
+        }
 
         private Mutex mutexApp;
 

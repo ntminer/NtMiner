@@ -9,12 +9,11 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         public static readonly MainWindowViewModel Current = new MainWindowViewModel();
-
-        private static readonly NTMinerAppType AppType = Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1 ? NTMinerAppType.MinerStudio : NTMinerAppType.MinerClient;
 
         private double _downloadPercent;
         private bool _isDownloading = false;
@@ -103,7 +102,7 @@ namespace NTMiner.Vms {
             });
             this.AddNTMinerFile = new DelegateCommand(() => {
                 NTMinerFileEdit window = new NTMinerFileEdit("添加", "Icon_Add", new NTMinerFileViewModel() {
-                    AppType = AppType
+                    AppType = App.AppType
                 });
                 window.ShowDialogEx();
             });
@@ -116,7 +115,7 @@ namespace NTMiner.Vms {
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
             Logger.InfoDebugLine("下载：" + fileName);
-            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, "NTMiner" + version);
+            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, App.AppType.ToString() + version);
             progressChanged?.Invoke(0);
             using (WebClient webClient = new WebClient()) {
                 cancel = () => {
@@ -128,7 +127,7 @@ namespace NTMiner.Vms {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     if (isSuccess) {
-                        Logger.OkDebugLine("NTMiner" + version + "下载成功");
+                        Logger.OkDebugLine(App.AppType.ToString() + version + "下载成功");
                     }
                     string message = "下载成功";
                     if (e.Error != null) {
@@ -147,7 +146,7 @@ namespace NTMiner.Vms {
         }
 
         public void Refresh() {
-            OfficialServer.FileUrlService.GetNTMinerFilesAsync(AppType, (ntMinerFiles, e) => {
+            OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntMinerFiles, e) => {
                 this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;
@@ -174,6 +173,11 @@ namespace NTMiner.Vms {
                     }
                 }
             });
+        }
+        public BitmapImage BigLogoImageSource {
+            get {
+                return IconConst.BigLogoImageSource;
+            }
         }
 
         public Visibility IsDebugModeVisible {

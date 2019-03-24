@@ -145,6 +145,12 @@ namespace NTMiner {
                 mineWorkData = LocalJson.MineWork;
             }
             this._minerProfile = new MinerProfile(this, mineWorkData);
+
+            NTMinerRegistry.SetLocation(ClientId.AppFileFullName);
+            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
+            NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
+            NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
+
             callback?.Invoke();
         }
 
@@ -201,10 +207,6 @@ namespace NTMiner {
                     Logger.WarnDebugLine($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
                 }
             });
-            NTMinerRegistry.SetLocation(ClientId.AppFileFullName);
-            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
-            NTMinerRegistry.SetCurrentVersion(CurrentVersion.ToString());
-            NTMinerRegistry.SetCurrentVersionTag(CurrentVersionTag);
 
             Report.Init(this);
 
