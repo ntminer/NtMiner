@@ -88,31 +88,36 @@ namespace NTMiner.Vms {
             VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
         }
 
+        private void FillOverClock(OverClockDataViewModel data) {
+            if (IsOverClockGpuAll) {
+                GpuAllProfileVm.Update(data);
+            }
+            else {
+                foreach (var item in GpuProfileVms) {
+                    if (item.Index == NTMinerRoot.GpuAllId) {
+                        continue;
+                    }
+                    item.Update(data);
+                }
+            }
+        }
+
         public CoinViewModel(Guid id) {
             _id = id;
             this.ApplyTemplateOverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
-                DialogWindow.ShowDialog(message: $"确定应用该超频设置吗？", title: "确认", onYes: () => {
-                    FillOverClockForm.Execute(data);
+                DialogWindow.ShowDialog(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
+                    FillOverClock(data);
+                    VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(GpuAllProfileVm));
                     ApplyOverClock();
                 }, icon: IconConst.IconConfirm);
             });
             this.ApplyCustomOverClock = new DelegateCommand(() => {
-                DialogWindow.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认", onYes: () => {
+                DialogWindow.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认自定义超频", onYes: () => {
                     ApplyOverClock();
                 }, icon: IconConst.IconConfirm);
             });
             this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {
-                if (IsOverClockGpuAll) {
-                    GpuAllProfileVm.Update(data);
-                }
-                else {
-                    foreach (var item in GpuProfileVms) {
-                        if (item.Index == NTMinerRoot.GpuAllId) {
-                            continue;
-                        }
-                        item.Update(data);
-                    }
-                }
+                FillOverClock(data);
             });
             this.AddOverClockData = new DelegateCommand(() => {
                 new OverClockDataViewModel(Guid.NewGuid()) {
