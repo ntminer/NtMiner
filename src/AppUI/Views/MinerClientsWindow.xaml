@@ -2062,6 +2062,7 @@
 					</controls:KbComboBox>
 					<controls:KbComboBox 
 						Margin="0 0 4 0"
+						ToolTip="定义显示哪些列"
 						ItemsSource="{Binding ColumnsShows.List}"
 						DisplayMemberPath="ColumnsShowName"
 						SelectedItem="{Binding ColumnsShow}">
