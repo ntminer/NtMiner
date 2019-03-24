@@ -141,7 +141,7 @@ namespace NTMiner.Vms {
 
         public bool IsPleaseSelect {
             get {
-                return this.Id == ColumnsShowData.PleaseSelectId;
+                return this.Id == ColumnsShowData.PleaseSelect.Id;
             }
         }
 

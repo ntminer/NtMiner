@@ -3,7 +3,50 @@ using System.Text;
 
 namespace NTMiner.MinerServer {
     public class ColumnsShowData : IDbEntity<Guid>, IColumnsShow, IGetSignData {
-        public static readonly Guid PleaseSelectId = Guid.Parse("197f19e8-0c1b-4018-875d-2f5e56a02491");
+        public static readonly ColumnsShowData PleaseSelect = new ColumnsShowData {
+            ColumnsShowName = "请选择",
+            Id = Guid.Parse("197f19e8-0c1b-4018-875d-2f5e56a02491"),
+            BootTimeSpanText = true,
+            ClientName = true,
+            DiskSpace = true,
+            DualCoinCode = true,
+            DualCoinPool = true,
+            DualCoinRejectPercentText = true,
+            DualCoinSpeedText = true,
+            DualCoinWallet = true,
+            GpuDriver = true,
+            GpuInfo = true,
+            GpuTableVm = true,
+            GpuType = true,
+            IncomeDualCoinPerDayText = true,
+            IncomeMainCoinPerDayText = true,
+            IsAutoBoot = true,
+            IsAutoRestartKernel = true,
+            IsAutoStart = true,
+            IsNoShareRestartKernel = true,
+            IsPeriodicRestartComputer = true,
+            IsPeriodicRestartKernel = true,
+            MinerIp = true,
+            Kernel = true,
+            KernelCommandLine = true,
+            LastActivedOnText = true,
+            MainCoinCode = true,
+            MainCoinPool = true,
+            MainCoinRejectPercentText = true,
+            MainCoinSpeedText = true,
+            MainCoinWallet = true,
+            MaxTempText = true,
+            MinerGroup = true,
+            MinerName = true,
+            MineTimeSpanText = true,
+            OSName = true,
+            OSVirtualMemoryGbText = true,
+            TotalPowerText = true,
+            Version = true,
+            WindowsLoginNameAndPassword = true,
+            WindowsPassword = true,
+            Work = true
+        };
 
         public ColumnsShowData() { }
 

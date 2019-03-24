@@ -13,7 +13,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             VirtualRoot.Window<AddColumnsShowCommand>("添加列显", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
-                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty || message.Input.GetId() == ColumnsShowData.PleaseSelectId) {
+                    if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty || message.Input.GetId() == ColumnsShowData.PleaseSelect.Id) {
                         throw new ArgumentNullException();
                     }
                     if (_dicById.ContainsKey(message.Input.GetId())) {
@@ -56,7 +56,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             VirtualRoot.Window<RemoveColumnsShowCommand>("移除列显", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
-                    if (message == null || message.EntityId == Guid.Empty || message.EntityId == ColumnsShowData.PleaseSelectId) {
+                    if (message == null || message.EntityId == Guid.Empty || message.EntityId == ColumnsShowData.PleaseSelect.Id) {
                         throw new ArgumentNullException();
                     }
                     if (!_dicById.ContainsKey(message.EntityId)) {
@@ -76,7 +76,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         }
 
         private bool _isInited = false;
-        private object _locker = new object();
+        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -95,53 +95,9 @@ namespace NTMiner.Core.MinerServer.Impl {
                                 _dicById.Add(item.GetId(), item);
                             }
                         }
-                        if (!_dicById.ContainsKey(ColumnsShowData.PleaseSelectId)) {
-                            var entity = new ColumnsShowData {
-                                ColumnsShowName = "请选择",
-                                Id = ColumnsShowData.PleaseSelectId,
-                                BootTimeSpanText = true,
-                                ClientName = true,
-                                DiskSpace = true,
-                                DualCoinCode = true,
-                                DualCoinPool = true,
-                                DualCoinRejectPercentText = true,
-                                DualCoinSpeedText = true,
-                                DualCoinWallet = true,
-                                GpuDriver = true,
-                                GpuInfo = true,
-                                GpuTableVm = true,
-                                GpuType = true,
-                                IncomeDualCoinPerDayText = true,
-                                IncomeMainCoinPerDayText = true,
-                                IsAutoBoot = true,
-                                IsAutoRestartKernel = true,
-                                IsAutoStart = true,
-                                IsNoShareRestartKernel = true,
-                                IsPeriodicRestartComputer = true,
-                                IsPeriodicRestartKernel = true,
-                                MinerIp = true,
-                                Kernel = true,
-                                KernelCommandLine = true,
-                                LastActivedOnText = true,
-                                MainCoinCode = true,
-                                MainCoinPool = true,
-                                MainCoinRejectPercentText = true,
-                                MainCoinSpeedText = true,
-                                MainCoinWallet = true,
-                                MaxTempText = true,
-                                MinerGroup = true,
-                                MinerName = true,
-                                MineTimeSpanText = true,
-                                OSName = true,
-                                OSVirtualMemoryGbText = true,
-                                TotalPowerText = true,
-                                Version = true,
-                                WindowsLoginNameAndPassword = true,
-                                WindowsPassword = true,
-                                Work = true
-                            };
-                            _dicById.Add(ColumnsShowData.PleaseSelectId, entity);
-                            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
+                        if (!_dicById.ContainsKey(ColumnsShowData.PleaseSelect.Id)) {
+                            _dicById.Add(ColumnsShowData.PleaseSelect.Id, ColumnsShowData.PleaseSelect);
+                            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(ColumnsShowData.PleaseSelect, (response, exception) => {
                                 if (!response.IsSuccess()) {
                                     Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + response?.Description);
                                 }
@@ -160,8 +116,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public bool TryGetColumnsShow(Guid columnsShowId, out IColumnsShow columnsShow) {
             InitOnece();
-            ColumnsShowData g;
-            var r = _dicById.TryGetValue(columnsShowId, out g);
+            var r = _dicById.TryGetValue(columnsShowId, out ColumnsShowData g);
             columnsShow = g;
             return r;
         }

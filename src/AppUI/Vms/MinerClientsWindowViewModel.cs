@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
                 return;
             }
             var appSettings = NTMinerRoot.Current.AppSettingSet;
-            Guid columnsShowId = ColumnsShowData.PleaseSelectId;
+            Guid columnsShowId = ColumnsShowData.PleaseSelect.Id;
             if (appSettings.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
                 if (Guid.TryParse(columnsShowAppSetting.Value.ToString(), out Guid guid)) {
                     columnsShowId = guid;
